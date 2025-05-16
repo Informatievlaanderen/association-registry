@@ -19,7 +19,7 @@ public class DetailAllStreamWriterTests
     }
 
     [Fact]
-    public async ValueTask WithEmptyData_ReturnsEmptyStream()
+    public async Task WithEmptyData_ReturnsEmptyStream()
     {
         var sut = new DetailAllStreamWriter(Mock.Of<IDetailAllConverter>());
 
@@ -32,7 +32,7 @@ public class DetailAllStreamWriterTests
     }
 
     [Fact]
-    public async ValueTask WithData_ReturnsStreamWithData()
+    public async Task WithData_ReturnsStreamWithData()
     {
         var publiekVerenigingDetailDocument = _fixture.Create<PubliekVerenigingDetailDocument>();
         var mock = new Mock<IDetailAllConverter>();

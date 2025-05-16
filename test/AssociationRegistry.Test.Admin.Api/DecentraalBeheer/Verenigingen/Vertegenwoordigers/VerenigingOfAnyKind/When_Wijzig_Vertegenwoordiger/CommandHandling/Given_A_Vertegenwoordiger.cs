@@ -32,7 +32,7 @@ public class Given_A_Vertegenwoordiger
     }
 
     [Fact]
-    public async ValueTask Then_A_VertegenwoordigerWerdGewijzigd_Event_Is_Saved_With_The_Next_Id()
+    public async Task Then_A_VertegenwoordigerWerdGewijzigd_Event_Is_Saved_With_The_Next_Id()
     {
         var command = new WijzigVertegenwoordigerCommand(
             _scenario.VCode,

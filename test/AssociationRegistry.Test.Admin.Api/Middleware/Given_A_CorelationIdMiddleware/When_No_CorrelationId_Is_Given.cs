@@ -22,7 +22,7 @@ public class When_No_CorrelationId_Is_Given
     }
 
     [Fact]
-    public async ValueTask Then_It_Returns_A_400_Response()
+    public async Task Then_It_Returns_A_400_Response()
     {
         var testClient = new AdminApiClient(_fixture.AdminApiClients.GetAuthenticatedHttpClient()).HttpClient;
 

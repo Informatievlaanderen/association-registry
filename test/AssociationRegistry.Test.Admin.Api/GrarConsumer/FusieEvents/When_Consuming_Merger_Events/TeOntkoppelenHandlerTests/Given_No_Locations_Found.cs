@@ -12,7 +12,7 @@ using Xunit;
 public class Given_No_Locations_Found
 {
     [Fact]
-    public async ValueTask Then_No_Messages_Are_Sent()
+    public async Task Then_No_Messages_Are_Sent()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var sourceAdresId = fixture.Create<int>();

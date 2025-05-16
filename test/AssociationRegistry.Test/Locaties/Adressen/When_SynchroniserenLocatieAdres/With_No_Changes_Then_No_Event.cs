@@ -17,7 +17,7 @@ using Xunit.Categories;
 public class With_No_Changes_Then_No_Event
 {
     [Fact]
-    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
+    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 

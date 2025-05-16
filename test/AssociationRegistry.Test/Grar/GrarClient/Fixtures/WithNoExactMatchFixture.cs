@@ -22,7 +22,7 @@ public class WithNoExactMatchFixture : IAsyncLifetime
 
     public IReadOnlyCollection<AddressMatchResponse> Result { get; private set; }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Result = await _client.GetAddressMatches(Straatnaam, Huisnummer, busnummer: null, postcode: null, Gemeentenaam,
                                                  CancellationToken.None);

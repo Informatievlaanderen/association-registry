@@ -99,7 +99,7 @@ public class Given_Duplicate_Locaties_With_Same_Name_For_VZER
 public class Given_Duplicate_Locaties_With_Different_Names_For_VZER
 {
     [Fact]
-    public async ValueTask Then_AdresKonNietOvergenomenWordenUitAdressenregister()
+    public async Task Then_AdresKonNietOvergenomenWordenUitAdressenregister()
     {
         var fixture = new Fixture().CustomizeDomain();
 

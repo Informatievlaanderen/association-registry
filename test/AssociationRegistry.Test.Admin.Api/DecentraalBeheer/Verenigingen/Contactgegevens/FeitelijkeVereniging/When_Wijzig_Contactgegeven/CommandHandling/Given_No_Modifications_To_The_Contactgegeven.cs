@@ -30,7 +30,7 @@ public class Given_No_Modifications_To_The_Contactgegeven : IAsyncLifetime
         _commandHandler = new WijzigContactgegevenCommandHandler(_verenigingRepositoryMock);
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,

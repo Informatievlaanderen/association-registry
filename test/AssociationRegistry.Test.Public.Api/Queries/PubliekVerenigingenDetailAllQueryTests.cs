@@ -17,12 +17,12 @@ public class PubliekVerenigingenDetailAllQueryFixture : IAsyncLifetime
 {
     public DocumentStore Store { get; set; }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Store = await TestDocumentStoreFactory.CreateAsync(nameof(PubliekVerenigingenDetailAllQueryTests));
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
         await Store.DisposeAsync();
     }
@@ -39,7 +39,7 @@ public class PubliekVerenigingenDetailAllQueryTests : IClassFixture<PubliekVeren
     }
 
     [Fact]
-    public async ValueTask Does_Return_Verwijderde_Verenigingen()
+    public async Task Does_Return_Verwijderde_Verenigingen()
     {
         var gestopteVereniging = await StoreVereniging(_session, vereniging =>
         {

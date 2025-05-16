@@ -18,7 +18,7 @@ using Xunit.Categories;
 public class With_AddressIsNullFromGrar
 {
     [Fact]
-    public async ValueTask Then_ShouldHaveSaved()
+    public async Task Then_ShouldHaveSaved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 

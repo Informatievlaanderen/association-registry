@@ -25,7 +25,7 @@ public class With_One_Vertegenwoordiger
     }
 
     [Fact]
-    public async ValueTask Then_Throws_LaatsteVertegenwoordigerKanNietVerwijderdWordenException()
+    public async Task Then_Throws_LaatsteVertegenwoordigerKanNietVerwijderdWordenException()
     {
         var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerId);
         var commandMetadata = _fixture.Create<CommandMetadata>();

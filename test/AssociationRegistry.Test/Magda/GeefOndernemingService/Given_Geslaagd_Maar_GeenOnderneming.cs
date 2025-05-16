@@ -47,7 +47,7 @@ public class Given_Geslaagd_Maar_GeenOnderneming
     }
 
     [Fact]
-    public async ValueTask Then_It_Returns_A_FailureResult()
+    public async Task Then_It_Returns_A_FailureResult()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);

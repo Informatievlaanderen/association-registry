@@ -18,7 +18,7 @@ using Xunit.Categories;
 public class With_InactiveAddressFromGrar
 {
     [Fact]
-    public async ValueTask Then_An_AdresWerdOntkoppeldVanAdressenregister_Was_Saved()
+    public async Task Then_An_AdresWerdOntkoppeldVanAdressenregister_Was_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 

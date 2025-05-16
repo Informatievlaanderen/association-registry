@@ -20,7 +20,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
     }
 
     [Fact]
-    public async ValueTask Then_Messages_Are_GroupedBy_VCode()
+    public async Task Then_Messages_Are_GroupedBy_VCode()
     {
 
         var locatieFinderMock = new Mock<ILocatieFinder>();

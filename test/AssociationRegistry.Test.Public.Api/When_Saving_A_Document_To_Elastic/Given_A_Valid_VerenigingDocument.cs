@@ -23,7 +23,7 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
     }
 
     [Fact]
-    public async ValueTask Then_it_does_not_throw_an_exception()
+    public async Task Then_it_does_not_throw_an_exception()
     {
         var fixture = new Fixture();
 

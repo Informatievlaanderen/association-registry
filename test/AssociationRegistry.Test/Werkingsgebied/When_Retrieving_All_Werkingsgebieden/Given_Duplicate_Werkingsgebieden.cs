@@ -11,7 +11,7 @@ using Xunit;
 public class Given_Duplicate_Werkingsgebieden
 {
     [Fact]
-    public async ValueTask Then_We_Only_Return_One_Werkingsgebied()
+    public async Task Then_We_Only_Return_One_Werkingsgebied()
     {
         var fixture = new Fixture().CustomizeDomain();
         var documentstore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_Duplicate_Werkingsgebieden));

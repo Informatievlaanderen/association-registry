@@ -18,7 +18,7 @@ public class Given_LocatieWerdToegevoegd : IClassFixture<GivenLocatieWerdToegevo
     }
 
     [Fact]
-    public async ValueTask Then_A_Document_Should_Not_Contain_LocationId()
+    public async Task Then_A_Document_Should_Not_Contain_LocationId()
     {
         var session = _fixture.DocumentStore.LightweightSession();
 

@@ -37,7 +37,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VoegLidmaatschapTo
     }
 
     [Fact]
-    public async ValueTask WithFeitelijkeVereniging()
+    public async Task WithFeitelijkeVereniging()
     {
         Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {

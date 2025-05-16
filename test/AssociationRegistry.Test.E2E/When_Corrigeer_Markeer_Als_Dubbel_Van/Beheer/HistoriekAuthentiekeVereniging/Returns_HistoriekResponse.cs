@@ -26,7 +26,7 @@ public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanConte
     }
 
     [Fact]
-    public async ValueTask With_VCode()
+    public async Task With_VCode()
     {
         var tryCounter = 0;
 
@@ -55,7 +55,7 @@ public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanConte
     }
 
     [Fact]
-    public async ValueTask With_All_Gebeurtenissen()
+    public async Task With_All_Gebeurtenissen()
     {
         var gebeurtenis =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging));

@@ -35,7 +35,7 @@ public class With_Valid_ETag : IAsyncLifetime
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         await _controller.Patch(
             vCode: "V0001001",

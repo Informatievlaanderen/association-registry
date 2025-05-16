@@ -16,7 +16,7 @@ using Xunit;
 public class Given_Valid_AanvaardDubbeleVerenigingCommand
 {
     [Fact]
-    public async ValueTask Then_It_Saves_A_VerenigingAanvaarddeDubbeleVereniging_For_FeitelijkeVereniging()
+    public async Task Then_It_Saves_A_VerenigingAanvaarddeDubbeleVereniging_For_FeitelijkeVereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
         var messageBus = new Mock<IMessageBus>();
@@ -43,7 +43,7 @@ public class Given_Valid_AanvaardDubbeleVerenigingCommand
     }
 
     [Fact]
-    public async ValueTask Then_It_Saves_A_VerenigingAanvaarddeDubbeleVereniging_For_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd()
+    public async Task Then_It_Saves_A_VerenigingAanvaarddeDubbeleVereniging_For_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd()
     {
         var fixture = new Fixture().CustomizeDomain();
         var messageBus = new Mock<IMessageBus>();

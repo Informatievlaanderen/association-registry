@@ -139,7 +139,7 @@ public class With_Same_Naam_And_Postcode
     }
 
     [Fact]
-    public async ValueTask Then_it_returns_the_list_of_potential_duplicates()
+    public async Task Then_it_returns_the_list_of_potential_duplicates()
     {
         var content = await Response.Content.ReadAsStringAsync();
         content.Should().BeEquivalentJson(ResponseBody);
@@ -158,7 +158,7 @@ public class With_Same_Naam_And_Postcode
     }
 
     [Fact]
-    public async ValueTask Then_it_saves_no_extra_events()
+    public async Task Then_it_saves_no_extra_events()
     {
         await using var session = _fixture.DocumentStore
                                           .LightweightSession();

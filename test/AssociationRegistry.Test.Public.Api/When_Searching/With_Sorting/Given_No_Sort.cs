@@ -23,7 +23,7 @@ public class Given_No_Sort
     }
 
     [Fact]
-    public async ValueTask? Then_it_sorts_by_vcode_descending()
+    public async Task? Then_it_sorts_by_vcode_descending()
     {
         var response = await _publicApiClient.Search("*");
         var content = await response.Content.ReadAsStringAsync();

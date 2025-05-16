@@ -31,7 +31,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid
     }
 
     [Fact]
-    public async ValueTask Then_A_UnsupportedOperationException_Is_Thrown()
+    public async Task Then_A_UnsupportedOperationException_Is_Thrown()
     {
         var method = () => _commandHandler.Handle(_envelope);
         await method.Should().ThrowAsync<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersVerwijderen>();

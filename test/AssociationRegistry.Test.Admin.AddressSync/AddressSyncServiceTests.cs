@@ -15,7 +15,7 @@ using Wolverine;
 public class AddressSyncServiceTests
 {
     [Fact]
-    public async ValueTask Given_TeSynchroniserenLocatiesFetcher_Throws_Then_A_Notification_Is_Sent()
+    public async Task Given_TeSynchroniserenLocatiesFetcher_Throws_Then_A_Notification_Is_Sent()
     {
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(AddressSyncServiceTests));
         var notifier = new Mock<INotifier>();

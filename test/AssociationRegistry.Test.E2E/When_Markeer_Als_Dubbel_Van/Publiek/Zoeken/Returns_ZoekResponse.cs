@@ -29,7 +29,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<MarkeerAlsDubbelVa
     }
 
     [Fact]
-    public async ValueTask With_Verenigingen_Empty()
+    public async Task With_Verenigingen_Empty()
     {
         Response.Verenigingen.Should().BeEmpty();
     }

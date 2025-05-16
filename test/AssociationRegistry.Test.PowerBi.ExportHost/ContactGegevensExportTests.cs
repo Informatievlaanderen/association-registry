@@ -27,7 +27,7 @@ public class ContactgegevensExportTests
     }
 
     [Fact]
-    public async ValueTask WithMultipleDocuments_ThenCsvExportShouldExport()
+    public async Task WithMultipleDocuments_ThenCsvExportShouldExport()
     {
         var docs = _fixture.CreateMany<PowerBiExportDocument>();
 

@@ -42,7 +42,7 @@ public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_F
     }
 
     [Fact]
-    public async ValueTask Then_No_exceptions_Are_Thrown()
+    public async Task Then_No_exceptions_Are_Thrown()
     {
         var consumer = new MartenEventsConsumer(_projectionHost.Services.GetRequiredService<PubliekZoekProjectionHandler>(),
                                                 Mock.Of<ILogger<MartenEventsConsumer>>());

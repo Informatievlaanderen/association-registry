@@ -47,7 +47,7 @@ public class Given_A_GeefOndernemingResponseBody_With_An_Unsupported_Status
     }
 
     [Fact]
-    public async ValueTask Then_It_Returns_A_SuccessResult()
+    public async Task Then_It_Returns_A_SuccessResult()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None) as Result<VerenigingVolgensKbo>;

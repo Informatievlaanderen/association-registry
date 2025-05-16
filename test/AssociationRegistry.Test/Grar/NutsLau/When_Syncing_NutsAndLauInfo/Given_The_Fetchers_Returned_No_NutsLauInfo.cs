@@ -12,7 +12,7 @@ using Xunit;
 public class Given_The_Fetchers_Returned_No_NutsLauInfo
 {
     [Fact]
-    public async ValueTask Then_Keep_Previous_NutsLauInfo()
+    public async Task Then_Keep_Previous_NutsLauInfo()
     {
 
         var postcodesFromGrarFetcher = new Mock<IPostcodesFromGrarFetcher>();

@@ -38,7 +38,7 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PostContactgegevens(Scenario.VCode, _jsonBody);
     }
@@ -60,7 +60,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Post_A_New_Contactgege
     }
 
     [Fact]
-    public async ValueTask Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

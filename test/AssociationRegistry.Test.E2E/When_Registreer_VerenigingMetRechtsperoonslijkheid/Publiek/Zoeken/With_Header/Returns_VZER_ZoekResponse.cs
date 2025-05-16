@@ -26,7 +26,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingMetRech
     }
 
     [Fact]
-    public async ValueTask WithFeitelijkeVereniging()
+    public async Task WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().Verenigingssubtype.Should().BeNull();
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse

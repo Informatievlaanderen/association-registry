@@ -28,7 +28,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<StopVerenigingCont
     }
 
     [Fact]
-    public async ValueTask WithFeitelijkeVereniging()
+    public async Task WithFeitelijkeVereniging()
     {
         Response.Verenigingen.Single().Einddatum.Should().Be(_testContext.Request.Einddatum.FormatAsBelgianDate());
         Response.Verenigingen.Single().Status.Should().Be(VerenigingStatus.Gestopt);

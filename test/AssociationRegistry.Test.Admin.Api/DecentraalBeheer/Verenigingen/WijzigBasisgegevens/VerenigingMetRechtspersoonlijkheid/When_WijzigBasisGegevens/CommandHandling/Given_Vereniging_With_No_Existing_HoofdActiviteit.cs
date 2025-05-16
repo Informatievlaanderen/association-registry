@@ -28,7 +28,7 @@ public class Given_Vereniging_With_No_Existing_HoofdActiviteit
 
 
     [Fact]
-    public async ValueTask WithEmptyHoofdActiviteitenRequest_ThenNothing()
+    public async Task WithEmptyHoofdActiviteitenRequest_ThenNothing()
     {
         var command = new WijzigBasisgegevensCommand(_scenario.VCode,
                                                      HoofdactiviteitenVerenigingsloket: Array.Empty<HoofdactiviteitVerenigingsloket>());

@@ -11,7 +11,7 @@ using Xunit;
 public class Given_Grar_Retuns_NonSuccessStatuscode
 {
     [Fact]
-    public async ValueTask Then_Throws_Exception()
+    public async Task Then_Throws_Exception()
     {
         var httpClient = new Mock<IGrarHttpClient>();
         var postcode = "9000";

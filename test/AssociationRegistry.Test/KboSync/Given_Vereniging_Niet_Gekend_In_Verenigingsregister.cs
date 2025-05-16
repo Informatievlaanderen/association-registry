@@ -6,7 +6,7 @@ using Xunit;
 public class Given_Vereniging_Niet_Gekend_In_Verenigingsregister
 {
     [Fact]
-    public async ValueTask Then_Returns_Null()
+    public async Task Then_Returns_Null()
     {
         var actual = await new SyncKboCommandHandlerBuilder()
                  .MetNietBestaandeVereniging()

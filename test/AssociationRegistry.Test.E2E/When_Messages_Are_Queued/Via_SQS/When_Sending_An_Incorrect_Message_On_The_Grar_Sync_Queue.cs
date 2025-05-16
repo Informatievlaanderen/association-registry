@@ -26,7 +26,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
     }
 
     [Fact]
-    public async ValueTask Then_The_Dlq_Recieves_The_Message()
+    public async Task Then_The_Dlq_Recieves_The_Message()
     {
         var dlqUrl = await _setup.AmazonSqs.GetQueueUrlAsync(_setup.AdminApiConfiguration.GetGrarOptions().Sqs.GrarSyncDeadLetterQueueName);
 

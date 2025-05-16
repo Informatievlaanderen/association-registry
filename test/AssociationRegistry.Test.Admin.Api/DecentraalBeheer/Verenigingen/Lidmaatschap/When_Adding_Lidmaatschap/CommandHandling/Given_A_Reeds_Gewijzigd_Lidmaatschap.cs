@@ -14,7 +14,7 @@ using Xunit.Categories;
 public class Given_A_Reeds_Gewijzigd_Lidmaatschap
 {
     [Fact]
-    public async ValueTask Then_It_Saves_A_Lidmaatschap_With_Correct_LidmaatschapId()
+    public async Task Then_It_Saves_A_Lidmaatschap_With_Correct_LidmaatschapId()
     {
         var fixture = new Fixture().CustomizeDomain();
 

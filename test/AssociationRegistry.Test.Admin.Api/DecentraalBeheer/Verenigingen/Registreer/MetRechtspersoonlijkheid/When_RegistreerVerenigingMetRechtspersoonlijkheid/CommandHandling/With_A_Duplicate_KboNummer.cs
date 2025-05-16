@@ -61,7 +61,7 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
             commandHandlerLogger);
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         _result = await _commandHandler
            .Handle(_envelope, CancellationToken.None);

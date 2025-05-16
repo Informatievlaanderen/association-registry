@@ -10,7 +10,7 @@ using Xunit;
 public class Given_Grar_Returns_PostInfo_With_Minimal_Fields
 {
     [Fact]
-    public async ValueTask Then_Returns_Null()
+    public async Task Then_Returns_Null()
     {
         var httpClient = new Mock<IGrarHttpClient>();
         var postcode = "9000";

@@ -23,12 +23,12 @@ public class Returns_Vereniging_Not_Found : IClassFixture<MarkeerAlsDubbelVanCon
 
     public HttpStatusCode Response { get; set; }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = _context.ApiSetup.PublicApiHost.GetPubliekDetailStatusCode(_context.VCode);
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
     }
 }

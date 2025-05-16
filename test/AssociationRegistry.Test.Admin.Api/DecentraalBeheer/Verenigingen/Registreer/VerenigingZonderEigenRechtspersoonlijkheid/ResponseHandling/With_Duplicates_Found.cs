@@ -26,7 +26,7 @@ using Verenigingstype = Vereniging.Verenigingstype;
 public class With_Duplicates_Found
 {
     [Fact]
-    public async ValueTask Then_Verenigingstype_FeitelijkeVereniging_Is_Returned()
+    public async Task Then_Verenigingstype_FeitelijkeVereniging_Is_Returned()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = SetupRegistreerVZERCommandHandling(fixture);
@@ -53,7 +53,7 @@ public class With_Duplicates_Found
     }
 
     [Fact]
-    public async ValueTask Then_Verenigingssubtype_isNietBepaald()
+    public async Task Then_Verenigingssubtype_isNietBepaald()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = SetupRegistreerVZERCommandHandling(fixture);

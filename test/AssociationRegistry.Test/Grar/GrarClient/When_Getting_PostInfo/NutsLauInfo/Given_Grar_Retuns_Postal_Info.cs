@@ -14,7 +14,7 @@ using Xunit;
 public class Given_Grar_Retuns_Postal_Info
 {
     [Fact]
-    public async ValueTask Then_Returns_Nuts_Lau_Info()
+    public async Task Then_Returns_Nuts_Lau_Info()
     {
         var httpClient = new Mock<IGrarHttpClient>();
         var postcode = "9000";

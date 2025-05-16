@@ -67,12 +67,12 @@ public class Returns_Detail_With_Gewijzigde_Locatie : IClassFixture<WijzigLocati
 
     public DetailVerenigingResponse Response { get; set; }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
     }
 }

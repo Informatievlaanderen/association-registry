@@ -12,7 +12,7 @@ using Xunit;
 public class Given_A_Set_Of_PostalCodes
 {
     [Fact]
-    public async ValueTask Then_We_Fetch_The_Nuts_And_Lau_Information_For_Each_Postcode()
+    public async Task Then_We_Fetch_The_Nuts_And_Lau_Information_For_Each_Postcode()
     {
         var fixture = new Fixture().CustomizeDomain();
         var client = new Mock<IGrarClient>();

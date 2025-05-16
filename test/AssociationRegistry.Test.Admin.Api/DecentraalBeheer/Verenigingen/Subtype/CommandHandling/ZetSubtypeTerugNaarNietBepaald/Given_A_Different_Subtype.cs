@@ -15,7 +15,7 @@ using Xunit.Categories;
 public class Given_A_Different_Subtype
 {
     [Fact]
-    public async ValueTask Then_It_Saves_A_SubtypeWerdTerugGezetNaarNietBepaald()
+    public async Task Then_It_Saves_A_SubtypeWerdTerugGezetNaarNietBepaald()
     {
         var fixture = new Fixture().CustomizeDomain();
 

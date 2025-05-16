@@ -26,10 +26,10 @@ public class Given_Werkingsgebieden
     }
 
     [Fact]
-    public async ValueTask Then_Provincies_Are_In_The_List()
+    public async Task Then_Provincies_Are_In_The_List()
         => _actual.Should().Contain(Werkingsgebied.ProvincieWerkingsgebieden);
 
     [Fact]
-    public async ValueTask Then_NVT_Is_In_The_List()
+    public async Task Then_NVT_Is_In_The_List()
         => _actual.Should().Contain(Werkingsgebied.NietVanToepassing);
 }

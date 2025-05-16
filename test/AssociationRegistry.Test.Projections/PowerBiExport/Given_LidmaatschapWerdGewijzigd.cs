@@ -10,7 +10,7 @@ public class Given_LidmaatschapWerdGewijzigd(PowerBiScenarioFixture<Lidmaatschap
     : PowerBiScenarioClassFixture<LidmaatschapWerdGewijzigdScenario>
 {
     [Fact]
-    public async ValueTask ARecordIsStored_With_Lidmaatschap()
+    public async Task ARecordIsStored_With_Lidmaatschap()
     {
         Lidmaatschap[] expectedLidmaatschap =
         [
@@ -28,7 +28,7 @@ public class Given_LidmaatschapWerdGewijzigd(PowerBiScenarioFixture<Lidmaatschap
     }
 
     [Fact]
-    public async ValueTask ARecordIsStored_With_Historiek()
+    public async Task ARecordIsStored_With_Historiek()
     {
         fixture.Result.VCode.Should().Be(fixture.Scenario.LidmaatschapWerdGewijzigd.VCode);
         fixture.Result.Historiek.Should().NotBeEmpty();

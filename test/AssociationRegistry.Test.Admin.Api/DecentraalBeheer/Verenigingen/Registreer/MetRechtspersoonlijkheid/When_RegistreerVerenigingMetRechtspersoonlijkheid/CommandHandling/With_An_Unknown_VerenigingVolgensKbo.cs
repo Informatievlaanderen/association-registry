@@ -49,7 +49,7 @@ public class With_An_Unknown_VerenigingVolgensKbo
     }
 
     [Fact]
-    public async ValueTask Then_It_Throws_GeenGeldigeVerenigingInKbo()
+    public async Task Then_It_Throws_GeenGeldigeVerenigingInKbo()
     {
         var handle = () => _commandHandler
            .Handle(_envelope, CancellationToken.None);

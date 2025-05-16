@@ -30,7 +30,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
     }
 
     [Fact]
-    public async ValueTask Then_we_get_a_detail_response()
+    public async Task Then_we_get_a_detail_response()
     {
         var response = await _publicApiClient.GetDetail(_scenario.VCode);
 

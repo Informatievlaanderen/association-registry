@@ -10,7 +10,7 @@ using Xunit;
 public class Given_No_Existing_Locatie
 {
     [Fact]
-    public async ValueTask Then_The_Locaties_Are_Ontkoppeld()
+    public async Task Then_The_Locaties_Are_Ontkoppeld()
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields();

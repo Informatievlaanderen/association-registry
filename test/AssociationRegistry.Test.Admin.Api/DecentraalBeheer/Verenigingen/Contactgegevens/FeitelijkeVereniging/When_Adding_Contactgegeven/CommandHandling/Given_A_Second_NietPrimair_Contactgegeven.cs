@@ -54,7 +54,7 @@ public class Given_A_Second_NietPrimair_Contactgegeven
     }
 
     [Fact]
-    public async ValueTask Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved()
+    public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved()
     {
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,

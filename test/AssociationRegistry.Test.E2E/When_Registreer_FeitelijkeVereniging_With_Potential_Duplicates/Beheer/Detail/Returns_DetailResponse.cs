@@ -43,7 +43,7 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
     }
 
     [Fact]
-    public async ValueTask WithFeitelijkeVereniging()
+    public async Task WithFeitelijkeVereniging()
         => Response.Vereniging.ShouldCompare(new VerenigingDetail
         {
             Bron = Bron.Initiator,

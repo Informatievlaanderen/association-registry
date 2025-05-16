@@ -9,7 +9,5 @@ Microsoft.NET.Test.Sdk
 NEST
 xunit.v3.assert
 xunit.runner.visualstudio
-xunit.v3.core
-
-
+xunit.categories
 Microsoft.AspNetCore.Hosting

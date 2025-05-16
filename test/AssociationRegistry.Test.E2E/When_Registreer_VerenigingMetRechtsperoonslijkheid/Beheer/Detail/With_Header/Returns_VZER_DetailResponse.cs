@@ -37,7 +37,7 @@ public class Returns_VZER_DetailResponse :
     }
 
     [Fact]
-    public async ValueTask WithKboVereniging()
+    public async Task WithKboVereniging()
         => Response.Vereniging.Verenigingssubtype.Should().BeNull();
 
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse

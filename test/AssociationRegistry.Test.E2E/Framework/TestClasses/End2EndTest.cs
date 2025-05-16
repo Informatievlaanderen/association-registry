@@ -14,7 +14,7 @@ public abstract class End2EndTest<TContext, TRequest, TResponse>: IClassFixture<
         TestContext = testContext;
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = GetResponse(TestContext.ApiSetup);
     }
@@ -22,7 +22,7 @@ public abstract class End2EndTest<TContext, TRequest, TResponse>: IClassFixture<
     public TResponse Response { get; private set; }
 
     public abstract Func<IApiSetup, TResponse> GetResponse { get; }
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
     }
 }

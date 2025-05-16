@@ -17,7 +17,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<Given
     }
 
     [Fact]
-    public async ValueTask Then_A_Document_Should_Not_Contain_LocationId()
+    public async Task Then_A_Document_Should_Not_Contain_LocationId()
     {
         var session = _fixture.DocumentStore.LightweightSession();
 

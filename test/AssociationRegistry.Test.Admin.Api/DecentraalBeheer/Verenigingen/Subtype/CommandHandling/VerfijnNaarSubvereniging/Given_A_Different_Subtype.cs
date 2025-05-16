@@ -36,7 +36,7 @@ public class Given_A_Different_Subtype
     }
 
     [Fact]
-    public async ValueTask Then_It_Saves_A_VerenigingssubtypeWerdVerfijndNaarSubvereniging()
+    public async Task Then_It_Saves_A_VerenigingssubtypeWerdVerfijndNaarSubvereniging()
     {
         var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(_rechtspersoonScenario.VCode, null, null));
 
@@ -48,7 +48,7 @@ public class Given_A_Different_Subtype
     }
 
     [Fact]
-    public async ValueTask With_Invalid_VCode_Then_Throws_VCodeFormaatIsOngeldig()
+    public async Task With_Invalid_VCode_Then_Throws_VCodeFormaatIsOngeldig()
     {
        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, null, null));
 

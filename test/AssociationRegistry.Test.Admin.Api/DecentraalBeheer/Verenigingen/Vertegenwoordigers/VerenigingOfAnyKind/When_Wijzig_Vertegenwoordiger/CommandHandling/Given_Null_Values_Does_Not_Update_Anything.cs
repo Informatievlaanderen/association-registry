@@ -28,7 +28,7 @@ public class Given_Null_Values_Does_Not_Update_Anything
     }
 
     [Fact]
-    public async ValueTask Then_It_Does_Not_Update_Anything()
+    public async Task Then_It_Does_Not_Update_Anything()
     {
         var command = new WijzigVertegenwoordigerCommand(
             _scenario.VCode,

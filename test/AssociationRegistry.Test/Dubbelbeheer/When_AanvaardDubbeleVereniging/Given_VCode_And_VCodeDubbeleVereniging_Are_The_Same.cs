@@ -16,7 +16,7 @@ using Xunit;
 public class Given_VCode_And_VCodeDubbeleVereniging_Are_The_Same
 {
     [Fact]
-    public async ValueTask Then_Throws_InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf()
+    public async Task Then_Throws_InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf()
     {
         var fixture = new Fixture().CustomizeDomain();
         var messageBus = new Mock<IMessageBus>();

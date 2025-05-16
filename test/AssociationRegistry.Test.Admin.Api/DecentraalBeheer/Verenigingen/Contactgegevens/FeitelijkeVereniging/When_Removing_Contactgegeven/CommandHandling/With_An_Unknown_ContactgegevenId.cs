@@ -29,7 +29,7 @@ public class With_An_Unknown_ContactgegevenId
     }
 
     [Fact]
-    public async ValueTask Then_A_UnknownContactgegevenException_Is_Thrown()
+    public async Task Then_A_UnknownContactgegevenException_Is_Thrown()
     {
         var command = new VerwijderContactgegevenCommand(_scenario.VCode, _fixture.Create<int>());
         var commandMetadata = _fixture.Create<CommandMetadata>();

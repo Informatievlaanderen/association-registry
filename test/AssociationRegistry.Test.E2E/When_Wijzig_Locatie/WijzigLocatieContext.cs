@@ -20,7 +20,7 @@ public class WijzigLocatieContext: IAsyncLifetime
         ApiSetup = apiSetup;
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         _werdGeregistreerdScenario = new();
 
@@ -31,7 +31,7 @@ public class WijzigLocatieContext: IAsyncLifetime
 
     public RequestResult<WijzigLocatieRequest> RequestResult { get; set; }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
 
     }

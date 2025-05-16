@@ -25,11 +25,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask Then_we_get_a_successful_response()
+    public async Task Then_we_get_a_successful_response()
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async ValueTask? Then_we_retrieve_one_vereniging_matching_the_name_searched()
+    public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
         var query = "Feestcommittee Oudenaarde";
         var response = await _publicApiClient.Search(query);
@@ -55,7 +55,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
                });
 
     [Fact]
-    public async ValueTask? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
+    public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
     {
         var query = "dena";
         var response = await _publicApiClient.Search(query);
@@ -65,7 +65,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
+    public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
     {
         var query = "*dena*";
         var response = await _publicApiClient.Search(query);
@@ -77,7 +77,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
+    public async Task? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
     {
         var query = "oudenaarde";
         var response = await _publicApiClient.Search(query);
@@ -89,7 +89,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask? Then_one_vereniging_is_retrieved_by_its_vCode()
+    public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
     {
         var query = _scenario.VCode;
         var response = await _publicApiClient.Search(query);
@@ -101,7 +101,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask? Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
+    public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
     {
         var response = await _publicApiClient.Search("0001");
         var content = await response.Content.ReadAsStringAsync();
@@ -119,7 +119,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask? Then_one_vereniging_is_retrieved_by_its_werkingsgebied()
+    public async Task? Then_one_vereniging_is_retrieved_by_its_werkingsgebied()
     {
         var query = "werkingsgebieden.code:BE25";
         var response = await _publicApiClient.Search(query);
@@ -144,7 +144,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask? Then_one_vereniging_is_retrieved_by_one_of_the_werkingsgebieden()
+    public async Task? Then_one_vereniging_is_retrieved_by_one_of_the_werkingsgebieden()
     {
         var query = "werkingsgebieden.code:(BE OR BE25 OR BE21 OR BE212)";
         var response = await _publicApiClient.Search(query);
@@ -155,7 +155,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask? Then_one_vereniging_is_not_retrieved_if_none_of_the_werkingsgebieden_match()
+    public async Task? Then_one_vereniging_is_not_retrieved_if_none_of_the_werkingsgebieden_match()
     {
         var query = "werkingsgebieden.code:(BE OR BE2 OR BE21 OR BE212)";
         var response = await _publicApiClient.Search(query);
@@ -165,7 +165,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask? Then_one_vereniging_is_retrieved_if_none_of_the_werkingsgebieden_match()
+    public async Task? Then_one_vereniging_is_retrieved_if_none_of_the_werkingsgebieden_match()
     {
         var query = "werkingsgebieden.code:(BE25 AND BE25535003)";
         var response = await _publicApiClient.Search(query);
@@ -177,7 +177,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask? Then_one_vereniging_is_not_retrieved_if_not_all_of_the_werkingsgebieden_match()
+    public async Task? Then_one_vereniging_is_not_retrieved_if_not_all_of_the_werkingsgebieden_match()
     {
         var query = "werkingsgebieden.code:(BE25 AND BE2)";
         var response = await _publicApiClient.Search(query);
@@ -187,7 +187,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
-    public async ValueTask? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
+    public async Task? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
         var response = await _publicApiClient.Search("*dena*");
         var content = await response.Content.ReadAsStringAsync();

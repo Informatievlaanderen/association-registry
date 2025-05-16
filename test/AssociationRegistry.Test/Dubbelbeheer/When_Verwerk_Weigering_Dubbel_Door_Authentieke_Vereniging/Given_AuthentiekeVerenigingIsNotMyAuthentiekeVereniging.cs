@@ -14,7 +14,7 @@ using Xunit;
 public class Given_AuthentiekeVerenigingIsNotMyAuthentiekeVereniging
 {
     [Fact]
-    public async ValueTask Then_Throws_ApplicationException()
+    public async Task Then_Throws_ApplicationException()
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new VerenigingWerdGemarkeerdAlsDubbelVanScenario();

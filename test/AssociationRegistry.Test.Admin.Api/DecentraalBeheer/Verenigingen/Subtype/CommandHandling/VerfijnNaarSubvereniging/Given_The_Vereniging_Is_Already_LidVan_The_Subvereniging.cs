@@ -14,7 +14,7 @@ using Xunit;
 public class Given_The_Vereniging_Is_Already_LidVan_The_Subvereniging
 {
     [Fact]
-    public async ValueTask For_Verfijnen_Naar_Subvereniging()
+    public async Task For_Verfijnen_Naar_Subvereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIsScenario.VoorTeVerfijenSubverenigingScenario();
@@ -32,7 +32,7 @@ public class Given_The_Vereniging_Is_Already_LidVan_The_Subvereniging
     }
 
     [Fact]
-    public async ValueTask For_Wijzig_Subvereniging()
+    public async Task For_Wijzig_Subvereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIsScenario.VoorTeWijzigenSubverenigingScenario();

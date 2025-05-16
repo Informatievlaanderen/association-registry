@@ -26,7 +26,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderVerenigin
     }
 
     [Fact]
-    public async ValueTask With_No_Vereniging()
+    public async Task With_No_Vereniging()
         => Response.Verenigingen.SingleOrDefault(x => x.VCode == _testContext.VCode).Should().BeNull();
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse

@@ -13,7 +13,7 @@ using Xunit;
 public class Given_A_Vereniging_Is_Loaded
 {
     [Fact]
-    public async ValueTask Verify_The_Correct_Vereniging_Is_Loaded()
+    public async Task Verify_The_Correct_Vereniging_Is_Loaded()
     {
         var fixture = new Fixture().CustomizeDomain();
 

@@ -44,7 +44,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
             new ClockStub(DateTime.Today));
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
         => await _repo.Save(_vereniging, new Fixture().Create<CommandMetadata>());
 
     [Fact]

@@ -36,7 +36,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
     }
 
     [Fact]
-    public async ValueTask Then_A_VertegenwoordigerWerdToegevoegd_Event_Is_Saved()
+    public async Task Then_A_VertegenwoordigerWerdToegevoegd_Event_Is_Saved()
     {
         await _commandHandler
            .Handle(new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()));
@@ -58,7 +58,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
     }
 
     [Fact]
-    public async ValueTask Then_A_EntityId_Is_Returned()
+    public async Task Then_A_EntityId_Is_Returned()
     {
         var result = await _commandHandler
            .Handle(new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()));

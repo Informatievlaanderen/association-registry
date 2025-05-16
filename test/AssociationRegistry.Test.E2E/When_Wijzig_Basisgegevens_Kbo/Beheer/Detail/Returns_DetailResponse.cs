@@ -41,7 +41,7 @@ public class Returns_DetailResponse :
     }
 
     [Fact]
-    public async ValueTask WithVerenigingMetRechtspersoonlijkheid()
+    public async Task WithVerenigingMetRechtspersoonlijkheid()
         => Response.Vereniging.ShouldCompare(new VerenigingDetail
         {
             Bron = Bron.KBO,

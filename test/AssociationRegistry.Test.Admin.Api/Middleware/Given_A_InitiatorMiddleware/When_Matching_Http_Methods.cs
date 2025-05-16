@@ -19,7 +19,7 @@ public class When_Matching_Http_Methods : IAsyncLifetime
 {
     private IHost _host = null!;
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         _host = await new HostBuilder().ConfigureWebHost(
                                             webBuilder =>

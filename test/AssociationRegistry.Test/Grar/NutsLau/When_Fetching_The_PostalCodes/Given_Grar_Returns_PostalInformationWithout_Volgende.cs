@@ -10,7 +10,7 @@ using Xunit;
 public class Given_Grar_Returns_PostalInformationWithout_Volgende
 {
     [Fact]
-    public async ValueTask Then_Returns_Postcodes()
+    public async Task Then_Returns_Postcodes()
     {
         var grarClient = new Mock<IGrarClient>();
 

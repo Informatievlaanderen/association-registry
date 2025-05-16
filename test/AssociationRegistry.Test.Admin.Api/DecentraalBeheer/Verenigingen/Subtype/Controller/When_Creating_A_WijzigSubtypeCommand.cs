@@ -20,7 +20,7 @@ public class When_Creating_A_WijzigSubtypeCommand
     // TODO: Write test that checks if we get the name when it's not null
     // todo: use GetNamesQuery instead
     [Fact]
-    public async ValueTask Fetches_The_Name_AndereVereniging_From_Projections()
+    public async Task Fetches_The_Name_AndereVereniging_From_Projections()
     {
         // var fixture = new Fixture().CustomizeAdminApi();
         // var messageBus = new Mock<IMessageBus>();

@@ -26,17 +26,17 @@ public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigCo
 
     public DetailVerenigingResponse Response { get; set; }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
     }
 
     [Fact]
-    public async ValueTask TestZonderExpectedVersion()
+    public async Task TestZonderExpectedVersion()
     {
         var client = _context.ApiSetup.AdminApiHost.CreateClientWithHeaders(_context.ApiSetup.SuperAdminHttpClient);
         var locatie = _context.WerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
@@ -77,7 +77,7 @@ public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigCo
     }
 
     [Fact]
-    public async ValueTask TestMetExpectedVersion()
+    public async Task TestMetExpectedVersion()
     {
         var client = _context.ApiSetup.AdminApiHost.CreateClientWithHeaders(_context.ApiSetup.SuperAdminHttpClient);
         var locatie = _context.WerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();

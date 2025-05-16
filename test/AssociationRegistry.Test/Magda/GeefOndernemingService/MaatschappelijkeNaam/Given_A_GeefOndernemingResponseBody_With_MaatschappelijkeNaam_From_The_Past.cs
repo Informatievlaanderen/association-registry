@@ -49,7 +49,7 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_From_
     }
 
     [Fact]
-    public async ValueTask Then_It_Returns_A_FailureResult()
+    public async Task Then_It_Returns_A_FailureResult()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);

@@ -39,7 +39,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
     }
 
     [Fact]
-    public async ValueTask Then_it_saves_an_extra_event()
+    public async Task Then_it_saves_an_extra_event()
     {
         await using var session = _fixture.DocumentStore
                                           .LightweightSession();

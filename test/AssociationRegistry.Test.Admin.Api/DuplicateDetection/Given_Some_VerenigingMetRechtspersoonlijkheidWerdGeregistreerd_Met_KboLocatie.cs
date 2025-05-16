@@ -33,7 +33,7 @@ public class Given_Some_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_Met_
     }
 
     [Fact]
-    public async ValueTask Then_A_DuplicateIsDetected()
+    public async Task Then_A_DuplicateIsDetected()
     {
         var request = CreateRegistreerFeitelijkeVerenigingRequest(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
                                                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres

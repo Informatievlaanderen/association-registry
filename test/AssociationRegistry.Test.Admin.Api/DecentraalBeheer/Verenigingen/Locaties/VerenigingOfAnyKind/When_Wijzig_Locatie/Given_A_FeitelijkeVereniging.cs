@@ -57,7 +57,7 @@ public class Patch_A_Locatie_Given_A_FeitelijkeVereniging : IAsyncLifetime
         }}";
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PatchLocatie(Scenario.VCode, TeWijzigenLocatie.LocatieId, _jsonBody);
     }
@@ -79,7 +79,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_Locatie_Given_
     }
 
     [Fact]
-    public async ValueTask Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 
@@ -89,7 +89,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_Locatie_Given_
     }
 
     [Fact]
-    public async ValueTask Then_it_returns_an_accepted_response()
+    public async Task Then_it_returns_an_accepted_response()
         => _classFixture.Response.StatusCode.Should().Be(
             HttpStatusCode.Accepted,
             await _classFixture.Response.Content.ReadAsStringAsync());

@@ -18,7 +18,7 @@ public class Given_LocatieWerdGewijzigd : IClassFixture<GivenLocatieWerdGewijzig
     }
 
     [Fact]
-    public async ValueTask Then_LocatieId_Should_Be_Added_To_Document()
+    public async Task Then_LocatieId_Should_Be_Added_To_Document()
     {
         var session = _fixture.DocumentStore.LightweightSession();
 

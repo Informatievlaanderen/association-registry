@@ -8,7 +8,7 @@ using Xunit;
 public class Given_Waalse_Postcodes
 {
     [Fact]
-    public async ValueTask Then_We_Fetch_The_Nuts_And_Lau_Information_For_Each_Postcode()
+    public async Task Then_We_Fetch_The_Nuts_And_Lau_Information_For_Each_Postcode()
     {
         var client = new Mock<IGrarClient>();
         string[] postcodes = ["1300", "4720", "7520"];

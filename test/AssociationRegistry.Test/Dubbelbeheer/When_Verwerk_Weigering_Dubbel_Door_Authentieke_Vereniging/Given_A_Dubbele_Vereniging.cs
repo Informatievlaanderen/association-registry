@@ -14,7 +14,7 @@ using Xunit;
 public class Given_A_Dubbele_Vereniging
 {
     [Fact]
-    public async ValueTask Then_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt_Event_Is_Saved()
+    public async Task Then_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt_Event_Is_Saved()
     {
         var scenario = new VerenigingWerdGemarkeerdAlsDubbelVanScenario();
         var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), true, true);

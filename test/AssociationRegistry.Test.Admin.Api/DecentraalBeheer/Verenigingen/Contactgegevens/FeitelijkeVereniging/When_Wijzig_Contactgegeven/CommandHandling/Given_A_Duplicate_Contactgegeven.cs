@@ -29,7 +29,7 @@ public class Given_A_Duplicate_Contactgegeven
     }
 
     [Fact]
-    public async ValueTask Then_A_Duplicate_Contactgegeven_Exception_Is_Thrown()
+    public async Task Then_A_Duplicate_Contactgegeven_Exception_Is_Thrown()
     {
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,

@@ -11,7 +11,7 @@ using Xunit;
 public class Returns_Single_Response_Score98
 {
     [Fact]
-    public async ValueTask Then_AdresNietUniekInAdressenregister()
+    public async Task Then_AdresNietUniekInAdressenregister()
     {
         var fixture = new Fixture().CustomizeDomain();
 

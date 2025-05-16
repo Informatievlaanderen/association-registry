@@ -42,12 +42,12 @@ public class Returns_Detail_With_Lidmaatschap : IClassFixture<WijzigLidmaatschap
 
     public PubliekVerenigingDetailResponse Response { get; set; }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = _context.ApiSetup.PublicApiHost.GetPubliekDetail(_context.VCode);
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
     }
 }

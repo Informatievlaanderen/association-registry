@@ -8,7 +8,7 @@ using Xunit;
 public class Given_Already_Ontkoppelde_Locatie
 {
     [Fact]
-    public async ValueTask Then_The_Locatie_Is_Ontkoppeld()
+    public async Task Then_The_Locatie_Is_Ontkoppeld()
     {
         var scenario = new AdresWerdOntkoppeldScenario();
 

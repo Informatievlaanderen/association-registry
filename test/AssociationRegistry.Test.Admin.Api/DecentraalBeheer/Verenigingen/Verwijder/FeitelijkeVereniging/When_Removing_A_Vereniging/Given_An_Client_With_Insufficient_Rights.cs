@@ -24,7 +24,7 @@ public class Remove_An_Existing_Vereniging_With_Insufficient_Rights : IAsyncLife
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.DeleteVereniging(Scenario.VCode, reason: "Omdat");
     }
@@ -46,7 +46,7 @@ public class Given_An_Client_With_Insufficient_Rights : IClassFixture<Remove_An_
     }
 
     [Fact]
-    public async ValueTask Then_it_saves_no_events()
+    public async Task Then_it_saves_no_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

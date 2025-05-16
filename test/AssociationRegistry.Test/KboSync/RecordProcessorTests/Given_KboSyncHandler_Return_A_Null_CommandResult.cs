@@ -15,7 +15,7 @@ using Xunit;
 public class Given_KboSyncHandler_Return_A_Null_CommandResult
 {
     [Fact]
-    public async ValueTask Then_Nothing()
+    public async Task Then_Nothing()
     {
         var fixture = new Fixture().CustomizeDomain();
         var logger = new Mock<ILogger>();

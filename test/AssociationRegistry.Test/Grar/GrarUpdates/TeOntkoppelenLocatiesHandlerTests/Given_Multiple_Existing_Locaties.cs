@@ -10,7 +10,7 @@ using Xunit;
 public class Given_Multiple_Existing_Locatie
 {
     [Fact]
-    public async ValueTask Then_The_Locaties_Are_Ontkoppeld()
+    public async Task Then_The_Locaties_Are_Ontkoppeld()
     {
         var scenario = new MultipleAdresWerdOvergenomenUitAdressenregisterScenario();
 

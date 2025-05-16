@@ -71,7 +71,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     }
 
     [Fact]
-    public async ValueTask Stopwords_Everywhere()
+    public async Task Stopwords_Everywhere()
     {
         await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
 
@@ -84,7 +84,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     }
 
     [Fact]
-    public async ValueTask Fuzzy()
+    public async Task Fuzzy()
     {
         await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
 

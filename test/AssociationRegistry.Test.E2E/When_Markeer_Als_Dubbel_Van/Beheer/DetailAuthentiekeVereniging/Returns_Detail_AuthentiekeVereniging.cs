@@ -26,7 +26,7 @@ public class Returns_Detail_AuthentiekeVereniging : IClassFixture<MarkeerAlsDubb
     }
 
     [Fact]
-    public async ValueTask With_DubbeleVereniging_In_CorresponderendeVCodes()
+    public async Task With_DubbeleVereniging_In_CorresponderendeVCodes()
     {
         var tryCounter = 0;
 
@@ -55,12 +55,12 @@ public class Returns_Detail_AuthentiekeVereniging : IClassFixture<MarkeerAlsDubb
 
     public DetailVerenigingResponse Response { get; set; }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
     }
 }

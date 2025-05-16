@@ -37,7 +37,7 @@ public class Given_VCode_Equals_IsDubbelVan
     }
 
     [Fact]
-    public async ValueTask Then_Throws_VerenigingKanGeenDubbelWordenVanZichzelf()
+    public async Task Then_Throws_VerenigingKanGeenDubbelWordenVanZichzelf()
     {
         var command = _fixture.Create<MarkeerAlsDubbelVanCommand>() with
         {

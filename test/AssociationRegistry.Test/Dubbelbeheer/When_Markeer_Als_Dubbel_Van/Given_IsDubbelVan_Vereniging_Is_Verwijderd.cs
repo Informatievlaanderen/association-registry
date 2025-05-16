@@ -16,7 +16,7 @@ using Xunit;
 public class Given_IsDubbelVan_Vereniging_Is_Verwijderd
 {
     [Fact]
-    public async ValueTask Then_Throws_VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging()
+    public async Task Then_Throws_VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
         var verenigingsRepositoryMock = new Mock<IVerenigingsRepository>();

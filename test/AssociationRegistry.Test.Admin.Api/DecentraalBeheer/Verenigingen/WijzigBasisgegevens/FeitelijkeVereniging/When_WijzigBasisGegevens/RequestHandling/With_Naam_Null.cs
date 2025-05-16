@@ -25,7 +25,7 @@ public class With_Naam_Null
     }
 
     [Fact]
-    public async ValueTask Then_it_throws_a_ValidationException()
+    public async Task Then_it_throws_a_ValidationException()
     {
         await Assert.ThrowsAsync<ValidationException>(
             () => _controller.Patch(

@@ -73,7 +73,7 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
     }
 
     [Fact]
-    public async ValueTask Then_It_Adds_Vertegenwoordigers_From_Temporary_Source()
+    public async Task Then_It_Adds_Vertegenwoordigers_From_Temporary_Source()
     {
         await using var session = _fixture.DocumentStore
                                           .LightweightSession();

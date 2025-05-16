@@ -12,7 +12,7 @@ using Xunit;
 public class Given_Grar_Returns_Bad_Request
 {
     [Fact]
-    public async ValueTask Then_Throws_AdressenregisterReturnedNonSuccessStatusCode()
+    public async Task Then_Throws_AdressenregisterReturnedNonSuccessStatusCode()
     {
         var grarHttpClient = new Mock<IGrarHttpClient>();
 

@@ -5,7 +5,7 @@ using Xunit;
 public class Given_Fout_Bij_Laden_Vereniging_In_Verenigingsregister
 {
     [Fact]
-    public async ValueTask Then_ThrowsException()
+    public async Task Then_ThrowsException()
     {
         await Assert
            .ThrowsAsync<Exception>(() => new SyncKboCommandHandlerBuilder()

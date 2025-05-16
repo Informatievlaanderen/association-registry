@@ -49,7 +49,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetim
         }";
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PostLocatie(Scenario.VCode, _jsonBody);
     }
@@ -73,7 +73,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
     }
 
     [Fact]
-    public async ValueTask Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 
@@ -106,7 +106,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
     }
 
     [Fact]
-    public async ValueTask Then_it_should_have_placed_message_on_sqs_for_address_match()
+    public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
         var policyResult = await Policy.Handle<Exception>()
                                        .RetryAsync(retryCount: 5, onRetryAsync: async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))

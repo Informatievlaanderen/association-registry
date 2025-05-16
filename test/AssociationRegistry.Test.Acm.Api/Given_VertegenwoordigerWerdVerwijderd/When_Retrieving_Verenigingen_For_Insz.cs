@@ -28,7 +28,7 @@ public class When_Retrieving_Verenigingen_For_Insz
         => _response.StatusCode.Should().Be(HttpStatusCode.OK);
 
     [Fact]
-    public async ValueTask Then_we_get_a_response_with_no_vereniging()
+    public async Task Then_we_get_a_response_with_no_vereniging()
     {
         var content = await _response.Content.ReadAsStringAsync();
 

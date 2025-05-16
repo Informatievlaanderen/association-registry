@@ -44,7 +44,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
     public IAlbaHost PublicProjectionHost { get; private set; }
     public IAlbaHost PublicApiHost { get; private set; }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         SetUpAdminApiConfiguration();
 
@@ -186,7 +186,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
     public IConfigurationRoot AdminApiConfiguration { get; set; }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
         await AdminApiHost.StopAsync();
         await PublicApiHost.StopAsync();

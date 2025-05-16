@@ -27,7 +27,7 @@ public class HoofdactiviteitenRecordWriterTests
     }
 
     [Fact]
-    public async ValueTask WithNoDocuments_ThenCsvExportsOnlyHeaders()
+    public async Task WithNoDocuments_ThenCsvExportsOnlyHeaders()
     {
         var docs = Array.Empty<PowerBiExportDocument>();
 
@@ -38,7 +38,7 @@ public class HoofdactiviteitenRecordWriterTests
     }
 
     [Fact]
-    public async ValueTask WithMultipleDocuments_ThenCsvExportShouldExport()
+    public async Task WithMultipleDocuments_ThenCsvExportShouldExport()
     {
         var docs = _fixture.CreateMany<PowerBiExportDocument>();
 

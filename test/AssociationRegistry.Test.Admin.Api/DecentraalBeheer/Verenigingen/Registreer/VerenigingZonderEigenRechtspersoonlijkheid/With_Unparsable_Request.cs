@@ -52,7 +52,7 @@ public class With_Unparsable_Request
     }
 
     [Fact]
-    public async ValueTask Then_it_returns_a_validationproblemdetails_response()
+    public async Task Then_it_returns_a_validationproblemdetails_response()
     {
         var responseContent = await Response.Content.ReadAsStringAsync();
 

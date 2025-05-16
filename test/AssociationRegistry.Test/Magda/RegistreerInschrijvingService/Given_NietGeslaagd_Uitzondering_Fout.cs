@@ -65,7 +65,7 @@ public class Given_NietGeslaagd_Uitzondering_Fout
     }
 
     [Fact]
-    public async ValueTask Then_It_Returns_A_FailedResult()
+    public async Task Then_It_Returns_A_FailedResult()
     {
         var result = await _service.RegistreerInschrijving(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                            CancellationToken.None);

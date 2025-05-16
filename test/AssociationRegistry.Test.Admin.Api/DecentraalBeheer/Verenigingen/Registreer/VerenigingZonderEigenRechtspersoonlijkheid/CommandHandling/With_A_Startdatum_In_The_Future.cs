@@ -50,7 +50,7 @@ public class With_A_Startdatum_In_The_Future
     }
 
     [Fact]
-    public async ValueTask Then_it_throws_an_StartdatumIsInFutureException()
+    public async Task Then_it_throws_an_StartdatumIsInFutureException()
     {
         var method = () => _commandHandler.Handle(_commandEnvelope, CancellationToken.None);
         await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();

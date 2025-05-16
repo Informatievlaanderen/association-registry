@@ -18,7 +18,7 @@ public class Given_LocatieWerdGewijzigd_AndDocumentAlreadyExists : IClassFixture
     }
 
     [Fact]
-    public async ValueTask Then_A_Document_Should_Contain_LocationId()
+    public async Task Then_A_Document_Should_Contain_LocationId()
     {
         var session = _fixture.DocumentStore.LightweightSession();
 

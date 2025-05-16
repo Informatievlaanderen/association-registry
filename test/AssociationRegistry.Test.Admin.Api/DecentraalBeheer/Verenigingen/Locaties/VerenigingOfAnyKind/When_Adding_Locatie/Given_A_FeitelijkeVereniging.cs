@@ -41,7 +41,7 @@ public class Given_A_FeitelijkeVereniging_Setup : IAsyncLifetime
         }";
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PostLocatie(Scenario.VCode, _jsonBody);
     }
@@ -63,7 +63,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Given_A_FeitelijkeVere
     }
 
     [Fact]
-    public async ValueTask Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

@@ -41,7 +41,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZ
         }";
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PostLocatie(Scenario.VCode, _jsonBody);
     }
@@ -65,7 +65,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZ
     }
 
     [Fact]
-    public async ValueTask Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

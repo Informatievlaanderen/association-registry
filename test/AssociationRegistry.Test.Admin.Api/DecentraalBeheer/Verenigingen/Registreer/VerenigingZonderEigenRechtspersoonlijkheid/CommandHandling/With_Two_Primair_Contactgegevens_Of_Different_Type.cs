@@ -57,7 +57,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         var commandMetadata = _fixture.Create<CommandMetadata>();
 

@@ -17,7 +17,7 @@ using Xunit;
 public class With_DecoratingWithPostalInformation
 {
     [Fact]
-    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
+    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 

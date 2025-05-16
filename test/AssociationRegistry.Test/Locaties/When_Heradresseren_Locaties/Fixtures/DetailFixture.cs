@@ -16,7 +16,7 @@ public class DetailFixture : IAsyncLifetime
 
     public AddressDetailResponse Result { get; private set; }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Result = await _client.GetAddressById(adresId: "200001", CancellationToken.None);
     }

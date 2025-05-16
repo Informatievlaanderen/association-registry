@@ -85,6 +85,7 @@ nuget WolverineFx.Marten
 
 nuget Microsoft.NET.Test.Sdk
 nuget xunit.v3
+nuget xunit.categories
 nuget xunit.analyzers
 nuget xunit.v3.assert
 nuget xunit.v3.assert.source

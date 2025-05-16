@@ -13,7 +13,7 @@ using Xunit;
 public class Given_An_Exception
 {
     [Fact]
-    public async ValueTask Then_It_Retries()
+    public async Task Then_It_Retries()
     {
         var scenario = new VerenigingWerdGemarkeerdAlsDubbelVanScenario();
         var repositoryMock = new Mock<IVerenigingsRepository>();

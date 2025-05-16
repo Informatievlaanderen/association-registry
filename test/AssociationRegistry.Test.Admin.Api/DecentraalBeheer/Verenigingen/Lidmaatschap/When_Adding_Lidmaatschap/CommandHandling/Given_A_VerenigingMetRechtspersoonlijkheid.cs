@@ -16,7 +16,7 @@ using Xunit.Categories;
 public class Given_A_VerenigingMetRechtspersoonlijkheid
 {
     [Fact]
-    public async ValueTask Then_It_Saves_A_Lidmaatschap()
+    public async Task Then_It_Saves_A_Lidmaatschap()
     {
         var fixture = new Fixture().CustomizeDomain();
 

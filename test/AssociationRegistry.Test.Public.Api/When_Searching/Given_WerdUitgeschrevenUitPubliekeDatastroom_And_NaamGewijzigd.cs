@@ -24,11 +24,11 @@ public class Given_WerdUitgeschrevenUitPubliekeDatastroom_And_NaamGewijzigd
     }
 
     [Fact]
-    public async ValueTask Then_we_get_a_successful_response()
+    public async Task Then_we_get_a_successful_response()
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async ValueTask? Then_no_vereniging_is_retrieved_by_its_vCode()
+    public async Task? Then_no_vereniging_is_retrieved_by_its_vCode()
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();

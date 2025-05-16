@@ -26,13 +26,13 @@ public class Given_A_Client :
     }
 
     [Fact]
-    public async ValueTask With_An_UnauthorizedClient_Then_We_Get_Unauthorized_Response()
+    public async Task With_An_UnauthorizedClient_Then_We_Get_Unauthorized_Response()
         => _testContext.ApiSetup.AdminApiHost.GetBeheerDetailHttpResponse(_testContext.ApiSetup.UnauthorizedClient, _testContext.RequestResult.VCode,
                                                               _testContext.RequestResult.Sequence!.Value)
                        .StatusCode
                        .Should().Be(HttpStatusCode.Forbidden);
     [Fact]
-    public async ValueTask With_An_UnAuthenticatedClient_Then_We_Get_Forbidden_Response()
+    public async Task With_An_UnAuthenticatedClient_Then_We_Get_Forbidden_Response()
         => _testContext.ApiSetup.AdminApiHost.GetBeheerDetailHttpResponse(_testContext.ApiSetup.UnautenticatedClient, _testContext.RequestResult.VCode,
                                                               _testContext.RequestResult.Sequence!.Value)
                        .StatusCode

@@ -26,7 +26,7 @@ public class Given_Sort_By_UnknownField
     }
 
     [Fact]
-    public async ValueTask? Then_it_returns_an_error_message_for_the_first_wrong_field()
+    public async Task? Then_it_returns_an_error_message_for_the_first_wrong_field()
     {
         var unknownField = "vCode,asdfasdfasdfasdf,balk";
         var response = await _publicApiClient.Search(q: "*", unknownField);

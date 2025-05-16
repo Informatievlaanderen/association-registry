@@ -28,7 +28,7 @@ public class When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_
     }
 
     [Fact]
-    public async ValueTask Then_The_Dlq_Receives_The_Message()
+    public async Task Then_The_Dlq_Receives_The_Message()
     {
         var bus = _setup.AdminApiHost.Services.GetRequiredService<IMessageBus>();
         var messageStore = _setup.AdminApiHost.Services.GetRequiredService<IMessageStore>();

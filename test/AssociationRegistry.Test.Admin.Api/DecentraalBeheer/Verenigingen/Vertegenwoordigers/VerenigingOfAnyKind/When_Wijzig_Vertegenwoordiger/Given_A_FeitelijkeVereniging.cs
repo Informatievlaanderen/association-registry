@@ -62,7 +62,7 @@ public class Patch_A_New_Vertegenwoordiger_For_FeitelijkeVereniging : IAsyncLife
         AanTePassenVertegenwoordiger = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0];
     }
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PatchVertegenwoordiger(Scenario.VCode, AanTePassenVertegenwoordiger.VertegenwoordigerId,
                                                                         _jsonBody);
@@ -85,7 +85,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_New_Vertegenwo
     }
 
     [Fact]
-    public async ValueTask Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

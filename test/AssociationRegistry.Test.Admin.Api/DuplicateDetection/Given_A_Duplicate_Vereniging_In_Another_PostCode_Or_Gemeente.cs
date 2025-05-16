@@ -33,7 +33,7 @@ public class Given_A_Duplicate_Vereniging_In_Another_PostCode_Or_Gemeente
     }
 
     [Fact]
-    public async ValueTask Then_It_Does_Not_Return_The_Vereniging_As_Duplicate()
+    public async Task Then_It_Does_Not_Return_The_Vereniging_As_Duplicate()
     {
         var request = CreateRegistreerFeitelijkeVerenigingRequest("V9999048", _fixture.Create<string>(), _fixture.Create<string>());
 
