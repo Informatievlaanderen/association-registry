@@ -1,15 +1,26 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Zoeken.With_Header;
 
+using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid;
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid;
+
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Formats;
+using JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using JsonLdContext;
+using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
+using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 using DoelgroepResponse = Admin.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
@@ -26,9 +37,6 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
     {
         _testContext = testContext;
     }
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -74,4 +82,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
                 Detail = new Uri($"{_testContext.AdminApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 }

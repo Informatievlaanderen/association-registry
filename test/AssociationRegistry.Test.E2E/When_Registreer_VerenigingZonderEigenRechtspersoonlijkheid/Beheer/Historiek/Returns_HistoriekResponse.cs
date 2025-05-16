@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Historiek;
 
-using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -8,6 +9,7 @@ using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
 [Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
@@ -19,9 +21,6 @@ public class Returns_HistoriekResponse : End2EndTest<HistoriekResponse>
     {
         _testContext = testContext;
     }
-
-    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
 
     [Fact]
     public void With_VCode()
@@ -44,4 +43,7 @@ public class Returns_HistoriekResponse : End2EndTest<HistoriekResponse>
         werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGeregistreerd(_testContext.CommandRequest, _testContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
+
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
 }

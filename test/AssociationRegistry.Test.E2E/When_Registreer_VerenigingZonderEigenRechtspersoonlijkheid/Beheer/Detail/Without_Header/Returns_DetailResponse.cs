@@ -1,16 +1,19 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Detail.Without_Header;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using Formats;
+using JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using JsonLdContext;
+using Vereniging;
+using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using Vereniging.Bronnen;
+using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 using DoelgroepResponse = Admin.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
@@ -25,9 +28,6 @@ public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
     {
         _testContext = testContext;
     }
-
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
 
     [Fact]
     public void With_Context()
@@ -62,8 +62,8 @@ public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
             KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = _testContext.CommandRequest.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
@@ -80,4 +80,8 @@ public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
             Sleutels = BeheerDetailResponseMapper.MapSleutels(_testContext.VCode),
             IsDubbelVan = string.Empty,
         }, compareConfig: AdminDetailComparisonConfig.Instance);
+
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
 }

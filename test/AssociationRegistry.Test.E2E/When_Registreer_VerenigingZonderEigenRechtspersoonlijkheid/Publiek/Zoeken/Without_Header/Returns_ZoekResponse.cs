@@ -1,30 +1,27 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Publiek.Zoeken.Without_Header;
 
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.Comparison;
-using Framework.Mappers;
-using Framework.TestClasses;
-using JsonLdContext;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.Mappers;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingstype = Vereniging.Verenigingstype;
 
 [Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
-public class Returns_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
+public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
 
-    public Returns_ZoekResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext.ApiSetup)
+    public Returns_SearchVerenigingenResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
 
     [Fact]
     public void With_Context()
@@ -65,4 +62,7 @@ public class Returns_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
                 Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
 }
