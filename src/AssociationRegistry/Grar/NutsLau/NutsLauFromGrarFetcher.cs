@@ -159,7 +159,6 @@ public record PostalNutsLauInfo
 {
     [Identity]
     public string Postcode { get; set; }
-
     public string Gemeentenaam { get; set; }
     public string Nuts { get; set; }
     public string Lau { get; set; }

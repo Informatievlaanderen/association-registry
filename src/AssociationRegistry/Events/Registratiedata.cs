@@ -83,6 +83,8 @@ public static class Registratiedata
         string AndereVerenigingNaam,
         string Identificatie,
         string Beschrijving);
+
+    public record Geotag(string Identificiatie);
 }
 
 public interface IAdresId
