@@ -59,7 +59,9 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
                 Naam = string.Empty,
             },
             Naam = _testContext.CommandRequest.Naam,
-            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            HoofdactiviteitenVerenigingsloket =
+                PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(
+                    _testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
             Locaties = PubliekZoekResponseMapper.MapLocaties(_testContext.CommandRequest.Locaties, _testContext.VCode),
             Relaties = [],

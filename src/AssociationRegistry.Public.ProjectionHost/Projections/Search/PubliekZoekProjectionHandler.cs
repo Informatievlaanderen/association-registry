@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Events;
 using Formats;
+using JasperFx.Core.Reflection;
 using JsonLdContext;
 using Schema.Detail;
 using Schema.Search;
@@ -643,6 +644,15 @@ public class PubliekZoekProjectionHandler
                     Code = string.Empty,
                     Naam = string.Empty,
                 },
+            }, message.Sequence);
+    }
+
+    public async Task Handle(EventEnvelope<GeotagsWerdenBepaald> message)
+    {
+        await _elasticRepository
+           .UpdateAsync(message.VCode, new VerenigingZoekUpdateDocument
+            {
+                Geotags = message.Data.Geotags.Select(x => new VerenigingZoekDocument.Types.Geotag(x.Identificiatie)).ToArray()
             }, message.Sequence);
     }
 
