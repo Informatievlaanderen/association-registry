@@ -9,12 +9,14 @@ using Vereniging;
 using Marten;
 using Microsoft.Extensions.Logging;
 using ResultNet;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 {
     private readonly IClock _clock;
     private readonly IGrarClient _grarClient;
+    private readonly IGeotagsSerivce _geotagsSerivce;
     private readonly ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> _logger;
     private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
     private readonly IMartenOutbox _outbox;
@@ -30,6 +32,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         IDocumentSession session,
         IClock clock,
         IGrarClient grarClient,
+        IGeotagsSerivce geotagsSerivce,
         ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
@@ -39,6 +42,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         _session = session;
         _clock = clock;
         _grarClient = grarClient;
+        _geotagsSerivce = geotagsSerivce;
         _logger = logger;
     }
 
@@ -58,6 +62,8 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
                 return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
         }
 
+        var geotags = await _geotagsSerivce.CalculateGeotagsByPostcode(GetPostcodesFromLocaties(command.Locaties));
+
         var vCode = await _vCodeService.GetNext();
 
         var vereniging = Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
@@ -73,6 +79,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
             message.Command.Vertegenwoordigers,
             command.HoofdactiviteitenVerenigingsloket,
             command.Werkingsgebieden,
+            geotags,
             _clock);
 
         var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
@@ -104,5 +111,13 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         {
             await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(vCode.Value, teSynchroniserenLocatie.LocatieId));
         }
+    }
+
+    private static string[] GetPostcodesFromLocaties(Locatie[] locaties)
+    {
+        return locaties
+                      .Where(x => x.Adres?.Postcode != null)
+                      .Select(x => x.Adres!.Postcode)
+                      .ToArray();
     }
 }

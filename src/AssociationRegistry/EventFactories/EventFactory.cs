@@ -5,6 +5,7 @@ using GemeentenaamDecorator;
 using Grar.Models;
 using Kbo;
 using Vereniging;
+using Vereniging.Geotags;
 
 public static class EventFactory
 {
@@ -365,4 +366,7 @@ public static class EventFactory
         => new(vCode,
                identificatie,
                beschrijving);
+
+    public static IEvent GeotagsWerdenBepaald(VCode vCode, GeoTag[] geotags)
+    => new GeotagsWerdenBepaald(vCode, geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
 }

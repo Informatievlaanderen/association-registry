@@ -821,6 +821,9 @@ public record VerenigingState : IHasVersion
             Verenigingssubtype = Verenigingssubtype.Apply(@event),
         };
 
+    public VerenigingState Apply(GeotagsWerdenBepaald @event)
+        => this;
+
     public void ThrowIfVerwijderd()
     {
         if (IsVerwijderd)

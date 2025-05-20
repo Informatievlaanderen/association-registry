@@ -74,6 +74,7 @@ public class With_A_Duplicate_PhoneNumber
                                                      toeTeVoegenVertegenwoordigers: [],
                                                      hoofdactiviteitenVerenigingsloketLijst: [],
                                                      werkingsgebieden: [],
+                                                     geotags: [],
                                                      clock: new ClockStub(DateTime.Today)));
     }
 }
