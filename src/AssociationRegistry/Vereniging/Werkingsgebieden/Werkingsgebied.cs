@@ -18,8 +18,3 @@ public record Werkingsgebied
     public static Werkingsgebied Hydrate(string nuts, string lau, string naam)
         => new Werkingsgebied($"{nuts}{lau}", naam);
 }
-
-public class MogelijkeWerkingsgebieden
-{
-
-}
