@@ -18,6 +18,7 @@ public class VerenigingZoekUpdateDocument
     public VerenigingZoekDocument.Types.Verenigingssubtype? Verenigingssubtype { get; set; }
     public VerenigingZoekDocument.Types.SubverenigingVan? SubverenigingVan { get; set; }
     public VerenigingZoekDocument.Types.Werkingsgebied[]? Werkingsgebieden { get; set; } = null!;
+    public VerenigingZoekDocument.Types.Geotag[]? Geotags { get; set; } = null!;
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string? Status { get; set; } = null!;
     public bool? IsVerwijderd { get; set; } = null;
