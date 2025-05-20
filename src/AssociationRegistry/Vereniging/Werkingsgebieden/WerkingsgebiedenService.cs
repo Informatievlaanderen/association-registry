@@ -23,16 +23,7 @@ public class WerkingsgebiedenService : IWerkingsgebiedenService
     {
         var postalNutsLauInfos = _session.Query<PostalNutsLauInfo>().ToList();
 
-        var nutsLauWerkingsgebieden = postalNutsLauInfos
-           .Select(x => Werkingsgebied.Hydrate($"{x.Nuts}{x.Lau}", x.Gemeentenaam));
-
-        var all = WellKnownWerkingsgebieden.Provincies
-                                .Concat(nutsLauWerkingsgebieden)
-                                .Append(Werkingsgebied.NietVanToepassing)
-                                .Distinct()
-                                .ToList();
-
-        return all;
+        return MogelijkeWerkingsgebieden.FromPostalNutsLauInfo(postalNutsLauInfos);
     }
 
     public Werkingsgebied Create(string code)
