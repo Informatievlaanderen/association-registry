@@ -11,6 +11,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Microsoft.Extensions.Logging;
 using Moq;

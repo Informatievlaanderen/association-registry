@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Xunit;
 
 public class Given_A_Reeds_Gewijzigd_Lidmaatschap

@@ -10,6 +10,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Microsoft.Extensions.Logging;
 using Moq;

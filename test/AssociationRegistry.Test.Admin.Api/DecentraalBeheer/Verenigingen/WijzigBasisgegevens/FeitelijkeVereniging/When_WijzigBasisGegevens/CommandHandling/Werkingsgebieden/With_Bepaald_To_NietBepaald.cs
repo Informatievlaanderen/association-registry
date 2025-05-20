@@ -4,6 +4,7 @@ using AssociationRegistry.EventFactories;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Xunit;
 
 public class With_Bepaald_To_NietBepaald

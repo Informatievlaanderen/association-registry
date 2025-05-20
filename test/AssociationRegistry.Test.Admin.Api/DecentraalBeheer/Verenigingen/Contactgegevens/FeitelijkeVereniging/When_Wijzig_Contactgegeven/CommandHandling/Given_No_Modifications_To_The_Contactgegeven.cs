@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Xunit;
 

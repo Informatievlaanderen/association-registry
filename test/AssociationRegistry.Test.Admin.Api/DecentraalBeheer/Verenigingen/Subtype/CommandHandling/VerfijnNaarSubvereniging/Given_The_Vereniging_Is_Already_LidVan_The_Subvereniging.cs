@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Resources;
 using Vereniging.Exceptions;

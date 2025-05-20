@@ -7,6 +7,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using EventFactories;
 using Events;
 using Microsoft.Extensions.Logging.Abstractions;

@@ -9,6 +9,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging;

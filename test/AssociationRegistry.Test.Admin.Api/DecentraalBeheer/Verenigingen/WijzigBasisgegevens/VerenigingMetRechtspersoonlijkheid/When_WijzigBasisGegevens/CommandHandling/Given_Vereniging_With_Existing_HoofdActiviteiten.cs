@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRec
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Xunit;
 
 public class Given_Vereniging_With_Existing_HoofdActiviteiten

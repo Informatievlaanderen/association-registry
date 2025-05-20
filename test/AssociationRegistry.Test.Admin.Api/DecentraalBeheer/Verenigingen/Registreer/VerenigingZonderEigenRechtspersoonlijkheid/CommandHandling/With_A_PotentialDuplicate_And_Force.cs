@@ -13,6 +13,8 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonder
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
+using Common.StubsMocksFakes.Clocks;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;

@@ -9,6 +9,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
 using Moq;
 using Vereniging;

@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Vereniging.Emails;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Xunit;
 

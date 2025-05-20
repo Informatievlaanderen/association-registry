@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Xunit;
 
 public class With_One_Locatie

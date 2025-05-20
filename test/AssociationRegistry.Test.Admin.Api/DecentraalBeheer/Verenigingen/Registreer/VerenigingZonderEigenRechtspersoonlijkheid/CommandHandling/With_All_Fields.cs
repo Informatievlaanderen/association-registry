@@ -10,6 +10,9 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
+using Common.StubsMocksFakes;
+using Common.StubsMocksFakes.Clocks;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -21,36 +24,33 @@ using Xunit;
 
 public class With_All_Fields
 {
-    private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
     private readonly StubVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly ClockStub _clock;
+    private readonly Fixture _fixture;
+    private readonly IGeotagsService _geotagsService;
+    private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
     private GeoTag[] _geotags;
-    private ClockStub _clock;
-    private Fixture _fixture;
-    private Mock<IGeotagsService> _geotagsService;
 
     public With_All_Fields()
     {
         _fixture = new Fixture().CustomizeAdminApi();
-        var vCode = _fixture.Create<VCode>();
-
-        _verenigingRepositoryMock = new VerenigingRepositoryMock();
-        _vCodeService = new StubVCodeService(vCode);
-        _clock = new ClockStub(_fixture.Create<DateOnly>());
-        _geotagsService = new Mock<IGeotagsService>();
-
-        _geotags = _fixture.CreateMany<GeoTag>().ToArray();
+        var faktory = Faktory.New(_fixture);
+        var today = _fixture.Create<DateOnly>();
 
         _command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>()
-            with { Startdatum = Datum.Hydrate(_clock.Today.AddDays(-1))};
+            with { Startdatum = Datum.Hydrate(today.AddDays(-1))};
 
-        _geotagsService.Setup(x => x.CalculateGeotags(_command.Locaties))
-                       .ReturnsAsync(_geotags);
+        _verenigingRepositoryMock = faktory.VerenigingsRepository.Mock();
+        _vCodeService = faktory.VCodeService.Stub(_fixture.Create<VCode>());
+        (_geotagsService, _geotags) = faktory.GeotagsService.MockWithRandomGeotags(_command.Locaties);
+        _clock = faktory.Clock.Stub(today);
     }
 
     [Fact]
     public void Then_it_saves_the_event()
     {
+
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         var commandHandler =
@@ -61,7 +61,7 @@ public class With_All_Fields
                                                                                    Mock.Of<IDocumentSession>(),
                                                                                    _clock,
                                                                                    Mock.Of<IGrarClient>(),
-                                                                                   _geotagsService.Object,
+                                                                                   _geotagsService,
                                                                                    NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler

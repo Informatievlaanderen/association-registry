@@ -11,6 +11,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Moq;
 using Wolverine.Marten;

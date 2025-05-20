@@ -5,6 +5,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Dubbelbeheer.AanvaardCorrectieDubbel;
 using Xunit;
 
