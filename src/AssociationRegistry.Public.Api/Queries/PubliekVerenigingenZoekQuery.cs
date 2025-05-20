@@ -29,22 +29,6 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
         _typeMapping = typeMapping;
     }
 
-    public async Task Explain(string vCode, PubliekVerenigingenZoekFilter filter)
-    {
-        var explainResponse = _client.Explain<VerenigingZoekDocument>(vCode, descriptor => descriptor.Query(query => query
-                                                                             .Bool(boolQueryDescriptor => boolQueryDescriptor
-                                                                                      .Must(queryContainerDescriptor
-                                                                                                => MatchQueryString(
-                                                                                                    queryContainerDescriptor,
-                                                                                                    $"{filter.Query}{BuildHoofdActiviteiten(filter.Hoofdactiviteiten)}"),
-                                                                                            BeActief
-                                                                                       )
-                                                                                      .MustNot(
-                                                                                           BeUitgeschrevenUitPubliekeDatastroom,
-                                                                                           BeRemoved,
-                                                                                           BeDubbel)
-                                                                              )));
-    }
 
     public async Task<ISearchResponse<VerenigingZoekDocument>> ExecuteAsync(PubliekVerenigingenZoekFilter filter, CancellationToken cancellationToken)
         => await _client.SearchAsync<VerenigingZoekDocument>(
@@ -54,19 +38,7 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                       .From(filter.PaginationQueryParams.Offset)
                       .Size(filter.PaginationQueryParams.Limit)
                       .ParseSort(filter.Sort, DefaultSort, _typeMapping)
-                      .Query(query => query
-                                .Bool(boolQueryDescriptor => boolQueryDescriptor
-                                                            .Must(queryContainerDescriptor
-                                                                      => MatchQueryString(
-                                                                          queryContainerDescriptor,
-                                                                          $"{filter.Query}{BuildHoofdActiviteiten(filter.Hoofdactiviteiten)}"),
-                                                                  BeActief
-                                                             )
-                                                            .MustNot(
-                                                                 BeUitgeschrevenUitPubliekeDatastroom,
-                                                                 BeRemoved,
-                                                                 BeDubbel)
-                                 )
+                      .Query(query => MainQuery(filter, query)
                        )
                       .Aggregations(
                            agg =>
@@ -82,6 +54,23 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                        )
                       .TrackTotalHits();
             }, cancellationToken);
+
+    public static QueryContainer MainQuery(PubliekVerenigingenZoekFilter filter, QueryContainerDescriptor<VerenigingZoekDocument> query)
+    {
+        return query
+           .Bool(boolQueryDescriptor => boolQueryDescriptor
+                                       .Must(queryContainerDescriptor
+                                                 => MatchQueryString(
+                                                     queryContainerDescriptor,
+                                                     $"{filter.Query}{BuildHoofdActiviteiten(filter.Hoofdactiviteiten)}"),
+                                             BeActief
+                                        )
+                                       .MustNot(
+                                            BeUitgeschrevenUitPubliekeDatastroom,
+                                            BeRemoved,
+                                            BeDubbel)
+            );
+    }
 
     private static IAggregationContainer GlobalAggregation<T>(
         AggregationContainerDescriptor<T> agg,
