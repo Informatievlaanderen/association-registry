@@ -3,6 +3,7 @@
 using AssociationRegistry.Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Xunit;
 
 public class Given_Already_Ontkoppelde_Locatie

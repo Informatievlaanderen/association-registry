@@ -10,6 +10,7 @@ using AssociationRegistry.Vereniging.Emails;
 using AssociationRegistry.Vereniging.SocialMedias;
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Xunit;
 
 public class Given_A_Vertegenwoordiger

@@ -4,6 +4,7 @@ using AssociationRegistry.Notifications;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using EventFactories;
 using Microsoft.Extensions.Logging.Abstractions;

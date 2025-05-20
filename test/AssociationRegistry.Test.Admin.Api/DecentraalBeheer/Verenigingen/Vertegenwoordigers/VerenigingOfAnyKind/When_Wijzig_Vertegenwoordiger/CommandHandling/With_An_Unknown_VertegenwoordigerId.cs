@@ -10,6 +10,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AssociationRegistry.Vereniging.SocialMedias;
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Xunit;
 

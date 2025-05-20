@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.Common.Framework;
+﻿namespace AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
-using Events;
-using EventStore;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
-using Vereniging;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {

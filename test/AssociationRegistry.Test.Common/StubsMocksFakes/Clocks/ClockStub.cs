@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.Framework.Fakes;
+namespace AssociationRegistry.Test.Common.StubsMocksFakes.Clocks;
 
 using AssociationRegistry.Framework;
 

@@ -7,6 +7,7 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
 using Xunit;
 

@@ -8,6 +8,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Dubbelbeheer.MarkeerAlsDubbelVan;
 using FluentAssertions;
 using Marten;

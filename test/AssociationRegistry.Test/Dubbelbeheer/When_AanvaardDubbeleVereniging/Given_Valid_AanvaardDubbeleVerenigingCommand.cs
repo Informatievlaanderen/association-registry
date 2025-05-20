@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 using Moq;
 using Wolverine;

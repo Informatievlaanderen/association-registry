@@ -28,9 +28,5 @@
     <EmbeddedResource Include="templates\adminApi\ZoekVerenigingenResponse.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Stubs\" />
-  </ItemGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

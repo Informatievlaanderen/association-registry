@@ -8,6 +8,8 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.Clocks;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 
 public static class WerkingsgebiedenScenarioRunner
 {

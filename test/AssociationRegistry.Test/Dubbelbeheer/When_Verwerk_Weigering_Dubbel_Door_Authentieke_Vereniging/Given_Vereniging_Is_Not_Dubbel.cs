@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;

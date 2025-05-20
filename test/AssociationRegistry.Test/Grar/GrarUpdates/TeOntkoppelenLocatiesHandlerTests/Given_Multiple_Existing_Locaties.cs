@@ -5,6 +5,7 @@ using AssociationRegistry.Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Xunit;
 
 public class Given_Multiple_Existing_Locatie
