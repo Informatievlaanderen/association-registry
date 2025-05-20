@@ -23,7 +23,7 @@ public class RegistreerFeitelijkeVerenigingRequestExamples : IExamplesProvider<R
             },
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitVerenigingsloket
                                                .All().Take(5).Select(h => h.Code).ToArray(),
-            Werkingsgebieden = Werkingsgebied.AllExamples.Take(5).Select(h => h.Code).ToArray(),
+            Werkingsgebieden = ["BE2122223", "BE2411540"],
             Locaties =
             [
                 new ToeTeVoegenLocatie

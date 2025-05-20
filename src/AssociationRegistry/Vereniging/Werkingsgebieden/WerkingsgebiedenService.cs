@@ -26,7 +26,7 @@ public class WerkingsgebiedenService : IWerkingsgebiedenService
         var nutsLauWerkingsgebieden = postalNutsLauInfos
            .Select(x => Werkingsgebied.Hydrate($"{x.Nuts}{x.Lau}", x.Gemeentenaam));
 
-        var all = Werkingsgebied.ProvincieWerkingsgebieden
+        var all = WellKnownWerkingsgebieden.Provincies
                                 .Concat(nutsLauWerkingsgebieden)
                                 .Append(Werkingsgebied.NietVanToepassing)
                                 .Distinct()

@@ -84,7 +84,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
-        InsertWerkingsGebieden().GetAwaiter().GetResult();
+        InsertNutsLauInfo().GetAwaiter().GetResult();
 
         _adminApiServer.CreateClient();
 
@@ -125,30 +125,14 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                 });
     }
 
-    private async Task InsertWerkingsGebieden()
+    private async Task InsertNutsLauInfo()
     {
         await using var session = DocumentStore.LightweightSession();
 
-        var werkingsgebieden = WerkingsgebiedenServiceMock.All
-                                                          .Where(w => w.Code.Length > 8) // only detailed werkingsgebieden
-                                                          .Select((w, index) =>
-                                                           {
-                                                               var nuts = w.Code.Substring(0, 5);
-                                                               var lau = w.Code.Substring(5);
-                                                               var postcode = (1000 + index).ToString();
-
-                                                               return new PostalNutsLauInfo
-                                                               {
-                                                                   Postcode = postcode,
-                                                                   Gemeentenaam = w.Naam,
-                                                                   Nuts = nuts,
-                                                                   Lau = lau
-                                                               };
-                                                           });
-
-        session.StoreObjects(werkingsgebieden);
+        session.StoreObjects(NutsLauInfoMock.All);
         await session.SaveChangesAsync();
     }
+
 
     public IAmazonSQS AmazonSqs { get; set; }
     public ISqsClientWrapper SqsClientWrapper { get; set; }
