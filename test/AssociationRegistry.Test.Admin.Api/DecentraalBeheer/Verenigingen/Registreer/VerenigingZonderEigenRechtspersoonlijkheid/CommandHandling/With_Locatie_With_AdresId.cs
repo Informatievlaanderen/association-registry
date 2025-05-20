@@ -15,6 +15,7 @@ using AutoFixture;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Vereniging.Geotags;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;
@@ -77,6 +78,7 @@ public class With_Locatie_With_AdresId
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
                                                              grarClient.Object,
+                                                             Mock.Of<IGeotagsSerivce>(),
                                                              NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler

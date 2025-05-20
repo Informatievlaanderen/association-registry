@@ -81,6 +81,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using Vereniging;
+using Vereniging.Geotags;
 using Weasel.Core.Migrations;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
@@ -447,6 +448,7 @@ public class Program
                .AddTransient<INutsLauFromGrarFetcher, NutsLauFromGrarFetcher>()
                .AddTransient<INutsAndLauSyncService, NutsAndLauSyncService>()
                .AddTransient<IWerkingsgebiedenService, WerkingsgebiedenService>()
+               .AddTransient<IGeotagsSerivce, GeotagsSerivce>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()

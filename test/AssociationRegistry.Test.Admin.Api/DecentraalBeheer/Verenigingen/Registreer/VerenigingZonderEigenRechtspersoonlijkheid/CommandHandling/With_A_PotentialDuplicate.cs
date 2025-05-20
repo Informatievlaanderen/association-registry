@@ -15,6 +15,7 @@ using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 using Xunit;
 
@@ -63,7 +64,8 @@ public class With_A_PotentialDuplicate
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
             Mock.Of<IGrarClient>(),
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+            Mock.Of<IGeotagsSerivce>(),
+        NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
                                         CancellationToken.None)

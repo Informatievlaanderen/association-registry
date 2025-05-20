@@ -7,6 +7,7 @@ using Events;
 using Exceptions;
 using Framework;
 using GemeentenaamDecorator;
+using Geotags;
 using Grar.Clients;
 using Grar.Exceptions;
 using JasperFx.Core;
@@ -29,6 +30,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Vertegenwoordiger[] toeTeVoegenVertegenwoordigers,
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
         Werkingsgebied[] werkingsgebieden,
+        GeoTag[] geotags,
         IClock clock)
     {
         Throw<StartdatumMagNietInToekomstZijn>.If(startDatum?.IsInFutureOf(clock.Today) ?? false);
@@ -55,6 +57,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             ));
 
         vereniging.RegistreerWerkingsgebieden(werkingsgebieden);
+
+        if(geotags.Length != 0)
+            vereniging.AddEvent(EventFactory.GeotagsWerdenBepaald(vCode, geotags));
 
         return vereniging;
     }

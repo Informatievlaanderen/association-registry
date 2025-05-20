@@ -12,6 +12,7 @@ using AutoFixture;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 using Xunit;
 
@@ -20,11 +21,13 @@ public class With_All_Fields
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private GeoTag[] _geotags;
 
     public With_All_Fields()
     {
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
+
 
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -32,6 +35,13 @@ public class With_All_Fields
         var clock = new ClockStub(_command.Startdatum.Value);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
+
+        _geotags = fixture.CreateMany<GeoTag>().ToArray();
+        var geotagsService = new Mock<IGeotagsSerivce>();
+        var postcodes = _command.Locaties.Select(x => x.Adres.Postcode).ToArray();
+
+        geotagsService.Setup(x => x.CalculateGeotagsByPostcode(postcodes))
+                      .ReturnsAsync(_geotags);
 
         var commandHandler =
             new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(_verenigingRepositoryMock,
@@ -41,6 +51,7 @@ public class With_All_Fields
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
                                                              Mock.Of<IGrarClient>(),
+                                                             geotagsService.Object,
                                                              NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler
@@ -110,9 +121,13 @@ public class With_All_Fields
             vCode,
             _command.Werkingsgebieden.Select(h => new Registratiedata.Werkingsgebied(h.Code, h.Naam)).ToArray());
 
+        var geotagsWerdenBepaald =
+            new GeotagsWerdenBepaald(vCode, _geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
+
         _verenigingRepositoryMock.ShouldHaveSaved(
              VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
-            werkingsgebiedenWerdenBepaald
+            werkingsgebiedenWerdenBepaald,
+            geotagsWerdenBepaald
         );
     }
 }

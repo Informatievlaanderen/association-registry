@@ -7,6 +7,8 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class Given_A_New_Vereniging : IAsyncLifetime
@@ -32,14 +34,15 @@ public class Given_A_New_Vereniging : IAsyncLifetime
             korteNaam: null,
             korteBeschrijving: null,
             startDatum: null,
-            Doelgroep.Null,
+            doelgroep: Doelgroep.Null,
             uitgeschrevenUitPubliekeDatastroom: false,
-            Array.Empty<Contactgegeven>(),
-            Array.Empty<Locatie>(),
-            Array.Empty<Vertegenwoordiger>(),
-            Array.Empty<HoofdactiviteitVerenigingsloket>(),
-            Array.Empty<Werkingsgebied>(),
-            new ClockStub(DateTime.Today));
+            toeTeVoegenContactgegevens: Array.Empty<Contactgegeven>(),
+            toeTeVoegenLocaties: Array.Empty<Locatie>(),
+            toeTeVoegenVertegenwoordigers: Array.Empty<Vertegenwoordiger>(),
+            hoofdactiviteitenVerenigingsloketLijst: Array.Empty<HoofdactiviteitVerenigingsloket>(),
+            werkingsgebieden: Array.Empty<Werkingsgebied>(),
+            geotags: [],
+            clock: new ClockStub(DateTime.Today));
     }
 
     public async ValueTask InitializeAsync()

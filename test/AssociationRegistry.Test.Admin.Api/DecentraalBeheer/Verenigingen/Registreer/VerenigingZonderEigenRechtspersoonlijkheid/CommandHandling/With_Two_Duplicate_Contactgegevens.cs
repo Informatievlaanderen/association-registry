@@ -13,6 +13,7 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 using Xunit;
 
@@ -46,6 +47,7 @@ public class With_Two_Duplicate_Contactgegevens
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
             Mock.Of<IGrarClient>(),
+            Mock.Of<IGeotagsSerivce>(),
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata);

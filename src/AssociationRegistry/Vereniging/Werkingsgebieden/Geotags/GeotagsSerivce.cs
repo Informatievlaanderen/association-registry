@@ -3,7 +3,12 @@
 using Grar.NutsLau;
 using Marten;
 
-public class GeotagsSerivce
+public interface IGeotagsSerivce
+{
+    Task<GeoTag[]> CalculateGeotagsByPostcode(string[] postcodes);
+}
+
+public class GeotagsSerivce : IGeotagsSerivce
 {
     private readonly IDocumentSession _session;
 
