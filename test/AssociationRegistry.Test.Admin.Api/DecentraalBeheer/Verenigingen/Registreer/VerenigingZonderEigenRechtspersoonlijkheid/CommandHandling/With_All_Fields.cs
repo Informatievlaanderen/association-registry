@@ -9,9 +9,12 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
+using Common.Stubs.VCodeServices;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using ResultNet;
+using Vereniging;
 using Vereniging.Geotags;
 using Wolverine.Marten;
 using Xunit;
@@ -19,54 +22,55 @@ using Xunit;
 public class With_All_Fields
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
-    private readonly InMemorySequentialVCodeService _vCodeService;
+    private readonly StubVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private GeoTag[] _geotags;
+    private ClockStub _clock;
+    private Fixture _fixture;
+    private Mock<IGeotagsService> _geotagsService;
 
     public With_All_Fields()
     {
+        _fixture = new Fixture().CustomizeAdminApi();
+        var vCode = _fixture.Create<VCode>();
+
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
-        _vCodeService = new InMemorySequentialVCodeService();
+        _vCodeService = new StubVCodeService(vCode);
+        _clock = new ClockStub(_fixture.Create<DateOnly>());
+        _geotagsService = new Mock<IGeotagsService>();
 
+        _geotags = _fixture.CreateMany<GeoTag>().ToArray();
 
-        var fixture = new Fixture().CustomizeAdminApi();
+        _command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>()
+            with { Startdatum = Datum.Hydrate(_clock.Today.AddDays(-1))};
 
-        _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>();
-        var clock = new ClockStub(_command.Startdatum.Value);
-
-        var commandMetadata = fixture.Create<CommandMetadata>();
-
-        _geotags = fixture.CreateMany<GeoTag>().ToArray();
-        var geotagsService = new Mock<IGeotagsSerivce>();
-        var postcodes = _command.Locaties.Select(x => x.Adres.Postcode).ToArray();
-
-        geotagsService.Setup(x => x.CalculateGeotagsByPostcode(postcodes))
-                      .ReturnsAsync(_geotags);
-
-        var commandHandler =
-            new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(_verenigingRepositoryMock,
-                                                             _vCodeService,
-                                                             new NoDuplicateVerenigingDetectionService(),
-                                                             Mock.Of<IMartenOutbox>(),
-                                                             Mock.Of<IDocumentSession>(),
-                                                             clock,
-                                                             Mock.Of<IGrarClient>(),
-                                                             geotagsService.Object,
-                                                             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
-
-        commandHandler
-           .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata), CancellationToken.None)
-           .GetAwaiter()
-           .GetResult();
+        _geotagsService.Setup(x => x.CalculateGeotags(_command.Locaties))
+                       .ReturnsAsync(_geotags);
     }
 
     [Fact]
     public void Then_it_saves_the_event()
     {
-        var vCode = _vCodeService.GetLast();
+        var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        var  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-            vCode,
+        var commandHandler =
+            new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(_verenigingRepositoryMock,
+                                                                                   _vCodeService,
+                                                                                   new NoDuplicateVerenigingDetectionService(),
+                                                                                   Mock.Of<IMartenOutbox>(),
+                                                                                   Mock.Of<IDocumentSession>(),
+                                                                                   _clock,
+                                                                                   Mock.Of<IGrarClient>(),
+                                                                                   _geotagsService.Object,
+                                                                                   NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+
+        commandHandler
+                       .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata), CancellationToken.None)
+                       .GetAwaiter()
+                       .GetResult();
+
+        var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+            _vCodeService.VCode,
             _command.Naam,
             _command.KorteNaam ?? string.Empty,
             _command.KorteBeschrijving ?? string.Empty,
@@ -118,14 +122,14 @@ public class With_All_Fields
             ).ToArray());
 
         var werkingsgebiedenWerdenBepaald = new WerkingsgebiedenWerdenBepaald(
-            vCode,
+            _vCodeService.VCode,
             _command.Werkingsgebieden.Select(h => new Registratiedata.Werkingsgebied(h.Code, h.Naam)).ToArray());
 
         var geotagsWerdenBepaald =
-            new GeotagsWerdenBepaald(vCode, _geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
+            new GeotagsWerdenBepaald(_vCodeService.VCode, _geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
 
         _verenigingRepositoryMock.ShouldHaveSaved(
-             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+             verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
             werkingsgebiedenWerdenBepaald,
             geotagsWerdenBepaald
         );

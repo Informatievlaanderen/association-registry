@@ -10,6 +10,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.Stubs.VCodeServices;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -56,7 +57,7 @@ public class With_Required_Fields
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
                                                              Mock.Of<IGrarClient>(),
-                                                             Mock.Of<IGeotagsSerivce>(),
+                                                             Mock.Of<IGeotagsService>(),
                                                              NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler

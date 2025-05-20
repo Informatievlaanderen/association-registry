@@ -16,7 +16,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 {
     private readonly IClock _clock;
     private readonly IGrarClient _grarClient;
-    private readonly IGeotagsSerivce _geotagsSerivce;
+    private readonly IGeotagsService _geotagsService;
     private readonly ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> _logger;
     private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
     private readonly IMartenOutbox _outbox;
@@ -32,7 +32,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         IDocumentSession session,
         IClock clock,
         IGrarClient grarClient,
-        IGeotagsSerivce geotagsSerivce,
+        IGeotagsService geotagsService,
         ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
@@ -42,7 +42,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         _session = session;
         _clock = clock;
         _grarClient = grarClient;
-        _geotagsSerivce = geotagsSerivce;
+        _geotagsService = geotagsService;
         _logger = logger;
     }
 
@@ -62,24 +62,10 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
                 return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
         }
 
-        var geotags = await _geotagsSerivce.CalculateGeotagsByPostcode(GetPostcodesFromLocaties(command.Locaties));
-
-        var vCode = await _vCodeService.GetNext();
-
-        var vereniging = Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
-            vCode,
-            command.Naam,
-            command.KorteNaam,
-            command.KorteBeschrijving,
-            command.Startdatum,
-            command.Doelgroep,
-            command.IsUitgeschrevenUitPubliekeDatastroom,
-            command.Contactgegevens,
-            command.Locaties,
-            message.Command.Vertegenwoordigers,
-            command.HoofdactiviteitenVerenigingsloket,
-            command.Werkingsgebieden,
-            geotags,
+        var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
+            command,
+            _vCodeService,
+            _geotagsService,
             _clock);
 
         var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
@@ -87,14 +73,14 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 
         foreach (var teSynchroniserenLocatie in toegevoegdeLocaties)
         {
-            await SynchroniseerLocatie(cancellationToken, teSynchroniserenLocatie, vereniging, vCode);
+            await SynchroniseerLocatie(cancellationToken, teSynchroniserenLocatie, vereniging, vereniging.VCode);
         }
 
         var result = await _verenigingsRepository.SaveNew(vereniging, _session ,message.Metadata, cancellationToken);
 
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} end");
 
-        return Result.Success(CommandResult.Create(vCode, result));
+        return Result.Success(CommandResult.Create(vereniging.VCode, result));
     }
 
     private async Task SynchroniseerLocatie(
@@ -111,13 +97,5 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         {
             await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(vCode.Value, teSynchroniserenLocatie.LocatieId));
         }
-    }
-
-    private static string[] GetPostcodesFromLocaties(Locatie[] locaties)
-    {
-        return locaties
-                      .Where(x => x.Adres?.Postcode != null)
-                      .Select(x => x.Adres!.Postcode)
-                      .ToArray();
     }
 }

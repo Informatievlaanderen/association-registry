@@ -5,6 +5,10 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using Common.Stubs.VCodeServices;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_Duplicate_PhoneNumber
@@ -40,41 +44,51 @@ public class With_A_Duplicate_PhoneNumber
     [InlineData("0032412345678", "0032 412 34 56 78")]
     [InlineData("0031203690664", "+31 (0)20 369 0664")]
     [InlineData("004989998280450", "+4989 9982804-50")]
-    public void Then_Throws_ContactgegevenIsDuplicaatExceptions(string waarde, string otherWaarde)
+    public async ValueTask Then_Throws_ContactgegevenIsDuplicaatExceptions(string waarde, string otherWaarde)
     {
         var fixture = new Fixture().CustomizeDomain();
         var vCode = VCode.Create(1001);
-        var naam = VerenigingsNaam.Create("Vereniging 1");
-        const string beschrijving = "zelfde beschrijving";
 
-        Assert.Throws<ContactgegevenIsDuplicaat>(() => Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
-                                                     vCode: vCode,
-                                                     naam: naam,
-                                                     korteNaam: null,
-                                                     korteBeschrijving: null,
-                                                     startDatum: null,
-                                                     doelgroep: Doelgroep.Null,
-                                                     uitgeschrevenUitPubliekeDatastroom: false,
-                                                     toeTeVoegenContactgegevens:
-                                                     [
-                                                         fixture.Create<Contactgegeven>() with
-                                                         {
-                                                             Beschrijving = beschrijving,
-                                                             Contactgegeventype = Contactgegeventype.Telefoon,
-                                                             Waarde = waarde,
-                                                         },
-                                                         fixture.Create<Contactgegeven>() with
-                                                         {
-                                                             Beschrijving = beschrijving,
-                                                             Contactgegeventype = Contactgegeventype.Telefoon,
-                                                             Waarde = waarde,
-                                                         },
-                                                     ],
-                                                     toeTeVoegenLocaties: [],
-                                                     toeTeVoegenVertegenwoordigers: [],
-                                                     hoofdactiviteitenVerenigingsloketLijst: [],
-                                                     werkingsgebieden: [],
-                                                     geotags: [],
-                                                     clock: new ClockStub(DateTime.Today)));
+        var vCodeService = new StubVCodeService(vCode);
+
+        var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
+            Naam: fixture.Create<VerenigingsNaam>(),
+            KorteNaam: null,
+            KorteBeschrijving: null,
+            Startdatum: null,
+            Doelgroep: Doelgroep.Null,
+            IsUitgeschrevenUitPubliekeDatastroom: false,
+            Contactgegevens: CreateDuplicateContactgegevens(waarde, fixture),
+            Locaties: [],
+            Vertegenwoordigers: [],
+            HoofdactiviteitenVerenigingsloket: [],
+            Werkingsgebieden: []);
+
+        await Assert.ThrowsAsync<ContactgegevenIsDuplicaat>(() => Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
+                                                                command,
+                                                                vCodeService,
+                                                                Mock.Of<IGeotagsService>(),
+                                                                clock: new ClockStub(DateTime.Today)));
+    }
+
+    private static Contactgegeven[] CreateDuplicateContactgegevens(string waarde, Fixture fixture)
+    {
+        var beschrijving = "zelfde beschrijving";
+
+        return
+        [
+            fixture.Create<Contactgegeven>() with
+            {
+                Beschrijving = beschrijving,
+                Contactgegeventype = Contactgegeventype.Telefoon,
+                Waarde = waarde,
+            },
+            fixture.Create<Contactgegeven>() with
+            {
+                Beschrijving = beschrijving,
+                Contactgegeventype = Contactgegeventype.Telefoon,
+                Waarde = waarde,
+            },
+        ];
     }
 }

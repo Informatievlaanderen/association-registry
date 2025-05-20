@@ -10,6 +10,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.Stubs.VCodeServices;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -53,7 +54,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             Mock.Of<IDocumentSession>(),
             new ClockStub(_command.Startdatum.Value),
             Mock.Of<IGrarClient>(),
-            Mock.Of<IGeotagsSerivce>(),
+            Mock.Of<IGeotagsService>(),
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
     }
 

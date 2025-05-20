@@ -10,6 +10,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.Stubs.VCodeServices;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -64,7 +65,7 @@ public class With_A_PotentialDuplicate
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
             Mock.Of<IGrarClient>(),
-            Mock.Of<IGeotagsSerivce>(),
+            Mock.Of<IGeotagsService>(),
         NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),

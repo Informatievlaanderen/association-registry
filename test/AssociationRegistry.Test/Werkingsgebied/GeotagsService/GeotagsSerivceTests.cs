@@ -6,19 +6,19 @@ using FluentAssertions;
 using Vereniging.Geotags;
 using Xunit;
 
-public class GeotagsSerivceTests
+public class GeotagsServiceTests
 {
-    private GeotagsSerivce _sut;
+    private GeotagsService _sut;
 
-    public GeotagsSerivceTests()
+    public GeotagsServiceTests()
     {
         var nutsLauInfos = getPostalNutsLauData();
-        var documentstore = TestDocumentStoreFactory.CreateAsync(nameof(GeotagsSerivceTests)).GetAwaiter().GetResult();
+        var documentstore = TestDocumentStoreFactory.CreateAsync(nameof(GeotagsServiceTests)).GetAwaiter().GetResult();
         using var session = documentstore.LightweightSession();
         session.StoreObjects(nutsLauInfos);
         session.SaveChangesAsync().GetAwaiter().GetResult();
 
-        _sut = new GeotagsSerivce(session);
+        _sut = new GeotagsService(session);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class GeotagsSerivceTests
     {
         var nonMatchingPostalCodes = new[]{"1","2"};
 
-        var actual = await _sut.CalculateGeotagsByPostcode(nonMatchingPostalCodes);
+        var actual = await _sut.CalculateGeotags(nonMatchingPostalCodes);
 
         actual.Should().BeEmpty();
     }
@@ -36,7 +36,7 @@ public class GeotagsSerivceTests
     {
         var matchingPostalCodes = getPostalNutsLauData().Select(x => x.Postcode).ToArray();
 
-        var actual = await _sut.CalculateGeotagsByPostcode(matchingPostalCodes);
+        var actual = await _sut.CalculateGeotags(matchingPostalCodes);
 
         actual.Should().BeEquivalentTo(GetExpected());
     }

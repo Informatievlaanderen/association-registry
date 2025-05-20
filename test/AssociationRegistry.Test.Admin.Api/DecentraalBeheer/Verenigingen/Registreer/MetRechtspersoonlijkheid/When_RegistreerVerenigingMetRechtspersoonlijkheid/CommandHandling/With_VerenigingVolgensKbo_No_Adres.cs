@@ -9,6 +9,7 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
+using Common.Stubs.VCodeServices;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
