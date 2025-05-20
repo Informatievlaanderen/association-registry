@@ -12,10 +12,10 @@ public class Given_A_List_Of_Werkingsgebieden
     {
         var fixture = new Fixture();
 
-        var werkingsgebieden = Werkingsgebied.AllExamples
-                                                               .OrderBy(_ => fixture.Create<int>())
-                                                               .Take(2)
-                                                               .ToArray();
+        var werkingsgebieden = WellKnownWerkingsgebieden.Provincies
+                                                        .OrderBy(_ => fixture.Create<int>())
+                                                        .Take(2)
+                                                        .ToArray();
 
         Werkingsgebieden.FromArray(werkingsgebieden).Should().BeEquivalentTo(werkingsgebieden);
     }

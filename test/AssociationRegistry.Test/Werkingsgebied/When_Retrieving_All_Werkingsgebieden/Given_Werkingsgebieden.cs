@@ -27,7 +27,7 @@ public class Given_Werkingsgebieden
 
     [Fact]
     public async ValueTask Then_Provincies_Are_In_The_List()
-        => _actual.Should().Contain(Werkingsgebied.ProvincieWerkingsgebieden);
+        => _actual.Should().Contain(WellKnownWerkingsgebieden.Provincies);
 
     [Fact]
     public async ValueTask Then_NVT_Is_In_The_List()

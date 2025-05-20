@@ -15,8 +15,8 @@ public class Given_A_List_Of_Werkingsgebieden_With_NVT
 
         var werkingsgebieden = Werkingsgebieden.NietVanToepassing
                                                .Union(
-                                                    Werkingsgebied
-                                                       .AllExamples
+                                                    WellKnownWerkingsgebieden
+                                                       .Provincies
                                                        .OrderBy(_ => fixture.Create<int>())
                                                        .Take(2)
                                                 )

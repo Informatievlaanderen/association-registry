@@ -23,7 +23,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequestExamples
             },
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitVerenigingsloket
                                                .All().Take(5).Select(h => h.Code).ToArray(),
-            Werkingsgebieden = Werkingsgebied.AllExamples.Take(5).Select(h => h.Code).ToArray(),
+            Werkingsgebieden = [ "BE2411540", "BE2122223"],
             Locaties =
             [
                 new ToeTeVoegenLocatie
