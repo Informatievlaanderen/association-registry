@@ -12,6 +12,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.Stubs.VCodeServices;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -78,7 +79,7 @@ public class With_Locatie_With_AdresId
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
                                                              grarClient.Object,
-                                                             Mock.Of<IGeotagsSerivce>(),
+                                                             Mock.Of<IGeotagsService>(),
                                                              NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler

@@ -4,6 +4,3 @@ public record GeotagsWerdenBepaald(string VCode, Registratiedata.Geotag[] Geotag
 {
 
 }
-
-
-

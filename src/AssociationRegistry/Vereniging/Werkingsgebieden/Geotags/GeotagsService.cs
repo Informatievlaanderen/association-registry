@@ -3,28 +3,36 @@
 using Grar.NutsLau;
 using Marten;
 
-public interface IGeotagsSerivce
+public interface IGeotagsService
 {
-    Task<GeoTag[]> CalculateGeotagsByPostcode(string[] postcodes);
+    Task<GeoTag[]> CalculateGeotags(Locatie[] postcodes);
+    Task<GeoTag[]> CalculateGeotags(string[] postcodes);
+
 }
 
-public class GeotagsSerivce : IGeotagsSerivce
+public class GeotagsService : IGeotagsService
 {
     private readonly IDocumentSession _session;
 
-    public GeotagsSerivce(IDocumentSession session)
+    public GeotagsService(IDocumentSession session)
     {
         _session = session;
     }
 
-    public async Task<GeoTag[]> CalculateGeotagsByPostcode(string[] postcodes)
+    public async Task<GeoTag[]> CalculateGeotags(Locatie[] locaties)
+    {
+        var postcodes = GetPostcodesFromLocaties(locaties);
+
+        return await CalculateGeotags(postcodes);
+    }
+
+    public async Task<GeoTag[]> CalculateGeotags(string[] postcodes)
     {
         var postalNutsLauInfos = _session.Query<PostalNutsLauInfo>()
                                          .Where(x => postcodes.Contains(x.Postcode));
 
         return Map(await postalNutsLauInfos.ToListAsync());
     }
-
 
     private GeoTag[] Map(IReadOnlyList<PostalNutsLauInfo> postalNutsLauInfos)
     {
@@ -40,5 +48,13 @@ public class GeotagsSerivce : IGeotagsSerivce
         }
 
         return geotags.ToArray();
+    }
+
+    private static string[] GetPostcodesFromLocaties(Locatie[] locaties)
+    {
+        return locaties
+              .Where(x => x.Adres?.Postcode != null)
+              .Select(x => x.Adres!.Postcode)
+              .ToArray();
     }
 }

@@ -6,6 +6,8 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.Stubs.VCodeServices;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using FluentAssertions;
 using Moq;
 using Vereniging.Geotags;
@@ -23,26 +25,31 @@ public class Given_A_New_Vereniging : IAsyncLifetime
     {
         _eventStore = new EventStoreMock();
 
-        _repo = new VerenigingsRepository(_eventStore);
+        _repo = new VerenigingsRepository(eventStore: _eventStore);
 
-        _vCode = VCode.Create(1001);
-        _naam = VerenigingsNaam.Create("Vereniging 1");
+        _vCode = VCode.Create(vCode: 1001);
+        _naam = VerenigingsNaam.Create(naam: "Vereniging 1");
+
+        var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
+            Naam: _naam,
+            KorteNaam: null,
+            KorteBeschrijving: null,
+            Startdatum: null,
+            Doelgroep: Doelgroep.Null,
+            IsUitgeschrevenUitPubliekeDatastroom: false,
+            Contactgegevens: [],
+            Locaties: [],
+            Vertegenwoordigers: [],
+            HoofdactiviteitenVerenigingsloket: [],
+            Werkingsgebieden: []
+        );
 
         _vereniging = Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
-            _vCode,
-            _naam,
-            korteNaam: null,
-            korteBeschrijving: null,
-            startDatum: null,
-            doelgroep: Doelgroep.Null,
-            uitgeschrevenUitPubliekeDatastroom: false,
-            toeTeVoegenContactgegevens: Array.Empty<Contactgegeven>(),
-            toeTeVoegenLocaties: Array.Empty<Locatie>(),
-            toeTeVoegenVertegenwoordigers: Array.Empty<Vertegenwoordiger>(),
-            hoofdactiviteitenVerenigingsloketLijst: Array.Empty<HoofdactiviteitVerenigingsloket>(),
-            werkingsgebieden: Array.Empty<Werkingsgebied>(),
-            geotags: [],
-            clock: new ClockStub(DateTime.Today));
+            command,
+            new StubVCodeService(_vCode),
+            Mock.Of<IGeotagsService>(),
+            new ClockStub(now: DateTime.Today))
+                                .GetAwaiter().GetResult();
     }
 
     public async ValueTask InitializeAsync()

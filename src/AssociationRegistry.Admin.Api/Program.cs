@@ -448,7 +448,7 @@ public class Program
                .AddTransient<INutsLauFromGrarFetcher, NutsLauFromGrarFetcher>()
                .AddTransient<INutsAndLauSyncService, NutsAndLauSyncService>()
                .AddTransient<IWerkingsgebiedenService, WerkingsgebiedenService>()
-               .AddTransient<IGeotagsSerivce, GeotagsSerivce>()
+               .AddTransient<IGeotagsService, GeotagsService>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()

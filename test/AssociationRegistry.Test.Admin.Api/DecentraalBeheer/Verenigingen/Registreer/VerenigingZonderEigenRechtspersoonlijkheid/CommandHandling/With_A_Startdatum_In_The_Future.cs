@@ -9,6 +9,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using Common.Stubs.VCodeServices;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -43,7 +44,7 @@ public class With_A_Startdatum_In_The_Future
             Mock.Of<IDocumentSession>(),
             new ClockStub(today),
             Mock.Of<IGrarClient>(),
-            Mock.Of<IGeotagsSerivce>(),
+            Mock.Of<IGeotagsService>(),
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata);

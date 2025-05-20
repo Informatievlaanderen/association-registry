@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Vereniging;
 
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Subtype;
 using Emails;
 using EventFactories;
@@ -17,46 +18,39 @@ using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
-    public static Vereniging RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
-        VCode vCode,
-        VerenigingsNaam naam,
-        string? korteNaam,
-        string? korteBeschrijving,
-        Datum? startDatum,
-        Doelgroep doelgroep,
-        bool uitgeschrevenUitPubliekeDatastroom,
-        Contactgegeven[] toeTeVoegenContactgegevens,
-        Locatie[] toeTeVoegenLocaties,
-        Vertegenwoordiger[] toeTeVoegenVertegenwoordigers,
-        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
-        Werkingsgebied[] werkingsgebieden,
-        GeoTag[] geotags,
+    public static async Task<Vereniging> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
+        RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command,
+        IVCodeService vCodeService,
+        IGeotagsService geotagsService,
         IClock clock)
     {
-        Throw<StartdatumMagNietInToekomstZijn>.If(startDatum?.IsInFutureOf(clock.Today) ?? false);
+        Throw<StartdatumMagNietInToekomstZijn>.If(command.Startdatum?.IsInFutureOf(clock.Today) ?? false);
 
-        var toegevoegdeLocaties = Locaties.Empty.VoegToe(toeTeVoegenLocaties);
-        var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(toeTeVoegenContactgegevens);
-        var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(toeTeVoegenVertegenwoordigers);
+        var vCode = await vCodeService.GetNext();
+        var geotags = await geotagsService.CalculateGeotags(command.Locaties);
+
+        var toegevoegdeLocaties = Locaties.Empty.VoegToe(command.Locaties);
+        var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(command.Contactgegevens);
+        var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(command.Vertegenwoordigers);
 
         var vereniging = new Vereniging();
 
         vereniging.AddEvent(
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
-                naam,
-                korteNaam ?? string.Empty,
-                korteBeschrijving ?? string.Empty,
-                startDatum?.Value,
-                EventFactory.Doelgroep(doelgroep),
-                uitgeschrevenUitPubliekeDatastroom,
+                command.Naam,
+                command.KorteNaam ?? string.Empty,
+                command.KorteBeschrijving ?? string.Empty,
+                command.Startdatum?.Value,
+                EventFactory.Doelgroep(command.Doelgroep),
+                command.IsUitgeschrevenUitPubliekeDatastroom,
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
-                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst))
+                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(command.HoofdactiviteitenVerenigingsloket))
             ));
 
-        vereniging.RegistreerWerkingsgebieden(werkingsgebieden);
+        vereniging.RegistreerWerkingsgebieden(command.Werkingsgebieden);
 
         if(geotags.Length != 0)
             vereniging.AddEvent(EventFactory.GeotagsWerdenBepaald(vCode, geotags));
