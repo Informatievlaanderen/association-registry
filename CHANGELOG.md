@@ -1,3 +1,18 @@
+# [8.239.0](https://github.com/informatievlaanderen/association-registry/compare/v8.238.1...v8.239.0) (2025-05-21)
+
+
+### Bug Fixes
+
+* or-2829 make command metadata less static ([e5f0e02](https://github.com/informatievlaanderen/association-registry/commit/e5f0e02fa52fca44cfc79dd7632c6cf1e319ee53))
+
+
+### Features
+
+* or-2818 implement geotag calculate service ([0aeee30](https://github.com/informatievlaanderen/association-registry/commit/0aeee30e0331d77177e9be8a6ac2653dea992538))
+* or-2818 implement geotags on registreer vzer ([eafbd0a](https://github.com/informatievlaanderen/association-registry/commit/eafbd0ad22dcb760b911b870adc6bc5253eda15c))
+* or-2818 implement GeotagsWerdenBepaald in publiek zoeken ([1c35c47](https://github.com/informatievlaanderen/association-registry/commit/1c35c47a56848e11f6dc5102fc6860a6da5a65d5))
+* or-2818 normalize geotags with regular normalizer ([74a625e](https://github.com/informatievlaanderen/association-registry/commit/74a625e09bdc09b9cc2d1973fbdb2960fd57c9d4))
+
 ## [8.238.1](https://github.com/informatievlaanderen/association-registry/compare/v8.238.0...v8.238.1) (2025-05-16)
 
 
