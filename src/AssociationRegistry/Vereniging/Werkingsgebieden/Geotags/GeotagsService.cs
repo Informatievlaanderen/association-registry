@@ -5,7 +5,7 @@ using Marten;
 
 public interface IGeotagsService
 {
-    Task<GeoTag[]> CalculateGeotags(Locatie[] postcodes);
+    Task<GeoTag[]> CalculateGeotags(Locatie[] locaties, Werkingsgebied[] commandWerkingsgebieden);
     Task<GeoTag[]> CalculateGeotags(string[] postcodes);
 
 }
@@ -19,7 +19,7 @@ public class GeotagsService : IGeotagsService
         _session = session;
     }
 
-    public async Task<GeoTag[]> CalculateGeotags(Locatie[] locaties)
+    public async Task<GeoTag[]> CalculateGeotags(Locatie[] locaties, Werkingsgebied[] commandWerkingsgebieden)
     {
         var postcodes = GetPostcodesFromLocaties(locaties);
 

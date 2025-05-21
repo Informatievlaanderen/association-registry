@@ -32,18 +32,13 @@ public class WijzigBasisgegevensCommandHandler
         Vereniging vereniging,
         bool? isUitgeschrevenUitPubliekeDatastroom)
     {
-        switch (isUitgeschrevenUitPubliekeDatastroom)
-        {
-            case true:
-                vereniging.SchrijfUitUitPubliekeDatastroom();
+        if(isUitgeschrevenUitPubliekeDatastroom is not {} isUitgeschreven)
+            return;
 
-                break;
-
-            case false:
-                vereniging.SchrijfInInPubliekeDatastroom();
-
-                break;
-        }
+        if (isUitgeschreven)
+            vereniging.SchrijfUitUitPubliekeDatastroom();
+        else
+            vereniging.SchrijfInInPubliekeDatastroom();
     }
 
     private static void WijzigHoofdactiviteitenVerenigingsloket(
