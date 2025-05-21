@@ -32,7 +32,7 @@ public class GeotagsService : IGeotagsService
         var postalNutsLauInfos = _session.Query<PostalNutsLauInfo>()
                                          .Where(x => postcodes.Contains(x.Postcode)
                                                   || werkingsgebiedenCodes.Contains(x.Werkingsgebied)
-                                                  || werkingsgebiedenCodes.Contains(x.ProvincieWerkingsgebied));
+                                                  || werkingsgebiedenCodes.Contains(x.Nuts2));
 
         var geoTags = Map(await postalNutsLauInfos.ToListAsync());
         var distinctGeoTags = geoTags.Distinct();
