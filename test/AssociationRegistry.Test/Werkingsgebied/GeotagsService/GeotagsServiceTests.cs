@@ -12,9 +12,9 @@ public class GeotagsServiceTests
 
     public GeotagsServiceTests()
     {
-        var nutsLauInfos = getPostalNutsLauData();
-        var documentstore = TestDocumentStoreFactory.CreateAsync(nameof(GeotagsServiceTests)).GetAwaiter().GetResult();
-        using var session = documentstore.LightweightSession();
+        var nutsLauInfos = GetPostalNutsLauData();
+        var documentStore = TestDocumentStoreFactory.CreateAsync(nameof(GeotagsServiceTests)).GetAwaiter().GetResult();
+        using var session = documentStore.LightweightSession();
         session.StoreObjects(nutsLauInfos);
         session.SaveChangesAsync().GetAwaiter().GetResult();
 
@@ -34,14 +34,14 @@ public class GeotagsServiceTests
     [Fact]
     public async Task  With_MatchingNutsLauInfo_Then_Return_List_Of_Geotags()
     {
-        var matchingPostalCodes = getPostalNutsLauData().Select(x => x.Postcode).ToArray();
+        var matchingPostalCodes = GetPostalNutsLauData().Select(x => x.Postcode).ToArray();
 
         var actual = await _sut.CalculateGeotags(matchingPostalCodes);
 
         actual.Should().BeEquivalentTo(GetExpected());
     }
 
-    private List<PostalNutsLauInfo> getPostalNutsLauData()
+    private List<PostalNutsLauInfo> GetPostalNutsLauData()
         => new()
         {
             new()
@@ -78,3 +78,6 @@ public class GeotagsServiceTests
             new("BE23"),
         ];
 }
+/*
+ * GIVEN
+ */

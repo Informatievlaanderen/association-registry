@@ -27,7 +27,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<StartdatumMagNietInToekomstZijn>.If(command.Startdatum?.IsInFutureOf(clock.Today) ?? false);
 
         var vCode = await vCodeService.GetNext();
-        var geotags = await geotagsService.CalculateGeotags(command.Locaties);
+        var geotags = await geotagsService.CalculateGeotags(command.Locaties, command.Werkingsgebieden);
 
         var toegevoegdeLocaties = Locaties.Empty.VoegToe(command.Locaties);
         var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(command.Contactgegevens);
