@@ -48,7 +48,7 @@ public class GeotagsServiceFactory(Fixture fixture)
 
         var geotags = fixture.CreateMany<GeoTag>().ToArray();
 
-        geotagsService.Setup(x => x.CalculateGeotags(locaties.ToArray()))
+        geotagsService.Setup(x => x.CalculateGeotags(locaties.ToArray(), Array.Empty<Werkingsgebied>()))
                        .ReturnsAsync(geotags);
 
         return (geotagsService.Object, geotags);
