@@ -52,8 +52,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         vereniging.RegistreerWerkingsgebieden(command.Werkingsgebieden);
 
-        if(geotags.Length != 0)
-            vereniging.AddEvent(EventFactory.GeotagsWerdenBepaald(vCode, geotags));
+        vereniging.AddEvent(EventFactory.GeotagsWerdenBepaald(vCode, geotags));
 
         return vereniging;
     }

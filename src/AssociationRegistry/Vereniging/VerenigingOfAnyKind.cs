@@ -8,9 +8,12 @@ using Events;
 using Exceptions;
 using Framework;
 using GemeentenaamDecorator;
-using AssociationRegistry.Grar.AdresMatch;using Grar.Clients;
+using AssociationRegistry.Grar.AdresMatch;
+using Geotags;
+using Grar.Clients;
 using Grar.Exceptions;
 using Grar.Models;
+using Microsoft.FSharp.Control;
 using SocialMedias;
 using System.Diagnostics.Contracts;
 using System.Net;
@@ -370,5 +373,15 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void Hydrate(VerenigingState obj)
     {
         State = obj;
+    }
+
+    public async Task InitialiseerGeotags(IGeotagsService service)
+    {
+        if (State.GeotagsGeinitialiseerd)
+            return;
+
+        var geotags = await service.CalculateGeotags(State.Locaties, State.Werkingsgebieden);
+
+        AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
     }
 }

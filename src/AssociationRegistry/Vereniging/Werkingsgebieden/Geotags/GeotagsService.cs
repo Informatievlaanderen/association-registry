@@ -5,7 +5,7 @@ using Marten;
 
 public interface IGeotagsService
 {
-    Task<GeoTag[]> CalculateGeotags(Locatie[] locaties, Werkingsgebied[] werkingsgebieden);
+    Task<GeoTag[]> CalculateGeotags(IEnumerable<Locatie> locaties, IEnumerable<Werkingsgebied> werkingsgebieden);
     Task<GeoTag[]> CalculateGeotags(string[] postcodes, string[] werkingsgebiedenCodes);
 
 }
@@ -19,7 +19,7 @@ public class GeotagsService : IGeotagsService
         _session = session;
     }
 
-    public async Task<GeoTag[]> CalculateGeotags(Locatie[] locaties, Werkingsgebied[] werkingsgebieden)
+    public async Task<GeoTag[]> CalculateGeotags(IEnumerable<Locatie> locaties, IEnumerable<Werkingsgebied> werkingsgebieden)
     {
         var postcodes = GetPostcodesFromLocaties(locaties);
         var werkingsgebiedenCodes = GetWerkingsgebiedenCodeFromWerkingsgebieden(werkingsgebieden);
@@ -56,7 +56,7 @@ public class GeotagsService : IGeotagsService
         return geotags.ToArray();
     }
 
-    private static string[] GetPostcodesFromLocaties(Locatie[] locaties)
+    private static string[] GetPostcodesFromLocaties(IEnumerable<Locatie> locaties)
     {
         return locaties
               .Where(x => x.Adres?.Postcode != null)
@@ -64,7 +64,7 @@ public class GeotagsService : IGeotagsService
               .ToArray();
     }
 
-    private static string[] GetWerkingsgebiedenCodeFromWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
+    private static string[] GetWerkingsgebiedenCodeFromWerkingsgebieden(IEnumerable<Werkingsgebied> werkingsgebieden)
     {
         return werkingsgebieden.Select(x => x.Code).ToArray();
     }
