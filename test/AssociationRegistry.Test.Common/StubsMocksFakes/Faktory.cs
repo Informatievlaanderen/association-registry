@@ -42,13 +42,15 @@ public class ClockFactory
 
 public class GeotagsServiceFactory(Fixture fixture)
 {
-    public (IGeotagsService Object, GeoTag[] geotags) MockWithRandomGeotags(IEnumerable<Locatie> locaties)
+    public (IGeotagsService Object, GeoTag[] geotags) MockWithRandomGeotags(
+        IEnumerable<Locatie> locaties,
+        Werkingsgebied[] werkingsgebieden)
     {
         var geotagsService = new Mock<IGeotagsService>();
 
         var geotags = fixture.CreateMany<GeoTag>().ToArray();
 
-        geotagsService.Setup(x => x.CalculateGeotags(locaties.ToArray(), Array.Empty<Werkingsgebied>()))
+        geotagsService.Setup(x => x.CalculateGeotags(locaties.ToArray(), werkingsgebieden))
                        .ReturnsAsync(geotags);
 
         return (geotagsService.Object, geotags);

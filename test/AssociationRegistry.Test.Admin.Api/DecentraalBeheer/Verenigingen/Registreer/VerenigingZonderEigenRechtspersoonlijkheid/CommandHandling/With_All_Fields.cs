@@ -43,7 +43,7 @@ public class With_All_Fields
 
         _verenigingRepositoryMock = faktory.VerenigingsRepository.Mock();
         _vCodeService = faktory.VCodeService.Stub(_fixture.Create<VCode>());
-        (_geotagsService, _geotags) = faktory.GeotagsService.MockWithRandomGeotags(_command.Locaties);
+        (_geotagsService, _geotags) = faktory.GeotagsService.MockWithRandomGeotags(_command.Locaties, _command.Werkingsgebieden);
         _clock = faktory.Clock.Stub(today);
     }
 
