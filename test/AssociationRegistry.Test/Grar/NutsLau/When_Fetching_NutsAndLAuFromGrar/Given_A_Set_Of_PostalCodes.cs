@@ -29,7 +29,7 @@ public class Given_A_Set_Of_PostalCodes
         {
             Postcode = x.Postcode,
             Gemeentenaam = x.Gemeentenaam,
-            Nuts = x.Nuts,
+            Nuts3 = x.Nuts,
             Lau = x.Lau,
         }));
     }

@@ -31,7 +31,7 @@ public class GeotagsService : IGeotagsService
     {
         var postalNutsLauInfos = _session.Query<PostalNutsLauInfo>()
                                          .Where(x => postcodes.Contains(x.Postcode)
-                                                  || werkingsgebiedenCodes.Contains(x.Werkingsgebied)
+                                                  || werkingsgebiedenCodes.Contains(x.Nuts3Lau)
                                                   || werkingsgebiedenCodes.Contains(x.Nuts2));
 
         var geoTags = Map(await postalNutsLauInfos.ToListAsync());
@@ -45,8 +45,8 @@ public class GeotagsService : IGeotagsService
         var geotags = new List<GeoTag>();
         foreach (var postalNutsLauInfo in postalNutsLauInfos)
         {
-            var werkingsgebied = postalNutsLauInfo.Nuts + postalNutsLauInfo.Lau;
-            var werkingsgebiedProvincie = postalNutsLauInfo.Nuts[..4];
+            var werkingsgebied = postalNutsLauInfo.Nuts3 + postalNutsLauInfo.Lau;
+            var werkingsgebiedProvincie = postalNutsLauInfo.Nuts3[..4];
             var postcode = postalNutsLauInfo.Postcode;
             geotags.Add(new GeoTag(werkingsgebied));
             geotags.Add(new GeoTag(werkingsgebiedProvincie));

@@ -36,7 +36,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
                 {
                     Postcode = postInfo.Postcode,
                     Gemeentenaam = postInfo.Gemeentenaam,
-                    Nuts = postInfo.Nuts,
+                    Nuts3 = postInfo.Nuts,
                     Lau = postInfo.Lau,
                 });
         }
@@ -51,7 +51,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "3970",
                 Gemeentenaam = "Leopoldsburg",
-                Nuts = "BE224",
+                Nuts3 = "BE224",
                 Lau = "71034",
             }
         },
@@ -60,7 +60,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "9950",
                 Gemeentenaam = "Lievegem",
-                Nuts = "BE234",
+                Nuts3 = "BE234",
                 Lau = "44085",
             }
         },
@@ -69,7 +69,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "9771",
                 Gemeentenaam = "Kruisem",
-                Nuts = "BE235",
+                Nuts3 = "BE235",
                 Lau = "45068",
             }
         },
@@ -78,7 +78,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "3080",
                 Gemeentenaam = "Tervuren",
-                Nuts = "BE242",
+                Nuts3 = "BE242",
                 Lau = "24104",
             }
         },
@@ -87,7 +87,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "2070",
                 Gemeentenaam = "Beveren-Kruibeke-Zwijndrecht",
-                Nuts = "BE236",
+                Nuts3 = "BE236",
                 Lau = "46030",
             }
         },
@@ -96,7 +96,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "3720",
                 Gemeentenaam = "Hasselt",
-                Nuts = "BE224",
+                Nuts3 = "BE224",
                 Lau = "71072",
             }
         },
@@ -105,7 +105,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "3721",
                 Gemeentenaam = "Hasselt",
-                Nuts = "BE224",
+                Nuts3 = "BE224",
                 Lau = "71072",
             }
         },
@@ -114,7 +114,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "3722",
                 Gemeentenaam = "Hasselt",
-                Nuts = "BE224",
+                Nuts3 = "BE224",
                 Lau = "71072",
             }
         },
@@ -123,7 +123,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "3723",
                 Gemeentenaam = "Hasselt",
-                Nuts = "BE224",
+                Nuts3 = "BE224",
                 Lau = "71072",
             }
         },
@@ -132,7 +132,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "3724",
                 Gemeentenaam = "Hasselt",
-                Nuts = "BE224",
+                Nuts3 = "BE224",
                 Lau = "71072",
             }
         },
@@ -141,7 +141,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             {
                 Postcode = "9180",
                 Gemeentenaam = "Lokeren",
-                Nuts = "BE236",
+                Nuts3 = "BE236",
                 Lau = "46029",
             }
         },
@@ -160,8 +160,8 @@ public record PostalNutsLauInfo
     [Identity]
     public string Postcode { get; set; }
     public string Gemeentenaam { get; set; }
-    public string Nuts { get; set; }
+    public string Nuts2 => Nuts3[..4];
+    public string Nuts3 { get; set; }
     public string Lau { get; set; }
-    public string Werkingsgebied => $"{Nuts}{Lau}";
-    public string Nuts2 => Nuts[..4];
+    public string Nuts3Lau => $"{Nuts3}{Lau}";
 };

@@ -30,7 +30,7 @@ public class Given_A_Grar_Returns_No_Null_For_A_PostalCode
             {
                 Postcode = nutsLauResponse.Postcode,
                 Gemeentenaam = nutsLauResponse.Gemeentenaam,
-                Nuts = nutsLauResponse.Nuts,
+                Nuts3 = nutsLauResponse.Nuts,
                 Lau = nutsLauResponse.Lau,
             }
         ]);

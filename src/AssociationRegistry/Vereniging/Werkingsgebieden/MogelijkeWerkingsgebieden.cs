@@ -12,7 +12,7 @@ public class MogelijkeWerkingsgebieden : ReadOnlyCollection<Werkingsgebied>
     public static MogelijkeWerkingsgebieden FromPostalNutsLauInfo(IEnumerable<PostalNutsLauInfo> postalNutsLauInfos)
     {
         var nutsLauWerkingsgebieden = postalNutsLauInfos
-           .Select(x => Werkingsgebied.Hydrate(x.Nuts, x.Lau, x.Gemeentenaam));
+           .Select(x => Werkingsgebied.Hydrate(x.Nuts3, x.Lau, x.Gemeentenaam));
 
         var all = WellKnownWerkingsgebieden.Provincies
                                            .Concat(nutsLauWerkingsgebieden)

@@ -9,14 +9,14 @@ using Vereniging;
 using Vereniging.Geotags;
 using Xunit;
 
-public class GeotagsServiceTestsV2
+public class GeotagsServiceTests
 {
     private GeotagsService _sut;
 
-    public GeotagsServiceTestsV2()
+    public GeotagsServiceTests()
     {
         var nutsLauInfos = GetPostalNutsLauData();
-        var documentStore = TestDocumentStoreFactory.CreateAsync(nameof(GeotagsServiceTestsV2)).GetAwaiter().GetResult();
+        var documentStore = TestDocumentStoreFactory.CreateAsync(nameof(GeotagsServiceTests)).GetAwaiter().GetResult();
         using var session = documentStore.LightweightSession();
         session.StoreObjects(nutsLauInfos);
         session.SaveChangesAsync().GetAwaiter().GetResult();
@@ -128,17 +128,17 @@ public class GeotagsServiceTestsV2
     private List<PostalNutsLauInfo> GetPostalNutsLauData()
         => new()
         {
-            new PostalNutsLauInfo() { Lau = "23027", Nuts = "BE241", Postcode= "1500", Gemeentenaam = "Halle" },
-            new PostalNutsLauInfo() { Lau = "23027", Nuts = "BE241", Postcode= "1501", Gemeentenaam = "Halle" },
-            new PostalNutsLauInfo() { Lau = "23027", Nuts = "BE241", Postcode= "1502", Gemeentenaam = "Halle" },
+            new PostalNutsLauInfo() { Lau = "23027", Nuts3 = "BE241", Postcode= "1500", Gemeentenaam = "Halle" },
+            new PostalNutsLauInfo() { Lau = "23027", Nuts3 = "BE241", Postcode= "1501", Gemeentenaam = "Halle" },
+            new PostalNutsLauInfo() { Lau = "23027", Nuts3 = "BE241", Postcode= "1502", Gemeentenaam = "Halle" },
 
-            new PostalNutsLauInfo() { Lau = "24055", Nuts = "BE242", Postcode= "3070", Gemeentenaam = "Kortenberg" },
-            new PostalNutsLauInfo() { Lau = "24055", Nuts = "BE242", Postcode= "3071", Gemeentenaam = "Kortenberg" },
+            new PostalNutsLauInfo() { Lau = "24055", Nuts3 = "BE242", Postcode= "3070", Gemeentenaam = "Kortenberg" },
+            new PostalNutsLauInfo() { Lau = "24055", Nuts3 = "BE242", Postcode= "3071", Gemeentenaam = "Kortenberg" },
 
-            new PostalNutsLauInfo() { Lau = "44021", Nuts = "BE234", Postcode= "9000", Gemeentenaam = "Gent" },
-            new PostalNutsLauInfo() { Lau = "44021", Nuts = "BE234", Postcode= "9030", Gemeentenaam = "Gent" },
-            new PostalNutsLauInfo() { Lau = "44021", Nuts = "BE234", Postcode= "9031", Gemeentenaam = "Gent" },
-            new PostalNutsLauInfo() { Lau = "44021", Nuts = "BE234", Postcode= "9032", Gemeentenaam = "Gent" },
-            new PostalNutsLauInfo() { Lau = "44021", Nuts = "BE234", Postcode= "9040", Gemeentenaam = "Gent" },
+            new PostalNutsLauInfo() { Lau = "44021", Nuts3 = "BE234", Postcode= "9000", Gemeentenaam = "Gent" },
+            new PostalNutsLauInfo() { Lau = "44021", Nuts3 = "BE234", Postcode= "9030", Gemeentenaam = "Gent" },
+            new PostalNutsLauInfo() { Lau = "44021", Nuts3 = "BE234", Postcode= "9031", Gemeentenaam = "Gent" },
+            new PostalNutsLauInfo() { Lau = "44021", Nuts3 = "BE234", Postcode= "9032", Gemeentenaam = "Gent" },
+            new PostalNutsLauInfo() { Lau = "44021", Nuts3 = "BE234", Postcode= "9040", Gemeentenaam = "Gent" },
         };
 }
