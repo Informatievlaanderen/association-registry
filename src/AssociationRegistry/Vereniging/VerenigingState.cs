@@ -44,6 +44,7 @@ public record VerenigingState : IHasVersion
         HoofdactiviteitenVerenigingsloket.Empty;
 
     public Werkingsgebieden Werkingsgebieden { get; private init; } = Werkingsgebieden.NietBepaald;
+    public bool GeotagsGeinitialiseerd { get; set; }
     public bool IsGestopt => VerenigingStatus == VerenigingStatus.Gestopt;
     public bool IsIngeschrevenOpWijzigingenUitKbo { get; private init; }
     public List<string> HandledIdempotenceKeys { get; set; } = new();
@@ -822,7 +823,7 @@ public record VerenigingState : IHasVersion
         };
 
     public VerenigingState Apply(GeotagsWerdenBepaald @event)
-        => this;
+        => this with { GeotagsGeinitialiseerd = true };
 
     public void ThrowIfVerwijderd()
     {
