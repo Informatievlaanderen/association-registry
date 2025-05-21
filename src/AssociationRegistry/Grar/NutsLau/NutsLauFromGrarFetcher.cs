@@ -163,5 +163,5 @@ public record PostalNutsLauInfo
     public string Nuts { get; set; }
     public string Lau { get; set; }
     public string Werkingsgebied => $"{Nuts}{Lau}";
-    public string ProvincieWerkingsgebied => Nuts[..4]; // Of hernoemen naar nuts niveau 2?
+    public string Nuts2 => Nuts[..4];
 };
