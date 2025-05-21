@@ -17,7 +17,7 @@ public class Given_An_Existing_WerkingsgebiedCode
         var documentstore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Existing_WerkingsgebiedCode));
         await using var session = documentstore.LightweightSession();
         var postalInfo = fixture.Create<PostalNutsLauInfo>();
-        var werkingsgebiedCode = $"{postalInfo.Nuts}{postalInfo.Lau}";
+        var werkingsgebiedCode = $"{postalInfo.Nuts3}{postalInfo.Lau}";
 
         session.Store(postalInfo);
         await session.SaveChangesAsync();

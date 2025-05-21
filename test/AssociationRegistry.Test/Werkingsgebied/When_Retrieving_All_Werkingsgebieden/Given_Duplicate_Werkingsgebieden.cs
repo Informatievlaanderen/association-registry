@@ -21,7 +21,7 @@ public class Given_Duplicate_Werkingsgebieden
         {
             Postcode = fixture.Create<string>(),
         };
-        var werkingsgebiedCode = $"{postalInfo.Nuts}{postalInfo.Lau}";
+        var werkingsgebiedCode = $"{postalInfo.Nuts3}{postalInfo.Lau}";
 
         session.Store(postalInfo, duplicateWerkingsgebied);
         await session.SaveChangesAsync();

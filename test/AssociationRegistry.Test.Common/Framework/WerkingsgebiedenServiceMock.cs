@@ -17,7 +17,7 @@ public class WerkingsgebiedenServiceMock : IWerkingsgebiedenService
 
     public static readonly Werkingsgebied[] All =
         Provincies
-           .Union(NutsLauInfoMock.All.Select(x => Werkingsgebied.Hydrate(x.Nuts + x.Lau, x.Gemeentenaam)).ToArray())
+           .Union(NutsLauInfoMock.All.Select(x => Werkingsgebied.Hydrate(x.Nuts3 + x.Lau, x.Gemeentenaam)).ToArray())
            .ToArray();
 
     public static Werkingsgebied[] AllWithNvt => All.Append(Werkingsgebied.NietVanToepassing).ToArray();
