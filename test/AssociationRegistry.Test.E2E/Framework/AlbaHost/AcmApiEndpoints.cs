@@ -9,7 +9,7 @@ public static class AcmApiEndpoints
 {
     public static async Task<VerenigingenPerInszResponse> GetVerenigingenPerInsz(this IAlbaHost source, VerenigingenPerInszRequest request, long? expectedSequence)
     {
-        await WaitForExpectedSequence(source, expectedSequence, "AssociationRegistry.Acm.Api.Projections.VerenigingenPerInszProjection:All\n");
+        await WaitForExpectedSequence(source, expectedSequence, "AssociationRegistry.Acm.Api.Projections.VerenigingenPerInszProjection:All");
 
         return await source.PostJson(request, $"/v1/verenigingen", JsonStyle.Mvc)
                      .Receive<VerenigingenPerInszResponse>();
