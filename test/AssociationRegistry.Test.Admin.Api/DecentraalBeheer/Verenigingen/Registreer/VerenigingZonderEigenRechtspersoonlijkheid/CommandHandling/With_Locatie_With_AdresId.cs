@@ -89,9 +89,11 @@ public class With_Locatie_With_AdresId
            .GetAwaiter()
            .GetResult();
 
+        var vCode = vCodeService.GetLast();
+
         verenigingRepositoryMock.ShouldHaveSaved(
             new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                vCodeService.GetLast(),
+                vCode,
                 naam,
                 string.Empty,
                 string.Empty,
@@ -102,8 +104,8 @@ public class With_Locatie_With_AdresId
                 new[] { EventFactory.Locatie(locatie) },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
-            new AdresWerdOvergenomenUitAdressenregister(vCodeService.GetLast(), LocatieId: 1, adresDetailResponse.AdresId,
-                                                        adresDetailResponse.ToAdresUitAdressenregister())
+            new AdresWerdOvergenomenUitAdressenregister(vCode, LocatieId: 1, adresDetailResponse.AdresId,
+                                                        adresDetailResponse.ToAdresUitAdressenregister()), new GeotagsWerdenBepaald(vCode, [])
         );
 
         martenOutbox.Verify(expression: v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()),

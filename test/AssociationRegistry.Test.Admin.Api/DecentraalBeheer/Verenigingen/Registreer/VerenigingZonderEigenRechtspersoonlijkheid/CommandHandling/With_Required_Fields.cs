@@ -71,9 +71,11 @@ public class With_Required_Fields
     [Fact]
     public void Then_it_saves_the_event()
     {
+        var vCode = _vCodeService.GetLast();
+
         _verenigingRepositoryMock.ShouldHaveSaved(
             new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                _vCodeService.GetLast(),
+                vCode,
                 Naam,
                 string.Empty,
                 string.Empty,
@@ -84,6 +86,6 @@ public class With_Required_Fields
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
-            ));
+            ), new GeotagsWerdenBepaald(vCode, []));
     }
 }

@@ -74,9 +74,11 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     [Fact]
     public void Then_it_saves_the_event()
     {
+        var vCode = _vCodeService.GetLast();
+
         _repositoryMock.ShouldHaveSaved(
             new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                _vCodeService.GetLast(),
+                vCode,
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
@@ -114,6 +116,6 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                     h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
                         h.Naam)).ToArray()
-            ));
+            ), new GeotagsWerdenBepaald(vCode, []));
     }
 }
