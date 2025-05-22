@@ -5,12 +5,11 @@ using AssociationRegistry.DecentraalBeheer.Geotags.InitialiseerGeotags;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using Common.Extensions;
 using Common.StubsMocksFakes;
-using JasperFx.Core;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
-using Wolverine;
 using Xunit;
 
 public class GeotagsInitialisationServiceTests
@@ -48,14 +47,9 @@ public class GeotagsInitialisationServiceTests
             var commandEnvelope = new CommandEnvelope<InitialiseerGeotagsCommand>(
                 new InitialiseerGeotagsCommand(vCode), CommandMetadata.ForDigitaalVlaanderenProcess);
 
-            messagebus.Verify(x =>
-                                  x.InvokeAsync(
-                                      It.Is<CommandEnvelope<InitialiseerGeotagsCommand>>(x =>
-                                                                                             x.Command == commandEnvelope.Command &&
-                                                                                             x.Metadata == commandEnvelope.Metadata),
-                                      It.IsAny<CancellationToken>(),
-                                      It.IsAny<TimeSpan?>()),
-                              Times.Once);
+            messagebus.VerifyCommand<InitialiseerGeotagsCommand>(x => x.Command == commandEnvelope.Command &&
+                                     x.Metadata.Initiator == CommandMetadata.ForDigitaalVlaanderenProcess.Initiator &&
+                                     x.Metadata.ExpectedVersion == CommandMetadata.ForDigitaalVlaanderenProcess.ExpectedVersion, Times.Once());
         }
     }
 }
