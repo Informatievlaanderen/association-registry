@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.
+    CommandHandling;
 
 using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.EventFactories;
@@ -75,24 +76,27 @@ public class With_Locatie_With_AdresId
 
         var commandHandler =
             new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(verenigingRepositoryMock,
-                                                             vCodeService,
-                                                             new NoDuplicateVerenigingDetectionService(),
-                                                             martenOutbox.Object,
-                                                             Mock.Of<IDocumentSession>(),
-                                                             clock,
-                                                             grarClient.Object,
-                                                             Mock.Of<IGeotagsService>(),
-                                                             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+                                                                                   vCodeService,
+                                                                                   new NoDuplicateVerenigingDetectionService(),
+                                                                                   martenOutbox.Object,
+                                                                                   Mock.Of<IDocumentSession>(),
+                                                                                   clock,
+                                                                                   grarClient.Object,
+                                                                                   Mock.Of<IGeotagsService>(),
+                                                                                   NullLogger<
+                                                                                           RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>
+                                                                                      .Instance);
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata), CancellationToken.None)
+           .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
+                   CancellationToken.None)
            .GetAwaiter()
            .GetResult();
 
         var vCode = vCodeService.GetLast();
 
         verenigingRepositoryMock.ShouldHaveSaved(
-            new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
                 naam,
                 string.Empty,
@@ -104,8 +108,9 @@ public class With_Locatie_With_AdresId
                 new[] { EventFactory.Locatie(locatie) },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
+            new GeotagsWerdenBepaald(vCode, []),
             new AdresWerdOvergenomenUitAdressenregister(vCode, LocatieId: 1, adresDetailResponse.AdresId,
-                                                        adresDetailResponse.ToAdresUitAdressenregister()), new GeotagsWerdenBepaald(vCode, [])
+                                                        adresDetailResponse.ToAdresUitAdressenregister())
         );
 
         martenOutbox.Verify(expression: v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()),
