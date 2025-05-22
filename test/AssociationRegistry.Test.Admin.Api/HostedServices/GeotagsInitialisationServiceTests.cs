@@ -29,7 +29,7 @@ public class GeotagsInitialisationServiceTests
     }
 
     [Fact]
-    public async Task Given_Verenigingen_Zonder_Geotags()
+    public async Task Given_Verenigingen_Met_Geotags()
     {
         var faktory = Faktory.New();
         var fixture = new Fixture().CustomizeAdminApi();
