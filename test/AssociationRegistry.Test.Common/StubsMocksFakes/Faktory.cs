@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Test.Common.StubsMocksFakes;
 
+using Admin.Api.Queries;
+using Amazon.DynamoDBv2.Model;
 using AutoFixture;
 using Clocks;
 using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
@@ -10,6 +12,7 @@ using Stubs.VCodeServices;
 using Vereniging;
 using Vereniging.Geotags;
 using VerenigingsRepositories;
+using Wolverine;
 
 public class Faktory(Fixture fixture)
 {
@@ -20,6 +23,33 @@ public class Faktory(Fixture fixture)
     public VerenigingsRepositoryFactory VerenigingsRepository { get; } = new VerenigingsRepositoryFactory();
     public ClockFactory Clock { get; } = new ClockFactory();
     public GeotagsServiceFactory GeotagsService { get; } = new GeotagsServiceFactory(fixture);
+
+    public VerenigingenZonderGeotagsQueryFactory VerenigingenZonderGeotagsQuery {get; } = new VerenigingenZonderGeotagsQueryFactory(fixture);
+    public MessageBusFactory MessageBus { get; } = new MessageBusFactory(fixture);
+}
+
+public class MessageBusFactory
+{
+    public Mock<IMessageBus> Mock()
+        => new();
+
+    public MessageBusFactory(Fixture fixture)
+    {
+    }
+}
+
+public class VerenigingenZonderGeotagsQueryFactory
+{
+    public Mock<IVerenigingenWithoutGeotagsQuery> Mock(IEnumerable<string> returns)
+    {
+        var mock = new Mock<IVerenigingenWithoutGeotagsQuery>();
+        mock.Setup(x => x.ExecuteAsync(It.IsAny<CancellationToken>())).ReturnsAsync(returns.ToArray);
+        return mock;
+    }
+
+    public VerenigingenZonderGeotagsQueryFactory(Fixture fixture)
+    {
+    }
 }
 
 public class VCodeServiceFactory

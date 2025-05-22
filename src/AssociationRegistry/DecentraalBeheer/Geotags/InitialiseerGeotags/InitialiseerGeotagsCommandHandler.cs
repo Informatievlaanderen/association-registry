@@ -1,7 +1,6 @@
 namespace AssociationRegistry.DecentraalBeheer.Geotags.InitialiseerGeotags;
 
 using Framework;
-using Lidmaatschappen.WijzigLidmaatschap;
 using Vereniging;
 using Vereniging.Geotags;
 
