@@ -46,13 +46,13 @@ public class GeotagsServiceTests
     }
 
     [Fact]
-    public async Task With_No_MatchingNutsLauInfo_Then_Return_Empty_List_Of_Geotags()
+    public async Task With_No_MatchingNutsLauInfo_Then_Return_List_Of_Given_Postcodes()
     {
         var nonMatchingPostalCodes = new[]{"1","2"};
 
         var actual = await _sut.CalculateGeotags(nonMatchingPostalCodes, []);
 
-        actual.Should().BeEmpty();
+        actual.Should().BeEquivalentTo(GeotagFrom("1","2"));
     }
 
     [Fact]

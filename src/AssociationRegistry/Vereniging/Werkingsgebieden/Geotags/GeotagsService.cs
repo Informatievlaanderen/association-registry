@@ -7,7 +7,6 @@ public interface IGeotagsService
 {
     Task<Geotag[]> CalculateGeotags(IEnumerable<Locatie> locaties, IEnumerable<Werkingsgebied> werkingsgebieden);
     Task<Geotag[]> CalculateGeotags(string[] postcodes, string[] werkingsgebiedenCodes);
-
 }
 
 public class GeotagsService : IGeotagsService
@@ -34,15 +33,19 @@ public class GeotagsService : IGeotagsService
                                                   || werkingsgebiedenCodes.Contains(x.Nuts3Lau)
                                                   || werkingsgebiedenCodes.Contains(x.Nuts2));
 
-        var geoTags = Map(await postalNutsLauInfos.ToListAsync());
-        var distinctGeoTags = geoTags.Distinct();
+        var geoTags = Map(await postalNutsLauInfos.ToListAsync(), postcodes);
+
+        var distinctGeoTags = geoTags
+                             .Concat(postcodes.Select(x => new Geotag(x)))
+                             .Distinct();
 
         return distinctGeoTags.ToArray();
     }
 
-    private Geotag[] Map(IReadOnlyList<PostalNutsLauInfo> postalNutsLauInfos)
+    private Geotag[] Map(IReadOnlyList<PostalNutsLauInfo> postalNutsLauInfos, string[] postcodes)
     {
         var geotags = new List<Geotag>();
+
         foreach (var postalNutsLauInfo in postalNutsLauInfos)
         {
             var werkingsgebied = postalNutsLauInfo.Nuts3 + postalNutsLauInfo.Lau;
