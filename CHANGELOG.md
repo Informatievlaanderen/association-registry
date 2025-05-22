@@ -1,3 +1,19 @@
+# [8.240.0](https://github.com/informatievlaanderen/association-registry/compare/v8.239.0...v8.240.0) (2025-05-22)
+
+
+### Bug Fixes
+
+* or-2821 set postcodes in geotags when not found in nuts lau info ([1a6dd9d](https://github.com/informatievlaanderen/association-registry/commit/1a6dd9def01b7b7fa543562a4cbf848ff7369ff6))
+
+
+### Features
+
+* or-2821 add geotag init svc ([4215f76](https://github.com/informatievlaanderen/association-registry/commit/4215f7604f00a8d5f42feb0423a487e2076e7945))
+* or-2821 allow calculating geotags on werkingsgebieden ([f27f37d](https://github.com/informatievlaanderen/association-registry/commit/f27f37dc03afd333a311b5ec59f5f909706b13a6))
+* or-2821 rename properties PostalNutsLauInfo ([fe80071](https://github.com/informatievlaanderen/association-registry/commit/fe800711a01d2a4ef430687160827e55e46bd4b2))
+* or-2821 simplify GeotagsInitialisationService ([4731a58](https://github.com/informatievlaanderen/association-registry/commit/4731a58ad66aadf8c77ffa850340ee82866f7686))
+* or-2821 wip geotag initialisation ([cb69f01](https://github.com/informatievlaanderen/association-registry/commit/cb69f01fdb945b3c4af6ab692938cccc59109ca3))
+
 # [8.239.0](https://github.com/informatievlaanderen/association-registry/compare/v8.238.1...v8.239.0) (2025-05-21)
 
 
