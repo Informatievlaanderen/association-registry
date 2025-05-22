@@ -31,6 +31,7 @@ using Grar.GrarUpdates.LocatieFinder;
 using Grar.NutsLau;
 using GrarConsumer.Finders;
 using GrarConsumer.Kafka;
+using HostedServices.GeotagsInitialisation;
 using Hosts;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
@@ -114,12 +115,12 @@ public class Program
         ConfigureKestrel(builder);
         ConfigureWebHost(builder);
         ConfigureServices(builder);
-        ConfigureHostedServices(builder);
 
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseLamar();
 
         builder.AddWolverine();
+        ConfigureHostedServices(builder);
 
         var app = builder.Build();
 
@@ -673,6 +674,7 @@ public class Program
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
     {
         ConfigureAddresskafkaConsumer(builder);
+        ConfigureGeotagsInitialisationService(builder);
     }
 
     private static void ConfigureAddresskafkaConsumer(WebApplicationBuilder builder)
@@ -686,6 +688,13 @@ public class Program
             return;
 
         builder.Services.AddHostedService<AddressKafkaConsumer>();
+    }
+
+    private static void ConfigureGeotagsInitialisationService(WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>();
+
+        builder.Services.AddHostedService<GeotagsInitialisationService>();
     }
 
     private static void ConfigureWebHost(WebApplicationBuilder builder)
