@@ -96,9 +96,11 @@ public class With_A_PotentialDuplicate_And_Force
     [Fact]
     public void Then_it_saves_the_event()
     {
+        var vCode = _vCodeService.GetLast();
+
         _verenigingRepositoryMock.ShouldHaveSaved(
             new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                _vCodeService.GetLast(),
+                vCode,
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
@@ -124,6 +126,6 @@ public class With_A_PotentialDuplicate_And_Force
                     h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
                         h.Naam)).ToArray()
-            ));
+            ), new GeotagsWerdenBepaald(vCode, []));
     }
 }
