@@ -122,8 +122,8 @@ public class GeotagsServiceTests
         actual.Should().BeEquivalentTo(expectedGeotags);
     }
 
-    private GeoTag[] GeotagFrom(params string[] geotags)
-        => geotags.Select(x => new GeoTag(x)).ToArray();
+    private Geotag[] GeotagFrom(params string[] geotags)
+        => geotags.Select(x => new Geotag(x)).ToArray();
 
     private List<PostalNutsLauInfo> GetPostalNutsLauData()
         => new()

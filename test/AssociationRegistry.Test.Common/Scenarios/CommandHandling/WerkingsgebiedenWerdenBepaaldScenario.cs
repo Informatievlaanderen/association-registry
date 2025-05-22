@@ -8,13 +8,13 @@ using Vereniging;
 public class WerkingsgebiedenWerdenBepaaldScenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
-    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
     public readonly WerkingsgebiedenWerdenBepaald WerkingsgebiedenWerdenBepaald;
 
     public WerkingsgebiedenWerdenBepaaldScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCode,
         };
@@ -28,7 +28,7 @@ public class WerkingsgebiedenWerdenBepaaldScenario : CommandhandlerScenarioBase
     public override IEnumerable<IEvent> Events()
         =>
         [
-            FeitelijkeVerenigingWerdGeregistreerd,
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
             WerkingsgebiedenWerdenBepaald,
         ];
 }

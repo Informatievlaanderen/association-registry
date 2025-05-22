@@ -30,7 +30,7 @@ public class With_All_Fields
     private readonly Fixture _fixture;
     private readonly IGeotagsService _geotagsService;
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
-    private GeoTag[] _geotags;
+    private Geotag[] _geotags;
 
     public With_All_Fields()
     {

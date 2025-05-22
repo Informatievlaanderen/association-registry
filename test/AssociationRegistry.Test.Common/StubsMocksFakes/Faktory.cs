@@ -1,11 +1,8 @@
 namespace AssociationRegistry.Test.Common.StubsMocksFakes;
 
 using Admin.Api.Queries;
-using Amazon.DynamoDBv2.Model;
 using AutoFixture;
 using Clocks;
-using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using EventStore;
 using global::AutoFixture;
 using Moq;
 using Stubs.VCodeServices;
@@ -72,13 +69,13 @@ public class ClockFactory
 
 public class GeotagsServiceFactory(Fixture fixture)
 {
-    public (IGeotagsService Object, GeoTag[] geotags) MockWithRandomGeotags(
+    public (IGeotagsService Object, Geotag[] geotags) MockWithRandomGeotags(
         IEnumerable<Locatie> locaties,
-        Werkingsgebied[] werkingsgebieden)
+        IEnumerable<Werkingsgebied> werkingsgebieden)
     {
         var geotagsService = new Mock<IGeotagsService>();
 
-        var geotags = fixture.CreateMany<GeoTag>().ToArray();
+        var geotags = fixture.CreateMany<Geotag>().ToArray();
 
         geotagsService.Setup(x => x.CalculateGeotags(locaties.ToArray(), werkingsgebieden))
                        .ReturnsAsync(geotags);

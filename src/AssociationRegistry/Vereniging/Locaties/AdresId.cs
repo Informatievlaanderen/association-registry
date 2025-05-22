@@ -32,7 +32,12 @@ public record AdresId : IAdresId
 
     public static AdresId Hydrate(Adresbron adresbron, string bronwaarde)
         => new(adresbron, bronwaarde);
+    public static AdresId Hydrate(Registratiedata.AdresId adresId)
+    {
+        var (broncode, bronwaarde) = adresId;
 
+        return Hydrate(broncode, bronwaarde);
+    }
 
     public bool Equals(Registratiedata.AdresId adresId)
         => this == adresId;

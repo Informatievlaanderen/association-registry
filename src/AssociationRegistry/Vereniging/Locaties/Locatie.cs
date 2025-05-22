@@ -35,6 +35,12 @@ public record Locatie
     public static Locatie Hydrate(int locatieId, string naam, bool isPrimair, string locatieType, Adres? adres, AdresId? adresId)
         => new(Locatienaam.Hydrate(naam), isPrimair, locatieType, adresId, adres) { LocatieId = locatieId };
 
+    public static Locatie Hydrate(Registratiedata.Locatie locatie)
+    {
+        var (locatieId, locatietype, isPrimair, naam, adres, adresId) = locatie;
+
+        return Hydrate(locatieId, naam, isPrimair, locatietype, Adres.Hydrate(adres), AdresId.Hydrate(adresId));
+    }
 
     public virtual bool Equals(Locatie? other)
     {

@@ -5,8 +5,8 @@ using Marten;
 
 public interface IGeotagsService
 {
-    Task<GeoTag[]> CalculateGeotags(IEnumerable<Locatie> locaties, IEnumerable<Werkingsgebied> werkingsgebieden);
-    Task<GeoTag[]> CalculateGeotags(string[] postcodes, string[] werkingsgebiedenCodes);
+    Task<Geotag[]> CalculateGeotags(IEnumerable<Locatie> locaties, IEnumerable<Werkingsgebied> werkingsgebieden);
+    Task<Geotag[]> CalculateGeotags(string[] postcodes, string[] werkingsgebiedenCodes);
 
 }
 
@@ -19,7 +19,7 @@ public class GeotagsService : IGeotagsService
         _session = session;
     }
 
-    public async Task<GeoTag[]> CalculateGeotags(IEnumerable<Locatie> locaties, IEnumerable<Werkingsgebied> werkingsgebieden)
+    public async Task<Geotag[]> CalculateGeotags(IEnumerable<Locatie> locaties, IEnumerable<Werkingsgebied> werkingsgebieden)
     {
         var postcodes = GetPostcodesFromLocaties(locaties);
         var werkingsgebiedenCodes = GetWerkingsgebiedenCodeFromWerkingsgebieden(werkingsgebieden);
@@ -27,7 +27,7 @@ public class GeotagsService : IGeotagsService
         return await CalculateGeotags(postcodes, werkingsgebiedenCodes);
     }
 
-    public async Task<GeoTag[]> CalculateGeotags(string[] postcodes, string[] werkingsgebiedenCodes)
+    public async Task<Geotag[]> CalculateGeotags(string[] postcodes, string[] werkingsgebiedenCodes)
     {
         var postalNutsLauInfos = _session.Query<PostalNutsLauInfo>()
                                          .Where(x => postcodes.Contains(x.Postcode)
@@ -40,17 +40,17 @@ public class GeotagsService : IGeotagsService
         return distinctGeoTags.ToArray();
     }
 
-    private GeoTag[] Map(IReadOnlyList<PostalNutsLauInfo> postalNutsLauInfos)
+    private Geotag[] Map(IReadOnlyList<PostalNutsLauInfo> postalNutsLauInfos)
     {
-        var geotags = new List<GeoTag>();
+        var geotags = new List<Geotag>();
         foreach (var postalNutsLauInfo in postalNutsLauInfos)
         {
             var werkingsgebied = postalNutsLauInfo.Nuts3 + postalNutsLauInfo.Lau;
             var werkingsgebiedProvincie = postalNutsLauInfo.Nuts3[..4];
             var postcode = postalNutsLauInfo.Postcode;
-            geotags.Add(new GeoTag(werkingsgebied));
-            geotags.Add(new GeoTag(werkingsgebiedProvincie));
-            geotags.Add(new GeoTag(postcode));
+            geotags.Add(new Geotag(werkingsgebied));
+            geotags.Add(new Geotag(werkingsgebiedProvincie));
+            geotags.Add(new Geotag(postcode));
         }
 
         return geotags.ToArray();
