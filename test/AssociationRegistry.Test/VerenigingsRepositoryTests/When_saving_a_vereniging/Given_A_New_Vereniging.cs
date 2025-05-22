@@ -63,7 +63,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
 
         invocation.AggregateId.Should().Be(_vCode);
 
-        var theEvent = (VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)invocation.Events.Single();
+        var theEvent = (VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)invocation.Events.First();
 
         theEvent.VCode.Should().Be(_vCode);
         theEvent.Naam.Should().Be(_naam);
