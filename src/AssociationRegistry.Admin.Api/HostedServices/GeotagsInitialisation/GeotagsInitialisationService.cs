@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.HostedServices.GeotagsInitialisation;
 using DecentraalBeheer.Geotags.InitialiseerGeotags;
 using Framework;
 using Queries;
+using Vereniging;
 using Wolverine;
 
 public class GeotagsInitialisationService : BackgroundService
@@ -27,7 +28,7 @@ public class GeotagsInitialisationService : BackgroundService
 
         foreach (var verenigingWithoutGeotag in verenigingenWithoutGeotags)
         {
-            var command = new CommandEnvelope<InitialiseerGeotagsCommand>(new InitialiseerGeotagsCommand(verenigingWithoutGeotag), metadata);
+            var command = new CommandEnvelope<InitialiseerGeotagsCommand>(new InitialiseerGeotagsCommand(VCode.Create(verenigingWithoutGeotag)), metadata);
             await _bus.InvokeAsync(command, cancellationToken);
         }
 
