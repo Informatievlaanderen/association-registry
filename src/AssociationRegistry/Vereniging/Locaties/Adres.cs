@@ -41,6 +41,13 @@ public record Adres
     public static Adres Hydrate(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeente, string land)
         => new(straatnaam, huisnummer, busnummer, postcode, Gemeentenaam.Hydrate(gemeente), land);
 
+    public static Adres Hydrate(Registratiedata.Adres adres)
+    {
+        var (straatnaam, huisnummer, busnummer, postcode, gemeente, land) = adres;
+
+        return Hydrate(straatnaam, huisnummer, busnummer, postcode, gemeente, land);
+    }
+
     public static Adres? TryCreateFromKbo(AdresVolgensKbo adresVolgensKbo)
     {
         try
