@@ -1,15 +1,19 @@
 namespace AssociationRegistry.Test.Common.StubsMocksFakes;
 
 using Admin.Api.Queries;
+using AssociationRegistry.Framework;
 using AutoFixture;
 using Clocks;
+using Extensions;
 using global::AutoFixture;
+using Grar.NutsLau;
 using Moq;
 using Stubs.VCodeServices;
 using Vereniging;
 using Vereniging.Geotags;
 using VerenigingsRepositories;
 using Wolverine;
+using Wolverine.Marten;
 
 public class Faktory(Fixture fixture)
 {
@@ -23,6 +27,55 @@ public class Faktory(Fixture fixture)
 
     public VerenigingenZonderGeotagsQueryFactory VerenigingenZonderGeotagsQuery {get; } = new VerenigingenZonderGeotagsQueryFactory(fixture);
     public MessageBusFactory MessageBus { get; } = new MessageBusFactory(fixture);
+    public MartenOutboxFactory MartenOutbox { get; } = new MartenOutboxFactory(fixture);
+    public postcodesFromGrarFetcherFactory postcodesFromGrarFetcher { get; } = new postcodesFromGrarFetcherFactory(fixture);
+    public NutsLauFromGrarFetcherFactory nutsLauFromGrarFetcher { get; } = new NutsLauFromGrarFetcherFactory(fixture);
+}
+
+public class MartenOutboxFactory
+{
+    public Mock<IMartenOutbox> Mock()
+        => new();
+
+    public MartenOutboxFactory(Fixture fixture)
+    {
+    }
+}
+
+public class postcodesFromGrarFetcherFactory
+{
+    public Mock<IPostcodesFromGrarFetcher> Mock()
+        => new();
+
+    public Mock<IPostcodesFromGrarFetcher> MockWithPostcodes(string[] returns)
+    {
+        var mock = new Mock<IPostcodesFromGrarFetcher>();
+        mock.Setup(x => x.FetchPostalCodes(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(returns.ToArray);
+        return mock;
+    }
+
+    public postcodesFromGrarFetcherFactory(Fixture fixture)
+    {
+    }
+}
+
+public class NutsLauFromGrarFetcherFactory
+{
+    public Mock<INutsLauFromGrarFetcher> Mock()
+        => new();
+
+    public Mock<INutsLauFromGrarFetcher> MockWithPostalNutsLauInfo(string[] given,PostalNutsLauInfo[] returns)
+    {
+        var mock = new Mock<INutsLauFromGrarFetcher>();
+        mock.Setup(x => x.GetFlemishAndBrusselsNutsAndLauByPostcode(given, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(returns.ToArray);
+        return mock;
+    }
+
+    public NutsLauFromGrarFetcherFactory(Fixture fixture)
+    {
+    }
 }
 
 public class MessageBusFactory
