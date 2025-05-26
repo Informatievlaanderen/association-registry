@@ -3,6 +3,7 @@
 using AssociationRegistry.Framework;
 using Moq;
 using Wolverine;
+using Wolverine.Marten;
 
 public static class VerificiationExtensions
 {
@@ -28,6 +29,16 @@ public static class VerificiationExtensions
                               It.Is<CommandEnvelope<TCommand>>(x => commandComparison(x)),
                               It.IsAny<CancellationToken>(),
                               It.IsAny<TimeSpan?>()),
+                      times);
+    }
+
+    public static void VerifyCommand<TCommand>(this Mock<IMartenOutbox> source, Func<CommandEnvelope<TCommand>, bool> commandComparison, Times times)
+        where TCommand : class
+    {
+        source.Verify(x =>
+                          x.PublishAsync(
+                              It.Is<CommandEnvelope<TCommand>>(x => commandComparison(x)),
+                              It.IsAny<DeliveryOptions?>()),
                       times);
     }
 }

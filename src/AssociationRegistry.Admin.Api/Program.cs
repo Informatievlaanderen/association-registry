@@ -173,9 +173,16 @@ public class Program
 
     private static async Task RunPreStartupTasks(WebApplication app, ILogger<Program> logger)
     {
+        await StartGeotagsMigration(app, logger);
         await ArchiveAfdelingen(app);
         await RegistreerOntbrekendeInschrijvingen(app, logger);
         await LogPendingDatabaseChanges(app, logger);
+    }
+
+    private static async Task StartGeotagsMigration(WebApplication app, ILogger<Program> logger)
+    {
+        var geotagsService = app.Services.GetRequiredService<GeotagsInitialisationService>();
+        await geotagsService.ExecuteAsync(CancellationToken.None);
     }
 
     private static async Task LogPendingDatabaseChanges(WebApplication app, ILogger<Program> logger)
@@ -423,6 +430,7 @@ public class Program
                               sp.GetRequiredService<IMemoryCache>()))
                .AddScoped(sp => new MinimumScore(sp.GetRequiredService<ElasticSearchOptionsService>().MinimumScoreDuplicateDetection))
                .AddScoped<InitiatorProvider>()
+               .AddSingleton<GeotagsInitialisationService>()
                .AddScoped<IMagdaRegistreerInschrijvingCatchupService, MagdaRegistreerInschrijvingCatchupService>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
                .AddScoped<InitiatorProvider>()
@@ -431,6 +439,7 @@ public class Program
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddScoped<IMagdaClient, MagdaClient>()
                .AddScoped<TeAdresMatchenLocatieMessageHandler>()
+               .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
                .AddTransient<ISqsClientWrapper, SqsClientWrapper>()
                .AddTransient<SqsClientWrapper>()
                .AddTransient<IEventStore, EventStore>()
@@ -674,7 +683,6 @@ public class Program
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
     {
         ConfigureAddresskafkaConsumer(builder);
-        ConfigureGeotagsInitialisationService(builder);
     }
 
     private static void ConfigureAddresskafkaConsumer(WebApplicationBuilder builder)
@@ -690,13 +698,6 @@ public class Program
         builder.Services.AddHostedService<AddressKafkaConsumer>();
     }
 
-    private static void ConfigureGeotagsInitialisationService(WebApplicationBuilder builder)
-    {
-        builder.Services.AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>();
-
-        builder.Services.AddHostedService<GeotagsInitialisationService>();
-    }
-
     private static void ConfigureWebHost(WebApplicationBuilder builder)
         => builder.WebHost.CaptureStartupErrors(captureStartupErrors: true);
 
@@ -710,7 +711,7 @@ public class Program
                 options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(value: 120);
 
                 options.Listen(
-                    new IPEndPoint(IPAddress.Any, port: 11004),
+                    new IPEndPoint(IPAddress.Any, port: 11004),// + new Random().Next(0,100)),
                     configure: listenOptions =>
                     {
                         listenOptions.UseConnectionLogging();
