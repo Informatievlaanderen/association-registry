@@ -31,4 +31,12 @@ public class NutsLauFromGrarFetcherFactory
             .ReturnsAsync(_fixture.CreateMany<PostalNutsLauInfo>().ToArray);
         return mock;
     }
+
+    public Mock<INutsLauFromGrarFetcher> Throws()
+    {
+        var mock = new Mock<INutsLauFromGrarFetcher>();
+        mock.Setup(x => x.GetFlemishAndBrusselsNutsAndLauByPostcode(It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new Exception());
+        return mock;
+    }
 }
