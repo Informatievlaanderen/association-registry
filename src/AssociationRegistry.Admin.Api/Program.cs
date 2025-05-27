@@ -41,6 +41,7 @@ using Infrastructure.AWS;
 using Infrastructure.Configuration;
 using Infrastructure.ExceptionHandlers;
 using Infrastructure.Extensions;
+using Infrastructure.HealthChecks;
 using Infrastructure.HttpClients;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
@@ -766,39 +767,5 @@ public class Program
             // Don't terminate the process immediately, wait for the Main thread to exit gracefully.
             eventArgs.Cancel = true;
         };
-    }
-}
-
-public class NullNotifier : INotifier
-{
-    public Task Notify(IMessage message) => Task.CompletedTask;
-}
-
-public class MigrationHealthCheck : IHealthCheck
-{
-    private readonly IDocumentStore _store;
-
-    public MigrationHealthCheck(IDocumentStore store)
-    {
-        _store = store;
-    }
-
-    public async Task<HealthCheckResult> CheckHealthAsync(
-        HealthCheckContext context,
-        CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            using var session = _store.LightweightSession();
-            var ok = await session.Query<GeotagMigration>()
-                                  .AnyAsync(x => x.Id == new GeotagMigration().Id, cancellationToken);
-            return ok
-                ? HealthCheckResult.Healthy("Migration run")
-                : HealthCheckResult.Unhealthy("Migration not yet run");
-        }
-        catch (Exception ex)
-        {
-            return HealthCheckResult.Unhealthy("Migration check threw exception", ex);
-        }
     }
 }
