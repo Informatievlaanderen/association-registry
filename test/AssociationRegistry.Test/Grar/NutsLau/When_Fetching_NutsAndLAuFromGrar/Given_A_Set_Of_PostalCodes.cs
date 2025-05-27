@@ -6,6 +6,7 @@ using AssociationRegistry.Grar.NutsLau;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
@@ -18,12 +19,14 @@ public class Given_A_Set_Of_PostalCodes
         var client = new Mock<IGrarClient>();
         string[] postcodes = ["1500", "1501"];
         var nutsLauResponses = fixture.CreateMany<PostalNutsLauInfoResponse>(2).ToArray();
-        SetupGrarClient(client, postcodes[0], nutsLauResponses[0]);
-        SetupGrarClient(client, postcodes[1], nutsLauResponses[1]);
 
-        var sut = new NutsLauFromGrarFetcher(client.Object);
+        var postCodeFetcher = NutsLauSetupHelper.SetupPostCodeFetcher(postcodes);
+        NutsLauSetupHelper.SetupGrarClient(client, postcodes[0], nutsLauResponses[0]);
+        NutsLauSetupHelper.SetupGrarClient(client, postcodes[1], nutsLauResponses[1]);
 
-        var actual = await sut.GetFlemishAndBrusselsNutsAndLauByPostcode(postcodes, CancellationToken.None);
+        var sut = new NutsLauFromGrarFetcher(client.Object, postCodeFetcher.Object, NullLogger<NutsLauFromGrarFetcher>.Instance);
+
+        var actual = await sut.GetFlemishAndBrusselsNutsAndLauByPostcode(CancellationToken.None);
 
         actual.Should().BeEquivalentTo(nutsLauResponses.Select(x => new PostalNutsLauInfo()
         {
@@ -34,9 +37,4 @@ public class Given_A_Set_Of_PostalCodes
         }));
     }
 
-    private void SetupGrarClient(Mock<IGrarClient> client, string postalcode, PostalNutsLauInfoResponse response)
-    {
-        client.Setup(x => x.GetPostalNutsLauInformation(postalcode, It.IsAny<CancellationToken>()))
-              .ReturnsAsync(response);
-    }
 }

@@ -2,20 +2,29 @@
 
 using Clients;
 using Marten.Schema;
+using Microsoft.Extensions.Logging;
 
 public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
 {
     private readonly IGrarClient _client;
+    private readonly IPostcodesFromGrarFetcher _postcodesFromGrarFetcher;
+    private readonly ILogger<NutsLauFromGrarFetcher> _logger;
 
-    public NutsLauFromGrarFetcher(IGrarClient client)
+    public NutsLauFromGrarFetcher(IGrarClient client,
+                                  IPostcodesFromGrarFetcher postcodesFromGrarFetcher,
+                                  ILogger<NutsLauFromGrarFetcher> logger)
     {
         _client = client;
+        _postcodesFromGrarFetcher = postcodesFromGrarFetcher;
+        _logger = logger;
     }
 
-    public async Task<PostalNutsLauInfo[]> GetFlemishAndBrusselsNutsAndLauByPostcode(
-        string[] postcodes,
-        CancellationToken cancellationToken)
+    public async Task<PostalNutsLauInfo[]> GetFlemishAndBrusselsNutsAndLauByPostcode(CancellationToken cancellationToken)
     {
+        var postcodes = await _postcodesFromGrarFetcher.FetchPostalCodes(cancellationToken);
+
+        _logger.LogInformation($"PostcodesFromGrarFetcher returned {postcodes.Length} postcodes.");
+
         var nutsLauInfos = new List<PostalNutsLauInfo>();
 
         foreach (var postcode in postcodes)
@@ -150,9 +159,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
 
 public interface INutsLauFromGrarFetcher
 {
-    Task<PostalNutsLauInfo[]> GetFlemishAndBrusselsNutsAndLauByPostcode(
-        string[] postalInformationList,
-        CancellationToken cancellationToken);
+    Task<PostalNutsLauInfo[]> GetFlemishAndBrusselsNutsAndLauByPostcode(CancellationToken cancellationToken);
 }
 
 public record PostalNutsLauInfo

@@ -77,7 +77,7 @@ public class NutsLauFromGrarFetcherFactory
     public Mock<INutsLauFromGrarFetcher> MockWithPostalNutsLauInfo(string[] given,PostalNutsLauInfo[] returns)
     {
         var mock = new Mock<INutsLauFromGrarFetcher>();
-        mock.Setup(x => x.GetFlemishAndBrusselsNutsAndLauByPostcode(given, It.IsAny<CancellationToken>()))
+        mock.Setup(x => x.GetFlemishAndBrusselsNutsAndLauByPostcode(It.IsAny<CancellationToken>()))
             .ReturnsAsync(returns.ToArray);
         return mock;
     }

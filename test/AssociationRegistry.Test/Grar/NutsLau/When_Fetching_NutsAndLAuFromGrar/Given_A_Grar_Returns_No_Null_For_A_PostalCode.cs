@@ -6,11 +6,13 @@ using AssociationRegistry.Grar.NutsLau;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
 public class Given_A_Grar_Returns_No_Null_For_A_PostalCode
 {
+
     [Fact]
     public async ValueTask Then_Ignores_The_Null_Response()
     {
@@ -18,12 +20,16 @@ public class Given_A_Grar_Returns_No_Null_For_A_PostalCode
         var client = new Mock<IGrarClient>();
         string[] postcodes = ["1500", "1501"];
         var nutsLauResponse = fixture.Create<PostalNutsLauInfoResponse>();
-        SetupGrarClient(client, postcodes[0], nutsLauResponse);
-        SetupGrarClient(client, postcodes[1], null);
 
-        var sut = new NutsLauFromGrarFetcher(client.Object);
+        var postCodeFetcher = NutsLauSetupHelper.SetupPostCodeFetcher(postcodes);
+        NutsLauSetupHelper.SetupGrarClient(client, postcodes[0], nutsLauResponse);
+        NutsLauSetupHelper.SetupGrarClient(client, postcodes[1], null);
 
-        var actual = await sut.GetFlemishAndBrusselsNutsAndLauByPostcode(postcodes, CancellationToken.None);
+        var sut = new NutsLauFromGrarFetcher(client.Object,
+                                             postCodeFetcher.Object,
+                                             NullLogger<NutsLauFromGrarFetcher>.Instance);
+
+        var actual = await sut.GetFlemishAndBrusselsNutsAndLauByPostcode(CancellationToken.None);
 
         actual.Should().BeEquivalentTo([
             new PostalNutsLauInfo()
@@ -32,13 +38,7 @@ public class Given_A_Grar_Returns_No_Null_For_A_PostalCode
                 Gemeentenaam = nutsLauResponse.Gemeentenaam,
                 Nuts3 = nutsLauResponse.Nuts,
                 Lau = nutsLauResponse.Lau,
-            }
+            },
         ]);
-    }
-
-    private void SetupGrarClient(Mock<IGrarClient> client, string postalcode, PostalNutsLauInfoResponse response)
-    {
-        client.Setup(x => x.GetPostalNutsLauInformation(postalcode, It.IsAny<CancellationToken>()))
-              .ReturnsAsync(response);
     }
 }

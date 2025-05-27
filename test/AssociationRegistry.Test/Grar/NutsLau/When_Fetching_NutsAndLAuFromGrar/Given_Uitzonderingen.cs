@@ -3,6 +3,7 @@
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.NutsLau;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
@@ -17,10 +18,11 @@ public class Given_Uitzonderingen
                              .Select(code => NutsLauFromGrarFetcher.Uitzonderingen[code])
                              .ToArray();
 
-        var sut = new NutsLauFromGrarFetcher(client.Object);
+        var postCodeFetcher = NutsLauSetupHelper.SetupPostCodeFetcher(overriddenPostcodes);
 
-        var postcodes = expectedResults.Select(x => x.Postcode).ToArray();
-        var actual = await sut.GetFlemishAndBrusselsNutsAndLauByPostcode(postcodes, CancellationToken.None);
+        var sut = new NutsLauFromGrarFetcher(client.Object, postCodeFetcher.Object, NullLogger<NutsLauFromGrarFetcher>.Instance);
+
+        var actual = await sut.GetFlemishAndBrusselsNutsAndLauByPostcode(CancellationToken.None);
 
         actual.Should().BeEquivalentTo(expectedResults);
 
