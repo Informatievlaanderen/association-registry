@@ -73,6 +73,7 @@ using Newtonsoft.Json.Serialization;
 using Oakton;
 using OpenTelemetry.Extensions;
 using Queries;
+using Repositories;
 using Serilog;
 using Serilog.Debugging;
 using System.Globalization;

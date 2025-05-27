@@ -51,4 +51,16 @@ public static class VerificiationExtensions
                               It.IsAny<DeliveryOptions?>()),
                       times);
     }
+
+    public static void VerifyCommandSent<TCommand>(this Mock<IMartenOutbox> source, TCommand command, CommandMetadata metadata, Times times)
+        where TCommand : class
+    {
+        var commandEnvelope = new CommandEnvelope<TCommand>(
+            command, metadata);
+
+        VerifyCommandSent<TCommand>(source, x => x.Command.Equals(commandEnvelope.Command) &&
+                                                 x.Metadata.Initiator == metadata.Initiator &&
+                                                 x.Metadata.ExpectedVersion == metadata.ExpectedVersion,
+                                    times);
+    }
 }

@@ -9,6 +9,7 @@ using Humanizer;
 using Marten;
 using Marten.Schema;
 using Queries;
+using Repositories;
 using Vereniging;
 using Wolverine.Marten;
 
@@ -37,22 +38,31 @@ public class GeotagsInitialisationService: BackgroundService
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         var session = _store.LightweightSession();
+        _outbox.Enroll(session);
+        var geotagMigrationRepository = new GeotagMigrationRepository(session);
 
-        var geotagMigrationDone = await session.Query<GeotagMigration>()
-                                                                     .AnyAsync(x => x.Id == new GeotagMigration().Id, cancellationToken);
+        var migrationRanToCompletion = await geotagMigrationRepository.DidMigrationAlreadyRunToCompletion(cancellationToken);
 
-        while (!geotagMigrationDone)
+        while (!migrationRanToCompletion)
         {
             try
             {
-                session.Insert(new GeotagMigration());
+                geotagMigrationRepository.AddMigrationRecord();
 
-                await SyncNutsLauInfo(session, cancellationToken);
+                _logger.LogInformation("Start syncing nuts lau info");
+
+                var nutsLauInfo = await _nutsLauFromGrarFetcher.GetFlemishAndBrusselsNutsAndLauByPostcode(cancellationToken);
+
+                if (nutsLauInfo.Length == 0)
+                {
+                    throw new Exception("No nuts lau info returned. Aborting migration. Retry will happen in a short while.");
+                }
+
+                ReplacePostalNutsLauInDb(nutsLauInfo, session);
 
                 await MigrateGeotags(session, cancellationToken);
 
                 await session.SaveChangesAsync(cancellationToken);
-                _logger.LogWarning("Migrated geotags to {0}", session.Query<GeotagMigration>().Count());
             }
             catch (Exception e)
             {
@@ -61,38 +71,20 @@ public class GeotagsInitialisationService: BackgroundService
                 await Task.Delay(10.Seconds());
             }
 
-            geotagMigrationDone = await session.Query<GeotagMigration>()
-                                                   .AnyAsync(x => x.Id == new GeotagMigration().Id, cancellationToken);
+            migrationRanToCompletion = await geotagMigrationRepository.DidMigrationAlreadyRunToCompletion(cancellationToken);
         }
     }
 
-
-
-    private async Task SyncNutsLauInfo(IDocumentSession session, CancellationToken cancellationToken)
+    private void ReplacePostalNutsLauInDb(PostalNutsLauInfo[] nutsLauInfo, IDocumentSession session)
     {
-        _logger.LogInformation("Start syncing nuts lau info");
-
-
-        var nutsLauInfo = await _nutsLauFromGrarFetcher.GetFlemishAndBrusselsNutsAndLauByPostcode(cancellationToken);
-
         _logger.LogInformation($"NutsLauFromGrarFetcher returned {nutsLauInfo.Length} nuts lau infos.");
-
-        if (nutsLauInfo.Length != 0)
-        {
-            session.DeleteWhere<PostalNutsLauInfo>(n => true);
-            session.Store(nutsLauInfo);
-            _logger.LogInformation("Stopped syncing nuts lau info.");
-        }
-        else
-        {
-            throw new Exception("No nuts lau info returned. Aborting migration. Retry will happen in a short while.");
-        }
+        session.DeleteWhere<PostalNutsLauInfo>(_ => true);
+        session.Store(nutsLauInfo);
     }
 
     private async Task MigrateGeotags(IDocumentSession session, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Starting to prepare geotags migration outbox.");
-        _outbox.Enroll(session);
 
         var verenigingenWithoutGeotags = await _query.ExecuteAsync(cancellationToken);
         var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
@@ -100,7 +92,7 @@ public class GeotagsInitialisationService: BackgroundService
         foreach (var verenigingWithoutGeotag in verenigingenWithoutGeotags)
         {
             var command = new CommandEnvelope<InitialiseerGeotagsCommand>(
-                new InitialiseerGeotagsCommand(VCode.Create(verenigingWithoutGeotag)), metadata);
+                 new InitialiseerGeotagsCommand(VCode.Create(verenigingWithoutGeotag)), metadata);
 
             await _outbox.SendAsync(command);
         }

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AssociationRegistry.Admin.Api.Queries;
 using global::AutoFixture;
 using Moq;
+using Vereniging;
 
 public class VerenigingenZonderGeotagsQueryFactory
 {
@@ -20,6 +21,14 @@ public class VerenigingenZonderGeotagsQueryFactory
         return mock;
     }
 
+    public Mock<IVerenigingenWithoutGeotagsQuery> Throws(Exception? exception = null)
+    {
+        var mock = new Mock<IVerenigingenWithoutGeotagsQuery>();
+        mock.Setup(x => x.ExecuteAsync(It.IsAny<CancellationToken>()))
+            .ThrowsAsync(exception ?? new Exception("Mocked exception"));
+        return mock;
+    }
+
     public Mock<IVerenigingenWithoutGeotagsQuery> ReturnsRandomGeotags()
-        => Returns(_fixture.CreateMany<string>().ToArray());
+        => Returns(_fixture.CreateMany<VCode>().Select(x => x.ToString()).ToArray());
 }

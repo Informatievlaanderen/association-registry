@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.HostedServices;
 
 using AssociationRegistry.Admin.Api.HostedServices.GeotagsInitialisation;
+using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.DecentraalBeheer.Geotags.InitialiseerGeotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.NutsLau;
@@ -14,28 +15,40 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Repositories;
 using Vereniging;
 using Wolverine;
+using Wolverine.Marten;
 using Xunit;
 
 public class GeotagsInitialisationServiceTests
 {
+    private readonly Faktory _faktory;
+    private readonly Fixture _fixture;
+    private readonly DocumentStore _store;
+    private readonly IDocumentSession _session;
+    private readonly GeotagMigrationRepository _geotagMigrationRepository;
+
+    public GeotagsInitialisationServiceTests()
+    {
+        _fixture = new Fixture().CustomizeAdminApi();
+        _faktory = Faktory.New(_fixture);
+        _store = TestDocumentStoreFactory.CreateAsync("GeotagsInitialisationServiceTests").GetAwaiter().GetResult();
+        _session = _store.LightweightSession();
+        _geotagMigrationRepository = new GeotagMigrationRepository(_session);
+    }
+
     [Fact]
     public async Task Given_No_Verenigingen_Zonder_Geotags()
     {
-        var fixture = new Fixture().CustomizeAdminApi();
-        var faktory = Faktory.New(fixture);
-        var store = await TestDocumentStoreFactory.CreateAsync("GeotagsInitialisationServiceTests");
+        var martenOutbox = _faktory.MartenOutbox.Mock();
+        var nutsLauFromGrarFetcher = _faktory.nutsLauFromGrarFetcher.ReturnsRandomPostalNutsLauInfos();
+        var query = _faktory.VerenigingenZonderGeotagsQuery.Returns(returns: []);
 
-        var martenOutbox = faktory.MartenOutbox.Mock();
-        var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.ReturnsRandomPostalNutsLauInfos();
-        var query = faktory.VerenigingenZonderGeotagsQuery.Returns(returns: []);
-
-        var sut = new GeotagsInitialisationService(store,
-                                                   martenOutbox.Object,
-                                                   query.Object,
-                                                   nutsLauFromGrarFetcher.Object,
-                                                   new NullLogger<GeotagsInitialisationService>());
+        var (sut, _, _, _) =
+            SetupGeotagsInitialisationService(
+                nutsLauFetcher: x => x.ReturnsRandomPostalNutsLauInfos(),
+                verenigingenZonderGeotagsQuery: x => x.Returns(returns: []));
 
         await sut.StartAsync(CancellationToken.None);
         await sut.ExecuteTask;
@@ -46,7 +59,7 @@ public class GeotagsInitialisationServiceTests
                                     It.IsAny<DeliveryOptions?>()),
                             Times.Never());
 
-        var session = store.LightweightSession();
+        var session = _store.LightweightSession();
 
         var migrationRecord = await session.Query<GeotagMigration>().SingleOrDefaultAsync();
         migrationRecord.Should().NotBeNull();
@@ -55,23 +68,15 @@ public class GeotagsInitialisationServiceTests
     [Fact]
     public async Task Given_It_Throws_An_Exception_In_The_End_Then_No_MigrationRecord_Is_Saved()
     {
-        var faktory = Faktory.New();
-        var store = await TestDocumentStoreFactory.CreateAsync("GeotagsInitialisationServiceTests");
-
-        var martenOutbox = faktory.MartenOutbox.Mock();
-        var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.Mock();
-        var query = faktory.VerenigingenZonderGeotagsQuery.ReturnsRandomGeotags();
-
-        var sut = new GeotagsInitialisationService(store,
-                                                   martenOutbox.Object,
-                                                   query.Object,
-                                                   nutsLauFromGrarFetcher.Object,
-                                                   new NullLogger<GeotagsInitialisationService>());
+        var (sut, _, _, _) =
+            SetupGeotagsInitialisationService(
+                nutsLauFetcher: x => x.Throws(),
+                verenigingenZonderGeotagsQuery: x => x.ReturnsRandomGeotags());
 
         var taskCanceledException = await CatchTaskCancelled(async () =>
         {
             var cancellationTokenSource = new CancellationTokenSource();
-            cancellationTokenSource.CancelAfter(5000);
+            cancellationTokenSource.CancelAfter(3000);
 
             await sut.StartAsync(cancellationTokenSource.Token);
 
@@ -80,7 +85,7 @@ public class GeotagsInitialisationServiceTests
 
         taskCanceledException.Should().NotBeNull();
 
-        var session = store.LightweightSession();
+        var session = _store.LightweightSession();
         var migrationRecord = await session.Query<GeotagMigration>().SingleOrDefaultAsync();
         migrationRecord.Should().BeNull();
     }
@@ -88,19 +93,12 @@ public class GeotagsInitialisationServiceTests
     [Fact]
     public async Task Given_Verenigingen_Met_Geotags()
     {
-        var faktory = Faktory.New();
-        var fixture = new Fixture().CustomizeAdminApi();
-        var store = await TestDocumentStoreFactory.CreateAsync("GeotagsInitialisationServiceTests");
+        var postalNutsLauInfo = _fixture.CreateMany<PostalNutsLauInfo>().ToArray();
+        var vCodes = _fixture.CreateMany<VCode>().ToArray();
 
-        var postalNutsLauInfo = fixture.CreateMany<PostalNutsLauInfo>().ToArray();
-        var vCodes = fixture.CreateMany<VCode>();
-
-        var martenOutbox = faktory.MartenOutbox.Mock();
-        var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.Returns(postalNutsLauInfo);
-        var query = faktory.VerenigingenZonderGeotagsQuery.Returns(vCodes.Select(x => x.ToString()));
-
-        var sut = new GeotagsInitialisationService(store, martenOutbox.Object, query.Object,
-                                                   nutsLauFromGrarFetcher.Object, new NullLogger<GeotagsInitialisationService>());
+        var (sut, outbox, _, _) = SetupGeotagsInitialisationService(
+            nutsLauFetcher: x => x.Returns(postalNutsLauInfo),
+            verenigingenZonderGeotagsQuery: x =>  x.Returns(vCodes.Select(x => x.ToString())));
 
         await sut.StartAsync(CancellationToken.None);
 
@@ -108,23 +106,36 @@ public class GeotagsInitialisationServiceTests
 
         foreach (var vCode in vCodes)
         {
-            var commandEnvelope = new CommandEnvelope<InitialiseerGeotagsCommand>(
-                new InitialiseerGeotagsCommand(vCode), CommandMetadata.ForDigitaalVlaanderenProcess);
-
-            martenOutbox.VerifyCommandSent<InitialiseerGeotagsCommand>(x => x.Command == commandEnvelope.Command &&
-                                                                            x.Metadata.Initiator == CommandMetadata
-                                                                               .ForDigitaalVlaanderenProcess.Initiator &&
-                                                                            x.Metadata.ExpectedVersion ==
-                                                                            CommandMetadata.ForDigitaalVlaanderenProcess.ExpectedVersion,
-                                                                       Times.Once());
+            outbox.VerifyCommandSent(new InitialiseerGeotagsCommand(vCode),
+                                           CommandMetadata.ForDigitaalVlaanderenProcess,
+                                           Times.Once());
         }
 
-        var session = store.LightweightSession();
-        var actualPostalNutsLauInfo = await session.Query<PostalNutsLauInfo>().ToListAsync();
+        var actualPostalNutsLauInfo = await _session.Query<PostalNutsLauInfo>().ToListAsync();
         actualPostalNutsLauInfo.Should().BeEquivalentTo(postalNutsLauInfo);
 
-        var migrationRecord = await session.Query<GeotagMigration>().SingleOrDefaultAsync();
-        migrationRecord.Should().NotBeNull();
+        var ranToCompletion = await _geotagMigrationRepository.DidMigrationAlreadyRunToCompletion(CancellationToken.None);
+        ranToCompletion.Should().BeTrue();
+    }
+
+    private (GeotagsInitialisationService sut, Mock<IMartenOutbox> martenOutbox, Mock<INutsLauFromGrarFetcher> nutsLauFromGrarFetcher, Mock<IVerenigingenWithoutGeotagsQuery> query) SetupGeotagsInitialisationService(
+        Func<MartenOutboxFactory, Mock<IMartenOutbox>>?  martenOutboxFactory = null,
+        Func<NutsLauFromGrarFetcherFactory, Mock<INutsLauFromGrarFetcher>>? nutsLauFetcher = null,
+        Func<VerenigingenZonderGeotagsQueryFactory, Mock<IVerenigingenWithoutGeotagsQuery>>? verenigingenZonderGeotagsQuery = null
+    )
+    {
+        martenOutboxFactory ??= factory => factory.Mock();
+        nutsLauFetcher ??= factory => factory.Mock();
+        verenigingenZonderGeotagsQuery ??= factory => factory.Returns([]);
+
+        var martenOutbox = martenOutboxFactory(_faktory.MartenOutbox);
+        var nutsLauFromGrarFetcher = nutsLauFetcher(_faktory.nutsLauFromGrarFetcher);
+        var query = verenigingenZonderGeotagsQuery(_faktory.VerenigingenZonderGeotagsQuery);
+
+        var sut = new GeotagsInitialisationService(_store, martenOutbox.Object, query.Object,
+                                               nutsLauFromGrarFetcher.Object, new NullLogger<GeotagsInitialisationService>());
+
+        return (sut, martenOutbox, nutsLauFromGrarFetcher, query);
     }
 
     private static async Task<Exception?> CatchTaskCancelled(Func<Task> action)
