@@ -3,6 +3,7 @@
 using AssociationRegistry.Framework;
 using Common.Scenarios.CommandHandling;
 using Common.StubsMocksFakes;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Geotags.InitialiseerGeotags;
 using EventFactories;
@@ -24,7 +25,7 @@ public class InitialiseerGeotagsCommandHandlerTests
         var geotagsService =
             Faktory.New()
                    .GeotagsService
-                   .MockWithRandomGeotags(locaties.Select(Locatie.Hydrate),
+                   .ReturnsRandomGeotags(locaties.Select(Locatie.Hydrate),
                                           werkingsgebieden.Select(x => Werkingsgebied.Hydrate(x.Code, x.Naam))
                                                           .ToArray());
 
