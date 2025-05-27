@@ -707,7 +707,7 @@ public class Program
                 options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(value: 120);
 
                 options.Listen(
-                    new IPEndPoint(IPAddress.Any, port: 11004 + new Random().Next(0,100)),
+                    new IPEndPoint(IPAddress.Any, port: 11004),
                     configure: listenOptions =>
                     {
                         listenOptions.UseConnectionLogging();
