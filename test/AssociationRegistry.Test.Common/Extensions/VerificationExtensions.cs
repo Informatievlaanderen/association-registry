@@ -7,7 +7,7 @@ using Wolverine.Marten;
 
 public static class VerificiationExtensions
 {
-    public static void VerifyCommand<TCommand>(this Mock<IMessageBus> source, TCommand commandComparison, Times times, string? initiator = null, long? expectedVersion = null)
+    public static void VerifyCommandInvoked<TCommand>(this Mock<IMessageBus> source, TCommand commandComparison, Times times, string? initiator = null, long? expectedVersion = null)
         where TCommand : class
     {
         source.Verify(x =>
@@ -21,7 +21,7 @@ public static class VerificiationExtensions
                       times);
     }
 
-    public static void VerifyCommand<TCommand>(this Mock<IMessageBus> source, Func<CommandEnvelope<TCommand>, bool> commandComparison, Times times)
+    public static void VerifyCommandInvoked<TCommand>(this Mock<IMessageBus> source, Func<CommandEnvelope<TCommand>, bool> commandComparison, Times times)
         where TCommand : class
     {
         source.Verify(x =>
@@ -32,11 +32,21 @@ public static class VerificiationExtensions
                       times);
     }
 
-    public static void VerifyCommand<TCommand>(this Mock<IMartenOutbox> source, Func<CommandEnvelope<TCommand>, bool> commandComparison, Times times)
+    public static void VerifyCommandPublished<TCommand>(this Mock<IMartenOutbox> source, Func<CommandEnvelope<TCommand>, bool> commandComparison, Times times)
         where TCommand : class
     {
         source.Verify(x =>
                           x.PublishAsync(
+                              It.Is<CommandEnvelope<TCommand>>(x => commandComparison(x)),
+                              It.IsAny<DeliveryOptions?>()),
+                      times);
+    }
+
+    public static void VerifyCommandSent<TCommand>(this Mock<IMartenOutbox> source, Func<CommandEnvelope<TCommand>, bool> commandComparison, Times times)
+        where TCommand : class
+    {
+        source.Verify(x =>
+                          x.SendAsync(
                               It.Is<CommandEnvelope<TCommand>>(x => commandComparison(x)),
                               It.IsAny<DeliveryOptions?>()),
                       times);

@@ -12,7 +12,7 @@ using Queries;
 using Vereniging;
 using Wolverine.Marten;
 
-public class GeotagsInitialisationService
+public class GeotagsInitialisationService: BackgroundService
 {
     private readonly IDocumentStore _store;
     private readonly IMartenOutbox _outbox;
@@ -37,35 +37,35 @@ public class GeotagsInitialisationService
         _logger = logger;
     }
 
-    public async Task ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         var session = _store.LightweightSession();
 
-        var geotagMigrationDone = await session.Query<GoetagMigration>()
-                                                                     .AnyAsync(x => x.Id == new GoetagMigration().Id, cancellationToken);
+        var geotagMigrationDone = await session.Query<GeotagMigration>()
+                                                                     .AnyAsync(x => x.Id == new GeotagMigration().Id, cancellationToken);
 
         while (!geotagMigrationDone)
         {
             try
             {
-                session.Store(new GoetagMigration());
+                session.Insert(new GeotagMigration());
 
-                throw new Exception();
                 await SyncNutsLauInfo(session, cancellationToken);
 
-                await MigrateGeotags(cancellationToken, session);
+                await MigrateGeotags(session, cancellationToken);
 
                 await session.SaveChangesAsync(cancellationToken);
+                _logger.LogWarning("Migrated geotags to {0}", session.Query<GeotagMigration>().Count());
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogCritical(e, "Error while migrating geotags");
 
                 await Task.Delay(10.Seconds());
             }
 
-            geotagMigrationDone = await session.Query<GoetagMigration>()
-                                                   .AnyAsync(x => x.Id == new GoetagMigration().Id, cancellationToken);
+            geotagMigrationDone = await session.Query<GeotagMigration>()
+                                                   .AnyAsync(x => x.Id == new GeotagMigration().Id, cancellationToken);
         }
     }
 
@@ -81,24 +81,23 @@ public class GeotagsInitialisationService
 
         var nutsLauInfo = await _nutsLauFromGrarFetcher.GetFlemishAndBrusselsNutsAndLauByPostcode(postcodes, cancellationToken);
 
-        _logger.LogInformation($"NutsLauFromGrarFetcher returned {nutsLauInfo.Length} nuts lau info.");
+        _logger.LogInformation($"NutsLauFromGrarFetcher returned {nutsLauInfo.Length} nuts lau infos.");
 
         if (nutsLauInfo.Length != 0)
         {
             session.DeleteWhere<PostalNutsLauInfo>(n => true);
             session.Store(nutsLauInfo);
+            _logger.LogInformation("Stopped syncing nuts lau info.");
         }
         else
         {
-            throw new Exception("try syncing again");
+            throw new Exception("No nuts lau info returned. Aborting migration. Retry will happen in a short while.");
         }
-
-        _logger.LogInformation("Stopped syncing nuts lau info.");
     }
 
-    private async Task MigrateGeotags(CancellationToken cancellationToken, IDocumentSession session)
+    private async Task MigrateGeotags(IDocumentSession session, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("GeotagsInitialisationService is starting.");
+        _logger.LogInformation("Starting to prepare geotags migration outbox.");
         _outbox.Enroll(session);
 
         var verenigingenWithoutGeotags = await _query.ExecuteAsync(cancellationToken);
@@ -109,28 +108,15 @@ public class GeotagsInitialisationService
             var command = new CommandEnvelope<InitialiseerGeotagsCommand>(
                 new InitialiseerGeotagsCommand(VCode.Create(verenigingWithoutGeotag)), metadata);
 
-            await _outbox.PublishAsync(command);
+            await _outbox.SendAsync(command);
         }
 
-        // for (int i = 0; i < 10; i++)
-        // {
-        //     _logger.LogInformation($"fv send {i}");
-        //
-        //     await Task.Delay(1.Seconds(), cancellationToken);
-        //
-        //     var command = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-        //         new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(VerenigingsNaam.Create("test-2"), null, null, null, Doelgroep.Create(10,50), false,[], [], [], [], []), metadata);
-        //     //var command = new CommandEnvelope<InitialiseerGeotagsCommand>(new InitialiseerGeotagsCommand(VCode.Create(verenigingWithoutGeotag)), metadata);
-        //     await _outbox.PublishAsync(command);
-        // }
-
-
-        _logger.LogInformation("GeotagsInitialisationService is stopping.");
+        _logger.LogInformation("Geotag migrations sent to outbox, awaiting transaction completion.");
     }
 }
 
-public record GoetagMigration()
+public record GeotagMigration()
 {
     [Identity]
-    public string Id => "migration2025-1";
+    public string Id => "geotag-migration-202505";
 }
