@@ -18,14 +18,12 @@ public class GeotagsInitialisationService: BackgroundService
     private readonly IMartenOutbox _outbox;
     private readonly IVerenigingenWithoutGeotagsQuery _query;
     private readonly INutsLauFromGrarFetcher _nutsLauFromGrarFetcher;
-    private readonly IPostcodesFromGrarFetcher _postcodesFromGrarFetcher;
     private readonly ILogger<GeotagsInitialisationService> _logger;
 
     public GeotagsInitialisationService(
         IDocumentStore store,
         IMartenOutbox outbox,
         IVerenigingenWithoutGeotagsQuery query,
-        IPostcodesFromGrarFetcher postcodesFromGrarFetcher,
         INutsLauFromGrarFetcher nutsLauFromGrarFetcher,
         ILogger<GeotagsInitialisationService> logger)
     {
@@ -33,7 +31,6 @@ public class GeotagsInitialisationService: BackgroundService
         _outbox = outbox;
         _query = query;
         _nutsLauFromGrarFetcher = nutsLauFromGrarFetcher;
-        _postcodesFromGrarFetcher = postcodesFromGrarFetcher;
         _logger = logger;
     }
 
@@ -75,11 +72,8 @@ public class GeotagsInitialisationService: BackgroundService
     {
         _logger.LogInformation("Start syncing nuts lau info");
 
-        var postcodes = await _postcodesFromGrarFetcher.FetchPostalCodes(cancellationToken);
 
-        _logger.LogInformation($"PostcodesFromGrarFetcher returned {postcodes.Length} postcodes.");
-
-        var nutsLauInfo = await _nutsLauFromGrarFetcher.GetFlemishAndBrusselsNutsAndLauByPostcode(postcodes, cancellationToken);
+        var nutsLauInfo = await _nutsLauFromGrarFetcher.GetFlemishAndBrusselsNutsAndLauByPostcode(cancellationToken);
 
         _logger.LogInformation($"NutsLauFromGrarFetcher returned {nutsLauInfo.Length} nuts lau infos.");
 

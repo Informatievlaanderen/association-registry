@@ -29,14 +29,13 @@ public class GeotagsInitialisationServiceTests
         var martenOutbox = faktory.MartenOutbox.Mock();
 
         string[] postcodes = ["1500", "15001"];
-        var postcodesFromGrarFetcher = faktory.postcodesFromGrarFetcher.MockWithPostcodes(returns: postcodes);
 
         var postalNutsLauInfo = fixture.Create<PostalNutsLauInfo>();
         var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.MockWithPostalNutsLauInfo(postcodes, [postalNutsLauInfo]);
 
         var query = faktory.VerenigingenZonderGeotagsQuery.Mock([]);
 
-        var sut = new GeotagsInitialisationService(store, martenOutbox.Object, query.Object, postcodesFromGrarFetcher.Object,
+        var sut = new GeotagsInitialisationService(store, martenOutbox.Object, query.Object,
                                                    nutsLauFromGrarFetcher.Object, new NullLogger<GeotagsInitialisationService>());
 
         await sut.StartAsync(CancellationToken.None);
@@ -63,12 +62,11 @@ public class GeotagsInitialisationServiceTests
         var store = await TestDocumentStoreFactory.CreateAsync("GeotagsInitialisationServiceTests");
 
         var martenOutbox = faktory.MartenOutbox.Mock();
-        var postcodesFromGrarFetcher = faktory.postcodesFromGrarFetcher.Throws();
         var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.Mock();
 
         var query = faktory.VerenigingenZonderGeotagsQuery.Mock([]);
 
-        var sut = new GeotagsInitialisationService(store, martenOutbox.Object, query.Object, postcodesFromGrarFetcher.Object,
+        var sut = new GeotagsInitialisationService(store, martenOutbox.Object, query.Object,
                                                    nutsLauFromGrarFetcher.Object, new NullLogger<GeotagsInitialisationService>());
 
         Exception taskCanceledException = null;
@@ -109,14 +107,13 @@ public class GeotagsInitialisationServiceTests
         var martenOutbox = faktory.MartenOutbox.Mock();
 
         string[] postcodes = ["1500", "15001"];
-        var postcodesFromGrarFetcher = faktory.postcodesFromGrarFetcher.MockWithPostcodes(returns: postcodes);
 
         var postalNutsLauInfo = fixture.Create<PostalNutsLauInfo>();
         var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.MockWithPostalNutsLauInfo(postcodes, [postalNutsLauInfo]);
 
         var query = faktory.VerenigingenZonderGeotagsQuery.Mock(vCodes.Select(x => x.ToString()));
 
-        var sut = new GeotagsInitialisationService(store, martenOutbox.Object, query.Object, postcodesFromGrarFetcher.Object,
+        var sut = new GeotagsInitialisationService(store, martenOutbox.Object, query.Object,
                                                    nutsLauFromGrarFetcher.Object, new NullLogger<GeotagsInitialisationService>());
 
         await sut.StartAsync(CancellationToken.None);
