@@ -22,6 +22,7 @@ using Nest;
 using NodaTime;
 using NodaTime.Text;
 using Oakton;
+using Repositories;
 using TestClasses;
 using Vereniging;
 using Xunit;
@@ -89,6 +90,12 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         ElasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+
+        await using var session = PublicApiHost.DocumentStore().LightweightSession();
+
+        new GeotagMigrationRepository(session).AddMigrationRecord();
+
+        await session.SaveChangesAsync();
 
         await AdminProjectionHost.StartAsync();
         await PublicProjectionHost.StartAsync();
