@@ -9,6 +9,7 @@ using Common.AutoFixture;
 using Common.Extensions;
 using Common.Framework;
 using Common.StubsMocksFakes;
+using Common.StubsMocksFakes.Faktories;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -22,24 +23,21 @@ public class GeotagsInitialisationServiceTests
     [Fact]
     public async Task Given_No_Verenigingen_Zonder_Geotags()
     {
-        var faktory = Faktory.New();
         var fixture = new Fixture().CustomizeAdminApi();
+        var faktory = Faktory.New(fixture);
         var store = await TestDocumentStoreFactory.CreateAsync("GeotagsInitialisationServiceTests");
 
         var martenOutbox = faktory.MartenOutbox.Mock();
+        var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.ReturnsRandomPostalNutsLauInfos();
+        var query = faktory.VerenigingenZonderGeotagsQuery.Returns(returns: []);
 
-        string[] postcodes = ["1500", "15001"];
-
-        var postalNutsLauInfo = fixture.Create<PostalNutsLauInfo>();
-        var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.MockWithPostalNutsLauInfo(postcodes, [postalNutsLauInfo]);
-
-        var query = faktory.VerenigingenZonderGeotagsQuery.Mock([]);
-
-        var sut = new GeotagsInitialisationService(store, martenOutbox.Object, query.Object,
-                                                   nutsLauFromGrarFetcher.Object, new NullLogger<GeotagsInitialisationService>());
+        var sut = new GeotagsInitialisationService(store,
+                                                   martenOutbox.Object,
+                                                   query.Object,
+                                                   nutsLauFromGrarFetcher.Object,
+                                                   new NullLogger<GeotagsInitialisationService>());
 
         await sut.StartAsync(CancellationToken.None);
-
         await sut.ExecuteTask;
 
         martenOutbox.Verify(x =>
@@ -58,20 +56,19 @@ public class GeotagsInitialisationServiceTests
     public async Task Given_It_Throws_An_Exception_In_The_End_Then_No_MigrationRecord_Is_Saved()
     {
         var faktory = Faktory.New();
-        var fixture = new Fixture().CustomizeAdminApi();
         var store = await TestDocumentStoreFactory.CreateAsync("GeotagsInitialisationServiceTests");
 
         var martenOutbox = faktory.MartenOutbox.Mock();
         var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.Mock();
+        var query = faktory.VerenigingenZonderGeotagsQuery.ReturnsRandomGeotags();
 
-        var query = faktory.VerenigingenZonderGeotagsQuery.Mock([]);
+        var sut = new GeotagsInitialisationService(store,
+                                                   martenOutbox.Object,
+                                                   query.Object,
+                                                   nutsLauFromGrarFetcher.Object,
+                                                   new NullLogger<GeotagsInitialisationService>());
 
-        var sut = new GeotagsInitialisationService(store, martenOutbox.Object, query.Object,
-                                                   nutsLauFromGrarFetcher.Object, new NullLogger<GeotagsInitialisationService>());
-
-        Exception taskCanceledException = null;
-
-        try
+        var taskCanceledException = await CatchTaskCancelled(async () =>
         {
             var cancellationTokenSource = new CancellationTokenSource();
             cancellationTokenSource.CancelAfter(5000);
@@ -79,15 +76,7 @@ public class GeotagsInitialisationServiceTests
             await sut.StartAsync(cancellationTokenSource.Token);
 
             await sut.ExecuteTask;
-        }
-        catch (TaskCanceledException ex)
-        {
-            taskCanceledException = ex;
-        }
-        catch (OperationCanceledException ex)
-        {
-            taskCanceledException = ex;
-        }
+        });
 
         taskCanceledException.Should().NotBeNull();
 
@@ -101,17 +90,14 @@ public class GeotagsInitialisationServiceTests
     {
         var faktory = Faktory.New();
         var fixture = new Fixture().CustomizeAdminApi();
-        var vCodes = fixture.CreateMany<VCode>();
         var store = await TestDocumentStoreFactory.CreateAsync("GeotagsInitialisationServiceTests");
 
+        var postalNutsLauInfo = fixture.CreateMany<PostalNutsLauInfo>().ToArray();
+        var vCodes = fixture.CreateMany<VCode>();
+
         var martenOutbox = faktory.MartenOutbox.Mock();
-
-        string[] postcodes = ["1500", "15001"];
-
-        var postalNutsLauInfo = fixture.Create<PostalNutsLauInfo>();
-        var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.MockWithPostalNutsLauInfo(postcodes, [postalNutsLauInfo]);
-
-        var query = faktory.VerenigingenZonderGeotagsQuery.Mock(vCodes.Select(x => x.ToString()));
+        var nutsLauFromGrarFetcher = faktory.nutsLauFromGrarFetcher.Returns(postalNutsLauInfo);
+        var query = faktory.VerenigingenZonderGeotagsQuery.Returns(vCodes.Select(x => x.ToString()));
 
         var sut = new GeotagsInitialisationService(store, martenOutbox.Object, query.Object,
                                                    nutsLauFromGrarFetcher.Object, new NullLogger<GeotagsInitialisationService>());
@@ -135,9 +121,29 @@ public class GeotagsInitialisationServiceTests
 
         var session = store.LightweightSession();
         var actualPostalNutsLauInfo = await session.Query<PostalNutsLauInfo>().ToListAsync();
-        actualPostalNutsLauInfo.Should().BeEquivalentTo([postalNutsLauInfo]);
+        actualPostalNutsLauInfo.Should().BeEquivalentTo(postalNutsLauInfo);
 
         var migrationRecord = await session.Query<GeotagMigration>().SingleOrDefaultAsync();
         migrationRecord.Should().NotBeNull();
+    }
+
+    private static async Task<Exception?> CatchTaskCancelled(Func<Task> action)
+    {
+        Exception taskCanceledException = null;
+
+        try
+        {
+            await action();
+        }
+        catch (TaskCanceledException ex)
+        {
+            taskCanceledException = ex;
+        }
+        catch (OperationCanceledException ex)
+        {
+            taskCanceledException = ex;
+        }
+
+        return taskCanceledException;
     }
 }
