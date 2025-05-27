@@ -168,21 +168,15 @@ public class Program
             app.Services.GetRequiredService<ElasticClient>(),
             app.Services.GetRequiredService<ILogger<Program>>());
 
+
         await app.RunOaktonCommands(args);
     }
 
     private static async Task RunPreStartupTasks(WebApplication app, ILogger<Program> logger)
     {
-        await StartGeotagsMigration(app, logger);
         await ArchiveAfdelingen(app);
         await RegistreerOntbrekendeInschrijvingen(app, logger);
         await LogPendingDatabaseChanges(app, logger);
-    }
-
-    private static async Task StartGeotagsMigration(WebApplication app, ILogger<Program> logger)
-    {
-        var geotagsService = app.Services.GetRequiredService<GeotagsInitialisationService>();
-        await geotagsService.ExecuteAsync(CancellationToken.None);
     }
 
     private static async Task LogPendingDatabaseChanges(WebApplication app, ILogger<Program> logger)
@@ -430,7 +424,6 @@ public class Program
                               sp.GetRequiredService<IMemoryCache>()))
                .AddScoped(sp => new MinimumScore(sp.GetRequiredService<ElasticSearchOptionsService>().MinimumScoreDuplicateDetection))
                .AddScoped<InitiatorProvider>()
-               .AddSingleton<GeotagsInitialisationService>()
                .AddScoped<IMagdaRegistreerInschrijvingCatchupService, MagdaRegistreerInschrijvingCatchupService>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
                .AddScoped<InitiatorProvider>()
@@ -581,7 +574,7 @@ public class Program
                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                .AddDatabaseDeveloperPageExceptionFilter();
 
-        var healthChecksBuilder = builder.Services.AddHealthChecks();
+        var healthChecksBuilder = builder.Services.AddHealthChecks().AddCheck<MigrationHealthCheck>("geotags-migration");
 
         // var connectionStrings = builder.Configuration
         //                                .GetSection("ConnectionStrings")
@@ -683,6 +676,8 @@ public class Program
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
     {
         ConfigureAddresskafkaConsumer(builder);
+
+        builder.Services.AddHostedService<GeotagsInitialisationService>();
     }
 
     private static void ConfigureAddresskafkaConsumer(WebApplicationBuilder builder)
@@ -711,7 +706,7 @@ public class Program
                 options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(value: 120);
 
                 options.Listen(
-                    new IPEndPoint(IPAddress.Any, port: 11004),// + new Random().Next(0,100)),
+                    new IPEndPoint(IPAddress.Any, port: 11004 + new Random().Next(0,100)),
                     configure: listenOptions =>
                     {
                         listenOptions.UseConnectionLogging();
@@ -776,4 +771,33 @@ public class Program
 public class NullNotifier : INotifier
 {
     public Task Notify(IMessage message) => Task.CompletedTask;
+}
+
+public class MigrationHealthCheck : IHealthCheck
+{
+    private readonly IDocumentStore _store;
+
+    public MigrationHealthCheck(IDocumentStore store)
+    {
+        _store = store;
+    }
+
+    public async Task<HealthCheckResult> CheckHealthAsync(
+        HealthCheckContext context,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            using var session = _store.LightweightSession();
+            var ok = await session.Query<GeotagMigration>()
+                                  .AnyAsync(x => x.Id == new GeotagMigration().Id, cancellationToken);
+            return ok
+                ? HealthCheckResult.Healthy("Migration run")
+                : HealthCheckResult.Unhealthy("Migration not yet run");
+        }
+        catch (Exception ex)
+        {
+            return HealthCheckResult.Unhealthy("Migration check threw exception", ex);
+        }
+    }
 }

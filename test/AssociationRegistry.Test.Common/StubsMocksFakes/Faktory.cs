@@ -55,6 +55,15 @@ public class postcodesFromGrarFetcherFactory
         return mock;
     }
 
+    public Mock<IPostcodesFromGrarFetcher> Throws(Exception? exception = null)
+    {
+        var mock = new Mock<IPostcodesFromGrarFetcher>();
+        mock.Setup(x => x.FetchPostalCodes(It.IsAny<CancellationToken>()))
+            .ThrowsAsync(exception ?? new Exception("Mocked exception"));
+        return mock;
+    }
+
+
     public postcodesFromGrarFetcherFactory(Fixture fixture)
     {
     }
