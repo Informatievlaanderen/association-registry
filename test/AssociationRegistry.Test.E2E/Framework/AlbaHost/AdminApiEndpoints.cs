@@ -8,6 +8,7 @@ using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Alba;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
+using FluentAssertions;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
@@ -97,13 +98,15 @@ public static class AdminApiEndpoints
         {
             logger.LogCritical($"<<<<<<<<<<<<<<Did not reach the expected sequence yet. Expected: {expectedSequence}, Actual: {result} >>>>>>>>>>>>>{query}");
             counter++;
-            await Task.Delay(500);
+            await Task.Delay(500 + (100 * counter));
             await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
 
             result = (await store2.Advanced
                                   .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")?.Sequence;
             reachedSequence = result >= expectedSequence;
         }
+
+        reachedSequence.Should().BeTrue();
         return await SmartHttpClient.Create(source, authenticatedClient, headers?.WithoutExpectedSequence()).GetWithRetryAsync<SearchVerenigingenResponse>(
             $"/v1/verenigingen/zoeken?q={HttpUtility.UrlEncode(query)}{AddOptionalSort(sort)}");
     }
