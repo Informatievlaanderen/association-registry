@@ -78,28 +78,6 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         return tempConfiguration;
     }
 
-    protected async Task AddEvent(string vCode, IEvent eventToAdd, CommandMetadata? metadata = null)
-    {
-        if (DocumentStore is null)
-            throw new ArgumentNullException("DocumentStore cannot be null when adding an event");
-
-        if (_elasticClient is null)
-            throw new ArgumentNullException("Elastic client cannot be null when adding an event");
-
-        metadata ??= new CommandMetadata(vCode, new DateTime(year: 2022, month: 1, day: 1).ToUniversalTime().ToInstant(), Guid.NewGuid());
-
-        var eventStore = new EventStore(DocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
-        await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, metadata, CancellationToken.None, eventToAdd);
-
-        await DocumentStore.WaitForNonStaleProjectionDataAsync(60.Seconds());
-        // using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-        // await daemon.StartAllShards();
-        // await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
-
-        // Make sure all documents are properly indexed
-        await _elasticClient.Indices.RefreshAsync(Indices.All);
-    }
-
     private WebApplicationFactory<ProjectionHostProgram> RunProjectionHost()
     {
         return new WebApplicationFactory<ProjectionHostProgram>()
