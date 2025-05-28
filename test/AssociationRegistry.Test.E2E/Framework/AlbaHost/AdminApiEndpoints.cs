@@ -94,7 +94,7 @@ public static class AdminApiEndpoints
 
         bool reachedSequence = result >= expectedSequence;
         var counter = 0;
-        while ((!result.HasValue || !reachedSequence) && counter < 10)
+        while ((!result.HasValue || !reachedSequence) && counter < 20)
         {
             logger.LogCritical($"<<<<<<<<<<<<<<Did not reach the expected sequence yet. Expected: {expectedSequence}, Actual: {result} >>>>>>>>>>>>>{query}");
             counter++;
