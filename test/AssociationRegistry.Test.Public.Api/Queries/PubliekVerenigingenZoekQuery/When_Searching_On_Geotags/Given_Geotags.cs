@@ -118,7 +118,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         {
             var vereniging = actual.Documents.SingleOrDefault(x => x.VCode == verenigingZoekDocument.VCode);
             vereniging.Should().NotBeNull();
-            vereniging!.Geotags.Select(x => x.Identifier).Should().BeEquivalentTo(verenigingZoekDocument.Geotags.Select(x => x.Identifier));
+            vereniging!.Geotags.Select(x => x.Identificatie).Should().BeEquivalentTo(verenigingZoekDocument.Geotags.Select(x => x.Identificatie));
         }
     }
 

@@ -54,9 +54,7 @@ public class GeotagsInitialisationService: BackgroundService
                 var nutsLauInfo = await _nutsLauFromGrarFetcher.GetFlemishAndBrusselsNutsAndLauByPostcode(cancellationToken);
 
                 if (nutsLauInfo.Length == 0)
-                {
                     throw new Exception("No nuts lau info returned. Aborting migration. Retry will happen in a short while.");
-                }
 
                 ReplacePostalNutsLauInDb(nutsLauInfo, session);
 

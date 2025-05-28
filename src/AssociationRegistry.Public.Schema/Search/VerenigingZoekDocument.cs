@@ -30,7 +30,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
 
     public static class Types
     {
-        public record Geotag(string Identifier);
+        public record Geotag(string Identificatie);
 
         public class Verenigingssubtype : IVerenigingssubtypeCode
         {
