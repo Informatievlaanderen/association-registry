@@ -19,7 +19,7 @@ public class Returns_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
         => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode} AND" +
-                                                                                      $" geotags.identifier:BE24123027 AND geotags.identifier:BE24 AND geotags.identifier:{_testContext.CommandRequest.Locaties.First().Adres.Postcode}", _testContext.CommandResult.Sequence).GetAwaiter().GetResult();
+                                                                                      $" geotags.identificatie:BE24123027 AND geotags.identificatie:BE24 AND geotags.identificatie:{_testContext.CommandRequest.Locaties.First().Adres.Postcode}", _testContext.CommandResult.Sequence).GetAwaiter().GetResult();
 
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
