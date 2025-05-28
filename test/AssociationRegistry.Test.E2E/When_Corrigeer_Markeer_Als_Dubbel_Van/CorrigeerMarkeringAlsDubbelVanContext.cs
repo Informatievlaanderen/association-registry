@@ -48,7 +48,7 @@ public class CorrigeerMarkeringAlsDubbelVanContext : TestContextBase<VerenigingW
 
         {
             counter++;
-            await Task.Delay(500 + (counter * 10));
+            await Task.Delay(500 + (counter * 100));
 
             stream = await session.Events.FetchStreamAsync(scenario.AuthentiekeVereniging.VCode);
 
