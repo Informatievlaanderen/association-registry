@@ -1,3 +1,19 @@
+# [8.241.0](https://github.com/informatievlaanderen/association-registry/compare/v8.240.0...v8.241.0) (2025-05-28)
+
+
+### Bug Fixes
+
+* or-2818 make port static again ([1f7cd54](https://github.com/informatievlaanderen/association-registry/commit/1f7cd546949a7fa5225a06a2ce33b3a5b8c3613d))
+* or-2818 rename identificatie in tests ([d7e8138](https://github.com/informatievlaanderen/association-registry/commit/d7e81383432164889ea01d1a71df1992618602ab))
+* or-2818 rename to dutch ([1376735](https://github.com/informatievlaanderen/association-registry/commit/1376735ae06c482c97e3d0de959599cc7ed0daa4))
+* or-2818 take in address details first before calculating geotags ([885b2df](https://github.com/informatievlaanderen/association-registry/commit/885b2dfd791acbe2aaaa9ef73d7582d9b0adabc0))
+
+
+### Features
+
+* or-2818 rewrite geotag migration service ([bff7d04](https://github.com/informatievlaanderen/association-registry/commit/bff7d041b53668c91d1daa5dfce39582b72313df))
+* or-2818 use background service with health checks ([9a0bc3f](https://github.com/informatievlaanderen/association-registry/commit/9a0bc3fe7c5bd4ce9503767fb58b48f274ec63ec))
+
 # [8.240.0](https://github.com/informatievlaanderen/association-registry/compare/v8.239.0...v8.240.0) (2025-05-22)
 
 
