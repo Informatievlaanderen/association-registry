@@ -34,4 +34,20 @@ public static class LocatieEnumerableExtensions
 
     public static bool HasCorrespondentieLocatie(this IEnumerable<Locatie> locaties)
         => locaties.Any(l => l.Locatietype == Locatietype.Correspondentie);
+
+    public static (T[] Matched, T[] Unmatched) Partition<T>(
+        this IEnumerable<T> source,
+        Func<T,bool> predicate)
+    {
+        var yes = new List<T>();
+        var no  = new List<T>();
+        foreach (var item in source)
+        {
+            if (predicate(item))
+                yes.Add(item);
+            else
+                no.Add(item);
+        }
+        return (yes.ToArray(), no.ToArray());
+    }
 }
