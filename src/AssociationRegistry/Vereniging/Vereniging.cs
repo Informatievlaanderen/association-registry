@@ -27,7 +27,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<StartdatumMagNietInToekomstZijn>.If(command.Startdatum?.IsInFutureOf(clock.Today) ?? false);
 
         var vCode = await vCodeService.GetNext();
-        var geotags = await geotagsService.CalculateGeotags(command.Locaties, command.Werkingsgebieden);
 
         var toegevoegdeLocaties = Locaties.Empty.VoegToe(command.Locaties);
         var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(command.Contactgegevens);
@@ -52,12 +51,24 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         vereniging.RegistreerWerkingsgebieden(command.Werkingsgebieden);
 
-        vereniging.AddEvent(EventFactory.GeotagsWerdenBepaald(vCode, geotags));
-
         return vereniging;
     }
 
-    private void RegistreerWerkingsgebieden(Werkingsgebied[] teRegistrerenWerkingsgebieden)
+    public async Task NeemAdresDetailsOver(Locatie[] metAdresId, IGrarClient grarClient, CancellationToken cancellationToken)
+    {
+        foreach (var locatieMetAdresId in metAdresId)
+        {
+            await NeemAdresDetailOver(locatieMetAdresId, grarClient, cancellationToken);
+        }
+    }
+
+    public async Task BepaalGeotags(IGeotagsService geotagsService)
+    {
+        var geotags = await geotagsService.CalculateGeotags(State.Locaties, State.Werkingsgebieden);
+        AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
+    }
+
+    public void RegistreerWerkingsgebieden(Werkingsgebied[] teRegistrerenWerkingsgebieden)
     {
         var werkingsgebieden = Werkingsgebieden.FromArray(teRegistrerenWerkingsgebieden);
 
@@ -304,7 +315,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     }
 
     public async Task NeemAdresDetailOver(
-        Registratiedata.Locatie teSynchroniserenLocatie,
+        Locatie teSynchroniserenLocatie,
         IGrarClient grarClient,
         CancellationToken cancellationToken)
     {
@@ -329,5 +340,4 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     private bool AndereVerenigingIsReedsEenLid(VCode? andereVereniging)
         => State.Lidmaatschappen.Any(x => x.AndereVereniging == andereVereniging);
-
 }

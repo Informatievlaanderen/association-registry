@@ -4,6 +4,7 @@ using DuplicateVerenigingDetection;
 using Events;
 using Framework;
 using Grar.Clients;
+using JasperFx.Core;
 using Messages;
 using Vereniging;
 using Marten;
@@ -62,18 +63,21 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
                 return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
         }
 
+
         var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
             command,
             _vCodeService,
             _geotagsService,
             _clock);
 
-        var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
-                                            .Single().Locaties;
+        var (metAdresId, zonderAdresId) = command.Locaties.Partition(x => x.AdresId is not null);
 
-        foreach (var teSynchroniserenLocatie in toegevoegdeLocaties)
+        await vereniging.NeemAdresDetailsOver(metAdresId, _grarClient, CancellationToken.None);
+        await vereniging.BepaalGeotags(_geotagsService);
+
+        foreach (var locatieZonderAdresId in zonderAdresId)
         {
-            await SynchroniseerLocatie(cancellationToken, teSynchroniserenLocatie, vereniging, vereniging.VCode);
+            await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(vereniging.VCode, locatieZonderAdresId.LocatieId));
         }
 
         var result = await _verenigingsRepository.SaveNew(vereniging, _session ,message.Metadata, cancellationToken);
@@ -81,21 +85,5 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} end");
 
         return Result.Success(CommandResult.Create(vereniging.VCode, result));
-    }
-
-    private async Task SynchroniseerLocatie(
-        CancellationToken cancellationToken,
-        Registratiedata.Locatie teSynchroniserenLocatie,
-        Vereniging vereniging,
-        VCode vCode)
-    {
-        if (teSynchroniserenLocatie.AdresId is not null)
-        {
-            await vereniging.NeemAdresDetailOver(teSynchroniserenLocatie, _grarClient, cancellationToken);
-        }
-        else if (teSynchroniserenLocatie.Adres is not null)
-        {
-            await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(vCode.Value, teSynchroniserenLocatie.LocatieId));
-        }
     }
 }

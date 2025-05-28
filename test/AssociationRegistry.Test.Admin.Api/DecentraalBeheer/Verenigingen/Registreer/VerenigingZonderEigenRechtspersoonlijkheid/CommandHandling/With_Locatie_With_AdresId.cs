@@ -56,6 +56,23 @@ public class With_Locatie_With_AdresId
         grarClient.Setup(s => s.GetAddressById(locatie.AdresId.ToString(), It.IsAny<CancellationToken>()))
                   .ReturnsAsync(adresDetailResponse);
 
+        var geotag = new Geotag("BE32");
+        var geotags = new[]
+        {
+            geotag
+        };
+
+        var geotagsService = new Mock<IGeotagsService>();
+        geotagsService.Setup(x => x.CalculateGeotags(
+                                 new[] {
+                                     Locatie.Create(Locatienaam.Create(locatie.Naam),
+                                                    locatie.IsPrimair,
+                                                    locatie.Locatietype,
+                                                    AdresId.Create(locatie.AdresId.Adresbron.Code, locatie.AdresId.Bronwaarde),
+                                                    locatie.Adres) },
+                                 Array.Empty<Werkingsgebied>()))
+                      .ReturnsAsync(geotags);
+
         var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
             VerenigingsNaam.Create(naam),
             KorteNaam: null,
@@ -74,6 +91,9 @@ public class With_Locatie_With_AdresId
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
+
+
+
         var commandHandler =
             new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(verenigingRepositoryMock,
                                                                                    vCodeService,
@@ -82,7 +102,7 @@ public class With_Locatie_With_AdresId
                                                                                    Mock.Of<IDocumentSession>(),
                                                                                    clock,
                                                                                    grarClient.Object,
-                                                                                   Mock.Of<IGeotagsService>(),
+                                                                                   geotagsService.Object,
                                                                                    NullLogger<
                                                                                            RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>
                                                                                       .Instance);
@@ -108,12 +128,12 @@ public class With_Locatie_With_AdresId
                 new[] { EventFactory.Locatie(locatie) },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
-            new GeotagsWerdenBepaald(vCode, []),
             new AdresWerdOvergenomenUitAdressenregister(vCode, LocatieId: 1, adresDetailResponse.AdresId,
-                                                        adresDetailResponse.ToAdresUitAdressenregister())
-        );
+                                                        adresDetailResponse.ToAdresUitAdressenregister()),
+            new GeotagsWerdenBepaald(vCode, [new Registratiedata.Geotag(geotag.Identificatie)])
+    );
 
-        martenOutbox.Verify(expression: v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()),
+    martenOutbox.Verify(expression: v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()),
                             Times.Never);
     }
 }
