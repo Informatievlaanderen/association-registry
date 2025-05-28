@@ -58,7 +58,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var geotag = "BE02222";
         var documents = await IndexDocumentsWithGeotags([geotag]);
 
-        var actual = await ExecuteQuery("geotags.identifier:BE03333");
+        var actual = await ExecuteQuery("geotags.identificatie:BE03333");
 
         ShouldNotHaveVereniging(actual, documents[0].VCode);
     }
@@ -69,7 +69,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var geotag = "BE02222";
         var documents = await IndexDocumentsWithGeotags([geotag]);
 
-        var actual = await ExecuteQuery($"geotags.identifier:{geotag}");
+        var actual = await ExecuteQuery($"geotags.identificatie:{geotag}");
 
         ShouldFindVerenigingenWithGeotag(actual, documents);
     }
@@ -82,7 +82,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var geotag = "BE02222";
         var documents = await IndexDocumentsWithGeotags([geotag]);
 
-        var actual = await ExecuteQuery($"geotags.identifier:{geotags}");
+        var actual = await ExecuteQuery($"geotags.identificatie:{geotags}");
 
         ShouldFindVerenigingenWithGeotag(actual, documents);
     }
@@ -94,7 +94,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var geotag2 = "BE99999";
         var documents = await IndexDocumentsWithGeotags([geotag, _autoFixture.Create<string>()], [geotag2, _autoFixture.Create<string>()]);
 
-        var actual = await ExecuteQuery($"geotags.identifier:({geotag} OR {geotag2})");
+        var actual = await ExecuteQuery($"geotags.identificatie:({geotag} OR {geotag2})");
 
         ShouldFindVerenigingenWithGeotag(actual, documents);
     }
@@ -107,7 +107,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
             ["BE88888", "BE99999"]
         );
 
-        var actual = await ExecuteQuery("geotags.identifier:(BE33333 OR BE99999 OR BE11111)");
+        var actual = await ExecuteQuery("geotags.identificatie:(BE33333 OR BE99999 OR BE11111)");
 
         ShouldFindVerenigingenWithGeotag(actual, documents);
     }
