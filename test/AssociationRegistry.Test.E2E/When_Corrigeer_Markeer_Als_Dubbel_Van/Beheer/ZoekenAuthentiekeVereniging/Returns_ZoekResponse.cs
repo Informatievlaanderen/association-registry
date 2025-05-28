@@ -26,7 +26,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
 
         return setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}",
                                                   setup.AdminApiHost.DocumentStore(),headers: new RequestParameters().WithExpectedSequence(
-                                                      _testContext.AanvaarddeCorrectieDubbeleVereniging?.Sequence)).GetAwaiter()
+                                                      _testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence)).GetAwaiter()
                     .GetResult();
     }
 
