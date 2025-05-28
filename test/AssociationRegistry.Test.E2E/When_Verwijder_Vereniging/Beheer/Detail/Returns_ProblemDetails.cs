@@ -26,5 +26,5 @@ public class Returns_ProblemDetails : End2EndTest<ProblemDetails>
     }
 
     public override ProblemDetails GetResponse(FullBlownApiSetup setup)
-        => _context.ApiSetup.AdminApiHost.GetProblemDetailsForBeheerDetailHttpResponse(_context.ApiSetup.SuperAdminHttpClient, _context.VCode, 2);
+        => _context.ApiSetup.AdminApiHost.GetProblemDetailsForBeheerDetailHttpResponse(_context.ApiSetup.SuperAdminHttpClient, _context.VCode, _context.MaxSequenceByScenario.Value);
 }
