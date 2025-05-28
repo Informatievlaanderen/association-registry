@@ -8,6 +8,10 @@ using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework.Fixtures;
+using Humanizer;
+using Marten;
+using Marten.Events;
+using Nest;
 using Newtonsoft.Json;
 using Vereniging;
 using Xunit;
@@ -19,12 +23,16 @@ public class Given_A_Gestopte_Vereniging
     private readonly AdminApiClient _adminApiClient;
     private readonly Fixture _fixture;
     private readonly V056_VerenigingWerdGeregistreerd_And_Gestopt_For_DuplicateDetection _scenario;
+    private IDocumentStore _store;
+    private IElasticClient _elasticClient;
 
-    public Given_A_Gestopte_Vereniging(EventsInDbScenariosFixture fixture)
+    public Given_A_Gestopte_Vereniging(EventsInDbScenariosFixture scenarioFixture)
     {
         _fixture = new Fixture().CustomizeAdminApi();
-        _adminApiClient = fixture.AdminApiClient;
-        _scenario = fixture.V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection;
+        _adminApiClient = scenarioFixture.AdminApiClient;
+        _elasticClient = scenarioFixture.ElasticClient;
+        _store = scenarioFixture.ApiDocumentStore;
+        _scenario = scenarioFixture.V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection;
     }
 
     [Fact]
@@ -38,6 +46,10 @@ public class Given_A_Gestopte_Vereniging
 
         var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
         var content = await response.Content.ReadAsStringAsync();
+
+        await _store.WaitForNonStaleProjectionDataAsync(10.Seconds());
+        await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
+
         if (!response.IsSuccessStatusCode)
         {
             var duplicateResponse = JsonConvert.DeserializeObject<PotentialDuplicatesResponse>(content);
