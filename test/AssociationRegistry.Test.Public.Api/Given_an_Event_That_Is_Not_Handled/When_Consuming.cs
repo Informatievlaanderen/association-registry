@@ -2,6 +2,8 @@ namespace AssociationRegistry.Test.Public.Api.Given_an_Event_That_Is_Not_Handled
 
 using AssociationRegistry.Public.ProjectionHost;
 using AssociationRegistry.Public.ProjectionHost.Projections.Search;
+using AutoFixture;
+using Events;
 using Fixtures;
 using FluentAssertions;
 using Marten;
@@ -22,7 +24,6 @@ public class Given_An_Unhandled_Event_Fixture : ProjectionHostFixture
 
     public override async ValueTask InitializeAsync()
     {
-        await AddEvent(VCode, new AnUnhandledEvent());
     }
 
     public record AnUnhandledEvent : IEvent;
@@ -49,13 +50,12 @@ public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_F
         {
             using var documentSession = _documentStore.LightweightSession();
 
-            return consumer.ConsumeAsync(
-                new[]
-                {
-                    documentSession
-                       .Events
-                       .Append(Given_An_Unhandled_Event_Fixture.VCode, new Given_An_Unhandled_Event_Fixture.AnUnhandledEvent()),
-                });
+            var streamActions = documentSession
+                               .Events
+                               .Append(Given_An_Unhandled_Event_Fixture.VCode,
+                                       new Given_An_Unhandled_Event_Fixture.AnUnhandledEvent());
+
+            return consumer.ConsumeAsync([streamActions]);
         };
 
         await consumeForElastic.Should().NotThrowAsync();
