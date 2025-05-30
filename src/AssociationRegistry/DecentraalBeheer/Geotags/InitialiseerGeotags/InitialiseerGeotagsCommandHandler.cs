@@ -20,7 +20,7 @@ public class InitialiseerGeotagsCommandHandler
         var vereniging =
             await _verenigingRepository.Load<VerenigingOfAnyKind>(
                 VCode.Create(envelope.Command.VCode),
-                envelope.Metadata);
+                envelope.Metadata, allowVerwijderdeVereniging: true, allowDubbeleVereniging: true);
 
         await vereniging.InitialiseerGeotags(_geotagsService);
 

@@ -20,7 +20,7 @@ public class InitialiseerGeotagsCommandHandlerTests
         var locaties = scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties;
         var werkingsgebieden = scenario.WerkingsgebiedenWerdenBepaald.Werkingsgebieden;
 
-        var verenigingRepository = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepository = new VerenigingRepositoryMock(scenario.GetVerenigingState(), expectedLoadingDubbel: true, expectedLoadingVerwijderd: true);
 
         var geotagsService =
             Faktory.New()
