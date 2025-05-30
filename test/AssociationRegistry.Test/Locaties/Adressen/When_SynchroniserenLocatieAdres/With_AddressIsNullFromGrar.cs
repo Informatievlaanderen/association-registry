@@ -7,6 +7,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using EventFactories;
 using Events;
@@ -19,15 +20,14 @@ public class With_AddressIsNullFromGrar
     [Fact]
     public async ValueTask Then_ShouldHaveSaved()
     {
-        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
-
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario, expectedLoadingDubbel: true);
-
         var fixture = new Fixture().CustomizeDomain();
+        var state = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
+        var locatie = state.Locaties.First();
 
+        var factory = new Faktory(fixture);
+        var verenigingRepositoryMock = factory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
+        (var geotagsService, var geotags) = factory.GeotagsService.ReturnsRandomGeotags();
         var grarClientMock = new Mock<IGrarClient>();
-
-        var locatie = scenario.Locaties.First();
 
         var command = fixture.Create<SyncAdresLocatiesCommand>() with
         {
@@ -38,14 +38,16 @@ public class With_AddressIsNullFromGrar
         };
 
         var commandHandler = new SyncAdresLocatiesCommandHandler(verenigingRepositoryMock, grarClientMock.Object,
-                                                                 new NullLogger<SyncAdresLocatiesCommandHandler>());
+                                                                 new NullLogger<SyncAdresLocatiesCommandHandler>(),
+                                                                 geotagsService.Object);
 
         await commandHandler.Handle(command, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldHaveSaved(new AdresWerdOntkoppeldVanAdressenregister(
-                                                     scenario.VCode.Value,
+                                                     state.VCode.Value,
                                                      locatie.LocatieId,
                                                      EventFactory.AdresId(locatie.AdresId),
-                                                     EventFactory.Adres(locatie.Adres)));
+                                                     EventFactory.Adres(locatie.Adres)),
+            EventFactory.GeotagsWerdenBepaald(state.VCode, geotags));
     }
 }

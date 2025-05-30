@@ -9,6 +9,6 @@ public class VerenigingsRepositoryFactory
         => new();
 
 
-    public VerenigingRepositoryMock Mock(VerenigingState returns)
-        => new(returns);
+    public VerenigingRepositoryMock Mock(VerenigingState returns, bool expectedLoadingDubbel = false, bool expectedLoadingVerwijderd = false)
+        => new(returns, expectedLoadingDubbel, expectedLoadingVerwijderd);
 }
