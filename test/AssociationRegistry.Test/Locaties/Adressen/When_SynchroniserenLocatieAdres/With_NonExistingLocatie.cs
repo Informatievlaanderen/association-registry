@@ -7,7 +7,9 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using EventFactories;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -17,9 +19,7 @@ public class With_NonExistingLocatie
     [Fact]
     public async ValueTask Then_An_AdresWerdOntkoppeldVanAdressenregister_Was_Saved()
     {
-        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
-
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
+        var state = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 
         var fixture = new Fixture().CustomizeDomain();
 
@@ -28,12 +28,16 @@ public class With_NonExistingLocatie
             IsActief = false,
         };
 
+        var factory = new Faktory(fixture);
+        var verenigingRepositoryMock = factory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
+        (var geotagsService, var geotags) = factory.GeotagsService.ReturnsRandomGeotags();
+
         var grarClientMock = new Mock<IGrarClient>();
 
         grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail);
 
-        var locatieId = scenario.Locaties.First().LocatieId;
+        var locatieId = state.Locaties.First().LocatieId;
 
         var nonExistingLocatieId = locatieId * -1;
 
@@ -46,10 +50,12 @@ public class With_NonExistingLocatie
         };
 
         var commandHandler = new SyncAdresLocatiesCommandHandler(verenigingRepositoryMock, grarClientMock.Object,
-                                                                 new NullLogger<SyncAdresLocatiesCommandHandler>());
+                                                                 new NullLogger<SyncAdresLocatiesCommandHandler>(),
+                                                                 geotagsService.Object);
 
         await commandHandler.Handle(command, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        verenigingRepositoryMock.ShouldHaveSaved(
+            EventFactory.GeotagsWerdenBepaald(state.VCode, geotags));
     }
 }

@@ -4,11 +4,13 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
 using Clients;
 using Microsoft.Extensions.Logging;
+using Vereniging.Geotags;
 
 public class SyncAdresLocatiesCommandHandler(
     IVerenigingsRepository repository,
     IGrarClient grarClient,
-    ILogger<SyncAdresLocatiesCommandHandler> logger)
+    ILogger<SyncAdresLocatiesCommandHandler> logger,
+    IGeotagsService geotagsService)
 {
     public async Task Handle(SyncAdresLocatiesCommand locatiesCommand, CancellationToken cancellationToken)
     {
@@ -21,6 +23,8 @@ public class SyncAdresLocatiesCommandHandler(
             var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(locatiesCommand.VCode), metadata, allowDubbeleVereniging: true);
 
             await vereniging.SyncAdresLocaties(locatiesCommand.LocatiesWithAdres, locatiesCommand.IdempotenceKey, grarClient);
+
+            await vereniging.HerberekenGeotags(geotagsService);
 
             await repository.Save(
                 vereniging,
