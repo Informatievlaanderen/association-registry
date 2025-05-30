@@ -37,24 +37,11 @@ public class VoegLocatieToeCommandHandler
         var locatie = envelope.Command.Locatie;
         var toegevoegdeLocatie = vereniging.VoegLocatieToe(locatie);
 
-        await SynchroniseerLocatie(envelope, cancellationToken, toegevoegdeLocatie, vereniging);
-
-        var result = await _verenigingRepository.Save(vereniging, _session, envelope.Metadata, cancellationToken);
-
-        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), toegevoegdeLocatie.LocatieId, result);
-    }
-
-    private async Task SynchroniseerLocatie(
-        CommandEnvelope<VoegLocatieToeCommand> envelope,
-        CancellationToken cancellationToken,
-        Locatie locatie,
-        VerenigingOfAnyKind vereniging)
-    {
-        if (locatie.AdresId is not null)
+        if (toegevoegdeLocatie.AdresId is not null)
         {
-            await vereniging.NeemAdresDetailOver(locatie.LocatieId, _grarClient, cancellationToken);
+            await vereniging.NeemAdresDetailOver(toegevoegdeLocatie.LocatieId, _grarClient, cancellationToken);
         }
-        else if(locatie.Adres is not null)
+        else if(toegevoegdeLocatie.Adres is not null)
         {
             await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(
                                         envelope.Command.VCode,
@@ -63,5 +50,9 @@ public class VoegLocatieToeCommandHandler
                                                   .Locatie
                                                   .LocatieId));
         }
+
+        var result = await _verenigingRepository.Save(vereniging, _session, envelope.Metadata, cancellationToken);
+
+        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), toegevoegdeLocatie.LocatieId, result);
     }
 }
