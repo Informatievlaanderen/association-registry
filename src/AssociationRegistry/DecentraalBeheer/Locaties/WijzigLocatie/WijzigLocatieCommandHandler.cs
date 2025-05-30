@@ -5,6 +5,7 @@ using AssociationRegistry.Messages;
 using AssociationRegistry.Vereniging;
 using Grar.Clients;
 using Marten;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 
 public class WijzigLocatieCommandHandler
@@ -13,18 +14,20 @@ public class WijzigLocatieCommandHandler
     private readonly IMartenOutbox _outbox;
     private readonly IDocumentSession _session;
     private readonly IGrarClient _grarClient;
+    private readonly IGeotagsService _geotagsService;
 
     public WijzigLocatieCommandHandler(
         IVerenigingsRepository verenigingRepository,
         IMartenOutbox outbox,
         IDocumentSession session,
-        IGrarClient grarClient
-        )
+        IGrarClient grarClient,
+        IGeotagsService geotagsService)
     {
         _verenigingRepository = verenigingRepository;
         _outbox = outbox;
         _session = session;
         _grarClient = grarClient;
+        _geotagsService = geotagsService;
     }
 
     public async Task<CommandResult> Handle(
@@ -40,6 +43,8 @@ public class WijzigLocatieCommandHandler
         vereniging.WijzigLocatie(locatieId, naam, locatietype, isPrimair, adresId, adres);
 
         await SynchroniseerLocatie(envelope, cancellationToken, adresId, vereniging, locatieId, adres);
+
+        await vereniging.HerberekenGeotags(_geotagsService);
 
         var result = await _verenigingRepository.Save(vereniging, _session, envelope.Metadata, cancellationToken);
 

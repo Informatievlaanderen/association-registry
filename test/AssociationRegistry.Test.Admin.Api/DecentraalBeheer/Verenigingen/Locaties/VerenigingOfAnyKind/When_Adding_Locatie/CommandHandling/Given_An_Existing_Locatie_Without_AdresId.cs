@@ -14,6 +14,7 @@ using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Moq;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 using Xunit;
 
@@ -33,7 +34,8 @@ public class Given_An_Existing_Locatie_Without_AdresId
         var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
                                                               martenOutbox.Object,
                                                               Mock.Of<IDocumentSession>(),
-                                                              grarClient.Object
+                                                              grarClient.Object,
+                                                              Mock.Of<IGeotagsService>()
         );
 
         var adresId = fixture.Create<AdresId>();

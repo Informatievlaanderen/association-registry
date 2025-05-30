@@ -380,7 +380,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (State.GeotagsGeinitialiseerd)
             return;
 
-        var geotags = await service.CalculateGeotags(State.Locaties, State.Werkingsgebieden);
+        await HerberekenGeotags(service);
+    }
+
+    public async Task HerberekenGeotags(IGeotagsService geotagsService)
+    {
+        var geotags = await geotagsService.CalculateGeotags(State.Locaties, State.Werkingsgebieden);
 
         AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
     }

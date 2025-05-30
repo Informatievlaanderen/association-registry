@@ -15,6 +15,7 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Moq;
 using System.Net;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 using Xunit;
 
@@ -33,7 +34,8 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_NonSucce
         var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
                                                               Mock.Of<IMartenOutbox>(),
                                                               Mock.Of<IDocumentSession>(),
-                                                              grarClient.Object
+                                                              grarClient.Object,
+                                                              Mock.Of<IGeotagsService>()
         );
 
         var adresId = fixture.Create<AdresId>();

@@ -6,6 +6,7 @@ using AssociationRegistry.Vereniging;
 using Events;
 using Grar.Clients;
 using Marten;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 
 public class VoegLocatieToeCommandHandler
@@ -14,17 +15,20 @@ public class VoegLocatieToeCommandHandler
     private readonly IMartenOutbox _outbox;
     private readonly IDocumentSession _session;
     private readonly IGrarClient _grarClient;
+    private readonly IGeotagsService _geotagsService;
 
     public VoegLocatieToeCommandHandler(
         IVerenigingsRepository verenigingRepository,
         IMartenOutbox outbox,
         IDocumentSession session,
-        IGrarClient grarClient)
+        IGrarClient grarClient,
+        IGeotagsService geotagsService)
     {
         _verenigingRepository = verenigingRepository;
         _outbox = outbox;
         _session = session;
         _grarClient = grarClient;
+        _geotagsService = geotagsService;
     }
 
     public async Task<EntityCommandResult> Handle(CommandEnvelope<VoegLocatieToeCommand> envelope, CancellationToken cancellationToken = default)
@@ -38,18 +42,16 @@ public class VoegLocatieToeCommandHandler
         var toegevoegdeLocatie = vereniging.VoegLocatieToe(locatie);
 
         if (toegevoegdeLocatie.AdresId is not null)
-        {
             await vereniging.NeemAdresDetailOver(toegevoegdeLocatie.LocatieId, _grarClient, cancellationToken);
-        }
-        else if(toegevoegdeLocatie.Adres is not null)
-        {
+        else
             await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(
                                         envelope.Command.VCode,
                                         vereniging.UncommittedEvents.OfType<LocatieWerdToegevoegd>()
                                                   .Single()
                                                   .Locatie
                                                   .LocatieId));
-        }
+
+        await vereniging.HerberekenGeotags(_geotagsService);
 
         var result = await _verenigingRepository.Save(vereniging, _session, envelope.Metadata, cancellationToken);
 

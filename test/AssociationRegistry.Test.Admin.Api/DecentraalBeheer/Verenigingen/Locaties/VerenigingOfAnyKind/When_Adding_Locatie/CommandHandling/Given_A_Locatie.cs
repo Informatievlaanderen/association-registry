@@ -16,6 +16,7 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Marten;
 using Moq;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 using Xunit;
 
@@ -37,7 +38,8 @@ public class Given_A_Locatie
         var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
                                                               Mock.Of<IMartenOutbox>(),
                                                               Mock.Of<IDocumentSession>(),
-                                                              Mock.Of<IGrarClient>()
+                                                              Mock.Of<IGrarClient>(),
+                                                              Mock.Of<IGeotagsService>()
         );
 
         var command = new VoegLocatieToeCommand(scenario.VCode, _fixture.Create<Locatie>() with
@@ -52,7 +54,8 @@ public class Given_A_Locatie
                 EventFactory.Locatie(command.Locatie) with
                 {
                     LocatieId = expectedLocatieId,
-                })
+                }),
+            new GeotagsWerdenBepaald(command.VCode, [])
         );
     }
 
@@ -65,7 +68,9 @@ public class Given_A_Locatie
         var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
                                                               Mock.Of<IMartenOutbox>(),
                                                               Mock.Of<IDocumentSession>(),
-                                                              Mock.Of<IGrarClient>()
+                                                              Mock.Of<IGrarClient>(),
+                                                              Mock.Of<IGeotagsService>()
+
         );
 
         var command = new VoegLocatieToeCommand(scenario.VCode, _fixture.Create<Locatie>() with

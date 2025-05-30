@@ -29,7 +29,7 @@ public class With_All_Fields
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly ClockStub _clock;
     private readonly Fixture _fixture;
-    private readonly IGeotagsService _geotagsService;
+    private readonly Mock<IGeotagsService> _geotagsService;
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
     private Geotag[] _geotags;
 
@@ -62,7 +62,7 @@ public class With_All_Fields
                                                                                    Mock.Of<IDocumentSession>(),
                                                                                    _clock,
                                                                                    Mock.Of<IGrarClient>(),
-                                                                                   _geotagsService,
+                                                                                   _geotagsService.Object,
                                                                                    NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler

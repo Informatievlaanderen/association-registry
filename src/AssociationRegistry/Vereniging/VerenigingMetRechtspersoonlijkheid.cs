@@ -5,6 +5,7 @@ using EventFactories;
 using Events;
 using Exceptions;
 using Framework;
+using Geotags;
 using Kbo;
 using ResultNet;
 
@@ -341,6 +342,13 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
                 throw new ArgumentOutOfRangeException(nameof(verenigingVolgensMagda));
         }
         SyncCompleted();
+    }
+
+    public async Task HerberekenGeotags(IGeotagsService geotagsService)
+    {
+        var geotags = await geotagsService.CalculateGeotags(State.Locaties, State.Werkingsgebieden);
+
+        AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
     }
 
     private void HandleActief(VerenigingVolgensKbo verenigingVolgensMagda)

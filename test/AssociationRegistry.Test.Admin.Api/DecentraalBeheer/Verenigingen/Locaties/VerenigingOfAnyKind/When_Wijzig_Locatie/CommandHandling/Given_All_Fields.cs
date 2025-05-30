@@ -13,6 +13,7 @@ using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Moq;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 using Xunit;
 
@@ -34,7 +35,8 @@ public class Given_All_Fields
         _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock,
                                                           Mock.Of<IMartenOutbox>(),
                                                           Mock.Of<IDocumentSession>(),
-                                                          Mock.Of<IGrarClient>()
+                                                          Mock.Of<IGrarClient>(),
+                                                          Mock.Of<IGeotagsService>()
         );
 
         _locatie = new WijzigLocatieCommand.Locatie(
@@ -64,6 +66,8 @@ public class Given_All_Fields
                     _locatie.Naam!,
                     EventFactory.Adres(_locatie.Adres),
                     EventFactory.AdresId(_locatie.AdresId))
-            ));
+            ),
+            new GeotagsWerdenBepaald(_scenario.VCode, []));
+
     }
 }
