@@ -12,6 +12,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Marten;
@@ -26,16 +27,22 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_ClientEr
     [MemberData(nameof(Data))]
     public async ValueTask Then_Throws_AdressenregisterReturnedClientErrorStatusCode(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
-
         var fixture = new Fixture().CustomizeAdminApi();
+
+        var factory = new Faktory(fixture);
+
+        var verenigingRepositoryMock = factory.VerenigingsRepository.Mock(scenario.GetVerenigingState());
+
+        (var geotagsService, _) = factory.GeotagsService.ReturnsRandomGeotags();
 
         var grarClient = new Mock<IGrarClient>();
 
         var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
                                                               Mock.Of<IMartenOutbox>(),
                                                               Mock.Of<IDocumentSession>(),
-                                                              grarClient.Object
+                                                              grarClient.Object,
+                                                              geotagsService.Object
+
         );
 
         var adresId = fixture.Create<AdresId>();

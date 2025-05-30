@@ -4,8 +4,10 @@ using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
+using DecentraalBeheer.Locaties.ProbeerAdresTeMatchen;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class When_Handling_ProbeerAdresTeMatchenCommand : When_Loading_With_Dubbels_TestBase
@@ -15,7 +17,7 @@ public class When_Handling_ProbeerAdresTeMatchenCommand : When_Loading_With_Dubb
     {
         await VerifyVerenigingWasLoadedWithAllowDubbeleVereniging(async repositoryMock =>
         {
-            var sut = new ProbeerAdresTeMatchenCommandHandler(repositoryMock, Mock.Of<IGrarClient>(), NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
+            var sut = new ProbeerAdresTeMatchenCommandHandler(repositoryMock, Mock.Of<IGrarClient>(), NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance, Mock.Of<IGeotagsService>());
 
             await sut.Handle(_fixture.Create<ProbeerAdresTeMatchenCommand>() with
             {

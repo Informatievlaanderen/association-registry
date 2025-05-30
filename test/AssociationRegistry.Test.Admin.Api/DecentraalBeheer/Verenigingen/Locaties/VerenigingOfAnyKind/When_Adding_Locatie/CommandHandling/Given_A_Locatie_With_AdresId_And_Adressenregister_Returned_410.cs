@@ -11,33 +11,52 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.Faktories;
 using Marten;
 using Moq;
+using Vereniging.Geotags;
 using Wolverine.Marten;
 using Xunit;
 
 public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_410
 {
+    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario _scenario;
+    private Geotag[] _geotags;
+    private readonly Fixture _fixture;
+    private VoegLocatieToeCommandHandler _commandHandler;
+    private readonly Mock<IGrarClient> _grarClient;
+
+    public Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_410()
+    {
+        _fixture = new Fixture().CustomizeAdminApi();
+
+        var factory = new Faktory(_fixture);
+
+        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario();
+        var verenigingRepositoryMock = factory.VerenigingsRepository.Mock(_scenario.GetVerenigingState());
+
+        (var geotagsService, _geotags) = factory.GeotagsService.ReturnsRandomGeotags([_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode], Array.Empty<string>());
+
+        _grarClient = new Mock<IGrarClient>();
+
+        _commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
+                                                           Mock.Of<IMartenOutbox>(),
+                                                           Mock.Of<IDocumentSession>(),
+                                                           _grarClient.Object,
+                                                           geotagsService.Object
+        );
+
+    }
+
+
     [Theory]
     [MemberData(nameof(Data))]
     public async ValueTask Then_Throws_AdressenregisterReturnedGoneStatusCode(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAdminApi();
+        var adresId = _fixture.Create<AdresId>();
 
-        var grarClient = new Mock<IGrarClient>();
-
-        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
-                                                              Mock.Of<IMartenOutbox>(),
-                                                              Mock.Of<IDocumentSession>(),
-                                                              grarClient.Object
-        );
-
-        var adresId = fixture.Create<AdresId>();
-
-        var locatie = fixture.Create<Locatie>() with
+        var locatie = _fixture.Create<Locatie>() with
         {
             AdresId = adresId,
             Adres = null,
@@ -45,12 +64,12 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_410
 
         var command = new VoegLocatieToeCommand(scenario.VCode, locatie);
 
-        grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
+        _grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
                   .ThrowsAsync(new AdressenregisterReturnedGoneStatusCode());
 
         await Assert.ThrowsAsync<AdressenregisterReturnedGoneStatusCode>(
-            async () => await commandHandler.Handle(
-                new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())));
+            async () => await _commandHandler.Handle(
+                new CommandEnvelope<VoegLocatieToeCommand>(command, _fixture.Create<CommandMetadata>())));
     }
 
     public static IEnumerable<object[]> Data

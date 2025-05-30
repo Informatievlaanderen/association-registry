@@ -8,6 +8,8 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRec
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class VerenigingMetRechtsPersoonlijkheid_With_One_Locatie
@@ -30,7 +32,7 @@ public class VerenigingMetRechtsPersoonlijkheid_With_One_Locatie
     {
         var command = new VerwijderLocatieCommand(_scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie.LocatieId);
         var commandMetadata = _fixture.Create<CommandMetadata>();
-        var commandHandler = new VerwijderLocatieCommandHandler(_verenigingRepositoryMock);
+        var commandHandler = new VerwijderLocatieCommandHandler(_verenigingRepositoryMock, Mock.Of<IGeotagsService>());
         await Assert.ThrowsAsync<LaatsteLocatieKanNietVerwijderdWorden>(async () => await commandHandler.Handle(
                                                                                     new CommandEnvelope<VerwijderLocatieCommand>(
                                                                                         command, commandMetadata),

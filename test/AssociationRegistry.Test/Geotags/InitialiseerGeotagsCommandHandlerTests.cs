@@ -22,18 +22,17 @@ public class InitialiseerGeotagsCommandHandlerTests
 
         var verenigingRepository = new VerenigingRepositoryMock(scenario.GetVerenigingState(), expectedLoadingDubbel: true, expectedLoadingVerwijderd: true);
 
-        var geotagsService =
-            Faktory.New()
-                   .GeotagsService
-                   .ReturnsRandomGeotags(locaties.Select(Locatie.Hydrate),
-                                          werkingsgebieden.Select(x => Werkingsgebied.Hydrate(x.Code, x.Naam))
-                                                          .ToArray());
+        var (geotagsService, geotags) = Faktory.New()
+                                                                        .GeotagsService
+                                                                        .ReturnsRandomGeotags(locaties.Select(Locatie.Hydrate),
+                                                                             werkingsgebieden.Select(x => Werkingsgebied.Hydrate(x.Code, x.Naam))
+                                                                                .ToArray());
 
         var sut = new InitialiseerGeotagsCommandHandler(verenigingRepository, geotagsService.Object);
 
         await sut.Handle(new CommandEnvelope<InitialiseerGeotagsCommand>(new InitialiseerGeotagsCommand(scenario.VCode),
                                                                          CommandMetadata.ForDigitaalVlaanderenProcess));
 
-        verenigingRepository.ShouldHaveSaved(EventFactory.GeotagsWerdenBepaald(scenario.VCode, geotagsService.geotags));
+        verenigingRepository.ShouldHaveSaved(EventFactory.GeotagsWerdenBepaald(scenario.VCode, geotags));
     }
 }

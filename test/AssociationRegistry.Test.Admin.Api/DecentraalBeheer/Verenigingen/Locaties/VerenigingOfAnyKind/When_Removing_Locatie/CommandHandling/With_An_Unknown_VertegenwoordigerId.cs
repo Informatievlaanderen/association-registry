@@ -9,6 +9,8 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_An_Unknown_LocatieId
@@ -24,7 +26,7 @@ public class With_An_Unknown_LocatieId
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
-        _commandHandler = new VerwijderLocatieCommandHandler(verenigingRepositoryMock);
+        _commandHandler = new VerwijderLocatieCommandHandler(verenigingRepositoryMock, Mock.Of<IGeotagsService>());
     }
 
     [Fact]

@@ -9,6 +9,8 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_Known_LocatieId
@@ -25,7 +27,7 @@ public class With_A_Known_LocatieId
         var fixture = new Fixture().CustomizeAdminApi();
         var command = new VerwijderLocatieCommand(_scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie.LocatieId);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new VerwijderLocatieCommandHandler(_verenigingRepositoryMock);
+        var commandHandler = new VerwijderLocatieCommandHandler(_verenigingRepositoryMock, Mock.Of<IGeotagsService>());
 
         commandHandler.Handle(new CommandEnvelope<VerwijderLocatieCommand>(command, commandMetadata))
                       .GetAwaiter().GetResult();
@@ -42,7 +44,8 @@ public class With_A_Known_LocatieId
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
             new LocatieWerdVerwijderd(
-                _scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie)
+                _scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie),
+            new GeotagsWerdenBepaald(_scenario.VCode, [])
         );
     }
 }

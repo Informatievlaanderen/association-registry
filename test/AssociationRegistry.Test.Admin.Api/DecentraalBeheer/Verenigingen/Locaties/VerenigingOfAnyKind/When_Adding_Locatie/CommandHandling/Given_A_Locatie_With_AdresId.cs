@@ -12,6 +12,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Moq;
@@ -25,26 +26,35 @@ public class Given_A_Locatie_With_Adres_id
     public async ValueTask Then_A_LocatieWerdToegevoegd_Event_And_AdresWerdOvergenomenUitAdressenregister_Is_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var grarClient = new Mock<IGrarClient>();
-        var martenOutbox = new Mock<IMartenOutbox>();
+        var factory = new Faktory(fixture);
 
-        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
-                                                              martenOutbox.Object,
-                                                              Mock.Of<IDocumentSession>(),
-                                                              grarClient.Object
-        );
+        var verenigingRepositoryMock = factory.VerenigingsRepository.Mock(scenario.GetVerenigingState());
+        (var geotagsService, var geotags) = factory.GeotagsService.ReturnsRandomGeotags();
+
+        var grarClient = new Mock<IGrarClient>();
 
         var adresId = fixture.Create<AdresId>();
-
         var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
             AdresId = new Registratiedata.AdresId(adresId.Adresbron.Code, adresId.Bronwaarde),
             IsActief = true,
         };
+        grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
+                  .ReturnsAsync(adresDetailResponse);
+
+        var martenOutbox = new Mock<IMartenOutbox>();
+
+        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
+                                                              martenOutbox.Object,
+                                                              Mock.Of<IDocumentSession>(),
+                                                              grarClient.Object,
+                                                              geotagsService.Object
+        );
+
+
 
         var locatie = fixture.Create<Locatie>() with
         {
@@ -54,8 +64,7 @@ public class Given_A_Locatie_With_Adres_id
 
         var command = new VoegLocatieToeCommand(scenario.VCode, locatie);
 
-        grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(adresDetailResponse);
+
 
         await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>()));
 
@@ -68,7 +77,8 @@ public class Given_A_Locatie_With_Adres_id
                     LocatieId = maxLocatieId,
                 }),
             new AdresWerdOvergenomenUitAdressenregister(scenario.VCode, maxLocatieId, adresDetailResponse.AdresId,
-                                                        adresDetailResponse.ToAdresUitAdressenregister())
+                                                        adresDetailResponse.ToAdresUitAdressenregister()),
+            new GeotagsWerdenBepaald(scenario.VCode, geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray())
         );
 
         martenOutbox.Verify(expression: v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()),
