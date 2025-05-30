@@ -58,7 +58,7 @@ public class GeotagsInitialisationService: BackgroundService
 
                 ReplacePostalNutsLauInDb(nutsLauInfo, session);
 
-                await MigrateGeotags(session, cancellationToken);
+                await MigrateGeotags(cancellationToken);
 
                 await session.SaveChangesAsync(cancellationToken);
             }
@@ -80,7 +80,7 @@ public class GeotagsInitialisationService: BackgroundService
         session.Store(nutsLauInfo);
     }
 
-    private async Task MigrateGeotags(IDocumentSession session, CancellationToken cancellationToken)
+    private async Task MigrateGeotags(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Starting to prepare geotags migration outbox.");
 
