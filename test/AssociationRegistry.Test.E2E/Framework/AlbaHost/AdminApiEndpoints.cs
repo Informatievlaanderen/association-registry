@@ -146,7 +146,7 @@ public class SmartHttpClient
         if (_requestParameters is not null)
             uri = EmbellishUri(uri, _requestParameters);
 
-        const int maxRetries = 7;
+        const int maxRetries = 20;
         var delay = TimeSpan.FromMilliseconds(300);
 
         for (var attempt = 0; attempt < maxRetries; attempt++)
@@ -160,8 +160,7 @@ public class SmartHttpClient
                 return JsonConvert.DeserializeObject<TResponse>(json)!;
             }
 
-            await Task.Delay(delay);
-            delay = TimeSpan.FromMilliseconds(delay.TotalMilliseconds * 2);
+            await Task.Delay(200 + (attempt * 100));
         }
 
         if(_shouldThrowOn412)
