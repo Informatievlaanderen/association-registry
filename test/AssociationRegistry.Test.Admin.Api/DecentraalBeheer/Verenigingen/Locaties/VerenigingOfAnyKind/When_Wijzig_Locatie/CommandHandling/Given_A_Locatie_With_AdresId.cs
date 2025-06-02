@@ -54,7 +54,6 @@ public class Given_A_Locatie_With_Adres_id
                                                              geotagsService
         );
 
-
         var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
             AdresId = new Registratiedata.AdresId(adresId.Adresbron.Code, adresId.Bronwaarde),

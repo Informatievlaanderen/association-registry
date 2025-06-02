@@ -71,6 +71,7 @@ public class GeotagsInitialisationService: BackgroundService
 
             migrationRanToCompletion = await geotagMigrationRepository.DidMigrationAlreadyRunToCompletion(cancellationToken);
         }
+        _logger.LogInformation("Initialisation of geotags completed successfully.");
     }
 
     private void ReplacePostalNutsLauInDb(PostalNutsLauInfo[] nutsLauInfo, IDocumentSession session)
@@ -95,12 +96,15 @@ public class GeotagsInitialisationService: BackgroundService
             await _outbox.SendAsync(command);
         }
 
-        _logger.LogInformation("Geotag migrations sent to outbox, awaiting transaction completion.");
+        _logger.LogInformation("{VerenigingenWithoutGeotags} Geotag initialisation commands sent to outbox, awaiting transaction completion.");
     }
 }
 
 public record GeotagMigration()
 {
+    private const string GeotagMigration202505 = "geotag-migration-202505";
+    private const string GeotagMigration202506 = "geotag-migration-202506";
+
     [Identity]
-    public string Id => "geotag-migration-202505";
+    public string Id => GeotagMigration202506;
 }
