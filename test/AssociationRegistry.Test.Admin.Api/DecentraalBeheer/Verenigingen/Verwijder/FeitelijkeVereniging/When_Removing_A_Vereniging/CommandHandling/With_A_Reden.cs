@@ -9,6 +9,8 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using EventFactories;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_Reden
@@ -45,7 +47,9 @@ public class With_A_Reden
     public void Then_A_VerenigingWerdVerwijderd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdVerwijderd(_scenario.VCode, Reden: "Omdat weg moet")
-        );
+            new VerenigingWerdVerwijderd(_scenario.VCode, Reden: "Omdat weg moet"),
+            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
+
+
     }
 }

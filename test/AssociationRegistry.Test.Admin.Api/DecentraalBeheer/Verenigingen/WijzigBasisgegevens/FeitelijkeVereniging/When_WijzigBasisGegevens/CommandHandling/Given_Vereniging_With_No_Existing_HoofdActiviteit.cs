@@ -9,7 +9,10 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class Given_Vereniging_With_No_Existing_HoofdActiviteit
@@ -32,7 +35,7 @@ public class Given_Vereniging_With_No_Existing_HoofdActiviteit
         var command = new WijzigBasisgegevensCommand(_scenario.VCode,
                                                      HoofdactiviteitenVerenigingsloket: Array.Empty<HoofdactiviteitVerenigingsloket>());
 
-        var commandHandler = new WijzigBasisgegevensCommandHandler();
+        var commandHandler = new WijzigBasisgegevensCommandHandler(Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object);
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         await commandHandler.Handle(

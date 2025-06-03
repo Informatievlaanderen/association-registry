@@ -5,6 +5,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_Bepaald_To_NietBepaald
@@ -30,7 +31,9 @@ public class With_Bepaald_To_NietBepaald
     public void Then_A_WerkingsgebiedenWerdenBepaald_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            EventFactory.WerkingsgebiedenWerdenNietBepaald(_scenario.VCode)
-        );
+            EventFactory.WerkingsgebiedenWerdenNietBepaald(_scenario.VCode),
+            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
+
+
     }
 }

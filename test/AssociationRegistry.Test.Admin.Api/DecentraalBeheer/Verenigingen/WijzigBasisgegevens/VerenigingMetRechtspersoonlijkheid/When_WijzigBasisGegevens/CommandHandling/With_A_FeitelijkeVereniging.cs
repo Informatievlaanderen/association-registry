@@ -9,6 +9,8 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_FeitelijkeVereniging
@@ -26,7 +28,7 @@ public class With_A_FeitelijkeVereniging
         var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(scenario.VCode, KorteBeschrijving: NieuweKorteBeschrijving);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        _commandHandler = new WijzigBasisgegevensCommandHandler();
+        _commandHandler = new WijzigBasisgegevensCommandHandler(Mock.Of<IGeotagsService>());
         _envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata);
     }
 
