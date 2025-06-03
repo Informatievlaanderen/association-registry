@@ -367,6 +367,6 @@ public static class EventFactory
                identificatie,
                beschrijving);
 
-    public static IEvent GeotagsWerdenBepaald(VCode vCode, Geotag[] geotags)
+    public static IEvent GeotagsWerdenBepaald(VCode vCode, GeotagsCollection geotags)
     => new GeotagsWerdenBepaald(vCode, geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
 }

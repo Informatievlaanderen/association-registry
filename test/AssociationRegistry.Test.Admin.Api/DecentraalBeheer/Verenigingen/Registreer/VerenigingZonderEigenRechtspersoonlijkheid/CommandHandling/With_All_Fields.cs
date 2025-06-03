@@ -31,7 +31,7 @@ public class With_All_Fields
     private readonly Fixture _fixture;
     private readonly Mock<IGeotagsService> _geotagsService;
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
-    private Geotag[] _geotags;
+    private GeotagsCollection _geotags;
 
     public With_All_Fields()
     {

@@ -9,7 +9,7 @@ public class MessageBusFactory
     public Mock<IMessageBus> Mock()
         => new();
 
-    public MessageBusFactory(Fixture fixture)
+    public MessageBusFactory(IFixture fixture)
     {
     }
 }

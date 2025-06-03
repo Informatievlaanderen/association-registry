@@ -348,6 +348,9 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     {
         var geotags = await geotagsService.CalculateGeotags(State.Locaties, State.Werkingsgebieden);
 
+        if (geotags.Equals(State.Geotags))
+            return;
+
         AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
     }
 

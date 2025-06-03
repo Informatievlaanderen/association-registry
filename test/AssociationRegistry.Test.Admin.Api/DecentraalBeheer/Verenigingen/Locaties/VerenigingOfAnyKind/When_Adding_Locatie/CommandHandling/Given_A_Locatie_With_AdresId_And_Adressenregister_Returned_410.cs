@@ -21,7 +21,7 @@ using Xunit;
 public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_410
 {
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario _scenario;
-    private Geotag[] _geotags;
+    private GeotagsCollection _geotags;
     private readonly Fixture _fixture;
     private VoegLocatieToeCommandHandler _commandHandler;
     private readonly Mock<IGrarClient> _grarClient;
