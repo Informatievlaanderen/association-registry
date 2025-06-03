@@ -340,4 +340,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     private bool AndereVerenigingIsReedsEenLid(VCode? andereVereniging)
         => State.Lidmaatschappen.Any(x => x.AndereVereniging == andereVereniging);
+
+    public (Locatie[] metAdresId, Locatie[] zonderAdresId) GeefLocatiesMetEnZonderAdresId()
+        => State.Locaties.Partition(x => x.AdresId is not null);
 }

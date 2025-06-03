@@ -43,7 +43,7 @@ public class With_Locatie_With_AdresId
 
         var locatie = fixture.Create<Locatie>() with
         {
-            LocatieId = 1,
+            LocatieId = Locatie.IdNotSet, // user does not pass this in, so we set it to 0
             AdresId = fixture.Create<AdresId>(),
         };
 
@@ -125,10 +125,10 @@ public class With_Locatie_With_AdresId
                 EventFactory.Doelgroep(Doelgroep.Null),
                 IsUitgeschrevenUitPubliekeDatastroom: false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
-                new[] { EventFactory.Locatie(locatie) },
+                new[] { EventFactory.Locatie(locatie) with { LocatieId = Locatie.IdNotSet + 1} },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
-            new AdresWerdOvergenomenUitAdressenregister(vCode, LocatieId: 1, adresDetailResponse.AdresId,
+            new AdresWerdOvergenomenUitAdressenregister(vCode, LocatieId: Locatie.IdNotSet + 1, adresDetailResponse.AdresId,
                                                         adresDetailResponse.ToAdresUitAdressenregister()),
             new GeotagsWerdenBepaald(vCode, [new Registratiedata.Geotag(geotag.Identificatie)])
     );

@@ -8,6 +8,8 @@ using Grar.Models;
 
 public record Locatie
 {
+    public const int IdNotSet = 0;
+
     public const int MaxLengthLocatienaam = 128;
     public int LocatieId { get; init; }
     public string Naam { get; init; }
