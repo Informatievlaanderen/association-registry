@@ -1,3 +1,10 @@
+## [8.242.1](https://github.com/informatievlaanderen/association-registry/compare/v8.242.0...v8.242.1) (2025-06-03)
+
+
+### Bug Fixes
+
+* or-2820 don't use command locations cuz they don't have location ids ([de6a51a](https://github.com/informatievlaanderen/association-registry/commit/de6a51aad8d72274ecf3da4e81e3f27614fad27a))
+
 # [8.242.0](https://github.com/informatievlaanderen/association-registry/compare/v8.241.0...v8.242.0) (2025-06-03)
 
 
