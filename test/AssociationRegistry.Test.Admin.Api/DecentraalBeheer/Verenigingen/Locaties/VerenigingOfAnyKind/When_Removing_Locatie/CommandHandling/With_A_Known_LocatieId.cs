@@ -8,7 +8,9 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using EventFactories;
 using Moq;
 using Vereniging.Geotags;
 using Xunit;
@@ -17,7 +19,7 @@ public class With_A_Known_LocatieId
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithMultipleLocatiesScenario _scenario;
-
+    private readonly GeotagsCollection _geotagsCollection;
     public With_A_Known_LocatieId()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMultipleLocatiesScenario();
@@ -25,9 +27,12 @@ public class With_A_Known_LocatieId
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
+        var (geotagsService, geotags) = Faktory.New(fixture).GeotagsService.ReturnsRandomGeotags();
+        _geotagsCollection = geotags;
+
         var command = new VerwijderLocatieCommand(_scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie.LocatieId);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new VerwijderLocatieCommandHandler(_verenigingRepositoryMock, Mock.Of<IGeotagsService>());
+        var commandHandler = new VerwijderLocatieCommandHandler(_verenigingRepositoryMock, geotagsService.Object);
 
         commandHandler.Handle(new CommandEnvelope<VerwijderLocatieCommand>(command, commandMetadata))
                       .GetAwaiter().GetResult();
@@ -45,7 +50,7 @@ public class With_A_Known_LocatieId
         _verenigingRepositoryMock.ShouldHaveSaved(
             new LocatieWerdVerwijderd(
                 _scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie),
-            new GeotagsWerdenBepaald(_scenario.VCode, [])
+            EventFactory.GeotagsWerdenBepaald(_scenario.VCode, _geotagsCollection)
         );
     }
 }

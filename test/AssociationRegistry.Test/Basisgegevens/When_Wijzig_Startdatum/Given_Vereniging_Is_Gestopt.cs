@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Basisgegevens.When_Wijzig_Startdatum;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Framework;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using AutoFixture.Kernel;
+using Common.AutoFixture;
 using EventFactories;
+using Events;
 using FluentAssertions;
+using Framework;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_Vereniging_Is_Gestopt

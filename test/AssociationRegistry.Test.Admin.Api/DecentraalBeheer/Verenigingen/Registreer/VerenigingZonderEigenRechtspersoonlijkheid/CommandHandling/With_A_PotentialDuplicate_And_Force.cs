@@ -14,6 +14,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Marten;
@@ -30,12 +31,16 @@ public class With_A_PotentialDuplicate_And_Force
     private readonly Result _result;
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly GeotagsCollection _geotagsCollection;
 
     public With_A_PotentialDuplicate_And_Force()
     {
         var scenario = new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario();
         var fixture = new Fixture().CustomizeAdminApi()
                                    .WithoutWerkingsgebieden();
+
+        var (geotagService, geotagsCollection) = Faktory.New(fixture).GeotagsService.ReturnsRandomGeotags();
+        _geotagsCollection = geotagsCollection;
 
         var locatie = fixture.Create<Locatie>() with
         {
@@ -78,7 +83,7 @@ public class With_A_PotentialDuplicate_And_Force
             Mock.Of<IDocumentSession>(),
             new ClockStub(_command.Startdatum.Value),
             Mock.Of<IGrarClient>(),
-            Mock.Of<IGeotagsService>(),
+            geotagService.Object,
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata),
@@ -126,6 +131,7 @@ public class With_A_PotentialDuplicate_And_Force
                     h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
                         h.Naam)).ToArray()
-            ), new GeotagsWerdenBepaald(vCode, []));
+            ),
+            EventFactory.GeotagsWerdenBepaald(VCode.Create(vCode), _geotagsCollection));
     }
 }
