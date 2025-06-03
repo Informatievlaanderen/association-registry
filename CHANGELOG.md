@@ -1,3 +1,11 @@
+# [8.242.0](https://github.com/informatievlaanderen/association-registry/compare/v8.241.0...v8.242.0) (2025-06-03)
+
+
+### Features
+
+* or-2820 add more logging to geotag mig service ([6602079](https://github.com/informatievlaanderen/association-registry/commit/660207993479e627b302ea12e4e15ece81c035da))
+* or-2820 also migrate dubbele and verwijderde verenigingen ([5df2393](https://github.com/informatievlaanderen/association-registry/commit/5df23939ff7fbfbc55c13ddf3b62b2c0fc8fa0eb))
+
 # [8.241.0](https://github.com/informatievlaanderen/association-registry/compare/v8.240.0...v8.241.0) (2025-05-28)
 
 
