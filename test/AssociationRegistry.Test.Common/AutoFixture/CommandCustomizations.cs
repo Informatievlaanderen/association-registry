@@ -21,7 +21,7 @@ public static class CommandCustomizations
                                                                  fixture.Create<VerenigingsNaam>(),
                                                                  fixture.Create<string>(),
                                                                  fixture.Create<string>(),
-                                                                 fixture.Create<Datum>(),
+                                                                 Datum.Create(DateOnly.FromDateTime(DateTime.Today.AddDays(-10))),
                                                                  fixture.Create<Doelgroep>(),
                                                                  IsUitgeschrevenUitPubliekeDatastroom: false,
                                                                  fixture.CreateMany<Contactgegeven>().ToArray(),

@@ -62,9 +62,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         }
     }
 
-    public async Task BepaalGeotags(IGeotagsService geotagsService)
+    public async Task BerekenGeotags(IGeotagsService geotagsService)
     {
         var geotags = await geotagsService.CalculateGeotags(State.Locaties, State.Werkingsgebieden);
+
+        if (State.Geotags.Equals(geotags))
+            return;
 
         AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
     }

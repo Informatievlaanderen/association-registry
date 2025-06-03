@@ -56,7 +56,7 @@ public record VerenigingState : IHasVersion
     public VerenigingStatus VerenigingStatus { get; set; }
     public long Version { get; set; }
 
-    public GeotagsCollection Geotags { get; set; } = GeotagsCollection.Empty;
+    public GeotagsCollection Geotags { get; set; } = GeotagsCollection.Null;
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
