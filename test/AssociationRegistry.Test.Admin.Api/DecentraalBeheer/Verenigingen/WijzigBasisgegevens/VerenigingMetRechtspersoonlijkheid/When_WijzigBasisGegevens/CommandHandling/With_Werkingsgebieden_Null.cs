@@ -8,7 +8,10 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_Werkingsgebieden_Null
@@ -25,7 +28,7 @@ public class With_Werkingsgebieden_Null
         var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(_scenario.VCode, Werkingsgebieden: null);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler();
+        var commandHandler = new WijzigBasisgegevensCommandHandler(Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object);
 
         commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),

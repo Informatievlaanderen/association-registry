@@ -3,7 +3,9 @@ namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVe
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
+using EventFactories;
 using global::AutoFixture;
+using Vereniging.Geotags;
 
 public class FeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {

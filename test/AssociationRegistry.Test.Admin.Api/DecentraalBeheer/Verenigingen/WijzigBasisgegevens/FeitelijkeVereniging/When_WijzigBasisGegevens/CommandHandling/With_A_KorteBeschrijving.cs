@@ -10,7 +10,11 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.Clocks;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using EventFactories;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_KorteBeschrijving
@@ -27,7 +31,7 @@ public class With_A_KorteBeschrijving
         var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(_scenario.VCode, KorteBeschrijving: NieuweKorteBeschrijving);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler();
+        var commandHandler = new WijzigBasisgegevensCommandHandler(Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object);
 
         commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
@@ -45,7 +49,7 @@ public class With_A_KorteBeschrijving
     public void Then_A_KorteBeschrijvingWerdGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new KorteBeschrijvingWerdGewijzigd(_scenario.VCode, NieuweKorteBeschrijving)
-        );
+            new KorteBeschrijvingWerdGewijzigd(_scenario.VCode, NieuweKorteBeschrijving),
+            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
     }
 }

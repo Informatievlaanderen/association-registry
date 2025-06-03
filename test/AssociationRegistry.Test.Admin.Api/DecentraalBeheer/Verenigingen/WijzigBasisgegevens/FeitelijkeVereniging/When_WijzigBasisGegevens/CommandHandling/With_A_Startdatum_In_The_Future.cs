@@ -13,6 +13,8 @@ using AutoFixture;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_Startdatum_In_The_Future
@@ -33,7 +35,7 @@ public class With_A_Startdatum_In_The_Future
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        _commandHandler = new WijzigBasisgegevensCommandHandler();
+        _commandHandler = new WijzigBasisgegevensCommandHandler(Mock.Of<IGeotagsService>());
         _commandEnvelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata);
     }
 
