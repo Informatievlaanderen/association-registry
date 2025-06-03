@@ -11,6 +11,8 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using EventFactories;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_Einddatum
@@ -49,7 +51,9 @@ public class With_A_Einddatum
     public void Then_A_VerenigingWerdGestopt_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdGestopt(_command.Einddatum.Value)
-        );
+            new VerenigingWerdGestopt(_command.Einddatum.Value),
+            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
+
+
     }
 }

@@ -11,7 +11,11 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.Clocks;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using EventFactories;
+using Moq;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_Startdatum_Empty
@@ -27,7 +31,7 @@ public class With_A_Startdatum_Empty
         var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: NullOrEmpty<Datum>.Empty);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler();
+        var commandHandler = new WijzigBasisgegevensCommandHandler(Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object);
 
         commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
@@ -39,7 +43,9 @@ public class With_A_Startdatum_Empty
     public void Then_A_StartdatumWerdGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new StartdatumWerdGewijzigd(_scenario.VCode, Startdatum: null)
-        );
+            new StartdatumWerdGewijzigd(_scenario.VCode, Startdatum: null),
+            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
+
+
     }
 }

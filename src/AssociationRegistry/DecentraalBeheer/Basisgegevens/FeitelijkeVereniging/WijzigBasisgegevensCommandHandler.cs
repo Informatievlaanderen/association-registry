@@ -3,9 +3,15 @@
 using AssociationRegistry.Framework;
 using AssociationRegistry.Primitives;
 using AssociationRegistry.Vereniging;
+using Vereniging.Geotags;
 
 public class WijzigBasisgegevensCommandHandler
 {
+    private IGeotagsService _geotagsService;
+    public WijzigBasisgegevensCommandHandler(IGeotagsService geotagsService)
+    {
+        _geotagsService = geotagsService;
+    }
     public async Task<CommandResult> Handle(
         CommandEnvelope<WijzigBasisgegevensCommand> message,
         IVerenigingsRepository repository,
@@ -22,6 +28,7 @@ public class WijzigBasisgegevensCommandHandler
         WijzigWerkingsgebieden(vereniging, message.Command.Werkingsgebieden);
         HandleUitgeschrevenUitPubliekeDatastroom(vereniging, message.Command.IsUitgeschrevenUitPubliekeDatastroom);
         HandleDoelgroep(vereniging, message.Command.Doelgroep);
+        await vereniging.BerekenGeotags(_geotagsService);
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
 
