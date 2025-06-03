@@ -73,7 +73,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         var (metAdresId, zonderAdresId) = vereniging.GeefLocatiesMetEnZonderAdresId();
 
         await vereniging.NeemAdresDetailsOver(metAdresId, _grarClient, CancellationToken.None);
-        await vereniging.BepaalGeotags(_geotagsService);
+        await vereniging.BerekenGeotags(_geotagsService);
 
         foreach (var locatieZonderAdresId in zonderAdresId)
         {
