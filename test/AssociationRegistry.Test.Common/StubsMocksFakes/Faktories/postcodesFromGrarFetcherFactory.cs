@@ -26,7 +26,7 @@ public class postcodesFromGrarFetcherFactory
     }
 
 
-    public postcodesFromGrarFetcherFactory(Fixture fixture)
+    public postcodesFromGrarFetcherFactory(IFixture fixture)
     {
     }
 }

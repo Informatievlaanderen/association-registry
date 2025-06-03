@@ -9,7 +9,7 @@ public class MartenOutboxFactory
     public Mock<IMartenOutbox> Mock()
         => new();
 
-    public MartenOutboxFactory(Fixture fixture)
+    public MartenOutboxFactory(IFixture fixture)
     {
     }
 }

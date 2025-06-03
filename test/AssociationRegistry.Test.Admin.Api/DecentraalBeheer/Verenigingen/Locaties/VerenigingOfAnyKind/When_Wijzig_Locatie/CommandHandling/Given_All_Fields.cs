@@ -10,6 +10,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Moq;
@@ -24,6 +25,7 @@ public class Given_All_Fields
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly WijzigLocatieCommand.Locatie _locatie;
+    private readonly GeotagsCollection _geotagsCollection;
 
     public Given_All_Fields()
     {
@@ -32,11 +34,14 @@ public class Given_All_Fields
 
         _fixture = new Fixture().CustomizeAdminApi();
 
+        var (geotagsService, geotags) = Faktory.New(_fixture).GeotagsService.ReturnsRandomGeotags();
+        _geotagsCollection = geotags;
+
         _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock,
                                                           Mock.Of<IMartenOutbox>(),
                                                           Mock.Of<IDocumentSession>(),
                                                           Mock.Of<IGrarClient>(),
-                                                          Mock.Of<IGeotagsService>()
+                                                          geotagsService.Object
         );
 
         _locatie = new WijzigLocatieCommand.Locatie(
@@ -67,7 +72,6 @@ public class Given_All_Fields
                     EventFactory.Adres(_locatie.Adres),
                     EventFactory.AdresId(_locatie.AdresId))
             ),
-            new GeotagsWerdenBepaald(_scenario.VCode, []));
-
+            EventFactory.GeotagsWerdenBepaald(_scenario.VCode, _geotagsCollection));
     }
 }

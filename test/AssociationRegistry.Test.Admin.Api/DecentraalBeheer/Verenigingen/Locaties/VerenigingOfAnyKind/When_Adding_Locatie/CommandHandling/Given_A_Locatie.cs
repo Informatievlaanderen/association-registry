@@ -12,6 +12,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Marten;
@@ -34,12 +35,13 @@ public class Given_A_Locatie
     public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var (geotagsService, geotags) = Faktory.New(_fixture).GeotagsService.ReturnsRandomGeotags();
 
         var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
                                                               Mock.Of<IMartenOutbox>(),
                                                               Mock.Of<IDocumentSession>(),
                                                               Mock.Of<IGrarClient>(),
-                                                              Mock.Of<IGeotagsService>()
+                                                              geotagsService.Object
         );
 
         var command = new VoegLocatieToeCommand(scenario.VCode, _fixture.Create<Locatie>() with
@@ -55,7 +57,7 @@ public class Given_A_Locatie
                 {
                     LocatieId = expectedLocatieId,
                 }),
-            new GeotagsWerdenBepaald(command.VCode, [])
+            EventFactory.GeotagsWerdenBepaald(command.VCode, geotags)
         );
     }
 
@@ -65,11 +67,13 @@ public class Given_A_Locatie
     {
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
+        var (geotagsService, geotags) = Faktory.New(_fixture).GeotagsService.ReturnsRandomGeotags();
+
         var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
                                                               Mock.Of<IMartenOutbox>(),
                                                               Mock.Of<IDocumentSession>(),
                                                               Mock.Of<IGrarClient>(),
-                                                              Mock.Of<IGeotagsService>()
+                                                              geotagsService.Object
 
         );
 

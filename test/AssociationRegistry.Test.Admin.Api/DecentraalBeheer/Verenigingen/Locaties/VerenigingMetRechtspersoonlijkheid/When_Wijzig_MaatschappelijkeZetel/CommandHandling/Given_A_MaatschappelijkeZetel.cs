@@ -20,7 +20,7 @@ public class Given_A_MaatschappelijkeZetel
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario _scenario;
     private readonly WijzigMaatschappelijkeZetelCommand _command;
-    private Geotag[] _geotags;
+    private GeotagsCollection _geotags;
     private readonly Mock<IGeotagsService> _geotagsService;
 
     public Given_A_MaatschappelijkeZetel()

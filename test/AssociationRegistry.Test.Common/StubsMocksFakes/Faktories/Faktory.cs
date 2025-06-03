@@ -3,9 +3,9 @@ namespace AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AssociationRegistry.Test.Common.AutoFixture;
 using global::AutoFixture;
 
-public class Faktory(Fixture fixture)
+public class Faktory(IFixture fixture)
 {
-    public static Faktory New(Fixture? fixture = null)
+    public static Faktory New(IFixture? fixture = null)
         => new(fixture ?? new Fixture().CustomizeDomain());
 
     public VCodeServiceFactory VCodeService { get; } = new VCodeServiceFactory();
