@@ -12,6 +12,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -33,6 +34,7 @@ public class With_WerkingsgebiedenWerdenNietBepaald
 
         var fixture = new Fixture().CustomizeAdminApi()
                                    .WithoutWerkingsgebieden();
+        var geotagService = Faktory.New(fixture).GeotagsService.ReturnsEmptyGeotags();
 
         var today = fixture.Create<DateOnly>();
 
@@ -61,7 +63,7 @@ public class With_WerkingsgebiedenWerdenNietBepaald
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
                                                              Mock.Of<IGrarClient>(),
-                                                             Mock.Of<IGeotagsService>(),
+                                                             geotagService.Object,
                                                              NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler

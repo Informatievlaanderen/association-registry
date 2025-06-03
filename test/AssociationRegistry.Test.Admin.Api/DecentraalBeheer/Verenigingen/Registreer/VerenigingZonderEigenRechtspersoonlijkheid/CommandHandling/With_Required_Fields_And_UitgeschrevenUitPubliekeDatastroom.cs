@@ -12,6 +12,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -32,6 +33,8 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAdminApi();
+        var geotagService = Faktory.New(fixture).GeotagsService.ReturnsEmptyGeotags();
+
         var today = fixture.Create<DateOnly>();
 
         var clock = new ClockStub(today);
@@ -59,7 +62,7 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
                                                              Mock.Of<IGrarClient>(),
-                                                             Mock.Of<IGeotagsService>(),
+                                                             geotagService.Object,
                                                              NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler

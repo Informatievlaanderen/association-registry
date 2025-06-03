@@ -5,6 +5,7 @@ using Emails;
 using Events;
 using Exceptions;
 using Framework;
+using Geotags;
 using Marten.Schema;
 using SocialMedias;
 using Subtypes.Default;
@@ -12,6 +13,7 @@ using Subtypes.FeitelijkeVereniging;
 using Subtypes.NietBepaald;
 using Subtypes.NoSubtype;
 using Subtypes.Subvereniging;
+using System.Collections.ObjectModel;
 using TelefoonNummers;
 
 public record VerenigingState : IHasVersion
@@ -53,6 +55,8 @@ public record VerenigingState : IHasVersion
     public string[] CorresponderendeVCodes { get; set; } = [];
     public VerenigingStatus VerenigingStatus { get; set; }
     public long Version { get; set; }
+
+    public GeotagsCollection Geotags { get; set; } = GeotagsCollection.Empty;
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
@@ -823,7 +827,11 @@ public record VerenigingState : IHasVersion
         };
 
     public VerenigingState Apply(GeotagsWerdenBepaald @event)
-        => this with { GeotagsGeinitialiseerd = true };
+        => this with
+        {
+            GeotagsGeinitialiseerd = true,
+            Geotags = GeotagsCollection.Hydrate(@event.Geotags),
+        };
 
     public void ThrowIfVerwijderd()
     {

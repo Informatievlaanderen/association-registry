@@ -12,6 +12,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -32,6 +33,8 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     {
         _fixture = new Fixture().CustomizeAdminApi()
                                 .WithoutWerkingsgebieden();
+
+        var geotagService = Faktory.New(_fixture).GeotagsService.ReturnsEmptyGeotags();
 
         _repositoryMock = new VerenigingRepositoryMock();
 
@@ -56,7 +59,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             Mock.Of<IDocumentSession>(),
             new ClockStub(_command.Startdatum.Value),
             Mock.Of<IGrarClient>(),
-            Mock.Of<IGeotagsService>(),
+            geotagService.Object,
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
     }
 

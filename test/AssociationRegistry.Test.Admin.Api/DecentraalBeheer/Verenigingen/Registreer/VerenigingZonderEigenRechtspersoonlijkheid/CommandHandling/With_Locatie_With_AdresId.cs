@@ -71,7 +71,7 @@ public class With_Locatie_With_AdresId
                                                     AdresId.Create(locatie.AdresId.Adresbron.Code, locatie.AdresId.Bronwaarde),
                                                     locatie.Adres) },
                                  Array.Empty<Werkingsgebied>()))
-                      .ReturnsAsync(geotags);
+                      .ReturnsAsync(GeotagsCollection.Hydrate(geotags));
 
         var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
             VerenigingsNaam.Create(naam),
