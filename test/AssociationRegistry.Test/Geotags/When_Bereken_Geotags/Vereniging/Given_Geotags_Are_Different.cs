@@ -30,7 +30,7 @@ public class Given_Geotags_Are_Different
                .Apply(verenigingWerdGeregistreerd)
                .Apply(geotagsWerdenBepaald));
 
-        await vereniging.BepaalGeotags(geotagsService.Object);
+        await vereniging.BerekenGeotags(geotagsService.Object);
 
         vereniging.UncommittedEvents.Count().Should().Be(1);
         vereniging.UncommittedEvents.ToArray().ShouldCompare(new[]
