@@ -746,4 +746,13 @@ public class BeheerZoekProjectionHandler
             Id = jsonLdType.CreateWithIdValues(values),
             Type = jsonLdType.Type,
         };
+
+    public async Task Handle(EventEnvelope<GeotagsWerdenBepaald> message)
+    {
+        await _elasticRepository
+           .UpdateAsync(message.VCode, new VerenigingZoekUpdateDocument
+            {
+                Geotags = message.Data.Geotags.Select(x => new VerenigingZoekDocument.Types.Geotag(x.Identificiatie)).ToArray()
+            }, message.Sequence);
+    }
 }

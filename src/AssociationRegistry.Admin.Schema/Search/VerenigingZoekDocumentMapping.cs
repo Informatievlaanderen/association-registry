@@ -82,6 +82,12 @@ public static class VerenigingZoekDocumentMapping
                                                    .Name(document => document.Lidmaatschappen)
                                                    .IncludeInRoot()
                                                    .Properties(LidmaatschapMapping.Get))
+                         .Nested<VerenigingZoekDocument.Types.Geotag>(
+                              propertyDescriptor => propertyDescriptor
+                                                   .Name(document => document.Geotags)
+                                                   .IncludeInRoot()
+                                                   .Properties(GeotagMapping.Get))
+
         );
 
     private static class LocationMapping
@@ -274,4 +280,15 @@ public static class VerenigingZoekDocumentMapping
                                           .Name(document => document.Nummer)
                                           .Fields(x => x.Keyword(y => y.Name("keyword"))));
     }
+
+    private static class GeotagMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Geotag> map)
+            => map
+               .Keyword(
+                    propertyDescriptor => propertyDescriptor
+                                         .Name(document => document.Identificatie)
+                                         .Normalizer(BeheerZoekenNormalizer));
+    }
+
 }

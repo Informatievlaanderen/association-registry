@@ -23,4 +23,6 @@ public class VerenigingZoekUpdateDocument
     public string? Status { get; set; } = null!;
     public bool? IsVerwijderd { get; set; }
     public bool? IsDubbel { get; set; }
+    public VerenigingZoekDocument.Types.Geotag[]? Geotags { get; set; } = null!;
+
 }

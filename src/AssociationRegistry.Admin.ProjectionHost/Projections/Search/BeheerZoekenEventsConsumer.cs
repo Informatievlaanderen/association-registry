@@ -72,6 +72,7 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging):
                 case nameof(SubverenigingRelatieWerdGewijzigd):
                 case nameof(SubverenigingDetailsWerdenGewijzigd):
+                case nameof(GeotagsWerdenBepaald):
                     try
                     {
                         await _zoekProjectionHandler.Handle(eventEnvelope);
