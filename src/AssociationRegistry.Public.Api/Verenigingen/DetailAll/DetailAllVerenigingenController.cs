@@ -8,6 +8,7 @@ using Queries;
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class DetailAllVerenigingenController : ApiController
 {
     [HttpGet("detail/all")]
