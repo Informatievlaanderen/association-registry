@@ -5,6 +5,7 @@ using Nest;
 public static class VerenigingZoekDocumentMapping
 {
     public const string BeheerZoekenNormalizer = "beheer_zoeken_normalizer";
+    public const string BeheerZoekenAnalyzer = "beheer_zoeken_analyzer";
 
     public static TypeMappingDescriptor<VerenigingZoekDocument> Get(TypeMappingDescriptor<VerenigingZoekDocument> map)
         => map.Properties(

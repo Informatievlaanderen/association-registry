@@ -14,23 +14,33 @@ public static class ElasticSearchExtensions
         var elasticClient = (IServiceProvider serviceProvider)
             => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticClient>>());
 
-        services.AddMappingsForVerenigingZoek(elasticSearchOptions.Indices!.Verenigingen!);
+        services.AddMappingsForVerenigingZoek(elasticSearchOptions.Indices!.Verenigingen!)
 
-        services.AddSingleton(sp => elasticClient(sp));
-        services.AddSingleton<IElasticClient>(serviceProvider => serviceProvider.GetRequiredService<ElasticClient>());
+                .AddSingleton(sp => elasticClient(sp))
+                .AddSingleton<IElasticClient>(serviceProvider => serviceProvider.GetRequiredService<ElasticClient>());
 
         return services;
     }
 
     private static IServiceCollection AddMappingsForVerenigingZoek(this IServiceCollection services, string indexName)
-        => services.AddSingleton(
-            serviceProvider => serviceProvider
-                              .GetMappingFor<VerenigingZoekDocument>()
-                              .Indices[indexName]
-                              .Mappings);
+    {
+        services.AddSingleton(serviceProvider =>
+        {
+            var client = serviceProvider.GetRequiredService<IElasticClient>();
+            var mapping = client.Indices.GetMapping<VerenigingZoekDocument>();
 
-    private static GetMappingResponse GetMappingFor<T>(this IServiceProvider serviceProvider) where T : class
-        => serviceProvider.GetRequiredService<ElasticClient>().Indices.GetMapping<T>();
+            return mapping.Indices[indexName].Mappings;
+        });
+        services.AddSingleton<ITypeMapping>(serviceProvider =>
+        {
+            var client = serviceProvider.GetRequiredService<IElasticClient>();
+            var mapping = client.Indices.GetMapping<VerenigingZoekDocument>();
+
+            return mapping.Indices[indexName].Mappings;
+        });
+
+        return services;
+    }
 
     public static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
     {
