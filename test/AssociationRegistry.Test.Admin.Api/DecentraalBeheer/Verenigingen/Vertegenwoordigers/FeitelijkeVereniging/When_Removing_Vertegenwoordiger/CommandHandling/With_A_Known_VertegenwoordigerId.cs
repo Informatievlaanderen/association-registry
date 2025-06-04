@@ -40,7 +40,7 @@ public class With_A_Known_VertegenwoordigerId
     [Fact]
     public void Then_A_VertegenwoordigerWerdVerwijderd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new VertegenwoordigerWerdVerwijderd(
                 _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                 _scenario.VertegenwoordigerWerdToegevoegd.Insz,

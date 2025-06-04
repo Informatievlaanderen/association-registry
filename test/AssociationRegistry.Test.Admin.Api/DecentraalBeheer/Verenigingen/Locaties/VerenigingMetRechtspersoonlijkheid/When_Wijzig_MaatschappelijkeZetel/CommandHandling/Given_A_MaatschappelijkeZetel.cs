@@ -68,7 +68,7 @@ public class Given_A_MaatschappelijkeZetel
     [Fact]
     public void Then_A_MaatschappelijkeZetelVolgensKBOWerdGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
                 _command.TeWijzigenLocatie.LocatieId,
                 _command.TeWijzigenLocatie.Naam!,

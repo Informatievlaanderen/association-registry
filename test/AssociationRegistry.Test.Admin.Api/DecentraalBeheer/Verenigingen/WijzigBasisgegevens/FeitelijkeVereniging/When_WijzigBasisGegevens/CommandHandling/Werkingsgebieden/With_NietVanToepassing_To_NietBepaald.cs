@@ -5,18 +5,20 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Vereniging.Geotags;
 using Xunit;
 
 public class With_NietVanToepassing_To_NietBepaald
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly WerkingsgebiedenWerdenNietVanToepassingScenario _scenario;
+    private GeotagsCollection _geotags;
 
     public With_NietVanToepassing_To_NietBepaald()
     {
         _scenario = new WerkingsgebiedenWerdenNietVanToepassingScenario();
 
-        _verenigingRepositoryMock =
+        (_verenigingRepositoryMock, _geotags) =
             WerkingsgebiedenScenarioRunner.Run(_scenario, werkingsgebieden: fixture => Werkingsgebieden.NietBepaald);
     }
 
@@ -29,6 +31,8 @@ public class With_NietVanToepassing_To_NietBepaald
     [Fact]
     public void Then_A_WerkingsgebiedenWerdenNietVanBepaald_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(EventFactory.WerkingsgebiedenWerdenNietBepaald(_scenario.VCode));
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
+            EventFactory.WerkingsgebiedenWerdenNietBepaald(_scenario.VCode),
+            EventFactory.GeotagsWerdenBepaald(_scenario.VCode, _geotags));
     }
 }

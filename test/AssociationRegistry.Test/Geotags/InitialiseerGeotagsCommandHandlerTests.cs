@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using Common.Scenarios.CommandHandling;
+using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -15,7 +16,7 @@ public class InitialiseerGeotagsCommandHandlerTests
     [Fact]
     public async Task InitialiseGeotagsCommandHandler()
     {
-        var scenario = new WerkingsgebiedenWerdenBepaaldScenario();
+        var scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderGeotagsInitialisatieScenario();
 
         var locaties = scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties;
         var werkingsgebieden = scenario.WerkingsgebiedenWerdenBepaald.Werkingsgebieden;
@@ -33,6 +34,6 @@ public class InitialiseerGeotagsCommandHandlerTests
         await sut.Handle(new CommandEnvelope<InitialiseerGeotagsCommand>(new InitialiseerGeotagsCommand(scenario.VCode),
                                                                          CommandMetadata.ForDigitaalVlaanderenProcess));
 
-        verenigingRepository.ShouldHaveSaved(EventFactory.GeotagsWerdenBepaald(scenario.VCode, geotags));
+        verenigingRepository.ShouldHaveSavedExact(EventFactory.GeotagsWerdenBepaald(scenario.VCode, geotags));
     }
 }

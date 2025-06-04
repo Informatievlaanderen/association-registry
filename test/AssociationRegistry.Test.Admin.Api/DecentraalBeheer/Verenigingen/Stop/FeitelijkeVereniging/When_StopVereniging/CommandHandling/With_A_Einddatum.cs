@@ -50,10 +50,7 @@ public class With_A_Einddatum
     [Fact]
     public void Then_A_VerenigingWerdGestopt_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdGestopt(_command.Einddatum.Value),
-            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
-
-
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
+            new VerenigingWerdGestopt(_command.Einddatum.Value));
     }
 }

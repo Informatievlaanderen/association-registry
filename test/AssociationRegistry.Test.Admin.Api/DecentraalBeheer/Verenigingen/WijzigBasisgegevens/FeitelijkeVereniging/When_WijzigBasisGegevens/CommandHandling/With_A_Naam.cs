@@ -52,9 +52,8 @@ public class With_A_Naam
     [Fact]
     public void Then_A_NaamWerdGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
-            new NaamWerdGewijzigd(_scenario.VCode, NieuweNaam),
-            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
+            new NaamWerdGewijzigd(_scenario.VCode, NieuweNaam));
 
 
     }

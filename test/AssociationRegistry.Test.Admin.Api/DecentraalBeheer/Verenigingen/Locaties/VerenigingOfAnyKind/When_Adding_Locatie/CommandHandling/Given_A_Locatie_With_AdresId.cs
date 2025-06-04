@@ -70,7 +70,7 @@ public class Given_A_Locatie_With_Adres_id
 
         var maxLocatieId = scenario.GetVerenigingState().Locaties.Max(x => x.LocatieId) + 1;
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new LocatieWerdToegevoegd(
                 EventFactory.Locatie(command.Locatie) with
                 {

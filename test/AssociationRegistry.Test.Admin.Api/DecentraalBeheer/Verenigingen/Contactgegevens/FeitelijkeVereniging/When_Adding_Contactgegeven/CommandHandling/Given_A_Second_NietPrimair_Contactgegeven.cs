@@ -46,7 +46,7 @@ public class Given_A_Second_NietPrimair_Contactgegeven
 
         await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new ContactgegevenWerdToegevoegd(ContactgegevenId: 2, command.Contactgegeven.Contactgegeventype, command.Contactgegeven.Waarde,
                                              command.Contactgegeven.Beschrijving, IsPrimair: false)
         );

@@ -30,7 +30,7 @@ public class Given_A_Lidmaatschap
 
         await commandHandler.Handle(new CommandEnvelope<VerwijderLidmaatschapCommand>(command, fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new LidmaatschapWerdVerwijderd(
                 scenario.VCode,
                 scenario.LidmaatschapWerdToegevoegd.Lidmaatschap));

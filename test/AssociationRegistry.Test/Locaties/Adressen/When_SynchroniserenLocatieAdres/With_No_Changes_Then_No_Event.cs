@@ -69,7 +69,7 @@ public class With_No_Changes_Then_No_Event
 
         await commandHandler.Handle(command, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             EventFactory.GeotagsWerdenBepaald(state.VCode, geotags));
         verenigingRepositoryMock.ShouldNotHaveSaved<AdresWerdGewijzigdInAdressenregister>();
     }

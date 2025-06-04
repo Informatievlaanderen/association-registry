@@ -76,7 +76,7 @@ public class Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving
 
         await _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new ContactgegevenWerdGewijzigd(
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 Contactgegeventype.Email,

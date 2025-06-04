@@ -30,7 +30,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid
 
         await commandHandler.Handle(new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new LidmaatschapWerdToegevoegd(
                 scenario.VCode,
                 new Registratiedata.Lidmaatschap(

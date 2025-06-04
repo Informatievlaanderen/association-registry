@@ -54,7 +54,7 @@ public class With_A_Changed_Adres
 
         await commandHandler.Handle(command, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new AdresWerdGewijzigdInAdressenregister(state.VCode.Value, locatieId,
                                                      mockedAdresDetail.AdresId,
                                                      mockedAdresDetail.ToAdresUitAdressenregister(),

@@ -42,9 +42,8 @@ public class With_A_Startdatum_Empty
     [Fact]
     public void Then_A_StartdatumWerdGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
-            new StartdatumWerdGewijzigd(_scenario.VCode, Startdatum: null),
-            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
+            new StartdatumWerdGewijzigd(_scenario.VCode, Startdatum: null));
 
 
     }

@@ -44,7 +44,7 @@ public class With_A_Known_ContactgegevenId
     [Fact]
     public void Then_A_ContactgegevenWerdVerwijderd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new ContactgegevenWerdVerwijderd(
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 _scenario.Type,

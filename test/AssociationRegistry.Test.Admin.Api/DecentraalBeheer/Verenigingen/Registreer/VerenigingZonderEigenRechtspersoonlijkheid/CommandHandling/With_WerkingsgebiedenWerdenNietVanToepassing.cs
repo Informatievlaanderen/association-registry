@@ -76,7 +76,7 @@ public class With_NietVanToepassing_Werkingsgebieden
     {
         var vCode = _vCodeService.GetLast();
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
                 Naam,

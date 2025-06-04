@@ -15,7 +15,7 @@ public class With_NietBepaald_To_NietBepaald
     {
         _scenario = new WerkingsgebiedenWerdenNietBepaaldScenario();
 
-        _verenigingRepositoryMock =
+        (_verenigingRepositoryMock, _) =
             WerkingsgebiedenScenarioRunner.Run(_scenario, werkingsgebieden: fixture => Werkingsgebieden.NietBepaald);
     }
 

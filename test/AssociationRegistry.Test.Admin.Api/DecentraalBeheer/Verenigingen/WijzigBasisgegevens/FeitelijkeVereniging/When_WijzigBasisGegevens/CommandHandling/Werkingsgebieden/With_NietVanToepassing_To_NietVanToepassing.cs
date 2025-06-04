@@ -15,7 +15,7 @@ public class With_NietVanToepassing_To_NietVanToepassing
     {
         _scenario = new WerkingsgebiedenWerdenNietVanToepassingScenario();
 
-        _verenigingRepositoryMock =
+        (_verenigingRepositoryMock, _) =
             WerkingsgebiedenScenarioRunner.Run(_scenario, werkingsgebieden: fixture => Werkingsgebieden.NietVanToepassing);
     }
 

@@ -28,7 +28,7 @@ public class Given_A_Single_Existing_Locatie
 
         var adres = scenario.AdresWerdOvergenomenUitAdressenregister.Adres;
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new AdresWerdOntkoppeldVanAdressenregister(
                 scenario.VCode,
                 scenario.LocatieWerdToegevoegd.Locatie.LocatieId,

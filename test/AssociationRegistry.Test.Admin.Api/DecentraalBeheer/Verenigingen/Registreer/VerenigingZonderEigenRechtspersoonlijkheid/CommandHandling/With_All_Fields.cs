@@ -129,7 +129,7 @@ public class With_All_Fields
         var geotagsWerdenBepaald =
             new GeotagsWerdenBepaald(_vCodeService.VCode, _geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
              verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
             werkingsgebiedenWerdenBepaald,
             geotagsWerdenBepaald

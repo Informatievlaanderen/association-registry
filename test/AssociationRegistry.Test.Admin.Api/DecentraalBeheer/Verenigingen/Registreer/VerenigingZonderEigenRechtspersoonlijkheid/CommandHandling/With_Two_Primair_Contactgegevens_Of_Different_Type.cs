@@ -79,7 +79,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     {
         var vCode = _vCodeService.GetLast();
 
-        _repositoryMock.ShouldHaveSaved(
+        _repositoryMock.ShouldHaveSavedExact(
             new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
                 _command.Naam,

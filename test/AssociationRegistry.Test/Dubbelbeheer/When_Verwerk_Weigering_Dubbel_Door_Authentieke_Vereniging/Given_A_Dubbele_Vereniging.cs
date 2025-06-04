@@ -31,7 +31,7 @@ public class Given_A_Dubbele_Vereniging
 
         await sut.Handle(command, CancellationToken.None);
 
-        repositoryMock.ShouldHaveSaved(
+        repositoryMock.ShouldHaveSavedExact(
             EventFactory.WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(scenario.VCode, new VerenigingStatus.StatusDubbel(vCodeAuthentiekeVereniging, VerenigingStatus.Actief)));
     }
 }

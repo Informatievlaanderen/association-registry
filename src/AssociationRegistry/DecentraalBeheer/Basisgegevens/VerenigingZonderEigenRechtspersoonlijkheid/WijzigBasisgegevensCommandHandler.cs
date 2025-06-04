@@ -25,10 +25,9 @@ public class WijzigBasisgegevensCommandHandler
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
         HandleStartdatum(vereniging, message.Command.Startdatum, clock);
         WijzigHoofdactiviteitenVerenigingsloket(vereniging, message.Command.HoofdactiviteitenVerenigingsloket);
-        WijzigWerkingsgebieden(vereniging, message.Command.Werkingsgebieden);
+        await WijzigWerkingsgebieden(vereniging, message.Command.Werkingsgebieden);
         HandleUitgeschrevenUitPubliekeDatastroom(vereniging, message.Command.IsUitgeschrevenUitPubliekeDatastroom);
         HandleDoelgroep(vereniging, message.Command.Doelgroep);
-        await vereniging.BerekenGeotags(_geotagsService);
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
 
@@ -58,14 +57,15 @@ public class WijzigBasisgegevensCommandHandler
         vereniging.WijzigHoofdactiviteitenVerenigingsloket(hoofdactiviteitenVerenigingsloket);
     }
 
-    private static void WijzigWerkingsgebieden(
+    private async Task WijzigWerkingsgebieden(
         Vereniging vereniging,
         Werkingsgebied[]? werkingsgebieden)
     {
         if (werkingsgebieden is null)
             return;
 
-        vereniging.WijzigWerkingsgebieden(werkingsgebieden);
+        if (vereniging.WijzigWerkingsgebieden(werkingsgebieden))
+            await vereniging.BerekenGeotags(_geotagsService);
     }
 
 

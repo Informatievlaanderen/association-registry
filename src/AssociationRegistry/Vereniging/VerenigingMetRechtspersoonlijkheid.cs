@@ -104,13 +104,15 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(hoofdactiviteiten.ToArray()));
     }
 
-    public void WijzigWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
+    public bool WijzigWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
     {
         if (Werkingsgebieden.Equals(werkingsgebieden, State.Werkingsgebieden))
-            return;
+            return false;
 
         var werkingsgebiedenData = Werkingsgebieden.FromArray(werkingsgebieden);
         AddEvent(EventFactory.WerkingsgebiedenWerdenGewijzigd(VCode, werkingsgebiedenData.ToArray()));
+
+        return true;
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)

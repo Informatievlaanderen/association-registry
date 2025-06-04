@@ -8,6 +8,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
+using Microsoft.Extensions.DependencyInjection;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
@@ -102,7 +103,18 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
             config: options => options.WithStrictOrdering());
     }
 
-    public void ShouldHaveSaved(params IEvent[] events)
+    // public void ShouldHaveSavedAtLeast(params IEvent[] expectedEvents)
+    // {
+    //     SaveInvocations.Should().HaveCount(1);
+    //
+    //     var actual = SaveInvocations[0].Vereniging.UncommittedEvents.ToArray();
+    //
+    //     actual.Should().Contain(expectedEvents);
+    //
+    //     AssertLoadingDubbel();
+    // }
+
+    public void ShouldHaveSavedExact(params IEvent[] events)
     {
         SaveInvocations.Should().HaveCount(1);
 

@@ -27,7 +27,7 @@ public class Given_A_Different_Subtype
 
         await commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarFeitelijkeVerenigingCommand>(command, fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
                 scenario.VCode));
     }

@@ -75,7 +75,7 @@ public class Given_A_Locatie_With_Adres_id
 
         await commandHandler.Handle(new CommandEnvelope<WijzigLocatieCommand>(command, fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new LocatieWerdGewijzigd(
                 EventFactory.Locatie(Locatie.Hydrate(locatie.LocatieId, locatie.Naam, isPrimair: false, locatie.Locatietype,
                                                              locatie.Adres, locatie.AdresId))),

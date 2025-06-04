@@ -69,7 +69,7 @@ public class With_A_KboNummer
     [Fact]
     public void Then_it_saves_the_event()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.KboNummer,
