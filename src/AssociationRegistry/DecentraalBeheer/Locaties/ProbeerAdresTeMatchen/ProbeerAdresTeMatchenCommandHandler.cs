@@ -41,8 +41,6 @@ public class ProbeerAdresTeMatchenCommandHandler
 
             await vereniging.ProbeerAdresTeMatchen(_grarClient, command.LocatieId, cancellationToken);
 
-            await vereniging.HerberekenGeotags(_geotagsService);
-
             await _verenigingsRepository.Save(
                 vereniging,
                 metadata with { ExpectedVersion = vereniging.Version },
