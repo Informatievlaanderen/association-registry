@@ -1,3 +1,15 @@
+# [8.244.0](https://github.com/informatievlaanderen/association-registry/compare/v8.243.0...v8.244.0) (2025-06-04)
+
+
+### Bug Fixes
+
+* or-2848 add geotags to admin projection ([eecf825](https://github.com/informatievlaanderen/association-registry/commit/eecf8257b6e3b2a01bb29ee90ff4a584859fb2b6))
+
+
+### Features
+
+* or-2822 implement geotag query in admin search ([5227367](https://github.com/informatievlaanderen/association-registry/commit/522736731ce85ea6ba4038b7b7ec96b1a8f4e83d))
+
 # [8.243.0](https://github.com/informatievlaanderen/association-registry/compare/v8.242.1...v8.243.0) (2025-06-04)
 
 
