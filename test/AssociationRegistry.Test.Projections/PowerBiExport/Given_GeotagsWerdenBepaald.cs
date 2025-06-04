@@ -5,10 +5,9 @@ public class Given_GeotagsWerdenBepaald(PowerBiScenarioFixture<GeotagsWerdenBepa
     : PowerBiScenarioClassFixture<GeotagsWerdenBepaaldScenario>
 {
     [Fact]
-    public void MetadataIsUpdated()
+    public void HistoriekIsUpdated()
     {
         fixture.Result.Historiek.Should()
                .ContainSingle(x => x.EventType == "GeotagsWerdenBepaald");
-
     }
 }
