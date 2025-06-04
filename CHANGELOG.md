@@ -1,3 +1,18 @@
+# [8.243.0](https://github.com/informatievlaanderen/association-registry/compare/v8.242.1...v8.243.0) (2025-06-04)
+
+
+### Bug Fixes
+
+* or-2818 only update metadadata ([90c805f](https://github.com/informatievlaanderen/association-registry/commit/90c805fe42bc4485d01350ce2424cd7a275dffe2))
+* or-2818 remove herbereken geotags from adresmatch handelr ([37bbba6](https://github.com/informatievlaanderen/association-registry/commit/37bbba6438e6df3050145491e3041df6ce133d56))
+* or-2848 be more precise about when we calculate geotags with werkingsgebieden ([8480fd2](https://github.com/informatievlaanderen/association-registry/commit/8480fd2f73437fbcd226d051a9cb25eee9bfd1ce))
+
+
+### Features
+
+* or-2818 implement GeotagsWerdenBepaald in powerbi ([35cd755](https://github.com/informatievlaanderen/association-registry/commit/35cd75536637c20b618f71fe592c8be926e9ff46))
+* or-2820 dont add another event if geotags calculation does not result in differences ([5d30b96](https://github.com/informatievlaanderen/association-registry/commit/5d30b96e8e937c2c6ed8e911dc5a20e071aa6e05))
+
 ## [8.242.1](https://github.com/informatievlaanderen/association-registry/compare/v8.242.0...v8.242.1) (2025-06-03)
 
 
