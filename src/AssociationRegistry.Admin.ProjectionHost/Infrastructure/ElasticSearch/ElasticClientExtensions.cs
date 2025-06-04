@@ -26,7 +26,8 @@ public static class ElasticClientExtensions
                                 .Analysis(a => a.CharFilters(cf => cf.RemoveDots()
                                                                      .ReplaceUnderscoresAndHyphenWithSpaces())
                                                 .TokenFilters(FilterDutchStopWords)
-                                                .Normalizers(AddVerenigingZoekNormalizer)))
+                                                .Normalizers(AddVerenigingZoekNormalizer)
+                                                .Analyzers(AddVerenigingZoekAnalyzer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
     public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
@@ -141,5 +142,14 @@ public static class ElasticClientExtensions
                          => ca
                            .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
                            .Filters("lowercase", "asciifolding", "trim")
+        );
+
+    private static AnalyzersDescriptor AddVerenigingZoekAnalyzer(AnalyzersDescriptor ad)
+        => ad.Custom(VerenigingZoekDocumentMapping.BeheerZoekenAnalyzer,
+                     selector: ca
+                         => ca
+                           .Tokenizer("standard")
+                           .CharFilters("underscore_replace", "dot_replace")
+                           .Filters("lowercase", "asciifolding", "dutch_stop")
         );
 }

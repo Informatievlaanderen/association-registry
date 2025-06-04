@@ -14,12 +14,12 @@ public interface IBeheerVerenigingenZoekQuery : IQuery<ISearchResponse<Verenigin
 public class BeheerVerenigingenZoekQuery : IBeheerVerenigingenZoekQuery
 {
     private readonly IElasticClient _client;
-    private readonly TypeMapping _typeMapping;
+    private readonly ITypeMapping _typeMapping;
 
     private static readonly Func<SortDescriptor<VerenigingZoekDocument>, SortDescriptor<VerenigingZoekDocument>> DefaultSort =
         x => x.Descending(v => v.VCode);
 
-    public BeheerVerenigingenZoekQuery(IElasticClient client, TypeMapping typeMapping)
+    public BeheerVerenigingenZoekQuery(IElasticClient client, ITypeMapping typeMapping)
     {
         _client = client;
         _typeMapping = typeMapping;
@@ -30,7 +30,7 @@ public class BeheerVerenigingenZoekQuery : IBeheerVerenigingenZoekQuery
         return queryContainerDescriptor =>
             queryContainerDescriptor.QueryString(
                 queryStringQueryDescriptor
-                    => queryStringQueryDescriptor.Query(q)
+                    => queryStringQueryDescriptor.Query(q).Analyzer(VerenigingZoekDocumentMapping.BeheerZoekenAnalyzer)
             );
     }
 

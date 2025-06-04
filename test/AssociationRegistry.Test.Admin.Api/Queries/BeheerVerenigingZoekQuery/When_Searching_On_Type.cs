@@ -23,12 +23,12 @@ public class When_Searching_On_Type
     private VerenigingZoekDocument? _feitelijkeVereniging;
     private VerenigingZoekDocument? _vzer;
     private IElasticClient _elasticClient;
-    private TypeMapping _typeMapping;
+    private ITypeMapping _typeMapping;
 
     public When_Searching_On_Type(EventsInDbScenariosFixture fixture)
     {
         var elasticClient = fixture.ElasticClient;
-        _typeMapping = fixture.ServiceProvider.GetRequiredService<TypeMapping>();
+        _typeMapping = fixture.ServiceProvider.GetRequiredService<ITypeMapping>();
 
         var autoFixture = new Fixture().CustomizeAdminApi();
 

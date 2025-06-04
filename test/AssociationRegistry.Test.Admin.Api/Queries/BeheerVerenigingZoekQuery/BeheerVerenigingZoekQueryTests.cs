@@ -22,13 +22,13 @@ public class BeheerVerenigingenZoekQueryTests
 {
     private readonly ITestOutputHelper _helper;
     private readonly IElasticClient _elasticClient;
-    private readonly TypeMapping _typeMapping;
+    private readonly ITypeMapping _typeMapping;
 
     public BeheerVerenigingenZoekQueryTests(EventsInDbScenariosFixture fixture, ITestOutputHelper helper)
     {
         _helper = helper;
         _elasticClient = fixture.ElasticClient;
-        _typeMapping = fixture.ServiceProvider.GetRequiredService<TypeMapping>();
+        _typeMapping = fixture.ServiceProvider.GetRequiredService<ITypeMapping>();
     }
 
     [Fact]

@@ -8,22 +8,6 @@ using System.Text;
 
 public static class ElasticSearchExtensions
 {
-    public static IServiceCollection AddElasticSearch(
-        this IServiceCollection services,
-        ElasticSearchOptionsSection elasticSearchOptions,
-        ILogger<IElasticClient> logger)
-    {
-        var elasticClient = CreateElasticClient(elasticSearchOptions, logger);
-
-        EnsureIndexExists(elasticClient,
-                          elasticSearchOptions.Indices!.Verenigingen!,
-                          elasticSearchOptions.Indices!.DuplicateDetection!);
-
-        services.AddSingleton(_ => elasticClient);
-        services.AddSingleton<IElasticClient>(_ => elasticClient);
-
-        return services;
-    }
 
     public static void EnsureIndexExists(
         IElasticClient elasticClient,
