@@ -17,7 +17,7 @@ public class For_Any_Event
                                                                      .GetTypes()
                                                                      .Where(t => typeof(Events.IEvent)
                                                                                .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
-                                                                     .Except([typeof(AfdelingWerdGeregistreerd), typeof(GeotagsWerdenBepaald)]) // because it's obsolete
+                                                                     .Except([typeof(AfdelingWerdGeregistreerd)]) // because it's obsolete
                                                                      .ToList();
 
         var projectionType = typeof(BeheerVerenigingDetailProjection);
@@ -45,7 +45,7 @@ public class For_Any_Event
                                                                      .GetTypes()
                                                                      .Where(t => typeof(Events.IEvent)
                                                                                .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
-                                                                     .Except([typeof(AfdelingWerdGeregistreerd), typeof(GeotagsWerdenBepaald)]) // because it's obsolete
+                                                                     .Except([typeof(AfdelingWerdGeregistreerd)]) // because it's obsolete
                                                                      .ToList();
 
         var projectionType = typeof(PowerBiExportProjection);

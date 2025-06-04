@@ -1143,4 +1143,12 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
         UpdateHistoriek(document, @event);
     }
+
+    public void Apply(IEvent<GeotagsWerdenBepaald> @event, PowerBiExportDocument document)
+    {
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
 }
