@@ -15,7 +15,7 @@ public class V083_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_Wi
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999083";
-        Naam = "Frieda's fritkot heeft ook kroketten";
+        Naam = "Alliantie voor Ecologische Transitie en Lokaal Engagement";
 
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
         {
