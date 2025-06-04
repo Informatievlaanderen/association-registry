@@ -257,6 +257,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<SubverenigingDetailsWerdenGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<GeotagsWerdenBepaald> @event, IDocumentOperations ops)
+        => await UpdateMetadataOnly(@event, ops);
+
     private async Task SoftDelete(string? streamKey, IDocumentOperations ops)
         => ops.Delete<BeheerVerenigingDetailDocument>(streamKey);
 
