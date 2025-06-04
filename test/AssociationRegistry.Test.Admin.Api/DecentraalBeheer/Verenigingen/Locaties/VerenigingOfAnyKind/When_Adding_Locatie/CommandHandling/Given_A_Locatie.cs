@@ -51,7 +51,7 @@ public class Given_A_Locatie
 
         await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new LocatieWerdToegevoegd(
                 EventFactory.Locatie(command.Locatie) with
                 {

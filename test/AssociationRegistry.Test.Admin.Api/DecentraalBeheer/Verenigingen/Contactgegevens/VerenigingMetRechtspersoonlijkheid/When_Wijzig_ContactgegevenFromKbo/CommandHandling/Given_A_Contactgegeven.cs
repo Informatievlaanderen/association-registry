@@ -45,7 +45,7 @@ public class Given_A_Contactgegeven
     [Fact]
     public void Then_A_MaatschappelijkeZetelVolgensKBOWerdGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new ContactgegevenUitKBOWerdGewijzigd(_command.Contactgegeven.ContacgegevenId, _command.Contactgegeven.Beschrijving!,
                                                   _command.Contactgegeven.IsPrimair!.Value)
         );

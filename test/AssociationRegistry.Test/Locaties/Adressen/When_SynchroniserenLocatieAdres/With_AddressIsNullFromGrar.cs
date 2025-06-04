@@ -43,7 +43,7 @@ public class With_AddressIsNullFromGrar
 
         await commandHandler.Handle(command, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(new AdresWerdOntkoppeldVanAdressenregister(
+        verenigingRepositoryMock.ShouldHaveSavedExact(new AdresWerdOntkoppeldVanAdressenregister(
                                                      state.VCode.Value,
                                                      locatie.LocatieId,
                                                      EventFactory.AdresId(locatie.AdresId),

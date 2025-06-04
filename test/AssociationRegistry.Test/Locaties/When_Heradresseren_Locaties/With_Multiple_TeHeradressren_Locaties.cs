@@ -50,7 +50,7 @@ public class With_Multiple_TeHeradressren_Locaties
 
         await messageHandler.Handle(message, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId1,
                                                      mockedAdresDetail1.AdresId,
                                                      mockedAdresDetail1.ToAdresUitAdressenregister(),

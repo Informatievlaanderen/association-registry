@@ -47,7 +47,7 @@ public class With_A_Known_LocatieId
     [Fact]
     public void Then_A_VertegenwoordigerWerdVerwijderd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new LocatieWerdVerwijderd(
                 _scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie),
             EventFactory.GeotagsWerdenBepaald(_scenario.VCode, _geotagsCollection)

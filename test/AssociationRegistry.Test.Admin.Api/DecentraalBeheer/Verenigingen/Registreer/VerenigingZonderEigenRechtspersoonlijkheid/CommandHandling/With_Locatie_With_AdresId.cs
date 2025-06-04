@@ -115,7 +115,7 @@ public class With_Locatie_With_AdresId
 
         var vCode = vCodeService.GetLast();
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
                 naam,

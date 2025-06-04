@@ -62,7 +62,7 @@ public class Given_All_Fields
 
         await _commandHandler.Handle(new CommandEnvelope<WijzigLocatieCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new LocatieWerdGewijzigd(
                 new Registratiedata.Locatie(
                     _scenario.LocatieWerdToegevoegd.Locatie.LocatieId,

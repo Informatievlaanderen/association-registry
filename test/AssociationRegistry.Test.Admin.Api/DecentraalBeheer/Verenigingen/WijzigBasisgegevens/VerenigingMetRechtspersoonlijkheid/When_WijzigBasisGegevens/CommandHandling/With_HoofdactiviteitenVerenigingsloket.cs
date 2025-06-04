@@ -49,10 +49,7 @@ public class With_HoofdactiviteitenVerenigingsloket
     [Fact]
     public void Then_A_HoofactiviteitenVerenigingloketWerdenGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
-            EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(_hoofdactiviteitenVerenigingsloket),
-            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
-
-
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
+            EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(_hoofdactiviteitenVerenigingsloket));
     }
 }

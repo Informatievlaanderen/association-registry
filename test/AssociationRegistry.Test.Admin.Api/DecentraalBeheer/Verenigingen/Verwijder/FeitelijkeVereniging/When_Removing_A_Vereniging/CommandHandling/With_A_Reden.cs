@@ -46,9 +46,8 @@ public class With_A_Reden
     [Fact]
     public void Then_A_VerenigingWerdVerwijderd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdVerwijderd(_scenario.VCode, Reden: "Omdat weg moet"),
-            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
+            new VerenigingWerdVerwijderd(_scenario.VCode, Reden: "Omdat weg moet"));
 
 
     }

@@ -49,7 +49,7 @@ public class With_Werkingsgebieden
     [Fact]
     public void Then_A_WerkingsgebiedenWerdenGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             EventFactory.WerkingsgebiedenWerdenGewijzigd(_scenario.VCode, _werkingsgebieden),
             EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
 

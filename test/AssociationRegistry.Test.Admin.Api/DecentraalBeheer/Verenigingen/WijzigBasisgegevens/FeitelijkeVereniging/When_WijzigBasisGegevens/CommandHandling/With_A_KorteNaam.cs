@@ -49,10 +49,7 @@ public class With_A_KorteNaam
     [Fact]
     public void Then_A_KorteNaamWerdGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
-            new KorteNaamWerdGewijzigd(_scenario.VCode, NieuweKorteNaam),
-            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
-
-
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
+            new KorteNaamWerdGewijzigd(_scenario.VCode, NieuweKorteNaam));
     }
 }

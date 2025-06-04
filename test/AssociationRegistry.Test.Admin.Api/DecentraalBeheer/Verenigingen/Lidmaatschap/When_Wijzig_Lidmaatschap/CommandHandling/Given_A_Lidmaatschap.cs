@@ -35,7 +35,7 @@ public class Given_A_Lidmaatschap
 
         await commandHandler.Handle(new CommandEnvelope<WijzigLidmaatschapCommand>(command, fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new LidmaatschapWerdGewijzigd(
                 scenario.VCode,
                 new Registratiedata.Lidmaatschap(

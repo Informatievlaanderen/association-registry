@@ -103,7 +103,7 @@ public class With_A_PotentialDuplicate_And_Force
     {
         var vCode = _vCodeService.GetLast();
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
                 _command.Naam,

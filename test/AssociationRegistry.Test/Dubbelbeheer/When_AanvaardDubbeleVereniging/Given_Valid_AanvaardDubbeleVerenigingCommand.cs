@@ -33,7 +33,7 @@ public class Given_Valid_AanvaardDubbeleVerenigingCommand
 
         await sut.Handle(command, CancellationToken.None);
 
-        repositoryMock.ShouldHaveSaved(new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging));
+        repositoryMock.ShouldHaveSavedExact(new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging));
 
         messageBus.Verify(x => x.InvokeAsync(
                           It.Is<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),
@@ -60,7 +60,7 @@ public class Given_Valid_AanvaardDubbeleVerenigingCommand
 
         await sut.Handle(command, CancellationToken.None);
 
-        repositoryMock.ShouldHaveSaved(new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging));
+        repositoryMock.ShouldHaveSavedExact(new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging));
 
         messageBus.Verify(x => x.InvokeAsync(
                               It.Is<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),

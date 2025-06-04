@@ -40,7 +40,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
         await _commandHandler
            .Handle(new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()));
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new VertegenwoordigerWerdToegevoegd(
                 _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Max(v => v.VertegenwoordigerId) + 1,
                 _command.Vertegenwoordiger.Insz,

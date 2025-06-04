@@ -55,7 +55,7 @@ public class With_NonExistingLocatie
 
         await commandHandler.Handle(command, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             EventFactory.GeotagsWerdenBepaald(state.VCode, geotags));
     }
 }

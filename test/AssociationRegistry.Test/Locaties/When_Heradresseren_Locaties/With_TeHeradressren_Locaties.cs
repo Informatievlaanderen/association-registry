@@ -45,7 +45,7 @@ public class With_TeHeradressren_Locaties
 
         await messageHandler.Handle(message, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId,
                                                      mockedAdresDetail.AdresId,
                                                      mockedAdresDetail.ToAdresUitAdressenregister(),

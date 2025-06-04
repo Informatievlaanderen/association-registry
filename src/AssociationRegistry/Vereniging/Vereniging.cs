@@ -179,23 +179,23 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(hoofdactiviteiten.ToArray()));
     }
 
-    public void WijzigWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
+    public bool WijzigWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
     {
         if (Werkingsgebieden.Equals(werkingsgebieden, State.Werkingsgebieden))
-            return;
+            return false;
 
         if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietBepaald!))
         {
             AddEvent(new WerkingsgebiedenWerdenNietBepaald(VCode));
 
-            return;
+            return true;
         }
 
         if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietVanToepassing!))
         {
             AddEvent(new WerkingsgebiedenWerdenNietVanToepassing(VCode));
 
-            return;
+            return true;
         }
 
         var werkingsgebiedenData = Werkingsgebieden.FromArray(werkingsgebieden);
@@ -204,6 +204,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                  State.Werkingsgebieden == Werkingsgebieden.NietVanToepassing
                      ? EventFactory.WerkingsgebiedenWerdenBepaald(VCode, werkingsgebiedenData.ToArray())
                      : EventFactory.WerkingsgebiedenWerdenGewijzigd(VCode, werkingsgebiedenData.ToArray()));
+
+        return true;
     }
 
     public Vertegenwoordiger VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)

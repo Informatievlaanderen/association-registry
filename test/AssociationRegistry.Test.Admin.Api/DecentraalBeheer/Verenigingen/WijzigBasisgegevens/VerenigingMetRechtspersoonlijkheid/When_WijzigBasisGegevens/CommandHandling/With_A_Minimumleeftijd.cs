@@ -50,7 +50,7 @@ public class With_A_Minimumleeftijd
     [Fact]
     public void Then_A_DoelgroepWerdGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new DoelgroepWerdGewijzigd(
                 new Registratiedata.Doelgroep(
                     NieuweMinimumleeftijd,

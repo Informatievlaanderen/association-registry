@@ -1,18 +1,17 @@
-namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
 using AutoFixture;
 using Events;
 using global::AutoFixture;
 using Vereniging;
 
-public class WerkingsgebiedenWerdenBepaaldScenario : CommandhandlerScenarioBase
+public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderGeotagsInitialisatieScenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
     public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
     public readonly WerkingsgebiedenWerdenBepaald WerkingsgebiedenWerdenBepaald;
-    public readonly GeotagsWerdenBepaald GeotagsWerdenBepaald;
 
-    public WerkingsgebiedenWerdenBepaaldScenario()
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderGeotagsInitialisatieScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
@@ -24,11 +23,6 @@ public class WerkingsgebiedenWerdenBepaaldScenario : CommandhandlerScenarioBase
         {
             VCode = VCode,
         };
-
-        GeotagsWerdenBepaald = fixture.Create<GeotagsWerdenBepaald>() with
-        {
-            VCode = VCode,
-        };
     }
 
     public override IEnumerable<IEvent> Events()
@@ -36,6 +30,5 @@ public class WerkingsgebiedenWerdenBepaaldScenario : CommandhandlerScenarioBase
         [
             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
             WerkingsgebiedenWerdenBepaald,
-            GeotagsWerdenBepaald
         ];
 }

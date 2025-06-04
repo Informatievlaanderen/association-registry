@@ -33,7 +33,7 @@ public class Given_Geotags_Are_Different
         await vereniging.BerekenGeotags(geotagsService.Object);
 
         vereniging.UncommittedEvents.Count().Should().Be(1);
-        vereniging.UncommittedEvents.ToArray().ShouldCompare(new[]
+        vereniging.UncommittedEvents.ToArray().ShouldCompare(new IEvent[]
         {
             EventFactory.GeotagsWerdenBepaald(VCode.Create(verenigingWerdGeregistreerd.VCode), GeotagsCollection.Hydrate(geotags))
         });

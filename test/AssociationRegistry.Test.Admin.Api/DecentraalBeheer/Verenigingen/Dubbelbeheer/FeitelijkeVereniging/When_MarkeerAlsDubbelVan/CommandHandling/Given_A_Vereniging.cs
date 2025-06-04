@@ -52,7 +52,7 @@ public class Given_A_Vereniging
 
         await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new VerenigingWerdGemarkeerdAlsDubbelVan(
                 _scenario.VCode,
                 command.VCodeAuthentiekeVereniging));

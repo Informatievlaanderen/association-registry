@@ -60,7 +60,7 @@ public class With_VerenigingVolgensKbo_Contactgegevens
     [Fact]
     public void Then_it_saves_the_events()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.KboNummer,
@@ -146,7 +146,7 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
     [Fact]
     public void Then_it_saves_the_events()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.KboNummer,

@@ -30,7 +30,7 @@ public class Given_Multiple_Existing_Locatie
         var adres = scenario.AdresWerdOvergenomenUitAdressenregister.Adres;
         var adres2 = scenario.AdresWerdOvergenomenUitAdressenregister2.Adres;
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new AdresWerdOntkoppeldVanAdressenregister(
                 scenario.VCode,
                 scenario.LocatieWerdToegevoegd.Locatie.LocatieId,

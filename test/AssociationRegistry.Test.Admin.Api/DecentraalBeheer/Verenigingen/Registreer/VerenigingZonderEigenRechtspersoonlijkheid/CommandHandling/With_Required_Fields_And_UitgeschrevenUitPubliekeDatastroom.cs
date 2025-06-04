@@ -76,7 +76,7 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
     {
         var vCode = _vCodeService.GetLast();
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
                 Naam,

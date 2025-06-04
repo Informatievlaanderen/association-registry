@@ -75,7 +75,7 @@ public class With_DecoratingWithPostalInformation
 
         await messageHandler.Handle(message, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId, expectedAdres.AdresId, expectedAdres.Adres,
                                                      message.idempotencyKey)
         );

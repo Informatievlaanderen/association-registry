@@ -47,7 +47,7 @@ public class Given_A_Vertegenwoordiger
 
         await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
             new VertegenwoordigerWerdGewijzigd(
                 _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                 command.Vertegenwoordiger.IsPrimair!.Value,

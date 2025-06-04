@@ -51,7 +51,7 @@ public class With_InactiveAddressFromGrar
 
         await commandHandler.Handle(command, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSavedExact(
             new AdresWerdOntkoppeldVanAdressenregister(state.VCode.Value,
                                                        locatie.LocatieId,
                                                        EventFactory.AdresId(locatie.AdresId),

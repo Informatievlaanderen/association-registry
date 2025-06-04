@@ -28,6 +28,6 @@ public class Given_A_Different_Subtype
         await commandHandler.Handle(
             new CommandEnvelope<ZetSubtypeTerugNaarNietBepaaldCommand>(command, fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldHaveSaved(new VerenigingssubtypeWerdTerugGezetNaarNietBepaald(scenario.VCode));
+        verenigingRepositoryMock.ShouldHaveSavedExact(new VerenigingssubtypeWerdTerugGezetNaarNietBepaald(scenario.VCode));
     }
 }

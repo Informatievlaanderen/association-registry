@@ -45,9 +45,8 @@ public class With_A_Roepnaam
     [Fact]
     public void Then_A_KorteBeschrijvingWerdGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
-            new RoepnaamWerdGewijzigd(NieuweRoepnaam),
-            EventFactory.GeotagsWerdenBepaald(VCode.Create(_scenario.VCode), GeotagsCollection.Empty));
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
+            new RoepnaamWerdGewijzigd(NieuweRoepnaam));
 
 
     }
