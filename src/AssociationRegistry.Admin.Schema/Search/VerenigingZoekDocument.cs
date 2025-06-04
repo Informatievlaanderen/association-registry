@@ -28,9 +28,12 @@ public class VerenigingZoekDocument
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public bool IsVerwijderd { get; set; }
     public bool IsDubbel { get; set; }
+    public Types.Geotag[] Geotags { get; set; } = null!;
 
     public static class Types
     {
+        public record Geotag(string Identificatie);
+
         public class Locatie : ILocatie
         {
             public JsonLdMetadata JsonLdMetadata { get; set; }
