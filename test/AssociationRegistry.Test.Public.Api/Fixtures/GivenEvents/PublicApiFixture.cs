@@ -144,7 +144,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         {
             counter++;
             await Task.Delay(500 + (100 * counter));
-            await ElasticClient.Indices.RefreshAsync(Indices.All);
 
             sequencesPerProjection = (await ProjectionsDocumentStore.Advanced
                                                                     .AllProjectionProgress())
@@ -155,6 +154,9 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         }
 
         sequencesPerProjection.Should().AllSatisfy(x => x.Value.Should().BeGreaterThanOrEqualTo(MaxSequence, $"Because we want projection {x.Key} to be up to date"));
+
+        await ElasticClient.Indices.ForceMergeAsync(Indices.AllIndices, fm => fm
+                                                 .MaxNumSegments(1));
     }
 
     private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
