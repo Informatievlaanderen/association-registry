@@ -202,7 +202,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
            $"password={postgreSqlOptionsSection.Password};" +
            $"username={postgreSqlOptionsSection.Username}";
 
-    protected async Task<StreamActionResult> AddEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
+    protected async Task<StreamActionResult> SaveEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
     {
         if (!eventsToAdd.Any())
             return StreamActionResult.Empty;
