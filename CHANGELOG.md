@@ -1,3 +1,15 @@
+# [8.245.0](https://github.com/informatievlaanderen/association-registry/compare/v8.244.0...v8.245.0) (2025-06-05)
+
+
+### Bug Fixes
+
+* remove api swagger docs from public get all ([1ab511f](https://github.com/informatievlaanderen/association-registry/commit/1ab511fd9b7000ac6a6ae571553a8a887e22c179))
+
+
+### Features
+
+* or-2854 add swagger docs for searching on geotags ([fb5879b](https://github.com/informatievlaanderen/association-registry/commit/fb5879b40f6471ec479948210e45fe43d40753ce))
+
 # [8.244.0](https://github.com/informatievlaanderen/association-registry/compare/v8.243.0...v8.244.0) (2025-06-04)
 
 
