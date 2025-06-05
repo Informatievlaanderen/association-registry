@@ -36,7 +36,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     public IElasticClient ElasticClient
         => (IElasticClient)_publicApiServer.Services.GetRequiredService(typeof(ElasticClient));
 
-    private IDocumentStore ProjectionsDocumentStore
+    protected IDocumentStore ProjectionsDocumentStore
         => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
 
     private EventConflictResolver EventConflictResolver
