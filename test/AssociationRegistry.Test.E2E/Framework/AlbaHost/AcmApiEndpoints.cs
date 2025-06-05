@@ -15,11 +15,11 @@ public static class AcmApiEndpoints
                      .Receive<VerenigingenPerInszResponse>();
     }
 
-    private static async Task WaitForExpectedSequence(IAlbaHost source, long? expectedSequence, string publiekverenigingzoekendocumentAll)
+    private static async Task WaitForExpectedSequence(IAlbaHost source, long? expectedSequence, string projectionName)
     {
         var store = source.Services.GetRequiredService<IDocumentStore>();
         var result = (await store.Advanced
-                                 .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == publiekverenigingzoekendocumentAll)?.Sequence;
+                                 .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == projectionName)?.Sequence;
 
 
         bool reachedSequence = result >= expectedSequence;
@@ -29,7 +29,7 @@ public static class AcmApiEndpoints
             counter++;
             await Task.Delay(500);
             result = (await store.Advanced
-                                 .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == publiekverenigingzoekendocumentAll)?.Sequence;
+                                 .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == projectionName)?.Sequence;
 
             reachedSequence = result >= expectedSequence;
         }
