@@ -87,5 +87,7 @@ public class GivenEventsFixture : PublicApiFixture
                 scenario.GetEvents(),
                 scenario.GetCommandMetadata());
         }
+
+        await PostAddEvents();
     }
 }
