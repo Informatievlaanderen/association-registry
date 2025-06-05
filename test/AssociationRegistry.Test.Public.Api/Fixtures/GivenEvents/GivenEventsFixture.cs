@@ -1,5 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
+using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
+using Common.Framework;
+using Newtonsoft.Json;
 using Scenarios;
 
 public class GivenEventsFixture : PublicApiFixture
@@ -88,6 +91,25 @@ public class GivenEventsFixture : PublicApiFixture
                 scenario.GetCommandMetadata());
         }
 
-        await PostAddEvents();
+
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient);
+
+        var verengingenCount = 0;
+        var counter = 0;
+
+        while (verengingenCount <= 0 && counter < 20)
+        {
+            counter++;
+
+            var response = await PublicApiClient.Search($"vCode:{Scenarios.Last().VCode}");
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var searchVerenigingenResponse = JsonConvert.DeserializeObject<SearchVerenigingenResponse>(responseContent);
+            verengingenCount = searchVerenigingenResponse.Verenigingen.Length;
+
+            await Task.Delay(counter * 100 + 600);
+
+            if(counter == 20 && verengingenCount <= 0)
+                throw new Exception("Not all scenarios projected after 20 attempts. Last response: " + responseContent);
+        }
     }
 }

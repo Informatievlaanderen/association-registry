@@ -34,6 +34,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Facets
        var searchVerenigingenResponse = JsonConvert.DeserializeObject<SearchVerenigingenResponse>(content);
 
        searchVerenigingenResponse!.Facets!.HoofdactiviteitenVerenigingsloket.Length.Should()
-                                 .Be(HoofdactiviteitVerenigingsloket.HoofdactiviteitenVerenigingsloketCount);
+                                 .Be(HoofdactiviteitVerenigingsloket.HoofdactiviteitenVerenigingsloketCount,
+                                       because: $"Found fault with: {content}");
     }
 }

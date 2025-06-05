@@ -1,12 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
+using Common.Framework;
 using EventStore;
 using Common.Scenarios.EventsInDb;
 using Events;
-using FluentAssertions;
 using JasperFx.Core;
 using Marten.Events.Daemon;
-using Nest;
 
 public class EventsInDbScenariosFixture : AdminApiFixture
 {
@@ -202,7 +201,14 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V083_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_WithAllFields_ForDuplicateCheck
         V083VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForDuplicateCheck = new();
 
+
+    public EventsInDbScenariosFixture()
+    {
+    }
+
     public long MaxSequence { get; private set; } = 0;
+
+
 
     protected override async Task Given()
     {
@@ -297,7 +303,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
                 MaxSequence = Math.Max(MaxSequence, result.Sequence.Value);
         }
 
-        await PostAddEvents();
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient);
     }
 
     private async Task<IProjectionDaemon?> PreAddEvents()
@@ -322,32 +328,6 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         }
     }
 
-    public async Task PostAddEvents()
-    {
-        var sequencesPerProjection = (await ProjectionsDocumentStore.Advanced
-                                                    .AllProjectionProgress())
-                    .ToList()
-                    .ToDictionary(x => x.ShardName, x => x.Sequence);
-
-        var reachedSequence = sequencesPerProjection.All(x => x.Value >= MaxSequence);
-        var counter = 0;
-        while (!reachedSequence && counter < 20)
-        {
-            counter++;
-            await Task.Delay(500 + (100 * counter));
-            await ElasticClient.Indices.RefreshAsync(Indices.All);
-
-            sequencesPerProjection = (await ProjectionsDocumentStore.Advanced
-                                                                        .AllProjectionProgress())
-                                        .ToList()
-                                        .ToDictionary(x => x.ShardName, x => x.Sequence);
-
-            reachedSequence = sequencesPerProjection.All(x => x.Value >= MaxSequence);
-        }
-
-        sequencesPerProjection.Should().AllSatisfy(x => x.Value.Should().BeGreaterThanOrEqualTo(MaxSequence, $"Because we want projection {x.Key} to be up to date"));
-    }
-
     public async Task Initialize(IEventsInDbScenario scenario)
     {
         using var daemon = await PreAddEvents();
@@ -356,7 +336,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         if(scenario.Result.Sequence.HasValue)
             MaxSequence = Math.Max(MaxSequence, scenario.Result.Sequence.Value);
 
-        await PostAddEvents();
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient);
     }
 }
 
