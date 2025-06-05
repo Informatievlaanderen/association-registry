@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
+using FluentAssertions;
 using Framework.Helpers;
 using Humanizer;
 using Marten;
@@ -48,6 +49,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
 
     public IServiceProvider ServiceProvider => _publicApiServer.Services;
+    public long MaxSequence { get; set; } = 0;
 
     public PublicApiFixture()
     {
@@ -117,31 +119,42 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         if (ElasticClient is null)
             throw new NullReferenceException("Elastic client cannot be null when adding an event");
 
-        // using var daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
-        // await daemon.StartAllShards();
-
-        // if (daemon is null)
-            // throw new NullReferenceException("Projection daemon cannot be null when adding an event");
-
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
 
         foreach (var (@event, i) in eventsToAdd.Select((x, i) => (x, i)))
         {
-            await eventStore.Save(vCode, i, metadata, CancellationToken.None, @event);
+            var result = await eventStore.Save(vCode, i, metadata, CancellationToken.None, @event);
+            if (result.Sequence.HasValue)
+                MaxSequence = Math.Max(MaxSequence, result.Sequence.Value);
+        }
+    }
+
+    protected async Task PostAddEvents()
+    {
+        var sequencesPerProjection = (await ProjectionsDocumentStore.Advanced
+                                                                    .AllProjectionProgress())
+                                    .ToList()
+                                    .ToDictionary(x => x.ShardName, x => x.Sequence);
+
+        var reachedSequence = sequencesPerProjection.All(x => x.Value >= MaxSequence);
+        var counter = 0;
+        while (!reachedSequence && counter < 20)
+        {
+            counter++;
+            await Task.Delay(500 + (100 * counter));
+            await ElasticClient.Indices.RefreshAsync(Indices.All);
+
+            sequencesPerProjection = (await ProjectionsDocumentStore.Advanced
+                                                                    .AllProjectionProgress())
+                                    .ToList()
+                                    .ToDictionary(x => x.ShardName, x => x.Sequence);
+
+            reachedSequence = sequencesPerProjection.All(x => x.Value >= MaxSequence);
         }
 
-        var retry = Policy
-                   .Handle<Exception>()
-                   .WaitAndRetryAsync(retryCount: 5, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
-
-        await retry.ExecuteAsync(
-            async () =>
-            {
-                await ProjectionsDocumentStore.WaitForNonStaleProjectionDataAsync(60.Seconds());
-                await ElasticClient.Indices.RefreshAsync(Indices.All);
-            });
+        sequencesPerProjection.Should().AllSatisfy(x => x.Value.Should().BeGreaterThanOrEqualTo(MaxSequence, $"Because we want projection {x.Key} to be up to date"));
     }
 
     private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
