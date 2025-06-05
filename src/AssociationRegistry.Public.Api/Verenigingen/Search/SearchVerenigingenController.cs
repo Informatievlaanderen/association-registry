@@ -49,6 +49,19 @@ public class SearchVerenigingenController : ApiController
     ///     Om te zoeken op een genest veld, beschrijf je het pad naar het veld.
     ///     - `q=locaties.postcode:1000`
     ///
+    ///     Om te zoeken of een vereniging actief is in een bepaalde regio, kan je gebruik maken van `geotags.identificatie`.
+    ///     Er kan gezocht worden op zowel postcodes als werkingsgebieden (gemeente- of provincieniveau).
+    ///
+    ///     Bij gebruik van `geotags.identificatie` wordt automatisch rekening gehouden met de hiërarchie van werkingsgebieden:
+    ///     - Wanneer je een **postcode** opgeeft, worden alle verenigingen met een locatie met deze postcode teruggegeven alsook de verenigingen met het bovenliggende werkingsgebied op gemeenteniveau of het bovenliggende werkingsgebied op provincieniveau.
+    ///     - Wanneer je een **werkingsgebied op gemeenteniveau** opgeeft, worden alle verenigingen met een locatie met een van de onderliggende postcodes teruggegeven alsook de verenigingen met dit werkingsgebied of het bovenliggende werkingsgebied op provincieniveau.
+    ///     - Wanneer je een **werkingsgebied op provincieniveau** opgeeft, worden alle verenigingen met een locatie met een van de onderliggende postcodes teruggegeven alsook de verenigingen met een van de onderliggende werkingsgebieden op gemeenteniveau of dit werkingsgebied.
+    ///
+    ///     Voorbeeld:
+    ///     - `q=geotags.identificatie:9000` zoekt naar verenigingen met locatie in postcode 9000 of werkingsgebied gemeente Gent of werkingsgebied provincie Oost-Vlaanderen.
+    ///     - `q=geotags.identificatie:BE23444021` zoekt naar verenigingen met locatie in postcode 9000, 9050,... of werkingsgebied gemeente Gent of werkingsgebied provincie Oost-Vlaanderen.
+    ///     - `q=geotags.identificatie:BE23` zoekt naar verenigingen met locatie in postcode 9000, 9050, 9500, 9160,... of werkingsgebied gemeente Gent, Geraardsbergen, Lokeren,... of werkingsgebied provincie Oost-Vlaanderen.
+    ///
     ///     ### Paginatie
     ///
     ///     Standaard gebruiken we een paginatie limiet van 50 verenigingen.
