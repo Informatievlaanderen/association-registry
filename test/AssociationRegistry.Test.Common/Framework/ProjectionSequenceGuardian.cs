@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.Framework;
 
 using FluentAssertions;
 using Marten;
+using Marten.Events.Daemon;
 using Nest;
 
 public static class ProjectionSequenceGuardian
@@ -41,14 +42,29 @@ public static class ProjectionSequenceGuardian
 
         var reachedSequence = Enumerable.All<KeyValuePair<string, long>>(sequencesPerProjection, x => x.Value >= maxSequence);
 
-
         return (sequencesPerProjection, reachedSequence);
     }
 
     private static async Task<Dictionary<string, long>> SequencesPerProjection(IDocumentStore projectionsDocumentStore)
     {
+        var counter = 0;
+        var hasAtLeastOneProjection = false;
+
         Dictionary<string, long> sequencesPerProjection;
-        var allProjectionProgress = await projectionsDocumentStore.Advanced.AllProjectionProgress();
+        IReadOnlyList<ShardState> allProjectionProgress = null;
+
+        while (!hasAtLeastOneProjection && counter < 20)
+        {
+            counter++;
+
+            await Task.Delay(500 + (100 * counter));
+
+            allProjectionProgress = await projectionsDocumentStore.Advanced.AllProjectionProgress();
+            hasAtLeastOneProjection = allProjectionProgress.Count > 1; // because high watermark is always there, so we need at least one more projection
+        }
+
+        allProjectionProgress.Should().NotBeNullOrEmpty()
+                             .And.Subject.Count().Should().BeGreaterThan(1);
 
         sequencesPerProjection = allProjectionProgress
                                 .ToList()
