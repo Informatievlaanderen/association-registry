@@ -1,3 +1,10 @@
+## [8.245.1](https://github.com/informatievlaanderen/association-registry/compare/v8.245.0...v8.245.1) (2025-06-06)
+
+
+### Bug Fixes
+
+* or-2855 add analyzer to roepnaam ([0376dee](https://github.com/informatievlaanderen/association-registry/commit/0376dee53d0d1e6b6bc17bd15df536a0cbb56a80))
+
 # [8.245.0](https://github.com/informatievlaanderen/association-registry/compare/v8.244.0...v8.245.0) (2025-06-05)
 
 
