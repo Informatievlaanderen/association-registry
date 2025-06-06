@@ -31,7 +31,8 @@ public static class VerenigingZoekDocumentMapping
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Roepnaam)
-                                                   .WithKeyword(BeheerZoekenNormalizer))
+                                                   .WithKeyword(BeheerZoekenNormalizer)
+                                                   .Analyzer(BeheerZoekenAnalyzer))
                          .Date(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Startdatum))
