@@ -47,9 +47,6 @@ public class Given_A_Gestopte_Vereniging
         var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
         var content = await response.Content.ReadAsStringAsync();
 
-        await _store.WaitForNonStaleProjectionDataAsync(10.Seconds());
-        await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
-
         if (!response.IsSuccessStatusCode)
         {
             var duplicateResponse = JsonConvert.DeserializeObject<PotentialDuplicatesResponse>(content);
