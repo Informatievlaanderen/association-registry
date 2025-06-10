@@ -1,3 +1,10 @@
+## [8.245.3](https://github.com/informatievlaanderen/association-registry/compare/v8.245.2...v8.245.3) (2025-06-10)
+
+
+### Bug Fixes
+
+* explicitly define lightweight sessions as default ([885a9ef](https://github.com/informatievlaanderen/association-registry/commit/885a9ef7f91c30a4bca574b2fac0015a15293503))
+
 ## [8.245.2](https://github.com/informatievlaanderen/association-registry/compare/v8.245.1...v8.245.2) (2025-06-10)
 
 
