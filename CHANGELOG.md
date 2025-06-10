@@ -1,3 +1,10 @@
+## [8.245.2](https://github.com/informatievlaanderen/association-registry/compare/v8.245.1...v8.245.2) (2025-06-10)
+
+
+### Bug Fixes
+
+* or-2855 fix searching on roepnaam in beheer zoeken ([d99b9b1](https://github.com/informatievlaanderen/association-registry/commit/d99b9b19f84a7c1051dcae55ebed32d999eb182a))
+
 ## [8.245.1](https://github.com/informatievlaanderen/association-registry/compare/v8.245.0...v8.245.1) (2025-06-06)
 
 
