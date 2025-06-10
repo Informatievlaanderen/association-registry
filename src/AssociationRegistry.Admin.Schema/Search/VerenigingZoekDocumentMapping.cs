@@ -23,11 +23,13 @@ public static class VerenigingZoekDocumentMapping
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Naam)
-                                                   .WithKeyword(BeheerZoekenNormalizer))
+                                                   .WithKeyword(BeheerZoekenNormalizer)
+                                                   .Analyzer(BeheerZoekenAnalyzer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.KorteNaam)
-                                                   .WithKeyword(BeheerZoekenNormalizer))
+                                                   .WithKeyword(BeheerZoekenNormalizer)
+                                                   .Analyzer(BeheerZoekenAnalyzer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Roepnaam)
