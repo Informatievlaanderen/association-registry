@@ -84,16 +84,12 @@ public class EventStore : IEventStore
 
             await session.SaveChangesAsync(cancellationToken);
 
-            var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
-
-            if (maxSequence < 1)
-                _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
-
             var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
-            _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}\n{Stack}", string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence, Environment.StackTrace);
+            var maxSequence = eventsAgain.Max(@event => @event.Sequence);
+
+            _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}", string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence);
 
             return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
-            //return new StreamActionResult(maxSequence, streamAction.Version);
         }
         catch (EventStreamUnexpectedMaxEventIdException)
         {
@@ -110,12 +106,8 @@ public class EventStore : IEventStore
 
                 await session.SaveChangesAsync(cancellationToken);
 
-                var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
-
-                if (maxSequence < 1)
-                    _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
-
                 var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
+                var maxSequence = eventsAgain.Max(@event => @event.Sequence);
 
                 _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}", string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence);
                 return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
