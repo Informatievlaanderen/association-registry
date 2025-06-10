@@ -1,11 +1,11 @@
-namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingZoekQuery;
+﻿namespace AssociationRegistry.Test.Public.Api.When_Searching;
 
-using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
-using AssociationRegistry.Admin.Schema.Search;
+using AssociationRegistry.Public.Api.Queries;
+using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
+using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
-using Common.AutoFixture;
 using FluentAssertions;
+using Framework;
 using Nest;
 using Vereniging;
 using Xunit;
@@ -17,7 +17,7 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
     private readonly IElasticClient? _elasticClient;
     private readonly Fixture _autoFixture;
 
-    private readonly BeheerVerenigingenZoekQuery _query;
+    private readonly PubliekVerenigingenZoekQuery _query;
     private const string _roepnaam = "Roepnaam Et velit totam numquam voluptatibus quam ratione.2025-06-06T11:42:23.689Z";
 
     public Bugfix_RoepnaamNaGeotagsAnalyzer(Bugfix_RoepnaamNaGeotagsAnalyzerFixture fixture, ITestOutputHelper helper)
@@ -25,9 +25,9 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
         _fixture = fixture;
         _helper = helper;
         _elasticClient = fixture.ElasticClient;
-        _autoFixture = new Fixture().CustomizeAdminApi();
+        _autoFixture = new Fixture().CustomizePublicApi();
 
-        _query = new BeheerVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping);
+        _query = new PubliekVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping);
     }
 
     [Fact]
@@ -46,11 +46,11 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
         await _elasticClient!.IndexDocumentAsync(verenigingZoekDocument);
         await _elasticClient.Indices.RefreshAsync(Indices.All);
 
-        var searchResponse = await _query.ExecuteAsync(new BeheerVerenigingenZoekFilter($"*", null, new PaginationQueryParams()), CancellationToken.None);
+        var searchResponse = await _query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"*", null, [], new PaginationQueryParams()), CancellationToken.None);
 
         searchResponse.Documents.Should().NotBeEmpty();
 
-        searchResponse = await _query.ExecuteAsync(new BeheerVerenigingenZoekFilter($"roepnaam:\"{_roepnaam}\"", null, new PaginationQueryParams()), CancellationToken.None);
+        searchResponse = await _query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"roepnaam:\"{_roepnaam}\"", null, [], new PaginationQueryParams()), CancellationToken.None);
 
         searchResponse.Documents.Should().NotBeEmpty();
     }
