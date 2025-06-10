@@ -18,7 +18,7 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzerFixture : ElasticRepositoryFixture
     }
 }
 
-public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaGeotagsAnalyzerFixture>, IDisposable, IAsyncDisposable
+public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaGeotagsAnalyzerFixture>
 {
     private readonly Bugfix_RoepnaamNaGeotagsAnalyzerFixture _fixture;
     private readonly ITestOutputHelper _helper;
@@ -61,15 +61,5 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
         searchResponse = await _query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"roepnaam:\"{_roepnaam}\"", null, [], new PaginationQueryParams()), CancellationToken.None);
 
         searchResponse.Documents.Should().NotBeEmpty();
-    }
-
-    public void Dispose()
-    {
-        _fixture.Dispose();
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await _fixture.DisposeAsync();
     }
 }
