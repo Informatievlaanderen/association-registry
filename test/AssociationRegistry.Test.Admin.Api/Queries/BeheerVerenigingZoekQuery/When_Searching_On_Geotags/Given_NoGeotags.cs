@@ -9,7 +9,6 @@ using Common.AutoFixture;
 using FluentAssertions;
 using Framework.Fixtures;
 using Nest;
-using When_Saving_A_Document_To_Elastic;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;

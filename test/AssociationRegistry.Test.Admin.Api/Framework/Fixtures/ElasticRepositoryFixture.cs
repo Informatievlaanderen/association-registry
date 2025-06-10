@@ -1,11 +1,10 @@
-namespace AssociationRegistry.Test.Admin.Api.When_Saving_A_Document_To_Elastic;
+namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
-using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;
-using Framework.Helpers;
+using AssociationRegistry.Test.Admin.Api.Framework.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;
@@ -40,6 +39,21 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
 
         ElasticRepository = new ElasticRepository(ElasticClient);
+        await InsertDocuments();
+
+        await ElasticClient.Indices.RefreshAsync(Indices.All);
+    }
+
+    protected virtual async Task InsertDocuments()
+    {
+    }
+
+    public async Task IndexDocument(VerenigingZoekDocument document)
+    {
+        var indexResponse = await ElasticClient!.IndexDocumentAsync(document);
+
+        if (!indexResponse.IsValid)
+            throw new Exception($"Indexing failed: {indexResponse.DebugInformation}");
     }
 
     private IElasticClient CreateElasticClient(IConfiguration configurationRoot)

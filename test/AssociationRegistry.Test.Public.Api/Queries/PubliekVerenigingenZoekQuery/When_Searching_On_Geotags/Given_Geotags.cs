@@ -39,8 +39,6 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         _query = new PubliekVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping);
     }
 
-
-
     [Fact]
     public async ValueTask When_Searching_Without_Geotags_Then_Still_Returns_Vereniging()
     {

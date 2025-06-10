@@ -11,7 +11,7 @@ using Nest;
 using System.Reflection;
 using Xunit;
 
-public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
+public abstract class ElasticRepositoryFixture : IAsyncLifetime, IDisposable
 {
     private readonly string _identifier;
     private readonly IConfigurationRoot _configurationRoot;
@@ -39,6 +39,22 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
 
         ElasticRepository = new ElasticRepository(ElasticClient);
+
+        await InsertDocuments();
+
+        await ElasticClient.Indices.RefreshAsync(Indices.All);
+    }
+
+    protected virtual async Task InsertDocuments()
+    {
+    }
+
+    public async Task IndexDocument(VerenigingZoekDocument document)
+    {
+        var indexResponse = await ElasticClient!.IndexDocumentAsync(document);
+
+        if (!indexResponse.IsValid)
+            throw new Exception($"Indexing failed: {indexResponse.DebugInformation}");
     }
 
     private IElasticClient CreateElasticClient(IConfiguration configurationRoot)
