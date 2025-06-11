@@ -63,17 +63,17 @@ public class When_Searching_On_Type
 
     [Theory]
     [InlineData("verenigingstype.code:FV")]
-    // [InlineData("verenigingstype.code:fv")]
-    // [InlineData("verenigingstype.code: fv ")]
-    // [InlineData("verenigingstype.code: fv AND verenigingstype.code: vzer")]
-    // [InlineData("verenigingstype.code: fv AND naam:de kleine vereniging AND verenigingstype.code: vzer")]
-    // [InlineData("naam:de kleine vereniging AND verenigingstype.code: fv AND verenigingstype.code: vzer")]
-    // [InlineData("verenigingstype.code:VZER")]
-    // [InlineData("verenigingstype.code:vzer")]
-    // [InlineData("verenigingstype.code: vzer ")]
-    // [InlineData("verenigingstype.code: vzer AND verenigingstype.code: fv")]
-    // [InlineData("verenigingstype.code: vzer AND naam:de kleine vereniging AND verenigingstype.code: fv")]
-    // [InlineData("naam:de kleine vereniging AND verenigingstype.code: vzer AND verenigingstype.code: fv")]
+    [InlineData("verenigingstype.code:fv")]
+    [InlineData("verenigingstype.code: fv ")]
+    [InlineData("verenigingstype.code: fv AND verenigingstype.code: vzer")]
+    [InlineData("verenigingstype.code: fv AND naam:de kleine vereniging AND verenigingstype.code: vzer")]
+    [InlineData("naam:de kleine vereniging AND verenigingstype.code: fv AND verenigingstype.code: vzer")]
+    [InlineData("verenigingstype.code:VZER")]
+    [InlineData("verenigingstype.code:vzer")]
+    [InlineData("verenigingstype.code: vzer ")]
+    [InlineData("verenigingstype.code: vzer AND verenigingstype.code: fv")]
+    [InlineData("verenigingstype.code: vzer AND naam:de kleine vereniging AND verenigingstype.code: fv")]
+    [InlineData("naam:de kleine vereniging AND verenigingstype.code: vzer AND verenigingstype.code: fv")]
     public async ValueTask With_FV_In_Query_Returns_FV_And_VZER(string query)
     {
         var indexFeitelijke = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_feitelijkeVereniging);
@@ -92,7 +92,6 @@ public class When_Searching_On_Type
             CancellationToken.None);
 
         var actualFV = searchResponse.Documents.SingleOrDefault(x => x.VCode == _feitelijkeVereniging.VCode);
-        _helper.WriteLine(searchResponse.DebugInformation);
         actualFV.Should().BeEquivalentTo(_feitelijkeVereniging);
 
         var actualVZER = searchResponse.Documents.SingleOrDefault(x => x.VCode == _vzer.VCode);
