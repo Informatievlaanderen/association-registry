@@ -74,12 +74,12 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
 
     [Theory]
     [InlineData("BE33333 BE02222")]
-    [InlineData("BE33333 OR BE02222 AND KOEN")]
+    [InlineData("BE33333 OR BE02222 AND RoepNaam")]
     [InlineData("(BE33333 OR BE02222)")]
     [InlineData("(BE33333 AND BE02222)")]
-    [InlineData("BE33333 OR BE02222 AND KOEN")]
-    [InlineData("BE33333 AND BE02222 AND KOEN")]
-    [InlineData("(BE33333 AND BE02222) AND KOEN")]
+    [InlineData("BE33333 OR BE02222 AND RoepNaam")]
+    [InlineData("BE33333 AND BE02222 AND RoepNaam")]
+    [InlineData("(BE33333 AND BE02222) AND RoepNaam")]
     public async ValueTask Found(string geotags)
     {
         var geotag = "BE02222";
@@ -96,7 +96,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
     [InlineData("BE33333,BE02222")]
     [InlineData("[BE33333 OR BE02222]")]
     [InlineData("[BE33333 AND BE02222]")]
-    [InlineData("(BE33333 AND BE02222) AND EGON")]
+    [InlineData("(BE33333 AND BE02222) AND othernaam")]
     public async ValueTask NotFound(string geotags)
     {
         var geotag = "BE02222";
@@ -152,7 +152,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         {
             var verenigingZoekDocument = _autoFixture.Create<VerenigingZoekDocument>();
             verenigingZoekDocument.Geotags = geotags.Select(x => new VerenigingZoekDocument.Types.Geotag(x)).ToArray();
-            verenigingZoekDocument.Roepnaam = "KOEN";
+            verenigingZoekDocument.Roepnaam = "RoepNaam";
 
            docs.Add(verenigingZoekDocument);
            await _elasticClient!.IndexDocumentAsync(verenigingZoekDocument);
