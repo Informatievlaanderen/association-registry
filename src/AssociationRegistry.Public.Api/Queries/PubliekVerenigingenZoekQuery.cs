@@ -119,7 +119,7 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
     {
         return m.QueryString(
             qs =>
-                qs.Query(query)
+                qs.Query(query).Analyzer(VerenigingZoekDocumentMapping.PubliekZoekenAnalyzer)
         );
     }
 

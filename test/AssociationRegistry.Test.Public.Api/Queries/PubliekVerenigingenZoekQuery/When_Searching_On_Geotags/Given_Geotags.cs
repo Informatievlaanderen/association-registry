@@ -117,6 +117,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
     [InlineData("BE33333 OR BE02222 AND RoepNaam")]
     [InlineData("BE33333 AND BE02222 AND RoepNaam")]
     [InlineData("(BE33333 AND BE02222) AND RoepNaam")]
+    [InlineData("BE33333,BE02222")]
     public async ValueTask Found(string geotags)
     {
         var geotag = "BE02222";
@@ -130,7 +131,6 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
     }
 
     [Theory]
-    [InlineData("BE33333,BE02222")]
     [InlineData("[BE33333 OR BE02222]")]
     [InlineData("[BE33333 AND BE02222]")]
     [InlineData("(BE33333 AND BE02222) AND KorteNaam")]
