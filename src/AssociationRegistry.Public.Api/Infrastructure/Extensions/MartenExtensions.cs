@@ -16,29 +16,28 @@ public static class MartenExtensions
         Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection postgreSqlOptions,
         IConfiguration configuration)
     {
-        services.AddMarten(
-            _ =>
+        services.AddMarten(_ =>
+        {
+            var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
+
+            var opts = new StoreOptions();
+
+            opts.Connection(connectionString1);
+
+            if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
             {
-                var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
+                opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
+                opts.DatabaseSchemaName = postgreSqlOptions.Schema;
+            }
 
-                var opts = new StoreOptions();
+            opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                opts.Connection(connectionString1);
+            opts.Events.MetadataConfig.EnableAll();
 
-                if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
-                {
-                    opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
-                    opts.DatabaseSchemaName = postgreSqlOptions.Schema;
-                }
+            opts.Serializer(CreateCustomMartenSerializer());
 
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-
-                opts.Events.MetadataConfig.EnableAll();
-
-                opts.Serializer(CreateCustomMartenSerializer());
-
-                return opts;
-            });
+            return opts;
+        }).UseLightweightSessions();
 
         return services;
     }

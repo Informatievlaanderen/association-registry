@@ -39,8 +39,6 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         _query = new PubliekVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping);
     }
 
-
-
     [Fact]
     public async ValueTask When_Searching_Without_Geotags_Then_Still_Returns_Vereniging()
     {
@@ -76,7 +74,6 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
 
     [Theory]
     [InlineData("BE33333 BE02222")]
-    [InlineData("BE33333,BE02222")]
     public async ValueTask CommasAndSpacesLeadsToTokenSplitting(string geotags)
     {
         var geotag = "BE02222";
@@ -112,6 +109,43 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         ShouldFindVerenigingenWithGeotag(actual, documents);
     }
 
+    [Theory]
+    [InlineData("BE33333 BE02222")]
+    [InlineData("BE33333 OR BE02222 AND RoepNaam")]
+    [InlineData("(BE33333 OR BE02222)")]
+    [InlineData("(BE33333 AND BE02222)")]
+    [InlineData("BE33333 OR BE02222 AND RoepNaam")]
+    [InlineData("BE33333 AND BE02222 AND RoepNaam")]
+    [InlineData("(BE33333 AND BE02222) AND RoepNaam")]
+    [InlineData("BE33333,BE02222")]
+    public async ValueTask Found(string geotags)
+    {
+        var geotag = "BE02222";
+        var geotag2 = "BE33333";
+        var geotag3 = "BE33334";
+        var documents = await IndexDocumentsWithGeotags([geotag, geotag2, geotag3]);
+
+        var actual = await ExecuteQuery($"geotags.identificatie:{geotags}");
+
+        ShouldFindVerenigingenWithGeotag(actual, documents);
+    }
+
+    [Theory]
+    [InlineData("[BE33333 OR BE02222]")]
+    [InlineData("[BE33333 AND BE02222]")]
+    [InlineData("(BE33333 AND BE02222) AND KorteNaam")]
+    public async ValueTask NotFound(string geotags)
+    {
+        var geotag = "BE02222";
+        var geotag2 = "BE33333";
+        var geotag3 = "BE33334";
+        var documents = await IndexDocumentsWithGeotags([geotag, geotag2, geotag3]);
+
+        var actual = await ExecuteQuery($"geotags.identificatie:{geotags}");
+
+        actual.Documents.Should().BeEmpty();
+    }
+
     private static void ShouldFindVerenigingenWithGeotag(ISearchResponse<VerenigingZoekDocument> actual, VerenigingZoekDocument[] verenigingZoekDocuments)
     {
         foreach (var verenigingZoekDocument in verenigingZoekDocuments)
@@ -130,7 +164,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         {
             var verenigingZoekDocument = _autoFixture.Create<VerenigingZoekDocument>();
             verenigingZoekDocument.Geotags = geotags.Select(x => new VerenigingZoekDocument.Types.Geotag(x)).ToArray();
-
+            verenigingZoekDocument.Roepnaam = "RoepNaam";
            docs.Add(verenigingZoekDocument);
            await _elasticClient!.IndexDocumentAsync(verenigingZoekDocument);
         }

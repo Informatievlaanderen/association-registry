@@ -12,8 +12,8 @@ public static class VerenigingZoekDocumentMapping
             descriptor => descriptor
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                                   .Normalizer(BeheerZoekenNormalizer)
-                                                   .Name(document => document.VCode))
+                                                   .Name(document => document.VCode)
+                                                   .Normalizer(BeheerZoekenNormalizer))
                          .Number(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Sequence)
@@ -23,15 +23,18 @@ public static class VerenigingZoekDocumentMapping
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Naam)
-                                                   .WithKeyword(BeheerZoekenNormalizer))
+                                                   .WithKeyword(BeheerZoekenNormalizer)
+                                                   .Analyzer(BeheerZoekenAnalyzer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.KorteNaam)
-                                                   .WithKeyword(BeheerZoekenNormalizer))
+                                                   .WithKeyword(BeheerZoekenNormalizer)
+                                                   .Analyzer(BeheerZoekenAnalyzer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Roepnaam)
-                                                   .WithKeyword(BeheerZoekenNormalizer))
+                                                   .WithKeyword(BeheerZoekenNormalizer)
+                                                   .Analyzer(BeheerZoekenAnalyzer))
                          .Date(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Startdatum))
@@ -83,6 +86,11 @@ public static class VerenigingZoekDocumentMapping
                                                    .Name(document => document.Lidmaatschappen)
                                                    .IncludeInRoot()
                                                    .Properties(LidmaatschapMapping.Get))
+                         .Nested<VerenigingZoekDocument.Types.Werkingsgebied>(
+                              propertyDescriptor => propertyDescriptor
+                                                   .Name(document => document.Werkingsgebieden)
+                                                   .IncludeInRoot()
+                                                   .Properties(WerkingsgebiedMapping.Get))
                          .Nested<VerenigingZoekDocument.Types.Geotag>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Geotags)
@@ -107,11 +115,13 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Naam)
-                                        .WithKeyword(BeheerZoekenNormalizer))
+                                        .WithKeyword(BeheerZoekenNormalizer)
+                                        .Analyzer(BeheerZoekenAnalyzer))
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Adresvoorstelling)
-                                        .WithKeyword(BeheerZoekenNormalizer))
+                                        .WithKeyword(BeheerZoekenNormalizer)
+                                        .Analyzer(BeheerZoekenAnalyzer))
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.IsPrimair)
@@ -123,25 +133,13 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Gemeente)
-                                        .WithKeyword(BeheerZoekenNormalizer))
+                                        .WithKeyword(BeheerZoekenNormalizer)
+                                        .Analyzer(BeheerZoekenAnalyzer))
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Locatietype)
-                                        .WithKeyword(BeheerZoekenNormalizer));
-    }
-
-    private static class LocationTypeMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Locatie.LocatieType> map)
-            => map.Nested<JsonLdMetadata>(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.JsonLdMetadata)
-                                            .IncludeInRoot()
-                                            .Properties(JsonLdMetadataMapping.Get))
-                  .Text(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.Naam)
-                                            .WithKeyword());
+                                        .WithKeyword(BeheerZoekenNormalizer)
+                                        .Analyzer(BeheerZoekenAnalyzer));
     }
 
     private static class HoofdactiviteitMapping
@@ -175,7 +173,8 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Naam)
-                                          .WithKeyword(BeheerZoekenNormalizer));
+                                          .WithKeyword(BeheerZoekenNormalizer)
+                                          .Analyzer(BeheerZoekenAnalyzer));
     }
 
     private static class JsonLdMetadataMapping
@@ -227,7 +226,8 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Waarde)
-                                          .WithKeyword(BeheerZoekenNormalizer))
+                                          .WithKeyword(BeheerZoekenNormalizer)
+                                          .Analyzer(BeheerZoekenAnalyzer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                       .Name(document => document.CodeerSysteem))
@@ -292,4 +292,24 @@ public static class VerenigingZoekDocumentMapping
                                          .Normalizer(BeheerZoekenNormalizer));
     }
 
+    private static class WerkingsgebiedMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Werkingsgebied> map)
+            => map
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.Code)
+                                          .WithKeyword()
+                                          .Analyzer(BeheerZoekenAnalyzer))
+              .Nested<JsonLdMetadata>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(JsonLdMetadataMapping.Get))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.Naam)
+                                          .WithKeyword(BeheerZoekenNormalizer)
+                                          .Analyzer(BeheerZoekenAnalyzer));
+    }
 }

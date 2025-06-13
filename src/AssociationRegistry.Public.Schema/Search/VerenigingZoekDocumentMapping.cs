@@ -144,20 +144,6 @@ public static class VerenigingZoekDocumentMapping
                                             .Analyzer(PubliekZoekenAnalyzer));
     }
 
-    private static class LocationTypeMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Locatie.LocatieType> map)
-            => map.Nested<JsonLdMetadata>(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.JsonLdMetadata)
-                                            .IncludeInRoot()
-                                            .Properties(JsonLdMetadataMapping.Get))
-                  .Text(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.Naam)
-                                            .WithKeyword());
-    }
-
     private static class HoofdactiviteitMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket> map)

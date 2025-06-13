@@ -1,3 +1,32 @@
+## [8.245.4](https://github.com/informatievlaanderen/association-registry/compare/v8.245.3...v8.245.4) (2025-06-13)
+
+
+### Bug Fixes
+
+* don't log for 0 max sequence, since it's always 0 b/o quickappend ([04edaec](https://github.com/informatievlaanderen/association-registry/commit/04edaec93876a6f9b76379b069d8c9f851e311b5))
+* or-2856 gebruik analyzers in beheer zoeken ([62dbd0a](https://github.com/informatievlaanderen/association-registry/commit/62dbd0a89648542b4d01a48b56d4ca1a09b37495))
+
+## [8.245.3](https://github.com/informatievlaanderen/association-registry/compare/v8.245.2...v8.245.3) (2025-06-10)
+
+
+### Bug Fixes
+
+* explicitly define lightweight sessions as default ([885a9ef](https://github.com/informatievlaanderen/association-registry/commit/885a9ef7f91c30a4bca574b2fac0015a15293503))
+
+## [8.245.2](https://github.com/informatievlaanderen/association-registry/compare/v8.245.1...v8.245.2) (2025-06-10)
+
+
+### Bug Fixes
+
+* or-2855 fix searching on roepnaam in beheer zoeken ([d99b9b1](https://github.com/informatievlaanderen/association-registry/commit/d99b9b19f84a7c1051dcae55ebed32d999eb182a))
+
+## [8.245.1](https://github.com/informatievlaanderen/association-registry/compare/v8.245.0...v8.245.1) (2025-06-06)
+
+
+### Bug Fixes
+
+* or-2855 add analyzer to roepnaam ([0376dee](https://github.com/informatievlaanderen/association-registry/commit/0376dee53d0d1e6b6bc17bd15df536a0cbb56a80))
+
 # [8.245.0](https://github.com/informatievlaanderen/association-registry/compare/v8.244.0...v8.245.0) (2025-06-05)
 
 
