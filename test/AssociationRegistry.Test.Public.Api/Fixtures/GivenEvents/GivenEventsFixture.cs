@@ -1,7 +1,10 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
+using Admin.ProjectionHost;
 using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
 using Common.Framework;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Scenarios;
 
@@ -91,8 +94,9 @@ public class GivenEventsFixture : PublicApiFixture
                 scenario.GetCommandMetadata());
         }
 
+        var logger = ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient);
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient, logger);
 
         var verengingenCount = 0;
         var counter = 0;

@@ -57,6 +57,7 @@ public static class AdminApiAutoFixtureCustomizations
         fixture.CustomizeMagdaResponses();
 
         fixture.CustomizeVerenigingZoekDocument();
+        fixture.CustomizeDuplicateDetectionDocument();
 
         return fixture;
     }
@@ -203,6 +204,38 @@ public static class AdminApiAutoFixtureCustomizations
                                       Code = x.Code,
                                       Naam = x.Naam,
                                   }).ToArray();
+
+                    return document;
+                }).OmitAutoProperties());
+    }
+
+        private static void CustomizeDuplicateDetectionDocument(this IFixture fixture)
+    {
+        fixture.Customize<DuplicateDetectionDocument>(
+            composer => composer.FromFactory<int>(
+                factory =>
+                {
+
+                    var datum = fixture.Create<Datum>();
+                    var startDatum = new DateOnly(new Random().Next(minValue: 1970, DateTime.Now.Year),
+                                                  datum.Value.Month,
+                                                  Math.Min(datum.Value.Day, 28));
+                    var document = new DuplicateDetectionDocument();
+                    document.VCode = fixture.Create<VCode>();
+                    document.Naam = fixture.Create<string>();
+
+                    document.IsVerwijderd = false;
+                    document.IsDubbel = false;
+                    document.IsGestopt = false;
+                    document.Locaties = fixture.CreateMany<Admin.Schema.Search.DuplicateDetectionDocument.Locatie>().DistinctBy(l => l.Locatietype).ToArray();
+
+                    document.VerenigingsTypeCode = new[]
+                    {
+                        Verenigingstype.IVZW, Verenigingstype.VZW, Verenigingstype.PrivateStichting,
+                        Verenigingstype.StichtingVanOpenbaarNut,
+                    }[factory % 4].Code;
+
+                    document.KorteNaam = fixture.Create<string>();
 
                     return document;
                 }).OmitAutoProperties());

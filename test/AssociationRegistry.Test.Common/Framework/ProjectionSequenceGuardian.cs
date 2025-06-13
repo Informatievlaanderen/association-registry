@@ -1,15 +1,15 @@
 namespace AssociationRegistry.Test.Common.Framework;
 
+using Admin.Schema.Search;
 using FluentAssertions;
 using Marten;
 using Marten.Events.Daemon;
+using Microsoft.Extensions.Logging;
 using Nest;
 
 public static class ProjectionSequenceGuardian
 {
-
-
-    public static async Task EnsureAllProjectionsAreUpToDate(IDocumentStore projectionsDocumentStore, long maxSequence, IElasticClient? elasticClient)
+    public static async Task EnsureAllProjectionsAreUpToDate(IDocumentStore projectionsDocumentStore, long maxSequence, IElasticClient? elasticClient, ILogger logger)
     {
         var (sequencesPerProjection, reachedSequence) = await HaveAllProjectionsReachedHighwaterMark(projectionsDocumentStore, maxSequence);
         var counter = 0;
@@ -34,6 +34,9 @@ public static class ProjectionSequenceGuardian
             await elasticClient.Indices.ForceMergeAsync(Indices.AllIndices, fm => fm
                                                            .MaxNumSegments(1));
 
+        // all good
+        bool sequenceIsHighEnough = false;
+        counter = 0;
     }
 
     private static async Task<(Dictionary<string, long> sequencesPerProjection, bool reachedSequence)> HaveAllProjectionsReachedHighwaterMark(IDocumentStore projectionsDocumentStore, long maxSequence)

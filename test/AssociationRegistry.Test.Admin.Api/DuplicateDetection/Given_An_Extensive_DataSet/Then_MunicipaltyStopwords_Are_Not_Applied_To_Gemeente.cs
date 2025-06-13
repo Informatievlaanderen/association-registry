@@ -22,7 +22,7 @@ public class Then_MunicipaltyStopwords_Are_Not_Applied_To_Gemeente: DuplicateDet
     [Fact]
     public async ValueTask With_Gemeente_From_Stopwords()
     {
-        var result = await _duplicateVerenigingDetectionService.GetDuplicates(VerenigingsNaam.Create("Ruygi KORTRIJK"),
+        var result = await DuplicateVerenigingenQuery.ExecuteAsync(VerenigingsNaam.Create("Ruygi KORTRIJK"),
         [
             _fixture.Create<Locatie>() with
             {

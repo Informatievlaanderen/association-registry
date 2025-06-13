@@ -28,7 +28,7 @@ public class DuplicateDetectionTest
     private readonly ElasticClient _elastic;
     private readonly string _duplicateDetectionIndex;
     private readonly ITestOutputHelper _helper;
-    protected SearchDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
+    protected ZoekDuplicateVerenigingenQuery DuplicateVerenigingenQuery;
     public IReadOnlyCollection<DuplicateDetectionSeedLine> DubbelDetectieData { get; private set; }
     public IReadOnlyCollection<DuplicateDetectionSeedLine> VerwachteUnieke { get; private set; }
 
@@ -116,8 +116,8 @@ public class DuplicateDetectionTest
 
         _elastic.Indices.CreateDuplicateDetectionIndex(_duplicateDetectionIndex);
 
-        _duplicateVerenigingDetectionService = new SearchDuplicateVerenigingDetectionService(
-            _elastic, MinimumScore.Default, NullLogger<SearchDuplicateVerenigingDetectionService>.Instance);
+        DuplicateVerenigingenQuery = new ZoekDuplicateVerenigingenQuery(
+            _elastic, MinimumScore.Default, NullLogger<ZoekDuplicateVerenigingenQuery>.Instance);
 
         DubbelDetectieData =
             ReadSeed("AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_dubbels.csv");
@@ -129,7 +129,7 @@ public class DuplicateDetectionTest
         => ValueTask.CompletedTask;
 
     public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicatesFor(string teRegistrerenNaam)
-        => await _duplicateVerenigingDetectionService.GetDuplicates(VerenigingsNaam.Create(teRegistrerenNaam),
+        => await DuplicateVerenigingenQuery.ExecuteAsync(VerenigingsNaam.Create(teRegistrerenNaam),
         [
             _fixture.Create<Locatie>() with
             {

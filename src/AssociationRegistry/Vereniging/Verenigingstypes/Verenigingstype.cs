@@ -9,15 +9,15 @@ public class Verenigingstype : IVerenigingstype
     public static readonly Verenigingstype PrivateStichting = new(code: "PS", naam: "Private stichting");
     public static readonly Verenigingstype StichtingVanOpenbaarNut = new(code: "SVON", naam: "Stichting van openbaar nut");
 
-    public static readonly Verenigingstype[] All =
-    {
+    public static Verenigingstype[] All =>
+    [
         FeitelijkeVereniging,
         VZER,
         VZW,
         IVZW,
         PrivateStichting,
         StichtingVanOpenbaarNut,
-    };
+    ];
 
     public Verenigingstype(string code, string naam)
     {

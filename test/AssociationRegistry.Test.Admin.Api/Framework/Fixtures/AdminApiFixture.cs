@@ -168,7 +168,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        DropDatabase();
+        // DropDatabase();
     }
 
     private static void EnsureDbExists(IConfigurationRoot configuration)

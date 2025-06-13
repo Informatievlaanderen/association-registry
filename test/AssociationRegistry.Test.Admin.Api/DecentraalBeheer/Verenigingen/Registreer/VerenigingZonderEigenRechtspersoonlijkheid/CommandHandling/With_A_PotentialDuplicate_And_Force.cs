@@ -64,7 +64,7 @@ public class With_A_PotentialDuplicate_And_Force
 
         duplicateChecker.Setup(
                              d =>
-                                 d.GetDuplicates(
+                                 d.ExecuteAsync(
                                      _command.Naam,
                                      _command.Locaties,
                                      false,
