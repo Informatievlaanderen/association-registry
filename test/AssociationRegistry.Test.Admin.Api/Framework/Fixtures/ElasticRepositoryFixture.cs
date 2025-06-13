@@ -75,7 +75,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
 
         var duplicateDetectionIndexCreation  = client.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
         if (!duplicateDetectionIndexCreation.IsValid)
-            throw new InvalidOperationException($"Index creation failed with error {indexCreation.ServerError}");
+            throw new InvalidOperationException($"Index creation failed with error {duplicateDetectionIndexCreation.ServerError}");
 
 
         var index = ElasticClient.Indices.Get(Indices.Index<VerenigingZoekDocument>()).Indices.First();
