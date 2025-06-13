@@ -1,3 +1,10 @@
+# [8.246.0](https://github.com/informatievlaanderen/association-registry/compare/v8.245.4...v8.246.0) (2025-06-13)
+
+
+### Features
+
+* or-2627 add json-ld for corr. vcodes and isDubbelVan ([fe00908](https://github.com/informatievlaanderen/association-registry/commit/fe009087f947bef50680bb05c63484bcfadeace4))
+
 ## [8.245.4](https://github.com/informatievlaanderen/association-registry/compare/v8.245.3...v8.245.4) (2025-06-13)
 
 
