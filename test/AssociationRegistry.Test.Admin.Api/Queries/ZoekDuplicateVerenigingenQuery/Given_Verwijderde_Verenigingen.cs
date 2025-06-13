@@ -8,10 +8,10 @@ using AutoFixture;
 using Common.AutoFixture;
 using DuplicateVerenigingDetection;
 using FluentAssertions;
+using Framework.Fixtures;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using Vereniging;
-using When_Saving_A_Document_To_Elastic;
 using Xunit;
 
 public class Given_Verwijderde_VerenigingenFixture : ElasticRepositoryFixture
