@@ -93,10 +93,10 @@ public class When_Searching_By_Name
     [Fact]
     public async ValueTask Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
     {
-        var response = await _publicApiClient.Search("0001004");
+        var response = await _publicApiClient.Search("01004");
         var content = await response.Content.ReadAsStringAsync();
 
-        content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate().FromQuery("0001004"));
+        content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate().FromQuery("01004"));
     }
 
     [Fact]
