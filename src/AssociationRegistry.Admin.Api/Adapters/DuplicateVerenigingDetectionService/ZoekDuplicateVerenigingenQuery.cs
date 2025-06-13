@@ -73,7 +73,14 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
         }
 
         if (!searchResponse.IsValid)
-            throw searchResponse.OriginalException;
+            if (searchResponse.OriginalException is not null)
+            {
+                throw new ElasticSearchException(searchResponse.OriginalException, searchResponse.DebugInformation);
+            }
+            else
+            {
+                throw new ElasticSearchException(searchResponse.DebugInformation);
+            }
 
         return searchResponse.Hits
                              .Select(ToDuplicateVereniging)
@@ -134,10 +141,9 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
                        .Path(p => p.Locaties)
                        .Query(nq => nq
                                  .Terms(t => t
-                                            .Field(
-                                                 f => f.Locaties
-                                                       .First()
-                                                       .Postcode)
+                                            .Field(f => f.Locaties
+                                                         .First()
+                                                         .Postcode)
                                             .Terms(postcodes)
                                   )
                         )
@@ -149,22 +155,20 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
     {
         return gemeentes.Select(gemeente =>
                                     new Func<QueryContainerDescriptor<
-                                        DuplicateDetectionDocument>, QueryContainer>(
-                                        qc => qc
-                                           .Nested(n => n
-                                                       .Path(p => p.Locaties)
-                                                       .Query(nq => nq
-                                                                 .Match(m => m
-                                                                            .Field(
-                                                                                 f => f
-                                                                                     .Locaties
-                                                                                     .First()
-                                                                                     .Gemeente)
-                                                                            .Query(
-                                                                                 gemeente)
-                                                                  )
-                                                        )
-                                            )
+                                        DuplicateDetectionDocument>, QueryContainer>(qc => qc
+                                                                                        .Nested(n => n
+                                                                                                    .Path(p => p.Locaties)
+                                                                                                    .Query(nq => nq
+                                                                                                                .Match(m => m
+                                                                                                                            .Field(f => f
+                                                                                                                                    .Locaties
+                                                                                                                                    .First()
+                                                                                                                                    .Gemeente)
+                                                                                                                            .Query(
+                                                                                                                                 gemeente)
+                                                                                                                 )
+                                                                                                     )
+                                                                                         )
                                     )
         );
     }
@@ -229,4 +233,18 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
             loc.Naam,
             loc.Postcode,
             loc.Gemeente);
+}
+
+public class ElasticSearchException : Exception
+{
+    public ElasticSearchException(Exception searchResponseOriginalException, string debugInformation)
+    : base($"{searchResponseOriginalException}\n\nDebug Information: {debugInformation}", searchResponseOriginalException)
+    {
+    }
+
+    public ElasticSearchException(string debugInformation)
+    :base($"Search for duplicate verenigingen failed: {debugInformation}")
+    {
+
+    }
 }
