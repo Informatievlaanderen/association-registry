@@ -2,6 +2,11 @@
   "@base": "https://data.lblod.info/id/verenigingen/",
   "@vocab": "/ns/",
   "vCode": "@id",
+  "corresponderendeVCodes": {
+    "@id": "dc:replaces",
+    "@type": "@id",
+    "@container": "@list"
+  },
   "status": "regorg:orgStatus",
   "locn": "http://www.w3.org/ns/locn#",
   "vestigingen": "http://data.lblod.info/id/vestigingen/",
