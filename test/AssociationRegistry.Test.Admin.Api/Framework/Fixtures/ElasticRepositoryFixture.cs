@@ -23,6 +23,9 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
     public string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
 
+    public string DuplicateDetectionIndexName
+        => _configurationRoot["ElasticClientOptions:Indices:DuplicateDetection"];
+
     protected ElasticRepositoryFixture(string identifier)
     {
         _identifier += "_" + identifier.ToLowerInvariant();
@@ -51,6 +54,9 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
                       .DefaultMappingFor(
                            typeof(VerenigingZoekDocument),
                            selector: descriptor => descriptor.IndexName(VerenigingenIndexName))
+                      .DefaultMappingFor(
+                           typeof(DuplicateDetectionDocument),
+                           selector: descriptor => descriptor.IndexName(DuplicateDetectionIndexName))
                       .EnableDebugMode();
 
         return new ElasticClient(settings);

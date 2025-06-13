@@ -57,7 +57,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 
         if (!command.SkipDuplicateDetection)
         {
-            var duplicates = (await _duplicateVerenigingDetectionService.GetDuplicates(command.Naam, command.Locaties)).ToList();
+            var duplicates = (await _duplicateVerenigingDetectionService.ExecuteAsync(command.Naam, command.Locaties)).ToList();
 
             if (duplicates.Any())
                 return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);

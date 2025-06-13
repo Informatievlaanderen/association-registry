@@ -9,23 +9,23 @@ using Nest;
 using System.Collections.Immutable;
 using LogLevel = LogLevel;
 
-public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDetectionService
+public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionService
 {
     private readonly IElasticClient _client;
     private readonly MinimumScore _defaultMinimumScore;
-    private readonly ILogger<SearchDuplicateVerenigingDetectionService> _logger;
+    private readonly ILogger<ZoekDuplicateVerenigingenQuery> _logger;
 
-    public SearchDuplicateVerenigingDetectionService(
+    public ZoekDuplicateVerenigingenQuery(
         IElasticClient client,
         MinimumScore defaultMinimumScore,
-        ILogger<SearchDuplicateVerenigingDetectionService> logger = null)
+        ILogger<ZoekDuplicateVerenigingenQuery> logger = null)
     {
         _client = client;
         _defaultMinimumScore = defaultMinimumScore;
-        _logger = logger ?? NullLogger<SearchDuplicateVerenigingDetectionService>.Instance;
+        _logger = logger ?? NullLogger<ZoekDuplicateVerenigingenQuery>.Instance;
     }
 
-    public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(
+    public async Task<IReadOnlyCollection<DuplicaatVereniging>> ExecuteAsync(
         VerenigingsNaam naam,
         Locatie[] locaties,
         bool includeScore = false,

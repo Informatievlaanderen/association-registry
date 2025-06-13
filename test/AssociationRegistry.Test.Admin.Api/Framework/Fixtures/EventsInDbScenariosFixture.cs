@@ -1,11 +1,16 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
+using AssociationRegistry.Admin.ProjectionHost;
 using Common.Framework;
 using EventStore;
 using Common.Scenarios.EventsInDb;
 using Events;
 using JasperFx.Core;
+using Marten.Events.Aggregation;
 using Marten.Events.Daemon;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 public class EventsInDbScenariosFixture : AdminApiFixture
 {
@@ -281,9 +286,13 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         using var daemon = await PreAddEvents();
 
         MaxSequence = 0;
-
+        var logger = ServiceProvider.GetRequiredService<ILogger<Program>>();
+logger.LogWarning("====== Adding events in database =======");
         foreach (var scenario in scenarios)
         {
+            logger.LogInformation("====== Adding scenario {ScenarioName} with VCode {VCode} =======",
+                scenario.GetType().Name, scenario.VCode);
+
             var originalEvents = scenario.GetEvents();
             var eventsWithMigration = originalEvents
                                      .Where(x => x is FeitelijkeVerenigingWerdGeregistreerd).Cast<FeitelijkeVerenigingWerdGeregistreerd>()
@@ -291,7 +300,16 @@ public class EventsInDbScenariosFixture : AdminApiFixture
 
             scenario.Result = await SaveEvents(scenario.VCode, originalEvents.Append(eventsWithMigration), scenario.GetCommandMetadata());
             if(scenario.Result.Sequence.HasValue)
+            {
                 MaxSequence = Math.Max(MaxSequence, scenario.Result.Sequence.Value);
+                logger.LogInformation("====== Sequence returned for scenario {ScenarioName} with VCode {VCode}: {Sequence} =======",
+                    scenario.GetType().Name, scenario.VCode, MaxSequence);
+            }
+            else
+            {
+                logger.LogInformation("====== No sequence returned for scenario {ScenarioName} with VCode {VCode} =======",
+                    scenario.GetType().Name, scenario.VCode);
+            }
         }
 
 
@@ -303,7 +321,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
                 MaxSequence = Math.Max(MaxSequence, result.Sequence.Value);
         }
 
-        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient);
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient, logger);
     }
 
     private async Task<IProjectionDaemon?> PreAddEvents()
@@ -333,10 +351,13 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         using var daemon = await PreAddEvents();
 
         scenario.Result = await SaveEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
+
         if(scenario.Result.Sequence.HasValue)
             MaxSequence = Math.Max(MaxSequence, scenario.Result.Sequence.Value);
 
-        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient);
+        var logger = ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient, logger);
     }
 }
 

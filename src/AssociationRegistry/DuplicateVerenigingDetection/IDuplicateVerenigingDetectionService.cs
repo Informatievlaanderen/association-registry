@@ -4,7 +4,7 @@ using Vereniging;
 
 public interface IDuplicateVerenigingDetectionService
 {
-    Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(
+    Task<IReadOnlyCollection<DuplicaatVereniging>> ExecuteAsync(
         VerenigingsNaam naam,
         Locatie[] locaties,
         bool includeScore = false,
