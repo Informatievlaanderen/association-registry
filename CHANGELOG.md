@@ -1,3 +1,11 @@
+## [8.245.4](https://github.com/informatievlaanderen/association-registry/compare/v8.245.3...v8.245.4) (2025-06-13)
+
+
+### Bug Fixes
+
+* don't log for 0 max sequence, since it's always 0 b/o quickappend ([04edaec](https://github.com/informatievlaanderen/association-registry/commit/04edaec93876a6f9b76379b069d8c9f851e311b5))
+* or-2856 gebruik analyzers in beheer zoeken ([62dbd0a](https://github.com/informatievlaanderen/association-registry/commit/62dbd0a89648542b4d01a48b56d4ca1a09b37495))
+
 ## [8.245.3](https://github.com/informatievlaanderen/association-registry/compare/v8.245.2...v8.245.3) (2025-06-10)
 
 
