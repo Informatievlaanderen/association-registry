@@ -9,7 +9,7 @@ using Nest;
 
 public static class ProjectionSequenceGuardian
 {
-    public static async Task EnsureAllProjectionsAreUpToDate(IDocumentStore projectionsDocumentStore, long maxSequence, IElasticClient? elasticClient, ILogger logger)
+    public static async Task EnsureAllProjectionsAreUpToDate(IDocumentStore projectionsDocumentStore, long maxSequence, IElasticClient elasticClient, ILogger logger)
     {
         var (sequencesPerProjection, reachedSequence) = await HaveAllProjectionsReachedHighwaterMark(projectionsDocumentStore, maxSequence);
         var counter = 0;
@@ -29,14 +29,8 @@ public static class ProjectionSequenceGuardian
                                                      maxSequence, $"Because we want projection {x.Key} to be up to date"));
 
         await elasticClient.Indices.RefreshAsync(Indices.AllIndices);
-
-        if(elasticClient is not null)
-            await elasticClient.Indices.ForceMergeAsync(Indices.AllIndices, fm => fm
-                                                           .MaxNumSegments(1));
-
-        // all good
-        bool sequenceIsHighEnough = false;
-        counter = 0;
+        await elasticClient.Indices.ForceMergeAsync(Indices.AllIndices, fm => fm
+                                                       .MaxNumSegments(1));
     }
 
     private static async Task<(Dictionary<string, long> sequencesPerProjection, bool reachedSequence)> HaveAllProjectionsReachedHighwaterMark(IDocumentStore projectionsDocumentStore, long maxSequence)
