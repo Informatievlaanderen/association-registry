@@ -1,11 +1,10 @@
-namespace AssociationRegistry.Test.Admin.Api.When_Saving_A_Document_To_Elastic;
+namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
-using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;
-using Framework.Helpers;
+using AssociationRegistry.Test.Admin.Api.Framework.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;
