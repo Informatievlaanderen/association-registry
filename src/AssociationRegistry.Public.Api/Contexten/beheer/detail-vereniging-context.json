@@ -3,6 +3,15 @@
   "@vocab": "/ns/",
   "vCode": "@id",
   "status": "regorg:orgStatus",
+  "corresponderendeVCodes": {
+    "@id": "dc:replaces",
+    "@type": "@id",
+    "@container": "@list"
+  },
+  "isDubbelVan": {
+    "@id": "dc:isReplacedBy",
+    "@type": "@id"
+  },
   "locn": "http://www.w3.org/ns/locn#",
   "add": "http://data.lblod.info/id/adressen/",
   "address": "https://data.vlaanderen.be/ns/adres#",
