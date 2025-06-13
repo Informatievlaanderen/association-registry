@@ -30,7 +30,7 @@ public class BeheerVerenigingenZoekQuery : IBeheerVerenigingenZoekQuery
         return queryContainerDescriptor =>
             queryContainerDescriptor.QueryString(
                 queryStringQueryDescriptor
-                    => queryStringQueryDescriptor.Query(q).Analyzer(VerenigingZoekDocumentMapping.BeheerZoekenAnalyzer)
+                    => queryStringQueryDescriptor.Query(q)
             );
     }
 
@@ -40,15 +40,20 @@ public class BeheerVerenigingenZoekQuery : IBeheerVerenigingenZoekQuery
                 .From(filter.PaginationQueryParams.Offset)
                 .Size(filter.PaginationQueryParams.Limit)
                 .ParseSort(filter.Sort, DefaultSort, _typeMapping)
-                .Query(query => query
-                                     .Bool(boolQueryDescriptor => boolQueryDescriptor
-                                                                 .Must(MatchWithQuery(filter.Query))
-                                                                 .MustNot(BeVerwijderd(), BeDubbel())
-                                      )
+                .Query(query => MainQuery(filter, query)
                  )
                 .TrackTotalHits(),
             cancellationToken
         );
+
+    public static QueryContainer MainQuery(BeheerVerenigingenZoekFilter filter, QueryContainerDescriptor<VerenigingZoekDocument> query)
+    {
+        return query
+           .Bool(boolQueryDescriptor => boolQueryDescriptor
+                                       .Must(MatchWithQuery(filter.Query))
+                                       .MustNot(BeVerwijderd(), BeDubbel())
+            );
+    }
 
     private static Func<QueryContainerDescriptor<VerenigingZoekDocument>, QueryContainer> BeVerwijderd()
     {

@@ -19,14 +19,16 @@ using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingSt
 [Category(Categories.RefactorAfterVZERMigration)]
 public class When_Searching_On_Type
 {
+    private readonly ITestOutputHelper _helper;
     private BeheerVerenigingenZoekQuery _query;
     private VerenigingZoekDocument? _feitelijkeVereniging;
     private VerenigingZoekDocument? _vzer;
     private IElasticClient _elasticClient;
     private ITypeMapping _typeMapping;
 
-    public When_Searching_On_Type(EventsInDbScenariosFixture fixture)
+    public When_Searching_On_Type(EventsInDbScenariosFixture fixture, ITestOutputHelper helper)
     {
+        _helper = helper;
         var elasticClient = fixture.ElasticClient;
         _typeMapping = fixture.ServiceProvider.GetRequiredService<ITypeMapping>();
 
@@ -48,6 +50,7 @@ public class When_Searching_On_Type
         _vzer.Status = VerenigingStatus.Actief;
         _vzer.IsDubbel = false;
         _vzer.IsVerwijderd = false;
+        _vzer.Startdatum = "2025-06-06";
         _vzer.IsUitgeschrevenUitPubliekeDatastroom = false;
         _vzer.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
         {

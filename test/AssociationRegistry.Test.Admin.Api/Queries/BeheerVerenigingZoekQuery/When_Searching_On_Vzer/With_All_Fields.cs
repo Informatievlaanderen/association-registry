@@ -44,6 +44,20 @@ public class SearchingOnDocumentTestsFixture : ElasticRepositoryFixture
         doc.IsUitgeschrevenUitPubliekeDatastroom = false;
         doc.Status = VerenigingStatus.Actief;
         doc.Sequence = 999;
+        doc.Locaties = new[]
+        {
+            new VerenigingZoekDocument.Types.Locatie
+            {
+                Locatietype = "Activiteiten",
+                Adresvoorstelling =
+                    "Sorteerstraat 1, 1079 SorteerGemeente Laboriosam quam quia ipsam recusandae eveniet architecto tempora nihil.2025-06-11T06:31:11.595Z, Sorterië",
+                Gemeente =
+                    "SorteerGemeente Laboriosam quam quia ipsam recusandae eveniet architecto tempora nihil.2025-06-11T06:31:11.595Z",
+                Postcode = "1079",
+            },
+        };
+        doc.Startdatum = "1976-01-10";
+
         return doc;
     }
 }
@@ -160,6 +174,24 @@ public class With_All_Fields : IClassFixture<SearchingOnDocumentTestsFixture>
     {
         var response = await ExecuteSearch("werkingsgebieden.code:(BE25 AND BE2)");
         response.Documents.Should().NotContain(d => d.VCode == _document.VCode);
+    }
+
+    [Theory]
+    [InlineData("locaties.gemeente:\"SorteerGemeente Laboriosam quam quia ipsam recusandae eveniet architecto tempora nihil.2025-06-11T06:31:11.595Z\"")]
+    public async Task Then_vereniging_is_found_by_gemeente(string query)
+    {
+        var response = await ExecuteSearch(query);
+        response.Documents.Should().Contain(d => d.VCode == _document.VCode);
+    }
+
+    [Theory]
+    [InlineData("1976-01-10")]
+    [InlineData("startdatum:1976-01-10")]
+    [InlineData("startdatum:\"1976-01-10\"")]
+    public async Task Then_vereniging_is_found_by_startdatum(string query)
+    {
+        var response = await ExecuteSearch(query);
+        response.Documents.Should().Contain(d => d.VCode == _document.VCode);
     }
 
     private async Task<ISearchResponse<VerenigingZoekDocument>> ExecuteSearch(string query)
