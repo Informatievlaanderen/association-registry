@@ -9,23 +9,23 @@ using Nest;
 using System.Collections.Immutable;
 using LogLevel = LogLevel;
 
-public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDetectionService
+public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionService
 {
     private readonly IElasticClient _client;
     private readonly MinimumScore _defaultMinimumScore;
-    private readonly ILogger<SearchDuplicateVerenigingDetectionService> _logger;
+    private readonly ILogger<ZoekDuplicateVerenigingenQuery> _logger;
 
-    public SearchDuplicateVerenigingDetectionService(
+    public ZoekDuplicateVerenigingenQuery(
         IElasticClient client,
         MinimumScore defaultMinimumScore,
-        ILogger<SearchDuplicateVerenigingDetectionService> logger = null)
+        ILogger<ZoekDuplicateVerenigingenQuery> logger = null)
     {
         _client = client;
         _defaultMinimumScore = defaultMinimumScore;
-        _logger = logger ?? NullLogger<SearchDuplicateVerenigingDetectionService>.Instance;
+        _logger = logger ?? NullLogger<ZoekDuplicateVerenigingenQuery>.Instance;
     }
 
-    public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(
+    public async Task<IReadOnlyCollection<DuplicaatVereniging>> ExecuteAsync(
         VerenigingsNaam naam,
         Locatie[] locaties,
         bool includeScore = false,
@@ -73,7 +73,14 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         }
 
         if (!searchResponse.IsValid)
-            throw searchResponse.OriginalException;
+            if (searchResponse.OriginalException is not null)
+            {
+                throw new ElasticSearchException(searchResponse.OriginalException, searchResponse.DebugInformation);
+            }
+            else
+            {
+                throw new ElasticSearchException(searchResponse.DebugInformation);
+            }
 
         return searchResponse.Hits
                              .Select(ToDuplicateVereniging)
@@ -134,10 +141,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                        .Path(p => p.Locaties)
                        .Query(nq => nq
                                  .Terms(t => t
-                                            .Field(
-                                                 f => f.Locaties
-                                                       .First()
-                                                       .Postcode)
+                                            .Field(f => f.Locaties
+                                                         .First()
+                                                         .Postcode)
                                             .Terms(postcodes)
                                   )
                         )
@@ -149,22 +155,20 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
     {
         return gemeentes.Select(gemeente =>
                                     new Func<QueryContainerDescriptor<
-                                        DuplicateDetectionDocument>, QueryContainer>(
-                                        qc => qc
-                                           .Nested(n => n
-                                                       .Path(p => p.Locaties)
-                                                       .Query(nq => nq
-                                                                 .Match(m => m
-                                                                            .Field(
-                                                                                 f => f
-                                                                                     .Locaties
-                                                                                     .First()
-                                                                                     .Gemeente)
-                                                                            .Query(
-                                                                                 gemeente)
-                                                                  )
-                                                        )
-                                            )
+                                        DuplicateDetectionDocument>, QueryContainer>(qc => qc
+                                                                                        .Nested(n => n
+                                                                                                    .Path(p => p.Locaties)
+                                                                                                    .Query(nq => nq
+                                                                                                                .Match(m => m
+                                                                                                                            .Field(f => f
+                                                                                                                                    .Locaties
+                                                                                                                                    .First()
+                                                                                                                                    .Gemeente)
+                                                                                                                            .Query(
+                                                                                                                                 gemeente)
+                                                                                                                 )
+                                                                                                     )
+                                                                                         )
                                     )
         );
     }
@@ -229,4 +233,18 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             loc.Naam,
             loc.Postcode,
             loc.Gemeente);
+}
+
+public class ElasticSearchException : Exception
+{
+    public ElasticSearchException(Exception searchResponseOriginalException, string debugInformation)
+    : base($"{searchResponseOriginalException}\n\nDebug Information: {debugInformation}", searchResponseOriginalException)
+    {
+    }
+
+    public ElasticSearchException(string debugInformation)
+    :base($"Search for duplicate verenigingen failed: {debugInformation}")
+    {
+
+    }
 }

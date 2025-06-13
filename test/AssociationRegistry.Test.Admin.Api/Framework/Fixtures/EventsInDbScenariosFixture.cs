@@ -1,11 +1,16 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
+using AssociationRegistry.Admin.ProjectionHost;
+using Common.Framework;
 using EventStore;
 using Common.Scenarios.EventsInDb;
 using Events;
 using JasperFx.Core;
+using Marten.Events.Aggregation;
 using Marten.Events.Daemon;
-using Nest;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 public class EventsInDbScenariosFixture : AdminApiFixture
 {
@@ -201,6 +206,15 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V083_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_WithAllFields_ForDuplicateCheck
         V083VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForDuplicateCheck = new();
 
+
+    public EventsInDbScenariosFixture()
+    {
+    }
+
+    public long MaxSequence { get; private set; } = 0;
+
+
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -271,23 +285,43 @@ public class EventsInDbScenariosFixture : AdminApiFixture
 
         using var daemon = await PreAddEvents();
 
+        MaxSequence = 0;
+        var logger = ServiceProvider.GetRequiredService<ILogger<Program>>();
+logger.LogWarning("====== Adding events in database =======");
         foreach (var scenario in scenarios)
         {
+            logger.LogInformation("====== Adding scenario {ScenarioName} with VCode {VCode} =======",
+                scenario.GetType().Name, scenario.VCode);
+
             var originalEvents = scenario.GetEvents();
             var eventsWithMigration = originalEvents
                                      .Where(x => x is FeitelijkeVerenigingWerdGeregistreerd).Cast<FeitelijkeVerenigingWerdGeregistreerd>()
                                      .Select(eventToAdd => new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(@eventToAdd.VCode)).ToList();
 
-            scenario.Result = await AddEvents(scenario.VCode, originalEvents.Append(eventsWithMigration), scenario.GetCommandMetadata());
+            scenario.Result = await SaveEvents(scenario.VCode, originalEvents.Append(eventsWithMigration), scenario.GetCommandMetadata());
+            if(scenario.Result.Sequence.HasValue)
+            {
+                MaxSequence = Math.Max(MaxSequence, scenario.Result.Sequence.Value);
+                logger.LogInformation("====== Sequence returned for scenario {ScenarioName} with VCode {VCode}: {Sequence} =======",
+                    scenario.GetType().Name, scenario.VCode, MaxSequence);
+            }
+            else
+            {
+                logger.LogInformation("====== No sequence returned for scenario {ScenarioName} with VCode {VCode} =======",
+                    scenario.GetType().Name, scenario.VCode);
+            }
         }
+
 
         foreach (var (vCode, events) in V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer
                     .EventsPerVCode)
         {
-            await AddEvents(vCode, events.Append(new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(vCode)));
+            var result = await SaveEvents(vCode, events.Append(new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(vCode)));
+            if(result.Sequence.HasValue)
+                MaxSequence = Math.Max(MaxSequence, result.Sequence.Value);
         }
 
-        await PostAddEvents(daemon);
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient, logger);
     }
 
     private async Task<IProjectionDaemon?> PreAddEvents()
@@ -312,20 +346,18 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         }
     }
 
-    private async Task PostAddEvents(IProjectionDaemon daemon)
-    {
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 10));
-
-        await ElasticClient.Indices.RefreshAsync(Indices.All);
-    }
-
     public async Task Initialize(IEventsInDbScenario scenario)
     {
         using var daemon = await PreAddEvents();
 
-        scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
+        scenario.Result = await SaveEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
 
-        await PostAddEvents(daemon);
+        if(scenario.Result.Sequence.HasValue)
+            MaxSequence = Math.Max(MaxSequence, scenario.Result.Sequence.Value);
+
+        var logger = ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient, logger);
     }
 }
 
@@ -335,5 +367,5 @@ public class AdminApiScenarioFixture : AdminApiFixture
         => Task.CompletedTask;
 
     public async Task<StreamActionResult> Apply(IEventsInDbScenario scenario)
-        => await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
+        => await SaveEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
 }

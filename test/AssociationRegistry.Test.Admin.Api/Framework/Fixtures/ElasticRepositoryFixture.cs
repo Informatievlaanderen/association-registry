@@ -22,6 +22,9 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
     public string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
 
+    public string DuplicateDetectionIndexName
+        => _configurationRoot["ElasticClientOptions:Indices:DuplicateDetection"];
+
     protected ElasticRepositoryFixture(string identifier)
     {
         _identifier += "_" + identifier.ToLowerInvariant();
@@ -36,7 +39,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
                                                      LoggerFactory.Create(opt => opt.AddConsole())
                                                                   .CreateLogger("waitForElasticSearchTestLogger"));
 
-        ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
+        ConfigureElasticClient(ElasticClient, VerenigingenIndexName, DuplicateDetectionIndexName);
 
         ElasticRepository = new ElasticRepository(ElasticClient);
         await InsertDocuments();
@@ -65,17 +68,31 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
                       .DefaultMappingFor(
                            typeof(VerenigingZoekDocument),
                            selector: descriptor => descriptor.IndexName(VerenigingenIndexName))
+                      .DefaultMappingFor(
+                           typeof(DuplicateDetectionDocument),
+                           selector: descriptor => descriptor.IndexName(DuplicateDetectionIndexName))
                       .EnableDebugMode();
 
         return new ElasticClient(settings);
     }
 
-    private void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
+    private void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName, string duplicateDetectionIndexName)
     {
         if (client.Indices.Exists(verenigingenIndexName).Exists)
             client.Indices.Delete(verenigingenIndexName);
 
+        if (client.Indices.Exists(duplicateDetectionIndexName).Exists)
+            client.Indices.Delete(duplicateDetectionIndexName);
+
         var indexCreation = client.Indices.CreateVerenigingIndex(verenigingenIndexName);
+        if (!indexCreation.IsValid)
+            throw new InvalidOperationException($"Index creation failed with error {indexCreation.ServerError}");
+
+        var duplicateDetectionIndexCreation  = client.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
+        if (!duplicateDetectionIndexCreation.IsValid)
+            throw new InvalidOperationException($"Index creation failed with error {duplicateDetectionIndexCreation.ServerError}");
+
+
         var index = ElasticClient.Indices.Get(Indices.Index<VerenigingZoekDocument>()).Indices.First();
 
         TypeMapping = index.Value.Mappings;
@@ -99,6 +116,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         var tempConfiguration = builder.Build();
         tempConfiguration["PostgreSQLOptions:database"] += _identifier;
         tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] += _identifier;
+        tempConfiguration["ElasticClientOptions:Indices:DuplicateDetection"] += _identifier;
 
         return tempConfiguration;
     }
@@ -111,6 +129,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         GC.SuppressFinalize(this);
 
         ElasticClient?.Indices.Delete(VerenigingenIndexName);
+        ElasticClient?.Indices.Delete(DuplicateDetectionIndexName);
         ElasticClient?.Indices.Refresh(Indices.All);
     }
 }

@@ -26,7 +26,7 @@ public class DubbelControleController : ApiController
     {
         var command = request.ToCommand(werkingsgebiedenService);
 
-        var result = await duplicateVerenigingDetectionService.GetDuplicates(
+        var result = await duplicateVerenigingDetectionService.ExecuteAsync(
             command.Naam, command.Locaties,
             true,
             minimumScoreOverride.HasValue

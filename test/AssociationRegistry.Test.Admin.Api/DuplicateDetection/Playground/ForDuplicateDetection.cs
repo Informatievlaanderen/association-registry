@@ -20,7 +20,7 @@ using Xunit;
 public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
 {
     private readonly ElasticClient _elasticClient;
-    private readonly SearchDuplicateVerenigingDetectionService _duplicateDetectionService;
+    private readonly ZoekDuplicateVerenigingenQuery _duplicateDetectionService;
 
     public ForDuplicateDetection(DuplicateDetectionSetup setup)
     {
@@ -75,7 +75,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     {
         await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
 
-        var duplicates = await _duplicateDetectionService.GetDuplicates(
+        var duplicates = await _duplicateDetectionService.ExecuteAsync(
             VerenigingsNaam.Create("De Vereniging van de Technologïeënthusiasten en ook de Inováçie en van de Ëntwikkeling"),
             Met1MatchendeGemeente());
 
@@ -88,7 +88,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     {
         await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
 
-        var duplicates = await _duplicateDetectionService.GetDuplicates(
+        var duplicates = await _duplicateDetectionService.ExecuteAsync(
             VerenigingsNaam.Create("De Verengiging vn Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
             Met1MatchendeGemeente(), minimumScoreOverride: new MinimumScore(0));
 
@@ -114,7 +114,7 @@ public class DuplicateDetectionSetup
 {
     public ElasticClient Client { get; }
     public ElasticRepository Repository { get; }
-    public SearchDuplicateVerenigingDetectionService DuplicateDetectionService { get; }
+    public ZoekDuplicateVerenigingenQuery DuplicateDetectionService { get; }
 
     public DuplicateDetectionSetup()
     {
@@ -152,7 +152,7 @@ public class DuplicateDetectionSetup
 
         Repository = new ElasticRepository(Client);
 
-        DuplicateDetectionService = new SearchDuplicateVerenigingDetectionService(Client, MinimumScore.Default);
+        DuplicateDetectionService = new ZoekDuplicateVerenigingenQuery(Client, MinimumScore.Default);
 
         Repository.Index(new DuplicateDetectionDocument
         {

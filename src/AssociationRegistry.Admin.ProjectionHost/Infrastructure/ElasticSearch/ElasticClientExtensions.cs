@@ -30,10 +30,8 @@ public static class ElasticClientExtensions
                                                 .Analyzers(AddVerenigingZoekAnalyzer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
-    public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
-    {
-        CreateDuplicateDetectionIndexAsync(indicesNamespace, index).GetAwaiter().GetResult();
-    }
+    public static CreateIndexResponse CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
+        => CreateDuplicateDetectionIndexAsync(indicesNamespace, index).GetAwaiter().GetResult();
 
     public static async Task<CreateIndexResponse> CreateDuplicateDetectionIndexAsync(
         this IndicesNamespace indicesNamespace,
