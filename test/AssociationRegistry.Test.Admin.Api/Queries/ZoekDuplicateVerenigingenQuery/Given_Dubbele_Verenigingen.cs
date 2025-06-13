@@ -14,24 +14,24 @@ using Nest;
 using Vereniging;
 using Xunit;
 
-public class Given_Gestopte_VerenigingenFixture : ElasticRepositoryFixture
+public class Given_Dubbele_VerenigingenFixture : ElasticRepositoryFixture
 {
-    public Given_Gestopte_VerenigingenFixture() : base(nameof(Given_Gestopte_VerenigingenFixture))
+    public Given_Dubbele_VerenigingenFixture() : base(nameof(Given_Dubbele_VerenigingenFixture))
     {
 
     }
 }
 
-public class Given_Gestopte_Verenigingen : IClassFixture<Given_Gestopte_VerenigingenFixture>, IDisposable, IAsyncDisposable
+public class Given_Dubbele_Verenigingen : IClassFixture<Given_Dubbele_VerenigingenFixture>, IDisposable, IAsyncDisposable
 {
     public string Query { get; }
-    private readonly Given_Gestopte_VerenigingenFixture _fixture;
+    private readonly Given_Dubbele_VerenigingenFixture _fixture;
     private readonly ITestOutputHelper _helper;
     private readonly IElasticClient? _elasticClient;
     private readonly Fixture _autoFixture;
     private readonly ZoekDuplicateVerenigingenQuery _query;
 
-    public Given_Gestopte_Verenigingen(Given_Gestopte_VerenigingenFixture fixture, ITestOutputHelper helper)
+    public Given_Dubbele_Verenigingen(Given_Dubbele_VerenigingenFixture fixture, ITestOutputHelper helper)
     {
         _fixture = fixture;
         _helper = helper;
@@ -40,6 +40,8 @@ public class Given_Gestopte_Verenigingen : IClassFixture<Given_Gestopte_Verenigi
 
         _query = new ZoekDuplicateVerenigingenQuery(fixture.ElasticClient, new MinimumScore(0), NullLogger<ZoekDuplicateVerenigingenQuery>.Instance);
     }
+
+
 
     [Fact]
     public async ValueTask Then_Query_Returns_Empty()
@@ -54,7 +56,7 @@ public class Given_Gestopte_Verenigingen : IClassFixture<Given_Gestopte_Verenigi
     private async Task<DuplicateDetectionDocument> IndexDocument()
     {
         var duplicateDetectionDoc = _autoFixture.Create<DuplicateDetectionDocument>();
-        duplicateDetectionDoc.IsGestopt = true;
+        duplicateDetectionDoc.IsDubbel = true;
 
         await _elasticClient!.IndexDocumentAsync(duplicateDetectionDoc);
 
