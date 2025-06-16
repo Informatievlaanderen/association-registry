@@ -22,7 +22,6 @@
   "con": "http://lblod.data.gift/concepts/",
   "verenigingsregister": "https://publiek.verenigingen.vlaanderen.be/ns/verenigingsregister#",
   "hoofdactiviteitenVerenigingsloket": "regorg:orgActivity",
-  "regorg": "http://www.w3.org/ns/regorg#",
   "cont": "http://data.lblod.info/id/contact-punten/",
   "org": "http://www.w3.org/ns/org#",
   "adressen": "http://data.lblod.info/id/adressen/",
