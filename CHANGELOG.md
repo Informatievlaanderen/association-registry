@@ -1,3 +1,11 @@
+## [8.246.1](https://github.com/informatievlaanderen/association-registry/compare/v8.246.0...v8.246.1) (2025-06-16)
+
+
+### Bug Fixes
+
+* or-2627 remove duplicate line json ld ([57bdc22](https://github.com/informatievlaanderen/association-registry/commit/57bdc226fdfa3efd31f3dbfe08fb4f2133d1ea1c))
+* or-2627 remove list from corresponderende vcodes json ld ([8e0c015](https://github.com/informatievlaanderen/association-registry/commit/8e0c0153186662c5ef979aaac517280e30830bdf))
+
 # [8.246.0](https://github.com/informatievlaanderen/association-registry/compare/v8.245.4...v8.246.0) (2025-06-13)
 
 
