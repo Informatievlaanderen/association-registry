@@ -5,8 +5,7 @@
   "status": "regorg:orgStatus",
   "corresponderendeVCodes": {
     "@id": "dc:replaces",
-    "@type": "@id",
-    "@container": "@list"
+    "@type": "@id"
   },
   "isDubbelVan": {
     "@id": "dc:isReplacedBy",
