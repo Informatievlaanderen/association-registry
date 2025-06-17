@@ -16,3 +16,18 @@ jobs:
       - name: Run API tests
         run: |
           postman collection run "34061079-b9019512-c4b9-4844-9e86-e70fc8d65a4a" -e "24467383-b7b1ecfe-ae6d-4ded-a378-db554a2bc155"
+      - name: Notify Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          if [ "$JOB_STATUS" = "success" ]; then
+            MESSAGE="✅ *API tests succeeded* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
+          else
+            MESSAGE="❌ *API tests failed* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\n<@U03P611N5TK>,<@KoenMetsu> please check the logs: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
+          fi
+
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{\"text\":\"$MESSAGE\"}" \
+          $SLACK_WEBHOOK_URL
