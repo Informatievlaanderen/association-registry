@@ -25,7 +25,7 @@ jobs:
           if [ "$JOB_STATUS" = "success" ]; then
             MESSAGE="✅ *API tests succeeded* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
           else
-            MESSAGE="❌ *API tests failed* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\n<@U03P611N5TK>,<@KoenMetsu> please check the logs: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
+            MESSAGE="❌ *API tests failed* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\n<@U03P611N5TK>,<@koenmetsu> please check the logs: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
           fi
 
           curl -X POST -H 'Content-type: application/json' \
