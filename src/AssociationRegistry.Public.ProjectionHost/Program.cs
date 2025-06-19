@@ -74,7 +74,8 @@ public class Program
                .AddDataAnnotationsLocalization();
 
         builder.Services.AddHealthChecks()
-               .AddElasticsearchHealthCheck();
+               .AddElasticsearchHealthCheck()
+               .AddMartenAsyncDaemonHealthCheck();
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 

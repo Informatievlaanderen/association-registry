@@ -26,6 +26,7 @@ using Serilog.Debugging;
 using System.Net;
 using System.Text;
 using Wolverine;
+using Marten.Events.Daemon;
 
 public class Program
 {
