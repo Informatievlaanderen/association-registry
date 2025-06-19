@@ -1,3 +1,12 @@
+# [8.247.0](https://github.com/informatievlaanderen/association-registry/compare/v8.246.1...v8.247.0) (2025-06-19)
+
+
+### Features
+
+* or-2862 add elasticsearch to health checks ([041be93](https://github.com/informatievlaanderen/association-registry/commit/041be939d0cd8c4121424f9e0b6884b10cc39965))
+* or-2862 add marten health checks to public api ([5dddcd4](https://github.com/informatievlaanderen/association-registry/commit/5dddcd489a038cf7f0840e6d0782d6d1e4a602f2))
+* or-2862 add Marten.AspnetCore ([7b05095](https://github.com/informatievlaanderen/association-registry/commit/7b0509594b1eb97a830be5b7076db7896be07b8d))
+
 ## [8.246.1](https://github.com/informatievlaanderen/association-registry/compare/v8.246.0...v8.246.1) (2025-06-16)
 
 
