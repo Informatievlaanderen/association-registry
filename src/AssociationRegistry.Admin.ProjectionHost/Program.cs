@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost;
 using Asp.Versioning.ApplicationModels;
 using Extensions;
 using Hosts;
+using Hosts.HealthChecks;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
@@ -74,6 +75,7 @@ public class Program
 
         builder.Services
                .AddHealthChecks()
+               .AddElasticsearchHealthCheck()
                .AddMartenAsyncDaemonHealthCheck();
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());

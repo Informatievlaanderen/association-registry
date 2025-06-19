@@ -35,6 +35,7 @@ using HostedServices.GeotagsInitialisation;
 using Hosts;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
+using Hosts.HealthChecks;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
 using Infrastructure.AWS;
@@ -576,7 +577,9 @@ public class Program
                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                .AddDatabaseDeveloperPageExceptionFilter();
 
-        var healthChecksBuilder = builder.Services.AddHealthChecks().AddCheck<MigrationHealthCheck>("geotags-migration");
+        var healthChecksBuilder = builder.Services.AddHealthChecks()
+                                         .AddElasticsearchHealthCheck()
+                                         .AddGeotagsMigrationHealthCheck();
 
         // var connectionStrings = builder.Configuration
         //                                .GetSection("ConnectionStrings")

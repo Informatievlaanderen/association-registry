@@ -45,6 +45,7 @@ nuget Microsoft.AspNetCore.TestHost
 nuget Microsoft.AspNetCore.Mvc.Testing
 nuget Microsoft.Extensions.Configuration.Binder
 nuget Microsoft.Extensions.Diagnostics.HealthChecks
+nuget Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions
 nuget Microsoft.Extensions.Http
 nuget Microsoft.Extensions.Logging.Abstractions
 nuget Microsoft.NETCore.Platforms
