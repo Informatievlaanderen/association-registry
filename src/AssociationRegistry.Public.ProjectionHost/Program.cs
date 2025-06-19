@@ -3,6 +3,7 @@ namespace AssociationRegistry.Public.ProjectionHost;
 using Asp.Versioning.ApplicationModels;
 using Extensions;
 using Hosts;
+using Hosts.HealthChecks;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
@@ -72,7 +73,8 @@ public class Program
                .AddMvc()
                .AddDataAnnotationsLocalization();
 
-        builder.Services.AddHealthChecks();
+        builder.Services.AddHealthChecks()
+               .AddElasticsearchHealthCheck();
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 

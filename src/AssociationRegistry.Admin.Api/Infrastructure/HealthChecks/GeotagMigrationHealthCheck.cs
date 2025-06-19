@@ -4,11 +4,12 @@ using AssociationRegistry.Admin.Api.HostedServices.GeotagsInitialisation;
 using Marten;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-public class MigrationHealthCheck : IHealthCheck
+public class GeotagMigrationHealthCheck : IHealthCheck
 {
+    public const string Name = "geotags-migration";
     private readonly IDocumentStore _store;
 
-    public MigrationHealthCheck(IDocumentStore store)
+    public GeotagMigrationHealthCheck(IDocumentStore store)
     {
         _store = store;
     }

@@ -5,3 +5,4 @@ Microsoft.Extensions.Configuration
 Microsoft.Extensions.Configuration.Binder
 Microsoft.Extensions.DependencyInjection
 Microsoft.AspNetCore.Hosting
+Microsoft.Extensions.Diagnostics.HealthChecks

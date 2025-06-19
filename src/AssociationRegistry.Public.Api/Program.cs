@@ -14,6 +14,7 @@ using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
 using Destructurama;
 using FluentValidation;
+using Hosts.HealthChecks;
 using Infrastructure.Caching;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
@@ -339,7 +340,8 @@ public class Program
                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                .AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services.AddHealthChecks();
+        builder.Services.AddHealthChecks()
+               .AddElasticsearchHealthCheck();
 
         builder.Services
                .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
