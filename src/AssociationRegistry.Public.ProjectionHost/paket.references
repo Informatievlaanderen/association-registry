@@ -20,4 +20,5 @@ Destructurama.JsonNet
 FluentValidation
 Polly
 Marten.CommandLine
+Marten.AspNetCore
 WolverineFx
