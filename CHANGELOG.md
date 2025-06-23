@@ -1,3 +1,11 @@
+# [8.249.0](https://github.com/informatievlaanderen/association-registry/compare/v8.248.0...v8.249.0) (2025-06-23)
+
+
+### Features
+
+* or-2862 no more manual envelope ([4d4bfdf](https://github.com/informatievlaanderen/association-registry/commit/4d4bfdfd5f320493c767b83cc17357a72f5a27c9))
+* or-2862 no more manual envelope, add more logging ([20842db](https://github.com/informatievlaanderen/association-registry/commit/20842db75b96501c4fb9823f8f704fe13cce3652))
+
 # [8.248.0](https://github.com/informatievlaanderen/association-registry/compare/v8.247.0...v8.248.0) (2025-06-23)
 
 
