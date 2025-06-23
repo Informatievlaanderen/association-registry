@@ -578,7 +578,6 @@ public class Program
                .AddDatabaseDeveloperPageExceptionFilter();
 
         var healthChecksBuilder = builder.Services.AddHealthChecks()
-                                         .AddElasticsearchHealthCheck()
                                          .AddGeotagsMigrationHealthCheck();
 
         // var connectionStrings = builder.Configuration

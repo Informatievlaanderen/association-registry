@@ -340,8 +340,7 @@ public class Program
                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                .AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services.AddHealthChecks()
-               .AddElasticsearchHealthCheck();
+        builder.Services.AddHealthChecks();
 
         builder.Services
                .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
