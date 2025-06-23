@@ -27,7 +27,7 @@ public class Given_KboSyncHandler_Return_A_Null_CommandResult
         var syncKboCommandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(), Mock.Of<IMagdaGeefVerenigingService>(), Mock.Of<INotifier>(), NullLogger<SyncKboCommandHandler>.Instance);
 
         RecordProcessor.TryProcessRecord(logger.Object, verenigingsRepository.Object, CancellationToken.None,
-                                                   new Envelope(new TeSynchroniserenKboNummerMessage(fixture.Create<KboNummer>())),
+                                                   new TeSynchroniserenKboNummerMessage(fixture.Create<KboNummer>()),
                                                    syncKboCommandHandler).GetAwaiter().GetResult();
 
         logger.Verify(
