@@ -90,14 +90,17 @@ public static class ServiceCollectionExtensions
             services.AddSingleton(instrumentation);
         }
 
+
         builder.ConfigureOpenTelemetryLogging();
         return services.AddOpenTelemetry()
                        .ConfigureResource(configureResource)
                        .WithMetrics(providerBuilder => providerBuilder
                                                       .ConfigureResource(configureResource)
+                                                      .SetExemplarFilter(ExemplarFilterType.AlwaysOn)
                                                       .AddMeter($"Wolverine:{serviceName}")
                                                       .AddMeter("Marten")
                                                       .AddMeter(RepositoryMetrics.MeterName)
+                                                      .AddMeter(KboSyncMetrics.MeterName)
                                                       .AddRuntimeInstrumentation()
                                                       .AddAspNetCoreInstrumentation()
                                                       .AddHttpClientInstrumentation()

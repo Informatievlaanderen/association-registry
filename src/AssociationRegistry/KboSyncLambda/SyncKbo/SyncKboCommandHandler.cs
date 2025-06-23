@@ -36,8 +36,11 @@ public class SyncKboCommandHandler
     {
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} start");
 
+        using var scope = KboSyncMetrics.Start(message.Command.KboNummer);
+
         if (!await repository.Exists(message.Command.KboNummer))
         {
+            scope.Dropped();
             return null;
         }
 
@@ -46,6 +49,7 @@ public class SyncKboCommandHandler
 
         if (verenigingVolgensMagda.IsFailure())
         {
+            scope.Failed();
             await _notifier.Notify(new KboSynchronisatieMisluktMessage(message.Command.KboNummer));
 
             throw new GeenGeldigeVerenigingInKbo();
@@ -53,13 +57,17 @@ public class SyncKboCommandHandler
 
         var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata);
 
-        await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
+        scope.UseVCode(vereniging.VCode);
+
+       await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
 
         vereniging.NeemGegevensOverUitKboSync(verenigingVolgensMagda);
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
 
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} end");
+
+        scope.Succeed();
 
         return CommandResult.Create(VCode.Create(vereniging.VCode), result);
     }

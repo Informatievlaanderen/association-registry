@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
 using Vereniging;
+using Wolverine;
 using Xunit;
 
 public class Given_KboSyncHandler_Return_A_Null_CommandResult
@@ -26,7 +27,7 @@ public class Given_KboSyncHandler_Return_A_Null_CommandResult
         var syncKboCommandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(), Mock.Of<IMagdaGeefVerenigingService>(), Mock.Of<INotifier>(), NullLogger<SyncKboCommandHandler>.Instance);
 
         RecordProcessor.TryProcessRecord(logger.Object, verenigingsRepository.Object, CancellationToken.None,
-                                                   new TeSynchroniserenKboNummerMessage(fixture.Create<KboNummer>()),
+                                                   new Envelope(new TeSynchroniserenKboNummerMessage(fixture.Create<KboNummer>())),
                                                    syncKboCommandHandler).GetAwaiter().GetResult();
 
         logger.Verify(

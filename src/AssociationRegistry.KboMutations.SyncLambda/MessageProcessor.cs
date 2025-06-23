@@ -9,9 +9,11 @@ using KboMutations.Configuration;
 using KboSyncLambda;
 using KboSyncLambda.SyncKbo;
 using Logging;
+using Magda.Models;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using Vereniging;
+using Wolverine;
 
 public class MessageProcessor
 {
@@ -46,7 +48,7 @@ public class MessageProcessor
         {
             try
             {
-                var message = JsonSerializer.Deserialize<TeSynchroniserenKboNummerMessage>(record.Body);
+                var message = SerializeWithOrWithoutEnvelope(record);
                 await RecordProcessor.TryProcessRecord(contextLogger, repository, cancellationToken, message, handler);
             }
             catch(Exception ex)
@@ -55,7 +57,22 @@ public class MessageProcessor
 
                 throw;
             }
+        }
+    }
 
+    private static Envelope SerializeWithOrWithoutEnvelope(SQSEvent.SQSMessage record)
+    {
+        try
+        {
+            var withoutEnvelope = JsonSerializer.Deserialize<TeSynchroniserenKboNummerMessage>(record.Body);
+
+            return new Envelope(withoutEnvelope!);
+
+        }catch(Exception ex)
+        {
+            var withEnvelope = JsonSerializer.Deserialize<Envelope>(record.Body);
+
+            return withEnvelope!;
         }
     }
 }
