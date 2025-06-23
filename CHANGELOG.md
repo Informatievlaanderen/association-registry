@@ -1,3 +1,10 @@
+# [8.248.0](https://github.com/informatievlaanderen/association-registry/compare/v8.247.0...v8.248.0) (2025-06-23)
+
+
+### Features
+
+* or-2862 add more telemetry around kbo syncs ([611b76d](https://github.com/informatievlaanderen/association-registry/commit/611b76d16167f3b5e40a33bfa3c627e10a778991))
+
 # [8.247.0](https://github.com/informatievlaanderen/association-registry/compare/v8.246.1...v8.247.0) (2025-06-19)
 
 
