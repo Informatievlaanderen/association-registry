@@ -1,4 +1,4 @@
-namespace AssociationRegistry.KboMutations.SyncLambda;
+namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 
 public class OtlpConfig
 {
