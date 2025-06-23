@@ -37,18 +37,24 @@ public class MessageProcessor
         contextLogger.LogInformation($"{nameof(_kboSyncConfiguration.MutationFileQueueUrl)}:{_kboSyncConfiguration.MutationFileQueueUrl}");
         contextLogger.LogInformation($"{nameof(_kboSyncConfiguration.SyncQueueUrl)}:{_kboSyncConfiguration.SyncQueueUrl}");
 
+        var logger = loggerFactory.CreateLogger<SyncKboCommandHandler>();
+
         var handler = new SyncKboCommandHandler(
             registreerInschrijvingService,
             geefOndernemingService,
             notifier,
-            loggerFactory.CreateLogger<SyncKboCommandHandler>()
+            logger
             );
 
         foreach (var record in sqsEvent.Records)
         {
             try
             {
-                var message = SerializeWithOrWithoutEnvelope(record);
+                contextLogger.LogInformation("Processing record {Id}", record.MessageId);
+                contextLogger.LogInformation("Message attributes for record {Id}", string.Join("\n", record.MessageAttributes.Select(k => $"{k.Key}:{k.Value.StringValue}")));
+                contextLogger.LogInformation("Record attributes for record {Id}", string.Join("\n", record.Attributes.Select(k => $"{k.Key}:{k.Value.ToString()}")));
+
+                var message = JsonSerializer.Deserialize<TeSynchroniserenKboNummerMessage>(record.Body);
                 await RecordProcessor.TryProcessRecord(contextLogger, repository, cancellationToken, message, handler);
             }
             catch(Exception ex)
@@ -57,22 +63,6 @@ public class MessageProcessor
 
                 throw;
             }
-        }
-    }
-
-    private static Envelope SerializeWithOrWithoutEnvelope(SQSEvent.SQSMessage record)
-    {
-        try
-        {
-            var withoutEnvelope = JsonSerializer.Deserialize<TeSynchroniserenKboNummerMessage>(record.Body);
-
-            return new Envelope(withoutEnvelope!);
-
-        }catch(Exception ex)
-        {
-            var withEnvelope = JsonSerializer.Deserialize<Envelope>(record.Body);
-
-            return withEnvelope!;
         }
     }
 }
