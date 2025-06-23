@@ -1,3 +1,10 @@
+# [8.252.0](https://github.com/informatievlaanderen/association-registry/compare/v8.251.0...v8.252.0) (2025-06-23)
+
+
+### Features
+
+* or-2862 add more logging to kbo sync otel setup ([475d84c](https://github.com/informatievlaanderen/association-registry/commit/475d84ca19145002e4795abfcd83ad5fe77c593c))
+
 # [8.251.0](https://github.com/informatievlaanderen/association-registry/compare/v8.250.0...v8.251.0) (2025-06-23)
 
 
