@@ -49,6 +49,7 @@ public class OpenTelemetrySetup : IDisposable
                 builder.AddOtlpExporter(options =>
                 {
                     options.Endpoint = new Uri(otlpConfig.Value.MetricsUri);
+                    options.Protocol = OtlpExportProtocol.HttpProtobuf;
                     AddHeaders(options, otlpConfig.Value.AuthHeader, Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID"));
                 });
         }
@@ -70,6 +71,7 @@ public class OpenTelemetrySetup : IDisposable
                 builder.AddOtlpExporter(options =>
                 {
                     options.Endpoint = new Uri(otlpConfig.Value.TracingUri);
+                    options.Protocol = OtlpExportProtocol.HttpProtobuf;
                     AddHeaders(options, otlpConfig.Value.AuthHeader, Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID"));
                 });
         }
@@ -91,6 +93,7 @@ public class OpenTelemetrySetup : IDisposable
                     options.AddOtlpExporter(exporterOptions =>
                     {
                         exporterOptions.Endpoint = new Uri(otlpConfig.Value.LogsUri);
+                        exporterOptions.Protocol = OtlpExportProtocol.HttpProtobuf;
                         AddHeaders(exporterOptions, otlpConfig.Value.AuthHeader, Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID"));
                     });
             }
