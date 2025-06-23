@@ -76,7 +76,6 @@ public class Program
 
         builder.Services
                .AddHealthChecks()
-               .AddElasticsearchHealthCheck()
                .AddMartenAsyncDaemonHealthCheck();
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
