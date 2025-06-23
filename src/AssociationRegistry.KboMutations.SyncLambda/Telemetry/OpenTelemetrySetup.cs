@@ -15,6 +15,7 @@ using System.Reflection;
 public class OpenTelemetrySetup : IDisposable
 {
     private readonly OpenTelemetryResources _resources;
+    private readonly ILambdaLogger _logger;
     private OtlpConfigs _otlpConfigs;
     public TracerProvider TracerProvider { get; }
     public MeterProvider MeterProvider { get; }
@@ -23,8 +24,11 @@ public class OpenTelemetrySetup : IDisposable
 
     public OpenTelemetrySetup(ILambdaLogger contextLogger, IConfigurationRoot configuration)
     {
+        _logger = contextLogger;
         _otlpConfigs = new OtlpConfigs();
         configuration.Bind(_otlpConfigs.Configs);
+
+        _logger.LogInformation($"Loaded {_otlpConfigs.Configs.Count} OTLP configurations");
 
         _resources = GetResources(contextLogger);
 
@@ -46,12 +50,31 @@ public class OpenTelemetrySetup : IDisposable
         foreach (var otlpConfig in _otlpConfigs.Configs)
         {
             if (!string.IsNullOrEmpty(otlpConfig.Value.MetricsUri))
+            {
+                _logger.LogInformation($"Configuring metrics endpoint {otlpConfig.Key}: {otlpConfig.Value.MetricsUri}");
+
                 builder.AddOtlpExporter(options =>
                 {
                     options.Endpoint = new Uri(otlpConfig.Value.MetricsUri);
                     options.Protocol = OtlpExportProtocol.HttpProtobuf;
-                    AddHeaders(options, otlpConfig.Value.AuthHeader, Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID"));
+
+                    // Debug what we're getting
+                    var authHeader = otlpConfig.Value.AuthHeader;
+                    var orgId = Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID");
+
+                    _logger.LogInformation($"Metrics - Auth header: '{authHeader}'");
+                    _logger.LogInformation($"Metrics - OrgID from env: '{orgId}'");
+
+                    AddHeaders(options, authHeader, orgId);
+
+                    _logger.LogInformation($"Metrics - Final headers: '{options.Headers}'");
+                    _logger.LogInformation($"Metrics - Protocol: {options.Protocol}");
                 });
+            }
+            else
+            {
+                _logger.LogInformation($"Skipping metrics config {otlpConfig.Key} - no MetricsUri");
+            }
         }
 
         return builder.Build();
@@ -68,12 +91,30 @@ public class OpenTelemetrySetup : IDisposable
         foreach (var otlpConfig in _otlpConfigs.Configs)
         {
             if (!string.IsNullOrEmpty(otlpConfig.Value.TracingUri))
+            {
+                _logger.LogInformation($"Configuring tracing endpoint {otlpConfig.Key}: {otlpConfig.Value.TracingUri}");
+
                 builder.AddOtlpExporter(options =>
                 {
                     options.Endpoint = new Uri(otlpConfig.Value.TracingUri);
                     options.Protocol = OtlpExportProtocol.HttpProtobuf;
-                    AddHeaders(options, otlpConfig.Value.AuthHeader, Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID"));
+
+                    var authHeader = otlpConfig.Value.AuthHeader;
+                    var orgId = Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID");
+
+                    _logger.LogInformation($"Tracing - Auth header: '{authHeader}'");
+                    _logger.LogInformation($"Tracing - OrgID from env: '{orgId}'");
+
+                    AddHeaders(options, authHeader, orgId);
+
+                    _logger.LogInformation($"Tracing - Final headers: '{options.Headers}'");
+                    _logger.LogInformation($"Tracing - Protocol: {options.Protocol}");
                 });
+            }
+            else
+            {
+                _logger.LogInformation($"Skipping tracing config {otlpConfig.Key} - no TracingUri");
+            }
         }
 
         return builder.Build();
@@ -90,12 +131,30 @@ public class OpenTelemetrySetup : IDisposable
             foreach (var otlpConfig in _otlpConfigs.Configs)
             {
                 if (!string.IsNullOrEmpty(otlpConfig.Value.LogsUri))
+                {
+                    _logger.LogInformation($"Configuring logs endpoint {otlpConfig.Key}: {otlpConfig.Value.LogsUri}");
+
                     options.AddOtlpExporter(exporterOptions =>
                     {
                         exporterOptions.Endpoint = new Uri(otlpConfig.Value.LogsUri);
                         exporterOptions.Protocol = OtlpExportProtocol.HttpProtobuf;
-                        AddHeaders(exporterOptions, otlpConfig.Value.AuthHeader, Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID"));
+
+                        var authHeader = otlpConfig.Value.AuthHeader;
+                        var orgId = Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID");
+
+                        _logger.LogInformation($"Logs - Auth header: '{authHeader}'");
+                        _logger.LogInformation($"Logs - OrgID from env: '{orgId}'");
+
+                        AddHeaders(exporterOptions, authHeader, orgId);
+
+                        _logger.LogInformation($"Logs - Final headers: '{exporterOptions.Headers}'");
+                        _logger.LogInformation($"Logs - Protocol: {exporterOptions.Protocol}");
                     });
+                }
+                else
+                {
+                    _logger.LogInformation($"Skipping logs config {otlpConfig.Key} - no LogsUri");
+                }
             }
         });
     }
@@ -150,7 +209,13 @@ public class OpenTelemetrySetup : IDisposable
             headersList.Add($"X-Scope-OrgID={orgScope}");
 
         if (headersList.Any())
+        {
             options.Headers = string.Join(",", headersList);
+        }
+        else
+        {
+            options.Headers = null;
+        }
     }
 }
 
