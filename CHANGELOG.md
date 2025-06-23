@@ -1,3 +1,10 @@
+# [8.251.0](https://github.com/informatievlaanderen/association-registry/compare/v8.250.0...v8.251.0) (2025-06-23)
+
+
+### Features
+
+* or-2862 use http protocol ([52aef6f](https://github.com/informatievlaanderen/association-registry/commit/52aef6fd2c6fdc68937227d18a7b95c994d50364))
+
 # [8.250.0](https://github.com/informatievlaanderen/association-registry/compare/v8.249.0...v8.250.0) (2025-06-23)
 
 
