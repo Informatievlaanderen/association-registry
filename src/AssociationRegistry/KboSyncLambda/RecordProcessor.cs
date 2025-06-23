@@ -5,7 +5,9 @@ using Kbo;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 using SyncKbo;
+using System.Configuration;
 using Vereniging;
+using Wolverine;
 
 public class RecordProcessor
 {
@@ -15,12 +17,14 @@ public class RecordProcessor
         ILogger contextLogger,
         IVerenigingsRepository repository,
         CancellationToken cancellationToken,
-        TeSynchroniserenKboNummerMessage? message,
+        Envelope envelope,
         SyncKboCommandHandler handler)
     {
-        contextLogger.LogInformation($"Processing record: {message.KboNummer}");
+        var command = (TeSynchroniserenKboNummerMessage)envelope.Message!;
 
-        var syncKboCommand = new SyncKboCommand(KboNummer.Create(message.KboNummer));
+        contextLogger.LogInformation($"Processing record: {command.KboNummer}");
+
+        var syncKboCommand = new SyncKboCommand(KboNummer.Create(command.KboNummer));
         var commandMetadata = new CommandMetadata(Initiator, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(), null);
         var commandEnvelope = new CommandEnvelope<SyncKboCommand>(syncKboCommand, commandMetadata);
 
