@@ -1,4 +1,4 @@
-namespace AssociationRegistry.KboMutations.SyncLambda.Logging;
+namespace AssociationRegistry.KboMutations.SyncLambda.Configuration;
 
 public class PostgreSqlOptionsSection
 {

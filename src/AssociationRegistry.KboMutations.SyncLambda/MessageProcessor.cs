@@ -11,6 +11,7 @@ using KboSyncLambda.SyncKbo;
 using Logging;
 using Magda.Models;
 using Microsoft.Extensions.Logging;
+using Notifications;
 using System.Text.Json;
 using Vereniging;
 using Wolverine;

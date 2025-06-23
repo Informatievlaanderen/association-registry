@@ -1,4 +1,4 @@
-namespace AssociationRegistry.KboMutations.SyncLambda;
+namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 
 using Amazon.Lambda.Core;
 using Microsoft.Extensions.Configuration;
@@ -16,10 +16,6 @@ public class OpenTelemetrySetup : IDisposable
 {
     private readonly OpenTelemetryResources _resources;
     private OtlpConfigs _otlpConfigs;
-    private const string OtelAuthHeader = "OTEL_AUTH_HEADER";
-    private const string MetricsUri = "OTLP_METRICS_URI";
-    private const string TracingUri = "OTLP_TRACING_URI";
-    private const string OtlpLogsUri = "OTLP_LOGS_URI";
     public TracerProvider TracerProvider { get; }
     public MeterProvider MeterProvider { get; }
 
@@ -41,6 +37,7 @@ public class OpenTelemetrySetup : IDisposable
         var builder = Sdk.CreateMeterProviderBuilder()
                          .ConfigureResource(_resources.ConfigureResourceBuilder)
                          .AddMeter(MeterName)
+                         .AddMeter(KboSyncMetrics.MeterName)
                          .AddMeter("Marten")
                          .AddConsoleExporter()
                          .AddRuntimeInstrumentation()
@@ -51,10 +48,8 @@ public class OpenTelemetrySetup : IDisposable
             if (!string.IsNullOrEmpty(otlpConfig.Value.MetricsUri))
                 builder.AddOtlpExporter(options =>
                 {
-                    options.Endpoint =
-                        new Uri(otlpConfig.Value.MetricsUri);
-                    AddAuth(options, otlpConfig.Value.AuthHeader);
-                    AddOrgScope(options, Environment.GetEnvironmentVariable("OTLP_1__OrgId"));
+                    options.Endpoint = new Uri(otlpConfig.Value.MetricsUri);
+                    AddHeaders(options, otlpConfig.Value.AuthHeader, Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID"));
                 });
         }
 
@@ -75,7 +70,7 @@ public class OpenTelemetrySetup : IDisposable
                 builder.AddOtlpExporter(options =>
                 {
                     options.Endpoint = new Uri(otlpConfig.Value.TracingUri);
-                    AddAuth(options, otlpConfig.Value.AuthHeader);
+                    AddHeaders(options, otlpConfig.Value.AuthHeader, Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID"));
                 });
         }
 
@@ -96,8 +91,7 @@ public class OpenTelemetrySetup : IDisposable
                     options.AddOtlpExporter(exporterOptions =>
                     {
                         exporterOptions.Endpoint = new Uri(otlpConfig.Value.LogsUri);
-
-                        AddAuth(exporterOptions, otlpConfig.Value.AuthHeader);
+                        AddHeaders(exporterOptions, otlpConfig.Value.AuthHeader, Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID"));
                     });
             }
         });
@@ -131,29 +125,30 @@ public class OpenTelemetrySetup : IDisposable
                                      "Env '{Env}'",
                                      serviceName, assemblyVersion, serviceInstanceId, environment);
 
-        return  new OpenTelemetryResources(serviceName, configureResource);
+        return new OpenTelemetryResources(serviceName, configureResource);
     }
 
     public void Dispose()
     {
-        MeterProvider.ForceFlush();
+        // Note: ForceFlush now handled in Lambda's FlushAllTelemetryAsync method
+        // This is just for cleanup
         MeterProvider.Dispose();
-
-        TracerProvider.ForceFlush();
         TracerProvider.Dispose();
     }
 
-    private static void AddAuth(OtlpExporterOptions options, string authHeader)
+    private static void AddHeaders(OtlpExporterOptions options, string authHeader, string orgScope)
     {
-        if (!string.IsNullOrEmpty(authHeader))
-            options.Headers = $"Authorization={authHeader}";
-    }
+        var headersList = new List<string>();
 
-    private static void AddOrgScope(OtlpExporterOptions options, string orgScope)
-    {
+        if (!string.IsNullOrEmpty(authHeader))
+            headersList.Add($"Authorization={authHeader}");
+
         if (!string.IsNullOrEmpty(orgScope))
-            options.Headers = $"X-Scope-OrgID={orgScope}";
+            headersList.Add($"X-Scope-OrgID={orgScope}");
+
+        if (headersList.Any())
+            options.Headers = string.Join(",", headersList);
     }
 }
-public record OpenTelemetryResources(string ServiceName, Action<ResourceBuilder> ConfigureResourceBuilder);
 
+public record OpenTelemetryResources(string ServiceName, Action<ResourceBuilder> ConfigureResourceBuilder);
