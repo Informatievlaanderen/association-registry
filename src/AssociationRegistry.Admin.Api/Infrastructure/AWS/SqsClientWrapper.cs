@@ -29,6 +29,6 @@ public class SqsClientWrapper : ISqsClientWrapper
 
     public async Task QueueKboNummerToSynchronise(string kboNummer)
     {
-        await QueueMessage(new Envelope(new TeSynchroniserenKboNummerMessage(kboNummer)));
+        await QueueMessage(new TeSynchroniserenKboNummerMessage(kboNummer));
     }
 }
