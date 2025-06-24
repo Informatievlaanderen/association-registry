@@ -129,3 +129,6 @@ jobs:
       - deployment_scheduledtasks
       - deployment_lambdas
     uses: ./.github/workflows/MinimalPostmantests.yml        
+    secrets:
+      POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
