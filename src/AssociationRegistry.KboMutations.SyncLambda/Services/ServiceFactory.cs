@@ -43,8 +43,9 @@ public class ServiceFactory
 
         var messageProcessor = CreateMessageProcessor();
         var loggerFactory = CreateLoggerFactory();
-        var magdaOptions = await GetMagdaOptionsAsync(ssmClientWrapper, paramNamesConfiguration);
-        var store = await SetUpDocumentStoreAsync(ssmClientWrapper, paramNamesConfiguration);
+        var logger = loggerFactory.CreateLogger<ServiceFactory>();
+        var magdaOptions = await GetMagdaOptionsAsync(ssmClientWrapper, paramNamesConfiguration, logger);
+        var store = await SetUpDocumentStoreAsync(ssmClientWrapper, paramNamesConfiguration, logger);
         var repository = CreateRepository(store, loggerFactory);
         var geefOndernemingService = CreateGeefOndernemingService(store, magdaOptions, loggerFactory);
         var registreerInschrijvingService = CreateRegistreerInschrijvingService(store, magdaOptions, loggerFactory);
@@ -88,11 +89,20 @@ public class ServiceFactory
         });
     }
 
-    private async Task<MagdaOptionsSection> GetMagdaOptionsAsync(SsmClientWrapper ssmClient, ParamNamesConfiguration paramNamesConfiguration)
+    private async Task<MagdaOptionsSection> GetMagdaOptionsAsync(
+        SsmClientWrapper ssmClient,
+        ParamNamesConfiguration paramNamesConfiguration,
+        ILogger<ServiceFactory> logger)
     {
         var magdaOptions = _configuration.GetSection(MagdaOptionsSection.SectionName)
                                          .Get<MagdaOptionsSection>()
                         ?? throw new ArgumentException("Could not load MagdaOptions");
+
+        if (string.IsNullOrEmpty(paramNamesConfiguration.MagdaCertificate))
+        {
+            logger.LogInformation("Magda certificate parameter name is not set, skipping certificate retrieval.");
+            return magdaOptions;
+        }
 
         magdaOptions.ClientCertificate = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificate);
         magdaOptions.ClientCertificatePassword = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificatePassword);
@@ -100,7 +110,10 @@ public class ServiceFactory
         return magdaOptions;
     }
 
-    private async Task<DocumentStore> SetUpDocumentStoreAsync(SsmClientWrapper ssmClientWrapper, ParamNamesConfiguration paramNames)
+    private async Task<DocumentStore> SetUpDocumentStoreAsync(
+        SsmClientWrapper ssmClientWrapper,
+        ParamNamesConfiguration paramNames,
+        ILogger<ServiceFactory> logger)
     {
         var postgresSection = _configuration.GetSection(PostgreSqlOptionsSection.SectionName)
                                             .Get<PostgreSqlOptionsSection>()
@@ -108,6 +121,9 @@ public class ServiceFactory
 
         if (!postgresSection.IsComplete)
             throw new ApplicationException("PostgresSqlOptions is missing some values");
+
+        logger.LogInformation("Using PostgreSQL options: {Host}, {Database}",
+            postgresSection.Host, postgresSection.Database);
 
         var connectionString = await BuildConnectionStringAsync(postgresSection, ssmClientWrapper, paramNames);
         var opts = ConfigureStoreOptions(connectionString);

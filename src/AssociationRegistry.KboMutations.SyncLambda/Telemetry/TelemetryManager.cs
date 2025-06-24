@@ -11,15 +11,33 @@ public class TelemetryManager : IDisposable
     private OpenTelemetrySetup? _openTelemetrySetup;
     private readonly ILambdaLogger _logger;
 
+    private readonly string? _logsUri;
+    private readonly string? _orgId;
+    private readonly string? _metricsUri;
+    private readonly string? _tracesUri;
+
     public TelemetryManager(ILambdaLogger logger, IConfigurationRoot configuration)
     {
         _logger = logger;
+
+        _metricsUri = configuration["OTLP_METRICS_URI"];
+        _tracesUri = configuration["OTLP_TRACES_URI"];
+        _logsUri = configuration["OTLP_LOGS_URI"];
+        _orgId = configuration["OTLP_ORG_ID"];
+
+        _logger.LogInformation($"OTLP config - Metrics URI: {_metricsUri}");
+        _logger.LogInformation($"OTLP config - Traces URI: {_tracesUri}");
+        _logger.LogInformation($"OTLP config - Logs URI: {_logsUri}");
+        _logger.LogInformation($"OTLP config - Org ID: {_orgId}");
+
         _openTelemetrySetup = new OpenTelemetrySetup(logger, configuration);
+        _openTelemetrySetup.SetupMeter(_metricsUri, _orgId);
+        _openTelemetrySetup.SetUpTracing(_tracesUri, _orgId);
     }
 
     public void ConfigureLogging(ILoggingBuilder builder)
     {
-        _openTelemetrySetup?.SetUpLogging(builder);
+        _openTelemetrySetup?.SetUpLogging(_logsUri, _orgId, builder);
     }
 
     public async Task FlushAsync(ILambdaContext context)

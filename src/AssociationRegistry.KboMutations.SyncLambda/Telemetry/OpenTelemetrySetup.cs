@@ -16,111 +16,89 @@ public class OpenTelemetrySetup : IDisposable
 {
     private readonly OpenTelemetryResources _resources;
     private readonly ILambdaLogger _logger;
-    private OtlpConfigs _otlpConfigs;
-    public TracerProvider TracerProvider { get; }
-    public MeterProvider MeterProvider { get; }
+    public TracerProvider TracerProvider { get; private set; }
+    public MeterProvider MeterProvider { get; private set; }
 
     public const string MeterName = "kbomutations.sync.lambda.metrics";
 
     public OpenTelemetrySetup(ILambdaLogger contextLogger, IConfigurationRoot configuration)
     {
         _logger = contextLogger;
-        _otlpConfigs = new OtlpConfigs();
-        configuration.Bind(_otlpConfigs.Configs);
-
-        _logger.LogInformation($"Loaded {_otlpConfigs.Configs.Count} OTLP configurations");
+        _logger.LogInformation("OpenTelemetrySetup: Starting setup");
 
         _resources = GetResources(contextLogger);
 
-        MeterProvider = SetupMeter();
-        TracerProvider = SetUpTracing();
+
     }
 
-    public MeterProvider SetupMeter()
+    public MeterProvider SetupMeter(string? metricsUri, string? orgId)
     {
         var builder = Sdk.CreateMeterProviderBuilder()
                          .ConfigureResource(_resources.ConfigureResourceBuilder)
                          .AddMeter(MeterName)
                          .AddMeter(KboSyncMetrics.MeterName)
                          .AddMeter("Marten")
-                         .AddConsoleExporter()
                          .AddRuntimeInstrumentation()
                          .AddHttpClientInstrumentation();
 
-        foreach (var otlpConfig in _otlpConfigs.Configs)
+        if (!string.IsNullOrEmpty(metricsUri))
         {
-            if (!string.IsNullOrEmpty(otlpConfig.Value.MetricsUri))
+            _logger.LogInformation($"Adding OTLP metrics exporter: {metricsUri}");
+            builder.AddOtlpExporter(options =>
             {
-                _logger.LogInformation($"Configuring metrics endpoint {otlpConfig.Key}: {otlpConfig.Value.MetricsUri}");
+                options.Endpoint = new Uri(metricsUri);
+                options.Protocol = OtlpExportProtocol.HttpProtobuf;
 
-                builder.AddOtlpExporter(options =>
-                {
-                    options.Endpoint = new Uri(otlpConfig.Value.MetricsUri);
-                    options.Protocol = OtlpExportProtocol.HttpProtobuf;
+                AddHeaders(options, orgId);
 
-                    // Debug what we're getting
-                    var authHeader = otlpConfig.Value.AuthHeader;
-                    var orgId = Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID");
-
-                    _logger.LogInformation($"Metrics - Auth header: '{authHeader}'");
-                    _logger.LogInformation($"Metrics - OrgID from env: '{orgId}'");
-
-                    AddHeaders(options, authHeader, orgId);
-
-                    _logger.LogInformation($"Metrics - Final headers: '{options.Headers}'");
-                    _logger.LogInformation($"Metrics - Protocol: {options.Protocol}");
-                });
-            }
-            else
-            {
-                _logger.LogInformation($"Skipping metrics config {otlpConfig.Key} - no MetricsUri");
-            }
+                _logger.LogInformation($"Metrics - Endpoint: {options.Endpoint}");
+                _logger.LogInformation($"Metrics - Protocol: {options.Protocol}");
+                _logger.LogInformation($"Metrics - Headers: {options.Headers}");
+            });
+        }
+        else
+        {
+            _logger.LogInformation("No metrics URI configured, skipping OTLP metrics exporter");
         }
 
-        return builder.Build();
+        MeterProvider = builder.Build();
+
+        return MeterProvider;
     }
 
-    public TracerProvider SetUpTracing()
+    public TracerProvider SetUpTracing(string? tracesUri, string? orgId)
     {
         var builder = Sdk.CreateTracerProviderBuilder()
                          .AddHttpClientInstrumentation()
                          .AddNpgsql()
-                         .ConfigureResource(_resources.ConfigureResourceBuilder)
-                         .AddConsoleExporter();
+                         .ConfigureResource(_resources.ConfigureResourceBuilder);
 
-        foreach (var otlpConfig in _otlpConfigs.Configs)
+        if (!string.IsNullOrEmpty(tracesUri))
         {
-            if (!string.IsNullOrEmpty(otlpConfig.Value.TracingUri))
+            _logger.LogInformation($"Adding OTLP traces exporter: {tracesUri}");
+            builder.AddOtlpExporter(options =>
             {
-                _logger.LogInformation($"Configuring tracing endpoint {otlpConfig.Key}: {otlpConfig.Value.TracingUri}");
+                options.Endpoint = new Uri(tracesUri);
+                options.Protocol = OtlpExportProtocol.HttpProtobuf;
 
-                builder.AddOtlpExporter(options =>
-                {
-                    options.Endpoint = new Uri(otlpConfig.Value.TracingUri);
-                    options.Protocol = OtlpExportProtocol.HttpProtobuf;
+                AddHeaders(options, orgId);
 
-                    var authHeader = otlpConfig.Value.AuthHeader;
-                    var orgId = Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID");
-
-                    _logger.LogInformation($"Tracing - Auth header: '{authHeader}'");
-                    _logger.LogInformation($"Tracing - OrgID from env: '{orgId}'");
-
-                    AddHeaders(options, authHeader, orgId);
-
-                    _logger.LogInformation($"Tracing - Final headers: '{options.Headers}'");
-                    _logger.LogInformation($"Tracing - Protocol: {options.Protocol}");
-                });
-            }
-            else
-            {
-                _logger.LogInformation($"Skipping tracing config {otlpConfig.Key} - no TracingUri");
-            }
+                _logger.LogInformation($"Traces - Endpoint: {options.Endpoint}");
+                _logger.LogInformation($"Traces - Protocol: {options.Protocol}");
+                _logger.LogInformation($"Traces - Headers: {options.Headers}");
+            });
+        }
+        else
+        {
+            _logger.LogInformation("No traces URI configured, skipping OTLP traces exporter");
         }
 
-        return builder.Build();
+        TracerProvider = builder.Build();
+
+        return TracerProvider;
     }
 
-    public void SetUpLogging(ILoggingBuilder builder)
+    public void SetUpLogging(string? logsUri, string? orgId, ILoggingBuilder builder)
     {
         builder.AddOpenTelemetry(options =>
         {
@@ -128,33 +106,24 @@ public class OpenTelemetrySetup : IDisposable
             _resources.ConfigureResourceBuilder(resourceBuilder);
             options.SetResourceBuilder(resourceBuilder);
 
-            foreach (var otlpConfig in _otlpConfigs.Configs)
+            if (!string.IsNullOrEmpty(logsUri))
             {
-                if (!string.IsNullOrEmpty(otlpConfig.Value.LogsUri))
+                _logger.LogInformation($"Adding OTLP logs exporter: {logsUri}");
+                options.AddOtlpExporter(exporterOptions =>
                 {
-                    _logger.LogInformation($"Configuring logs endpoint {otlpConfig.Key}: {otlpConfig.Value.LogsUri}");
+                    exporterOptions.Endpoint = new Uri(logsUri);
+                    exporterOptions.Protocol = OtlpExportProtocol.HttpProtobuf;
 
-                    options.AddOtlpExporter(exporterOptions =>
-                    {
-                        exporterOptions.Endpoint = new Uri(otlpConfig.Value.LogsUri);
-                        exporterOptions.Protocol = OtlpExportProtocol.HttpProtobuf;
+                    AddHeaders(exporterOptions, orgId);
 
-                        var authHeader = otlpConfig.Value.AuthHeader;
-                        var orgId = Environment.GetEnvironmentVariable($"OTLP_{otlpConfig.Key.ToUpper()}__ORGID");
-
-                        _logger.LogInformation($"Logs - Auth header: '{authHeader}'");
-                        _logger.LogInformation($"Logs - OrgID from env: '{orgId}'");
-
-                        AddHeaders(exporterOptions, authHeader, orgId);
-
-                        _logger.LogInformation($"Logs - Final headers: '{exporterOptions.Headers}'");
-                        _logger.LogInformation($"Logs - Protocol: {exporterOptions.Protocol}");
-                    });
-                }
-                else
-                {
-                    _logger.LogInformation($"Skipping logs config {otlpConfig.Key} - no LogsUri");
-                }
+                    _logger.LogInformation($"Logs - Endpoint: {exporterOptions.Endpoint}");
+                    _logger.LogInformation($"Logs - Protocol: {exporterOptions.Protocol}");
+                    _logger.LogInformation($"Logs - Headers: {exporterOptions.Headers}");
+                });
+            }
+            else
+            {
+                _logger.LogInformation("No logs URI configured, skipping OTLP logs exporter");
             }
         });
     }
@@ -192,18 +161,13 @@ public class OpenTelemetrySetup : IDisposable
 
     public void Dispose()
     {
-        // Note: ForceFlush now handled in Lambda's FlushAllTelemetryAsync method
-        // This is just for cleanup
         MeterProvider.Dispose();
         TracerProvider.Dispose();
     }
 
-    private static void AddHeaders(OtlpExporterOptions options, string authHeader, string orgScope)
+    private static void AddHeaders(OtlpExporterOptions options, string? orgScope)
     {
         var headersList = new List<string>();
-
-        if (!string.IsNullOrEmpty(authHeader))
-            headersList.Add($"Authorization={authHeader}");
 
         if (!string.IsNullOrEmpty(orgScope))
             headersList.Add($"X-Scope-OrgID={orgScope}");

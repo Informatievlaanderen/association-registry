@@ -24,6 +24,7 @@ public class Function
 
     private static async Task FunctionHandler(SQSEvent @event, ILambdaContext context)
     {
+        context.Logger.LogInformation("Function started.");
         var configurationManager = new ConfigurationManager();
         var configuration = configurationManager.Build();
 
