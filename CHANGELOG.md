@@ -1,3 +1,10 @@
+# [8.254.0](https://github.com/informatievlaanderen/association-registry/compare/v8.253.0...v8.254.0) (2025-06-24)
+
+
+### Features
+
+* or-2862 change how otlp config is being loaded ([491220a](https://github.com/informatievlaanderen/association-registry/commit/491220ad0c8d51a7725c4cb4beb6f722f006c353))
+
 # [8.253.0](https://github.com/informatievlaanderen/association-registry/compare/v8.252.0...v8.253.0) (2025-06-24)
 
 
