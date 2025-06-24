@@ -1,3 +1,10 @@
+# [8.253.0](https://github.com/informatievlaanderen/association-registry/compare/v8.252.0...v8.253.0) (2025-06-24)
+
+
+### Features
+
+* or-2862 remove es health checks ([0c843b7](https://github.com/informatievlaanderen/association-registry/commit/0c843b79e840db72615e14db77d1f81df7d2e927))
+
 # [8.252.0](https://github.com/informatievlaanderen/association-registry/compare/v8.251.0...v8.252.0) (2025-06-23)
 
 
