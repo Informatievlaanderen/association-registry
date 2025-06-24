@@ -56,4 +56,5 @@ Thumbs.db
 
 crabimport-request-*.json
 structurizr-*.json
+scripts/*.zip
 scripts/kbo-sync-lambda-local.zip
