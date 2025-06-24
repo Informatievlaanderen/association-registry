@@ -124,4 +124,8 @@ jobs:
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
   call-postman-tests:
-    uses: ./.github/workflows/minimal-postman-tests.yml        
+    needs:
+      - deployment
+      - deployment_scheduledtasks
+      - deployment_lambdas
+    uses: ./.github/workflows/MinimalPostmantests.yml        
