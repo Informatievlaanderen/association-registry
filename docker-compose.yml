@@ -11,26 +11,71 @@ services:
       - vr-net
 
   localstack:
-    image: localstack/localstack
-    container_name: vr_localstack
-    ports:
-      - 127.0.0.1:4566:4566            # LocalStack Gateway
-      - 127.0.0.1:4510-4559:4510-4559  # external services port range
+    image: localstack/localstack:latest
     environment:
-      SERVICES: sqs,s3
-      DOCKER_HOST: unix:///var/run/docker.sock
-      DEFAULT_REGION: us-east-1
-      DEBUG: 1
-      PORT_WEB_UI: 8080
+      - SERVICES=lambda,sqs,s3,ssm,iam,events,logs
+      - LAMBDA_EXECUTOR=docker
     volumes:
-      - .localstack/init:/etc/localstack/init
-      - localstack-data:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock
+
+    ports:
+      - "4566:4566"
+    healthcheck:
+      test: [ "CMD", "awslocal", "ssm", "describe-parameters" ]
+      interval: 5s
+      retries: 12
+    networks:
+      - vr-net
+
+  # Build the Lambda first
+  lambda-builder:
+    image: mcr.microsoft.com/dotnet/sdk:8.0.300
+    volumes:
+      - .:/app
+      - lambda-artifacts:/artifacts
+      - ./scripts:/scripts
+    working_dir: /app
+    command: [ "/scripts/build-lambda.sh" ]
+    networks:
+      - vr-net
+
+  localstack-setup:
+    image: python:3.11-slim
+    depends_on:
+      localstack:
+        condition: service_healthy
+      lambda-builder:
+        condition: service_completed_successfully
+    volumes:
+      - ./scripts:/scripts
+      - lambda-artifacts:/artifacts
+    working_dir: /scripts
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - DEBIAN_FRONTEND=noninteractive
+    command: |
+      sh -c "
+        echo '📦 Installing dependencies...' &&
+        apt-get update -qq &&
+        apt-get install -y -qq curl unzip &&
+        echo '📦 Installing AWS CLI and awslocal...' &&
+        pip3 install --quiet awscli awscli-local &&
+        echo '🏗️  Setting up infrastructure...' &&
+        ./setup-queues.sh &&
+        ./setup-s3.sh &&
+        ./setup-ssm-parameters.sh &&
+        ./deploy-kbo-lambda.sh &&
+        echo '🎉 All done! Your Lambda is ready to go!' &&
+        echo '   LocalStack: http://localhost:4566'
+      "
     networks:
       - vr-net
 
   seq:
-    image: datalust/seq
+    image: datalust/seq:2025.2
     container_name: vr_seq
     restart: always
     ports:
@@ -52,11 +97,18 @@ services:
       ES_JAVA_OPTS: -Xms10g -Xmx10g
       discovery.type: single-node
       xpack.security.transport.ssl.enabled: false
+      xpack.security.http.ssl.enabled: false # Disable HTTP SSL for easier local dev
       cluster.routing.allocation.disk.watermark.low: 97%
       cluster.routing.allocation.disk.watermark.high: 98%
       cluster.routing.allocation.disk.watermark.flood_stage: 99%
     volumes:
       - es-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f -u elastic:local_development http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=10s || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
     networks:
       - vr-net
 
@@ -69,10 +121,15 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_MULTIPLE_DATABASES: verenigingsregister,fullblowne2e
       # you can drop PGOPTIONS here, and move lock_timeout into the command flags
-    # override the entrypoint to pass in both max_connections and lock_timeout
+      # override the entrypoint to pass in both max_connections and lock_timeout
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U root -d verenigingsregister" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     command: >
-      postgres
-      -c max_connections=200
+      postgres -c max_connections=200
     ports:
       - "5432:5432"
     volumes:
@@ -98,10 +155,9 @@ services:
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
-      - "4317:4317"   # OTLP gRPC receiver
+      - "4317:4317" # OTLP gRPC receiver
     networks:
       - vr-net
-
 
 volumes:
   pg-data:
@@ -109,6 +165,8 @@ volumes:
   es-data:
   seq-data:
   localstack-data:
+  lambda-artifacts:
+
 
 networks:
   vr-net:
