@@ -3,6 +3,11 @@ name: Minimal postman tests
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+      POSTMAN_API_KEY:
+        required: true
+      SLACK_WEBHOOK_URL:
+        required: true
 
 jobs:
   automated-api-tests:
