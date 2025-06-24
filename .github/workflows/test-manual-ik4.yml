@@ -123,3 +123,5 @@ jobs:
           echo build-uuid: ${{ steps.awscurl-polling-action.outputs.build-uuid }}
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
+  call-postman-tests:
+    uses: ./.github/workflows/minimal-postman-tests.yml        
