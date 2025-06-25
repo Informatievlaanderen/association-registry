@@ -1,4 +1,4 @@
-name: Manual Deploy To Staging (IK4)
+name: "[DEPLOY] Manual Deploy To Test"
 
 on:
   workflow_dispatch:
@@ -9,8 +9,8 @@ on:
 
 jobs:
   deployment:
-    name: Deploy services (Staging IK4)
-    environment: staging_ik4
+    name: Deploy services (Test IK4)
+    environment: test_ik4
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,11 +26,11 @@ jobs:
       - name: CD
         id: awscurl-polling-action
         env:
-          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/stg/deploy/v4
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/stg/deploy/v4/status
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/test/deploy/v4
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/test/deploy/v4/status
         uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
-          environment: staging
+          environment: test
           version: ${{ github.event.inputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
@@ -50,8 +50,8 @@ jobs:
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
 
   deployment_scheduledtasks:
-    name: Deploy scheduled tasks (Staging IK4)
-    environment: staging_ik4
+    name: Deploy scheduled tasks (Test IK4)
+    environment: test_ik4
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -64,11 +64,11 @@ jobs:
       - name: CD
         id: awscurl-polling-action
         env:
-          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/stg/deploy/v4
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/stg/deploy/v4/status
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/test/deploy/v4
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/test/deploy/v4/status
         uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
-          environment: staging
+          environment: test
           version: ${{ github.event.inputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
@@ -87,11 +87,9 @@ jobs:
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
 
-          deployment:
-    
   deployment_lambdas:
     name: Deploy lambdas
-    environment: staging_ik4
+    environment: test_ik4
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -103,11 +101,11 @@ jobs:
       - name: CD
         id: awscurl-polling-action
         env:
-          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/kbosync/stg/deploy/v4
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/kbosync/stg/deploy/v4/status
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/kbosync/test/deploy/v4
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/kbosync/test/deploy/v4/status
         uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
-          environment: stg
+          environment: test
           version: ${{ github.event.inputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
@@ -125,3 +123,13 @@ jobs:
           echo build-uuid: ${{ steps.awscurl-polling-action.outputs.build-uuid }}
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
+
+  call-postman-tests:
+    needs:
+      - deployment
+      - deployment_scheduledtasks
+      - deployment_lambdas
+    uses: ./.github/workflows/postman.minimal.yml
+    secrets:
+      POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -1,4 +1,4 @@
-name: AWS-CLI image push
+name: "[ADMIN] Push AWS-CLI image to ECR"
 
 on:
   workflow_dispatch:
@@ -82,3 +82,4 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_TST/amazon/aws-cli:${{github.event.inputs.version}}
         env:
           BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+

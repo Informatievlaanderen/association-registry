@@ -1,4 +1,4 @@
-name: Manual Deploy To Production (IK4)
+name: "[DEPLOY] Manual Deploy To Production"
 
 on:
   workflow_dispatch:
@@ -86,7 +86,7 @@ jobs:
           echo build-uuid: ${{ steps.awscurl-polling-action.outputs.build-uuid }}
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
-        
+
   deployment_lambdas:
     name: Deploy lambdas
     environment: production_ik4

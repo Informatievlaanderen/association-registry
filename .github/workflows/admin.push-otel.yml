@@ -1,4 +1,4 @@
-name: Otel image push
+name: "[ADMIN] Push OpenTelemetry collector image to ECR"
 
 on:
   workflow_dispatch:
