@@ -15,7 +15,22 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Run API tests
         run: |
-          postman collection run "34061079-b9019512-c4b9-4844-9e86-e70fc8d65a4a" -e "24467383-b7b1ecfe-ae6d-4ded-a378-db554a2bc155"
+          postman collection run "34061079-b9019512-c4b9-4844-9e86-e70fc8d65a4a" -e "24467383-b7b1ecfe-ae6d-4ded-a378-db554a2bc155" \
+            -r html,json \
+            --reporter-html-export test-report.html \
+            --reporter-json-export test-results.json
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-test-reports
+          path: |
+            test-report.html
+            test-results.json
+            postman-cli-reports/
+          retention-days: 30
+      
       - name: Notify Slack
         if: always()
         env:
