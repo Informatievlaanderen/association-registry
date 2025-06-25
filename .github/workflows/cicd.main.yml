@@ -1014,9 +1014,9 @@ jobs:
 
   call-postman-tests:
     needs:
-      - deployment
-      - deployment_scheduledtasks
-      - deployment_lambdas
+      - deploy_test_ik4
+      - deploy_test_scheduledtasks_ik4
+      - upload-sync-lambda
     uses: ./.github/workflows/postman.minimal.yml
     secrets:
       POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
