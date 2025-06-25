@@ -1,4 +1,4 @@
-name: Nightly Build
+name: "[CICD] Nightly Build"
 
 on:
   workflow_dispatch:
@@ -25,7 +25,7 @@ jobs:
 
   build-acm-api:
     name: Build ACM Api
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
@@ -45,7 +45,7 @@ jobs:
 
   build-public-api:
     name: Build Public Api
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
@@ -65,7 +65,7 @@ jobs:
 
   build-public-projections:
     name: Build Public Projections
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
@@ -84,7 +84,7 @@ jobs:
 
   build-admin-api:
     name: Build Admin Api
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
@@ -104,7 +104,7 @@ jobs:
 
   build-admin-projections:
     name: Build Admin Projections
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
@@ -123,7 +123,7 @@ jobs:
 
   build-admin-address-sync:
     name: Build Admin Address Sync Scheduled Task
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
@@ -143,7 +143,7 @@ jobs:
 
   build-powerbi-exporthost:
     name: Build PowerBI Export Scheduled Task
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:

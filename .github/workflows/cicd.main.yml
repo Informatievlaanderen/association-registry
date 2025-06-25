@@ -1,4 +1,4 @@
-name: Main
+name: "[CICD] Main"
 
 on:
   push:
@@ -152,7 +152,7 @@ jobs:
 
   run-unit-tests:
     name: Domain
-    uses: ./.github/workflows/run-tests.yml
+    uses: ./.github/workflows/shared.run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     with:
       test-project: AssociationRegistry.Test
@@ -166,7 +166,7 @@ jobs:
 
   run-acm-tests:
     name: ACM
-    uses: ./.github/workflows/run-tests.yml
+    uses: ./.github/workflows/shared.run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     with:
       test-project: AssociationRegistry.Test.Acm.Api
@@ -181,7 +181,7 @@ jobs:
 
   build-acm-api:
     name: ACM
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version, run-acm-tests ]
     with:
@@ -200,7 +200,7 @@ jobs:
 
   run-public-tests:
     name: Public Api
-    uses: ./.github/workflows/run-tests.yml
+    uses: ./.github/workflows/shared.run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     with:
       test-project: AssociationRegistry.Test.Public.Api
@@ -215,7 +215,7 @@ jobs:
 
   build-public-api:
     name: Public Api
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version, run-public-tests ]
     with:
@@ -234,7 +234,7 @@ jobs:
 
   build-public-projections:
     name: Public Projections
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version, run-public-tests ]
     with:
@@ -253,7 +253,7 @@ jobs:
 
   run-admin-tests:
     name: Admin Api
-    uses: ./.github/workflows/run-tests.yml
+    uses: ./.github/workflows/shared.run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     with:
       test-project: AssociationRegistry.Test.Admin.Api
@@ -351,7 +351,7 @@ jobs:
 
   run-address-sync-tests:
     name: Address Sync
-    uses: ./.github/workflows/run-tests.yml
+    uses: ./.github/workflows/shared.run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     with:
       test-project: AssociationRegistry.Test.Admin.AddressSync
@@ -366,7 +366,7 @@ jobs:
 
   build-admin-address-sync:
     name: Address Sync
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version, run-address-sync-tests ]
     with:
@@ -385,7 +385,7 @@ jobs:
 
   run-powerbi-tests:
     name: PowerBi
-    uses: ./.github/workflows/run-tests.yml
+    uses: ./.github/workflows/shared.run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     with:
       test-project: AssociationRegistry.Test.PowerBi.ExportHost
@@ -400,7 +400,7 @@ jobs:
 
   build-powerbi-exporthost:
     name: Build PowerBI Export Scheduled Task
-    uses: ./.github/workflows/build-image.yml
+    uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version, run-powerbi-tests ]
     with:
@@ -473,7 +473,7 @@ jobs:
 
   run-e2e-tests:
     name: E2E
-    uses: ./.github/workflows/run-tests.yml
+    uses: ./.github/workflows/shared.run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     with:
       test-project: AssociationRegistry.Test.E2E
@@ -488,7 +488,7 @@ jobs:
 
   run-projections-tests:
     name: Projections
-    uses: ./.github/workflows/run-tests.yml
+    uses: ./.github/workflows/shared.run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     with:
       test-project: AssociationRegistry.Test.Projections
@@ -1011,3 +1011,13 @@ jobs:
             ${{ steps.construct_message.outputs.mentions }} Please check the build failure.
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+  call-postman-tests:
+    needs:
+      - deployment
+      - deployment_scheduledtasks
+      - deployment_lambdas
+    uses: ./.github/workflows/postman.minimal.yml
+    secrets:
+      POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

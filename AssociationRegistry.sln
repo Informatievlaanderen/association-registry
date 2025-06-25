@@ -32,25 +32,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{75DFC6A3-90CB-4041-B122-8546DCD4D7F6}"
 	ProjectSection(SolutionItems) = preProject
-		.github\dependabot.yml = .github\dependabot.yml
 		.github\CODEOWNERS = .github\CODEOWNERS
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{11DA6C2C-FBC0-4537-A4F8-2C7F546BB8CA}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\main.yml = .github\workflows\main.yml
-		.github\workflows\pre-merge-tests.yml = .github\workflows\pre-merge-tests.yml
-		.github\workflows\build-image.yml = .github\workflows\build-image.yml
-		.github\workflows\otel.yml = .github\workflows\otel.yml
-		.github\workflows\awscli.yml = .github\workflows\awscli.yml
-		.github\workflows\test-manual-ik4.yml = .github\workflows\test-manual-ik4.yml
-		.github\workflows\build-nightly.yml = .github\workflows\build-nightly.yml
-		.github\workflows\staging-manual-ik4.yml = .github\workflows\staging-manual-ik4.yml
-		.github\workflows\production-manual-ik4.yml = .github\workflows\production-manual-ik4.yml
-		.github\workflows\nuget-publish.yml = .github\workflows\nuget-publish.yml
-		.github\workflows\hotfix.yml = .github\workflows\hotfix.yml
-		.github\workflows\run-tests.yml = .github\workflows\run-tests.yml
-		.github\workflows\manual-lambda.yml = .github\workflows\manual-lambda.yml
+		.github\workflows\admin.push-awscli.yml = .github\workflows\admin.push-awscli.yml
+		.github\workflows\admin.push-otel.yml = .github\workflows\admin.push-otel.yml
+		.github\workflows\cicd.main.yml = .github\workflows\cicd.main.yml
+		.github\workflows\cicd.nightly.yml = .github\workflows\cicd.nightly.yml
+		.github\workflows\cicd.pull-request.yml = .github\workflows\cicd.pull-request.yml
+		.github\workflows\deploy.hotfix.yml = .github\workflows\deploy.hotfix.yml
+		.github\workflows\deploy.manual.kbo-lambdas.yml = .github\workflows\deploy.manual.kbo-lambdas.yml
+		.github\workflows\deploy.manual.prd.yml = .github\workflows\deploy.manual.prd.yml
+		.github\workflows\deploy.manual.stg.yml = .github\workflows\deploy.manual.stg.yml
+		.github\workflows\deploy.manual.tst.yml = .github\workflows\deploy.manual.tst.yml
+		.github\workflows\postman.full.yml = .github\workflows\postman.full.yml
+		.github\workflows\postman.minimal.yml = .github\workflows\postman.minimal.yml
+		.github\workflows\shared.build-image.yml = .github\workflows\shared.build-image.yml
+		.github\workflows\shared.run-tests.yml = .github\workflows\shared.run-tests.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Public.Api", "src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj", "{EC780706-D1C5-46DA-A9EA-1691E3C5052A}"

@@ -1,4 +1,4 @@
-name: Automated API tests using Postman CLI
+name: "[POSTMAN] Full Regression Suite"
 
 on:
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
             test-results.json
             postman-cli-reports/
           retention-days: 30
-      
+
       - name: Notify Slack
         if: always()
         env:

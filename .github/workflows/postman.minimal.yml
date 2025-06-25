@@ -1,4 +1,4 @@
-name: Minimal postman tests
+name: "[POSTMAN] Minimal Suite"
 
 on:
   workflow_dispatch:
