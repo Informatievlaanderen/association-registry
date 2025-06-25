@@ -1,4 +1,4 @@
-?name: "[SHARED] Run tests"
+name: "[SHARED] Run tests"
 
 on:
   workflow_call:
