@@ -15,6 +15,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -26,35 +27,44 @@ using Xunit;
 
 public class With_Locatie_With_AdresId
 {
+    private VerenigingRepositoryMock _verenigingRepositoryMock;
+    private InMemorySequentialVCodeService _vCodeService;
+    private ClockStub _clock;
+    private Mock<IGrarClient> _grarClient;
+    private Mock<IMartenOutbox> _martenOutbox;
+
+    public With_Locatie_With_AdresId()
+    {
+        var faktory = Faktory.New();
+        var fixture = new Fixture().CustomizeAdminApi();
+        _verenigingRepositoryMock = faktory.VerenigingsRepository.Mock();
+        _vCodeService = new InMemorySequentialVCodeService();
+        _clock = faktory.Clock.Stub(fixture.Create<DateOnly>());
+        _grarClient = new Mock<IGrarClient>();
+        _martenOutbox = new Mock<IMartenOutbox>();
+
+        const string naam = "De sjiekste club";
+
+        var registreerCommand = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>();
+
+        _grarClient.Setup(s => s.GetAddressById(locatie.AdresId.ToString(), It.IsAny<CancellationToken>()))
+                  .ReturnsAsync(adresDetailResponses);
+
+
+    }
+
     [Fact]
     public void Then_it_saves_the_event()
     {
-        var verenigingRepositoryMock = new VerenigingRepositoryMock();
-        var vCodeService = new InMemorySequentialVCodeService();
-        const string naam = "De sjiekste club";
 
-        var grarClient = new Mock<IGrarClient>();
-        var martenOutbox = new Mock<IMartenOutbox>();
 
-        var fixture = new Fixture().CustomizeAdminApi();
-        var today = fixture.Create<DateOnly>();
 
-        var clock = new ClockStub(today);
 
-        var locatie = fixture.Create<Locatie>() with
-        {
-            LocatieId = Locatie.IdNotSet, // user does not pass this in, so we set it to 0
-            AdresId = fixture.Create<AdresId>(),
-        };
 
-        var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
-        {
-            AdresId = new Registratiedata.AdresId(locatie.AdresId.Adresbron.Code, locatie.AdresId.Bronwaarde),
-            IsActief = true,
-        };
 
-        grarClient.Setup(s => s.GetAddressById(locatie.AdresId.ToString(), It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(adresDetailResponse);
+
+
+
 
         var geotag = new Geotag("BE32");
         var geotags = new[]

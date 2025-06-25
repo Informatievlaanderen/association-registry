@@ -53,6 +53,10 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
     {
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} start");
 
+        // Get adres detail for each locatie adres with adres id
+        // append locaties to command.locatie
+
+
         var command = message.Command;
 
         if (!command.SkipDuplicateDetection)
