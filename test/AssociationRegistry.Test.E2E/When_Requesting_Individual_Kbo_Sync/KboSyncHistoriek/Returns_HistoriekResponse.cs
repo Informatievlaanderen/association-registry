@@ -29,7 +29,7 @@ public class Returns_KboSyncHistoriekResponse : End2EndTest<KboSyncHistoriekResp
     public override KboSyncHistoriekResponse GetResponse(FullBlownApiSetup setup)
         => setup.AdminApiHost.GetKboSyncHistoriek(setup.SuperAdminHttpClient ,_testContext.VCode, outputHelper: _outputHelper).GetAwaiter().GetResult();
 
-    [Fact]
+    [Fact(Skip = "Wait until we have a REAL record in the kbo event stream")]
     public void With_VCode()
     {
         Response.Where(x => x.VCode == _testContext.VCode)
