@@ -70,7 +70,8 @@ public static class AdminApiEndpoints
         RequestParameters? headers = null)
         => SmartHttpClient
           .Create(source, authenticatedClient, headers)
-          .GetWithRetryAsync<ProblemDetails>($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}")
+          .GetWithRetryUntilAsync<ProblemDetails>($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}",
+                                                  responseMeetsCriteria: message => message.StatusCode != HttpStatusCode.PreconditionFailed)
           .GetAwaiter()
           .GetResult();
 
