@@ -15,7 +15,7 @@ using Xunit;
 
 public class Given_KboSyncHandler_Return_A_Null_CommandResult
 {
-    [Fact]
+    [Fact(Skip = "We're going to trial not doing this anymore, and use metrics instead")]
     public async ValueTask Then_Nothing()
     {
         var fixture = new Fixture().CustomizeDomain();
@@ -34,7 +34,7 @@ public class Given_KboSyncHandler_Return_A_Null_CommandResult
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString() == "Sync resulted in nothing to sync."),
+                It.Is<It.IsAnyType>((v, t) => v.ToString() == "No vereniging found for KBO number"),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
