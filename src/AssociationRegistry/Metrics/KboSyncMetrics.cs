@@ -82,11 +82,9 @@ public static class KboSyncMetrics
         {
             _completed = true;
 
-            if (_vCode != null)
-            {
-                var vcodeTags = new TagList([new(SyncLabels.VCode, _vCode)]);
-                KboSyncMetrics.Failures.Add(1, vcodeTags);
-            }
+
+            var vcodeTags = new TagList([new(SyncLabels.VCode, _vCode)]);
+            KboSyncMetrics.Failures.Add(1, vcodeTags);
         }
 
         public void Succeed()
