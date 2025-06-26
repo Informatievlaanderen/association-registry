@@ -103,6 +103,7 @@ else
           --environment Variables='{
             ASPNETCORE_ENVIRONMENT=Development,
             AWS_ENDPOINT_URL=http://localstack:4566,
+            OTLP_LOGS_URI=http://seq/ingest/otlp/v1/logs
             AWS_REGION=us-east-1,
             ParamNames__MagdaCertificate=ParamNames__MagdaCertificate,
             ParamNames__MagdaCertificatePassword=ParamNames__MagdaCertificatePassword,
