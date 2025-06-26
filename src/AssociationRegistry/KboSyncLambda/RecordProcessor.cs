@@ -28,8 +28,6 @@ public class RecordProcessor
 
         if (commandResult is null)
         {
-            contextLogger.LogInformation("Sync resulted in nothing to sync.");
-
             return;
         }
 

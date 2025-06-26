@@ -93,7 +93,6 @@ public class With_Locatie_With_AdresId
 
 
 
-
         var commandHandler =
             new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(verenigingRepositoryMock,
                                                                                    vCodeService,
