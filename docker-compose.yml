@@ -30,6 +30,8 @@ services:
   # Build the Lambda first
   lambda-builder:
     image: mcr.microsoft.com/dotnet/sdk:8.0.300
+    profiles:
+      - kbo-sync-lambdas
     volumes:
       - .:/app
       - lambda-artifacts:/artifacts
@@ -41,6 +43,8 @@ services:
 
   localstack-setup:
     image: python:3.11-slim
+    profiles:
+      - kbo-sync-lambdas
     depends_on:
       localstack:
         condition: service_healthy
