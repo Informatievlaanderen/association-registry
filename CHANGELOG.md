@@ -1,3 +1,12 @@
+# [8.255.0](https://github.com/informatievlaanderen/association-registry/compare/v8.254.1...v8.255.0) (2025-06-26)
+
+
+### Features
+
+* or-2862 allow kbo sync lambda to run locally ([9fda6ff](https://github.com/informatievlaanderen/association-registry/commit/9fda6ffda43b441c025cb5a7c052ebbf88dc1c64))
+* or-2862 clean up kbo sync metrics ([972d970](https://github.com/informatievlaanderen/association-registry/commit/972d970d1576fae1fb84916095ffcfbd93ee598e))
+* or-2862 record failure even without vcode ([3a18f58](https://github.com/informatievlaanderen/association-registry/commit/3a18f58de49c845cc77dd9f9960cde8f83f2e7b8))
+
 ## [8.254.1](https://github.com/informatievlaanderen/association-registry/compare/v8.254.0...v8.254.1) (2025-06-25)
 
 # [8.254.0](https://github.com/informatievlaanderen/association-registry/compare/v8.253.0...v8.254.0) (2025-06-24)
