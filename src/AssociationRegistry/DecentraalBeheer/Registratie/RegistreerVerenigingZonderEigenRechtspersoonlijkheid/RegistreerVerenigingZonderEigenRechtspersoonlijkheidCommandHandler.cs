@@ -11,7 +11,9 @@ using Marten;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using Vereniging.Geotags;
+using Wolverine;
 using Wolverine.Marten;
+using Wolverine.Runtime;
 
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 {
@@ -49,6 +51,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 
     public async Task<Result> Handle(
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> message,
+        EnrichedCommand enrichedCommand,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} start");
@@ -87,3 +90,176 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         return Result.Success(CommandResult.Create(vereniging.VCode, result));
     }
 }
+
+public class GrarAddressEnrichmentMiddleware
+{
+    private readonly IGrarClient _grarClient;
+    private readonly ILogger<GrarAddressEnrichmentMiddleware> _logger;
+
+    public GrarAddressEnrichmentMiddleware(IGrarClient grarClient, ILogger<GrarAddressEnrichmentMiddleware> logger)
+    {
+        _grarClient = grarClient;
+        _logger = logger;
+    }
+
+    public async Task<EnrichedCommand> Before(
+        CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> command)
+    {
+        _logger.LogInformation("Enriching command {CommandType} with GRAR address data",
+                               typeof(CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>).Name);
+
+        var enrichedLocaties = new List<Locatie>();
+
+        foreach (var locatie in command.Command.Locaties)
+        {
+            if (locatie.Adres is not null)
+            {
+                enrichedLocaties.Add(locatie);
+
+                continue;
+            }
+
+            try
+            {
+                var adresDetails = await _grarClient.GetAddressById(locatie.AdresId.Bronwaarde, CancellationToken.None);
+
+                // Create enriched locatie with address detail
+
+                enrichedLocaties.Add(locatie with
+                {
+                    Adres = Adres.Create(adresDetails.Straatnaam,
+                                         adresDetails.Huisnummer,
+                                         adresDetails.Busnummer,
+                                         adresDetails.Postcode,
+                                         adresDetails.Gemeente,
+                                         Adres.België)
+                });
+
+                _logger.LogDebug("Enriched locatie {LocatieId} with address {Adres}",
+                                 locatie.LocatieId, $"{adresDetails.Straatnaam} {adresDetails.Huisnummer}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to enrich locatie {LocatieId} with AdresId {AdresId}",
+                                   locatie.LocatieId, locatie.AdresId);
+
+                // Keep original locatie if enrichment fails
+                enrichedLocaties.Add(locatie);
+            }
+        }
+
+        return new EnrichedCommand(command, enrichedLocaties.ToArray());
+    }
+}
+public static class AccountLookupMiddleware
+{
+    // The message *has* to be first in the parameter list
+    // Before or BeforeAsync tells Wolverine this method should be called before the actual action
+    public static async Task<EnrichedCommand> BeforeAsync(
+        CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> command, IGrarClient _grarClient)
+    {
+
+        var enrichedLocaties = new List<Locatie>();
+
+        foreach (var locatie in command.Command.Locaties)
+        {
+            if (locatie.Adres is not null)
+            {
+                enrichedLocaties.Add(locatie);
+
+                continue;
+            }
+
+            try
+            {
+                var adresDetails = await _grarClient.GetAddressById(locatie.AdresId.Bronwaarde, CancellationToken.None);
+
+                // Create enriched locatie with address detail
+
+                enrichedLocaties.Add(locatie with
+                {
+                    Adres = Adres.Create(adresDetails.Straatnaam,
+                                         adresDetails.Huisnummer,
+                                         adresDetails.Busnummer,
+                                         adresDetails.Postcode,
+                                         adresDetails.Gemeente,
+                                         Adres.België)
+                });
+
+            }
+            catch (Exception ex)
+            {
+
+                // Keep original locatie if enrichment fails
+                enrichedLocaties.Add(locatie);
+            }
+        }
+
+        return  new EnrichedCommand(command, enrichedLocaties.ToArray());
+
+    }
+}
+
+// public static class AccountLookupMiddleware
+// {
+//     // The message *has* to be first in the parameter list
+//     // Before or BeforeAsync tells Wolverine this method should be called before the actual action
+//     public static async Task<(HandlerContinuation, EnrichedCommand?, OutgoingMessages)> BeforeAsync(
+//         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> command,
+//         ILogger logger,
+//
+//         // This app is using Marten for persistence
+// IGrarClient _grarClient,
+//         ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> _logger,
+//         CancellationToken cancellation)
+//     {
+//         _logger.LogInformation("Enriching command {CommandType} with GRAR address data",
+//                                typeof(CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>).Name);
+//
+//         var enrichedLocaties = new List<Locatie>();
+//
+//         foreach (var locatie in command.Command.Locaties)
+//         {
+//             if (locatie.Adres is not null)
+//             {
+//                 enrichedLocaties.Add(locatie);
+//
+//                 continue;
+//             }
+//
+//             try
+//             {
+//                 var adresDetails = await _grarClient.GetAddressById(locatie.AdresId.Bronwaarde, CancellationToken.None);
+//
+//                 // Create enriched locatie with address detail
+//
+//                 enrichedLocaties.Add(locatie with
+//                 {
+//                     Adres = Adres.Create(adresDetails.Straatnaam,
+//                                          adresDetails.Huisnummer,
+//                                          adresDetails.Busnummer,
+//                                          adresDetails.Postcode,
+//                                          adresDetails.Gemeente,
+//                                          Adres.België)
+//                 });
+//
+//                 _logger.LogDebug("Enriched locatie {LocatieId} with address {Adres}",
+//                                  locatie.LocatieId, $"{adresDetails.Straatnaam} {adresDetails.Huisnummer}");
+//             }
+//             catch (Exception ex)
+//             {
+//                 _logger.LogWarning(ex, "Failed to enrich locatie {LocatieId} with AdresId {AdresId}",
+//                                    locatie.LocatieId, locatie.AdresId);
+//
+//                 // Keep original locatie if enrichment fails
+//                 enrichedLocaties.Add(locatie);
+//             }
+//         }
+//
+//         return (HandlerContinuation.Continue, new EnrichedCommand(command, enrichedLocaties.ToArray()), new OutgoingMessages());
+//
+//     }
+// }
+
+public record EnrichedCommand(CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> Command, Locatie[] Locaties);
+

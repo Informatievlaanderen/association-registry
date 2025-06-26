@@ -1,12 +1,15 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Amazon.Runtime;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using EventStore;
+using Framework;
 using Grar.Clients;
 using Grar.GrarConsumer.Messaging;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
+using JasperFx.Core.Reflection;
 using Kbo;
 using MessageHandling.Postgres.Dubbels;
 using MessageHandling.Sqs.AddressMatch;
@@ -15,8 +18,11 @@ using Serilog;
 using Vereniging;
 using Wolverine;
 using Wolverine.AmazonSqs;
+using Wolverine.Configuration;
 using Wolverine.ErrorHandling;
 using Wolverine.Postgresql;
+
+
 
 public static class WolverineExtensions
 {
@@ -35,12 +41,18 @@ public static class WolverineExtensions
                 options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessage>();
                 options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessageHandler>();
 
+                options.Discovery.IncludeType<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>();
+
                 options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
                     TimeSpan.FromSeconds(1),
                     TimeSpan.FromSeconds(2),
                     TimeSpan.FromSeconds(3),
                     TimeSpan.FromSeconds(5)
                 );
+
+                options.Policies.ForMessagesOfType<CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>>()
+                    .AddMiddleware(typeof(AccountLookupMiddleware));
+
 
                 var grarOptions = context.Configuration.GetGrarOptions();
 
