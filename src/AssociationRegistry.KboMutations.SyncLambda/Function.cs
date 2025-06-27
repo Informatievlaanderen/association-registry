@@ -52,11 +52,11 @@ public class Function
         {
             context.Logger.LogError(e, e.Message);
             await telemetryManager.FlushAsync(context);
-            await Log.CloseAndFlushAsync();
             throw;
         }
         finally
         {
+            await Log.CloseAndFlushAsync();
             await telemetryManager.FlushAsync(context);
         }
     }

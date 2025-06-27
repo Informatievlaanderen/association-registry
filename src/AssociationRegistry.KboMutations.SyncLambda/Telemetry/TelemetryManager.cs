@@ -1,6 +1,7 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 
 using Amazon.Lambda.Core;
+using Humanizer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Metrics;
@@ -46,8 +47,8 @@ public class TelemetryManager : IDisposable
 
         try
         {
-            var remainingTime = context.RemainingTime.Subtract(TimeSpan.FromMilliseconds(500));
-            var maxFlushTime = TimeSpan.FromMilliseconds(Math.Min(remainingTime.TotalMilliseconds, 5000));
+            var remainingTime = context.RemainingTime.Subtract(5.Seconds());
+            var maxFlushTime = TimeSpan.FromMilliseconds(Math.Min(remainingTime.TotalMilliseconds, 5.Seconds().Milliseconds));
 
             _logger.LogInformation($"Flushing OpenTelemetry data with timeout: {maxFlushTime.TotalMilliseconds}ms");
 
