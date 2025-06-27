@@ -3,7 +3,7 @@
 using Clients;
 using EventFactories;
 using Events;
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 using Vereniging;
 
 public class AdresMatchService

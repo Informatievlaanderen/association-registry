@@ -3,7 +3,7 @@
 using Events;
 using Exceptions;
 using Framework;
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 using Grar.Models;
 
 public record Locatie

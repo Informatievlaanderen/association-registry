@@ -1,6 +1,6 @@
-namespace AssociationRegistry.GemeentenaamDecorator;
+namespace AssociationRegistry.GemeentenaamVerrijking;
 
-using AssociationRegistry.Grar.Models.PostalInfo;
+using Grar.Models.PostalInfo;
 using Vereniging;
 
 public record VerrijkteGemeentenaam

@@ -2,7 +2,7 @@
 
 using Schema.Search;
 using DuplicateVerenigingDetection;
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 using Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;

@@ -53,4 +53,7 @@ public record AdresId : IAdresId
 
     public override string ToString()
         => new Uri(Bronwaarde).Segments.Last();
+
+    public string ToId()
+        => new Uri(Bronwaarde).Segments.Last();
 }

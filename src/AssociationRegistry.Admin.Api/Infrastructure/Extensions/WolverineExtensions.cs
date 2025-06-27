@@ -1,7 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Amazon.Runtime;
+using AssociationRegistry.Middleware;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using EventStore;
+using Framework;
 using Grar.Clients;
 using Grar.GrarConsumer.Messaging;
 using Hosts.Configuration;
@@ -41,6 +44,9 @@ public static class WolverineExtensions
                     TimeSpan.FromSeconds(3),
                     TimeSpan.FromSeconds(5)
                 );
+
+                options.Policies.ForMessagesOfType<CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>>()
+                       .AddMiddleware(typeof(EnrichLocatiesMiddleware));
 
                 var grarOptions = context.Configuration.GetGrarOptions();
 

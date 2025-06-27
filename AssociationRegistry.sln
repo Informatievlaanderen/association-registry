@@ -108,6 +108,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mappings", "mappings", "{9E
 		wiremock\mappings\PostalInformation.9200.json = wiremock\mappings\PostalInformation.9200.json
 		wiremock\mappings\PostalInformation.fallback.json = wiremock\mappings\PostalInformation.fallback.json
 		wiremock\mappings\AdresMatch.exact-match-hekelgem.json = wiremock\mappings\AdresMatch.exact-match-hekelgem.json
+		wiremock\mappings\AdresDetail.861019.json = wiremock\mappings\AdresDetail.861019.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Magda", "src\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj", "{85139412-485D-4B23-8423-A0C2021B60DE}"
@@ -183,6 +184,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.KboMutations.SyncLambda", "src\AssociationRegistry.KboMutations.SyncLambda\AssociationRegistry.KboMutations.SyncLambda.csproj", "{2308A676-88B6-4943-877B-DE5E4BB19CAD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.KboMutations", "src\AssociationRegistry.KboMutations\AssociationRegistry.KboMutations.csproj", "{AF502331-FD6D-4D2D-A1B0-ECBAA92D090D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdresDetail", "AdresDetail", "{6E2B754D-803C-4874-8088-5C106E53C400}"
+	ProjectSection(SolutionItems) = preProject
+		wiremock\__files\AdresDetail\861019.json = wiremock\__files\AdresDetail\861019.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -334,5 +340,6 @@ Global
 		{F133FB97-C071-4CB8-91C4-F938497DB3A3} = {C812C887-6495-405A-8B99-4F686D243126}
 		{2308A676-88B6-4943-877B-DE5E4BB19CAD} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{AF502331-FD6D-4D2D-A1B0-ECBAA92D090D} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
+		{6E2B754D-803C-4874-8088-5C106E53C400} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 	EndGlobalSection
 EndGlobal

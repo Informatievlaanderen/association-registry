@@ -12,6 +12,7 @@ using AutoFixture;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
+using AdresId = Admin.Api.Verenigingen.Common.AdresId;
 
 public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
 {
@@ -82,18 +83,14 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Speeltuin",
-                    Adres = new Adres
+                    AdresId = new AdresId()
                     {
-                        Straatnaam = "dorpelstraat",
-                        Huisnummer = "169",
-                        Busnummer = "2",
-                        Postcode = "1502",
-                        Gemeente = "Lembeek",
-                        Land = "België",
+                        Bronwaarde = "https://data.vlaanderen.be/id/adres/861019",
+                        Broncode = "AR",
                     },
                     IsPrimair = false,
                     Locatietype = Locatietype.Activiteiten,
-                },
+                }
             ],
             Vertegenwoordigers =
             [

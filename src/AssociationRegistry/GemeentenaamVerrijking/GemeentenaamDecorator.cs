@@ -1,7 +1,7 @@
-namespace AssociationRegistry.GemeentenaamDecorator;
+namespace AssociationRegistry.GemeentenaamVerrijking;
 
-using AssociationRegistry.Grar.Models.PostalInfo;
-using AssociationRegistry.Vereniging;
+using Grar.Models.PostalInfo;
+using Vereniging;
 
 public static class GemeentenaamDecorator
 {
