@@ -43,6 +43,38 @@ services:
 
   localstack-setup:
     image: python:3.11-slim
+    depends_on:
+      localstack:
+        condition: service_healthy
+    volumes:
+      - ./scripts:/scripts
+      - lambda-artifacts:/artifacts
+    working_dir: /scripts
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - DEBIAN_FRONTEND=noninteractive
+    command: |
+      sh -c "
+        echo '📦 Installing dependencies...' &&
+        apt-get update -qq &&
+        apt-get install -y -qq curl unzip &&
+        echo '📦 Installing AWS CLI and awslocal...' &&
+        pip3 install --quiet awscli awscli-local &&
+        echo '🏗️  Setting up infrastructure...' &&
+        ./setup-queues.sh &&
+        ./setup-s3.sh &&
+        ./setup-ssm-parameters.sh &&
+        echo '🎉 All done! Your Lambda is ready to go!' &&
+        echo '   LocalStack: http://localhost:4566'
+      "
+    networks:
+      - vr-net
+
+  localstack-lambda-setup:
+    image: python:3.11-slim
     profiles:
       - kbo-sync-lambdas
     depends_on:
@@ -68,9 +100,6 @@ services:
         echo '📦 Installing AWS CLI and awslocal...' &&
         pip3 install --quiet awscli awscli-local &&
         echo '🏗️  Setting up infrastructure...' &&
-        ./setup-queues.sh &&
-        ./setup-s3.sh &&
-        ./setup-ssm-parameters.sh &&
         ./deploy-kbo-lambda.sh &&
         echo '🎉 All done! Your Lambda is ready to go!' &&
         echo '   LocalStack: http://localhost:4566'

@@ -4,7 +4,7 @@ using AssociationRegistry.Grar.Models.PostalInfo;
 using Vereniging;
 using AutoFixture;
 using FluentAssertions;
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 using Xunit;
 
 public class With_Several_PostalNames

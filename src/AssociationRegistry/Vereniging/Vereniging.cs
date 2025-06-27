@@ -7,7 +7,6 @@ using EventFactories;
 using Events;
 using Exceptions;
 using Framework;
-using GemeentenaamDecorator;
 using Geotags;
 using Grar.Clients;
 using Grar.Exceptions;
@@ -54,11 +53,20 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         return vereniging;
     }
 
-    public async Task NeemAdresDetailsOver(Locatie[] metAdresId, IGrarClient grarClient, CancellationToken cancellationToken)
+    public void NeemAdresDetailsOver(Locatie[] metAdresId, EnrichedLocaties enrichedLocaties)
     {
         foreach (var locatieMetAdresId in metAdresId)
         {
-            await NeemAdresDetailOver(locatieMetAdresId, grarClient, cancellationToken);
+            var loc = enrichedLocaties.Single(x => x.AdresId?.Bronwaarde == locatieMetAdresId.AdresId!.Bronwaarde);
+
+            AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieMetAdresId.LocatieId,
+                                                                       new Registratiedata.AdresId(
+                                                                           loc.AdresId!.Adresbron.Code,
+                                                                           loc.AdresId.Bronwaarde),
+                                                                       new Registratiedata.AdresUitAdressenregister(
+                                                                           loc.Adres.Straatnaam, loc.Adres.Huisnummer,
+                                                                           loc.Adres.Busnummer, loc.Adres.Postcode,
+                                                                           loc.Adres.Gemeente.Naam)));
         }
     }
 
@@ -305,7 +313,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerfijnNaarSubvereniging(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
     {
-        Throw<VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs>.If(AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging));
+        Throw<VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs>.If(
+            AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging));
 
         State.Verenigingssubtype
              .VerFijnNaarSubvereniging(VCode, subverenigingVan)
@@ -318,30 +327,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             !Verenigingstype.TypeIsVerenigingZonderEigenRechtspersoonlijkheid(obj.Verenigingstype));
 
         State = obj;
-    }
-
-    public async Task NeemAdresDetailOver(
-        Locatie teSynchroniserenLocatie,
-        IGrarClient grarClient,
-        CancellationToken cancellationToken)
-    {
-        var adresDetailResponse = await grarClient.GetAddressById(teSynchroniserenLocatie.AdresId!.ToString(), cancellationToken);
-
-        if (!adresDetailResponse.IsActief)
-            throw new AdressenregisterReturnedInactiefAdres();
-
-        var postalInformation = await grarClient.GetPostalInformationDetail(adresDetailResponse.Postcode);
-
-        var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
-            postalInformation,
-            adresDetailResponse.Gemeente);
-
-        var registratieData =
-            EventFactory.AdresUitAdressenregister(adresDetailResponse, verrijkteGemeentenaam);
-
-        AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, teSynchroniserenLocatie.LocatieId,
-                                                             adresDetailResponse.AdresId,
-                                                             registratieData));
     }
 
     private bool AndereVerenigingIsReedsEenLid(VCode? andereVereniging)

@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 using FluentAssertions;
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 using Vereniging;
 using Xunit;
 

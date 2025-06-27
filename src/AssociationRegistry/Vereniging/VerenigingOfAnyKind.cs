@@ -7,7 +7,7 @@ using EventFactories;
 using Events;
 using Exceptions;
 using Framework;
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 using Geotags;
 using Grar.AdresMatch;
 using Grar.Clients;

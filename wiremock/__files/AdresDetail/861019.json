@@ -1,0 +1,51 @@
+{
+    "@context": "https://docs.basisregisters.test-vlaanderen.be/context/adres/2023-02-28/adres_detail.jsonld",
+    "@type": "Adres",
+    "identificator": {
+        "id": "https://data.vlaanderen.be/id/adres/861019",
+        "naamruimte": "https://data.vlaanderen.be/id/adres",
+        "objectId": "200001",
+        "versieId": "2023-11-01T14:53:09+01:00"
+    },
+    "gemeente": {
+        "objectId": "23105",
+        "detail": "https://api.basisregisters.test-vlaanderen.be/v2/gemeenten/23105",
+        "gemeentenaam": {
+        "geografischeNaam": {
+            "spelling": "Herselt",
+            "taal": "nl"
+        }
+        }
+    },
+    "postinfo": {
+        "objectId": "1790",
+        "detail": "https://api.basisregisters.test-vlaanderen.be/v2/postinfo/1790"
+    },
+    "straatnaam": {
+        "objectId": "14602",
+        "detail": "https://api.basisregisters.test-vlaanderen.be/v2/straatnamen/14602",
+        "straatnaam": {
+        "geografischeNaam": {
+            "spelling": "Goorbaan",
+            "taal": "nl"
+        }
+        }
+    },
+    "huisnummer": "59",
+    "volledigAdres": {
+        "geografischeNaam": {
+        "spelling": "Goorbaan 59, 2230 Herselt",
+        "taal": "nl"
+        }
+    },
+    "adresPositie": {
+        "geometrie": {
+        "type": "Point",
+        "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E188473.52 193390.22\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+        },
+        "positieGeometrieMethode": "afgeleidVanObject",
+        "positieSpecificatie": "gebouweenheid"
+    },
+    "adresStatus": "inGebruik",
+    "officieelToegekend": true
+}

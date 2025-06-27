@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 
 public record Gemeentenaam(string Naam)
 {

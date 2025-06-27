@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_VerrijkteGemeentenaam;
 
 using AssociationRegistry.Grar.Models.PostalInfo;
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 using Xunit;
 
 public class WithEmptyOrNull

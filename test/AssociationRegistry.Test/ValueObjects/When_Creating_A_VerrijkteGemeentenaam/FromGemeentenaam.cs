@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_VerrijkteGemeentenaam;
 
 using FluentAssertions;
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 using Vereniging;
 using Xunit;
 

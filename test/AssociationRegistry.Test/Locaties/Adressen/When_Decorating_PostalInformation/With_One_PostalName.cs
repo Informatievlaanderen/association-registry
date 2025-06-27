@@ -4,7 +4,7 @@ using AssociationRegistry.Grar.Models.PostalInfo;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 using Xunit;
 
 public class With_One_PostalName

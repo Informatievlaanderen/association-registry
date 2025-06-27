@@ -47,12 +47,16 @@ public class GrarClient : IGrarClient
             {
                 throw response.StatusCode switch
                 {
-                    HttpStatusCode.BadRequest => new AdressenregisterReturnedClientErrorStatusCode(
-                        response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
-                    HttpStatusCode.NotFound => new AdressenregisterReturnedClientErrorStatusCode(
-                        response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
-                    HttpStatusCode.Gone => new AdressenregisterReturnedGoneStatusCode(),
-                    _ => new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode)
+                    HttpStatusCode.BadRequest =>
+                        new AdressenregisterReturnedClientErrorStatusCode(
+                            response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
+                    HttpStatusCode.NotFound =>
+                        new AdressenregisterReturnedClientErrorStatusCode(
+                            response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
+                    HttpStatusCode.Gone =>
+                        new AdressenregisterReturnedGoneStatusCode(),
+                    _ =>
+                        new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode)
                 };
             }
 
@@ -250,13 +254,15 @@ public class GrarClient : IGrarClient
             }
             catch (TaskCanceledException ex)
             {
-                _logger.LogError(ex, $"A timeout occurred when calling the {WellKnownServices.Grar} endpoint for {{Context}}", contextDescription);
+                _logger.LogError(ex, $"A timeout occurred when calling the {WellKnownServices.Grar} endpoint for {{Context}}",
+                                 contextDescription);
 
                 throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred when calling the {WellKnownServices.Grar} endpoint for {{Context}}: {{Message}}", contextDescription,
+                _logger.LogError(ex, $"An error occurred when calling the {WellKnownServices.Grar} endpoint for {{Context}}: {{Message}}",
+                                 contextDescription,
                                  ex.Message);
 
                 throw;

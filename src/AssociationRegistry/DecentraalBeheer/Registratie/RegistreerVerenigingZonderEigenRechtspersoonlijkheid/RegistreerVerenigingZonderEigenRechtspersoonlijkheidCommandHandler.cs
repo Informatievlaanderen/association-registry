@@ -10,13 +10,13 @@ using Vereniging;
 using Marten;
 using Microsoft.Extensions.Logging;
 using ResultNet;
+using System.Collections.ObjectModel;
 using Vereniging.Geotags;
 using Wolverine.Marten;
 
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 {
     private readonly IClock _clock;
-    private readonly IGrarClient _grarClient;
     private readonly IGeotagsService _geotagsService;
     private readonly ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> _logger;
     private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
@@ -32,7 +32,6 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         IMartenOutbox outbox,
         IDocumentSession session,
         IClock clock,
-        IGrarClient grarClient,
         IGeotagsService geotagsService,
         ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger)
     {
@@ -42,13 +41,13 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         _outbox = outbox;
         _session = session;
         _clock = clock;
-        _grarClient = grarClient;
         _geotagsService = geotagsService;
         _logger = logger;
     }
 
     public async Task<Result> Handle(
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> message,
+        EnrichedLocaties enrichedLocaties,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} start");
@@ -63,7 +62,6 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
                 return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
         }
 
-
         var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
             command,
             _vCodeService,
@@ -72,7 +70,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 
         var (metAdresId, zonderAdresId) = vereniging.GeefLocatiesMetEnZonderAdresId();
 
-        await vereniging.NeemAdresDetailsOver(metAdresId, _grarClient, CancellationToken.None);
+        vereniging.NeemAdresDetailsOver(metAdresId, enrichedLocaties);
         await vereniging.BerekenGeotags(_geotagsService);
 
         foreach (var locatieZonderAdresId in zonderAdresId)
@@ -85,5 +83,41 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} end");
 
         return Result.Success(CommandResult.Create(vereniging.VCode, result));
+    }
+}
+
+public record EnrichedLocatie()
+{
+    public string Naam { get; init; }
+    public bool IsPrimair { get; init; }
+    public Locatietype Locatietype { get; init; }
+    public AdresId? AdresId { get; init; }
+    public Adres Adres { get; init; }
+
+    public static EnrichedLocatie FromLocatieWithAdres(Locatie locatie)
+        => new()
+        {
+            Naam = locatie.Naam,
+            IsPrimair = locatie.IsPrimair,
+            Locatietype = locatie.Locatietype,
+            AdresId = null,
+            Adres = locatie.Adres!,
+        };
+
+    public static EnrichedLocatie FromLocatieWithAdresId(Locatie locatie, Adres adres)
+        => new()
+        {
+            Naam = locatie.Naam,
+            IsPrimair = locatie.IsPrimair,
+            Locatietype = locatie.Locatietype,
+            AdresId = locatie.AdresId,
+            Adres = adres,
+        };
+}
+
+public class EnrichedLocaties : ReadOnlyCollection<EnrichedLocatie>
+{
+    public EnrichedLocaties(IList<EnrichedLocatie> list) : base(list)
+    {
     }
 }

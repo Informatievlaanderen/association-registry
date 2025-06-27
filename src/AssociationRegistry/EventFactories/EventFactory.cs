@@ -1,7 +1,7 @@
 namespace AssociationRegistry.EventFactories;
 
 using Events;
-using GemeentenaamDecorator;
+using GemeentenaamVerrijking;
 using Grar.Models;
 using Kbo;
 using Vereniging;

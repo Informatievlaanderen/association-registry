@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Detail.With_Header;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
+using FluentAssertions;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -30,8 +31,6 @@ public class Returns_VZER_DetailResponse : End2EndTest<DetailVerenigingResponse>
     public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
                => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode, headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
-
-
     [Fact]
     public void With_Context()
     {
@@ -45,6 +44,15 @@ public class Returns_VZER_DetailResponse : End2EndTest<DetailVerenigingResponse>
                                                                compareConfig: new ComparisonConfig
                                                                    { MaxMillisecondsDateDifference = 5000 });
     }
+
+    [Fact]
+    public async ValueTask HasAdresForAdresId()
+    {
+       var locatieMetAdres = Response.Vereniging.Locaties.SingleOrDefault(x => x.AdresId?.Bronwaarde?.Contains("861019") ?? false);
+       locatieMetAdres.Should().NotBeNull();
+       locatieMetAdres!.Adres.Should().NotBeNull();
+    }
+
 
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
