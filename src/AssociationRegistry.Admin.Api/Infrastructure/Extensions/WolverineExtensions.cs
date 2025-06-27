@@ -46,7 +46,8 @@ public static class WolverineExtensions
                 );
 
                 options.Policies.ForMessagesOfType<CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>>()
-                       .AddMiddleware(typeof(EnrichLocatiesMiddleware));
+                       .AddMiddleware(typeof(EnrichLocatiesMiddleware))
+                       .AddMiddleware(typeof(DuplicateDetectionMiddleware));
 
                 var grarOptions = context.Configuration.GetGrarOptions();
 
