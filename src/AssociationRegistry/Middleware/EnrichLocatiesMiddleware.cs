@@ -46,27 +46,3 @@ public class EnrichLocatiesMiddleware
         return new EnrichedLocaties(enrichedLocaties.ToArray());
     }
 }
-
-// public async Task NeemAdresDetailOver(
-//     Locatie teSynchroniserenLocatie,
-//     IGrarClient grarClient,
-//     CancellationToken cancellationToken)
-// {
-//     var adresDetailResponse = await grarClient.GetAddressById(teSynchroniserenLocatie.AdresId!.ToString(), cancellationToken);
-//
-//     if (!adresDetailResponse.IsActief)
-//         throw new AdressenregisterReturnedInactiefAdres();
-//
-//     var postalInformation = await grarClient.GetPostalInformationDetail(adresDetailResponse.Postcode);
-//
-//     var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
-//         postalInformation,
-//         adresDetailResponse.Gemeente);
-//
-//     var registratieData =
-//         EventFactory.AdresUitAdressenregister(adresDetailResponse, verrijkteGemeentenaam);
-//
-//     AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, teSynchroniserenLocatie.LocatieId,
-//                                                          adresDetailResponse.AdresId,
-//                                                          registratieData));
-// }

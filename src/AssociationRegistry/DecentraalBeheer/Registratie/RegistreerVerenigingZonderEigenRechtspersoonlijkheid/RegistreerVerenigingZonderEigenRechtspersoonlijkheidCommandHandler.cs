@@ -9,6 +9,7 @@ using Messages;
 using Vereniging;
 using Marten;
 using Microsoft.Extensions.Logging;
+using Middleware;
 using ResultNet;
 using System.Collections.ObjectModel;
 using Vereniging.Geotags;
@@ -48,19 +49,15 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
     public async Task<Result> Handle(
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> message,
         EnrichedLocaties enrichedLocaties,
+        Result<PotentialDuplicatesFound> potentialDuplicates,
         CancellationToken cancellationToken = default)
     {
+        if(!potentialDuplicates.IsSuccess())
+            return potentialDuplicates;
+
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} start");
 
         var command = message.Command;
-
-        if (!command.SkipDuplicateDetection)
-        {
-            var duplicates = (await _duplicateVerenigingDetectionService.ExecuteAsync(command.Naam, command.Locaties)).ToList();
-
-            if (duplicates.Any())
-                return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
-        }
 
         var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
             command,
