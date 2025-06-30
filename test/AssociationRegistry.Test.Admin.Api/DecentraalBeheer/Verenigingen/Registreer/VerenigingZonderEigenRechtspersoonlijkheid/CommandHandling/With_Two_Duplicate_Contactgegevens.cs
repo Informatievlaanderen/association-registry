@@ -3,7 +3,6 @@
 using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
@@ -12,6 +11,7 @@ using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using DuplicateVerenigingDetection;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -45,11 +45,9 @@ public class With_Two_Duplicate_Contactgegevens
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
-            new NoDuplicateVerenigingDetectionService(),
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
-            Mock.Of<IGrarClient>(),
             Mock.Of<IGeotagsService>(),
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
@@ -57,9 +55,13 @@ public class With_Two_Duplicate_Contactgegevens
     }
 
     [Fact]
-    public async ValueTask Then_The_Result_Contains_The_Potential_Duplicates()
+    public async ValueTask Then_It_Throws()
     {
-        var method = () => _commandHandler.Handle(_commandEnvelope, CancellationToken.None);
+        var method = () => _commandHandler.Handle(
+            _commandEnvelope,
+            EnrichedLocaties.Empty,
+            PotentialDuplicatesFound.None,
+            CancellationToken.None);
         await method.Should().ThrowAsync<ContactgegevenIsDuplicaat>();
     }
 }

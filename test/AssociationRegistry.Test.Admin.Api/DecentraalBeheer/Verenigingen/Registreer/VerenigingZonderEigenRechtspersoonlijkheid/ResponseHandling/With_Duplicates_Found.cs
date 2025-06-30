@@ -82,7 +82,7 @@ public class With_Duplicates_Found
     private static Mock<IMessageBus> SetupRegistreerVZERCommandHandling(Fixture fixture)
     {
         var messageBus = new Mock<IMessageBus>();
-        var duplicatesFound = new PotentialDuplicatesFound(fixture.CreateMany<DuplicaatVereniging>().Select(x => x with
+        var duplicatesFound = PotentialDuplicatesFound.Some(fixture.CreateMany<DuplicaatVereniging>().Select(x => x with
         {
             Verenigingstype = new DuplicaatVereniging.Types.Verenigingstype()
             {
@@ -94,7 +94,7 @@ public class With_Duplicates_Found
                 Code = VerenigingssubtypeCode.NietBepaald.Code,
                 Naam = VerenigingssubtypeCode.NietBepaald.Naam,
             },
-        }));
+        }).ToArray());
 
         messageBus.Setup(x => x.InvokeAsync<Result>(
                              It.IsAny<CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>>(),

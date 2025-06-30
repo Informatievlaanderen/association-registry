@@ -20,7 +20,6 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
     private readonly IClock _clock;
     private readonly IGeotagsService _geotagsService;
     private readonly ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> _logger;
-    private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
     private readonly IMartenOutbox _outbox;
     private readonly IDocumentSession _session;
     private readonly IVCodeService _vCodeService;
@@ -29,7 +28,6 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
     public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
         IVerenigingsRepository verenigingsRepository,
         IVCodeService vCodeService,
-        IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService,
         IMartenOutbox outbox,
         IDocumentSession session,
         IClock clock,
@@ -38,7 +36,6 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
     {
         _verenigingsRepository = verenigingsRepository;
         _vCodeService = vCodeService;
-        _duplicateVerenigingDetectionService = duplicateVerenigingDetectionService;
         _outbox = outbox;
         _session = session;
         _clock = clock;
@@ -49,13 +46,13 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
     public async Task<Result> Handle(
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> message,
         EnrichedLocaties enrichedLocaties,
-        Result<PotentialDuplicatesFound> potentialDuplicates,
+        PotentialDuplicatesFound potentialDuplicates,
         CancellationToken cancellationToken = default)
     {
-        if(!potentialDuplicates.IsSuccess())
-            return potentialDuplicates;
-
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} start");
+
+        if(potentialDuplicates.HasDuplicates)
+            return new Result<PotentialDuplicatesFound>(potentialDuplicates, ResultStatus.Failed);
 
         var command = message.Command;
 
@@ -110,6 +107,19 @@ public record EnrichedLocatie()
             AdresId = locatie.AdresId,
             Adres = adres,
         };
+
+    public Registratiedata.AdresUitAdressenregister ToAdres()
+        => new(
+            Adres.Straatnaam,
+            Adres.Huisnummer,
+            Adres.Busnummer,
+            Adres.Postcode,
+            Adres.Gemeente.Naam);
+
+    public Registratiedata.AdresId ToAdresId()
+        => new(
+            AdresId.Adresbron.Code,
+            AdresId.Bronwaarde);
 }
 
 public class EnrichedLocaties : ReadOnlyCollection<EnrichedLocatie>
@@ -117,4 +127,6 @@ public class EnrichedLocaties : ReadOnlyCollection<EnrichedLocatie>
     public EnrichedLocaties(IList<EnrichedLocatie> list) : base(list)
     {
     }
+
+    public static EnrichedLocaties Empty => new(new List<EnrichedLocatie>());
 }

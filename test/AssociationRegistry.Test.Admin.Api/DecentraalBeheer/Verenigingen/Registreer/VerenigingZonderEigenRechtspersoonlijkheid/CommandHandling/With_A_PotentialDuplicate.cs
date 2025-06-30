@@ -24,12 +24,12 @@ using Xunit;
 
 public class With_A_PotentialDuplicate
 {
-    private readonly List<DuplicaatVereniging> _potentialDuplicates;
+    private readonly Result<PotentialDuplicatesFound> _potentialDuplicates;
     private readonly Result _result;
 
     public With_A_PotentialDuplicate()
     {
-        var scenario = new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario();
+        var scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario();
         var fixture = new Fixture().CustomizeAdminApi();
 
         var locatie = fixture.Create<Locatie>() with
@@ -41,37 +41,30 @@ public class With_A_PotentialDuplicate
 
         var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
-            Naam = VerenigingsNaam.Create( VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario.Naam),
+            Naam = VerenigingsNaam.Create(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario.Naam),
             Locaties = new[] { locatie },
             SkipDuplicateDetection = false,
         };
 
-        var duplicateChecker = new Mock<IDuplicateVerenigingDetectionService>();
-        _potentialDuplicates = new List<DuplicaatVereniging> { fixture.Create<DuplicaatVereniging>() };
-
-        duplicateChecker.Setup(
-                             d =>
-                                 d.ExecuteAsync(
-                                     command.Naam,
-                                     command.Locaties,
-                                     false, null))
-                        .ReturnsAsync(_potentialDuplicates);
+        _potentialDuplicates = PotentialDuplicatesFound.Some(fixture.Create<DuplicaatVereniging>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             new VerenigingRepositoryMock(scenario.GetVerenigingState()),
             new InMemorySequentialVCodeService(),
-            duplicateChecker.Object,
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
-            Mock.Of<IGrarClient>(),
             Mock.Of<IGeotagsService>(),
-        NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
-        _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
-                                        CancellationToken.None)
+        _result = commandHandler.Handle(
+                                     new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+                                         command, commandMetadata),
+                                     EnrichedLocaties.Empty,
+                                     _potentialDuplicates,
+                                     CancellationToken.None)
                                 .GetAwaiter()
                                 .GetResult();
     }
@@ -85,6 +78,8 @@ public class With_A_PotentialDuplicate
     [Fact]
     public void Then_The_Result_Contains_The_Potential_Duplicates()
     {
-        ((Result<PotentialDuplicatesFound>)_result).Data.Candidates.Should().BeEquivalentTo(_potentialDuplicates);
+        ((Result<PotentialDuplicatesFound>)_result).Should().BeEquivalentTo(
+            new Result<PotentialDuplicatesFound>(_potentialDuplicates, ResultStatus.Failed),
+            options => options.Excluding(x => x.LogTraceCode));
     }
 }

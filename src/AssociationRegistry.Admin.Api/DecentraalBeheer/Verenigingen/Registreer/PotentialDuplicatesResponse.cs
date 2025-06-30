@@ -28,7 +28,7 @@ public class PotentialDuplicatesResponse
             throw new ArgumentNullException(nameof(appSettings));
 
         BevestigingsToken = hashedRequest;
-        MogelijkeDuplicateVerenigingen = potentialDuplicates.Candidates.Select(c => FromDuplicaatVereniging(c, appSettings, verenigingstypeMapper)).ToArray();
+        MogelijkeDuplicateVerenigingen = potentialDuplicates.PotentialDuplicates.Select(c => FromDuplicaatVereniging(c, appSettings, verenigingstypeMapper)).ToArray();
     }
 
     /// <summary>Dit token wordt gebruikt als bevestiging dat de vereniging uniek is en geregistreerd mag worden,

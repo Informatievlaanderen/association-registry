@@ -36,7 +36,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
     }
 
     [Fact]
-    public async ValueTask Then_it_saves_an_extra_event()
+    public async ValueTask Then_VerenigingWerdGeregistreerd()
     {
         await using var session = _fixture.DocumentStore
                                           .LightweightSession();
@@ -47,16 +47,16 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
 
         savedEvents.Should().ContainEquivalentOf(
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                string.Empty,
-                _setup.Request.Naam,
-                _setup.Request.KorteNaam ?? string.Empty,
-                _setup.Request.KorteBeschrijving ?? string.Empty,
-                _setup.Request.Startdatum,
-                EventFactory.Doelgroep(Doelgroep.Null),
-                _setup.Request.IsUitgeschrevenUitPubliekeDatastroom,
-                Array.Empty<Registratiedata.Contactgegeven>(),
-                new[]
-                {
+                VCode: string.Empty,
+                Naam: _setup.Request.Naam,
+                KorteNaam: _setup.Request.KorteNaam ?? string.Empty,
+                KorteBeschrijving: _setup.Request.KorteBeschrijving ?? string.Empty,
+                Startdatum: _setup.Request.Startdatum,
+                Doelgroep: EventFactory.Doelgroep(Doelgroep.Null),
+                IsUitgeschrevenUitPubliekeDatastroom: _setup.Request.IsUitgeschrevenUitPubliekeDatastroom,
+                Contactgegevens: [],
+                Locaties:
+                [
                     new Registratiedata.Locatie(
                         LocatieId: 1,
                         _setup.RequestLocatie.Locatietype,
@@ -69,9 +69,9 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                                                   _setup.RequestLocatie.Adres.Gemeente,
                                                   _setup.RequestLocatie.Adres.Land),
                         AdresId: null),
-                },
-                Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
+                ],
+                Vertegenwoordigers: [],
+                HoofdactiviteitenVerenigingsloket: []
             ),
             config: options => options.Excluding(e => e.VCode));
     }
@@ -93,10 +93,10 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
             Request = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest
             {
                 Naam = fixture.V082VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdForDuplicateForce.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
-                Locaties = new[]
-                {
+                Locaties =
+                [
                     RequestLocatie,
-                },
+                ],
             };
 
             var bevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());

@@ -4,7 +4,6 @@ using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonde
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
@@ -13,6 +12,7 @@ using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using DuplicateVerenigingDetection;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -42,16 +42,18 @@ public class With_A_Startdatum_On_Today
         var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             _verenigingRepositoryMock,
             vCodeService,
-            new NoDuplicateVerenigingDetectionService(),
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
-            Mock.Of<IGrarClient>(),
             geotagService.Object,
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata), CancellationToken.None)
+           .Handle(
+                new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
+                EnrichedLocaties.Empty,
+                PotentialDuplicatesFound.None,
+                CancellationToken.None)
            .GetAwaiter()
            .GetResult();
     }
