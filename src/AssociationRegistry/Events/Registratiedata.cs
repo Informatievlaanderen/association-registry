@@ -37,6 +37,9 @@ public static class Registratiedata
             => first.Broncode != second.Adresbron.Code || first.Bronwaarde != second.Bronwaarde;
         public override string ToString()
             => new Uri(Bronwaarde).Segments.Last();
+
+        public static AdresId FromAdresId(Vereniging.AdresId adres)
+            => new(adres.Adresbron.Code, adres.Bronwaarde);
     }
 
     public record AdresUitAdressenregister(
@@ -44,7 +47,11 @@ public static class Registratiedata
         string Huisnummer,
         string Busnummer,
         string Postcode,
-        string Gemeente);
+        string Gemeente)
+    {
+        public static AdresUitAdressenregister FromAdres(Vereniging.Adres adres)
+            => new(adres.Straatnaam, adres.Huisnummer, adres.Busnummer, adres.Postcode, adres.Gemeente.Naam);
+    };
 
     public record Doelgroep(int Minimumleeftijd, int Maximumleeftijd);
 

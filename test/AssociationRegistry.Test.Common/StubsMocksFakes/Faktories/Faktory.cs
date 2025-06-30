@@ -18,4 +18,6 @@ public class Faktory(IFixture fixture)
     public MartenOutboxFactory MartenOutbox { get; } = new MartenOutboxFactory(fixture);
     public postcodesFromGrarFetcherFactory postcodesFromGrarFetcher { get; } = new postcodesFromGrarFetcherFactory(fixture);
     public NutsLauFromGrarFetcherFactory nutsLauFromGrarFetcher { get; } = new NutsLauFromGrarFetcherFactory(fixture);
+
+    public GrarClientFactory GrarClientFactory { get; } = new GrarClientFactory(fixture);
 }

@@ -66,7 +66,7 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
     {
         var method = () => _commandHandler.Handle(
             _commandEnvelope,
-            EnrichedLocaties.Empty,
+            VerrijkteAdressenUitGrar.Empty,
             PotentialDuplicatesFound.None,
             CancellationToken.None);
 

@@ -53,20 +53,20 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         return vereniging;
     }
 
-    public void NeemAdresDetailsOver(Locatie[] metAdresId, EnrichedLocaties enrichedLocaties)
+    public void NeemAdresDetailsOver(Locatie[] metAdresId, VerrijkteAdressenUitGrar verrijkteAdressenUitGrar)
     {
         foreach (var locatieMetAdresId in metAdresId)
         {
-            var loc = enrichedLocaties.Single(x => x.AdresId?.Bronwaarde == locatieMetAdresId.AdresId!.Bronwaarde);
+            var adres = verrijkteAdressenUitGrar.For(locatieMetAdresId.AdresId!);
 
             AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieMetAdresId.LocatieId,
                                                                        new Registratiedata.AdresId(
-                                                                           loc.AdresId!.Adresbron.Code,
-                                                                           loc.AdresId.Bronwaarde),
+                                                                           locatieMetAdresId.AdresId!.Adresbron.Code,
+                                                                           locatieMetAdresId.AdresId.Bronwaarde),
                                                                        new Registratiedata.AdresUitAdressenregister(
-                                                                           loc.Adres.Straatnaam, loc.Adres.Huisnummer,
-                                                                           loc.Adres.Busnummer, loc.Adres.Postcode,
-                                                                           loc.Adres.Gemeente.Naam)));
+                                                                           adres.Straatnaam, adres.Huisnummer,
+                                                                           adres.Busnummer, adres.Postcode,
+                                                                           adres.Gemeente.Naam)));
         }
     }
 

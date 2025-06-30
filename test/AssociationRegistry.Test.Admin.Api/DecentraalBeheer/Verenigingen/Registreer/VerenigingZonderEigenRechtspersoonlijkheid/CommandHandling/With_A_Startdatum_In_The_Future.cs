@@ -55,7 +55,7 @@ public class With_A_Startdatum_In_The_Future
     {
         var method = () => _commandHandler.Handle(
             _commandEnvelope,
-            EnrichedLocaties.Empty,
+            VerrijkteAdressenUitGrar.Empty,
             PotentialDuplicatesFound.None,
             CancellationToken.None);
         await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();

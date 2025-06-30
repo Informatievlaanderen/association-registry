@@ -62,7 +62,7 @@ public class With_A_PotentialDuplicate
         _result = commandHandler.Handle(
                                      new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
                                          command, commandMetadata),
-                                     EnrichedLocaties.Empty,
+                                     VerrijkteAdressenUitGrar.Empty,
                                      _potentialDuplicates,
                                      CancellationToken.None)
                                 .GetAwaiter()

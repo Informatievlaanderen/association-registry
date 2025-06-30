@@ -59,7 +59,7 @@ public class With_Two_Duplicate_Contactgegevens
     {
         var method = () => _commandHandler.Handle(
             _commandEnvelope,
-            EnrichedLocaties.Empty,
+            VerrijkteAdressenUitGrar.Empty,
             PotentialDuplicatesFound.None,
             CancellationToken.None);
         await method.Should().ThrowAsync<ContactgegevenIsDuplicaat>();

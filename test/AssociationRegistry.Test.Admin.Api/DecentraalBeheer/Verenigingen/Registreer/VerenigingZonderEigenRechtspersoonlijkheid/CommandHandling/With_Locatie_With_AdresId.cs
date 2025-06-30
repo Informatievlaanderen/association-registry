@@ -46,14 +46,10 @@ public class With_Locatie_With_AdresId
             AdresId = fixture.Create<AdresId>(),
         };
 
-        var enrichedLocatie = EnrichedLocatie.FromLocatieWithAdresId(locatie, fixture.Create<Adres>());
-
-        var enrichedLocaties =
-            new EnrichedLocaties([
-                enrichedLocatie
-            ]);
-
-
+        var verrijktAdresUitGrar = new VerrijkteAdressenUitGrar(new Dictionary<string, Adres>
+        {
+            { locatie.AdresId.Bronwaarde, fixture.Create<Adres>() }
+        });
 
         var geotag = new Geotag("BE32");
         var geotags = new[]
@@ -106,7 +102,7 @@ public class With_Locatie_With_AdresId
         commandHandler
            .Handle(
                 new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
-                enrichedLocaties,
+                verrijktAdresUitGrar,
                 PotentialDuplicatesFound.None,
                 CancellationToken.None)
            .GetAwaiter()
@@ -128,8 +124,8 @@ public class With_Locatie_With_AdresId
                 [],
                 []),
             new AdresWerdOvergenomenUitAdressenregister(vCode, LocatieId: Locatie.IdNotSet + 1,
-                                                        enrichedLocatie.ToAdresId(),
-                                                        enrichedLocatie.ToAdres()),
+                                                        Registratiedata.AdresId.FromAdresId(locatie.AdresId),
+                                                        Registratiedata.AdresUitAdressenregister.FromAdres(verrijktAdresUitGrar[locatie.AdresId.Bronwaarde])),
             new GeotagsWerdenBepaald(vCode, [new Registratiedata.Geotag(geotag.Identificatie)])
     );
 
