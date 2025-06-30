@@ -68,7 +68,7 @@ public class With_NietVanToepassing_Werkingsgebieden
            .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
                        command,
                        commandMetadata),
-                   EnrichedLocaties.Empty,
+                   VerrijkteAdressenUitGrar.Empty,
                    PotentialDuplicatesFound.None,
                    CancellationToken.None)
            .GetAwaiter()

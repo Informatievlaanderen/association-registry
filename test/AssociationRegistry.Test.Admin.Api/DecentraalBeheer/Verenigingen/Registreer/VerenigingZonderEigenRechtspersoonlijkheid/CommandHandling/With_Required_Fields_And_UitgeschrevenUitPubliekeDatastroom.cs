@@ -65,7 +65,7 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
         commandHandler
            .Handle(
                 new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
-                EnrichedLocaties.Empty,
+                VerrijkteAdressenUitGrar.Empty,
                 PotentialDuplicatesFound.None,
                 CancellationToken.None)
            .GetAwaiter()

@@ -66,7 +66,7 @@ public class With_All_Fields
         commandHandler
                        .Handle(
                 new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata),
-                EnrichedLocaties.Empty,
+                VerrijkteAdressenUitGrar.Empty,
                 PotentialDuplicatesFound.None,
                 CancellationToken.None)
                        .GetAwaiter()

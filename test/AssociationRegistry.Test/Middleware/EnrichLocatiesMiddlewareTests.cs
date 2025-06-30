@@ -1,0 +1,71 @@
+﻿namespace AssociationRegistry.Test.Middleware;
+
+using AssociationRegistry.Framework;
+using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar.Models;
+using AssociationRegistry.Middleware;
+using AutoFixture;
+using Common.AutoFixture;
+using Common.StubsMocksFakes.Faktories;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using FluentAssertions;
+using Moq;
+using Vereniging;
+using Xunit;
+
+public class EnrichLocatiesMiddlewareTests
+{
+    private readonly Fixture _fixture;
+
+    public EnrichLocatiesMiddlewareTests()
+    {
+        _fixture = new Fixture().CustomizeAdminApi();
+    }
+
+    [Fact]
+    public async Task WithNoLocaties_ReturnsEmptyEnrichedLocaties_ShouldSkipEnrichment()
+    {
+        var command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
+        {
+            Locaties = [],
+        };
+
+        var actual = await EnrichLocatiesMiddleware.BeforeAsync(
+            new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, _fixture.Create<CommandMetadata>()),
+            Mock.Of<IGrarClient>());
+
+        actual.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task WithLocaties_ReturnsEnrichedLocaties()
+    {
+        var locatieWithAdres = _fixture.Create<Locatie>() with { AdresId = null, Adres = _fixture.Create<Adres>() };
+        var locatieWithAdresId = _fixture.Create<Locatie>() with { AdresId = _fixture.Create<AdresId>(), Adres = null };
+
+        var command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
+        {
+            Locaties = [locatieWithAdresId, locatieWithAdres]
+        };
+
+        var commandEnvelope =
+            new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, _fixture.Create<CommandMetadata>());
+
+        var grarAdres = _fixture.Create<AddressDetailResponse>();
+        var grarClient = Faktory.New().GrarClientFactory.GetAdresByIdReturnsAdres(locatieWithAdresId.AdresId.ToId(), grarAdres);
+
+        var actual = await EnrichLocatiesMiddleware.BeforeAsync(
+            commandEnvelope,
+            grarClient.Object);
+
+        actual.Should().BeEquivalentTo(new Dictionary<string, Adres>()
+        {
+            {
+                locatieWithAdresId.AdresId.Bronwaarde,
+                Adres.Create(grarAdres.Straatnaam, grarAdres.Huisnummer,
+                             grarAdres.Busnummer, grarAdres.Postcode,
+                             grarAdres.Gemeente, Adres.België)
+            }
+        });
+    }
+}

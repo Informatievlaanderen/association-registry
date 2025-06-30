@@ -15,7 +15,7 @@ public class DuplicateDetectionMiddleware
         Task<PotentialDuplicatesFound>
         BeforeAsync(
             CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> envelope,
-            EnrichedLocaties enrichedLocaties,
+            VerrijkteAdressenUitGrar verrijkteAdressenUitGrar,
             IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService,
             ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger,
             CancellationToken cancellation)

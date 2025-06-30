@@ -76,7 +76,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
                 _command,
                 commandMetadata),
-            EnrichedLocaties.Empty,
+            VerrijkteAdressenUitGrar.Empty,
             PotentialDuplicatesFound.None,
             CancellationToken.None);
     }

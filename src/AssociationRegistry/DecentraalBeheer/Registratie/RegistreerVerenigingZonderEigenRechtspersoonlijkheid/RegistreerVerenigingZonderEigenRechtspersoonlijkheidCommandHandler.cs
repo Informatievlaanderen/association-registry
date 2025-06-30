@@ -45,7 +45,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 
     public async Task<Result> Handle(
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> message,
-        EnrichedLocaties enrichedLocaties,
+        VerrijkteAdressenUitGrar verrijkteAdressenUitGrar,
         PotentialDuplicatesFound potentialDuplicates,
         CancellationToken cancellationToken = default)
     {
@@ -64,7 +64,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 
         var (metAdresId, zonderAdresId) = vereniging.GeefLocatiesMetEnZonderAdresId();
 
-        vereniging.NeemAdresDetailsOver(metAdresId, enrichedLocaties);
+        vereniging.NeemAdresDetailsOver(metAdresId, verrijkteAdressenUitGrar);
         await vereniging.BerekenGeotags(_geotagsService);
 
         foreach (var locatieZonderAdresId in zonderAdresId)
@@ -80,53 +80,13 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
     }
 }
 
-public record EnrichedLocatie()
+public class VerrijkteAdressenUitGrar : ReadOnlyDictionary<string, Adres>
 {
-    public string Naam { get; init; }
-    public bool IsPrimair { get; init; }
-    public Locatietype Locatietype { get; init; }
-    public AdresId? AdresId { get; init; }
-    public Adres Adres { get; init; }
-
-    public static EnrichedLocatie FromLocatieWithAdres(Locatie locatie)
-        => new()
-        {
-            Naam = locatie.Naam,
-            IsPrimair = locatie.IsPrimair,
-            Locatietype = locatie.Locatietype,
-            AdresId = null,
-            Adres = locatie.Adres!,
-        };
-
-    public static EnrichedLocatie FromLocatieWithAdresId(Locatie locatie, Adres adres)
-        => new()
-        {
-            Naam = locatie.Naam,
-            IsPrimair = locatie.IsPrimair,
-            Locatietype = locatie.Locatietype,
-            AdresId = locatie.AdresId,
-            Adres = adres,
-        };
-
-    public Registratiedata.AdresUitAdressenregister ToAdres()
-        => new(
-            Adres.Straatnaam,
-            Adres.Huisnummer,
-            Adres.Busnummer,
-            Adres.Postcode,
-            Adres.Gemeente.Naam);
-
-    public Registratiedata.AdresId ToAdresId()
-        => new(
-            AdresId.Adresbron.Code,
-            AdresId.Bronwaarde);
-}
-
-public class EnrichedLocaties : ReadOnlyCollection<EnrichedLocatie>
-{
-    public EnrichedLocaties(IList<EnrichedLocatie> list) : base(list)
+    public VerrijkteAdressenUitGrar(IDictionary<string, Adres> adresWithBronwaarde) : base(adresWithBronwaarde)
     {
     }
 
-    public static EnrichedLocaties Empty => new(new List<EnrichedLocatie>());
+    public static VerrijkteAdressenUitGrar Empty => new(new Dictionary<string, Adres>());
+
+    public Adres For(AdresId adresId) => this[adresId.Bronwaarde];
 }

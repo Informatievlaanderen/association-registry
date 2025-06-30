@@ -10,21 +10,14 @@ public class EnrichLocatiesMiddleware
 {
     // The message *has* to be first in the parameter list
     // Before or BeforeAsync tells Wolverine this method should be called before the actual action
-    public static async Task<EnrichedLocaties> BeforeAsync(
+    public static async Task<VerrijkteAdressenUitGrar> BeforeAsync(
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> envelope,
         IGrarClient grarClient)
     {
-        var enrichedLocaties = new List<EnrichedLocatie>();
+        var enrichedLocaties = new Dictionary<string, Adres>();
 
-        foreach (var locatie in envelope.Command.Locaties)
+        foreach (var locatie in envelope.Command.Locaties.Where(x => x.AdresId is not null))
         {
-            if (locatie.Adres is not null)
-            {
-                enrichedLocaties.Add(EnrichedLocatie.FromLocatieWithAdres(locatie));
-
-                continue;
-            }
-
             var addressDetailResponse = await grarClient.GetAddressById(locatie.AdresId.ToId(), CancellationToken.None);
 
             var postalInformation = await grarClient.GetPostalInformationDetail(addressDetailResponse.Postcode);
@@ -33,16 +26,16 @@ public class EnrichLocatiesMiddleware
                 postalInformation,
                 addressDetailResponse.Gemeente);
 
-            enrichedLocaties.Add(EnrichedLocatie.FromLocatieWithAdresId(
-                                     locatie,
-                                     Adres.Create(addressDetailResponse.Straatnaam,
-                                                  addressDetailResponse.Huisnummer,
-                                                  addressDetailResponse.Busnummer,
-                                                  addressDetailResponse.Postcode,
-                                                  verrijkteGemeentenaam.Gemeentenaam,
-                                                  Adres.België)));
+            enrichedLocaties.Add(
+                locatie.AdresId.Bronwaarde,
+                Adres.Create(addressDetailResponse.Straatnaam,
+                             addressDetailResponse.Huisnummer,
+                             addressDetailResponse.Busnummer,
+                             addressDetailResponse.Postcode,
+                             verrijkteGemeentenaam.Gemeentenaam,
+                             Adres.België));
         }
 
-        return new EnrichedLocaties(enrichedLocaties.ToArray());
+        return new VerrijkteAdressenUitGrar(enrichedLocaties);
     }
 }
