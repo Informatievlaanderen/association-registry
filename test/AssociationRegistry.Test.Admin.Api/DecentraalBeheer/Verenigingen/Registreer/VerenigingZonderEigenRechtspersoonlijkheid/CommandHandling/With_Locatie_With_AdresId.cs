@@ -8,7 +8,6 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Messages;
-using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
@@ -16,6 +15,7 @@ using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using DuplicateVerenigingDetection;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -33,7 +33,6 @@ public class With_Locatie_With_AdresId
         var vCodeService = new InMemorySequentialVCodeService();
         const string naam = "De sjiekste club";
 
-        var grarClient = new Mock<IGrarClient>();
         var martenOutbox = new Mock<IMartenOutbox>();
 
         var fixture = new Fixture().CustomizeAdminApi();
@@ -47,14 +46,14 @@ public class With_Locatie_With_AdresId
             AdresId = fixture.Create<AdresId>(),
         };
 
-        var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
-        {
-            AdresId = new Registratiedata.AdresId(locatie.AdresId.Adresbron.Code, locatie.AdresId.Bronwaarde),
-            IsActief = true,
-        };
+        var enrichedLocatie = EnrichedLocatie.FromLocatieWithAdresId(locatie, fixture.Create<Adres>());
 
-        grarClient.Setup(s => s.GetAddressById(locatie.AdresId.ToString(), It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(adresDetailResponse);
+        var enrichedLocaties =
+            new EnrichedLocaties([
+                enrichedLocatie
+            ]);
+
+
 
         var geotag = new Geotag("BE32");
         var geotags = new[]
@@ -74,20 +73,20 @@ public class With_Locatie_With_AdresId
                       .ReturnsAsync(GeotagsCollection.Hydrate(geotags));
 
         var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
-            VerenigingsNaam.Create(naam),
+            Naam: VerenigingsNaam.Create(naam),
             KorteNaam: null,
             KorteBeschrijving: null,
             Startdatum: null,
-            Doelgroep.Null,
+            Doelgroep: Doelgroep.Null,
             IsUitgeschrevenUitPubliekeDatastroom: false,
-            Array.Empty<Contactgegeven>(),
-            new[]
-            {
+            Contactgegevens: [],
+            Locaties:
+            [
                 locatie,
-            },
-            Array.Empty<Vertegenwoordiger>(),
-            Array.Empty<HoofdactiviteitVerenigingsloket>(),
-            Array.Empty<Werkingsgebied>());
+            ],
+            Vertegenwoordigers: [],
+            HoofdactiviteitenVerenigingsloket: [],
+            Werkingsgebieden: []);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
@@ -96,19 +95,20 @@ public class With_Locatie_With_AdresId
         var commandHandler =
             new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(verenigingRepositoryMock,
                                                                                    vCodeService,
-                                                                                   new NoDuplicateVerenigingDetectionService(),
                                                                                    martenOutbox.Object,
                                                                                    Mock.Of<IDocumentSession>(),
                                                                                    clock,
-                                                                                   grarClient.Object,
                                                                                    geotagsService.Object,
                                                                                    NullLogger<
                                                                                            RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>
                                                                                       .Instance);
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
-                   CancellationToken.None)
+           .Handle(
+                new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
+                enrichedLocaties,
+                PotentialDuplicatesFound.None,
+                CancellationToken.None)
            .GetAwaiter()
            .GetResult();
 
@@ -123,12 +123,13 @@ public class With_Locatie_With_AdresId
                 Startdatum: null,
                 EventFactory.Doelgroep(Doelgroep.Null),
                 IsUitgeschrevenUitPubliekeDatastroom: false,
-                Array.Empty<Registratiedata.Contactgegeven>(),
-                new[] { EventFactory.Locatie(locatie) with { LocatieId = Locatie.IdNotSet + 1} },
-                Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
-            new AdresWerdOvergenomenUitAdressenregister(vCode, LocatieId: Locatie.IdNotSet + 1, adresDetailResponse.AdresId,
-                                                        adresDetailResponse.ToAdresUitAdressenregister()),
+                [],
+                [EventFactory.Locatie(locatie) with { LocatieId = Locatie.IdNotSet + 1}],
+                [],
+                []),
+            new AdresWerdOvergenomenUitAdressenregister(vCode, LocatieId: Locatie.IdNotSet + 1,
+                                                        enrichedLocatie.ToAdresId(),
+                                                        enrichedLocatie.ToAdres()),
             new GeotagsWerdenBepaald(vCode, [new Registratiedata.Geotag(geotag.Identificatie)])
     );
 

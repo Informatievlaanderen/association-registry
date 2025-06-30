@@ -12,7 +12,7 @@ public class DuplicateDetectionMiddleware
     // The message *has* to be first in the parameter list
     // Before or BeforeAsync tells Wolverine this method should be called before the actual action
     public static async
-        Task<Result<PotentialDuplicatesFound>>
+        Task<PotentialDuplicatesFound>
         BeforeAsync(
             CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> envelope,
             EnrichedLocaties enrichedLocaties,
@@ -20,22 +20,15 @@ public class DuplicateDetectionMiddleware
             ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger,
             CancellationToken cancellation)
     {
-        if (!envelope.Command.SkipDuplicateDetection)
-        {
-            var duplicates = (await duplicateVerenigingDetectionService.ExecuteAsync(envelope.Command.Naam, envelope.Command.Locaties))
-               .ToList();
+        if (envelope.Command.SkipDuplicateDetection)
+            return PotentialDuplicatesFound.None;
 
-            if (duplicates.Any())
-            {
-                return
-                    new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
-            }
-        }
+        var duplicates = (await duplicateVerenigingDetectionService.ExecuteAsync(envelope.Command.Naam, envelope.Command.Locaties))
+           .ToArray();
 
-        return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound([]), ResultStatus.Succeed);
+        if (duplicates.Any())
+            return PotentialDuplicatesFound.Some(duplicates);
+
+        return PotentialDuplicatesFound.None;
     }
-}
-
-public class DuplicateCheckResult
-{
 }

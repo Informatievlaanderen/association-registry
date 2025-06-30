@@ -45,19 +45,7 @@ public class GrarClient : IGrarClient
 
             if (!response.IsSuccessStatusCode)
             {
-                throw response.StatusCode switch
-                {
-                    HttpStatusCode.BadRequest =>
-                        new AdressenregisterReturnedClientErrorStatusCode(
-                            response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
-                    HttpStatusCode.NotFound =>
-                        new AdressenregisterReturnedClientErrorStatusCode(
-                            response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
-                    HttpStatusCode.Gone =>
-                        new AdressenregisterReturnedGoneStatusCode(),
-                    _ =>
-                        new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode)
-                };
+                ThrowMatchingException(response.StatusCode);
             }
 
             var addressDetailOsloResponse =
@@ -109,6 +97,23 @@ public class GrarClient : IGrarClient
 
             throw new Exception(ex.Message, ex);
         }
+    }
+
+    private static void ThrowMatchingException(HttpStatusCode responseStatusCode)
+    {
+        throw responseStatusCode switch
+        {
+            HttpStatusCode.BadRequest =>
+                new AdressenregisterReturnedClientErrorStatusCode(
+                    responseStatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
+            HttpStatusCode.NotFound =>
+                new AdressenregisterReturnedClientErrorStatusCode(
+                    responseStatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
+            HttpStatusCode.Gone =>
+                new AdressenregisterReturnedGoneStatusCode(),
+            _ =>
+                new AdressenregisterReturnedNonSuccessStatusCode(responseStatusCode)
+        };
     }
 
     public async Task<AdresMatchResponseCollection> GetAddressMatches(

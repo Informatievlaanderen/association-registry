@@ -5,7 +5,6 @@ using AssociationRegistry.EventFactories;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
@@ -14,6 +13,7 @@ using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using DuplicateVerenigingDetection;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -42,10 +42,17 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         {
             Contactgegevens = new[]
             {
-                Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test@example.org", _fixture.Create<string>(),
-                                                   isPrimair: true),
-                Contactgegeven.CreateFromInitiator(Contactgegeventype.Website, waarde: "http://example.org", _fixture.Create<string>(),
-                                                   isPrimair: true),
+                Contactgegeven.CreateFromInitiator(
+                    Contactgegeventype.Email,
+                    waarde: "test@example.org",
+                    beschrijving: _fixture.Create<string>(),
+                    isPrimair: true),
+
+                Contactgegeven.CreateFromInitiator(
+                    Contactgegeventype.Website,
+                    waarde: "http://example.org",
+                    beschrijving: _fixture.Create<string>(),
+                    isPrimair: true),
             },
         };
 
@@ -54,11 +61,9 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             _repositoryMock,
             _vCodeService,
-            new NoDuplicateVerenigingDetectionService(),
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),
             new ClockStub(_command.Startdatum.Value),
-            Mock.Of<IGrarClient>(),
             geotagService.Object,
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
     }
@@ -67,8 +72,13 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     {
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        await _commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata),
-                                     CancellationToken.None);
+        await _commandHandler.Handle(
+            new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+                _command,
+                commandMetadata),
+            EnrichedLocaties.Empty,
+            PotentialDuplicatesFound.None,
+            CancellationToken.None);
     }
 
     public ValueTask DisposeAsync()

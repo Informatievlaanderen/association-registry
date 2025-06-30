@@ -5,7 +5,6 @@ using AssociationRegistry.EventFactories;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
@@ -14,6 +13,7 @@ using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using DuplicateVerenigingDetection;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -58,16 +58,17 @@ public class With_Required_Fields
         var commandHandler =
             new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(_verenigingRepositoryMock,
                                                              _vCodeService,
-                                                             new NoDuplicateVerenigingDetectionService(),
                                                              Mock.Of<IMartenOutbox>(),
                                                              Mock.Of<IDocumentSession>(),
-                                                             clock,
-                                                             Mock.Of<IGrarClient>(),
-                                                             geotagService.Object,
+                                                             clock,                                                             geotagService.Object,
                                                              NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata), CancellationToken.None)
+           .Handle(
+                new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
+                EnrichedLocaties.Empty,
+                PotentialDuplicatesFound.None,
+                CancellationToken.None)
            .GetAwaiter()
            .GetResult();
     }

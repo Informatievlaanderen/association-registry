@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Common.Framework;
 
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Events;
 using Grar.Models;
 
