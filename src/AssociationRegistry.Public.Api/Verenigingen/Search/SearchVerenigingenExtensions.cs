@@ -6,7 +6,9 @@ using System.Linq;
 
 public static class SearchVerenigingenExtensions
 {
-    private const string Score = "_score";
+    private const string ElasticsearchScoreField = "_score";
+    private const string UserScoreField = "score";
+    private const string KeywordSuffix = ".keyword";
 
     public static SearchDescriptor<T> ParseSort<T>(
         this SearchDescriptor<T> source,
@@ -17,59 +19,80 @@ public static class SearchVerenigingenExtensions
         if (string.IsNullOrWhiteSpace(sort))
             return source.Sort(defaultSort);
 
-        if (sort.Contains("score"))
-            sort = sort.Replace("score", Score);
-
-        return source.Sort(_ => SortDescriptor<T>(sort, mapping).ThenBy(defaultSort));
+        var customSortDescriptor = CreateSortDescriptor<T>(sort, mapping);
+        return source.Sort(sortDescriptor => customSortDescriptor.ThenBy(defaultSort));
     }
 
-    private static SortDescriptor<T> SortDescriptor<T>(string sort, ITypeMapping mapping) where T : class
+    private static SortDescriptor<T> CreateSortDescriptor<T>(string sort, ITypeMapping mapping) where T : class
     {
-        var sortParts = sort.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim())
-                            .ToArray();
-
+        var sortParts = ParseSortString(sort);
         var sortDescriptor = new SortDescriptor<T>();
 
-        foreach (var sortPart in sortParts)
+        foreach (var (field, isDescending) in sortParts)
         {
-            var descending = sortPart.StartsWith("-");
-            var part = descending ? sortPart.Substring(1) : sortPart;
-            var isKeyword = IsKeyword(mapping, part);
-
-            var fieldType = InspectPropertyType(mapping.Properties, part.Split('.'), 0);
-
-            var resolvedField = fieldType switch
-            {
-                "integer" => part,
-                _ => $"{part}{(isKeyword ? "" : ".keyword")}",            // others (keyword, integer, etc.) should not get .keyword
-            };
-
-            sortDescriptor.Field(resolvedField, descending ? SortOrder.Descending : SortOrder.Ascending);
+            var resolvedField = ResolveFieldName(field, mapping);
+            var sortOrder = isDescending ? SortOrder.Descending : SortOrder.Ascending;
+            sortDescriptor.Field(resolvedField, sortOrder);
         }
 
         return sortDescriptor;
     }
 
-    private static bool IsKeyword(ITypeMapping mapping, string field)
-        => field != Score &&
-            InspectPropertyType(mapping.Properties, field.Split('.'), currentIndex: 0) == "keyword";
-
-    private static string InspectPropertyType(IProperties properties, string[] pathSegments, int currentIndex)
+    private static (string field, bool isDescending)[] ParseSortString(string sort)
     {
-        if (currentIndex < pathSegments.Length && properties.ContainsKey(pathSegments[currentIndex]))
+        return sort.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                  .Select(part => part.Trim())
+                  .Where(part => !string.IsNullOrEmpty(part))
+                  .Select(ParseSortPart)
+                  .ToArray();
+    }
+
+    private static (string field, bool isDescending) ParseSortPart(string sortPart)
+    {
+        var isDescending = sortPart.StartsWith('-');
+        var field = isDescending ? sortPart[1..] : sortPart;
+        return (field, isDescending);
+    }
+
+    private static string ResolveFieldName(string field, ITypeMapping mapping)
+    {
+        // Handle special case for score field
+        if (string.Equals(field, UserScoreField, StringComparison.OrdinalIgnoreCase))
+            return ElasticsearchScoreField;
+
+        var fieldType = GetFieldType(mapping, field);
+
+        return fieldType switch
         {
-            var currentProperty = properties[pathSegments[currentIndex]];
+            "integer" => field,
+            "keyword" => field,
+            "date" => field,
+            "boolean" => field,
+            _ => $"{field}{KeywordSuffix}" // Default to .keyword for text fields
+        };
+    }
 
-            if (currentIndex == pathSegments.Length - 1)
-                // We've reached the desired property
-                return currentProperty.Type;
+    private static string? GetFieldType(ITypeMapping mapping, string fieldPath)
+    {
+        var pathSegments = fieldPath.Split('.');
+        return InspectPropertyType(mapping.Properties, pathSegments, 0);
+    }
 
-            if (currentProperty is ObjectProperty objectProperty)
-                // We need to delve deeper into the object properties
-                return InspectPropertyType(objectProperty.Properties, pathSegments, currentIndex + 1);
-        }
+    private static string? InspectPropertyType(IProperties properties, string[] pathSegments, int currentIndex)
+    {
+        if (currentIndex >= pathSegments.Length || !properties.ContainsKey(pathSegments[currentIndex]))
+            return null;
 
-        // The desired property or path wasn't found
+        var currentProperty = properties[pathSegments[currentIndex]];
+
+        // If we've reached the target property, return its type
+        if (currentIndex == pathSegments.Length - 1)
+            return currentProperty.Type;
+
+        // If it's an object property, recurse into its properties
+        if (currentProperty is ObjectProperty objectProperty && objectProperty.Properties != null)
+            return InspectPropertyType(objectProperty.Properties, pathSegments, currentIndex + 1);
+
         return null;
     }
 
