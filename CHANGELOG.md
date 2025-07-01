@@ -1,3 +1,13 @@
+# [8.256.0](https://github.com/informatievlaanderen/association-registry/compare/v8.255.0...v8.256.0) (2025-07-01)
+
+
+### Features
+
+* or-2538 implement duplicate detection middleware ([fe8164b](https://github.com/informatievlaanderen/association-registry/commit/fe8164b84afa899b432228b655992b2879e3aa10))
+* or-2538 implement duplicate detection middleware with enriched locaties ([dca8b80](https://github.com/informatievlaanderen/association-registry/commit/dca8b804b31c10d17f231e916f0f0318825bff43))
+* or-2538 implement middleware to fetch grar addresses by id ([79521fa](https://github.com/informatievlaanderen/association-registry/commit/79521fa90874473f0d3729f34b4e9e24cdda74ff))
+* or-2862 allow more time for flush ([5495c89](https://github.com/informatievlaanderen/association-registry/commit/5495c89e0653c65ae9e4233e6edb40c03c595786))
+
 # [8.255.0](https://github.com/informatievlaanderen/association-registry/compare/v8.254.1...v8.255.0) (2025-06-26)
 
 
