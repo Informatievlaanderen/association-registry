@@ -66,4 +66,22 @@ public class AdresMatchController : ApiController
         return Ok(
             $"Aantal verwerkte locaties:{succeededMessages}. Aantal gefaalde locaties: {failedMessages}. Totaal aantal berichten: {messages.Count}");
     }
+
+    [HttpGet("locaties/zonder-adresmatch")]
+    public async Task<IActionResult> RetrieveAdressenWithoutAdresMatch(
+        [FromServices] IDocumentStore documentStore,
+        [FromServices] ILogger<AdresMatchController> logger,
+        CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Start retrieving locaties zonderadresmatch");
+
+        await using var session = documentStore.LightweightSession();
+
+        var docs = await session.Query<LocatieZonderAdresMatchDocument>()
+                                .Where(x => x.LocatieIds.Length > 0)
+                                .ToListAsync(cancellationToken);
+
+        logger.LogInformation("Done retrieving locatieszonderadresmatch");
+        return Ok(docs);
+    }
 }
