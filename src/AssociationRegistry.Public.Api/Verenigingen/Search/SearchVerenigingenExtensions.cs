@@ -6,6 +6,8 @@ using System.Linq;
 
 public static class SearchVerenigingenExtensions
 {
+    private const string Score = "_score";
+
     public static SearchDescriptor<T> ParseSort<T>(
         this SearchDescriptor<T> source,
         string? sort,
@@ -14,6 +16,9 @@ public static class SearchVerenigingenExtensions
     {
         if (string.IsNullOrWhiteSpace(sort))
             return source.Sort(defaultSort);
+
+        if (sort.Contains("score"))
+            sort = sort.Replace("score", Score);
 
         return source.Sort(_ => SortDescriptor<T>(sort, mapping).ThenBy(defaultSort));
     }
@@ -46,7 +51,8 @@ public static class SearchVerenigingenExtensions
     }
 
     private static bool IsKeyword(ITypeMapping mapping, string field)
-        => InspectPropertyType(mapping.Properties, field.Split('.'), currentIndex: 0) == "keyword";
+        => field != Score &&
+            InspectPropertyType(mapping.Properties, field.Split('.'), currentIndex: 0) == "keyword";
 
     private static string InspectPropertyType(IProperties properties, string[] pathSegments, int currentIndex)
     {
