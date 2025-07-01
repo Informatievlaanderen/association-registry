@@ -1,3 +1,10 @@
+# [8.257.0](https://github.com/informatievlaanderen/association-registry/compare/v8.256.0...v8.257.0) (2025-07-01)
+
+
+### Features
+
+* or-2823 allow sorting by _score ([e695668](https://github.com/informatievlaanderen/association-registry/commit/e695668b95e8e79161883d6da483daa6a273fc60))
+
 # [8.256.0](https://github.com/informatievlaanderen/association-registry/compare/v8.255.0...v8.256.0) (2025-07-01)
 
 
