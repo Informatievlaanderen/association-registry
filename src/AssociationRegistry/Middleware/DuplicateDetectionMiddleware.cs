@@ -23,7 +23,10 @@ public class DuplicateDetectionMiddleware
         if (envelope.Command.SkipDuplicateDetection)
             return PotentialDuplicatesFound.None;
 
-        var duplicates = (await duplicateVerenigingDetectionService.ExecuteAsync(envelope.Command.Naam, envelope.Command.Locaties))
+        var locaties = new DuplicateVerenigingZoekQueryLocaties(envelope.Command.Locaties)
+           .VerrijkMetVerrijkteAdressenUitGrar(verrijkteAdressenUitGrar);
+
+        var duplicates = (await duplicateVerenigingDetectionService.ExecuteAsync(envelope.Command.Naam, locaties))
            .ToArray();
 
         if (duplicates.Any())

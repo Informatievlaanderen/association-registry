@@ -5,6 +5,7 @@ using DuplicateVerenigingDetection;
 using GemeentenaamVerrijking;
 using Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Middleware;
 using Nest;
 using System.Collections.Immutable;
 using LogLevel = LogLevel;
@@ -31,18 +32,30 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
         bool includeScore = false,
         MinimumScore? minimumScoreOverride = null)
     {
+        return await ExecuteAsync(naam, new DuplicateVerenigingZoekQueryLocaties(locaties), includeScore, minimumScoreOverride);
+    }
+
+    public async Task<IReadOnlyCollection<DuplicaatVereniging>> ExecuteAsync(
+        VerenigingsNaam naam,
+        DuplicateVerenigingZoekQueryLocaties locaties,
+        bool includeScore = false,
+        MinimumScore? minimumScoreOverride = null)
+    {
         minimumScoreOverride ??= _defaultMinimumScore;
 
-        var locatiesMetAdres = locaties.Where(l => l.Adres is not null).ToArray();
+        var naamZonderGemeentes = RemoveGemeentenaamFromVerenigingsNaam.Remove(naam, locaties.VerrijkteGemeentes);
 
-        if (locatiesMetAdres.Length == 0) return Array.Empty<DuplicaatVereniging>();
+        return await Search(naam, includeScore, minimumScoreOverride, naamZonderGemeentes, locaties.Gemeentes, locaties.Postcodes);
+    }
 
-        var postcodes = locatiesMetAdres.Select(l => l.Adres!.Postcode).ToArray();
-        var gemeentes = locatiesMetAdres.Select(l => l.Adres!.Gemeente.Naam).ToArray();
-
-        var verrijkteGemeentes = gemeentes.Select(x => VerrijkteGemeentenaam.FromGemeentenaam(new Gemeentenaam(x))).ToArray();
-        var naamZonderGemeentes = RemoveGemeentenaamFromVerenigingsNaam.Remove(naam, verrijkteGemeentes);
-
+    private async Task<IReadOnlyCollection<DuplicaatVereniging>> Search(
+        VerenigingsNaam naam,
+        bool includeScore,
+        MinimumScore minimumScoreOverride,
+        string naamZonderGemeentes,
+        string[] gemeentes,
+        string[] postcodes)
+    {
         var searchResponse =
             await _client
                .SearchAsync<DuplicateDetectionDocument>(s =>
