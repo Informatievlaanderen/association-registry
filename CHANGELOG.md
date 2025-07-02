@@ -1,3 +1,10 @@
+# [8.258.0](https://github.com/informatievlaanderen/association-registry/compare/v8.257.0...v8.258.0) (2025-07-02)
+
+
+### Features
+
+* or-2808 add superadmin endpoint for retrieving locaties without adresmatch ([abcf762](https://github.com/informatievlaanderen/association-registry/commit/abcf762a04998e6da3a5abf0ac58889c58d9e160))
+
 # [8.257.0](https://github.com/informatievlaanderen/association-registry/compare/v8.256.0...v8.257.0) (2025-07-01)
 
 
