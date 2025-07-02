@@ -3,14 +3,13 @@ namespace AssociationRegistry.EventStore;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Events;
 using Framework;
-using JasperFx.Events;
 using Marten;
-using Marten.Events;
-using Marten.Exceptions;
 using Microsoft.Extensions.Logging;
 using NodaTime.Text;
 using Vereniging;
+using EventStreamUnexpectedMaxEventIdException = JasperFx.Events.EventStreamUnexpectedMaxEventIdException;
 using IEvent = Events.IEvent;
+using StreamAction = JasperFx.Events.StreamAction;
 
 public class EventStore : IEventStore
 {

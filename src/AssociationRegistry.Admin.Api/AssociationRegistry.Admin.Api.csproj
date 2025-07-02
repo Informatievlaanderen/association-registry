@@ -83,8 +83,8 @@
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.10" />
 
     <PackageReference Include="Be.Vlaanderen.Basisregisters.AggregateSource" Version="9.0.1"/>
-    <PackageReference Include="Be.Vlaanderen.Basisregisters.Api" />
-    <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Api" Version="23.1.0"/>
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" Version="21.15"/>
     <PackageReference Include="CsvHelper" />
     <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" />
     <PackageReference Include="Marten.CommandLine" />
@@ -94,6 +94,6 @@
     <PackageReference Include="SourceLink.Copy.PdbFiles" Version="2.8.3" />
     <PackageReference Include="SourceLink.Embed.AllSourceFiles" Version="2.8.3" />
     <PackageReference Include="WolverineFx.AmazonSqs" />
-    <PackageReference Include="Confluent.Kafka" />
+    <PackageReference Include="Confluent.Kafka" Version="2.4"/>
   </ItemGroup>
 </Project>

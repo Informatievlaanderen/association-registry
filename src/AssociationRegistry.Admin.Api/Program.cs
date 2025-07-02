@@ -49,6 +49,7 @@ using Infrastructure.Metrics;
 using Infrastructure.Middleware;
 using Infrastructure.ResponseWriter;
 using Infrastructure.Sequence;
+using JasperFx;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
@@ -119,7 +120,7 @@ public class Program
         ConfigureWebHost(builder);
         ConfigureServices(builder);
 
-        builder.Host.ApplyOaktonExtensions();
+        builder.Host.ApplyJasperFxExtensions();
         builder.Host.UseLamar();
 
         builder.AddWolverine();
@@ -129,7 +130,7 @@ public class Program
 
         if (ProgramArguments.IsCodeGen(args))
         {
-            await app.RunOaktonCommands(args);
+            await app.RunJasperFxCommands(args);
             return;
         }
 

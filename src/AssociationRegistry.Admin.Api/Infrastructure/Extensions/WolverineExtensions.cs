@@ -27,8 +27,11 @@ public static class WolverineExtensions
     {
         const string wolverineSchema = "public";
 
+        var serviceProvider = builder.Services.BuildServiceProvider();
+        var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
         builder.Host.UseWolverine(
-            (context, options) =>
+            (options) =>
             {
                 Log.Logger.Information("Setting up wolverine");
                 options.ApplicationAssembly = typeof(Program).Assembly;
@@ -49,7 +52,7 @@ public static class WolverineExtensions
                        .AddMiddleware(typeof(EnrichLocatiesMiddleware))
                        .AddMiddleware(typeof(DuplicateDetectionMiddleware));
 
-                var grarOptions = context.Configuration.GetGrarOptions();
+                var grarOptions = configuration.GetGrarOptions();
 
                 if (grarOptions.Wolverine.OptimizeArtifactWorkflow)
                     options.CodeGeneration.TypeLoadMode = TypeLoadMode.Static;
@@ -63,9 +66,9 @@ public static class WolverineExtensions
                 if (grarOptions.Sqs.UseLocalStack)
                     transportConfiguration.Credentials(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"));
 
-                ConfigureSqsQueues(options, grarOptions, context.Configuration.GetAppSettings());
+                ConfigureSqsQueues(options, grarOptions, configuration.GetAppSettings());
 
-                ConfigurePostgresQueues(options, context, wolverineSchema);
+                ConfigurePostgresQueues(options, configuration, wolverineSchema);
 
                 if (grarOptions.Wolverine.AutoProvision)
                     transportConfiguration.AutoProvision();
@@ -94,13 +97,12 @@ public static class WolverineExtensions
     {
         options.PublishMessage<TeSynchroniserenKboNummerMessage>()
                .ToSqsQueue(appSettings.KboSyncQueueName)
-               .SendRawJsonMessage()
                .MessageBatchSize(1);
     }
 
     private static void ConfigurePostgresQueues(
         WolverineOptions options,
-        HostBuilderContext context,
+        IConfiguration configuration,
         string wolverineSchema)
     {
         const string AanvaardDubbeleVerenigingQueueName = "aanvaard-dubbele-vereniging-queue";
@@ -108,7 +110,7 @@ public static class WolverineExtensions
         options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessage>();
         options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessageHandler>();
 
-        var connectionString = context.Configuration.GetPostgreSqlOptionsSection().GetConnectionString();
+        var connectionString = configuration.GetPostgreSqlOptionsSection().GetConnectionString();
 
         options.UsePostgresqlPersistenceAndTransport(connectionString, wolverineSchema, wolverineSchema);
 

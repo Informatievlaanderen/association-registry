@@ -8,4 +8,10 @@
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+
+    <PackageReference Include="Nest" Version="7.17.4" />
+
+  </ItemGroup>
 </Project>
