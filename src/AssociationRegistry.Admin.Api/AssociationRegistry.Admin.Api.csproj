@@ -78,6 +78,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JasperFx.Events" Version="1.2.0" />
+    <PackageReference Include="OpenTelemetry" Version="1.8.1" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.10" />
+
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.AggregateSource" Version="9.0.1"/>
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" />
     <PackageReference Include="CsvHelper" />
@@ -91,6 +96,4 @@
     <PackageReference Include="WolverineFx.AmazonSqs" />
     <PackageReference Include="Confluent.Kafka" />
   </ItemGroup>
-
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

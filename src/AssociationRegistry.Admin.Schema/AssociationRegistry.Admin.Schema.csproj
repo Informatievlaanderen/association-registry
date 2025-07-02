@@ -44,5 +44,5 @@
     <PackageReference Include="Marten" Version="8.2.1" />
   </ItemGroup>
 
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project="..\..\.paket\" />
 </Project>

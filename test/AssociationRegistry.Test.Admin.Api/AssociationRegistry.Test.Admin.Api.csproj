@@ -61,5 +61,5 @@
     <Folder Include="Documentation\" />
     <Folder Include="Rebuilding\" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project="..\..\.paket\" />
 </Project>

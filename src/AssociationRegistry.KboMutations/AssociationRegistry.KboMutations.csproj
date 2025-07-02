@@ -8,7 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project="..\..\.paket\" />
 
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.RuntimeSupport" />

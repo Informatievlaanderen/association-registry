@@ -28,5 +28,5 @@
     <EmbeddedResource Include="templates\adminApi\ZoekVerenigingenResponse.json" />
   </ItemGroup>
 
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project="..\..\.paket\" />
 </Project>

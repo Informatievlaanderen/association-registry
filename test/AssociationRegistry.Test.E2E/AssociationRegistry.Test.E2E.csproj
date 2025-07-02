@@ -25,6 +25,6 @@
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project="..\..\.paket\" />
 </Project>
 
