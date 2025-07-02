@@ -39,5 +39,10 @@
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NEST" Version="7.17.4" />
+    <PackageReference Include="Marten" Version="8.2.1" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

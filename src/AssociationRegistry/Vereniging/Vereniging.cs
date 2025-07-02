@@ -60,13 +60,13 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             var adres = verrijkteAdressenUitGrar.For(locatieMetAdresId.AdresId!);
 
             AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieMetAdresId.LocatieId,
-                                                                       new Registratiedata.AdresId(
-                                                                           locatieMetAdresId.AdresId!.Adresbron.Code,
-                                                                           locatieMetAdresId.AdresId.Bronwaarde),
-                                                                       new Registratiedata.AdresUitAdressenregister(
-                                                                           adres.Straatnaam, adres.Huisnummer,
-                                                                           adres.Busnummer, adres.Postcode,
-                                                                           adres.Gemeente.Naam)));
+                                                                 new Registratiedata.AdresId(
+                                                                     locatieMetAdresId.AdresId!.Adresbron.Code,
+                                                                     locatieMetAdresId.AdresId.Bronwaarde),
+                                                                 new Registratiedata.AdresUitAdressenregister(
+                                                                     adres.Straatnaam, adres.Huisnummer,
+                                                                     adres.Busnummer, adres.Postcode,
+                                                                     adres.Gemeente.Naam)));
         }
     }
 
@@ -299,16 +299,20 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerfijnSubtypeNaarFeitelijkeVereniging()
     {
-        State.Verenigingssubtype
-             .VerFijnNaarFeitelijkeVereniging(VCode)
-             .ForEach(AddEvent);
+        foreach (var @event in State.Verenigingssubtype
+                                    .VerFijnNaarFeitelijkeVereniging(VCode))
+        {
+            AddEvent(@event);
+        }
     }
 
     public void ZetSubtypeNaarNietBepaald()
     {
-        State.Verenigingssubtype
-             .ZetSubtypeNaarNietBepaald(VCode)
-             .ForEach(AddEvent);
+        foreach (var @event in State.Verenigingssubtype
+                                    .ZetSubtypeNaarNietBepaald(VCode))
+        {
+            AddEvent(@event);
+        }
     }
 
     public void VerfijnNaarSubvereniging(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
@@ -316,9 +320,11 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs>.If(
             AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging));
 
-        State.Verenigingssubtype
-             .VerFijnNaarSubvereniging(VCode, subverenigingVan)
-             .ForEach(AddEvent);
+        foreach (var @event in State.Verenigingssubtype
+                                    .VerFijnNaarSubvereniging(VCode, subverenigingVan))
+        {
+            AddEvent(@event);
+        }
     }
 
     public void Hydrate(VerenigingState obj)

@@ -8,5 +8,5 @@
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets"/>
+
 </Project>

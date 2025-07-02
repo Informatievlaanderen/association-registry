@@ -83,5 +83,15 @@
     <EmbeddedResource Include="Resources\nuts-lau-codes.csv" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.100.16" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Api" />
+    <PackageReference Include="SourceLink.Embed.AllSourceFiles" Version="2.8.3" />
+    <PackageReference Include="SourceLink.Copy.PdbFiles" Version="2.8.3" />
+    <PackageReference Include="NEST" Version="7.17.4" />
+    <PackageReference Include="Marten" Version="8.2.1" />
+  </ItemGroup>
+
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

@@ -66,5 +66,35 @@
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NEST" Version="7.17.4" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Converters.TrimString" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.3" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc" Version="5.0.0" />
+    <PackageReference Include="NodaTime.Serialization.JsonNet" />
+
+    <PackageReference Include="Serilog.Formatting.Compact" />
+    <PackageReference Include="Serilog.Enrichers.Environment" />
+    <PackageReference Include="Serilog.Enrichers.Thread" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+    <PackageReference Include="Serilog.Settings.Configuration" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="Serilog.Sinks.File" />
+
+    <PackageReference Include="Destructurama.JsonNet" Version="3.0.0" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="Polly" />
+    <PackageReference Include="Marten.CommandLine" />
+    <PackageReference Include="Marten.AspNetCore" />
+    <PackageReference Include="WolverineFx" />
+  </ItemGroup>
+
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

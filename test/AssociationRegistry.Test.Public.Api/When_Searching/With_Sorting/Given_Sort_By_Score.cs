@@ -27,12 +27,12 @@ public class Given_Sort_By_Score
         _publicApiClient = fixture.PublicApiClient;
 
         _query = SetUpQueryWithFullORPartialMatch();
-        _vCodeOfFullyMatched = _fixture.V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario.VCode;
+        _vCodeOfFullyMatched = VCode.Create(_fixture.V001FeitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
     private string SetUpQueryWithFullORPartialMatch()
     {
-        var exactMatch = _fixture.V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam;
+        var exactMatch = _fixture.V001FeitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Naam;
         var partialMatch = _fixture.V003BasisgegevensWerdenGewijzigdScenario.NaamWerdGewijzigd.Naam.Split(" ")[0];
 
         var query = $"{exactMatch} OR {partialMatch}";

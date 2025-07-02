@@ -77,5 +77,20 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Api" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" />
+    <PackageReference Include="CsvHelper" />
+    <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" />
+    <PackageReference Include="Marten.CommandLine" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="NEST" Version="7.17.4" />
+    <PackageReference Include="Slack.Webhooks" />
+    <PackageReference Include="SourceLink.Copy.PdbFiles" Version="2.8.3" />
+    <PackageReference Include="SourceLink.Embed.AllSourceFiles" Version="2.8.3" />
+    <PackageReference Include="WolverineFx.AmazonSqs" />
+    <PackageReference Include="Confluent.Kafka" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

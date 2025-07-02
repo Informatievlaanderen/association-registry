@@ -23,5 +23,5 @@
     <Using Include="Xunit"/>
   </ItemGroup>
 
-  <Import Project="..\..\.paket\Paket.Restore.targets"/>
+
 </Project>
