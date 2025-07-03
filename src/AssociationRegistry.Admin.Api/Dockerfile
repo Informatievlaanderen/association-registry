@@ -9,7 +9,6 @@ COPY *.sln .
 COPY .config .
 
 RUN dotnet tool restore
-RUN dotnet paket restore
 
 ARG BUILD_PROJECT=AssociationRegistry.Admin.Api
 ARG ELASTIC_HOST
@@ -19,7 +18,7 @@ ARG GIT_HASH
 COPY . .
 
 RUN dotnet restore
-RUN dotnet dotnet-script .github/build-scripts/SetSolutionInfo.csx 
+RUN dotnet dotnet-script .github/build-scripts/SetSolutionInfo.csx
 
 
 FROM base AS src-build
