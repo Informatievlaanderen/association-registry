@@ -1,5 +1,5 @@
 # Use workflow from: Branch 'your current hotfix branch'
-# Version: 'use the version you branch off from and add a .1 e.g. 1.221.1.1' 
+# Version: 'use the version you branch off from and add a .1 e.g. 1.221.1.1'
 # Once this workflow has completed, go to manual deploy to 'environment'
 # Use the same version e.g. 1.221.1.1 and use workflow from main
 name: "[DEPLOY] Hotfix"
@@ -379,10 +379,6 @@ jobs:
         shell: bash
         run: |
           dotnet tool restore
-
-      - name: Paket restore
-        shell: bash
-        run: dotnet paket restore
 
       - name: Dotnet restore
         shell: bash
