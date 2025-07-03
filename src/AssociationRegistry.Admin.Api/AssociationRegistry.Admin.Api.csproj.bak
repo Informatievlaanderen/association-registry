@@ -23,6 +23,7 @@
     <NoWarn>1701;1702;1705;1591</NoWarn>
     <OutputType>Exe</OutputType>
     <IsTestProject>false</IsTestProject>
+    <UserSecretsId>265231d5-e072-4985-b56a-085e838c6e99</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,27 +36,16 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
 
-  <PropertyGroup>
-
-    <PaketRestoreDisabled Condition="'$(NCrunch)' == '1'">True</PaketRestoreDisabled>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <ServerGarbageCollection>true</ServerGarbageCollection>
-    <EnableDefaultContentItems>false</EnableDefaultContentItems>
-    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\net8.0\AssociationRegistry.Public.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net8.0\AssociationRegistry.Admin.Api.xml</DocumentationFile>
     <DefineConstants>TRACE;DEBUG;NETCOREAPP;NET6_0</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\net8.0\AssociationRegistry.Public.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net8.0\AssociationRegistry.Admin.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Dockerfile" CopyToOutputDirectory="Always"/>
+    <None Include="Dockerfile"/>
     <Content Include="appsettings.json" CopyToOutputDirectory="Always"/>
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always"/>
     <Content Include="paket.template" CopyToOutputDirectory="Always"/>
@@ -67,29 +57,38 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AssociationRegistry.Admin.Schema\AssociationRegistry.Admin.Schema.csproj"/>
     <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj"/>
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj"/>
-    <ProjectReference Include="..\AssociationRegistry.Public.Schema\AssociationRegistry.Public.Schema.csproj"/>
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Contexten\beheer\detail-vereniging-context.json"/>
-    <EmbeddedResource Include="Contexten\beheer\historiek-vereniging-context.json"/>
-    <EmbeddedResource Include="Contexten\beheer\zoek-verenigingen-context.json"/>
-    <EmbeddedResource Include="Contexten\publiek\detail-all-vereniging-context.json"/>
-    <EmbeddedResource Include="Contexten\publiek\detail-vereniging-context.json"/>
-    <EmbeddedResource Include="Contexten\publiek\zoek-verenigingen-context.json"/>
-    <EmbeddedResource Include="Resources\nuts-lau-codes.csv" CopyToOutputDirectory="Always"/>
+    <EmbeddedResource Include="Contexten\*.json"/>
+    <Compile Update="ValidationMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ValidationMessages.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="ValidationMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
-
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3"/>
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>
-    <PackageReference Include="SourceLink.Embed.AllSourceFiles"/>
-    <PackageReference Include="SourceLink.Copy.PdbFiles"/>
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts"/>
+    <PackageReference Include="CSVHelper"/>
+    <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection"/>
+    <PackageReference Include="Marten.CommandLine"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
     <PackageReference Include="NEST"/>
-    <PackageReference Include="Marten"/>
+    <PackageReference Include="Slack.Webhooks"/>
+    <PackageReference Include="SourceLink.Copy.PdbFiles"/>
+    <PackageReference Include="SourceLink.Embed.AllSourceFiles"/>
+    <PackageReference Include="WolverineFx.AmazonSqs"/>
+    <PackageReference Include="Confluent.Kafka"/>
   </ItemGroup>
 </Project>

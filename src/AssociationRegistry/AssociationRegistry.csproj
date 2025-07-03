@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -71,6 +71,16 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
 
-
-  <Import Project="..\..\.paket\Paket.Restore.targets"/>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.AggregateSource" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic" />
+    <PackageReference Include="Slack.Webhooks" />
+    <PackageReference Include="Result.Net" />
+    <PackageReference Include="Polly" />
+    <PackageReference Include="Marten" />
+    <PackageReference Include="WolverineFx.Marten" />
+    <PackageReference Include="WolverineFx.AmazonSqs" />
+    <PackageReference Include="CompareNETObjects" />
+    </ItemGroup>
 </Project>

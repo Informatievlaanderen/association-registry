@@ -21,7 +21,7 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <NoWarn>1701;1702;1705;1591</NoWarn>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
@@ -36,10 +36,49 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
+    <Content Include="Dockerfile" CopyToOutputDirectory="Always"/>
+    <Content Include="appsettings.json" CopyToOutputDirectory="Always"/>
+    <Content Include="appsettings.*.json" CopyToOutputDirectory="Always"/>
+    <Content Update="init.sh" CopyToOutputDirectory="Always"/>
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AssociationRegistry.Admin.Schema\AssociationRegistry.Admin.Schema.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="CSVHelper"/>
     <PackageReference Include="Marten"/>
+    <PackageReference Include="NodaTime"/>
+    <PackageReference Include="AWSSDK.S3"/>
+    <PackageReference Include="Serilog"/>
+    <PackageReference Include="Serilog.Enrichers.Environment"/>
+    <PackageReference Include="Serilog.Enrichers.Thread"/>
+    <PackageReference Include="Serilog.Extensions.Logging"/>
+    <PackageReference Include="Serilog.Formatting.Compact"/>
+    <PackageReference Include="Serilog.Settings.Configuration"/>
+    <PackageReference Include="Serilog.Sinks.File"/>
+    <PackageReference Include="Serilog.Sinks.Console"/>
+    <PackageReference Include="OpenTelemetry"/>
+    <PackageReference Include="OpenTelemetry.Api"/>
+    <PackageReference Include="OpenTelemetry.Exporter.Console"/>
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol"/>
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol.Logs"/>
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting"/>
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http"/>
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime"/>
+    <PackageReference Include="NpgSql.OpenTelemetry"/>
+    <PackageReference Include="Destructurama.JsonNet"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
+    <PackageReference Include="Microsoft.Extensions.Http"/>
+    <PackageReference Include="Marten.AspNetCore"/>
   </ItemGroup>
 </Project>

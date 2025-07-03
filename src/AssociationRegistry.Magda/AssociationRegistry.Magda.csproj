@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -35,15 +35,9 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
 
-<!--  <ItemGroup>-->
-<!--    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0"/>-->
-<!--    <PackageReference Include="System.ServiceModel.Http" Version="6.2.0"/>-->
-<!--    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.2.0"/>-->
-<!--    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0"/>-->
-<!--  </ItemGroup>-->
 
   <ItemGroup>
-    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
+    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj"/>
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
   </ItemGroup>
 
@@ -59,12 +53,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*"/>
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Wsdl\"/>
   </ItemGroup>
 
-  <Import Project="..\..\.paket\Paket.Restore.targets"/>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http"/>
+    <PackageReference Include="System.ServiceModel.Duplex"/>
+    <PackageReference Include="System.ServiceModel.Http"/>
+    <PackageReference Include="System.ServiceModel.NetTcp"/>
+    <PackageReference Include="System.ServiceModel.Security"/>
+  </ItemGroup>
 </Project>

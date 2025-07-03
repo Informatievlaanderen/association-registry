@@ -3,13 +3,12 @@ namespace AssociationRegistry.Test.Public.Api.Queries.PubliekVerenigingenZoekQue
 using AssociationRegistry.Public.Api.Queries;
 using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Public.Schema.Search;
-using AssociationRegistry.Test.Public.Api.Framework;
-using AssociationRegistry.Test.Public.Api.When_Saving_A_Document_To_Elastic;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
-using Humanizer;
+using Framework;
 using Nest;
+using Vereniging;
+using When_Saving_A_Document_To_Elastic;
 using Xunit;
 
 public class Bugfix_RoepnaamNaGeotagsAnalyzerFixture : ElasticRepositoryFixture
@@ -26,7 +25,7 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
     private readonly ITestOutputHelper _helper;
     private readonly IElasticClient? _elasticClient;
     private readonly Fixture _autoFixture;
-    private readonly AssociationRegistry.Public.Api.Queries.PubliekVerenigingenZoekQuery _query;
+    private readonly PubliekVerenigingenZoekQuery _query;
     private const string _roepnaam = "Roepnaam Et velit totam numquam voluptatibus quam ratione.2025-06-06T11:42:23.689Z";
 
     public Bugfix_RoepnaamNaGeotagsAnalyzer(Bugfix_RoepnaamNaGeotagsAnalyzerFixture fixture, ITestOutputHelper helper)
@@ -36,7 +35,7 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
         _elasticClient = fixture.ElasticClient;
         _autoFixture = new Fixture().CustomizePublicApi();
 
-        _query = new AssociationRegistry.Public.Api.Queries.PubliekVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping);
+        _query = new PubliekVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping);
     }
 
     [Fact]

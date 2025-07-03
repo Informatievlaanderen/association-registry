@@ -1,12 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
+using EventStore;
 using Framework.Helpers;
-using Humanizer;
 using Marten;
-using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -14,11 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
-using NodaTime.Extensions;
 using Npgsql;
 using System.Reflection;
 using Xunit;
-using IEvent = Events.IEvent;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 
 public class ProjectionHostFixture : IDisposable, IAsyncLifetime

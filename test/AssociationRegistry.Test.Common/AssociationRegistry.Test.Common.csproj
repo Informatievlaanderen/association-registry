@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -28,5 +28,22 @@
     <EmbeddedResource Include="templates\adminApi\ZoekVerenigingenResponse.json" />
   </ItemGroup>
 
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="Alba" />
+    <PackageReference Include="AutoBogus" />
+    <PackageReference Include="AutoFixture" />
+    <PackageReference Include="FluentAssertions.Json" />
+    <PackageReference Include="Marten" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NEST" />
+    <PackageReference Include="xunit.v3.assert" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="xunit.v3.core" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" />
+    <PackageReference Include="Scriban" />
+    <PackageReference Include="FluentAssertions" />
+  </ItemGroup>
 </Project>

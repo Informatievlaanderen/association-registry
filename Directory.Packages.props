@@ -1,0 +1,119 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Testing -->
+    <PackageVersion Include="Alba" Version="8.0" />
+    <PackageVersion Include="AutoBogus" Version="2.13.1" />
+    <PackageVersion Include="AutoFixture" Version="4.18.1" />
+    <PackageVersion Include="AutoFixture.Xunit2" Version="4.18.1" />
+    <PackageVersion Include="FluentAssertions" Version="6.12" />
+    <PackageVersion Include="FluentAssertions.Json" Version="6.1" />
+    <PackageVersion Include="Moq" Version="4.20.70" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.7" />
+    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="8.0.7" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10" />
+    <PackageVersion Include="xunit.v3" Version="2.0.2" />
+    <PackageVersion Include="xunit.analyzers" Version="1.21" />
+    <PackageVersion Include="xunit.v3.assert" Version="2.0.2" />
+    <PackageVersion Include="xunit.v3.core" Version="2.0.2" />
+    <PackageVersion Include="xunit.v3.extensibility.core" Version="2.0.2" />
+    <PackageVersion Include="xunit.v3.runner.console" Version="2.0.2" />
+    <PackageVersion Include="xunit.v3.runner.msbuild" Version="2.0.2" />
+    <PackageVersion Include="xunit.v3.runner.utility" Version="2.0.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1" />
+    <!-- AWS -->
+    <PackageVersion Include="Amazon.Lambda.Core" Version="2.5" />
+    <PackageVersion Include="Amazon.Lambda.RuntimeSupport" Version="1.12.2" />
+    <PackageVersion Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.4.4" />
+    <PackageVersion Include="Amazon.Lambda.SQSEvents" Version="2.2" />
+    <PackageVersion Include="AWSSDK.S3" Version="3.7.402.2" />
+    <PackageVersion Include="AWSSDK.SimpleSystemsManagement" Version="3.7.401.9" />
+    <PackageVersion Include="AWSSDK.SQS" Version="3.7.301.7" />
+    <!-- Be.Vlaanderen.Basisregisters -->
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.AggregateSource" Version="9.0.1" />
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.Api" Version="23.1" />
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.AssociationRegistry" Version="8.199.1" />
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.AspNetCore.Swagger" Version="5.0" />
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc" Version="5.0" />
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.Aws.DistributedMutex" Version="4.0.1" />
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.Build.Pipeline" Version="7.2.6" />
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.Converters.TrimString" Version="4.0" />
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic" Version="4.0" />
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" Version="21.15" />
+    <PackageVersion Include="Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset" Version="4.0" />
+    <!-- ASP.NET Core -->
+    <PackageVersion Include="Microsoft.AspNetCore.App.Ref" Version="8.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
+    <PackageVersion Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.5" />
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0" />
+    <!-- Configuration & Extensions -->
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.5" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="8.0.5" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.5" />
+    <!-- Database -->
+    <PackageVersion Include="Marten" Version="7.37.1" />
+    <PackageVersion Include="Marten.AspNetCore" Version="7.37.1" />
+    <PackageVersion Include="Marten.CommandLine" Version="7.37.1" />
+    <PackageVersion Include="Npgsql" Version="8.0.6" />
+    <PackageVersion Include="Npgsql.OpenTelemetry" Version="8.0.3" />
+    <!-- Search -->
+    <PackageVersion Include="NEST" Version="7.17.4" />
+    <!-- Messaging -->
+    <PackageVersion Include="Confluent.Kafka" Version="2.4" />
+    <PackageVersion Include="WolverineFx" Version="2.9" />
+    <PackageVersion Include="WolverineFx.AmazonSqs" Version="2.9" />
+    <PackageVersion Include="WolverineFx.Marten" Version="2.9" />
+    <!-- Logging -->
+    <PackageVersion Include="Destructurama.JsonNet" Version="3.0" />
+    <PackageVersion Include="Serilog" Version="3.1.1" />
+    <PackageVersion Include="Serilog.Enrichers.Environment" Version="2.3" />
+    <PackageVersion Include="Serilog.Enrichers.Thread" Version="3.1" />
+    <PackageVersion Include="Serilog.Extensions.Logging" Version="8.0" />
+    <PackageVersion Include="Serilog.Formatting.Compact" Version="2.0" />
+    <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="5.0.1" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="5.0" />
+    <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="2.0" />
+    <!-- OpenTelemetry -->
+    <PackageVersion Include="OpenTelemetry" Version="1.9" />
+    <PackageVersion Include="OpenTelemetry.Contrib.Instrumentation.AWS" Version="1.0.2" />
+    <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.9" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol.Logs" Version="1.5.0-rc.1" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.0.1" />
+    <!-- Swagger -->
+    <PackageVersion Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.3" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.3" />
+    <!-- Utilities -->
+    <PackageVersion Include="CompareNETObjects" Version="4.83" />
+    <PackageVersion Include="CSVHelper" Version="33.0.1" />
+    <PackageVersion Include="FluentValidation" Version="11.9.1" />
+    <PackageVersion Include="FluentAssertions" Version="8.4" />
+    <PackageVersion Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.2" />
+    <PackageVersion Include="NodaTime.Serialization.JsonNet" Version="3.1" />
+    <PackageVersion Include="Polly" Version="8.4" />
+    <PackageVersion Include="Result.Net" Version="1.4" />
+    <PackageVersion Include="Scriban" Version="5.10" />
+    <PackageVersion Include="Slack.Webhooks" Version="1.1.5" />
+    <!-- WCF Services -->
+    <PackageVersion Include="System.ServiceModel.Duplex" Version="6.0" />
+    <PackageVersion Include="System.ServiceModel.Http" Version="6.2" />
+    <PackageVersion Include="System.ServiceModel.NetTcp" Version="6.2" />
+    <PackageVersion Include="System.ServiceModel.Security" Version="6.0" />
+    <!-- Source Link -->
+    <PackageVersion Include="SourceLink.Copy.PdbFiles" Version="2.8.3" />
+    <PackageVersion Include="SourceLink.Embed.AllSourceFiles" Version="2.8.3" />
+  </ItemGroup>
+</Project>

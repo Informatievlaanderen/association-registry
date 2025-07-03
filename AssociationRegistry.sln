@@ -11,7 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 	ProjectSection(SolutionItems) = preProject
 		build.fsx = build.fsx
 		global.json = global.json
-		paket.dependencies = paket.dependencies
 		SolutionInfo.cs = SolutionInfo.cs
 		.gitignore = .gitignore
 		package.json = package.json
@@ -24,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 		otel-collector-config.yaml = otel-collector-config.yaml
 		docker-compose.services.yml = docker-compose.services.yml
 		.dockerignore = .dockerignore
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C812C887-6495-405A-8B99-4F686D243126}"
