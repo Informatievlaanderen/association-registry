@@ -4,7 +4,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0.300 AS base
 WORKDIR /
 
-COPY paket.* .
 COPY *.sln .
 COPY .config .
 
