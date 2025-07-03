@@ -1,13 +1,11 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
+using EventStore;
 using FluentAssertions;
 using Framework.Helpers;
-using Humanizer;
 using Marten;
-using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -18,11 +16,9 @@ using Nest;
 using NodaTime;
 using Npgsql;
 using Oakton;
-using Polly;
 using System.Reflection;
 using Xunit;
 using IEvent = Events.IEvent;
-using Policy = Polly.Policy;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 using PublicApiProgram = AssociationRegistry.Public.Api.Program;
 

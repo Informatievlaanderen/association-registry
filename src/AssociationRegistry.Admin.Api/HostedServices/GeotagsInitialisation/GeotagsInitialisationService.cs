@@ -1,11 +1,9 @@
 namespace AssociationRegistry.Admin.Api.HostedServices.GeotagsInitialisation;
 
 using DecentraalBeheer.Geotags.InitialiseerGeotags;
-using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Framework;
-using Grar.Clients;
 using Grar.NutsLau;
-using Humanizer;
+using JasperFx.Core;
 using Marten;
 using Marten.Schema;
 using Queries;

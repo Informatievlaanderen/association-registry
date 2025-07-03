@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -13,8 +13,7 @@
   </PropertyGroup>
   <ItemGroup Condition="'$(RuntimeIdentifier)' == 'linux-arm64'">
     <RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="68.2.0.9" />
-    <PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="68.2.0.9" />
-  </ItemGroup>
+    </ItemGroup>
   <ItemGroup>
     <None Remove="appsettings.json" />
     <Content Include="appsettings.json">
@@ -32,5 +31,15 @@
     <ProjectReference Include="..\AssociationRegistry.KboMutations\AssociationRegistry.KboMutations.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.SQSEvents" />
+    <PackageReference Include="OpenTelemetry" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="Npgsql.OpenTelemetry" />
+  </ItemGroup>
 </Project>

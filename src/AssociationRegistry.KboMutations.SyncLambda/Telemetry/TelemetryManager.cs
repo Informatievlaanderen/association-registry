@@ -1,7 +1,7 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 
 using Amazon.Lambda.Core;
-using Humanizer;
+using JasperFx.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Metrics;

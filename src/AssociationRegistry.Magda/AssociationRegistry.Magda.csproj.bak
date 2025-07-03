@@ -21,7 +21,7 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <NoWarn>1701;1702;1705;1591</NoWarn>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
@@ -35,47 +35,37 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <Content Include="Dockerfile" CopyToOutputDirectory="Always" />
-    <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
-    <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
-    <Content Update="init.sh" CopyToOutputDirectory="Always" />
+    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
+    <Folder Include="WSDL\Generiek-02.00\"/>
+    <Folder Include="WSDL\Onderneming-02.00\"/>
+    <Folder Include="WSDL\Repertorium-02.01\"/>
+    <Folder Include="WSDL\Repertorium.RegistreerInschrijvingDienst-02.01\Service\"/>
+    <Folder Include="WSDL\Repertorium.RegistreerInschrijvingDienst-02.01\WebService\"/>
+    <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\Service\"/>
+    <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\WebService\"/>
+    <Folder Include="WSDL\Sleutel-02.00\"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AssociationRegistry.Admin.Schema\AssociationRegistry.Admin.Schema.csproj" />
-    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
-    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*"/>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MessageHandling\Sqs\" />
+    <Folder Include="Wsdl\"/>
   </ItemGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="Marten" />
-    <PackageReference Include="Serilog" />
-    <PackageReference Include="Serilog.Enrichers.Environment" />
-    <PackageReference Include="Serilog.Enrichers.Thread" />
-    <PackageReference Include="Serilog.Extensions.Logging" />
-    <PackageReference Include="Serilog.Formatting.Compact" />
-    <PackageReference Include="Serilog.Settings.Configuration" />
-    <PackageReference Include="Serilog.Sinks.File" />
-    <PackageReference Include="Serilog.Sinks.Console" />
-    <PackageReference Include="OpenTelemetry" />
-    <PackageReference Include="OpenTelemetry.Exporter.Console" />
-    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
-    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol.Logs" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
-    <PackageReference Include="Npgsql.OpenTelemetry" />
-    <PackageReference Include="Destructurama.JsonNet" />
-    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.Extensions.Http"/>
+    <PackageReference Include="System.ServiceModel.Duplex"/>
+    <PackageReference Include="System.ServiceModel.Http"/>
+    <PackageReference Include="System.ServiceModel.NetTcp"/>
+    <PackageReference Include="System.ServiceModel.Security"/>
   </ItemGroup>
 </Project>

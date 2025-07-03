@@ -3,7 +3,7 @@ namespace AssociationRegistry.Grar.Clients;
 using Contracts;
 using Events;
 using Exceptions;
-using Humanizer;
+using JasperFx.Core;
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.PostalInfo;

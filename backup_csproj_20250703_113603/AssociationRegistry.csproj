@@ -21,7 +21,7 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <NoWarn>1701;1702;1705;1591</NoWarn>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
@@ -36,46 +36,51 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Dockerfile" CopyToOutputDirectory="Always" />
-    <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
-    <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
-    <Content Update="init.sh" CopyToOutputDirectory="Always" />
+    <EmbeddedResource Update="Resources\ExceptionMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\LoggerMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LoggerMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Remove="Vereniging\Werkingsgebieden\Werkingsgebieden.csv"/>
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
+    <Compile Update="Resources\ExceptionMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExceptionMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\LoggerMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LoggerMessages.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AssociationRegistry.Admin.Schema\AssociationRegistry.Admin.Schema.csproj" />
-    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
-    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
+    <None Remove="paket.template"/>
+    <Content Include="paket.template">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MessageHandling\Sqs\" />
+    <Folder Include="Repositories\"/>
   </ItemGroup>
 
-
   <ItemGroup>
-    <PackageReference Include="Marten" />
-    <PackageReference Include="Serilog" />
-    <PackageReference Include="Serilog.Enrichers.Environment" />
-    <PackageReference Include="Serilog.Enrichers.Thread" />
-    <PackageReference Include="Serilog.Extensions.Logging" />
-    <PackageReference Include="Serilog.Formatting.Compact" />
-    <PackageReference Include="Serilog.Settings.Configuration" />
-    <PackageReference Include="Serilog.Sinks.File" />
-    <PackageReference Include="Serilog.Sinks.Console" />
-    <PackageReference Include="OpenTelemetry" />
-    <PackageReference Include="OpenTelemetry.Exporter.Console" />
-    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
-    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol.Logs" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
-    <PackageReference Include="Npgsql.OpenTelemetry" />
-    <PackageReference Include="Destructurama.JsonNet" />
-    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.AggregateSource"/>
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic"/>
+    <PackageReference Include="Slack.Webhooks"/>
+    <PackageReference Include="Result.Net"/>
+    <PackageReference Include="Polly"/>
+    <PackageReference Include="Marten"/>
+    <PackageReference Include="WolverineFx.Marten"/>
+    <PackageReference Include="WolverineFx.AmazonSqs"/>
+    <PackageReference Include="CompareNETObjects"/>
+    <PackageReference Include="CsvHelper"/>
   </ItemGroup>
 </Project>
