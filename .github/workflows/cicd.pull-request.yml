@@ -14,16 +14,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Cache Paket
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-paket
-        with:
-          path: packages
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-
       - name: Parse repository name
         run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
         shell: bash
@@ -128,11 +118,6 @@ jobs:
         run: |
           dotnet tool restore
 
-      - name: Restore dotnet packages
-        shell: bash
-        run: |
-          dotnet paket restore
-
       - name: Package lambda
         if: inputs.semver != 'none'
         shell: bash
@@ -211,16 +196,6 @@ jobs:
         shell: bash
         run: |
           docker run -d --name otel-collector -p 4317:4317 -v ${{ github.workspace }}./otel-collector-config.yaml:/etc/otel-collector-config.yaml otel/opentelemetry-collector-contrib
-
-      - name: Cache Paket
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-paket
-        with:
-          path: packages
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: Cache Python
         uses: actions/cache@v4
