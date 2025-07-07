@@ -78,18 +78,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>
-    <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts"/>
-    <PackageReference Include="CSVHelper"/>
-    <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection"/>
-    <PackageReference Include="Marten.CommandLine"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Api" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" />
+    <PackageReference Include="Confluent.Kafka"/>
+    <PackageReference Include="CsvHelper" />
+    <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="SourceLink.Copy.PdbFiles">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SourceLink.Embed.AllSourceFiles">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="WolverineFx.AmazonSqs"/>
     <PackageReference Include="NEST"/>
     <PackageReference Include="Slack.Webhooks"/>
-    <PackageReference Include="SourceLink.Copy.PdbFiles"/>
-    <PackageReference Include="SourceLink.Embed.AllSourceFiles"/>
-    <PackageReference Include="WolverineFx.AmazonSqs"/>
-    <PackageReference Include="Confluent.Kafka"/>
-    <PackageReference Include="Npgsql.OpenTelemetry" />
+    <PackageReference Include="Npgsql.OpenTelemetry"/>
+    <PackageReference Include="Marten"/>
+    <PackageReference Include="Marten"/>
   </ItemGroup>
 </Project>

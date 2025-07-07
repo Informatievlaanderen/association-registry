@@ -85,6 +85,6 @@
     <PackageReference Include="SourceLink.Embed.AllSourceFiles"/>
     <PackageReference Include="SourceLink.Copy.PdbFiles"/>
     <PackageReference Include="NEST"/>
-    <PackageReference Include="Marten"/>
+    <PackageReference Remove="Marten" />
   </ItemGroup>
 </Project>

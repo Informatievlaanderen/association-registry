@@ -39,7 +39,4 @@
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Marten"/>
-  </ItemGroup>
 </Project>

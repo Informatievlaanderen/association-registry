@@ -41,7 +41,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Marten"/>
     <PackageReference Include="NEST"/>
+    <PackageReference Remove="Marten" />
   </ItemGroup>
 </Project>

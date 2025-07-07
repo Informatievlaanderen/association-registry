@@ -30,8 +30,9 @@
     <PackageReference Include="Moq"/>
     <PackageReference Include="NEST"/>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"/>
-    <PackageReference Include="Marten"/>
     <PackageReference Include="Scriban"/>
     <PackageReference Include="Microsoft.AspNetCore.Hosting"/>
+    <PackageReference Include="AWSSDK.Core" />
+    <PackageReference Remove="Marten" />
   </ItemGroup>
 </Project>

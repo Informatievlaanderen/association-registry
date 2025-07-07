@@ -58,7 +58,6 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Marten" />
     <PackageReference Include="Serilog" />
     <PackageReference Include="Serilog.Enrichers.Environment" />
     <PackageReference Include="Serilog.Enrichers.Thread" />
@@ -77,5 +76,6 @@
     <PackageReference Include="Npgsql.OpenTelemetry" />
     <PackageReference Include="Destructurama.JsonNet" />
     <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Remove="Marten" />
   </ItemGroup>
 </Project>

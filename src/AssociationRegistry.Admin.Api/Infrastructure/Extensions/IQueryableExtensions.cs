@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
+using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Daemon;
 using Schema;

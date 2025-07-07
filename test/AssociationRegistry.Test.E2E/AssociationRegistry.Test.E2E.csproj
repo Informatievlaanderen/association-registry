@@ -31,7 +31,6 @@
     <PackageReference Include="AutoBogus" />
     <PackageReference Include="AutoFixture" />
     <PackageReference Include="FluentAssertions.Json" />
-    <PackageReference Include="Marten" />
     <PackageReference Include="Moq" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -46,5 +45,7 @@
     <PackageReference Include="xunit.v3.runner.utility" />
     <PackageReference Include="xunit.runner.visualstudio" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" />
+    <PackageReference Include="AWSSDK.Core" />
+    <PackageReference Remove="Marten" />
   </ItemGroup>
 </Project>

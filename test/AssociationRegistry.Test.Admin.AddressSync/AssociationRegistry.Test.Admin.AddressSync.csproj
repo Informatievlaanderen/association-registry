@@ -34,5 +34,6 @@
     <PackageReference Include="FluentAssertions.Json"/>
     <PackageReference Include="Moq"/>
     <PackageReference Include="Microsoft.AspNetCore.Hosting"/>
+    <PackageReference Include="AWSSDK.Core" />
   </ItemGroup>
 </Project>

@@ -43,5 +43,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"/>
     <PackageReference Include="Scriban"/>
     <PackageReference Include="Microsoft.AspNetCore.Hosting"/>
+    <PackageReference Include="AWSSDK.Core" />
   </ItemGroup>
 </Project>

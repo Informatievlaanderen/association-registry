@@ -9,12 +9,15 @@
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="NEST" />
+  <ItemGroup>  
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
     <PackageReference Include="Npgsql" />
     <PackageReference Include="Serilog" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
+    <PackageReference Include="NEST" />
+  </ItemGroup>
+
+  <ItemGroup>
   </ItemGroup>
 </Project>

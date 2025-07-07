@@ -6,7 +6,6 @@ using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Asp.Versioning.ApplicationModels;
-using Notifications;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -35,7 +34,6 @@ using HostedServices.GeotagsInitialisation;
 using Hosts;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
-using Hosts.HealthChecks;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
 using Infrastructure.AWS;
@@ -49,8 +47,8 @@ using Infrastructure.Metrics;
 using Infrastructure.Middleware;
 using Infrastructure.ResponseWriter;
 using Infrastructure.Sequence;
+using JasperFx;
 using Kbo;
-using Lamar.Microsoft.DependencyInjection;
 using Magda;
 using Marten;
 using MessageHandling.Sqs.AddressMatch;
@@ -72,10 +70,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using Oakton;
+using Notifications;
 using OpenTelemetry.Extensions;
 using Queries;
-using Repositories;
 using Serilog;
 using Serilog.Debugging;
 using System.Globalization;
@@ -119,8 +116,8 @@ public class Program
         ConfigureWebHost(builder);
         ConfigureServices(builder);
 
-        builder.Host.ApplyOaktonExtensions();
-        builder.Host.UseLamar();
+        builder.Host.ApplyJasperFxExtensions();
+        //builder.Host.UseLamar();
 
         builder.AddWolverine();
         ConfigureHostedServices(builder);
@@ -129,7 +126,7 @@ public class Program
 
         if (ProgramArguments.IsCodeGen(args))
         {
-            await app.RunOaktonCommands(args);
+            await app.RunJasperFxCommands(args);
             return;
         }
 
@@ -172,7 +169,7 @@ public class Program
             app.Services.GetRequiredService<ILogger<Program>>());
 
 
-        await app.RunOaktonCommands(args);
+        await app.RunJasperFxCommands(args);
     }
 
     private static async Task RunPreStartupTasks(WebApplication app, ILogger<Program> logger)

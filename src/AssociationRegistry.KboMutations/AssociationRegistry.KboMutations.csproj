@@ -10,12 +10,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amazon.Lambda.RuntimeSupport" />
     <PackageReference Include="Amazon.Lambda.Core" />
+    <PackageReference Include="Amazon.Lambda.RuntimeSupport" />
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" />
     <PackageReference Include="AWSSDK.SimpleSystemsManagement" />
     <PackageReference Include="AWSSDK.SQS" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Slack.Webhooks" />
+  </ItemGroup>
+
+  <ItemGroup>
   </ItemGroup>
 </Project>

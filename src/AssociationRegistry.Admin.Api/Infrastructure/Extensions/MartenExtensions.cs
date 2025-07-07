@@ -4,7 +4,9 @@ using Adapters.VCodeGeneration;
 using Formats;
 using GrarConsumer.Kafka;
 using Hosts.Configuration.ConfigurationBindings;
+using JasperFx;
 using JasperFx.CodeGeneration;
+using JasperFx.Events;
 using Json;
 using Magda.Models;
 using Marten;
@@ -48,17 +50,24 @@ public static class MartenExtensions
 
                                           opts.Connection(postgreSqlOptions.GetConnectionString());
                                           opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
-                                          opts.Serializer(CreateCustomMartenSerializer());
+
+                                          opts.UseNewtonsoftForSerialization(configure: settings =>
+                                          {
+                                              settings.DateParseHandling = DateParseHandling.None;
+                                              settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                                              settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                                          });
 
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                          opts.Events.AddEventTypes( typeof(IEvent).Assembly
-                                                                         .GetTypes()
-                                                                         .Where(t => typeof(IEvent)
-                                                                                   .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
-                                                                         .ToList());
+                                          opts.Events.AddEventTypes(typeof(IEvent).Assembly
+                                                                                  .GetTypes()
+                                                                                  .Where(t => typeof(IEvent)
+                                                                                                .IsAssignableFrom(t) && !t.IsAbstract &&
+                                                                                             t.IsClass)
+                                                                                  .ToList());
 
                                           opts.Listeners.Add(
                                               new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
@@ -102,7 +111,11 @@ public static class MartenExtensions
 
                                           return opts;
                                       })
-                                 .IntegrateWithWolverine(schemaName: WolverineSchemaName, transportSchemaName: WolverineSchemaName)
+                                 .IntegrateWithWolverine(integration =>
+                                  {
+                                      integration.TransportSchemaName = WolverineSchemaName;
+                                      integration.MessageStorageSchemaName = WolverineSchemaName;
+                                  })
                                  .UseLightweightSessions();
 
         if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
@@ -116,19 +129,4 @@ public static class MartenExtensions
            $"database={postgreSqlOptions.Database};" +
            $"password={postgreSqlOptions.Password};" +
            $"username={postgreSqlOptions.Username};";
-
-    public static JsonNetSerializer CreateCustomMartenSerializer()
-    {
-        var jsonNetSerializer = new JsonNetSerializer();
-
-        jsonNetSerializer.Customize(
-            s =>
-            {
-                s.DateParseHandling = DateParseHandling.None;
-                s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-            });
-
-        return jsonNetSerializer;
-    }
 }

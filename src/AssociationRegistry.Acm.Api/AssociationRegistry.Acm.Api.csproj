@@ -67,11 +67,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
-    <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection"/>
-    <PackageReference Include="SourceLink.Embed.AllSourceFiles"/>
-    <PackageReference Include="SourceLink.Copy.PdbFiles"/>
-    <PackageReference Include="Marten.CommandLine"/>
+<!--    <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>-->
+<!--    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>-->
+<!--    <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection"/>-->
+<!--    <PackageReference Include="SourceLink.Embed.AllSourceFiles"/>-->
+<!--    <PackageReference Include="SourceLink.Copy.PdbFiles"/>-->
+<!--    <PackageReference Include="Marten.CommandLine"/>-->
+    <PackageReference Include="Marten" />
   </ItemGroup>
 </Project>

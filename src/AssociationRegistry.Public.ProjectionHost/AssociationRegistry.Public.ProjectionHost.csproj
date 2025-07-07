@@ -92,5 +92,6 @@
     <PackageReference Include="Marten.CommandLine"/>
     <PackageReference Include="Marten.AspNetCore"/>
     <PackageReference Include="WolverineFx"/>
+    <PackageReference Remove="Marten" />
   </ItemGroup>
 </Project>
