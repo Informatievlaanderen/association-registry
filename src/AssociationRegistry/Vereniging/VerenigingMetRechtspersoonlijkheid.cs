@@ -333,11 +333,11 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         switch (verenigingVolgensMagda)
         {
             case Result<InactieveVereniging> inactieveVereniging:
-                HandleInactief(inactieveVereniging.Data);
+                StopUitKbo(Datum.Create(inactieveVereniging.Data.EindDatum!.Value));
 
                 break;
             case Result<VerenigingVolgensKbo> actieveVereniging:
-                HandleActief(actieveVereniging.Data);
+                NeemDataOverUitKbo(actieveVereniging.Data);
 
                 break;
             default:
@@ -356,7 +356,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
     }
 
-    private void HandleActief(VerenigingVolgensKbo verenigingVolgensMagda)
+    private void NeemDataOverUitKbo(VerenigingVolgensKbo verenigingVolgensMagda)
     {
         WijzigRechtsvormUitKbo(verenigingVolgensMagda.Type);
         WijzigNaamUitKbo(VerenigingsNaam.Create(verenigingVolgensMagda.Naam ?? ""));

@@ -191,6 +191,12 @@ public class EventStore : IEventStore
         await using var session = _documentStore.LightweightSession();
         var streamState = await session.Events.FetchStreamStateAsync(kboNummer);
 
-        return streamState != null;
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            await session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+                         .Where(x => x.KboNummer == kboNummer.Value)
+                         .SingleOrDefaultAsync();
+
+        return streamState != null ||
+               verenigingMetRechtspersoonlijkheidWerdGeregistreerd != null;
     }
 }
