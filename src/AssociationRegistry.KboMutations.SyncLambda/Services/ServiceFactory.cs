@@ -11,6 +11,8 @@ using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Notifications;
 using Configuration;
+using JasperFx;
+using JasperFx.Events;
 using Logging;
 using Marten;
 using Marten.Events;
@@ -151,7 +153,12 @@ public class ServiceFactory
         opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
         opts.Connection(connectionString);
         opts.Events.StreamIdentity = StreamIdentity.AsString;
-        opts.Serializer(CreateCustomMartenSerializer());
+        opts.UseNewtonsoftForSerialization(configure: settings =>
+        {
+            settings.DateParseHandling = DateParseHandling.None;
+            settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        });
         opts.Events.MetadataConfig.EnableAll();
         opts.AutoCreateSchemaObjects = AutoCreate.None;
 
@@ -163,20 +170,6 @@ public class ServiceFactory
         opts.Events.AddEventTypes(eventTypes);
 
         return opts;
-    }
-
-    private static JsonNetSerializer CreateCustomMartenSerializer()
-    {
-        var jsonNetSerializer = new JsonNetSerializer();
-
-        jsonNetSerializer.Customize(s =>
-        {
-            s.DateParseHandling = DateParseHandling.None;
-            s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-            s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-        });
-
-        return jsonNetSerializer;
     }
 
     private static VerenigingsRepository CreateRepository(DocumentStore store, ILoggerFactory loggerFactory)

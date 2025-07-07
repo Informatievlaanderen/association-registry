@@ -6,7 +6,9 @@
     <!-- Testing -->
     <PackageVersion Include="Amazon.Lambda.Core" Version="2.6.0" />
     <PackageVersion Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.4.4" />
+    <PackageVersion Include="Amazon.Lambda.SQSEvents" Version="2.2.0" />
     <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+    <PackageVersion Include="AWSSDK.S3" Version="4.0.4.1" />
     <PackageVersion Include="AWSSDK.SimpleSystemsManagement" Version="4.0.2.1" />
     <PackageVersion Include="AWSSDK.SQS" Version="4.0.0.13" />
     <PackageVersion Include="Be.Vlaanderen.Basisregisters.AggregateSource" Version="10.0.2" />

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
 using Constants;
+using JasperFx.Events;
 using Json;
 using Marten;
 using Marten.Events;
@@ -34,7 +35,11 @@ public static class MartenExtensions
 
             opts.Events.MetadataConfig.EnableAll();
 
-            opts.Serializer(CreateCustomMartenSerializer());
+            opts.UseNewtonsoftForSerialization(configure: settings =>
+            {
+                settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            });
 
             return opts;
         }).UseLightweightSessions();
@@ -47,18 +52,4 @@ public static class MartenExtensions
            $"database={postgreSqlOptions.Database};" +
            $"password={postgreSqlOptions.Password};" +
            $"username={postgreSqlOptions.Username}";
-
-    public static JsonNetSerializer CreateCustomMartenSerializer()
-    {
-        var jsonNetSerializer = new JsonNetSerializer();
-
-        jsonNetSerializer.Customize(
-            s =>
-            {
-                s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-            });
-
-        return jsonNetSerializer;
-    }
 }

@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Sequence;
 
 using Events;
-using Marten.Events;
+using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
-using Marten.Events.Projections;
 using Marten.Internal.Sessions;
 using Schema.Sequence;
 using IEvent = Events.IEvent;
@@ -14,7 +14,7 @@ public class PubliekVerenigingSequenceProjection : CustomProjection<PubliekVeren
     {
         Options.DeleteViewTypeOnTeardown<PubliekVerenigingSequenceDocument>();
 
-        AggregateByStream();
+        //AggregateByStream();
 
         var eventTypes = typeof(IEvent).Assembly
                                                                      .GetTypes()

@@ -10,6 +10,7 @@ using Infrastructure.Metrics;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
+using JasperFx;
 using JasperFx.CodeGeneration;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
@@ -60,9 +61,12 @@ public class Program
             options =>
             {
                 options.Discovery.IncludeType<PubliekZoekProjectionHandler>();
-
-                options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
             });
+
+        builder.Services.CritterStackDefaults(x =>
+        {
+            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+        });
 
         builder.ConfigureOpenTelemetry(new PubliekInstrumentation());
 

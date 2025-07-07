@@ -87,9 +87,7 @@
     <PackageReference Include="Serilog.Sinks.Console"/>
     <PackageReference Include="Serilog.Sinks.File"/>
     <PackageReference Include="Destructurama.JsonNet"/>
-    <PackageReference Include="FluentValidation"/>
     <PackageReference Include="Polly"/>
-    <PackageReference Include="Marten.CommandLine"/>
     <PackageReference Include="Marten.AspNetCore"/>
     <PackageReference Include="WolverineFx"/>
     <PackageReference Remove="Marten" />

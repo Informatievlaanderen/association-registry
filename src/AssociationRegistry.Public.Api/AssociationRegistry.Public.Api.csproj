@@ -79,11 +79,17 @@
 
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3"/>
+    <PackageReference Include="AWSSDK.S3" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>
-    <PackageReference Include="SourceLink.Embed.AllSourceFiles"/>
-    <PackageReference Include="SourceLink.Copy.PdbFiles"/>
+    <PackageReference Include="SourceLink.Copy.PdbFiles">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SourceLink.Embed.AllSourceFiles">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="NEST"/>
-    <PackageReference Remove="Marten" />
+    <PackageReference Include="Marten" />
   </ItemGroup>
 </Project>
