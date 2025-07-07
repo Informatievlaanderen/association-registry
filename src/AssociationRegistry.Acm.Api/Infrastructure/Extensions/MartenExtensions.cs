@@ -3,11 +3,10 @@
 using Constants;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
+using JasperFx.Events;
+using JasperFx.Events.Daemon;
 using Json;
 using Marten;
-using Marten.Events;
-using Marten.Events.Daemon.Resiliency;
-using Marten.Services;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Schema.VerenigingenPerInsz;
@@ -26,7 +25,6 @@ public static class MartenExtensions
                                       {
                                           var opts = new StoreOptions();
                                           ConfigureStoreOptions(opts, postgreSqlOptions, serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment());
-
                                           return opts;
                                       });
 
@@ -50,7 +48,12 @@ public static class MartenExtensions
         }
 
         opts.Events.StreamIdentity = StreamIdentity.AsString;
-        opts.Serializer(CreateCustomMartenSerializer());
+        opts.UseNewtonsoftForSerialization(configure: settings =>
+        {
+            settings.DateParseHandling = DateParseHandling.None;
+            settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        });
         opts.Events.MetadataConfig.EnableAll();
         opts.AddPostgresProjections();
 
@@ -75,19 +78,4 @@ public static class MartenExtensions
            $"database={postgreSqlOptions.Database};" +
            $"password={postgreSqlOptions.Password};" +
            $"username={postgreSqlOptions.Username}";
-
-    public static JsonNetSerializer CreateCustomMartenSerializer()
-    {
-        var jsonNetSerializer = new JsonNetSerializer();
-
-        jsonNetSerializer.Customize(
-            s =>
-            {
-                s.DateParseHandling = DateParseHandling.None;
-                s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-            });
-
-        return jsonNetSerializer;
-    }
 }

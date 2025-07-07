@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
-using Marten.Events;
+using JasperFx.Events;
 
 public class EventEnvelope<T> : IEventEnvelope
 {

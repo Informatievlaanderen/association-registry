@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.KboSync;
 
 using Events;
 using Framework;
+using JasperFx.Events;
 using Marten.Events;
 using Marten.Events.Projections;
 using Schema.KboSync;

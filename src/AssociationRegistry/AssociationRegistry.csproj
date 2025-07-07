@@ -75,7 +75,6 @@
     <PackageReference Include="Polly" />
     <PackageReference Include="Result.Net" />
     <PackageReference Include="Slack.Webhooks" />
-    <PackageReference Include="WolverineFx.AmazonSqs" />
     <PackageReference Include="WolverineFx.Marten" />
     </ItemGroup>
 </Project>

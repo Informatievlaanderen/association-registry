@@ -64,25 +64,37 @@
 
 
   <ItemGroup>
-    <PackageReference Include="NEST" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Converters.TrimString" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
-    <PackageReference Include="Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc" />
-    <PackageReference Include="NodaTime.Serialization.JsonNet" />
-    <PackageReference Include="Serilog.Formatting.Compact" />
-    <PackageReference Include="Serilog.Enrichers.Environment" />
-    <PackageReference Include="Serilog.Enrichers.Thread" />
-    <PackageReference Include="Serilog.Extensions.Logging" />
-    <PackageReference Include="Serilog.Settings.Configuration" />
-    <PackageReference Include="Serilog.Sinks.Console" />
-    <PackageReference Include="Serilog.Sinks.File" />
-    <PackageReference Include="Destructurama.JsonNet" />
-    <PackageReference Include="FluentValidation" />
-    <PackageReference Include="Polly" />
-    <PackageReference Include="Marten.CommandLine" />
     <PackageReference Include="Marten.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+    <PackageReference Include="Microsoft.OpenApi" />
+    <PackageReference Include="NEST" />
+    <PackageReference Include="NodaTime.Serialization.JsonNet" />
+    <PackageReference Include="Polly" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
     <PackageReference Include="WolverineFx" />
-    <PackageReference Remove="Marten" />
+    <PackageReference Include="Marten" />
+
+<!--    <PackageReference Include="Be.Vlaanderen.Basisregisters.Converters.TrimString" />-->
+<!--    <PackageReference Include="Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset" />-->
+<!--    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />-->
+<!--    <PackageReference Include="Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc" />-->
+<!--    <PackageReference Include="NodaTime.Serialization.JsonNet" />-->
+<!--    <PackageReference Include="Serilog.Formatting.Compact" />-->
+<!--    <PackageReference Include="Serilog.Enrichers.Environment" />-->
+<!--    <PackageReference Include="Serilog.Enrichers.Thread" />-->
+<!--    <PackageReference Include="Serilog.Extensions.Logging" />-->
+<!--    <PackageReference Include="Serilog.Settings.Configuration" />-->
+<!--    <PackageReference Include="Serilog.Sinks.Console" />-->
+<!--    <PackageReference Include="Serilog.Sinks.File" />-->
+<!--    <PackageReference Include="Destructurama.JsonNet" />-->
+    
+<!--    <PackageReference Include="FluentValidation" />-->
   </ItemGroup>
+
 </Project>

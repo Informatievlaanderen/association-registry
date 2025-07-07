@@ -1,7 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync.Infrastructure.Extensions;
 
 using Hosts.Configuration.ConfigurationBindings;
+using JasperFx;
 using JasperFx.CodeGeneration;
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Services;
@@ -78,7 +80,13 @@ public static class ServiceCollectionExtensions
                                                {
                                                    var opts = new StoreOptions();
                                                    opts.Connection(postgreSqlOptions.GetConnectionString());
-                                                   opts.Serializer(CreateMartenSerializer());
+                                                   opts.UseNewtonsoftForSerialization(configure: settings =>
+                                                   {
+                                                       settings.DateParseHandling = DateParseHandling.None;
+                                                       // TODO: use common marten project
+                                                       // settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                                                       // settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                                                   });
                                                    opts.Events.StreamIdentity = StreamIdentity.AsString;
 
                                                    opts.Events.MetadataConfig.EnableAll();
@@ -103,22 +111,7 @@ public static class ServiceCollectionExtensions
                                                })
                                           .UseLightweightSessions();
 
-
-
         return services;
-    }
-
-    private static JsonNetSerializer CreateMartenSerializer()
-    {
-        var jsonNetSerializer = new JsonNetSerializer();
-
-        jsonNetSerializer.Customize(
-            s =>
-            {
-                s.DateParseHandling = DateParseHandling.None;
-            });
-
-        return jsonNetSerializer;
     }
 
     public static string CollectorUrl

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
+using JasperFx.Events.Projections;
 using Marten;
-using Marten.Events.Projections;
 using Projections;
 
 public static class StoreOptionsExtensions

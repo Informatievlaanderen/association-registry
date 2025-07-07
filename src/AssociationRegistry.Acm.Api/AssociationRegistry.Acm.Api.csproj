@@ -47,7 +47,6 @@
     <Content Include="Dockerfile" CopyToOutputDirectory="Always"/>
     <Content Include="appsettings.json" CopyToOutputDirectory="Always"/>
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always"/>
-    <Content Include="paket.template" CopyToOutputDirectory="Always"/>
     <Content Include="init.sh" CopyToOutputDirectory="Always"/>
   </ItemGroup>
 
@@ -67,12 +66,17 @@
   </ItemGroup>
 
   <ItemGroup>
-<!--    <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>-->
-<!--    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>-->
-<!--    <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection"/>-->
-<!--    <PackageReference Include="SourceLink.Embed.AllSourceFiles"/>-->
-<!--    <PackageReference Include="SourceLink.Copy.PdbFiles"/>-->
-<!--    <PackageReference Include="Marten.CommandLine"/>-->
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
+    <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection"/>
+    <PackageReference Include="SourceLink.Copy.PdbFiles">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SourceLink.Embed.AllSourceFiles">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Marten" />
   </ItemGroup>
 </Project>

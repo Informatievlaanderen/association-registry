@@ -3,11 +3,11 @@ namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApp
 using Constants;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
+using JasperFx.Events;
+using JasperFx.Events.Daemon;
+using JasperFx.Events.Projections;
 using Json;
 using Marten;
-using Marten.Events;
-using Marten.Events.Daemon.Resiliency;
-using Marten.Events.Projections;
 using Marten.Services;
 using Newtonsoft.Json;
 using Projections;
@@ -75,26 +75,17 @@ public static class ConfigureMartenExtensions
                $"password={postgreSqlOptions.Password};" +
                $"username={postgreSqlOptions.Username}";
 
-        static JsonNetSerializer CreateCustomMartenSerializer()
-        {
-            var jsonNetSerializer = new JsonNetSerializer();
-
-            jsonNetSerializer.Customize(
-                s =>
-                {
-                    s.DateParseHandling = DateParseHandling.None;
-                    s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                    s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                });
-
-            return jsonNetSerializer;
-        }
-
         var postgreSqlOptions = postgreSqlOptionsSection ??
                                 throw new ConfigurationErrorsException("Missing a valid postgres configuration");
 
         var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 
+        opts.UseNewtonsoftForSerialization(configure: settings =>
+        {
+            settings.DateParseHandling = DateParseHandling.None;
+            settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        });
 
         if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
         {
@@ -142,8 +133,6 @@ public static class ConfigureMartenExtensions
             ),
             ProjectionLifecycle.Async,
             ProjectionNames.DuplicateDetection);
-
-        opts.Serializer(CreateCustomMartenSerializer());
 
         opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
         opts.RegisterDocumentType<PowerBiExportDocument>();

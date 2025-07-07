@@ -6,7 +6,7 @@ using Marten.Events.Aggregation;
 using Schema.Detail;
 using Vereniging;
 
-public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZonderAdresMatchDocument>
+public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZonderAdresMatchDocument, string>
 {
     public LocatieZonderAdresMatchProjection(ILogger<LocatieZonderAdresMatchProjection> logger)
     {

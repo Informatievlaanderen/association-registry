@@ -23,9 +23,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <ExcludeFromPublish Include="**/paket.template" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.KboMutations\AssociationRegistry.KboMutations.csproj" />

@@ -1,12 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Locaties;
 
 using Events;
+using JasperFx.Events;
+using JasperFx.Events.Grouping;
 using Marten;
-using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Events.Projections;
 using Schema.Detail;
-using IEvent = Marten.Events.IEvent;
+using IEvent = JasperFx.Events.IEvent;
 
 public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocument, string>
 {
@@ -63,7 +64,7 @@ public class LocatieLookupGrouper : IAggregateGrouper<string>
         _logger = logger;
     }
 
-    public async Task Group(IQuerySession session, IEnumerable<IEvent> events, ITenantSliceGroup<string> grouping)
+    public async Task Group(IQuerySession session, IEnumerable<IEvent> events, IEventGrouping<string> grouping)
     {
         var verwijderdEvents = events
                               .OfType<IEvent<VerenigingWerdVerwijderd>>()

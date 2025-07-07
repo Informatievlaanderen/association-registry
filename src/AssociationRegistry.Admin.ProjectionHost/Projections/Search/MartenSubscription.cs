@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
+using JasperFx.Events;
 using Marten;
-using Marten.Events;
 using Marten.Events.Projections;
 using Polly;
 using Polly.Retry;
@@ -30,10 +30,7 @@ public class MartenSubscription : IProjection
         throw new NotSupportedException("Subscription should be only run asynchronously");
     }
 
-    public async Task ApplyAsync(
-        IDocumentOperations operations,
-        IReadOnlyList<StreamAction> streams,
-        CancellationToken ct
-    )
-        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(streams));
+    public async Task ApplyAsync(IDocumentOperations operations, IReadOnlyList<IEvent> events, CancellationToken cancellation)
+        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(events));
+
 }
