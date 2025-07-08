@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using AssociationRegistry.Framework;
+using JasperFx.Events;
 using Marten.Events;
 using NodaTime;
 using System.Text.Json;
-using IEvent = Marten.Events.IEvent;
 
 public class TestEvent<T> : IEvent<T> where T : notnull
 {

@@ -31,20 +31,17 @@
 
   <ItemGroup>
     <PackageReference Include="Alba" />
-    <PackageReference Include="AutoBogus" />
     <PackageReference Include="AutoFixture" />
     <PackageReference Include="FluentAssertions.Json" />
     <PackageReference Include="Moq" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="NEST" />
     <PackageReference Include="xunit.v3.assert" />
     <PackageReference Include="xunit.runner.visualstudio" />
     <PackageReference Include="xunit.v3.core" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" />
     <PackageReference Include="Scriban" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="AWSSDK.Core" />
-    <PackageReference Remove="Marten" />
+    <PackageReference Include="Marten" />
   </ItemGroup>
 </Project>

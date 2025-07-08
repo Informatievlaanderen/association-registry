@@ -2,6 +2,8 @@ namespace AssociationRegistry.Test.Common.Framework;
 
 using Admin.Api.Infrastructure.Json;
 using Formats;
+using JasperFx;
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Services;
@@ -26,6 +28,12 @@ public static class TestDocumentStoreFactory
             options.AutoCreateSchemaObjects = AutoCreate.All;
             options.Events.MetadataConfig.EnableAll();
             options.Serializer(CreateCustomMartenSerializer());
+            options.UseNewtonsoftForSerialization(configure: settings =>
+            {
+                settings.DateParseHandling = DateParseHandling.None;
+                settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            });
         });
 
         await documentStore.Advanced.ResetAllData();
@@ -37,12 +45,9 @@ public static class TestDocumentStoreFactory
     {
         var jsonNetSerializer = new JsonNetSerializer();
 
-        jsonNetSerializer.Customize(
+        jsonNetSerializer.Configure(
             s =>
             {
-                s.DateParseHandling = DateParseHandling.None;
-                s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
             });
 
         return jsonNetSerializer;
