@@ -72,7 +72,6 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
     <PackageReference Include="Npgsql.OpenTelemetry" />
     <PackageReference Include="Destructurama.JsonNet" />
-    <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Marten.AspNetCore" />
     <PackageReference Remove="Marten" />
   </ItemGroup>

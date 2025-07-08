@@ -79,6 +79,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.Core" />
     <PackageReference Include="AWSSDK.S3" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>
     <PackageReference Include="SourceLink.Copy.PdbFiles">

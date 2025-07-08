@@ -52,10 +52,6 @@
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MessageHandling\Sqs\" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Serilog" />
@@ -75,6 +71,6 @@
     <PackageReference Include="Npgsql.OpenTelemetry" />
     <PackageReference Include="Destructurama.JsonNet" />
     <PackageReference Include="Microsoft.Extensions.Http" />
-    <PackageReference Remove="Marten" />
+    <PackageReference Include="Marten" />
   </ItemGroup>
 </Project>

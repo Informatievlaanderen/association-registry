@@ -77,6 +77,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.Core" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" />
     <PackageReference Include="Confluent.Kafka"/>
@@ -91,11 +92,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="WolverineFx"/>
     <PackageReference Include="WolverineFx.AmazonSqs"/>
     <PackageReference Include="NEST"/>
     <PackageReference Include="Slack.Webhooks"/>
     <PackageReference Include="Npgsql.OpenTelemetry"/>
-    <PackageReference Include="Marten"/>
     <PackageReference Include="Marten"/>
   </ItemGroup>
 </Project>
