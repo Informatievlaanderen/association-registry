@@ -483,16 +483,16 @@ jobs:
       db-name: fullblowne2e
     secrets: inherit
 
-  pack-association-registry:
-    name: Pack Association Registry Domain
-    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
-    needs: [ set-release-version ]
-    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
-    with:
-      pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry
-      build-project: AssociationRegistry
-      semver: ${{ needs.set-release-version.outputs.version }}
-    secrets: inherit
+#  pack-association-registry:
+#    name: Pack Association Registry Domain
+#    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+#    needs: [ set-release-version ]
+#    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+#    with:
+#      pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry
+#      build-project: AssociationRegistry
+#      semver: ${{ needs.set-release-version.outputs.version }}
+#    secrets: inherit
 
   release:
     if: github.repository_owner == 'Informatievlaanderen'
@@ -507,7 +507,7 @@ jobs:
       build-admin-projections,
       build-admin-address-sync,
       build-powerbi-exporthost,
-      pack-association-registry,
+#      pack-association-registry,
       build-sync-lambda,
       run-unit-tests,
       run-e2e-tests,
