@@ -181,9 +181,11 @@ public class Program
 
     private static async Task LogPendingDatabaseChanges(WebApplication app, ILogger<Program> logger)
     {
+        using var scope = app.Services.CreateScope();
+        await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
+
         try
         {
-            await using var session = app.Services.GetRequiredService<IDocumentSession>();
             await session.DocumentStore.Storage.Database.AssertDatabaseMatchesConfigurationAsync();
             logger.LogInformation("✅ MartenDb Schema is up to date");
         }
@@ -195,9 +197,11 @@ public class Program
 
     private static async Task RegistreerOntbrekendeInschrijvingen(WebApplication app, ILogger<Program> logger)
     {
+        using var scope = app.Services.CreateScope();
+
         try
         {
-            var registreerInschrijvinCatchupService = app.Services.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
+            var registreerInschrijvinCatchupService = scope.ServiceProvider.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
 
             await registreerInschrijvinCatchupService
                .RegistreerInschrijvingVoorVerenigingenMetRechtspersoonlijkheidDieNogNietIngeschrevenZijn();
@@ -210,7 +214,9 @@ public class Program
 
     private static async Task ArchiveAfdelingen(WebApplication app)
     {
-        await using var session = app.Services.GetRequiredService<IDocumentSession>();
+        using var scope = app.Services.CreateScope();
+
+        await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
         var queryAllRawEvents = session
                                .Events.QueryRawEventDataOnly<AfdelingWerdGeregistreerd>();
@@ -418,6 +424,7 @@ public class Program
                .AddSingleton<IGrarHttpClient>(sp => sp.GetRequiredService<GrarHttpClient>())
                .AddSingleton(grarOptions.GrarClient)
                .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
+               .AddSingleton(elasticSearchOptionsSection)
                .AddScoped(sp => new ElasticSearchOptionsService(
                               sp.GetRequiredService<ElasticSearchOptionsSection>(),
                               sp.GetRequiredService<IDocumentSession>(),
