@@ -1,3 +1,11 @@
+# [8.259.0](https://github.com/informatievlaanderen/association-registry/compare/v8.258.0...v8.259.0) (2025-07-08)
+
+
+### Features
+
+* or-2867 remove paket and use nugeet ([2c8f4d1](https://github.com/informatievlaanderen/association-registry/commit/2c8f4d13aa8c1e6fca307223ef623e1a90bec53c))
+* or-2871 use regular stream as well to check if kbo association exists ([7993ac7](https://github.com/informatievlaanderen/association-registry/commit/7993ac7994d8a6d775e0f92105e89f0ed09394bc))
+
 # [8.258.0](https://github.com/informatievlaanderen/association-registry/compare/v8.257.0...v8.258.0) (2025-07-02)
 
 
