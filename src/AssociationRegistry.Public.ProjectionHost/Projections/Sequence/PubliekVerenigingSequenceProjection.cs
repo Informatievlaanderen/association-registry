@@ -8,53 +8,71 @@ using Marten.Internal.Sessions;
 using Schema.Sequence;
 using IEvent = Events.IEvent;
 
-public class PubliekVerenigingSequenceProjection : CustomProjection<PubliekVerenigingSequenceDocument, string>
+public class PubliekVerenigingSequenceProjection : SingleStreamProjection<PubliekVerenigingSequenceDocument, string>
 {
     public PubliekVerenigingSequenceProjection()
     {
         Options.DeleteViewTypeOnTeardown<PubliekVerenigingSequenceDocument>();
 
-        //AggregateByStream();
-
-        var eventTypes = typeof(IEvent).Assembly
-                                                                     .GetTypes()
-                                                                     .Where(t => typeof(IEvent)
-                                                                               .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
-                                                                     .ToList();
-
-        foreach (var eventType in eventTypes)
-            IncludeType(eventType);
+        // CreateEvent<IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>>(e =>
+        // {
+        //     return new PubliekVerenigingSequenceDocument
+        //     {
+        //         Sequence = e.Sequence,
+        //         VCode = e.Data.VCode,
+        //         Version = (int)e.Version,
+        //     };
+        // });
+        // this.Apply<IEvent<FeitelijkeVerenigingWerdGeregistreerd>>((e, doc) => Update(e, doc));
     }
 
-    public override ValueTask ApplyChangesAsync(
-        DocumentSessionBase session,
-        EventSlice<PubliekVerenigingSequenceDocument, string> slice,
-        CancellationToken cancellationToken,
-        ProjectionLifecycle lifecycle = ProjectionLifecycle.Inline)
+    public PubliekVerenigingSequenceDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> e)
     {
-        var aggregate = slice.Aggregate;
-
-        foreach (var @event in slice.Events())
+        return new PubliekVerenigingSequenceDocument
         {
-            switch (@event)
-            {
-                case Event<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>:
-                case Event<FeitelijkeVerenigingWerdGeregistreerd>:
-                case Event<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>:
-                    aggregate = new PubliekVerenigingSequenceDocument { VCode = @event.StreamKey, Sequence = @event.Sequence };
-
-                    break;
-
-                default:
-                    aggregate.Sequence = @event.Sequence;
-
-                    break;
-            }
-        }
-
-        if (aggregate is not null)
-            session.Store(aggregate);
-
-        return new ValueTask();
+            Sequence = e.Sequence,
+            VCode = e.Data.VCode,
+            Version = (int)e.Version,
+        };
     }
+
+    public PubliekVerenigingSequenceDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> e)
+    {
+        return new PubliekVerenigingSequenceDocument
+        {
+            Sequence = e.Sequence,
+            VCode = e.Data.VCode,
+            Version = (int)e.Version,
+        };
+    }
+
+    public PubliekVerenigingSequenceDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> e)
+    {
+        return new PubliekVerenigingSequenceDocument
+        {
+            Sequence = e.Sequence,
+            VCode = e.Data.VCode,
+            Version = (int)e.Version,
+        };
+    }
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> e,
+        PubliekVerenigingSequenceDocument document
+        )
+    {
+        return new PubliekVerenigingSequenceDocument
+        {
+            Sequence = e.Sequence,
+            VCode = e.StreamKey,
+            Version = (int)e.Version,
+        };
+    }
+
+    // public void Apply(JasperFx.Events.IEvent e, PubliekVerenigingSequenceDocument document)
+    // {
+    //     document.Sequence = e.Sequence;
+    //     document.VCode = e.StreamKey;
+    //     document.Version = (int)e.Version;
+    // }
 }

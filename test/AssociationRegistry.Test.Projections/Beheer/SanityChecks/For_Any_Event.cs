@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Projections.Beheer.SanityChecks;
 using Admin.ProjectionHost.Projections.PowerBiExport;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using Events;
+using JasperFx.Events;
 using Marten.Events;
 using System.Reflection;
 using Xunit;

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Zoeken;
 
 using Framework.Fixtures;
+using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
 using Nest;
