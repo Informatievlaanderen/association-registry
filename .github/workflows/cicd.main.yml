@@ -612,32 +612,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
-
-      - name: .NET version
-        shell: bash
-        run: dotnet --info
-
-      - name: Download NuGet package 'association-registry'
-        uses: actions/download-artifact@v4
-        with:
-          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}
-          path: dist/nuget/
-
-      - name: Publish packages to NuGet 'association-registry'
-        shell: bash
-        run: |
-          dotnet nuget push dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
-        env:
-          SEMVER: ${{  needs.release.outputs.version }}
-          WORKSPACE: ${{ github.workspace }}
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      - run: 'true'
+#      - name: Checkout Code
+#        uses: actions/checkout@v4
+#
+#      - name: Setup .NET Core
+#        uses: actions/setup-dotnet@v4
+#        with:
+#          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+#
+#      - name: .NET version
+#        shell: bash
+#        run: dotnet --info
+#
+#      - name: Download NuGet package 'association-registry'
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}
+#          path: dist/nuget/
+#
+#      - name: Publish packages to NuGet 'association-registry'
+#        shell: bash
+#        run: |
+#          dotnet nuget push dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+#        env:
+#          SEMVER: ${{  needs.release.outputs.version }}
+#          WORKSPACE: ${{ github.workspace }}
+#          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
   upload-sync-lambda:
     name: Upload & Deploy Sync Lambda
