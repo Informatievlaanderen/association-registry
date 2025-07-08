@@ -30,7 +30,6 @@ using Grar.GrarUpdates.LocatieFinder;
 using Grar.NutsLau;
 using GrarConsumer.Finders;
 using GrarConsumer.Kafka;
-using HostedServices.GeotagsInitialisation;
 using Hosts;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
@@ -40,7 +39,6 @@ using Infrastructure.AWS;
 using Infrastructure.Configuration;
 using Infrastructure.ExceptionHandlers;
 using Infrastructure.Extensions;
-using Infrastructure.HealthChecks;
 using Infrastructure.HttpClients;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
@@ -83,6 +81,8 @@ using System.Reflection;
 using System.Text;
 using Vereniging;
 using Vereniging.Geotags;
+using Verenigingen.Historiek;
+using Verenigingen.KboSync;
 using Weasel.Core.Migrations;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
@@ -452,6 +452,8 @@ public class Program
                .AddTransient<INutsAndLauSyncService, NutsAndLauSyncService>()
                .AddTransient<IWerkingsgebiedenService, WerkingsgebiedenService>()
                .AddTransient<IGeotagsService, GeotagsService>()
+               .AddTransient<KboSyncHistoriekResponseMapper>()
+               .AddTransient<VerenigingHistoriekResponseMapper>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()
@@ -574,8 +576,7 @@ public class Program
                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                .AddDatabaseDeveloperPageExceptionFilter();
 
-        var healthChecksBuilder = builder.Services.AddHealthChecks()
-                                         .AddGeotagsMigrationHealthCheck();
+        builder.Services.AddHealthChecks();
 
         // var connectionStrings = builder.Configuration
         //                                .GetSection("ConnectionStrings")
@@ -677,8 +678,6 @@ public class Program
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
     {
         ConfigureAddresskafkaConsumer(builder);
-
-        builder.Services.AddHostedService<GeotagsInitialisationService>();
     }
 
     private static void ConfigureAddresskafkaConsumer(WebApplicationBuilder builder)

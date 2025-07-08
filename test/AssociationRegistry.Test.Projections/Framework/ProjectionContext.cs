@@ -156,7 +156,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         try
         {
             connection.Open();
-            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
+            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} IF Ex WITH OWNER = {postgreSqlOptionsSection.Username};";
             cmd.ExecuteNonQuery();
         }
         catch (PostgresException ex)

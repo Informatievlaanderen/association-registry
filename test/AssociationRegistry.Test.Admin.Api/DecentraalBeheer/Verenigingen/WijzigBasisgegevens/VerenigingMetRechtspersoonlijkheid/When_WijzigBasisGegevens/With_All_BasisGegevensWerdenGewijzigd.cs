@@ -67,14 +67,15 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     }
 
     [Fact]
-    public void Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
-        using var session = _documentStore
+
+        await using var session = _documentStore
            .LightweightSession();
 
-        var events = session.Events
-                            .FetchStream(_vCode);
+        var events = await session.Events
+                            .FetchStreamAsync(_vCode);
 
         var roepnaamWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(RoepnaamWerdGewijzigd));
         roepnaamWerdGewijzigd.Data.Should().BeEquivalentTo(new RoepnaamWerdGewijzigd(_request.Roepnaam ?? ""));

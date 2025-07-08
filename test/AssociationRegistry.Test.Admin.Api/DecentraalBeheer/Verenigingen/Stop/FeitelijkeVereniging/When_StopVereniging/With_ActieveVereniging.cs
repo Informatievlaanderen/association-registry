@@ -45,13 +45,13 @@ public class With_ActieveVereniging : IClassFixture<With_ActieveVereniging_Setup
     }
 
     [Fact]
-    public void Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
-        using var session = _documentStore
+        await using var session = _documentStore
            .LightweightSession();
 
-        var verenigingWerdGestopt = session.Events
-                                           .FetchStream(_vCode)
+        var verenigingWerdGestopt = (await session.Events
+                                           .FetchStreamAsync(_vCode))
                                            .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdGestopt));
 
         (verenigingWerdGestopt.Data as VerenigingWerdGestopt)!.Einddatum.Should()
