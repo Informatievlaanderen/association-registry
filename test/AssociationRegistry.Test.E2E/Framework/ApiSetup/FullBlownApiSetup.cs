@@ -11,6 +11,7 @@ using Common.Framework;
 using Grar.NutsLau;
 using Hosts.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using JasperFx.CommandLine;
 using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
@@ -46,7 +47,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     {
         SetUpAdminApiConfiguration();
 
-        OaktonEnvironment.AutoStartHost = true;
+        JasperFxEnvironment.AutoStartHost = true;
 
         var adminApiHost = await AlbaHost.For<Program>(ConfigureForTesting("adminapi"));
 
@@ -84,11 +85,14 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
                 ConfigureForTesting("acmapi")))
            .EnsureEachCallIsAuthenticatedForAcmApi();
 
-        SqsClientWrapper = AdminApiHost.Services.GetRequiredService<ISqsClientWrapper>();
-        AmazonSqs = AdminApiHost.Services.GetRequiredService<IAmazonSQS>();
-        VCodeService = AdminApiHost.Services.GetRequiredService<IVCodeService>();
+        using var scope = AdminApiHost.Services.CreateScope();
+        _serviceProvider = scope.ServiceProvider;
 
-        ElasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
+        SqsClientWrapper = _serviceProvider.GetRequiredService<ISqsClientWrapper>();
+        AmazonSqs = _serviceProvider.GetRequiredService<IAmazonSQS>();
+        VCodeService = _serviceProvider.GetRequiredService<IVCodeService>();
+
+        ElasticClient = _serviceProvider.GetRequiredService<IElasticClient>();
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
         await using var session = PublicApiHost.DocumentStore().LightweightSession();
@@ -212,6 +216,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         => await ElasticClient.Indices.RefreshAsync(Indices.AllIndices);
 
     private readonly Dictionary<string, object> _ranContexts = new();
+    private IServiceProvider _serviceProvider;
 
     public void Dispose()
     {

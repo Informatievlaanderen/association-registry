@@ -35,7 +35,8 @@ public class CorrigeerMarkeringAlsDubbelVanContext : TestContextBase<VerenigingW
     {
         CommandResult = await new CorrigeerMarkeringAlsDubbelVanRequestFactory(scenario).ExecuteRequest(ApiSetup);
 
-        await using var session = ApiSetup.AdminApiHost.Services.GetRequiredService<IDocumentSession>();
+        using var scope = ApiSetup.AdminApiHost.Services.CreateScope();
+        await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
         var stream = await session
                           .Events.FetchStreamAsync(scenario.AuthentiekeVereniging.VCode);

@@ -42,8 +42,9 @@ public class Given_Incorrect_VCode_In_The_Message
     [Fact]
     public async ValueTask Then_VerwerkWeigeringDubbelDoorAuthentiekeVerenigingHandler_Puts_A_Message_On_The_Dlq()
     {
-        var bus = _setup.AdminApiHost.Services.GetRequiredService<IMessageBus>();
-        var messageStore = _setup.AdminApiHost.Services.GetRequiredService<IMessageStore>();
+        using var scope =  _setup.AdminApiHost.Services.CreateScope();
+        var bus = scope.ServiceProvider.GetRequiredService<IMessageBus>();
+        var messageStore = scope.ServiceProvider.GetRequiredService<IMessageStore>();
 
         await PurgeDeadLetters(messageStore, typeof(VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage).FullName);
 
