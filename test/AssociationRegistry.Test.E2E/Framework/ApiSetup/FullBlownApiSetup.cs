@@ -11,6 +11,7 @@ using Common.Framework;
 using Grar.NutsLau;
 using Hosts.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Hosting;
@@ -22,7 +23,6 @@ using Nest;
 using NodaTime;
 using NodaTime.Text;
 using Oakton;
-using Repositories;
 using TestClasses;
 using Vereniging;
 using Xunit;
@@ -92,8 +92,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
         await using var session = PublicApiHost.DocumentStore().LightweightSession();
-
-        new GeotagMigrationRepository(session).AddMigrationRecord();
 
         await session.SaveChangesAsync();
 
@@ -177,7 +175,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await AcmApiHost.DisposeAsync();
     }
 
-    public async Task<Dictionary<string, Marten.Events.IEvent[]>> ExecuteGiven(IScenario scenario)
+    public async Task<Dictionary<string, JasperFx.Events.IEvent[]>> ExecuteGiven(IScenario scenario)
     {
         var documentStore = AdminApiHost.DocumentStore();
 
@@ -188,7 +186,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         var givenEvents = await scenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>());
 
-        var executedEvents = new Dictionary<string, Marten.Events.IEvent[]>();
+        var executedEvents = new Dictionary<string, JasperFx.Events.IEvent[]>();
         if (givenEvents.Length == 0)
             return [];
 

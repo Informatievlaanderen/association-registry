@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Alba;
-using Marten.Events.Daemon;
+using JasperFx.Events;
+using JasperFx.Events.Daemon;
 using TestClasses;
-using IEvent = Marten.Events.IEvent;
 
 public interface IApiSetup
 {

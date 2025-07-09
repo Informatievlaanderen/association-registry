@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Vereniging.Exceptions;
 using Wolverine;
 using Wolverine.Persistence.Durability;
+using Wolverine.Persistence.Durability.DeadLetterManagement;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 

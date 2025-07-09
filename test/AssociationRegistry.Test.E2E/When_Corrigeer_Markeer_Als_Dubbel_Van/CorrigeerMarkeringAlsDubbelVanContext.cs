@@ -10,7 +10,7 @@ using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Xunit;
-using IEvent = Marten.Events.IEvent;
+using IEvent = JasperFx.Events.IEvent;
 
 // CollectionFixture for database setup ==> Context
 [CollectionDefinition(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]

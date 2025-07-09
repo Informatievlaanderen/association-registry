@@ -83,11 +83,18 @@
     <PackageVersion Include="Moq" Version="4.20.70" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.17" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10" />
+    <PackageVersion Include="xunit.v3" Version="2.0.2"/>
+    <PackageVersion Include="xunit.analyzers" Version="1.22.0"/>
     <PackageVersion Include="xunit.v3.assert" Version="2.0.2"/>
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.1" />
     <PackageVersion Include="xunit.v3.core" Version="2.0.2" />
-    <PackageVersion Include="xunit.v3.assert" Version="2.0.2" />
+    <PackageVersion Include="xunit.v3.common" Version="2.0.2" />
+    <PackageVersion Include="xunit.v3.extensibility.core" Version="2.0.2" />
+    <PackageVersion Include="xunit.v3.runner.console" Version="2.0.2" />
+    <PackageVersion Include="xunit.v3.runner.msbuild" Version="2.0.2" />
+    <PackageVersion Include="xunit.v3.runner.utility" Version="2.0.2" />
     <PackageVersion Include="Scriban" Version="5.10.0" />
+    <PackageVersion Include="AutoBogus" Version="2.13.1" />
 
   </ItemGroup>
 </Project>

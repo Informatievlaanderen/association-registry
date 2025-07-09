@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using Wolverine;
 using Wolverine.Persistence.Durability;
+using Wolverine.Persistence.Durability.DeadLetterManagement;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
