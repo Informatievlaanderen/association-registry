@@ -13,6 +13,7 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
 using Destructurama;
+using EventStore;
 using FluentValidation;
 using Hosts.HealthChecks;
 using Infrastructure.Caching;
@@ -241,6 +242,7 @@ public class Program
         builder.Services
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(appSettings)
+               .AddSingleton<EventConflictResolver>()
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddTransient<IPubliekVerenigingenDetailAllQuery, PubliekVerenigingenDetailAllQuery>()

@@ -136,7 +136,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         {
             connection.Open();
             // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-            cmd.CommandText += $"DROP DATABASE IF EXISTS {configuration["PostgreSQLOptions:database"]} WITH (FORCE);";
+            cmd.CommandText += $"DROP DATABASE {configuration["PostgreSQLOptions:database"]} WITH (FORCE);";
             cmd.ExecuteNonQuery();
         }
         finally
@@ -156,7 +156,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         try
         {
             connection.Open();
-            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} IF Ex WITH OWNER = {postgreSqlOptionsSection.Username};";
+            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
             cmd.ExecuteNonQuery();
         }
         catch (PostgresException ex)

@@ -35,6 +35,6 @@
     <PackageReference Include="Scriban"/>
     <PackageReference Include="Microsoft.AspNetCore.Hosting"/>
     <PackageReference Include="AWSSDK.Core" />
-    <PackageReference Remove="Marten" />
+    <PackageReference Include="Marten" />
   </ItemGroup>
 </Project>
