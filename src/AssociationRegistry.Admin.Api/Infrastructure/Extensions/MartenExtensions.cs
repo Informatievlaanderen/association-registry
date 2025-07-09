@@ -39,7 +39,7 @@ public static class MartenExtensions
                                       {
                                           var opts = new StoreOptions();
 
-                                          if (!postgreSqlOptions.Schema.IsNullOrEmpty())
+                                          if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
                                           {
                                               opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
                                               opts.DatabaseSchemaName = postgreSqlOptions.Schema;

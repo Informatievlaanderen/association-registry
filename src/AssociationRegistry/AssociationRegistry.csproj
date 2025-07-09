@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <LangVersion>latest</LangVersion>
     <RuntimeIdentifier>$(MyRuntimeIdentifier)</RuntimeIdentifier>
@@ -44,7 +44,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LoggerMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Remove="Vereniging\Werkingsgebieden\Werkingsgebieden.csv" />
+    <None Remove="Vereniging\Werkingsgebieden\Werkingsgebieden.csv"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -61,20 +61,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
+    <Folder Include="Repositories\"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JasperFx.Events" />
-    <PackageReference Include="Marten" />
-    <PackageReference Include="Be.Vlaanderen.Basisregisters.AggregateSource" />
-    <PackageReference Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic" />
-    <PackageReference Include="CompareNETObjects" />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" />
-    <PackageReference Include="OpenTelemetry" />
-    <PackageReference Include="Polly" />
-    <PackageReference Include="Result.Net" />
-    <PackageReference Include="Slack.Webhooks" />
-    <PackageReference Include="WolverineFx.Marten" />
-    </ItemGroup>
+    <PackageReference Include="JasperFx.Events"/>
+    <PackageReference Include="Marten"/>
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.AggregateSource"/>
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic"/>
+    <PackageReference Include="CompareNETObjects"/>
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities"/>
+    <PackageReference Include="OpenTelemetry"/>
+    <PackageReference Include="Polly"/>
+    <PackageReference Include="Result.Net"/>
+    <PackageReference Include="Slack.Webhooks"/>
+    <PackageReference Include="WolverineFx.Marten"/>
+  </ItemGroup>
 </Project>

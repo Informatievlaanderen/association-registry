@@ -29,7 +29,7 @@ services:
 
   # Build the Lambda first
   lambda-builder:
-    image: mcr.microsoft.com/dotnet/sdk:8.0.300
+    image: mcr.microsoft.com/dotnet/sdk:9.0.301
     profiles:
       - kbo-sync-lambdas
     volumes:

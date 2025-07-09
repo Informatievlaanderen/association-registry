@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <LangVersion>latest</LangVersion>
     <RuntimeIdentifier>$(MyRuntimeIdentifier)</RuntimeIdentifier>
@@ -42,11 +42,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\net8.0\AssociationRegistry.Public.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net9.0\AssociationRegistry.Public.Api.xml</DocumentationFile>
     <DefineConstants>TRACE;DEBUG;NETCOREAPP;NET6_0</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\net8.0\AssociationRegistry.Public.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net9.0\AssociationRegistry.Public.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <LangVersion>latest</LangVersion>
     <RuntimeIdentifier>$(MyRuntimeIdentifier)</RuntimeIdentifier>
@@ -36,10 +36,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DocumentationFile>bin\Debug\net8.0\AssociationRegistry.Admin.ProjectionHost.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net9.0\AssociationRegistry.Admin.ProjectionHost.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DocumentationFile>bin\Release\net8.0\AssociationRegistry.Admin.ProjectionHost.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net9.0\AssociationRegistry.Admin.ProjectionHost.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

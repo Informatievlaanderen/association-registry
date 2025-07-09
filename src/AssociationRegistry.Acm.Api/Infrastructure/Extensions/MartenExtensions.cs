@@ -41,7 +41,7 @@ public static class MartenExtensions
     {
         opts.Connection(postgreSqlOptions.GetConnectionString());
 
-        if (!postgreSqlOptions.Schema.IsNullOrEmpty())
+        if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
         {
             opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
             opts.DatabaseSchemaName = postgreSqlOptions.Schema;
