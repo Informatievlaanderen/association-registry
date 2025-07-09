@@ -1,17 +1,13 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 
 using DuplicateVerenigingDetection;
-using Events;
 using Framework;
-using Grar.Clients;
-using JasperFx.Core;
-using Messages;
-using Vereniging;
 using Marten;
+using Messages;
 using Microsoft.Extensions.Logging;
-using Middleware;
 using ResultNet;
 using System.Collections.ObjectModel;
+using Vereniging;
 using Vereniging.Geotags;
 using Wolverine.Marten;
 

@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using ResultNet;
 using Swashbuckle.AspNetCore.Filters;
+using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
 
@@ -30,12 +31,15 @@ public class RegistreerVerenigingUitKboController : ApiController
 {
     private readonly AppSettings _appSettings;
     private readonly IValidator<RegistreerVerenigingUitKboRequest> _validator;
+    private readonly IMessageBus _bus;
 
     public RegistreerVerenigingUitKboController(
         IValidator<RegistreerVerenigingUitKboRequest> validator,
+        IMessageBus bus,
         AppSettings appSettings)
     {
         _validator = validator;
+        _bus = bus;
         _appSettings = appSettings;
     }
 
@@ -76,7 +80,6 @@ public class RegistreerVerenigingUitKboController : ApiController
     public async Task<IActionResult> Post(
         [FromBody] RegistreerVerenigingUitKboRequest? request,
         [FromServices] ICommandMetadataProvider commandMetadataProvider,
-        [FromServices] RegistreerVerenigingUitKboCommandHandler handler,
         [FromServices] InitiatorProvider initiator)
     {
         await _validator.NullValidateAndThrowAsync(request);
@@ -85,7 +88,8 @@ public class RegistreerVerenigingUitKboController : ApiController
 
         var metadata = commandMetadataProvider.GetMetadata();
         var envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(command, metadata);
-        var registratieResult = await handler.Handle(envelope);
+
+        var registratieResult = await _bus.InvokeAsync<Result>(envelope);
 
         return registratieResult switch
         {

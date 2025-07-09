@@ -2,6 +2,7 @@
 
 using Amazon.Runtime;
 using AssociationRegistry.Middleware;
+using DecentraalBeheer.Registratie.RegistreerVerenigingUitKbo;
 using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using EventStore;
 using Framework;
