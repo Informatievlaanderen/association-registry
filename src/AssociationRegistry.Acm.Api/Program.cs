@@ -8,6 +8,7 @@ using Be.Vlaanderen.Basisregisters.Api.Localization;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Logging;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
+using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
@@ -39,6 +40,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -92,6 +94,13 @@ public class Program
 
         var app = builder.Build();
 
+        // app.ConfigureAcmApiSwagger();
+
+        app.UseRequestLocalization();
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.UseReDoc(opt => { opt.RoutePrefix = "docs"; opt.SpecUrl = "/swagger/v1/swagger.json"; });
+
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 
         app.AddProjectionEndpoints(
@@ -110,7 +119,8 @@ public class Program
 
         ConfigureHealtChecks(app);
         ConfigureRequestLocalization(app);
-        app.ConfigureAcmApiSwagger();
+
+        //app.ConfigureAcmApiSwagger();
 
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
@@ -266,6 +276,60 @@ public class Program
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddHttpContextAccessor()
                .AddControllers();
+
+
+        builder.            Services
+                           .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
+                           .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
+                           .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+
+                           .Configure<RequestLocalizationOptions>(opts =>
+                            {
+                                const string fallbackCulture = "en-GB";
+                                var defaultRequestCulture = new RequestCulture( new CultureInfo(fallbackCulture));
+                                var supportedCulturesOrDefault =  new[] { new CultureInfo(fallbackCulture) };
+
+                                opts.DefaultRequestCulture = defaultRequestCulture;
+                                opts.SupportedCultures = supportedCulturesOrDefault;
+                                opts.SupportedUICultures = supportedCulturesOrDefault;
+
+                                opts.FallBackToParentCultures = true;
+                                opts.FallBackToParentUICultures = true;
+                            })
+
+                           .Configure<RequestLocalizationOptions>(opts =>
+                            {
+                                const string fallbackCulture = "en-GB";
+                                var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                                var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
+
+                                opts.DefaultRequestCulture = defaultRequestCulture;
+                                opts.SupportedCultures = supportedCulturesOrDefault;
+                                opts.SupportedUICultures = supportedCulturesOrDefault;
+
+                                opts.FallBackToParentCultures = true;
+                                opts.FallBackToParentUICultures = true;
+                            });
+
+        builder.Services.AddEndpointsApiExplorer();
+
+        // builder.Services.AddSwaggerGen(options =>
+        //                          options.SwaggerDoc(name: "v1",
+        //                                             new OpenApiInfo
+        //                                             {
+        //                                                 Title = "Basisregisters Vlaanderen Verenigingsregister Publieke Projecties API",
+        //                                                 Version = "v1",
+        //                                                 Contact = new OpenApiContact
+        //                                                 {
+        //                                                     Name = "Digitaal Vlaanderen",
+        //                                                     Email = "digitaal.vlaanderen@vlaanderen.be",
+        //                                                     Url = new Uri("https://publiek.verenigingen.vlaanderen.be"),
+        //                                                 },
+        //                                             })
+        // );
+
+        // builder.Services.AddAcmApiSwagger(appSettings);
+
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
@@ -452,6 +516,7 @@ public class Program
                .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
 
         builder.Services.AddAcmApiSwagger(appSettings);
+
 
         builder.Services
                .AddTransient<IVerenigingenPerInszQuery, VerenigingenPerInszQuery>()
