@@ -99,7 +99,7 @@ public class Program
         app.UseRequestLocalization();
         app.UseSwagger();
         app.UseSwaggerUI();
-        app.UseReDoc(opt => { opt.RoutePrefix = "docs"; opt.SpecUrl = "/swagger/v1/swagger.json"; });
+        app.UseReDoc(opt => { opt.RoutePrefix = "docs"; opt.SpecUrl = "/docs/v1/docs.json"; });
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 

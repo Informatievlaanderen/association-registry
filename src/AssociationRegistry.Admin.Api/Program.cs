@@ -12,6 +12,7 @@ using Be.Vlaanderen.Basisregisters.Api.Localization;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Logging;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
+using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
@@ -123,6 +124,12 @@ public class Program
         ConfigureHostedServices(builder);
 
         var app = builder.Build();
+
+
+        app.UseRequestLocalization();
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.UseReDoc(opt => { opt.RoutePrefix = "docs"; opt.SpecUrl = "/docs/v1/docs.json"; });
 
         if (ProgramArguments.IsCodeGen(args))
         {
@@ -666,7 +673,43 @@ public class Program
                         cfg.SubstituteApiVersionInUrl = true;
                     });
 
+               builder.            Services
+                           .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
+                           .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
+                           .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+
+                           .Configure<RequestLocalizationOptions>(opts =>
+                            {
+                                const string fallbackCulture = "en-GB";
+                                var defaultRequestCulture = new RequestCulture( new CultureInfo(fallbackCulture));
+                                var supportedCulturesOrDefault =  new[] { new CultureInfo(fallbackCulture) };
+
+                                opts.DefaultRequestCulture = defaultRequestCulture;
+                                opts.SupportedCultures = supportedCulturesOrDefault;
+                                opts.SupportedUICultures = supportedCulturesOrDefault;
+
+                                opts.FallBackToParentCultures = true;
+                                opts.FallBackToParentUICultures = true;
+                            })
+
+                           .Configure<RequestLocalizationOptions>(opts =>
+                            {
+                                const string fallbackCulture = "en-GB";
+                                var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                                var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
+
+                                opts.DefaultRequestCulture = defaultRequestCulture;
+                                opts.SupportedCultures = supportedCulturesOrDefault;
+                                opts.SupportedUICultures = supportedCulturesOrDefault;
+
+                                opts.FallBackToParentCultures = true;
+                                opts.FallBackToParentUICultures = true;
+                            });
+
+        builder.Services.AddEndpointsApiExplorer();
+
         builder.Services.AddAdminApiSwagger(appSettings);
+
         builder.Services.AddSingleton<ProblemDetailsHelper>()
                .AddSingleton<IResponseWriter, ResponseWriter>();
 
