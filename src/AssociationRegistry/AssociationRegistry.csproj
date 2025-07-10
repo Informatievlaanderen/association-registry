@@ -2,12 +2,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <LangVersion>latest</LangVersion>
     <RuntimeIdentifier>$(MyRuntimeIdentifier)</RuntimeIdentifier>
     <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
-    <RuntimeFrameworkVersion>8.0.5</RuntimeFrameworkVersion>
+    <RuntimeFrameworkVersion>9.0.7</RuntimeFrameworkVersion>
     <DisableImplicitFrameworkReferences>false</DisableImplicitFrameworkReferences>
     <PublishReadyToRun>true</PublishReadyToRun>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -44,7 +44,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LoggerMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Remove="Vereniging\Werkingsgebieden\Werkingsgebieden.csv" />
+    <None Remove="Vereniging\Werkingsgebieden\Werkingsgebieden.csv"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -61,26 +61,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="paket.template" />
-    <Content Include="paket.template">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="Repositories\"/>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
+    <PackageReference Include="JasperFx.Events"/>
+    <PackageReference Include="Marten"/>
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.AggregateSource"/>
+    <PackageReference Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic"/>
+    <PackageReference Include="CompareNETObjects"/>
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities"/>
+    <PackageReference Include="OpenTelemetry"/>
+    <PackageReference Include="Polly"/>
+    <PackageReference Include="Result.Net"/>
+    <PackageReference Include="Slack.Webhooks"/>
+    <PackageReference Include="WolverineFx.Marten"/>
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" />
-    <PackageReference Include="Be.Vlaanderen.Basisregisters.AggregateSource" />
-    <PackageReference Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic" />
-    <PackageReference Include="Slack.Webhooks" />
-    <PackageReference Include="Result.Net" />
-    <PackageReference Include="Polly" />
-    <PackageReference Include="Marten" />
-    <PackageReference Include="WolverineFx.Marten" />
-    <PackageReference Include="WolverineFx.AmazonSqs" />
-    <PackageReference Include="CompareNETObjects" />
-    </ItemGroup>
 </Project>

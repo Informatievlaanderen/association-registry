@@ -9,7 +9,6 @@ using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
 using FluentAssertions;
-using Repositories;
 using Xunit;
 
 public class Given_A_VCode

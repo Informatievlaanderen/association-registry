@@ -9,7 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Acm.Api
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solution Items", "{C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}"
 	ProjectSection(SolutionItems) = preProject
-		build.fsx = build.fsx
 		global.json = global.json
 		SolutionInfo.cs = SolutionInfo.cs
 		.gitignore = .gitignore

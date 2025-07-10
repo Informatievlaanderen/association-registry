@@ -22,7 +22,6 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
     private readonly string _identifier = "p_";
     private readonly IConfigurationRoot _configurationRoot;
     public IDocumentStore DocumentStore { get; }
-    public EventConflictResolver EventConflictResolver { get; }
     public WebApplicationFactory<ProjectionHostProgram> ProjectionHost { get; }
     private readonly IElasticClient _elasticClient;
 
@@ -50,7 +49,6 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
            .GetAwaiter().GetResult();
 
         DocumentStore = ProjectionHost.Services.GetRequiredService<IDocumentStore>();
-        EventConflictResolver = ProjectionHost.Services.GetRequiredService<EventConflictResolver>();
     }
 
     private IConfigurationRoot GetConfiguration()

@@ -1,10 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Framework;
 
 using AssociationRegistry.Framework;
-using Marten.Events;
+using JasperFx.Events;
 using NodaTime;
 using System.Text.Json;
-using IEvent = Marten.Events.IEvent;
 
 public class TestEvent<T> : IEvent<T> where T : notnull
 {

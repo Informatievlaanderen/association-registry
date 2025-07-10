@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.Framework;
 
 using Admin.Schema.Search;
 using FluentAssertions;
+using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.Logging;

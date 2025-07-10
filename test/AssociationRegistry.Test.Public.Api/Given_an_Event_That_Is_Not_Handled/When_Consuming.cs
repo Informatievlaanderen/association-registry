@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Nest;
 using Xunit;
 using IEvent = AssociationRegistry.Events.IEvent;
 
@@ -43,7 +44,7 @@ public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_F
     [Fact]
     public async ValueTask Then_No_exceptions_Are_Thrown()
     {
-        var consumer = new MartenEventsConsumer(_projectionHost.Services.GetRequiredService<PubliekZoekProjectionHandler>(),
+        var consumer = new MartenEventsConsumer(new PubliekZoekProjectionHandler(_projectionHost.Services.GetRequiredService<IElasticRepository>()),
                                                 Mock.Of<ILogger<MartenEventsConsumer>>());
 
         var consumeForElastic = () =>
@@ -55,7 +56,7 @@ public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_F
                                .Append(Given_An_Unhandled_Event_Fixture.VCode,
                                        new Given_An_Unhandled_Event_Fixture.AnUnhandledEvent());
 
-            return consumer.ConsumeAsync([streamActions]);
+            return consumer.ConsumeAsync(streamActions.Events.ToArray());
         };
 
         await consumeForElastic.Should().NotThrowAsync();

@@ -163,7 +163,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
             throw new NullReferenceException("DocumentStore cannot be null when adding an event");
 
         using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-        await daemon.StartAllShards();
+        await daemon.StartAllAsync();
 
         if (daemon is null)
             throw new NullReferenceException("Projection daemon cannot be null when adding an event");

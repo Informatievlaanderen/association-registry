@@ -22,6 +22,6 @@ public class SequenceVCodeService : IVCodeService
     {
         await using var session = _documentStore.LightweightSession();
 
-        return VCode.Create(session.NextInSequence(_vCodeSequence));
+        return VCode.Create(await session.NextInSequence(_vCodeSequence));
     }
 }

@@ -4,10 +4,10 @@ using Events;
 
 public interface IEventPostConflictResolutionStrategy
 {
-    bool IsAllowedConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<Marten.Events.IEvent> conflictingEvents);
+    bool IsAllowedConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<JasperFx.Events.IEvent> conflictingEvents);
 }
 
 public interface IEventPreConflictResolutionStrategy
 {
-    bool IsAllowedConflict(IEnumerable<Marten.Events.IEvent> conflictingEvents);
+    bool IsAllowedConflict(IEnumerable<JasperFx.Events.IEvent> conflictingEvents);
 }

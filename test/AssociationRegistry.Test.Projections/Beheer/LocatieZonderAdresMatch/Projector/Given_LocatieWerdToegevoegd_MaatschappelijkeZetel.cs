@@ -8,8 +8,7 @@ using Marten;
 using Vereniging;
 
 [Collection(nameof(MultiStreamTestCollection))]
-public class Given_LocatieWerdToegevoegd_MaatschappelijkeZetelVolgensKbo : IClassFixture<
-    GivenLocatieWerdToegevoegdMaatschappelijkeZetelFixture>
+public class Given_LocatieWerdToegevoegd_MaatschappelijkeZetelVolgensKbo : IClassFixture<GivenLocatieWerdToegevoegdMaatschappelijkeZetelFixture>
 {
     private readonly GivenLocatieWerdToegevoegdMaatschappelijkeZetelFixture _fixture;
 

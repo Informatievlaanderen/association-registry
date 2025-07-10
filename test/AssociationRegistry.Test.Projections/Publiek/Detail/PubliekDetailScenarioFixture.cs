@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
 
 using Framework.Fixtures;
+using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
 using Public.ProjectionHost.Projections;

@@ -3,6 +3,7 @@
 using AssociationRegistry.Acm.Api.Projections;
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 using Framework.Fixtures;
+using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
 

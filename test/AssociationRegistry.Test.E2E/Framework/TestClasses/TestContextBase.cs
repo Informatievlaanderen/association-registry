@@ -3,6 +3,7 @@
 using Alba;
 using ApiSetup;
 using JasperFx.Core;
+using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;

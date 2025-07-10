@@ -3,6 +3,7 @@ namespace AssociationRegistry.EventStore;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Events;
 using Framework;
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Exceptions;

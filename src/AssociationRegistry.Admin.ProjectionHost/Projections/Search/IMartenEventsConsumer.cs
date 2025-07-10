@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
-using Marten.Events;
+using JasperFx.Events;
 
 public interface IMartenEventsConsumer
 {
-    Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions);
+    Task ConsumeAsync(IReadOnlyList<IEvent> streamActions);
 }

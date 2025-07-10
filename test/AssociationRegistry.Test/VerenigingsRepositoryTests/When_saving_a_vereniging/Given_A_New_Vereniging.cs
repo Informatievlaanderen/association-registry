@@ -10,7 +10,6 @@ using Common.Stubs.VCodeServices;
 using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using FluentAssertions;
 using Moq;
-using Repositories;
 using Vereniging.Geotags;
 using Xunit;
 

@@ -1,9 +1,11 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
 using Events;
+using JasperFx.Events;
 using Marten.Events;
 using Resources;
 using Zoeken;
+using IEvent = JasperFx.Events.IEvent;
 
 public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
 {
@@ -16,9 +18,9 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
         _logger = logger;
     }
 
-    public async Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
+    public async Task ConsumeAsync(IReadOnlyList<IEvent> events)
     {
-        foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
+        foreach (var @event in events)
         {
             dynamic eventEnvelope =
                 Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;

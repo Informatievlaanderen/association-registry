@@ -19,7 +19,7 @@ public class EventConflictResolver
         _postStrategies = postStrategies;
     }
 
-    public bool IsAllowedPostConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<Marten.Events.IEvent> conflictingEvents)
+    public bool IsAllowedPostConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<JasperFx.Events.IEvent> conflictingEvents)
     {
         foreach (var strategy in _postStrategies)
         {
@@ -32,7 +32,7 @@ public class EventConflictResolver
         return false;
     }
 
-    public bool IsAllowedPreConflict(IEnumerable<Marten.Events.IEvent> conflictingEvents)
+    public bool IsAllowedPreConflict(IEnumerable<JasperFx.Events.IEvent> conflictingEvents)
     {
         foreach (var strategy in _preStrategies)
         {

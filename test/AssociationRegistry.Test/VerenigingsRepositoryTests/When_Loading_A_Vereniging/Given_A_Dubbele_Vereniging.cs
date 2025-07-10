@@ -8,7 +8,6 @@ using Common.Framework;
 using Events;
 using FluentAssertions;
 using Framework;
-using Repositories;
 using Resources;
 using Vereniging;
 using Xunit;

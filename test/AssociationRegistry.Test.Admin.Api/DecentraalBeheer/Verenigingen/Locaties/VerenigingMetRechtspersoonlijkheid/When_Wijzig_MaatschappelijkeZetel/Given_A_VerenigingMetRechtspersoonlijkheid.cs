@@ -61,13 +61,13 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Wij
     }
 
     [Fact]
-    public void Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
-        using var session = _documentStore
+        await using var session = _documentStore
            .LightweightSession();
 
-        var events = session.Events
-                            .FetchStream(_vCode);
+        var events = await session.Events
+                            .FetchStreamAsync(_vCode);
 
         var maatschappelijkeZetelVolgensKboWerdGewijzigd =
             events.Single(e => e.Data.GetType() == typeof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd));

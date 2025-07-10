@@ -3,14 +3,14 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using Events;
 using Formats;
 using Framework;
+using JasperFx.Events;
 using JsonLdContext;
-using Marten.Events;
 using Schema.Detail;
 using Vereniging;
 
 using AdresFormatter = Formats.AdresFormatter;
 using Doelgroep = Schema.Detail.Doelgroep;
-using IEvent = Marten.Events.IEvent;
+using IEvent = JasperFx.Events.IEvent;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public static class PubliekVerenigingDetailProjector

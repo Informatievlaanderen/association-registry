@@ -2,11 +2,11 @@ namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebAp
 
 using Constants;
 using JasperFx.CodeGeneration;
+using JasperFx.Events;
+using JasperFx.Events.Daemon;
+using JasperFx.Events.Projections;
 using Json;
 using Marten;
-using Marten.Events;
-using Marten.Events.Daemon.Resiliency;
-using Marten.Events.Projections;
 using Marten.Services;
 using Newtonsoft.Json;
 using Projections;
@@ -58,21 +58,6 @@ public static class ConfigureMartenExtensions
                $"password={postgreSqlOptions.Password};" +
                $"username={postgreSqlOptions.Username}";
 
-        static JsonNetSerializer CreateCustomMartenSerializer()
-        {
-            var jsonNetSerializer = new JsonNetSerializer();
-
-            jsonNetSerializer.Customize(
-                s =>
-                {
-                    s.DateParseHandling = DateParseHandling.None;
-                    s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                    s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                });
-
-            return jsonNetSerializer;
-        }
-
         var postgreSqlOptions = postgreSqlOptionsSection;
 
         var connectionString = GetPostgresConnectionString(postgreSqlOptions);
@@ -106,7 +91,12 @@ public static class ConfigureMartenExtensions
             ProjectionLifecycle.Async,
             ProjectionNames.PubliekZoek);
 
-        opts.Serializer(CreateCustomMartenSerializer());
+        opts.UseNewtonsoftForSerialization(configure: settings =>
+        {
+            settings.DateParseHandling = DateParseHandling.None;
+            settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        });
 
         opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
         opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();

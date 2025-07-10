@@ -36,6 +36,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     private readonly string _identifier;
     private readonly WebApplicationFactory<Program> _adminApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
+    private readonly IServiceProvider _serviceProvider;
     public IConfigurationRoot Configuration { get; }
 
     internal IElasticClient ElasticClient
@@ -88,8 +89,12 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         _adminApiServer.CreateClient();
 
-        SqsClientWrapper = _adminApiServer.Services.GetRequiredService<ISqsClientWrapper>();
-        AmazonSqs = _adminApiServer.Services.GetRequiredService<IAmazonSQS>();
+        using var scope =  _adminApiServer.Services.CreateScope();
+        _serviceProvider = scope.ServiceProvider;
+
+        SqsClientWrapper = _serviceProvider.GetRequiredService<ISqsClientWrapper>();
+
+        AmazonSqs = _serviceProvider.GetRequiredService<IAmazonSQS>();
 
         AdminApiClients = new AdminApiClients(
             Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
@@ -101,7 +106,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     GetConnectionString(Configuration, Configuration.GetPostgreSqlOptionsSection().Database!))
                .GetAwaiter().GetResult();
 
-        var postgreSqlOptionsSection = _adminApiServer.Services.GetRequiredService<PostgreSqlOptionsSection>();
+        var postgreSqlOptionsSection = _serviceProvider.GetRequiredService<PostgreSqlOptionsSection>();
 
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
                .GetAwaiter().GetResult();
@@ -138,7 +143,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public ISqsClientWrapper SqsClientWrapper { get; set; }
 
     public IDocumentStore ApiDocumentStore
-        => _adminApiServer.Services.GetRequiredService<IDocumentStore>();
+        => _serviceProvider.GetRequiredService<IDocumentStore>();
 
     public IDocumentStore ProjectionsDocumentStore
         => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();

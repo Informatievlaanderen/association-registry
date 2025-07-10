@@ -75,9 +75,9 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     }
 
     [Fact]
-    public void Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
-        using var session = _documentStore
+        await using var session = _documentStore
            .LightweightSession();
 
         var naamWerdGewijzigd = session.Events
@@ -96,18 +96,18 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
                                              .QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
                                              .Single(@event => @event.VCode == _vCode);
 
-        var hoofactiviteitenVerenigingloketWerdenGewijzigd = session.Events
-                                                                    .FetchStream(_vCode)
+        var hoofactiviteitenVerenigingloketWerdenGewijzigd = (await session.Events
+                                                                    .FetchStreamAsync(_vCode))
                                                                     .Single(@event => @event.Data.GetType() ==
                                                                                       typeof(
                                                                                           HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
 
-        var doelgroepWerdGewijzigd = session.Events
-                                            .FetchStream(_vCode)
+        var doelgroepWerdGewijzigd = (await session.Events
+                                            .FetchStreamAsync(_vCode))
                                             .Single(@event => @event.Data.GetType() == typeof(DoelgroepWerdGewijzigd));
 
-        session.Events
-               .FetchStream(_vCode)
+        (await session.Events
+               .FetchStreamAsync(_vCode))
                .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom))
                .Should().NotBeNull();
 

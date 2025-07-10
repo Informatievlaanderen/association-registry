@@ -4,10 +4,10 @@ using Events;
 
 public class AddressMatchConflictResolutionStrategy : IEventPostConflictResolutionStrategy, IEventPreConflictResolutionStrategy
 {
-    public bool IsAllowedConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<Marten.Events.IEvent> conflictingEvents)
+    public bool IsAllowedConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<JasperFx.Events.IEvent> conflictingEvents)
         => conflictingEvents.All(e => IsAllowedEventType(e.EventType));
 
-    public bool IsAllowedConflict(IEnumerable<Marten.Events.IEvent> conflictingEvents)
+    public bool IsAllowedConflict(IEnumerable<JasperFx.Events.IEvent> conflictingEvents)
         => conflictingEvents.All(e => IsAllowedEventType(e.EventType));
 
     private bool IsAllowedEventType(Type eventType)

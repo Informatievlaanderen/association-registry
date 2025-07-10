@@ -55,13 +55,13 @@ public class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInIn
     }
 
     [Fact]
-    public void Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
-        using var session = _documentStore
+        await using var session = _documentStore
            .LightweightSession();
 
-        session.Events
-               .FetchStream(_vCode)
+        (await session.Events
+               .FetchStreamAsync(_vCode))
                .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdIngeschrevenInPubliekeDatastroom))
                .Should().NotBeNull();
     }

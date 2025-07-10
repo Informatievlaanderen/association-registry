@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
@@ -32,8 +32,9 @@
     <PackageReference Include="Moq"/>
     <PackageReference Include="NEST"/>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"/>
-    <PackageReference Include="Marten"/>
     <PackageReference Include="Scriban"/>
     <PackageReference Include="Microsoft.AspNetCore.Hosting"/>
+    <PackageReference Include="AWSSDK.Core" />
+    <PackageReference Include="Marten" />
   </ItemGroup>
 </Project>

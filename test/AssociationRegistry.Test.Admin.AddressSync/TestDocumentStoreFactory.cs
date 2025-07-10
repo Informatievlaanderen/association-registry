@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.AddressSync;
 
+using JasperFx;
+using JasperFx.Events;
 using Marten;
-using Marten.Events;
-using Weasel.Core;
 
 public class TestDocumentStoreFactory
 {

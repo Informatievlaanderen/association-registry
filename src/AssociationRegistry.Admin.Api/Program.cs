@@ -6,13 +6,13 @@ using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Asp.Versioning.ApplicationModels;
-using Notifications;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Logging;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
+using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
@@ -31,26 +31,23 @@ using Grar.GrarUpdates.LocatieFinder;
 using Grar.NutsLau;
 using GrarConsumer.Finders;
 using GrarConsumer.Kafka;
-using HostedServices.GeotagsInitialisation;
 using Hosts;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
-using Hosts.HealthChecks;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
 using Infrastructure.AWS;
 using Infrastructure.Configuration;
 using Infrastructure.ExceptionHandlers;
 using Infrastructure.Extensions;
-using Infrastructure.HealthChecks;
 using Infrastructure.HttpClients;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
 using Infrastructure.Middleware;
 using Infrastructure.ResponseWriter;
 using Infrastructure.Sequence;
+using JasperFx;
 using Kbo;
-using Lamar.Microsoft.DependencyInjection;
 using Magda;
 using Marten;
 using MessageHandling.Sqs.AddressMatch;
@@ -72,10 +69,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using Oakton;
+using Notifications;
 using OpenTelemetry.Extensions;
 using Queries;
-using Repositories;
 using Serilog;
 using Serilog.Debugging;
 using System.Globalization;
@@ -86,6 +82,8 @@ using System.Reflection;
 using System.Text;
 using Vereniging;
 using Vereniging.Geotags;
+using Verenigingen.Historiek;
+using Verenigingen.KboSync;
 using Weasel.Core.Migrations;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
@@ -119,17 +117,23 @@ public class Program
         ConfigureWebHost(builder);
         ConfigureServices(builder);
 
-        builder.Host.ApplyOaktonExtensions();
-        builder.Host.UseLamar();
+        builder.Host.ApplyJasperFxExtensions();
+        //builder.Host.UseLamar();
 
         builder.AddWolverine();
         ConfigureHostedServices(builder);
 
         var app = builder.Build();
 
+
+        app.UseRequestLocalization();
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.UseReDoc(opt => { opt.RoutePrefix = "docs"; opt.SpecUrl = "/docs/v1/docs.json"; });
+
         if (ProgramArguments.IsCodeGen(args))
         {
-            await app.RunOaktonCommands(args);
+            await app.RunJasperFxCommands(args);
             return;
         }
 
@@ -172,7 +176,7 @@ public class Program
             app.Services.GetRequiredService<ILogger<Program>>());
 
 
-        await app.RunOaktonCommands(args);
+        await app.RunJasperFxCommands(args);
     }
 
     private static async Task RunPreStartupTasks(WebApplication app, ILogger<Program> logger)
@@ -184,9 +188,11 @@ public class Program
 
     private static async Task LogPendingDatabaseChanges(WebApplication app, ILogger<Program> logger)
     {
+        using var scope = app.Services.CreateScope();
+        await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
+
         try
         {
-            await using var session = app.Services.GetRequiredService<IDocumentSession>();
             await session.DocumentStore.Storage.Database.AssertDatabaseMatchesConfigurationAsync();
             logger.LogInformation("✅ MartenDb Schema is up to date");
         }
@@ -198,9 +204,11 @@ public class Program
 
     private static async Task RegistreerOntbrekendeInschrijvingen(WebApplication app, ILogger<Program> logger)
     {
+        using var scope = app.Services.CreateScope();
+
         try
         {
-            var registreerInschrijvinCatchupService = app.Services.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
+            var registreerInschrijvinCatchupService = scope.ServiceProvider.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
 
             await registreerInschrijvinCatchupService
                .RegistreerInschrijvingVoorVerenigingenMetRechtspersoonlijkheidDieNogNietIngeschrevenZijn();
@@ -213,7 +221,9 @@ public class Program
 
     private static async Task ArchiveAfdelingen(WebApplication app)
     {
-        await using var session = app.Services.GetRequiredService<IDocumentSession>();
+        using var scope = app.Services.CreateScope();
+
+        await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
         var queryAllRawEvents = session
                                .Events.QueryRawEventDataOnly<AfdelingWerdGeregistreerd>();
@@ -421,6 +431,7 @@ public class Program
                .AddSingleton<IGrarHttpClient>(sp => sp.GetRequiredService<GrarHttpClient>())
                .AddSingleton(grarOptions.GrarClient)
                .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
+               .AddSingleton(elasticSearchOptionsSection)
                .AddScoped(sp => new ElasticSearchOptionsService(
                               sp.GetRequiredService<ElasticSearchOptionsSection>(),
                               sp.GetRequiredService<IDocumentSession>(),
@@ -455,6 +466,8 @@ public class Program
                .AddTransient<INutsAndLauSyncService, NutsAndLauSyncService>()
                .AddTransient<IWerkingsgebiedenService, WerkingsgebiedenService>()
                .AddTransient<IGeotagsService, GeotagsService>()
+               .AddTransient<KboSyncHistoriekResponseMapper>()
+               .AddTransient<VerenigingHistoriekResponseMapper>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()
@@ -577,8 +590,7 @@ public class Program
                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                .AddDatabaseDeveloperPageExceptionFilter();
 
-        var healthChecksBuilder = builder.Services.AddHealthChecks()
-                                         .AddGeotagsMigrationHealthCheck();
+        builder.Services.AddHealthChecks();
 
         // var connectionStrings = builder.Configuration
         //                                .GetSection("ConnectionStrings")
@@ -661,7 +673,43 @@ public class Program
                         cfg.SubstituteApiVersionInUrl = true;
                     });
 
+               builder.            Services
+                           .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
+                           .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
+                           .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+
+                           .Configure<RequestLocalizationOptions>(opts =>
+                            {
+                                const string fallbackCulture = "en-GB";
+                                var defaultRequestCulture = new RequestCulture( new CultureInfo(fallbackCulture));
+                                var supportedCulturesOrDefault =  new[] { new CultureInfo(fallbackCulture) };
+
+                                opts.DefaultRequestCulture = defaultRequestCulture;
+                                opts.SupportedCultures = supportedCulturesOrDefault;
+                                opts.SupportedUICultures = supportedCulturesOrDefault;
+
+                                opts.FallBackToParentCultures = true;
+                                opts.FallBackToParentUICultures = true;
+                            })
+
+                           .Configure<RequestLocalizationOptions>(opts =>
+                            {
+                                const string fallbackCulture = "en-GB";
+                                var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                                var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
+
+                                opts.DefaultRequestCulture = defaultRequestCulture;
+                                opts.SupportedCultures = supportedCulturesOrDefault;
+                                opts.SupportedUICultures = supportedCulturesOrDefault;
+
+                                opts.FallBackToParentCultures = true;
+                                opts.FallBackToParentUICultures = true;
+                            });
+
+        builder.Services.AddEndpointsApiExplorer();
+
         builder.Services.AddAdminApiSwagger(appSettings);
+
         builder.Services.AddSingleton<ProblemDetailsHelper>()
                .AddSingleton<IResponseWriter, ResponseWriter>();
 
@@ -680,8 +728,6 @@ public class Program
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
     {
         ConfigureAddresskafkaConsumer(builder);
-
-        builder.Services.AddHostedService<GeotagsInitialisationService>();
     }
 
     private static void ConfigureAddresskafkaConsumer(WebApplicationBuilder builder)

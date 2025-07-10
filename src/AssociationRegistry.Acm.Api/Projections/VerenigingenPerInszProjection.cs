@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
 using Events;
+using JasperFx.Events;
 using Marten;
-using Marten.Events;
 using Marten.Events.Projections;
 using Schema.VerenigingenPerInsz;
 using System.Collections.Generic;
