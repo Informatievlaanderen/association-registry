@@ -98,5 +98,9 @@
     <PackageReference Include="Slack.Webhooks"/>
     <PackageReference Include="Npgsql.OpenTelemetry"/>
     <PackageReference Include="Marten"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" />
   </ItemGroup>
 </Project>

@@ -63,6 +63,7 @@
     <PackageVersion Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.3" />
     <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.3" />
     <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.3" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Filters" Version="9.0.0" />
     <PackageVersion Include="System.ServiceModel.Duplex" Version="6.0.0" />
     <PackageVersion Include="System.ServiceModel.Http" Version="8.1.2" />
     <PackageVersion Include="System.ServiceModel.NetTcp" Version="8.1.2" />
