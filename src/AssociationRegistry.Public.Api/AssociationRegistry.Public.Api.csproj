@@ -92,5 +92,9 @@
     </PackageReference>
     <PackageReference Include="NEST"/>
     <PackageReference Include="Marten" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" />
   </ItemGroup>
 </Project>
