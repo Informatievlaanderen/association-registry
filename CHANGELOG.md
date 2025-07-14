@@ -1,3 +1,17 @@
+# [8.260.0](https://github.com/informatievlaanderen/association-registry/compare/v8.259.0...v8.260.0) (2025-07-14)
+
+
+### Bug Fixes
+
+* or-2867 setup .net core for semantic release step ([7702dfb](https://github.com/informatievlaanderen/association-registry/commit/7702dfb686f54653ea52463a8e398833c2f7a2c8))
+* or-2867 use dotnet 9 in build image and docker files ([93ea163](https://github.com/informatievlaanderen/association-registry/commit/93ea163ee9bbeee7417487fe3c0acc71b35dd64b))
+
+
+### Features
+
+* or-2867 declare dynamodb dependency explicitly because of version conflicts ([26bf522](https://github.com/informatievlaanderen/association-registry/commit/26bf52203a5d06feb6e7ee0ae898e038d3645949))
+* or-2867 modernize application ([3624af1](https://github.com/informatievlaanderen/association-registry/commit/3624af1365cd941b5b78e99e7eaad01e763d6a52))
+
 # [8.259.0](https://github.com/informatievlaanderen/association-registry/compare/v8.258.0...v8.259.0) (2025-07-08)
 
 
