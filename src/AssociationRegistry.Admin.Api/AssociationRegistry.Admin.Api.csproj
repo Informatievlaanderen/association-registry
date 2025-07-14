@@ -78,6 +78,7 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.Core" />
+    <PackageReference Include="AWSSDK.DynamoDbv2" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" />
     <PackageReference Include="Confluent.Kafka"/>
