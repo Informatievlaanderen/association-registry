@@ -109,7 +109,7 @@ public static class WolverineExtensions
 
         var connectionString = configuration.GetPostgreSqlOptionsSection().GetConnectionString();
 
-        options.UsePostgresqlPersistenceAndTransport(connectionString, wolverineSchema, wolverineSchema);
+        options.PersistMessagesWithPostgresql(connectionString, wolverineSchema).EnableMessageTransport();
 
         options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
                .ToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
