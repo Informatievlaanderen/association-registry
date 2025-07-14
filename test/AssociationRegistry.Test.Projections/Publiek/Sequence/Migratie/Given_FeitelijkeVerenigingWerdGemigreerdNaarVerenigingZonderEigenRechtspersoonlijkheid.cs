@@ -1,9 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Sequence.Migratie;
 
-using AssociationRegistry.Public.Schema.Detail;
-using AssociationRegistry.Test.Projections.Scenario.Migratie;
-using AssociationRegistry.Vereniging;
-using Detail;
+using Scenario.Migratie;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(

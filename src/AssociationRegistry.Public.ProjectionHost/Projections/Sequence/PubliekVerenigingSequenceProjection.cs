@@ -13,66 +13,263 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
     public PubliekVerenigingSequenceProjection()
     {
         Options.DeleteViewTypeOnTeardown<PubliekVerenigingSequenceDocument>();
-
-        // CreateEvent<IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>>(e =>
-        // {
-        //     return new PubliekVerenigingSequenceDocument
-        //     {
-        //         Sequence = e.Sequence,
-        //         VCode = e.Data.VCode,
-        //         Version = (int)e.Version,
-        //     };
-        // });
-        // this.Apply<IEvent<FeitelijkeVerenigingWerdGeregistreerd>>((e, doc) => Update(e, doc));
     }
 
     public PubliekVerenigingSequenceDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> e)
-    {
-        return new PubliekVerenigingSequenceDocument
+        => new()
         {
             Sequence = e.Sequence,
             VCode = e.Data.VCode,
             Version = (int)e.Version,
         };
-    }
 
     public PubliekVerenigingSequenceDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> e)
-    {
-        return new PubliekVerenigingSequenceDocument
+        => new()
         {
             Sequence = e.Sequence,
             VCode = e.Data.VCode,
             Version = (int)e.Version,
         };
-    }
 
     public PubliekVerenigingSequenceDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> e)
-    {
-        return new PubliekVerenigingSequenceDocument
+        => new()
         {
             Sequence = e.Sequence,
             VCode = e.Data.VCode,
             Version = (int)e.Version,
         };
-    }
 
     public PubliekVerenigingSequenceDocument Apply(
         IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> e,
-        PubliekVerenigingSequenceDocument document
-        )
-    {
-        return new PubliekVerenigingSequenceDocument
-        {
-            Sequence = e.Sequence,
-            VCode = e.StreamKey,
-            Version = (int)e.Version,
-        };
-    }
+        PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
 
-    // public void Apply(JasperFx.Events.IEvent e, PubliekVerenigingSequenceDocument document)
-    // {
-    //     document.Sequence = e.Sequence;
-    //     document.VCode = e.StreamKey;
-    //     document.Version = (int)e.Version;
-    // }
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<AdresHeeftGeenVerschillenMetAdressenregister> e,
+        PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> e,
+        PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<GeotagsWerdenBepaald> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> e,
+        PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<SynchronisatieMetKboWasSuccesvol> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<VerenigingWerdIngeschrevenOpWijzigingenUitKbo> e,
+        PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<VerenigingWerdVerwijderd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<NaamWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<KorteNaamWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<KorteBeschrijvingWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<StartdatumWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<StartdatumWerdGewijzigdInKbo> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<DoelgroepWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<ContactgegevenWerdToegevoegd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<ContactgegevenWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<ContactgegevenWerdVerwijderd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<WerkingsgebiedenWerdenNietBepaald> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<WerkingsgebiedenWerdenBepaald> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<WerkingsgebiedenWerdenGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<WerkingsgebiedenWerdenNietVanToepassing> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<VertegenwoordigerWerdToegevoegd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<VertegenwoordigerWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<VertegenwoordigerWerdVerwijderd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<LocatieWerdToegevoegd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<LocatieWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<LocatieWerdVerwijderd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<ContactgegevenWerdOvergenomenUitKBO> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<RoepnaamWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<VerenigingWerdGestopt> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<EinddatumWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<VertegenwoordigerWerdOvergenomenUitKBO> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<ContactgegevenUitKBOWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<NaamWerdGewijzigdInKbo> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<KorteNaamWerdGewijzigdInKbo> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<ContactgegevenWerdGewijzigdInKbo> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<ContactgegevenWerdVerwijderdUitKBO> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<ContactgegevenWerdInBeheerGenomenDoorKbo> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<MaatschappelijkeZetelWerdGewijzigdInKbo> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<RechtsvormWerdGewijzigdInKBO> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<VerenigingWerdGestoptInKBO> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<AdresWerdOvergenomenUitAdressenregister> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<AdresWerdNietGevondenInAdressenregister> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<AdresNietUniekInAdressenregister> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<AdresKonNietOvergenomenWordenUitAdressenregister> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<AdresWerdGewijzigdInAdressenregister> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<AdresWerdOntkoppeldVanAdressenregister> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<LidmaatschapWerdToegevoegd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<LidmaatschapWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<LidmaatschapWerdVerwijderd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<VerenigingAanvaarddeDubbeleVereniging> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<SubverenigingRelatieWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<SubverenigingDetailsWerdenGewijzigd> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    private static PubliekVerenigingSequenceDocument UpdateVersion<T>(IEvent<T> e, PubliekVerenigingSequenceDocument doc)
+    {
+        doc.Version = (int)e.Version;
+        doc.Sequence = (int)e.Sequence;
+
+        return doc;
+    }
 }
