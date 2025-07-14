@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Vereniging.Exceptions;
 using Wolverine;
 using Wolverine.Persistence.Durability;
+using Wolverine.Persistence.Durability.DeadLetterManagement;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
@@ -30,15 +31,17 @@ public class When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_
     [Fact]
     public async ValueTask Then_The_Dlq_Receives_The_Message()
     {
-        var bus = _setup.AdminApiHost.Services.GetRequiredService<IMessageBus>();
-        var messageStore = _setup.AdminApiHost.Services.GetRequiredService<IMessageStore>();
+        using var scope = _setup.AdminApiHost.Services.CreateScope();
+        var bus = scope.ServiceProvider.GetRequiredService<IMessageBus>();
+        var messageStore = scope.ServiceProvider.GetRequiredService<IMessageStore>();
         await PurgeDeadLetters(messageStore, typeof(VCodeFormaatIsOngeldig).FullName);
 
         var aanvaardDubbeleVerenigingMessage = _autoFixture.Create<AanvaardDubbeleVerenigingMessage>();
+        _testOutputHelper.WriteLine(string.Join(",", bus.PreviewSubscriptions(aanvaardDubbeleVerenigingMessage)));
 
         await bus.SendAsync(aanvaardDubbeleVerenigingMessage);
 
-        var maxRetries = 5;
+        var maxRetries = 10;
         var tries = 0;
         IReadOnlyList<DeadLetterEnvelope> messages = null;
         while (tries < maxRetries)

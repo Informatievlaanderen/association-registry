@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Metrics;
 
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
+using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Internals;
@@ -30,10 +32,10 @@ public class ProjectionStateListener : DocumentSessionListenerBase
 
             if (range is null) continue;
 
-            if (range.ShardName.ProjectionName == "PubliekVerenigingZoekenDocument")
+            if (range.ShardName.ShardKey == "PubliekVerenigingZoekenDocument")
                 _publiekInstrumentation.VerenigingZoekenEventValue = range.SequenceCeiling;
 
-            if (range.ShardName.ProjectionName == typeof(PubliekVerenigingDetailProjection).FullName)
+            if (range.ShardName.ShardKey == typeof(PubliekVerenigingDetailProjection).FullName)
                 _publiekInstrumentation.VerenigingDetailEventValue = range.SequenceCeiling;
         }
 

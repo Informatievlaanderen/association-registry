@@ -35,16 +35,21 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     protected IDocumentStore ProjectionsDocumentStore
         => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
 
-    private EventConflictResolver EventConflictResolver
-        => _projectionHostServer.Services.GetRequiredService<EventConflictResolver>();
-
     public PublicApiClient PublicApiClient
         => new(_publicApiServer.CreateClient());
 
     private string VerenigingenIndexName
         => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
 
-    public IServiceProvider ServiceProvider => _publicApiServer.Services;
+    public IServiceProvider ServiceProvider
+    {
+        get
+        {
+            var scope = _publicApiServer.Services.CreateScope();
+            return scope.ServiceProvider;
+        }
+    }
+
     public long MaxSequence { get; set; } = 0;
 
     public PublicApiFixture()
@@ -61,7 +66,9 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
            .WithWebHostBuilder(
                 builder => { builder.UseConfiguration(GetConfiguration()); });
 
-        WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, _publicApiServer.Services.GetRequiredService<ILogger<PublicApiFixture>>())
+
+
+        WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, ServiceProvider.GetRequiredService<ILogger<PublicApiFixture>>())
                .GetAwaiter().GetResult();
 
         OaktonEnvironment.AutoStartHost = true;
@@ -117,7 +124,10 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
+        using var scope = _publicApiServer.Services.CreateScope();
+        var eventConflictResolver = scope.ServiceProvider.GetRequiredService<EventConflictResolver>();
+
+        var eventStore = new EventStore(ProjectionsDocumentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
 
         foreach (var (@event, i) in eventsToAdd.Select((x, i) => (x, i)))
         {

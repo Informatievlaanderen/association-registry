@@ -31,7 +31,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_9 }}
 
       - name: .NET version
         shell: bash
@@ -426,7 +426,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_9 }}
 
       - name: .NET version
         shell: bash
@@ -451,7 +451,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lambda-sync-${{ needs.set-release-version.outputs.version }}
-          path: src/AssociationRegistry.KboMutations.SyncLambda/bin/Release/net8.0/AssociationRegistry.KboMutations.SyncLambda.zip
+          path: src/AssociationRegistry.KboMutations.SyncLambda/bin/Release/net9.0/AssociationRegistry.KboMutations.SyncLambda.zip
 
   run-e2e-tests:
     name: E2E

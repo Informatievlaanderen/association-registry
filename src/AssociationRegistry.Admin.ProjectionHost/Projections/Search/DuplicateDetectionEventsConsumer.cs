@@ -2,7 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
 using DuplicateDetection;
 using Events;
-using Marten.Events;
+using IEvent = JasperFx.Events.IEvent;
 
 public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
 {
@@ -13,9 +13,9 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
         _duplicateDetectionProjectionHandler = duplicateDetectionProjectionHandler;
     }
 
-    public async Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
+    public async Task ConsumeAsync(IReadOnlyList<IEvent> events)
     {
-        foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
+        foreach (var @event in events)
         {
             dynamic eventEnvelope =
                 (IEventEnvelope)Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;

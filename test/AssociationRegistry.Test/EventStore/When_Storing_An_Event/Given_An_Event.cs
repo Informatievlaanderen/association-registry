@@ -4,12 +4,12 @@ using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.Framework;
 using FluentAssertions;
+using JasperFx.Events;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using NodaTime.Text;
 using Xunit;
-using IEvent = Marten.Events.IEvent;
 
 public class Given_An_Event
 {

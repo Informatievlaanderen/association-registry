@@ -23,7 +23,7 @@ public static class ProjectionEndpointsExtensions
                     StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                     {
                         var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                        await projectionDaemon.RebuildProjection<VerenigingenPerInszProjection>(shardTimeout, CancellationToken.None);
+                        await projectionDaemon.RebuildProjectionAsync<VerenigingenPerInszProjection>(shardTimeout, CancellationToken.None);
                     });
 
                     return Results.Accepted();

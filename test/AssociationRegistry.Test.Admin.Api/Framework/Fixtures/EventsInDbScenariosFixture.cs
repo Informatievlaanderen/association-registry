@@ -6,6 +6,7 @@ using EventStore;
 using Common.Scenarios.EventsInDb;
 using Events;
 using JasperFx.Core;
+using JasperFx.Events.Daemon;
 using Marten.Events.Aggregation;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
@@ -287,7 +288,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
 
         MaxSequence = 0;
         var logger = ServiceProvider.GetRequiredService<ILogger<Program>>();
-logger.LogWarning("====== Adding events in database =======");
+        logger.LogWarning("====== Adding events in database =======");
         foreach (var scenario in scenarios)
         {
             logger.LogInformation("====== Adding scenario {ScenarioName} with VCode {VCode} =======",
@@ -298,7 +299,7 @@ logger.LogWarning("====== Adding events in database =======");
                                      .Where(x => x is FeitelijkeVerenigingWerdGeregistreerd).Cast<FeitelijkeVerenigingWerdGeregistreerd>()
                                      .Select(eventToAdd => new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(@eventToAdd.VCode)).ToList();
 
-            scenario.Result = await SaveEvents(scenario.VCode, originalEvents.Append(eventsWithMigration), scenario.GetCommandMetadata());
+            scenario.Result = await SaveEvents(scenario.VCode, originalEvents.Concat(eventsWithMigration).ToArray(), scenario.GetCommandMetadata());
             if(scenario.Result.Sequence.HasValue)
             {
                 MaxSequence = Math.Max(MaxSequence, scenario.Result.Sequence.Value);
@@ -316,7 +317,7 @@ logger.LogWarning("====== Adding events in database =======");
         foreach (var (vCode, events) in V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer
                     .EventsPerVCode)
         {
-            var result = await SaveEvents(vCode, events.Append(new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(vCode)));
+            var result = await SaveEvents(vCode, events.Append(new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(vCode)).ToArray());
             if(result.Sequence.HasValue)
                 MaxSequence = Math.Max(MaxSequence, result.Sequence.Value);
         }

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework.Fixtures;
 
 using AssociationRegistry.Framework;
+using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
 using NodaTime;

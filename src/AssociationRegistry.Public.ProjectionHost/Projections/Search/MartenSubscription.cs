@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
@@ -33,8 +34,8 @@ public class MartenSubscription : IProjection
 
     public async Task ApplyAsync(
         IDocumentOperations operations,
-        IReadOnlyList<StreamAction> streams,
+        IReadOnlyList<IEvent> events,
         CancellationToken ct
     )
-        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(streams));
+        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(events));
 }

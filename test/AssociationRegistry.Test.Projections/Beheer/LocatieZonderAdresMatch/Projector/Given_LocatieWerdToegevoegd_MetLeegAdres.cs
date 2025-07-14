@@ -8,11 +8,11 @@ using Marten;
 using Vereniging;
 
 [Collection(nameof(MultiStreamTestCollection))]
-public class Given_LocatieWerdToegevoegd_MetLeegAdres : IClassFixture<GivenLocatieWerdToegevoegdMaatschappelijkeZetelFixture>
+public class Given_LocatieWerdToegevoegd_MetLeegAdres : IClassFixture<GivenLocatieWerdToegevoegdMetLeegAdresFixture>
 {
-    private readonly GivenLocatieWerdToegevoegdMaatschappelijkeZetelFixture _fixture;
+    private readonly GivenLocatieWerdToegevoegdMetLeegAdresFixture _fixture;
 
-    public Given_LocatieWerdToegevoegd_MetLeegAdres(GivenLocatieWerdToegevoegdMaatschappelijkeZetelFixture fixture)
+    public Given_LocatieWerdToegevoegd_MetLeegAdres(GivenLocatieWerdToegevoegdMetLeegAdresFixture fixture)
     {
         _fixture = fixture;
     }
@@ -23,7 +23,7 @@ public class Given_LocatieWerdToegevoegd_MetLeegAdres : IClassFixture<GivenLocat
         var session = _fixture.DocumentStore.LightweightSession();
 
         var doc = await session.Query<LocatieZonderAdresMatchDocument>()
-                               .FirstOrDefaultAsync(d => d.VCode == "V9900099");
+                               .FirstOrDefaultAsync(d => d.VCode == "V9900100");
 
         doc.Should().NotBeNull();
         doc!.LocatieIds.Should().NotContain(1);
@@ -34,7 +34,7 @@ public class GivenLocatieWerdToegevoegdMetLeegAdresFixture : MultiStreamTestFixt
 {
     public GivenLocatieWerdToegevoegdMetLeegAdresFixture()
     {
-        var vCode = "V9900099";
+        var vCode = "V9900100";
 
         var locatie = Fixture.Create<Registratiedata.Locatie>() with
         {

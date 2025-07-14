@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using global::AutoFixture;
 using global::AutoFixture.Kernel;
+using JasperFx.Events;
 using Marten.Events;
 using NodaTime;
 using Vereniging;

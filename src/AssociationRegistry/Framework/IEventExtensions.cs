@@ -6,13 +6,13 @@ using System.Text.Json;
 
 public static class IEventExtensions
 {
-    public static string GetHeaderString(this Marten.Events.IEvent source, string propertyName)
+    public static string GetHeaderString(this JasperFx.Events.IEvent source, string propertyName)
         => GetHeaderJsonElement(source, propertyName);
 
-    public static Instant GetHeaderInstant(this Marten.Events.IEvent source, string propertyName)
+    public static Instant GetHeaderInstant(this JasperFx.Events.IEvent source, string propertyName)
         => InstantPattern.General.Parse(source.GetHeaderString(propertyName)).GetValueOrThrow();
 
-    private static string GetHeaderJsonElement(this Marten.Events.IEvent source, string propertyName)
+    private static string GetHeaderJsonElement(this JasperFx.Events.IEvent source, string propertyName)
     {
         if(!source.HasHeader(propertyName))
             throw new KeyNotFoundException();
@@ -27,6 +27,6 @@ public static class IEventExtensions
         }
     }
 
-    private static bool HasHeader(this Marten.Events.IEvent source, string propertyName)
+    private static bool HasHeader(this JasperFx.Events.IEvent source, string propertyName)
         => source.Headers?.Keys.Contains(propertyName) ?? false;
 }

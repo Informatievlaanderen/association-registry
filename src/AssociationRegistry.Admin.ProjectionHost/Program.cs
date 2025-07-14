@@ -10,6 +10,7 @@ using Infrastructure.Json;
 using Infrastructure.Metrics;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplicationBuilder;
+using JasperFx;
 using JasperFx.CodeGeneration;
 using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -26,7 +27,6 @@ using Serilog.Debugging;
 using System.Net;
 using System.Text;
 using Wolverine;
-using Marten.Events.Daemon;
 
 public class Program
 {
@@ -55,14 +55,18 @@ public class Program
             options =>
                 options.AddEndpoint(IPAddress.Any, port: 11006));
 
-        builder.Host.ApplyOaktonExtensions();
+        builder.Host.ApplyJasperFxExtensions();
 
         builder.Host.UseWolverine(
             opts =>
             {
                 opts.ApplicationAssembly = typeof(Program).Assembly;
-                opts.OptimizeArtifactWorkflow(TypeLoadMode.Static);
             });
+
+        builder.Services.CritterStackDefaults(x =>
+        {
+            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+        });
 
         builder.ConfigureOpenTelemetry(new AdminInstrumentation());
 
@@ -86,7 +90,8 @@ public class Program
 
         if (ProgramArguments.IsCodeGen(args))
         {
-            await app.RunOaktonCommands(args);
+            await app.RunJasperFxCommands(args);
+
             return;
         }
 
@@ -101,7 +106,7 @@ public class Program
         ConfigureHealtChecks(app);
         ConfigureLifetimeHooks(app);
 
-        await app.RunOaktonCommands(args);
+        await app.RunJasperFxCommands(args);
     }
 
     private static void ConfigureEncoding()
@@ -193,7 +198,6 @@ public class Program
             eventArgs.Cancel = true;
         };
     }
-
 }
 
 public static class ResponseExtensions

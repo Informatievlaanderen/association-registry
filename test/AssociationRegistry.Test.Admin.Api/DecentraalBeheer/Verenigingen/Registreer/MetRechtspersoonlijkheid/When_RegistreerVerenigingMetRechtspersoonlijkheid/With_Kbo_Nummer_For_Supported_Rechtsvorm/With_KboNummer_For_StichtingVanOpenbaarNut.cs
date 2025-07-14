@@ -27,10 +27,10 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
     }
 
     [Fact]
-    public void Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
-        using var session = _fixture.DocumentStore
-                                    .LightweightSession();
+        await using var session = _fixture.DocumentStore
+                                          .LightweightSession();
 
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = session
                                                                  .Events
@@ -48,7 +48,7 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm.Should().Be(Verenigingstype.StichtingVanOpenbaarNut.Code);
         }
 
-        var contactgegevensWerdOvergenomenUitKbo = session.Events.FetchStream(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode)
+        var contactgegevensWerdOvergenomenUitKbo = (await session.Events.FetchStreamAsync(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode))
                                                           .Where(e => e.Data.GetType() == typeof(ContactgegevenWerdOvergenomenUitKBO))
                                                           .Select(e => e.Data)
                                                           .ToList();

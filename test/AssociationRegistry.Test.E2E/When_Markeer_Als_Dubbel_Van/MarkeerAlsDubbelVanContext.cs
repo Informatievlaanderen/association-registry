@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Xunit;
-using IEvent = Marten.Events.IEvent;
+using IEvent = JasperFx.Events.IEvent;
 
 // CollectionFixture for database setup ==> Context
 [CollectionDefinition(nameof(MarkeerAlsDubbelVanCollection))]
@@ -35,7 +35,8 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
     {
         CommandResult = await new MarkeerAlsDubbelVanRequestFactory(scenario).ExecuteRequest(ApiSetup);
 
-        await using var session = ApiSetup.AdminApiHost.Services.GetRequiredService<IDocumentSession>();
+        using var scope = ApiSetup.AdminApiHost.Services.CreateScope();
+        await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
         var stream = await session
                           .Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
@@ -44,7 +45,7 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         VerenigingAanvaarddeDubbeleVereniging = stream
            .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging));
 
-        while(VerenigingAanvaarddeDubbeleVereniging is null && counter < 10)
+        while(VerenigingAanvaarddeDubbeleVereniging is null && counter < 30)
 
         {
             counter++;

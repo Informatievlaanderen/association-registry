@@ -1,19 +1,14 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure.Metrics;
 
+using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Marten;
-using Marten.Events;
-using Marten.Events.Daemon.Internals;
 using Marten.Internal.Operations;
 using Marten.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Projections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class ProjectionStateListener : DocumentSessionListenerBase
 {
@@ -35,7 +30,7 @@ public class ProjectionStateListener : DocumentSessionListenerBase
 
             if (range is null) continue;
 
-            if (range.ShardName.ProjectionName ==
+            if (range.ShardName.ShardKey ==
                 typeof(VerenigingenPerInszProjection).FullName)
                 _acmInstrumentation.VerenigingPerInszEventValue = range.SequenceCeiling;
         }

@@ -9,10 +9,12 @@ using Be.Vlaanderen.Basisregisters.Api.Localization;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Logging;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
+using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
 using Destructurama;
+using EventStore;
 using FluentValidation;
 using Hosts.HealthChecks;
 using Infrastructure.Caching;
@@ -72,7 +74,50 @@ public class Program
         ConfigureWebHost(builder);
         ConfigureServices(builder);
 
+        builder.Services
+               .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
+               .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
+               .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+               .Configure<RequestLocalizationOptions>(opts =>
+                {
+                    const string fallbackCulture = "en-GB";
+                    var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                    var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
+
+                    opts.DefaultRequestCulture = defaultRequestCulture;
+                    opts.SupportedCultures = supportedCulturesOrDefault;
+                    opts.SupportedUICultures = supportedCulturesOrDefault;
+
+                    opts.FallBackToParentCultures = true;
+                    opts.FallBackToParentUICultures = true;
+                })
+               .Configure<RequestLocalizationOptions>(opts =>
+                {
+                    const string fallbackCulture = "en-GB";
+                    var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                    var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
+
+                    opts.DefaultRequestCulture = defaultRequestCulture;
+                    opts.SupportedCultures = supportedCulturesOrDefault;
+                    opts.SupportedUICultures = supportedCulturesOrDefault;
+
+                    opts.FallBackToParentCultures = true;
+                    opts.FallBackToParentUICultures = true;
+                });
+
+        builder.Services.AddEndpointsApiExplorer();
+
         var app = builder.Build();
+
+        app.UseRequestLocalization();
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
+        app.UseReDoc(opt =>
+        {
+            opt.RoutePrefix = "docs";
+            opt.SpecUrl = "/docs/v1/docs.json";
+        });
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 
@@ -89,6 +134,7 @@ public class Program
 
         ConfigureHealtChecks(app);
         ConfigureRequestLocalization(app);
+
         app.ConfigurePublicApiSwagger();
 
         // Deze volgorde is belangrijk ! DKW
@@ -241,6 +287,7 @@ public class Program
         builder.Services
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(appSettings)
+               .AddSingleton<EventConflictResolver>()
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddTransient<IPubliekVerenigingenDetailAllQuery, PubliekVerenigingenDetailAllQuery>()

@@ -3,13 +3,12 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 using Events;
 using Formats;
 using Framework;
-using Marten.Events;
+using JasperFx.Events;
 using Schema;
 using Schema.Historiek;
 using Schema.Historiek.EventData;
 using Vereniging;
-
-using IEvent = Marten.Events.IEvent;
+using IEvent = JasperFx.Events.IEvent;
 using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerVerenigingHistoriekProjector

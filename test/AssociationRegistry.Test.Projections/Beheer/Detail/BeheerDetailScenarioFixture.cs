@@ -3,6 +3,7 @@
 using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
 using Framework.Fixtures;
+using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
 

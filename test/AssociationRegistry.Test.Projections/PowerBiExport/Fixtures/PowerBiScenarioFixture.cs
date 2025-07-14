@@ -3,6 +3,7 @@
 using Admin.ProjectionHost.Projections;
 using Admin.Schema.PowerBiExport;
 using Framework.Fixtures;
+using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
 

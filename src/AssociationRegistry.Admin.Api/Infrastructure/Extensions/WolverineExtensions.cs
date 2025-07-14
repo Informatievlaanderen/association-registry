@@ -2,6 +2,7 @@
 
 using Amazon.Runtime;
 using AssociationRegistry.Middleware;
+using DecentraalBeheer.Registratie.RegistreerVerenigingUitKbo;
 using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using EventStore;
 using Framework;
@@ -28,7 +29,7 @@ public static class WolverineExtensions
         const string wolverineSchema = "public";
 
         builder.Host.UseWolverine(
-            (context, options) =>
+            (options) =>
             {
                 Log.Logger.Information("Setting up wolverine");
                 options.ApplicationAssembly = typeof(Program).Assembly;
@@ -49,7 +50,7 @@ public static class WolverineExtensions
                        .AddMiddleware(typeof(EnrichLocatiesMiddleware))
                        .AddMiddleware(typeof(DuplicateDetectionMiddleware));
 
-                var grarOptions = context.Configuration.GetGrarOptions();
+                var grarOptions = builder.Configuration.GetGrarOptions();
 
                 if (grarOptions.Wolverine.OptimizeArtifactWorkflow)
                     options.CodeGeneration.TypeLoadMode = TypeLoadMode.Static;
@@ -63,14 +64,12 @@ public static class WolverineExtensions
                 if (grarOptions.Sqs.UseLocalStack)
                     transportConfiguration.Credentials(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"));
 
-                ConfigureSqsQueues(options, grarOptions, context.Configuration.GetAppSettings());
+                ConfigureSqsQueues(options, grarOptions, builder.Configuration.GetAppSettings());
 
-                ConfigurePostgresQueues(options, context, wolverineSchema);
+                ConfigurePostgresQueues(options, wolverineSchema, builder.Configuration);
 
                 if (grarOptions.Wolverine.AutoProvision)
                     transportConfiguration.AutoProvision();
-
-                options.LogMessageStarting(LogLevel.Trace);
 
                 Log.Logger.Information(messageTemplate: "Wolverine Transport SQS configuration: {@TransportConfig}",
                                        transportConfiguration);
@@ -100,17 +99,17 @@ public static class WolverineExtensions
 
     private static void ConfigurePostgresQueues(
         WolverineOptions options,
-        HostBuilderContext context,
-        string wolverineSchema)
+        string wolverineSchema,
+        ConfigurationManager configuration)
     {
         const string AanvaardDubbeleVerenigingQueueName = "aanvaard-dubbele-vereniging-queue";
 
         options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessage>();
         options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessageHandler>();
 
-        var connectionString = context.Configuration.GetPostgreSqlOptionsSection().GetConnectionString();
+        var connectionString = configuration.GetPostgreSqlOptionsSection().GetConnectionString();
 
-        options.UsePostgresqlPersistenceAndTransport(connectionString, wolverineSchema, wolverineSchema);
+        options.PersistMessagesWithPostgresql(connectionString, wolverineSchema).EnableMessageTransport();
 
         options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
                .ToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);

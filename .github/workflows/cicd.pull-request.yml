@@ -21,7 +21,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_9 }}
 
       - name: .NET version
         shell: bash
@@ -107,7 +107,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_9 }}
 
       - name: .NET version
         shell: bash
@@ -212,7 +212,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_9 }}
 
       - name: .NET version
         shell: bash

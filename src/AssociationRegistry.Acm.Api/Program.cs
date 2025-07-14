@@ -8,6 +8,7 @@ using Be.Vlaanderen.Basisregisters.Api.Localization;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Logging;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
+using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
@@ -19,6 +20,7 @@ using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Metrics;
+using JasperFx;
 using Magda;
 using Magda.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,6 +41,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -88,9 +91,16 @@ public class Program
         ConfigureWebHost(builder);
         ConfigureServices(builder);
 
-        builder.Host.ApplyOaktonExtensions();
+        builder.Host.ApplyJasperFxExtensions();
 
         var app = builder.Build();
+
+        // app.ConfigureAcmApiSwagger();
+
+        app.UseRequestLocalization();
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.UseReDoc(opt => { opt.RoutePrefix = "docs"; opt.SpecUrl = "/docs/v1/docs.json"; });
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 
@@ -110,7 +120,6 @@ public class Program
 
         ConfigureHealtChecks(app);
         ConfigureRequestLocalization(app);
-        app.ConfigureAcmApiSwagger();
 
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
@@ -120,7 +129,7 @@ public class Program
 
         ConfigureLifetimeHooks(app);
 
-        await app.RunOaktonCommands(args);
+        await app.RunJasperFxCommands(args);
     }
 
     private static void ConfigureRequestLocalization(WebApplication app)
@@ -266,6 +275,42 @@ public class Program
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddHttpContextAccessor()
                .AddControllers();
+
+
+        builder.            Services
+                           .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
+                           .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
+                           .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+
+                           .Configure<RequestLocalizationOptions>(opts =>
+                            {
+                                const string fallbackCulture = "en-GB";
+                                var defaultRequestCulture = new RequestCulture( new CultureInfo(fallbackCulture));
+                                var supportedCulturesOrDefault =  new[] { new CultureInfo(fallbackCulture) };
+
+                                opts.DefaultRequestCulture = defaultRequestCulture;
+                                opts.SupportedCultures = supportedCulturesOrDefault;
+                                opts.SupportedUICultures = supportedCulturesOrDefault;
+
+                                opts.FallBackToParentCultures = true;
+                                opts.FallBackToParentUICultures = true;
+                            })
+
+                           .Configure<RequestLocalizationOptions>(opts =>
+                            {
+                                const string fallbackCulture = "en-GB";
+                                var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                                var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
+
+                                opts.DefaultRequestCulture = defaultRequestCulture;
+                                opts.SupportedCultures = supportedCulturesOrDefault;
+                                opts.SupportedUICultures = supportedCulturesOrDefault;
+
+                                opts.FallBackToParentCultures = true;
+                                opts.FallBackToParentUICultures = true;
+                            });
+
+        builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
@@ -452,6 +497,7 @@ public class Program
                .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
 
         builder.Services.AddAcmApiSwagger(appSettings);
+
 
         builder.Services
                .AddTransient<IVerenigingenPerInszQuery, VerenigingenPerInszQuery>()

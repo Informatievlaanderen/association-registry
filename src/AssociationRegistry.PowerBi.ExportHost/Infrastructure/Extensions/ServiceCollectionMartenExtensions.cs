@@ -2,6 +2,8 @@
 
 using Admin.Schema.Detail;
 using Hosts.Configuration.ConfigurationBindings;
+using JasperFx;
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Services;
@@ -14,7 +16,12 @@ public static class ServiceCollectionMartenExtensions
     {
         var opts = new StoreOptions();
         opts.Connection(postgreSqlOptions.GetConnectionString());
-        opts.Serializer(CreateMartenSerializer());
+        opts.UseNewtonsoftForSerialization(configure: settings =>
+        {
+            settings.DateParseHandling = DateParseHandling.None;
+            // s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            // s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        });
         opts.Events.StreamIdentity = StreamIdentity.AsString;
 
         opts.Events.MetadataConfig.EnableAll();
@@ -27,18 +34,5 @@ public static class ServiceCollectionMartenExtensions
             .UseOptimisticConcurrency(false);
 
         return opts;
-    }
-
-    private static JsonNetSerializer CreateMartenSerializer()
-    {
-        var jsonNetSerializer = new JsonNetSerializer();
-
-        jsonNetSerializer.Customize(
-            s =>
-            {
-                s.DateParseHandling = DateParseHandling.None;
-            });
-
-        return jsonNetSerializer;
     }
 }

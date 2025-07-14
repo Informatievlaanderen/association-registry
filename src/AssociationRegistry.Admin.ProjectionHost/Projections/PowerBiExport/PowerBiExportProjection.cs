@@ -4,9 +4,8 @@ using Detail;
 using Events;
 using Formats;
 using Framework;
-using JasperFx.Core;
+using JasperFx.Events;
 using JsonLdContext;
-using Marten.Events;
 using Marten.Events.Aggregation;
 using Schema.PowerBiExport;
 using Vereniging;
@@ -14,7 +13,7 @@ using Vereniging.Mappers;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.PowerBiExport.HoofdactiviteitVerenigingsloket;
-using IEvent = Marten.Events.IEvent;
+using IEvent = JasperFx.Events.IEvent;
 using Lidmaatschap = Schema.PowerBiExport.Lidmaatschap;
 using Locatie = Schema.Detail.Locatie;
 using SubverenigingVan = Schema.Detail.SubverenigingVan;
@@ -23,12 +22,12 @@ using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Verenigingstype = Schema.Detail.Verenigingstype;
 using Werkingsgebied = Schema.PowerBiExport.Werkingsgebied;
 
-public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocument>
+public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocument, string>
 {
     public const string StatusVerwijderd = "Verwijderd";
 
     private static void UpdateHistoriek(PowerBiExportDocument document, IEvent @event)
-        => document.Historiek = document.Historiek.Append(Gebeurtenis.FromEvent(@event));
+        => document.Historiek = document.Historiek.Append(Gebeurtenis.FromEvent(@event)).ToArray();
 
     public PowerBiExportDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
     {
@@ -1080,7 +1079,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, PowerBiExportDocument document)
     {
-        document.Verenigingssubtype = VerenigingssubtypeCode.FeitelijkeVereniging.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();;
+        document.Verenigingssubtype = VerenigingssubtypeCode.FeitelijkeVereniging.Map<Verenigingssubtype>();;
         document.SubverenigingVan = null;
 
         document.DatumLaatsteAanpassing =
@@ -1091,7 +1090,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, PowerBiExportDocument document)
     {
-        document.Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();;
+        document.Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>();;
         document.SubverenigingVan = null;
 
         document.DatumLaatsteAanpassing =
@@ -1102,7 +1101,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, PowerBiExportDocument document)
     {
-        document.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();;
+        document.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>();;
         document.SubverenigingVan = new SubverenigingVan()
         {
             AndereVereniging = @event.Data.SubverenigingVan.AndereVereniging,

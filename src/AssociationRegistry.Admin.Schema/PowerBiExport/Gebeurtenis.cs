@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Schema.PowerBiExport;
 
 using Framework;
-using IEvent = Marten.Events.IEvent;
+using IEvent = JasperFx.Events.IEvent;
 
 public record Gebeurtenis(string Datum, string EventType, string Initiator, long Sequence)
 {
