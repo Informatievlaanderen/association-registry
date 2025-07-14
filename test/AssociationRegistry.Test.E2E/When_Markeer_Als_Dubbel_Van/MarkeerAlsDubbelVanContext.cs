@@ -45,7 +45,7 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         VerenigingAanvaarddeDubbeleVereniging = stream
            .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging));
 
-        while(VerenigingAanvaarddeDubbeleVereniging is null && counter < 30 && !session.Advanced.IsInSession(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode))
+        while(VerenigingAanvaarddeDubbeleVereniging is null && counter < 30)
 
         {
             counter++;
