@@ -23,7 +23,7 @@ public class NullOrEmptyDateOnlyJsonConvertor : JsonConverter<NullOrEmpty<DateOn
         if (reader.Value! is not string readerValue) return NullOrEmpty<DateOnly>.Null;
         if (string.IsNullOrWhiteSpace(readerValue)) return NullOrEmpty<DateOnly>.Empty;
 
-        return NullOrEmpty<DateOnly>.Create(DateOnlyHelpers.Parse(readerValue, WellknownFormats.DateOnly));
+        return NullOrEmpty<DateOnly>.Create(DateOnlyHelpers.TryParseExactOrThrow(readerValue, WellknownFormats.DateOnly));
     }
 }
 

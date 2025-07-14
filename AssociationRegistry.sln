@@ -188,6 +188,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdresDetail", "AdresDetail"
 		wiremock\__files\AdresDetail\861019.json = wiremock\__files\AdresDetail\861019.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Shared.MartenDb", "AssociationRegistry.Shared.MartenDb\AssociationRegistry.Shared.MartenDb.csproj", "{383F9925-8C15-4EC7-BEA2-F15FF3EB181E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Shared.Serialization", "AssociationRegistry.Shared.Serialization\AssociationRegistry.Shared.Serialization.csproj", "{E4556A78-EE8A-416B-9A10-390C073FE507}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -297,6 +301,14 @@ Global
 		{AF502331-FD6D-4D2D-A1B0-ECBAA92D090D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF502331-FD6D-4D2D-A1B0-ECBAA92D090D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF502331-FD6D-4D2D-A1B0-ECBAA92D090D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{383F9925-8C15-4EC7-BEA2-F15FF3EB181E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{383F9925-8C15-4EC7-BEA2-F15FF3EB181E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{383F9925-8C15-4EC7-BEA2-F15FF3EB181E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{383F9925-8C15-4EC7-BEA2-F15FF3EB181E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4556A78-EE8A-416B-9A10-390C073FE507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4556A78-EE8A-416B-9A10-390C073FE507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4556A78-EE8A-416B-9A10-390C073FE507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4556A78-EE8A-416B-9A10-390C073FE507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -339,5 +351,7 @@ Global
 		{2308A676-88B6-4943-877B-DE5E4BB19CAD} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{AF502331-FD6D-4D2D-A1B0-ECBAA92D090D} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{6E2B754D-803C-4874-8088-5C106E53C400} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
+		{383F9925-8C15-4EC7-BEA2-F15FF3EB181E} = {20B970CD-1737-4427-A924-D299A42346FE}
+		{E4556A78-EE8A-416B-9A10-390C073FE507} = {20B970CD-1737-4427-A924-D299A42346FE}
 	EndGlobalSection
 EndGlobal

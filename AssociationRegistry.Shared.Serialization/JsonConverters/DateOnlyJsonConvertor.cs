@@ -1,16 +1,17 @@
-namespace AssociationRegistry.Acm.Api.Infrastructure.Json;
+namespace AssociationRegistry.Shared.Serialization.JsonConverters;
 
 using Newtonsoft.Json;
-using System;
 using System.Globalization;
 
 public class DateOnlyJsonConvertor : JsonConverter<DateOnly>
 {
     private readonly string _format;
+    private readonly bool _allowEmptyString;
 
-    public DateOnlyJsonConvertor(string format)
+    public DateOnlyJsonConvertor(string format, bool allowEmptyString = false)
     {
         _format = format;
+        _allowEmptyString = allowEmptyString;
     }
 
     public override void WriteJson(JsonWriter writer, DateOnly value, JsonSerializer serializer)
@@ -24,5 +25,7 @@ public class DateOnlyJsonConvertor : JsonConverter<DateOnly>
         DateOnly existingValue,
         bool hasExistingValue,
         JsonSerializer serializer)
-        => DateOnlyHelpers.TryParse((string)reader.Value!, _format);
+        => reader.Value!.Equals(string.Empty) && _allowEmptyString
+            ? DateOnly.MinValue
+            : DateOnlyHelpers.TryParseExactOrThrow((string)reader.Value!, _format);
 }

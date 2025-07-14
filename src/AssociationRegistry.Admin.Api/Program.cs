@@ -74,6 +74,7 @@ using OpenTelemetry.Extensions;
 using Queries;
 using Serilog;
 using Serilog.Debugging;
+using Shared.Serialization.JsonConverters;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
@@ -86,6 +87,7 @@ using Verenigingen.Historiek;
 using Verenigingen.KboSync;
 using Weasel.Core.Migrations;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
+using NullableDateOnlyJsonConvertor = Infrastructure.Json.NullableDateOnlyJsonConvertor;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
 
 public class Program
@@ -776,7 +778,7 @@ public class Program
         jsonSerializerSettings.Converters.Add(new NullOrEmptyDateOnlyJsonConvertor());
         jsonSerializerSettings.Converters.Add(new NullableNullOrEmptyDateOnlyJsonConvertor());
         jsonSerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-        jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly, allowEmptyString: true));
         jsonSerializerSettings.NullValueHandling = NullValueHandling.Include;
         jsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 

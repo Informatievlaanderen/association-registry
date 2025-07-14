@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Json;
+namespace AssociationRegistry.Shared.Serialization.JsonConverters;
 
 using Newtonsoft.Json;
 using System.Globalization;

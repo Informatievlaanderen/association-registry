@@ -26,6 +26,6 @@ public class NullableDateOnlyJsonConvertor : JsonConverter<DateOnly?>
 
         if (string.IsNullOrEmpty(readValue)) return null;
 
-        return DateOnlyHelpers.Parse(readValue, _format);
+        return DateOnlyHelpers.TryParseExactOrThrow(readValue, _format);
     }
 }
