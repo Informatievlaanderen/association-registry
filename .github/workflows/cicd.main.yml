@@ -521,10 +521,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_9 }}
+
       - name: Dotnet restore
         shell: bash
         run: dotnet restore --runtime linux-x64
-
 
       - name: Cache NPM
         uses: actions/cache@v4
