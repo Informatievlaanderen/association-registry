@@ -20,6 +20,7 @@ using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Metrics;
+using JasperFx;
 using Magda;
 using Magda.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -90,7 +91,7 @@ public class Program
         ConfigureWebHost(builder);
         ConfigureServices(builder);
 
-        builder.Host.ApplyOaktonExtensions();
+        builder.Host.ApplyJasperFxExtensions();
 
         var app = builder.Build();
 
@@ -120,8 +121,6 @@ public class Program
         ConfigureHealtChecks(app);
         ConfigureRequestLocalization(app);
 
-        //app.ConfigureAcmApiSwagger();
-
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
            .UseAuthentication()
@@ -130,7 +129,7 @@ public class Program
 
         ConfigureLifetimeHooks(app);
 
-        await app.RunOaktonCommands(args);
+        await app.RunJasperFxCommands(args);
     }
 
     private static void ConfigureRequestLocalization(WebApplication app)
@@ -312,24 +311,6 @@ public class Program
                             });
 
         builder.Services.AddEndpointsApiExplorer();
-
-        // builder.Services.AddSwaggerGen(options =>
-        //                          options.SwaggerDoc(name: "v1",
-        //                                             new OpenApiInfo
-        //                                             {
-        //                                                 Title = "Basisregisters Vlaanderen Verenigingsregister Publieke Projecties API",
-        //                                                 Version = "v1",
-        //                                                 Contact = new OpenApiContact
-        //                                                 {
-        //                                                     Name = "Digitaal Vlaanderen",
-        //                                                     Email = "digitaal.vlaanderen@vlaanderen.be",
-        //                                                     Url = new Uri("https://publiek.verenigingen.vlaanderen.be"),
-        //                                                 },
-        //                                             })
-        // );
-
-        // builder.Services.AddAcmApiSwagger(appSettings);
-
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
