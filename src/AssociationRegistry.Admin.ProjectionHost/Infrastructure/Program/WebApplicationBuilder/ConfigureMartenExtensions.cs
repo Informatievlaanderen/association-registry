@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApp
 
 using Constants;
 using Hosts.Configuration.ConfigurationBindings;
+using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using JasperFx.Events.Daemon;
@@ -56,6 +57,15 @@ public static class ConfigureMartenExtensions
                 return ConfigureStoreOptions(opts, serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(), serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(), serviceProvider.GetRequiredService<IElasticRepository>(), serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(), serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(), configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
                                             .Get<PostgreSqlOptionsSection>());
             });
+
+        services.CritterStackDefaults(x =>
+        {
+            x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+
+            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+            x.Production.ResourceAutoCreate = AutoCreate.None;
+            x.Production.SourceCodeWritingEnabled = false;
+        });
 
         return martenConfigurationExpression;
     }

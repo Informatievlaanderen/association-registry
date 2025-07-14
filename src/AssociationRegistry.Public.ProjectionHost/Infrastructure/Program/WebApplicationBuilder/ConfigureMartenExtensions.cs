@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using Constants;
+using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using JasperFx.Events.Daemon;
@@ -40,6 +41,15 @@ public static class ConfigureMartenExtensions
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
+
+        services.CritterStackDefaults(x =>
+        {
+            x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+
+            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+            x.Production.ResourceAutoCreate = AutoCreate.None;
+            x.Production.SourceCodeWritingEnabled = false;
+        });
 
         return services;
     }

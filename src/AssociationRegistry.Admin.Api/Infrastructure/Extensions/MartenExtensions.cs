@@ -121,6 +121,15 @@ public static class MartenExtensions
         if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
+        services.CritterStackDefaults(x =>
+        {
+            x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+
+            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+            x.Production.ResourceAutoCreate = AutoCreate.None;
+            x.Production.SourceCodeWritingEnabled = false;
+        });
+
         return services;
     }
 
