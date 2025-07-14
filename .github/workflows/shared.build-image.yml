@@ -162,7 +162,7 @@ jobs:
         shell: bash
         if: inputs.semver != 'none'
         run: |
-          docker run --network host -e CI_BUILD_NUMBER -e GIT_HASH=${{ github.sha }} --rm -v $(pwd):/app -w /app/ mcr.microsoft.com/dotnet/sdk:8.0.300 /bin/sh .github/build-scripts/set-solution-info.sh
+          docker run --network host -e CI_BUILD_NUMBER -e GIT_HASH=${{ github.sha }} --rm -v $(pwd):/app -w /app/ mcr.microsoft.com/dotnet/sdk:9.0.302 /bin/sh .github/build-scripts/set-solution-info.sh
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           CI_BUILD_NUMBER: ${{ inputs.semver }}

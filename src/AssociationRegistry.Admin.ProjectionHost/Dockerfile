@@ -1,7 +1,7 @@
 
 
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0.300 AS base
+FROM mcr.microsoft.com/dotnet/sdk:9.0.302 AS base
 WORKDIR /
 
 COPY *.sln .
@@ -36,7 +36,7 @@ RUN if [ -n "$ELASTIC_HOST" ]; then \
       echo "ELASTIC_HOST not set, skipping certificate retrieval"; \
     fi
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:8.0 AS final
+FROM mcr.microsoft.com/dotnet/runtime-deps:9.0 AS final
 
 LABEL maintainer="Digitaal Vlaanderen <digitaal.vlaanderen@vlaanderen.be>"
 LABEL registry="association-registry"
