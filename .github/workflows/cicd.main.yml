@@ -262,6 +262,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Regenerate codegen files
+        shell: bash
+        run: dotnet run --project src/AssociationRegistry.Admin.Api -- codegen
+
       - name: Build
         shell: bash
         env:
@@ -302,6 +306,10 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Regenerate codegen files
+        shell: bash
+        run: dotnet run --project src/AssociationRegistry.Admin.ProjectionHost -- codegen
 
       - name: Build
         shell: bash
