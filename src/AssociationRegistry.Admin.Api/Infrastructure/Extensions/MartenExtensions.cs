@@ -2,6 +2,7 @@
 
 using Adapters.VCodeGeneration;
 using Formats;
+using Grar.NutsLau;
 using GrarConsumer.Kafka;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
@@ -80,7 +81,7 @@ public static class MartenExtensions
                                           opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
                                           opts.RegisterDocumentType<AddressKafkaConsumerOffset>();
                                           opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
-
+                                          opts.RegisterDocumentType<PostalNutsLauInfo>();
 
                                           opts.Schema.For<LocatieLookupDocument>()
                                               .UseNumericRevisions(true)
