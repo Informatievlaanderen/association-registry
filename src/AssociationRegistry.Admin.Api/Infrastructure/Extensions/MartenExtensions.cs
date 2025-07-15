@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
+using Schema.KboSync;
 using Schema.PowerBiExport;
 using Vereniging;
 using Weasel.Core;
@@ -72,40 +73,32 @@ public static class MartenExtensions
                                           opts.Listeners.Add(
                                               new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
 
-                                          // opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-                                          // opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-                                          // opts.RegisterDocumentType<PowerBiExportDocument>();
-                                          // opts.RegisterDocumentType<LocatieLookupDocument>();
-                                          // opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
+                                          opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
+                                          opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+                                          opts.RegisterDocumentType<PowerBiExportDocument>();
+                                          opts.RegisterDocumentType<LocatieLookupDocument>();
+                                          opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
                                           opts.RegisterDocumentType<AddressKafkaConsumerOffset>();
+                                          opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
 
-                                          // opts.Schema.For<LocatieLookupDocument>()
-                                          //     .UseNumericRevisions(true)
-                                          //     .UseOptimisticConcurrency(false);
-                                          //
-                                          // opts.Schema.For<LocatieZonderAdresMatchDocument>()
-                                          //     .UseNumericRevisions(true)
-                                          //     .UseOptimisticConcurrency(false);
-                                          //
-                                          // opts.Schema.For<PowerBiExportDocument>()
-                                          //     .UseNumericRevisions(true)
-                                          //     .UseOptimisticConcurrency(false);
+
+                                          opts.Schema.For<LocatieLookupDocument>()
+                                              .UseNumericRevisions(true)
+                                              .UseOptimisticConcurrency(false);
+
+                                          opts.Schema.For<LocatieZonderAdresMatchDocument>()
+                                              .UseNumericRevisions(true)
+                                              .UseOptimisticConcurrency(false);
+
+                                          opts.Schema.For<PowerBiExportDocument>()
+                                              .UseNumericRevisions(true)
+                                              .UseOptimisticConcurrency(false);
 
                                           opts.RegisterDocumentType<VerenigingState>();
 
                                           opts.RegisterDocumentType<SettingOverride>();
 
                                           opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
-
-                                          if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
-                                          {
-                                              opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-                                          }
-                                          else
-                                          {
-                                              opts.GeneratedCodeMode = TypeLoadMode.Auto;
-                                              opts.SourceCodeWritingEnabled = false;
-                                          }
 
                                           opts.AutoCreateSchemaObjects = AutoCreate.All;
 
@@ -124,9 +117,10 @@ public static class MartenExtensions
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+            x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate = AutoCreate.None;
+            x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
             x.Production.SourceCodeWritingEnabled = false;
         });
 

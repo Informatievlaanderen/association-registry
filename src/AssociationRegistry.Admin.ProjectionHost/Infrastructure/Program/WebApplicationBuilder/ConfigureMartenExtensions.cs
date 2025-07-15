@@ -56,18 +56,23 @@ public static class ConfigureMartenExtensions
             {
                 var opts = new StoreOptions();
 
-                return ConfigureStoreOptions(opts, serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(), serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(), serviceProvider.GetRequiredService<IElasticRepository>(), serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(), serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(), configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
-                                            .Get<PostgreSqlOptionsSection>());
+                return ConfigureStoreOptions(opts, serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(),
+                                             serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
+                                             serviceProvider.GetRequiredService<IElasticRepository>(),
+                                             serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
+                                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(), configurationManager
+                                                .GetSection(PostgreSqlOptionsSection.SectionName)
+                                                .Get<PostgreSqlOptionsSection>());
             });
 
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+            x.Development.ResourceAutoCreate = AutoCreate.None;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
             x.Production.SourceCodeWritingEnabled = false;
-            x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+            x.Production.ResourceAutoCreate = AutoCreate.None;
         });
 
         return martenConfigurationExpression;
@@ -108,10 +113,10 @@ public static class ConfigureMartenExtensions
 
         opts.Connection(connectionString);
 
-                opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
-                opts.OpenTelemetry.TrackEventCounters();
+        opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
+        opts.OpenTelemetry.TrackEventCounters();
 
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
+        opts.Events.StreamIdentity = StreamIdentity.AsString;
 
         opts.Events.MetadataConfig.EnableAll();
 
@@ -119,30 +124,12 @@ public static class ConfigureMartenExtensions
 
         opts.Projections.DaemonLockId = 1;
 
-        opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-        opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-        opts.RegisterDocumentType<PowerBiExportDocument>();
-        opts.RegisterDocumentType<LocatieLookupDocument>();
-        opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
-
-        opts.Schema.For<LocatieLookupDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
-
-        opts.Schema.For<LocatieZonderAdresMatchDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
-
-        opts.Schema.For<PowerBiExportDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
-
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
-        opts.Projections.Add( new LocatieLookupProjection(locatieLookupLogger), ProjectionLifecycle.Async);
-        opts.Projections.Add( new LocatieZonderAdresMatchProjection(locatieZonderAdresMatchProjectionLogger), ProjectionLifecycle.Async);
+        opts.Projections.Add(new LocatieLookupProjection(locatieLookupLogger), ProjectionLifecycle.Async);
+        opts.Projections.Add(new LocatieZonderAdresMatchProjection(locatieZonderAdresMatchProjectionLogger), ProjectionLifecycle.Async);
 
         opts.Projections.Add(
             new MartenSubscription(
@@ -164,34 +151,6 @@ public static class ConfigureMartenExtensions
             ),
             ProjectionLifecycle.Async,
             ProjectionNames.DuplicateDetection);
-
-        opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-        opts.RegisterDocumentType<PowerBiExportDocument>();
-        opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-        opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
-        opts.RegisterDocumentType<LocatieLookupDocument>();
-        opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
-
-        opts.Schema.For<LocatieLookupDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
-        opts.Schema.For<LocatieZonderAdresMatchDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
-
-        opts.Schema.For<PowerBiExportDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
-
-        if (isDevelopment)
-        {
-            opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-        }
-        else
-        {
-            opts.GeneratedCodeMode = TypeLoadMode.Static;
-            opts.SourceCodeWritingEnabled = false;
-        }
 
         return opts;
     }
