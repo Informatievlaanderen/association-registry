@@ -42,6 +42,8 @@ public static class ConfigureMartenExtensions
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(isDevelopment ? DaemonMode.Solo : DaemonMode.HotCold);
 
+        martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+
         return source;
     }
 
@@ -61,10 +63,11 @@ public static class ConfigureMartenExtensions
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+            x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate = AutoCreate.None;
             x.Production.SourceCodeWritingEnabled = false;
+            x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
         });
 
         return martenConfigurationExpression;
@@ -115,6 +118,24 @@ public static class ConfigureMartenExtensions
         opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 
         opts.Projections.DaemonLockId = 1;
+
+        opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
+        opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+        opts.RegisterDocumentType<PowerBiExportDocument>();
+        opts.RegisterDocumentType<LocatieLookupDocument>();
+        opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
+
+        opts.Schema.For<LocatieLookupDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
+
+        opts.Schema.For<LocatieZonderAdresMatchDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
+
+        opts.Schema.For<PowerBiExportDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
 
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);

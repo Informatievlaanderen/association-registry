@@ -72,24 +72,24 @@ public static class MartenExtensions
                                           opts.Listeners.Add(
                                               new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
 
-                                          opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-                                          opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-                                          opts.RegisterDocumentType<PowerBiExportDocument>();
-                                          opts.RegisterDocumentType<LocatieLookupDocument>();
-                                          opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
+                                          // opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
+                                          // opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+                                          // opts.RegisterDocumentType<PowerBiExportDocument>();
+                                          // opts.RegisterDocumentType<LocatieLookupDocument>();
+                                          // opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
                                           opts.RegisterDocumentType<AddressKafkaConsumerOffset>();
 
-                                          opts.Schema.For<LocatieLookupDocument>()
-                                              .UseNumericRevisions(true)
-                                              .UseOptimisticConcurrency(false);
-
-                                          opts.Schema.For<LocatieZonderAdresMatchDocument>()
-                                              .UseNumericRevisions(true)
-                                              .UseOptimisticConcurrency(false);
-
-                                          opts.Schema.For<PowerBiExportDocument>()
-                                              .UseNumericRevisions(true)
-                                              .UseOptimisticConcurrency(false);
+                                          // opts.Schema.For<LocatieLookupDocument>()
+                                          //     .UseNumericRevisions(true)
+                                          //     .UseOptimisticConcurrency(false);
+                                          //
+                                          // opts.Schema.For<LocatieZonderAdresMatchDocument>()
+                                          //     .UseNumericRevisions(true)
+                                          //     .UseOptimisticConcurrency(false);
+                                          //
+                                          // opts.Schema.For<PowerBiExportDocument>()
+                                          //     .UseNumericRevisions(true)
+                                          //     .UseOptimisticConcurrency(false);
 
                                           opts.RegisterDocumentType<VerenigingState>();
 
