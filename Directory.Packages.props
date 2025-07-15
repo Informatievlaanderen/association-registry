@@ -15,7 +15,6 @@
     <PackageVersion Include="AWSSDK.SQS" Version="4.0.0.13" />
     <PackageVersion Include="Be.Vlaanderen.Basisregisters.AggregateSource" Version="10.0.2" />
     <PackageVersion Include="Be.Vlaanderen.Basisregisters.Api" Version="24.1.0" />
-    <PackageVersion Include="Be.Vlaanderen.Basisregisters.Build.Pipeline" Version="8.0.3" IncludeAssets="all"  />
     <PackageVersion Include="Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc" Version="6.0.0" />
     <PackageVersion Include="Be.Vlaanderen.Basisregisters.Converters.TrimString" Version="5.0.0" />
     <PackageVersion Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic" Version="5.0.0" />
