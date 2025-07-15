@@ -1,3 +1,11 @@
+## [8.261.3](https://github.com/informatievlaanderen/association-registry/compare/v8.261.2...v8.261.3) (2025-07-15)
+
+
+### Bug Fixes
+
+* or-2867 add document type PubliekVerenigingSequenceDocument on public api ([dc47470](https://github.com/informatievlaanderen/association-registry/commit/dc474705a44626bb719c084a057b0d19bc24b073))
+* or-2867 ci use files from buildpipeline nuget packages directly ([1de133e](https://github.com/informatievlaanderen/association-registry/commit/1de133e512d9b87e27771ad1a2d9ec6c55a888e0))
+
 ## [8.261.2](https://github.com/informatievlaanderen/association-registry/compare/v8.261.1...v8.261.2) (2025-07-15)
 
 
