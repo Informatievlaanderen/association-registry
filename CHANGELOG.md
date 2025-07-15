@@ -1,3 +1,10 @@
+## [8.261.1](https://github.com/informatievlaanderen/association-registry/compare/v8.261.0...v8.261.1) (2025-07-15)
+
+
+### Bug Fixes
+
+* or-2867 ci dotnet restore for publish to atlassian ([4e9e919](https://github.com/informatievlaanderen/association-registry/commit/4e9e9198752159bc136a22beb7b7f354616ca5c7))
+
 # [8.261.0](https://github.com/informatievlaanderen/association-registry/compare/v8.260.0...v8.261.0) (2025-07-15)
 
 
