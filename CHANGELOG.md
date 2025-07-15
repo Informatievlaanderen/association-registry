@@ -1,3 +1,11 @@
+## [8.261.2](https://github.com/informatievlaanderen/association-registry/compare/v8.261.1...v8.261.2) (2025-07-15)
+
+
+### Bug Fixes
+
+* or-2867 regen before building admin on ci ([5ce10d1](https://github.com/informatievlaanderen/association-registry/commit/5ce10d1bdbd816fd600bf9e7ab09ebb4b71563fc))
+* or-2867 register document type postal nuts lau info ([710b412](https://github.com/informatievlaanderen/association-registry/commit/710b412270030843785eb7a83bf7a8622700edf4))
+
 ## [8.261.1](https://github.com/informatievlaanderen/association-registry/compare/v8.261.0...v8.261.1) (2025-07-15)
 
 
