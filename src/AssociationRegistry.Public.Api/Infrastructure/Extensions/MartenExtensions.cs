@@ -6,10 +6,9 @@ using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using Json;
 using Marten;
-using Marten.Events;
-using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Schema.Sequence;
 using PostgreSqlOptionsSection = Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection;
 
 public static class MartenExtensions
@@ -32,6 +31,8 @@ public static class MartenExtensions
                 opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
                 opts.DatabaseSchemaName = postgreSqlOptions.Schema;
             }
+
+            opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
 
             opts.Events.StreamIdentity = StreamIdentity.AsString;
 
