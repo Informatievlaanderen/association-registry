@@ -1,3 +1,16 @@
+# [8.261.0](https://github.com/informatievlaanderen/association-registry/compare/v8.260.0...v8.261.0) (2025-07-15)
+
+
+### Bug Fixes
+
+* or-2867 let admin api set the db config ([1869dad](https://github.com/informatievlaanderen/association-registry/commit/1869dad569a0c513814d143e985ab2e350c8368b))
+* or-2867 use build pipeline nuget package to call jira/confl scripts ([a172c7c](https://github.com/informatievlaanderen/association-registry/commit/a172c7c53a92210c637835c2ea935d9076ddcdcd))
+
+
+### Features
+
+* or-2867 make each host responsible for their db changes ([aa7409d](https://github.com/informatievlaanderen/association-registry/commit/aa7409dfdd68b5fb0096de38fdec7b016d670022))
+
 # [8.260.0](https://github.com/informatievlaanderen/association-registry/compare/v8.259.0...v8.260.0) (2025-07-14)
 
 
