@@ -129,7 +129,12 @@ public class Program
         app.UseRequestLocalization();
         app.UseSwagger();
         app.UseSwaggerUI();
-        app.UseReDoc(opt => { opt.RoutePrefix = "docs"; opt.SpecUrl = "/docs/v1/docs.json"; });
+        app.UseReDoc(opt =>
+        {
+            opt.RoutePrefix = "docs";
+            opt.SpecUrl = "/docs/v1/docs.json";
+            opt.FooterVersion = Assembly.GetExecutingAssembly().GetVersionText();
+        });
 
         if (ProgramArguments.IsCodeGen(args))
         {

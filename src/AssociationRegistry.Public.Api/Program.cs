@@ -117,6 +117,7 @@ public class Program
         {
             opt.RoutePrefix = "docs";
             opt.SpecUrl = "/docs/v1/docs.json";
+            opt.FooterVersion = Assembly.GetExecutingAssembly().GetVersionText();
         });
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);

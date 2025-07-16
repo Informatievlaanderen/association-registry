@@ -95,12 +95,16 @@ public class Program
 
         var app = builder.Build();
 
-        // app.ConfigureAcmApiSwagger();
 
         app.UseRequestLocalization();
         app.UseSwagger();
         app.UseSwaggerUI();
-        app.UseReDoc(opt => { opt.RoutePrefix = "docs"; opt.SpecUrl = "/docs/v1/docs.json"; });
+        app.UseReDoc(opt =>
+        {
+            opt.RoutePrefix = "docs";
+            opt.SpecUrl = "/docs/v1/docs.json";
+            opt.FooterVersion = Assembly.GetExecutingAssembly().GetVersionText();
+        });
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 
@@ -120,6 +124,7 @@ public class Program
 
         ConfigureHealtChecks(app);
         ConfigureRequestLocalization(app);
+        app.ConfigureAcmApiSwagger();
 
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
