@@ -80,6 +80,7 @@ public static class MartenExtensions
                                           opts.RegisterDocumentType<LocatieLookupDocument>();
                                           opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
                                           opts.RegisterDocumentType<AddressKafkaConsumerOffset>();
+
                                           opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
                                           opts.RegisterDocumentType<PostalNutsLauInfo>();
 
@@ -118,10 +119,10 @@ public static class MartenExtensions
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+            //x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+            //x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
             x.Production.SourceCodeWritingEnabled = false;
         });
 

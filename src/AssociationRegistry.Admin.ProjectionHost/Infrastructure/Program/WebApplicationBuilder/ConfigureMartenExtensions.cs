@@ -42,7 +42,7 @@ public static class ConfigureMartenExtensions
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(isDevelopment ? DaemonMode.Solo : DaemonMode.HotCold);
 
-        martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        //martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
         return source;
     }

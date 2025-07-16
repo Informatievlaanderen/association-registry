@@ -45,13 +45,10 @@ public static class ConfigureMartenExtensions
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
             x.Production.SourceCodeWritingEnabled = false;
         });
-
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
         return services;
@@ -113,16 +110,6 @@ public static class ConfigureMartenExtensions
 
         opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
         opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
-
-        if (isDevelopment)
-        {
-            opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-        }
-        else
-        {
-            opts.GeneratedCodeMode = TypeLoadMode.Static;
-            opts.SourceCodeWritingEnabled = false;
-        }
 
         return opts;
     }

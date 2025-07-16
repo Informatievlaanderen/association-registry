@@ -32,8 +32,6 @@ public static class MartenExtensions
                 opts.DatabaseSchemaName = postgreSqlOptions.Schema;
             }
 
-            opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
-
             opts.Events.StreamIdentity = StreamIdentity.AsString;
 
             opts.Events.MetadataConfig.EnableAll();
@@ -47,15 +45,15 @@ public static class MartenExtensions
             return opts;
         }).UseLightweightSessions();
 
-        services.CritterStackDefaults(x =>
-        {
-            x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate = AutoCreate.None;
-
-            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate = AutoCreate.None;
-            x.Production.SourceCodeWritingEnabled = false;
-        });
+        // services.CritterStackDefaults(x =>
+        // {
+        //     x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+        //     x.Development.ResourceAutoCreate = AutoCreate.None;
+        //
+        //     x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+        //     x.Production.ResourceAutoCreate = AutoCreate.None;
+        //     x.Production.SourceCodeWritingEnabled = false;
+        // });
 
         return services;
     }
