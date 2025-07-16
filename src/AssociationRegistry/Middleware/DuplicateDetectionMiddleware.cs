@@ -20,7 +20,9 @@ public class DuplicateDetectionMiddleware
             ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger,
             CancellationToken cancellation)
     {
-        if (envelope.Command.SkipDuplicateDetection)
+        var registrationHasNoLocations = envelope.Command.Locaties.Length == 0 && verrijkteAdressenUitGrar.Count == 0;
+
+        if (envelope.Command.SkipDuplicateDetection || registrationHasNoLocations)
             return PotentialDuplicatesFound.None;
 
         var locaties = new DuplicateVerenigingZoekQueryLocaties(envelope.Command.Locaties)

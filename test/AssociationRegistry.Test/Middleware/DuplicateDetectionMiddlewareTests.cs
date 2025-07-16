@@ -93,6 +93,27 @@ public class DuplicateDetectionMiddlewareTests
     }
 
     [Fact]
+    public async Task WithNoLocations_ShouldReturnNone()
+    {
+        var envelope = CreateCommand(skipDuplicateDetection: false);
+        envelope = envelope with
+        {
+            Command = envelope.Command with
+            {
+                Locaties = [],
+            },
+        };
+
+        var duplicates = _fixture.CreateMany<DuplicaatVereniging>(3).ToArray();
+        SetupDuplicateServiceReturnsDuplicates(duplicates);
+
+        var result = await DuplicateDetectionMiddleware.BeforeAsync(
+            envelope, VerrijkteAdressenUitGrar.Empty, _duplicateServiceMock.Object, _logger, _cancellationToken);
+
+        result.Should().Be(PotentialDuplicatesFound.None);
+    }
+
+    [Fact]
     public async Task WithEmptyDuplicatesCollection_ShouldReturnNone()
     {
         // Arrange
