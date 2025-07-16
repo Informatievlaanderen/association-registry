@@ -1,3 +1,12 @@
+## [8.261.4](https://github.com/informatievlaanderen/association-registry/compare/v8.261.3...v8.261.4) (2025-07-16)
+
+
+### Bug Fixes
+
+* or-2867 disable pregen marten on public api workflow ([2fbc45a](https://github.com/informatievlaanderen/association-registry/commit/2fbc45ab9aad0f5b7587503fba554b49e3647139))
+* or-2867 rollback marten configuration ([a0e0a73](https://github.com/informatievlaanderen/association-registry/commit/a0e0a733a44e351d1c5c412284e66f84a109b7fe))
+* or-2867 set pregren true on public api github step ([588770e](https://github.com/informatievlaanderen/association-registry/commit/588770ebd372f89293e0307cde846e0918b04bda))
+
 ## [8.261.3](https://github.com/informatievlaanderen/association-registry/compare/v8.261.2...v8.261.3) (2025-07-15)
 
 
