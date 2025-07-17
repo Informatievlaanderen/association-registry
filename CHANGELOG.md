@@ -1,3 +1,16 @@
+# [8.262.0](https://github.com/informatievlaanderen/association-registry/compare/v8.261.4...v8.262.0) (2025-07-17)
+
+
+### Bug Fixes
+
+* or-2867 fix acm documentation and set version nr on all api's ([eebe484](https://github.com/informatievlaanderen/association-registry/commit/eebe4849fefe8c847f8be65066266b8ad3c91033))
+* or-2874 only check for duplicates when there are addresses on registration ([0bad18f](https://github.com/informatievlaanderen/association-registry/commit/0bad18f9ef9a2c49f5c7e7cc96246e32fcdb59ab))
+
+
+### Features
+
+* or-2867 make build pipeline shell files executable ([c85d19b](https://github.com/informatievlaanderen/association-registry/commit/c85d19b5eac1b2de4746ab3be707349fab569abd))
+
 ## [8.261.4](https://github.com/informatievlaanderen/association-registry/compare/v8.261.3...v8.261.4) (2025-07-16)
 
 
