@@ -12,15 +12,14 @@ using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using WellknownFormats = Constants.WellknownFormats;
 
-public class BeheerZoekProjectionHandler
+public class BeheerZoekProjectionHandlerV2
 {
-    private readonly IElasticRepository _elasticRepository;
-
-    public BeheerZoekProjectionHandler()
+    public BeheerZoekProjectionHandlerV2(
+    )
     {
     }
 
-    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message, VerenigingZoekDocument document)
+   public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message, VerenigingZoekDocument document)
     {
         document.Sequence = message.Sequence;
         document.JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type;
@@ -76,186 +75,171 @@ public class BeheerZoekProjectionHandler
         ];
     }
 
-    public async Task Handle(EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message)
-        => await _elasticRepository.IndexAsync(
-            new VerenigingZoekDocument
-            {
-                Sequence = message.Sequence,
-                JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
-                VCode = message.Data.VCode,
-                Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
-                {
-                    Code = Verenigingstype.VZER.Code,
-                    Naam = Verenigingstype.VZER.Naam,
-                },
-                Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
-                {
-                    Code = string.Empty,
-                    Naam = string.Empty,
-                },
-                Naam = message.Data.Naam,
-                KorteNaam = message.Data.KorteNaam,
-                Status = VerenigingStatus.Actief,
-                Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray(),
-                Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-                Einddatum = null,
-                Doelgroep = Map(message.Data.Doelgroep, message.VCode),
-                IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
-                HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
-                                                           .Select(
-                                                                hoofdactiviteitVerenigingsloket =>
-                                                                    new VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket
-                                                                    {
-                                                                        JsonLdMetadata =
-                                                                            CreateJsonLdMetadata(
-                                                                                JsonLdType.Hoofdactiviteit,
-                                                                                hoofdactiviteitVerenigingsloket.Code),
-                                                                        Code = hoofdactiviteitVerenigingsloket.Code,
-                                                                        Naam = hoofdactiviteitVerenigingsloket.Naam,
-                                                                    })
-                                                           .ToArray(),
+    public void Handle(
+        EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message,
+        VerenigingZoekDocument zoekDocument)
+    {
+        zoekDocument.Sequence = message.Sequence;
+        zoekDocument.JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type;
+        zoekDocument.VCode = message.Data.VCode;
 
-                Werkingsgebieden = [],
-                Lidmaatschappen = [],
-                CorresponderendeVCodes = [],
-                Sleutels =
-                [
-                    new VerenigingZoekDocument.Types.Sleutel
-                    {
-                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
-                        Bron = Sleutelbron.VR,
-                        Waarde = message.Data.VCode,
-                        CodeerSysteem = CodeerSysteem.VR,
-                        GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
-                        {
-                            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.VR.Waarde),
-                            Nummer = message.Data.VCode,
-                        },
-                    },
-                ],
-            }
-        );
+        zoekDocument.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
+        {
+            Code = Verenigingstype.VZER.Code,
+            Naam = Verenigingstype.VZER.Naam,
+        };
 
-    public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
-        => await _elasticRepository.IndexAsync(
-            new VerenigingZoekDocument
-            {
-                Sequence = message.Sequence,
-                JsonLdMetadataType = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
-                VCode = message.Data.VCode,
-                Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
-                {
-                    Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
-                    Naam = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
-                },
-                Verenigingssubtype = null,
-                Naam = message.Data.Naam,
-                Roepnaam = string.Empty,
-                KorteNaam = message.Data.KorteNaam,
-                Status = VerenigingStatus.Actief,
-                Locaties = [],
-                Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-                Einddatum = null,
-                Doelgroep = new Doelgroep
-                {
-                    JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, message.VCode),
-                    Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
-                    Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
-                },
-                IsUitgeschrevenUitPubliekeDatastroom = false,
-                HoofdactiviteitenVerenigingsloket = [],
-                Werkingsgebieden = [],
-                Lidmaatschappen = [],
-                CorresponderendeVCodes = [],
-                Sleutels =
-                [
-                    new VerenigingZoekDocument.Types.Sleutel
-                    {
-                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
-                        Bron = Sleutelbron.VR,
-                        Waarde = message.Data.VCode,
-                        CodeerSysteem = CodeerSysteem.VR,
-                        GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
-                        {
-                            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.VR.Waarde),
-                            Nummer = message.Data.VCode,
-                        },
-                    },
-                    new VerenigingZoekDocument.Types.Sleutel
-                    {
-                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.KBO.Waarde),
-                        Bron = Sleutelbron.KBO,
-                        Waarde = message.Data.KboNummer,
-                        CodeerSysteem = CodeerSysteem.KBO,
-                        GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
-                        {
-                            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.KBO.Waarde),
-                            Nummer = message.Data.KboNummer,
-                        },
-                    },
-                ],
-            }
-        );
+        zoekDocument.Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
+        {
+            Code = string.Empty,
+            Naam = string.Empty,
+        };
 
-    public async Task Handle(EventEnvelope<NaamWerdGewijzigd> message)
-        => await _elasticRepository.UpdateAsync(
-            message.Data.VCode,
-            new VerenigingZoekUpdateDocument
+        zoekDocument.Naam = message.Data.Naam;
+        zoekDocument.KorteNaam = message.Data.KorteNaam;
+        zoekDocument.Status = VerenigingStatus.Actief;
+        zoekDocument.Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray();
+        zoekDocument.Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly);
+        zoekDocument.Einddatum = null;
+        zoekDocument.Doelgroep = Map(message.Data.Doelgroep, message.VCode);
+        zoekDocument.IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom;
+
+        zoekDocument.HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
+                                                                .Select(
+                                                                     hoofdactiviteitVerenigingsloket =>
+                                                                         new VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket
+                                                                         {
+                                                                             JsonLdMetadata =
+                                                                                 CreateJsonLdMetadata(
+                                                                                     JsonLdType.Hoofdactiviteit,
+                                                                                     hoofdactiviteitVerenigingsloket.Code),
+                                                                             Code = hoofdactiviteitVerenigingsloket.Code,
+                                                                             Naam = hoofdactiviteitVerenigingsloket.Naam,
+                                                                         })
+                                                                .ToArray();
+
+        zoekDocument.Werkingsgebieden = [];
+        zoekDocument.Lidmaatschappen = [];
+        zoekDocument.CorresponderendeVCodes = [];
+
+        zoekDocument.Sleutels = [
+            new VerenigingZoekDocument.Types.Sleutel
             {
-                Naam = message.Data.Naam,
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
+                Bron = Sleutelbron.VR,
+                Waarde = message.Data.VCode,
+                CodeerSysteem = CodeerSysteem.VR,
+                GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
+                {
+                    JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.VR.Waarde),
+                    Nummer = message.Data.VCode,
+                },
             },
-            message.Sequence
-        );
+        ];
+    }
 
-    public async Task Handle(EventEnvelope<RoepnaamWerdGewijzigd> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
+
+    public void Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message, VerenigingZoekDocument document)
+    {
+        document.Sequence = message.Sequence;
+        document.JsonLdMetadataType = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type;
+        document.VCode = message.Data.VCode;
+
+        document.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
+        {
+            Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
+            Naam = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
+        };
+
+        document.Verenigingssubtype = null;
+        document.Naam = message.Data.Naam;
+        document.Roepnaam = string.Empty;
+        document.KorteNaam = message.Data.KorteNaam;
+        document.Status = VerenigingStatus.Actief;
+        document.Locaties = [];
+        document.Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly);
+        document.Einddatum = null;
+
+        document.Doelgroep = new Doelgroep
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, message.VCode),
+            Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+            Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
+        };
+
+        document.IsUitgeschrevenUitPubliekeDatastroom = false;
+        document.HoofdactiviteitenVerenigingsloket = [];
+        document.Werkingsgebieden = [];
+        document.Lidmaatschappen = [];
+        document.CorresponderendeVCodes = [];
+
+        document.Sleutels = [
+            new VerenigingZoekDocument.Types.Sleutel
             {
-                Roepnaam = message.Data.Roepnaam,
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
+                Bron = Sleutelbron.VR,
+                Waarde = message.Data.VCode,
+                CodeerSysteem = CodeerSysteem.VR,
+                GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
+                {
+                    JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.VR.Waarde),
+                    Nummer = message.Data.VCode,
+                },
             },
-            message.Sequence
-        );
-
-    public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigd> message)
-        => await _elasticRepository.UpdateAsync(
-            message.Data.VCode,
-            new VerenigingZoekUpdateDocument
+            new VerenigingZoekDocument.Types.Sleutel
             {
-                KorteNaam = message.Data.KorteNaam,
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.KBO.Waarde),
+                Bron = Sleutelbron.KBO,
+                Waarde = message.Data.KboNummer,
+                CodeerSysteem = CodeerSysteem.KBO,
+                GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
+                {
+                    JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.KBO.Waarde),
+                    Nummer = message.Data.KboNummer,
+                },
             },
-            message.Sequence
-        );
+        ];
+    }
 
-    public async Task Handle(EventEnvelope<StartdatumWerdGewijzigd> message)
+    public void Handle(EventEnvelope<NaamWerdGewijzigd> message, VerenigingZoekDocument document)
+    {
+        document.Naam = message.Data.Naam;
+    }
+
+    public void Handle(EventEnvelope<RoepnaamWerdGewijzigd> message, VerenigingZoekDocument document)
+    {
+        document.Roepnaam = message.Data.Roepnaam;
+    }
+
+    public void Handle(EventEnvelope<KorteNaamWerdGewijzigd> message, VerenigingZoekDocument document)
+
+    {
+        document.KorteNaam = message.Data.KorteNaam;
+    }
+
+    public void Handle(EventEnvelope<StartdatumWerdGewijzigd> message, VerenigingZoekDocument document)
         => await _elasticRepository.UpdateStartdatum<VerenigingZoekDocument>(
             message.VCode,
             message.Data.Startdatum,
             message.Sequence
         );
 
-    public async Task Handle(EventEnvelope<StartdatumWerdGewijzigdInKbo> message)
+    public void Handle(EventEnvelope<StartdatumWerdGewijzigdInKbo> message, VerenigingZoekDocument document)
         => await _elasticRepository.UpdateStartdatum<VerenigingZoekDocument>(
             message.VCode,
             message.Data.Startdatum,
             message.Sequence
         );
 
-    public async Task Handle(EventEnvelope<EinddatumWerdGewijzigd> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+    public void Handle(EventEnvelope<EinddatumWerdGewijzigd> message, VerenigingZoekDocument document)
+        => document.
                 Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly),
             },
             message.Sequence
         );
 
-    public async Task Handle(EventEnvelope<DoelgroepWerdGewijzigd> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+    public void Handle(EventEnvelope<DoelgroepWerdGewijzigd> message, VerenigingZoekDocument document)
+        => document.
                 Doelgroep = new Doelgroep
                 {
                     JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, message.VCode),
@@ -266,12 +250,9 @@ public class BeheerZoekProjectionHandler
             message.Sequence
         );
 
-    public async Task Handle(EventEnvelope<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> message)
+    public void Handle(EventEnvelope<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                                                            .Select(
                                                                 hoofdactiviteitVerenigingsloket =>
@@ -289,23 +270,35 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenNietBepaald> message)
+    public void Handle(EventEnvelope<WerkingsgebiedenWerdenNietBepaald> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 Werkingsgebieden = [],
             },
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenBepaald> message)
+    public void Handle(EventEnvelope<WerkingsgebiedenWerdenBepaald> message, VerenigingZoekDocument updateDocument)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+
+        updateDocument.Werkingsgebieden = message.Data.Werkingsgebieden
+                                                 .Select(
+                                                      werkingsgebied =>
+                                                          new VerenigingZoekDocument.Types.Werkingsgebied
+                                                          {
+                                                              JsonLdMetadata =
+                                                                  CreateJsonLdMetadata(
+                                                                      JsonLdType.Werkingsgebied,
+                                                                      werkingsgebied.Code),
+                                                              Code = werkingsgebied.Code,
+                                                              Naam = werkingsgebied.Naam,
+                                                          })
+                                                 .ToArray();
+    }
+
+    public void Handle(EventEnvelope<WerkingsgebiedenWerdenGewijzigd> message, VerenigingZoekDocument document)
+    {
+        document.
                 Werkingsgebieden = message.Data.Werkingsgebieden
                                           .Select(
                                                werkingsgebied =>
@@ -323,35 +316,9 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenGewijzigd> message)
+    public void Handle(EventEnvelope<WerkingsgebiedenWerdenNietVanToepassing> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
-                Werkingsgebieden = message.Data.Werkingsgebieden
-                                          .Select(
-                                               werkingsgebied =>
-                                                   new VerenigingZoekDocument.Types.Werkingsgebied
-                                                   {
-                                                       JsonLdMetadata =
-                                                           CreateJsonLdMetadata(
-                                                               JsonLdType.Werkingsgebied,
-                                                               werkingsgebied.Code),
-                                                       Code = werkingsgebied.Code,
-                                                       Naam = werkingsgebied.Naam,
-                                                   })
-                                          .ToArray(),
-            },
-            message.Sequence);
-    }
-
-    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenNietVanToepassing> message)
-    {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 Werkingsgebieden =
                 [
                     new VerenigingZoekDocument.Types.Werkingsgebied
@@ -368,29 +335,23 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> message)
+    public void Handle(EventEnvelope<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 IsUitgeschrevenUitPubliekeDatastroom = true,
             },
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdIngeschrevenInPubliekeDatastroom> message)
+    public void Handle(EventEnvelope<VerenigingWerdIngeschrevenInPubliekeDatastroom> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 IsUitgeschrevenUitPubliekeDatastroom = false,
             },
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<LocatieWerdToegevoegd> message)
+    public void Handle(EventEnvelope<LocatieWerdToegevoegd> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.AppendLocatie<VerenigingZoekDocument>(
             message.VCode,
@@ -398,7 +359,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
+    public void Handle(EventEnvelope<LocatieWerdGewijzigd> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
             message.VCode,
@@ -406,7 +367,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<LocatieWerdVerwijderd> message)
+    public void Handle(EventEnvelope<LocatieWerdVerwijderd> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.RemoveLocatie<VerenigingZoekDocument>(
             message.VCode,
@@ -414,7 +375,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<LidmaatschapWerdToegevoegd> message)
+    public void Handle(EventEnvelope<LidmaatschapWerdToegevoegd> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.AppendLidmaatschap<VerenigingZoekDocument>(
             message.VCode,
@@ -422,7 +383,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<LidmaatschapWerdGewijzigd> message)
+    public void Handle(EventEnvelope<LidmaatschapWerdGewijzigd> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.UpdateLidmaatschap<VerenigingZoekDocument>(
             message.VCode,
@@ -430,7 +391,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<LidmaatschapWerdVerwijderd> message)
+    public void Handle(EventEnvelope<LidmaatschapWerdVerwijderd> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.RemoveLidmaatschap<VerenigingZoekDocument>(
             message.VCode,
@@ -473,7 +434,7 @@ public class BeheerZoekProjectionHandler
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
 
-    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message)
+    public void Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.AppendLocatie<VerenigingZoekDocument>(
             message.VCode,
@@ -481,7 +442,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> message)
+    public void Handle(EventEnvelope<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
             message.VCode,
@@ -495,66 +456,48 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdGestopt> message)
+    public void Handle(EventEnvelope<VerenigingWerdGestopt> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 Status = VerenigingStatus.Gestopt,
                 Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly),
             },
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdGestoptInKBO> message)
+    public void Handle(EventEnvelope<VerenigingWerdGestoptInKBO> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 Status = VerenigingStatus.Gestopt,
                 Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly),
             },
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdVerwijderd> message)
+    public void Handle(EventEnvelope<VerenigingWerdVerwijderd> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 IsVerwijderd = true,
             },
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<NaamWerdGewijzigdInKbo> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+    public void Handle(EventEnvelope<NaamWerdGewijzigdInKbo> message, VerenigingZoekDocument document)
+        => document.
                 Naam = message.Data.Naam,
             },
             message.Sequence
         );
 
-    public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigdInKbo> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+    public void Handle(EventEnvelope<KorteNaamWerdGewijzigdInKbo> message, VerenigingZoekDocument document)
+        => document.
                 KorteNaam = message.Data.KorteNaam,
             },
             message.Sequence
         );
 
-    public async Task Handle(EventEnvelope<RechtsvormWerdGewijzigdInKBO> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+    public void Handle(EventEnvelope<RechtsvormWerdGewijzigdInKBO> message, VerenigingZoekDocument document)
+        => document.
                 Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
@@ -564,7 +507,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence
         );
 
-    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdGewijzigdInKbo> message)
+    public void Handle(EventEnvelope<MaatschappelijkeZetelWerdGewijzigdInKbo> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
             message.VCode,
@@ -572,7 +515,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdVerwijderdUitKbo> message)
+    public void Handle(EventEnvelope<MaatschappelijkeZetelWerdVerwijderdUitKbo> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.RemoveLocatie<VerenigingZoekDocument>(
             message.VCode,
@@ -580,7 +523,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<AdresWerdOvergenomenUitAdressenregister> message)
+    public void Handle(EventEnvelope<AdresWerdOvergenomenUitAdressenregister> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.UpdateAdres<VerenigingZoekDocument>(
             message.VCode,
@@ -591,7 +534,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<AdresWerdGewijzigdInAdressenregister> message)
+    public void Handle(EventEnvelope<AdresWerdGewijzigdInAdressenregister> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.UpdateAdres<VerenigingZoekDocument>(
             message.VCode,
@@ -602,7 +545,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<LocatieDuplicaatWerdVerwijderdNaAdresMatch> message)
+    public void Handle(EventEnvelope<LocatieDuplicaatWerdVerwijderdNaAdresMatch> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.RemoveLocatie<VerenigingZoekDocument>(
             message.VCode,
@@ -610,18 +553,15 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message)
+    public void Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 IsDubbel = true,
             },
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<VerenigingAanvaarddeDubbeleVereniging> message)
+    public void Handle(EventEnvelope<VerenigingAanvaarddeDubbeleVereniging> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.AppendCorresponderendeVCodes<VerenigingZoekDocument>(
             message.VCode,
@@ -629,18 +569,15 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<MarkeringDubbeleVerengingWerdGecorrigeerd> message)
+    public void Handle(EventEnvelope<MarkeringDubbeleVerengingWerdGecorrigeerd> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 IsDubbel = false,
             },
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<VerenigingAanvaarddeCorrectieDubbeleVereniging> message)
+    public void Handle(EventEnvelope<VerenigingAanvaarddeCorrectieDubbeleVereniging> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.RemoveCorresponderendeVCode<VerenigingZoekDocument>(
             message.VCode,
@@ -648,23 +585,17 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> message)
+    public void Handle(EventEnvelope<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 IsDubbel = false,
             },
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message)
+    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message, VerenigingZoekDocument document)
     {
-        await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new VerenigingZoekUpdateDocument
-            {
+        document.
                 Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
                 {
                     Code = Verenigingstype.VZER.Code,
@@ -679,7 +610,7 @@ public class BeheerZoekProjectionHandler
             message.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> message)
+    public void Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(
             message.VCode,
@@ -689,7 +620,7 @@ public class BeheerZoekProjectionHandler
         );
     }
 
-    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event)
+    public void Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event)
     {
         await _elasticRepository.UpdateAsync(
             @event.VCode,
@@ -710,7 +641,7 @@ public class BeheerZoekProjectionHandler
             @event.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message)
+    public void Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message, VerenigingZoekDocument document)
     {
         await _elasticRepository.UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(
             message.VCode,
@@ -720,7 +651,7 @@ public class BeheerZoekProjectionHandler
         );
     }
 
-    public async Task Handle(EventEnvelope<SubverenigingRelatieWerdGewijzigd> @event)
+    public void Handle(EventEnvelope<SubverenigingRelatieWerdGewijzigd> @event)
     {
         await _elasticRepository.UpdateSubverenigingVanRelatie<VerenigingZoekDocument>(
             @event.VCode,
@@ -728,7 +659,7 @@ public class BeheerZoekProjectionHandler
             @event.Sequence);
     }
 
-    public async Task Handle(EventEnvelope<SubverenigingDetailsWerdenGewijzigd> @event)
+    public void Handle(EventEnvelope<SubverenigingDetailsWerdenGewijzigd> @event)
     {
         await _elasticRepository.UpdateSubverenigingVanDetail<VerenigingZoekDocument>(
             @event.VCode,
@@ -744,12 +675,8 @@ public class BeheerZoekProjectionHandler
             Type = jsonLdType.Type,
         };
 
-    public async Task Handle(EventEnvelope<GeotagsWerdenBepaald> message)
+    public void Handle(EventEnvelope<GeotagsWerdenBepaald> message, VerenigingZoekDocument updateDocument)
     {
-        await _elasticRepository
-           .UpdateAsync(message.VCode, new VerenigingZoekUpdateDocument
-            {
-                Geotags = message.Data.Geotags.Select(x => new VerenigingZoekDocument.Types.Geotag(x.Identificiatie)).ToArray()
-            }, message.Sequence);
+        updateDocument.Geotags = message.Data.Geotags.Select(x => new VerenigingZoekDocument.Types.Geotag(x.Identificiatie)).ToArray();
     }
 }
