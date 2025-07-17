@@ -10,6 +10,7 @@ using JasperFx.Events.Projections;
 using Json;
 using Marten;
 using Marten.Services;
+using Nest;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -58,9 +59,9 @@ public static class ConfigureMartenExtensions
 
                 return ConfigureStoreOptions(opts, serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(),
                                              serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
-                                             serviceProvider.GetRequiredService<IElasticRepository>(),
+                                             serviceProvider.GetRequiredService<IElasticClient>(),
                                              serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
-                                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(), configurationManager
+                                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumerV2>>(), configurationManager
                                                 .GetSection(PostgreSqlOptionsSection.SectionName)
                                                 .Get<PostgreSqlOptionsSection>());
             });
@@ -82,9 +83,9 @@ public static class ConfigureMartenExtensions
         StoreOptions opts,
         ILogger<LocatieLookupProjection> locatieLookupLogger,
         ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
-        IElasticRepository elasticRepository,
+        IElasticClient elasticClient,
         bool isDevelopment,
-        ILogger<BeheerZoekenEventsConsumer> beheerZoekenEventsConsumerLogger,
+        ILogger<BeheerZoekenEventsConsumerV2> beheerZoekenEventsConsumerLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection)
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
@@ -133,24 +134,23 @@ public static class ConfigureMartenExtensions
 
         opts.Projections.Add(
             new MartenSubscription(
-                new BeheerZoekenEventsConsumer(
-                    new BeheerZoekProjectionHandler(
-                        elasticRepository
-                    ),
+                new BeheerZoekenEventsConsumerV2(
+                    elasticClient,
+                    new BeheerZoekProjectionHandlerV2(),
                     beheerZoekenEventsConsumerLogger)
             ),
             ProjectionLifecycle.Async,
             ProjectionNames.BeheerZoek);
 
-        opts.Projections.Add(
-            new MartenSubscription(
-                new DuplicateDetectionEventsConsumer(
-                    new DuplicateDetectionProjectionHandler(
-                        elasticRepository)
-                )
-            ),
-            ProjectionLifecycle.Async,
-            ProjectionNames.DuplicateDetection);
+        // opts.Projections.Add(
+        //     new MartenSubscription(
+        //         new DuplicateDetectionEventsConsumer(
+        //             new DuplicateDetectionProjectionHandler(
+        //                 elasticRepository)
+        //         )
+        //     ),
+            // ProjectionLifecycle.Async,
+            // ProjectionNames.DuplicateDetection);
 
         return opts;
     }

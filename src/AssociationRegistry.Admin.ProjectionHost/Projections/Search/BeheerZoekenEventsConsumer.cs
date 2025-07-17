@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using Events;
 using JasperFx.Events;
 using Marten.Events;
+using Nest;
 using Resources;
 using Zoeken;
 using IEvent = JasperFx.Events.IEvent;
@@ -12,7 +13,9 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
     private readonly BeheerZoekProjectionHandler _zoekProjectionHandler;
     private readonly ILogger<BeheerZoekenEventsConsumer> _logger;
 
-    public BeheerZoekenEventsConsumer(BeheerZoekProjectionHandler zoekProjectionHandler, ILogger<BeheerZoekenEventsConsumer> logger)
+    public BeheerZoekenEventsConsumer(
+        BeheerZoekProjectionHandler zoekProjectionHandler,
+        ILogger<BeheerZoekenEventsConsumer> logger)
     {
         _zoekProjectionHandler = zoekProjectionHandler;
         _logger = logger;
