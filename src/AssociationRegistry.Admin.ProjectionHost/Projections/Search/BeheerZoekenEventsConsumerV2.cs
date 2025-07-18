@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
 using Elasticsearch.Net;
 using Events;
+using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
 using JasperFx.Events;
 using Marten.Events;
@@ -15,15 +16,18 @@ public class BeheerZoekenEventsConsumerV2 : IMartenEventsConsumer
 {
     private readonly IElasticClient _elasticClient;
     private readonly BeheerZoekProjectionHandlerV2 _zoekProjectionHandler;
+    private readonly ElasticSearchOptionsSection _options;
     private readonly ILogger<BeheerZoekenEventsConsumerV2> _logger;
 
     public BeheerZoekenEventsConsumerV2(
         IElasticClient elasticClient,
         BeheerZoekProjectionHandlerV2 zoekProjectionHandler,
+        ElasticSearchOptionsSection options,
         ILogger<BeheerZoekenEventsConsumerV2> logger)
     {
         _elasticClient = elasticClient;
         _zoekProjectionHandler = zoekProjectionHandler;
+        _options = options;
         _logger = logger;
     }
 
@@ -34,28 +38,26 @@ public class BeheerZoekenEventsConsumerV2 : IMartenEventsConsumer
 
         var ids = eventsPerVCode.Keys.Select(k => (Id)k);
 
-        var searchResponse = await _elasticClient
-           .SearchAsync<VerenigingZoekDocument>(s => s
-                                                   .Query(q => q
-                                                             .Ids(i => i
-                                                                     .Values(ids)
-                                                              )
-                                                    )
+        var multiGetResponse = await _elasticClient
+           .MultiGetAsync(m => m
+                              .Index(_options.Indices.Verenigingen + "v2")
+                              .GetMany<VerenigingZoekDocumentV2>(eventsPerVCode.Keys)
             );
 
-        var documentsPerVCode = new Dictionary<string, VerenigingZoekDocument>();
+        var documentsPerVCode = new Dictionary<string, VerenigingZoekDocumentV2>();
         foreach (var vCode in eventsPerVCode.Keys)
         {
-            if (searchResponse.Documents.Any(x => x.VCode == vCode))
+            // Use the Hits collection and check the Source property
+            var hit = multiGetResponse.Hits.FirstOrDefault(h => h.Id == vCode);
+            if (hit != null && hit.Found && hit.Source is VerenigingZoekDocumentV2 document)
             {
-                documentsPerVCode.Add(vCode, searchResponse.Documents.Single(x => x.VCode == vCode));
+                documentsPerVCode.Add(vCode, document);
             }
             else
             {
-                documentsPerVCode.Add(vCode, new VerenigingZoekDocument());
+                documentsPerVCode.Add(vCode, new VerenigingZoekDocumentV2 { VCode = vCode });
             }
         }
-
 
         foreach (var @event in events)
         {
@@ -64,62 +66,56 @@ public class BeheerZoekenEventsConsumerV2 : IMartenEventsConsumer
 
             var doc = documentsPerVCode[@event.StreamKey];
 
-            // if(!cache.contains(event.streamkey)
-            // var document = new ElasticRepository().LoadORNull(event.Streamkey) ?? new Document
-            // cache.Add(doc);
-            // else
-            // doc = cache.get(streamkey);
-
             switch (@event.EventType.Name)
             {
                 case nameof(FeitelijkeVerenigingWerdGeregistreerd):
                     //
-                    // case nameof(DoelgroepWerdGewijzigd):
+                    case nameof(DoelgroepWerdGewijzigd):
                     case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd):
-                    // case nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid):
-                    // case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
-                    // case nameof(WerkingsgebiedenWerdenNietBepaald):
+                    case nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid):
+                    case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
+                    case nameof(WerkingsgebiedenWerdenNietBepaald):
                     case nameof(WerkingsgebiedenWerdenBepaald):
-                    // case nameof(WerkingsgebiedenWerdenGewijzigd):
-                    // case nameof(WerkingsgebiedenWerdenNietVanToepassing):
-                    // case nameof(KorteNaamWerdGewijzigd):
-                    // case nameof(LocatieWerdGewijzigd):
-                    // case nameof(LocatieWerdToegevoegd):
-                    // case nameof(LocatieWerdVerwijderd):
-                    // case nameof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd):
-                    // case nameof(MaatschappelijkeZetelWerdOvergenomenUitKbo):
-                    // case nameof(NaamWerdGewijzigd):
-                    // case nameof(RoepnaamWerdGewijzigd):
-                    // case nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd):
-                    // case nameof(VerenigingWerdGestopt):
-                    // case nameof(VerenigingWerdIngeschrevenInPubliekeDatastroom):
-                    // case nameof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom):
-                    // case nameof(VerenigingWerdVerwijderd):
-                    // case nameof(NaamWerdGewijzigdInKbo):
-                    // case nameof(KorteNaamWerdGewijzigdInKbo):
-                    // case nameof(MaatschappelijkeZetelWerdGewijzigdInKbo):
-                    // case nameof(MaatschappelijkeZetelWerdVerwijderdUitKbo):
-                    // case nameof(RechtsvormWerdGewijzigdInKBO):
-                    // case nameof(VerenigingWerdGestoptInKBO):
-                    // case nameof(StartdatumWerdGewijzigd):
-                    // case nameof(StartdatumWerdGewijzigdInKbo):
-                    // case nameof(EinddatumWerdGewijzigd):
-                    // case nameof(AdresWerdOvergenomenUitAdressenregister):
-                    // case nameof(AdresWerdGewijzigdInAdressenregister):
-                    // case nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch):
-                    // case nameof(LidmaatschapWerdToegevoegd):
-                    // case nameof(LidmaatschapWerdGewijzigd):
-                    // case nameof(LidmaatschapWerdVerwijderd):
-                    // case nameof(VerenigingWerdGemarkeerdAlsDubbelVan):
-                    // case nameof(VerenigingAanvaarddeDubbeleVereniging):
-                    // case nameof(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt):
-                    // case nameof(MarkeringDubbeleVerengingWerdGecorrigeerd):
-                    // case nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging):
-                    // case nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging):
-                    // case nameof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald):
-                    // case nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging):
-                    // case nameof(SubverenigingRelatieWerdGewijzigd):
-                    // case nameof(SubverenigingDetailsWerdenGewijzigd):
+                    case nameof(WerkingsgebiedenWerdenGewijzigd):
+                    case nameof(WerkingsgebiedenWerdenNietVanToepassing):
+                    case nameof(KorteNaamWerdGewijzigd):
+                    case nameof(LocatieWerdGewijzigd):
+                    case nameof(LocatieWerdToegevoegd):
+                    case nameof(LocatieWerdVerwijderd):
+                    case nameof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd):
+                    case nameof(MaatschappelijkeZetelWerdOvergenomenUitKbo):
+                    case nameof(NaamWerdGewijzigd):
+                    case nameof(RoepnaamWerdGewijzigd):
+                    case nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd):
+                    case nameof(VerenigingWerdGestopt):
+                    case nameof(VerenigingWerdIngeschrevenInPubliekeDatastroom):
+                    case nameof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom):
+                    case nameof(VerenigingWerdVerwijderd):
+                    case nameof(NaamWerdGewijzigdInKbo):
+                    case nameof(KorteNaamWerdGewijzigdInKbo):
+                    case nameof(MaatschappelijkeZetelWerdGewijzigdInKbo):
+                    case nameof(MaatschappelijkeZetelWerdVerwijderdUitKbo):
+                    case nameof(RechtsvormWerdGewijzigdInKBO):
+                    case nameof(VerenigingWerdGestoptInKBO):
+                    case nameof(StartdatumWerdGewijzigd):
+                    case nameof(StartdatumWerdGewijzigdInKbo):
+                    case nameof(EinddatumWerdGewijzigd):
+                    case nameof(AdresWerdOvergenomenUitAdressenregister):
+                    case nameof(AdresWerdGewijzigdInAdressenregister):
+                    case nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch):
+                    case nameof(LidmaatschapWerdToegevoegd):
+                    case nameof(LidmaatschapWerdGewijzigd):
+                    case nameof(LidmaatschapWerdVerwijderd):
+                    case nameof(VerenigingWerdGemarkeerdAlsDubbelVan):
+                    case nameof(VerenigingAanvaarddeDubbeleVereniging):
+                    case nameof(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt):
+                    case nameof(MarkeringDubbeleVerengingWerdGecorrigeerd):
+                    case nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging):
+                    case nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging):
+                    case nameof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald):
+                    case nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging):
+                    case nameof(SubverenigingRelatieWerdGewijzigd):
+                    case nameof(SubverenigingDetailsWerdenGewijzigd):
                     case nameof(GeotagsWerdenBepaald):
                     try
                     {
@@ -144,8 +140,9 @@ public class BeheerZoekenEventsConsumerV2 : IMartenEventsConsumer
         where T : class
     {
         var response = await _elasticClient.BulkAsync(b => b
-                                                  .IndexMany(documents)
-                                                  .Refresh(Refresh.WaitFor) // Makes docs immediately searchable
+                                                          .Index(_options.Indices.Verenigingen + "v2")
+                                                          .IndexMany(documents)
+                                                          .Refresh(Refresh.WaitFor) // Makes docs immediately searchable
         );
         if (!response.IsValid)
         {
