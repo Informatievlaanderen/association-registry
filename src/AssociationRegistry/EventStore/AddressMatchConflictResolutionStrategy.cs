@@ -11,15 +11,17 @@ public class AddressMatchConflictResolutionStrategy : IEventPostConflictResoluti
         => conflictingEvents.All(e => IsAllowedEventType(e.EventType));
 
     private bool IsAllowedEventType(Type eventType)
-        => new[]
-        {
-            typeof(AdresWerdOvergenomenUitAdressenregister),
-            typeof(AdresKonNietOvergenomenWordenUitAdressenregister),
-            typeof(AdresWerdNietGevondenInAdressenregister),
-            typeof(AdresNietUniekInAdressenregister),
-            typeof(AdresWerdGewijzigdInAdressenregister),
-            typeof(AdresWerdOntkoppeldVanAdressenregister),
-            typeof(LocatieDuplicaatWerdVerwijderdNaAdresMatch),
-            typeof(AdresHeeftGeenVerschillenMetAdressenregister),
-        }.Contains(eventType);
+        => AllowedTypes.Contains(eventType);
+
+    public static Type[] AllowedTypes =>
+    [
+        typeof(AdresWerdOvergenomenUitAdressenregister),
+        typeof(AdresKonNietOvergenomenWordenUitAdressenregister),
+        typeof(AdresWerdNietGevondenInAdressenregister),
+        typeof(AdresNietUniekInAdressenregister),
+        typeof(AdresWerdGewijzigdInAdressenregister),
+        typeof(AdresWerdOntkoppeldVanAdressenregister),
+        typeof(LocatieDuplicaatWerdVerwijderdNaAdresMatch),
+        typeof(AdresHeeftGeenVerschillenMetAdressenregister),
+    ];
 }

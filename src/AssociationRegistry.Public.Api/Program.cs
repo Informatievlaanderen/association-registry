@@ -288,7 +288,6 @@ public class Program
         builder.Services
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(appSettings)
-               .AddSingleton<EventConflictResolver>()
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddTransient<IPubliekVerenigingenDetailAllQuery, PubliekVerenigingenDetailAllQuery>()
@@ -307,6 +306,10 @@ public class Program
                .AddTransient<WerkingsgebiedenService>()
                .AddHttpContextAccessor()
                .AddControllers();
+
+        builder.Services.AddSingleton<IEventPreConflictResolutionStrategy, EmptyConflictResolutionStrategy>();
+        builder.Services.AddSingleton<IEventPostConflictResolutionStrategy, EmptyConflictResolutionStrategy>();
+        builder.Services.AddSingleton<EventConflictResolver>();
 
         builder.ConfigureOpenTelemetry(new Instrumentation());
 

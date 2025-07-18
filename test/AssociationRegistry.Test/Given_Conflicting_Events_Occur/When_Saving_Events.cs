@@ -12,11 +12,11 @@ using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Xunit;
 
-public class When_AdresMatch_Occurred
+public class When_Saving_Events
 {
     private readonly Fixture _fixture;
 
-    public When_AdresMatch_Occurred()
+    public When_Saving_Events()
     {
         _fixture = new Fixture().CustomizeAdminApi();
     }
@@ -28,7 +28,7 @@ public class When_AdresMatch_Occurred
     {
         var context = new SpecimenContext(_fixture);
 
-        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(When_AdresMatch_Occurred));
+        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(When_Saving_Events));
 
         documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
 
@@ -41,14 +41,24 @@ public class When_AdresMatch_Occurred
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
-        var adresWerdOvergenomenUitAdressenregister = _fixture.Create<AdresWerdOvergenomenUitAdressenregister>();
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 
         var vCode = _fixture.Create<string>();
 
-        await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+        var allowedTypeEvents = AddressMatchConflictResolutionStrategy
+                               .AllowedTypes
+                               .Select(type => (IEvent)context.Resolve(type))
+                               .ToArray();
+
+        var allEvents = new IEvent[]
+                            { (dynamic)verenigingWerdGeregistreerd }
+                       .Concat(allowedTypeEvents)
+                       .ToArray();
+
+        await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, session,
+                              new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
-                              (dynamic)verenigingWerdGeregistreerd, adresWerdOvergenomenUitAdressenregister);
+                              allEvents);
 
         var result = await eventStore.Save(vCode, 2, session,
                                            new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid(), ExpectedVersion: 1),
@@ -56,8 +66,8 @@ public class When_AdresMatch_Occurred
                                            locatieWerdToegevoegd);
 
         var savedEvents = await session.Events.FetchStreamAsync(vCode);
-        Assert.Equal(expected: 3, savedEvents.Count);
-        result.Version.Should().Be(3);
-        documentStore.Dispose();
+        Assert.Equal(expected: allowedTypeEvents.Length + 2, savedEvents.Count); // + 2 cause of registreer and voeg locatie toe event
+        result.Version.Should().Be(allowedTypeEvents.Length + 2);
+        await documentStore.DisposeAsync();
     }
 }
