@@ -4,19 +4,15 @@ using Events;
 
 public class EventConflictResolver
 {
-    private readonly IEventPreConflictResolutionStrategy[] _preStrategies;
-    private readonly IEventPostConflictResolutionStrategy[] _postStrategies;
+    public readonly IEventPreConflictResolutionStrategy[] _preStrategies;
+    public readonly IEventPostConflictResolutionStrategy[] _postStrategies;
 
-    public EventConflictResolver()
+    public EventConflictResolver(
+        IEnumerable<IEventPreConflictResolutionStrategy> preStrategies,
+        IEnumerable<IEventPostConflictResolutionStrategy> postStrategies)
     {
-        _preStrategies = Array.Empty<IEventPreConflictResolutionStrategy>();
-        _postStrategies = Array.Empty<IEventPostConflictResolutionStrategy>();
-    }
-
-    public EventConflictResolver(IEventPreConflictResolutionStrategy[] preStrategies, IEventPostConflictResolutionStrategy[] postStrategies)
-    {
-        _preStrategies = preStrategies;
-        _postStrategies = postStrategies;
+        _preStrategies = preStrategies.ToArray();
+        _postStrategies = postStrategies.ToArray();
     }
 
     public bool IsAllowedPostConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<JasperFx.Events.IEvent> conflictingEvents)

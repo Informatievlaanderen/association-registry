@@ -718,8 +718,8 @@ public class Program
         builder.Services.AddSingleton<ProblemDetailsHelper>()
                .AddSingleton<IResponseWriter, ResponseWriter>();
 
-        builder.Services.AddSingleton<IEventPostConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
         builder.Services.AddSingleton<IEventPreConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
+        builder.Services.AddSingleton<IEventPostConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
         builder.Services.AddSingleton<EventConflictResolver>();
 
         builder.Services.AddSingleton<ISequenceGuarder, SequenceGuarder>();
