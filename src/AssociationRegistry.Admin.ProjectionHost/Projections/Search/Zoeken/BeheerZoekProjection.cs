@@ -16,8 +16,9 @@ public class BeheerZoekProjectionHandler
 {
     private readonly IElasticRepository _elasticRepository;
 
-    public BeheerZoekProjectionHandler()
+    public BeheerZoekProjectionHandler(IElasticRepository elasticRepository)
     {
+        _elasticRepository = elasticRepository;
     }
 
     public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message, VerenigingZoekDocument document)

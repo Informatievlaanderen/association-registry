@@ -144,8 +144,8 @@ public class SearchVerenigingenController : ApiController
         }
 
         var responseMapper = new SearchVerenigingenResponseMapper(appSettings, version);
-
         var response = responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q);
+
         return Ok(response);
     }
 

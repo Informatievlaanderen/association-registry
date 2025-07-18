@@ -2,6 +2,7 @@
 
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
+using Admin.ProjectionHost.Projections;
 using Alba;
 using AlbaHost;
 using Amazon.SQS;
@@ -24,6 +25,8 @@ using Nest;
 using NodaTime;
 using NodaTime.Text;
 using Oakton;
+using Scenarios.Givens.FeitelijkeVereniging;
+using System.Diagnostics;
 using TestClasses;
 using Vereniging;
 using Xunit;
@@ -96,6 +99,9 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
         await using var session = PublicApiHost.DocumentStore().LightweightSession();
+
+        // await ExecuteGiven(new RandomEventSequenceScenario());
+         // await ExecuteGiven(new MassiveRandomEventSequenceScenario());
 
         await session.SaveChangesAsync();
 
@@ -220,6 +226,34 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
     public void Dispose()
     {
+        var tasks = new Task[2]{Task.Run(async ()
+                     =>
+                 {
+                     var sw = new Stopwatch();
+                     sw.Start();
+
+                     if (AdminProjectionDaemon != null)
+                         await AdminProjectionDaemon.RebuildProjectionAsync(ProjectionNames.BeheerZoekV2, CancellationToken.None);
+
+                     sw.Stop();
+                 }),
+
+            Task.Run(async ()
+                         =>
+                     {
+                         var sw = new Stopwatch();
+                         sw.Start();
+
+                         if (AdminProjectionDaemon != null)
+                             await AdminProjectionDaemon.RebuildProjectionAsync(ProjectionNames.BeheerZoek, CancellationToken.None);
+
+                         sw.Stop();
+                     })
+        };
+
+        Task.WhenAll(tasks).ConfigureAwait(false).GetAwaiter().GetResult();
+
+
         AdminApiHost.Dispose();
         AcmApiHost.Dispose();
         AdminProjectionHost.Dispose();

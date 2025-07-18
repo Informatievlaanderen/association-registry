@@ -1,0 +1,795 @@
+﻿namespace AssociationRegistry.Events;
+
+public record AdresDetailUitAdressenregister
+{
+    public Registratiedata.AdresId AdresId { get; init; }
+    public Registratiedata.AdresUitAdressenregister Adres { get; init; }
+}
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record AdresHeeftGeenVerschillenMetAdressenregister(
+    string VCode,
+    int LocatieId,
+    Registratiedata.AdresId AdresId,
+    Registratiedata.AdresUitAdressenregister Adres) : IEvent;
+﻿namespace AssociationRegistry.Events;
+
+public record AdresKonNietOvergenomenWordenUitAdressenregister(string VCode, int LocatieId, string Adres, string Reden = "") : IEvent
+{
+    public const string RedenLocatieWerdVerwijderd = "Locatie kon niet gevonden worden. Mogelijks is deze verwijderd.";
+}
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record AdresNietUniekInAdressenregister(string VCode, int LocatieId, NietUniekeAdresMatchUitAdressenregister[] NietOvergenomenAdressenUitAdressenregister) : IEvent;
+namespace AssociationRegistry.Events;
+
+
+
+public record AdresWerdGewijzigdInAdressenregister(
+    string VCode,
+    int LocatieId,
+    Registratiedata.AdresId AdresId,
+    Registratiedata.AdresUitAdressenregister Adres,
+    string IdempotenceKey) : IEvent;
+namespace AssociationRegistry.Events;
+
+
+
+public record AdresWerdNietGevondenInAdressenregister(
+    string VCode,
+    int LocatieId,
+    string Straatnaam,
+    string Huisnummer,
+    string Busnummer,
+    string Postcode,
+    string Gemeente) : IEvent
+{
+}
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record AdresWerdOntkoppeldVanAdressenregister(string VCode, int LocatieId, Registratiedata.AdresId? AdresId, Registratiedata.Adres? Adres) : IEvent;
+
+namespace AssociationRegistry.Events;
+
+
+
+public record AdresWerdOvergenomenUitAdressenregister(
+    string VCode,
+    int LocatieId,
+    Registratiedata.AdresId AdresId,
+    Registratiedata.AdresUitAdressenregister Adres) : IEvent;
+namespace AssociationRegistry.Events;
+
+[Obsolete]
+public record AfdelingWerdGeregistreerd(
+    string VCode,
+    string Naam,
+    AfdelingWerdGeregistreerd.MoederverenigingsData Moedervereniging,
+    string KorteNaam,
+    string KorteBeschrijving,
+    DateOnly? Startdatum,
+    Registratiedata.Doelgroep Doelgroep,
+    Registratiedata.Contactgegeven[] Contactgegevens,
+    Registratiedata.Locatie[] Locaties,
+    Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
+{
+    // [IgnoreDataMember]
+    // public Bron Bron
+    //     => Bron.Initiator;
+
+    public record MoederverenigingsData(string KboNummer, string VCode, string Naam);
+}
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record ContactgegevenKonNietOvergenomenWordenUitKBO(
+    string Contactgegeventype,
+    string TypeVolgensKbo,
+    string Waarde) : IEvent;
+namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record ContactgegevenUitKBOWerdGewijzigd(
+    int ContactgegevenId,
+    string Beschrijving,
+    bool IsPrimair) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+
+}
+namespace AssociationRegistry.Events;
+
+public record ContactgegevenWerdGewijzigd(
+    int ContactgegevenId,
+    string Contactgegeventype,
+    string Waarde,
+    string Beschrijving,
+    bool IsPrimair) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record ContactgegevenWerdGewijzigdInKbo(
+    int ContactgegevenId,
+    string Contactgegeventype,
+    string TypeVolgensKbo,
+    string Waarde) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record ContactgegevenWerdInBeheerGenomenDoorKbo(
+    int ContactgegevenId,
+    string Contactgegeventype,
+    string TypeVolgensKbo,
+    string Waarde) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record ContactgegevenWerdOvergenomenUitKBO(
+    int ContactgegevenId,
+    string Contactgegeventype,
+    string TypeVolgensKbo,
+    string Waarde) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record ContactgegevenWerdToegevoegd(
+    int ContactgegevenId,
+    string Contactgegeventype,
+    string Waarde,
+    string Beschrijving,
+    bool IsPrimair) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.Initiator;
+
+
+}
+namespace AssociationRegistry.Events;
+
+public record ContactgegevenWerdVerwijderd(int ContactgegevenId, string Type, string Waarde, string Beschrijving, bool IsPrimair) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record ContactgegevenWerdVerwijderdUitKBO(
+    int ContactgegevenId,
+    string Contactgegeventype,
+    string TypeVolgensKbo,
+    string Waarde) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+
+
+}
+namespace AssociationRegistry.Events;
+
+public record DoelgroepWerdGewijzigd(Registratiedata.Doelgroep Doelgroep) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record EinddatumWerdGewijzigd(DateOnly Einddatum) : IEvent
+{
+
+}
+namespace AssociationRegistry.Events;
+
+public record FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(
+    string VCode) : IEvent
+{
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public interface IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+{
+    Bron Bron { get; }
+    string VCode { get; init; }
+    string Naam { get; init; }
+    string KorteNaam { get; init; }
+    string KorteBeschrijving { get; init; }
+    DateOnly? Startdatum { get; init; }
+    Registratiedata.Doelgroep Doelgroep { get; init; }
+    bool IsUitgeschrevenUitPubliekeDatastroom { get; init; }
+    Registratiedata.Contactgegeven[] Contactgegevens { get; init; }
+    Registratiedata.Locatie[] Locaties { get; init; }
+    Registratiedata.Vertegenwoordiger[] Vertegenwoordigers { get; init; }
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; }
+}
+
+public record FeitelijkeVerenigingWerdGeregistreerd(
+    string VCode,
+    string Naam,
+    string KorteNaam,
+    string KorteBeschrijving,
+    DateOnly? Startdatum,
+    Registratiedata.Doelgroep Doelgroep,
+    bool IsUitgeschrevenUitPubliekeDatastroom,
+    Registratiedata.Contactgegeven[] Contactgegevens,
+    Registratiedata.Locatie[] Locaties,
+    Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.Initiator;
+}
+﻿namespace AssociationRegistry.Events;
+
+public record GeotagsWerdenBepaald(string VCode, Registratiedata.Geotag[] Geotags) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
+{
+
+}
+namespace AssociationRegistry.Events;
+
+/// <summary>
+///     marker interface: do not add logic
+/// </summary>
+public interface IEvent
+{
+}
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record KorteBeschrijvingWerdGewijzigd(string VCode, string KorteBeschrijving) : IEvent;
+public record RoepnaamWerdGewijzigd(string Roepnaam) : IEvent;
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record KorteNaamWerdGewijzigd(string VCode, string KorteNaam) : IEvent;
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record KorteNaamWerdGewijzigdInKbo(string? KorteNaam) : IEvent;
+﻿namespace AssociationRegistry.Events;
+
+public record LidmaatschapWerdGewijzigd(string VCode, Registratiedata.Lidmaatschap Lidmaatschap) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record LidmaatschapWerdToegevoegd(string VCode, Registratiedata.Lidmaatschap Lidmaatschap) : IEvent
+{
+
+}
+namespace AssociationRegistry.Events;
+
+public record LidmaatschapWerdVerwijderd(string VCode,
+                                         Registratiedata.Lidmaatschap Lidmaatschap) : IEvent
+{
+
+}
+namespace AssociationRegistry.Events;
+
+
+
+public record LocatieDuplicaatWerdVerwijderdNaAdresMatch(string VCode, int VerwijderdeLocatieId, int BehoudenLocatieId, string LocatieNaam, Registratiedata.AdresId AdresId) : IEvent;
+namespace AssociationRegistry.Events;
+
+public record LocatieWerdGewijzigd(
+    Registratiedata.Locatie Locatie) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record LocatieWerdToegevoegd(
+    Registratiedata.Locatie Locatie) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.Initiator;
+
+
+}
+namespace AssociationRegistry.Events;
+
+public record LocatieWerdVerwijderd(string VCode,
+                                    Registratiedata.Locatie Locatie) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
+    string Straatnaam,
+    string Huisnummer,
+    string Busnummer,
+    string Postcode,
+    string Gemeente,
+    string Land) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
+    int LocatieId,
+    string Naam,
+    bool IsPrimair) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record MaatschappelijkeZetelWerdGewijzigdInKbo(
+    Registratiedata.Locatie Locatie) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record MaatschappelijkeZetelWerdOvergenomenUitKbo(
+    Registratiedata.Locatie Locatie) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record MaatschappelijkeZetelWerdVerwijderdUitKbo(
+    Registratiedata.Locatie Locatie) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record MarkeringDubbeleVerengingWerdGecorrigeerd(string VCode, string VCodeAuthentiekeVereniging, string VorigeStatus) : IEvent
+{
+}
+
+
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record NaamWerdGewijzigd(string VCode, string Naam) : IEvent;
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record NaamWerdGewijzigdInKbo(string Naam) : IEvent;
+﻿namespace AssociationRegistry.Events;
+
+
+public record NietUniekeAdresMatchUitAdressenregister
+{
+
+    public Registratiedata.AdresId? AdresId { get; init; }
+    public string Adresvoorstelling { get; init; }
+    public double Score { get; init; }
+}
+﻿namespace AssociationRegistry.Events;
+
+public record RechtsvormWerdGewijzigdInKBO(string Rechtsvorm) : IEvent
+{
+
+}
+namespace AssociationRegistry.Events;
+
+public static class Registratiedata
+{
+    public record Contactgegeven(
+        int ContactgegevenId,
+        string Contactgegeventype,
+        string Waarde,
+        string Beschrijving,
+        bool IsPrimair);
+
+    public record Locatie(
+        int LocatieId,
+        string Locatietype,
+        bool IsPrimair,
+        string Naam,
+        Adres? Adres,
+        AdresId? AdresId);
+
+    public record Adres(
+        string Straatnaam,
+        string Huisnummer,
+        string Busnummer,
+        string Postcode,
+        string Gemeente,
+        string Land);
+
+    public record AdresId(string Broncode, string Bronwaarde)
+    {
+        public bool Equals(IAdresId adresId)
+            => this == adresId;
+
+        public static bool operator ==(AdresId first, IAdresId second)
+            => first.Broncode == second.Adresbron.Code && first.Bronwaarde == second.Bronwaarde;
+
+        public static bool operator !=(AdresId first, IAdresId second)
+            => first.Broncode != second.Adresbron.Code || first.Bronwaarde != second.Bronwaarde;
+        public override string ToString()
+            => new Uri(Bronwaarde).Segments.Last();
+
+        public static AdresId FromAdresId(Vereniging.AdresId adres)
+            => new(adres.Adresbron.Code, adres.Bronwaarde);
+    }
+
+    public record AdresUitAdressenregister(
+        string Straatnaam,
+        string Huisnummer,
+        string Busnummer,
+        string Postcode,
+        string Gemeente)
+    {
+        public static AdresUitAdressenregister FromAdres(Vereniging.Adres adres)
+            => new(adres.Straatnaam, adres.Huisnummer, adres.Busnummer, adres.Postcode, adres.Gemeente.Naam);
+    };
+
+    public record Doelgroep(int Minimumleeftijd, int Maximumleeftijd);
+
+    public record Vertegenwoordiger(
+        int VertegenwoordigerId,
+        string Insz,
+        bool IsPrimair,
+        string Roepnaam,
+        string Rol,
+        string Voornaam,
+        string Achternaam,
+        string Email,
+        string Telefoon,
+        string Mobiel,
+        string SocialMedia);
+
+    public record HoofdactiviteitVerenigingsloket(
+        string Code,
+        string Naam);
+
+    public record Werkingsgebied(
+        string Code,
+        string Naam);
+
+    public record Lidmaatschap(
+        int LidmaatschapId,
+        string AndereVereniging,
+        string AndereVerenigingNaam,
+        DateOnly? DatumVan,
+        DateOnly? DatumTot,
+        string Identificatie,
+        string Beschrijving);
+
+    public record SubverenigingVan(
+        string AndereVereniging,
+        string AndereVerenigingNaam,
+        string Identificatie,
+        string Beschrijving);
+
+    public record Geotag(string Identificiatie);
+}
+
+public interface IAdresId
+{
+    IAdresbron Adresbron { get; }
+
+    string Bronwaarde { get; }
+}
+
+public interface IAdresbron
+{
+    string Code { get; }
+    string Beschrijving { get; }
+}
+﻿namespace AssociationRegistry.Events;
+
+public record StartdatumWerdGewijzigd(string VCode, DateOnly? Startdatum) : IEvent
+{
+
+}
+
+public record StartdatumWerdGewijzigdInKbo(DateOnly? Startdatum) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record SubverenigingDetailsWerdenGewijzigd(string VCode, string Identificatie, string Beschrijving) : IEvent
+{ }
+﻿namespace AssociationRegistry.Events;
+
+public record SubverenigingRelatieWerdGewijzigd(string VCode, string AndereVereniging, string AndereVerenigingNaam) : IEvent
+{ }
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record SynchronisatieMetKboWasSuccesvol(string KboNummer) : IEvent;
+namespace AssociationRegistry.Events;
+
+public record VerenigingAanvaarddeCorrectieDubbeleVereniging(string VCode, string VCodeDubbeleVereniging) : IEvent
+{
+
+}
+namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
+    string VCode,
+    string KboNummer,
+    string Rechtsvorm,
+    string Naam,
+    string KorteNaam,
+    DateOnly? Startdatum) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+}
+﻿namespace AssociationRegistry.Events;
+
+public record VerenigingssubtypeWerdTerugGezetNaarNietBepaald(string VCode) : IEvent
+{ }
+﻿namespace AssociationRegistry.Events;
+
+public record VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(string VCode) : IEvent
+{ }
+﻿namespace AssociationRegistry.Events;
+
+public record VerenigingssubtypeWerdVerfijndNaarSubvereniging(string VCode, Registratiedata.SubverenigingVan SubverenigingVan) : IEvent
+{ }
+﻿namespace AssociationRegistry.Events;
+
+public record VerenigingWerdGemarkeerdAlsDubbelVan(string VCode, string VCodeAuthentiekeVereniging) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record VerenigingWerdGestopt(DateOnly Einddatum) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record VerenigingWerdGestoptInKBO(DateOnly Einddatum) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record VerenigingWerdIngeschrevenInPubliekeDatastroom : IEvent;
+namespace AssociationRegistry.Events;
+
+
+
+public record VerenigingWerdIngeschrevenOpWijzigingenUitKbo(
+    string KboNummer) : IEvent
+{
+}
+﻿namespace AssociationRegistry.Events;
+
+public record VerenigingAanvaarddeDubbeleVereniging(string VCode, string VCodeDubbeleVereniging) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record VerenigingWerdUitgeschrevenUitPubliekeDatastroom : IEvent;
+﻿namespace AssociationRegistry.Events;
+
+
+
+public record VerenigingWerdVerwijderd(string VCode, string Reden) : IEvent
+{
+    public static VerenigingWerdVerwijderd With(string vCode, string reden)
+        => new(vCode, reden);
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+    string VCode,
+    string Naam,
+    string KorteNaam,
+    string KorteBeschrijving,
+    DateOnly? Startdatum,
+    Registratiedata.Doelgroep Doelgroep,
+    bool IsUitgeschrevenUitPubliekeDatastroom,
+    Registratiedata.Contactgegeven[] Contactgegevens,
+    Registratiedata.Locatie[] Locaties,
+    Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.Initiator;
+}
+﻿namespace AssociationRegistry.Events;
+
+public record VertegenwoordigerWerdGewijzigd(
+    int VertegenwoordigerId,
+    bool IsPrimair,
+    string Roepnaam,
+    string Rol,
+    string Voornaam,
+    string Achternaam,
+    string Email,
+    string Telefoon,
+    string Mobiel,
+    string SocialMedia) : IEvent
+{
+
+}
+namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record VertegenwoordigerWerdOvergenomenUitKBO(
+    int VertegenwoordigerId,
+    string Insz,
+    string Voornaam,
+    string Achternaam) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+}
+﻿namespace AssociationRegistry.Events;
+
+
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
+
+public record VertegenwoordigerWerdToegevoegd(
+    int VertegenwoordigerId,
+    string Insz,
+    bool IsPrimair,
+    string Roepnaam,
+    string Rol,
+    string Voornaam,
+    string Achternaam,
+    string Email,
+    string Telefoon,
+    string Mobiel,
+    string SocialMedia) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.Initiator;
+
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record VertegenwoordigerWerdVerwijderd(int VertegenwoordigerId, string Insz, string Voornaam, string Achternaam) : IEvent
+{
+}
+﻿namespace AssociationRegistry.Events;
+
+public record WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(string VCode, string VCodeAuthentiekeVereniging, string VorigeStatus) : IEvent
+{
+}
+
+
+﻿namespace AssociationRegistry.Events;
+
+public record WerkingsgebiedenWerdenBepaald(string VCode, Registratiedata.Werkingsgebied[] Werkingsgebieden) : IEvent
+{
+
+}
+
+
+
+﻿namespace AssociationRegistry.Events;
+
+public record WerkingsgebiedenWerdenGewijzigd(string VCode, Registratiedata.Werkingsgebied[] Werkingsgebieden) : IEvent
+{
+
+}
+﻿namespace AssociationRegistry.Events;
+
+public record WerkingsgebiedenWerdenNietBepaald(string VCode) : IEvent
+{
+}
+﻿namespace AssociationRegistry.Events;
+
+public record WerkingsgebiedenWerdenNietVanToepassing(string VCode) : IEvent
+{
+}

@@ -61,9 +61,14 @@ public static class ConfigureMartenExtensions
                                              serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
                                              serviceProvider.GetRequiredService<IElasticClient>(),
                                              serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
-                                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumerV2>>(), configurationManager
+                                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(),
+                                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumerV2>>(),
+                                             configurationManager
                                                 .GetSection(PostgreSqlOptionsSection.SectionName)
-                                                .Get<PostgreSqlOptionsSection>());
+                                                .Get<PostgreSqlOptionsSection>(),
+                                             configurationManager
+                                                .GetSection(ElasticSearchOptionsSection.SectionName)
+                                                .Get<ElasticSearchOptionsSection>());
             });
 
         services.CritterStackDefaults(x =>
@@ -85,8 +90,10 @@ public static class ConfigureMartenExtensions
         ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
         IElasticClient elasticClient,
         bool isDevelopment,
-        ILogger<BeheerZoekenEventsConsumerV2> beheerZoekenEventsConsumerLogger,
-        PostgreSqlOptionsSection? postgreSqlOptionsSection)
+        ILogger<BeheerZoekenEventsConsumer> beheerZoekenEventsConsumerLogger,
+        ILogger<BeheerZoekenEventsConsumerV2> beheerZoekenEventsConsumerV2Logger,
+        PostgreSqlOptionsSection? postgreSqlOptionsSection,
+        ElasticSearchOptionsSection? elasticSearchOptionsSection)
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
             => $"host={postgreSqlOptions.Host};" +
@@ -132,15 +139,26 @@ public static class ConfigureMartenExtensions
         opts.Projections.Add(new LocatieLookupProjection(locatieLookupLogger), ProjectionLifecycle.Async);
         opts.Projections.Add(new LocatieZonderAdresMatchProjection(locatieZonderAdresMatchProjectionLogger), ProjectionLifecycle.Async);
 
+
+        opts.Projections.Add(
+            new MartenSubscription(
+                new BeheerZoekenEventsConsumer(
+                    new BeheerZoekProjectionHandler(new ElasticRepository(elasticClient)),
+                    beheerZoekenEventsConsumerLogger)
+            ),
+            ProjectionLifecycle.Async,
+            ProjectionNames.BeheerZoek);
+
         opts.Projections.Add(
             new MartenSubscription(
                 new BeheerZoekenEventsConsumerV2(
                     elasticClient,
                     new BeheerZoekProjectionHandlerV2(),
-                    beheerZoekenEventsConsumerLogger)
+                    elasticSearchOptionsSection,
+                    beheerZoekenEventsConsumerV2Logger)
             ),
             ProjectionLifecycle.Async,
-            ProjectionNames.BeheerZoek);
+            ProjectionNames.BeheerZoekV2);
 
         // opts.Projections.Add(
         //     new MartenSubscription(
