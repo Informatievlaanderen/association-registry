@@ -45,6 +45,11 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         PotentialDuplicatesFound potentialDuplicates,
         CancellationToken cancellationToken = default)
     {
+        // Because of the use of middleware on this handler, a SaveChanges() does not send an outbox message
+        // To fix this issue temporary, we will enroll the session into the outbox
+        // A jira ticket is made to fix this issue: OR-2884
+        _outbox.Enroll(_session);
+
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} start");
 
         if(potentialDuplicates.HasDuplicates)
