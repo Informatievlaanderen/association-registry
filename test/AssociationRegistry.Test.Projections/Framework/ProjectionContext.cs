@@ -49,9 +49,10 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                 ConfigureMartenExtensions.ConfigureStoreOptions(opts,
                                                                 NullLogger<LocatieLookupProjection>.Instance,
                                                                 NullLogger<LocatieZonderAdresMatchProjection>.Instance,
-                                                                new ElasticRepository(AdminProjectionElasticClient),
+                                                                AdminProjectionElasticClient,
                                                                 true,
                                                                 NullLogger<BeheerZoekenEventsConsumer>.Instance,
+                                                                NullLogger<BeheerZoekenEventsConsumerV2>.Instance,
                                                                 new PostgreSqlOptionsSection()
                                                                 {
                                                                     Host = "localhost",
@@ -59,7 +60,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                                                                     Password = "root",
                                                                     Username = "root",
                                                                     Schema = "admin",
-                                                                });
+                                                                }, Configuration.GetElasticSearchOptionsSection());
             });
 
         await adminStore.Advanced.Clean.DeleteAllEventDataAsync();

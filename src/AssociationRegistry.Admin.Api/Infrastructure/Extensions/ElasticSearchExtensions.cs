@@ -75,9 +75,13 @@ public static class ElasticSearchExtensions
     public static ConnectionSettings MapVerenigingDocument(this ConnectionSettings settings, string indexName)
     {
         return settings.DefaultMappingFor(
-            typeof(VerenigingZoekDocument),
-            selector: descriptor => descriptor.IndexName(indexName)
-                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)));
+                            typeof(VerenigingZoekDocument),
+                            selector: descriptor => descriptor.IndexName(indexName)
+                                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)))
+                       .DefaultMappingFor(
+                            typeof(VerenigingZoekDocumentV2),
+                            selector: descriptor => descriptor.IndexName(indexName+"v2")
+                                                              .IdProperty(nameof(VerenigingZoekDocumentV2.VCode)));
     }
 
     public static ConnectionSettings MapDuplicateDetectionDocument(this ConnectionSettings settings, string indexName)
