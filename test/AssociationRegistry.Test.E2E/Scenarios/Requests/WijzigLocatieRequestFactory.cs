@@ -1,14 +1,11 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
-using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Alba;
-using Events;
-using Framework.ApiSetup;
-using Vereniging;
 using FeitelijkeVereniging;
-using Marten;
+using Framework.ApiSetup;
 using System.Net;
+using Vereniging;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 
 public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequest>
@@ -46,34 +43,15 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
         {
             s.Patch
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/locaties/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0].LocatieId}");
+             .ToUrl(
+                  $"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/locaties/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0].LocatieId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         })).Context.Response;
 
-        var sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
+        var newSequence = await apiSetup.WaitForAdresMatchEventForEachLocation(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode, 1);
 
-        var newSequence = await WaitForAdresMatchEvent(apiSetup);
-
-        return new CommandResult<WijzigLocatieRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, newSequence);
+        return new CommandResult<WijzigLocatieRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request,
+                                                       newSequence);
     }
-
-    protected async Task<long> WaitForAdresMatchEvent(IApiSetup apiSetup)
-    {
-        await using var session = apiSetup.AdminProjectionHost.DocumentStore().LightweightSession();
-        var events = await session.Events.FetchStreamAsync(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
-
-        var counter = 0;
-
-        while (!events.Any(a => a.EventType == typeof(AdresWerdOvergenomenUitAdressenregister)))
-        {
-            await Task.Delay(200);
-            events = await session.Events.FetchStreamAsync(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
-
-            if (++counter > 50)
-                throw new Exception(
-                    $"Kept waiting for Adresmatch... Events committed: {string.Join(separator: ", ", events.Select(x => x.EventTypeName))}");
-        }
-
-        return events.Max(a => a.Sequence);
-    }}
+}

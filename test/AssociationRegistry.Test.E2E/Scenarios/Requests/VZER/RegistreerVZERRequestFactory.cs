@@ -1,22 +1,23 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
 
-using Alba;
 using Admin.Api.Infrastructure;
+using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Test.Common.AutoFixture;
-using Framework.ApiSetup;
-using Vereniging;
+using Alba;
 using AutoFixture;
+using Common.AutoFixture;
+using Framework.ApiSetup;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
+using Vereniging;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 using AdresId = Admin.Api.Verenigingen.Common.AdresId;
 
 public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+    private string _vCode;
 
     public RegistreerVZERRequestFactory()
     {
@@ -142,9 +143,10 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
             s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
-        var vCode = response.Headers.Location.First().Split('/').Last();
-        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
+        _vCode = response.Headers.Location.First().Split('/').Last();
+        //long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
+        var newSequence = await apiSetup.WaitForAdresMatchEventForEachLocation(_vCode, request.Locaties.Length);
 
-        return new CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(VCode.Create(vCode), request, sequence);
+        return new CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(VCode.Create(_vCode), request, newSequence);
     }
 }
