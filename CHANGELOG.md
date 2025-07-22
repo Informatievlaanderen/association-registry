@@ -1,3 +1,11 @@
+## [8.262.3](https://github.com/informatievlaanderen/association-registry/compare/v8.262.2...v8.262.3) (2025-07-22)
+
+
+### Bug Fixes
+
+* or-2877 distinct on duplicate adresses when adding them to verrijkte adressen dictionary ([9c90339](https://github.com/informatievlaanderen/association-registry/commit/9c9033975bd1eec37c84653f5ef71e4b0164fd48))
+* or-2887 throw when address from grar is inactive on register association ([8c068b5](https://github.com/informatievlaanderen/association-registry/commit/8c068b524a14767fb32c5213515d071599c570e5))
+
 ## [8.262.2](https://github.com/informatievlaanderen/association-registry/compare/v8.262.1...v8.262.2) (2025-07-22)
 
 
