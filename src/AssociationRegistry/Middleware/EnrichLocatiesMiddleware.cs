@@ -4,6 +4,7 @@ using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonl
 using Framework;
 using GemeentenaamVerrijking;
 using Grar.Clients;
+using Grar.Exceptions;
 using Vereniging;
 
 public class EnrichLocatiesMiddleware
@@ -20,6 +21,9 @@ public class EnrichLocatiesMiddleware
                                         .DistinctBy(x => x.AdresId))
         {
             var addressDetailResponse = await grarClient.GetAddressById(locatie.AdresId.ToId(), CancellationToken.None);
+
+            if (!addressDetailResponse.IsActief)
+                throw new AdressenregisterReturnedInactiefAdres();
 
             var postalInformation = await grarClient.GetPostalInformationDetail(addressDetailResponse.Postcode);
 

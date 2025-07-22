@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Middleware;
 using AutoFixture;
@@ -51,7 +52,8 @@ public class EnrichLocatiesMiddlewareTests
         var commandEnvelope =
             new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, _fixture.Create<CommandMetadata>());
 
-        var grarAdres = _fixture.Create<AddressDetailResponse>();
+        var grarAdres = _fixture.Create<AddressDetailResponse>()
+            with{IsActief = true};
         var grarClient = Faktory.New().GrarClientFactory.GetAdresByIdReturnsAdres(locatieWithAdresId.AdresId.ToId(), grarAdres);
 
         var actual = await EnrichLocatiesMiddleware.BeforeAsync(
@@ -82,7 +84,8 @@ public class EnrichLocatiesMiddlewareTests
         var commandEnvelope =
             new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, _fixture.Create<CommandMetadata>());
 
-        var grarAdres = _fixture.Create<AddressDetailResponse>();
+        var grarAdres = _fixture.Create<AddressDetailResponse>()
+            with{IsActief = true};
         var grarClient = Faktory.New().GrarClientFactory.GetAdresByIdReturnsAdres(locatieWithAdresId.AdresId.ToId(), grarAdres);
 
         var actual = await EnrichLocatiesMiddleware.BeforeAsync(
@@ -98,5 +101,30 @@ public class EnrichLocatiesMiddlewareTests
                              grarAdres.Gemeente, Adres.België)
             }
         });
+    }
+
+    [Fact]
+    public async Task WithInactiefAdresIds_ThenThrowsException()
+    {
+        var locatieWithAdresId = _fixture.Create<Locatie>() with { AdresId = _fixture.Create<AdresId>(), Adres = null };
+
+        var command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
+        {
+            Locaties = [locatieWithAdresId, locatieWithAdresId]
+        };
+
+        var commandEnvelope =
+            new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, _fixture.Create<CommandMetadata>());
+
+        var grarAdres = _fixture.Create<AddressDetailResponse>() with
+        {
+            IsActief = false,
+        };
+
+        var grarClient = Faktory.New().GrarClientFactory.GetAdresByIdReturnsAdres(locatieWithAdresId.AdresId.ToId(), grarAdres);
+
+        await Assert.ThrowsAnyAsync<AdressenregisterReturnedInactiefAdres>(async () => await EnrichLocatiesMiddleware.BeforeAsync(
+                                                                               commandEnvelope,
+                                                                               grarClient.Object));
     }
 }
