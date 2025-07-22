@@ -38,6 +38,9 @@ public static class Registratiedata
         public override string ToString()
             => new Uri(Bronwaarde).Segments.Last();
 
+        public string ToId()
+            => new Uri(Bronwaarde).Segments.Last();
+
         public static AdresId FromAdresId(Vereniging.AdresId adres)
             => new(adres.Adresbron.Code, adres.Bronwaarde);
     }
