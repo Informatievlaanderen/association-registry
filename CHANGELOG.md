@@ -1,3 +1,11 @@
+## [8.262.1](https://github.com/informatievlaanderen/association-registry/compare/v8.262.0...v8.262.1) (2025-07-22)
+
+
+### Bug Fixes
+
+* or-2879 enroll session to outbox for middleware handlers ([ab3b17c](https://github.com/informatievlaanderen/association-registry/commit/ab3b17c116c02e931ef19ad6664db2fb53d883bc))
+* or-2882 allow changes after adresmatch events ([dcefdc9](https://github.com/informatievlaanderen/association-registry/commit/dcefdc9a68402ffabf1500dc114b79639ce95d92))
+
 # [8.262.0](https://github.com/informatievlaanderen/association-registry/compare/v8.261.4...v8.262.0) (2025-07-17)
 
 
