@@ -1,3 +1,10 @@
+## [8.262.2](https://github.com/informatievlaanderen/association-registry/compare/v8.262.1...v8.262.2) (2025-07-22)
+
+
+### Bug Fixes
+
+* or-2880 make sure to project AdresWerdOvergenomenUitAdressenregister on location changes ([8eb2c93](https://github.com/informatievlaanderen/association-registry/commit/8eb2c938e727a9839f016eb127c60e966c20fa70))
+
 ## [8.262.1](https://github.com/informatievlaanderen/association-registry/compare/v8.262.0...v8.262.1) (2025-07-22)
 
 
