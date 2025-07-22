@@ -68,4 +68,35 @@ public class EnrichLocatiesMiddlewareTests
             }
         });
     }
+
+    [Fact]
+    public async Task WithDuplicateAdresIds_ReturnsDistinctEnrichedLocaties()
+    {
+        var locatieWithAdresId = _fixture.Create<Locatie>() with { AdresId = _fixture.Create<AdresId>(), Adres = null };
+
+        var command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
+        {
+            Locaties = [locatieWithAdresId, locatieWithAdresId]
+        };
+
+        var commandEnvelope =
+            new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, _fixture.Create<CommandMetadata>());
+
+        var grarAdres = _fixture.Create<AddressDetailResponse>();
+        var grarClient = Faktory.New().GrarClientFactory.GetAdresByIdReturnsAdres(locatieWithAdresId.AdresId.ToId(), grarAdres);
+
+        var actual = await EnrichLocatiesMiddleware.BeforeAsync(
+            commandEnvelope,
+            grarClient.Object);
+
+        actual.Should().BeEquivalentTo(new Dictionary<string, Adres>()
+        {
+            {
+                locatieWithAdresId.AdresId.Bronwaarde,
+                Adres.Create(grarAdres.Straatnaam, grarAdres.Huisnummer,
+                             grarAdres.Busnummer, grarAdres.Postcode,
+                             grarAdres.Gemeente, Adres.België)
+            }
+        });
+    }
 }
