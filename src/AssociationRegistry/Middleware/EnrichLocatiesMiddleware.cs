@@ -16,7 +16,8 @@ public class EnrichLocatiesMiddleware
     {
         var enrichedLocaties = new Dictionary<string, Adres>();
 
-        foreach (var locatie in envelope.Command.Locaties.Where(x => x.AdresId is not null))
+        foreach (var locatie in envelope.Command.Locaties.Where(x => x.AdresId is not null)
+                                        .DistinctBy(x => x.AdresId))
         {
             var addressDetailResponse = await grarClient.GetAddressById(locatie.AdresId.ToId(), CancellationToken.None);
 
