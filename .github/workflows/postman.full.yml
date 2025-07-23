@@ -2,6 +2,9 @@ name: "[POSTMAN] Full Regression Suite"
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * 1'
+    - cron: '0 4 * * 3'
 
 jobs:
   automated-api-tests:
