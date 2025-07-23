@@ -4,6 +4,7 @@ using Grar.Models;
 using Infrastructure.Notifications;
 using Marten;
 using MessageHandling.Sqs.AddressSync;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Notifications;
@@ -13,10 +14,7 @@ public record NachtelijkeAdresSyncVolgensVCode(string VCode, List<LocatieWithAdr
 public record LocatieIdWithVCode(int LocatieId, string VCode);
 
 public class AddressSyncService(
-    IDocumentStore store,
-    TeSynchroniserenLocatieAdresMessageHandler handler,
-    ITeSynchroniserenLocatiesFetcher teSynchroniserenLocatiesFetcher,
-    INotifier notifier,
+    IServiceProvider serviceProvider,
     ILogger<AddressSyncService> logger,
     IHostApplicationLifetime hostApplicationLifetime
     )
@@ -25,6 +23,13 @@ public class AddressSyncService(
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
+        using var scope = serviceProvider.CreateScope();
+
+        var store = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
+        var handler = scope.ServiceProvider.GetRequiredService<TeSynchroniserenLocatieAdresMessageHandler>();
+        var teSynchroniserenLocatiesFetcher = scope.ServiceProvider.GetRequiredService<ITeSynchroniserenLocatiesFetcher>();
+        var notifier = scope.ServiceProvider.GetRequiredService<INotifier>();
+
         await using var session = store.LightweightSession();
 
         try
