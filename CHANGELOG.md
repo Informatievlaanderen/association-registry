@@ -1,3 +1,11 @@
+## [8.262.4](https://github.com/informatievlaanderen/association-registry/compare/v8.262.3...v8.262.4) (2025-07-23)
+
+
+### Bug Fixes
+
+* or-2810 add logging to postman runs ([16b4d62](https://github.com/informatievlaanderen/association-registry/commit/16b4d6288296439902f0d9972d86d1a3cfe2befd))
+* or-2810 fix typo ([e394804](https://github.com/informatievlaanderen/association-registry/commit/e3948045455245887330268f605bc17964cbc7a4))
+
 ## [8.262.3](https://github.com/informatievlaanderen/association-registry/compare/v8.262.2...v8.262.3) (2025-07-22)
 
 
