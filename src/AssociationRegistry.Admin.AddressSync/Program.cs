@@ -18,6 +18,8 @@ using OpenTelemetry.Resources;
 using Serilog;
 using Serilog.Debugging;
 using Vereniging;
+using Vereniging.Geotags;
+using Wolverine;
 
 public static class Program
 {
@@ -27,6 +29,7 @@ public static class Program
 
         var host =
             Host.CreateDefaultBuilder()
+                .UseContentRoot(AppContext.BaseDirectory)
                 .ConfigureAppConfiguration(
                      (context, builder) =>
                          builder
@@ -52,7 +55,8 @@ public static class Program
 
         services
            .AddOpenTelemetryServices()
-           .AddMarten(postgreSqlOptions);
+           .AddMarten(postgreSqlOptions)
+           .AddWolverine(postgreSqlOptions);
 
         var addressSyncOptions = context.Configuration.GetAddressSyncOptions();
 
@@ -71,13 +75,16 @@ public static class Program
            .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
            .AddSingleton<EventConflictResolver>()
            .AddSingleton<IGrarHttpClient>(provider => provider.GetRequiredService<GrarHttpClient>())
+           .AddSingleton(new GrarOptions().GrarClient)
            .AddSingleton(new SlackWebhook(addressSyncOptions.SlackWebhook))
            .AddSingleton<IGrarClient, GrarClient>()
-           .AddTransient<INotifier, SlackNotifier>()
-           .AddSingleton<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
            .AddSingleton<IEventStore, EventStore>()
            .AddSingleton<IVerenigingsRepository, VerenigingsRepository>()
-           .AddSingleton<TeSynchroniserenLocatieAdresMessageHandler>()
+           .AddScoped<TeSynchroniserenLocatieAdresMessageHandler>()
+           .AddScoped<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
+           .AddTransient<INotifier, SlackNotifier>()
+           .AddTransient<IGeotagsService, GeotagsService>()
+           .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
            .AddHostedService<AddressSyncService>();
     }
 

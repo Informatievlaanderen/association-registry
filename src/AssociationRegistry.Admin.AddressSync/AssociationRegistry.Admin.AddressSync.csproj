@@ -72,5 +72,7 @@
     <PackageReference Include="Destructurama.JsonNet" />
     <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Marten" />
+    <PackageReference Include="WolverineFx"/>
+    <PackageReference Include="WolverineFx.AmazonSqs"/>
   </ItemGroup>
 </Project>
