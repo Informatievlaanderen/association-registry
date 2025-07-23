@@ -19,6 +19,7 @@ jobs:
             -r html,json \
             --reporter-html-export test-report.html \
             --reporter-json-export test-results.json
+            --verbose
 
       - name: Upload test reports
         if: always()
