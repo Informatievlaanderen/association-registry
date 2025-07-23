@@ -18,7 +18,7 @@ jobs:
           postman collection run "34061079-b9019512-c4b9-4844-9e86-e70fc8d65a4a" -e "24467383-b7b1ecfe-ae6d-4ded-a378-db554a2bc155" \
             -r html,json \
             --reporter-html-export test-report.html \
-            --reporter-json-export test-results.json
+            --reporter-json-export test-results.json \
             --verbose
 
       - name: Upload test reports
