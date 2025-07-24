@@ -1,3 +1,10 @@
+## [8.262.7](https://github.com/informatievlaanderen/association-registry/compare/v8.262.6...v8.262.7) (2025-07-24)
+
+
+### Bug Fixes
+
+* or-2858 use sendasync for nightly address sync ([fed629e](https://github.com/informatievlaanderen/association-registry/commit/fed629e86d96996d5489493169b6c966c021dbd4))
+
 ## [8.262.6](https://github.com/informatievlaanderen/association-registry/compare/v8.262.5...v8.262.6) (2025-07-24)
 
 
