@@ -1,3 +1,10 @@
+## [8.262.6](https://github.com/informatievlaanderen/association-registry/compare/v8.262.5...v8.262.6) (2025-07-24)
+
+
+### Bug Fixes
+
+* or-2858 retry get adres by id from grar on too many requests ([93f2a56](https://github.com/informatievlaanderen/association-registry/commit/93f2a56c658515bafc0190413a239db9a669adbf))
+
 ## [8.262.5](https://github.com/informatievlaanderen/association-registry/compare/v8.262.4...v8.262.5) (2025-07-24)
 
 
