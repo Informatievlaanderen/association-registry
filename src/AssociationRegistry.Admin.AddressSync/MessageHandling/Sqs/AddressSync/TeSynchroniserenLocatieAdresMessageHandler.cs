@@ -5,10 +5,10 @@ using Wolverine;
 
 public class TeSynchroniserenLocatieAdresMessageHandler(IMessageBus messageBus)
 {
-    public async Task Handle(TeSynchroniserenLocatieAdresMessage message, CancellationToken cancellationToken)
+    public async Task Handle(TeSynchroniserenLocatieAdresMessage message)
     {
         var command = message.ToCommand();
 
-        await messageBus.InvokeAsync(command, cancellationToken);
+        await messageBus.SendAsync(command);
     }
 }
