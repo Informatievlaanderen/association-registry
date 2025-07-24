@@ -114,11 +114,11 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Foutieve request..
+        ///   Looks up a localized string similar to Adres kon niet gevalideerd worden bij adressenregister..
         /// </summary>
-        public static string AdresKonNietOvergenomenWordenBadRequest {
+        public static string AdresNietGevonden {
             get {
-                return ResourceManager.GetString("AdresKonNietOvergenomenWordenBadRequest", resourceCulture);
+                return ResourceManager.GetString("AdresNietGevonden", resourceCulture);
             }
         }
         

@@ -270,9 +270,16 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         }
         catch (AdressenregisterReturnedNonSuccessStatusCode ex)
         {
-            var @event = GetAdresMatchExceptionEvent(locatieId, ex, locatie);
-
-            AddEvent(@event);
+            AddEvent(new AdresKonNietOvergenomenWordenUitAdressenregister(
+                         VCode,
+                         locatieId,
+                         locatie.Adres.ToAdresString(),
+                         ex.Message
+                     ));
+        }
+        catch(AdressenregisterReturnedNotFoundStatusCode ex)
+        {
+            AddEvent(EventFactory.AdresWerdNietGevondenInAdressenregister(VCode, locatie));
         }
     }
 
@@ -303,22 +310,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatie.LocatieId,
                                                              adresDetailResponse.AdresId,
                                                              registratieData));
-    }
-
-    private IEvent GetAdresMatchExceptionEvent(
-        int locatieId,
-        AdressenregisterReturnedNonSuccessStatusCode ex,
-        Locatie locatieVoorTeMatchenAdres)
-    {
-        IEvent @event = ex.StatusCode switch
-        {
-            HttpStatusCode.NotFound => EventFactory.AdresWerdNietGevondenInAdressenregister(VCode, locatieVoorTeMatchenAdres),
-
-            _ => new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, locatieVoorTeMatchenAdres.Adres.ToAdresString(),
-                                                                      GetExceptionMessage(ex.StatusCode)),
-        };
-
-        return @event;
     }
 
     public void OntkoppelLocatie(int locatieId)
@@ -353,11 +344,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.VerenigingAanvaarddeCorrectieDubbeleVereniging(VCode, dubbeleVereniging));
     }
-
-    private string GetExceptionMessage(HttpStatusCode statusCode)
-        => statusCode == HttpStatusCode.BadRequest
-            ? GrarClient.BadRequestSuccessStatusCodeMessage
-            : GrarClient.OtherNonSuccessStatusCodeMessage;
 
     [Pure]
     private static bool NieuweWaardenIndienWerdOvergenomen(AdresWerdOvergenomenUitAdressenregister @event, Locatie locatie)

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.Detail;
 
 using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar.Exceptions;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -23,8 +24,8 @@ public class Given_Grar_Retuns_TooManyRequestsStatusCode
 
         var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger<GrarClient>>());
 
-        var exception = await Assert.ThrowsAsync<TooManyRequestException>(async () => await sut.GetPostalInformationDetail(postcode));
-        exception.Message.Should().Be(FormattedExceptionMessages.ServiceReturnedNonSuccesfulStatusCode(WellKnownServices.Grar, httpStatusCode, ContextDescription.PostInfoDetail(postcode)));
+        var exception = await Assert.ThrowsAsync<AdressenregisterReturnedNonSuccessStatusCode>(async () => await sut.GetPostalInformationDetail(postcode));
+        exception.Message.Should().Be(ExceptionMessages.AdresKonNietOvergenomenWorden);
 
         httpClient.Verify(x => x.GetPostInfoDetail(postcode, It.IsAny<CancellationToken>()), Times.Exactly(4));
     }

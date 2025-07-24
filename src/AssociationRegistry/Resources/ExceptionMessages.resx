@@ -265,9 +265,6 @@
   <data name="AdresKonNietOvergenomenWorden" xml:space="preserve">
     <value>Adressenregister niet bereikbaar.</value>
   </data>
-  <data name="AdresKonNietOvergenomenWordenBadRequest" xml:space="preserve">
-    <value>Foutieve request.</value>
-  </data>
   <data name="AdresKonNietGevalideerdWordenBijAdressenregister" xml:space="preserve">
     <value>Adres kon niet gevalideerd worden bij adressenregister.</value>
   </data>
@@ -276,6 +273,9 @@
   </data>
   <data name="AdresVerwijderd" xml:space="preserve">
     <value>Het adres is verwijderd uit het adressenregister.</value>
+  </data>
+  <data name="AdresNietGevonden" xml:space="preserve">
+    <value>Adres kon niet gevalideerd worden bij adressenregister.</value>
   </data>
   <data name="FoutBijProjecteren" xml:space="preserve">
     <value>Er is een fout opgetreden bij het verwerken van de projectie.</value>
