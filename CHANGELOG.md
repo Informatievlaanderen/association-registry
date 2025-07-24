@@ -1,3 +1,10 @@
+## [8.262.5](https://github.com/informatievlaanderen/association-registry/compare/v8.262.4...v8.262.5) (2025-07-24)
+
+
+### Bug Fixes
+
+* or-2858 fix nachtelijke adres sync ([e451bee](https://github.com/informatievlaanderen/association-registry/commit/e451bee547feff3f1a264c632776138136fde114))
+
 ## [8.262.4](https://github.com/informatievlaanderen/association-registry/compare/v8.262.3...v8.262.4) (2025-07-23)
 
 
