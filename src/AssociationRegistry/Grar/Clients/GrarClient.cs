@@ -32,88 +32,27 @@ public class GrarClient : IGrarClient
         _logger = logger;
 
         _retryPolicy = Policy
-                      .Handle<TooManyRequestException>()
+                      .Handle<AdressenRegisterReturnedTooManyRequestException>()
                       .WaitAndRetryAsync(grarClientOptions.BackoffInMs.Select(x => x.Milliseconds()));
     }
 
     public async Task<AddressDetailResponse> GetAddressById(string adresId, CancellationToken cancellationToken)
     {
-        try
-        {
-            var response =
-                await _grarHttpClient.GetAddressById(adresId, CancellationToken.None);
+        var result = await ExecuteGrarCall<AddressDetailOsloResponse>(
+            ct => _grarHttpClient.GetAddressById(adresId, ct),
+            ContextDescription.GetAddressById(adresId),
+            cancellationToken);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                ThrowMatchingException(response.StatusCode);
-            }
-
-            var addressDetailOsloResponse =
-                JsonConvert.DeserializeObject<AddressDetailOsloResponse>(await response.Content.ReadAsStringAsync(cancellationToken));
-
-            return new AddressDetailResponse(new Registratiedata.AdresId(
-                                                 Adresbron.AR.Code,
-                                                 addressDetailOsloResponse.Identificator.Id
-                                             ),
-                                             addressDetailOsloResponse.AdresStatus is AdresStatus.Voorgesteld or AdresStatus.InGebruik,
-                                             addressDetailOsloResponse.VolledigAdres.GeografischeNaam.Spelling,
-                                             addressDetailOsloResponse.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
-                                             addressDetailOsloResponse.Huisnummer,
-                                             addressDetailOsloResponse.Busnummer ?? string.Empty,
-                                             addressDetailOsloResponse.Postinfo.ObjectId,
-                                             addressDetailOsloResponse.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
-            );
-        }
-        catch (TaskCanceledException ex)
-        {
-            _logger.LogError(ex, message: "{Message}", ex.Message);
-
-            throw new Exception(message: "A timeout occurred when calling the address match endpoint", ex);
-        }
-        catch (AdressenregisterReturnedGoneStatusCode ex)
-        {
-            _logger.LogError(ex, message: "A gone status code occurred when calling the address match endpoint: {Message}",
-                             ex.Message);
-
-            throw;
-        }
-        catch (AdressenregisterReturnedNonSuccessStatusCode ex)
-        {
-            _logger.LogError(ex, message: "An non-success status code occurred when calling the address match endpoint: {Message}",
-                             ex.Message);
-
-            throw;
-        }
-        catch (AdressenregisterReturnedClientErrorStatusCode ex)
-        {
-            _logger.LogError(ex, message: "A client error status code occurred when calling the address match endpoint: {Message}",
-                             ex.Message);
-
-            throw;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, message: "An error occurred when calling the address match endpoint: {Message}", ex.Message);
-
-            throw new Exception(ex.Message, ex);
-        }
-    }
-
-    private static void ThrowMatchingException(HttpStatusCode responseStatusCode)
-    {
-        throw responseStatusCode switch
-        {
-            HttpStatusCode.BadRequest =>
-                new AdressenregisterReturnedClientErrorStatusCode(
-                    responseStatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
-            HttpStatusCode.NotFound =>
-                new AdressenregisterReturnedClientErrorStatusCode(
-                    responseStatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
-            HttpStatusCode.Gone =>
-                new AdressenregisterReturnedGoneStatusCode(),
-            _ =>
-                new AdressenregisterReturnedNonSuccessStatusCode(responseStatusCode)
-        };
+        return new AddressDetailResponse(
+            new Registratiedata.AdresId(Adresbron.AR.Code, result.Identificator.Id),
+            result.AdresStatus is AdresStatus.Voorgesteld or AdresStatus.InGebruik,
+            result.VolledigAdres.GeografischeNaam.Spelling,
+            result.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+            result.Huisnummer,
+            result.Busnummer ?? string.Empty,
+            result.Postinfo.ObjectId,
+            result.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
+        );
     }
 
     public async Task<AdresMatchResponseCollection> GetAddressMatches(
@@ -124,60 +63,26 @@ public class GrarClient : IGrarClient
         string gemeentenaam,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var response =
-                await _grarHttpClient.GetAddressMatches(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, cancellationToken);
+        var addressMatchesResponse = await ExecuteGrarCall<AddressMatchOsloCollection>(
+            ct => _grarHttpClient.GetAddressMatches(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, ct),
+            ContextDescription.AdresMatch(straatnaam, huisnummer, busnummer, postcode, gemeentenaam),
+            cancellationToken);
 
-            if (!response.IsSuccessStatusCode)
-                throw new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
+        var matches = addressMatchesResponse.AdresMatches
+                                            .Where(m => !string.IsNullOrEmpty(m.Identificator?.ObjectId))
+                                            .Where(m => m.AdresStatus is not (AdresStatus.Gehistoreerd or AdresStatus.Afgekeurd))
+                                            .Select(s => new AddressMatchResponse(
+                                                        s.Score,
+                                                        new Registratiedata.AdresId(Adresbron.AR.Code, s.Identificator.Id),
+                                                        s.VolledigAdres.GeografischeNaam.Spelling,
+                                                        s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+                                                        s.Huisnummer,
+                                                        s.Busnummer ?? string.Empty,
+                                                        s.Postinfo.ObjectId,
+                                                        s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling))
+                                            .ToArray();
 
-            var content = await response.Content.ReadAsStringAsync(cancellationToken);
-
-            var addressMatchOsloCollection = JsonConvert.DeserializeObject<AddressMatchOsloCollection>(content)
-                                                        .AdresMatches
-                                                        .Where(w => !string.IsNullOrEmpty(w.Identificator?.ObjectId))
-                                                        .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd &&
-                                                                    w.AdresStatus != AdresStatus.Afgekeurd)
-                                                        .ToList();
-
-            if (addressMatchOsloCollection.Count == 0)
-                return new AdresMatchResponseCollection([]);
-
-            return new AdresMatchResponseCollection(addressMatchOsloCollection.Select(s => new AddressMatchResponse(
-                                                                                          Score: s.Score,
-                                                                                          AdresId: new Registratiedata.AdresId(
-                                                                                              Adresbron.AR.Code,
-                                                                                              s.Identificator.Id
-                                                                                          ),
-                                                                                          Adresvoorstelling: s.VolledigAdres
-                                                                                             .GeografischeNaam.Spelling,
-                                                                                          s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
-                                                                                          s.Huisnummer,
-                                                                                          s.Busnummer ?? string.Empty,
-                                                                                          s.Postinfo.ObjectId,
-                                                                                          s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
-                                                                                      )).ToArray());
-        }
-        catch (TaskCanceledException ex)
-        {
-            _logger.LogError(ex, message: "{Message}", ex.Message);
-
-            throw new Exception(message: "A timeout occurred when calling the address match endpoint", ex);
-        }
-        catch (AdressenregisterReturnedNonSuccessStatusCode ex)
-        {
-            _logger.LogError(ex, message: "An non-success status code occurred when calling the address match endpoint: {Message}",
-                             ex.Message);
-
-            throw;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, message: "An error occurred when calling the address match endpoint: {Message}", ex.Message);
-
-            throw new Exception(ex.Message, ex);
-        }
+        return new AdresMatchResponseCollection(matches);
     }
 
     public async Task<PostalInfoDetailResponse?> GetPostalInformationDetail(string postcode)
@@ -209,7 +114,6 @@ public class GrarClient : IGrarClient
         if (gemeentenaam == null || nuts == null || lau is null)
         {
             _logger.LogInformation("grar gemeentenaam or nuts/lau is null for postcode: {Postcode}", postcode);
-
             return null;
         }
 
@@ -233,46 +137,55 @@ public class GrarClient : IGrarClient
         };
     }
 
-    private async Task<T?> ExecuteGrarCall<T>(
+    private async Task<T> ExecuteGrarCall<T>(
         Func<CancellationToken, Task<HttpResponseMessage>> httpCall,
         ContextDescription contextDescription,
         CancellationToken cancellationToken = default)
     {
-        return await _retryPolicy.ExecuteAsync(async () =>
+        try
         {
-            try
+            return await _retryPolicy.ExecuteAsync(async () =>
             {
                 var response = await httpCall(cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    if (response.StatusCode == HttpStatusCode.TooManyRequests)
-                        throw new TooManyRequestException(WellKnownServices.Grar, response.StatusCode, contextDescription);
-
-                    throw new NonSuccesfulStatusCodeException(WellKnownServices.Grar, response.StatusCode, contextDescription);
+                    ThrowMatchingException(response.StatusCode, contextDescription);
                 }
 
                 var jsonContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                var result = JsonConvert.DeserializeObject<T>(jsonContent);
+                var result = JsonConvert.DeserializeObject<T>(jsonContent)
+                          ?? throw new JsonSerializationException($"Could not deserialize response to {typeof(T).Name}");;
 
                 return result;
-            }
-            catch (TaskCanceledException ex)
-            {
-                _logger.LogError(ex, $"A timeout occurred when calling the {WellKnownServices.Grar} endpoint for {{Context}}",
-                                 contextDescription);
+            });
+        }
+        catch (Exception ex) when (ex is JsonSerializationException or AdressenRegisterReturnedTooManyRequestException)
+        {
+            _logger.LogError(ex,
+                             "Too many requests to {Service}. Retries exhausted for context: {Context}. Converting to non-success exception.",
+                             WellKnownServices.Grar,
+                             contextDescription);
 
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"An error occurred when calling the {WellKnownServices.Grar} endpoint for {{Context}}: {{Message}}",
-                                 contextDescription,
-                                 ex.Message);
+            throw new AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode.InternalServerError);
+        }
+        catch (TaskCanceledException ex)
+        {
+            _logger.LogError(ex,
+                             $"A timeout occurred when calling the {WellKnownServices.Grar} endpoint for {{Context}}",
+                             contextDescription);
 
-                throw;
-            }
-        });
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                             $"An error occurred when calling the {WellKnownServices.Grar} endpoint for {{Context}}: {{Message}}",
+                             contextDescription,
+                             ex.Message);
+
+            throw;
+        }
     }
 
     private static (string? offset, string? limit) GetOffsetAndLimitFromUri(Uri? uri)
@@ -283,10 +196,21 @@ public class GrarClient : IGrarClient
 
         return (query["offset"], query["limit"]);
     }
+
+    private static void ThrowMatchingException(HttpStatusCode responseStatusCode, ContextDescription contextDescription)
+    {
+        throw responseStatusCode switch
+        {
+            HttpStatusCode.NotFound =>
+                new AdressenregisterReturnedNotFoundStatusCode(),
+            HttpStatusCode.Gone =>
+                new AdressenregisterReturnedGoneStatusCode(),
+            HttpStatusCode.TooManyRequests =>
+                new AdressenRegisterReturnedTooManyRequestException(WellKnownServices.Grar, HttpStatusCode.TooManyRequests, contextDescription),
+            _ =>
+                new AdressenregisterReturnedNonSuccessStatusCode(responseStatusCode),
+        };
+    }
 }
 
-public class TooManyRequestException(string service, HttpStatusCode statusCode, ContextDescription contextDescription)
-    : Exception(FormattedExceptionMessages.ServiceReturnedNonSuccesfulStatusCode(service, statusCode, contextDescription));
 
-public class NonSuccesfulStatusCodeException(string service, HttpStatusCode statusCode, ContextDescription contextDescription)
-    : Exception(FormattedExceptionMessages.ServiceReturnedNonSuccesfulStatusCode(service, statusCode, contextDescription));

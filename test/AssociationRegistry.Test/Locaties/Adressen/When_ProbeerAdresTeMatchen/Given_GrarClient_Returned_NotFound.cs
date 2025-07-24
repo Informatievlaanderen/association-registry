@@ -34,7 +34,7 @@ public class Given_GrarClient_Returned_NotFound
                              It.IsAny<string>(),
                              It.IsAny<string>(),
                              It.IsAny<CancellationToken>()))
-                  .ThrowsAsync(new AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode.NotFound));
+                  .ThrowsAsync(new AdressenregisterReturnedNotFoundStatusCode());
 
         vereniging.Hydrate(
             new VerenigingState()

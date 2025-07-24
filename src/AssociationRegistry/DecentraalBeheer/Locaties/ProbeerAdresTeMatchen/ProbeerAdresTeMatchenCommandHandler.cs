@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
 
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
+using EventStore;
+using Framework;
 using Grar.Clients;
 using Locaties.ProbeerAdresTeMatchen;
 using Microsoft.Extensions.Logging;
+using Vereniging;
+using Vereniging.Exceptions;
 using Vereniging.Geotags;
 
 public class ProbeerAdresTeMatchenCommandHandler
@@ -14,18 +14,15 @@ public class ProbeerAdresTeMatchenCommandHandler
     private readonly ILogger<ProbeerAdresTeMatchenCommandHandler> _logger;
     private readonly IGrarClient _grarClient;
     private readonly IVerenigingsRepository _verenigingsRepository;
-    private readonly IGeotagsService _geotagsService;
 
     public ProbeerAdresTeMatchenCommandHandler(
         IVerenigingsRepository verenigingsRepository,
         IGrarClient grarClient,
-        ILogger<ProbeerAdresTeMatchenCommandHandler> logger,
-        IGeotagsService geotagsService)
+        ILogger<ProbeerAdresTeMatchenCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
         _grarClient = grarClient;
         _logger = logger;
-        _geotagsService = geotagsService;
     }
 
     public async Task Handle(

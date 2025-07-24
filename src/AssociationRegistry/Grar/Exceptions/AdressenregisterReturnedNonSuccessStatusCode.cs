@@ -1,16 +1,17 @@
 ﻿namespace AssociationRegistry.Grar.Exceptions;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Resources;
 using System.Net;
 
-public class AdressenregisterReturnedNonSuccessStatusCode : ApplicationException
+public class AdressenregisterReturnedNonSuccessStatusCode : DomainException
 {
     public HttpStatusCode StatusCode { get; }
 
     public AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode statusCode) : this(statusCode,
                                                                                           statusCode == HttpStatusCode.BadRequest
-                                                                                              ? ExceptionMessages.AdresKonNietOvergenomenWorden
-                                                                                              : ExceptionMessages.AdresKonNietOvergenomenWordenBadRequest)
+                                                                                              ? ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister
+                                                                                              : ExceptionMessages.AdresKonNietOvergenomenWorden)
     {
     }
 

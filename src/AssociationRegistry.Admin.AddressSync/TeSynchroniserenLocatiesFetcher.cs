@@ -75,6 +75,10 @@ public class TeSynchroniserenLocatiesFetcher(
             {
                 logger.LogError(ex, "Adres met ID {AdresId} is verwijderd uit het adressenregister.", resultByAdresId.AdresId);
             }
+            catch (AdressenregisterReturnedNotFoundStatusCode ex)
+            {
+                logger.LogError(ex, "Adres met ID {AdresId} werd niet gevonden in het adressenregister.", resultByAdresId.AdresId);
+            }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Adres kon niet opgehaald worden voor ID {AdresId}.", resultByAdresId.AdresId);

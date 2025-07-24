@@ -17,7 +17,7 @@ public class When_Handling_ProbeerAdresTeMatchenCommand : When_Loading_With_Dubb
     {
         await VerifyVerenigingWasLoadedWithAllowDubbeleVereniging(async repositoryMock =>
         {
-            var sut = new ProbeerAdresTeMatchenCommandHandler(repositoryMock, Mock.Of<IGrarClient>(), NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance, Mock.Of<IGeotagsService>());
+            var sut = new ProbeerAdresTeMatchenCommandHandler(repositoryMock, Mock.Of<IGrarClient>(), NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
             await sut.Handle(_fixture.Create<ProbeerAdresTeMatchenCommand>() with
             {

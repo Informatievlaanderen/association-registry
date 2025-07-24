@@ -54,6 +54,6 @@ public class Given_GrarClient_Returned_BadRequest
                                                  ? $" bus {locatie.Adres.Busnummer}"
                                                  : string.Empty) +
                                              $", {locatie.Adres.Postcode} {locatie.Adres.Gemeente}, {locatie.Adres.Land}");
-        @event!.Reden.Should().Be(ExceptionMessages.AdresKonNietOvergenomenWordenBadRequest);
+        @event!.Reden.Should().Be(ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister);
     }
 }
