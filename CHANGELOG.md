@@ -1,3 +1,10 @@
+## [8.262.8](https://github.com/informatievlaanderen/association-registry/compare/v8.262.7...v8.262.8) (2025-07-25)
+
+
+### Reverts
+
+* Revert "fix: or-2858 use sendasync for nightly address sync" ([03d7b98](https://github.com/informatievlaanderen/association-registry/commit/03d7b98f2d2ebb97beced5de68b24af7598a9e72))
+
 ## [8.262.7](https://github.com/informatievlaanderen/association-registry/compare/v8.262.6...v8.262.7) (2025-07-24)
 
 
