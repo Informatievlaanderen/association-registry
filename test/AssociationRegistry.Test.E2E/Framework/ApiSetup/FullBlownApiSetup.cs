@@ -224,34 +224,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
     public void Dispose()
     {
-        var tasks = new Task[2]{Task.Run(async ()
-                     =>
-                 {
-                     var sw = new Stopwatch();
-                     sw.Start();
-
-                     if (AdminProjectionDaemon != null)
-                         await AdminProjectionDaemon.RebuildProjectionAsync(ProjectionNames.BeheerZoekV2, CancellationToken.None);
-
-                     sw.Stop();
-                 }),
-
-            Task.Run(async ()
-                         =>
-                     {
-                         var sw = new Stopwatch();
-                         sw.Start();
-
-                         if (AdminProjectionDaemon != null)
-                             await AdminProjectionDaemon.RebuildProjectionAsync(ProjectionNames.BeheerZoek, CancellationToken.None);
-
-                         sw.Stop();
-                     })
-        };
-
-        Task.WhenAll(tasks).ConfigureAwait(false).GetAwaiter().GetResult();
-
-
         AdminApiHost.Dispose();
         AcmApiHost.Dispose();
         AdminProjectionHost.Dispose();

@@ -6,7 +6,6 @@ public class ProjectionNames
     public const string BeheerDetailMulti = "BeheerVerenigingDetailMultiDocument";
     public const string BeheerHistoriek = "AssociationRegistry.Admin.ProjectionHost.Projections.Historiek.BeheerVerenigingHistoriekProjection";
     public const string BeheerZoek = "BeheerVerenigingZoekenDocument";
-    public const string BeheerZoekV2 = "BeheerVerenigingZoekenV2Document";
     public const string BeheerKboSync = "AssociationRegistry.Admin.ProjectionHost.Projections.KboSync.BeheerKboSyncHistoriekProjection";
 
     public const string LocatieLookup = "LocatieLookupDocument";

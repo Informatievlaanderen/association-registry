@@ -21,10 +21,6 @@ using Projections.PowerBiExport;
 using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
-using Schema.Detail;
-using Schema.Historiek;
-using Schema.KboSync;
-using Schema.PowerBiExport;
 using System.Configuration;
 using ConfigurationManager = ConfigurationManager;
 
@@ -62,7 +58,7 @@ public static class ConfigureMartenExtensions
                                              serviceProvider.GetRequiredService<IElasticClient>(),
                                              serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
                                              serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(),
-                                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumerV2>>(),
+                                             serviceProvider.GetRequiredService<ILogger<DuplicateDetectionEventsConsumer>>(),
                                              configurationManager
                                                 .GetSection(PostgreSqlOptionsSection.SectionName)
                                                 .Get<PostgreSqlOptionsSection>(),
@@ -91,7 +87,7 @@ public static class ConfigureMartenExtensions
         IElasticClient elasticClient,
         bool isDevelopment,
         ILogger<BeheerZoekenEventsConsumer> beheerZoekenEventsConsumerLogger,
-        ILogger<BeheerZoekenEventsConsumerV2> beheerZoekenEventsConsumerV2Logger,
+        ILogger<DuplicateDetectionEventsConsumer> duplicateDetectionEventsConsumerLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
         ElasticSearchOptionsSection? elasticSearchOptionsSection)
     {
@@ -139,11 +135,12 @@ public static class ConfigureMartenExtensions
         opts.Projections.Add(new LocatieLookupProjection(locatieLookupLogger), ProjectionLifecycle.Async);
         opts.Projections.Add(new LocatieZonderAdresMatchProjection(locatieZonderAdresMatchProjectionLogger), ProjectionLifecycle.Async);
 
-
         opts.Projections.Add(
             new MartenSubscription(
                 new BeheerZoekenEventsConsumer(
-                    new BeheerZoekProjectionHandler(new ElasticRepository(elasticClient)),
+                    elasticClient,
+                    new BeheerZoekProjectionHandler(),
+                    elasticSearchOptionsSection,
                     beheerZoekenEventsConsumerLogger)
             ),
             ProjectionLifecycle.Async,
@@ -151,24 +148,15 @@ public static class ConfigureMartenExtensions
 
         opts.Projections.Add(
             new MartenSubscription(
-                new BeheerZoekenEventsConsumerV2(
+                new DuplicateDetectionEventsConsumer(
                     elasticClient,
-                    new BeheerZoekProjectionHandlerV2(),
-                    elasticSearchOptionsSection,
-                    beheerZoekenEventsConsumerV2Logger)
+                    new DuplicateDetectionProjectionHandler(),
+                        elasticSearchOptionsSection,
+                        duplicateDetectionEventsConsumerLogger
+                )
             ),
             ProjectionLifecycle.Async,
-            ProjectionNames.BeheerZoekV2);
-
-        // opts.Projections.Add(
-        //     new MartenSubscription(
-        //         new DuplicateDetectionEventsConsumer(
-        //             new DuplicateDetectionProjectionHandler(
-        //                 elasticRepository)
-        //         )
-        //     ),
-            // ProjectionLifecycle.Async,
-            // ProjectionNames.DuplicateDetection);
+            ProjectionNames.DuplicateDetection);
 
         return opts;
     }

@@ -30,19 +30,6 @@ public static class ElasticClientExtensions
                                                 .Analyzers(AddVerenigingZoekAnalyzer)))
                    .Map(mapping));
 
-    public static async Task<CreateIndexResponse> CreateVerenigingV2IndexAsync(this IndicesNamespace indicesNamespace, IndexName index, Func<TypeMappingDescriptor<VerenigingZoekDocumentV2>, TypeMappingDescriptor<VerenigingZoekDocumentV2>> mapping)
-        => await indicesNamespace.CreateAsync(
-            index,
-            selector: descriptor =>
-                descriptor
-                   .Settings(s => s
-                                .Analysis(a => a.CharFilters(cf => cf.RemoveDots()
-                                                                     .ReplaceUnderscoresAndHyphenWithSpaces())
-                                                .TokenFilters(FilterDutchStopWords)
-                                                .Normalizers(AddVerenigingZoekNormalizer)
-                                                .Analyzers(AddVerenigingZoekAnalyzer)))
-                   .Map(mapping));
-
 
     public static CreateIndexResponse CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
         => CreateDuplicateDetectionIndexAsync(indicesNamespace, index).GetAwaiter().GetResult();

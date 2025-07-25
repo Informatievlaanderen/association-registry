@@ -32,7 +32,6 @@ public static class ProjectionEndpointsExtensions
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen, VerenigingZoekDocumentMapping.Get);
-                    await elasticClient.Indices.CreateVerenigingV2IndexAsync(options.Indices.Verenigingen+"v2", VerenigingZoekDocumentMappingV2.Get);
                 });
 
                 await StartRebuild(ProjectionNames.DuplicateDetection, store, shardTimeout, logger, async () =>
@@ -103,11 +102,6 @@ public static class ProjectionEndpointsExtensions
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen, VerenigingZoekDocumentMapping.Get);
                 });
 
-                await StartRebuild(ProjectionNames.BeheerZoekV2, store, shardTimeout, logger, async () =>
-                {
-                    await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen+"v2", ct: CancellationToken.None);
-                    await elasticClient.Indices.CreateVerenigingV2IndexAsync(options.Indices.Verenigingen, VerenigingZoekDocumentMappingV2.Get);
-                });
                 return Results.Accepted();
             });
 

@@ -17,10 +17,6 @@ public static class ElasticSearchExtensions
         if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
             elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName, VerenigingZoekDocumentMapping.Get);
 
-        if (!elasticClient.Indices.Exists(verenigingenIndexName+"v2").Exists)
-            elasticClient.Indices.CreateVerenigingV2IndexAsync(verenigingenIndexName+"v2", VerenigingZoekDocumentMappingV2.Get)
-                         .GetAwaiter().GetResult();
-
         if (!elasticClient.Indices.Exists(duplicateDetectionIndexName).Exists)
             elasticClient.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
     }
@@ -60,16 +56,9 @@ public static class ElasticSearchExtensions
     public static ConnectionSettings MapVerenigingDocument(this ConnectionSettings settings, string indexName)
     {
         return settings.DefaultMappingFor(
-                            typeof(VerenigingZoekDocument),
-                            selector: descriptor => descriptor.IndexName(indexName)
-                                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)))
-                       .DefaultMappingFor(
-                            typeof(VerenigingZoekDocumentV2),
-                            selector: descriptor => descriptor.IndexName(indexName+"v2")
-                                                              .IdProperty(nameof(VerenigingZoekDocumentV2.VCode)))
-                       .DefaultMappingFor(typeof(VerenigingZoekUpdateDocument),
-                                          selector: descriptor => descriptor.IndexName(indexName)
-                                                                            .IdProperty(nameof(VerenigingZoekUpdateDocument.VCode)));
+            typeof(VerenigingZoekDocument),
+            selector: descriptor => descriptor.IndexName(indexName)
+                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)));
     }
 
     public static ConnectionSettings MapDuplicateDetectionDocument(this ConnectionSettings settings, string indexName)
