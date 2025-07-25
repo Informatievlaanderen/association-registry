@@ -42,7 +42,7 @@ public class AddressSyncService(
 
             foreach (var synchroniseerLocatieMessage in messages)
             {
-                await handler.Handle(synchroniseerLocatieMessage);
+                await handler.Handle(synchroniseerLocatieMessage, cancellationToken);
             }
 
             logger.LogInformation($"Adressen synchroniseren werd voltooid.");
@@ -56,6 +56,7 @@ public class AddressSyncService(
         }
         finally
         {
+            await session.DisposeAsync();
             hostApplicationLifetime.StopApplication();
         }
     }
