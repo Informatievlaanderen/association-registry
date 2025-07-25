@@ -35,12 +35,16 @@ where TScenario : IScenario
     public Hosts.Configuration.ConfigurationBindings.AppSettings AdminApiAppSettings =>
         ApiSetup.AdminApiHost.Services.GetRequiredService<Hosts.Configuration.ConfigurationBindings.AppSettings>();
 
+    private IDocumentSession _sharedSession;
+
     public async ValueTask InitializeAsync()
     {
         ApiSetup.Logger.LogWarning($"INITIALIZING Scenario: {Scenario}");
 
+        _sharedSession = ApiSetup.AdminApiHost.DocumentStore().LightweightSession();
+
         Scenario = InitializeScenario();
-        var executedEvents = await ApiSetup.ExecuteGiven(Scenario);
+        var executedEvents = await ApiSetup.ExecuteGiven(Scenario, _sharedSession);
 
         ApiSetup.Logger.LogWarning($"WAITING FOR EVENTS TO BE PROCESSED: {Scenario}");
 
@@ -74,8 +78,6 @@ where TScenario : IScenario
         setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: WAITING FOR REAL NOW", beforeOrAfter);
         var documentStore = host.Server.Services.GetRequiredService<IDocumentStore>();
 
-
-        using var session = documentStore.LightweightSession();
         var highWaterMark = max;
 
         var databaseSchemaName = host.Server.BaseAddress.ToString();
@@ -90,7 +92,7 @@ where TScenario : IScenario
         while (!projectionProgress.Any() || !projectionProgress.Any(x => !x.ShardName.Contains("ater")))
         {
             await Task.Delay(1.Seconds());
-            projectionProgress = await session.DocumentStore.Advanced.AllProjectionProgress();
+            projectionProgress = await _sharedSession.DocumentStore.Advanced.AllProjectionProgress();
             ApiSetup.Logger.LogInformation("WAITING FOR ANY projection progress");
         }
 
@@ -126,11 +128,10 @@ where TScenario : IScenario
         var documentStore = setup.AdminApiHost.DocumentStore();
 
         IReadOnlyList<ShardState> projectionProgress;
-        await using var session = documentStore.LightweightSession();
         setup.Logger.LogWarning("COMMANDS: Waiting for projection progress to be at least {HighWaterMark} on database schema {DatabaseSchemaName}",
                           highWaterMark, databaseSchemaName);
         await Task.Delay(2000);
-        projectionProgress = await session.DocumentStore.Advanced.AllProjectionProgress();
+        projectionProgress = await _sharedSession.DocumentStore.Advanced.AllProjectionProgress();
         setup.Logger.LogWarning("COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", databaseSchemaName, projectionProgress);
 
         return  projectionProgress;
@@ -146,5 +147,13 @@ where TScenario : IScenario
 
     public async ValueTask DisposeAsync()
     {
+        if (_sharedSession != null)
+        {
+            await _sharedSession.DisposeAsync();
+            _sharedSession = null;
+        }
+
+        // Clear connection pool between tests to avoid leaked connections
+        Npgsql.NpgsqlConnection.ClearAllPools();
     }
 }

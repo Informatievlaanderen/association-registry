@@ -12,6 +12,7 @@ using Grar.NutsLau;
 using Hosts.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using JasperFx.CommandLine;
+using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
@@ -179,11 +180,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await AcmApiHost.DisposeAsync();
     }
 
-    public async Task<Dictionary<string, JasperFx.Events.IEvent[]>> ExecuteGiven(IScenario scenario)
+    public async Task<Dictionary<string, IEvent[]>> ExecuteGiven(IScenario scenario, IDocumentSession session)
     {
-        var documentStore = AdminApiHost.DocumentStore();
-
-        await using var session = documentStore.LightweightSession();
         session.SetHeader(MetadataHeaderNames.Initiator, value: "metadata.Initiator");
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(new Instant()));
         session.CorrelationId = Guid.NewGuid().ToString();

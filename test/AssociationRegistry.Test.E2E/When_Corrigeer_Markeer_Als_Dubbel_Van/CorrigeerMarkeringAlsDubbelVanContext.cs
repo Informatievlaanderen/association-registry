@@ -45,7 +45,7 @@ public class CorrigeerMarkeringAlsDubbelVanContext : TestContextBase<VerenigingW
         AanvaarddeCorrectieDubbeleVereniging = stream
            .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeCorrectieDubbeleVereniging));
 
-        while(AanvaarddeCorrectieDubbeleVereniging is null && counter < 20)
+        while(AanvaarddeCorrectieDubbeleVereniging is null && counter < 100)
 
         {
             counter++;

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using Alba;
 using JasperFx.Events;
 using JasperFx.Events.Daemon;
+using Marten;
 using TestClasses;
 
 public interface IApiSetup
@@ -18,6 +19,6 @@ public interface IApiSetup
 
     public IProjectionDaemon AdminProjectionDaemon { get; }
 
-    Task<Dictionary<string, IEvent[]>> ExecuteGiven(IScenario scenario);
+    Task<Dictionary<string, IEvent[]>> ExecuteGiven(IScenario scenario, IDocumentSession session);
     Task RefreshIndices();
 }
