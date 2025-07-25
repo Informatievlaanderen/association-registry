@@ -249,7 +249,7 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Er is een fout opgetreden bij het verwerken van de projectie..
+        ///   Looks up a localized string similar to Er is een fout opgetreden bij het verwerken van de projectie: {0}.
         /// </summary>
         public static string FoutBijProjecteren {
             get {

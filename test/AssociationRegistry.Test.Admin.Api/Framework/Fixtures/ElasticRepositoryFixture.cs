@@ -81,20 +81,12 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         if (client.Indices.Exists(verenigingenIndexName).Exists)
             client.Indices.Delete(verenigingenIndexName);
 
-        if (client.Indices.Exists(verenigingenIndexName+"v2").Exists)
-            client.Indices.Delete(verenigingenIndexName+"v2");
-
         if (client.Indices.Exists(duplicateDetectionIndexName).Exists)
             client.Indices.Delete(duplicateDetectionIndexName);
 
         var indexCreation = client.Indices.CreateVerenigingIndex(verenigingenIndexName, VerenigingZoekDocumentMapping.Get);
         if (!indexCreation.IsValid)
             throw new InvalidOperationException($"Index creation failed with error {indexCreation.ServerError}");
-
-        var indexCreationV2 = client.Indices.CreateVerenigingV2IndexAsync(verenigingenIndexName+"v2", VerenigingZoekDocumentMappingV2.Get)
-                                    .GetAwaiter().GetResult();
-        if (!indexCreationV2.IsValid)
-            throw new InvalidOperationException($"Index creation failed with error {indexCreationV2.ServerError}");
 
         var duplicateDetectionIndexCreation  = client.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
         if (!duplicateDetectionIndexCreation.IsValid)
@@ -138,7 +130,6 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         GC.SuppressFinalize(this);
 
         ElasticClient?.Indices.Delete(VerenigingenIndexName);
-        ElasticClient?.Indices.Delete(VerenigingenIndexName+"v2");
         ElasticClient?.Indices.Delete(DuplicateDetectionIndexName);
         ElasticClient?.Indices.Refresh(Indices.All);
     }

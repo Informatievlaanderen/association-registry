@@ -16,19 +16,18 @@ public record DuplicateDetectionUpdateDocument
 
     public record Locatie : ILocatie
     {
-        public int LocatieId { get; init; }
-        public string Locatietype { get; init; } = null!;
-        public string? Naam { get; init; }
-        public string Adresvoorstelling { get; init; } = null!;
-        public bool? IsPrimair { get; init; } = null!;
-        public string Postcode { get; init; } = null!;
-        public string Gemeente { get; init; } = null!;
+        public int LocatieId { get; set; }
+        public string Locatietype { get; set; } = null!;
+        public string? Naam { get; set; }
+        public string Adresvoorstelling { get; set; } = null!;
+        public bool? IsPrimair { get; set; } = null!;
+        public string Postcode { get; set; } = null!;
+        public string Gemeente { get; set; } = null!;
     }
 }
 
 public record DuplicateDetectionDocument
 {
-    public long Sequence { get; set; }
     public string VCode { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
@@ -42,12 +41,12 @@ public record DuplicateDetectionDocument
 
     public record Locatie : ILocatie
     {
-        public int LocatieId { get; init; }
-        public string Locatietype { get; init; } = null!;
-        public string? Naam { get; init; }
-        public string Adresvoorstelling { get; init; } = null!;
-        public bool IsPrimair { get; init; }
-        public string Postcode { get; init; } = null!;
-        public string Gemeente { get; init; } = null!;
+        public int LocatieId { get; set; }
+        public string Locatietype { get; set; } = null!;
+        public string? Naam { get; set; }
+        public string Adresvoorstelling { get; set; } = null!;
+        public bool IsPrimair { get; set; }
+        public string Postcode { get; set; } = null!;
+        public string Gemeente { get; set; } = null!;
     }
 }

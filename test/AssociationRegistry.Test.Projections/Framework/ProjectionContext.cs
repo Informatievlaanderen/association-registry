@@ -52,7 +52,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                                                                 AdminProjectionElasticClient,
                                                                 true,
                                                                 NullLogger<BeheerZoekenEventsConsumer>.Instance,
-                                                                NullLogger<BeheerZoekenEventsConsumerV2>.Instance,
+                                                                NullLogger<DuplicateDetectionEventsConsumer>.Instance,
                                                                 new PostgreSqlOptionsSection()
                                                                 {
                                                                     Host = "localhost",

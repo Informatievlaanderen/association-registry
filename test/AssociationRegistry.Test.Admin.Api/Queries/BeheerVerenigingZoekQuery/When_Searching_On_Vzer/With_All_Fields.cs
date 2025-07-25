@@ -43,7 +43,6 @@ public class SearchingOnDocumentTestsFixture : ElasticRepositoryFixture
         doc.IsVerwijderd = false;
         doc.IsUitgeschrevenUitPubliekeDatastroom = false;
         doc.Status = VerenigingStatus.Actief;
-        doc.Sequence = 999;
         doc.Locaties = new[]
         {
             new VerenigingZoekDocument.Types.Locatie
@@ -114,20 +113,6 @@ public class With_All_Fields : IClassFixture<SearchingOnDocumentTestsFixture>
     public async Task Then_vereniging_is_not_found_by_partial_vCode()
     {
         var response = await ExecuteSearch("00100");
-        response.Documents.Should().NotContain(d => d.VCode == _document.VCode);
-    }
-
-    [Fact]
-    public async Task Then_vereniging_is_not_found_by_sequence()
-    {
-        var response = await ExecuteSearch($"sequence:{_document.Sequence.ToString()}");
-        response.Documents.Should().NotContain(d => d.VCode == _document.VCode);
-    }
-
-    [Fact]
-    public async Task Then_vereniging_is_not_found_by_sequence_field()
-    {
-        var response = await ExecuteSearch($"sequence:{_document.Sequence.ToString()}");
         response.Documents.Should().NotContain(d => d.VCode == _document.VCode);
     }
 
