@@ -8,6 +8,32 @@ on:
         required: true
 
 jobs:
+  show-releases:
+    name: Show Available Releases
+    runs-on: ubuntu-latest
+    steps:
+      - name: List recent releases
+        run: |
+          echo "## Available Releases" >> $GITHUB_STEP_SUMMARY
+          echo "Recent releases you can deploy:" >> $GITHUB_STEP_SUMMARY
+          gh release list --limit 10 --json tagName,createdAt,name | jq -r '.[] | "- **\(.tagName)** (\(.name)) - \(.createdAt[:10])"' >> $GITHUB_STEP_SUMMARY
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  validate-version:
+    name: Validate Version Exists
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate version exists
+        run: |
+          if ! gh release view "v${{ github.event.inputs.version }}" > /dev/null 2>&1; then
+            echo "::error::Release v${{ github.event.inputs.version }} not found"
+            echo "Available releases:"
+            gh release list --limit 5 --json tagName --jq '.[].tagName'
+            exit 1
+          fi
+          echo "✅ Version v${{ github.event.inputs.version }} found"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   deployment:
     name: Deploy services (Test IK4)
     environment: test_ik4
