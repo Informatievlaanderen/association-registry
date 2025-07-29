@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Fixtures;
 using FluentAssertions;
+using Hosts.Configuration.ConfigurationBindings;
 using Marten;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,8 +45,10 @@ public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_F
     [Fact]
     public async ValueTask Then_No_exceptions_Are_Thrown()
     {
-        var consumer = new MartenEventsConsumer(new PubliekZoekProjectionHandler(_projectionHost.Services.GetRequiredService<IElasticRepository>()),
-                                                Mock.Of<ILogger<MartenEventsConsumer>>());
+        var consumer = new PubliekZoekenEventsConsumer(_projectionHost.Services.GetRequiredService<IElasticClient>(),
+                                                       new PubliekZoekProjectionHandler(),
+                                                       _projectionHost.Services.GetRequiredService<ElasticSearchOptionsSection>(),
+                                                       Mock.Of<ILogger<PubliekZoekenEventsConsumer>>());
 
         var consumeForElastic = () =>
         {

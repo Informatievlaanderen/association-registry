@@ -601,8 +601,8 @@ public class BeheerZoekProjectionHandler
             Type = jsonLdType.Type,
         };
 
-    public void Handle(EventEnvelope<GeotagsWerdenBepaald> message, VerenigingZoekDocument updateDocument)
+    public void Handle(EventEnvelope<GeotagsWerdenBepaald> message, VerenigingZoekDocument document)
     {
-        updateDocument.Geotags = message.Data.Geotags.Select(x => new VerenigingZoekDocument.Types.Geotag(x.Identificiatie)).ToArray();
+        document.Geotags = message.Data.Geotags.Select(x => new VerenigingZoekDocument.Types.Geotag(x.Identificiatie)).ToArray();
     }
 }

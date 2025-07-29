@@ -1,26 +1,64 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
+using Elasticsearch.Net;
 using Events;
+using Hosts.Configuration.ConfigurationBindings;
+using Nest;
 using Resources;
+using Schema.Search;
 using IEvent = JasperFx.Events.IEvent;
 
-public class MartenEventsConsumer : IMartenEventsConsumer
+public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
 {
-    private readonly PubliekZoekProjectionHandler _handler;
-    private readonly ILogger<MartenEventsConsumer> _logger;
+    private readonly IElasticClient _elasticClient;
+    private readonly PubliekZoekProjectionHandler _zoekProjectionHandler;
+    private readonly ElasticSearchOptionsSection _options;
+    private readonly ILogger<PubliekZoekenEventsConsumer> _logger;
 
-    public MartenEventsConsumer(PubliekZoekProjectionHandler handler, ILogger<MartenEventsConsumer> logger)
+    public PubliekZoekenEventsConsumer(IElasticClient elasticClient,
+                                       PubliekZoekProjectionHandler zoekProjectionHandler,
+                                       ElasticSearchOptionsSection options,
+                                       ILogger<PubliekZoekenEventsConsumer> logger)
     {
-        _handler = handler;
+        _elasticClient = elasticClient;
+        _zoekProjectionHandler = zoekProjectionHandler;
+        _options = options;
         _logger = logger;
     }
 
     public async Task ConsumeAsync(IReadOnlyList<IEvent> events)
     {
+        var eventsPerVCode = events.GroupBy(x => x.StreamKey)
+                                   .ToDictionary(x => x.Key, x => x.ToList());
+
+        var multiGetResponse = await _elasticClient
+           .MultiGetAsync(m => m
+                              .Index(_options.Indices.Verenigingen)
+                              .GetMany<VerenigingZoekDocument>(eventsPerVCode.Keys)
+            );
+
+        var documentsPerVCode = new Dictionary<string, VerenigingZoekDocument>();
+
+        foreach (var vCode in eventsPerVCode.Keys)
+        {
+            var hit = multiGetResponse.Hits.FirstOrDefault(h => h.Id == vCode);
+
+            if (hit != null && hit.Found && hit.Source is VerenigingZoekDocument document)
+            {
+                documentsPerVCode.Add(vCode, document);
+            }
+            else
+            {
+                documentsPerVCode.Add(vCode, new VerenigingZoekDocument { VCode = vCode });
+            }
+        }
+
         foreach (var @event in events)
         {
             dynamic eventEnvelope =
                 Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;
+
+            var doc = documentsPerVCode[@event.StreamKey];
 
             switch (@event.EventType.Name)
             {
@@ -70,43 +108,43 @@ public class MartenEventsConsumer : IMartenEventsConsumer
                 case nameof(GeotagsWerdenBepaald):
                     try
                     {
-                        await _handler.Handle(eventEnvelope);
+                        await _zoekProjectionHandler.Handle(eventEnvelope, doc);
 
                         break;
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, ExceptionMessages.FoutBijProjecteren);
+                        _logger.LogError(ex, string.Format(ExceptionMessages.FoutBijProjecteren, ProjectionNames.PubliekZoek));
 
                         throw;
                     }
             }
         }
+
+        var bulkAll = await IndexDocumentsAsync(documentsPerVCode.Values);
     }
-}
 
-public class EventEnvelope<T> : IEventEnvelope
-{
-    public long Sequence
-        => Event.Sequence;
-
-    public string VCode
-        => Event.StreamKey!;
-
-    public T Data
-        => (T)Event.Data;
-
-    public Dictionary<string, object>? Headers
-        => Event.Headers;
-
-    public EventEnvelope(IEvent @event)
+    private async Task<bool> IndexDocumentsAsync<T>(IEnumerable<T> documents)
+        where T : class
     {
-        Event = @event;
+        var response = await _elasticClient.BulkAsync(b => b
+                                                          .Index(_options.Indices.Verenigingen)
+                                                          .IndexMany(documents)
+                                                          .Refresh(Refresh.WaitFor)
+        );
+
+        if (!response.IsValid && !response.ApiCall.Success)
+        {
+            foreach (var error in response.ItemsWithErrors.Where(x => x.Error != null))
+            {
+                _logger.LogError($"Failed to index document {error.Id}: {error.Error}");
+            }
+
+            return false;
+        }
+
+        _logger.LogInformation($"Successfully indexed {response.Items.Count} documents");
+
+        return true;
     }
-
-    private IEvent Event { get; }
-}
-
-public interface IEventEnvelope
-{
 }

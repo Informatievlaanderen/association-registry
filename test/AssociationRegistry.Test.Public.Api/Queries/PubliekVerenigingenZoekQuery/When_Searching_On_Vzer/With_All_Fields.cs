@@ -44,9 +44,8 @@ public class SearchingOnDocumentTestsFixture : ElasticRepositoryFixture, IAsyncL
         doc.IsVerwijderd = false;
         doc.IsUitgeschrevenUitPubliekeDatastroom = false;
         doc.Status = VerenigingStatus.Actief;
-        doc.Sequence = 999;
-        doc.Locaties = new[]
-        {
+        doc.Locaties =
+        [
             new VerenigingZoekDocument.Types.Locatie
             {
                 Locatietype = "Activiteiten",
@@ -56,7 +55,7 @@ public class SearchingOnDocumentTestsFixture : ElasticRepositoryFixture, IAsyncL
                     "SorteerGemeente Laboriosam quam quia ipsam recusandae eveniet architecto tempora nihil.2025-06-11T06:31:11.595Z",
                 Postcode = "1079",
             },
-        };
+        ];
         return doc;
     }
 }
@@ -113,20 +112,6 @@ public class SearchingOnDocumentTests : IClassFixture<SearchingOnDocumentTestsFi
     public async Task Then_vereniging_is_not_found_by_partial_vCode()
     {
         var response = await ExecuteSearch("00100");
-        response.Documents.Should().NotContain(d => d.VCode == _document.VCode);
-    }
-
-    [Fact]
-    public async Task Then_vereniging_is_not_found_by_sequence()
-    {
-        var response = await ExecuteSearch(_document.Sequence.ToString());
-        response.Documents.Should().NotContain(d => d.VCode == _document.VCode);
-    }
-
-    [Fact]
-    public async Task Then_vereniging_is_not_found_by_sequence_field()
-    {
-        var response = await ExecuteSearch($"sequence:{_document.Sequence.ToString()}");
         response.Documents.Should().NotContain(d => d.VCode == _document.VCode);
     }
 

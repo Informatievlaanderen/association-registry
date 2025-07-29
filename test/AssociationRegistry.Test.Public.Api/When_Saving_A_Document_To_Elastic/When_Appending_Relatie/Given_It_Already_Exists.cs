@@ -39,7 +39,6 @@ public class Given_It_Already_Exists
             {
                 relatie,
             },
-            Sequence = 10
         });
 
         await repository.AppendRelatie(DochterVCode, relatie, 10);

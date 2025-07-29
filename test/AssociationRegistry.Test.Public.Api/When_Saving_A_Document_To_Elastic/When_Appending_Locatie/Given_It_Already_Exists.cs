@@ -36,7 +36,6 @@ public class Given_It_Already_Exists
             {
                 locatie,
             },
-            Sequence = 10,
         });
 
         await repository.AppendLocatie(DochterVCode, locatie, 10);

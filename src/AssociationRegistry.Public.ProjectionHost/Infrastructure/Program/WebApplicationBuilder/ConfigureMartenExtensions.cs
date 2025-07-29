@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using Constants;
+using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
@@ -9,6 +10,7 @@ using JasperFx.Events.Projections;
 using Json;
 using Marten;
 using Marten.Services;
+using Nest;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -32,11 +34,14 @@ public static class ConfigureMartenExtensions
             var opts = new StoreOptions();
 
             return ConfigureStoreOptions(opts,
-                                         serviceProvider.GetRequiredService<IElasticRepository>(),
-                                         serviceProvider.GetRequiredService<ILogger<MartenEventsConsumer>>(),
+                                         serviceProvider.GetRequiredService<IElasticClient>(),
+                                         serviceProvider.GetRequiredService<ILogger<PubliekZoekenEventsConsumer>>(),
                                          configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
                                                              .Get<PostgreSqlOptionsSection>(),
-                                         serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment());
+                                         serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
+                                         configurationManager
+                                            .GetSection(ElasticSearchOptionsSection.SectionName)
+                                            .Get<ElasticSearchOptionsSection>());
         });
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
@@ -49,6 +54,7 @@ public static class ConfigureMartenExtensions
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
             x.Production.SourceCodeWritingEnabled = false;
         });
+
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
         return services;
@@ -56,11 +62,11 @@ public static class ConfigureMartenExtensions
 
     public static StoreOptions ConfigureStoreOptions(
         StoreOptions opts,
-        IElasticRepository elasticRepository,
-        ILogger<MartenEventsConsumer> martenEventsConsumerLogger,
+        IElasticClient elasticClient,
+        ILogger<PubliekZoekenEventsConsumer> publiekZoekenEventsConsumerLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
-        bool isDevelopment
-    )
+        bool isDevelopment,
+        ElasticSearchOptionsSection? elasticSearchOptionsSection)
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection? postgreSqlOptions)
             => $"host={postgreSqlOptions.Host};" +
@@ -93,10 +99,11 @@ public static class ConfigureMartenExtensions
 
         opts.Projections.Add(
             new MartenSubscription(
-                new MartenEventsConsumer(
-                    new PubliekZoekProjectionHandler(elasticRepository),
-                    martenEventsConsumerLogger
-                )
+                new PubliekZoekenEventsConsumer(
+                    elasticClient,
+                    new PubliekZoekProjectionHandler(),
+                    elasticSearchOptionsSection,
+                    publiekZoekenEventsConsumerLogger)
             ),
             ProjectionLifecycle.Async,
             ProjectionNames.PubliekZoek);
