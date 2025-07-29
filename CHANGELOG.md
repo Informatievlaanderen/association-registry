@@ -1,3 +1,10 @@
+# [8.263.0](https://github.com/informatievlaanderen/association-registry/compare/v8.262.8...v8.263.0) (2025-07-29)
+
+
+### Features
+
+* or-2079 consume elastic projections in batches ([abd070f](https://github.com/informatievlaanderen/association-registry/commit/abd070f33b20fee22d1a40f2ebaceec6c7262d1f))
+
 ## [8.262.8](https://github.com/informatievlaanderen/association-registry/compare/v8.262.7...v8.262.8) (2025-07-25)
 
 
