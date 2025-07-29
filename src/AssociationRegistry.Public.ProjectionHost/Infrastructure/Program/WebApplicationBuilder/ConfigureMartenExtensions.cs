@@ -26,9 +26,6 @@ public static class ConfigureMartenExtensions
         this IServiceCollection services,
         ConfigurationManager configurationManager)
     {
-        services
-           .AddTransient<IElasticRepository, ElasticRepository>();
-
         var martenConfiguration = services.AddMarten(serviceProvider =>
         {
             var opts = new StoreOptions();

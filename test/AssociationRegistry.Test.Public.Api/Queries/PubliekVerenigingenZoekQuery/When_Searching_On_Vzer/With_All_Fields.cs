@@ -7,12 +7,12 @@ using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
 using Common.AutoFixture;
+using Fixtures;
 using FluentAssertions;
 using Nest;
-using When_Saving_A_Document_To_Elastic;
 using Xunit;
 
-public class SearchingOnDocumentTestsFixture : ElasticRepositoryFixture, IAsyncLifetime
+public class SearchingOnDocumentTestsFixture : ElasticsearchClientFixture, IAsyncLifetime
 {
     public VerenigingZoekDocument Document { get; private set; }
 

@@ -108,7 +108,7 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(GeotagsWerdenBepaald):
                     try
                     {
-                        await _zoekProjectionHandler.Handle(eventEnvelope, doc);
+                        _zoekProjectionHandler.Handle(eventEnvelope, doc);
 
                         break;
                     }

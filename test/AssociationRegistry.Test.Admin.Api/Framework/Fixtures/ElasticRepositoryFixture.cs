@@ -17,7 +17,6 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
     private readonly IConfigurationRoot _configurationRoot;
     public IElasticClient? ElasticClient;
     public ITypeMapping? TypeMapping;
-    public ElasticRepository? ElasticRepository { get; private set; }
 
     public string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
@@ -41,7 +40,6 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
 
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName, DuplicateDetectionIndexName);
 
-        ElasticRepository = new ElasticRepository(ElasticClient);
         await InsertDocuments();
 
         await ElasticClient.Indices.RefreshAsync(Indices.All);

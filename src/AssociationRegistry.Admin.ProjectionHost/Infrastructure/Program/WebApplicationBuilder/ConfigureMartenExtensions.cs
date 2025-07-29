@@ -31,9 +31,6 @@ public static class ConfigureMartenExtensions
         ConfigurationManager configurationManager,
         bool isDevelopment)
     {
-        source
-           .AddTransient<IElasticRepository, ElasticRepository>();
-
         var martenConfiguration = AddMarten(source, configurationManager);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
