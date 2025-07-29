@@ -295,7 +295,9 @@ public class PubliekZoekProjectionHandler
 
     public void Handle(EventEnvelope<LocatieWerdToegevoegd> message, VerenigingZoekDocument document)
     {
-        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie, message.VCode)).ToArray();
+        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie, message.VCode))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
     }
 
     public void Handle(EventEnvelope<LocatieWerdGewijzigd> message, VerenigingZoekDocument document)
@@ -303,6 +305,7 @@ public class PubliekZoekProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
                                     .Append(Map(message.Data.Locatie, message.VCode))
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -310,6 +313,7 @@ public class PubliekZoekProjectionHandler
     {
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -353,7 +357,9 @@ public class PubliekZoekProjectionHandler
 
     public void Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message, VerenigingZoekDocument document)
     {
-        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie, message.VCode)).ToArray();
+        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie, message.VCode))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
     }
 
     public void Handle(EventEnvelope<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> message, VerenigingZoekDocument document)
@@ -368,6 +374,7 @@ public class PubliekZoekProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.LocatieId)
                                     .Append(maatschappelijkeZetel)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -376,6 +383,7 @@ public class PubliekZoekProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
                                     .Append(Map(message.Data.Locatie, message.VCode))
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -383,6 +391,7 @@ public class PubliekZoekProjectionHandler
     {
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -433,6 +442,7 @@ public class PubliekZoekProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.LocatieId)
                                     .Append(locatie)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -449,6 +459,7 @@ public class PubliekZoekProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.LocatieId)
                                     .Append(locatie)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -456,12 +467,15 @@ public class PubliekZoekProjectionHandler
     {
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.VerwijderdeLocatieId)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
     public void Handle(EventEnvelope<LidmaatschapWerdToegevoegd> message, VerenigingZoekDocument document)
     {
-        document.Lidmaatschappen = document.Lidmaatschappen.Append(Map(message.Data.Lidmaatschap, message.VCode)).ToArray();
+        document.Lidmaatschappen = document.Lidmaatschappen.Append(Map(message.Data.Lidmaatschap, message.VCode))
+                                           .OrderBy(x => x.LidmaatschapId)
+                                           .ToArray();
     }
 
     public void Handle(EventEnvelope<LidmaatschapWerdGewijzigd> message, VerenigingZoekDocument document)
@@ -469,6 +483,7 @@ public class PubliekZoekProjectionHandler
         document.Lidmaatschappen = document.Lidmaatschappen
                                            .Where(x => x.LidmaatschapId != message.Data.Lidmaatschap.LidmaatschapId)
                                            .Append(Map(message.Data.Lidmaatschap, message.VCode))
+                                           .OrderBy(x => x.LidmaatschapId)
                                            .ToArray();
     }
 
@@ -476,6 +491,7 @@ public class PubliekZoekProjectionHandler
     {
         document.Lidmaatschappen = document.Lidmaatschappen
                                            .Where(x => x.LidmaatschapId != message.Data.Lidmaatschap.LidmaatschapId)
+                                           .OrderBy(x => x.LidmaatschapId)
                                            .ToArray();
     }
 

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Scenario.Verenigingssubtypes;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class SubtypeWerdTerugGezetNaarNietBepaaldScenario : InszScenarioBase

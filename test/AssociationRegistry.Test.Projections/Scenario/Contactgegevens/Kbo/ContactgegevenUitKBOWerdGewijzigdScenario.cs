@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Scenario.Contactgegevens.Kbo;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class ContactgegevenUitKBOWerdGewijzigdScenario : ScenarioBase

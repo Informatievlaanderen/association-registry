@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Contactgegevens.Kbo;
 
-using AssociationRegistry.Admin.Schema;
+using Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Vereniging.Bronnen;
+using JsonLdContext;
+using Vereniging.Bronnen;
 using Scenario.Contactgegevens.Kbo;
 
 [Collection(nameof(ProjectionContext))]

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Scenario.Startdatum.Vzer;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class StartdatumWerdGewijzigdScenario : ScenarioBase

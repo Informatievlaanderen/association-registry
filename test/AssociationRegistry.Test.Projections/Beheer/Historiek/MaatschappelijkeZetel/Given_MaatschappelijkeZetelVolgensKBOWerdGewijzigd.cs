@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.MaatschappelijkeZetel;
 
 using Admin.Schema.Historiek;
-using AssociationRegistry.Test.Projections.Scenario.MaatschappelijkeZetelVolgensKbo;
+using Scenario.MaatschappelijkeZetelVolgensKbo;
 using Events;
 
 [Collection(nameof(ProjectionContext))]

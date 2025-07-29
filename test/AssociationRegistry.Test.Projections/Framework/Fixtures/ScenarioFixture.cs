@@ -3,7 +3,6 @@
 using AssociationRegistry.Framework;
 using JasperFx.Events.Daemon;
 using Marten;
-using Marten.Events.Daemon;
 using NodaTime;
 using NodaTime.Text;
 

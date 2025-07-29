@@ -5,7 +5,6 @@ using Admin.Schema.PowerBiExport;
 using Framework.Fixtures;
 using JasperFx.Events.Daemon;
 using Marten;
-using Marten.Events.Daemon;
 
 public class PowerBiScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, PowerBiExportDocument, ProjectionContext>(context)

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Adressen;
 
-using AssociationRegistry.Test.Projections.Beheer.Historiek;
+using Historiek;
 using AssociationRegistry.Test.Projections.Scenario.Adressen;
 
 [Collection(nameof(ProjectionContext))]

@@ -14,4 +14,10 @@ public class Given_LocatieWerdVerwijderd(
 
         actual.Should().BeNull();
     }
+
+    [Fact]
+    public void Order_Is_Correct()
+    {
+        fixture.Result.Locaties.Select(x => x.LocatieId).Should().BeInAscendingOrder();
+    }
 }

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.LocatieLookup;
 
-using Admin.ProjectionHost.Projections.Detail;
 using Admin.ProjectionHost.Projections.Locaties;
 using Admin.Schema.Detail;
 using Framework.Fixtures;

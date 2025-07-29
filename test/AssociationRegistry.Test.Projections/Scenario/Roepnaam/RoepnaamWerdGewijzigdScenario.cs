@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Scenario.Roepnaam;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class RoepnaamWerdGewijzigdScenario : ScenarioBase

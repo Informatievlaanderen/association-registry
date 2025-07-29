@@ -95,6 +95,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging):
                 case nameof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald):
                 case nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging):
+                case nameof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd):
                     try
                     {
                         _duplicateDetectionProjectionHandler.Handle(eventEnvelope, doc);

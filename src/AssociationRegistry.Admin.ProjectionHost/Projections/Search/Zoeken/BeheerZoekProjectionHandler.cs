@@ -17,7 +17,7 @@ public class BeheerZoekProjectionHandler
     {
     }
 
-   public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message, VerenigingZoekDocument document)
+    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message, VerenigingZoekDocument document)
     {
         document.JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type;
         document.VCode = message.Data.VCode;
@@ -56,7 +56,8 @@ public class BeheerZoekProjectionHandler
         document.Lidmaatschappen = [];
         document.CorresponderendeVCodes = [];
 
-        document.Sleutels = [
+        document.Sleutels =
+        [
             new VerenigingZoekDocument.Types.Sleutel
             {
                 JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
@@ -118,7 +119,8 @@ public class BeheerZoekProjectionHandler
         zoekDocument.Lidmaatschappen = [];
         zoekDocument.CorresponderendeVCodes = [];
 
-        zoekDocument.Sleutels = [
+        zoekDocument.Sleutels =
+        [
             new VerenigingZoekDocument.Types.Sleutel
             {
                 JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
@@ -133,7 +135,6 @@ public class BeheerZoekProjectionHandler
             },
         ];
     }
-
 
     public void Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message, VerenigingZoekDocument document)
     {
@@ -168,7 +169,8 @@ public class BeheerZoekProjectionHandler
         document.Lidmaatschappen = [];
         document.CorresponderendeVCodes = [];
 
-        document.Sleutels = [
+        document.Sleutels =
+        [
             new VerenigingZoekDocument.Types.Sleutel
             {
                 JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
@@ -207,7 +209,6 @@ public class BeheerZoekProjectionHandler
     }
 
     public void Handle(EventEnvelope<KorteNaamWerdGewijzigd> message, VerenigingZoekDocument document)
-
     {
         document.KorteNaam = message.Data.KorteNaam;
     }
@@ -231,7 +232,6 @@ public class BeheerZoekProjectionHandler
         };
     }
 
-
     public void Handle(EventEnvelope<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> message, VerenigingZoekDocument document)
         => document.HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                                                                .Select(hoofdactiviteitVerenigingsloket =>
@@ -249,12 +249,10 @@ public class BeheerZoekProjectionHandler
     public void Handle(EventEnvelope<WerkingsgebiedenWerdenNietBepaald> message, VerenigingZoekDocument document)
     {
         document.Werkingsgebieden = [];
-
     }
 
     public void Handle(EventEnvelope<WerkingsgebiedenWerdenBepaald> message, VerenigingZoekDocument updateDocument)
     {
-
         updateDocument.Werkingsgebieden = message.Data.Werkingsgebieden
                                                  .Select(
                                                       werkingsgebied =>
@@ -304,20 +302,19 @@ public class BeheerZoekProjectionHandler
 
     public void Handle(EventEnvelope<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> message, VerenigingZoekDocument document)
     {
-        document.
-            IsUitgeschrevenUitPubliekeDatastroom = true;
+        document.IsUitgeschrevenUitPubliekeDatastroom = true;
     }
 
     public void Handle(EventEnvelope<VerenigingWerdIngeschrevenInPubliekeDatastroom> message, VerenigingZoekDocument document)
     {
-        document.
-            IsUitgeschrevenUitPubliekeDatastroom = false;
+        document.IsUitgeschrevenUitPubliekeDatastroom = false;
     }
 
     public void Handle(EventEnvelope<LocatieWerdToegevoegd> message, VerenigingZoekDocument document)
     {
-
-        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie, message.VCode)).ToArray();
+        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie, message.VCode))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
     }
 
     public void Handle(EventEnvelope<LocatieWerdGewijzigd> message, VerenigingZoekDocument document)
@@ -325,6 +322,7 @@ public class BeheerZoekProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
                                     .Append(Map(message.Data.Locatie, message.VCode))
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -332,27 +330,32 @@ public class BeheerZoekProjectionHandler
     {
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
     public void Handle(EventEnvelope<LidmaatschapWerdToegevoegd> message, VerenigingZoekDocument document)
     {
-        document.Lidmaatschappen = document.Lidmaatschappen.Append(Map(message.Data.Lidmaatschap, message.VCode)).ToArray();
+        document.Lidmaatschappen = document.Lidmaatschappen.Append(Map(message.Data.Lidmaatschap, message.VCode))
+                                           .OrderBy(x => x.LidmaatschapId)
+                                           .ToArray();
     }
 
     public void Handle(EventEnvelope<LidmaatschapWerdGewijzigd> message, VerenigingZoekDocument document)
     {
         document.Lidmaatschappen = document.Lidmaatschappen
-                                    .Where(x => x.LidmaatschapId != message.Data.Lidmaatschap.LidmaatschapId)
-                                    .Append(Map(message.Data.Lidmaatschap, message.VCode))
-                                    .ToArray();
+                                           .Where(x => x.LidmaatschapId != message.Data.Lidmaatschap.LidmaatschapId)
+                                           .Append(Map(message.Data.Lidmaatschap, message.VCode))
+                                           .OrderBy(x => x.LidmaatschapId)
+                                           .ToArray();
     }
 
     public void Handle(EventEnvelope<LidmaatschapWerdVerwijderd> message, VerenigingZoekDocument document)
     {
         document.Lidmaatschappen = document.Lidmaatschappen
-                                    .Where(x => x.LidmaatschapId != message.Data.Lidmaatschap.LidmaatschapId)
-                                    .ToArray();
+                                           .Where(x => x.LidmaatschapId != message.Data.Lidmaatschap.LidmaatschapId)
+                                           .OrderBy(x => x.LidmaatschapId)
+                                           .ToArray();
     }
 
     private static VerenigingZoekDocument.Types.Locatie Map(Registratiedata.Locatie locatie, string vCode)
@@ -392,13 +395,13 @@ public class BeheerZoekProjectionHandler
 
     public void Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message, VerenigingZoekDocument document)
     {
-        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie, message.VCode)).ToArray();
-
+        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie, message.VCode))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
     }
 
     public void Handle(EventEnvelope<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> message, VerenigingZoekDocument document)
     {
-
         var maatschappelijkeZetel = document.Locaties.Single(x => x.LocatieId == message.Data.LocatieId);
 
         maatschappelijkeZetel.JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, message.VCode, message.Data.LocatieId.ToString());
@@ -407,9 +410,10 @@ public class BeheerZoekProjectionHandler
         maatschappelijkeZetel.IsPrimair = message.Data.IsPrimair;
 
         document.Locaties = document.Locaties
-                                           .Where(x => x.LocatieId != message.Data.LocatieId)
-                                           .Append(maatschappelijkeZetel)
-                                           .ToArray();
+                                    .Where(x => x.LocatieId != message.Data.LocatieId)
+                                    .Append(maatschappelijkeZetel)
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
     }
 
     public void Handle(EventEnvelope<VerenigingWerdGestopt> message, VerenigingZoekDocument document)
@@ -420,10 +424,8 @@ public class BeheerZoekProjectionHandler
 
     public void Handle(EventEnvelope<VerenigingWerdGestoptInKBO> message, VerenigingZoekDocument document)
     {
-        document.
-            Status = VerenigingStatus.Gestopt;
-        document.
-            Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly);
+        document.Status = VerenigingStatus.Gestopt;
+        document.Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly);
     }
 
     public void Handle(EventEnvelope<VerenigingWerdVerwijderd> message, VerenigingZoekDocument document)
@@ -432,42 +434,37 @@ public class BeheerZoekProjectionHandler
     }
 
     public void Handle(EventEnvelope<NaamWerdGewijzigdInKbo> message, VerenigingZoekDocument document)
-        => document.
-        Naam = message.Data.Naam;
-
+        => document.Naam = message.Data.Naam;
 
     public void Handle(EventEnvelope<KorteNaamWerdGewijzigdInKbo> message, VerenigingZoekDocument document)
-        => document.
-        KorteNaam = message.Data.KorteNaam;
-
+        => document.KorteNaam = message.Data.KorteNaam;
 
     public void Handle(EventEnvelope<RechtsvormWerdGewijzigdInKBO> message, VerenigingZoekDocument document)
-        => document.
-                Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
-                {
-                    Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
-                    Naam = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
-                };
-
+        => document.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
+        {
+            Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
+            Naam = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
+        };
 
     public void Handle(EventEnvelope<MaatschappelijkeZetelWerdGewijzigdInKbo> message, VerenigingZoekDocument document)
     {
         document.Locaties = document.Locaties
-                                           .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
-                                           .Append(Map(message.Data.Locatie, message.VCode))
-                                           .ToArray();
+                                    .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .Append(Map(message.Data.Locatie, message.VCode))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
     }
 
     public void Handle(EventEnvelope<MaatschappelijkeZetelWerdVerwijderdUitKbo> message, VerenigingZoekDocument document)
     {
         document.Locaties = document.Locaties
-                                           .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
-                                           .ToArray();
+                                    .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
     }
 
     public void Handle(EventEnvelope<AdresWerdOvergenomenUitAdressenregister> message, VerenigingZoekDocument document)
     {
-
         var locatie = document.Locaties.Single(x => x.LocatieId == message.Data.LocatieId);
 
         locatie.JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, message.VCode, message.Data.LocatieId.ToString());
@@ -479,6 +476,7 @@ public class BeheerZoekProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.LocatieId)
                                     .Append(locatie)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -495,14 +493,16 @@ public class BeheerZoekProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.LocatieId)
                                     .Append(locatie)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
     public void Handle(EventEnvelope<LocatieDuplicaatWerdVerwijderdNaAdresMatch> message, VerenigingZoekDocument document)
     {
         document.Locaties = document.Locaties
-                                             .Where(x => x.LocatieId != message.Data.VerwijderdeLocatieId)
-                                             .ToArray();
+                                    .Where(x => x.LocatieId != message.Data.VerwijderdeLocatieId)
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
     }
 
     public void Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message, VerenigingZoekDocument document)
@@ -530,7 +530,9 @@ public class BeheerZoekProjectionHandler
         document.IsDubbel = false;
     }
 
-    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message, VerenigingZoekDocument document)
+    public void Handle(
+        EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message,
+        VerenigingZoekDocument document)
     {
         document.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
         {
@@ -547,7 +549,8 @@ public class BeheerZoekProjectionHandler
 
     public void Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> message, VerenigingZoekDocument document)
     {
-        document.Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype{
+        document.Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
+        {
             Code = VerenigingssubtypeCode.FeitelijkeVereniging.Code,
             Naam = VerenigingssubtypeCode.FeitelijkeVereniging.Naam,
         };
@@ -573,7 +576,6 @@ public class BeheerZoekProjectionHandler
 
     public void Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message, VerenigingZoekDocument document)
     {
-
         document.Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
         {
             Code = VerenigingssubtypeCode.NietBepaald.Code,

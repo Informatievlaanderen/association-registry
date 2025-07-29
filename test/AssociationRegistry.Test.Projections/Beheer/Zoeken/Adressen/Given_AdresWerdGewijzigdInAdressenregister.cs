@@ -15,4 +15,10 @@ public class Given_AdresWerdGewijzigdInAdressenregister(BeheerZoekenScenarioFixt
         locatie.Postcode.Should().Be(fixture.Scenario.AdresWerdGewijzigdInAdressenregister.Adres.Postcode);
         locatie.Gemeente.Should().Be(fixture.Scenario.AdresWerdGewijzigdInAdressenregister.Adres.Gemeente);
     }
+
+    [Fact]
+    public void Order_Is_Correct()
+    {
+        fixture.Result.Locaties.Select(x => x.LocatieId).Should().BeInAscendingOrder();
+    }
 }

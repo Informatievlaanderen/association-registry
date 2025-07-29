@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Acm.Subtypes;
 
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
-using AssociationRegistry.Test.Projections.Scenario.Verenigingssubtypes;
+using Scenario.Verenigingssubtypes;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(

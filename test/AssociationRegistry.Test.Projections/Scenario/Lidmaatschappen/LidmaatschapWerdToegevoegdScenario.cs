@@ -5,23 +5,33 @@ using AutoFixture;
 
 public class LidmaatschapWerdToegevoegdScenario : ScenarioBase
 {
-    public FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; }
-    public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegd { get; set; }
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
+    public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegdFirst { get; set; }
+    public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegdSecond { get; set; }
 
     public LidmaatschapWerdToegevoegdScenario()
     {
-        VerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
-        LidmaatschapWerdToegevoegd = AutoFixture.Create<LidmaatschapWerdToegevoegd>() with
+        LidmaatschapWerdToegevoegdFirst = AutoFixture.Create<LidmaatschapWerdToegevoegd>() with
         {
-            VCode = VerenigingWerdGeregistreerd.VCode,
+            VCode = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+        };
+
+        LidmaatschapWerdToegevoegdSecond = AutoFixture.Create<LidmaatschapWerdToegevoegd>() with
+        {
+            VCode = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+            Lidmaatschap = AutoFixture.Create<Registratiedata.Lidmaatschap>() with
+            {
+                LidmaatschapId = LidmaatschapWerdToegevoegdFirst.Lidmaatschap.LidmaatschapId + 1,
+            }
         };
     }
 
-    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingWerdGeregistreerd, LidmaatschapWerdToegevoegd),
+        new(VCode, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, LidmaatschapWerdToegevoegdFirst, LidmaatschapWerdToegevoegdSecond),
     ];
 }

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Scenario.Verwijdering;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class VerenigingWerdVerwijderdScenario : ScenarioBase

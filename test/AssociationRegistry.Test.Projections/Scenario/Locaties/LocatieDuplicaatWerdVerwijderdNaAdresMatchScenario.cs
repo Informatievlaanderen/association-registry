@@ -15,7 +15,8 @@ public class LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario : ScenarioBase
 
         LocatieDuplicaatWerdVerwijderdNaAdresMatch = AutoFixture.Create<LocatieDuplicaatWerdVerwijderdNaAdresMatch>() with
         {
-            VerwijderdeLocatieId = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties.First().LocatieId,
+            VerwijderdeLocatieId = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties[0].LocatieId,
+            BehoudenLocatieId = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties[1].LocatieId,
         };
     }
 

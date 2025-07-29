@@ -3,7 +3,6 @@
 using Framework.Fixtures;
 using JasperFx.Events.Daemon;
 using Marten;
-using Marten.Events.Daemon;
 using Nest;
 using Public.ProjectionHost.Projections;
 using Public.Schema.Search;

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Scenario.Einddatum;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class EinddatumWerdGewijzigdScenario : ScenarioBase

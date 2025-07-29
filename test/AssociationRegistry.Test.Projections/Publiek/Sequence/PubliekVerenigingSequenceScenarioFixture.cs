@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Sequence;
 
 using AssociationRegistry.Public.ProjectionHost.Projections;
-using AssociationRegistry.Public.Schema.Detail;
-using AssociationRegistry.Test.Projections.Framework.Fixtures;
-using Detail;
+using Framework.Fixtures;
 using JasperFx.Events.Daemon;
 using Marten;
 using Public.Schema.Sequence;

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Stopzetting.Vzer;
 
-using AssociationRegistry.Admin.Schema.Constants;
-using AssociationRegistry.Formats;
+using Admin.Schema.Constants;
+using Formats;
 using AssociationRegistry.Test.Projections.Scenario.Stopzetting;
 
 [Collection(nameof(ProjectionContext))]

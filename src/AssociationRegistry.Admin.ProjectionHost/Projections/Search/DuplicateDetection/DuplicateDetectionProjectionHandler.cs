@@ -80,7 +80,9 @@ public class DuplicateDetectionProjectionHandler
 
     public void Handle(EventEnvelope<LocatieWerdToegevoegd> message, DuplicateDetectionDocument document)
     {
-        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie)).ToArray();
+        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
     }
 
     public void Handle(EventEnvelope<LocatieWerdGewijzigd> message, DuplicateDetectionDocument document)
@@ -88,6 +90,7 @@ public class DuplicateDetectionProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
                                     .Append(Map(message.Data.Locatie))
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -95,6 +98,7 @@ public class DuplicateDetectionProjectionHandler
     {
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -115,7 +119,9 @@ public class DuplicateDetectionProjectionHandler
 
     public void Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message, DuplicateDetectionDocument document)
     {
-        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie)).ToArray();
+        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
     }
 
     public void Handle(EventEnvelope<MaatschappelijkeZetelWerdGewijzigdInKbo> message, DuplicateDetectionDocument document)
@@ -123,6 +129,7 @@ public class DuplicateDetectionProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
                                     .Append(Map(message.Data.Locatie))
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -130,6 +137,23 @@ public class DuplicateDetectionProjectionHandler
     {
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
+
+    public void Handle(EventEnvelope<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> message, DuplicateDetectionDocument document)
+    {
+
+        var maatschappelijkeZetel = document.Locaties.Single(x => x.LocatieId == message.Data.LocatieId);
+
+        maatschappelijkeZetel.LocatieId = message.Data.LocatieId;
+        maatschappelijkeZetel.Naam = message.Data.Naam;
+        maatschappelijkeZetel.IsPrimair = message.Data.IsPrimair;
+
+        document.Locaties = document.Locaties
+                                    .Where(x => x.LocatieId != message.Data.LocatieId)
+                                    .Append(maatschappelijkeZetel)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -167,6 +191,7 @@ public class DuplicateDetectionProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.LocatieId)
                                     .Append(locatie)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -182,6 +207,7 @@ public class DuplicateDetectionProjectionHandler
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.LocatieId)
                                     .Append(locatie)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 
@@ -189,6 +215,7 @@ public class DuplicateDetectionProjectionHandler
     {
         document.Locaties = document.Locaties
                                     .Where(x => x.LocatieId != message.Data.VerwijderdeLocatieId)
+                                    .OrderBy(x => x.LocatieId)
                                     .ToArray();
     }
 

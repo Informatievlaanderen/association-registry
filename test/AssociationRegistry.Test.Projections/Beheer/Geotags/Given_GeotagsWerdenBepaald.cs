@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Geotags;
 
-using AssociationRegistry.Admin.Schema.Search;
+using Admin.Schema.Search;
 using AssociationRegistry.Test.Projections.Scenario.Geotags;
 using Zoeken;
 
