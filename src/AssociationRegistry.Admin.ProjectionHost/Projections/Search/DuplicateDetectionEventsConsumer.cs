@@ -113,30 +113,25 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
 
     }
 
-    public async Task<bool> IndexDocumentsAsync<T>(IEnumerable<T> documents)
+    private async Task<bool> IndexDocumentsAsync<T>(IEnumerable<T> documents)
         where T : class
     {
-        var response = await _elasticClient.BulkAsync(b =>
-            {
-                return b
-                      .Index(_options.Indices.DuplicateDetection)
-                      .IndexMany(documents)
-                      .Refresh(Refresh.WaitFor);
-            }
-            // Makes docs immediately searchable
-        );
+        var response = await _elasticClient.BulkAsync(b => b
+                                                          .Index(_options.Indices.DuplicateDetection)
+                                                          .IndexMany(documents)
+                                                          .Refresh(Refresh.WaitFor));
 
-        if (!response.IsValid)
+        if (!response.IsValid && !response.ApiCall.Success)
         {
-            foreach (var error in response.ItemsWithErrors)
+            foreach (var error in response.ItemsWithErrors.Where(x => x.Error != null))
             {
-                Console.WriteLine($"Failed to index document {error.Id}: {error.Error}");
+                _logger.LogError($"Failed to index document {error.Id}: {error.Error}");
             }
 
             return false;
         }
 
-        Console.WriteLine($"Successfully indexed {response.Items.Count} documents");
+        _logger.LogInformation($"Successfully indexed {response.Items.Count} documents");
 
         return true;
     }
