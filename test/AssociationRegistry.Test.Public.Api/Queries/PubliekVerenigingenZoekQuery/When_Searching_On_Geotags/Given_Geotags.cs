@@ -4,16 +4,16 @@ using AssociationRegistry.Public.Api.Queries;
 using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
+using Fixtures;
 using FluentAssertions;
 using Framework;
 using Nest;
 using Vereniging;
-using When_Saving_A_Document_To_Elastic;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
 
-public class Given_GeotagsFixture : ElasticRepositoryFixture
+public class Given_GeotagsFixture : ElasticsearchClientFixture
 {
     public Given_GeotagsFixture() : base(nameof(Given_GeotagsFixture))
     {

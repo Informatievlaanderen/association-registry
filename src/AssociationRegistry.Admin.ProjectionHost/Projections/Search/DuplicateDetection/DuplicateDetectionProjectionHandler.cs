@@ -2,166 +2,160 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.DuplicateD
 
 using Events;
 using Formats;
+using Hosts.Configuration.ConfigurationBindings;
 using Schema.Search;
 using Vereniging;
 
-
 public class DuplicateDetectionProjectionHandler
 {
-    private readonly IElasticRepository _elasticRepository;
-
-    public DuplicateDetectionProjectionHandler(IElasticRepository elasticRepository)
+    public DuplicateDetectionProjectionHandler()
     {
-        _elasticRepository = elasticRepository;
     }
 
-    public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message)
-        => await _elasticRepository.IndexAsync(
-            new DuplicateDetectionDocument
-            {
-                Sequence = message.Sequence,
-                VCode = message.Data.VCode,
-                VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code,
-                VerenigingssubtypeCode = null,
-                Naam = message.Data.Naam,
-                KorteNaam = message.Data.KorteNaam,
-                Locaties = message.Data.Locaties.Select(Map).ToArray(),
-                HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
-                IsGestopt = false,
-                IsVerwijderd = false,
-                IsDubbel = false,
-            }
-        );
+    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message, DuplicateDetectionDocument document)
+    {
+        document.VCode = message.Data.VCode;
+        document.VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code;
+        document.VerenigingssubtypeCode = null;
+        document.Naam = message.Data.Naam;
+        document.KorteNaam = message.Data.KorteNaam;
+        document.Locaties = message.Data.Locaties.Select(Map).ToArray();
+        document.HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket);
+        document.IsGestopt = false;
+        document.IsVerwijderd = false;
+        document.IsDubbel = false;
+    }
 
-    public async Task Handle(EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message)
-        => await _elasticRepository.IndexAsync(
-            new DuplicateDetectionDocument
-            {
-                Sequence = message.Sequence,
-                VCode = message.Data.VCode,
-                VerenigingsTypeCode = Verenigingstype.VZER.Code,
-                VerenigingssubtypeCode = VerenigingssubtypeCode.Default.Code,
-                Naam = message.Data.Naam,
-                KorteNaam = message.Data.KorteNaam,
-                Locaties = message.Data.Locaties.Select(Map).ToArray(),
-                HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
-                IsGestopt = false,
-                IsVerwijderd = false,
-                IsDubbel = false,
-            }
-        );
+    public void Handle(
+        EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message,
+        DuplicateDetectionDocument document)
+    {
+        document.VCode = message.Data.VCode;
+        document.VerenigingsTypeCode = Verenigingstype.VZER.Code;
+        document.VerenigingssubtypeCode = VerenigingssubtypeCode.Default.Code;
+        document.Naam = message.Data.Naam;
+        document.KorteNaam = message.Data.KorteNaam;
+        document.Locaties = message.Data.Locaties.Select(Map).ToArray();
+        document.HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket);
+        document.IsGestopt = false;
+        document.IsVerwijderd = false;
+        document.IsDubbel = false;
+    }
 
-    public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
-        => await _elasticRepository.IndexAsync(
-            new DuplicateDetectionDocument
-            {
-                Sequence = message.Sequence,
-                VCode = message.Data.VCode,
-                VerenigingsTypeCode = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
-                VerenigingssubtypeCode = null,
-                Naam = message.Data.Naam,
-                KorteNaam = message.Data.KorteNaam,
-                Locaties = [],
-                HoofdactiviteitVerenigingsloket = [],
-                IsGestopt = false,
-                IsVerwijderd = false,
-                IsDubbel = false,
-            }
-        );
+    public void Handle(
+        EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message,
+        DuplicateDetectionDocument document)
+    {
+        document.VCode = message.Data.VCode;
+        document.VerenigingsTypeCode = Verenigingstype.Parse(message.Data.Rechtsvorm).Code;
+        document.VerenigingssubtypeCode = null;
+        document.Naam = message.Data.Naam;
+        document.KorteNaam = message.Data.KorteNaam;
+        document.Locaties = [];
+        document.HoofdactiviteitVerenigingsloket = [];
+        document.IsGestopt = false;
+        document.IsVerwijderd = false;
+        document.IsDubbel = false;
+    }
 
-    public async Task Handle(EventEnvelope<NaamWerdGewijzigd> message)
-        => await _elasticRepository.UpdateAsync(
-            message.Data.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                Naam = message.Data.Naam,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<NaamWerdGewijzigd> message, DuplicateDetectionDocument document)
+    {
+        document.Naam = message.Data.Naam;
+    }
 
-    public async Task Handle(EventEnvelope<RechtsvormWerdGewijzigdInKBO> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                VerenigingsTypeCode = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<RechtsvormWerdGewijzigdInKBO> message, DuplicateDetectionDocument document)
+    {
+        document.VerenigingsTypeCode = Verenigingstype.Parse(message.Data.Rechtsvorm).Code;
+    }
 
-    public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigd> message)
-        => await _elasticRepository.UpdateAsync(
-            message.Data.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                KorteNaam = message.Data.KorteNaam,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<KorteNaamWerdGewijzigd> message, DuplicateDetectionDocument document)
+    {
+        document.KorteNaam = message.Data.KorteNaam;
+    }
 
-    public async Task Handle(EventEnvelope<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> message, DuplicateDetectionDocument document)
+    {
+        document.HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket);
+    }
 
-    public async Task Handle(EventEnvelope<LocatieWerdToegevoegd> message)
-        => await _elasticRepository.AppendLocatie<DuplicateDetectionDocument>(message.VCode, Map(message.Data.Locatie),
-                                                                              message.Sequence);
+    public void Handle(EventEnvelope<LocatieWerdToegevoegd> message, DuplicateDetectionDocument document)
+    {
+        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
 
-    public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
-        => await _elasticRepository.UpdateLocatie<DuplicateDetectionDocument>(message.VCode, Map(message.Data.Locatie),
-                                                                              message.Sequence);
+    public void Handle(EventEnvelope<LocatieWerdGewijzigd> message, DuplicateDetectionDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .Append(Map(message.Data.Locatie))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
 
-    public async Task Handle(EventEnvelope<LocatieWerdVerwijderd> message)
-        => await _elasticRepository.RemoveLocatie<DuplicateDetectionDocument>(message.VCode, message.Data.Locatie.LocatieId,
-                                                                              message.Sequence);
+    public void Handle(EventEnvelope<LocatieWerdVerwijderd> message, DuplicateDetectionDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdGestopt> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                IsGestopt = true,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<VerenigingWerdGestopt> message, DuplicateDetectionDocument document)
+    {
+        document.IsGestopt = true;
+    }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdGestoptInKBO> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                IsGestopt = true,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<VerenigingWerdGestoptInKBO> message, DuplicateDetectionDocument document)
+    {
+        document.IsGestopt = true;
+    }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdVerwijderd> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                IsVerwijderd = true,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<VerenigingWerdVerwijderd> message, DuplicateDetectionDocument document)
+    {
+        document.IsVerwijderd = true;
+    }
 
-    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message)
-        => await _elasticRepository.AppendLocatie<DuplicateDetectionDocument>(message.VCode, Map(message.Data.Locatie),
-                                                                              message.Sequence);
+    public void Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message, DuplicateDetectionDocument document)
+    {
+        document.Locaties = document.Locaties.Append(Map(message.Data.Locatie))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
 
-    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdGewijzigdInKbo> message)
-        => await _elasticRepository.UpdateLocatie<DuplicateDetectionDocument>(message.VCode, Map(message.Data.Locatie),
-                                                                              message.Sequence);
+    public void Handle(EventEnvelope<MaatschappelijkeZetelWerdGewijzigdInKbo> message, DuplicateDetectionDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .Append(Map(message.Data.Locatie))
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
 
-    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdVerwijderdUitKbo> message)
-        => await _elasticRepository.RemoveLocatie<DuplicateDetectionDocument>(message.VCode, message.Data.Locatie.LocatieId,
-                                                                              message.Sequence);
+    public void Handle(EventEnvelope<MaatschappelijkeZetelWerdVerwijderdUitKbo> message, DuplicateDetectionDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(x => x.LocatieId != message.Data.Locatie.LocatieId)
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
+
+    public void Handle(EventEnvelope<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> message, DuplicateDetectionDocument document)
+    {
+
+        var maatschappelijkeZetel = document.Locaties.Single(x => x.LocatieId == message.Data.LocatieId);
+
+        maatschappelijkeZetel.LocatieId = message.Data.LocatieId;
+        maatschappelijkeZetel.Naam = message.Data.Naam;
+        maatschappelijkeZetel.IsPrimair = message.Data.IsPrimair;
+
+        document.Locaties = document.Locaties
+                                    .Where(x => x.LocatieId != message.Data.LocatieId)
+                                    .Append(maatschappelijkeZetel)
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
 
     private static DuplicateDetectionDocument.Locatie Map(Registratiedata.Locatie locatie)
         => new()
@@ -175,126 +169,97 @@ public class DuplicateDetectionProjectionHandler
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
         };
 
-    public async Task Handle(EventEnvelope<NaamWerdGewijzigdInKbo> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                Naam = message.Data.Naam,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<NaamWerdGewijzigdInKbo> message, DuplicateDetectionDocument document)
+    {
+        document.Naam = message.Data.Naam;
+    }
 
-    public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigdInKbo> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                KorteNaam = message.Data.KorteNaam,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<KorteNaamWerdGewijzigdInKbo> message, DuplicateDetectionDocument document)
+    {
+        document.KorteNaam = message.Data.KorteNaam;
+    }
 
-    public async Task Handle(EventEnvelope<AdresWerdOvergenomenUitAdressenregister> message)
-        => await _elasticRepository.UpdateLocatie<DuplicateDetectionDocument>(
-            message.VCode,
-            new DuplicateDetectionDocument.Locatie()
-            {
-                LocatieId = message.Data.LocatieId,
-                Adresvoorstelling = message.Data.Adres.ToAdresString(),
-                Postcode = message.Data.Adres?.Postcode ?? string.Empty,
-                Gemeente = message.Data.Adres?.Gemeente ?? string.Empty,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<AdresWerdOvergenomenUitAdressenregister> message, DuplicateDetectionDocument document)
+    {
+        var locatie = document.Locaties.Single(x => x.LocatieId == message.Data.LocatieId);
 
-    public async Task Handle(EventEnvelope<AdresWerdGewijzigdInAdressenregister> message)
-        => await _elasticRepository.UpdateLocatie<DuplicateDetectionDocument>(
-            message.VCode,
-            new DuplicateDetectionDocument.Locatie()
-            {
-                LocatieId = message.Data.LocatieId,
-                Adresvoorstelling = message.Data.Adres.ToAdresString(),
-                Postcode = message.Data.Adres?.Postcode ?? string.Empty,
-                Gemeente = message.Data.Adres?.Gemeente ?? string.Empty,
-            },
-            message.Sequence
-        );
+        locatie.LocatieId = message.Data.LocatieId;
+        locatie.Adresvoorstelling = message.Data.Adres.ToAdresString();
+        locatie.Gemeente = message.Data.Adres.Gemeente;
+        locatie.Postcode = message.Data.Adres.Postcode;
 
-    public async Task Handle(EventEnvelope<LocatieDuplicaatWerdVerwijderdNaAdresMatch> message)
-        => await _elasticRepository.RemoveLocatie<DuplicateDetectionDocument>(message.VCode, message.Data.VerwijderdeLocatieId,
-                                                                              message.Sequence);
+        document.Locaties = document.Locaties
+                                    .Where(x => x.LocatieId != message.Data.LocatieId)
+                                    .Append(locatie)
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                IsDubbel = true,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<AdresWerdGewijzigdInAdressenregister> message, DuplicateDetectionDocument document)
+    {
+        var locatie = document.Locaties.Single(x => x.LocatieId == message.Data.LocatieId);
 
-    public async Task Handle(EventEnvelope<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                IsDubbel = false,
-            },
-            message.Sequence
-        );
+        locatie.LocatieId = message.Data.LocatieId;
+        locatie.Adresvoorstelling = message.Data.Adres.ToAdresString();
+        locatie.Gemeente = message.Data.Adres.Gemeente;
+        locatie.Postcode = message.Data.Adres.Postcode;
 
-    public async Task Handle(EventEnvelope<MarkeringDubbeleVerengingWerdGecorrigeerd> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                IsDubbel = false,
-            },
-            message.Sequence
-        );
+        document.Locaties = document.Locaties
+                                    .Where(x => x.LocatieId != message.Data.LocatieId)
+                                    .Append(locatie)
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
 
-   public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                VerenigingsTypeCode = Verenigingstype.VZER.Code,
-                VerenigingssubtypeCode = VerenigingssubtypeCode.Default.Code,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<LocatieDuplicaatWerdVerwijderdNaAdresMatch> message, DuplicateDetectionDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(x => x.LocatieId != message.Data.VerwijderdeLocatieId)
+                                    .OrderBy(x => x.LocatieId)
+                                    .ToArray();
+    }
 
-    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                VerenigingssubtypeCode = VerenigingssubtypeCode.FeitelijkeVereniging.Code,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message, DuplicateDetectionDocument document)
+    {
+        document.IsDubbel = true;
+    }
 
-    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                VerenigingssubtypeCode = VerenigingssubtypeCode.NietBepaald.Code,
-            },
-            message.Sequence
-        );
+    public void Handle(
+        EventEnvelope<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> message,
+        DuplicateDetectionDocument document)
+    {
+        document.IsDubbel = false;
+    }
 
-    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarSubvereniging> message)
-        => await _elasticRepository.UpdateAsync(
-            message.VCode,
-            new DuplicateDetectionUpdateDocument
-            {
-                VerenigingssubtypeCode = VerenigingssubtypeCode.Subvereniging.Code,
-            },
-            message.Sequence
-        );
+    public void Handle(EventEnvelope<MarkeringDubbeleVerengingWerdGecorrigeerd> message, DuplicateDetectionDocument document)
+    {
+        document.IsDubbel = false;
+    }
+
+    public void Handle(
+        EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message,
+        DuplicateDetectionDocument document)
+    {
+        document.VerenigingsTypeCode = Verenigingstype.VZER.Code;
+        document.VerenigingssubtypeCode = VerenigingssubtypeCode.Default.Code;
+    }
+
+    public void Handle(
+        EventEnvelope<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> message,
+        DuplicateDetectionDocument document)
+    {
+        document.VerenigingssubtypeCode = VerenigingssubtypeCode.FeitelijkeVereniging.Code;
+    }
+
+    public void Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message, DuplicateDetectionDocument document)
+    {
+        document.VerenigingssubtypeCode = VerenigingssubtypeCode.NietBepaald.Code;
+    }
+
+    public void Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarSubvereniging> message, DuplicateDetectionDocument document)
+    {
+        document.VerenigingssubtypeCode = VerenigingssubtypeCode.Subvereniging.Code;
+    }
 
     private static string[] MapHoofdactiviteitVerenigingsloket(
         IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)

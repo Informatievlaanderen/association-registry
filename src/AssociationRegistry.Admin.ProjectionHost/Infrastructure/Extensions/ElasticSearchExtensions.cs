@@ -15,7 +15,7 @@ public static class ElasticSearchExtensions
         string duplicateDetectionIndexName)
     {
         if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
-            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName);
+            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName, VerenigingZoekDocumentMapping.Get);
 
         if (!elasticClient.Indices.Exists(duplicateDetectionIndexName).Exists)
             elasticClient.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
@@ -56,12 +56,9 @@ public static class ElasticSearchExtensions
     public static ConnectionSettings MapVerenigingDocument(this ConnectionSettings settings, string indexName)
     {
         return settings.DefaultMappingFor(
-                            typeof(VerenigingZoekDocument),
-                            selector: descriptor => descriptor.IndexName(indexName)
-                                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)))
-                       .DefaultMappingFor(typeof(VerenigingZoekUpdateDocument),
-                                          selector: descriptor => descriptor.IndexName(indexName)
-                                                                            .IdProperty(nameof(VerenigingZoekUpdateDocument.VCode)));
+            typeof(VerenigingZoekDocument),
+            selector: descriptor => descriptor.IndexName(indexName)
+                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)));
     }
 
     public static ConnectionSettings MapDuplicateDetectionDocument(this ConnectionSettings settings, string indexName)

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Scenario.PubliekeDatastroom;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class VerenigingWerdIngeschrevenInPubliekeDatastroomScenario : ScenarioBase

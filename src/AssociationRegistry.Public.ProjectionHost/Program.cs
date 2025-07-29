@@ -55,7 +55,7 @@ public class Program
             options =>
                 options.AddEndpoint(IPAddress.Any, port: 11005));
 
-        builder.Host.ApplyOaktonExtensions();
+        builder.Host.ApplyJasperFxExtensions();
 
         builder.Host.UseWolverine(
             options =>
@@ -89,7 +89,7 @@ public class Program
 
         if (ProgramArguments.IsCodeGen(args))
         {
-            await app.RunOaktonCommands(args);
+            await app.RunJasperFxCommands(args);
             return;
         }
 
@@ -99,7 +99,7 @@ public class Program
         await app.EnsureElasticSearchIsInitialized();
         ConfigureHealtChecks(app);
 
-        await app.RunOaktonCommands(args);
+        await app.RunJasperFxCommands(args);
     }
 
     private static void ConfigureEncoding()

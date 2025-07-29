@@ -4,7 +4,6 @@ using Admin.ProjectionHost.Projections.PowerBiExport;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using Events;
 using JasperFx.Events;
-using Marten.Events;
 using Public.ProjectionHost.Projections.Sequence;
 using System.Reflection;
 using Xunit;

@@ -113,7 +113,6 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
 public class DuplicateDetectionSetup
 {
     public ElasticClient Client { get; }
-    public ElasticRepository Repository { get; }
     public ZoekDuplicateVerenigingenQuery DuplicateDetectionService { get; }
 
     public DuplicateDetectionSetup()
@@ -150,11 +149,9 @@ public class DuplicateDetectionSetup
         Client.Indices.Delete(duplicateDetection);
         ElasticSearchExtensions.EnsureIndexExists(Client, elasticSearchOptions.Indices.Verenigingen!, duplicateDetection);
 
-        Repository = new ElasticRepository(Client);
-
         DuplicateDetectionService = new ZoekDuplicateVerenigingenQuery(Client, MinimumScore.Default);
 
-        Repository.Index(new DuplicateDetectionDocument
+        Client.Index(new DuplicateDetectionDocument
         {
             VCode = "V0001001",
             Naam = "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling",
@@ -168,6 +165,6 @@ public class DuplicateDetectionSetup
                     Postcode = "8531",
                 },
             },
-        });
+        }, index => index);
     }
 }

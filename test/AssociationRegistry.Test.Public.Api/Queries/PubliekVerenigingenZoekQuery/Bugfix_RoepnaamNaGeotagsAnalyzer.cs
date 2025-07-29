@@ -4,14 +4,14 @@ using AssociationRegistry.Public.Api.Queries;
 using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
+using Fixtures;
 using FluentAssertions;
 using Framework;
 using Nest;
 using Vereniging;
-using When_Saving_A_Document_To_Elastic;
 using Xunit;
 
-public class Bugfix_RoepnaamNaGeotagsAnalyzerFixture : ElasticRepositoryFixture
+public class Bugfix_RoepnaamNaGeotagsAnalyzerFixture : ElasticsearchClientFixture
 {
     public Bugfix_RoepnaamNaGeotagsAnalyzerFixture() : base(nameof(Bugfix_RoepnaamNaGeotagsAnalyzerFixture))
     {

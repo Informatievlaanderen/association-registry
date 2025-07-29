@@ -12,16 +12,15 @@ public class Given_LidmaatschapWerdToegevoegd(BeheerHistoriekScenarioFixture<Lid
     [Fact]
     public void Metadata_Is_Updated()
         => fixture.Result
-                  .Metadata.Version.Should().Be(2);
+                  .Metadata.Version.Should().Be(3);
 
     [Fact]
     public void Document_Is_Updated()
         => fixture.Result
-                  .Gebeurtenissen.Last()
-                  .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
+                  .Gebeurtenissen.Should().ContainEquivalentOf(new BeheerVerenigingHistoriekGebeurtenis(
                                                Beschrijving: "Lidmaatschap werd toegevoegd.",
                                                nameof(LidmaatschapWerdToegevoegd),
-                                               LidmaatschapData.Create(fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap),
+                                               LidmaatschapData.Create(fixture.Scenario.LidmaatschapWerdToegevoegdFirst.Lidmaatschap),
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));
 }

@@ -9,5 +9,6 @@ public class Given_LidmaatschapWerdVerwijderd(PubliekDetailScenarioFixture<Lidma
     [Fact]
     public void Document_Is_Updated()
         => fixture.Result
-                  .Lidmaatschappen.Should().BeEmpty();
+                  .Lidmaatschappen.Should()
+                  .NotContain(x => x.LidmaatschapId == fixture.Scenario.LidmaatschapWerdVerwijderd.Lidmaatschap.LidmaatschapId);
 }

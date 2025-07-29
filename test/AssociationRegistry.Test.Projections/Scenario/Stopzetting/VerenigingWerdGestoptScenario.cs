@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Scenario.Stopzetting;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class VerenigingWerdGestoptScenario : ScenarioBase

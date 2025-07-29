@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Scenario.KorteBeschijving;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class KorteBeschrijvingWerdGewijzigdScenario : ScenarioBase

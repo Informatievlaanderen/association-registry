@@ -15,12 +15,12 @@ public class Given_LidmaatschapWerdToegevoegd(PubliekDetailScenarioFixture<Lidma
                   .BeEquivalentTo(
                        new PubliekVerenigingDetailDocument.Types.Lidmaatschap(
                            JsonLdMetadata: null,
-                           fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
-                           fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
-                           fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.DatumVan,
-                           fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.DatumTot,
-                           fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.Identificatie,
-                           fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.Beschrijving
+                           fixture.Scenario.LidmaatschapWerdToegevoegdFirst.Lidmaatschap.LidmaatschapId,
+                           fixture.Scenario.LidmaatschapWerdToegevoegdFirst.Lidmaatschap.AndereVereniging,
+                           fixture.Scenario.LidmaatschapWerdToegevoegdFirst.Lidmaatschap.DatumVan,
+                           fixture.Scenario.LidmaatschapWerdToegevoegdFirst.Lidmaatschap.DatumTot,
+                           fixture.Scenario.LidmaatschapWerdToegevoegdFirst.Lidmaatschap.Identificatie,
+                           fixture.Scenario.LidmaatschapWerdToegevoegdFirst.Lidmaatschap.Beschrijving
                        ),
                        config: options => options.Excluding(x => x.JsonLdMetadata));
 }

@@ -12,7 +12,7 @@ public class Given_LidmaatschapWerdVerwijderd(BeheerHistoriekScenarioFixture<Lid
     [Fact]
     public void Metadata_Is_Updated()
         => fixture.Result
-                  .Metadata.Version.Should().Be(3);
+                  .Metadata.Version.Should().Be(4);
 
     [Fact]
     public void Document_Is_Updated()

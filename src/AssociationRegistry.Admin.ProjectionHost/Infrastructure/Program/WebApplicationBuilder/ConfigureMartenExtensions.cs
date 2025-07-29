@@ -10,6 +10,7 @@ using JasperFx.Events.Projections;
 using Json;
 using Marten;
 using Marten.Services;
+using Nest;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -20,10 +21,6 @@ using Projections.PowerBiExport;
 using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
-using Schema.Detail;
-using Schema.Historiek;
-using Schema.KboSync;
-using Schema.PowerBiExport;
 using System.Configuration;
 using ConfigurationManager = ConfigurationManager;
 
@@ -34,9 +31,6 @@ public static class ConfigureMartenExtensions
         ConfigurationManager configurationManager,
         bool isDevelopment)
     {
-        source
-           .AddTransient<IElasticRepository, ElasticRepository>();
-
         var martenConfiguration = AddMarten(source, configurationManager);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
@@ -58,11 +52,16 @@ public static class ConfigureMartenExtensions
 
                 return ConfigureStoreOptions(opts, serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(),
                                              serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
-                                             serviceProvider.GetRequiredService<IElasticRepository>(),
+                                             serviceProvider.GetRequiredService<IElasticClient>(),
                                              serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
-                                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(), configurationManager
+                                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(),
+                                             serviceProvider.GetRequiredService<ILogger<DuplicateDetectionEventsConsumer>>(),
+                                             configurationManager
                                                 .GetSection(PostgreSqlOptionsSection.SectionName)
-                                                .Get<PostgreSqlOptionsSection>());
+                                                .Get<PostgreSqlOptionsSection>(),
+                                             configurationManager
+                                                .GetSection(ElasticSearchOptionsSection.SectionName)
+                                                .Get<ElasticSearchOptionsSection>());
             });
 
         services.CritterStackDefaults(x =>
@@ -82,10 +81,12 @@ public static class ConfigureMartenExtensions
         StoreOptions opts,
         ILogger<LocatieLookupProjection> locatieLookupLogger,
         ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
-        IElasticRepository elasticRepository,
+        IElasticClient elasticClient,
         bool isDevelopment,
         ILogger<BeheerZoekenEventsConsumer> beheerZoekenEventsConsumerLogger,
-        PostgreSqlOptionsSection? postgreSqlOptionsSection)
+        ILogger<DuplicateDetectionEventsConsumer> duplicateDetectionEventsConsumerLogger,
+        PostgreSqlOptionsSection? postgreSqlOptionsSection,
+        ElasticSearchOptionsSection? elasticSearchOptionsSection)
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
             => $"host={postgreSqlOptions.Host};" +
@@ -134,9 +135,9 @@ public static class ConfigureMartenExtensions
         opts.Projections.Add(
             new MartenSubscription(
                 new BeheerZoekenEventsConsumer(
-                    new BeheerZoekProjectionHandler(
-                        elasticRepository
-                    ),
+                    elasticClient,
+                    new BeheerZoekProjectionHandler(),
+                    elasticSearchOptionsSection,
                     beheerZoekenEventsConsumerLogger)
             ),
             ProjectionLifecycle.Async,
@@ -145,8 +146,10 @@ public static class ConfigureMartenExtensions
         opts.Projections.Add(
             new MartenSubscription(
                 new DuplicateDetectionEventsConsumer(
-                    new DuplicateDetectionProjectionHandler(
-                        elasticRepository)
+                    elasticClient,
+                    new DuplicateDetectionProjectionHandler(),
+                        elasticSearchOptionsSection,
+                        duplicateDetectionEventsConsumerLogger
                 )
             ),
             ProjectionLifecycle.Async,

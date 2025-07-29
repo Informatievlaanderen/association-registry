@@ -5,7 +5,6 @@ using Admin.Schema.Search;
 using Framework.Fixtures;
 using JasperFx.Events.Daemon;
 using Marten;
-using Marten.Events.Daemon;
 using Nest;
 
 public class DuplicateDetectionScenarioFixture<TScenario>(ProjectionContext context)

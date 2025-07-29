@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Scenario.Vertegenwoordigers.Vzer;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class VertegenwoordigerWerdVerwijderdScenario : ScenarioBase

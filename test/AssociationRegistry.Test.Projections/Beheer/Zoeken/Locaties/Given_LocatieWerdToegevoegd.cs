@@ -29,6 +29,12 @@ public class Given_LocatieWerdToegevoegd(
         VerifyJsonLdMetadata(actual, vCode, locatieWerdToegevoegd);
     }
 
+    [Fact]
+    public void Order_Is_Correct()
+    {
+        fixture.Result.Locaties.Select(x => x.LocatieId).Should().BeInAscendingOrder();
+    }
+
     private static void VerifyJsonLdMetadata(VerenigingZoekDocument.Types.Locatie actual, string vCode, LocatieWerdToegevoegd locatieWerdToegevoegd)
     {
         actual.JsonLdMetadata.Should().BeEquivalentTo(new JsonLdMetadata

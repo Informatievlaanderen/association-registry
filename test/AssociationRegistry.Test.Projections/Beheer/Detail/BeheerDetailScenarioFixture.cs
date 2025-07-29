@@ -5,7 +5,6 @@ using Admin.Schema.Detail;
 using Framework.Fixtures;
 using JasperFx.Events.Daemon;
 using Marten;
-using Marten.Events.Daemon;
 
 public class BeheerDetailScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, BeheerVerenigingDetailDocument, ProjectionContext>(context)

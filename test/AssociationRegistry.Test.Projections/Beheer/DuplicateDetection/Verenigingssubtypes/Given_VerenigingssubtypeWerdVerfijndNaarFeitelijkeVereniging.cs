@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection.Verenigingssubtypes;
 
 using AssociationRegistry.Test.Projections.Scenario.Verenigingssubtypes;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(DuplicateDetectionScenarioFixture<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario> fixture)

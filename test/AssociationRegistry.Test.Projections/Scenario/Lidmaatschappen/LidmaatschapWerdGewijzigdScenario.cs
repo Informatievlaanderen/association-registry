@@ -13,9 +13,9 @@ public class LidmaatschapWerdGewijzigdScenario : ScenarioBase
         LidmaatschapWerdGewijzigd = new LidmaatschapWerdGewijzigd(
             Lidmaatschap: AutoFixture.Create<Registratiedata.Lidmaatschap>() with
             {
-                LidmaatschapId = _werdToegevoegdScenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
+                LidmaatschapId = _werdToegevoegdScenario.LidmaatschapWerdToegevoegdFirst.Lidmaatschap.LidmaatschapId,
             },
-            VCode: _werdToegevoegdScenario.VerenigingWerdGeregistreerd.VCode);
+            VCode: _werdToegevoegdScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
     }
 
     public override string VCode => _werdToegevoegdScenario.VCode;

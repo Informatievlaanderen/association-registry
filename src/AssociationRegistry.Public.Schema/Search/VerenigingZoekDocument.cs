@@ -5,7 +5,6 @@ using Vereniging;
 
 public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable, IIsDubbel
 {
-    public long Sequence { get; set; }
     public string JsonLdMetadataType { get; set; }
     public string VCode { get; set; } = null!;
     public Types.Verenigingstype Verenigingstype { get; set; } = null!;
@@ -40,20 +39,20 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
 
         public record SubverenigingVan
         {
-            public string AndereVereniging { get; init; } = null!;
-            public string Identificatie { get; init; } = null!;
-            public string Beschrijving { get; init; } = null!;
+            public string AndereVereniging { get; set; } = null!;
+            public string Identificatie { get; set; } = null!;
+            public string Beschrijving { get; set; } = null!;
         }
 
         public class Locatie
         {
             public JsonLdMetadata JsonLdMetadata { get; set; }
-            public string Locatietype { get; init; } = null!;
-            public string? Naam { get; init; }
-            public string Adresvoorstelling { get; init; } = null!;
-            public bool IsPrimair { get; init; }
-            public string Postcode { get; init; } = null!;
-            public string Gemeente { get; init; } = null!;
+            public string Locatietype { get; set; } = null!;
+            public string? Naam { get; set; }
+            public string Adresvoorstelling { get; set; } = null!;
+            public bool IsPrimair { get; set; }
+            public string Postcode { get; set; } = null!;
+            public string Gemeente { get; set; } = null!;
             public int LocatieId { get; set; }
 
             public class LocatieType
@@ -66,26 +65,26 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
         public class Lidmaatschap
         {
             public JsonLdMetadata JsonLdMetadata { get; set; }
-            public int LidmaatschapId { get; init; }
-            public string AndereVereniging { get; init; }
-            public string DatumVan { get; init; }
-            public string DatumTot { get; init; }
-            public string Beschrijving { get; init; } = null!;
-            public string Identificatie { get; init; } = null!;
+            public int LidmaatschapId { get; set; }
+            public string AndereVereniging { get; set; }
+            public string DatumVan { get; set; }
+            public string DatumTot { get; set; }
+            public string Beschrijving { get; set; } = null!;
+            public string Identificatie { get; set; } = null!;
         }
 
         public class HoofdactiviteitVerenigingsloket
         {
             public JsonLdMetadata JsonLdMetadata { get; set; }
-            public string Code { get; init; } = null!;
-            public string Naam { get; init; } = null!;
+            public string Code { get; set; } = null!;
+            public string Naam { get; set; } = null!;
         }
 
         public class Werkingsgebied
         {
             public JsonLdMetadata JsonLdMetadata { get; set; }
-            public string Code { get; init; } = null!;
-            public string Naam { get; init; } = null!;
+            public string Code { get; set; } = null!;
+            public string Naam { get; set; } = null!;
         }
 
         public class Verenigingstype : IVerenigingstype

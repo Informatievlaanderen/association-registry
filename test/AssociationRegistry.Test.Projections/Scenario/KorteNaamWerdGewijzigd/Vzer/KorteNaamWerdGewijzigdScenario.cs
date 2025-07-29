@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Scenario.KorteNaamWerdGewijzigd.Vzer;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 
 public class KorteNaamWerdGewijzigdScenario : ScenarioBase

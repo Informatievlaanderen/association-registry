@@ -179,9 +179,12 @@ public static class EventCustomizations
                     fixture.Create<DateOnly?>(),
                     fixture.Create<Registratiedata.Doelgroep>(),
                     IsUitgeschrevenUitPubliekeDatastroom: false,
-                    fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
-                    fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
-                    fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
+                    fixture.CreateMany<Registratiedata.Contactgegeven>()
+                           .OrderBy(x => x.ContactgegevenId).ToArray(),
+                    fixture.CreateMany<Registratiedata.Locatie>()
+                           .OrderBy(x => x.LocatieId).ToArray(),
+                    fixture.CreateMany<Registratiedata.Vertegenwoordiger>()
+                           .OrderBy(x => x.VertegenwoordigerId).ToArray(),
                     fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
                 )).OmitAutoProperties());
     }

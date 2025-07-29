@@ -3,8 +3,10 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using JasperFx.Events;
 using Marten;
 using Marten.Events.Projections;
+using Nest;
 using Polly;
 using Polly.Retry;
+using Policy = Polly.Policy;
 
 public class MartenSubscription : IProjection
 {

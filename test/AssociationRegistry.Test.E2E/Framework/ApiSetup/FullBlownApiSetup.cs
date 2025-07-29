@@ -2,6 +2,7 @@
 
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
+using Admin.ProjectionHost.Projections;
 using Alba;
 using AlbaHost;
 using Amazon.SQS;
@@ -25,6 +26,8 @@ using Nest;
 using NodaTime;
 using NodaTime.Text;
 using Oakton;
+using Scenarios.Givens.FeitelijkeVereniging;
+using System.Diagnostics;
 using TestClasses;
 using Vereniging;
 using Xunit;
@@ -97,6 +100,9 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
         await using var session = PublicApiHost.DocumentStore().LightweightSession();
+
+        // await ExecuteGiven(new RandomEventSequenceScenario());
+         // await ExecuteGiven(new MassiveRandomEventSequenceScenario());
 
         await session.SaveChangesAsync();
 

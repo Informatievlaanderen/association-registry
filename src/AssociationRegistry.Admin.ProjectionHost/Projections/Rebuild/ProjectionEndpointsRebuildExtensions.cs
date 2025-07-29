@@ -6,6 +6,7 @@ using Infrastructure.ElasticSearch;
 using Marten;
 using Nest;
 using Projections;
+using Schema.Search;
 
 public static class ProjectionEndpointsExtensions
 {
@@ -30,7 +31,7 @@ public static class ProjectionEndpointsExtensions
                 await StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
-                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
+                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen, VerenigingZoekDocumentMapping.Get);
                 });
 
                 await StartRebuild(ProjectionNames.DuplicateDetection, store, shardTimeout, logger, async () =>
@@ -98,7 +99,7 @@ public static class ProjectionEndpointsExtensions
                 await StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
-                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
+                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen, VerenigingZoekDocumentMapping.Get);
                 });
 
                 return Results.Accepted();

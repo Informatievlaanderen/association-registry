@@ -14,10 +14,10 @@ public static class ElasticClientExtensions
     private const string CharFilterDotReplace = "dot_replace";
     private const string CharFilterUnderscoreReplace = "underscore_replace";
 
-    public static CreateIndexResponse CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index)
-        => CreateVerenigingIndexAsync(indicesNamespace, index).GetAwaiter().GetResult();
+    public static CreateIndexResponse CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index, Func<TypeMappingDescriptor<VerenigingZoekDocument>, TypeMappingDescriptor<VerenigingZoekDocument>> mapping)
+        => CreateVerenigingIndexAsync(indicesNamespace, index, mapping).GetAwaiter().GetResult();
 
-    public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index)
+    public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index, Func<TypeMappingDescriptor<VerenigingZoekDocument>, TypeMappingDescriptor<VerenigingZoekDocument>> mapping)
         => await indicesNamespace.CreateAsync(
             index,
             selector: descriptor =>
@@ -28,7 +28,8 @@ public static class ElasticClientExtensions
                                                 .TokenFilters(FilterDutchStopWords)
                                                 .Normalizers(AddVerenigingZoekNormalizer)
                                                 .Analyzers(AddVerenigingZoekAnalyzer)))
-                   .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
+                   .Map(mapping));
+
 
     public static CreateIndexResponse CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
         => CreateDuplicateDetectionIndexAsync(indicesNamespace, index).GetAwaiter().GetResult();

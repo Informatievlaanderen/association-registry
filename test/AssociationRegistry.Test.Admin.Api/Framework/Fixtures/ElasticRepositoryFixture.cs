@@ -17,7 +17,6 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
     private readonly IConfigurationRoot _configurationRoot;
     public IElasticClient? ElasticClient;
     public ITypeMapping? TypeMapping;
-    public ElasticRepository? ElasticRepository { get; private set; }
 
     public string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
@@ -41,7 +40,6 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
 
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName, DuplicateDetectionIndexName);
 
-        ElasticRepository = new ElasticRepository(ElasticClient);
         await InsertDocuments();
 
         await ElasticClient.Indices.RefreshAsync(Indices.All);
@@ -84,7 +82,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         if (client.Indices.Exists(duplicateDetectionIndexName).Exists)
             client.Indices.Delete(duplicateDetectionIndexName);
 
-        var indexCreation = client.Indices.CreateVerenigingIndex(verenigingenIndexName);
+        var indexCreation = client.Indices.CreateVerenigingIndex(verenigingenIndexName, VerenigingZoekDocumentMapping.Get);
         if (!indexCreation.IsValid)
             throw new InvalidOperationException($"Index creation failed with error {indexCreation.ServerError}");
 
@@ -115,6 +113,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
 
         var tempConfiguration = builder.Build();
         tempConfiguration["PostgreSQLOptions:database"] += _identifier;
+        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] += _identifier;
         tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] += _identifier;
         tempConfiguration["ElasticClientOptions:Indices:DuplicateDetection"] += _identifier;
 

@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.MaatschappelijkeZetel;
 
-using AssociationRegistry.Admin.Schema;
+using Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Events;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Test.Projections.Scenario.MaatschappelijkeZetelVolgensKbo;
+using Events;
+using Formats;
+using JsonLdContext;
+using Scenario.MaatschappelijkeZetelVolgensKbo;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_MaatschappelijkeZetelWerdGewijzigdInKbo(

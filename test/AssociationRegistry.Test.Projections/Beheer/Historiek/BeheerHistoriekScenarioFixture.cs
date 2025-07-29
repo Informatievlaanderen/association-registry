@@ -5,7 +5,6 @@ using Admin.Schema.Historiek;
 using Framework.Fixtures;
 using JasperFx.Events.Daemon;
 using Marten;
-using Marten.Events.Daemon;
 
 public class BeheerHistoriekScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, BeheerVerenigingHistoriekDocument, ProjectionContext>(context)

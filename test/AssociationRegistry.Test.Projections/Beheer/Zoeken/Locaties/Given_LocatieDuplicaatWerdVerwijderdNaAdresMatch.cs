@@ -13,4 +13,10 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch(
         var actual = fixture.Result.Locaties.SingleOrDefault(x => x.LocatieId == fixture.Scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.VerwijderdeLocatieId);
         actual.Should().BeNull();
     }
+
+    [Fact]
+    public void Order_Is_Correct()
+    {
+        fixture.Result.Locaties.Select(x => x.LocatieId).Should().BeInAscendingOrder();
+    }
 }

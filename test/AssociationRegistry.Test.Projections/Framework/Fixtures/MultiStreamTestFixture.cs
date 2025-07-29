@@ -14,7 +14,6 @@ using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events;
-using Marten.Events.Projections;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,7 +21,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Npgsql;
 using Vereniging;
-using Weasel.Core;
 using IEvent = Events.IEvent;
 
 public abstract class MultiStreamTestFixture : IAsyncLifetime

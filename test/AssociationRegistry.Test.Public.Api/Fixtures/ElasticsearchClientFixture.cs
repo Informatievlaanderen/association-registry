@@ -1,8 +1,7 @@
-namespace AssociationRegistry.Test.Public.Api.When_Saving_A_Document_To_Elastic;
+namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
-using AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using AssociationRegistry.Public.Schema.Search;
 using Framework.Helpers;
 using Microsoft.Extensions.Configuration;
@@ -11,18 +10,17 @@ using Nest;
 using System.Reflection;
 using Xunit;
 
-public abstract class ElasticRepositoryFixture : IAsyncLifetime, IDisposable
+public abstract class ElasticsearchClientFixture : IAsyncLifetime, IDisposable
 {
     private readonly string _identifier;
     private readonly IConfigurationRoot _configurationRoot;
     public IElasticClient? ElasticClient;
     public ITypeMapping? TypeMapping;
-    public ElasticRepository? ElasticRepository { get; private set; }
 
     public string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
 
-    protected ElasticRepositoryFixture(string identifier)
+    protected ElasticsearchClientFixture(string identifier)
     {
         _identifier += "_" + identifier.ToLowerInvariant();
         _configurationRoot = GetConfiguration();
@@ -37,8 +35,6 @@ public abstract class ElasticRepositoryFixture : IAsyncLifetime, IDisposable
                                                                   .CreateLogger("waitForElasticSearchTestLogger"));
 
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
-
-        ElasticRepository = new ElasticRepository(ElasticClient);
 
         await InsertDocuments();
 

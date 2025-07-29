@@ -12,8 +12,8 @@ public class LidmaatschapWerdVerwijderdScenario : ScenarioBase
         _werdToegevoegdScenario = new LidmaatschapWerdToegevoegdScenario();
 
         LidmaatschapWerdVerwijderd = new LidmaatschapWerdVerwijderd(
-            Lidmaatschap: _werdToegevoegdScenario.LidmaatschapWerdToegevoegd.Lidmaatschap,
-            VCode: _werdToegevoegdScenario.VerenigingWerdGeregistreerd.VCode);
+            Lidmaatschap: _werdToegevoegdScenario.LidmaatschapWerdToegevoegdFirst.Lidmaatschap,
+            VCode: _werdToegevoegdScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
     }
 
     public override string VCode => _werdToegevoegdScenario.VCode;

@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.JsonLdContext;
+using JsonLdContext;
 using AssociationRegistry.Test.Projections.Scenario.Vertegenwoordigers.Kbo;
 
 [Collection(nameof(ProjectionContext))]
