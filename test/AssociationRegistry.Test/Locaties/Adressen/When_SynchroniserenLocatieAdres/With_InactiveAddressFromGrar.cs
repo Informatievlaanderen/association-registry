@@ -6,6 +6,7 @@ using AssociationRegistry.Grar.NightlyAdresSync.SyncAdresLocaties;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using Common.Scenarios.CommandHandling;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -21,12 +22,13 @@ public class With_InactiveAddressFromGrar
     public async ValueTask Then_An_AdresWerdOntkoppeldVanAdressenregister_Was_Saved()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var state = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
+        var state = new AdresWerdOvergenomenUitAdressenregisterScenario().GetVerenigingState();
 
         var locatie = state.Locaties.First();
         var inactiefAdres = fixture.Create<AddressDetailResponse>() with
         {
             IsActief = false,
+            AdresId = new Registratiedata.AdresId(locatie.AdresId.Adresbron.Code, locatie.AdresId.Bronwaarde),
         };
 
         var command = fixture.Create<SyncAdresLocatiesCommand>() with

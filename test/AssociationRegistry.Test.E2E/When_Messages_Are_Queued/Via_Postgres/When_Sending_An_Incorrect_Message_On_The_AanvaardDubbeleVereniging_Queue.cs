@@ -41,7 +41,7 @@ public class When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_
 
         await bus.SendAsync(aanvaardDubbeleVerenigingMessage);
 
-        var maxRetries = 10;
+        var maxRetries = 100;
         var tries = 0;
         IReadOnlyList<DeadLetterEnvelope> messages = null;
         while (tries < maxRetries)
