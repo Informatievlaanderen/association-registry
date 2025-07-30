@@ -20,8 +20,9 @@ public class AdresWerdOntkoppeldVanAdressenregisterScenario : ScenarioBase
 
     public override string VCode => AdresWerdOntkoppeldVanAdressenregister.VCode;
 
-    public override EventsPerVCode[] Events => _adresWerdOvergenomenUitAdressenregisterScenario.Events.Union(
-    [
-        new EventsPerVCode(VCode, AdresWerdOntkoppeldVanAdressenregister),
-    ]).ToArray();
+    public override EventsPerVCode[] Events => _adresWerdOvergenomenUitAdressenregisterScenario.Events///.Union(
+    // [
+    //     new EventsPerVCode(VCode, AdresWerdOntkoppeldVanAdressenregister),
+    // ])
+    .ToArray();
 }
