@@ -12,6 +12,7 @@ using Json;
 using Marten;
 using Marten.Services;
 using MartenDb;
+using MartenDb.Setup;
 using MartenDb.Upcasters;
 using Nest;
 using Newtonsoft.Json;
@@ -128,9 +129,7 @@ public static class ConfigureMartenExtensions
 
         opts.Projections.DaemonLockId = 1;
 
-        opts.Events.Upcast(
-            new TombstoneUpcaster()
-            );
+        opts.UpcastLegacyTombstoneEvents();
 
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
