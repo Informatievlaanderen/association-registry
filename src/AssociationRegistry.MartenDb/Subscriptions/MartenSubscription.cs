@@ -1,0 +1,48 @@
+namespace AssociationRegistry.MartenDb.Subscriptions;
+
+using JasperFx.Events;
+using Marten;
+using Marten.Events.Projections;
+using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.Retry;
+using Policy = Polly.Policy;
+
+public class MartenSubscription : IProjection
+{
+    private readonly IMartenEventsConsumer _consumer;
+    private readonly AsyncRetryPolicy _retryPolicy;
+
+    public MartenSubscription(IMartenEventsConsumer consumer, ILogger<MartenSubscription> logger)
+    {
+        _consumer = consumer;
+        var maxDelay = TimeSpan.FromSeconds(30); // Set the maximum delay limit here
+
+        _retryPolicy = Policy
+                      .Handle<Exception>()
+                      .WaitAndRetryAsync(
+                           retryCount: 5,
+                           sleepDurationProvider: retryAttempt =>
+                           {
+                               return TimeSpan.FromSeconds(Math.Min(Math.Pow(x: 2, retryAttempt), maxDelay.TotalSeconds));
+                           },
+                           onRetryAsync: (exception, delay) =>
+                           {
+                               LoggerExtensions.LogError((ILogger)logger, (Exception?)exception, "Error occurred while consuming events. Retrying in {Delay} seconds.",
+                                                         delay.TotalSeconds);
+
+                               return Task.CompletedTask;
+                           });
+    }
+
+    public void Apply(
+        IDocumentOperations operations,
+        IReadOnlyList<StreamAction> streams
+    )
+    {
+        throw new NotSupportedException("Subscription should be only run asynchronously");
+    }
+
+    public async Task ApplyAsync(IDocumentOperations operations, IReadOnlyList<IEvent> events, CancellationToken cancellation)
+        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(SubscriptionEventList.From(events)));
+}

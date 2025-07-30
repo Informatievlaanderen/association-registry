@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebAp
 
 using Constants;
 using Events;
+using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -13,6 +14,7 @@ using Marten;
 using Marten.Services;
 using MartenDb;
 using MartenDb.Setup;
+using MartenDb.Subscriptions;
 using MartenDb.Upcasters;
 using Nest;
 using Newtonsoft.Json;
@@ -37,6 +39,7 @@ public static class ConfigureMartenExtensions
             return ConfigureStoreOptions(opts,
                                          serviceProvider.GetRequiredService<IElasticClient>(),
                                          serviceProvider.GetRequiredService<ILogger<PubliekZoekenEventsConsumer>>(),
+                                         serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
                                          configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
                                                              .Get<PostgreSqlOptionsSection>(),
                                          serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
@@ -65,6 +68,7 @@ public static class ConfigureMartenExtensions
         StoreOptions opts,
         IElasticClient elasticClient,
         ILogger<PubliekZoekenEventsConsumer> publiekZoekenEventsConsumerLogger,
+        ILogger<MartenSubscription> martenSubscriptionLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
         bool isDevelopment,
         ElasticSearchOptionsSection? elasticSearchOptionsSection)
@@ -106,7 +110,8 @@ public static class ConfigureMartenExtensions
                     elasticClient,
                     new PubliekZoekProjectionHandler(),
                     elasticSearchOptionsSection,
-                    publiekZoekenEventsConsumerLogger)
+                    publiekZoekenEventsConsumerLogger),
+                martenSubscriptionLogger
             ),
             ProjectionLifecycle.Async,
             ProjectionNames.PubliekZoek);

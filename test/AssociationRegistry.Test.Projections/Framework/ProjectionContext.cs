@@ -6,7 +6,9 @@ using Admin.ProjectionHost.Projections.Search;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Marten;
+using MartenDb.Subscriptions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using Npgsql;
@@ -52,6 +54,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                                                                 true,
                                                                 NullLogger<BeheerZoekenEventsConsumer>.Instance,
                                                                 NullLogger<DuplicateDetectionEventsConsumer>.Instance,
+                                                                () => NullLogger<MartenSubscription>.Instance,
                                                                 new PostgreSqlOptionsSection()
                                                                 {
                                                                     Host = "localhost",
@@ -81,6 +84,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                     opts,
                    PublicProjectionElasticClient,
                     NullLogger<PubliekZoekenEventsConsumer>.Instance,
+                    NullLogger<MartenSubscription>.Instance,
                     new PostgreSqlOptionsSection()
                     {
                         Host = "localhost",

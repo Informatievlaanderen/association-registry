@@ -13,6 +13,7 @@ using Marten;
 using Marten.Services;
 using MartenDb;
 using MartenDb.Setup;
+using MartenDb.Subscriptions;
 using MartenDb.Upcasters;
 using Nest;
 using Newtonsoft.Json;
@@ -60,6 +61,7 @@ public static class ConfigureMartenExtensions
                                              serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
                                              serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(),
                                              serviceProvider.GetRequiredService<ILogger<DuplicateDetectionEventsConsumer>>(),
+                                             () => serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
                                              configurationManager
                                                 .GetSection(PostgreSqlOptionsSection.SectionName)
                                                 .Get<PostgreSqlOptionsSection>(),
@@ -89,6 +91,7 @@ public static class ConfigureMartenExtensions
         bool isDevelopment,
         ILogger<BeheerZoekenEventsConsumer> beheerZoekenEventsConsumerLogger,
         ILogger<DuplicateDetectionEventsConsumer> duplicateDetectionEventsConsumerLogger,
+        Func<ILogger<MartenSubscription>> subscriptionLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
         ElasticSearchOptionsSection? elasticSearchOptionsSection)
     {
@@ -144,7 +147,8 @@ public static class ConfigureMartenExtensions
                     elasticClient,
                     new BeheerZoekProjectionHandler(),
                     elasticSearchOptionsSection,
-                    beheerZoekenEventsConsumerLogger)
+                    beheerZoekenEventsConsumerLogger),
+                subscriptionLogger()
             ),
             ProjectionLifecycle.Async,
             ProjectionNames.BeheerZoek);
@@ -156,7 +160,8 @@ public static class ConfigureMartenExtensions
                     new DuplicateDetectionProjectionHandler(),
                         elasticSearchOptionsSection,
                         duplicateDetectionEventsConsumerLogger
-                )
+                ),
+                subscriptionLogger()
             ),
             ProjectionLifecycle.Async,
             ProjectionNames.DuplicateDetection);
