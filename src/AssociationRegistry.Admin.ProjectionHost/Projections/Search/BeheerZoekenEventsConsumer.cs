@@ -4,6 +4,8 @@ using Elasticsearch.Net;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Events;
+using MartenDb;
+using MartenDb.Subscriptions;
 using Nest;
 using Resources;
 using Schema.Search;
@@ -29,22 +31,20 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
         _logger = logger;
     }
 
-    public async Task ConsumeAsync(IReadOnlyList<IEvent> events)
+    public async Task ConsumeAsync(SubscriptionEventList eventList)
     {
-        var eventsPerVCode = events.Where(x => x.EventType != typeof(Tombstone)).GroupBy(x => x.StreamKey)
-                                   .ToDictionary(x => x.Key, x => x.ToList());
-        if (!eventsPerVCode.Any())
+        if (!eventList.Events.Any())
             return;
 
         var multiGetResponse = await _elasticClient
            .MultiGetAsync(m => m
                               .Index(_options.Indices.Verenigingen)
-                              .GetMany<VerenigingZoekDocument>(eventsPerVCode.Keys)
+                              .GetMany<VerenigingZoekDocument>(eventList.GroupedByVCode.Keys)
             );
 
         var documentsPerVCode = new Dictionary<string, VerenigingZoekDocument>();
 
-        foreach (var vCode in eventsPerVCode.Keys)
+        foreach (var vCode in eventList.GroupedByVCode.Keys)
         {
             var hit = multiGetResponse.Hits.FirstOrDefault(h => h.Id == vCode);
 
@@ -58,7 +58,7 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
             }
         }
 
-        foreach (var @event in events)
+        foreach (var @event in eventList.Events)
         {
             dynamic eventEnvelope =
                 Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;

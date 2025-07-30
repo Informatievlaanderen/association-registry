@@ -3,6 +3,8 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using JasperFx.Events;
 using Marten;
 using Marten.Events.Projections;
+using MartenDb;
+using MartenDb.Subscriptions;
 using Nest;
 using Polly;
 using Polly.Retry;
@@ -33,6 +35,6 @@ public class MartenSubscription : IProjection
     }
 
     public async Task ApplyAsync(IDocumentOperations operations, IReadOnlyList<IEvent> events, CancellationToken cancellation)
-        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(events));
+        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(SubscriptionEventList.From(events)));
 
 }

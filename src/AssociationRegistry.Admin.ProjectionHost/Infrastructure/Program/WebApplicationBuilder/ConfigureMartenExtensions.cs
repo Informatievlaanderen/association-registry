@@ -11,6 +11,8 @@ using JasperFx.Events.Projections;
 using Json;
 using Marten;
 using Marten.Services;
+using MartenDb;
+using MartenDb.Upcasters;
 using Nest;
 using Newtonsoft.Json;
 using Projections;
