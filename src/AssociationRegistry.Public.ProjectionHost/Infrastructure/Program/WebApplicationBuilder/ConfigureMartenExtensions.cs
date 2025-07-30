@@ -12,6 +12,7 @@ using Json;
 using Marten;
 using Marten.Services;
 using MartenDb;
+using MartenDb.Setup;
 using MartenDb.Upcasters;
 using Nest;
 using Newtonsoft.Json;
@@ -94,9 +95,7 @@ public static class ConfigureMartenExtensions
 
         opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 
-        opts.Events.Upcast(
-            new TombstoneUpcaster()
-        );
+        opts.UpcastLegacyTombstoneEvents();
 
         opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
