@@ -1,3 +1,10 @@
+## [8.263.1](https://github.com/informatievlaanderen/association-registry/compare/v8.263.0...v8.263.1) (2025-07-30)
+
+
+### Bug Fixes
+
+* or-2889 upcast old tombstone marten event ([b0d3fa7](https://github.com/informatievlaanderen/association-registry/commit/b0d3fa79d67d8c7a5f8a90cdd84193d72e5b081b))
+
 # [8.263.0](https://github.com/informatievlaanderen/association-registry/compare/v8.262.8...v8.263.0) (2025-07-29)
 
 
