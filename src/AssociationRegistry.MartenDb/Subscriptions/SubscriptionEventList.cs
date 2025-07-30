@@ -10,11 +10,11 @@ public class SubscriptionEventList
 
     private SubscriptionEventList(IReadOnlyList<IEvent> events)
     {
-        Events = new ReadOnlyCollection<IEvent>(events.Where(x => x.EventType != typeof(Tombstone)).ToList());
+        Events = new ReadOnlyCollection<IEvent>(events.ExcludeTombstones().ToList());
 
         GroupedByVCode = events
-                               .GroupBy(x => x.StreamKey)
-                               .ToDictionary(x => x.Key!, x => x.ToArray());
+                        .GroupBy(x => x.StreamKey)
+                        .ToDictionary(x => x.Key!, x => x.ToArray());
     }
 
     public static SubscriptionEventList From(IReadOnlyList<IEvent> events)
