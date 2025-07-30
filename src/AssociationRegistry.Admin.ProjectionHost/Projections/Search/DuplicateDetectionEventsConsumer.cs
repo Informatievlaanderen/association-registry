@@ -6,6 +6,8 @@ using Events;
 using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.Program.WebApplicationBuilder;
 using JasperFx.Events;
+using MartenDb;
+using MartenDb.Subscriptions;
 using Nest;
 using Resources;
 using Schema.Search;
@@ -31,23 +33,20 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
         _logger = logger;
     }
 
-    public async Task ConsumeAsync(IReadOnlyList<IEvent> events)
+    public async Task ConsumeAsync(SubscriptionEventList eventList)
     {
-        var eventsPerVCode = events.Where(x => x.EventType != typeof(Tombstone)).GroupBy(x => x.StreamKey)
-                                                                                       .ToDictionary(x => x.Key, x => x.ToList());
-
-        if (!eventsPerVCode.Any())
+        if (!eventList.Events.Any())
             return;
 
         var multiGetResponse = await _elasticClient
            .MultiGetAsync(m => m
                               .Index(_options.Indices.DuplicateDetection)
-                              .GetMany<DuplicateDetectionDocument>(eventsPerVCode.Keys)
+                              .GetMany<DuplicateDetectionDocument>(eventList.GroupedByVCode.Keys)
             );
 
         var documentsPerVCode = new Dictionary<string, DuplicateDetectionDocument>();
 
-        foreach (var vCode in eventsPerVCode.Keys)
+        foreach (var vCode in eventList.GroupedByVCode.Keys)
         {
             // Use the Hits collection and check the Source property
             var hit = multiGetResponse.Hits.FirstOrDefault(h => h.Id == vCode);
@@ -62,7 +61,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
             }
         }
 
-        foreach (var @event in events)
+        foreach (var @event in eventList.Events)
         {
             dynamic eventEnvelope =
                 Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;

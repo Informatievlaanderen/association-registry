@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
+using DecentraalBeheer.Registratie.RegistreerVerenigingUitKbo;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Events;
 using Formats;
 using JasperFx.Core.Reflection;

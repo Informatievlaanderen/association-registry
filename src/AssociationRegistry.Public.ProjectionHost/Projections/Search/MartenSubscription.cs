@@ -4,6 +4,8 @@ using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
+using MartenDb;
+using MartenDb.Subscriptions;
 using Polly;
 using Polly.Retry;
 
@@ -37,5 +39,6 @@ public class MartenSubscription : IProjection
         IReadOnlyList<IEvent> events,
         CancellationToken ct
     )
-        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(events));
+        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(
+                                               SubscriptionEventList.From(events)));
 }

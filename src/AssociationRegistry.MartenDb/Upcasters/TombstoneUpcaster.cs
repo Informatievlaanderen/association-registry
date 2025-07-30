@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Events;
+﻿namespace AssociationRegistry.MartenDb.Upcasters;
 
 using JasperFx.Events;
 using Marten;
