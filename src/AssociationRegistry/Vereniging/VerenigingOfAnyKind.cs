@@ -180,13 +180,16 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
             var locatie = State.Locaties[locatieId];
 
-            if (adresDetailResponse is null || !adresDetailResponse.IsActief)
+            if (locatie.AdresBestaatNietOfIsNietActief(adresDetailResponse))
             {
-                AddEvent(new AdresWerdOntkoppeldVanAdressenregister(
-                             VCode,
-                             locatieId,
-                             EventFactory.AdresId(locatie.AdresId),
-                             EventFactory.Adres(locatie.Adres)));
+                if (locatie.HeeftAdresId && locatie.AdresIdKomtOvereenMetGrarIndienBestaand(adresDetailResponse))
+                {
+                    AddEvent(new AdresWerdOntkoppeldVanAdressenregister(
+                                 VCode,
+                                 locatieId,
+                                 EventFactory.AdresId(locatie.AdresId),
+                                 EventFactory.Adres(locatie.Adres)));
+                }
 
                 continue;
             }

@@ -44,6 +44,20 @@ public record Locatie
         return Hydrate(locatieId, naam, isPrimair, locatietype, Adres.Hydrate(adres), AdresId.Hydrate(adresId));
     }
 
+    public bool ShouldOntkoppelAdres(AddressDetailResponse? adresDetailResponse)
+        => AdresBestaatNietOfIsNietActief(adresDetailResponse) &&
+           HeeftAdresId &&
+           AdresIdKomtOvereenMetGrarIndienBestaand(adresDetailResponse);
+
+    public bool AdresIdKomtOvereenMetGrarIndienBestaand(AddressDetailResponse? adresDetailResponse)
+        => (adresDetailResponse is null || AdresId == adresDetailResponse!.AdresId);
+
+    public bool HeeftAdresId
+        => AdresId is not null;
+
+    public bool AdresBestaatNietOfIsNietActief(AddressDetailResponse? adresDetailResponse)
+        => adresDetailResponse is null || !adresDetailResponse.IsActief;
+
     public virtual bool Equals(Locatie? other)
     {
         if (ReferenceEquals(objA: null, other)) return false;
