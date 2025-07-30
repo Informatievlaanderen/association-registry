@@ -3,6 +3,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Elasticsearch.Net;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
+using JasperFx.Events;
 using Nest;
 using Resources;
 using Schema.Search;
@@ -28,8 +29,10 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
 
     public async Task ConsumeAsync(IReadOnlyList<IEvent> events)
     {
-        var eventsPerVCode = events.GroupBy(x => x.StreamKey)
+        var eventsPerVCode = events.Where(x => x.EventType != typeof(Tombstone)).GroupBy(x => x.StreamKey)
                                    .ToDictionary(x => x.Key, x => x.ToList());
+        if (!eventsPerVCode.Any())
+            return;
 
         var multiGetResponse = await _elasticClient
            .MultiGetAsync(m => m
