@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using Constants;
+using Events;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -124,6 +125,10 @@ public static class ConfigureMartenExtensions
         opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 
         opts.Projections.DaemonLockId = 1;
+
+        opts.Events.Upcast(
+            new TombstoneUpcaster()
+            );
 
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
