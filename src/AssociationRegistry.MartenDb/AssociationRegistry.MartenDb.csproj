@@ -13,4 +13,8 @@
     <PackageReference Include="Polly" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
+  </ItemGroup>
+
 </Project>

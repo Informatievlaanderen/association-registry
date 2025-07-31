@@ -1,8 +1,8 @@
 namespace AssociationRegistry.MartenDb.Setup;
 
 using Marten;
-using Microsoft.Extensions.DependencyInjection;
 using Upcasters;
+using Events;
 
 public static class SetupExtensions
 {
@@ -11,5 +11,24 @@ public static class SetupExtensions
         source.Events.Upcast(
             new TombstoneUpcaster()
         );
+    }
+
+    public static void AddAllEventTypes(this StoreOptions opts)
+    {
+        var eventInterface = typeof(Events.IEvent);
+
+        var eventTypes = eventInterface.Assembly
+                                       .GetTypes()
+                                       .Where(t =>
+                                                  eventInterface.IsAssignableFrom(t) &&
+                                                  t.IsClass &&
+                                                  !t.IsAbstract &&
+                                                  t != typeof(AfdelingWerdGeregistreerd) // skip obsolete one if needed
+                                        );
+
+        foreach (var eventType in eventTypes)
+        {
+            opts.Events.AddEventType(eventType);
+        }
     }
 }
