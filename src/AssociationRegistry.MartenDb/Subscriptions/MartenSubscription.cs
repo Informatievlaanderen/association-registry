@@ -12,12 +12,14 @@ public class MartenSubscription : IProjection
 {
     private readonly IMartenEventsConsumer _consumer;
     private readonly Type[] _handledEventTypes;
+    private readonly ILogger<MartenSubscription> _logger;
     private readonly AsyncRetryPolicy _retryPolicy;
 
     public MartenSubscription(IMartenEventsConsumer consumer, Type[] handledEventTypes, ILogger<MartenSubscription> logger)
     {
         _consumer = consumer;
         _handledEventTypes = handledEventTypes;
+        _logger = logger;
         var maxDelay = TimeSpan.FromSeconds(30); // Set the maximum delay limit here
 
         _retryPolicy = Policy
@@ -46,5 +48,18 @@ public class MartenSubscription : IProjection
     }
 
     public async Task ApplyAsync(IDocumentOperations operations, IReadOnlyList<IEvent> events, CancellationToken cancellation)
-        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(SubscriptionEventList.From(events, _handledEventTypes)));
+    {
+        _logger.LogInformation("STARTING BATCH PROCESSING FOR {Type} EVENTS: {FirstEvent}-{LastEvent}",
+                               _consumer.GetType().Name,
+                               events.FirstOrDefault()?.Sequence,
+                               events.LastOrDefault()?.Sequence);
+
+        await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(SubscriptionEventList.From(events, _handledEventTypes)));
+
+        _logger.LogInformation("FINISHED BATCH PROCESSING FOR {Type} EVENTS: {FirstEvent}-{LastEvent}",
+                               _consumer.GetType().Name,
+                               events.FirstOrDefault()?.Sequence,
+                               events.LastOrDefault()?.Sequence);
+
+    }
 }
