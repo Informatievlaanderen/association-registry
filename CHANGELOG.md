@@ -1,3 +1,12 @@
+## [8.263.3](https://github.com/informatievlaanderen/association-registry/compare/v8.263.2...v8.263.3) (2025-07-31)
+
+
+### Bug Fixes
+
+* or-2889 only consume handled events ([28d2389](https://github.com/informatievlaanderen/association-registry/commit/28d2389bae9d30e88733eb5c4f05d5d0574165b1))
+* or-2889 register all eventtypes for projections ([31c9f47](https://github.com/informatievlaanderen/association-registry/commit/31c9f479b6d6adb4edee08fecd5cebdea4a1570c))
+* skip failing flaky tests ([c3ea8be](https://github.com/informatievlaanderen/association-registry/commit/c3ea8beee6257742f90f091ca3d1b5f5c40ba761))
+
 ## [8.263.2](https://github.com/informatievlaanderen/association-registry/compare/v8.263.1...v8.263.2) (2025-07-31)
 
 ## [8.263.1](https://github.com/informatievlaanderen/association-registry/compare/v8.263.0...v8.263.1) (2025-07-30)
