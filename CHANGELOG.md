@@ -1,3 +1,10 @@
+# [8.264.0](https://github.com/informatievlaanderen/association-registry/compare/v8.263.3...v8.264.0) (2025-07-31)
+
+
+### Features
+
+* or-2867 log progress of MartenSubscription ([9d8875c](https://github.com/informatievlaanderen/association-registry/commit/9d8875c5efe06cc7cccc60915c6d2733976b29fa))
+
 ## [8.263.3](https://github.com/informatievlaanderen/association-registry/compare/v8.263.2...v8.263.3) (2025-07-31)
 
 
