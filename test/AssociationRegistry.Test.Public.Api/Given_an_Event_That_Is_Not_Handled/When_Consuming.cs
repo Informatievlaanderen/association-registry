@@ -9,6 +9,7 @@ using FluentAssertions;
 using Hosts.Configuration.ConfigurationBindings;
 using Marten;
 using MartenDb;
+using MartenDb.PubliekZoeken;
 using MartenDb.Subscriptions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,7 +62,7 @@ public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_F
                                .Append(Given_An_Unhandled_Event_Fixture.VCode,
                                        new Given_An_Unhandled_Event_Fixture.AnUnhandledEvent());
 
-            return consumer.ConsumeAsync(SubscriptionEventList.From(streamActions.Events.ToArray()));
+            return consumer.ConsumeAsync(SubscriptionEventList.From(streamActions.Events.ToArray(), PubliekZoekenHandledEvents.Types));
         };
 
         await consumeForElastic.Should().NotThrowAsync();

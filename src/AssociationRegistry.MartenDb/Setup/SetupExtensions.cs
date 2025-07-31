@@ -3,6 +3,8 @@ namespace AssociationRegistry.MartenDb.Setup;
 using Marten;
 using Upcasters;
 using Events;
+using JasperFx.Events.Projections;
+using Subscriptions;
 
 public static class SetupExtensions
 {

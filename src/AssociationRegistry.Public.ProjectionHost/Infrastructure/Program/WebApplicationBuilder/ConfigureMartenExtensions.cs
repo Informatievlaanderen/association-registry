@@ -13,6 +13,7 @@ using Json;
 using Marten;
 using Marten.Services;
 using MartenDb;
+using MartenDb.PubliekZoeken;
 using MartenDb.Setup;
 using MartenDb.Subscriptions;
 using MartenDb.Upcasters;
@@ -113,6 +114,7 @@ public static class ConfigureMartenExtensions
                     new PubliekZoekProjectionHandler(),
                     elasticSearchOptionsSection,
                     publiekZoekenEventsConsumerLogger),
+                PubliekZoekenHandledEvents.Types,
                 martenSubscriptionLogger
             ),
             ProjectionLifecycle.Async,

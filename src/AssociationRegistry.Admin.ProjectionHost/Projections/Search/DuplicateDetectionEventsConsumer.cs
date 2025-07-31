@@ -4,14 +4,10 @@ using DuplicateDetection;
 using Elasticsearch.Net;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
-using Infrastructure.Program.WebApplicationBuilder;
-using JasperFx.Events;
-using MartenDb;
 using MartenDb.Subscriptions;
 using Nest;
 using Resources;
 using Schema.Search;
-using IEvent = JasperFx.Events.IEvent;
 
 public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
 {

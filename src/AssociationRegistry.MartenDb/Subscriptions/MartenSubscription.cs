@@ -11,11 +11,13 @@ using Policy = Polly.Policy;
 public class MartenSubscription : IProjection
 {
     private readonly IMartenEventsConsumer _consumer;
+    private readonly Type[] _handledEventTypes;
     private readonly AsyncRetryPolicy _retryPolicy;
 
-    public MartenSubscription(IMartenEventsConsumer consumer, ILogger<MartenSubscription> logger)
+    public MartenSubscription(IMartenEventsConsumer consumer, Type[] handledEventTypes, ILogger<MartenSubscription> logger)
     {
         _consumer = consumer;
+        _handledEventTypes = handledEventTypes;
         var maxDelay = TimeSpan.FromSeconds(30); // Set the maximum delay limit here
 
         _retryPolicy = Policy
@@ -44,5 +46,5 @@ public class MartenSubscription : IProjection
     }
 
     public async Task ApplyAsync(IDocumentOperations operations, IReadOnlyList<IEvent> events, CancellationToken cancellation)
-        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(SubscriptionEventList.From(events)));
+        => await _retryPolicy.ExecuteAsync(() => _consumer.ConsumeAsync(SubscriptionEventList.From(events, _handledEventTypes)));
 }

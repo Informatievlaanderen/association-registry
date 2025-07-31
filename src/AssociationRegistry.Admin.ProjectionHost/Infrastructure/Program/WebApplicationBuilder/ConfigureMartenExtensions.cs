@@ -12,6 +12,7 @@ using Json;
 using Marten;
 using Marten.Services;
 using MartenDb;
+using MartenDb.BeheerZoeken;
 using MartenDb.Setup;
 using MartenDb.Subscriptions;
 using MartenDb.Upcasters;
@@ -150,6 +151,7 @@ public static class ConfigureMartenExtensions
                     new BeheerZoekProjectionHandler(),
                     elasticSearchOptionsSection,
                     beheerZoekenEventsConsumerLogger),
+                BeheerZoekenHandledEvents.Types,
                 subscriptionLogger()
             ),
             ProjectionLifecycle.Async,
@@ -160,9 +162,10 @@ public static class ConfigureMartenExtensions
                 new DuplicateDetectionEventsConsumer(
                     elasticClient,
                     new DuplicateDetectionProjectionHandler(),
-                        elasticSearchOptionsSection,
-                        duplicateDetectionEventsConsumerLogger
+                    elasticSearchOptionsSection,
+                    duplicateDetectionEventsConsumerLogger
                 ),
+                DuplicateDetectionHandledEvents.Types,
                 subscriptionLogger()
             ),
             ProjectionLifecycle.Async,
