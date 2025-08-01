@@ -1,3 +1,10 @@
+## [8.264.1](https://github.com/informatievlaanderen/association-registry/compare/v8.264.0...v8.264.1) (2025-08-01)
+
+
+### Bug Fixes
+
+* or-2887 dont allow adres ontkoppeling when location does not have an adresid ([3dbfe72](https://github.com/informatievlaanderen/association-registry/commit/3dbfe7228faaeff4a15825778dc686ae90878a63))
+
 # [8.264.0](https://github.com/informatievlaanderen/association-registry/compare/v8.263.3...v8.264.0) (2025-07-31)
 
 
