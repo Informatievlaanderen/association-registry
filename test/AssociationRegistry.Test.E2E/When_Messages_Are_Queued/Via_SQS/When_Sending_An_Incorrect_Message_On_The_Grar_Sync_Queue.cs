@@ -32,7 +32,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
 
         await _setup.AmazonSqs.PurgeQueueAsync(dlqUrl.QueueUrl);
 
-        await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<OverkoepelendeGrarConsumerMessage>());
+        await _setup.MessageBus.SendAsync(_autoFixture.Create<OverkoepelendeGrarConsumerMessage>());
 
         var maxRetries = 20;
         var tries = 0;

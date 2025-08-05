@@ -1,19 +1,20 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.KboSync;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure.AWS;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
 using AssociationRegistry.Admin.Schema.KboSync;
 using AssociationRegistry.Events;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Historiek.Examples;
+using Kbo;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
+using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
@@ -64,7 +65,7 @@ public class KboSyncHistoriekController : ApiController
     /// Verenigingen die nog geen inschrijving hebben geregistreerd zullen door deze actie ook automatisch ingeschreven worden op wijzigingen uit de KBO.
     /// </summary>
     /// <param name="documentStore"></param>
-    /// <param name="clientWrapper"></param>
+    /// <param name="messageBus"></param>
     /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPost("sync")]
@@ -74,7 +75,7 @@ public class KboSyncHistoriekController : ApiController
     [ProducesJson]
     public async Task<IActionResult> SyncAllVerenigingen(
         [FromServices] IDocumentStore documentStore,
-        [FromServices] SqsClientWrapper clientWrapper
+        [FromServices] IMessageBus messageBus
     )
     {
         await using var session = documentStore.LightweightSession();
@@ -86,7 +87,7 @@ public class KboSyncHistoriekController : ApiController
 
         foreach (var kboNummer in kboNummersToSync)
         {
-            await clientWrapper.QueueKboNummerToSynchronise(kboNummer);
+            await messageBus.SendAsync(new TeSynchroniserenKboNummerMessage(kboNummer));
         }
 
         return Accepted();
@@ -97,7 +98,7 @@ public class KboSyncHistoriekController : ApiController
     /// Indien de vereniging nog inschrijving heeft geregistreerd zal die door deze actie ook automatisch ingeschreven worden op wijzigingen uit de KBO.
     /// </summary>
     /// <param name="documentStore"></param>
-    /// <param name="clientWrapper"></param>
+    /// <param name="messageBus"></param>
     /// <param name="vCode">De VCode van de te synchroniseren vereniging.</param>
     /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
@@ -108,7 +109,7 @@ public class KboSyncHistoriekController : ApiController
     [ProducesJson]
     public async Task<IActionResult> SyncVereniging(
         [FromServices] IDocumentStore documentStore,
-        [FromServices] SqsClientWrapper clientWrapper,
+        [FromServices] IMessageBus messageBus,
         [FromRoute] string vCode
     )
     {
@@ -123,7 +124,7 @@ public class KboSyncHistoriekController : ApiController
         if (verenigingMetRechtspersoonlijkheidWerdGeregistreerd is null)
             return NotFound();
 
-        await clientWrapper.QueueKboNummerToSynchronise(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer);
+        await messageBus.SendAsync(new TeSynchroniserenKboNummerMessage(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
 
         return Accepted();
     }

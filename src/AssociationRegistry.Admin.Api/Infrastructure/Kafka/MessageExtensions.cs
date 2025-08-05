@@ -21,13 +21,3 @@ public static class MessageExtensions
         return JsonConvert.DeserializeObject(incomingData, type, new JsonSerializerSettings());
     }
 }
-
-public class KafkaMessageTypeNotFound : Exception
-{
-    public string Type { get; }
-
-    public KafkaMessageTypeNotFound(string type)
-    {
-        Type = type;
-    }
-}
