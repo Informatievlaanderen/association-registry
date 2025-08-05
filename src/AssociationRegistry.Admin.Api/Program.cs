@@ -36,7 +36,6 @@ using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
-using Infrastructure.AWS;
 using Infrastructure.Configuration;
 using Infrastructure.ExceptionHandlers;
 using Infrastructure.Extensions;
@@ -453,8 +452,6 @@ public class Program
                .AddScoped<IMagdaClient, MagdaClient>()
                .AddScoped<TeAdresMatchenLocatieMessageHandler>()
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
-               .AddTransient<ISqsClientWrapper, SqsClientWrapper>()
-               .AddTransient<SqsClientWrapper>()
                .AddTransient<IEventStore, EventStore>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
                .AddTransient<IDuplicateVerenigingDetectionService, ZoekDuplicateVerenigingenQuery>()

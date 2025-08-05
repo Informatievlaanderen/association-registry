@@ -3,15 +3,16 @@
 using Framework;
 using GrarConsumer.Messaging;
 using LocatieFinder;
+using Wolverine;
 
 public class TeHeradresserenLocatiesProcessor : ITeHeradresserenLocatiesProcessor
 {
-    private readonly ISqsClientWrapper _sqsClientWrapper;
+    private readonly IMessageBus _messageBus;
     private readonly ILocatieFinder _locatieFinder;
 
-    public TeHeradresserenLocatiesProcessor(ISqsClientWrapper sqsClientWrapper, ILocatieFinder locatieFinder)
+    public TeHeradresserenLocatiesProcessor(IMessageBus messageBus, ILocatieFinder locatieFinder)
     {
-        _sqsClientWrapper = sqsClientWrapper;
+        _messageBus = messageBus;
         _locatieFinder = locatieFinder;
     }
 
@@ -23,7 +24,7 @@ public class TeHeradresserenLocatiesProcessor : ITeHeradresserenLocatiesProcesso
 
         foreach (var message in messages)
         {
-            await _sqsClientWrapper.QueueMessage(
+            await _messageBus.SendAsync(
                 new OverkoepelendeGrarConsumerMessage
                 {
                     HeradresseerLocatiesMessage = message,
