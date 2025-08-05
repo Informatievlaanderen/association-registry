@@ -1,6 +1,5 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
+namespace AssociationRegistry.MartenDb.Serialization;
 
-using MartenDb.Serialization;
 using Newtonsoft.Json;
 using System.Globalization;
 

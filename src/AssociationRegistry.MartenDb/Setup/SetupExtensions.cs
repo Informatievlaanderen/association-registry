@@ -1,10 +1,15 @@
 namespace AssociationRegistry.MartenDb.Setup;
 
+using Admin.Api.Adapters.VCodeGeneration;
 using Marten;
 using Upcasters;
 using Events;
-using JasperFx.Events.Projections;
-using Subscriptions;
+using Formats;
+using Hosts.Configuration.ConfigurationBindings;
+using Marten.Services;
+using Newtonsoft.Json;
+using Serialization;
+using Vereniging;
 
 public static class SetupExtensions
 {
@@ -15,7 +20,7 @@ public static class SetupExtensions
         );
     }
 
-    public static void AddAllEventTypes(this StoreOptions opts)
+    public static StoreOptions RegisterAllEventTypes(this StoreOptions opts)
     {
         var eventInterface = typeof(Events.IEvent);
 
@@ -32,5 +37,49 @@ public static class SetupExtensions
         {
             opts.Events.AddEventType(eventType);
         }
+
+        return opts;
+    }
+
+    public static void ConfigureForVerenigingsregister(this JsonSerializerSettings settings)
+    {
+            settings.DateParseHandling = DateParseHandling.None;
+            settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+    }
+
+    public static StoreOptions SetUpOpenTelemetry(this StoreOptions opts)
+    {
+        opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
+        opts.OpenTelemetry.TrackEventCounters();
+
+        return opts;
+    }
+
+    public static StoreOptions UsePostgreSqlOptions(this StoreOptions opts, PostgreSqlOptionsSection postgreSqlOptions)
+    {
+        opts.Connection(postgreSqlOptions.GetConnectionString());
+
+        if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
+        {
+            opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
+            opts.DatabaseSchemaName = postgreSqlOptions.Schema;
+        }
+
+        return opts;
+    }
+
+    public static StoreOptions AddVCodeSequence(this StoreOptions opts)
+    {
+        opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
+
+        return opts;
+    }
+
+    public static StoreOptions ConfigureSerialization(this StoreOptions opts)
+    {
+        opts.UseNewtonsoftForSerialization(configure: settings => settings.ConfigureForVerenigingsregister());
+
+        return opts;
     }
 }
