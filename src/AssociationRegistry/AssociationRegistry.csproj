@@ -61,6 +61,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DecentraalBeheer\Dubbelbeheer\Commands\" />
+    <Folder Include="DecentraalBeheer\Dubbelbeheer\Reacties\" />
     <Folder Include="Repositories\"/>
   </ItemGroup>
 
