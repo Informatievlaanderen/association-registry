@@ -3,23 +3,18 @@
 using Adapters.VCodeGeneration;
 using Json;
 using Metrics;
-using Schema.Detail;
-using Schema.Historiek;
-using Schema.KboSync;
-using Schema.PowerBiExport;
 using Formats;
 using global::Wolverine.Marten;
-using Grar.NutsLau;
 using Hosts.Configuration.ConfigurationBindings;
 using Magda.Models;
-using Vereniging;
 using Marten.Services;
-using HostedServices.GrarKafkaConsumer.Kafka;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using Marten;
+using MartenDb.Setup;
 using Newtonsoft.Json;
+using static MartenDb.Setup.SetupExtensions;
 using IEvent = Events.IEvent;
 
 public static class MartenExtensions
@@ -38,66 +33,17 @@ public static class MartenExtensions
                                       {
                                           var opts = new StoreOptions();
 
-                                          if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
-                                          {
-                                              opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
-                                              opts.DatabaseSchemaName = postgreSqlOptions.Schema;
-                                          }
-
-                                          opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
-                                          opts.OpenTelemetry.TrackEventCounters();
-
-                                          opts.Connection(postgreSqlOptions.GetConnectionString());
-                                          opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
-
-                                          opts.UseNewtonsoftForSerialization(configure: settings =>
-                                          {
-                                              settings.DateParseHandling = DateParseHandling.None;
-                                              settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                                              settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                                          });
+                                          opts
+                                             .UsePostgreSqlOptions(postgreSqlOptions)
+                                             .AddVCodeSequence()
+                                             .ConfigureSerialization()
+                                             .SetUpOpenTelemetry()
+                                             .RegisterAllEventTypes()
+                                             .RegisterDocumentTypes();
 
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.Events.AppendMode = EventAppendMode.Quick;
-
-                                          opts.Events.AddEventTypes(typeof(IEvent).Assembly
-                                                                                  .GetTypes()
-                                                                                  .Where(t => typeof(IEvent)
-                                                                                                .IsAssignableFrom(t) && !t.IsAbstract &&
-                                                                                             t.IsClass)
-                                                                                  .ToList());
-
-                                          opts.Listeners.Add(
-                                              new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
-
-                                          opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-                                          opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-                                          opts.RegisterDocumentType<PowerBiExportDocument>();
-                                          opts.RegisterDocumentType<LocatieLookupDocument>();
-                                          opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
-                                          opts.RegisterDocumentType<AddressKafkaConsumerOffset>();
-
-                                          opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
-                                          opts.RegisterDocumentType<PostalNutsLauInfo>();
-
-                                          opts.Schema.For<LocatieLookupDocument>()
-                                              .UseNumericRevisions(true)
-                                              .UseOptimisticConcurrency(false);
-
-                                          opts.Schema.For<LocatieZonderAdresMatchDocument>()
-                                              .UseNumericRevisions(true)
-                                              .UseOptimisticConcurrency(false);
-
-                                          opts.Schema.For<PowerBiExportDocument>()
-                                              .UseNumericRevisions(true)
-                                              .UseOptimisticConcurrency(false);
-
-                                          opts.RegisterDocumentType<VerenigingState>();
-
-                                          opts.RegisterDocumentType<SettingOverride>();
-
-                                          opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
 
                                           opts.AutoCreateSchemaObjects = AutoCreate.All;
 

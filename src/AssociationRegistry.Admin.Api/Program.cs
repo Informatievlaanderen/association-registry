@@ -42,7 +42,6 @@ using Infrastructure.ExceptionHandlers;
 using Infrastructure.HttpClients;
 using Infrastructure.Json;
 using Infrastructure.MartenSetup;
-using Infrastructure.Metrics;
 using Infrastructure.WebApi;
 using Infrastructure.WebApi.Middleware;
 using Infrastructure.WebApi.ResponseWriter;
@@ -427,8 +426,6 @@ public class Program
                     httpClient.DefaultRequestHeaders.Add("x-api-key", grarOptions.HttpClient.ApiKey);
                     httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl);
                 });
-
-        builder.ConfigureOpenTelemetry(new Instrumentation());
 
         builder.Services
                .AddSingleton(postgreSqlOptionsSection)
