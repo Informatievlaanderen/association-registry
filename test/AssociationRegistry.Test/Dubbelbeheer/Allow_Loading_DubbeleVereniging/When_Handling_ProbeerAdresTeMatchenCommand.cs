@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging.Geotags;
 using Xunit;
+using ProbeerAdresTeMatchenCommandHandler = DecentraalBeheer.Administratie.ProbeerAdresTeMatchen.ProbeerAdresTeMatchenCommandHandler;
 
 public class When_Handling_ProbeerAdresTeMatchenCommand : When_Loading_With_Dubbels_TestBase
 {

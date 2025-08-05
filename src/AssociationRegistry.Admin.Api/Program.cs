@@ -15,6 +15,7 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
+using DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
 using DuplicateVerenigingDetection;
 using Events;
 using EventStore;
@@ -52,7 +53,6 @@ using JasperFx;
 using Kbo;
 using Magda;
 using Marten;
-using MessageHandling.Sqs.AddressMatch;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
@@ -457,7 +457,7 @@ public class Program
                .AddScoped<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddScoped<IMagdaClient, MagdaClient>()
-               .AddScoped<TeAdresMatchenLocatieMessageHandler>()
+               .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
                .AddTransient<IEventStore, EventStore>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()

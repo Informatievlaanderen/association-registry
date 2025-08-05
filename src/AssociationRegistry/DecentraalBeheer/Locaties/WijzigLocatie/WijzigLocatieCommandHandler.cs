@@ -1,10 +1,10 @@
 namespace AssociationRegistry.DecentraalBeheer.Locaties.WijzigLocatie;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Messages;
 using AssociationRegistry.Vereniging;
 using Grar.Clients;
 using Marten;
+using ProbeerAdresTeMatchen;
 using Vereniging.Geotags;
 using Wolverine.Marten;
 
@@ -66,7 +66,7 @@ public class WijzigLocatieCommandHandler
         }
         else if(adres is not null)
         {
-            await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(envelope.Command.VCode, locatieId));
+            await _outbox.SendAsync(new ProbeerAdresTeMatchenCommand(envelope.Command.VCode, locatieId));
         }
     }
 }
