@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Notifications.Messages;
+﻿namespace AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Notifications.Messages;
 
 using AssociationRegistry.Notifications;
 

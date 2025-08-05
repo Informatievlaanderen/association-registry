@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 
 public static class DevelopmentExtensions
 {

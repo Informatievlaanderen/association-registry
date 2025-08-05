@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Finders;
+﻿namespace AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Finders;
 
-using Grar.GrarUpdates.LocatieFinder;
-using Schema.Detail;
+using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 using Marten;
 
 public class LocatieFinder : ILocatieFinder

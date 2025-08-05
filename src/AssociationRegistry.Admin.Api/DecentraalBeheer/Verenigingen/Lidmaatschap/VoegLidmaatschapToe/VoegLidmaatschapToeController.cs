@@ -2,12 +2,6 @@
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
-using AssociationRegistry.Admin.Api.Infrastructure.ResponseWriter;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Examples;
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Framework;
@@ -17,6 +11,12 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using FluentValidation;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.WebApi;
+using Infrastructure.WebApi.ResponseWriter;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
+using Infrastructure.WebApi.Validation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;

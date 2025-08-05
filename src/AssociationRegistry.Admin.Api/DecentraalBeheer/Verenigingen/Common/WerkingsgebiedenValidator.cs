@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using AssociationRegistry.Vereniging;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 
 public class WerkingsgebiedenValidator : AbstractValidator<string[]?>
 {

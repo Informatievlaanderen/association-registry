@@ -2,18 +2,20 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
 using Asp.Versioning;
 using Infrastructure;
-using Infrastructure.ResponseWriter;
-using Infrastructure.Sequence;
-using Infrastructure.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Examples;
 using Queries;
 using Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
+using Infrastructure.WebApi.ResponseWriter;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
+using Schema.Detail;
+using SequenceGuarding;
 using Swashbuckle.AspNetCore.Filters;
+using Verenigingen.SequenceGuarding;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
@@ -60,7 +62,7 @@ public class DetailVerenigingenController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [ProducesJson]
     public async Task<IActionResult> Detail(
-        [FromServices] ISequenceGuarder sequenceGuarder,
+        [FromServices] ISequenceGuarder<BeheerVerenigingDetailDocument> sequenceGuarder,
         [FromServices] IBeheerVerenigingDetailQuery detailQuery,
         [FromServices] IGetNamesForVCodesQuery getNamesForVCodesQuery,
         [FromServices] IResponseWriter responseWriter,

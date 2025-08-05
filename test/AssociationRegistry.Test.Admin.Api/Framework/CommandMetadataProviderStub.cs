@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
+using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Framework;
 using NodaTime;
 

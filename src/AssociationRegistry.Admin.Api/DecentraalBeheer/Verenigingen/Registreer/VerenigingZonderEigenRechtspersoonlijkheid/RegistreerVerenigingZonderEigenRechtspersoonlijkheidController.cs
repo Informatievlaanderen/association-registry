@@ -2,10 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonder
 
 using Asp.Versioning;
 using Infrastructure;
-using Infrastructure.Extensions;
-using Infrastructure.Middleware;
-using Infrastructure.Swagger.Annotations;
-using Infrastructure.Validation;
 using DuplicateVerenigingDetection;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
@@ -15,6 +11,10 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Examples;
 using FluentValidation;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.WebApi;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Validation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using ResultNet;

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger;
 using AssociationRegistry.Vereniging;
+using Infrastructure.WebApi.Swagger;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 

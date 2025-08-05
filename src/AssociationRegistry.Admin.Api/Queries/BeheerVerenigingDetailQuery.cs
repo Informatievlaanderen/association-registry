@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Queries;
 
 using Framework;
-using Infrastructure.Extensions;
 using Marten;
 using Marten.Linq.SoftDeletes;
 using Schema.Detail;

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.Configuration;
+namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi.Middleware;
 
 using Microsoft.Net.Http.Headers;
 

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework;
 
+using Admin.Api.Infrastructure.Elastic;
 using Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 using Admin.ProjectionHost.Projections.Locaties;
 using Admin.ProjectionHost.Projections.Search;
@@ -37,7 +38,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         EnsureDbExists(Configuration);
 
         AdminElasticClient =
-            Admin.Api.Infrastructure.Extensions.ElasticSearchExtensions.CreateElasticClient(
+            ElasticSearchExtensions.CreateElasticClient(
                 Configuration.GetElasticSearchOptionsSection(), NullLogger.Instance);
 
         AdminProjectionElasticClient =
