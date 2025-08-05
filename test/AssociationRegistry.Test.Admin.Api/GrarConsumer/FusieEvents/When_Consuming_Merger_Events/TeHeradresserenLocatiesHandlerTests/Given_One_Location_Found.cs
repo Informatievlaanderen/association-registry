@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
+using Wolverine;
 using Xunit;
 
 public class Given_One_Location_Found
@@ -20,15 +21,15 @@ public class Given_One_Location_Found
         var destinationAdresId = fixture.Create<int>();
 
         HeradresseerLocatiesMessage actual = null;
-        var sqsClientWrapper = new Mock<ISqsClientWrapper>();
-        sqsClientWrapper.CaptureQueueOverkoepelendeGrarMessage(message => actual = message.HeradresseerLocatiesMessage);
+        var messageBusMock = new Mock<IMessageBus>();
+        messageBusMock.CaptureQueueOverkoepelendeGrarMessage(message => actual = message.HeradresseerLocatiesMessage);
 
         var locatieId = fixture.Create<LocatieLookupData>();
         var idempotencyKey = fixture.Create<string>();
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);
         var locatieIdsPerVCode = await locatiesFinder.FindLocaties(sourceAdresId);
 
-        var sut = new TeHeradresserenLocatiesProcessor(sqsClientWrapper.Object, locatiesFinder);
+        var sut = new TeHeradresserenLocatiesProcessor(messageBusMock.Object, locatiesFinder);
         await sut.Process(sourceAdresId, destinationAdresId, idempotencyKey);
 
         var messages = locatieIdsPerVCode.Map(destinationAdresId, idempotencyKey);

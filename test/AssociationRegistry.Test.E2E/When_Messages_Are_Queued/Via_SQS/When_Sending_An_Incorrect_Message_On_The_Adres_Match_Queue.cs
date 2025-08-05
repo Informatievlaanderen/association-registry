@@ -32,7 +32,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Adres_Match_Queue
 
         await _setup.AmazonSqs.PurgeQueueAsync(dlqUrl.QueueUrl);
 
-        await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<TeAdresMatchenLocatieMessage>());
+        await _setup.MessageBus.SendAsync(_autoFixture.Create<TeAdresMatchenLocatieMessage>());
 
         var maxRetries = 50;
         var tries = 0;

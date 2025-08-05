@@ -9,11 +9,11 @@ using Wolverine.Marten;
 public static class SetupMockExtension
 {
     public static void CaptureQueueOverkoepelendeGrarMessage(
-        this Mock<ISqsClientWrapper> sqsClientWrapper,
+        this Mock<IMessageBus> sqsClientWrapper,
         Action<OverkoepelendeGrarConsumerMessage> action)
     {
-        sqsClientWrapper.Setup(v => v.QueueMessage(It.IsAny<OverkoepelendeGrarConsumerMessage>()))
-                        .Callback(action);
+        sqsClientWrapper.Setup(v => v.SendAsync(It.IsAny<OverkoepelendeGrarConsumerMessage>(), It.IsAny<DeliveryOptions>()))
+                        .Callback<OverkoepelendeGrarConsumerMessage, DeliveryOptions>((message, _) => action(message));
     }
 
 

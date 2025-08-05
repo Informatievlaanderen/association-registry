@@ -2,18 +2,19 @@ namespace AssociationRegistry.Grar.GrarUpdates.Hernummering;
 
 using Framework;
 using GrarConsumer.Messaging;
+using Wolverine;
 
 public class TeHernummerenStraatEventProcessor: ITeHernummerenStraatEventProcessor
 {
     private readonly TeHeradresserenLocatiesMapper _teHeradresserenLocatiesMapper;
-    private readonly ISqsClientWrapper _sqsClientWrapper;
+    private readonly IMessageBus _messageBus;
 
     public TeHernummerenStraatEventProcessor(
         TeHeradresserenLocatiesMapper teHeradresserenLocatiesMapper,
-        ISqsClientWrapper sqsClientWrapper)
+        IMessageBus messageBus)
     {
         _teHeradresserenLocatiesMapper = teHeradresserenLocatiesMapper;
-        _sqsClientWrapper = sqsClientWrapper;
+        _messageBus = messageBus;
     }
 
     public async Task Process(TeHernummerenStraat teHernummerenStraat, string idempotenceKey)
@@ -24,7 +25,7 @@ public class TeHernummerenStraatEventProcessor: ITeHernummerenStraatEventProcess
 
         foreach (var heradresseerLocatiesMessage in heradresseerLocatiesMessages)
         {
-            await _sqsClientWrapper.QueueMessage(
+            await _messageBus.SendAsync(
                 new OverkoepelendeGrarConsumerMessage
                 {
                     HeradresseerLocatiesMessage = heradresseerLocatiesMessage,

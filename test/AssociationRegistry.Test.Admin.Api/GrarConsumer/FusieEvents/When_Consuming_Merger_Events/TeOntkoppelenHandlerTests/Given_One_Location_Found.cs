@@ -8,6 +8,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
 using Moq;
+using Wolverine;
 using Xunit;
 
 public class Given_One_Location_Found
@@ -19,14 +20,14 @@ public class Given_One_Location_Found
         var sourceAdresId = fixture.Create<int>();
 
         OntkoppelLocatiesMessage actual = null;
-        var sqsClientWrapper = new Mock<ISqsClientWrapper>();
-        sqsClientWrapper.CaptureQueueOverkoepelendeGrarMessage(message => actual = message.OntkoppelLocatiesMessage);
+        var messageBusMock = new Mock<IMessageBus>();
+        messageBusMock.CaptureQueueOverkoepelendeGrarMessage(message => actual = message.OntkoppelLocatiesMessage);
 
         var locatieId = fixture.Create<LocatieLookupData>();
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);
         var locatieIdsPerVCode = await locatiesFinder.FindLocaties(sourceAdresId);
 
-        var sut = new TeOntkoppelenLocatiesProcessor(sqsClientWrapper.Object, locatiesFinder);
+        var sut = new TeOntkoppelenLocatiesProcessor(messageBusMock.Object, locatiesFinder);
         await sut.Process(sourceAdresId);
 
         actual.Should().BeEquivalentTo(

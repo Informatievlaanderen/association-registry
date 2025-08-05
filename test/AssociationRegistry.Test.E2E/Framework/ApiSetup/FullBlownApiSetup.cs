@@ -30,6 +30,7 @@ using Scenarios.Givens.FeitelijkeVereniging;
 using System.Diagnostics;
 using TestClasses;
 using Vereniging;
+using Wolverine;
 using Xunit;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
 
@@ -92,8 +93,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         using var scope = AdminApiHost.Services.CreateScope();
         _serviceProvider = scope.ServiceProvider;
 
-        SqsClientWrapper = _serviceProvider.GetRequiredService<ISqsClientWrapper>();
-        AmazonSqs = _serviceProvider.GetRequiredService<IAmazonSQS>();
+        MessageBus = _serviceProvider.GetRequiredService<IMessageBus>();
         VCodeService = _serviceProvider.GetRequiredService<IVCodeService>();
 
         ElasticClient = _serviceProvider.GetRequiredService<IElasticClient>();
@@ -144,7 +144,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     }
 
     public IAmazonSQS AmazonSqs { get; set; }
-    public ISqsClientWrapper SqsClientWrapper { get; set; }
+    public IMessageBus MessageBus { get; set; }
 
     private Action<IWebHostBuilder> ConfigureForTesting(string name)
     {

@@ -27,6 +27,7 @@ using Npgsql;
 using Oakton;
 using System.Net.Http.Headers;
 using Vereniging;
+using Wolverine;
 using Xunit;
 using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 
@@ -92,9 +93,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         using var scope =  _adminApiServer.Services.CreateScope();
         _serviceProvider = scope.ServiceProvider;
 
-        SqsClientWrapper = _serviceProvider.GetRequiredService<ISqsClientWrapper>();
-
-        AmazonSqs = _serviceProvider.GetRequiredService<IAmazonSQS>();
+        MessageBus = _serviceProvider.GetRequiredService<IMessageBus>();
 
         AdminApiClients = new AdminApiClients(
             Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
@@ -139,8 +138,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     }
 
 
-    public IAmazonSQS AmazonSqs { get; set; }
-    public ISqsClientWrapper SqsClientWrapper { get; set; }
+    public IMessageBus MessageBus { get; set; }
 
     public IDocumentStore ApiDocumentStore
         => _serviceProvider.GetRequiredService<IDocumentStore>();
