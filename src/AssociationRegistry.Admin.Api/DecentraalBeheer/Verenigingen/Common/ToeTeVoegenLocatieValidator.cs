@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using AssociationRegistry.Normalizers;
 using AssociationRegistry.Vereniging;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 
 public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
 {

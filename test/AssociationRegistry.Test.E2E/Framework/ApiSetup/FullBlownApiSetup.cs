@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Admin.Api;
-using Admin.Api.Infrastructure.Extensions;
+using Admin.Api.Infrastructure.Elastic;
 using Admin.ProjectionHost.Projections;
 using Alba;
 using AlbaHost;

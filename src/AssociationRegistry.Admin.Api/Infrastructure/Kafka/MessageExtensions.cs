@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Kafka;
 
 using Confluent.Kafka;
 using Newtonsoft.Json;

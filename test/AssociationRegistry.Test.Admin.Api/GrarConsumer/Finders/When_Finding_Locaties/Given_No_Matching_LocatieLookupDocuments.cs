@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.Finders.When_Finding_Locaties;
 
-using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
+using AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 using AutoFixture;

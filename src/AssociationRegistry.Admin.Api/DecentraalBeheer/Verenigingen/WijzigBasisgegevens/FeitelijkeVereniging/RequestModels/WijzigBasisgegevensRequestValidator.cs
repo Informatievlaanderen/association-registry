@@ -1,9 +1,9 @@
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using Common;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {

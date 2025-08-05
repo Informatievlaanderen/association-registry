@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;

@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
 using Events;
+using global::Marten;
+using global::Wolverine;
 using Hosts.Configuration.ConfigurationBindings;
 using Kbo;
 using Marten;
