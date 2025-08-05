@@ -2,8 +2,8 @@
 
 using DuplicateVerenigingDetection;
 using Framework;
+using Locaties.ProbeerAdresTeMatchen;
 using Marten;
-using Messages;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using System.Collections.ObjectModel;
@@ -70,7 +70,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 
         foreach (var locatieZonderAdresId in zonderAdresId)
         {
-            await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(vereniging.VCode, locatieZonderAdresId.LocatieId));
+            await _outbox.SendAsync(new ProbeerAdresTeMatchenCommand(vereniging.VCode, locatieZonderAdresId.LocatieId));
         }
 
         var result = await _verenigingsRepository.SaveNew(vereniging, _session ,message.Metadata, cancellationToken);

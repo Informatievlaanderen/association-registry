@@ -3,7 +3,6 @@
 using Amazon.Runtime;
 using Amazon.SQS;
 using AssociationRegistry.Admin.Api.MessageHandling.Postgres.Dubbels;
-using AssociationRegistry.Admin.Api.MessageHandling.Sqs.AddressMatch;
 using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
@@ -15,6 +14,8 @@ using AssociationRegistry.Kbo;
 using AssociationRegistry.Messages;
 using AssociationRegistry.Middleware;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
+using DecentraalBeheer.Locaties.ProbeerAdresTeMatchen;
 using global::Wolverine;
 using global::Wolverine.AmazonSqs;
 using global::Wolverine.ErrorHandling;
@@ -34,8 +35,8 @@ public static class WolverineExtensions
                 Log.Logger.Information("Setting up wolverine");
                 options.ApplicationAssembly = typeof(Program).Assembly;
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
-                options.Discovery.IncludeType<TeAdresMatchenLocatieMessage>();
-                options.Discovery.IncludeType<TeAdresMatchenLocatieMessageHandler>();
+                options.Discovery.IncludeType<ProbeerAdresTeMatchenCommand>();
+                options.Discovery.IncludeType<ProbeerAdresTeMatchenCommandHandler>();
                 options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessage>();
                 options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessageHandler>();
 
@@ -118,7 +119,7 @@ public static class WolverineExtensions
 
     private static void ConfigureAddressMatchPublisher(WolverineOptions options, string sqsQueueName)
     {
-        options.PublishMessage<TeAdresMatchenLocatieMessage>()
+        options.PublishMessage<ProbeerAdresTeMatchenCommand>()
                .ToSqsQueue(sqsQueueName)
                .MessageBatchSize(1);
     }

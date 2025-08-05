@@ -1,11 +1,11 @@
 namespace AssociationRegistry.DecentraalBeheer.Locaties.VoegLocatieToe;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Messages;
 using AssociationRegistry.Vereniging;
 using Events;
 using Grar.Clients;
 using Marten;
+using ProbeerAdresTeMatchen;
 using Vereniging.Geotags;
 using Wolverine.Marten;
 
@@ -44,7 +44,7 @@ public class VoegLocatieToeCommandHandler
         if (toegevoegdeLocatie.AdresId is not null)
             await vereniging.NeemAdresDetailOver(toegevoegdeLocatie.LocatieId, _grarClient, cancellationToken);
         else
-            await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(
+            await _outbox.SendAsync(new ProbeerAdresTeMatchenCommand(
                                         envelope.Command.VCode,
                                         vereniging.UncommittedEvents.OfType<LocatieWerdToegevoegd>()
                                                   .Single()
