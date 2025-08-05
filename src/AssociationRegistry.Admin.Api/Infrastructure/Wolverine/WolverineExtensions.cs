@@ -1,26 +1,26 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Wolverine;
 
 using Amazon.Runtime;
+using Amazon.SQS;
+using AssociationRegistry.Admin.Api.MessageHandling.Postgres.Dubbels;
+using AssociationRegistry.Admin.Api.MessageHandling.Sqs.AddressMatch;
+using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar.GrarConsumer.Messaging;
+using AssociationRegistry.Hosts.Configuration;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Kbo;
+using AssociationRegistry.Messages;
 using AssociationRegistry.Middleware;
-using DecentraalBeheer.Registratie.RegistreerVerenigingUitKbo;
-using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using EventStore;
-using Framework;
-using Grar.Clients;
-using Grar.GrarConsumer.Messaging;
-using Hosts.Configuration;
-using Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Vereniging;
+using global::Wolverine;
+using global::Wolverine.AmazonSqs;
+using global::Wolverine.ErrorHandling;
+using global::Wolverine.Postgresql;
 using JasperFx.CodeGeneration;
-using Kbo;
-using MessageHandling.Postgres.Dubbels;
-using MessageHandling.Sqs.AddressMatch;
-using Messages;
 using Serilog;
-using Vereniging;
-using Wolverine;
-using Wolverine.AmazonSqs;
-using Wolverine.ErrorHandling;
-using Wolverine.Postgresql;
 
 public static class WolverineExtensions
 {
@@ -57,7 +57,7 @@ public static class WolverineExtensions
 
                 var transportConfiguration = options.UseAmazonSqsTransport(config =>
                 {
-                    Log.Logger.Information(messageTemplate: "Wolverine SQS configuration: {@Config}", config);
+                    Log.Logger.Information<AmazonSQSConfig>(messageTemplate: "Wolverine SQS configuration: {@Config}", config);
                     config.ServiceURL = grarOptions.Wolverine.TransportServiceUrl;
                 });
 

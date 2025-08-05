@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class WijzigMaatschappelijkeZetelRequestValidator : AbstractValidator<WijzigMaatschappelijkeZetelRequest>

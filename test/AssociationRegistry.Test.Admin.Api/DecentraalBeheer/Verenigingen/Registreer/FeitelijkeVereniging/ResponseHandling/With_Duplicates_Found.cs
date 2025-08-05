@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.
     When_RegistreerFeitelijkeVereniging.ResponseHandling;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
+using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;

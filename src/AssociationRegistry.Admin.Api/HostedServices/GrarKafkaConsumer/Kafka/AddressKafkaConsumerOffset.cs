@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Kafka;
+﻿namespace AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Kafka;
 
 using Marten.Schema;
 

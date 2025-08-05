@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Projections.Framework.Fixtures;
 
 using Admin.Api;
-using Admin.Api.Constants;
+using Admin.Api.Infrastructure.WebApi.Security;
 using AssociationRegistry.Framework;
 using Common.Clients;
 using Common.Configuration;
@@ -242,10 +242,10 @@ public class AdminApiClients : IDisposable
     }
 
     public HttpClient GetAuthenticatedHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "vloketClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
+        => CreateMachine2MachineClientFor(clientId: "vloketClient", ClaimConstants.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
 
     private HttpClient GetSuperAdminHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "superAdminClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter()
+        => CreateMachine2MachineClientFor(clientId: "superAdminClient", ClaimConstants.Scopes.Admin, clientSecret: "secret").GetAwaiter()
            .GetResult();
 
     public AdminApiClient Authenticated

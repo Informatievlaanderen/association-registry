@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;

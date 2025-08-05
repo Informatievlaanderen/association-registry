@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using AssociationRegistry.Vereniging;
 using Common;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 using RequestModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract

@@ -2,17 +2,20 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Examples;
 using AssociationRegistry.Admin.Schema.Historiek;
 using AssociationRegistry.EventStore;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Detail.SequenceGuarding;
 using Examples;
+using Infrastructure.WebApi;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
+using Queries;
 using ResponseModels;
+using SequenceGuarding;
 using Swashbuckle.AspNetCore.Filters;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
@@ -65,6 +68,7 @@ public class VerenigingenHistoriekController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [ProducesJson]
     public async Task<IActionResult> Historiek(
+        [FromServices] ISequenceGuarder<BeheerVerenigingHistoriekDocument> sequenceGuarder,
         [FromServices] IDocumentStore documentStore,
         [FromServices] ProblemDetailsHelper problemDetailsHelper,
         [FromRoute] string vCode,
@@ -72,8 +76,7 @@ public class VerenigingenHistoriekController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        if (!await documentStore.HasReachedSequence<BeheerVerenigingHistoriekDocument>(expectedSequence))
-            throw new UnexpectedAggregateVersionException(ValidationMessages.Status412Historiek);
+        await sequenceGuarder.ThrowIfSequenceNotReached(expectedSequence);
 
         var maybeHistoriekVereniging = await session.Query<BeheerVerenigingHistoriekDocument>()
                                                     .WithVCode(vCode)

@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
-using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Mvc;
 using ResponseWriter;
-using Vereniging;
 
 public static class ControllerExtensions
 {

@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Schema.Search;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -11,6 +10,7 @@ using Examples;
 using Exceptions;
 using FluentValidation;
 using Hosts.Configuration.ConfigurationBindings;
+using Infrastructure.WebApi.Swagger.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
 using RequestModels;

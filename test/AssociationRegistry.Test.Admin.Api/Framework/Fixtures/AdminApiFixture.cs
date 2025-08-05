@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
 using Amazon.SQS;
 using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Security;
 using EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.NutsLau;
@@ -271,10 +271,10 @@ public class AdminApiClients : IDisposable
     }
 
     public HttpClient GetAuthenticatedHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "vloketClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
+        => CreateMachine2MachineClientFor(clientId: "vloketClient", ClaimConstants.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
 
     private HttpClient GetSuperAdminHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "superAdminClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter()
+        => CreateMachine2MachineClientFor(clientId: "superAdminClient", ClaimConstants.Scopes.Admin, clientSecret: "secret").GetAwaiter()
            .GetResult();
 
     public AdminApiClient Authenticated

@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Metrics;
 
+using global::Marten;
+using global::Marten.Services;
 using Marten;
 using Marten.Services;
 

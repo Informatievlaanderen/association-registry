@@ -15,7 +15,6 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
-using Constants;
 using DuplicateVerenigingDetection;
 using Events;
 using EventStore;
@@ -29,22 +28,26 @@ using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Grar.GrarUpdates.Hernummering;
 using Grar.GrarUpdates.LocatieFinder;
 using Grar.NutsLau;
-using GrarConsumer.Finders;
-using GrarConsumer.Kafka;
+using HostedServices.GrarKafkaConsumer.Finders;
+using HostedServices.GrarKafkaConsumer.Kafka;
 using Hosts;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
-using Infrastructure.Configuration;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.Elastic;
 using Infrastructure.ExceptionHandlers;
-using Infrastructure.Extensions;
 using Infrastructure.HttpClients;
 using Infrastructure.Json;
+using Infrastructure.MartenSetup;
 using Infrastructure.Metrics;
-using Infrastructure.Middleware;
-using Infrastructure.ResponseWriter;
-using Infrastructure.Sequence;
+using Infrastructure.WebApi;
+using Infrastructure.WebApi.Middleware;
+using Infrastructure.WebApi.ResponseWriter;
+using Infrastructure.WebApi.Security;
+using Infrastructure.WebApi.Swagger;
+using Infrastructure.Wolverine;
 using JasperFx;
 using Kbo;
 using Magda;
@@ -71,6 +74,8 @@ using Newtonsoft.Json.Serialization;
 using Notifications;
 using OpenTelemetry.Extensions;
 using Queries;
+using Schema.Detail;
+using Schema.Historiek;
 using Serilog;
 using Serilog.Debugging;
 using System.Globalization;
@@ -81,8 +86,11 @@ using System.Reflection;
 using System.Text;
 using Vereniging;
 using Vereniging.Geotags;
+using Verenigingen.Detail;
+using Verenigingen.Detail.SequenceGuarding;
 using Verenigingen.Historiek;
 using Verenigingen.KboSync;
+using Verenigingen.SequenceGuarding;
 using Weasel.Core.Migrations;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
@@ -540,14 +548,14 @@ public class Program
                         options.AddPolicy(
                             AdminGlobalPolicyName,
                             new AuthorizationPolicyBuilder()
-                               .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
+                               .RequireClaim(ClaimConstants.ClaimTypes.Scope, ClaimConstants.Scopes.Admin)
                                .Build());
 
                         options.AddPolicy(
                             SuperAdminPolicyName,
                             new AuthorizationPolicyBuilder()
-                               .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
-                               .RequireClaim(Security.ClaimTypes.ClientId, appSettings.SuperAdminClientIds)
+                               .RequireClaim(ClaimConstants.ClaimTypes.Scope, ClaimConstants.Scopes.Admin)
+                               .RequireClaim(ClaimConstants.ClaimTypes.ClientId, appSettings.SuperAdminClientIds)
                                .Build());
                     })
                .AddNewtonsoftJson(
@@ -719,7 +727,8 @@ public class Program
         builder.Services.AddSingleton<IEventPostConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
         builder.Services.AddSingleton<EventConflictResolver>();
 
-        builder.Services.AddSingleton<ISequenceGuarder, SequenceGuarder>();
+        builder.Services.AddSingleton<ISequenceGuarder<BeheerVerenigingDetailDocument>, BeheerDetailSequenceGuarder>();
+        builder.Services.AddSingleton<ISequenceGuarder<BeheerVerenigingHistoriekDocument>, BeheerHistoriekSequenceGuarder>();
 
         builder.Services
                .AddTransient<IBeheerVerenigingDetailQuery, BeheerVerenigingDetailQuery>()

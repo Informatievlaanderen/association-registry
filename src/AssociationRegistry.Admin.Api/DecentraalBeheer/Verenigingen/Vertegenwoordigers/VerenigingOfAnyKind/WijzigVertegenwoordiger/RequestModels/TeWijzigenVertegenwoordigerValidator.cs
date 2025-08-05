@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.WijzigVertegenwoordiger.RequestModels;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 
 public class TeWijzigenVertegenwoordigerValidator : AbstractValidator<TeWijzigenVertegenwoordiger>
 {

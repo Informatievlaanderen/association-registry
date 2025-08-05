@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Subtype;
 
 using FluentValidation;
-using Infrastructure.Validation;
+using Infrastructure.WebApi.Validation;
 using RequestModels;
 using Vereniging;
 

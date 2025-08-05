@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 
 public class AdresIdValidator : AbstractValidator<AdresId>
 {

@@ -2,16 +2,16 @@
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Examples;
 using AssociationRegistry.DecentraalBeheer.Dubbelbeheer.CorrigeerMarkeringAlsDubbelVan;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.WebApi;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;

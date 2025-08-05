@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Elastic;
 
-using Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Admin.Schema.Search;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Nest;
-using Schema.Search;
 using System.Text;
 
 public static class ElasticSearchExtensions

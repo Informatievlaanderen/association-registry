@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Middleware.Given_A_InitiatorMiddleware;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Middleware;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;

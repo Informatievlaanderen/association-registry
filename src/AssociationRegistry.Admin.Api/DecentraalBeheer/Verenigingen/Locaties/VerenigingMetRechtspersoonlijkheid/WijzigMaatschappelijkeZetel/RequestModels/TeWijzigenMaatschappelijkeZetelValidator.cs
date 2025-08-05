@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using AssociationRegistry.Vereniging;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 
 public class TeWijzigenMaatschappelijkeZetelValidator : AbstractValidator<TeWijzigenMaatschappelijkeZetel>
 {

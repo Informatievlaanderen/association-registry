@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 
 public class VoegLidmaatschapToeRequestValidator : AbstractValidator<VoegLidmaatschapToeRequest>
 {

@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.KboSync;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
 using AssociationRegistry.Admin.Schema.KboSync;
 using AssociationRegistry.Events;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Historiek.Examples;
+using Infrastructure.WebApi.Swagger.Annotations;
 using Kbo;
 using Marten;
 using Microsoft.AspNetCore.Authorization;

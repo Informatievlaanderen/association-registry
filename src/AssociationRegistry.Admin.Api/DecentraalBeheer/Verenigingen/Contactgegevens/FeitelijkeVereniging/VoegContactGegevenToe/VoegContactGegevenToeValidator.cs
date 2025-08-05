@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using AssociationRegistry.Vereniging;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 using RequestsModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
