@@ -48,6 +48,7 @@ public static class AutoFixtureCustomizations
         KboCustomizations.CustomizeFromKbo(fixture);
 
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
+        fixture.Customizations.Add(new StartDatumCustomization());
 
         return fixture;
     }
