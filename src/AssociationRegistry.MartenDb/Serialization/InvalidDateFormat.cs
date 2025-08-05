@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
+namespace AssociationRegistry.MartenDb.Serialization;
 
+using AssociationRegistry.Resources;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
-using Resources;
 using System.Runtime.Serialization;
 
 [Serializable]

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
+namespace AssociationRegistry.MartenDb.Serialization;
 
 using System.Globalization;
 
