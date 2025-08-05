@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Administratie.AdresMatch;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.MessageHandling.Sqs.AddressMatch;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Messages;
 using Be.Vlaanderen.Basisregisters.Api;
+using DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
+using DecentraalBeheer.Locaties.ProbeerAdresTeMatchen;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ public class AdresMatchController : ApiController
     [HttpPost("adresmatch")]
     public async Task<IActionResult> QueueAdressenForAdresMatch(
         [FromServices] IDocumentStore documentStore,
-        [FromServices] TeAdresMatchenLocatieMessageHandler handler,
+        [FromServices] ProbeerAdresTeMatchenCommandHandler handler,
         [FromServices] ILogger<AdresMatchController> logger,
         CancellationToken cancellationToken)
     {
@@ -35,7 +35,7 @@ public class AdresMatchController : ApiController
 
         var messages = docs
                       .SelectMany(s => s.LocatieIds.Select(x => (s.VCode, LocatieId: x)))
-                      .Select(s => new TeAdresMatchenLocatieMessage(s.VCode, s.LocatieId))
+                      .Select(s => new ProbeerAdresTeMatchenCommand(s.VCode, s.LocatieId))
                       .ToList();
 
         var succeededMessages = 0;

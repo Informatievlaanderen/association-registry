@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
+using AssociationRegistry.DecentraalBeheer.Locaties.ProbeerAdresTeMatchen;
 using AssociationRegistry.DecentraalBeheer.Locaties.VoegLocatieToe;
 using AssociationRegistry.EventFactories;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Messages;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
@@ -81,7 +81,7 @@ public class Given_A_Locatie_With_Adres_id
             new GeotagsWerdenBepaald(scenario.VCode, geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray())
         );
 
-        martenOutbox.Verify(expression: v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()),
+        martenOutbox.Verify(expression: v => v.SendAsync(It.IsAny<ProbeerAdresTeMatchenCommand>(), It.IsAny<DeliveryOptions>()),
                             Times.Never);
     }
 }

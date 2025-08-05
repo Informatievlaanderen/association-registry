@@ -5,8 +5,8 @@ using Hosts.Configuration;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using AutoFixture;
+using DecentraalBeheer.Locaties.ProbeerAdresTeMatchen;
 using FluentAssertions;
-using Messages;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
@@ -32,7 +32,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Adres_Match_Queue
 
         await _setup.AmazonSqs.PurgeQueueAsync(dlqUrl.QueueUrl);
 
-        await _setup.MessageBus.SendAsync(_autoFixture.Create<TeAdresMatchenLocatieMessage>());
+        await _setup.MessageBus.SendAsync(_autoFixture.Create<ProbeerAdresTeMatchenCommand>());
 
         var maxRetries = 50;
         var tries = 0;
