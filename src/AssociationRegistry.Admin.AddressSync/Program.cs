@@ -2,8 +2,10 @@
 
 using Destructurama;
 using EventStore;
+using EventStore.ConflictResolution;
 using Grar.Clients;
 using Infrastructure.Extensions;
+using MartenDb.Store;
 using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

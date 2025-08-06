@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Concurrently;
 
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using FluentAssertions;
 using Framework.ApiSetup;

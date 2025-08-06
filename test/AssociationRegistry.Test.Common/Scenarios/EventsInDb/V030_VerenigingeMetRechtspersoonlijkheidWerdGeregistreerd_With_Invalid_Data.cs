@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 using Vereniging;
 
 public class V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data : IEventsInDbScenario

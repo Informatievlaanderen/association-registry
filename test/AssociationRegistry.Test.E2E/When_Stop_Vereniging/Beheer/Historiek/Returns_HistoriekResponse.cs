@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Stop_Vereniging.Beheer.Historiek;
 
-using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

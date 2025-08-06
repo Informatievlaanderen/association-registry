@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Common.templates.adminApi;
 
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Common;
+using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Events;
 using Extensions.Mappers;
 using Formats;

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
@@ -13,7 +13,7 @@ using System.ComponentModel;
 using System.Net;
 using Vereniging;
 using Xunit;
-using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
+using Adres = AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
 [Category(Categories.MoveToBasicProjections)] // het enige wat we hier willen testen is dat een MaatschappelijkeZetelWerdOvergenomen, leidt tot een locatie toegevoegd

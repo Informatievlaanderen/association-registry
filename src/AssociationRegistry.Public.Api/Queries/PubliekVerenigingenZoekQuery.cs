@@ -13,8 +13,8 @@ using Schema.Search;
 using System.Text;
 using System.Text.RegularExpressions;
 using Vereniging;
-using Verenigingen.Search;
-using Verenigingen.Search.RequestModels;
+using WebApi.Verenigingen.Search;
+using WebApi.Verenigingen.Search.RequestModels;
 using static Elastic.Clients.Elasticsearch.QueryDsl.Query;
 
 public interface IPubliekVerenigingenZoekQuery : IQuery<SearchResponse<VerenigingZoekDocument>, PubliekVerenigingenZoekFilter>;

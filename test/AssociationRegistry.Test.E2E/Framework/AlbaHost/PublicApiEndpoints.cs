@@ -8,10 +8,10 @@ using Elastic.Clients.Elasticsearch;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Public.Api.Infrastructure;
-using Public.Api.Verenigingen.Detail.ResponseModels;
-using Public.Api.Verenigingen.Mutaties;
-using Public.Api.Verenigingen.Search.ResponseModels;
-using Public.Api.Werkingsgebieden.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Mutaties;
+using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
+using Public.Api.WebApi.Werkingsgebieden.ResponseModels;
 using System.Net;
 
 public static class PublicApiEndpoints

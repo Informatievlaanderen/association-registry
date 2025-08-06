@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Beheer.Zoeken;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;
@@ -13,9 +13,9 @@ using Marten;
 using NodaTime;
 
 using Xunit;
-using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using Vereniging = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
+using Verenigingstype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingstype;
 
 [Collection(nameof(WijzigBasisgegevensKbocollection))]
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>

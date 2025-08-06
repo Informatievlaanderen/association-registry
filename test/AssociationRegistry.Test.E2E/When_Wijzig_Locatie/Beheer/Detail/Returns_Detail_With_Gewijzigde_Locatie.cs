@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Locatie.Beheer.Detail;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -9,9 +9,9 @@ using Vereniging;
 using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
-using Adres = Admin.Api.Verenigingen.Detail.ResponseModels.Adres;
-using AdresId = Admin.Api.Verenigingen.Detail.ResponseModels.AdresId;
-using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
+using Adres = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Adres;
+using AdresId = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.AdresId;
+using Locatie = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Locatie;
 
 [Collection(nameof(WijzigLocatieCollection))]
 public class Returns_Detail_With_Gewijzigde_Locatie : End2EndTest<DetailVerenigingResponse>

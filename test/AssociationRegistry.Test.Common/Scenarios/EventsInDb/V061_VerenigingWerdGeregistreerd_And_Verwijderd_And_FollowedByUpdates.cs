@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 
 public class V061_VerenigingWerdGeregistreerd_And_Verwijderd_And_FollowedByUpdates : IEventsInDbScenario
 {

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdGewijzgid.Beheer.Detail.With_Header;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -8,8 +8,8 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Vereniging;
 using Xunit;
-using SubverenigingVan = Admin.Api.Verenigingen.Detail.ResponseModels.SubverenigingVan;
-using Verenigingssubtype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
+using SubverenigingVan = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.SubverenigingVan;
+using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 
 [Collection(nameof(WhenSubtypeWerdGewijzigdCollection))]
 public class Returns_Detail : End2EndTest<DetailVerenigingResponse>

@@ -8,6 +8,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
+using MartenDb.Store;
 using Microsoft.Extensions.DependencyInjection;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository

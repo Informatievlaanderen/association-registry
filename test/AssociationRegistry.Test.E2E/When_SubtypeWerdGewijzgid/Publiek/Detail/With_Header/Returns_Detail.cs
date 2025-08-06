@@ -5,11 +5,11 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Vereniging;
 using Xunit;
-using SubverenigingVan = Public.Api.Verenigingen.Detail.ResponseModels.SubverenigingVan;
-using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
+using SubverenigingVan = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.SubverenigingVan;
+using Verenigingssubtype = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 
 [Collection(nameof(WhenSubtypeWerdGewijzigdCollection))]
 public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>

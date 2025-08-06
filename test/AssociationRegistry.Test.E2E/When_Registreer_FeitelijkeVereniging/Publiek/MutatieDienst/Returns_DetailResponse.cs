@@ -4,7 +4,7 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Public.Api.Verenigingen.Mutaties;
+using Public.Api.WebApi.Verenigingen.Mutaties;
 using Xunit;
 
 [Collection(nameof(RegistreerFeitelijkeVerenigingCollection))]

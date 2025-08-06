@@ -11,12 +11,14 @@ using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Notifications;
 using Configuration;
+using EventStore.ConflictResolution;
 using JasperFx;
 using JasperFx.Events;
 using Logging;
 using Marten;
 using Marten.Events;
 using Marten.Services;
+using MartenDb.Store;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -179,7 +181,7 @@ public class ServiceFactory
             Array.Empty<IEventPostConflictResolutionStrategy>());
 
         return new VerenigingsRepository(
-            new AssociationRegistry.EventStore.EventStore(store, eventConflictResolver, loggerFactory.CreateLogger<AssociationRegistry.EventStore.EventStore>()));
+            new EventStore(store, eventConflictResolver, loggerFactory.CreateLogger<EventStore>()));
     }
 
     private static MagdaGeefVerenigingService CreateGeefOndernemingService(DocumentStore store, MagdaOptionsSection magdaOptions, ILoggerFactory loggerFactory)

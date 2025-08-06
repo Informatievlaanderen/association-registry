@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Acm;
 
-using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
+using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;

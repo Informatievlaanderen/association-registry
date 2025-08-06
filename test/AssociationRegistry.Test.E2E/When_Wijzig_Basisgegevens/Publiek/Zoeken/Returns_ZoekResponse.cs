@@ -7,10 +7,10 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Search.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Vereniging;
 using Xunit;
-using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using Vereniging = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 
 [Collection(nameof(WijzigBasisGegevensCollection))]
 public class Returns_SearchVerenigingenResponse

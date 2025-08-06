@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Publiek.Zoeken;
 
 using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.Comparison;
@@ -10,8 +9,9 @@ using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo;
 using AssociationRegistry.Vereniging;
 using KellermanSoftware.CompareNetObjects;
+using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Xunit;
-using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using Vereniging = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 
 [Collection(nameof(WijzigBasisgegevensKbocollection))]
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>

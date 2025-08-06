@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Common.Extensions.Mappers;
 
-using Admin.Api.Verenigingen.Common;
+using Admin.Api.WebApi.Verenigingen.Common;
 
 public static class AdresToAdresStringExtensions
 {

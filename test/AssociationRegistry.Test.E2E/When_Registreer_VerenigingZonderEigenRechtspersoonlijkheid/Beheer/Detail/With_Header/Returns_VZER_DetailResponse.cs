@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Detail.With_Header;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using FluentAssertions;
 using Formats;
 using Framework.AlbaHost;
@@ -13,10 +13,10 @@ using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Vereniging.Bronnen;
 using Xunit;
-using DoelgroepResponse = Admin.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
-using Verenigingssubtype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
+using DoelgroepResponse = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
+using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
+using Verenigingstype = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
 public class Returns_VZER_DetailResponse : End2EndTest<DetailVerenigingResponse>

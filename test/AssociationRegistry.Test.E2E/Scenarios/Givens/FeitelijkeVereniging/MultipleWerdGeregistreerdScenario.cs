@@ -6,6 +6,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
+using MartenDb.Store;
 
 public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
 {

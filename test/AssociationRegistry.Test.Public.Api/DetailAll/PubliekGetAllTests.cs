@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.DetailAll;
 
 using AssociationRegistry.Public.Api.Queries;
-using AssociationRegistry.Public.Api.Verenigingen.DetailAll;
+using AssociationRegistry.Public.Api.WebApi.Verenigingen.DetailAll;
 using AssociationRegistry.Public.Schema.Detail;
 using AssociationRegistry.Test.Public.Api.Framework;
 using AutoFixture;

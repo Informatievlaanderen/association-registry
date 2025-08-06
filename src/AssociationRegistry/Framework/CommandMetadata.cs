@@ -5,5 +5,5 @@ using NodaTime;
 public record CommandMetadata(string Initiator, Instant Tijdstip, Guid CorrelationId, long? ExpectedVersion = null)
 {
     public static CommandMetadata ForDigitaalVlaanderenProcess =>
-        new CommandMetadata(AssociationRegistry.EventStore.EventStore.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid());
+        new CommandMetadata(WellknownOvoNumbers.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid());
 };

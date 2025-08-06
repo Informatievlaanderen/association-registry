@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Subtype.RequestModels;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using AssociationRegistry.Test.E2E.Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
