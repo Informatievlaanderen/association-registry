@@ -7,6 +7,7 @@ using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Moq;
 using Xunit;

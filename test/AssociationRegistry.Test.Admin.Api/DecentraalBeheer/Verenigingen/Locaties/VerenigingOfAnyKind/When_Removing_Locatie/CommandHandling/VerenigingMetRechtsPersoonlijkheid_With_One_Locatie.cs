@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Removing_Locatie.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Locaties.VerwijderLocatie;
+using AssociationRegistry.DecentraalBeheer.Acties.Locaties.VerwijderLocatie;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Moq;
-using Vereniging.Geotags;
 using Xunit;
 
 public class VerenigingMetRechtsPersoonlijkheid_With_One_Locatie

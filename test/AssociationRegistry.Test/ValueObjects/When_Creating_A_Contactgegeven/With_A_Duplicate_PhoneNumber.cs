@@ -3,9 +3,10 @@
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
-using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
 using Xunit;
 
 public class With_A_Duplicate_PhoneNumber

@@ -2,12 +2,12 @@ namespace AssociationRegistry.Test.Framework.Customizations;
 
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Emails;
+using DecentraalBeheer.Vereniging.SocialMedias;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
 using Events;
 using Vereniging;
-using Vereniging.Emails;
-using Vereniging.SocialMedias;
-using Vereniging.TelefoonNummers;
-
 
 public static class EventCustomizations
 {

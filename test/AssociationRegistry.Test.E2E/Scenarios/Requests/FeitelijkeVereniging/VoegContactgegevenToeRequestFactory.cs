@@ -5,6 +5,7 @@ using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegCon
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Framework.ApiSetup;
 using Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using System.Net;

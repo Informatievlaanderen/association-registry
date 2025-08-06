@@ -2,8 +2,9 @@ namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Locatie;
 
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Xunit;
 

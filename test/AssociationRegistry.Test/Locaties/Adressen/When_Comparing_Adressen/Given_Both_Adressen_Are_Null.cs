@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Normalizers;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
 using Xunit;
 
 public class Given_Both_Adressen_Are_Null

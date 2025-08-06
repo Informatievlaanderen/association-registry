@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Queries;
 
+using DecentraalBeheer.Vereniging;
 using Framework;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Mapping;

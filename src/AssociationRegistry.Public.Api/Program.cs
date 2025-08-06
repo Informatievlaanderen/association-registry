@@ -13,6 +13,7 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
+using DecentraalBeheer.Vereniging;
 using Destructurama;
 using EventStore;
 using EventStore.ConflictResolution;

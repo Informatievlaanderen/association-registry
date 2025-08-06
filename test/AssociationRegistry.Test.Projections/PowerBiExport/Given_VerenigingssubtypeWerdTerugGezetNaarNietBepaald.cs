@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using Admin.Schema.Detail;
+using DecentraalBeheer.Vereniging;
 using Scenario.Subtypes;
 
 [Collection(nameof(ProjectionContext))]
@@ -13,8 +14,8 @@ public class Given_VerenigingssubtypeWerdTerugGezetNaarNietBepaald(
     {
         fixture.Result.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype()
         {
-            Code = Vereniging.VerenigingssubtypeCode.NietBepaald.Code,
-            Naam = Vereniging.VerenigingssubtypeCode.NietBepaald.Naam
+            Code = VerenigingssubtypeCode.NietBepaald.Code,
+            Naam = VerenigingssubtypeCode.NietBepaald.Naam
         });
     }
 

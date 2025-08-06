@@ -61,8 +61,8 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
             KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Verenigingssubtype = null,
             Naam = _testContext.CommandRequest.Naam,

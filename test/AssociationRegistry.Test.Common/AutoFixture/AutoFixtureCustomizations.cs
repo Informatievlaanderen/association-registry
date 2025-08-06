@@ -1,19 +1,20 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using Admin.Schema.PowerBiExport;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Emails;
+using DecentraalBeheer.Vereniging.SocialMedias;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
+using DecentraalBeheer.Vereniging.Websites;
 using Framework;
 using global::AutoFixture;
 using global::AutoFixture.Dsl;
 using NodaTime;
 using Vereniging;
-using Vereniging.Emails;
-using Vereniging.SocialMedias;
-using Vereniging.TelefoonNummers;
-
-using Vereniging.Websites;
-using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
-using Lidmaatschap = Vereniging.Lidmaatschap;
-using Werkingsgebied = Vereniging.Werkingsgebied;
+using HoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = DecentraalBeheer.Vereniging.Lidmaatschap;
+using Werkingsgebied = DecentraalBeheer.Vereniging.Werkingsgebied;
 
 public static class AutoFixtureCustomizations
 {

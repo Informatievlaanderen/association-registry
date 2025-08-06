@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Werkingsgebieden;
 
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Xunit;
 

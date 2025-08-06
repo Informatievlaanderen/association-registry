@@ -8,6 +8,7 @@ using AssociationRegistry.Test.E2E.Framework.Mappers;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Xunit;

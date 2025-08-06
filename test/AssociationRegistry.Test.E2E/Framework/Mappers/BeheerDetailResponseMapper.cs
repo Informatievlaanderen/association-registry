@@ -3,6 +3,7 @@
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using Events;
 using JsonLdContext;
 using Vereniging;
@@ -201,7 +202,7 @@ public class BeheerDetailResponseMapper
     {
         return hoofdactiviteitenVerenigingsloket.Select(x =>
         {
-            var hoofdactiviteitVerenigingsloket = AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
+            var hoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
 
             return new HoofdactiviteitVerenigingsloket
             {

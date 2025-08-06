@@ -17,7 +17,7 @@ public class Given_A_Vereniging_Does_Not_Exist
     public Given_A_Vereniging_Does_Not_Exist(EventsInDbScenariosFixture fixture)
     {
         var jsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}""}}";
-        _response = fixture.DefaultClient.PatchVereniging(Vereniging.VCode.Create(VCode), jsonBody).GetAwaiter().GetResult();
+        _response = fixture.DefaultClient.PatchVereniging(AssociationRegistry.DecentraalBeheer.Vereniging.VCode.Create(VCode), jsonBody).GetAwaiter().GetResult();
     }
 
     [Fact]

@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;

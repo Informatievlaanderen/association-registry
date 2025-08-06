@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.Zoeken.With_Header;
 
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
@@ -9,7 +11,6 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Vereniging;
-using Vereniging.Mappers;
 using Xunit;
 using Vereniging = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingssubtype = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;

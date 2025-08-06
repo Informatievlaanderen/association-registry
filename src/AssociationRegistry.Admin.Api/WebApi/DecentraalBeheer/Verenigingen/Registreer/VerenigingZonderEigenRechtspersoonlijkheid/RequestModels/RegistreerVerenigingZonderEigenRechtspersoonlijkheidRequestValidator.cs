@@ -3,8 +3,8 @@ namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.Verenigin
 
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging.Exceptions;
 using Common;
+using DecentraalBeheer.Vereniging.Exceptions;
 using FluentValidation;
 
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequestValidator : AbstractValidator<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>

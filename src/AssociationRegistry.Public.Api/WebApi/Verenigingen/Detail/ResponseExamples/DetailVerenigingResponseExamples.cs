@@ -3,7 +3,9 @@
 using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Mappers;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Mappers;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using Adres = ResponseModels.Adres;
@@ -92,7 +94,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Publie
                             AdresId = new AdresId
                             {
                                 Broncode = Adresbron.AR.Code,
-                                Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "1",
+                                Bronwaarde = DecentraalBeheer.Vereniging.Adressen.AdresId.DataVlaanderenAdresPrefix + "1",
                             },
                             VerwijstNaar = new AdresVerwijzing
                             {
@@ -223,7 +225,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Publie
                             AdresId = new AdresId
                             {
                                 Broncode = Adresbron.AR.Code,
-                                Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "1",
+                                Bronwaarde = DecentraalBeheer.Vereniging.Adressen.AdresId.DataVlaanderenAdresPrefix + "1",
                             },
                             VerwijstNaar = new AdresVerwijzing
                             {

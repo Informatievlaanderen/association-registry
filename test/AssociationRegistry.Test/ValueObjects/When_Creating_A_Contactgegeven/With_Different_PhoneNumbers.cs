@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Contactgegeven;
 
-using AssociationRegistry.Vereniging.TelefoonNummers;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
 using Xunit;
 
 public class With_Different_PhoneNumbers

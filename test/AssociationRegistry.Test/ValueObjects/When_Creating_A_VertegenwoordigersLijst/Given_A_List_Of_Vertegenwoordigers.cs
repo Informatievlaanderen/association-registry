@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Vertegenwoordige
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;
 

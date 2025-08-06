@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;

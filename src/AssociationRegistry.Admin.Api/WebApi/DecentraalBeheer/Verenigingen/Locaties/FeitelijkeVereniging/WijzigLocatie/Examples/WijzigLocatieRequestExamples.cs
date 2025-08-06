@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.Examples;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Adres = Common.Adres;

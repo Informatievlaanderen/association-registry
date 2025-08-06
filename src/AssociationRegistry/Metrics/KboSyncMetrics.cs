@@ -66,8 +66,8 @@ public static class KboSyncMetrics
             _completed = false;
 
             var kboTags = new TagList([new(SyncLabels.KboNumber, _kboNumber)]);
-            KboSyncMetrics.KboAttempts.Add(1, kboTags);
-            KboSyncMetrics.KboInFlight.Add(1, kboTags);
+            KboAttempts.Add(1, kboTags);
+            KboInFlight.Add(1, kboTags);
         }
 
         public void Dropped()
@@ -75,7 +75,7 @@ public static class KboSyncMetrics
             _completed = true;
 
             var kboTags = new TagList([new(SyncLabels.KboNumber, _kboNumber)]);
-            KboSyncMetrics.KboDrops.Add(1, kboTags);
+            KboDrops.Add(1, kboTags);
         }
 
         public void Failed()
@@ -84,7 +84,7 @@ public static class KboSyncMetrics
 
 
             var vcodeTags = new TagList([new(SyncLabels.VCode, _vCode)]);
-            KboSyncMetrics.Failures.Add(1, vcodeTags);
+            Failures.Add(1, vcodeTags);
         }
 
         public void Succeed()
@@ -94,7 +94,7 @@ public static class KboSyncMetrics
             if (_vCode != null)
             {
                 var vcodeTags = new TagList([new(SyncLabels.VCode, _vCode)]);
-                KboSyncMetrics.Successes.Add(1, vcodeTags);
+                Successes.Add(1, vcodeTags);
             }
         }
 
@@ -112,12 +112,12 @@ public static class KboSyncMetrics
                 if (_vCode != null)
                 {
                     var vcodeTags = new TagList([new(SyncLabels.VCode, _vCode)]);
-                    KboSyncMetrics.Duration.Record(elapsedSec, vcodeTags);
+                    Duration.Record(elapsedSec, vcodeTags);
                 }
                 else
                 {
                     var kboTags = new TagList([new(SyncLabels.KboNumber, _kboNumber)]);
-                    KboSyncMetrics.Duration.Record(elapsedSec, kboTags);
+                    Duration.Record(elapsedSec, kboTags);
                 }
 
                 if (!_completed)
@@ -128,7 +128,7 @@ public static class KboSyncMetrics
             finally
             {
                 var kboTags = new TagList([new(SyncLabels.KboNumber, _kboNumber)]);
-                KboSyncMetrics.KboInFlight.Add(-1, kboTags);
+                KboInFlight.Add(-1, kboTags);
             }
         }
     }

@@ -4,7 +4,6 @@ using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Mappers;
 using JsonLdContext;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;

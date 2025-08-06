@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;

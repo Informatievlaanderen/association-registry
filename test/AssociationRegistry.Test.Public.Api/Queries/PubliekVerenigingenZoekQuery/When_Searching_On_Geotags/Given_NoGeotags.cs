@@ -6,6 +6,7 @@ using AssociationRegistry.Public.Schema.Search;
 using AssociationRegistry.Test.Public.Api.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Fixtures;
 using FluentAssertions;
 using Elastic.Clients.Elasticsearch;

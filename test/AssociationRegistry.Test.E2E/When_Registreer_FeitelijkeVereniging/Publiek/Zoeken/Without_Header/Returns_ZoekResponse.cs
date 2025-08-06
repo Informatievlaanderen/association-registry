@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.Zoeken.Without_Header;
 
+using DecentraalBeheer.Vereniging;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;

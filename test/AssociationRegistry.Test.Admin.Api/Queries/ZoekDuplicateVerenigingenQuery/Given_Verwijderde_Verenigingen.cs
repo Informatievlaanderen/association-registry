@@ -3,10 +3,11 @@ namespace AssociationRegistry.Test.Admin.Api.Queries.ZoekDuplicateVerenigingenQu
 using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Schema.Search;
-using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AutoFixture;
 using Common.AutoFixture;
-using DuplicateVerenigingDetection;
 using FluentAssertions;
 using Framework.Fixtures;
 using Microsoft.Extensions.Logging.Abstractions;

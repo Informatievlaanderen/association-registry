@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Common.Stubs.VCodeServices;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 
 public class StubVCodeService : IVCodeService
 {

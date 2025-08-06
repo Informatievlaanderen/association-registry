@@ -2,8 +2,6 @@
 
 using Amazon.Runtime;
 using Amazon.SQS;
-using AssociationRegistry.Admin.Api.MessageHandling.Postgres.Dubbels;
-using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
@@ -12,10 +10,12 @@ using AssociationRegistry.Hosts.Configuration;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Kbo;
 using AssociationRegistry.Messages;
-using AssociationRegistry.Middleware;
 using AssociationRegistry.Vereniging;
-using DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
-using DecentraalBeheer.Locaties.ProbeerAdresTeMatchen;
+using DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
+using DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Middleware;
+using DecentraalBeheer.Vereniging;
 using global::Wolverine;
 using global::Wolverine.AmazonSqs;
 using global::Wolverine.ErrorHandling;

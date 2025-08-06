@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
 
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -36,7 +37,7 @@ public class ToeTeVoegenContactgegeven
 
     public static Contactgegeven Map(ToeTeVoegenContactgegeven toeTeVoegenContactgegeven)
         => Contactgegeven.CreateFromInitiator(
-            AssociationRegistry.Vereniging.Contactgegeventype.Parse(toeTeVoegenContactgegeven.Contactgegeventype),
+            DecentraalBeheer.Vereniging.Contactgegeventype.Parse(toeTeVoegenContactgegeven.Contactgegeventype),
             toeTeVoegenContactgegeven.Waarde,
             toeTeVoegenContactgegeven.Beschrijving,
             toeTeVoegenContactgegeven.IsPrimair);

@@ -1,6 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Basisgegevens.FeitelijkeVereniging;
+using AssociationRegistry.DecentraalBeheer.Acties.Basisgegevens.VerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Primitives;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
@@ -8,13 +11,11 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Moq;
-using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_Startdatum_In_The_Future

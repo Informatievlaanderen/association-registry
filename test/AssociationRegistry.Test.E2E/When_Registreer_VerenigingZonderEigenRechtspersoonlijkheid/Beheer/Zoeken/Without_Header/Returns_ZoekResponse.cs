@@ -54,8 +54,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = _testContext.CommandRequest.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),

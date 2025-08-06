@@ -1,8 +1,9 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
-using AssociationRegistry.EventFactories;
 using AssociationRegistry.Events;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
+using Events.Factories;
 
 public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario : CommandhandlerScenarioBase
 {

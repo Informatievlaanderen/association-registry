@@ -31,7 +31,7 @@ public class Contactgegeven
     ///     Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
     /// </summary>
     [DataMember(Name = "Beschrijving")]
-    [MaxLength(Vereniging.Contactgegeven.MaxLengthBeschrijving)]
+    [MaxLength(DecentraalBeheer.Vereniging.Contactgegeven.MaxLengthBeschrijving)]
     public string? Beschrijving { get; init; }
 
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>

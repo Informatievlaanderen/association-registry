@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Locaties;
 
+using DecentraalBeheer.Vereniging;
 using Events;
 using Grar.Clients;
 using Marten.Events.Aggregation;

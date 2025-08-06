@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.When_Adding_Lidmaatschap.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
+using AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
@@ -10,7 +12,6 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Resources;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_AndereVereniging_Is_Already_Subvereniging

@@ -9,7 +9,7 @@ using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using EventFactories;
+using Events.Factories;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;

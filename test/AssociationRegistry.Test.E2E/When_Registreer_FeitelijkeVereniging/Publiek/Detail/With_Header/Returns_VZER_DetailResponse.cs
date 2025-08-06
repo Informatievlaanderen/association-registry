@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.Detail.With_Header;
 
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;
@@ -11,7 +13,6 @@ using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
-using Vereniging.Mappers;
 using Xunit;
 using DoelgroepResponse = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Vereniging;
@@ -64,8 +65,8 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
             KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam,
             },
             Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
             Naam = _testContext.CommandRequest.Naam,

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync.Infrastructure.Extensions;
 
+using DecentraalBeheer.Vereniging;
 using Grar.NightlyAdresSync.SyncAdresLocaties;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;

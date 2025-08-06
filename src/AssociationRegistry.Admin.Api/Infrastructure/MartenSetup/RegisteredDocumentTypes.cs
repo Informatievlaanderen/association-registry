@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 
+using DecentraalBeheer.Vereniging;
 using Grar.NutsLau;
 using HostedServices.GrarKafkaConsumer.Kafka;
 using Hosts.Configuration.ConfigurationBindings;

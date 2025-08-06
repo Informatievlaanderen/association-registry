@@ -1,11 +1,12 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Contactgegeven;
 
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Emails;
-using AssociationRegistry.Vereniging.SocialMedias;
-using AssociationRegistry.Vereniging.TelefoonNummers;
-using AssociationRegistry.Vereniging.Websites;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Emails;
+using DecentraalBeheer.Vereniging.SocialMedias;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
+using DecentraalBeheer.Vereniging.Websites;
 using FluentAssertions;
 using Xunit;
 

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test;
 
+using DecentraalBeheer.Vereniging.Adressen;
 using Events;
 using FluentAssertions;
 using Vereniging;

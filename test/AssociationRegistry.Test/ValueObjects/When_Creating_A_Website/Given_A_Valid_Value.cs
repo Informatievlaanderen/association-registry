@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Website;
 
-using AssociationRegistry.Vereniging.Websites;
+using DecentraalBeheer.Vereniging.Websites;
 using FluentAssertions;
 using Xunit;
 

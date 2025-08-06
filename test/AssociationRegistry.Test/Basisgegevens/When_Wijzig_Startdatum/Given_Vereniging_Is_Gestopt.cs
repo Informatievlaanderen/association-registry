@@ -3,12 +3,13 @@
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
-using EventFactories;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using Events;
+using Events.Factories;
 using FluentAssertions;
 using Framework;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_Vereniging_Is_Gestopt

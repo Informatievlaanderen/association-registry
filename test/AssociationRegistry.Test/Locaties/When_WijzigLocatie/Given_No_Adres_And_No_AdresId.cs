@@ -4,6 +4,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 

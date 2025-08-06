@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.Finders.When_Finding_L
 
 using AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 using AutoFixture;
 using Common.AutoFixture;

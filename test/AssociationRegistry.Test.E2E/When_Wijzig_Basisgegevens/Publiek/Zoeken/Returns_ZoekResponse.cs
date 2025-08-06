@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens.Publiek.Zoeken;
 
+using DecentraalBeheer.Vereniging;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;

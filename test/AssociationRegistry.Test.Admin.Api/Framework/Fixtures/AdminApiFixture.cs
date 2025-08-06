@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using Amazon.SQS;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Security;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.NutsLau;

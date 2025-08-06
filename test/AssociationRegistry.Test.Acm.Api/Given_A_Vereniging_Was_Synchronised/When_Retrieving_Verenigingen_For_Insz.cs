@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Acm.Api.Given_A_Vereniging_Was_Synchronised;
 
+using DecentraalBeheer.Vereniging;
 using Fixtures;
 using Fixtures.Scenarios;
 using FluentAssertions;

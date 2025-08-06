@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Werkingsgebieden;
 
+using DecentraalBeheer.Vereniging;
 using JsonLdContext;
 using Public.Schema.Detail;
 using Public.Schema.Search;

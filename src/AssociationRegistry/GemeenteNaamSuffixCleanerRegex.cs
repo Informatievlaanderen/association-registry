@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry;
 
+using DecentraalBeheer.Vereniging.Adressen;
 using System.Text.RegularExpressions;
 using Vereniging;
 

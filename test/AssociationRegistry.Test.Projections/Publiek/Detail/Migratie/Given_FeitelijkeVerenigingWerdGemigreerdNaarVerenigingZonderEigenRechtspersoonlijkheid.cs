@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail.Migratie;
 
+using DecentraalBeheer.Vereniging;
 using Public.Schema.Detail;
 using Scenario.Migratie;
 using Vereniging;

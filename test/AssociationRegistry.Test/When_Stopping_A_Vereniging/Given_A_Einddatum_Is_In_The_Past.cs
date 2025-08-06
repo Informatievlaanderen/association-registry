@@ -2,6 +2,7 @@
 
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Events;
 using FluentAssertions;
 using Framework;

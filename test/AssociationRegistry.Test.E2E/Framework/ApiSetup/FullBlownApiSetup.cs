@@ -9,6 +9,7 @@ using Amazon.SQS;
 using AssociationRegistry.Framework;
 using Common.Clients;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using Grar.NutsLau;
 using Hosts.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;

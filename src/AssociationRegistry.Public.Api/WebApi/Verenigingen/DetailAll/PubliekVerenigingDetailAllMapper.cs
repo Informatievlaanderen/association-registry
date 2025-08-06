@@ -3,7 +3,7 @@
 using AssociationRegistry.Formats;
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Public.Schema.Detail;
-using AssociationRegistry.Vereniging.Mappers;
+using DecentraalBeheer.Vereniging.Mappers;
 using ResponseModels;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;

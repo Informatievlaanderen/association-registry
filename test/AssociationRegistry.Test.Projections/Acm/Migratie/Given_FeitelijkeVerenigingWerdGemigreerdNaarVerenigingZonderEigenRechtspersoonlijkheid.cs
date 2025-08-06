@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Acm.Migratie;
 
+using DecentraalBeheer.Vereniging;
 using Scenario.Migratie;
 using Vereniging;
 using Verenigingstype = AssociationRegistry.Acm.Schema.VerenigingenPerInsz.Verenigingstype;
@@ -15,8 +16,8 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
         var vzer =
             fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
-        vzer.Verenigingstype.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                                                                         AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam));
+        vzer.Verenigingstype.Should().BeEquivalentTo(new Verenigingstype(DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                                                                         DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam));
     }
 
     [Fact]

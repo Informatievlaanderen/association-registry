@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.When_Hydrating_A_Vereniging;
 
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Vereniging;
-using Vereniging.Exceptions;
-
 using Xunit;
 
 public class Given_An_VerenigingMetRechtspersoonlijkheid_As_Type

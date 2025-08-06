@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using FluentValidation;
 
 public class TeWijzigenMaatschappelijkeZetelValidator : AbstractValidator<TeWijzigenMaatschappelijkeZetel>

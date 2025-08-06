@@ -7,7 +7,7 @@ using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
-using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
+using HoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket;
 
 [Collection(nameof(PublicApiCollection))]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Facets

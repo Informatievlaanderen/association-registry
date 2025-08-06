@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Publiek.Zoeken;
 
+using DecentraalBeheer.Vereniging;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

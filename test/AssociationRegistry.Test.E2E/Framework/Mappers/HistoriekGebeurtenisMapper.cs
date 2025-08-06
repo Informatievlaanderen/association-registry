@@ -11,6 +11,7 @@ using Admin.ProjectionHost.Constants;
 using Admin.Schema.Historiek.EventData;
 using AlbaHost;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore;
 using MartenDb.Store;

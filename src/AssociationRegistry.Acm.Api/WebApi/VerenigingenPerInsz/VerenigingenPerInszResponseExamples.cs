@@ -2,7 +2,8 @@ namespace AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
 
 using AssociationRegistry.Acm.Api.Queries.VerenigingenPerKbo;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Mappers;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using Swashbuckle.AspNetCore.Filters;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 

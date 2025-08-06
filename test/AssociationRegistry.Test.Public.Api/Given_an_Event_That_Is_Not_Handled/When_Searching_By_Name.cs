@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.Given_an_Event_That_Is_Not_Handled;
 
+using DecentraalBeheer.Vereniging;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;

@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Stop.RequestModels;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;

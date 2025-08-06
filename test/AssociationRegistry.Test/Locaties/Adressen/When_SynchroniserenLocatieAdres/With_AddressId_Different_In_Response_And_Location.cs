@@ -9,13 +9,14 @@ using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using EventFactories;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Geotags;
 using Events;
+using Events.Factories;
 using JasperFx.Events;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
-using Vereniging.Geotags;
 using Xunit;
 using IEvent = Events.IEvent;
 

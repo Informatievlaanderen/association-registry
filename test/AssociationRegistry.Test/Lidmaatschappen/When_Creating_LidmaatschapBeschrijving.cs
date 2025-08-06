@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Lidmaatschappen;
 
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;
 

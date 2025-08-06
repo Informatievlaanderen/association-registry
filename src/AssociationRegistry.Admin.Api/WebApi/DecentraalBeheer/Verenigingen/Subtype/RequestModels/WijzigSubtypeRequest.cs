@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Subtype.RequestModels;
 
-using AssociationRegistry.DecentraalBeheer.Subtype;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Subtypes.Subvereniging;
+using DecentraalBeheer.Acties.Subtype;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Subtypes.Subvereniging;
 using System.Runtime.Serialization;
 
 [DataContract]

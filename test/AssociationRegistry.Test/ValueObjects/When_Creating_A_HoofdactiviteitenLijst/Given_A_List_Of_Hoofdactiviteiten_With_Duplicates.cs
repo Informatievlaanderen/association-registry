@@ -2,8 +2,9 @@
 
 using AssociationRegistry.Test.Framework.Helpers;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Xunit;
 

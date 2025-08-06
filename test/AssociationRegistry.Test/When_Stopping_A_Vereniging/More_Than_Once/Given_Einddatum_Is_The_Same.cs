@@ -2,8 +2,9 @@
 
 using AutoFixture;
 using Common.AutoFixture;
-using EventFactories;
+using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Factories;
 using FluentAssertions;
 using Framework;
 using Vereniging;

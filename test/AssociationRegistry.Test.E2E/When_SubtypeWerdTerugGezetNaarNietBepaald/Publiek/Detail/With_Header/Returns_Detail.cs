@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Publiek.Detail.With_Header;
 
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

@@ -54,8 +54,8 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
             KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam,
             },
             Verenigingssubtype = new Verenigingssubtype()
             {

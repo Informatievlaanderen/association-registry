@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.VerfijnNaarSubvereniging;
 
-using AssociationRegistry.DecentraalBeheer.Subtype;
+using AssociationRegistry.DecentraalBeheer.Acties.Subtype;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
@@ -10,7 +12,6 @@ using FluentAssertions;
 using Moq;
 using Resources;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_Andere_Vereniging_Is_Loaded

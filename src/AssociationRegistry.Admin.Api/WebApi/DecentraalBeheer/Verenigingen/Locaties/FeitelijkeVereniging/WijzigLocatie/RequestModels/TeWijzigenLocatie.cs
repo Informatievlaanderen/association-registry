@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 
-using AssociationRegistry.DecentraalBeheer.Locaties.WijzigLocatie;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Acties.Locaties.WijzigLocatie;
+using DecentraalBeheer.Vereniging;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Adres = Common.Adres;
@@ -42,12 +43,12 @@ public class TeWijzigenLocatie
         => new(
             locatieId,
             locatie.Locatietype is not null
-                ? AssociationRegistry.Vereniging.Locatietype.Parse(locatie.Locatietype)
+                ? DecentraalBeheer.Vereniging.Locatietype.Parse(locatie.Locatietype)
                 : null,
             locatie.IsPrimair,
             locatie.Naam,
             locatie.Adres is not null
-                ? AssociationRegistry.Vereniging.Adres.Create(
+                ? DecentraalBeheer.Vereniging.Adressen.Adres.Create(
                     locatie.Adres.Straatnaam,
                     locatie.Adres.Huisnummer,
                     locatie.Adres.Busnummer,
@@ -56,7 +57,7 @@ public class TeWijzigenLocatie
                     locatie.Adres.Land)
                 : null,
             locatie.AdresId is not null
-                ? AssociationRegistry.Vereniging.AdresId.Create(
+                ? DecentraalBeheer.Vereniging.Adressen.AdresId.Create(
                     locatie.AdresId.Broncode,
                     locatie.AdresId.Bronwaarde)
                 : null);

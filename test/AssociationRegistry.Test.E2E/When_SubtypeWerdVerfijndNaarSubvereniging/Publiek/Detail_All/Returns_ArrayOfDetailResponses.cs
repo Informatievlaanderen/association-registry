@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Publiek.Detail_All;
 
+using DecentraalBeheer.Vereniging;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -65,8 +66,8 @@ public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
             KorteNaam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam,
             },
             Verenigingssubtype = new Verenigingssubtype
             {

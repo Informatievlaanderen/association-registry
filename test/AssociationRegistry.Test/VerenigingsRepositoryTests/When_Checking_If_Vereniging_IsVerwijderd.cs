@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.VerenigingsRepositoryTests;
 using AssociationRegistry.EventStore;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using MartenDb.Store;
 using Moq;

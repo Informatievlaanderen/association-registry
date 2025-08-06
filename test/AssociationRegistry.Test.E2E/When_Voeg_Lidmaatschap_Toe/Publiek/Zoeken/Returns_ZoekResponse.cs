@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Publiek.Zoeken;
 
+using DecentraalBeheer.Vereniging;
 using Events;
 using JsonLdContext;
 using Framework.AlbaHost;

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Dubbels;
 
 using Admin.Schema.Historiek;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Scenario.Dubbels;
 using Vereniging;
