@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_OverridingMinimumScoreDuplicateDetection.Beheer.Configuratie;
 
-using AssociationRegistry.Admin.Api.Administratie.Configuratie;
+using Admin.Api.WebApi.Administratie.Configuratie;
 using DuplicateVerenigingDetection;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

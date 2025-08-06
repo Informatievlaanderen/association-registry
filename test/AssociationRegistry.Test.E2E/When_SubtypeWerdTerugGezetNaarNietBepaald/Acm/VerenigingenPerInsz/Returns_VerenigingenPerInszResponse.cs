@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Acm.VerenigingenPerInsz;
 
-using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
+using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;

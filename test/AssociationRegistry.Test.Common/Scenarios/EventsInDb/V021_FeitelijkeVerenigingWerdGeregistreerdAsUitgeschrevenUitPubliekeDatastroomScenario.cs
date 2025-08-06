@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using EventFactories;
 using Events;
 using EventStore;
+using MartenDb.Store;
 using NodaTime;
 using Vereniging;
 

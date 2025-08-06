@@ -2,7 +2,6 @@
 
 using Formats;
 using JsonLdContext;
-using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
@@ -11,13 +10,14 @@ using Framework.TestClasses;
 using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Vereniging.Mappers;
 using Xunit;
-using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
-using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
-using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
+using DoelgroepResponse = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
+using Vereniging = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Vereniging;
+using Verenigingssubtype = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
+using Verenigingstype = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 
 [Collection(nameof(RegistreerFeitelijkeVerenigingCollection))]

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.AcmBevraging.VerenigingenPerKboNummerService;
 
+using Acm.Api.Queries.VerenigingenPerKbo;
 using AssociationRegistry.Magda.Services;
 using Common.Framework;
 using FluentAssertions;
@@ -12,7 +13,7 @@ public class Given_No_KboNummersMetRechtsvorm
     {
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_No_KboNummersMetRechtsvorm));
 
-        var service = new AssociationRegistry.AcmBevraging.VerenigingenPerKboNummerService(new RechtsvormCodeService(), store);
+        var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), store);
         var result = await service.GetVerenigingenPerKbo([], CancellationToken.None);
 
         result.Should().BeEmpty();

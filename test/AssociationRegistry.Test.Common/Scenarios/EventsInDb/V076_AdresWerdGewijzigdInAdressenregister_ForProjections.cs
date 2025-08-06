@@ -6,6 +6,7 @@ using EventFactories;
 using Events;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 using Vereniging;
 
 public class V076_AdresWerdGewijzigdInAdressenregister : IEventsInDbScenario

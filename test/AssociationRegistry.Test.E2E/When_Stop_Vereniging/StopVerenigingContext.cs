@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Stop_Vereniging;
 
-using Admin.Api.Verenigingen.Stop.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Stop.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.FeitelijkeVereniging;

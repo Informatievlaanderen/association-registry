@@ -8,10 +8,10 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Search.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Xunit;
-using DoelgroepResponse = Public.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
-using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using DoelgroepResponse = Public.Api.WebApi.Verenigingen.Search.ResponseModels.DoelgroepResponse;
+using Vereniging = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingstype = Vereniging.Verenigingstype;
 
 [Collection(nameof(WijzigLidmaatschapCollection))]

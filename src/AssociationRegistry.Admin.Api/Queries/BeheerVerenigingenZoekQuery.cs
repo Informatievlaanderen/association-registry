@@ -8,9 +8,8 @@ using Hosts.Configuration.ConfigurationBindings;
 using Schema.Search;
 using System.Text.RegularExpressions;
 using Vereniging;
-
-using Verenigingen.Search;
-using Verenigingen.Search.RequestModels;
+using WebApi.Verenigingen.Search;
+using WebApi.Verenigingen.Search.RequestModels;
 
 public interface IBeheerVerenigingenZoekQuery : IQuery<SearchResponse<VerenigingZoekDocument>, BeheerVerenigingenZoekFilter>;
 

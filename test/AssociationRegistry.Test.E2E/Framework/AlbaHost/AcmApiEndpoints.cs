@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
-using Acm.Api.VerenigingenPerInsz;
+using Acm.Api.WebApi.VerenigingenPerInsz;
 using Alba;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;

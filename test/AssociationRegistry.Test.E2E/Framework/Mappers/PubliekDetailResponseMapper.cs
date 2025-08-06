@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
-using Admin.Api.Verenigingen.Common;
+using Admin.Api.WebApi.Verenigingen.Common;
 using Common.Framework;
 using Events;
 using JsonLdContext;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Vereniging;
-using Contactgegeven = Public.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
-using HoofdactiviteitVerenigingsloket = Public.Api.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;
-using Locatie = Public.Api.Verenigingen.Detail.ResponseModels.Locatie;
-using Werkingsgebied = Public.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied;
+using Contactgegeven = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Contactgegeven;
+using HoofdactiviteitVerenigingsloket = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Locatie;
+using Werkingsgebied = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Werkingsgebied;
 
 public class PubliekDetailResponseMapper
 {

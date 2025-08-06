@@ -4,6 +4,7 @@ using AssociationRegistry.EventStore;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
+using MartenDb.Store;
 using Moq;
 using Vereniging;
 using Xunit;

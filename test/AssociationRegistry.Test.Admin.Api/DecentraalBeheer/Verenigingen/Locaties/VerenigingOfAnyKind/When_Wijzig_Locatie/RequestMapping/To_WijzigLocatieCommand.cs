@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Wijzig_Locatie.RequestMapping;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
-using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
+using Adres = AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common.Adres;
+using AdresId = AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common.AdresId;
 
 public class To_WijzigLocatieCommand
 {

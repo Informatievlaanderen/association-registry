@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Verwijder_Vereniging;
 
-using Admin.Api.Verenigingen.Verwijder.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Verwijder.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;

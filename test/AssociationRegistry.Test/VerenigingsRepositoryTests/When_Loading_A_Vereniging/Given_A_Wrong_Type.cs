@@ -8,6 +8,7 @@ using Common.Framework;
 using Events;
 using FluentAssertions;
 using Framework;
+using MartenDb.Store;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;

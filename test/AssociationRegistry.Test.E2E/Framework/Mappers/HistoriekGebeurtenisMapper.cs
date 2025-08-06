@@ -1,18 +1,19 @@
 namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
-using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
-using Admin.Api.Verenigingen.Historiek.ResponseModels;
-using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
-using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Common;
+using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
+using Admin.Api.WebApi.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using Admin.ProjectionHost.Constants;
 using Admin.Schema.Historiek.EventData;
 using AlbaHost;
 using Common.Framework;
 using Events;
 using EventStore;
+using MartenDb.Store;
 using Vereniging;
 
 public static class HistoriekGebeurtenisMapper
@@ -346,7 +347,7 @@ public static class HistoriekGebeurtenisMapper
                     Postcode: "9200",
                     Gemeente: "Dendermonde"),
                 AdresId: new Registratiedata.AdresId(Broncode: "AR", Bronwaarde: "https://data.vlaanderen.be/id/adres/3213019")),
-            Initiator = EventStore.DigitaalVlaanderenOvoNumber,
+            Initiator = WellknownOvoNumbers.DigitaalVlaanderenOvoNumber,
         };
 
     public static HistoriekGebeurtenisResponse AdresNietUniekInAR(string vCode)

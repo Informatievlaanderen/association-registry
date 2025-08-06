@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 
 public class V082_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_ForDuplicateForce : IEventsInDbScenario
 {
