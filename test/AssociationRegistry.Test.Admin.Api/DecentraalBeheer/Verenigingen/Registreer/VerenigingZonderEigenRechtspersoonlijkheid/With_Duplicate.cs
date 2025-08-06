@@ -2,13 +2,14 @@
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.EventFactories;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Events.Factories;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;

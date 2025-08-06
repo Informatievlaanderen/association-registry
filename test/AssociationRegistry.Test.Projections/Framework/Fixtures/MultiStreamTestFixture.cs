@@ -5,6 +5,7 @@ using Admin.Schema.Detail;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Configuration;
+using DecentraalBeheer.Vereniging;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;

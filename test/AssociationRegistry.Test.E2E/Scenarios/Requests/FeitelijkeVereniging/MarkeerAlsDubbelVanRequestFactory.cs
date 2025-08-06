@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 using Admin.Api.Infrastructure;
 using Admin.Api.WebApi.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Alba;
+using DecentraalBeheer.Vereniging;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
 using System.Net;

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Api.WebApi.Verenigingen.DetailAll.ResponseModels;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using System.Runtime.Serialization;
 
 /// <summary>

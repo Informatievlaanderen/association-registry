@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
 using AssociationRegistry.Framework;
-using EventFactories;
+using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Factories;
 using EventStore;
 using MartenDb.Store;
 using NodaTime;

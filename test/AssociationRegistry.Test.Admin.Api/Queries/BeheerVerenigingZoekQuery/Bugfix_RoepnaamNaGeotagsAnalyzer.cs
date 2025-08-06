@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingZoekQuery;
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Admin.Schema.Search;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;

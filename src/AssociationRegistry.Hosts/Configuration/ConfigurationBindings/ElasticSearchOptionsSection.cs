@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 
-using DuplicateVerenigingDetection;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using Marten;
 using Marten.Schema;
 using Microsoft.Extensions.Caching.Memory;

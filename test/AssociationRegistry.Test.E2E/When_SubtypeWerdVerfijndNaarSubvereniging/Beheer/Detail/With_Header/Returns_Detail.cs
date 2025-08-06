@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Beheer.Detail.With_Header;
 
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

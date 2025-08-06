@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
 using Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Alba;
+using DecentraalBeheer.Vereniging;
 using FeitelijkeVereniging;
 using Framework.ApiSetup;
 using System.Net;

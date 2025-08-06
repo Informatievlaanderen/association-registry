@@ -4,6 +4,7 @@ using AssociationRegistry.Public.Api.Queries;
 using AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Fixtures;
 using FluentAssertions;
 using Framework;

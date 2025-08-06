@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.RechtsVormWerdGewijzigdInKbo;
 
 using Admin.Schema.Historiek;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Scenario.NaamWerdGewijzigd.Kbo;
 using Vereniging;

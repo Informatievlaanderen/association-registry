@@ -9,6 +9,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using Adres = Admin.Api.WebApi.Verenigingen.Common.Adres;

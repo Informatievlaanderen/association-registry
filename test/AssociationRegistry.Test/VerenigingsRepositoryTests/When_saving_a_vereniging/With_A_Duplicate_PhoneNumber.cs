@@ -3,12 +3,13 @@
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
-using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
+using DecentraalBeheer.Vereniging.Geotags;
 using Moq;
-using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_Duplicate_PhoneNumber

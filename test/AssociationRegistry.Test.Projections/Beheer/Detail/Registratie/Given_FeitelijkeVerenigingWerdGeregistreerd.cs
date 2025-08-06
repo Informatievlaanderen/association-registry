@@ -3,6 +3,7 @@
 using Admin.Schema;
 using Admin.Schema.Detail;
 using AssociationRegistry.Test.Projections.Scenario.Registratie;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
 using JsonLdContext;
@@ -44,8 +45,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
             VCode = feitelijkeVerenigingWerdGeregistreerd.VCode,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = feitelijkeVerenigingWerdGeregistreerd.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.KorteNaam,

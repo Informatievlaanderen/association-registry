@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_SocialMedia;
 
-using AssociationRegistry.Vereniging.SocialMedias;
-using AssociationRegistry.Vereniging.SocialMedias.Exceptions;
+using DecentraalBeheer.Vereniging.SocialMedias;
+using DecentraalBeheer.Vereniging.SocialMedias.Exceptions;
 using FluentAssertions;
 using Xunit;
 

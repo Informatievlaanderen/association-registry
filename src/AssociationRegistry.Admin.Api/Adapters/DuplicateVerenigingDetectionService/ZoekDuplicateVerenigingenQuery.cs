@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using DecentraalBeheer.Vereniging;
 using Schema.Search;
-using DuplicateVerenigingDetection;
 using GemeentenaamVerrijking;
 using Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Middleware;
 using Nest;
 using System.Collections.Immutable;
 using LogLevel = LogLevel;

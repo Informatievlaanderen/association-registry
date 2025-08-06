@@ -51,8 +51,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             KorteNaam = _feitelijkeVerenigingWerdGeregistreerd.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = _feitelijkeVerenigingWerdGeregistreerd.Naam,
             Startdatum = _feitelijkeVerenigingWerdGeregistreerd.Startdatum.FormatAsBelgianDate(),

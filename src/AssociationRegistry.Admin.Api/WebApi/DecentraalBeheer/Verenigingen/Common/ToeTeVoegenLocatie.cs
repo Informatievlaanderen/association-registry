@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -40,9 +41,9 @@ public class ToeTeVoegenLocatie
             Locatienaam.Create(loc.Naam ?? string.Empty),
             loc.IsPrimair,
             loc.Locatietype,
-            loc.AdresId is not null ? AssociationRegistry.Vereniging.AdresId.Create(loc.AdresId.Broncode, loc.AdresId.Bronwaarde) : null,
+            loc.AdresId is not null ? DecentraalBeheer.Vereniging.Adressen.AdresId.Create(loc.AdresId.Broncode, loc.AdresId.Bronwaarde) : null,
             loc.Adres is not null
-                ? AssociationRegistry.Vereniging.Adres.Create(
+                ? DecentraalBeheer.Vereniging.Adressen.Adres.Create(
                     loc.Adres.Straatnaam,
                     loc.Adres.Huisnummer,
                     loc.Adres.Busnummer,

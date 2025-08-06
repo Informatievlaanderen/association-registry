@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger;
 
+using AssociationRegistry.DecentraalBeheer.Vereniging.Emails;
+using AssociationRegistry.DecentraalBeheer.Vereniging.SocialMedias;
+using AssociationRegistry.DecentraalBeheer.Vereniging.TelefoonNummers;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
-using AssociationRegistry.Vereniging.Emails;
-using AssociationRegistry.Vereniging.SocialMedias;
-using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
 using FluentAssertions;
 using Marten;

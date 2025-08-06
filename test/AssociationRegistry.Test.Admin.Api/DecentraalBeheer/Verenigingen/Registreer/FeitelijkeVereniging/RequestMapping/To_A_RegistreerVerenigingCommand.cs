@@ -2,11 +2,12 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Regis
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Emails;
+using AssociationRegistry.DecentraalBeheer.Vereniging.SocialMedias;
+using AssociationRegistry.DecentraalBeheer.Vereniging.TelefoonNummers;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Emails;
-using AssociationRegistry.Vereniging.SocialMedias;
-using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
 using Common.Framework;
 using FluentAssertions;

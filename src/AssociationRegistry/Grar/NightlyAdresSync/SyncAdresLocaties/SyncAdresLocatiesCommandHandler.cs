@@ -1,10 +1,11 @@
 ﻿namespace AssociationRegistry.Grar.NightlyAdresSync.SyncAdresLocaties;
 
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Vereniging;
 using Clients;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Geotags;
 using Microsoft.Extensions.Logging;
-using Vereniging.Geotags;
 
 public class SyncAdresLocatiesCommandHandler(
     IVerenigingsRepository repository,

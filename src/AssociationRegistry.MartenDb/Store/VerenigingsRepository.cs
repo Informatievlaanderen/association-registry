@@ -4,6 +4,7 @@ using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Metrics;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using Marten;
 
 public class VerenigingsRepository : IVerenigingsRepository

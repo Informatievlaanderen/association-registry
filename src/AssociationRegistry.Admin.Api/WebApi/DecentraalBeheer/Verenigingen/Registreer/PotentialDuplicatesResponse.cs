@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer;
 
-using AssociationRegistry.DuplicateVerenigingDetection;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Vereniging.Mappers;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using DecentraalBeheer.Vereniging.Mappers;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
 

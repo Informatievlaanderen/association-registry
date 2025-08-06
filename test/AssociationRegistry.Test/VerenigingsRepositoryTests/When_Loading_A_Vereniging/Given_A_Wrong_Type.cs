@@ -5,12 +5,13 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using Events;
 using FluentAssertions;
 using Framework;
 using MartenDb.Store;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_A_Wrong_Type

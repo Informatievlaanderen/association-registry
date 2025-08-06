@@ -1,7 +1,8 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
 
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.TelefoonNummers;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
@@ -56,15 +57,15 @@ public class ToeTeVoegenVertegenwoordiger
 
     public static Vertegenwoordiger Map(ToeTeVoegenVertegenwoordiger vert)
         => Vertegenwoordiger.Create(
-            AssociationRegistry.Vereniging.Insz.Create(vert.Insz),
+            DecentraalBeheer.Vereniging.Insz.Create(vert.Insz),
             vert.IsPrimair,
             vert.Roepnaam,
             vert.Rol,
-            AssociationRegistry.Vereniging.Voornaam.Create(vert.Voornaam),
-            AssociationRegistry.Vereniging.Achternaam.Create(vert.Achternaam),
-            AssociationRegistry.Vereniging.Emails.Email.Create(vert.Email),
+            DecentraalBeheer.Vereniging.Voornaam.Create(vert.Voornaam),
+            DecentraalBeheer.Vereniging.Achternaam.Create(vert.Achternaam),
+            DecentraalBeheer.Vereniging.Emails.Email.Create(vert.Email),
             TelefoonNummer.Create(vert.Telefoon),
             TelefoonNummer.Create(vert.Mobiel),
-            AssociationRegistry.Vereniging.SocialMedias.SocialMedia.Create(vert.SocialMedia)
+            DecentraalBeheer.Vereniging.SocialMedias.SocialMedia.Create(vert.SocialMedia)
         );
 }

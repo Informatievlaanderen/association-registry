@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 
-using AssociationRegistry.DecentraalBeheer.Contactgegevens.VoegContactgegevenToe;
 using AssociationRegistry.Vereniging;
 using Common;
+using DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
+using DecentraalBeheer.Vereniging;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -15,7 +16,7 @@ public class VoegContactgegevenToeRequest
     public VoegContactgegevenToeCommand ToCommand(string vCode)
         => new(
             VCode.Create(vCode),
-            AssociationRegistry.Vereniging.Contactgegeven.CreateFromInitiator(
+            DecentraalBeheer.Vereniging.Contactgegeven.CreateFromInitiator(
                 Contactgegeventype.Parse(Contactgegeven.Contactgegeventype),
                 Contactgegeven.Waarde,
                 Contactgegeven.Beschrijving,

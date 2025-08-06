@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Queries;
 
+using DecentraalBeheer.Vereniging;
 using Framework;
 using Nest;
 using Schema.Search;

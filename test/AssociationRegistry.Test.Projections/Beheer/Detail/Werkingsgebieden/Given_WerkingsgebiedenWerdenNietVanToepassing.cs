@@ -26,9 +26,9 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing(
                        {
                            JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                                JsonLdType.Werkingsgebied,
-                               Vereniging.Werkingsgebied.NietVanToepassing.Code),
-                           Code = Vereniging.Werkingsgebied.NietVanToepassing.Code,
-                           Naam = Vereniging.Werkingsgebied.NietVanToepassing.Naam,
+                               DecentraalBeheer.Vereniging.Werkingsgebied.NietVanToepassing.Code),
+                           Code = DecentraalBeheer.Vereniging.Werkingsgebied.NietVanToepassing.Code,
+                           Naam = DecentraalBeheer.Vereniging.Werkingsgebied.NietVanToepassing.Naam,
                        },
                    ]);
 }

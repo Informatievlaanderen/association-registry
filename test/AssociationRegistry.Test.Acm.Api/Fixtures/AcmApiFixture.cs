@@ -5,6 +5,7 @@ using AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Common.Fixtures;
+using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore.ConflictResolution;
 using Framework.Helpers;

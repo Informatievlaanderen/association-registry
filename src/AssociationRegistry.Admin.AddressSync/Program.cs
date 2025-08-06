@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Geotags;
 using Destructurama;
 using EventStore;
 using EventStore.ConflictResolution;
@@ -20,7 +22,6 @@ using OpenTelemetry.Resources;
 using Serilog;
 using Serilog.Debugging;
 using Vereniging;
-using Vereniging.Geotags;
 using Wolverine;
 
 public static class Program

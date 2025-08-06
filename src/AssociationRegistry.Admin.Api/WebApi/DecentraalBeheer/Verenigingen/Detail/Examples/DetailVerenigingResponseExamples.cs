@@ -5,7 +5,9 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Bronnen;
-using AssociationRegistry.Vereniging.Mappers;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Mappers;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using Adres = ResponseModels.Adres;
@@ -42,8 +44,8 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     VCode = "V0001001",
                     Verenigingstype = new Verenigingstype
                     {
-                        Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
-                        Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                        Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                        Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                     },
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
@@ -118,7 +120,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             AdresId = new AdresId
                             {
                                 Broncode = Adresbron.AR,
-                                Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + 1,
+                                Bronwaarde = DecentraalBeheer.Vereniging.Adressen.AdresId.DataVlaanderenAdresPrefix + 1,
                             },
                             VerwijstNaar =
                                 new AdresVerwijzing
@@ -213,8 +215,8 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     VCode = "V0001001",
                     Verenigingstype = new Verenigingstype
                     {
-                        Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
-                        Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+                        Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam,
+                        Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
                     },
                     Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>(),
                     Naam = "FWA De vrolijke BA’s",
@@ -290,7 +292,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             AdresId = new AdresId
                             {
                                 Broncode = Adresbron.AR,
-                                Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + 1,
+                                Bronwaarde = DecentraalBeheer.Vereniging.Adressen.AdresId.DataVlaanderenAdresPrefix + 1,
                             },
                             VerwijstNaar =
                                 new AdresVerwijzing
@@ -385,8 +387,8 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     VCode = "V0001002",
                     Verenigingstype = new Verenigingstype
                     {
-                        Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
-                        Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
+                        Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZW.Naam,
+                        Code = DecentraalBeheer.Vereniging.Verenigingstype.VZW.Code,
                     },
                     Naam = "Vissen achter het net",
                     KorteNaam = "VAN",
@@ -483,7 +485,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             AdresId = new AdresId
                             {
                                 Broncode = Adresbron.AR,
-                                Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + 17,
+                                Bronwaarde = DecentraalBeheer.Vereniging.Adressen.AdresId.DataVlaanderenAdresPrefix + 17,
                             },
                             VerwijstNaar = new AdresVerwijzing
                             {

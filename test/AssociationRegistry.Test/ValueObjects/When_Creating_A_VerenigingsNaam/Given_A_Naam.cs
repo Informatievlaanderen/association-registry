@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_VerenigingsNaam;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;
 

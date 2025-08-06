@@ -1,8 +1,9 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 
-using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging;
 using Common;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Vereniging;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -70,5 +71,5 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest : IRegi
             Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
-            Werkingsgebieden?.Select(werkingsgebiedenService.Create).ToArray() ?? AssociationRegistry.Vereniging.Werkingsgebieden.NietBepaald);
+            Werkingsgebieden?.Select(werkingsgebiedenService.Create).ToArray() ?? DecentraalBeheer.Vereniging.Werkingsgebieden.NietBepaald);
 }

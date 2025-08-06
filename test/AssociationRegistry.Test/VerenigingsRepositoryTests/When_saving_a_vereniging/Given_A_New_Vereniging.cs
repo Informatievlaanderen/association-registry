@@ -7,11 +7,12 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
-using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Geotags;
 using FluentAssertions;
 using MartenDb.Store;
 using Moq;
-using Vereniging.Geotags;
 using Xunit;
 
 public class Given_A_New_Vereniging : IAsyncLifetime

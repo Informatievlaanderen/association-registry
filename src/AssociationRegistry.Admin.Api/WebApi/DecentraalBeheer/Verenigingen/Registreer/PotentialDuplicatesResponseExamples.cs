@@ -1,9 +1,10 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer;
 
-using AssociationRegistry.DuplicateVerenigingDetection;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Mappers;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using Swashbuckle.AspNetCore.Filters;
 
 public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDuplicatesResponse>
@@ -25,8 +26,8 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                         VCode: "V0001001",
                         new DuplicaatVereniging.Types.Verenigingstype()
                         {
-                            Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                            Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam
+                            Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                            Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam
                         },
                         Verenigingssubtype: VerenigingssubtypeCode.NietBepaald.Map<DuplicaatVereniging.Types.Verenigingssubtype>(),
                         Naam: "Naam",

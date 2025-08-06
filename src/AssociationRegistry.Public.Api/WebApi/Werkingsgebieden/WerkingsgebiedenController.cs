@@ -5,6 +5,7 @@ using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using DecentraalBeheer.Vereniging;
 using Microsoft.AspNetCore.Mvc;
 using ResponseExamples;
 using ResponseModels;

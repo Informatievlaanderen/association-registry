@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
+using DecentraalBeheer.Vereniging;
 using EventStore.ConflictResolution;
 using FluentAssertions;
 using MartenDb.Store;

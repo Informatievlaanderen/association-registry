@@ -5,11 +5,11 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
+using DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
+using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Moq;
 using Resources;
-using Vereniging.Exceptions;
 using Wolverine;
 using Xunit;
 

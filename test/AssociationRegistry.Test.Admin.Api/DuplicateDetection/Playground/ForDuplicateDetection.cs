@@ -4,7 +4,9 @@ using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;
-using DuplicateVerenigingDetection;
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using FluentAssertions;
 using Framework.Fixtures;
 using Hosts;

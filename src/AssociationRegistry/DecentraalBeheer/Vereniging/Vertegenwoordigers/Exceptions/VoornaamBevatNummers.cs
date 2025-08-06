@@ -1,0 +1,17 @@
+﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+
+using Resources;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
+using System.Runtime.Serialization;
+
+[Serializable]
+public class VoornaamBevatNummers : DomainException
+{
+    public VoornaamBevatNummers() : base(ExceptionMessages.VoornaamBevatNummers)
+    {
+    }
+
+    protected VoornaamBevatNummers(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
+    }
+}

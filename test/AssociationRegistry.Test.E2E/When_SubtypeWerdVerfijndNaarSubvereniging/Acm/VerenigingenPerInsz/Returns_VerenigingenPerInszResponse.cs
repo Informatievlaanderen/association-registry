@@ -5,10 +5,11 @@ using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Vereniging.Verenigingstype;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 [Collection(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
 public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>

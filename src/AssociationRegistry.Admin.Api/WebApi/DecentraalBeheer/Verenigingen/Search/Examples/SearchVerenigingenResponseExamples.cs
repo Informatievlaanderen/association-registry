@@ -4,7 +4,8 @@ using AssociationRegistry.Formats;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Mappers;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
@@ -89,8 +90,8 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                         },
                         Verenigingstype = new Verenigingstype
                         {
-                            Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                            Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                            Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                            Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
                         },
                         Lidmaatschappen =
                         [
@@ -161,8 +162,8 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                         ],
                         Verenigingstype = new Verenigingstype
                         {
-                            Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
-                            Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
+                            Code = DecentraalBeheer.Vereniging.Verenigingstype.VZW.Code,
+                            Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZW.Naam,
                         },
                         Startdatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-1))
                                              .ToString(WellknownFormats.DateOnly),
@@ -324,8 +325,8 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                         },
                         Verenigingstype = new Verenigingstype
                         {
-                            Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                            Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
+                            Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                            Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam,
                         },
                         Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>(),
                         Lidmaatschappen = new[]
@@ -397,8 +398,8 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                         ],
                         Verenigingstype = new Verenigingstype
                         {
-                            Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
-                            Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
+                            Code = DecentraalBeheer.Vereniging.Verenigingstype.VZW.Code,
+                            Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZW.Naam,
                         },
                         Startdatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-1))
                                              .ToString(WellknownFormats.DateOnly),

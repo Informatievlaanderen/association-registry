@@ -1,10 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
 
-using AssociationRegistry.DecentraalBeheer.Locaties.VoegLocatieToe;
 using AssociationRegistry.Vereniging;
 using Common;
-using Adres = Vereniging.Adres;
-using AdresId = Vereniging.AdresId;
+using DecentraalBeheer.Acties.Locaties.VoegLocatieToe;
+using DecentraalBeheer.Vereniging;
+using Adres = DecentraalBeheer.Vereniging.Adressen.Adres;
+using AdresId = DecentraalBeheer.Vereniging.Adressen.AdresId;
 
 public class VoegLocatieToeRequest
 {
@@ -13,7 +14,7 @@ public class VoegLocatieToeRequest
     public VoegLocatieToeCommand ToCommand(string vCode)
         => new(
             VCode.Create(vCode),
-            AssociationRegistry.Vereniging.Locatie.Create(
+            DecentraalBeheer.Vereniging.Locatie.Create(
                 Locatienaam.Create(Locatie.Naam ?? string.Empty),
                 Locatie.IsPrimair,
                 Locatie.Locatietype,

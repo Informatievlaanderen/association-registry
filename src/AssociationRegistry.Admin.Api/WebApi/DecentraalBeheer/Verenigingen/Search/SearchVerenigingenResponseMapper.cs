@@ -3,7 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Schema.Search;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Vereniging.Mappers;
+using DecentraalBeheer.Vereniging.Mappers;
 using Nest;
 using RequestModels;
 using ResponseModels;

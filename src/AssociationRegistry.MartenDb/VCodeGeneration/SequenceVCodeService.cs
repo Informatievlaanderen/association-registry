@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Adapters.VCodeGeneration;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using Marten;
 using Weasel.Postgresql;
 

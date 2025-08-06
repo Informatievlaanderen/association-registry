@@ -1,6 +1,7 @@
 namespace AssociationRegistry.MartenDb.Setup;
 
 using Admin.Api.Adapters.VCodeGeneration;
+using DecentraalBeheer.Vereniging;
 using Marten;
 using Upcasters;
 using Events;

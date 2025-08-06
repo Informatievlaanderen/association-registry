@@ -1,9 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Wijzig_Locatie.CommandHandling;
 
 using AssociationRegistry.Admin.ProjectionHost.Constants;
-using AssociationRegistry.DecentraalBeheer.Locaties.ProbeerAdresTeMatchen;
-using AssociationRegistry.DecentraalBeheer.Locaties.WijzigLocatie;
-using AssociationRegistry.EventFactories;
+using AssociationRegistry.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using AssociationRegistry.DecentraalBeheer.Acties.Locaties.WijzigLocatie;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
@@ -17,9 +18,9 @@ using AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Events.Factories;
 using Marten;
 using Moq;
-using Vereniging.Geotags;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using Kbo;
 using ResultNet;

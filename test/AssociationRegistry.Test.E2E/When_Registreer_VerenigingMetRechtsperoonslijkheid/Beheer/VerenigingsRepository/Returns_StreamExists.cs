@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Beheer.VerenigingsRepository;
 
+using DecentraalBeheer.Vereniging;
 using EventStore;
 using FluentAssertions;
 using Formats;

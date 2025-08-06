@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Beheer.Zoeken.With_Header;
 
 using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -8,7 +10,6 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Vereniging;
-using Vereniging.Mappers;
 using Xunit;
 using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 

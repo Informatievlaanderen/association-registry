@@ -4,7 +4,7 @@ using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Public.Api.Infrastructure;
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Public.Schema.Search;
-using AssociationRegistry.Vereniging.Mappers;
+using DecentraalBeheer.Vereniging.Mappers;
 using Nest;
 using RequestModels;
 using ResponseModels;

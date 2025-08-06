@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
+using DecentraalBeheer.Vereniging;
 using Microsoft.AspNetCore.Mvc;
 using ResponseWriter;
 

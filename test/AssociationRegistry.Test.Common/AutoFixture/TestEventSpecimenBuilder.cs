@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using DecentraalBeheer.Vereniging;
 using global::AutoFixture;
 using global::AutoFixture.Kernel;
 using JasperFx.Events;

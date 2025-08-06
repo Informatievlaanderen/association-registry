@@ -5,12 +5,12 @@ using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
-using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
-using DuplicateVerenigingDetection;
 using FluentAssertions;
 using FluentValidation;
 using Hosts.Configuration.ConfigurationBindings;
@@ -19,7 +19,7 @@ using Moq;
 using ResultNet;
 using Wolverine;
 using Xunit;
-using Verenigingstype = Vereniging.Verenigingstype;
+using Verenigingstype = AssociationRegistry.DecentraalBeheer.Vereniging.Verenigingstype;
 
 public class With_Duplicates_Found
 {

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.Api.Queries;
 
 using Constants;
+using DecentraalBeheer.Vereniging;
 using Framework;
 using Nest;
 using Schema;
@@ -131,7 +132,7 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                                                         .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(
                                                                    h => h.Code).Suffix("keyword")
                                                          )
-                                                        .Size(size: AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket
+                                                        .Size(size: HoofdactiviteitVerenigingsloket
                                                                                        .HoofdactiviteitenVerenigingsloketCount)
         );
     }

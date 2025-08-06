@@ -12,7 +12,7 @@ using Xunit;
 using DoelgroepResponse = Public.Api.WebApi.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingssubtype = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
-using Verenigingstype = Vereniging.Verenigingstype;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 [Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
 public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>

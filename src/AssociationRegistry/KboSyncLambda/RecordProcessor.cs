@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.KboSyncLambda;
 
+using DecentraalBeheer.Vereniging;
 using Framework;
 using Kbo;
 using Microsoft.Extensions.Logging;

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Queries.GetNamesForVCodesQuery;
 
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;

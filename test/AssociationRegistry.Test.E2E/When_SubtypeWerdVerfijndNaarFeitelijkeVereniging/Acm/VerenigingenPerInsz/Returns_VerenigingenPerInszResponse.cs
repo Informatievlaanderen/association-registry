@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Acm.VerenigingenPerInsz;
 
 using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
+using DecentraalBeheer.Vereniging;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
@@ -8,7 +9,7 @@ using KellermanSoftware.CompareNetObjects;
 using Vereniging;
 using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Vereniging.Verenigingstype;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 [Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
 public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>

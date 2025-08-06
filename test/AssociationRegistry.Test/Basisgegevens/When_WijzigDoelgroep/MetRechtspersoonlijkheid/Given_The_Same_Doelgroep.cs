@@ -4,7 +4,8 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using EventFactories;
+using DecentraalBeheer.Vereniging;
+using Events.Factories;
 using FluentAssertions;
 using Xunit;
 

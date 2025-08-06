@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Schema.Search;
 
+using DecentraalBeheer.Vereniging;
 using Detail;
 using Vereniging;
 

@@ -2,6 +2,7 @@
 
 using Admin.Schema;
 using Admin.Schema.Detail;
+using DecentraalBeheer.Vereniging;
 using Events;
 using JsonLdContext;
 using Scenario.Registratie;
@@ -42,8 +43,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Naam,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
             Roepnaam = string.Empty,
@@ -57,8 +58,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                     Id = JsonLdType.Doelgroep.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode),
                     Type = JsonLdType.Doelgroep.Type,
                 },
-                Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
-                Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
+                Minimumleeftijd = DecentraalBeheer.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+                Maximumleeftijd = DecentraalBeheer.Vereniging.Doelgroep.StandaardMaximumleeftijd,
             },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm,
             DatumLaatsteAanpassing = "1970-01-01",
