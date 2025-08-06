@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 using Vereniging;
 
 public class V043_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatschappelijkeZetel_ForWijzigen : IEventsInDbScenario

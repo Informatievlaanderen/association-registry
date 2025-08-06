@@ -4,6 +4,7 @@ using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Events;
 using Marten;
+using MartenDb.Store;
 using Vereniging;
 
 public class EventStoreMock : IEventStore

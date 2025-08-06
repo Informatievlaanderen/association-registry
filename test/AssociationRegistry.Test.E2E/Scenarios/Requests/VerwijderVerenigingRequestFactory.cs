@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
 using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Verwijder.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Verwijder.RequestModels;
 using Alba;
 using Framework.ApiSetup;
 using Givens.VerenigingZonderEigenRechtspersoonlijkheid;

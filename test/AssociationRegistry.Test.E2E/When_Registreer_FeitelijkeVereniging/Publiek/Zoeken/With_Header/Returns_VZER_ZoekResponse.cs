@@ -7,12 +7,12 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Search.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Vereniging;
 using Vereniging.Mappers;
 using Xunit;
-using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
-using Verenigingssubtype = Public.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
+using Vereniging = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
+using Verenigingssubtype = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
 [Collection(nameof(RegistreerFeitelijkeVerenigingCollection))]
 public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>

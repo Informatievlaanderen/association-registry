@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Beheer.Zoeken;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Events;
 using Formats;
 using Framework.AlbaHost;
@@ -12,10 +12,10 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Xunit;
-using DoelgroepResponse = Admin.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
-using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using DoelgroepResponse = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.DoelgroepResponse;
+using Vereniging = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
+using Verenigingstype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingstype;
 
 [Collection(nameof(WijzigLidmaatschapCollection))]
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>

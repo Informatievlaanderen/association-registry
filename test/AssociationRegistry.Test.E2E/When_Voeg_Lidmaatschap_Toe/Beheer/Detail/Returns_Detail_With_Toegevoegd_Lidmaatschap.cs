@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Beheer.Detail;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Formats;
 using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;

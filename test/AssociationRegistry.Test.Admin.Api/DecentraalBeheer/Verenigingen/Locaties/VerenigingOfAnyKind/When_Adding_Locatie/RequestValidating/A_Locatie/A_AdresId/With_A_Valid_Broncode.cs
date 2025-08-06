@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Adding_Locatie.RequestValidating.A_Locatie.A_AdresId;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
-using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;
-using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
+using AdresId = AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common.AdresId;
 
 public class With_A_Valid_Broncode : ValidatorTest
 {

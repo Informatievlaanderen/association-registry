@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
 
 using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Common;
+using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;
@@ -11,8 +11,8 @@ using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using Vereniging;
-using Adres = Admin.Api.Verenigingen.Common.Adres;
-using AdresId = Admin.Api.Verenigingen.Common.AdresId;
+using Adres = Admin.Api.WebApi.Verenigingen.Common.Adres;
+using AdresId = Admin.Api.WebApi.Verenigingen.Common.AdresId;
 
 public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
 {

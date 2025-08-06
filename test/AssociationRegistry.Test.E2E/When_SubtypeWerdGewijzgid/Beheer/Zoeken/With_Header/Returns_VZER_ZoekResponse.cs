@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdGewijzgid.Beheer.Zoeken.With_Header;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
@@ -10,8 +10,8 @@ using Marten;
 using Vereniging;
 using Vereniging.Mappers;
 using Xunit;
-using SubverenigingVan = Admin.Api.Verenigingen.Search.ResponseModels.SubverenigingVan;
-using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
+using SubverenigingVan = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.SubverenigingVan;
+using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
 [Collection(nameof(WhenSubtypeWerdGewijzigdCollection))]
 public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>

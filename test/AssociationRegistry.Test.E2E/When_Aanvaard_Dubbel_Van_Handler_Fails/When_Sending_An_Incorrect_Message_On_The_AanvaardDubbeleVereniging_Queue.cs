@@ -10,6 +10,7 @@ using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Marten;
+using MartenDb.Store;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using Wolverine;

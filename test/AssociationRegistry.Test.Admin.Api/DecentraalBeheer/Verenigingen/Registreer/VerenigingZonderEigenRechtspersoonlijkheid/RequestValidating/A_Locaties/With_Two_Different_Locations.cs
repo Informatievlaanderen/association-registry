@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestValidating.A_Locaties;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
 using Xunit;
-using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
+using Adres = AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common.Adres;
 using ValidatorTest = Framework.ValidatorTest;
 
 public class With_Two_Different_Locations : ValidatorTest

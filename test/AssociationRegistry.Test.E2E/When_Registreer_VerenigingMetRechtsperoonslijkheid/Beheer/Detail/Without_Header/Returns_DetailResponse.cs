@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Beheer.Detail.Without_Header;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using FluentAssertions;
 using Formats;
 using Framework.AlbaHost;

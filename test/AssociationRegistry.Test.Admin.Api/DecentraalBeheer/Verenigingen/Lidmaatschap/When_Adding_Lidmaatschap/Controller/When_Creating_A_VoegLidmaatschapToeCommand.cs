@@ -3,8 +3,8 @@
 using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.ResponseWriter;
 using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe;
-using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Framework;

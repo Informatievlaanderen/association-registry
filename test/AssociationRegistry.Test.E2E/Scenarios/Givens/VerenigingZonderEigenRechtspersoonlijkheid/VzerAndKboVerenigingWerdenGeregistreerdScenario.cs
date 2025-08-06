@@ -6,6 +6,7 @@ using Common.AutoFixture;
 using Events;
 using EventStore;
 using Framework.TestClasses;
+using MartenDb.Store;
 using Vereniging;
 
 public class VzerAndKboVerenigingWerdenGeregistreerdScenario : IScenario

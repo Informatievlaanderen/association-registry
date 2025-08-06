@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Migrate_To_E2E.When_Wijzig_Anything_In_A_Vereniging;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Verwijder.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Verwijder.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -12,6 +12,7 @@ using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using MartenDb.Store;
 using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Net;
@@ -21,7 +22,7 @@ using Xunit;
 [Category(Categories.MoveToBasicE2E)]
 public class Given_A_Vereniging_Has_Been_Deleted
 {
-    private const string TEST_INITIATOR = EventStore.DigitaalVlaanderenOvoNumber;
+    private const string TEST_INITIATOR = WellknownOvoNumbers.DigitaalVlaanderenOvoNumber;
     private readonly AdminApiClients _adminApiClients;
     private readonly Fixture _fixture;
     private readonly V061_VerenigingWerdGeregistreerd_And_Verwijderd_And_FollowedByUpdates _scenario;

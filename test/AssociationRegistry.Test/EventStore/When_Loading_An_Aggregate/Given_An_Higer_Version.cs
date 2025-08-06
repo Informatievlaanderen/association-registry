@@ -7,6 +7,8 @@ using Common.AutoFixture;
 using Common.Framework;
 using Events;
 using EventStore;
+using EventStore.ConflictResolution;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Vereniging;

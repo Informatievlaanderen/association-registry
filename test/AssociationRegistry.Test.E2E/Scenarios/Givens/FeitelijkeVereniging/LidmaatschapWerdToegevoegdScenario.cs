@@ -5,6 +5,7 @@ using EventStore;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
+using MartenDb.Store;
 
 public class LidmaatschapWerdToegevoegdScenario : Framework.TestClasses.IScenario
 {

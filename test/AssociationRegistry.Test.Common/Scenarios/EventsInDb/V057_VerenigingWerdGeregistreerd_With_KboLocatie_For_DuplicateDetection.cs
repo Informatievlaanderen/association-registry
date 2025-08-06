@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 
 public class V057_VerenigingWerdGeregistreerd_With_KboLocatie_For_DuplicateDetection : IEventsInDbScenario
 {

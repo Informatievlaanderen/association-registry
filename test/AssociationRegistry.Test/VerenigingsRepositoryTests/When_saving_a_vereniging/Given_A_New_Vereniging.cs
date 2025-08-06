@@ -9,6 +9,7 @@ using AutoFixture;
 using Common.Stubs.VCodeServices;
 using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using FluentAssertions;
+using MartenDb.Store;
 using Moq;
 using Vereniging.Geotags;
 using Xunit;

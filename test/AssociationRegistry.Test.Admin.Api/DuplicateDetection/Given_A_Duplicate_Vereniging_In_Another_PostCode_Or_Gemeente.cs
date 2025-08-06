@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using Vereniging;
 using Xunit;
-using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
+using Adres = AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
 public class Given_A_Duplicate_Vereniging_In_Another_PostCode_Or_Gemeente

@@ -8,9 +8,8 @@ using Schema.Search;
 using System.Text;
 using System.Text.RegularExpressions;
 using Vereniging;
-
-using Verenigingen.Search;
-using Verenigingen.Search.RequestModels;
+using WebApi.Verenigingen.Search;
+using WebApi.Verenigingen.Search.RequestModels;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public interface IPubliekVerenigingenZoekQuery : IQuery<ISearchResponse<VerenigingZoekDocument>, PubliekVerenigingenZoekFilter>;

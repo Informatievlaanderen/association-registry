@@ -9,12 +9,12 @@ using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Xunit;
-using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
-using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
+using DoelgroepResponse = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
+using Vereniging = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
+using Verenigingstype = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 
 [Collection(nameof(RegistreerFeitelijkeVerenigingCollection))]

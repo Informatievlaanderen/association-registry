@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van;
 
-using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Events;
 using FluentAssertions;
 using Framework.ApiSetup;

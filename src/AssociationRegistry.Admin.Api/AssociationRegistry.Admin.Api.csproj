@@ -105,4 +105,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="WebApi\" />
+  </ItemGroup>
 </Project>

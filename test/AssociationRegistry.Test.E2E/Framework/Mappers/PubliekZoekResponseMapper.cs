@@ -1,18 +1,18 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
-using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Common;
+using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Common.Framework;
 using Events;
 using Formats;
 using JsonLdContext;
-using Public.Api.Verenigingen.Search.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Vereniging;
-using HoofdactiviteitVerenigingsloket = Public.Api.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
-using Lidmaatschap = Public.Api.Verenigingen.Search.ResponseModels.Lidmaatschap;
-using Locatie = Public.Api.Verenigingen.Search.ResponseModels.Locatie;
-using Werkingsgebied = Public.Api.Verenigingen.Search.ResponseModels.Werkingsgebied;
+using HoofdactiviteitVerenigingsloket = Public.Api.WebApi.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Lidmaatschap;
+using Locatie = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Locatie;
+using Werkingsgebied = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Werkingsgebied;
 
 public class PubliekZoekResponseMapper
 {

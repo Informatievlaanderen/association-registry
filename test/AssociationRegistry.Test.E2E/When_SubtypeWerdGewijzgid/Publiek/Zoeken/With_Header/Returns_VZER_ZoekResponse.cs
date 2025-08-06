@@ -5,12 +5,12 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Search.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Vereniging;
 using Vereniging.Mappers;
 using Xunit;
-using SubverenigingVan = Public.Api.Verenigingen.Search.ResponseModels.SubverenigingVan;
-using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
+using SubverenigingVan = Public.Api.WebApi.Verenigingen.Search.ResponseModels.SubverenigingVan;
+using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
 [Collection(nameof(WhenSubtypeWerdGewijzigdCollection))]
 public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>

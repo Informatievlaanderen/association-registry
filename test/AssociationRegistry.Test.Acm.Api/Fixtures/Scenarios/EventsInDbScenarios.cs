@@ -7,6 +7,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using Framework;
+using MartenDb.Store;
 using Vereniging;
 
 public interface IEventsInDbScenario

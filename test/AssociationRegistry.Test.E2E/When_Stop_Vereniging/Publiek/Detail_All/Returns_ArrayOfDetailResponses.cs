@@ -7,7 +7,7 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using Newtonsoft.Json.Linq;
 using NodaTime.Extensions;
-using Public.Api.Verenigingen.DetailAll;
+using Public.Api.WebApi.Verenigingen.DetailAll;
 using Xunit;
 
 [Collection(nameof(StopVerenigingCollection))]

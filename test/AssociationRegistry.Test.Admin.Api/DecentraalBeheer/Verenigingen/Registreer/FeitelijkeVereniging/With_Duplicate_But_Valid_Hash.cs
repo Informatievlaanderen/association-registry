@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging;
 
-using AssociationRegistry.Admin.Api.Verenigingen;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.EventFactories;
 using AssociationRegistry.Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;

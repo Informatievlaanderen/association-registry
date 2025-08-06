@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Beheer.Detail;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Formats;
 using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
@@ -13,7 +13,7 @@ using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
+using Verenigingstype = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(nameof(WijzigBasisgegevensKbocollection))]
 public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>

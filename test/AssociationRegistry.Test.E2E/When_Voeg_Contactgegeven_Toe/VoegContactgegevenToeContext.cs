@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Voeg_Contactgegeven_Toe;
 
-using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
+using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;

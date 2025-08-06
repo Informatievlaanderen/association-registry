@@ -2,7 +2,6 @@
 
 using Formats;
 using JsonLdContext;
-using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
@@ -10,12 +9,12 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Xunit;
-using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
-using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
+using DoelgroepResponse = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
+using Vereniging = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
+using Verenigingstype = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(nameof(WijzigBasisgegevensKbocollection))]
 public class Returns_ArrayOfDetailResponses : End2EndTest<PubliekVerenigingDetailResponse>

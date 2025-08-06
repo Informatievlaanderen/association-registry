@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Searching;
 
 using AssociationRegistry.Public.Api.Queries;
-using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
+using AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
 using Fixtures.GivenEvents;

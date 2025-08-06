@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.When_Searching.With_Sorting;
 
-using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Fixtures;
 using Fixtures.GivenEvents;
