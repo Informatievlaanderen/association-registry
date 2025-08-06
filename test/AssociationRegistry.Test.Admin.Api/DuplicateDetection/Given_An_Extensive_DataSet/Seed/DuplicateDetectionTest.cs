@@ -5,7 +5,9 @@ using AssociationRegistry.Admin.Api.Infrastructure.Elastic;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
 using AssociationRegistry.Admin.Schema.Search;
-using DuplicateVerenigingDetection;
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
@@ -19,8 +21,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 
 using ITestOutputHelper = Xunit.ITestOutputHelper;
-using Adres = Vereniging.Adres;
-using Locatie = Vereniging.Locatie;
+using Adres = AssociationRegistry.DecentraalBeheer.Vereniging.Adressen.Adres;
+using Locatie = AssociationRegistry.DecentraalBeheer.Vereniging.Locatie;
 
 public class DuplicateDetectionTest
 {

@@ -1,12 +1,14 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using EventFactories;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Emails;
+using DecentraalBeheer.Vereniging.SocialMedias;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
 using Events;
+using Events.Factories;
 using global::AutoFixture;
 using Vereniging;
-using Vereniging.Emails;
-using Vereniging.SocialMedias;
-using Vereniging.TelefoonNummers;
 
 public static class RegistratiedataCustomizations
 {

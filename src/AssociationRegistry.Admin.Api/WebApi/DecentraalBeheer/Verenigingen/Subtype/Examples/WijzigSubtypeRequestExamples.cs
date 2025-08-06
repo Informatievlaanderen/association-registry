@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Subtype.Examples;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 

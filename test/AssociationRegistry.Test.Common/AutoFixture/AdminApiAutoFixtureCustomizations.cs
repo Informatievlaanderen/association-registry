@@ -12,19 +12,20 @@ using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.Wijzi
 using Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Admin.Schema;
 using Admin.Schema.Search;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Emails;
+using DecentraalBeheer.Vereniging.SocialMedias;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
 using Events;
 using Formats;
 using global::AutoFixture;
 using JsonLdContext;
 using Primitives;
 using Vereniging;
-using Vereniging.Emails;
-using Vereniging.SocialMedias;
-using Vereniging.TelefoonNummers;
 using Adres = Admin.Api.WebApi.Verenigingen.Common.Adres;
-using Contactgegeven = Vereniging.Contactgegeven;
-using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
-using Werkingsgebied = Vereniging.Werkingsgebied;
+using Contactgegeven = DecentraalBeheer.Vereniging.Contactgegeven;
+using HoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket;
+using Werkingsgebied = DecentraalBeheer.Vereniging.Werkingsgebied;
 
 public static class AdminApiAutoFixtureCustomizations
 {

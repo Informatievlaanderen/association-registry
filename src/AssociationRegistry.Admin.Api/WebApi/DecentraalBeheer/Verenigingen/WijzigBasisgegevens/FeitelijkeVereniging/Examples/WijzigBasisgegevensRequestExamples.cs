@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.
 using AssociationRegistry.Primitives;
 using AssociationRegistry.Vereniging;
 using Common;
+using DecentraalBeheer.Vereniging;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 

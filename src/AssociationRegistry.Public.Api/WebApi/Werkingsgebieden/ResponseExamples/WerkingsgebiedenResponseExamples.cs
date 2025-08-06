@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Api.WebApi.Werkingsgebieden.ResponseExamples;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using Werkingsgebied = ResponseModels.Werkingsgebied;

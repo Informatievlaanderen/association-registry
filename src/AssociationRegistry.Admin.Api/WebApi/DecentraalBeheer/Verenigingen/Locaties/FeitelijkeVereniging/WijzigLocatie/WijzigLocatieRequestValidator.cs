@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.Vereniging;
 using Common;
+using DecentraalBeheer.Vereniging;
 using FluentValidation;
 using RequestModels;
 

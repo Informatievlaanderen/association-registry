@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 
 using AssociationRegistry.Vereniging;
-using global::AssociationRegistry.Vereniging;
 using System.Runtime.Serialization;
 
 /// <summary>

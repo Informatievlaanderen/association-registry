@@ -1,12 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling.Werkingsgebieden;
 
-using AssociationRegistry.EventFactories;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using Vereniging.Geotags;
+using Events.Factories;
 using Xunit;
 
 public class With_NietBepaald_To_Bepaald

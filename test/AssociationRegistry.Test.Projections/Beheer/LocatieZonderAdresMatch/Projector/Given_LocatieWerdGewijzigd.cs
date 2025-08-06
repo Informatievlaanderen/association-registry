@@ -2,6 +2,7 @@
 
 using Admin.Schema.Detail;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Framework.Fixtures;
 using Marten;

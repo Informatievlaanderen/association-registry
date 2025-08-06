@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Locatie.Beheer.Detail;
 
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
 using JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

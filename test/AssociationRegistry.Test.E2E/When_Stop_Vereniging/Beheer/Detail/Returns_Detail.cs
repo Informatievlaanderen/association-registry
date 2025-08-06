@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Stop_Vereniging.Beheer.Detail;
 
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Formats;
 using Framework.AlbaHost;

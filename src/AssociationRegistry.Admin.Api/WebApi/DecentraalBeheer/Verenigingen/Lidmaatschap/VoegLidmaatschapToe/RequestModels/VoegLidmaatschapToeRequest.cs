@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 
-using AssociationRegistry.DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using DecentraalBeheer.Vereniging;
 using System.Runtime.Serialization;
 
 [DataContract]

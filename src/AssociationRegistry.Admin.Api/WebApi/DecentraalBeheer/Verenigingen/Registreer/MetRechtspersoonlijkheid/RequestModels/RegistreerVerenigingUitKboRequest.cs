@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 
-using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingUitKbo;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -13,5 +13,5 @@ public class RegistreerVerenigingUitKboRequest
     public string KboNummer { get; init; } = null!;
 
     public RegistreerVerenigingUitKboCommand ToCommand()
-        => new(Vereniging.KboNummer.Create(KboNummer));
+        => new(DecentraalBeheer.Vereniging.KboNummer.Create(KboNummer));
 }

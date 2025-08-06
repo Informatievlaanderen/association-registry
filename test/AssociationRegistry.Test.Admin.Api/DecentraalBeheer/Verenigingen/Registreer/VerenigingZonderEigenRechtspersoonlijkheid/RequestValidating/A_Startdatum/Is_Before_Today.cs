@@ -2,8 +2,8 @@
     A_Startdatum;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Test.Framework;
-using AssociationRegistry.Vereniging.Exceptions;
 using FluentValidation.TestHelper;
 using Xunit;
 using ValidatorTest = Framework.ValidatorTest;

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Geotags;
 
+using DecentraalBeheer.Vereniging.Geotags;
 using FluentAssertions;
-using Vereniging.Geotags;
 using Xunit;
 
 public class GeotagsCollectionTests

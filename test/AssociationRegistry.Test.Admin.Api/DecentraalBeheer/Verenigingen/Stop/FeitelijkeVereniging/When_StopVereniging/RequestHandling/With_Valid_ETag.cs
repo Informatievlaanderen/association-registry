@@ -2,7 +2,8 @@
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Stop.RequestModels;
-using AssociationRegistry.DecentraalBeheer.StopVereniging;
+using AssociationRegistry.DecentraalBeheer.Acties.StopVereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;

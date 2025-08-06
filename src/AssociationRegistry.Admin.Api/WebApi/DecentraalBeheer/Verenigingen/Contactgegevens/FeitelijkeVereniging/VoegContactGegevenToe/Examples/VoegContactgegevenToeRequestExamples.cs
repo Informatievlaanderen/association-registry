@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.Feit
 
 using AssociationRegistry.Vereniging;
 using Common;
+using DecentraalBeheer.Vereniging;
 using RequestsModels;
 using Swashbuckle.AspNetCore.Filters;
 

@@ -4,6 +4,7 @@ namespace AssociationRegistry.Test.Acm.Api.Fixtures.Scenarios;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore;
 using Framework;

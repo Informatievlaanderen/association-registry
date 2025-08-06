@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.Zoeken;
 
+using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
 using JsonLdContext;
@@ -159,8 +160,8 @@ public class BeheerZoekProjectionHandler
         document.Doelgroep = new Doelgroep
         {
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, message.VCode),
-            Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
-            Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
+            Minimumleeftijd = DecentraalBeheer.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+            Maximumleeftijd = DecentraalBeheer.Vereniging.Doelgroep.StandaardMaximumleeftijd,
         };
 
         document.IsUitgeschrevenUitPubliekeDatastroom = false;

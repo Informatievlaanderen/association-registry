@@ -6,6 +6,7 @@ using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoo
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Framework.ApiSetup;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;

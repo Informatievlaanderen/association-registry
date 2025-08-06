@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Acm.Api.Given_VertegenwoordigerWerdToegevoegd;
 
+using DecentraalBeheer.Vereniging;
 using Fixtures;
 using Fixtures.Scenarios;
 using FluentAssertions;

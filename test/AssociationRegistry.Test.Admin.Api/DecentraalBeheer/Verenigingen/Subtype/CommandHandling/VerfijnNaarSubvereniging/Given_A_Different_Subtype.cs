@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.VerfijnNaarSubvereniging;
 
-using AssociationRegistry.DecentraalBeheer.Subtype;
+using AssociationRegistry.DecentraalBeheer.Acties.Subtype;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -9,7 +10,6 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonder
 using AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using Vereniging.Exceptions;
 using Xunit;
 
 /// <summary>

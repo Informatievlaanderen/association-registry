@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.When_Removing_Contactgegeven.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Contactgegevens.VerwijderContactgegeven;
+using AssociationRegistry.DecentraalBeheer.Acties.Contactgegevens.VerwijderContactgegeven;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;

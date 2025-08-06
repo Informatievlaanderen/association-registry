@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Schema.Detail;
 
+using DecentraalBeheer.Vereniging;
 using Vereniging;
 
 public record Verenigingssubtype : IVerenigingssubtypeCode

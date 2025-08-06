@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_TelefoonNummer;
 
-using AssociationRegistry.Vereniging.TelefoonNummers;
-using AssociationRegistry.Vereniging.TelefoonNummers.Exceptions;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
+using DecentraalBeheer.Vereniging.TelefoonNummers.Exceptions;
 using FluentAssertions;
 using Xunit;
 

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer;
 
-using AssociationRegistry.DuplicateVerenigingDetection;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using System.Runtime.Serialization;
 
 /// <summary>Een locatie van een vereniging</summary>

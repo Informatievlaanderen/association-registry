@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Werkingsgebied;
 
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Vereniging;
 using Xunit;

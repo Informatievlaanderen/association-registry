@@ -1,15 +1,16 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Acm.VerenigingenPerInsz;
 
 using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Vereniging;
-using Vereniging.Mappers;
 using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Vereniging.Verenigingstype;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 [Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
 public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerInszResponse>

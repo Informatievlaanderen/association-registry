@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.When_Adding_Contactgegeven.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Contactgegevens.VoegContactgegevenToe;
+using AssociationRegistry.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;

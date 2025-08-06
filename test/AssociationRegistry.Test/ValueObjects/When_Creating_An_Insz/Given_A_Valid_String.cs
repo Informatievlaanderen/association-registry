@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;
 

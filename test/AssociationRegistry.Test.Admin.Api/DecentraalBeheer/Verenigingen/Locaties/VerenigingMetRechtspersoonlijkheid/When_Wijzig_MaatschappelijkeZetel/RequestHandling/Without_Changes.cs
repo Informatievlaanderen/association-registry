@@ -3,7 +3,8 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
-using AssociationRegistry.DecentraalBeheer.Locaties.WijzigMaatschappelijkeZetel;
+using AssociationRegistry.DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;

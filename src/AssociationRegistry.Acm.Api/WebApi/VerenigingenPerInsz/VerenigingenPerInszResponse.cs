@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using System.Runtime.Serialization;
 
 /// <summary>De lijst van alle verenigingen voor een specifiek INSZ</summary>

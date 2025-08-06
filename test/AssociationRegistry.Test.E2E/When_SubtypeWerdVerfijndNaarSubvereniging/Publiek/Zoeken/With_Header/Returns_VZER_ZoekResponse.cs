@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Publiek.Zoeken.With_Header;
 
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -7,7 +9,6 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Vereniging;
-using Vereniging.Mappers;
 using Xunit;
 using SubverenigingVan = Public.Api.WebApi.Verenigingen.Search.ResponseModels.SubverenigingVan;
 using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;

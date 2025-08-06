@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Acm.Api.Queries.VerenigingenPerKbo;
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
-using AssociationRegistry.Vereniging.Mappers;
+using DecentraalBeheer.Vereniging.Mappers;
 using System.Linq;
 using Vereniging = Schema.VerenigingenPerInsz.Vereniging;
 

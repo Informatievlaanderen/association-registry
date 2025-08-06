@@ -63,8 +63,8 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<PubliekVerenigingDetai
             KorteNaam = _testContext.RegistratieData.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.VZW.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZW.Naam,
             },
             Naam = _testContext.RegistratieData.Naam,
             Roepnaam = _testContext.CommandRequest.Roepnaam,

@@ -1,9 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.
     CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Locaties.ProbeerAdresTeMatchen;
-using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.EventFactories;
+using AssociationRegistry.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
@@ -15,11 +18,10 @@ using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using DuplicateVerenigingDetection;
+using Events.Factories;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging.Geotags;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;

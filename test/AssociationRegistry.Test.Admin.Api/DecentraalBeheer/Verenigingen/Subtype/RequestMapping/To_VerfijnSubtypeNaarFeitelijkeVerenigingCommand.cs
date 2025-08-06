@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.RequestMapping;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Subtype.RequestModels;
-using AssociationRegistry.DecentraalBeheer.Subtype;
+using AssociationRegistry.DecentraalBeheer.Acties.Subtype;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;

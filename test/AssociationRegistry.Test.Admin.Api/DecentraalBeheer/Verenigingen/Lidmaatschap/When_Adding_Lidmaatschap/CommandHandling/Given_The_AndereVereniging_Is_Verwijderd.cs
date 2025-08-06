@@ -1,11 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.When_Adding_Lidmaatschap.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
+using AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Moq;
 using Xunit;

@@ -5,6 +5,7 @@ using Admin.Api.WebApi.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModel
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
 using Primitives;

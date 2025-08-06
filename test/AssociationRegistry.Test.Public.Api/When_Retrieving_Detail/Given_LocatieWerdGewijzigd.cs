@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail;
 
 using AssociationRegistry.Public.Api.Constants;
+using DecentraalBeheer.Vereniging;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;

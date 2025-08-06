@@ -19,7 +19,7 @@ public class Given_Migratie_Na_Verwijderde_Vereniging(
                     .Where(v => v.VCode == fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
                     .SingleAsync();
 
-        verenigingDocument.VerenigingsType.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code, AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam));
+        verenigingDocument.VerenigingsType.Should().BeEquivalentTo(new Verenigingstype(DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code, DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam));
 
         fixture.Result.Verenigingen.Should().BeEmpty();
     }

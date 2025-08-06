@@ -3,13 +3,12 @@
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
-using DecentraalBeheer.Locaties.ProbeerAdresTeMatchen;
+using DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using DecentraalBeheer.Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging.Geotags;
 using Xunit;
-using ProbeerAdresTeMatchenCommandHandler = DecentraalBeheer.Administratie.ProbeerAdresTeMatchen.ProbeerAdresTeMatchenCommandHandler;
+using ProbeerAdresTeMatchenCommandHandler = DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen.ProbeerAdresTeMatchenCommandHandler;
 
 public class When_Handling_ProbeerAdresTeMatchenCommand : When_Loading_With_Dubbels_TestBase
 {

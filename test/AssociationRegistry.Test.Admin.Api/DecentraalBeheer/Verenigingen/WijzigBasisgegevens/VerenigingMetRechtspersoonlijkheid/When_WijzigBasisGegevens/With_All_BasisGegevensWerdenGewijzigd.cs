@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.EventFactories;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
@@ -11,6 +11,7 @@ using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Framework;
+using Events.Factories;
 using FluentAssertions;
 using JasperFx.Core;
 using Marten;

@@ -4,8 +4,9 @@ using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.DuplicateVerenigingDetection;
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -19,7 +20,7 @@ using ResultNet;
 using Vereniging;
 using Wolverine;
 using Xunit;
-using Verenigingstype = Vereniging.Verenigingstype;
+using Verenigingstype = AssociationRegistry.DecentraalBeheer.Vereniging.Verenigingstype;
 
 public class With_Duplicates_Found
 {

@@ -1,11 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 
-using Schema.Search;
 using DuplicateVerenigingDetection;
+using Schema.Search;
 using GemeentenaamVerrijking;
 using Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Middleware;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Core.Search;
 using Elastic.Clients.Elasticsearch.QueryDsl;

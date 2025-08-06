@@ -12,7 +12,7 @@ using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Xunit;
 using DoelgroepResponse = Public.Api.WebApi.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
-using Verenigingstype = Vereniging.Verenigingstype;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 [Collection(nameof(WijzigLidmaatschapCollection))]
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>

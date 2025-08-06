@@ -6,6 +6,7 @@ using AssociationRegistry.Magda.Services;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Vereniging;
 using Xunit;

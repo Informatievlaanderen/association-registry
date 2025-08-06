@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.EventStore.ConflictResolution;
 
-using AssociationRegistry.Events;
+using Events;
 
 public class EventConflictResolver
 {

@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;

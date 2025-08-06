@@ -62,8 +62,8 @@ public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
             KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = _testContext.CommandRequest.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).ConvertAndFormatToBelgianDate(),

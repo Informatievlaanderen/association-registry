@@ -1,11 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegVertegenwoordigerToe.RequestModels;
 
-using AssociationRegistry.DecentraalBeheer.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Emails;
-using AssociationRegistry.Vereniging.SocialMedias;
-using AssociationRegistry.Vereniging.TelefoonNummers;
 using Common;
+using DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Emails;
+using DecentraalBeheer.Vereniging.SocialMedias;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -18,7 +19,7 @@ public class VoegVertegenwoordigerToeRequest
     public VoegVertegenwoordigerToeCommand ToCommand(string vCode)
         => new(
             VCode.Create(vCode),
-            AssociationRegistry.Vereniging.Vertegenwoordiger.Create(
+            DecentraalBeheer.Vereniging.Vertegenwoordiger.Create(
                 Insz.Create(Vertegenwoordiger.Insz),
                 Vertegenwoordiger.IsPrimair,
                 Vertegenwoordiger.Roepnaam,

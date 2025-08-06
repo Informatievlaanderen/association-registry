@@ -17,7 +17,7 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
         => fixture.Result
                   .Verenigingstype.Should().Be(new Verenigingstype()
                    {
-                       Code = Vereniging.Verenigingstype.VZER.Code,
-                       Naam = Vereniging.Verenigingstype.VZER.Naam,
+                       Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                       Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam,
                    });
 }

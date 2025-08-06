@@ -73,8 +73,8 @@ public class Returns_VZER_DetailResponse : End2EndTest<DetailVerenigingResponse>
             KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = Vereniging.Verenigingstype.VZER.Code,
-                Naam = Vereniging.Verenigingstype.VZER.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam,
             },
             Verenigingssubtype = new Verenigingssubtype()
             {

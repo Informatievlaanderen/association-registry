@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Stop.FeitelijkeVereniging.When_StopVereniging.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.StopVereniging;
+using AssociationRegistry.DecentraalBeheer.Acties.StopVereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
@@ -11,8 +12,6 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using EventFactories;
-using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_Einddatum

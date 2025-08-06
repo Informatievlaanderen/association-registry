@@ -8,6 +8,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using MartenDb.Store;
 using Xunit;

@@ -2,7 +2,8 @@
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using AssociationRegistry.DecentraalBeheer.Locaties.WijzigLocatie;
+using AssociationRegistry.DecentraalBeheer.Acties.Locaties.WijzigLocatie;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;

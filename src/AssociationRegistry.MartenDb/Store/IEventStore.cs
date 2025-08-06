@@ -4,6 +4,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using Marten;
 
 public interface IEventStore

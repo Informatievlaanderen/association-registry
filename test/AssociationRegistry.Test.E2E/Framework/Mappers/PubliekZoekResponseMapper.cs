@@ -4,6 +4,7 @@ using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
 using JsonLdContext;
@@ -121,7 +122,7 @@ public class PubliekZoekResponseMapper
     {
         return hoofdactiviteitenVerenigingsloket.Select(x =>
         {
-            var hoofdactiviteitVerenigingsloket = AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
+            var hoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
 
             return new HoofdactiviteitVerenigingsloket
             {

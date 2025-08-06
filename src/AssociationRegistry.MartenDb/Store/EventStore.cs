@@ -6,6 +6,7 @@ using AssociationRegistry.EventStore.ConflictResolution;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using DecentraalBeheer.Vereniging;
 using JasperFx.Events;
 using Marten;
 using Microsoft.Extensions.Logging;

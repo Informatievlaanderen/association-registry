@@ -6,6 +6,7 @@ using Alba;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using System.Net;
 
 public class WijzigSubtypeRequestVoorNietBepaaldFactory : ITestRequestFactory<WijzigSubtypeRequest>

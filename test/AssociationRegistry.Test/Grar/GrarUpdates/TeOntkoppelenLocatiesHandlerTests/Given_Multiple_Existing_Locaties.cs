@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using DecentraalBeheer.Vereniging.Adressen;
 using Xunit;
 
 public class Given_Multiple_Existing_Locatie

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.ValueObjects.When_Creating_An_Email;
 
-using AssociationRegistry.Vereniging.Emails;
-using AssociationRegistry.Vereniging.Emails.Exceptions;
+using DecentraalBeheer.Vereniging.Emails;
+using DecentraalBeheer.Vereniging.Emails.Exceptions;
 using FluentAssertions;
 using Xunit;
 

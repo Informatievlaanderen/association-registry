@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
 
-using AssociationRegistry.DecentraalBeheer.Contactgegevens.WijzigContactgegevenFromKbo;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Acties.Contactgegevens.WijzigContactgegevenFromKbo;
+using DecentraalBeheer.Vereniging;
 using System.Runtime.Serialization;
 
 [DataContract]

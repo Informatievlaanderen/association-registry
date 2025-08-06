@@ -8,6 +8,7 @@ using AssociationRegistry.Test.E2E.Scenarios.Givens.VerenigingZonderEigenRechtsp
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using System.Net;
 
 public class WijzigSubtypeRequestVoorWijzigSubtypeFactory : ITestRequestFactory<WijzigSubtypeRequest>

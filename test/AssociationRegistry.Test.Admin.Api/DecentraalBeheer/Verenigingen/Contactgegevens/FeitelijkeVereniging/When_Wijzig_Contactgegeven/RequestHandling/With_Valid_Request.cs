@@ -3,7 +3,8 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
-using AssociationRegistry.DecentraalBeheer.Contactgegevens.WijzigContactgegeven;
+using AssociationRegistry.DecentraalBeheer.Acties.Contactgegevens.WijzigContactgegeven;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;

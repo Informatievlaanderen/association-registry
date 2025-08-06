@@ -5,6 +5,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore;
 using EventStore.ConflictResolution;
