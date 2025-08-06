@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingZoekQuery;
 
 using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Admin.Schema.Search;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.AutoFixture;

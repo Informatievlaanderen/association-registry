@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.Zoeken;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Events;
 using FluentAssertions;
 using Framework.AlbaHost;

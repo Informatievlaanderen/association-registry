@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
+using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
 using Framework;

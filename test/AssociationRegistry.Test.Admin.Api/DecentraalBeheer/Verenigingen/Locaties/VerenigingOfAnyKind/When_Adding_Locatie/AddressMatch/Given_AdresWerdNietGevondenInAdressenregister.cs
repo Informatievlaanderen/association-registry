@@ -4,6 +4,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using Common.Extensions;
 using FluentAssertions;
 using Marten;
 using Polly;

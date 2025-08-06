@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 
 public class V056_VerenigingWerdGeregistreerd_And_Gestopt_For_DuplicateDetection : IEventsInDbScenario
 {

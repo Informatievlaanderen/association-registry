@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
+using DecentraalBeheer.Vereniging;
 using Framework.ApiSetup;
 using Vereniging;
 

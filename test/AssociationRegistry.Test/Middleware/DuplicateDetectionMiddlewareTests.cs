@@ -1,7 +1,4 @@
-using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.DuplicateVerenigingDetection;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Middleware;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
@@ -12,6 +9,12 @@ using Moq;
 using Xunit;
 
 namespace AssociationRegistry.Test.Middleware;
+
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using DecentraalBeheer.Middleware;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
 
 public class DuplicateDetectionMiddlewareTests
 {

@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Moq;
 
 public class When_Loading_With_Dubbels_TestBase

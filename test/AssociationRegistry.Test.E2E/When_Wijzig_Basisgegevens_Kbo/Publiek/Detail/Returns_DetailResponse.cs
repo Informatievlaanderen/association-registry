@@ -3,7 +3,6 @@
 using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Formats;
 using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.Comparison;
@@ -11,6 +10,7 @@ using AssociationRegistry.Test.E2E.Framework.Mappers;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
 [Collection(nameof(WijzigBasisgegevensKbocollection))]
@@ -55,8 +55,8 @@ public class Returns_DetailResponse : End2EndTest<PubliekVerenigingDetailRespons
             KorteNaam = _testContext.RegistratieData.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.VZW.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZW.Naam,
             },
             Naam = _testContext.RegistratieData.Naam,
             Roepnaam = _testContext.CommandRequest.Roepnaam,

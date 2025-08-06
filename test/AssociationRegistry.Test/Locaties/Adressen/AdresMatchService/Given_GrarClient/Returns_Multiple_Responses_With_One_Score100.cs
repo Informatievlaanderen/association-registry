@@ -6,6 +6,7 @@ using Common.AutoFixture;
 using Events;
 using FluentAssertions;
 using AssociationRegistry.Grar.AdresMatch;
+using DecentraalBeheer.Vereniging;
 using Vereniging;
 using Xunit;
 

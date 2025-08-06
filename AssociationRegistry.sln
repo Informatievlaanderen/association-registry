@@ -190,6 +190,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdresDetail", "AdresDetail"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.MartenDb", "src\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj", "{FD9A80A6-2905-4DFE-8FB2-F9F32EE4AD6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Grar", "AssociationRegistry.Grar\AssociationRegistry.Grar.csproj", "{9B2909A8-D63C-4FBD-A0AD-76DCEFACCA29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -303,6 +305,10 @@ Global
 		{FD9A80A6-2905-4DFE-8FB2-F9F32EE4AD6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD9A80A6-2905-4DFE-8FB2-F9F32EE4AD6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD9A80A6-2905-4DFE-8FB2-F9F32EE4AD6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B2909A8-D63C-4FBD-A0AD-76DCEFACCA29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B2909A8-D63C-4FBD-A0AD-76DCEFACCA29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B2909A8-D63C-4FBD-A0AD-76DCEFACCA29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B2909A8-D63C-4FBD-A0AD-76DCEFACCA29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -346,5 +352,6 @@ Global
 		{AF502331-FD6D-4D2D-A1B0-ECBAA92D090D} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{6E2B754D-803C-4874-8088-5C106E53C400} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 		{FD9A80A6-2905-4DFE-8FB2-F9F32EE4AD6B} = {20B970CD-1737-4427-A924-D299A42346FE}
+		{9B2909A8-D63C-4FBD-A0AD-76DCEFACCA29} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 	EndGlobalSection
 EndGlobal

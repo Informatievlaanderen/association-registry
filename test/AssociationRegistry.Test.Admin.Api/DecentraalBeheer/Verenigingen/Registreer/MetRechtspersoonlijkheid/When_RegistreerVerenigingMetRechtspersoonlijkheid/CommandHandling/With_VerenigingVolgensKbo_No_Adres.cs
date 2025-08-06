@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
     CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingUitKbo;
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Kbo;

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail_vereniging_context_json;
 
-using AssociationRegistry.Public.Api.Contexten;
+using AssociationRegistry.Public.Api.WebApi.Contexten;
 using Fixtures;
 using FluentAssertions;
 using Framework;

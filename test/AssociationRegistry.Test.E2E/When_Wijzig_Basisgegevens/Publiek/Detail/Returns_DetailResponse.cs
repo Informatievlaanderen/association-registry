@@ -9,12 +9,12 @@ using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Xunit;
-using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
-using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
+using DoelgroepResponse = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
+using Vereniging = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
+using Verenigingstype = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(nameof(WijzigBasisGegevensCollection))]
 public class Returns_DetailResponse
@@ -61,8 +61,8 @@ public class Returns_DetailResponse
             KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = _testContext.CommandRequest.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),

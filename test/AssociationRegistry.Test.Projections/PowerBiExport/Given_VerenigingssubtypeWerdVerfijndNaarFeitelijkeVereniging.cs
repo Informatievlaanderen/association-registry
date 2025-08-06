@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using Admin.Schema.Detail;
+using DecentraalBeheer.Vereniging;
 using Scenario.Subtypes;
 
 [Collection(nameof(ProjectionContext))]
@@ -13,8 +14,8 @@ public class Given_VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
     {
         fixture.Result.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype()
         {
-            Code = Vereniging.VerenigingssubtypeCode.FeitelijkeVereniging.Code,
-            Naam = Vereniging.VerenigingssubtypeCode.FeitelijkeVereniging.Naam
+            Code = VerenigingssubtypeCode.FeitelijkeVereniging.Code,
+            Naam = VerenigingssubtypeCode.FeitelijkeVereniging.Naam
         });
     }
 

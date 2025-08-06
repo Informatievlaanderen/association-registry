@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.DuplicateDetection;
 
+using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
 using Hosts.Configuration.ConfigurationBindings;

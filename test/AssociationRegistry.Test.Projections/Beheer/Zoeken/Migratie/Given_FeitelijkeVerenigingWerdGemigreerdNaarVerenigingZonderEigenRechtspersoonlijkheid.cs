@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Migratie;
 
 using Admin.Schema.Search;
+using DecentraalBeheer.Vereniging;
 using Scenario.Migratie;
 using Vereniging;
 

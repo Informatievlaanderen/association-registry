@@ -1,12 +1,13 @@
 namespace AssociationRegistry.Test.Projections.Framework.Fixtures;
 
 using Admin.Api;
-using Admin.Api.Constants;
+using Admin.Api.Infrastructure.WebApi.Security;
 using AssociationRegistry.Framework;
 using Common.Clients;
 using Common.Configuration;
 using Events;
 using EventStore;
+using EventStore.ConflictResolution;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel;
@@ -15,6 +16,7 @@ using IdentityModel.Client;
 using JasperFx.Core;
 using Marten;
 using Marten.Events.Daemon.Coordination;
+using MartenDb.Store;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -242,10 +244,10 @@ public class AdminApiClients : IDisposable
     }
 
     public HttpClient GetAuthenticatedHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "vloketClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
+        => CreateMachine2MachineClientFor(clientId: "vloketClient", ClaimConstants.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
 
     private HttpClient GetSuperAdminHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "superAdminClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter()
+        => CreateMachine2MachineClientFor(clientId: "superAdminClient", ClaimConstants.Scopes.Admin, clientSecret: "secret").GetAwaiter()
            .GetResult();
 
     public AdminApiClient Authenticated

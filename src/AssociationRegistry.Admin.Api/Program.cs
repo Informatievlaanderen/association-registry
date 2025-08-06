@@ -15,10 +15,13 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
-using Constants;
-using DuplicateVerenigingDetection;
+using DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Geotags;
 using Events;
 using EventStore;
+using EventStore.ConflictResolution;
 using FluentValidation;
 using Formats;
 using Framework;
@@ -29,28 +32,30 @@ using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Grar.GrarUpdates.Hernummering;
 using Grar.GrarUpdates.LocatieFinder;
 using Grar.NutsLau;
-using GrarConsumer.Finders;
-using GrarConsumer.Kafka;
+using HostedServices.GrarKafkaConsumer.Finders;
+using HostedServices.GrarKafkaConsumer.Kafka;
 using Hosts;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
-using Infrastructure.AWS;
-using Infrastructure.Configuration;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.Elastic;
 using Infrastructure.ExceptionHandlers;
-using Infrastructure.Extensions;
 using Infrastructure.HttpClients;
 using Infrastructure.Json;
-using Infrastructure.Metrics;
-using Infrastructure.Middleware;
-using Infrastructure.ResponseWriter;
-using Infrastructure.Sequence;
+using Infrastructure.MartenSetup;
+using Infrastructure.WebApi;
+using Infrastructure.WebApi.Middleware;
+using Infrastructure.WebApi.ResponseWriter;
+using Infrastructure.WebApi.Security;
+using Infrastructure.WebApi.Swagger;
+using Infrastructure.Wolverine;
 using JasperFx;
 using Kbo;
 using Magda;
 using Marten;
-using MessageHandling.Sqs.AddressMatch;
+using MartenDb.Store;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
@@ -72,6 +77,8 @@ using Newtonsoft.Json.Serialization;
 using Notifications;
 using OpenTelemetry.Extensions;
 using Queries;
+using Schema.Detail;
+using Schema.Historiek;
 using Serilog;
 using Serilog.Debugging;
 using System.Globalization;
@@ -81,10 +88,11 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using Vereniging;
-using Vereniging.Geotags;
-using Verenigingen.Historiek;
-using Verenigingen.KboSync;
 using Weasel.Core.Migrations;
+using WebApi.Verenigingen.Detail;
+using WebApi.Verenigingen.Historiek;
+using WebApi.Verenigingen.KboSync;
+using WebApi.Verenigingen.SequenceGuarding;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
 
@@ -420,8 +428,6 @@ public class Program
                     httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl);
                 });
 
-        builder.ConfigureOpenTelemetry(new Instrumentation());
-
         builder.Services
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(magdaOptionsSection)
@@ -450,10 +456,8 @@ public class Program
                .AddScoped<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddScoped<IMagdaClient, MagdaClient>()
-               .AddScoped<TeAdresMatchenLocatieMessageHandler>()
+               .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
-               .AddTransient<ISqsClientWrapper, SqsClientWrapper>()
-               .AddTransient<SqsClientWrapper>()
                .AddTransient<IEventStore, EventStore>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
                .AddTransient<IDuplicateVerenigingDetectionService, ZoekDuplicateVerenigingenQuery>()
@@ -543,14 +547,14 @@ public class Program
                         options.AddPolicy(
                             AdminGlobalPolicyName,
                             new AuthorizationPolicyBuilder()
-                               .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
+                               .RequireClaim(ClaimConstants.ClaimTypes.Scope, ClaimConstants.Scopes.Admin)
                                .Build());
 
                         options.AddPolicy(
                             SuperAdminPolicyName,
                             new AuthorizationPolicyBuilder()
-                               .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
-                               .RequireClaim(Security.ClaimTypes.ClientId, appSettings.SuperAdminClientIds)
+                               .RequireClaim(ClaimConstants.ClaimTypes.Scope, ClaimConstants.Scopes.Admin)
+                               .RequireClaim(ClaimConstants.ClaimTypes.ClientId, appSettings.SuperAdminClientIds)
                                .Build());
                     })
                .AddNewtonsoftJson(
@@ -722,7 +726,8 @@ public class Program
         builder.Services.AddSingleton<IEventPostConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
         builder.Services.AddSingleton<EventConflictResolver>();
 
-        builder.Services.AddSingleton<ISequenceGuarder, SequenceGuarder>();
+        builder.Services.AddSingleton<ISequenceGuarder<BeheerVerenigingDetailDocument>, BeheerDetailSequenceGuarder>();
+        builder.Services.AddSingleton<ISequenceGuarder<BeheerVerenigingHistoriekDocument>, BeheerHistoriekSequenceGuarder>();
 
         builder.Services
                .AddTransient<IBeheerVerenigingDetailQuery, BeheerVerenigingDetailQuery>()

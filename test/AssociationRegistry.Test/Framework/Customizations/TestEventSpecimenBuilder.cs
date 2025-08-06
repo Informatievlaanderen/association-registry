@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Framework.Customizations;
 
 using AutoFixture;
 using AutoFixture.Kernel;
+using DecentraalBeheer.Vereniging;
 using JasperFx.Events;
 using Marten.Events;
 using NodaTime;

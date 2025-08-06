@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests.SuperAdmin;
 using Admin.Api.Infrastructure;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

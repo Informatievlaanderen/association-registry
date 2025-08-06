@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_VerrijkteGemeentenaam;
 
+using DecentraalBeheer.Vereniging.Adressen;
 using FluentAssertions;
 using GemeentenaamVerrijking;
 using Vereniging;

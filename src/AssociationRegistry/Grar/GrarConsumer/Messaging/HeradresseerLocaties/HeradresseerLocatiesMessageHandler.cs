@@ -1,9 +1,10 @@
 namespace AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 
-using AssociationRegistry.Framework;
-using AssociationRegistry.Grar.GrarUpdates.Hernummering;
-using AssociationRegistry.Vereniging;
+using Framework;
+using GrarUpdates.Hernummering;
+using Vereniging;
 using Clients;
+using DecentraalBeheer.Vereniging;
 using Models;
 
 public class HeradresseerLocatiesMessageHandler

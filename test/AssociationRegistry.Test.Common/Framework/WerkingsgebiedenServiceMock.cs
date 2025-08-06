@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Common.Framework;
 
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using Vereniging;
-using Vereniging.Exceptions;
 
 public class WerkingsgebiedenServiceMock : IWerkingsgebiedenService
 {

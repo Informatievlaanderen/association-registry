@@ -1,11 +1,12 @@
 namespace AssociationRegistry.Test.AcmBevraging.VerenigingenPerKboNummerService;
 
-using AssociationRegistry.AcmBevraging;
+using Acm.Api.Queries.VerenigingenPerKbo;
 using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Services;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Vereniging;
 using Xunit;

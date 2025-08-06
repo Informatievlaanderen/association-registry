@@ -1,11 +1,12 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using Events;
 using JasperFx.Events;
 using Marten;
 using Schema.VerenigingenPerInsz;
 using Vereniging;
-using Vereniging.Mappers;
 using Vereniging = Schema.VerenigingenPerInsz.Vereniging;
 using Verenigingssubtype = Schema.VerenigingenPerInsz.Verenigingssubtype;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
@@ -47,13 +48,13 @@ public static class VerenigingenPerInszProjector
         {
             FeitelijkeVerenigingWerdGeregistreerd =>
                 new(
-                    AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                    AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam),
+                    DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                    DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam),
 
             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =>
                 new(
-                    AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                    AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam),
+                    DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                    DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam),
 
             _ => throw new ArgumentOutOfRangeException(nameof(werdGeregistreerd))
         };
@@ -217,7 +218,7 @@ public static class VerenigingenPerInszProjector
         {
             var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == rechtsvormWerdGewijzigdInKbo.StreamKey!);
 
-            vereniging.Verenigingstype = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
+            vereniging.Verenigingstype = MapVereniging(DecentraalBeheer.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -350,8 +351,8 @@ public static class VerenigingenPerInszProjector
                     vereniging => vereniging.VCode == @event.StreamKey!);
 
             vereniging.Verenigingstype = new(
-                AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam);
+                DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam);
 
             vereniging.Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>();
             docs.Add(verenigingenPerInszDocument);
@@ -423,7 +424,7 @@ public static class VerenigingenPerInszProjector
         return docs;
     }
 
-    private static Verenigingstype MapVereniging(AssociationRegistry.Vereniging.Verenigingstype verenigingstype)
+    private static Verenigingstype MapVereniging(DecentraalBeheer.Vereniging.Verenigingstype verenigingstype)
         => new(verenigingstype.Code, verenigingstype.Naam);
 
 }

@@ -1,0 +1,17 @@
+﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+
+using Resources;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
+using System.Runtime.Serialization;
+
+[Serializable]
+public class MaatschappelijkeZetelIsNietToegestaan : DomainException
+{
+    public MaatschappelijkeZetelIsNietToegestaan() : base(ExceptionMessages.MaatschappelijkeZetelIsNotAllowed)
+    {
+    }
+
+    protected MaatschappelijkeZetelIsNietToegestaan(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
+    }
+}

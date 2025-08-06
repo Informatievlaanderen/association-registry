@@ -2,8 +2,9 @@ namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Vertegenwoordige
 
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using Xunit;
 
 public class Given_A_List_Of_Vertegenwoordigers_With_Same_Insz

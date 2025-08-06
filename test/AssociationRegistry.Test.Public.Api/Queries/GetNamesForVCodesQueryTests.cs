@@ -5,6 +5,7 @@ using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Marten;
 using Vereniging;

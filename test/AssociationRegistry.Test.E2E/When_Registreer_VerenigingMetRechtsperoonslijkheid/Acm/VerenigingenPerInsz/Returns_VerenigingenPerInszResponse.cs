@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Acm.VerenigingenPerInsz;
 
-using AcmBevraging;
-using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
+using AssociationRegistry.Acm.Api.Queries.VerenigingenPerKbo;
+using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;

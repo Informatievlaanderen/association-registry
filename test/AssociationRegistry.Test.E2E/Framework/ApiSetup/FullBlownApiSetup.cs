@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Admin.Api;
-using Admin.Api.Infrastructure.Extensions;
+using Admin.Api.Infrastructure.Elastic;
 using Admin.ProjectionHost.Projections;
 using Alba;
 using AlbaHost;
@@ -9,6 +9,7 @@ using Amazon.SQS;
 using AssociationRegistry.Framework;
 using Common.Clients;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using Grar.NutsLau;
 using Hosts.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
@@ -30,6 +31,7 @@ using Scenarios.Givens.FeitelijkeVereniging;
 using System.Diagnostics;
 using TestClasses;
 using Vereniging;
+using Wolverine;
 using Xunit;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
 
@@ -92,8 +94,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         using var scope = AdminApiHost.Services.CreateScope();
         _serviceProvider = scope.ServiceProvider;
 
-        SqsClientWrapper = _serviceProvider.GetRequiredService<ISqsClientWrapper>();
-        AmazonSqs = _serviceProvider.GetRequiredService<IAmazonSQS>();
+        MessageBus = _serviceProvider.GetRequiredService<IMessageBus>();
         VCodeService = _serviceProvider.GetRequiredService<IVCodeService>();
 
         ElasticClient = _serviceProvider.GetRequiredService<IElasticClient>();
@@ -144,7 +145,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     }
 
     public IAmazonSQS AmazonSqs { get; set; }
-    public ISqsClientWrapper SqsClientWrapper { get; set; }
+    public IMessageBus MessageBus { get; set; }
 
     private Action<IWebHostBuilder> ConfigureForTesting(string name)
     {

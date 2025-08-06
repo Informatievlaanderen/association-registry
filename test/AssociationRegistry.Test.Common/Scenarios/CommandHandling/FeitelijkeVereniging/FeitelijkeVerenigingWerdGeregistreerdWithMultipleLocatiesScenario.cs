@@ -3,6 +3,7 @@
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using global::AutoFixture;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithMultipleLocatiesScenario : CommandhandlerScenarioBase

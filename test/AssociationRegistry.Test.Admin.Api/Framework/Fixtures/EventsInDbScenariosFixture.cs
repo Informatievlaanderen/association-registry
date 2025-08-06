@@ -9,6 +9,7 @@ using JasperFx.Core;
 using JasperFx.Events.Daemon;
 using Marten.Events.Aggregation;
 using Marten.Events.Daemon;
+using MartenDb.Store;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;

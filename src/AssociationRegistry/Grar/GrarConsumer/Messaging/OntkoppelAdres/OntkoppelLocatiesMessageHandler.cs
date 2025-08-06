@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Grar.GrarConsumer.Messaging.OntkoppelAdres;
 
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Vereniging;
+using DecentraalBeheer.Vereniging;
 
 public class OntkoppelLocatiesMessageHandler
 {

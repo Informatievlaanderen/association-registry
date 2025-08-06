@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Events;
 using global::AutoFixture;
 using Vereniging;

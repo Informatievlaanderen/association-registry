@@ -2,8 +2,8 @@
 
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging.Geotags;
 using FluentAssertions;
-using Vereniging.Geotags;
 using Xunit;
 
 public class GeotagsEqualityTests

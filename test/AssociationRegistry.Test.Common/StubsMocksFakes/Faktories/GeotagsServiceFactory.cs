@@ -1,7 +1,8 @@
 namespace AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Geotags;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Geotags;
 using global::AutoFixture;
 using Moq;
 using System.Collections;

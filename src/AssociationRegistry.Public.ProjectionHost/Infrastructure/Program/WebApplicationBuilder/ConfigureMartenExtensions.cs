@@ -102,7 +102,7 @@ public static class ConfigureMartenExtensions
 
         opts.UpcastLegacyTombstoneEvents();
 
-        opts.AddAllEventTypes();
+        opts.RegisterAllEventTypes();
 
         opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);

@@ -5,9 +5,11 @@ using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
+using MartenDb.Store;
 
 public class MultipleVerenigingRepositoryMock : IVerenigingsRepository
 {

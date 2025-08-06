@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
+using DecentraalBeheer.Vereniging;
 using Vereniging;
 
 public class VerenigingsRepositoryFactory

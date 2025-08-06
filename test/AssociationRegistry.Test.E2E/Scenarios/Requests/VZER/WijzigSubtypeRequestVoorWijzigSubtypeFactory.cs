@@ -1,13 +1,14 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
 
 using Admin.Api.Infrastructure;
+using Admin.Api.WebApi.Verenigingen.Subtype.RequestModels;
 using Alba;
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using System.Net;
 
 public class WijzigSubtypeRequestVoorWijzigSubtypeFactory : ITestRequestFactory<WijzigSubtypeRequest>

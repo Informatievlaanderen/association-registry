@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_The_Api_Is_Started.Beheer.DependencyInjection;
 
 using EventStore;
+using EventStore.ConflictResolution;
 using FluentAssertions;
 using Framework.ApiSetup;
 using Microsoft.Extensions.DependencyInjection;

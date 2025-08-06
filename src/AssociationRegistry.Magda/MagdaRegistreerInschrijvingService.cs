@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Magda;
 
+using DecentraalBeheer.Vereniging;
 using Exceptions;
 using Extensions;
 using Framework;

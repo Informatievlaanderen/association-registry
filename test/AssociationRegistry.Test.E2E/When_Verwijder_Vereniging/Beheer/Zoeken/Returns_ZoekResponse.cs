@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Vereniging.Zoeken;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.templates;
 
 using Common.Extensions;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
 using JsonLdContext;

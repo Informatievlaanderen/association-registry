@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Publiek.Zoeken;
 
+using DecentraalBeheer.Vereniging;
 using Events;
 using JsonLdContext;
 using Framework.AlbaHost;
@@ -11,9 +12,9 @@ using Xunit;
 
 
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Search.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Vereniging;
-using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using Vereniging = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 
 [Collection(nameof(VoegLidmaatschapToeCollection))]
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>

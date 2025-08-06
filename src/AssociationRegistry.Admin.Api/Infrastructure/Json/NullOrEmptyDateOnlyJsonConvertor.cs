@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
 
 using Formats;
+using MartenDb.Serialization;
 using Newtonsoft.Json;
 using Primitives;
 

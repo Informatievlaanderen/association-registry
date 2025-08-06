@@ -2,8 +2,10 @@
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Marten;
+using MartenDb.Store;
 using Vereniging;
 
 public class EventStoreMock : IEventStore

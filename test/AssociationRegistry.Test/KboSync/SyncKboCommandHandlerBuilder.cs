@@ -3,9 +3,11 @@
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using EventStore;
 using Kbo;
 using KboSyncLambda.SyncKbo;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Notifications;

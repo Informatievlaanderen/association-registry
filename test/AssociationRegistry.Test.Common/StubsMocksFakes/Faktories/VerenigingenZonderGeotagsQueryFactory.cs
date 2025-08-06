@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 
 using AssociationRegistry.Admin.Api.Queries;
+using DecentraalBeheer.Vereniging;
 using global::AutoFixture;
 using Moq;
 using Vereniging;

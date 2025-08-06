@@ -7,6 +7,7 @@ using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Hosts.Configuration.ConfigurationBindings;

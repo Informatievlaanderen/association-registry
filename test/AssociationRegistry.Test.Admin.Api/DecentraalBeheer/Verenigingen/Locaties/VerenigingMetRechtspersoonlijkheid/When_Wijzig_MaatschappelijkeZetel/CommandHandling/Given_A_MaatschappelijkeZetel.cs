@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Locaties.WijzigMaatschappelijkeZetel;
+using AssociationRegistry.DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -10,9 +12,8 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using EventFactories;
+using Events.Factories;
 using Moq;
-using Vereniging.Geotags;
 using Xunit;
 
 public class Given_A_MaatschappelijkeZetel

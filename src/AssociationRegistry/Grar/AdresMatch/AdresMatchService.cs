@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Grar.AdresMatch;
 
 using Clients;
-using EventFactories;
+using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Factories;
 using GemeentenaamVerrijking;
 using Vereniging;
 

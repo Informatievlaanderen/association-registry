@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Beheer.Zoeken;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Admin.Schema.Constants;
 using Events;
 using Formats;
@@ -53,8 +53,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             KorteNaam = FeitelijkeVerenigingWerdGeregistreerd.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = FeitelijkeVerenigingWerdGeregistreerd.Naam,
             Startdatum = FeitelijkeVerenigingWerdGeregistreerd.Startdatum.FormatAsBelgianDate(),

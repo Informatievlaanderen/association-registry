@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Publiek.Detail_All;
 
+using DecentraalBeheer.Vereniging;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -9,15 +10,15 @@ using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Vereniging;
 using Xunit;
-using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
-using SubverenigingVan = Public.Api.Verenigingen.Detail.ResponseModels.SubverenigingVan;
-using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
-using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
+using DoelgroepResponse = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
+using SubverenigingVan = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.SubverenigingVan;
+using Vereniging = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Vereniging;
+using Verenigingssubtype = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
+using Verenigingstype = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
 public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
@@ -65,8 +66,8 @@ public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
             KorteNaam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam,
             },
             Verenigingssubtype = new Verenigingssubtype
             {

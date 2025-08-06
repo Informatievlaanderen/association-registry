@@ -4,6 +4,7 @@ using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Moq;
 using Xunit;
 

@@ -7,12 +7,12 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Search.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Xunit;
-using DoelgroepResponse = Public.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
-using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
-using Verenigingssubtype = Public.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
-using Verenigingstype = Vereniging.Verenigingstype;
+using DoelgroepResponse = Public.Api.WebApi.Verenigingen.Search.ResponseModels.DoelgroepResponse;
+using Vereniging = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
+using Verenigingssubtype = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 [Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
 public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>

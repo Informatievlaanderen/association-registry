@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Acm.Subtypes;
 
-using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
+using DecentraalBeheer.Vereniging;
 using Scenario.Verenigingssubtypes;
+using Verenigingstype = AssociationRegistry.Acm.Schema.VerenigingenPerInsz.Verenigingstype;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
@@ -14,6 +15,6 @@ public class Given_VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
         var vzer =
             fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
 
-        vzer.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.VerenigingssubtypeCode.FeitelijkeVereniging.Code, AssociationRegistry.Vereniging.VerenigingssubtypeCode.FeitelijkeVereniging.Naam));
+        vzer.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingstype(VerenigingssubtypeCode.FeitelijkeVereniging.Code, VerenigingssubtypeCode.FeitelijkeVereniging.Naam));
     }
 }

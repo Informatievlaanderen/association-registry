@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Beheer.Zoeken.With_Header;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -8,9 +10,8 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Vereniging;
-using Vereniging.Mappers;
 using Xunit;
-using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
+using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
 [Collection(nameof(ZetSubtypeNaarNietBepaaldCollection))]
 public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>

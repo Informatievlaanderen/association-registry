@@ -7,6 +7,7 @@ using Events;
 using Vereniging;
 using Xunit;
 using AssociationRegistry.Grar.AdresMatch;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 
 public class Returns_Multiple_100Score_Responses

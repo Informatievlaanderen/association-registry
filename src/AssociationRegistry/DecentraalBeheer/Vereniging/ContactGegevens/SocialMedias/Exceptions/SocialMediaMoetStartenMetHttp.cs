@@ -1,0 +1,17 @@
+﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.SocialMedias.Exceptions;
+
+using Resources;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
+using System.Runtime.Serialization;
+
+[Serializable]
+public class SocialMediaMoetStartenMetHttp : DomainException
+{
+    public SocialMediaMoetStartenMetHttp() : base(ExceptionMessages.InvalidSocialMediaStart)
+    {
+    }
+
+    protected SocialMediaMoetStartenMetHttp(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
+    }
+}

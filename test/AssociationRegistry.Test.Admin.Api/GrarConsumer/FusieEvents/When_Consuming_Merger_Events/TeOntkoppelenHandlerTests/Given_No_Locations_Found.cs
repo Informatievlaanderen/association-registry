@@ -7,6 +7,7 @@ using AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 using AutoFixture;
 using Common.AutoFixture;
 using Moq;
+using Wolverine;
 using Xunit;
 
 public class Given_No_Locations_Found
@@ -17,15 +18,15 @@ public class Given_No_Locations_Found
         var fixture = new Fixture().CustomizeAdminApi();
         var sourceAdresId = fixture.Create<int>();
 
-        var sqsClientWrapperMock = new Mock<ISqsClientWrapper>();
+        var messageBusMock = new Mock<IMessageBus>();
         var locatiesFinder = new Mock<ILocatieFinder>();
 
         locatiesFinder.Setup(s => s.FindLocaties(sourceAdresId))
                       .ReturnsAsync(LocatiesPerVCodeCollection.Empty);
 
-        var sut = new TeOntkoppelenLocatiesProcessor(sqsClientWrapperMock.Object, locatiesFinder.Object);
+        var sut = new TeOntkoppelenLocatiesProcessor(messageBusMock.Object, locatiesFinder.Object);
         await sut.Process(sourceAdresId);
 
-        sqsClientWrapperMock.Verify(v => v.QueueMessage(It.IsAny<OntkoppelLocatiesMessage>()), Times.Never());
+        messageBusMock.Verify(v => v.SendAsync(It.IsAny<OntkoppelLocatiesMessage>(), It.IsAny<DeliveryOptions>()), Times.Never());
     }
 }

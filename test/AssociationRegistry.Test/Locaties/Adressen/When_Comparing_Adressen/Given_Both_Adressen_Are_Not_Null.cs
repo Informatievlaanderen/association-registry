@@ -4,6 +4,7 @@ using AssociationRegistry.Normalizers;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging.Adressen;
 using Moq;
 using Xunit;
 

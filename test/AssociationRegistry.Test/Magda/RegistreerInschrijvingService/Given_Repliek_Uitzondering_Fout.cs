@@ -8,6 +8,7 @@ using AssociationRegistry.Magda.Models.RegistreerInschrijving;
 using AssociationRegistry.Magda.Repertorium.RegistreerInschrijving;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;

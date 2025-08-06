@@ -3,8 +3,10 @@ namespace AssociationRegistry.Test.Locaties.When_VoegLocatieToe;
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
-using Vereniging.Exceptions;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Exceptions;
 using Xunit;
 
 public class Given_A_Duplicate_Without_A_Naam

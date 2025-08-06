@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection.Verenigingssubtypes;
 
 using AssociationRegistry.Test.Projections.Scenario.Verenigingssubtypes;
+using DecentraalBeheer.Vereniging;
 using Vereniging;
 
 [Collection(nameof(ProjectionContext))]

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Schema.Detail;
 
+using DecentraalBeheer.Vereniging;
 using Marten.Metadata;
 using Marten.Schema;
 using Vereniging;

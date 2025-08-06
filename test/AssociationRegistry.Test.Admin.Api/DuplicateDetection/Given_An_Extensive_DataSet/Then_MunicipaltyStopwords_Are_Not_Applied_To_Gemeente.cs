@@ -1,7 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet;
 
+using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AutoFixture;
-using DuplicateVerenigingDetection;
 using FluentAssertions;
 using Seed;
 using Vereniging;

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingZoekQuery.BeheerVerenigingenZoekFilterTests;
 
 using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Search.RequestModels;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;

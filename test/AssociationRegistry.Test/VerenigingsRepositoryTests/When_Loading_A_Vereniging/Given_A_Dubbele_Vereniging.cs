@@ -5,9 +5,12 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using Events;
 using FluentAssertions;
 using Framework;
+using MartenDb.Store;
 using Resources;
 using Vereniging;
 using Xunit;
@@ -31,7 +34,7 @@ public class Given_A_Dubbele_Vereniging
         var repo = new VerenigingsRepository(eventStoreMock);
 
         var exception = await
-            Assert.ThrowsAsync<AssociationRegistry.Vereniging.Exceptions.VerenigingIsDubbel>(async () => await repo.Load<Vereniging>(VCode.Create(verenigingWerdGeregistreerd.VCode), TestCommandMetadata.Empty)) ;
+            Assert.ThrowsAsync<VerenigingIsDubbel>(async () => await repo.Load<Vereniging>(VCode.Create(verenigingWerdGeregistreerd.VCode), TestCommandMetadata.Empty)) ;
 
         exception.Message.Should().Be(ExceptionMessages.VerenigingIsDubbel);
     }

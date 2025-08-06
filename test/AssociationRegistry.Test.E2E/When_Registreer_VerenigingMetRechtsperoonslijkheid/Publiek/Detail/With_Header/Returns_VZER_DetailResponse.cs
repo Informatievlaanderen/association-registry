@@ -7,7 +7,7 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
 [Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]

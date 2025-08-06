@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Acm.Api.Controllers;
 
 using AssociationRegistry.Acm.Api.Queries.VerenigingenPerInsz;
-using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
+using AssociationRegistry.Acm.Api.Queries.VerenigingenPerKbo;
+using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
-using AssociationRegistry.AcmBevraging;
 using AssociationRegistry.Magda.Constants;
 using AutoFixture;
 using FluentAssertions;
@@ -11,7 +11,7 @@ using Framework;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
-using Verenigingstype = AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype;
+using Verenigingstype = AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype;
 
 public class VerenigingenPerInszControllerTests
 {

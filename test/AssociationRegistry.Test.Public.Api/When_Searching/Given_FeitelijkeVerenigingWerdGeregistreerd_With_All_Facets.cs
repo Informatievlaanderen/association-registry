@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Test.Public.Api.When_Searching;
 
-using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
-using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
+using HoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket;
 
 [Collection(nameof(PublicApiCollection))]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Facets

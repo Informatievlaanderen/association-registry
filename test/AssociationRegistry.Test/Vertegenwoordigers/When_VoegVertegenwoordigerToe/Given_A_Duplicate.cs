@@ -3,9 +3,10 @@ namespace AssociationRegistry.Test.Vertegenwoordigers.When_VoegVertegenwoordiger
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using AutoFixture.Kernel;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using Xunit;
 
 public class Given_A_Duplicate

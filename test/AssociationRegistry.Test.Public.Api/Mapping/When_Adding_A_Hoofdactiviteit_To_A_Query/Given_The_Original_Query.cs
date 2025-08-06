@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.Mapping.When_Adding_A_Hoofdactiviteit_To_A_Query;
 
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Public.Api.Verenigingen.Search;
+using AssociationRegistry.Public.Api.WebApi.Verenigingen.Search;
 using FluentAssertions;
 using Xunit;
 

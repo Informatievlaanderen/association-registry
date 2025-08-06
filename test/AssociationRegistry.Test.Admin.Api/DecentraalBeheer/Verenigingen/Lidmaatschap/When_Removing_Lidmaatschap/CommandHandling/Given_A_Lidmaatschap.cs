@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.When_Removing_Lidmaatschap.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Lidmaatschappen.VerwijderLidmaatschap;
+using AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.VerwijderLidmaatschap;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;

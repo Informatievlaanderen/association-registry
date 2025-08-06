@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
+using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
 using JsonLdContext;
@@ -67,7 +68,7 @@ public class BeheerVerenigingDetailMapper
                 Busnummer = adres.Busnummer,
                 Postcode = adres.Postcode,
                 Gemeente = adres.Gemeente,
-                Land = AssociationRegistry.Vereniging.Adres.België,
+                Land = DecentraalBeheer.Vereniging.Adressen.Adres.België,
             };
 
     public static Adres? MapAdres(Registratiedata.Adres? adres, string vCode, int locId)
@@ -150,7 +151,7 @@ public class BeheerVerenigingDetailMapper
             Naam = w.Naam,
         };
 
-    public static Verenigingstype MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype verenigingstype)
+    public static Verenigingstype MapVerenigingstype(DecentraalBeheer.Vereniging.Verenigingstype verenigingstype)
         => new()
         {
             Code = verenigingstype.Code,

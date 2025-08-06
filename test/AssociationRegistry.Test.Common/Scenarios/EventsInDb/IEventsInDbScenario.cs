@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using AssociationRegistry.Framework;
 using Events;
 using EventStore;
+using MartenDb.Store;
 
 public interface IEventsInDbScenario
 {

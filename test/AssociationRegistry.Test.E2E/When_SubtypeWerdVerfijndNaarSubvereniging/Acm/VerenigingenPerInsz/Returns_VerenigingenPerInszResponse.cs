@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Acm.VerenigingenPerInsz;
 
-using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
+using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Vereniging.Verenigingstype;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 [Collection(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
 public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
@@ -47,7 +48,7 @@ public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
                     Naam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
-                    Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
+                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(
                         Verenigingstype.VZER.Code,
                         Verenigingstype.VZER.Naam),
                     Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype

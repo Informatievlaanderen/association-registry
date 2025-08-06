@@ -13,8 +13,10 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
+using DecentraalBeheer.Vereniging;
 using Destructurama;
 using EventStore;
+using EventStore.ConflictResolution;
 using FluentValidation;
 using Hosts.HealthChecks;
 using Infrastructure.Caching;
@@ -46,7 +48,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using Vereniging;
-using Verenigingen.DetailAll;
+using WebApi.Verenigingen.DetailAll;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 
 public class Program

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZo
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using global::AutoFixture;
 
 public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : CommandhandlerScenarioBase

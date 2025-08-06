@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Removing_Locatie.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Locaties.VerwijderLocatie;
+using AssociationRegistry.DecentraalBeheer.Acties.Locaties.VerwijderLocatie;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -10,9 +12,8 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using EventFactories;
+using Events.Factories;
 using Moq;
-using Vereniging.Geotags;
 using Xunit;
 
 public class With_A_Known_LocatieId

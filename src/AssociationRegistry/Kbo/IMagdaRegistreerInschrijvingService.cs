@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Kbo;
 
+using DecentraalBeheer.Vereniging;
 using Framework;
 using ResultNet;
 using Vereniging;

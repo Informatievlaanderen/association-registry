@@ -2,9 +2,11 @@ namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using DecentraalBeheer.Vereniging.Adressen;
 using Events;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 using Vereniging;
 
 public class V078_AdresWerdOntkoppeldVanAdressenregister : IEventsInDbScenario

@@ -1,19 +1,20 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using Admin.Schema.PowerBiExport;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Emails;
+using DecentraalBeheer.Vereniging.SocialMedias;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
+using DecentraalBeheer.Vereniging.Websites;
 using Framework;
 using global::AutoFixture;
 using global::AutoFixture.Dsl;
 using NodaTime;
 using Vereniging;
-using Vereniging.Emails;
-using Vereniging.SocialMedias;
-using Vereniging.TelefoonNummers;
-
-using Vereniging.Websites;
-using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
-using Lidmaatschap = Vereniging.Lidmaatschap;
-using Werkingsgebied = Vereniging.Werkingsgebied;
+using HoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = DecentraalBeheer.Vereniging.Lidmaatschap;
+using Werkingsgebied = DecentraalBeheer.Vereniging.Werkingsgebied;
 
 public static class AutoFixtureCustomizations
 {
@@ -48,6 +49,7 @@ public static class AutoFixtureCustomizations
         KboCustomizations.CustomizeFromKbo(fixture);
 
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
+        fixture.Customizations.Add(new StartDatumCustomization());
 
         return fixture;
     }
@@ -350,10 +352,10 @@ public static class AutoFixtureCustomizations
                         .OmitAutoProperties()
         );
 
-        fixture.Customize<Admin.Api.Verenigingen.Common.AdresId>(
+        fixture.Customize<Admin.Api.WebApi.Verenigingen.Common.AdresId>(
             composer =>
                 composer.FromFactory<int>(
-                             i => new Admin.Api.Verenigingen.Common.AdresId
+                             i => new Admin.Api.WebApi.Verenigingen.Common.AdresId
                              {
                                  Bronwaarde = AdresId.DataVlaanderenAdresPrefix + i,
                                  Broncode = fixture.Create<Adresbron>(),

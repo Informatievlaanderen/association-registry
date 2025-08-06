@@ -2,9 +2,11 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 using Vereniging;
 
 

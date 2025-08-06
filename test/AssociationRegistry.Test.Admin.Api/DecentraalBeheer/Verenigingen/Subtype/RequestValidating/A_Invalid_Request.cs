@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.RequestValidating;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype;
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Subtype;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Subtype.RequestModels;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentValidation.TestHelper;

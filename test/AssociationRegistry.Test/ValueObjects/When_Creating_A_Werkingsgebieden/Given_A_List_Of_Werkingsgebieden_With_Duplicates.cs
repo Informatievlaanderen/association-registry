@@ -1,10 +1,11 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Werkingsgebieden;
 
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Framework.Helpers;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_A_List_Of_Werkingsgebieden_With_Duplicates

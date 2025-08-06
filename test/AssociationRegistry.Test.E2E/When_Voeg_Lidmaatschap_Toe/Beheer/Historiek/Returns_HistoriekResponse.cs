@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Beheer.Historiek;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;

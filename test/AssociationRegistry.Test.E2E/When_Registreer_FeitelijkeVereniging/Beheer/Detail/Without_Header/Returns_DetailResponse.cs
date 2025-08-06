@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Detail.Without_Header;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -13,7 +13,7 @@ using NodaTime;
 using Vereniging.Bronnen;
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
+using Verenigingstype = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(nameof(RegistreerFeitelijkeVerenigingCollection))]
 public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
@@ -62,8 +62,8 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
             KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Verenigingssubtype = null,
             Naam = _testContext.CommandRequest.Naam,

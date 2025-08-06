@@ -1,7 +1,8 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using DecentraalBeheer.Lidmaatschappen.WijzigLidmaatschap;
-using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
+using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Vereniging;
 using global::AutoFixture;
 using Vereniging;
 

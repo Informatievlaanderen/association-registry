@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_Gemeentenamen_In_Verenigingsnaam;
 
 using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using FluentAssertions;
 using GemeentenaamVerrijking;
 using Vereniging;

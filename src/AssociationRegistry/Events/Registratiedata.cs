@@ -41,7 +41,7 @@ public static class Registratiedata
         public string ToId()
             => new Uri(Bronwaarde).Segments.Last();
 
-        public static AdresId FromAdresId(Vereniging.AdresId adres)
+        public static AdresId FromAdresId(DecentraalBeheer.Vereniging.Adressen.AdresId adres)
             => new(adres.Adresbron.Code, adres.Bronwaarde);
     }
 
@@ -52,7 +52,7 @@ public static class Registratiedata
         string Postcode,
         string Gemeente)
     {
-        public static AdresUitAdressenregister FromAdres(Vereniging.Adres adres)
+        public static AdresUitAdressenregister FromAdres(DecentraalBeheer.Vereniging.Adressen.Adres adres)
             => new(adres.Straatnaam, adres.Huisnummer, adres.Busnummer, adres.Postcode, adres.Gemeente.Naam);
     };
 

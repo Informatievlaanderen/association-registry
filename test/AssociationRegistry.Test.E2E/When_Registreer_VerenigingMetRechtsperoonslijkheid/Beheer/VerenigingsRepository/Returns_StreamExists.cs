@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Beheer.VerenigingsRepository;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using DecentraalBeheer.Vereniging;
 using EventStore;
 using FluentAssertions;
 using Formats;
@@ -8,6 +8,7 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using MartenDb.Store;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using Vereniging;

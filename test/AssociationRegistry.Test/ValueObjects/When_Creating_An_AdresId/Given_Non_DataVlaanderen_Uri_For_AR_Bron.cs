@@ -1,7 +1,8 @@
 namespace AssociationRegistry.Test.ValueObjects.When_Creating_An_AdresId;
 
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
+using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Xunit;
 

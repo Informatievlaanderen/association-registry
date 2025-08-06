@@ -4,9 +4,11 @@ using AssociationRegistry.Grar.NutsLau;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Geotags;
 using FluentAssertions;
 using Vereniging;
-using Vereniging.Geotags;
 using Xunit;
 
 public class GeotagsServiceTests

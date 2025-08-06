@@ -1,7 +1,7 @@
 namespace AssociationRegistry;
 
+using DecentraalBeheer.Vereniging.Exceptions;
 using System;
-using Vereniging.Exceptions;
 
 public class Geldigheidsperiode
 {

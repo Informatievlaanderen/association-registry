@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.Mapping.When_Mapping_A_Location_To_Adres;
 
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Public.Api.Verenigingen.Detail;
+using AssociationRegistry.Public.Api.WebApi.Verenigingen.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using FluentAssertions;

@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.PowerBiExport;
 
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using Detail;
 using Events;
 using Formats;
@@ -9,7 +11,6 @@ using JsonLdContext;
 using Marten.Events.Aggregation;
 using Schema.PowerBiExport;
 using Vereniging;
-using Vereniging.Mappers;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.PowerBiExport.HoofdactiviteitVerenigingsloket;
@@ -34,7 +35,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         var document = new PowerBiExportDocument()
         {
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging),
+            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging),
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -77,7 +78,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         var document = new PowerBiExportDocument()
         {
             VCode = @event.Data.VCode,
-            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER),
+            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(DecentraalBeheer.Vereniging.Verenigingstype.VZER),
             Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
             Naam = @event.Data.Naam,
             KorteNaam = @event.Data.KorteNaam,
@@ -124,8 +125,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             Roepnaam = string.Empty,
@@ -137,8 +138,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                 JsonLdMetadata =
                     BeheerVerenigingDetailMapper.CreateJsonLdMetadata(JsonLdType.Doelgroep,
                                                                       verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
-                Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
-                Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
+                Minimumleeftijd = DecentraalBeheer.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+                Maximumleeftijd = DecentraalBeheer.Vereniging.Doelgroep.StandaardMaximumleeftijd,
             },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
             Status = VerenigingStatus.Actief,
@@ -727,8 +728,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     {
         document.Verenigingstype = new Verenigingstype
         {
-            Code = AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Code,
-            Naam = AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam,
+            Code = DecentraalBeheer.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Code,
+            Naam = DecentraalBeheer.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam,
         };
 
         document.Rechtsvorm = rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm;
@@ -904,8 +905,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         [
             new Werkingsgebied
             {
-                Code = AssociationRegistry.Vereniging.Werkingsgebied.NietVanToepassing.Code,
-                Naam = AssociationRegistry.Vereniging.Werkingsgebied.NietVanToepassing.Naam,
+                Code = DecentraalBeheer.Vereniging.Werkingsgebied.NietVanToepassing.Code,
+                Naam = DecentraalBeheer.Vereniging.Werkingsgebied.NietVanToepassing.Naam,
             }
         ];
 
@@ -972,7 +973,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, PowerBiExportDocument document)
     {
-        document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER);
+        document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(DecentraalBeheer.Vereniging.Verenigingstype.VZER);
         document.Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>();
 
         document.DatumLaatsteAanpassing =

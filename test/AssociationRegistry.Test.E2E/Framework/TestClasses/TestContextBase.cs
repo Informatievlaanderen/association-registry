@@ -2,6 +2,7 @@
 
 using Alba;
 using ApiSetup;
+using DecentraalBeheer.Vereniging;
 using JasperFx.Core;
 using JasperFx.Events.Projections;
 using Marten;

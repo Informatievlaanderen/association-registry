@@ -2,11 +2,12 @@
 
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using Events;
 using FluentAssertions;
 using Framework;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_A_Einddatum_In_The_Future

@@ -2,10 +2,12 @@ namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using EventFactories;
+using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Factories;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 using Vereniging;
 
 public class V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer

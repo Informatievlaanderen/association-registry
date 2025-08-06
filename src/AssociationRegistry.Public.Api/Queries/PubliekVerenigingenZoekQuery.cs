@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.Api.Queries;
 
 using Constants;
+using DecentraalBeheer.Vereniging;
 using Framework;
 using Nest;
 using Schema;
@@ -8,9 +9,8 @@ using Schema.Search;
 using System.Text;
 using System.Text.RegularExpressions;
 using Vereniging;
-
-using Verenigingen.Search;
-using Verenigingen.Search.RequestModels;
+using WebApi.Verenigingen.Search;
+using WebApi.Verenigingen.Search.RequestModels;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public interface IPubliekVerenigingenZoekQuery : IQuery<ISearchResponse<VerenigingZoekDocument>, PubliekVerenigingenZoekFilter>;
@@ -132,7 +132,7 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                                                         .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(
                                                                    h => h.Code).Suffix("keyword")
                                                          )
-                                                        .Size(size: AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket
+                                                        .Size(size: HoofdactiviteitVerenigingsloket
                                                                                        .HoofdactiviteitenVerenigingsloketCount)
         );
     }

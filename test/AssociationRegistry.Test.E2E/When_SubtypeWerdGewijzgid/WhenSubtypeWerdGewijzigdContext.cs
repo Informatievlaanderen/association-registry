@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_SubtypeWerdGewijzgid;
 
-using Admin.Api.Verenigingen.Subtype.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Subtype.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;

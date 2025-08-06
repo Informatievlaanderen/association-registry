@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection.Registratie;
 
+using DecentraalBeheer.Vereniging;
 using Scenario.Registratie;
 using Vereniging;
 

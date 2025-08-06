@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents.Scenarios;
 
 using AssociationRegistry.Framework;
+using DecentraalBeheer.Vereniging;
 using Events;
 using NodaTime.Extensions;
 using Vereniging;

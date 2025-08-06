@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_Decorating_PostalInformation;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
 using FluentAssertions;
 using Xunit;
 

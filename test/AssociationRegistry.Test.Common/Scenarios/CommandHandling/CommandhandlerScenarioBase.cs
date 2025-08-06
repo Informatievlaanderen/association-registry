@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
+using DecentraalBeheer.Vereniging;
 using Events;
 using Vereniging;
 

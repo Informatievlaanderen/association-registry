@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Werkingsgebieden;
 
 using Admin.Schema;
 using Admin.Schema.Search;
+using DecentraalBeheer.Vereniging;
 using JsonLdContext;
 using Scenario.Werkingsgebieden;
 using Vereniging;

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging;
 
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens;

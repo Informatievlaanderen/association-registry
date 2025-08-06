@@ -6,6 +6,9 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
+using MartenDb.Store;
 using Requests.FeitelijkeVereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigingWerdGeregistreerdScenario, Framework.TestClasses.IScenario

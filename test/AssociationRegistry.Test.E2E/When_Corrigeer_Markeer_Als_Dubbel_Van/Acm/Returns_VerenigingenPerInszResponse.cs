@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Corrigeer_Markeer_Als_Dubbel_Van.Acm;
 
-using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
+using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
+using DecentraalBeheer.Vereniging;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
@@ -8,7 +9,7 @@ using KellermanSoftware.CompareNetObjects;
 using Vereniging;
 using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Vereniging.Verenigingstype;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 [Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
 public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerInszResponse>
@@ -50,7 +51,7 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
                     Naam = _testContext.Scenario.DubbeleVerenging.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
-                    Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
+                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(
                         Verenigingstype.VZER.Code,
                         Verenigingstype.VZER.Naam),
                     Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
@@ -70,7 +71,7 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
                     Naam = _testContext.Scenario.AuthentiekeVereniging.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
-                    Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
+                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(
                         Verenigingstype.VZER.Code,
                         Verenigingstype.VZER.Naam),
                     Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()

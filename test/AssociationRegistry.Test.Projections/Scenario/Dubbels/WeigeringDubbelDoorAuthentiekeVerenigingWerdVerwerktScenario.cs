@@ -3,6 +3,7 @@
 using Events;
 using Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 
 public class WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario : InszScenarioBase
 {

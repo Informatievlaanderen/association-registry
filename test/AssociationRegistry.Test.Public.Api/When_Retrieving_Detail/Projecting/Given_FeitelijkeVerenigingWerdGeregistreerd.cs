@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Events;
 using FluentAssertions;
 using Formats;

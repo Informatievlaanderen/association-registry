@@ -1,12 +1,14 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using Events;
 using JasperFx.Events;
 using Marten;
 using Schema.VerenigingenPerInsz;
 using Vereniging;
-using Vereniging.Mappers;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 public static class VerenigingDocumentProjector
 {
@@ -16,7 +18,7 @@ public static class VerenigingDocumentProjector
             VCode = werdGeregistreerd.VCode,
             Naam = werdGeregistreerd.Naam,
             Status = VerenigingStatus.Actief,
-            VerenigingsType = new(AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code, AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam),
+            VerenigingsType = new(Verenigingstype.FeitelijkeVereniging.Code, Verenigingstype.FeitelijkeVereniging.Naam),
             Verenigingssubtype = null,
             KboNummer = string.Empty,
         };
@@ -27,14 +29,14 @@ public static class VerenigingDocumentProjector
             VCode = werdGeregistreerd.VCode,
             Naam = werdGeregistreerd.Naam,
             Status = VerenigingStatus.Actief,
-            VerenigingsType = new(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code, AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam),
+            VerenigingsType = new(Verenigingstype.VZER.Code, Verenigingstype.VZER.Naam),
             Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
             KboNummer = string.Empty,
         };
 
     public static VerenigingDocument Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
     {
-        AssociationRegistry.Vereniging.Verenigingstype verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Parse(werdGeregistreerd.Rechtsvorm);
+        Verenigingstype verenigingstype = Verenigingstype.Parse(werdGeregistreerd.Rechtsvorm);
 
         return new()
         {
@@ -53,7 +55,7 @@ public static class VerenigingDocumentProjector
     {
         var verenigingDocument = await ops.GetVerenigingDocument(rechtsvormWerdGewijzigdInKbo.StreamKey);
 
-        AssociationRegistry.Vereniging.Verenigingstype verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm);
+        Verenigingstype verenigingstype = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm);
 
         verenigingDocument.VerenigingsType =
             new(verenigingstype.Code, verenigingstype.Naam);
@@ -116,7 +118,7 @@ public static class VerenigingDocumentProjector
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
-        verenigingDocument.VerenigingsType = new(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code, AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam);
+        verenigingDocument.VerenigingsType = new(Verenigingstype.VZER.Code, Verenigingstype.VZER.Naam);
 
         verenigingDocument.Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>();
 

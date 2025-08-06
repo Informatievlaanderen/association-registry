@@ -4,6 +4,7 @@ using AssociationRegistry.Normalizers;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging.Adressen;
 using Xunit;
 
 public class Given_One_Adres_Is_Null

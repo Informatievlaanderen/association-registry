@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Zoeken;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using AssociationRegistry.Events;
 using AssociationRegistry.Formats;
 using AssociationRegistry.JsonLdContext;
@@ -12,9 +12,9 @@ using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Xunit;
-using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using Vereniging = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
+using Verenigingstype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingstype;
 
 [Collection(nameof(VerwijderLidmaatschapCollection))]
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
@@ -51,8 +51,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             KorteNaam = _feitelijkeVerenigingWerdGeregistreerd.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = _feitelijkeVerenigingWerdGeregistreerd.Naam,
             Startdatum = _feitelijkeVerenigingWerdGeregistreerd.Startdatum.FormatAsBelgianDate(),

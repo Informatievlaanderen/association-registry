@@ -4,6 +4,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Kbo;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using global::AutoFixture;
 
 

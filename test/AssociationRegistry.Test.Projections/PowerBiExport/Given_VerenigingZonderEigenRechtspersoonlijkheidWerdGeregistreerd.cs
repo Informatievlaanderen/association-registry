@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
+using DecentraalBeheer.Vereniging;
 using Scenario.Registratie;
 using Vereniging;
 using Verenigingstype = Admin.Schema.Detail.Verenigingstype;
@@ -14,8 +15,8 @@ public class Given_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
     {
         fixture.Result.Verenigingstype.Should().BeEquivalentTo(new Verenigingstype()
         {
-            Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-            Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
+            Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+            Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam,
         });
     }
 

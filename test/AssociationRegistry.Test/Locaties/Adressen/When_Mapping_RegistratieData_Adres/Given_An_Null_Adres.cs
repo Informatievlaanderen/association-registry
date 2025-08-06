@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Locaties.Adressen.When_Mapping_RegistratieData_Adres;
 
-using EventFactories;
+using Events.Factories;
 using FluentAssertions;
 using Xunit;
 

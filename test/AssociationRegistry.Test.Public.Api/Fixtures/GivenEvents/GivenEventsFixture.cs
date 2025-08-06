@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 using Admin.ProjectionHost;
-using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Common.Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

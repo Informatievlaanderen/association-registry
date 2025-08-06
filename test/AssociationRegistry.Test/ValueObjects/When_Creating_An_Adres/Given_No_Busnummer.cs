@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Vereniging.Adressen;
 using FluentAssertions;
 using Xunit;
 

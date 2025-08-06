@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Requesting_Individual_Kbo_Sync.KboSyncHistoriek;
 
-using Admin.Api.Verenigingen.KboSync.ResponseModels;
-using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.KboSync.ResponseModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

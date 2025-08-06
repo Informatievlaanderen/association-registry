@@ -7,6 +7,7 @@ using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging.Adressen;
 using Events;
 using FluentAssertions;
 using Marten;

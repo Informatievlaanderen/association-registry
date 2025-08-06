@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Corrigeer_Markeer_Als_Dubbel_Van.Publiek.Zoeken;
 
-using Public.Api.Verenigingen.Search.ResponseModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
+using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Xunit;
 
 [Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]

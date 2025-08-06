@@ -1,0 +1,5 @@
+﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
+
+using Vereniging;
+
+public record VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(VCode VCode, VCode VCodeAuthentiekeVereniging);

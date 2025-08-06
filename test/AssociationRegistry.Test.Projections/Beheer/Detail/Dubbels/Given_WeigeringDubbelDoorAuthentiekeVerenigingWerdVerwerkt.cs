@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Dubbels;
 
+using DecentraalBeheer.Vereniging;
 using Scenario.Dubbels;
 using Vereniging;
 

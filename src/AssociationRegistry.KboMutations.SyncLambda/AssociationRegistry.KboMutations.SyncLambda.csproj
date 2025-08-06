@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.KboMutations\AssociationRegistry.KboMutations.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj" />
+    <ProjectReference Include="..\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.HistoriekAuthentiekeVereniging;
 
-using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

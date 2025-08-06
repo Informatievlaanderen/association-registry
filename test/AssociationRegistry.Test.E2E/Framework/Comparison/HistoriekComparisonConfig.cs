@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.Comparison;
 
-using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Admin.Schema.Historiek.EventData;
 using KellermanSoftware.CompareNetObjects;
 

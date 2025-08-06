@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Retrieving_KboSyncHistoriek;
 
-using AssociationRegistry.Admin.Api.Verenigingen.KboSync.ResponseModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.KboSync.ResponseModels;
 using AssociationRegistry.Formats;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Admin.Api.Framework.templates.kboSyncHistoriek;

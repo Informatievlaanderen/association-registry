@@ -1,8 +1,10 @@
 namespace AssociationRegistry.Test.Framework.Customizations;
 
 using AutoFixture;
-using EventFactories;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
 using Events;
+using Events.Factories;
 using Vereniging;
 
 public static class RegistratiedataCustomizations

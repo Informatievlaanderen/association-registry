@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Website;
 
-using AssociationRegistry.Vereniging.Websites;
-using AssociationRegistry.Vereniging.Websites.Exceptions;
+using DecentraalBeheer.Vereniging.Websites;
+using DecentraalBeheer.Vereniging.Websites.Exceptions;
 using FluentAssertions;
 using Xunit;
 

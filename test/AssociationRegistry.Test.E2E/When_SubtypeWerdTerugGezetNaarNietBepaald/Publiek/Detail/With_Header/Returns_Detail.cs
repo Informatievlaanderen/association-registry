@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Publiek.Detail.With_Header;
 
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Vereniging;
 using Xunit;
-using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
+using Verenigingssubtype = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 
 [Collection(nameof(ZetSubtypeNaarNietBepaaldCollection))]
 public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>

@@ -4,8 +4,9 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Geotags;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Geotags;
 using FluentAssertions;
 using Xunit;
 

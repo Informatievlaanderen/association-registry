@@ -11,6 +11,7 @@ public record Postnaam
 
     public static Postnaam FromGrar(Clients.Contracts.Postnaam postnaam)
         => new(postnaam.GeografischeNaam.Spelling);
+
     public static Postnaam FromValue(string postnaam)
     {
         if (string.IsNullOrEmpty(postnaam))
@@ -31,6 +32,6 @@ public record Postnaam
     }
 
     public bool IsEquivalentTo(string gemeentenaam)
-        => string.Equals(gemeentenaam, this.Value,
+        => string.Equals(gemeentenaam, Value,
                          StringComparison.CurrentCultureIgnoreCase);
 };

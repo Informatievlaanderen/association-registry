@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using global::AutoFixture;
+using MartenDb.Store;
 
 public class V026_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen : IEventsInDbScenario
 {

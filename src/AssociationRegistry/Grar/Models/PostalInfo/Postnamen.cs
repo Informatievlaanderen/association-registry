@@ -8,7 +8,7 @@ public class Postnamen: ReadOnlyCollection<Postnaam>
     {
     }
 
-    public bool HasSinglePostnaam => this.Count == 1;
+    public bool HasSinglePostnaam => Count == 1;
 
 
     public Postnaam? FindSingleWithGemeentenaam(string origineleGemeentenaamClean)

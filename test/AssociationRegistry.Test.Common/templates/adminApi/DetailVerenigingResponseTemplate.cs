@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Common.templates.adminApi;
 
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Common;
+using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Extensions.Mappers;
 using Formats;
@@ -11,7 +12,7 @@ using System.Dynamic;
 using Vereniging;
 using Vereniging.Bronnen;
 
-using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
+using HoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate

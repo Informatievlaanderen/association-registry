@@ -1,17 +1,18 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Common;
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using Events;
 using JsonLdContext;
 using Vereniging;
 using Vereniging.Bronnen;
-using Contactgegeven = Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
-using HoofdactiviteitVerenigingsloket = Admin.Api.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;
-using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
-using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
-using Werkingsgebied = Admin.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied;
+using Contactgegeven = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Contactgegeven;
+using HoofdactiviteitVerenigingsloket = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Locatie;
+using Vertegenwoordiger = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
+using Werkingsgebied = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Werkingsgebied;
 
 public class BeheerDetailResponseMapper
 {
@@ -201,7 +202,7 @@ public class BeheerDetailResponseMapper
     {
         return hoofdactiviteitenVerenigingsloket.Select(x =>
         {
-            var hoofdactiviteitVerenigingsloket = AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
+            var hoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
 
             return new HoofdactiviteitVerenigingsloket
             {

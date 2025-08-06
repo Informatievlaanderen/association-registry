@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Admin.Api;
-using Admin.Api.Administratie.Configuratie;
 using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.Historiek.ResponseModels;
-using Admin.Api.Verenigingen.KboSync.ResponseModels;
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.WebApi.Administratie.Configuratie;
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.KboSync.ResponseModels;
+using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Alba;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;

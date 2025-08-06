@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Framework;
 
 using Be.Vlaanderen.Basisregisters.AggregateSource;
-using Vereniging.Exceptions;
+using DecentraalBeheer.Vereniging.Exceptions;
 
 public static class OrThrowExtension
 {

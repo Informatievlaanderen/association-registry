@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Newtonsoft.Json.Linq;
-using Public.Api.Verenigingen.Detail.ResponseModels;
-using Public.Api.Verenigingen.DetailAll;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.DetailAll;
 
 public static class GetPubliekDetailAllExtensions
 {

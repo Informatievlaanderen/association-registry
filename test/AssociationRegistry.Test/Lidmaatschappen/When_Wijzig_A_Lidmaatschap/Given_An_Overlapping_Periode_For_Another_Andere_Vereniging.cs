@@ -3,7 +3,8 @@
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using DecentraalBeheer.Lidmaatschappen.WijzigLidmaatschap;
+using DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
+using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;
 

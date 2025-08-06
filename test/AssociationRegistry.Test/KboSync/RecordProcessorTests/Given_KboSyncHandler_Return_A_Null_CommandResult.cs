@@ -2,6 +2,7 @@
 
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Kbo;
 using KboSyncLambda;
 using KboSyncLambda.SyncKbo;

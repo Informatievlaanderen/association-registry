@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Middleware.Given_UnexpectedAggregateVersionMiddleware;
 
 using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Middleware;
 using EventStore;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;

@@ -1,9 +1,10 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 
-using AssociationRegistry.EventFactories;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
+using Events.Factories;
 using global::AutoFixture;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario : CommandhandlerScenarioBase

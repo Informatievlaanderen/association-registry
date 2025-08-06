@@ -135,7 +135,7 @@ public static class ConfigureMartenExtensions
 
         opts.UpcastLegacyTombstoneEvents();
 
-        opts.AddAllEventTypes();
+        opts.RegisterAllEventTypes();
 
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);

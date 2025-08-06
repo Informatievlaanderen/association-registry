@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Common.Fixtures;
 
-using Admin.Api.Constants;
+using Admin.Api.Infrastructure.WebApi.Security;
 using Common.Clients;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
@@ -19,10 +19,10 @@ public class AdminApiClients : IDisposable
     }
 
     public HttpClient GetAuthenticatedHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "vloketClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
+        => CreateMachine2MachineClientFor(clientId: "vloketClient", ClaimConstants.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
 
     private HttpClient GetSuperAdminHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "superAdminClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter()
+        => CreateMachine2MachineClientFor(clientId: "superAdminClient", ClaimConstants.Scopes.Admin, clientSecret: "secret").GetAwaiter()
            .GetResult();
 
     public AdminApiClient Authenticated

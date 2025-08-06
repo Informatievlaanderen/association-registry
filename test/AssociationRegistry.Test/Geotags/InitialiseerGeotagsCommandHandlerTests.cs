@@ -6,8 +6,9 @@ using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkhei
 using Common.StubsMocksFakes;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using DecentraalBeheer.Geotags.InitialiseerGeotags;
-using EventFactories;
+using DecentraalBeheer.Acties.Geotags.InitialiseerGeotags;
+using DecentraalBeheer.Vereniging;
+using Events.Factories;
 using Vereniging;
 using Xunit;
 

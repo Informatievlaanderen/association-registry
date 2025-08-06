@@ -3,8 +3,10 @@
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Framework;
+using MartenDb.Store;
 using Vereniging;
 
 

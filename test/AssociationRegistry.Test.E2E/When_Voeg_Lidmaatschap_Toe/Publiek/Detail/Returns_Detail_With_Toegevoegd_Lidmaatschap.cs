@@ -4,9 +4,9 @@ using Formats;
 using Framework.AlbaHost;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Xunit;
-using Lidmaatschap = Public.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
+using Lidmaatschap = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 
 [Collection(nameof(VoegLidmaatschapToeCollection))]
 public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IAsyncLifetime

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using Marten.Schema;
 
 public class VerenigingenPerInszDocument

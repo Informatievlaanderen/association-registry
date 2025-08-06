@@ -2,12 +2,14 @@ namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
 using Amazon.SQS;
 using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Security;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.NutsLau;
 using Common.Framework;
 using Events;
+using EventStore.ConflictResolution;
 using Helpers;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
@@ -16,6 +18,7 @@ using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityModel.Client;
 using Marten;
 using Marten.Events.Daemon.Coordination;
+using MartenDb.Store;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +30,7 @@ using Npgsql;
 using Oakton;
 using System.Net.Http.Headers;
 using Vereniging;
+using Wolverine;
 using Xunit;
 using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 
@@ -92,9 +96,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         using var scope =  _adminApiServer.Services.CreateScope();
         _serviceProvider = scope.ServiceProvider;
 
-        SqsClientWrapper = _serviceProvider.GetRequiredService<ISqsClientWrapper>();
-
-        AmazonSqs = _serviceProvider.GetRequiredService<IAmazonSQS>();
+        MessageBus = _serviceProvider.GetRequiredService<IMessageBus>();
 
         AdminApiClients = new AdminApiClients(
             Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
@@ -139,8 +141,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     }
 
 
-    public IAmazonSQS AmazonSqs { get; set; }
-    public ISqsClientWrapper SqsClientWrapper { get; set; }
+    public IMessageBus MessageBus { get; set; }
 
     public IDocumentStore ApiDocumentStore
         => _serviceProvider.GetRequiredService<IDocumentStore>();
@@ -273,10 +274,10 @@ public class AdminApiClients : IDisposable
     }
 
     public HttpClient GetAuthenticatedHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "vloketClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
+        => CreateMachine2MachineClientFor(clientId: "vloketClient", ClaimConstants.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
 
     private HttpClient GetSuperAdminHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "superAdminClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter()
+        => CreateMachine2MachineClientFor(clientId: "superAdminClient", ClaimConstants.Scopes.Admin, clientSecret: "secret").GetAwaiter()
            .GetResult();
 
     public AdminApiClient Authenticated

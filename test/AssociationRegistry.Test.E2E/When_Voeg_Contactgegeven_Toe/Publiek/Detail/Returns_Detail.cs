@@ -5,7 +5,7 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using JsonLdContext;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
 [Collection(nameof(VoegContactgegevenToeCollection))]

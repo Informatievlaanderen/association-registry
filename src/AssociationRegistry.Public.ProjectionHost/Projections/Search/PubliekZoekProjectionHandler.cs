@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
-using DecentraalBeheer.Registratie.RegistreerVerenigingUitKbo;
-using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
 using JasperFx.Core.Reflection;
@@ -140,8 +139,8 @@ public class PubliekZoekProjectionHandler
                 document.Doelgroep = new Doelgroep
                 {
                     JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, message.VCode),
-                    Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
-                    Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
+                    Minimumleeftijd = DecentraalBeheer.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+                    Maximumleeftijd = DecentraalBeheer.Vereniging.Doelgroep.StandaardMaximumleeftijd,
                 };
                 document.Locaties = Array.Empty<VerenigingZoekDocument.Types.Locatie>();
                 document.HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket>();

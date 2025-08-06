@@ -3,9 +3,11 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Givens.VerenigingZonderEigenRec
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore;
 using Framework.TestClasses;
+using MartenDb.Store;
 using Vereniging;
 
 public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario : IScenario

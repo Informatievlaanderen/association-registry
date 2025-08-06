@@ -4,6 +4,7 @@ namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using Amazon.Lambda.SQSEvents;
 using AssociationRegistry.Notifications;
+using DecentraalBeheer.Vereniging;
 using Kbo;
 using KboMutations.Configuration;
 using KboSyncLambda;

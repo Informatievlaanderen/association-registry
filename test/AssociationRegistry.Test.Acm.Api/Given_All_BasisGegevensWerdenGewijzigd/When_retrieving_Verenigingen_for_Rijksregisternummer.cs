@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Given_All_BasisGegevensWerdenGewijzigd;
 
+using DecentraalBeheer.Vereniging;
 using Fixtures;
 using Fixtures.Scenarios;
 using FluentAssertions;

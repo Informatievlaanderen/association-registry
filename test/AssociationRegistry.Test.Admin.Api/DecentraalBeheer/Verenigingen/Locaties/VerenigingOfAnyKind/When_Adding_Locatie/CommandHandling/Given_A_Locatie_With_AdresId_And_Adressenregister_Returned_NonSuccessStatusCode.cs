@@ -1,6 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Locaties.VoegLocatieToe;
+using AssociationRegistry.DecentraalBeheer.Acties.Locaties.VoegLocatieToe;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
@@ -15,7 +18,6 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Moq;
 using System.Net;
-using Vereniging.Geotags;
 using Wolverine.Marten;
 using Xunit;
 

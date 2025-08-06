@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Acm.Api.templates;
 
 using Common.Extensions;
+using DecentraalBeheer.Vereniging;
 using Scriban;
 using Vereniging;
 

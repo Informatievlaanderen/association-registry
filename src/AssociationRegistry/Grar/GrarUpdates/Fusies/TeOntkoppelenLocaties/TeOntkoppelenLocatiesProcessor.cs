@@ -3,15 +3,16 @@
 using Framework;
 using GrarConsumer.Messaging;
 using LocatieFinder;
+using Wolverine;
 
 public class TeOntkoppelenLocatiesProcessor : ITeOntkoppelenLocatiesProcessor
 {
-    private readonly ISqsClientWrapper _sqsClientWrapper;
+    private readonly IMessageBus _messageBus;
     private readonly ILocatieFinder _locatieFinder;
 
-    public TeOntkoppelenLocatiesProcessor(ISqsClientWrapper sqsClientWrapper, ILocatieFinder locatieFinder)
+    public TeOntkoppelenLocatiesProcessor(IMessageBus messageBus, ILocatieFinder locatieFinder)
     {
-        _sqsClientWrapper = sqsClientWrapper;
+        _messageBus = messageBus;
         _locatieFinder = locatieFinder;
     }
 
@@ -23,7 +24,7 @@ public class TeOntkoppelenLocatiesProcessor : ITeOntkoppelenLocatiesProcessor
 
         foreach (var message in messages)
         {
-            await _sqsClientWrapper.QueueMessage(
+            await _messageBus.SendAsync(
                 new OverkoepelendeGrarConsumerMessage
                 {
                     OntkoppelLocatiesMessage = message,

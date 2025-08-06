@@ -1,12 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Emails;
+using DecentraalBeheer.Vereniging.TelefoonNummers;
+using DecentraalBeheer.Vereniging.Websites;
 using global::AutoFixture;
 using Kbo;
 using Vereniging;
-using Vereniging.Emails;
-using Vereniging.TelefoonNummers;
-
-using Vereniging.Websites;
 
 public static class KboCustomizations
 {

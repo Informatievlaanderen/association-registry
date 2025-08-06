@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Notifications.Messages;
 
+using DecentraalBeheer.Vereniging;
 using Notifications;
 using Vereniging;
 
