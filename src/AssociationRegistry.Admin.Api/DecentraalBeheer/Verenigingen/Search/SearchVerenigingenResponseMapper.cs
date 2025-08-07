@@ -3,7 +3,7 @@
 using AssociationRegistry.Admin.Schema.Search;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using RequestModels;
 using ResponseModels;
 using Vereniging.Mappers;
@@ -31,7 +31,7 @@ public class SearchVerenigingenResponseMapper
 
     public SearchVerenigingenResponse ToSearchVereningenResponse(
         ILogger<SearchVerenigingenController> logger,
-        ISearchResponse<VerenigingZoekDocument> searchResponse,
+        SearchResponse<VerenigingZoekDocument> searchResponse,
         PaginationQueryParams paginationRequest,
         string originalQuery)
         => new()
@@ -144,7 +144,7 @@ public class SearchVerenigingenResponseMapper
             Naam = wg.Naam,
         };
 
-    private static Metadata GetMetadata(ISearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)
+    private static Metadata GetMetadata(SearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)
         => new()
         {
             Pagination = new Pagination

@@ -8,7 +8,11 @@ using Fixtures.GivenEvents;
 using FluentAssertions;
 using Framework;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Mapping;
+using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
+using Microsoft.Extensions.Configuration;
 using Vereniging;
 
 using Xunit;
@@ -19,14 +23,15 @@ public class When_Searching_On_Type
     private PubliekVerenigingenZoekQuery _query;
     private VerenigingZoekDocument? _feitelijkeVereniging;
     private VerenigingZoekDocument? _vzer;
-    private IElasticClient _elasticClient;
+    private ElasticsearchClient _elasticClient;
     private TypeMapping _typeMapping;
+    private readonly ElasticSearchOptionsSection _elasticClientOptions;
 
     public When_Searching_On_Type(GivenEventsFixture fixture)
     {
         var elasticClient = fixture.ElasticClient;
         _typeMapping = fixture.ServiceProvider.GetRequiredService<TypeMapping>();
-
+        _elasticClientOptions = fixture.ServiceProvider.GetRequiredService<IConfiguration>().GetElasticSearchOptionsSection();
         var autoFixture = new Fixture().CustomizePublicApi();
 
         _feitelijkeVereniging = autoFixture.Create<VerenigingZoekDocument>();
@@ -65,14 +70,14 @@ public class When_Searching_On_Type
     [InlineData("naam:de kleine vereniging AND verenigingstype.code: vzer AND verenigingstype.code: fv")]
     public async Task With_FV_In_Query_Returns_FV_And_VZER(string query)
     {
-        var indexFeitelijke = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_feitelijkeVereniging);
-        var indexVzer = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_vzer);
+        var indexFeitelijke = await _elasticClient.IndexAsync<VerenigingZoekDocument>(_feitelijkeVereniging);
+        var indexVzer = await _elasticClient.IndexAsync<VerenigingZoekDocument>(_vzer);
 
         indexFeitelijke.ShouldBeValidIndexResponse();
         indexVzer.ShouldBeValidIndexResponse();
 
-        await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
-        _query = new PubliekVerenigingenZoekQuery(_elasticClient, _typeMapping);
+        await _elasticClient.Indices.RefreshAsync(Indices.All);
+        _query = new PubliekVerenigingenZoekQuery(_elasticClient, _typeMapping, _elasticClientOptions);
 
         var searchResponse = await _query.ExecuteAsync(
             new PubliekVerenigingenZoekFilter(query: query,

@@ -199,7 +199,7 @@ public class GrarClient : IGrarClient
 
     private static void ThrowMatchingException(HttpStatusCode responseStatusCode, ContextDescription contextDescription)
     {
-        throw responseStatusCode switch
+         throw responseStatusCode switch
         {
             HttpStatusCode.NotFound =>
                 new AdressenregisterReturnedNotFoundStatusCode(),

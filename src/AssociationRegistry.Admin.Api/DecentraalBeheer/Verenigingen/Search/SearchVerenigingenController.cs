@@ -1,20 +1,21 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
+using Adapters.DuplicateVerenigingDetectionService;
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Admin.Schema.Search;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Elastic.Clients.Elasticsearch;
 using Examples;
 using Exceptions;
 using FluentValidation;
 using Hosts.Configuration.ConfigurationBindings;
+using Infrastructure;
+using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Mvc;
-using Nest;
+using Queries;
 using RequestModels;
 using ResponseModels;
+using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text.RegularExpressions;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -131,30 +132,40 @@ public class SearchVerenigingenController : ApiController
         await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
         q ??= "*";
 
-        var searchResponse = await query.ExecuteAsync(new BeheerVerenigingenZoekFilter(q, sort, paginationQueryParams), cancellationToken);
-
-        if (searchResponse.ApiCall.HttpStatusCode == 400)
-            return MapBadRequest(logger, searchResponse);
-
-        if (!searchResponse.IsValid)
+        try
         {
-            logger.LogError(searchResponse.OriginalException, searchResponse.DebugInformation);
+            var searchResponse = await query.ExecuteAsync(new BeheerVerenigingenZoekFilter(q, sort, paginationQueryParams), cancellationToken);
 
-            throw searchResponse.OriginalException;
+            if (searchResponse.ApiCallDetails.HttpStatusCode == 400)
+                return MapBadRequest(logger, searchResponse);
+
+            if (!searchResponse.IsValidResponse)
+            {
+                logger.LogError("Elasticsearch returned an invalid response: {Debug}", searchResponse.DebugInformation);
+                throw new ElasticSearchException("Elasticsearch returned an invalid response.");
+            }
+
+            var responseMapper = new SearchVerenigingenResponseMapper(appSettings, version);
+            var response = responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q);
+
+            return Ok(response);
         }
-
-        var responseMapper = new SearchVerenigingenResponseMapper(appSettings, version);
-        var response = responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q);
-
-        return Ok(response);
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error during Elasticsearch search");
+            throw;
+        }
     }
 
-    private IActionResult MapBadRequest(ILogger logger, ISearchResponse<VerenigingZoekDocument> searchResponse)
+    private IActionResult MapBadRequest(ILogger logger, SearchResponse<VerenigingZoekDocument> searchResponse)
     {
-        var match = Regex.Match(searchResponse.ServerError.Error.RootCause.First().Reason,
-                                pattern: @"No mapping found for \[(.*).keyword\] in order to sort on");
+        var debugInfo = searchResponse.DebugInformation;
 
-        logger.LogError(searchResponse.OriginalException, message: "Fout bij het aanroepen van ElasticSearch");
+        var match = Regex.Match(debugInfo,
+                                pattern: @"No mapping found for \[(.*?)(?:\.keyword)?\] in order to sort on",
+                                RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+        logger.LogError("Fout bij het aanroepen van ElasticSearch: {DebugInformation}", debugInfo);
 
         if (match.Success)
             throw new ZoekOpdrachtBevatOnbekendeSorteerVelden(match.Groups[1].Value);

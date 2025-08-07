@@ -6,22 +6,28 @@ using GemeentenaamVerrijking;
 using Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Middleware;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Core.Search;
+using Elastic.Clients.Elasticsearch.QueryDsl;
+using Hosts.Configuration.ConfigurationBindings;
 using System.Collections.Immutable;
 using LogLevel = LogLevel;
 
 public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionService
 {
-    private readonly IElasticClient _client;
+    private readonly ElasticsearchClient _client;
+    private readonly ElasticSearchOptionsSection _elasticSearchOptionsSection;
     private readonly MinimumScore _defaultMinimumScore;
     private readonly ILogger<ZoekDuplicateVerenigingenQuery> _logger;
 
     public ZoekDuplicateVerenigingenQuery(
-        IElasticClient client,
+        ElasticsearchClient client,
+        ElasticSearchOptionsSection elasticSearchOptionsSection,
         MinimumScore defaultMinimumScore,
         ILogger<ZoekDuplicateVerenigingenQuery> logger = null)
     {
         _client = client;
+        _elasticSearchOptionsSection = elasticSearchOptionsSection;
         _defaultMinimumScore = defaultMinimumScore;
         _logger = logger ?? NullLogger<ZoekDuplicateVerenigingenQuery>.Instance;
     }
@@ -31,9 +37,7 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
         Locatie[] locaties,
         bool includeScore = false,
         MinimumScore? minimumScoreOverride = null)
-    {
-        return await ExecuteAsync(naam, new DuplicateVerenigingZoekQueryLocaties(locaties), includeScore, minimumScoreOverride);
-    }
+        => await ExecuteAsync(naam, new DuplicateVerenigingZoekQueryLocaties(locaties), includeScore, minimumScoreOverride);
 
     public async Task<IReadOnlyCollection<DuplicaatVereniging>> ExecuteAsync(
         VerenigingsNaam naam,
@@ -56,51 +60,49 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
         string[] gemeentes,
         string[] postcodes)
     {
-        var searchResponse =
-            await _client
-               .SearchAsync<DuplicateDetectionDocument>(s =>
-                                                            s
-                                                               .Explain(includeScore)
-                                                               .TrackScores(includeScore)
-                                                               .MinScore(minimumScoreOverride.Value)
-                                                               .Query(p => p.Bool(b =>
-                                                                                      b.Should(
-                                                                                            MatchOpNaam(
-                                                                                                VerenigingsNaam.Create(
-                                                                                                    naamZonderGemeentes)),
-                                                                                            MatchOpFullNaam(
-                                                                                                VerenigingsNaam.Create(
-                                                                                                    naamZonderGemeentes)))
-                                                                                       .MinimumShouldMatch(1)
-                                                                                       .Filter(
-                                                                                            MatchOpPostcodeOfGemeente(
-                                                                                                gemeentes, postcodes),
-                                                                                            IsNietDubbel,
-                                                                                            IsNietGestopt,
-                                                                                            IsNietVerwijderd)
-                                                                      )));
-
-        if (_logger.IsEnabled(LogLevel.Debug))
+        var searchRequest = new SearchRequest<DuplicateDetectionDocument>(_elasticSearchOptionsSection.Indices!.DuplicateDetection!)
         {
-            LogScoreAndExplanation(naam, searchResponse);
-        }
-
-        if (!searchResponse.IsValid)
-            if (searchResponse.OriginalException is not null)
+            Explain = includeScore,
+            TrackScores = includeScore,
+            MinScore = minimumScoreOverride.Value,
+            Query = new BoolQuery
             {
-                throw new ElasticSearchException(searchResponse.OriginalException, searchResponse.DebugInformation);
+                Should = new List<Query>
+                {
+                    MatchOpNaam(naamZonderGemeentes),
+                    MatchOpFullNaam(naamZonderGemeentes)
+                },
+                Filter = new List<Query>
+                {
+                    MatchOpPostcodeOfGemeente(gemeentes, postcodes),
+                    new TermQuery { Field = FieldTerms.IsDubbel, Value = false },
+                    new TermQuery { Field = FieldTerms.IsGestopt, Value = false },
+                    new TermQuery { Field = FieldTerms.IsVerwijderd, Value = false }
+                },
+                MinimumShouldMatch = "1"
             }
-            else
+        };
+
+        try
+        {
+            var searchResponse = await _client.SearchAsync<DuplicateDetectionDocument>(searchRequest, CancellationToken.None);
+
+            if (!searchResponse.IsValidResponse)
             {
                 throw new ElasticSearchException(searchResponse.DebugInformation);
             }
 
-        return searchResponse.Hits
-                             .Select(ToDuplicateVereniging)
-                             .ToArray();
+            return searchResponse.Hits
+                                 .Select(ToDuplicateVereniging)
+                                 .ToArray();
+        }
+        catch (Exception ex)
+        {
+            throw new ElasticSearchException(ex, "Search for duplicate verenigingen failed.");
+        }
     }
 
-    private void LogScoreAndExplanation(VerenigingsNaam naam, ISearchResponse<DuplicateDetectionDocument> searchResponse)
+    private void LogScoreAndExplanation(VerenigingsNaam naam, SearchResponse<DuplicateDetectionDocument> searchResponse)
     {
         _logger.LogDebug("Score for query: {Score}",
                          string.Join(", ", searchResponse.Hits.Select(x => $"{x.Score} {x.Source.Naam}")));
@@ -112,104 +114,68 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
         });
     }
 
-    private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchOpPostcodeOfGemeente(
-        string[] gemeentes,
-        string[] postcodes)
+    private static Query MatchOpPostcodeOfGemeente(string[] gemeentes, string[] postcodes)
     {
-        return f =>
-            f.Bool(fb =>
-                       fb
-                          .Should(MatchOpGemeente(gemeentes)
-                                     .Append(MatchOpPostcode(postcodes))
-                           )
-                          .MinimumShouldMatch(
-                               1));
+        var shouldQueries = new List<Query>();
+
+        if (postcodes.Length > 0)
+        {
+            shouldQueries.Add(new NestedQuery
+            {
+                Path = "locaties",
+                Query = new TermsQuery
+                {
+                    Field = FieldTerms.Postcode,
+                    Terms = new TermsQueryField(postcodes.Select(FieldValue.String).ToList())
+                }
+            });
+        }
+
+        foreach (var gemeente in gemeentes)
+        {
+            shouldQueries.Add(new NestedQuery
+            {
+                Path = "locaties",
+                Query = new MatchQuery
+                {
+                    Field = FieldTerms.Gemeente,
+                    Query = gemeente
+                }
+            });
+        }
+
+        return new BoolQuery
+        {
+            Should = shouldQueries,
+            MinimumShouldMatch = "1"
+        };
     }
 
-    private static QueryContainer IsNietGestopt(QueryContainerDescriptor<DuplicateDetectionDocument> descriptor)
+    private static Query MatchOpNaam(string naam)
     {
-        return descriptor.Term(queryDescriptor => queryDescriptor.Field(document => document.IsGestopt)
-                                                                 .Value(false));
+        return new MatchQuery
+        {
+            Field = FieldTerms.Naam,
+            Query = naam,
+            Analyzer = DuplicateDetectionDocumentMapping.DuplicateAnalyzer,
+            MinimumShouldMatch = "67%"
+        };
     }
 
-    private static QueryContainer IsNietDubbel(QueryContainerDescriptor<DuplicateDetectionDocument> descriptor)
+    private static Query MatchOpFullNaam(string naam)
     {
-        return descriptor.Term(queryDescriptor => queryDescriptor.Field(document => document.IsDubbel)
-                                                                 .Value(false));
+        return new MatchQuery
+        {
+            Field = FieldTerms.NaamExact,
+            Query = naam,
+            Analyzer = DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer,
+            Boost = 2,
+            Fuzziness = "AUTO",
+            MinimumShouldMatch = "67%"
+        };
     }
 
-    private static QueryContainer IsNietVerwijderd(QueryContainerDescriptor<DuplicateDetectionDocument> shouldDescriptor)
-    {
-        return shouldDescriptor
-           .Term(termDescriptor
-                     => termDescriptor
-                       .Field(document => document.IsVerwijderd)
-                       .Value(false));
-    }
-
-    private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchOpPostcode(string[] postcodes)
-    {
-        return postalCodesQuery => postalCodesQuery
-           .Nested(n => n
-                       .Path(p => p.Locaties)
-                       .Query(nq => nq
-                                 .Terms(t => t
-                                            .Field(f => f.Locaties
-                                                         .First()
-                                                         .Postcode)
-                                            .Terms(postcodes)
-                                  )
-                        )
-            );
-    }
-
-    private static IEnumerable<Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer>> MatchOpGemeente(
-        string[] gemeentes)
-    {
-        return gemeentes.Select(gemeente =>
-                                    new Func<QueryContainerDescriptor<
-                                        DuplicateDetectionDocument>, QueryContainer>(qc => qc
-                                                                                        .Nested(n => n
-                                                                                                    .Path(p => p.Locaties)
-                                                                                                    .Query(nq => nq
-                                                                                                                .Match(m => m
-                                                                                                                            .Field(f => f
-                                                                                                                                    .Locaties
-                                                                                                                                    .First()
-                                                                                                                                    .Gemeente)
-                                                                                                                            .Query(
-                                                                                                                                 gemeente)
-                                                                                                                 )
-                                                                                                     )
-                                                                                         )
-                                    )
-        );
-    }
-
-    private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchOpNaam(VerenigingsNaam naam)
-    {
-        return must => must
-           .Match(m => m
-                      .Field(f => f.Naam.Suffix("naam"))
-                      .Query(naam)
-                      .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
-                      .MinimumShouldMatch("67%"));
-    }
-
-    private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchOpFullNaam(VerenigingsNaam naam)
-    {
-        return must => must
-           .Match(m => m
-                      .Field(f => f.Naam.Suffix("naamexact"))
-                      .Query(naam)
-                      .Analyzer(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer)
-                      .Boost(2)
-                      .Fuzziness(
-                           Fuzziness.Auto)
-                      .MinimumShouldMatch("67%"));
-    }
-
-    private static DuplicaatVereniging ToDuplicateVereniging(IHit<DuplicateDetectionDocument> document)
+    private static DuplicaatVereniging ToDuplicateVereniging(Hit<DuplicateDetectionDocument> document)
         => new(
             document.Source.VCode,
             new DuplicaatVereniging.Types.Verenigingstype()
@@ -235,7 +201,7 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
                 : DuplicaatVereniging.Types.ScoringInfo.NotApplicable
         );
 
-    private static bool IncludesScore(IHit<DuplicateDetectionDocument> document)
+    private static bool IncludesScore(Hit<DuplicateDetectionDocument> document)
         => document.Explanation is not null && document.Score is not null;
 
     private static DuplicaatVereniging.Types.Locatie ToLocatie(DuplicateDetectionDocument.Locatie loc)

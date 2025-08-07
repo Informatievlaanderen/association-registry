@@ -91,7 +91,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NEST"/>
+    <PackageReference Include="Elastic.Clients.Elasticsearch"/>
     <PackageReference Include="Marten" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />

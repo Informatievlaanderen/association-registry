@@ -1,7 +1,10 @@
 namespace AssociationRegistry.Admin.Api.Queries;
 
 using Framework;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Mapping;
+using Elastic.Clients.Elasticsearch.QueryDsl;
+using Hosts.Configuration.ConfigurationBindings;
 using Schema.Search;
 using System.Text.RegularExpressions;
 using Vereniging;
@@ -9,68 +12,74 @@ using Vereniging;
 using Verenigingen.Search;
 using Verenigingen.Search.RequestModels;
 
-public interface IBeheerVerenigingenZoekQuery : IQuery<ISearchResponse<VerenigingZoekDocument>, BeheerVerenigingenZoekFilter>;
+public interface IBeheerVerenigingenZoekQuery : IQuery<SearchResponse<VerenigingZoekDocument>, BeheerVerenigingenZoekFilter>;
 
 public class BeheerVerenigingenZoekQuery : IBeheerVerenigingenZoekQuery
 {
-    private readonly IElasticClient _client;
-    private readonly ITypeMapping _typeMapping;
+    private readonly ElasticsearchClient _client;
+    private readonly TypeMapping _typeMapping;
+    private readonly ElasticSearchOptionsSection _elasticSearchOptionsSection;
 
-    private static readonly Func<SortDescriptor<VerenigingZoekDocument>, SortDescriptor<VerenigingZoekDocument>> DefaultSort =
-        x => x.Descending(v => v.VCode);
-
-    public BeheerVerenigingenZoekQuery(IElasticClient client, ITypeMapping typeMapping)
+    public BeheerVerenigingenZoekQuery(ElasticsearchClient client, TypeMapping typeMapping, ElasticSearchOptionsSection elasticSearchOptionsSection)
     {
         _client = client;
         _typeMapping = typeMapping;
+        _elasticSearchOptionsSection = elasticSearchOptionsSection;
     }
 
-    private static Func<QueryContainerDescriptor<VerenigingZoekDocument>, QueryContainer> MatchWithQuery(string q)
+    public async Task<SearchResponse<VerenigingZoekDocument>> ExecuteAsync(BeheerVerenigingenZoekFilter filter, CancellationToken cancellationToken)
     {
-        return queryContainerDescriptor =>
-            queryContainerDescriptor.QueryString(
-                queryStringQueryDescriptor
-                    => queryStringQueryDescriptor.Query(q)
-            );
+        var sort = SearchVerenigingenExtensions.ParseSort(
+            filter.Sort,
+            new List<SortOptions> {
+                new()
+                {
+                    Field = new FieldSort {
+                        Field = FieldTerms.VCode,
+                        Order = SortOrder.Desc,
+                    },
+                },
+            },
+            _typeMapping);
+
+        var searchRequest = new SearchRequest<VerenigingZoekDocument>(_elasticSearchOptionsSection.Indices!.Verenigingen!)
+        {
+            From = filter.PaginationQueryParams.Offset,
+            Size = filter.PaginationQueryParams.Limit,
+            Sort = sort,
+            Query = BuildQuery(filter),
+            TrackTotalHits = true,
+        };
+
+        return await _client.SearchAsync<VerenigingZoekDocument>(searchRequest, cancellationToken);
     }
 
-    public async Task<ISearchResponse<VerenigingZoekDocument>> ExecuteAsync(BeheerVerenigingenZoekFilter filter, CancellationToken cancellationToken)
-        => await _client.SearchAsync<VerenigingZoekDocument>(
-            s => s
-                .From(filter.PaginationQueryParams.Offset)
-                .Size(filter.PaginationQueryParams.Limit)
-                .ParseSort(filter.Sort, DefaultSort, _typeMapping)
-                .Query(query => MainQuery(filter, query)
-                 )
-                .TrackTotalHits(),
-            cancellationToken
-        );
-
-    public static QueryContainer MainQuery(BeheerVerenigingenZoekFilter filter, QueryContainerDescriptor<VerenigingZoekDocument> query)
-    {
-        return query
-           .Bool(boolQueryDescriptor => boolQueryDescriptor
-                                       .Must(MatchWithQuery(filter.Query))
-                                       .MustNot(BeVerwijderd(), BeDubbel())
-            );
-    }
-
-    private static Func<QueryContainerDescriptor<VerenigingZoekDocument>, QueryContainer> BeVerwijderd()
-    {
-        return q => q
-           .Term(t => t
-                     .Field(f => f.IsVerwijderd)
-                     .Value(true));
-    }
-
-    private static Func<QueryContainerDescriptor<VerenigingZoekDocument>, QueryContainer> BeDubbel()
-    {
-        return q => q
-           .Term(t => t
-                     .Field(f => f.IsDubbel)
-                     .Value(true));
-    }
+    private static Query BuildQuery(BeheerVerenigingenZoekFilter filter)
+        => new BoolQuery
+        {
+            Must = new List<Query>
+            {
+                new QueryStringQuery
+                {
+                    Query = filter.Query,
+                }
+            },
+            MustNot = new List<Query>
+            {
+                new TermQuery
+                {
+                    Field = FieldTerms.IsVerwijderd,
+                    Value = true,
+                },
+                new TermQuery
+                {
+                    Field = FieldTerms.IsDubbel,
+                    Value = true,
+                }
+            }
+        };
 }
+
 
 public record BeheerVerenigingenZoekFilter
 {

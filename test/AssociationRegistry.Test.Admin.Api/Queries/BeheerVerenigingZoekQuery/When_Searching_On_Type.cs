@@ -10,7 +10,11 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Mapping;
+using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
+using Microsoft.Extensions.Configuration;
 using System.ComponentModel;
 using Xunit;
 using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
@@ -23,15 +27,16 @@ public class When_Searching_On_Type
     private BeheerVerenigingenZoekQuery _query;
     private VerenigingZoekDocument? _feitelijkeVereniging;
     private VerenigingZoekDocument? _vzer;
-    private IElasticClient _elasticClient;
-    private ITypeMapping _typeMapping;
+    private ElasticsearchClient _elasticClient;
+    private TypeMapping _typeMapping;
+    private readonly ElasticSearchOptionsSection _elasticSearchOptions;
 
     public When_Searching_On_Type(EventsInDbScenariosFixture fixture, ITestOutputHelper helper)
     {
         _helper = helper;
         var elasticClient = fixture.ElasticClient;
-        _typeMapping = fixture.ServiceProvider.GetRequiredService<ITypeMapping>();
-
+        _typeMapping = fixture.ServiceProvider.GetRequiredService<TypeMapping>();
+        _elasticSearchOptions = fixture.ServiceProvider.GetRequiredService<IConfiguration>().GetElasticSearchOptionsSection();
         var autoFixture = new Fixture().CustomizeAdminApi();
 
         _feitelijkeVereniging = autoFixture.Create<VerenigingZoekDocument>();
@@ -76,14 +81,14 @@ public class When_Searching_On_Type
     [InlineData("naam:de kleine vereniging AND verenigingstype.code: vzer AND verenigingstype.code: fv")]
     public async ValueTask With_FV_In_Query_Returns_FV_And_VZER(string query)
     {
-        var indexFeitelijke = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_feitelijkeVereniging);
-        var indexVzer = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_vzer);
+        var indexFeitelijke = await _elasticClient.IndexAsync<VerenigingZoekDocument>(_feitelijkeVereniging);
+        var indexVzer = await _elasticClient.IndexAsync<VerenigingZoekDocument>(_vzer);
 
         indexFeitelijke.ShouldBeValidIndexResponse();
         indexVzer.ShouldBeValidIndexResponse();
 
-        await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
-        _query = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping);
+        await _elasticClient.Indices.RefreshAsync(Indices.All);
+        _query = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping, _elasticSearchOptions);
 
         var searchResponse = await _query.ExecuteAsync(
             new BeheerVerenigingenZoekFilter(query: $"(vCode:{_feitelijkeVereniging.VCode} OR vCode:{_vzer.VCode}) AND {query}",

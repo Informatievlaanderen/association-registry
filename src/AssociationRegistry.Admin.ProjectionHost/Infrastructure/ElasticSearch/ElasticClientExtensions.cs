@@ -1,154 +1,147 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
 
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Analysis;
+using Elastic.Clients.Elasticsearch.IndexManagement;
+using Elastic.Clients.Elasticsearch.Mapping;
 using Schema.Search;
-using Nest;
-using Nest.Specification.IndicesApi;
 
 public static class ElasticClientExtensions
 {
-    private const string TokenFilterWordDelimiter = "mwd";
-    private const string TokenFilterShingle = "shingle";
-    private const string TokenFilterMunicipalities = "muni";
-    private const string TokenFilterSynonyms = "synonyms";
-    private const string TokenFilterDutchStop = "dutch_stop";
-    private const string CharFilterDotReplace = "dot_replace";
-    private const string CharFilterUnderscoreReplace = "underscore_replace";
-
-    public static CreateIndexResponse CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index, Func<TypeMappingDescriptor<VerenigingZoekDocument>, TypeMappingDescriptor<VerenigingZoekDocument>> mapping)
-        => CreateVerenigingIndexAsync(indicesNamespace, index, mapping).GetAwaiter().GetResult();
-
-    public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index, Func<TypeMappingDescriptor<VerenigingZoekDocument>, TypeMappingDescriptor<VerenigingZoekDocument>> mapping)
-        => await indicesNamespace.CreateAsync(
-            index,
-            selector: descriptor =>
-                descriptor
-                   .Settings(s => s
-                                .Analysis(a => a.CharFilters(cf => cf.RemoveDots()
-                                                                     .ReplaceUnderscoresAndHyphenWithSpaces())
-                                                .TokenFilters(FilterDutchStopWords)
-                                                .Normalizers(AddVerenigingZoekNormalizer)
-                                                .Analyzers(AddVerenigingZoekAnalyzer)))
-                   .Map(mapping));
-
-
-    public static CreateIndexResponse CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
-        => CreateDuplicateDetectionIndexAsync(indicesNamespace, index).GetAwaiter().GetResult();
-
-    public static async Task<CreateIndexResponse> CreateDuplicateDetectionIndexAsync(
-        this IndicesNamespace indicesNamespace,
-        IndexName index)
+    public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this ElasticsearchClient client, string indexName)
     {
-        var createIndexResponse = await indicesNamespace.CreateAsync(
-            index,
-            selector: c => c
-                          .Settings(s => s
-                                       .Analysis(a => a
-                                                     .CharFilters(cf => cf.RemoveDots()
-                                                                          .ReplaceUnderscoresAndHyphenWithSpaces())
-                                                     .Analyzers(AddDuplicateDetectionAnalyzer)
-                                                     .TokenFilters(tf => tf.FilterDutchStopWords()
-                                                                           .UseWordDelimiter()
-                                                                           .CombineNeighbouringWordsWithShingle()
-                                                      )))
-                          .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
+        var request = new CreateIndexRequest(indexName)
+        {
+            Settings = new IndexSettings
+            {
+                Analysis = new  IndexSettingsAnalysis
+                {
+                    CharFilters = new CharFilters
+                    {
+                        ["dot_replace"] = new PatternReplaceCharFilter
+                        {
+                            Pattern = "\\.",
+                            Replacement = ""
+                        },
+                        ["underscore_replace"] = new PatternReplaceCharFilter
+                        {
+                            Pattern = "[_-]",
+                            Replacement = " "
+                        }
+                    },
+                    TokenFilters = new TokenFilters
+                    {
+                        ["dutch_stop"] = new StopTokenFilter
+                        {
+                            Stopwords = new Union<StopWordLanguage, ICollection<string>>(StopWordLanguage.Dutch),
+                        }
+                    },
+                    Normalizers = new Normalizers
+                    {
+                        ["beheer_zoeken_normalizer"] = new CustomNormalizer
+                        {
+                            CharFilter = ["underscore_replace", "dot_replace"],
+                            Filter = ["lowercase", "asciifolding", "trim"]
+                        }
+                    },
+                    Analyzers = new Analyzers
+                    {
+                        ["beheer_zoeken_analyzer"] = new CustomAnalyzer
+                        {
+                            Tokenizer = "standard",
+                            CharFilter = ["underscore_replace", "dot_replace"],
+                            Filter = ["lowercase", "asciifolding", "dutch_stop"]
+                        }
+                    }
+                }
+            },
+            Mappings = VerenigingZoekDocumentMapping.Get() // Must return TypeMapping
+        };
 
-        if (!createIndexResponse.IsValid)
-            throw createIndexResponse.OriginalException;
+        var response = await client.Indices.CreateAsync(request);
 
-        return createIndexResponse;
+        if (!response.IsValidResponse)
+            throw new Exception("Failed to create Vereniging index: " + response.DebugInformation);
+
+        return response;
     }
 
-    private static AnalyzersDescriptor AddDuplicateDetectionAnalyzer(AnalyzersDescriptor ad)
-        => ad.Custom(DuplicateDetectionDocumentMapping.DuplicateAnalyzer,
-                     selector: ca
-                         => ca
-                           .Tokenizer("standard")
-                           .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
-                           .Filters("lowercase", "asciifolding", TokenFilterDutchStop, TokenFilterWordDelimiter, TokenFilterShingle)
-        ).Custom(DuplicateDetectionDocumentMapping.DuplicateMunicipalityAnalyzer,
-                 selector: ca
-                     => ca
-                       .Tokenizer("standard")
-                       .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
-                       .Filters("lowercase", "asciifolding", TokenFilterDutchStop)
-        ).Custom(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer,
-                 selector: ca
-                     => ca
-                       .Tokenizer("standard")
-                       .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
-                       .Filters("lowercase", "asciifolding", TokenFilterDutchStop, TokenFilterWordDelimiter)
-        );
-
-
-    private static TokenFiltersDescriptor FilterDutchStopWords(this TokenFiltersDescriptor tf)
+    public static async Task<CreateIndexResponse> CreateDuplicateDetectionIndexAsync(this ElasticsearchClient client, string indexName)
     {
-        return tf.Stop(name: TokenFilterDutchStop, selector: st => st
-                          .StopWords("_dutch_") // Or provide your custom list
-        );
+        var request = new CreateIndexRequest(indexName)
+        {
+            Settings = new IndexSettings
+            {
+                Analysis = new IndexSettingsAnalysis
+                {
+                    CharFilters = new CharFilters
+                    {
+                        ["dot_replace"] = new PatternReplaceCharFilter
+                        {
+                            Pattern = "\\.",
+                            Replacement = ""
+                        },
+                        ["underscore_replace"] = new PatternReplaceCharFilter
+                        {
+                            Pattern = "[_-]",
+                            Replacement = " "
+                        }
+                    },
+                    TokenFilters = new TokenFilters
+                    {
+                        ["dutch_stop"] = new StopTokenFilter
+                        {
+                            Stopwords = new Union<StopWordLanguage, ICollection<string>>(StopWordLanguage.Dutch),
+                        },
+                        ["synonyms"] = new SynonymTokenFilter
+                        {
+                            Synonyms = new[] { "st => sint" } // replace with your real synonyms
+                        },
+                        ["mwd"] = new WordDelimiterTokenFilter
+                        {
+                            GenerateWordParts = true,
+                            CatenateWords = true,
+                            PreserveOriginal = false
+                        },
+                        ["shingle"] = new ShingleTokenFilter
+                        {
+                            MinShingleSize = 2,
+                            MaxShingleSize = 2,
+                            OutputUnigrams = true,
+                            TokenSeparator = ""
+                        }
+                    },
+                    Analyzers = new Analyzers
+                    {
+                        ["duplicate_analyzer"] = new CustomAnalyzer
+                        {
+                            Tokenizer = "standard",
+                            CharFilter = ["underscore_replace", "dot_replace"],
+                            Filter = ["lowercase", "asciifolding", "dutch_stop", "mwd", "shingle"]
+                        },
+                        ["duplicate_municipality_analyzer"] = new CustomAnalyzer
+                        {
+                            Tokenizer = "standard",
+                            CharFilter = ["underscore_replace", "dot_replace"],
+                            Filter = ["lowercase", "asciifolding", "dutch_stop"]
+                        },
+                        ["duplicate_fullname_analyzer"] = new CustomAnalyzer
+                        {
+                            Tokenizer = "standard",
+                            CharFilter = ["underscore_replace", "dot_replace"],
+                            Filter = ["lowercase", "asciifolding", "dutch_stop", "mwd"]
+                        }
+                    }
+                }
+            },
+            Mappings = DuplicateDetectionDocumentMapping.Get() // Must return TypeMapping
+        };
+
+        var response = await client.Indices.CreateAsync(request);
+
+        if (!response.IsValidResponse)
+            throw new Exception("Failed to create Duplicate Detection index: " + response.DebugInformation);
+
+        return response;
     }
-
-    private static TokenFiltersDescriptor FilterMunicipalities(this TokenFiltersDescriptor tf, string[] municipalities)
-    {
-        return tf.Stop(name: TokenFilterMunicipalities, selector: st => st
-                          .StopWords(municipalities) // Or provide your custom list
-        );
-    }
-
-    private static TokenFiltersDescriptor AddSynonyms(this TokenFiltersDescriptor tf)
-    {
-        return tf.Synonym(name: TokenFilterSynonyms, selector: st => st
-                          .Synonyms("st => sint") // Or provide your custom list
-        );
-    }
-
-    private static CharFiltersDescriptor RemoveDots(this CharFiltersDescriptor cf)
-    {
-        return cf.PatternReplace(name: CharFilterDotReplace,
-                                 selector: prcf
-                                     => prcf.Pattern("\\.").Replacement(""));
-
-    }
-
-    private static CharFiltersDescriptor ReplaceUnderscoresAndHyphenWithSpaces(this CharFiltersDescriptor cf)
-    {
-        return cf.PatternReplace(name: CharFilterUnderscoreReplace,
-                                 selector: prcf => prcf
-                                                  .Pattern("[_-]")
-                                                  .Replacement(" "));
-    }
-
-    public static TokenFiltersDescriptor CombineNeighbouringWordsWithShingle(this TokenFiltersDescriptor source)
-    {
-        return source.Shingle(TokenFilterShingle, sd => sd.MinShingleSize(2)
-                                                          .MaxShingleSize(2)
-                                                          .OutputUnigrams(true)
-                                                          .TokenSeparator(""));
-    }
-
-    public static TokenFiltersDescriptor UseWordDelimiter(this TokenFiltersDescriptor source)
-    {
-        return source.WordDelimiter(TokenFilterWordDelimiter, wd =>
-                                        wd.GenerateWordParts()
-                                          .CatenateWords()
-                                          .PreserveOriginal(false)
-        );
-    }
-
-
-    private static NormalizersDescriptor AddVerenigingZoekNormalizer(NormalizersDescriptor ad)
-        => ad.Custom(VerenigingZoekDocumentMapping.BeheerZoekenNormalizer,
-                     selector: ca
-                         => ca
-                           .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
-                           .Filters("lowercase", "asciifolding", "trim")
-        );
-
-    private static AnalyzersDescriptor AddVerenigingZoekAnalyzer(AnalyzersDescriptor ad)
-        => ad.Custom(VerenigingZoekDocumentMapping.BeheerZoekenAnalyzer,
-                     selector: ca
-                         => ca
-                           .Tokenizer("standard")
-                           .CharFilters("underscore_replace", "dot_replace")
-                           .Filters("lowercase", "asciifolding", "dutch_stop")
-        );
 }

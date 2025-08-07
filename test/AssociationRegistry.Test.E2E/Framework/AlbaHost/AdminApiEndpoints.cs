@@ -15,7 +15,7 @@ using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Testing.Platform.Logging;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
@@ -101,7 +101,7 @@ public static class AdminApiEndpoints
     {
         var store2 = source.Services.GetRequiredService<IDocumentStore>();
         var logger = source.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Program>>();
-        await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
 
         var result = (await store2.Advanced
                                   .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")
@@ -119,7 +119,7 @@ public static class AdminApiEndpoints
 
             counter++;
             await Task.Delay(500 + (100 * counter));
-            await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+            await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
 
             result = (await store2.Advanced
                                   .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")

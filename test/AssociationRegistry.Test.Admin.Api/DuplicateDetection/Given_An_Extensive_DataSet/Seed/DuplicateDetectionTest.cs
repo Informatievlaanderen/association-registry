@@ -13,7 +13,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
@@ -25,10 +25,11 @@ public class DuplicateDetectionTest
 {
     private readonly Adres? _adres;
     protected readonly Fixture _fixture;
-    private readonly ElasticClient _elastic;
+    private readonly ElasticsearchClient _elastic;
     private readonly string _duplicateDetectionIndex;
     private readonly ITestOutputHelper _helper;
     protected ZoekDuplicateVerenigingenQuery DuplicateVerenigingenQuery;
+    private ElasticSearchOptionsSection _elasticSearchOptionsSection;
     public IReadOnlyCollection<DuplicateDetectionSeedLine> DubbelDetectieData { get; private set; }
     public IReadOnlyCollection<DuplicateDetectionSeedLine> VerwachteUnieke { get; private set; }
 
@@ -38,7 +39,7 @@ public class DuplicateDetectionTest
         _duplicateDetectionIndex = duplicateDetectionIndex;
         _helper = helper;
 
-        _elastic = ElasticSearchExtensions.CreateElasticClient(new ElasticSearchOptionsSection()
+        _elasticSearchOptionsSection = new ElasticSearchOptionsSection()
         {
             Uri = "http://localhost:9200",
             Username = "elastic",
@@ -47,7 +48,9 @@ public class DuplicateDetectionTest
             {
                 DuplicateDetection = _duplicateDetectionIndex,
             }
-        }, new TestOutputLogger(helper, duplicateDetectionIndex));
+        };
+
+        _elastic = ElasticSearchExtensions.CreateElasticClient(_elasticSearchOptionsSection, new TestOutputLogger(helper, duplicateDetectionIndex));
 
         _adres = _fixture.Create<Adres>() with
         {
@@ -77,10 +80,10 @@ public class DuplicateDetectionTest
 
         foreach (var doc in toRegisterDuplicateDetectionDocuments)
         {
-            await _elastic.IndexDocumentAsync(doc);
+            await _elastic.IndexAsync(doc);
         }
 
-        await _elastic.Indices.RefreshAsync(Indices.AllIndices);
+        await _elastic.Indices.RefreshAsync(Indices.All);
     }
 
     public static IReadOnlyCollection<DuplicateDetectionSeedLine> ReadSeed(
@@ -114,10 +117,10 @@ public class DuplicateDetectionTest
         if (_elastic.Indices.ExistsAsync(_duplicateDetectionIndex).GetAwaiter().GetResult().Exists)
             _elastic.Indices.DeleteAsync(_duplicateDetectionIndex).GetAwaiter().GetResult();
 
-        _elastic.Indices.CreateDuplicateDetectionIndex(_duplicateDetectionIndex);
+        await _elastic.CreateDuplicateDetectionIndexAsync(_duplicateDetectionIndex);
 
         DuplicateVerenigingenQuery = new ZoekDuplicateVerenigingenQuery(
-            _elastic, MinimumScore.Default, NullLogger<ZoekDuplicateVerenigingenQuery>.Instance);
+            _elastic,_elasticSearchOptionsSection, MinimumScore.Default, NullLogger<ZoekDuplicateVerenigingenQuery>.Instance);
 
         DubbelDetectieData =
             ReadSeed("AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_dubbels.csv");

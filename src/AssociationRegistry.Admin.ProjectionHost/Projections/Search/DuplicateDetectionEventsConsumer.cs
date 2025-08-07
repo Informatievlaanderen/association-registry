@@ -1,24 +1,24 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
 using DuplicateDetection;
-using Elasticsearch.Net;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
 using MartenDb.Subscriptions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Core.MGet;
 using Resources;
 using Schema.Search;
 
 public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
 {
 
-    private readonly IElasticClient _elasticClient;
+    private readonly ElasticsearchClient _elasticClient;
     private readonly DuplicateDetectionProjectionHandler _duplicateDetectionProjectionHandler;
     private readonly ElasticSearchOptionsSection _options;
     private readonly ILogger<DuplicateDetectionEventsConsumer> _logger;
 
     public DuplicateDetectionEventsConsumer(
-        IElasticClient elasticClient,
+        ElasticsearchClient elasticClient,
         DuplicateDetectionProjectionHandler duplicateDetectionProjectionHandler,
         ElasticSearchOptionsSection options,
         ILogger<DuplicateDetectionEventsConsumer> logger)
@@ -34,26 +34,32 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
         if (!eventList.Events.Any())
             return;
 
-        var multiGetResponse = await _elasticClient
-           .MultiGetAsync(m => m
-                              .Index(_options.Indices.DuplicateDetection)
-                              .GetMany<DuplicateDetectionDocument>(eventList.GroupedByVCode.Keys)
-            );
+        var keys = eventList.GroupedByVCode.Keys;
+
+        var multiGetRequest = new MultiGetRequest
+        {
+            Index = _options.Indices.DuplicateDetection,
+            Docs = keys.Select(key => new MultiGetOperation
+            {
+                Id = key
+            }).ToList()
+        };
+
+        var multiGetResponse = await _elasticClient.MultiGetAsync<DuplicateDetectionDocument>(multiGetRequest);
 
         var documentsPerVCode = new Dictionary<string, DuplicateDetectionDocument>();
 
         foreach (var vCode in eventList.GroupedByVCode.Keys)
         {
-            // Use the Hits collection and check the Source property
-            var hit = multiGetResponse.Hits.FirstOrDefault(h => h.Id == vCode);
+            var hit = multiGetResponse.Docs.FirstOrDefault(h => h.Value1?.Id == vCode);
 
-            if (hit != null && hit.Found && hit.Source is DuplicateDetectionDocument document)
+            if (hit != null && hit.Value1 != null && hit.Value1.Source is DuplicateDetectionDocument document)
             {
                 documentsPerVCode.Add(vCode, document);
             }
             else
             {
-                documentsPerVCode.Add(vCode, new DuplicateDetectionDocument { VCode = vCode });
+                documentsPerVCode.Add(vCode, new DuplicateDetectionDocument() { VCode = vCode });
             }
         }
 
@@ -120,11 +126,11 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                                                           .IndexMany(documents)
                                                           .Refresh(Refresh.WaitFor));
 
-        if (!response.IsValid && !response.ApiCall.Success)
+        if (!response.IsValidResponse)
         {
-            foreach (var error in response.ItemsWithErrors.Where(x => x.Error != null))
+            foreach (var item in response.Items.Where(i => i.Error is not null))
             {
-                _logger.LogError($"Failed to index document {error.Id}: {error.Error}");
+                _logger.LogError("Failed to index document {Id}: {Error}", item.Id, item.Error?.Reason);
             }
 
             return false;

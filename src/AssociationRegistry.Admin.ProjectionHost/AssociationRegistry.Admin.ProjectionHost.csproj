@@ -72,7 +72,7 @@
     <PackageReference Include="Marten.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
     <PackageReference Include="Microsoft.OpenApi" />
-    <PackageReference Include="NEST" />
+    <PackageReference Include="Elastic.Clients.Elasticsearch" />
     <PackageReference Include="NodaTime.Serialization.JsonNet" />
     <PackageReference Include="Polly" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" />

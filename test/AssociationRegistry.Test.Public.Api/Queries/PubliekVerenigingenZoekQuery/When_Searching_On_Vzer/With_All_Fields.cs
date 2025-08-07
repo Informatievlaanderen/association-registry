@@ -9,7 +9,9 @@ using AutoFixture;
 using Common.AutoFixture;
 using Fixtures;
 using FluentAssertions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Mapping;
+using Hosts.Configuration.ConfigurationBindings;
 using Xunit;
 
 public class SearchingOnDocumentTestsFixture : ElasticsearchClientFixture, IAsyncLifetime
@@ -33,7 +35,7 @@ public class SearchingOnDocumentTestsFixture : ElasticsearchClientFixture, IAsyn
     private VerenigingZoekDocument CreateFeitelijkeVerenigingDocument(Fixture fixture)
     {
         var doc = fixture.Create<VerenigingZoekDocument>();
-        doc.VCode = "V0001001"; // can stay fixed if inserted once
+        doc.VCode = "V0099001"; // can stay fixed if inserted once
         doc.Naam = "Feestcommittee Oudenaarde";
         doc.HoofdactiviteitenVerenigingsloket = [new() { Code = "BLA", Naam = "Buitengewoon Leuke Afkortingen" }];
         doc.Werkingsgebieden = [
@@ -62,15 +64,17 @@ public class SearchingOnDocumentTestsFixture : ElasticsearchClientFixture, IAsyn
 
 public class SearchingOnDocumentTests : IClassFixture<SearchingOnDocumentTestsFixture>
 {
-    private readonly IElasticClient _elasticClient;
-    private readonly ITypeMapping _typeMapping;
+    private readonly ElasticsearchClient _elasticClient;
+    private readonly TypeMapping _typeMapping;
     private readonly VerenigingZoekDocument _document;
+    private readonly ElasticSearchOptionsSection? _elasticClientOptions;
 
     public SearchingOnDocumentTests(SearchingOnDocumentTestsFixture fixture)
     {
         _elasticClient = fixture.ElasticClient;
         _typeMapping = fixture.TypeMapping;
         _document = fixture.Document;
+        _elasticClientOptions = fixture.ElasticSearchOptions;
     }
 
     [Fact]
@@ -104,14 +108,14 @@ public class SearchingOnDocumentTests : IClassFixture<SearchingOnDocumentTestsFi
     [Fact]
     public async Task Then_vereniging_is_found_by_vCode()
     {
-        var response = await ExecuteSearch("V0001001");
+        var response = await ExecuteSearch("V0099001");
         response.Documents.Should().ContainSingle(d => d.VCode == _document.VCode);
     }
 
     [Fact]
     public async Task Then_vereniging_is_not_found_by_partial_vCode()
     {
-        var response = await ExecuteSearch("00100");
+        var response = await ExecuteSearch("0990");
         response.Documents.Should().NotContain(d => d.VCode == _document.VCode);
     }
 
@@ -171,22 +175,22 @@ public class SearchingOnDocumentTests : IClassFixture<SearchingOnDocumentTestsFi
     [Fact]
     public async Task When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
-        var zoekQuery = new PubliekVerenigingenZoekQuery(_elasticClient, _typeMapping);
+        var zoekQuery = new PubliekVerenigingenZoekQuery(_elasticClient, _typeMapping, _elasticClientOptions);
         var response = await zoekQuery.ExecuteAsync(
-            new ("*", "vCode", [], new PaginationQueryParams()),
+            new ($"vCode:{_document.VCode}", "vCode", [], new PaginationQueryParams()),
             CancellationToken.None);
 
 
         response.Documents.Should().ContainSingle(d => d.VCode == _document.VCode);
         response.Aggregations.Should().NotBeNull();
 
-        var globalFacet = response.Aggregations.Filter(WellknownFacets.GlobalAggregateName);
+        var globalFacet = response.Aggregations.GetGlobal(WellknownFacets.GlobalAggregateName);
         globalFacet.Should().NotBeNull();
 
-        var globalFilter = globalFacet.Filter(WellknownFacets.FilterAggregateName);
+        var globalFilter = globalFacet.Aggregations.GetFilter(WellknownFacets.FilterAggregateName);
         globalFilter.Should().NotBeNull();
 
-        var hoofdActiviteitenFacet = globalFilter.Terms(WellknownFacets.HoofdactiviteitenCountAggregateName);
+        var hoofdActiviteitenFacet = globalFilter.Aggregations.GetStringTerms(WellknownFacets.HoofdactiviteitenCountAggregateName);
         hoofdActiviteitenFacet.Should().NotBeNull();
         hoofdActiviteitenFacet.Buckets.Should().HaveCount(1);
 
@@ -195,9 +199,9 @@ public class SearchingOnDocumentTests : IClassFixture<SearchingOnDocumentTestsFi
         blaBucket.DocCount.Should().Be(1);
     }
 
-    private async Task<ISearchResponse<VerenigingZoekDocument>> ExecuteSearch(string query)
+    private async Task<SearchResponse<VerenigingZoekDocument>> ExecuteSearch(string query)
     {
-        var zoekQuery = new PubliekVerenigingenZoekQuery(_elasticClient, _typeMapping);
+        var zoekQuery = new PubliekVerenigingenZoekQuery(_elasticClient, _typeMapping, _elasticClientOptions);
         return await zoekQuery.ExecuteAsync(
             new (query, "vCode", [], new PaginationQueryParams()),
             CancellationToken.None);

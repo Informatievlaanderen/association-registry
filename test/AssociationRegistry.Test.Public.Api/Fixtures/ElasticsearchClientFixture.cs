@@ -1,12 +1,16 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
 using AssociationRegistry.Public.Api;
+using AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.Schema.Search;
 using Framework.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Mapping;
+using Hosts.Configuration.ConfigurationBindings;
+using Microsoft.Extensions.Logging.Abstractions;
 using System.Reflection;
 using Xunit;
 
@@ -14,8 +18,9 @@ public abstract class ElasticsearchClientFixture : IAsyncLifetime, IDisposable
 {
     private readonly string _identifier;
     private readonly IConfigurationRoot _configurationRoot;
-    public IElasticClient? ElasticClient;
-    public ITypeMapping? TypeMapping;
+    public ElasticsearchClient? ElasticClient;
+    public TypeMapping? TypeMapping;
+    public ElasticSearchOptionsSection? ElasticSearchOptions;
 
     public string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
@@ -28,13 +33,14 @@ public abstract class ElasticsearchClientFixture : IAsyncLifetime, IDisposable
 
     public async ValueTask InitializeAsync()
     {
-        ElasticClient = CreateElasticClient(_configurationRoot);
+        ElasticSearchOptions = _configurationRoot.GetSection(ElasticSearchOptionsSection.SectionName).Get<ElasticSearchOptionsSection>();
+        ElasticClient = CreateElasticClient(ElasticSearchOptions);
 
         await WaitFor.ElasticSearchToBecomeAvailable(ElasticClient,
                                                      LoggerFactory.Create(opt => opt.AddConsole())
                                                                   .CreateLogger("waitForElasticSearchTestLogger"));
 
-        ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
+        await ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
 
         await InsertDocuments();
 
@@ -47,37 +53,40 @@ public abstract class ElasticsearchClientFixture : IAsyncLifetime, IDisposable
 
     public async Task IndexDocument(VerenigingZoekDocument document)
     {
-        var indexResponse = await ElasticClient!.IndexDocumentAsync(document);
-
-        if (!indexResponse.IsValid)
-            throw new Exception($"Indexing failed: {indexResponse.DebugInformation}");
+        var resp = await ElasticClient!.IndexAsync(document, d => d
+                                                                 .Index(VerenigingenIndexName)         // be explicit about the index/alias
+                                                                 .Id(document.VCode)                   // <- deterministic id
+                                                                 .Refresh(Refresh.WaitFor));           // helpful in tests
+        if (!resp.IsValidResponse)
+            throw new Exception($"Indexing failed: {resp.DebugInformation}");
     }
 
-    private IElasticClient CreateElasticClient(IConfiguration configurationRoot)
+    private ElasticsearchClient CreateElasticClient(ElasticSearchOptionsSection options)
     {
-        var settings = new ConnectionSettings(new Uri(configurationRoot["ElasticClientOptions:Uri"]))
-                      .BasicAuthentication(
-                           configurationRoot["ElasticClientOptions:Username"],
-                           configurationRoot["ElasticClientOptions:Password"])
-                      .DefaultMappingFor(
-                           typeof(VerenigingZoekDocument),
-                           selector: descriptor => descriptor.IndexName(VerenigingenIndexName))
-                      .EnableDebugMode();
-
-        return new ElasticClient(settings);
+        return ElasticSearchExtensions.CreateElasticClient(options, NullLogger.Instance);
+        // var settings = new ConnectionSettings(new Uri(configurationRoot["ElasticClientOptions:Uri"]))
+        //               .BasicAuthentication(
+        //                    configurationRoot["ElasticClientOptions:Username"],
+        //                    configurationRoot["ElasticClientOptions:Password"])
+        //               .DefaultMappingFor(
+        //                    typeof(VerenigingZoekDocument),
+        //                    selector: descriptor => descriptor.IndexName(VerenigingenIndexName))
+        //               .EnableDebugMode();
+        //
+        // return new ElasticClient(settings);
     }
 
-    private void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
+    private async Task ConfigureElasticClient(ElasticsearchClient client, string verenigingenIndexName)
     {
-        if (client.Indices.Exists(verenigingenIndexName).Exists)
-            client.Indices.Delete(verenigingenIndexName);
+        if ((await client.Indices.ExistsAsync(verenigingenIndexName)).Exists)
+            await client.Indices.DeleteAsync(verenigingenIndexName);
 
-        client.Indices.CreateVerenigingIndex(verenigingenIndexName);
-        var index = ElasticClient.Indices.Get(Indices.Index<VerenigingZoekDocument>()).Indices.First();
+        await client.CreateVerenigingIndexAsync(verenigingenIndexName);
+        var index = (await ElasticClient.Indices.GetAsync(Indices.Index<VerenigingZoekDocument>())).Indices.First();
 
         TypeMapping = index.Value.Mappings;
 
-        client.Indices.Refresh(Indices.All);
+        await client.Indices.RefreshAsync(Indices.All);
     }
 
     private IConfigurationRoot GetConfiguration()

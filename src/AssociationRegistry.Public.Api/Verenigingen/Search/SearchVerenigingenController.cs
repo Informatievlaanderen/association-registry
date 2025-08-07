@@ -11,7 +11,7 @@ using Infrastructure.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Queries;
 using RequestModels;
 using ResponseExamples;
@@ -140,20 +140,17 @@ public class SearchVerenigingenController : ApiController
         q ??= "*";
         var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();
 
-
         var searchResponse =
             await query.ExecuteAsync(new PubliekVerenigingenZoekFilter(q, sort, hoofdActiviteitenArray, paginationQueryParams),
                                      cancellationToken);
 
-        if (searchResponse.ApiCall.HttpStatusCode == 400)
+        if (searchResponse.ApiCallDetails.HttpStatusCode == 400)
             return MapBadRequest(logger, searchResponse);
 
-        if (!searchResponse.IsValid)
+        if (!searchResponse.IsValidResponse)
         {
-            logger.LogWarning("An exception occurred while trying to search: {Info}", searchResponse.DebugInformation);
-            logger.LogError(searchResponse.OriginalException, searchResponse.DebugInformation);
-
-            throw searchResponse.OriginalException;
+            logger.LogError("Elasticsearch returned an invalid response: {Debug}", searchResponse.DebugInformation);
+            throw new Exception("Elasticsearch returned an invalid response.");
         }
 
         var responseMapper = new SearchVerenigingenResponseMapper(appsettings, logger, version);
@@ -162,12 +159,15 @@ public class SearchVerenigingenController : ApiController
         return Ok(response);
     }
 
-    private IActionResult MapBadRequest(ILogger logger, ISearchResponse<VerenigingZoekDocument> searchResponse)
+    private IActionResult MapBadRequest(ILogger logger, SearchResponse<VerenigingZoekDocument> searchResponse)
     {
-        var match = Regex.Match(searchResponse.ServerError.Error.RootCause.First().Reason,
-                                pattern: @"No mapping found for \[(.*).keyword\] in order to sort on");
+        var debugInfo = searchResponse.DebugInformation;
 
-        logger.LogError(searchResponse.OriginalException, message: "Fout bij het aanroepen van ElasticSearch");
+        var match = Regex.Match(debugInfo,
+                                pattern: @"No mapping found for \[(.*?)(?:\.keyword)?\] in order to sort on",
+                                RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+        logger.LogError("Fout bij het aanroepen van ElasticSearch: {DebugInformation}", debugInfo);
 
         if (match.Success)
             throw new ZoekOpdrachtBevatOnbekendeSorteerVelden(match.Groups[1].Value);

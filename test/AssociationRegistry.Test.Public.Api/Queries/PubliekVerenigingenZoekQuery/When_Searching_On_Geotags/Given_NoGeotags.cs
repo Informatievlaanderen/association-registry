@@ -8,7 +8,8 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Fixtures;
 using FluentAssertions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration.ConfigurationBindings;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
@@ -24,13 +25,15 @@ public class Given_NoGeotags: IClassFixture<Given_NoGeotagsFixture>, IDisposable
 {
     private readonly Given_NoGeotagsFixture _fixture;
     private readonly ITestOutputHelper _helper;
-    private readonly IElasticClient? _elasticClient;
+    private readonly ElasticsearchClient? _elasticClient;
+    private readonly ElasticSearchOptionsSection _elasticClientOptions;
 
     public Given_NoGeotags(Given_NoGeotagsFixture fixture, ITestOutputHelper helper)
     {
         _fixture = fixture;
         _helper = helper;
         _elasticClient = fixture.ElasticClient;
+        _elasticClientOptions = fixture.ElasticSearchOptions;
     }
 
     [Fact]
@@ -47,10 +50,10 @@ public class Given_NoGeotags: IClassFixture<Given_NoGeotagsFixture>, IDisposable
         verenigingZoekDocument.Status = VerenigingStatus.Actief;
         verenigingZoekDocument.Geotags = [];
 
-        await _elasticClient.IndexDocumentAsync(verenigingZoekDocument);
+        await _elasticClient.IndexAsync(verenigingZoekDocument);
         await _elasticClient.Indices.RefreshAsync(Indices.All);
 
-        var query = new PubliekVerenigingenZoekQuery(_elasticClient, typeMapping);
+        var query = new PubliekVerenigingenZoekQuery(_elasticClient, typeMapping, _elasticClientOptions);
 
         var actual = await query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"vCode:{verenigingZoekDocument.VCode}", "vCode", [], new PaginationQueryParams()),
                                               CancellationToken.None);

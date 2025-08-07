@@ -1,140 +1,182 @@
 namespace AssociationRegistry.Public.Api.Queries;
 
 using Constants;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Aggregations;
+using Elastic.Clients.Elasticsearch.Fluent;
+using Elastic.Clients.Elasticsearch.Mapping;
+using Elastic.Clients.Elasticsearch.QueryDsl;
 using Framework;
-using Nest;
+using Hosts.Configuration.ConfigurationBindings;
 using Schema;
 using Schema.Search;
 using System.Text;
 using System.Text.RegularExpressions;
 using Vereniging;
-
 using Verenigingen.Search;
 using Verenigingen.Search.RequestModels;
-using VerenigingStatus = Schema.Constants.VerenigingStatus;
+using static Elastic.Clients.Elasticsearch.QueryDsl.Query;
 
-public interface IPubliekVerenigingenZoekQuery : IQuery<ISearchResponse<VerenigingZoekDocument>, PubliekVerenigingenZoekFilter>;
+public interface IPubliekVerenigingenZoekQuery : IQuery<SearchResponse<VerenigingZoekDocument>, PubliekVerenigingenZoekFilter>;
 
 public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
 {
-    private readonly IElasticClient _client;
-    private readonly ITypeMapping _typeMapping;
+    private readonly ElasticsearchClient _client;
+    private readonly TypeMapping _typeMapping;
+    private readonly ElasticSearchOptionsSection _elasticSearchOptionsSection;
 
-    private static readonly Func<SortDescriptor<VerenigingZoekDocument>, SortDescriptor<VerenigingZoekDocument>> DefaultSort =
-        x => x.Descending(v => v.VCode);
-
-    public PubliekVerenigingenZoekQuery(IElasticClient client, ITypeMapping typeMapping)
+    public PubliekVerenigingenZoekQuery(ElasticsearchClient client, TypeMapping typeMapping, ElasticSearchOptionsSection elasticSearchOptionsSection)
     {
         _client = client;
         _typeMapping = typeMapping;
+        _elasticSearchOptionsSection = elasticSearchOptionsSection;
     }
 
-
-    public async Task<ISearchResponse<VerenigingZoekDocument>> ExecuteAsync(PubliekVerenigingenZoekFilter filter, CancellationToken cancellationToken)
-        => await _client.SearchAsync<VerenigingZoekDocument>(
-            s =>
-            {
-                return s
-                      .From(filter.PaginationQueryParams.Offset)
-                      .Size(filter.PaginationQueryParams.Limit)
-                      .ParseSort(filter.Sort, DefaultSort, _typeMapping)
-                      .Query(query => MainQuery(filter, query)
-                       )
-                      .Aggregations(
-                           agg =>
-                               GlobalAggregation(
-                                   agg,
-                                   aggregations: agg2 =>
-                                       QueryFilterAggregation(
-                                           agg2,
-                                           filter.Query,
-                                           HoofdactiviteitCountAggregation
-                                       )
-                               )
-                       )
-                      .TrackTotalHits();
-            }, cancellationToken);
-
-    public static QueryContainer MainQuery(PubliekVerenigingenZoekFilter filter, QueryContainerDescriptor<VerenigingZoekDocument> query)
+    public async Task<SearchResponse<VerenigingZoekDocument>> ExecuteAsync(
+        PubliekVerenigingenZoekFilter filter,
+        CancellationToken cancellationToken)
     {
-        return query
-           .Bool(boolQueryDescriptor => boolQueryDescriptor
-                                       .Must(queryContainerDescriptor
-                                                 => MatchQueryString(
-                                                     queryContainerDescriptor,
-                                                     $"{filter.Query}{BuildHoofdActiviteiten(filter.Hoofdactiviteiten)}"),
-                                             BeActief
-                                        )
-                                       .MustNot(
-                                            BeUitgeschrevenUitPubliekeDatastroom,
-                                            BeRemoved,
-                                            BeDubbel)
+        var response = await _client.SearchAsync<VerenigingZoekDocument>(s =>
+                                                                             s
+                                                                                .Indices(_elasticSearchOptionsSection.Indices.Verenigingen)
+                                                                                .From(filter.PaginationQueryParams.Offset)
+                                                                                .Size(filter.PaginationQueryParams.Limit)
+                                                                                .Query(MainQuery(filter))
+                                                                                .Sort(ParseSort(filter.Sort))
+                                                                                .Aggregations(Aggregation(filter))
+                                                                                .TrackTotalHits(true),
+                                                                         cancellationToken);
+
+        return response;
+    }
+
+    private static Action<FluentDictionaryOfStringAggregation<VerenigingZoekDocument>>? Aggregation(PubliekVerenigingenZoekFilter filter)
+    {
+        return agg => agg
+           .Add(WellknownFacets.GlobalAggregateName, global => global
+                                                              .Global()
+                                                              .Aggregations(agg2 => agg2
+                                                                               .Add(WellknownFacets.FilterAggregateName, f => f
+                                                                                       .Filter(f => f
+                                                                                           .Bool(b => b
+                                                                                               .Must(
+                                                                                                    MatchQueryString(
+                                                                                                        filter.Query),
+                                                                                                    BeActief()
+                                                                                                )
+                                                                                               .MustNot(
+                                                                                                    BeUitgeschrevenUitPubliekeDatastroom(),
+                                                                                                    BeRemoved(),
+                                                                                                    BeDubbel()
+                                                                                                )
+                                                                                            )
+                                                                                        )
+                                                                                       .Aggregations(agg3 => agg3
+                                                                                           .Add(
+                                                                                                WellknownFacets
+                                                                                                   .HoofdactiviteitenCountAggregateName,
+                                                                                                terms => terms
+                                                                                                   .Terms(t => t
+                                                                                                       .Field(
+                                                                                                            "hoofdactiviteitenVerenigingsloket.code.keyword")
+                                                                                                       .Size(
+                                                                                                            AssociationRegistry
+                                                                                                               .Vereniging
+                                                                                                               .HoofdactiviteitVerenigingsloket
+                                                                                                               .HoofdactiviteitenVerenigingsloketCount)
+                                                                                                    )
+                                                                                            )
+                                                                                        )
+                                                                                )
+                                                               )
             );
     }
 
-    private static IAggregationContainer GlobalAggregation<T>(
-        AggregationContainerDescriptor<T> agg,
-        Func<AggregationContainerDescriptor<T>, AggregationContainerDescriptor<T>> aggregations) where T : class
+    public static Query MainQuery(PubliekVerenigingenZoekFilter filter)
     {
-        agg.Global(
-            WellknownFacets.GlobalAggregateName,
-            selector: d => d.Aggregations(
-                aggregations
-            )
-        );
-
-        return agg;
+        return new BoolQuery
+        {
+            Must = new List<Query>
+            {
+                MatchQueryString($"{filter.Query}{BuildHoofdActiviteiten(filter.Hoofdactiviteiten)}"),
+                BeActief()
+            },
+            MustNot = new List<Query>
+            {
+                BeUitgeschrevenUitPubliekeDatastroom(),
+                BeRemoved(),
+                BeDubbel()
+            }
+        };
     }
 
-    private static AggregationContainerDescriptor<T> QueryFilterAggregation<T>(
-        AggregationContainerDescriptor<T> aggregationContainerDescriptor,
-        string query,
-        Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations)
-        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable, IIsDubbel
+    private static AggregationDescriptor<VerenigingZoekDocument> BuildPubliekFacetsAggregation(PubliekVerenigingenZoekFilter filter)
     {
-        return aggregationContainerDescriptor.Filter(
-            WellknownFacets.FilterAggregateName,
-            selector: aggregationDescriptor =>
-                aggregationDescriptor
-                   .Filter(containerDescriptor =>
-                               containerDescriptor
-                                  .Bool(queryDescriptor =>
-                                            queryDescriptor
-                                               .Must(m =>
-                                                         MatchQueryString(m, query),
-                                                     BeActief
-                                                )
-                                               .MustNot(
-                                                    BeUitgeschrevenUitPubliekeDatastroom,
-                                                    BeRemoved,
-                                                    BeDubbel)
-                                   )
-                    )
-                   .Aggregations(aggregations)
-        );
+        return new AggregationDescriptor<VerenigingZoekDocument>()
+           .AddAggregation(WellknownFacets.GlobalAggregateName, global => global
+                                                                         .Global()
+                                                                         .Aggregations(agg2 => agg2
+                                                                                          .Add(WellknownFacets.FilterAggregateName, f => f
+                                                                                              .Filter(fq => fq
+                                                                                                  .Bool(b => b
+                                                                                                      .Must(
+                                                                                                           MatchQueryString(
+                                                                                                               filter
+                                                                                                                  .Query),
+                                                                                                           BeActief()
+                                                                                                       )
+                                                                                                      .MustNot(
+                                                                                                           BeUitgeschrevenUitPubliekeDatastroom(),
+                                                                                                           BeRemoved(),
+                                                                                                           BeDubbel()
+                                                                                                       )
+                                                                                                   )
+                                                                                               )
+                                                                                              .Aggregations(agg3 => agg3
+                                                                                                  .Add(
+                                                                                                       WellknownFacets
+                                                                                                          .HoofdactiviteitenCountAggregateName,
+                                                                                                       terms => terms
+                                                                                                          .Terms(t => t
+                                                                                                              .Field(
+                                                                                                                   "hoofdactiviteitenVerenigingsloket.code.keyword")
+                                                                                                              .Size(
+                                                                                                                   AssociationRegistry
+                                                                                                                      .Vereniging
+                                                                                                                      .HoofdactiviteitVerenigingsloket
+                                                                                                                      .HoofdactiviteitenVerenigingsloketCount)
+                                                                                                           )
+                                                                                                   )
+                                                                                               )
+                                                                                           )
+                                                                          )
+            );
     }
 
-    private static QueryContainer MatchQueryString<T>(QueryContainerDescriptor<T> m, string query)
-        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom
+    private static Query MatchQueryString(string query)
     {
-        return m.QueryString(
-            qs =>
-                qs.Query(query).Analyzer(VerenigingZoekDocumentMapping.PubliekZoekenAnalyzer)
-        );
+        return new QueryStringQuery
+        {
+            Query = query,
+            Analyzer = VerenigingZoekDocumentMapping.PubliekZoekenAnalyzer
+        };
     }
 
-    private static AggregationContainerDescriptor<VerenigingZoekDocument> HoofdactiviteitCountAggregation(
-        AggregationContainerDescriptor<VerenigingZoekDocument> aggregationContainerDescriptor)
+    private List<SortOptions> ParseSort(string? sortFilter)
     {
-        return aggregationContainerDescriptor.Terms(
-            WellknownFacets.HoofdactiviteitenCountAggregateName,
-            selector: valueCountAggregationDescriptor => valueCountAggregationDescriptor
-                                                        .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(
-                                                                   h => h.Code).Suffix("keyword")
-                                                         )
-                                                        .Size(size: AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket
-                                                                                       .HoofdactiviteitenVerenigingsloketCount)
-        );
+        var sort = SearchVerenigingenExtensions.ParseSort(
+            sortFilter,
+            new List<SortOptions> {
+                new SortOptions {
+                    Field = new FieldSort {
+                        Field = "vCode",
+                        Order = SortOrder.Desc,
+                    }
+                }
+            },
+            _typeMapping);
+
+        return sort;
     }
 
     private static string BuildHoofdActiviteiten(IReadOnlyCollection<string> hoofdactiviteiten)
@@ -142,45 +184,40 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
         if (hoofdactiviteiten.Count == 0)
             return string.Empty;
 
-        var builder = new StringBuilder();
-        builder.Append(" AND (");
+        var builder = new StringBuilder(" AND (");
 
-        foreach (var (hoofdactiviteit, index) in hoofdactiviteiten.Select((item, index) => (item, index)))
+        for (int i = 0; i < hoofdactiviteiten.Count; i++)
         {
-            builder.Append($"hoofdactiviteitenVerenigingsloket.code:{hoofdactiviteit}");
+            builder.Append($"hoofdactiviteitenVerenigingsloket.code:{hoofdactiviteiten.ElementAt(i)}");
 
-            if (index < hoofdactiviteiten.Count - 1)
+            if (i < hoofdactiviteiten.Count - 1)
                 builder.Append(" OR ");
         }
 
-        builder.Append(value: ')');
+        builder.Append(')');
 
         return builder.ToString();
     }
 
-    private static QueryContainer BeUitgeschrevenUitPubliekeDatastroom<T>(QueryContainerDescriptor<T> q)
-        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom
-    {
-        return q.Term(field: arg => arg.IsUitgeschrevenUitPubliekeDatastroom, value: true);
-    }
+    private static Query BeUitgeschrevenUitPubliekeDatastroom()
+        => TermQuery("isUitgeschrevenUitPubliekeDatastroom", true);
 
-    private static QueryContainer BeActief<T>(QueryContainerDescriptor<T> q)
-        where T : class, IHasStatus
-    {
-        return q.Term(field: arg => arg.Status, VerenigingStatus.Actief);
-    }
+    private static Query BeRemoved()
+        => TermQuery("isVerwijderd", true);
 
-    private static QueryContainer BeRemoved<T>(QueryContainerDescriptor<T> q)
-        where T : class, IDeletable
-    {
-        return q.Term(field: arg => arg.IsVerwijderd, value: true);
-    }
+    private static Query BeDubbel()
+        => TermQuery("isDubbel", true);
 
-    private static QueryContainer BeDubbel<T>(QueryContainerDescriptor<T> q)
-        where T : class, IIsDubbel
-    {
-        return q.Term(field: arg => arg.IsDubbel, value: true);
-    }
+    private static Query BeActief()
+        => TermQuery("status", Schema.Constants.VerenigingStatus.Actief);
+
+
+    private static TermQuery TermQuery<T>(string field, T value) where T : notnull
+        => new TermQuery
+        {
+            Field = field,
+            Value = FieldValue.FromValue(value)
+        };
 }
 
 public record PubliekVerenigingenZoekFilter
@@ -190,7 +227,11 @@ public record PubliekVerenigingenZoekFilter
     public string[] Hoofdactiviteiten { get; }
     public PaginationQueryParams PaginationQueryParams { get; }
 
-    public PubliekVerenigingenZoekFilter(string query, string? sort, string[] hoofdactiviteiten, PaginationQueryParams paginationQueryParams)
+    public PubliekVerenigingenZoekFilter(
+        string query,
+        string? sort,
+        string[] hoofdactiviteiten,
+        PaginationQueryParams paginationQueryParams)
     {
         Query = ReplaceVerenigingstype(query);
         Sort = sort;
@@ -198,11 +239,12 @@ public record PubliekVerenigingenZoekFilter
         PaginationQueryParams = paginationQueryParams;
     }
 
-    private string? ReplaceVerenigingstype(string query)
+    private string ReplaceVerenigingstype(string query)
     {
-        var replacement = $"(verenigingstype.code:{Verenigingstype.VZER.Code} OR verenigingstype.code:{Verenigingstype.FeitelijkeVereniging.Code})";
+        var replacement =
+            $"(verenigingstype.code:{Verenigingstype.VZER.Code} OR verenigingstype.code:{Verenigingstype.FeitelijkeVereniging.Code})";
 
-        var pattern = $@"\bverenigingstype.code\s*:\s*({Verenigingstype.VZER.Code}|{Verenigingstype.FeitelijkeVereniging.Code})\b"; // Capture any value after type:
+        var pattern = $@"\bverenigingstype.code\s*:\s*({Verenigingstype.VZER.Code}|{Verenigingstype.FeitelijkeVereniging.Code})\b";
 
         return Regex.Replace(query, pattern, replacement, RegexOptions.IgnoreCase);
     }
