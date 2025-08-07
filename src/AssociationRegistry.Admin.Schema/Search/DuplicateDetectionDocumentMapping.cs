@@ -1,84 +1,62 @@
 namespace AssociationRegistry.Admin.Schema.Search;
 
-using Nest;
+using Elastic.Clients.Elasticsearch.Mapping;
+using System.Collections.Generic;
 
 public static class DuplicateDetectionDocumentMapping
 {
-    public const string DuplicateMunicipalityAnalyzer = "duplicate_mmunicipality_analyzer";
+    public const string DuplicateMunicipalityAnalyzer = "duplicate_municipality_analyzer";
     public const string DuplicateAnalyzer = "duplicate_analyzer";
     public const string DuplicateFullNameAnalyzer = "duplicate_fullname_analyzer";
 
-    public static TypeMappingDescriptor<DuplicateDetectionDocument> Get(TypeMappingDescriptor<DuplicateDetectionDocument> map)
-        => map
-           .Properties(
-                descriptor => descriptor
-                             .Keyword(
-                                  propertyDescriptor => propertyDescriptor
-                                     .Name(document => document.VCode))
-                             .Text(
-                                  propertyDescriptor => propertyDescriptor
-                                       .Name(document => document.Naam)
-                                                       .WithKeyword(DuplicateAnalyzer)
-                                       .Fields(fields => fields
-                                                        .Text(subField => subField
-                                                                         .Name("naam")
-                                                                         .Analyzer(DuplicateAnalyzer)
-                                                         ).Text(subField => subField
-                                                                         .Name("naamexact")
-                                                                         .Analyzer(DuplicateFullNameAnalyzer)
-                                                         )))
-                             .Text(propertyDescriptor => propertyDescriptor
-                                      .Name(document => document.KorteNaam)
-                              )
-                             .Text(propertyDescriptor => propertyDescriptor
-                                      .Name(document => document.VerenigingsTypeCode)
-                              )
-                             .Text(propertyDescriptor => propertyDescriptor
-                                      .Name(document => document.VerenigingssubtypeCode)
-                              )
-                             .Text(propertyDescriptor => propertyDescriptor
-                                      .Name(document => document.HoofdactiviteitVerenigingsloket))
-                             .Boolean(
-                                  propertyDescriptor => propertyDescriptor
-                                     .Name(document => document.IsGestopt))
-                             .Boolean(
-                                  propertyDescriptor => propertyDescriptor
-                                     .Name(document => document.IsVerwijderd))
-                             .Boolean(
-                                  propertyDescriptor => propertyDescriptor
-                                     .Name(document => document.IsDubbel))
-                             .Nested<DuplicateDetectionDocument.Locatie>(
-                                  propertyDescriptor => propertyDescriptor
-                                                       .Name(document => document.Locaties)
-                                                       .IncludeInRoot()
-                                                       .Properties(LocationMapping.Get))
-            );
+    public static TypeMapping Get()
+        => new TypeMapping
+        {
+            Properties = new Properties
+            {
+                ["vCode"] = new KeywordProperty(),
+                ["naam"] = new TextProperty
+                {
+                    Fields = new Properties
+                    {
+                        ["naam"] = new TextProperty
+                        {
+                            Analyzer = DuplicateAnalyzer
+                        },
+                        ["naamexact"] = new TextProperty
+                        {
+                            Analyzer = DuplicateFullNameAnalyzer
+                        }
+                    },
+                    Analyzer = DuplicateAnalyzer
+                },
+                ["korteNaam"] = new TextProperty(),
+                ["verenigingsTypeCode"] = new TextProperty(),
+                ["verenigingssubtypeCode"] = new TextProperty(),
+                ["hoofdactiviteitVerenigingsloket"] = new TextProperty(),
+                ["isGestopt"] = new BooleanProperty(),
+                ["isVerwijderd"] = new BooleanProperty(),
+                ["isDubbel"] = new BooleanProperty(),
+                ["locaties"] = new NestedProperty
+                {
+                    IncludeInRoot = true,
+                    Properties = GetLocatieMapping()
+                }
+            }
+        };
 
-    private static class LocationMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<DuplicateDetectionDocument.Locatie> map)
-            => map
-              .Text(
-                   descriptor => descriptor
-                      .Name(document => document.LocatieId))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Naam))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Adresvoorstelling))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.IsPrimair))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Locatietype))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Postcode))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.Gemeente)
-                                        .Analyzer(DuplicateMunicipalityAnalyzer));
-    }
+    private static Properties GetLocatieMapping()
+        => new Properties
+        {
+            ["locatieId"] = new TextProperty(),
+            ["naam"] = new TextProperty(),
+            ["adresvoorstelling"] = new TextProperty(),
+            ["isPrimair"] = new BooleanProperty(),
+            ["locatietype"] = new TextProperty(),
+            ["postcode"] = new TextProperty(),
+            ["gemeente"] = new TextProperty
+            {
+                Analyzer = DuplicateMunicipalityAnalyzer
+            }
+        };
 }

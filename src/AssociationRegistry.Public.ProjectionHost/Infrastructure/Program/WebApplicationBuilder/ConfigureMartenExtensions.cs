@@ -17,7 +17,7 @@ using MartenDb.PubliekZoeken;
 using MartenDb.Setup;
 using MartenDb.Subscriptions;
 using MartenDb.Upcasters;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -38,7 +38,7 @@ public static class ConfigureMartenExtensions
             var opts = new StoreOptions();
 
             return ConfigureStoreOptions(opts,
-                                         serviceProvider.GetRequiredService<IElasticClient>(),
+                                         serviceProvider.GetRequiredService<ElasticsearchClient>(),
                                          serviceProvider.GetRequiredService<ILogger<PubliekZoekenEventsConsumer>>(),
                                          serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
                                          configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
@@ -67,7 +67,7 @@ public static class ConfigureMartenExtensions
 
     public static StoreOptions ConfigureStoreOptions(
         StoreOptions opts,
-        IElasticClient elasticClient,
+        ElasticsearchClient elasticClient,
         ILogger<PubliekZoekenEventsConsumer> publiekZoekenEventsConsumerLogger,
         ILogger<MartenSubscription> martenSubscriptionLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,

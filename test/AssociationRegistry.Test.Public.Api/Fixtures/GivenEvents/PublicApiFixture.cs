@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using NodaTime;
 using Npgsql;
 using Oakton;
@@ -29,8 +29,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private readonly WebApplicationFactory<PublicApiProgram> _publicApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
 
-    public IElasticClient ElasticClient
-        => (IElasticClient)_publicApiServer.Services.GetRequiredService(typeof(ElasticClient));
+    public ElasticsearchClient ElasticClient
+        => (ElasticsearchClient)_publicApiServer.Services.GetRequiredService(typeof(ElasticsearchClient));
 
     protected IDocumentStore ProjectionsDocumentStore
         => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
@@ -83,7 +83,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                     builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
-        ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
+        ConfigureElasticClient(ElasticClient, VerenigingenIndexName).GetAwaiter().GetResult();
     }
 
     private IConfigurationRoot GetConfiguration()
@@ -161,18 +161,18 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         sequencesPerProjection.Should().AllSatisfy(x => x.Value.Should().BeGreaterThanOrEqualTo(MaxSequence, $"Because we want projection {x.Key} to be up to date"));
 
-        await ElasticClient.Indices.ForceMergeAsync(Indices.AllIndices, fm => fm
+        await ElasticClient.Indices.ForcemergeAsync(Indices.All, fm => fm
                                                  .MaxNumSegments(1));
     }
 
-    private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
+    private static async Task ConfigureElasticClient(ElasticsearchClient client, string verenigingenIndexName)
     {
-        if (client.Indices.Exists(verenigingenIndexName).Exists)
-            client.Indices.Delete(verenigingenIndexName);
+        if ((await client.Indices.ExistsAsync(verenigingenIndexName)).Exists)
+            await client.Indices.DeleteAsync(verenigingenIndexName);
 
-        client.Indices.CreateVerenigingIndex(verenigingenIndexName);
+        await client.CreateVerenigingIndexAsync(verenigingenIndexName);
 
-        client.Indices.Refresh(Indices.All);
+        await client.Indices.RefreshAsync(Indices.All);
     }
 
     private static void CreateDatabase(IConfiguration configuration)

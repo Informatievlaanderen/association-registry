@@ -6,7 +6,7 @@ using AssociationRegistry.Admin.Schema.Search;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Vereniging;
 using Xunit;
 
@@ -14,7 +14,7 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
 {
     private readonly Bugfix_RoepnaamNaGeotagsAnalyzerFixture _fixture;
     private readonly ITestOutputHelper _helper;
-    private readonly IElasticClient? _elasticClient;
+    private readonly ElasticsearchClient? _elasticClient;
     private readonly Fixture _autoFixture;
 
     private readonly BeheerVerenigingenZoekQuery _query;
@@ -27,7 +27,7 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
         _elasticClient = fixture.ElasticClient;
         _autoFixture = new Fixture().CustomizeAdminApi();
 
-        _query = new BeheerVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping);
+        _query = new BeheerVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping, fixture.ElasticSearchOptions);
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
             Status = VerenigingStatus.Actief.StatusNaam,
         };
 
-        await _elasticClient!.IndexDocumentAsync(verenigingZoekDocument);
+        await _elasticClient!.IndexAsync(verenigingZoekDocument);
         await _elasticClient.Indices.RefreshAsync(Indices.All);
 
         var searchResponse = await _query.ExecuteAsync(new BeheerVerenigingenZoekFilter($"*", null, new PaginationQueryParams()), CancellationToken.None);

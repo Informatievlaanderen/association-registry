@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Hosts;
 
 using Microsoft.Extensions.Logging;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Npgsql;
 using System.Diagnostics;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
@@ -22,14 +22,15 @@ public static class WaitFor
     public static Task PostGreSQLToBecomeAvailable(ILogger logger, string connectionString, CancellationToken cancellationToken = default)
         => Wait(logger, waitAction: () => TryProbePostgres(connectionString), serviceName: "PostgreSQL", maxRetryCount: 5, cancellationToken);
 
-    public static Task ElasticSearchToBecomeAvailable(IElasticClient client, ILogger logger, int maxRetryCount = 5, CancellationToken cancellationToken = default)
+    public static Task ElasticSearchToBecomeAvailable(ElasticsearchClient client, ILogger logger, int maxRetryCount = 5, CancellationToken cancellationToken = default)
         => Wait(
             logger,
             waitAction: async () =>
             {
-                var response = await client.PingAsync(ct: cancellationToken);
+                var p = await client.InfoAsync();
+                var response = await client.PingAsync(cancellationToken: cancellationToken);
 
-                if (!response.IsValid)
+                if (!response.IsValidResponse)
                     throw new Exception($"Could not Ping to ES: {response.DebugInformation}");
             },
             serviceName: "ElasticSearch", maxRetryCount,

@@ -1,343 +1,360 @@
 namespace AssociationRegistry.Public.Schema.Search;
 
-using Detail;
-using Nest;
+using Elastic.Clients.Elasticsearch.Mapping;
 
 public static class VerenigingZoekDocumentMapping
 {
     public const string PubliekZoekenNormalizer = "publiek_zoeken_normalizer";
     public const string PubliekZoekenAnalyzer = "publiek_zoeken_analyzer";
 
-    public static TypeMappingDescriptor<VerenigingZoekDocument> Get(TypeMappingDescriptor<VerenigingZoekDocument> map)
-        => map.Properties(
-            descriptor => descriptor
-                         .Keyword(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.VCode)
-                                                   .Normalizer(PubliekZoekenNormalizer))
-                         .Text(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Naam)
-                                                   .WithKeyword(PubliekZoekenNormalizer)
-                                                   .Analyzer(PubliekZoekenAnalyzer))
-                         .Text(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.JsonLdMetadataType)
-                                                   .WithKeyword(PubliekZoekenNormalizer)
-                                                   .Analyzer(PubliekZoekenAnalyzer))
-                         .Text(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Roepnaam)
-                                                   .WithKeyword(PubliekZoekenNormalizer)
-                                                   .Analyzer(PubliekZoekenAnalyzer))
-                         .Text(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.KorteNaam)
-                                                   .WithKeyword(PubliekZoekenNormalizer)
-                                                   .Analyzer(PubliekZoekenAnalyzer))
-                         .Text(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.KorteBeschrijving)
-                                                   .WithKeyword(PubliekZoekenNormalizer)
-                                                   .Analyzer(PubliekZoekenAnalyzer))
-                         .Keyword(
-                              propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.Status))
-                         .Boolean(
-                              propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
-                         .Boolean(
-                              propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.IsVerwijderd))
-                         .Nested<VerenigingZoekDocument.Types.Verenigingstype>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Verenigingstype)
-                                                   .IncludeInRoot()
-                                                   .Properties(VerenigingsTypeMapping.Get))
-                         .Nested<Doelgroep>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Doelgroep)
-                                                   .IncludeInRoot()
-                                                   .Properties(DoelgroepMapping.Get))
-                         .Nested<VerenigingZoekDocument.Types.Locatie>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Locaties)
-                                                   .IncludeInRoot()
-                                                   .Properties(LocationMapping.Get))
-                         .Nested<VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.HoofdactiviteitenVerenigingsloket)
-                                                   .IncludeInRoot()
-                                                   .Properties(HoofdactiviteitMapping.Get))
-                         .Nested<VerenigingZoekDocument.Types.Werkingsgebied>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Werkingsgebieden)
-                                                   .IncludeInRoot()
-                                                   .Properties(WerkingsgebiedMapping.Get))
-                         .Nested<VerenigingZoekDocument.Types.Lidmaatschap>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Lidmaatschappen)
-                                                   .IncludeInRoot()
-                                                   .Properties(LidmaatschapMapping.Get))
-                         .Nested<VerenigingZoekDocument.Types.Sleutel>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Sleutels)
-                                                   .IncludeInRoot()
-                                                   .Properties(SleutelMapping.Get))
-                         .Nested<VerenigingZoekDocument.Types.Geotag>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Geotags)
-                                                   .IncludeInRoot()
-                                                   .Properties(GeotagMapping.Get))
-                         .Nested<VerenigingZoekDocument.Types.Relatie>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Relaties)
-                                                   .IncludeInRoot()
-                                                   .Properties(RelatieMapping.Get))
-        );
-
-    private static class LocationMapping
+    public static TypeMapping Get() => new TypeMapping
     {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Locatie> map)
-            => map.Nested<JsonLdMetadata>(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.JsonLdMetadata)
-                                            .IncludeInRoot()
-                                            .Properties(JsonLdMetadataMapping.Get))
-                  .Text(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.LocatieId)
-                                            .WithKeyword())
-                  .Text(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.Naam)
-                                            .WithKeyword(PubliekZoekenNormalizer)
-                                            .Analyzer(PubliekZoekenAnalyzer))
-                  .Text(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.Adresvoorstelling)
-                                            .WithKeyword(PubliekZoekenNormalizer)
-                                            .Analyzer(PubliekZoekenAnalyzer))
-                  .Boolean(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.IsPrimair)
-                                            .WithKeyword())
-                  .Text(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.Postcode)
-                                            .WithKeyword())
-                  .Text(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.Gemeente)
-                                            .WithKeyword(PubliekZoekenNormalizer)
-                                            .Analyzer(PubliekZoekenAnalyzer))
-                  .Text(
-                       propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.Locatietype)
-                                            .WithKeyword(PubliekZoekenNormalizer)
-                                            .Analyzer(PubliekZoekenAnalyzer));
-    }
-
-    private static class HoofdactiviteitMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket> map)
-            => map
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Code)
-                                          .WithKeyword()
-                                          .Analyzer(PubliekZoekenAnalyzer))
-              .Nested<JsonLdMetadata>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(JsonLdMetadataMapping.Get))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Naam)
-                                          .WithKeyword(PubliekZoekenNormalizer)
-                                          .Analyzer(PubliekZoekenAnalyzer));
-    }
-
-    private static class WerkingsgebiedMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Werkingsgebied> map)
-            => map
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Code)
-                                          .WithKeyword()
-                                          .Analyzer(PubliekZoekenAnalyzer))
-              .Nested<JsonLdMetadata>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(JsonLdMetadataMapping.Get))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Naam)
-                                          .WithKeyword(PubliekZoekenNormalizer)
-                                          .Analyzer(PubliekZoekenAnalyzer));
-    }
-
-    private static class VerenigingsTypeMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Verenigingstype> map)
-            => map
-              .Keyword(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Code)
-                                          .Normalizer(PubliekZoekenNormalizer))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Naam)
-                                          .WithKeyword(PubliekZoekenNormalizer)
-                                          .Analyzer(PubliekZoekenAnalyzer));
-    }
-
-    private static class DoelgroepMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<Doelgroep> map)
-            => map
-              .Nested<JsonLdMetadata>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(JsonLdMetadataMapping.Get))
-              .Number(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Minimumleeftijd)
-                                          .Type(NumberType.Integer)
-                                          .WithKeyword())
-              .Number(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Maximumleeftijd)
-                                          .Type(NumberType.Integer)
-                                          .WithKeyword());
-    }
-
-    private static class SleutelMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Sleutel> map)
-            => map
-              .Keyword(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Bron)
-                                          .Normalizer(PubliekZoekenNormalizer))
-              .Nested<JsonLdMetadata>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(JsonLdMetadataMapping.Get))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Waarde)
-                                          .WithKeyword(PubliekZoekenNormalizer)
-                                          .Analyzer(PubliekZoekenAnalyzer))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.CodeerSysteem)
-                                          .WithKeyword(PubliekZoekenNormalizer)
-                                          .Analyzer(PubliekZoekenAnalyzer))
-              .Nested<VerenigingZoekDocument.Types.GestructureerdeIdentificator>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.GestructureerdeIdentificator)
-                                        .IncludeInRoot()
-                                        .Properties(GestructureerdeIdentificatorMapping.Get));
-    }
-
-    private static class GeotagMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Geotag> map)
-            => map
-               .Keyword(
-                    propertyDescriptor => propertyDescriptor
-                                         .Name(document => document.Identificatie)
-                                         .Normalizer(PubliekZoekenNormalizer));
-    }
-
-    private static class RelatieMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Relatie> map)
-            => map
-              .Keyword(
-                   propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Relatietype))
-              .Nested<VerenigingZoekDocument.Types.GerelateerdeVereniging>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.AndereVereniging)
-                                        .IncludeInRoot()
-                                        .Properties(GerelateerdeVerenigingMapping.Get));
-
-        private static class GerelateerdeVerenigingMapping
+        Properties = new Properties
         {
-            public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.GerelateerdeVereniging> map)
-                => map
-                  .Keyword(
-                       propertiesDescriptor => propertiesDescriptor
-                          .Name(document => document.KboNummer))
-                  .Keyword(
-                       propertiesDescriptor => propertiesDescriptor
-                          .Name(document => document.VCode))
-                  .Text(
-                       propertiesDescriptor => propertiesDescriptor
-                          .Name(document => document.Naam));
+            ["vCode"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer },
+            ["naam"] = new TextProperty
+            {
+                Analyzer = PubliekZoekenAnalyzer,
+                Fields = new Properties
+                {
+                    ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                }
+            },
+            ["jsonLdMetadataType"] = new TextProperty
+            {
+                Analyzer = PubliekZoekenAnalyzer,
+                Fields = new Properties
+                {
+                    ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                }
+            },
+            ["roepnaam"] = new TextProperty
+            {
+                Analyzer = PubliekZoekenAnalyzer,
+                Fields = new Properties
+                {
+                    ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                }
+            },
+            ["korteNaam"] = new TextProperty
+            {
+                Analyzer = PubliekZoekenAnalyzer,
+                Fields = new Properties
+                {
+                    ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                }
+            },
+            ["korteBeschrijving"] = new TextProperty
+            {
+                Analyzer = PubliekZoekenAnalyzer,
+                Fields = new Properties
+                {
+                    ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                }
+            },
+            ["status"] = new KeywordProperty(),
+            ["isUitgeschrevenUitPubliekeDatastroom"] = new BooleanProperty(),
+            ["isVerwijderd"] = new BooleanProperty(),
+            ["verenigingstype"] = new NestedProperty
+            {
+                IncludeInRoot = true,
+                Properties = new Properties
+                {
+                    ["code"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer },
+                    ["naam"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    }
+                }
+            },
+            ["doelgroep"] = new NestedProperty
+            {
+                IncludeInRoot = true,
+                Properties = new Properties
+                {
+                    ["jsonLdMetadata"] = new NestedProperty
+                    {
+                        IncludeInRoot = true,
+                        Properties = new Properties
+                        {
+                            ["id"] = new TextProperty(),
+                            ["type"] = new TextProperty()
+                        }
+                    },
+                    ["minimumleeftijd"] = new IntegerNumberProperty
+                    {
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty()
+                        }
+                    },
+                    ["maximumleeftijd"] = new IntegerNumberProperty
+                    {
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty()
+                        }
+                    }
+                }
+            },
+            ["locaties"] = new NestedProperty
+            {
+                IncludeInRoot = true,
+                Properties = new Properties
+                {
+                    ["jsonLdMetadata"] = new NestedProperty
+                    {
+                        IncludeInRoot = true,
+                        Properties = new Properties
+                        {
+                            ["id"] = new TextProperty(),
+                            ["type"] = new TextProperty()
+                        }
+                    },
+                    ["locatieId"] = new TextProperty
+                    {
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty()
+                        }
+                    },
+                    ["naam"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    },
+                    ["adresvoorstelling"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    },
+                    ["isPrimair"] = new BooleanProperty
+                    {
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty()
+                        }
+                    },
+                    ["postcode"] = new TextProperty
+                    {
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty()
+                        }
+                    },
+                    ["gemeente"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    },
+                    ["locatietype"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    }
+                }
+            },
+            ["hoofdactiviteitenVerenigingsloket"] = new NestedProperty
+            {
+                IncludeInRoot = true,
+                Properties = new Properties
+                {
+                    ["code"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty()
+                        }
+                    },
+                    ["jsonLdMetadata"] = new NestedProperty
+                    {
+                        IncludeInRoot = true,
+                        Properties = new Properties
+                        {
+                            ["id"] = new TextProperty(),
+                            ["type"] = new TextProperty()
+                        }
+                    },
+                    ["naam"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    }
+                }
+            },
+            ["werkingsgebieden"] = new NestedProperty
+            {
+                IncludeInRoot = true,
+                Properties = new Properties
+                {
+                    ["code"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty()
+                        }
+                    },
+                    ["jsonLdMetadata"] = new NestedProperty
+                    {
+                        IncludeInRoot = true,
+                        Properties = new Properties
+                        {
+                            ["id"] = new TextProperty(),
+                            ["type"] = new TextProperty()
+                        }
+                    },
+                    ["naam"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    }
+                }
+            },
+            ["lidmaatschappen"] = new NestedProperty
+            {
+                IncludeInRoot = true,
+                Properties = new Properties
+                {
+                    ["jsonLdMetadata"] = new NestedProperty
+                    {
+                        IncludeInRoot = true,
+                        Properties = new Properties
+                        {
+                            ["id"] = new TextProperty(),
+                            ["type"] = new TextProperty()
+                        }
+                    },
+                    ["andereVereniging"] = new TextProperty
+                    {
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    },
+                    ["datumVan"] = new TextProperty(),
+                    ["datumTot"] = new TextProperty(),
+                    ["identificatie"] = new TextProperty
+                    {
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    },
+                    ["beschrijving"] = new TextProperty
+                    {
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    }
+                }
+            },
+            ["sleutels"] = new NestedProperty
+            {
+                IncludeInRoot = true,
+                Properties = new Properties
+                {
+                    ["bron"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer },
+                    ["jsonLdMetadata"] = new NestedProperty
+                    {
+                        IncludeInRoot = true,
+                        Properties = new Properties
+                        {
+                            ["id"] = new TextProperty(),
+                            ["type"] = new TextProperty()
+                        }
+                    },
+                    ["waarde"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    },
+                    ["codeerSysteem"] = new TextProperty
+                    {
+                        Analyzer = PubliekZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = PubliekZoekenNormalizer }
+                        }
+                    },
+                    ["gestructureerdeIdentificator"] = new NestedProperty
+                    {
+                        IncludeInRoot = true,
+                        Properties = new Properties
+                        {
+                            ["jsonLdMetadata"] = new NestedProperty
+                            {
+                                IncludeInRoot = true,
+                                Properties = new Properties
+                                {
+                                    ["id"] = new TextProperty(),
+                                    ["type"] = new TextProperty()
+                                }
+                            },
+                            ["nummer"] = new TextProperty
+                            {
+                                Fields = new Properties
+                                {
+                                    ["keyword"] = new KeywordProperty()
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            ["geotags"] = new NestedProperty
+            {
+                IncludeInRoot = true,
+                Properties = new Properties
+                {
+                    ["identificatie"] = new TextProperty ()
+                }
+            },
+            ["relaties"] = new NestedProperty
+            {
+                IncludeInRoot = true,
+                Properties = new Properties
+                {
+                    ["relatietype"] = new KeywordProperty(),
+                    ["andereVereniging"] = new NestedProperty
+                    {
+                        IncludeInRoot = true,
+                        Properties = new Properties
+                        {
+                            ["kboNummer"] = new KeywordProperty(),
+                            ["vCode"] = new KeywordProperty(),
+                            ["naam"] = new TextProperty()
+                        }
+                    }
+                }
+            }
         }
-    }
-
-    private static class JsonLdMetadataMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<JsonLdMetadata> map)
-            => map
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Id))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Type));
-    }
-
-    private static class GestructureerdeIdentificatorMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.GestructureerdeIdentificator> map)
-            => map
-              .Nested<JsonLdMetadata>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(JsonLdMetadataMapping.Get))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Nummer)
-                                          .Fields(x => x.Keyword(y => y.Name("keyword"))));
-    }
-
-    private static class LidmaatschapMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Lidmaatschap> map)
-            => map
-              .Nested<JsonLdMetadata>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(JsonLdMetadataMapping.Get))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.AndereVereniging)
-                                          .WithKeyword(PubliekZoekenNormalizer))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.DatumVan))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.DatumTot))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Identificatie)
-                                          .WithKeyword(PubliekZoekenNormalizer))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Beschrijving)
-                                          .WithKeyword(PubliekZoekenNormalizer));
-    }
+    };
 }

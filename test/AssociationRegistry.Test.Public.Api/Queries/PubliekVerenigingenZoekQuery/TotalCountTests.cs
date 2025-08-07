@@ -8,7 +8,8 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Fixtures;
 using FluentAssertions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration.ConfigurationBindings;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
@@ -24,13 +25,15 @@ public class PubliekVerenigingenZoekQueryTests: IClassFixture<PubliekVereniginge
 {
     private readonly PubliekVerenigingenZoekQuery_Fixture _fixture;
     private readonly ITestOutputHelper _helper;
-    private readonly IElasticClient? _elasticClient;
+    private readonly ElasticsearchClient? _elasticClient;
+    private readonly ElasticSearchOptionsSection? _elasticClientOptions;
 
     public PubliekVerenigingenZoekQueryTests(PubliekVerenigingenZoekQuery_Fixture fixture, ITestOutputHelper helper)
     {
         _fixture = fixture;
         _helper = helper;
         _elasticClient = fixture.ElasticClient;
+        _elasticClientOptions = fixture.ElasticSearchOptions;
     }
 
     [Fact]
@@ -49,16 +52,17 @@ public class PubliekVerenigingenZoekQueryTests: IClassFixture<PubliekVereniginge
         {
             var docs = new List<VerenigingZoekDocument>();
 
+            var start = totalCount;
             for (var i = 0; i < batchCount; i++)
             {
                 var verenigingZoekDocument = fixture.Create<VerenigingZoekDocument>();
-                verenigingZoekDocument.VCode = VCode.Create(10000 + i);
+                verenigingZoekDocument.VCode = VCode.Create(10000 + i + start);
                 verenigingZoekDocument.Status = VerenigingStatus.Actief;
                 docs.Add(verenigingZoekDocument);
             }
 
             var result = await _elasticClient.BulkAsync(b => b.IndexMany(docs));
-            if(!result.IsValid)
+            if(!result.IsValidResponse)
                 _helper.WriteLine(result.DebugInformation);
 
             totalCount += batchCount;
@@ -66,7 +70,7 @@ public class PubliekVerenigingenZoekQueryTests: IClassFixture<PubliekVereniginge
 
         await _elasticClient.Indices.RefreshAsync(Indices.All);
 
-        var query = new PubliekVerenigingenZoekQuery(_elasticClient, typeMapping);
+        var query = new PubliekVerenigingenZoekQuery(_elasticClient, typeMapping, _elasticClientOptions);
 
         var actual = await query.ExecuteAsync(new PubliekVerenigingenZoekFilter("*", "vCode", [], new PaginationQueryParams()),
                                               CancellationToken.None);

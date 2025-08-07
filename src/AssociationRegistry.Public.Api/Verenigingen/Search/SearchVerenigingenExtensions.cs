@@ -1,8 +1,10 @@
-namespace AssociationRegistry.Public.Api.Verenigingen.Search;
-
-using Nest;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Mapping;
+
+namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
 public static class SearchVerenigingenExtensions
 {
@@ -10,42 +12,77 @@ public static class SearchVerenigingenExtensions
     private const string UserScoreField = "score";
     private const string KeywordSuffix = ".keyword";
 
-    public static SearchDescriptor<T> ParseSort<T>(
-        this SearchDescriptor<T> source,
+    public static List<SortOptions> ParseSort(
         string? sort,
-        Func<SortDescriptor<T>, SortDescriptor<T>> defaultSort,
-        ITypeMapping mapping) where T : class
+        List<SortOptions> defaultSort,
+        TypeMapping mapping)
     {
         if (string.IsNullOrWhiteSpace(sort))
-            return source.Sort(defaultSort);
+            return defaultSort;
 
-        var customSortDescriptor = CreateSortDescriptor<T>(sort, mapping);
-        return source.Sort(sortDescriptor => customSortDescriptor.ThenBy(defaultSort));
+        return ParseSortInternal(sort, mapping)
+            .Concat(defaultSort)
+            .ToList();
     }
 
-    private static SortDescriptor<T> CreateSortDescriptor<T>(string sort, ITypeMapping mapping) where T : class
+    private static List<SortOptions> ParseSortInternal(string sort, TypeMapping mapping)
     {
         var sortParts = ParseSortString(sort);
-        var sortDescriptor = new SortDescriptor<T>();
+        var sortList = new List<SortOptions>();
 
         foreach (var (field, isDescending) in sortParts)
         {
-            var resolvedField = ResolveFieldName(field, mapping);
-            var sortOrder = isDescending ? SortOrder.Descending : SortOrder.Ascending;
-            sortDescriptor.Field(resolvedField, sortOrder);
+            // Special case: user 'score' maps to _score
+            if (string.Equals(field, UserScoreField, StringComparison.OrdinalIgnoreCase))
+            {
+                sortList.Add(new SortOptions
+                {
+                    Field = new FieldSort
+                    {
+                        Field = ElasticsearchScoreField,
+                        Order = isDescending ? SortOrder.Desc : SortOrder.Asc
+                    }
+                });
+                continue;
+            }
+
+            var segments = field.Split('.', StringSplitOptions.RemoveEmptyEntries);
+            var leafProp = FindProperty(mapping.Properties, segments);
+
+            // Append .keyword only for TextProperty
+            var resolvedField = leafProp is TextProperty
+                ? field + KeywordSuffix
+                : field;
+
+            // If the path traverses a NestedProperty, we must provide Nested on the sort
+            var nestedParentPath = GetFirstNestedParentPath(mapping.Properties, segments);
+
+            var fieldSort = new FieldSort
+            {
+                Field = resolvedField,
+                Order = isDescending ? SortOrder.Desc : SortOrder.Asc
+            };
+
+            if (!string.IsNullOrEmpty(nestedParentPath))
+            {
+                fieldSort.Nested = new NestedSortValue { Path = nestedParentPath };
+                // When a doc has multiple nested values, choose how to collapse them.
+                // Min pairs nicely with ascending; Max with descending.
+                fieldSort.Mode = isDescending ? SortMode.Max : SortMode.Min;
+            }
+
+            sortList.Add(new SortOptions { Field = fieldSort });
         }
 
-        return sortDescriptor;
+        return sortList;
     }
 
     private static (string field, bool isDescending)[] ParseSortString(string sort)
-    {
-        return sort.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                  .Select(part => part.Trim())
-                  .Where(part => !string.IsNullOrEmpty(part))
-                  .Select(ParseSortPart)
-                  .ToArray();
-    }
+        => sort.Split(',', StringSplitOptions.RemoveEmptyEntries)
+               .Select(part => part.Trim())
+               .Where(part => !string.IsNullOrEmpty(part))
+               .Select(ParseSortPart)
+               .ToArray();
 
     private static (string field, bool isDescending) ParseSortPart(string sortPart)
     {
@@ -54,49 +91,63 @@ public static class SearchVerenigingenExtensions
         return (field, isDescending);
     }
 
-    private static string ResolveFieldName(string field, ITypeMapping mapping)
+    /// <summary>
+    /// Walks the mapping and returns the leaf IProperty (if found).
+    /// Handles ObjectProperty and NestedProperty.
+    /// </summary>
+    private static IProperty? FindProperty(Properties props, string[] segments, int index = 0)
     {
-        // Handle special case for score field
-        if (string.Equals(field, UserScoreField, StringComparison.OrdinalIgnoreCase))
-            return ElasticsearchScoreField;
+        if (index >= segments.Length)
+            return null;
 
-        var fieldType = GetFieldType(mapping, field);
+        var name = (PropertyName)segments[index];
+        if (!props.TryGetProperty(name, out var prop))
+            return null;
 
-        return fieldType switch
+        if (index == segments.Length - 1)
+            return prop;
+
+        return prop switch
         {
-            "integer" => field,
-            "keyword" => field,
-            "date" => field,
-            "boolean" => field,
-            _ => $"{field}{KeywordSuffix}" // Default to .keyword for text fields
+            ObjectProperty op when op.Properties is not null
+                => FindProperty(op.Properties, segments, index + 1),
+
+            NestedProperty np when np.Properties is not null
+                => FindProperty(np.Properties, segments, index + 1),
+
+            _ => null
         };
     }
 
-    private static string? GetFieldType(ITypeMapping mapping, string fieldPath)
+    /// <summary>
+    /// Returns the first parent path that is a NestedProperty, e.g. "locaties" for "locaties.postcode".
+    /// If the path does not pass through a NestedProperty, returns null.
+    /// </summary>
+    private static string? GetFirstNestedParentPath(Properties props, string[] segments)
     {
-        var pathSegments = fieldPath.Split('.');
-        return InspectPropertyType(mapping.Properties, pathSegments, 0);
-    }
+        Properties? current = props;
+        var pathParts = new List<string>();
 
-    private static string? InspectPropertyType(IProperties properties, string[] pathSegments, int currentIndex)
-    {
-        if (currentIndex >= pathSegments.Length || !properties.ContainsKey(pathSegments[currentIndex]))
-            return null;
+        for (int i = 0; i < segments.Length; i++)
+        {
+            var name = (PropertyName)segments[i];
 
-        var currentProperty = properties[pathSegments[currentIndex]];
+            if (current is null || !current.TryGetProperty(name, out var prop))
+                return null;
 
-        // If we've reached the target property, return its type
-        if (currentIndex == pathSegments.Length - 1)
-            return currentProperty.Type;
+            pathParts.Add(segments[i]);
 
-        // If it's an object property, recurse into its properties
-        if (currentProperty is ObjectProperty objectProperty && objectProperty.Properties != null)
-            return InspectPropertyType(objectProperty.Properties, pathSegments, currentIndex + 1);
+            if (prop is NestedProperty)
+                return string.Join('.', pathParts);
+
+            current = prop switch
+            {
+                ObjectProperty op => op.Properties,
+                NestedProperty np => np.Properties,
+                _ => null
+            };
+        }
 
         return null;
     }
-
-    private static SortDescriptor<T> ThenBy<T>(this SortDescriptor<T> first, Func<SortDescriptor<T>, SortDescriptor<T>> second)
-        where T : class
-        => second(first);
 }

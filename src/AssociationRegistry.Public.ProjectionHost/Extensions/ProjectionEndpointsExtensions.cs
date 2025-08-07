@@ -4,7 +4,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Marten;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Projections;
 
 public static class ProjectionEndpointsExtensions
@@ -17,15 +17,15 @@ public static class ProjectionEndpointsExtensions
             pattern: "v1/projections/all/rebuild",
             handler: async (
                 IDocumentStore store,
-                IElasticClient elasticClient,
+                ElasticsearchClient elasticClient,
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger) =>
             {
                 await StartRebuild(ProjectionNames.PubliekDetail, store, shardTimeout, logger);
                 await StartRebuild(ProjectionNames.PubliekZoek, store, shardTimeout, logger, async () =>
                 {
-                    await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
-                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
+                    await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, cancellationToken: CancellationToken.None);
+                    await elasticClient.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
                 });
 
                 await StartRebuild(ProjectionNames.PubliekSequence, store, shardTimeout, logger);
@@ -46,15 +46,15 @@ public static class ProjectionEndpointsExtensions
             pattern: "v1/projections/search/rebuild",
             handler: async (
                 IDocumentStore store,
-                IElasticClient elasticClient,
+                ElasticsearchClient elasticClient,
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger) =>
             {
 
                 await StartRebuild(ProjectionNames.PubliekZoek, store, shardTimeout, logger, async () =>
                 {
-                    await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
-                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
+                    await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, cancellationToken: CancellationToken.None);
+                    await elasticClient.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
                 });
 
                 return Results.Accepted();

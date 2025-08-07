@@ -6,11 +6,11 @@ using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.Logging;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 
 public static class ProjectionSequenceGuardian
 {
-    public static async Task EnsureAllProjectionsAreUpToDate(IDocumentStore projectionsDocumentStore, long maxSequence, IElasticClient elasticClient, ILogger logger)
+    public static async Task EnsureAllProjectionsAreUpToDate(IDocumentStore projectionsDocumentStore, long maxSequence, ElasticsearchClient elasticClient, ILogger logger)
     {
         var (sequencesPerProjection, reachedSequence) = await HaveAllProjectionsReachedHighwaterMark(projectionsDocumentStore, maxSequence);
         var counter = 0;
@@ -29,8 +29,8 @@ public static class ProjectionSequenceGuardian
                                                 .BeGreaterThanOrEqualTo(
                                                      maxSequence, $"Because we want projection {x.Key} to be up to date"));
 
-        await elasticClient.Indices.RefreshAsync(Indices.AllIndices);
-        await elasticClient.Indices.ForceMergeAsync(Indices.AllIndices, fm => fm
+        await elasticClient.Indices.RefreshAsync(Indices.All);
+        await elasticClient.Indices.ForcemergeAsync(Indices.All, fm => fm
                                                        .MaxNumSegments(1));
     }
 

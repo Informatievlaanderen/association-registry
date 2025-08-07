@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Playground;
 
 using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
+using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;
@@ -11,7 +12,7 @@ using Hosts;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using System.Reflection;
 using Vereniging;
 
@@ -19,7 +20,7 @@ using Xunit;
 
 public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
 {
-    private readonly ElasticClient _elasticClient;
+    private readonly ElasticsearchClient _elasticClient;
     private readonly ZoekDuplicateVerenigingenQuery _duplicateDetectionService;
 
     public ForDuplicateDetection(DuplicateDetectionSetup setup)
@@ -34,7 +35,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
         var analyzeResponse =
             await _elasticClient.Indices
                                 .AnalyzeAsync(a => a
-                                                  .Index<DuplicateDetectionDocument>()
+                                                  //.Index<DuplicateDetectionDocument>()
                                                   .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
                                                   .Text(
                                                        "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling")
@@ -53,7 +54,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
         var analyzeResponse =
             await _elasticClient.Indices
                                 .AnalyzeAsync(a => a
-                                                  .Index<DuplicateDetectionDocument>()
+                                                  //.Index<DuplicateDetectionDocument>()
                                                   .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
                                                   .Text(
                                                        "Vereniging-van-Technologieenenthousiasten:_Inovatie_ontwikkeling")
@@ -73,7 +74,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     [Fact]
     public async ValueTask Stopwords_Everywhere()
     {
-        await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
+        await _elasticClient.Indices.RefreshAsync(Indices.All);
 
         var duplicates = await _duplicateDetectionService.ExecuteAsync(
             VerenigingsNaam.Create("De Vereniging van de Technologïeënthusiasten en ook de Inováçie en van de Ëntwikkeling"),
@@ -86,7 +87,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     [Fact]
     public async ValueTask Fuzzy()
     {
-        await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
+        await _elasticClient.Indices.RefreshAsync(Indices.All);
 
         var duplicates = await _duplicateDetectionService.ExecuteAsync(
             VerenigingsNaam.Create("De Verengiging vn Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
@@ -112,7 +113,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
 
 public class DuplicateDetectionSetup
 {
-    public ElasticClient Client { get; }
+    public ElasticsearchClient Client { get; }
     public ZoekDuplicateVerenigingenQuery DuplicateDetectionService { get; }
 
     public DuplicateDetectionSetup()
@@ -132,24 +133,19 @@ public class DuplicateDetectionSetup
         var elasticSearchOptions = configuration.GetSection("ElasticClientOptions")
                                                 .Get<ElasticSearchOptionsSection>();
 
-        var duplicateDetection = "analyzethis";
-
-        var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
-                      .BasicAuthentication(
-                           elasticSearchOptions.Username,
-                           elasticSearchOptions.Password)
-                      .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!)
-                      .MapDuplicateDetectionDocument(duplicateDetection);
-
-        Client = new ElasticClient(settings);
+        Client = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
 
         WaitFor.ElasticSearchToBecomeAvailable(Client, NullLogger.Instance, maxRetryCount: 10, CancellationToken.None)
                .GetAwaiter().GetResult();
 
-        Client.Indices.Delete(duplicateDetection);
-        ElasticSearchExtensions.EnsureIndexExists(Client, elasticSearchOptions.Indices.Verenigingen!, duplicateDetection);
-
-        DuplicateDetectionService = new ZoekDuplicateVerenigingenQuery(Client, MinimumScore.Default);
+        Client.Indices.Delete(elasticSearchOptions.Indices.DuplicateDetection!);
+        Client.CreateDuplicateDetectionIndexAsync(elasticSearchOptions.Indices.DuplicateDetection!)
+                               .GetAwaiter().GetResult();
+        Client.Cluster.HealthAsync(h => h
+                                             .Indices(elasticSearchOptions.Indices.DuplicateDetection)
+                                             .WaitForStatus(HealthStatus.Yellow)
+                                             .Timeout("30s")).GetAwaiter().GetResult();
+        DuplicateDetectionService = new ZoekDuplicateVerenigingenQuery(Client, elasticSearchOptions, MinimumScore.Default);
 
         Client.Index(new DuplicateDetectionDocument
         {
@@ -165,6 +161,6 @@ public class DuplicateDetectionSetup
                     Postcode = "8531",
                 },
             },
-        }, index => index);
+        }, index => index.Index(elasticSearchOptions.Indices.DuplicateDetection!));
     }
 }

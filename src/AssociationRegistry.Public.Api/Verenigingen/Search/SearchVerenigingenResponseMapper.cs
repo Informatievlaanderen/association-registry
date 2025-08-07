@@ -3,7 +3,8 @@
 using Constants;
 using Infrastructure;
 using Infrastructure.ConfigurationBindings;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Aggregations;
 using RequestModels;
 using ResponseModels;
 using Schema.Search;
@@ -36,7 +37,7 @@ public class SearchVerenigingenResponseMapper
 
     public SearchVerenigingenResponse ToSearchVereningenResponse(
         ILogger<SearchVerenigingenController> logger,
-        ISearchResponse<VerenigingZoekDocument> searchResponse,
+        SearchResponse<VerenigingZoekDocument> searchResponse,
         PaginationQueryParams paginationRequest,
         string originalQuery,
         string[] hoofdactiviteiten)
@@ -52,7 +53,7 @@ public class SearchVerenigingenResponseMapper
         };
     }
 
-    private Facets MapFacets(ISearchResponse<VerenigingZoekDocument> searchResponse, string originalQuery, string[] hoofdactiviteiten)
+    private Facets MapFacets(SearchResponse<VerenigingZoekDocument> searchResponse, string originalQuery, string[] hoofdactiviteiten)
         => new()
         {
             HoofdactiviteitenVerenigingsloket = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
@@ -153,7 +154,7 @@ public class SearchVerenigingenResponseMapper
             Naam = w.Naam,
         };
 
-    private static Metadata GetMetadata(ISearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)
+    private static Metadata GetMetadata(SearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)
         => new()
         {
             Pagination = new Pagination
@@ -166,7 +167,7 @@ public class SearchVerenigingenResponseMapper
 
     private HoofdactiviteitVerenigingsloketFacetItem[] GetHoofdActiviteitFacets(
         AppSettings appSettings,
-        ISearchResponse<VerenigingZoekDocument> searchResponse,
+        SearchResponse<VerenigingZoekDocument> searchResponse,
         string originalQuery,
         string[] hoofdactiviteiten)
     {
@@ -180,10 +181,13 @@ public class SearchVerenigingenResponseMapper
         _logger.LogInformation(string.Join(", ", hoofdactiviteiten));
 
         var buckets = searchResponse.Aggregations
-                                    .Filter(WellknownFacets.GlobalAggregateName)
-                                    .Filter(WellknownFacets.FilterAggregateName)
-                                    .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
+                                    .GetGlobal(WellknownFacets.GlobalAggregateName)
+                                    .Aggregations!
+                                    .GetFilter(WellknownFacets.FilterAggregateName)
+                                    .Aggregations!
+                                    .GetStringTerms(WellknownFacets.HoofdactiviteitenCountAggregateName)
                                     .Buckets;
+
 
         if (buckets is null) throw new ArgumentException("Search buckets is null", nameof(buckets));
 
@@ -194,16 +198,16 @@ public class SearchVerenigingenResponseMapper
 
     private static HoofdactiviteitVerenigingsloketFacetItem CreateHoofdActiviteitFacetItem(
         AppSettings appSettings,
-        KeyedBucket<string> bucket,
+        StringTermsBucket bucket,
         string originalQuery,
         string[] originalHoofdactiviteiten)
         => new()
         {
-            Code = bucket.Key,
-            Aantal = bucket.DocCount ?? 0,
+            Code = bucket.Key.ToString(),
+            Aantal = bucket.DocCount,
             Query = AddHoofdactiviteitToQuery(
                 appSettings,
-                bucket.Key,
+                bucket.Key.ToString(),
                 originalQuery,
                 originalHoofdactiviteiten),
         };

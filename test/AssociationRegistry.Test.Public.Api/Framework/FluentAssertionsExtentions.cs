@@ -3,7 +3,7 @@
 using FluentAssertions;
 using FluentAssertions.Json;
 using FluentAssertions.Primitives;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Newtonsoft.Json.Linq;
 
 public static class FluentAssertionsExtentions
@@ -17,6 +17,6 @@ public static class FluentAssertionsExtentions
 
     public static void ShouldBeValidIndexResponse(this IndexResponse? indexResponse)
     {
-        indexResponse!.IsValid.Should().BeTrue(because: $"Did not expect to have invalid response: '{indexResponse.DebugInformation}'");
+        indexResponse!.IsValidResponse.Should().BeTrue(because: $"Did not expect to have invalid response: '{indexResponse.DebugInformation}'");
     }
 }

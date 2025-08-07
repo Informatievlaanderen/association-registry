@@ -7,7 +7,9 @@ using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
 using Framework.Fixtures;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Mapping;
+using Hosts.Configuration.ConfigurationBindings;
 using Public.Schema.Constants;
 using Xunit;
 
@@ -63,14 +65,16 @@ public class SearchingOnDocumentTestsFixture : ElasticRepositoryFixture
 
 public class With_All_Fields : IClassFixture<SearchingOnDocumentTestsFixture>
 {
-    private readonly IElasticClient _elasticClient;
-    private readonly ITypeMapping _typeMapping;
+    private readonly ElasticsearchClient _elasticClient;
+    private readonly TypeMapping _typeMapping;
     private readonly VerenigingZoekDocument _document;
+    private readonly ElasticSearchOptionsSection? _elasticOptions;
 
     public With_All_Fields(SearchingOnDocumentTestsFixture fixture, ITestOutputHelper helper)
     {
         _elasticClient = fixture.ElasticClient;
         _typeMapping = fixture.TypeMapping;
+        _elasticOptions = fixture.ElasticSearchOptions;
         _document = fixture.Document;
     }
 
@@ -179,9 +183,9 @@ public class With_All_Fields : IClassFixture<SearchingOnDocumentTestsFixture>
         response.Documents.Should().Contain(d => d.VCode == _document.VCode);
     }
 
-    private async Task<ISearchResponse<VerenigingZoekDocument>> ExecuteSearch(string query)
+    private async Task<SearchResponse<VerenigingZoekDocument>> ExecuteSearch(string query)
     {
-        var zoekQuery = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping);
+        var zoekQuery = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping, _elasticOptions);
         return await zoekQuery.ExecuteAsync(
             new (query, "vCode", new PaginationQueryParams()),
             CancellationToken.None);

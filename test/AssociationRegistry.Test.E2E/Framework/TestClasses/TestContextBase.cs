@@ -8,7 +8,7 @@ using Marten;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Public.Api.Infrastructure.ConfigurationBindings;
 using Scenarios.Requests;
 using Vereniging;
