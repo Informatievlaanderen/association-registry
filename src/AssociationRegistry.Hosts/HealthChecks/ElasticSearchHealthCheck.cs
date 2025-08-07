@@ -1,19 +1,16 @@
 namespace AssociationRegistry.Hosts.HealthChecks;
 
-using Configuration.ConfigurationBindings;
-using Elasticsearch.Net;
-using Microsoft.Extensions.DependencyInjection;
+using Elastic.Clients.Elasticsearch;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
-using Nest;
-
+using HealthStatus = Elastic.Clients.Elasticsearch.HealthStatus;
 
 public class ElasticsearchHealthCheck : IHealthCheck
 {
-    private readonly IElasticClient _client;
+    private readonly ElasticsearchClient _client;
     private readonly ILogger<ElasticsearchHealthCheck> _logger;
 
-    public ElasticsearchHealthCheck(IElasticClient client, ILogger<ElasticsearchHealthCheck> logger)
+    public ElasticsearchHealthCheck(ElasticsearchClient client, ILogger<ElasticsearchHealthCheck> logger)
     {
         _client = client;
         _logger = logger;
@@ -25,22 +22,22 @@ public class ElasticsearchHealthCheck : IHealthCheck
     {
         try
         {
-            var health = await _client.Cluster.HealthAsync(ct: cancellationToken);
+            var health = await _client.Cluster.HealthAsync(cancellationToken: cancellationToken);
 
-            if (!health.IsValid)
+            if (!health.IsValidResponse)
             {
                 // Log detailed error internally but don't expose it
                 _logger.LogError("Elasticsearch health check failed: {Error}",
-                                 health.ServerError?.ToString());
+                                 health.ElasticsearchServerError?.ToString());
 
                 return HealthCheckResult.Unhealthy("Elasticsearch is unavailable");
             }
 
             return health.Status switch
             {
-                Health.Green => HealthCheckResult.Healthy("Elasticsearch is healthy"),
-                Health.Yellow => HealthCheckResult.Degraded("Elasticsearch is degraded"),
-                Health.Red => HealthCheckResult.Unhealthy("Elasticsearch is unhealthy"),
+                HealthStatus.Green => HealthCheckResult.Healthy("Elasticsearch is healthy"),
+                HealthStatus.Yellow => HealthCheckResult.Degraded("Elasticsearch is degraded"),
+                HealthStatus.Red => HealthCheckResult.Unhealthy("Elasticsearch is unhealthy"),
                 _ => HealthCheckResult.Unhealthy("Elasticsearch status unknown")
             };
         }

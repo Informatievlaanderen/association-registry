@@ -3,7 +3,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebAp
 using Extensions;
 using Hosts;
 using Hosts.Configuration.ConfigurationBindings;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Program = ProjectionHost.Program;
 using WebApplication = Microsoft.AspNetCore.Builder.WebApplication;
 
@@ -11,7 +11,7 @@ public static class PrepareElasticSearch
 {
     public static async Task EnsureElasticSearchIsInitialized(this WebApplication source)
     {
-        var elasticClient = source.Services.GetRequiredService<IElasticClient>();
+        var elasticClient = source.Services.GetRequiredService<ElasticsearchClient>();
         var elasticSearchOptions = source.Services.GetRequiredService<ElasticSearchOptionsSection>();
 
         await WaitFor.ElasticSearchToBecomeAvailable(
@@ -20,14 +20,14 @@ public static class PrepareElasticSearch
         await EnsureIndexExists(elasticClient, elasticSearchOptions.Indices!.Verenigingen!);
     }
 
-    private static async Task EnsureIndexExists(IElasticClient elasticClient, string verenigingenIndexName)
+    private static async Task EnsureIndexExists(ElasticsearchClient elasticClient, string verenigingenIndexName)
     {
         if (!(await elasticClient.Indices.ExistsAsync(verenigingenIndexName)).Exists)
         {
-            var response = await elasticClient.Indices.CreateVerenigingIndexAsync(verenigingenIndexName);
+            var response = await elasticClient.CreateVerenigingIndexAsync(verenigingenIndexName);
 
-            if (!response.IsValid)
-                throw response.OriginalException;
+            if (!response.IsValidResponse)
+                throw new InvalidOperationException($"Failed to create index: {response.DebugInformation}");
         }
     }
 }

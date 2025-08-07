@@ -16,7 +16,7 @@ using MartenDb.BeheerZoeken;
 using MartenDb.Setup;
 using MartenDb.Subscriptions;
 using MartenDb.Upcasters;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -58,7 +58,7 @@ public static class ConfigureMartenExtensions
 
                 return ConfigureStoreOptions(opts, serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(),
                                              serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
-                                             serviceProvider.GetRequiredService<IElasticClient>(),
+                                             serviceProvider.GetRequiredService<ElasticsearchClient>(),
                                              serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
                                              serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(),
                                              serviceProvider.GetRequiredService<ILogger<DuplicateDetectionEventsConsumer>>(),
@@ -88,7 +88,7 @@ public static class ConfigureMartenExtensions
         StoreOptions opts,
         ILogger<LocatieLookupProjection> locatieLookupLogger,
         ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
-        IElasticClient elasticClient,
+        ElasticsearchClient elasticClient,
         bool isDevelopment,
         ILogger<BeheerZoekenEventsConsumer> beheerZoekenEventsConsumerLogger,
         ILogger<DuplicateDetectionEventsConsumer> duplicateDetectionEventsConsumerLogger,

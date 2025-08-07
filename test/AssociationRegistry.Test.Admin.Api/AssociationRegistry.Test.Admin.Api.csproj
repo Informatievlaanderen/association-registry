@@ -69,7 +69,7 @@
     <PackageReference Include="AutoFixture"/>
     <PackageReference Include="FluentAssertions.Json"/>
     <PackageReference Include="Moq"/>
-    <PackageReference Include="NEST"/>
+    <PackageReference Include="Elastic.Clients.Elasticsearch"/>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"/>
     <PackageReference Include="Scriban"/>
     <PackageReference Include="Microsoft.AspNetCore.Hosting"/>

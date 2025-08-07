@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Public.Schema;
 
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Search;
 
 public static class ElasticSearchMappingExtensions
 {
-    public static ConnectionSettings MapVerenigingDocument(this ConnectionSettings settings, string indexName)
+    public static ElasticsearchClientSettings MapVerenigingDocument(this ElasticsearchClientSettings settings, string indexName)
     {
         return settings.DefaultMappingFor(
             typeof(VerenigingZoekDocument),

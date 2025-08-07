@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using NodaTime;
 using Npgsql;
 using Oakton;
@@ -34,8 +34,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     private readonly WebApplicationFactory<Program> _adminApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
 
-    internal IElasticClient ElasticClient
-        => (IElasticClient)_adminApiServer.Services.GetRequiredService(typeof(ElasticClient));
+    internal ElasticsearchClient ElasticClient
+        => (ElasticsearchClient)_adminApiServer.Services.GetRequiredService(typeof(ElasticsearchClient));
 
     public IDocumentStore DocumentStore
         => _adminApiServer.Services.GetRequiredService<IDocumentStore>();

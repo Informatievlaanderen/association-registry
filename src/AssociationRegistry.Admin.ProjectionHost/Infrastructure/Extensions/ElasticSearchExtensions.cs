@@ -1,74 +1,64 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 
+using Elastic.Clients.Elasticsearch;
+using Elastic.Transport;
 using ElasticSearch;
 using Hosts.Configuration.ConfigurationBindings;
-using Nest;
-using Schema.Search;
+using Schema;
 using System.Text;
 
 public static class ElasticSearchExtensions
 {
-
-    public static void EnsureIndexExists(
-        IElasticClient elasticClient,
+    public static async Task EnsureIndexExistsAsync(
+        ElasticsearchClient elasticClient,
         string verenigingenIndexName,
         string duplicateDetectionIndexName)
     {
-        if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
-            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName, VerenigingZoekDocumentMapping.Get);
+        var verenigingenExists = await elasticClient.Indices.ExistsAsync(verenigingenIndexName);
 
-        if (!elasticClient.Indices.Exists(duplicateDetectionIndexName).Exists)
-            elasticClient.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
+        if (!verenigingenExists.Exists)
+        {
+            await elasticClient.CreateVerenigingIndexAsync(verenigingenIndexName);
+        }
+
+        var duplicateExists = await elasticClient.Indices.ExistsAsync(duplicateDetectionIndexName);
+
+        if (!duplicateExists.Exists)
+        {
+            await elasticClient.CreateDuplicateDetectionIndexAsync(duplicateDetectionIndexName);
+        }
     }
 
-    public static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
+    public static ElasticsearchClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
     {
-        var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
-                      .BasicAuthentication(
-                           elasticSearchOptions.Username,
-                           elasticSearchOptions.Password)
+        var settings = new ElasticsearchClientSettings(new Uri(elasticSearchOptions.Uri!))
+                      .Authentication(new BasicAuthentication(elasticSearchOptions.Username!, elasticSearchOptions.Password!))
                       .ServerCertificateValidationCallback((_, _, _, _) => true)
-                      .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!)
-                      .MapDuplicateDetectionDocument(elasticSearchOptions.Indices!.DuplicateDetection!);
+                      .MapAllVerenigingDocuments(elasticSearchOptions.Indices!.Verenigingen!,
+                                                 elasticSearchOptions.Indices.DuplicateDetection!);
 
         if (elasticSearchOptions.EnableDevelopmentLogs)
-            settings = settings.DisableDirectStreaming()
-                               .PrettyJson()
-                               .OnRequestCompleted(apiCallDetails =>
-                                {
-                                    if (apiCallDetails.RequestBodyInBytes != null)
-                                        logger.LogDebug(
-                                            message: "{HttpMethod} {Uri} \n {RequestBody}",
-                                            apiCallDetails.HttpMethod,
-                                            apiCallDetails.Uri,
-                                            Encoding.UTF8.GetString(apiCallDetails.RequestBodyInBytes));
+        {
+            settings = settings
+                      .EnableDebugMode()
+                      .PrettyJson()
+                      .OnRequestCompleted(apiCall =>
+                       {
+                           if (apiCall.RequestBodyInBytes is { } requestBody)
+                           {
+                               logger.LogDebug("{Method} {Uri}\n{RequestBody}",
+                                               apiCall.HttpMethod,
+                                               apiCall.Uri,
+                                               Encoding.UTF8.GetString(requestBody));
+                           }
 
-                                    if (apiCallDetails.ResponseBodyInBytes != null)
-                                        logger.LogDebug(message: "Response: {ResponseBody}",
-                                                        Encoding.UTF8.GetString(apiCallDetails.ResponseBodyInBytes));
-                                });
+                           if (apiCall.ResponseBodyInBytes is { } responseBody)
+                           {
+                               logger.LogDebug("Response: {ResponseBody}", Encoding.UTF8.GetString(responseBody));
+                           }
+                       });
+        }
 
-        var elasticClient = new ElasticClient(settings);
-
-        return elasticClient;
-    }
-
-    public static ConnectionSettings MapVerenigingDocument(this ConnectionSettings settings, string indexName)
-    {
-        return settings.DefaultMappingFor(
-            typeof(VerenigingZoekDocument),
-            selector: descriptor => descriptor.IndexName(indexName)
-                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)));
-    }
-
-    public static ConnectionSettings MapDuplicateDetectionDocument(this ConnectionSettings settings, string indexName)
-    {
-        return settings.DefaultMappingFor(
-                            typeof(DuplicateDetectionDocument),
-                            selector: descriptor => descriptor.IndexName(indexName)
-                                                              .IdProperty(nameof(DuplicateDetectionDocument.VCode)))
-                       .DefaultMappingFor(typeof(DuplicateDetectionUpdateDocument),
-                                          selector: descriptor => descriptor.IndexName(indexName)
-                                                                            .IdProperty(nameof(DuplicateDetectionDocument.VCode)));
+        return new ElasticsearchClient(settings);
     }
 }

@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using Extensions;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Transport;
 using Hosts.Configuration.ConfigurationBindings;
-using Nest;
+using Schema;
 
 public static class ConfigureElasticSearchExtensions
 {
@@ -10,15 +11,25 @@ public static class ConfigureElasticSearchExtensions
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {
-        var elasticClient = (IServiceProvider serviceProvider)
-            => ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticClient>>());
+        var elasticClient = CreateElasticClient(elasticSearchOptions);
 
         services.AddSingleton(elasticSearchOptions);
-
-        services.AddSingleton(sp => elasticClient(sp));
-
-        services.AddSingleton<IElasticClient>(sp => sp.GetRequiredService<ElasticClient>());
+        services.AddSingleton(elasticClient);
 
         return services;
+    }
+
+    private static ElasticsearchClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
+    {
+        var settings = new ElasticsearchClientSettings(new Uri(elasticSearchOptions.Uri!))
+                      .Authentication(new BasicAuthentication(
+                                          elasticSearchOptions.Username!,
+                                          elasticSearchOptions.Password!))
+                      .ServerCertificateValidationCallback((_, _, _, _) => true)
+                      .MapAllVerenigingDocuments(elasticSearchOptions.Indices!.Verenigingen!, elasticSearchOptions.Indices.DuplicateDetection!);
+
+        var elasticClient = new ElasticsearchClient(settings);
+
+        return elasticClient;
     }
 }

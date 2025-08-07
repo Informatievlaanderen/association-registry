@@ -10,7 +10,11 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Mapping;
+using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
+using Microsoft.Extensions.Configuration;
 using System.ComponentModel;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
@@ -21,14 +25,16 @@ using Doelgroep = AssociationRegistry.Admin.Schema.Search.VerenigingZoekDocument
 public class BeheerVerenigingenZoekQueryTests
 {
     private readonly ITestOutputHelper _helper;
-    private readonly IElasticClient _elasticClient;
-    private readonly ITypeMapping _typeMapping;
+    private readonly ElasticsearchClient _elasticClient;
+    private readonly TypeMapping _typeMapping;
+    private readonly ElasticSearchOptionsSection _elasticSearchOptions;
 
     public BeheerVerenigingenZoekQueryTests(EventsInDbScenariosFixture fixture, ITestOutputHelper helper)
     {
         _helper = helper;
         _elasticClient = fixture.ElasticClient;
-        _typeMapping = fixture.ServiceProvider.GetRequiredService<ITypeMapping>();
+        _typeMapping = fixture.ServiceProvider.GetRequiredService<TypeMapping>();
+        _elasticSearchOptions = fixture.ServiceProvider.GetRequiredService<IConfiguration>().GetElasticSearchOptionsSection();
     }
 
     [Fact]
@@ -72,7 +78,7 @@ public class BeheerVerenigingenZoekQueryTests
         } while (totalCount < desiredCount);
 
         await _elasticClient.Indices.RefreshAsync();
-        var query = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping);
+        var query = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping, _elasticSearchOptions);
 
         var actual = await query.ExecuteAsync(new BeheerVerenigingenZoekFilter("*", "vCode", new PaginationQueryParams()),
                                               CancellationToken.None);

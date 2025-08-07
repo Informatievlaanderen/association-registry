@@ -7,7 +7,7 @@ using AutoFixture;
 using Fixtures;
 using FluentAssertions;
 using Framework;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Vereniging;
 using Xunit;
 
@@ -23,7 +23,7 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
 {
     private readonly Bugfix_RoepnaamNaGeotagsAnalyzerFixture _fixture;
     private readonly ITestOutputHelper _helper;
-    private readonly IElasticClient? _elasticClient;
+    private readonly ElasticsearchClient? _elasticClient;
     private readonly Fixture _autoFixture;
     private readonly PubliekVerenigingenZoekQuery _query;
     private const string _roepnaam = "Roepnaam Et velit totam numquam voluptatibus quam ratione.2025-06-06T11:42:23.689Z";
@@ -35,7 +35,7 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
         _elasticClient = fixture.ElasticClient;
         _autoFixture = new Fixture().CustomizePublicApi();
 
-        _query = new PubliekVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping);
+        _query = new PubliekVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping, fixture.ElasticSearchOptions);
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public class Bugfix_RoepnaamNaGeotagsAnalyzer : IClassFixture<Bugfix_RoepnaamNaG
             Status = VerenigingStatus.Actief.StatusNaam
         };
 
-        await _elasticClient!.IndexDocumentAsync(verenigingZoekDocument);
+        await _elasticClient!.IndexAsync(verenigingZoekDocument);
         await _elasticClient.Indices.RefreshAsync(Indices.All);
 
         var searchResponse = await _query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"*", null, [], new PaginationQueryParams()), CancellationToken.None);

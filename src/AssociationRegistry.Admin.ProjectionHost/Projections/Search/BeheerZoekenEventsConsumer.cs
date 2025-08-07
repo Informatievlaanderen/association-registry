@@ -1,26 +1,23 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
-using Elasticsearch.Net;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
-using JasperFx.Events;
-using MartenDb;
 using MartenDb.Subscriptions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Core.MGet;
 using Resources;
 using Schema.Search;
 using Zoeken;
-using IEvent = JasperFx.Events.IEvent;
 
 public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
 {
-    private readonly IElasticClient _elasticClient;
+    private readonly ElasticsearchClient _elasticClient;
     private readonly BeheerZoekProjectionHandler _zoekProjectionHandler;
     private readonly ElasticSearchOptionsSection _options;
     private readonly ILogger<BeheerZoekenEventsConsumer> _logger;
 
     public BeheerZoekenEventsConsumer(
-        IElasticClient elasticClient,
+        ElasticsearchClient elasticClient,
         BeheerZoekProjectionHandler zoekProjectionHandler,
         ElasticSearchOptionsSection options,
         ILogger<BeheerZoekenEventsConsumer> logger)
@@ -36,19 +33,26 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
         if (!eventList.Events.Any())
             return;
 
-        var multiGetResponse = await _elasticClient
-           .MultiGetAsync(m => m
-                              .Index(_options.Indices.Verenigingen)
-                              .GetMany<VerenigingZoekDocument>(eventList.GroupedByVCode.Keys)
-            );
+        var keys = eventList.GroupedByVCode.Keys;
+
+        var multiGetRequest = new MultiGetRequest
+        {
+            Index = _options.Indices.Verenigingen,
+            Docs = keys.Select(key => new MultiGetOperation
+            {
+                Id = key
+            }).ToList()
+        };
+
+        var multiGetResponse = await _elasticClient.MultiGetAsync<VerenigingZoekDocument>(multiGetRequest);
 
         var documentsPerVCode = new Dictionary<string, VerenigingZoekDocument>();
 
-        foreach (var vCode in eventList.GroupedByVCode.Keys)
+        foreach (var vCode in keys)
         {
-            var hit = multiGetResponse.Hits.FirstOrDefault(h => h.Id == vCode);
+            var hit = multiGetResponse.Docs.FirstOrDefault(h => h.Value1?.Id == vCode);
 
-            if (hit != null && hit.Found && hit.Source is VerenigingZoekDocument document)
+            if (hit != null && hit.Value1 != null && hit.Value1.Source is VerenigingZoekDocument document)
             {
                 documentsPerVCode.Add(vCode, document);
             }
@@ -142,11 +146,11 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                                                           .Refresh(Refresh.WaitFor)
         );
 
-        if (!response.IsValid && !response.ApiCall.Success)
+        if (!response.IsValidResponse)
         {
-            foreach (var error in response.ItemsWithErrors.Where(x => x.Error != null))
+            foreach (var item in response.Items.Where(i => i.Error is not null))
             {
-                _logger.LogError($"Failed to index document {error.Id}: {error.Error}");
+                _logger.LogError("Failed to index document {Id}: {Error}", item.Id, item.Error?.Reason);
             }
 
             return false;

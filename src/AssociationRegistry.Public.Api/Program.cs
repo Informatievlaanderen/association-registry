@@ -289,6 +289,7 @@ public class Program
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(appSettings)
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
+               .AddSingleton(elasticSearchOptionsSection)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddTransient<IPubliekVerenigingenDetailAllQuery, PubliekVerenigingenDetailAllQuery>()
                .AddTransient<IPubliekVerenigingenZoekQuery, PubliekVerenigingenZoekQuery>()

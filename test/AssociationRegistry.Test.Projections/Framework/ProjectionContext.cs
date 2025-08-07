@@ -10,7 +10,7 @@ using MartenDb.Subscriptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Npgsql;
 using Public.ProjectionHost.Projections.Search;
 
@@ -21,10 +21,10 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
     public IDocumentStore AdminStore { get; set; }
     public IDocumentStore PublicStore { get; set; }
     public IDocumentStore AcmStore { get; set; }
-    public IElasticClient AdminElasticClient { get; set; }
-    public IElasticClient AdminProjectionElasticClient { get; set; }
-    public IElasticClient PublicElasticClient { get; set; }
-    public IElasticClient PublicProjectionElasticClient { get; set; }
+    public ElasticsearchClient AdminElasticClient { get; set; }
+    public ElasticsearchClient AdminProjectionElasticClient { get; set; }
+    public ElasticsearchClient PublicElasticClient { get; set; }
+    public ElasticsearchClient PublicProjectionElasticClient { get; set; }
 
     public ProjectionContext()
     {

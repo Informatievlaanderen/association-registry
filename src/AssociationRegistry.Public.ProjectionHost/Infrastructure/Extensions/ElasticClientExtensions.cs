@@ -1,82 +1,67 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 
-using Nest;
-using Nest.Specification.IndicesApi;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Analysis;
+using Elastic.Clients.Elasticsearch.IndexManagement;
 using Schema.Search;
 
 public static class ElasticClientExtensions
 {
-    public static CreateIndexResponse CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index)
+    public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this ElasticsearchClient client, string indexName)
     {
-        var createIndexResponse = indicesNamespace.Create(
-            index,
-            selector: descriptor =>
-                descriptor
-                   .Settings(s => s
-                                .Analysis(a => a
-                                              .CharFilters(cf => cf.PatternReplace(name: "dot_replace",
-                                                                                   selector: prcf
-                                                                                       => prcf.Pattern("\\.").Replacement(""))
-                                                                   .PatternReplace(name: "underscore_replace",
-                                                                                   selector: prcf
-                                                                                       => prcf.Pattern("_").Replacement(" ")))
-                                              .TokenFilters(AddDutchStopWordsFilter)
-                                              .Normalizers(AddVerenigingZoekNormalizer)
-                                              .Analyzers(AddVerenigingZoekAnalyzer)
-                                 ))
-                   .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
+        var request = new CreateIndexRequest(indexName)
+        {
+            Settings = new IndexSettings
+            {
+                Analysis = new IndexSettingsAnalysis
+                {
+                    CharFilters = new CharFilters
+                    {
+                        ["dot_replace"] = new PatternReplaceCharFilter
+                        {
+                            Pattern = "\\.",
+                            Replacement = ""
+                        },
+                        ["underscore_replace"] = new PatternReplaceCharFilter
+                        {
+                            Pattern = "_",
+                            Replacement = " "
+                        }
+                    },
+                    TokenFilters = new TokenFilters
+                    {
+                        ["dutch_stop"] = new StopTokenFilter
+                        {
+                            Stopwords = new Union<StopWordLanguage, ICollection<string>>(StopWordLanguage.Dutch)
+                        }
+                    },
+                    Normalizers = new Normalizers
+                    {
+                        [VerenigingZoekDocumentMapping.PubliekZoekenNormalizer] = new CustomNormalizer
+                        {
+                            CharFilter = ["underscore_replace", "dot_replace"],
+                            Filter = ["lowercase", "asciifolding", "trim"]
+                        }
+                    },
+                    Analyzers = new Analyzers
+                    {
+                        [VerenigingZoekDocumentMapping.PubliekZoekenAnalyzer] = new CustomAnalyzer
+                        {
+                            Tokenizer = "standard",
+                            CharFilter = ["underscore_replace", "dot_replace"],
+                            Filter = ["lowercase", "asciifolding", "dutch_stop"]
+                        }
+                    }
+                }
+            },
+            Mappings = VerenigingZoekDocumentMapping.Get()
+        };
 
-        if (!createIndexResponse.IsValid)
-            throw createIndexResponse.OriginalException;
+        var response = await client.Indices.CreateAsync(request);
 
-        return createIndexResponse;
+        if (!response.IsValidResponse)
+            throw new Exception("Failed to create Vereniging index: " + response.DebugInformation);
+
+        return response;
     }
-
-    public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index)
-    {
-        var createIndexResponse = await indicesNamespace.CreateAsync(
-            index,
-            selector: descriptor =>
-                descriptor
-                   .Settings(s => s
-                                .Analysis(a => a
-                                              .CharFilters(cf => cf.PatternReplace(name: "dot_replace",
-                                                                                   selector: prcf
-                                                                                       => prcf.Pattern("\\.").Replacement(""))
-                                                                   .PatternReplace(name: "underscore_replace",
-                                                                                   selector: prcf
-                                                                                       => prcf.Pattern("_").Replacement(" ")))
-                                              .TokenFilters(AddDutchStopWordsFilter)
-                                              .Normalizers(AddVerenigingZoekNormalizer)
-                                              .Analyzers(AddVerenigingZoekAnalyzer)
-                                 ))
-                   .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
-
-        if (!createIndexResponse.IsValid)
-            throw createIndexResponse.OriginalException;
-
-        return createIndexResponse;
-    }
-
-    private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)
-        => tf.Stop(name: "dutch_stop", selector: st => st
-                      .StopWords("_dutch_") // Or provide your custom list
-        );
-
-    private static NormalizersDescriptor AddVerenigingZoekNormalizer(NormalizersDescriptor ad)
-        => ad.Custom(VerenigingZoekDocumentMapping.PubliekZoekenNormalizer,
-                     selector: ca
-                         => ca
-                           .CharFilters("underscore_replace", "dot_replace")
-                           .Filters("lowercase", "asciifolding","trim")
-        );
-
-    private static AnalyzersDescriptor AddVerenigingZoekAnalyzer(AnalyzersDescriptor ad)
-        => ad.Custom(VerenigingZoekDocumentMapping.PubliekZoekenAnalyzer,
-                     selector: ca
-                         => ca
-                           .Tokenizer("standard")
-                           .CharFilters("underscore_replace", "dot_replace")
-                           .Filters("lowercase", "asciifolding", "dutch_stop")
-        );
 }

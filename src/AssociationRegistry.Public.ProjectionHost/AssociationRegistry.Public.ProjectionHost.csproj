@@ -69,7 +69,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="NEST"/>
+    <PackageReference Include="Elastic.Clients.Elasticsearch"/>
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Converters.TrimString"/>
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset"/>
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic"/>

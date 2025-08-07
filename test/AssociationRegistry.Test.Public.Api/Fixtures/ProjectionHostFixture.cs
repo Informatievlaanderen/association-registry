@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Npgsql;
 using System.Reflection;
 using Xunit;
@@ -23,7 +23,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
     private readonly IConfigurationRoot _configurationRoot;
     public IDocumentStore DocumentStore { get; }
     public WebApplicationFactory<ProjectionHostProgram> ProjectionHost { get; }
-    private readonly IElasticClient _elasticClient;
+    private readonly ElasticsearchClient _elasticClient;
 
     private string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"]!;
@@ -84,18 +84,18 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
                 });
     }
 
-    private static IElasticClient CreateElasticClient(IServiceProvider services)
-        => (IElasticClient)services.GetRequiredService(typeof(ElasticClient));
+    private static ElasticsearchClient CreateElasticClient(IServiceProvider services)
+        => (ElasticsearchClient)services.GetRequiredService(typeof(ElasticsearchClient));
 
-    private static async Task ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
+    private static async Task ConfigureElasticClient(ElasticsearchClient client, string verenigingenIndexName)
     {
         if ((await client.Indices.ExistsAsync(verenigingenIndexName)).Exists)
             await client.Indices.DeleteAsync(verenigingenIndexName);
 
-        var verenigingIndex = await client.Indices.CreateVerenigingIndexAsync(verenigingenIndexName);
+        var verenigingIndex = await client.CreateVerenigingIndexAsync(verenigingenIndexName);
 
-        if (!verenigingIndex.IsValid)
-            throw verenigingIndex.OriginalException;
+        if (!verenigingIndex.IsValidResponse)
+            throw new Exception($"Indexing failed: {verenigingIndex.DebugInformation}");
 
         await client.Indices.RefreshAsync(Indices.All);
     }

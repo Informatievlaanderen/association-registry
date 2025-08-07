@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost;
 
 using Asp.Versioning.ApplicationModels;
-using Extensions;
 using Hosts;
 using Hosts.HealthChecks;
 using Infrastructure.ConfigurationBindings;
@@ -17,16 +16,18 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Oakton;
 using OpenTelemetry.Extensions;
+using Projections.Rebuild;
 using Serilog;
 using Serilog.Debugging;
 using System.Net;
 using System.Text;
 using Wolverine;
+using HealthStatus = Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus;
 
 public class Program
 {
@@ -95,9 +96,9 @@ public class Program
             return;
         }
 
-        ElasticSearchExtensions.EnsureIndexExists(app.Services.GetRequiredService<IElasticClient>(),
-                                                  elasticSearchOptions.Indices!.Verenigingen!,
-                                                  elasticSearchOptions.Indices!.DuplicateDetection!);
+        await ElasticSearchExtensions.EnsureIndexExistsAsync(app.Services.GetRequiredService<ElasticsearchClient>(),
+                                                             elasticSearchOptions.Indices!.Verenigingen!,
+                                                             elasticSearchOptions.Indices!.DuplicateDetection!);
 
         app.AddProjectionEndpoints(
             app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
@@ -197,16 +198,5 @@ public class Program
             // Don't terminate the process immediately, wait for the Main thread to exit gracefully.
             eventArgs.Cancel = true;
         };
-    }
-}
-
-public static class ResponseExtensions
-{
-    public static async Task<TResponse> ThrowIfInvalidAsync<TResponse>(this Task<TResponse> response)
-        where TResponse : AcknowledgedResponseBase
-    {
-        var acknowledgedResponseBase = await response;
-
-        return acknowledgedResponseBase.IsValid ? acknowledgedResponseBase : throw acknowledgedResponseBase.OriginalException;
     }
 }

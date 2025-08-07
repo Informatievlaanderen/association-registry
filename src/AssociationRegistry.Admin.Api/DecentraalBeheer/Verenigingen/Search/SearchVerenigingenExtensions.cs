@@ -1,71 +1,126 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Mapping;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public static class SearchVerenigingenExtensions
 {
-    public static SearchDescriptor<T> ParseSort<T>(
-        this SearchDescriptor<T> source,
+    public static List<SortOptions> ParseSort(
         string? sort,
-        Func<SortDescriptor<T>, SortDescriptor<T>> defaultSort,
-        ITypeMapping mapping) where T : class
+        List<SortOptions> defaultSort,
+        TypeMapping mapping)
     {
         if (string.IsNullOrWhiteSpace(sort))
-            return source.Sort(defaultSort);
+            return defaultSort;
 
-        return source.Sort(_ => SortDescriptor<T>(sort, mapping).ThenBy(defaultSort));
+        return ParseSortInternal(sort, mapping)
+            .Concat(defaultSort)
+            .ToList();
     }
 
-    private static SortDescriptor<T> SortDescriptor<T>(string sort, ITypeMapping mapping) where T : class
+    private static IEnumerable<SortOptions> ParseSortInternal(string sort, TypeMapping mapping)
     {
-        var sortParts = sort.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim())
-                            .ToArray();
-
-        var sortDescriptor = new SortDescriptor<T>();
+        var sortParts = sort
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => x.Trim());
 
         foreach (var sortPart in sortParts)
         {
             var descending = sortPart.StartsWith("-");
-            var part = descending ? sortPart.Substring(1) : sortPart;
-            var isKeyword = IsKeyword(mapping, part);
+            var fieldPath = descending ? sortPart[1..] : sortPart;
 
-            var fieldType = InspectPropertyType(mapping.Properties, part.Split('.'), 0);
+            var segments = fieldPath.Split('.', StringSplitOptions.RemoveEmptyEntries);
+            if (segments.Length == 0)
+                continue;
 
-            var resolvedField = fieldType switch
+            // Find the leaf property so we know whether to add ".keyword"
+            var leafProp = FindProperty(mapping.Properties, segments);
+
+            // If we can’t find it, fall back to the original fieldPath (don’t guess).
+            var resolvedFieldPath = leafProp is TextProperty
+                ? $"{fieldPath}.keyword"
+                : fieldPath;
+
+            // If the path goes through a NestedProperty, Elasticsearch requires nested sort metadata
+            var nestedParentPath = GetFirstNestedParentPath(mapping.Properties, segments);
+            NestedSortValue? nested = null;
+
+            if (!string.IsNullOrEmpty(nestedParentPath))
             {
-                "integer" => part,
-                _ => $"{part}{(isKeyword ? "" : ".keyword")}",            // others (keyword, integer, etc.) should not get .keyword
+                nested = new NestedSortValue
+                {
+                    Path = nestedParentPath,
+                };
+            }
+
+            yield return new SortOptions
+            {
+                Field = new FieldSort
+                {
+                    Field = resolvedFieldPath,                // implicit conversion to Field
+                    Order = descending ? SortOrder.Desc : SortOrder.Asc,
+                    Nested = nested
+                }
             };
-
-            sortDescriptor.Field(resolvedField, descending ? SortOrder.Descending : SortOrder.Ascending);
         }
-
-        return sortDescriptor;
     }
 
-    private static bool IsKeyword(ITypeMapping mapping, string field)
-        => InspectPropertyType(mapping.Properties, field.Split('.'), currentIndex: 0) == "keyword";
-
-    private static string InspectPropertyType(IProperties properties, string[] pathSegments, int currentIndex)
+    /// <summary>
+    /// Walks the mapping down the provided path segments and returns the leaf IProperty (if any).
+    /// Handles ObjectProperty and NestedProperty properly.
+    /// </summary>
+    private static IProperty? FindProperty(Properties props, string[] segments, int index = 0)
     {
-        if (currentIndex < pathSegments.Length && properties.ContainsKey(pathSegments[currentIndex]))
+        if (index >= segments.Length)
+            return null;
+
+        var name = (PropertyName)segments[index];
+        if (!props.TryGetProperty(name, out var prop))
+            return null;
+
+        if (index == segments.Length - 1)
+            return prop;
+
+        return prop switch
         {
-            var currentProperty = properties[pathSegments[currentIndex]];
+            ObjectProperty op when op.Properties is not null
+                => FindProperty(op.Properties, segments, index + 1),
 
-            if (currentIndex == pathSegments.Length - 1)
-                // We've reached the desired property
-                return currentProperty.Type;
+            NestedProperty np when np.Properties is not null
+                => FindProperty(np.Properties, segments, index + 1),
 
-            if (currentProperty is ObjectProperty objectProperty)
-                // We need to delve deeper into the object properties
-                return InspectPropertyType(objectProperty.Properties, pathSegments, currentIndex + 1);
+            _ => null
+        };
+    }
+
+    private static string? GetFirstNestedParentPath(Properties props, string[] segments)
+    {
+        Properties? current = props;
+        var pathParts = new List<string>();
+
+        for (int i = 0; i < segments.Length; i++)
+        {
+            var name = (PropertyName)segments[i];
+
+            if (current is null || !current.TryGetProperty(name, out var prop))
+                return null;
+
+            pathParts.Add(segments[i]);
+
+            if (prop is NestedProperty)
+                return string.Join('.', pathParts);
+
+            current = prop switch
+            {
+                ObjectProperty op => op.Properties,
+                NestedProperty np => np.Properties, // keep walking; we still return the FIRST nested parent above
+                _ => null
+            };
         }
 
-        // The desired property or path wasn't found
         return null;
     }
-
-    private static SortDescriptor<T> ThenBy<T>(this SortDescriptor<T> first, Func<SortDescriptor<T>, SortDescriptor<T>> second)
-        where T : class
-        => second(first);
 }

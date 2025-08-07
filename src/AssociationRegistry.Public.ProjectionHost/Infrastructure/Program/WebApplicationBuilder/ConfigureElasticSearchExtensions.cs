@@ -1,8 +1,10 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using Hosts.Configuration.ConfigurationBindings;
-using Nest;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Transport;
 using Schema;
+using Schema.Search;
 
 public static class ConfigureElasticSearchExtensions
 {
@@ -13,23 +15,21 @@ public static class ConfigureElasticSearchExtensions
         var elasticClient = CreateElasticClient(elasticSearchOptions);
 
         services.AddSingleton(elasticSearchOptions);
-
         services.AddSingleton(elasticClient);
-        services.AddSingleton<IElasticClient>(provider => provider.GetRequiredService<ElasticClient>());
 
         return services;
     }
 
-    public static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
+    public static ElasticsearchClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
     {
-        var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
-                      .BasicAuthentication(
-                           elasticSearchOptions.Username,
-                           elasticSearchOptions.Password)
+        var settings = new ElasticsearchClientSettings(new Uri(elasticSearchOptions.Uri!))
+                      .Authentication(new BasicAuthentication(
+                                          elasticSearchOptions.Username!,
+                                          elasticSearchOptions.Password!))
                       .ServerCertificateValidationCallback((_, _, _, _) => true)
                       .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
 
-        var elasticClient = new ElasticClient(settings);
+        var elasticClient = new ElasticsearchClient(settings);
 
         return elasticClient;
     }
