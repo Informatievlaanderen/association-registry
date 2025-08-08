@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Grar.Clients;
 
-using Contracts;
+using AssociationRegistry.Grar.Clients.Contracts;
 using DecentraalBeheer.Vereniging.Adressen;
 using Events;
 using Exceptions;
