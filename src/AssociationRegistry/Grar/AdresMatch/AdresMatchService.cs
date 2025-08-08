@@ -1,14 +1,17 @@
 ﻿namespace AssociationRegistry.Grar.AdresMatch;
 
+using Application;
 using Clients;
 using DecentraalBeheer.Vereniging;
+using Domain;
 using Events;
-using Events.Factories;
-using GemeentenaamVerrijking;
+using Infrastructure;
 using Vereniging;
 
 public class AdresMatchService
 {
+    // Static method preserved for backward compatibility
+    // This acts as an adapter to the new refactored implementation
     public static async Task<IEvent> GetAdresMatchEvent(
         int locatieId,
         Locatie locatie,
@@ -16,46 +19,11 @@ public class AdresMatchService
         CancellationToken cancellationToken,
         VCode vCode)
     {
-        if (locatie is null)
-        {
-            return new AdresKonNietOvergenomenWordenUitAdressenregister(vCode,
-                                                                        locatieId,
-                                                                        string.Empty,
-                                                                        AdresKonNietOvergenomenWordenUitAdressenregister
-                                                                           .RedenLocatieWerdVerwijderd);
-        }
-
-        var adresMatches = await grarClient.GetAddressMatches(
-            locatie.Adres.Straatnaam,
-            locatie.Adres.Huisnummer,
-            locatie.Adres.Busnummer,
-            locatie.Adres.Postcode,
-            locatie.Adres.Gemeente.Naam,
-            cancellationToken);
-
-
-        if (adresMatches.HasNoResponse)
-            return EventFactory.AdresWerdNietGevondenInAdressenregister(vCode, locatie);
-
-        var adresMatchesSingular100ScoreResponse = adresMatches.Singular100ScoreResponse;
-
-        if (adresMatchesSingular100ScoreResponse is null)
-            return new AdresNietUniekInAdressenregister(vCode, locatieId,
-                                                        adresMatches.Select(EventFactory.NietUniekeAdresMatchUitAdressenregister)
-                                                                    .ToArray());
-
-        var postalInformation = await grarClient.GetPostalInformationDetail(locatie.Adres.Postcode);
-        var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
-            locatie.Adres.Gemeente,
-            postalInformation,
-            adresMatchesSingular100ScoreResponse.Gemeente);
-
-        var registratieData =
-            EventFactory.AdresUitAdressenregister(
-                adresMatchesSingular100ScoreResponse, verrijkteGemeentenaam);
-
-        return new AdresWerdOvergenomenUitAdressenregister(vCode, locatieId,
-                                                           adresMatchesSingular100ScoreResponse.AdresId!,
-                                                           registratieData);
+        // Create the services inline for backward compatibility
+        var matchStrategy = new PerfectScoreMatchStrategy();
+        var verrijkingService = new GemeenteVerrijkingService(grarClient);
+        var service = new AdresMatchServiceRefactored(grarClient, matchStrategy, verrijkingService);
+        
+        return await service.GetAdresMatchEvent(locatieId, locatie, vCode, cancellationToken);
     }
 }
