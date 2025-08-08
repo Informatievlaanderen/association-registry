@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
+    <ProjectReference Include="..\integrations\AssociationRegistry.Grar\AssociationRegistry.Grar.csproj" />
   </ItemGroup>
 
   <ItemGroup>
