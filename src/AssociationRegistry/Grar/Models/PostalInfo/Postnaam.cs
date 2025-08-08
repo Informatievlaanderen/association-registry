@@ -9,7 +9,7 @@ public record Postnaam
         this.Value = Value;
     }
 
-    public static Postnaam FromGrar(Clients.Contracts.Postnaam postnaam)
+    public static Postnaam FromGrar(AssociationRegistry.Grar.Clients.Contracts.Postnaam postnaam)
         => new(postnaam.GeografischeNaam.Spelling);
 
     public static Postnaam FromValue(string postnaam)

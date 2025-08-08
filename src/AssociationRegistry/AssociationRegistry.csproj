@@ -78,4 +78,9 @@
     <PackageReference Include="Slack.Webhooks"/>
     <PackageReference Include="WolverineFx.Marten"/>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../AssociationRegistry.Contracts/AssociationRegistry.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

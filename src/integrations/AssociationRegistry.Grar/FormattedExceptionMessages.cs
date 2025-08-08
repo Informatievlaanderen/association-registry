@@ -1,6 +1,7 @@
-﻿namespace AssociationRegistry.Resources;
+﻿namespace AssociationRegistry.Grar;
 
-using Grar.Clients;
+using AssociationRegistry.Resources;
+using Clients;
 using System.Net;
 
 public static class FormattedExceptionMessages
