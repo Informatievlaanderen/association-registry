@@ -144,7 +144,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         }
     }
 
-    private async Task<VerenigingZoekDocument[]> IndexDocumentsWithGeotags(params string[][] geotagsCollection)
+private async Task<VerenigingZoekDocument[]> IndexDocumentsWithGeotags(params string[][] geotagsCollection)
     {
         var docs = new List<VerenigingZoekDocument>();
 
