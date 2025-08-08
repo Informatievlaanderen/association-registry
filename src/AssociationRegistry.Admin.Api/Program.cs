@@ -64,7 +64,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -85,6 +85,7 @@ using Vereniging.Geotags;
 using Verenigingen.Historiek;
 using Verenigingen.KboSync;
 using Weasel.Core.Migrations;
+using HealthStatus = Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
 
@@ -177,7 +178,7 @@ public class Program
         await RunPreStartupTasks(app, logger);
 
         await WaitFor.ElasticSearchToBecomeAvailable(
-            app.Services.GetRequiredService<ElasticClient>(),
+            app.Services.GetRequiredService<ElasticsearchClient>(),
             app.Services.GetRequiredService<ILogger<Program>>());
 
 

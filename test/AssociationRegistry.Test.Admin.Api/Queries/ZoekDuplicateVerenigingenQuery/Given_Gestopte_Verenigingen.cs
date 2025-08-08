@@ -10,7 +10,7 @@ using DuplicateVerenigingDetection;
 using FluentAssertions;
 using Framework.Fixtures;
 using Microsoft.Extensions.Logging.Abstractions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Vereniging;
 using Xunit;
 
@@ -27,7 +27,7 @@ public class Given_Gestopte_Verenigingen : IClassFixture<Given_Gestopte_Verenigi
     public string Query { get; }
     private readonly Given_Gestopte_VerenigingenFixture _fixture;
     private readonly ITestOutputHelper _helper;
-    private readonly IElasticClient? _elasticClient;
+    private readonly ElasticsearchClient? _elasticClient;
     private readonly Fixture _autoFixture;
     private readonly ZoekDuplicateVerenigingenQuery _query;
 
@@ -38,7 +38,7 @@ public class Given_Gestopte_Verenigingen : IClassFixture<Given_Gestopte_Verenigi
         _elasticClient = fixture.ElasticClient;
         _autoFixture = new Fixture().CustomizeAdminApi();
 
-        _query = new ZoekDuplicateVerenigingenQuery(fixture.ElasticClient, new MinimumScore(0), NullLogger<ZoekDuplicateVerenigingenQuery>.Instance);
+        _query = new ZoekDuplicateVerenigingenQuery(fixture.ElasticClient, fixture.ElasticSearchOptions, new MinimumScore(0), NullLogger<ZoekDuplicateVerenigingenQuery>.Instance);
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class Given_Gestopte_Verenigingen : IClassFixture<Given_Gestopte_Verenigi
         var duplicateDetectionDoc = _autoFixture.Create<DuplicateDetectionDocument>();
         duplicateDetectionDoc.IsGestopt = true;
 
-        await _elasticClient!.IndexDocumentAsync(duplicateDetectionDoc);
+        await _elasticClient!.IndexAsync(duplicateDetectionDoc);
 
         await _elasticClient.Indices.RefreshAsync(Indices.All);
 

@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.IndexManagement;
+using Elastic.Clients.Elasticsearch.Mapping;
+using Elastic.Transport;
 using Hosts.Configuration.ConfigurationBindings;
-using Nest;
-using Schema;
 using Schema.Search;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 public static class ElasticSearchExtensions
@@ -14,96 +14,69 @@ public static class ElasticSearchExtensions
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {
-        services.AddSingleton<ElasticClient>(serviceProvider
-                                                 => CreateElasticClient(elasticSearchOptions,
-                                                                        serviceProvider.GetRequiredService<ILogger<ElasticClient>>()));
+        var elasticClient = (IServiceProvider serviceProvider)
+            => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticsearchClient>>());
 
-        services.AddSingleton<IElasticClient>(serviceProvider
-                                                  => CreateElasticClient(elasticSearchOptions,
-                                                                         serviceProvider.GetRequiredService<ILogger<ElasticClient>>()));
+        services.AddMappingsForVerenigingZoek(elasticSearchOptions.Indices!.Verenigingen!)
+                .AddSingleton(sp => elasticClient(sp));
 
+        return services;
+    }
+
+    private static IServiceCollection AddMappingsForVerenigingZoek(this IServiceCollection services, string indexName)
+    {
         services.AddSingleton(serviceProvider =>
         {
-            var client = serviceProvider.GetRequiredService<IElasticClient>();
-            var mapping = client.Indices.GetMapping<VerenigingZoekDocument>();
+            var client = serviceProvider.GetRequiredService<ElasticsearchClient>();
+            var mappingResponse = client.Indices.GetMapping(new GetMappingRequest(indexName));
 
-            return mapping.Indices[elasticSearchOptions.Indices!.Verenigingen!].Mappings;
-        });
-        services.AddSingleton<ITypeMapping>(serviceProvider =>
-        {
-            var client = serviceProvider.GetRequiredService<IElasticClient>();
-            var mapping = client.Indices.GetMapping<VerenigingZoekDocument>();
+            if (mappingResponse.IsValidResponse && mappingResponse.Mappings.TryGetValue(indexName, out var indexMapping))
+            {
+                return indexMapping.Mappings;
+            }
 
-            return mapping.Indices[elasticSearchOptions.Indices!.Verenigingen!].Mappings;
+            throw new InvalidOperationException($"Could not retrieve mapping for index '{indexName}'");
         });
 
         return services;
     }
 
-    public static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
+    public static ElasticsearchClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
     {
-        var settings = new ConnectionSettings(
-                           new Uri(elasticSearchOptions.Uri!))
-                      .BasicAuthentication(
-                           elasticSearchOptions.Username,
-                           elasticSearchOptions.Password)
-                      .ServerCertificateValidationCallback((o, certificate, arg3, arg4) =>
-                       {
-                           logger.LogWarning("Policy errors: [{Cert}|{Chain}] {Error}", certificate.Subject, arg3, arg4.ToString());
-                           logger.LogWarning("Policy object: {@Error}", o);
-
-                           if (arg4 != SslPolicyErrors.None)
-                           {
-                               logger.LogWarning(Convert.ToBase64String(certificate.Export(X509ContentType.Cert),
-                                                                        Base64FormattingOptions.InsertLineBreaks));
-
-                               LogCertificateDetails(certificate, arg3);
-                           }
-
-                           return true;
-                       })
-                      .IncludeServerStackTraceOnError()
+        var settings = new ElasticsearchClientSettings(new Uri(elasticSearchOptions.Uri!))
+                      .Authentication(new BasicAuthentication(
+                                          elasticSearchOptions.Username,
+                                          elasticSearchOptions.Password))
+                      .ServerCertificateValidationCallback((_, _, _, _) => true)
                       .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
 
         if (elasticSearchOptions.EnableDevelopmentLogs)
+        {
             settings = settings.DisableDirectStreaming()
-                               .PrettyJson()
-                               .OnRequestCompleted(apiCallDetails =>
-                                {
-                                    if (apiCallDetails.RequestBodyInBytes != null)
-                                        logger.LogDebug(
-                                            message: "ES Request: {HttpMethod} {Uri} \n {RequestBody}",
-                                            apiCallDetails.HttpMethod,
-                                            apiCallDetails.Uri,
-                                            Encoding.UTF8.GetString(apiCallDetails.RequestBodyInBytes));
+                              .PrettyJson()
+                              .OnRequestCompleted(apiCallDetails =>
+                               {
+                                   if (apiCallDetails.RequestBodyInBytes != null)
+                                       logger.LogDebug(
+                                           "{HttpMethod} {Uri} \n {RequestBody}",
+                                           apiCallDetails.HttpMethod,
+                                           apiCallDetails.Uri,
+                                           Encoding.UTF8.GetString(apiCallDetails.RequestBodyInBytes));
 
-                                    if (apiCallDetails.ResponseBodyInBytes != null)
-                                        logger.LogDebug(message: "ES Response: {ResponseBody}",
-                                                        Encoding.UTF8.GetString(apiCallDetails.ResponseBodyInBytes));
+                                   if (apiCallDetails.ResponseBodyInBytes != null)
+                                       logger.LogDebug("Response: {ResponseBody}",
+                                                       Encoding.UTF8.GetString(apiCallDetails.ResponseBodyInBytes));
+                               });
+        }
 
-                                    if (apiCallDetails.DebugInformation != null)
-                                        logger.LogDebug(message: "ES Debug: {ResponseBody}",
-                                                        apiCallDetails.DebugInformation);
-                                });
-
-        return new ElasticClient(settings);
+        return new ElasticsearchClient(settings);
     }
 
-    private static void LogCertificateDetails(X509Certificate certificate, X509Chain chain)
+    public static ElasticsearchClientSettings MapVerenigingDocument(this ElasticsearchClientSettings settings, string indexName)
     {
-        if (certificate != null)
-        {
-            Console.WriteLine("Certificate Subject: " + certificate.Subject);
-            Console.WriteLine("Certificate Issuer: " + certificate.Issuer);
-        }
-
-        if (chain != null)
-        {
-            foreach (var chainElement in chain.ChainElements)
-            {
-                Console.WriteLine("Certificate Subject: " + chainElement.Certificate.Subject);
-                Console.WriteLine("Certificate Issuer: " + chainElement.Certificate.Issuer);
-            }
-        }
+        return settings.DefaultMappingFor(
+            typeof(VerenigingZoekDocument),
+            selector: descriptor => descriptor.IndexName(indexName)
+                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)));
     }
 }

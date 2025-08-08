@@ -3,18 +3,18 @@
 using Alba;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 
 public record ProjectionHostContext
 {
     public ProjectionHostContext(IAlbaHost host)
     {
         Host = host;
-        ElasticClient = Host.Services.GetRequiredService<IElasticClient>();
+        ElasticClient = Host.Services.GetRequiredService<ElasticsearchClient>();
     }
 
     public IAlbaHost Host { get; }
-    public IElasticClient ElasticClient { get; }
+    public ElasticsearchClient ElasticClient { get; }
 
     public async Task RefreshDataAsync()
     {

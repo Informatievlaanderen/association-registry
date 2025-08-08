@@ -5,7 +5,7 @@ using Admin.Schema.Search;
 using Framework.Fixtures;
 using JasperFx.Events.Daemon;
 using Marten;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 
 public class DuplicateDetectionScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, DuplicateDetectionDocument, ProjectionContext>(context)

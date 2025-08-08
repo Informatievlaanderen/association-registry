@@ -4,7 +4,7 @@ using Admin.Schema.Detail;
 using Admin.Schema.Search;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests;
 using Xunit;

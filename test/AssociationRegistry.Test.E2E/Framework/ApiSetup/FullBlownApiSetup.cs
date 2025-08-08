@@ -22,7 +22,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using NodaTime;
 using NodaTime.Text;
 using Oakton;
@@ -57,8 +57,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         var clients = new Clients(adminApiHost.Services.GetRequiredService<OAuth2IntrospectionOptions>(),
                                   createClientFunc: () => new HttpClient());
-
-
+        
         SuperAdminHttpClient = clients.SuperAdmin.HttpClient;
         UnautenticatedClient = clients.Unauthenticated.HttpClient;
         UnauthorizedClient = clients.Unauthorized.HttpClient;
@@ -96,7 +95,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         AmazonSqs = _serviceProvider.GetRequiredService<IAmazonSQS>();
         VCodeService = _serviceProvider.GetRequiredService<IVCodeService>();
 
-        ElasticClient = _serviceProvider.GetRequiredService<IElasticClient>();
+        ElasticClient = _serviceProvider.GetRequiredService<ElasticsearchClient>();
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
         await using var session = PublicApiHost.DocumentStore().LightweightSession();
@@ -126,7 +125,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     }
 
     public IProjectionDaemon AdminProjectionDaemon { get; private set; }
-    public IElasticClient ElasticClient { get; set; }
+    public ElasticsearchClient ElasticClient { get; set; }
     public HttpClient SuperAdminHttpClient { get; private set; }
     public HttpClient UnautenticatedClient { get; private set; }
     public HttpClient UnauthorizedClient { get; private set; }
@@ -217,7 +216,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     }
 
     public async Task RefreshIndices()
-        => await ElasticClient.Indices.RefreshAsync(Indices.AllIndices);
+        => await ElasticClient.Indices.RefreshAsync(Indices.All);
 
     private readonly Dictionary<string, object> _ranContexts = new();
     private IServiceProvider _serviceProvider;

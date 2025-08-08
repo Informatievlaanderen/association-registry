@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Xunit;
 using IEvent = AssociationRegistry.Events.IEvent;
 
@@ -48,7 +48,7 @@ public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_F
     [Fact]
     public async ValueTask Then_No_exceptions_Are_Thrown()
     {
-        var consumer = new PubliekZoekenEventsConsumer(_projectionHost.Services.GetRequiredService<IElasticClient>(),
+        var consumer = new PubliekZoekenEventsConsumer(_projectionHost.Services.GetRequiredService<ElasticsearchClient>(),
                                                        new PubliekZoekProjectionHandler(),
                                                        _projectionHost.Services.GetRequiredService<ElasticSearchOptionsSection>(),
                                                        Mock.Of<ILogger<PubliekZoekenEventsConsumer>>());

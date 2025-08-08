@@ -10,7 +10,7 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Marten.Events.Daemon;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Xunit;
 
 [Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]

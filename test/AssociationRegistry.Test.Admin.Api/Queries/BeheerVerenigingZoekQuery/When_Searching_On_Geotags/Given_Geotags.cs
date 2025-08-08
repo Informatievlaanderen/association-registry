@@ -7,7 +7,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
 using Framework.Fixtures;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
@@ -23,7 +23,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
 {
     private readonly Given_GeotagsFixture _fixture;
     private readonly ITestOutputHelper _helper;
-    private readonly IElasticClient? _elasticClient;
+    private readonly ElasticsearchClient? _elasticClient;
     private readonly Fixture _autoFixture;
     private readonly BeheerVerenigingenZoekQuery _query;
 
@@ -34,7 +34,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         _elasticClient = fixture.ElasticClient;
         _autoFixture = new Fixture().CustomizeAdminApi();
 
-        _query = new BeheerVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping);
+        _query = new BeheerVerenigingenZoekQuery(fixture.ElasticClient, fixture.TypeMapping, fixture.ElasticSearchOptions);
     }
 
 
@@ -73,6 +73,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
     }
 
     [Theory]
+    [InlineData("BE33333,BE02222")]
     [InlineData("BE33333 BE02222")]
     [InlineData("BE33333 OR BE02222 AND RoepNaam")]
     [InlineData("(BE33333 OR BE02222)")]
@@ -93,7 +94,6 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
     }
 
     [Theory]
-    [InlineData("BE33333,BE02222")]
     [InlineData("[BE33333 OR BE02222]")]
     [InlineData("[BE33333 AND BE02222]")]
     [InlineData("(BE33333 AND BE02222) AND othernaam")]
@@ -134,7 +134,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         ShouldFindVerenigingenWithGeotag(actual, documents);
     }
 
-    private static void ShouldFindVerenigingenWithGeotag(ISearchResponse<VerenigingZoekDocument> actual, VerenigingZoekDocument[] verenigingZoekDocuments)
+    private static void ShouldFindVerenigingenWithGeotag(SearchResponse<VerenigingZoekDocument> actual, VerenigingZoekDocument[] verenigingZoekDocuments)
     {
         foreach (var verenigingZoekDocument in verenigingZoekDocuments)
         {
@@ -155,7 +155,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
             verenigingZoekDocument.Roepnaam = "RoepNaam";
 
            docs.Add(verenigingZoekDocument);
-           await _elasticClient!.IndexDocumentAsync(verenigingZoekDocument);
+           await _elasticClient!.IndexAsync(verenigingZoekDocument);
         }
 
         await _elasticClient.Indices.RefreshAsync(Indices.All);
@@ -163,13 +163,13 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         return docs.ToArray();
     }
 
-    private static void ShouldNotHaveVereniging(ISearchResponse<VerenigingZoekDocument> actual, string vCode)
+    private static void ShouldNotHaveVereniging(SearchResponse<VerenigingZoekDocument> actual, string vCode)
     {
         var vereniging = actual.Documents.SingleOrDefault(x => x.VCode == vCode);
         vereniging.Should().BeNull();
     }
 
-    private async ValueTask<ISearchResponse<VerenigingZoekDocument>> ExecuteQuery(string query)
+    private async ValueTask<SearchResponse<VerenigingZoekDocument>> ExecuteQuery(string query)
         => await _query.ExecuteAsync(new BeheerVerenigingenZoekFilter(query, "vCode", new PaginationQueryParams()),
                                      CancellationToken.None);
 

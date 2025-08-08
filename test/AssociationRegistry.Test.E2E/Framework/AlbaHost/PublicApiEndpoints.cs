@@ -4,7 +4,7 @@ using Alba;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Public.Api.Infrastructure;
@@ -61,7 +61,7 @@ public static class PublicApiEndpoints
     private static async Task WaitForExpectedSequence(IAlbaHost source, long? expectedSequence, string publiekverenigingzoekendocumentAll)
     {
         var store = source.Services.GetRequiredService<IDocumentStore>();
-        await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
         var result = (await store.Advanced
                                   .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == publiekverenigingzoekendocumentAll)?.Sequence;
 
@@ -72,7 +72,7 @@ public static class PublicApiEndpoints
         {
             counter++;
             await Task.Delay(500);
-            await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+            await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
             result = (await store.Advanced
                                   .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == publiekverenigingzoekendocumentAll)?.Sequence;
 

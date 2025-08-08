@@ -3,7 +3,7 @@
 using Framework.Fixtures;
 using JasperFx.Events.Daemon;
 using Marten;
-using Nest;
+using Elastic.Clients.Elasticsearch;
 using Public.ProjectionHost.Projections;
 using Public.Schema.Search;
 
