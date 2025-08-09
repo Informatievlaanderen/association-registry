@@ -62,6 +62,7 @@
     <ProjectReference Include="..\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj" />
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj"/>
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry.CommandHandling\AssociationRegistry.CommandHandling.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
