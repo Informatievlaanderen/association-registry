@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Grar.AdresMatch.Domain;
+namespace AssociationRegistry.Grar.AdresMatch;
 
 using AssociationRegistry.Grar.Models;
 

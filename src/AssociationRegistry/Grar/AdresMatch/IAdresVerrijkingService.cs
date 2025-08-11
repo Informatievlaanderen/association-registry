@@ -1,10 +1,8 @@
-namespace AssociationRegistry.Grar.AdresMatch.Domain;
+namespace AssociationRegistry.Grar.AdresMatch;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.Events;
 using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Vereniging;
 
 public interface IAdresVerrijkingService
 {
