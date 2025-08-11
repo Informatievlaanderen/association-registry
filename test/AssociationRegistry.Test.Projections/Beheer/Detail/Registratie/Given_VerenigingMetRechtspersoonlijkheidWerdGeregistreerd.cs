@@ -2,9 +2,9 @@
 
 using Admin.Schema;
 using Admin.Schema.Detail;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
-using JsonLdContext;
 using Scenario.Registratie;
 using Vereniging;
 using Vereniging.Bronnen;

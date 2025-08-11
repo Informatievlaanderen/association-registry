@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.KboMutations.SyncLambda.Notifications;
 
-using AssociationRegistry.Notifications;
+using Integrations.Slack;
 
-public readonly record struct KboSyncLambdaGefaald : IMessage
+public readonly record struct KboSyncLambdaGefaald : INotification
 {
     private readonly string _kboSyncMessage;
     private readonly Exception _exception;

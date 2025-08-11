@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Zoeken.With_Header;
 
 using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Mappers;
 using Formats;
@@ -9,7 +10,6 @@ using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using NodaTime;

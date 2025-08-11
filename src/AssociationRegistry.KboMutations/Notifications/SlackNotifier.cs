@@ -1,7 +1,7 @@
 namespace AssociationRegistry.KboMutations.Notifications;
 
 using Amazon.Lambda.Core;
-using AssociationRegistry.Notifications;
+using Integrations.Slack;
 using Slack.Webhooks;
 
 public class SlackNotifier : INotifier
@@ -17,7 +17,7 @@ public class SlackNotifier : INotifier
         _slackClient = new SlackClient(webhookUrl);
     }
 
-    public async Task Notify(IMessage message)
+    public async Task Notify(INotification message)
     {
         var postAsync = await _slackClient.PostAsync(new SlackMessage
         {
@@ -32,7 +32,7 @@ public class SlackNotifier : INotifier
             },
             Username = "Kbo Sync"
         });
-        
+
         if(!postAsync)
         {
             _logger.LogWarning($"Slack bericht kon niet verstuurd worden: '{message.Value}' ({message.Type})");

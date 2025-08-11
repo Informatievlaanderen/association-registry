@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Metrics;
+namespace AssociationRegistry.OpenTelemetry.Metrics;
 
 using System.Diagnostics.Metrics;
 

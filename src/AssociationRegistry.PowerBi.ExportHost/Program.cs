@@ -2,6 +2,9 @@
 
 using Amazon.S3;
 using Destructurama;
+using global::OpenTelemetry.Exporter;
+using global::OpenTelemetry.Logs;
+using global::OpenTelemetry.Resources;
 using HostedServices;
 using Hosts.Configuration;
 using Infrastructure.Extensions;
@@ -11,9 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NodaTime;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Logs;
-using OpenTelemetry.Resources;
 using Serilog;
 using Serilog.Debugging;
 using Writers;

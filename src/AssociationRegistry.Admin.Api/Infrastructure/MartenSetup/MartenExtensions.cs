@@ -2,7 +2,6 @@
 
 using Adapters.VCodeGeneration;
 using Json;
-using Metrics;
 using Formats;
 using global::Wolverine.Marten;
 using Hosts.Configuration.ConfigurationBindings;

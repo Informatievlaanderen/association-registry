@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Publiek.Zoeken;
 
+using Contracts.JsonLdContext;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Xunit;

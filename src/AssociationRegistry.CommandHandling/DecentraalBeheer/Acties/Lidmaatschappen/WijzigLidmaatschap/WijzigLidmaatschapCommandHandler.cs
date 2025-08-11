@@ -2,6 +2,8 @@ namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatsch
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class WijzigLidmaatschapCommandHandler
 {

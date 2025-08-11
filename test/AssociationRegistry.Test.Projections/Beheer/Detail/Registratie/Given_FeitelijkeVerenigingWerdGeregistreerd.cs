@@ -3,10 +3,10 @@
 using Admin.Schema;
 using Admin.Schema.Detail;
 using AssociationRegistry.Test.Projections.Scenario.Registratie;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
-using JsonLdContext;
 using Vereniging;
 using Vereniging.Bronnen;
 using Adres = Admin.Schema.Detail.Adres;

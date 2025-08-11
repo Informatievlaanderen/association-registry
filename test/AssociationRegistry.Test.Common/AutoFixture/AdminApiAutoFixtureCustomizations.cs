@@ -12,6 +12,7 @@ using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.Wijzi
 using Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Admin.Schema;
 using Admin.Schema.Search;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Emails;
 using DecentraalBeheer.Vereniging.SocialMedias;
@@ -19,7 +20,6 @@ using DecentraalBeheer.Vereniging.TelefoonNummers;
 using Events;
 using Formats;
 using global::AutoFixture;
-using JsonLdContext;
 using Primitives;
 using Vereniging;
 using Adres = Admin.Api.WebApi.Verenigingen.Common.Adres;

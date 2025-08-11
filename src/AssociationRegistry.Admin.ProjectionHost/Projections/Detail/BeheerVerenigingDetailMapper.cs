@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
-using JsonLdContext;
 using Schema;
 using Schema.Detail;
 using Vereniging;

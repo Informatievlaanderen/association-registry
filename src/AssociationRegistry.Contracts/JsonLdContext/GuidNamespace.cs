@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.JsonLdContext;
+﻿namespace AssociationRegistry.Contracts.JsonLdContext;
 
 public static class GuidNamespace
 {

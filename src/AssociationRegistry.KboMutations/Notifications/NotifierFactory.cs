@@ -1,8 +1,8 @@
 namespace AssociationRegistry.KboMutations.Notifications;
 
 using Amazon.Lambda.Core;
-using AssociationRegistry.Notifications;
 using Configuration;
+using Integrations.Slack;
 
 public class NotifierFactory
 {

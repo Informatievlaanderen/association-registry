@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.PowerBiExport;
 
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Mappers;
 using Detail;
@@ -7,7 +8,6 @@ using Events;
 using Formats;
 using Framework;
 using JasperFx.Events;
-using JsonLdContext;
 using Marten.Events.Aggregation;
 using Schema.PowerBiExport;
 using Vereniging;
