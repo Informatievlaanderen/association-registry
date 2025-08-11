@@ -6,7 +6,9 @@ using Destructurama;
 using EventStore;
 using EventStore.ConflictResolution;
 using Grar.Clients;
+using Hosts;
 using Infrastructure.Extensions;
+using JasperFx;
 using MartenDb.Store;
 using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.Configuration;
@@ -46,6 +48,12 @@ public static class Program
                 .ConfigureServices(ConfigureServices)
                 .ConfigureLogging(ConfigureLogger)
                 .Build();
+
+        if (ProgramArguments.IsCodeGen(args))
+        {
+            await host.RunJasperFxCommands(args);
+            return;
+        }
 
         ConfigureAppDomainExceptions();
 

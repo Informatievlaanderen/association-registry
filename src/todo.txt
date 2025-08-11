@@ -1,0 +1,15 @@
+- [ ] move grar out of domain towards grar project (except for interfaces and domain stuff)
+- [ ] see what lives in domain -> framework and move stuff towards contracts, cmd handling, or other projects. be critical about this, and where it belongs, might be other projects as well.
+- [ ] jsonld-context: in domain, or in contracts?
+- [ ] kbo, magda in domain: where do these really belong?
+- [ ] notifications: let's make a separate csproj for this, and move it out of domain. Everything should go there, except maybe the implementations of the IMessage, which belong near the specific command handler folders i think.
+- [ ] exceptionmessages, logging resx files: move to contracts, or not?
+- [ ] rename any integrations projects to Association.Integrations.*, and any infrastructure projects to Association.Infrastructure.*. group them in folders
+- [ ] take a look at the setup of the program files for the hosts. Stuff like setting up marten, wolverine should probably be extracted more granular extension methods, after which we can move them to the integrations or infrastructure projects.
+- [ ] look at service registrations in the host projects, and see if some of them belong together in existing projects.
+# General rules
+- One line commit messages, no mention of ai.
+- Always run tests before committing.
+- Update the architecture diagram in the docs folder when making changes to the architecture.
+- Update the refactoring readme with what you did, and why you did it.
+- update the checkboxes in this todo.txt file when you complete a task.

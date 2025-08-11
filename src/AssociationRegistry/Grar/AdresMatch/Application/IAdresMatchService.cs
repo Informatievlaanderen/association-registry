@@ -3,6 +3,7 @@ namespace AssociationRegistry.Grar.AdresMatch.Application;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Vereniging;
+using Domain;
 
 public interface IAdresMatchService
 {
@@ -10,5 +11,9 @@ public interface IAdresMatchService
         int locatieId,
         Locatie? locatie,
         VCode vCode,
+        CancellationToken cancellationToken);
+
+    Task<AdresMatchResult> ProcessAdresMatch(
+        AdresMatchRequest request,
         CancellationToken cancellationToken);
 }

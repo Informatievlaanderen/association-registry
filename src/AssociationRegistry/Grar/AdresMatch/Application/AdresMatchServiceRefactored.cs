@@ -2,12 +2,12 @@ namespace AssociationRegistry.Grar.AdresMatch.Application;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
-using AssociationRegistry.Events;
-using AssociationRegistry.Events.Factories;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Vereniging;
+using Events;
+using Events.Factories;
+using Grar;
+using Clients;
+using Models;
+using Vereniging;
 using Domain;
 
 public class AdresMatchServiceRefactored : IAdresMatchService
@@ -37,24 +37,35 @@ public class AdresMatchServiceRefactored : IAdresMatchService
         return result.ToEvent(vCode, locatieId);
     }
 
-    private async Task<AdresMatchResult> ProcessAdresMatch(
+    public async Task<AdresMatchResult> ProcessAdresMatch(
         AdresMatchRequest request,
         CancellationToken cancellationToken)
     {
-        if (request.HeeftGeenLocatie)
-            return new LocatieVerwijderdResult();
+        try
+        {
+            if (request.HeeftGeenLocatie)
+                return new LocatieVerwijderdResult();
 
-        var adresMatches = await FetchAdresMatches(request.Adres, cancellationToken);
-        
-        if (adresMatches.HasNoResponse)
+            var adresMatches = await FetchAdresMatches(request.Adres, cancellationToken);
+
+            if (adresMatches.HasNoResponse)
+                return new AdresNietGevondenResult(request.Locatie!);
+
+            var matchedAdres = _matchStrategy.DetermineMatch(adresMatches);
+
+            if (matchedAdres is null)
+                return CreateNietUniekResult(request, adresMatches);
+
+            return await CreateGevondenResult(request, matchedAdres, cancellationToken);
+        }
+        catch (Exceptions.AdressenregisterReturnedNonSuccessStatusCode ex)
+        {
+            return new AdresKonNietOvergenomenResult(request.Locatie?.Adres.ToAdresString() ?? "", ex.Message);
+        }
+        catch (Exceptions.AdressenregisterReturnedNotFoundStatusCode ex)
+        {
             return new AdresNietGevondenResult(request.Locatie!);
-
-        var matchedAdres = _matchStrategy.DetermineMatch(adresMatches);
-        
-        if (matchedAdres is null)
-            return CreateNietUniekResult(request, adresMatches);
-
-        return await CreateGevondenResult(request, matchedAdres, cancellationToken);
+        }
     }
 
     private async Task<AdresMatchResponseCollection> FetchAdresMatches(
@@ -77,7 +88,7 @@ public class AdresMatchServiceRefactored : IAdresMatchService
         var matches = adresMatches
             .Select(EventFactory.NietUniekeAdresMatchUitAdressenregister)
             .ToArray();
-            
+
         return new AdresNietUniekResult(matches);
     }
 
