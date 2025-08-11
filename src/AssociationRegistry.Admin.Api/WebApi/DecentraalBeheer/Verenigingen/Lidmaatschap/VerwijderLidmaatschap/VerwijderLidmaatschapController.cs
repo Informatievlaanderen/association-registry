@@ -11,7 +11,7 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using DecentraalBeheer.Acties.Lidmaatschappen.VerwijderLidmaatschap;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VerwijderLidmaatschap;
 using DecentraalBeheer.Vereniging;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;

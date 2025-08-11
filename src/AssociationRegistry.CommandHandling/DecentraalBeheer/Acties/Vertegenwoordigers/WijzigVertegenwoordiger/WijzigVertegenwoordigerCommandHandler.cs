@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
 
-using Framework;
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 
 public class WijzigVertegenwoordigerCommandHandler
 {

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.When_MarkeerAlsDubbelVan.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Resources;

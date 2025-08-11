@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.When_Wijzig_Contactgegeven.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Contactgegevens.WijzigContactgegeven;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Contactgegevens.WijzigContactgegeven;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Emails;
 using AssociationRegistry.Events;

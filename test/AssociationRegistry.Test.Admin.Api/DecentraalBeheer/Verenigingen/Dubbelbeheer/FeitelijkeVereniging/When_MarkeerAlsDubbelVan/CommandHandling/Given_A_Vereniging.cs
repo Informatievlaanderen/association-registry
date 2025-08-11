@@ -1,11 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.When_MarkeerAlsDubbelVan.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
-using AssociationRegistry.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Messages;
 using AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.NietBepaald;
 
-using Acties.Subtype;
+using Subvereniging;
 using Events;
 using Events.Factories;
 
@@ -21,7 +21,7 @@ public record NietBepaaldSubtype : IVerenigingssubtype
     public IEvent[] ZetSubtypeNaarNietBepaald(VCode vCode)
         => [];
 
-    public IEvent[] VerFijnNaarSubvereniging(VCode vCode, VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
+    public IEvent[] VerFijnNaarSubvereniging(VCode vCode, SubverenigingVanDto subverenigingVan)
     {
         VCode.ValidateVCode(subverenigingVan.AndereVereniging ?? string.Empty);
 

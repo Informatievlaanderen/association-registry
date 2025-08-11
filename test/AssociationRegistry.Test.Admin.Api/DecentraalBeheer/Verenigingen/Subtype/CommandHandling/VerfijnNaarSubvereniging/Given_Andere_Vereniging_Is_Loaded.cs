@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.VerfijnNaarSubvereniging;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Subtype;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Subtype;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.Subvereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
@@ -38,7 +39,7 @@ public class Given_Andere_Vereniging_Is_Loaded
 
         var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(_verenigingRepositoryMock.Object);
 
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(_rechtspersoonScenario.VCode, null, null));
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new SubverenigingVanDto(_rechtspersoonScenario.VCode, null, null));
 
         var exception = await Assert.ThrowsAnyAsync<AndereVerenigingIsVerwijderd>(() => commandHandler.Handle(
                                                                       new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>())));
@@ -55,7 +56,7 @@ public class Given_Andere_Vereniging_Is_Loaded
 
         var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(_verenigingRepositoryMock.Object);
 
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(_fixture.Create<VCode>(), null, null));
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new SubverenigingVanDto(_fixture.Create<VCode>(), null, null));
 
         var exception = await Assert.ThrowsAnyAsync<ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype>(() => commandHandler.Handle(
                                                                                       new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>())));

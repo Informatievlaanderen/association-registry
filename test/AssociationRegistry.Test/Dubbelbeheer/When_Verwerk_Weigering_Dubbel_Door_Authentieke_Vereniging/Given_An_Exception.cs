@@ -5,7 +5,7 @@ using AssociationRegistry.Notifications;
 using AssociationRegistry.Notifications.Messages;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
-using DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
+using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using DecentraalBeheer.Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;

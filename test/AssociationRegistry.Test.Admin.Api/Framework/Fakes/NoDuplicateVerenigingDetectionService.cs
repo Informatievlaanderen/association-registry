@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using Vereniging;
 
 public class NoDuplicateVerenigingDetectionService : IDuplicateVerenigingDetectionService

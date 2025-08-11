@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 
 using AssociationRegistry.Vereniging;
+using CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
 using Common;
-using DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
 using DecentraalBeheer.Vereniging;
 using System.Runtime.Serialization;
 

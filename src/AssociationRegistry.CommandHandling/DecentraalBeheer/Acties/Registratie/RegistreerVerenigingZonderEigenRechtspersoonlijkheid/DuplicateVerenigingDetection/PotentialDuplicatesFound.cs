@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 
 public record PotentialDuplicatesFound(params DuplicaatVereniging[] PotentialDuplicates)
 {

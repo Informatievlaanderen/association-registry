@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 
-using Framework;
-using Vereniging;
-using Vereniging.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.Framework;
 
 public class VoegVertegenwoordigerToeCommandHandler
 {

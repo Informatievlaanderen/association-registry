@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
     CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;

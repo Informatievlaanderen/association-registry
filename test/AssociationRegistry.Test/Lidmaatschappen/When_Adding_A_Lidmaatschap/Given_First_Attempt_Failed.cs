@@ -3,8 +3,8 @@ namespace AssociationRegistry.Test.Lidmaatschappen.When_Adding_A_Lidmaatschap;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
-using DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;
@@ -23,7 +23,7 @@ public class Given_First_Attempt_Failed
             AndereVereniging = andereVereniging,
             Geldigheidsperiode = Geldigheidsperiode.Infinity,
         };
-        var toeTeVoegenLidmaatschap = fixture.Create<VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap>() with
+        var toeTeVoegenLidmaatschap = fixture.Create<ToeTeVoegenLidmaatschap>() with
         {
             AndereVereniging = fixture.Create<VCode>(),
             Geldigheidsperiode = Geldigheidsperiode.Infinity,
@@ -33,7 +33,7 @@ public class Given_First_Attempt_Failed
             bestaandLidmaatschap,
         ]);
 
-        sut.Wijzig(fixture.Create<WijzigLidmaatschapCommand.TeWijzigenLidmaatschap>() with
+        sut.Wijzig(fixture.Create<TeWijzigenLidmaatschap>() with
         {
             LidmaatschapId = bestaandLidmaatschap.LidmaatschapId,
         });

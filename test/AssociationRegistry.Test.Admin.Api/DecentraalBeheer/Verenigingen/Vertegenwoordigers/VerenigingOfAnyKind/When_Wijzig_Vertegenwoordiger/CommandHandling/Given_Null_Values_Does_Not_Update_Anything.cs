@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;

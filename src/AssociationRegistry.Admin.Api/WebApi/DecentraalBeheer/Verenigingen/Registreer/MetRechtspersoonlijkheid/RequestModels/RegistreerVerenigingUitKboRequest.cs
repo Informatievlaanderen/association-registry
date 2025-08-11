@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 
-using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.Default;
 
-using Acties.Subtype;
+using Subvereniging;
 using Events;
 using Events.Factories;
 
@@ -22,7 +22,7 @@ public record DefaultSubtype : IVerenigingssubtype
         => [EventFactory.SubtypeWerdTerugGezetNaarNietBepaald(vCode)];
 
 
-    public IEvent[] VerFijnNaarSubvereniging(VCode vCode, VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
+    public IEvent[] VerFijnNaarSubvereniging(VCode vCode, SubverenigingVanDto subverenigingVan)
     {
         VCode.ValidateVCode(subverenigingVan.AndereVereniging ?? string.Empty);
 

@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Wijzig_Locatie.CommandHandling;
 
 using AssociationRegistry.Admin.ProjectionHost.Constants;
-using AssociationRegistry.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
-using AssociationRegistry.DecentraalBeheer.Acties.Locaties.WijzigLocatie;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.WijzigLocatie;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.Events;

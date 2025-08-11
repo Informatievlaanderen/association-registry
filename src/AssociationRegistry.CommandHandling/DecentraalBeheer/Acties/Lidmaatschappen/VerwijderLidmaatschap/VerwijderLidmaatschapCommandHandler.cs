@@ -1,7 +1,7 @@
-namespace AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.VerwijderLidmaatschap;
+namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VerwijderLidmaatschap;
 
-using Framework;
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 
 public class VerwijderLidmaatschapCommandHandler
 {

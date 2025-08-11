@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Framework.Customizations;
 
 using AutoFixture;
-using DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
-using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
 using Vereniging;
 

@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 
-using Framework;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
-using Vereniging;
 using VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using Wolverine;
 

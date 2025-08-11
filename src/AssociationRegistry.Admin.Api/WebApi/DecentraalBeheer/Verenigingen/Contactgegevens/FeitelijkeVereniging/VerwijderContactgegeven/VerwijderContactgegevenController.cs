@@ -10,7 +10,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using DecentraalBeheer.Acties.Contactgegevens.VerwijderContactgegeven;
+using CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VerwijderContactgegeven;
 using DecentraalBeheer.Vereniging;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;

@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Subtype;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Subtype;
 
-using Framework;
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 
 public class VerfijnSubtypeNaarFeitelijkeVerenigingCommandHandler
 {

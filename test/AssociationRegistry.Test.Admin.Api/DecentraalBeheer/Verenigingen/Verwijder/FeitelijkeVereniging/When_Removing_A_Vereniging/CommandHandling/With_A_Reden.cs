@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Verwijder.FeitelijkeVereniging.When_Removing_A_Vereniging.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.VerwijderVereniging;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.VerwijderVereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;

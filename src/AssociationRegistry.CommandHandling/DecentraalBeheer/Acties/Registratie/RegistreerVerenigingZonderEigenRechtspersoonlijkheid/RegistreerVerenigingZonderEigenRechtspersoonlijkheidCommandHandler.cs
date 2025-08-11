@@ -1,15 +1,15 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 
-using Framework;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
+using AssociationRegistry.Framework;
 using DuplicateVerenigingDetection;
 using Locaties.ProbeerAdresTeMatchen;
 using Marten;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using System.Collections.ObjectModel;
-using Vereniging;
-using Vereniging.Adressen;
-using Vereniging.Geotags;
 using Wolverine.Marten;
 
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
@@ -58,8 +58,21 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 
         var command = message.Command;
 
+        var registratieData = new RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid(
+            command.Naam,
+            command.KorteNaam,
+            command.KorteBeschrijving,
+            command.Startdatum,
+            command.Doelgroep,
+            command.IsUitgeschrevenUitPubliekeDatastroom,
+            command.Contactgegevens,
+            command.Locaties,
+            command.Vertegenwoordigers,
+            command.HoofdactiviteitenVerenigingsloket,
+            command.Werkingsgebieden);
+
         var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
-            command,
+            registratieData,
             _vCodeService,
             _geotagsService,
             _clock);

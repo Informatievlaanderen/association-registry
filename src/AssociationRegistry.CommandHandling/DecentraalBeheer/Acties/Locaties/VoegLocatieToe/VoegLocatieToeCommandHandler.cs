@@ -1,12 +1,12 @@
-namespace AssociationRegistry.DecentraalBeheer.Acties.Locaties.VoegLocatieToe;
+namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.VoegLocatieToe;
 
-using Events;
-using Framework;
-using Grar.Clients;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Grar.Clients;
 using Marten;
 using ProbeerAdresTeMatchen;
-using Vereniging;
-using Vereniging.Geotags;
 using Wolverine.Marten;
 
 public class VoegLocatieToeCommandHandler

@@ -1,6 +1,5 @@
-﻿namespace AssociationRegistry.KboSyncLambda.SyncKbo;
+﻿namespace AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
 
-using AssociationRegistry.Vereniging;
-using DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record SyncKboCommand(KboNummer KboNummer);

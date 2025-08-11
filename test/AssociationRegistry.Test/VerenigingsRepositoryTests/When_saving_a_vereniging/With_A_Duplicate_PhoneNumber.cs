@@ -4,8 +4,8 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common.Stubs.VCodeServices;
-using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using DecentraalBeheer.Vereniging.Geotags;
@@ -65,8 +65,20 @@ public class With_A_Duplicate_PhoneNumber
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: []);
 
+        var registratieData = new RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid(
+            command.Naam,
+            command.KorteNaam,
+            command.KorteBeschrijving,
+            command.Startdatum,
+            command.Doelgroep,
+            command.IsUitgeschrevenUitPubliekeDatastroom,
+            command.Contactgegevens,
+            command.Locaties,
+            command.Vertegenwoordigers,
+            command.HoofdactiviteitenVerenigingsloket,
+            command.Werkingsgebieden);
         await Assert.ThrowsAsync<ContactgegevenIsDuplicaat>(() => Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
-                                                                command,
+                                                                registratieData,
                                                                 vCodeService,
                                                                 Mock.Of<IGeotagsService>(),
                                                                 clock: new ClockStub(DateTime.Today)));

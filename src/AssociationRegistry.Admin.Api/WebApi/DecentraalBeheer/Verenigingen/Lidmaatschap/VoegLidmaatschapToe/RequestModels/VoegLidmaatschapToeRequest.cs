@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 
 using AssociationRegistry.Vereniging;
-using DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using DecentraalBeheer.Vereniging;
 using System.Runtime.Serialization;
 
@@ -40,7 +40,7 @@ public class VoegLidmaatschapToeRequest
 
     public VoegLidmaatschapToeCommand ToCommand(string vCode, string andereVerenigingNaam) => new(
         VCode.Create(vCode),
-        new VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap(
+        new ToeTeVoegenLidmaatschap(
         VCode.Create(AndereVereniging),
         andereVerenigingNaam,
         new Geldigheidsperiode(new GeldigVan(Van), new GeldigTot(Tot)),

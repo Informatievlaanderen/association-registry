@@ -1,12 +1,12 @@
-namespace AssociationRegistry.DecentraalBeheer.Acties.Locaties.WijzigLocatie;
+namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.WijzigLocatie;
 
-using Framework;
-using Grar.Clients;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Grar.Clients;
 using Marten;
 using ProbeerAdresTeMatchen;
-using Vereniging;
-using Vereniging.Adressen;
-using Vereniging.Geotags;
 using Wolverine.Marten;
 
 public class WijzigLocatieCommandHandler

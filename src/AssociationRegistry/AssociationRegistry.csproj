@@ -41,7 +41,7 @@
       <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\LoggerMessages.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LoggerMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Remove="Vereniging\Werkingsgebieden\Werkingsgebieden.csv"/>

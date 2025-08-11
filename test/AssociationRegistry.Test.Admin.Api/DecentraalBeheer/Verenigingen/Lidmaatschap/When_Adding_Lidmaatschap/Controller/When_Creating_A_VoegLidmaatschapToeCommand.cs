@@ -6,7 +6,7 @@ using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
@@ -52,7 +52,7 @@ public class When_Creating_A_VoegLidmaatschapToeCommand
                                       detailQuery.Object,
                                       Mock.Of<IResponseWriter>());
 
-        var toeTeVoegenLidmaatschap = new VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap(
+        var toeTeVoegenLidmaatschap = new ToeTeVoegenLidmaatschap(
             VCode.Create(voegLidmaatschapToeRequest.AndereVereniging),
             andereVerenigingNaam,
             new Geldigheidsperiode(new GeldigVan(voegLidmaatschapToeRequest.Van), new GeldigTot(voegLidmaatschapToeRequest.Tot)),

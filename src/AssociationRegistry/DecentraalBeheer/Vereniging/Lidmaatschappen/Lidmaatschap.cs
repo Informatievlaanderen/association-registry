@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Acties.Lidmaatschappen.VoegLidmaatschapToe;
-using Acties.Lidmaatschappen.WijzigLidmaatschap;
 
 public record Lidmaatschap
 {
@@ -72,7 +70,7 @@ public record Lidmaatschap
 
     public static Lidmaatschap Create(
         LidmaatschapId lidmaatschapId,
-        VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap lidmaatschap)
+        ToeTeVoegenLidmaatschap lidmaatschap)
         => new(lidmaatschapId,
                lidmaatschap.AndereVereniging,
                lidmaatschap.AndereVerenigingNaam,
@@ -80,7 +78,7 @@ public record Lidmaatschap
                lidmaatschap.Identificatie,
                lidmaatschap.Beschrijving);
 
-    public Lidmaatschap Wijzig(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap teWijzigenLidmaatschap)
+    public Lidmaatschap Wijzig(TeWijzigenLidmaatschap teWijzigenLidmaatschap)
         => this with
         {
             Geldigheidsperiode = new Geldigheidsperiode(

@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Contactgegevens.WijzigContactgegevenFromKbo;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Contactgegevens.WijzigContactgegevenFromKbo;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record WijzigContactgegevenFromKboCommand(VCode VCode, WijzigContactgegevenFromKboCommand.CommandContactgegeven Contactgegeven)
 {

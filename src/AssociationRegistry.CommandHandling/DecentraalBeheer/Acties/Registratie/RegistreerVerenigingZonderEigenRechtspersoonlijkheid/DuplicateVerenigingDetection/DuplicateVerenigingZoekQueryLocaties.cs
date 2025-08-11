@@ -1,9 +1,8 @@
-namespace AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 
-using RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using Vereniging;
-using Vereniging.Adressen;
-using GemeentenaamVerrijking;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.GemeentenaamVerrijking;
 
 public record DuplicateVerenigingZoekQueryLocaties
 {

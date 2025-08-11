@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.When_Adding_Contactgegeven.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;

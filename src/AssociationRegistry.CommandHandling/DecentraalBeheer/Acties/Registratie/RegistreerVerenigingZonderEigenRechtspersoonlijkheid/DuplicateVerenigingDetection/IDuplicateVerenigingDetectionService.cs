@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public interface IDuplicateVerenigingDetectionService
 {

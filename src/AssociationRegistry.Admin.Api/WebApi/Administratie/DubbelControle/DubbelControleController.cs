@@ -3,7 +3,7 @@ namespace AssociationRegistry.Admin.Api.WebApi.Administratie.DubbelControle;
 using Asp.Versioning;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
-using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using DecentraalBeheer.Vereniging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.KboSync.RecordProcessorTests;
 
 using AutoFixture;
+using CommandHandling.KboSyncLambda.SyncKbo;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using Kbo;
-using KboSyncLambda;
-using KboSyncLambda.SyncKbo;
+using CommandHandling.KboSyncLambda;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;

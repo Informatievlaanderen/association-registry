@@ -1,16 +1,8 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record VoegLidmaatschapToeCommand(
     VCode VCode,
-    VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap Lidmaatschap)
-{
-    public record ToeTeVoegenLidmaatschap(
-        VCode AndereVereniging,
-        string AndereVerenigingNaam,
-        Geldigheidsperiode Geldigheidsperiode,
-        LidmaatschapIdentificatie Identificatie,
-        LidmaatschapBeschrijving Beschrijving);
-}
+    ToeTeVoegenLidmaatschap Lidmaatschap);
 

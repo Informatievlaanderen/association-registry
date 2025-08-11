@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
     VerenigingsNaam Naam,

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Basisgegevens.VerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Basisgegevens.VerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;

@@ -1,15 +1,15 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 
-using Framework;
-using Kbo;
-using Resources;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Kbo;
+using AssociationRegistry.Resources;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Marten;
 using Microsoft.Extensions.Logging;
 using RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using ResultNet;
-using Vereniging;
-using Vereniging.Exceptions;
 
 public class RegistreerVerenigingUitKboCommandHandler
 {

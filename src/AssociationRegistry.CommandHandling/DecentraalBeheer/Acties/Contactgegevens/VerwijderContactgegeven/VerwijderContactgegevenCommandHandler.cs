@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Contactgegevens.VerwijderContactgegeven;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VerwijderContactgegeven;
 
-using Framework;
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 
 public class VerwijderContactgegevenCommandHandler
 {

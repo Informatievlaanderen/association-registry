@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.ZetSubtypeTerugNaarNietBepaald;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Subtype;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Subtype;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;

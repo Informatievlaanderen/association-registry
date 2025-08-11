@@ -1,7 +1,7 @@
-namespace AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
+namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 
-using Framework;
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 
 public class WijzigLidmaatschapCommandHandler
 {

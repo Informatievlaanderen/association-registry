@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.Subvereniging;
 
-using Acties.Subtype;
 using Events;
 using Events.Factories;
 
@@ -34,7 +33,7 @@ public record SubverenigingVan()
             AndereVerenigingNaam = @event.AndereVerenigingNaam,
         };
 
-    public IEvent[] Wijzig(VCode vCode, VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
+    public IEvent[] Wijzig(VCode vCode, SubverenigingVanDto subverenigingVan)
     {
         IEvent[] events = [];
 
@@ -52,10 +51,10 @@ public record SubverenigingVan()
         return events;
     }
 
-    private bool HasRelatieChanges(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan commandSubverenigingVan)
+    private bool HasRelatieChanges(SubverenigingVanDto commandSubverenigingVan)
         => commandSubverenigingVan.AndereVereniging is not null && AndereVereniging != commandSubverenigingVan.AndereVereniging;
 
-    private bool HasDetailChanges(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan commandSubverenigingVan)
+    private bool HasDetailChanges(SubverenigingVanDto commandSubverenigingVan)
         => commandSubverenigingVan.Beschrijving is not null && Beschrijving != commandSubverenigingVan.Beschrijving ||
            commandSubverenigingVan.Identificatie is not null && Identificatie != commandSubverenigingVan.Identificatie;
 }

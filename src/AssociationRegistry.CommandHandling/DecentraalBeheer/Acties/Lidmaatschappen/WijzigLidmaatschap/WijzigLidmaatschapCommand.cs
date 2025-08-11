@@ -1,16 +1,8 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record WijzigLidmaatschapCommand(
     VCode VCode,
-    WijzigLidmaatschapCommand.TeWijzigenLidmaatschap Lidmaatschap)
-{
-    public record TeWijzigenLidmaatschap(
-        LidmaatschapId LidmaatschapId,
-        GeldigVan? GeldigVan,
-        GeldigTot? GeldigTot,
-        LidmaatschapIdentificatie? Identificatie,
-        LidmaatschapBeschrijving? Beschrijving);
-}
+    TeWijzigenLidmaatschap Lidmaatschap);
 

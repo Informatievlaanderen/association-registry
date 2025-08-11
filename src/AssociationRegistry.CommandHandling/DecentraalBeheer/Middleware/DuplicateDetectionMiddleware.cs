@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Middleware;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Middleware;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using AssociationRegistry.Framework;
 using Microsoft.Extensions.Logging;
 

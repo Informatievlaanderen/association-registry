@@ -3,7 +3,7 @@
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using DecentraalBeheer.Vereniging;
 using Xunit;
 using Geldigheidsperiode = AssociationRegistry.Geldigheidsperiode;
@@ -18,7 +18,7 @@ public class EqualsTest
 
         var lidmaatschap2 = Lidmaatschap.Create(
             lidmaatschap1.LidmaatschapId,
-            new VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap(lidmaatschap1.AndereVereniging,
+            new ToeTeVoegenLidmaatschap(lidmaatschap1.AndereVereniging,
                                                                    lidmaatschap1.AndereVerenigingNaam,
                                                                    new Geldigheidsperiode(
                                                                        new GeldigVan(lidmaatschap1.Geldigheidsperiode.Van),
