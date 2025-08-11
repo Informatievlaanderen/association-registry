@@ -26,9 +26,6 @@ using FluentValidation;
 using Formats;
 using Framework;
 using Grar.AdresMatch;
-using Grar.AdresMatch.Application;
-using Grar.AdresMatch.Domain;
-using Grar.AdresMatch.Infrastructure;
 using Grar.Clients;
 using Grar.GrarUpdates.Fusies;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
@@ -463,7 +460,7 @@ public class Program
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
                .AddTransient<IDuplicateVerenigingDetectionService, ZoekDuplicateVerenigingenQuery>()
                .AddTransient<IGrarClient, GrarClient>()
-               .AddTransient<IAdresMatchService, AdresMatchServiceRefactored>()
+               .AddTransient<IAdresMatchService, AdresMatchService>()
                .AddTransient<IAdresMatchStrategy, PerfectScoreMatchStrategy>()
                .AddTransient<IAdresVerrijkingService, GemeenteVerrijkingService>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()

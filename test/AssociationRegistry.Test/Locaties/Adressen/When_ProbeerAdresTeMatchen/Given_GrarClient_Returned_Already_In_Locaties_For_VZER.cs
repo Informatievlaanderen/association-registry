@@ -1,14 +1,18 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
 using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
+using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using Common.StubsMocksFakes.Faktories;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
@@ -77,15 +81,24 @@ public class Given_Duplicate_Locaties_With_Same_Name_For_VZER
                        },
                    }));
 
-        vereniging.Hydrate(
-            new VerenigingState()
-               .Apply(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)
-               .Apply(adresWerdOvergenomen));
+        var state = new VerenigingState()
+                             .Apply(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)
+                             .Apply(adresWerdOvergenomen);
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties.ToArray()[1].LocatieId,
-                                               CancellationToken.None);
+        vereniging.Hydrate(state);
 
-        var @event = vereniging.UncommittedEvents.OfType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>().SingleOrDefault();
+        var faktory = Faktory.New();
+
+        var repository = faktory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
+        var handler = new ProbeerAdresTeMatchenCommandHandler(repository, new AdresMatchService(
+                                                                  grarClient.Object, new PerfectScoreMatchStrategy(),
+                                                                  new GemeenteVerrijkingService(grarClient.Object)),
+                                                              NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
+
+        await handler.Handle(new ProbeerAdresTeMatchenCommand(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                                                              verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties.ToArray()[1].LocatieId));
+
+        var @event = repository.ShouldHaveSavedEventType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>(1).First();
 
         @event.Should().NotBeNull();
         @event.VerwijderdeLocatieId.Should().Be(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties[verwijderdeLocatieIndex].LocatieId);
@@ -148,16 +161,24 @@ public class Given_Duplicate_Locaties_With_Different_Names_For_VZER
                        },
                    }));
 
+        var state = new VerenigingState()
+                             .Apply(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)
+                             .Apply(adresWerdOvergenomen);
+
         vereniging.Hydrate(
-            new VerenigingState()
-               .Apply(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)
-               .Apply(adresWerdOvergenomen));
+            state);
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties.ToArray()[1].LocatieId,
-                                               CancellationToken.None);
+        var faktory = Faktory.New();
 
-        var @event = vereniging.UncommittedEvents.OfType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>().SingleOrDefault();
+        var repository = faktory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
+        var handler = new ProbeerAdresTeMatchenCommandHandler(repository, new AdresMatchService(
+                                                                  grarClient.Object, new PerfectScoreMatchStrategy(),
+                                                                  new GemeenteVerrijkingService(grarClient.Object)),
+                                                              NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
-        @event.Should().BeNull();
+        await handler.Handle(new ProbeerAdresTeMatchenCommand(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                                                              verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties.ToArray()[1].LocatieId));
+
+        repository.ShouldNotHaveSaved<LocatieDuplicaatWerdVerwijderdNaAdresMatch>();
     }
 }

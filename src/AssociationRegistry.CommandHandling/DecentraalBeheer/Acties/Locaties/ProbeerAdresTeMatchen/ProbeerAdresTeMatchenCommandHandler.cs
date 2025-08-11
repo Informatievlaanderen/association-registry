@@ -4,25 +4,21 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar.AdresMatch.Application;
-using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar.AdresMatch;
 using Microsoft.Extensions.Logging;
 
 public class ProbeerAdresTeMatchenCommandHandler
 {
     private readonly ILogger<ProbeerAdresTeMatchenCommandHandler> _logger;
-    private readonly IGrarClient _grarClient;
     private readonly IAdresMatchService _adresMatchService;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
     public ProbeerAdresTeMatchenCommandHandler(
         IVerenigingsRepository verenigingsRepository,
-        IGrarClient grarClient,
         IAdresMatchService adresMatchService,
         ILogger<ProbeerAdresTeMatchenCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
-        _grarClient = grarClient;
         _adresMatchService = adresMatchService;
         _logger = logger;
     }

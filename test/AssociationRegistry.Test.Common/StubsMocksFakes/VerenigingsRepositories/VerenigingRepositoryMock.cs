@@ -125,6 +125,27 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         AssertLoadingDubbel();
     }
 
+    public T[] ShouldHaveSavedEventType<T>(int times)
+    {
+        SaveInvocations.Should().HaveCount(1);
+
+        var events = SaveInvocations[0].Vereniging.UncommittedEvents.OfType<T>();
+        events.Should().HaveCount(times);
+
+        AssertLoadingDubbel();
+
+        return events.ToArray();
+    }
+
+    public void ShouldNotHaveSavedEventType<T>()
+    {
+        SaveInvocations.Should().HaveCount(1);
+
+        SaveInvocations[0].Vereniging.UncommittedEvents.OfType<T>().Should().HaveCount(0);
+
+        AssertLoadingDubbel();
+    }
+
     public void AssertLoadingDubbel()
     {
         _actualLoadingDubbel.Should().Be(_expectedLoadingDubbel);
