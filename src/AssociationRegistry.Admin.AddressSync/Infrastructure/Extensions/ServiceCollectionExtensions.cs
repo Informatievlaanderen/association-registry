@@ -1,5 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync.Infrastructure.Extensions;
 
+using global::OpenTelemetry.Exporter;
+using global::OpenTelemetry.Metrics;
+using global::OpenTelemetry.Resources;
+using global::OpenTelemetry.Trace;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -11,10 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Npgsql;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using Schema.Detail;
 using System.Reflection;
 using Weasel.Core;

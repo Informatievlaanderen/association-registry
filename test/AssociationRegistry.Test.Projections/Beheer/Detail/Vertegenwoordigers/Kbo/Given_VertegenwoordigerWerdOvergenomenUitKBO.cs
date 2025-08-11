@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
-using JsonLdContext;
 using AssociationRegistry.Test.Projections.Scenario.Vertegenwoordigers.Kbo;
+using Contracts.JsonLdContext;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VertegenwoordigerWerdOvergenomenUitKBO(

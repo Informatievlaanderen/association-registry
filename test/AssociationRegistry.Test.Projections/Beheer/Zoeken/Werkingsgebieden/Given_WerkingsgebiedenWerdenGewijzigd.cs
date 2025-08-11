@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Werkingsgebieden;
 
 using Admin.Schema;
 using Admin.Schema.Search;
-using JsonLdContext;
+using Contracts.JsonLdContext;
 using Scenario.Werkingsgebieden;
 
 [Collection(nameof(ProjectionContext))]

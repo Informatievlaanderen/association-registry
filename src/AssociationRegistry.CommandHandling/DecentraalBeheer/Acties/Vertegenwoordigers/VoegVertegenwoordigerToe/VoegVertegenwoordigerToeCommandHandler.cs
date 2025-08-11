@@ -3,6 +3,8 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class VoegVertegenwoordigerToeCommandHandler
 {

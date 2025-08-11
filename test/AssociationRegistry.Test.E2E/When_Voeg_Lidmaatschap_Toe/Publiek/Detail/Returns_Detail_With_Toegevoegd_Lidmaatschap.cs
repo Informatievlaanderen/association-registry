@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Publiek.Detail;
 
+using Contracts.JsonLdContext;
 using Formats;
 using Framework.AlbaHost;
-using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Xunit;

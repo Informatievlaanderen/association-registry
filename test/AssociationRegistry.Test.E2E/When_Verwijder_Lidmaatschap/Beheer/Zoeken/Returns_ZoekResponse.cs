@@ -3,12 +3,12 @@
 using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using AssociationRegistry.Events;
 using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.Comparison;
 using AssociationRegistry.Test.E2E.Framework.Mappers;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using Contracts.JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Xunit;

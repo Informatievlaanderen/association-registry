@@ -5,6 +5,9 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class SyncAdresLocatiesCommandHandler(
     IVerenigingsRepository repository,

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Werkingsgebieden;
 
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
-using JsonLdContext;
 using Public.Schema.Detail;
 using Public.Schema.Search;
 using Scenario.Werkingsgebieden;

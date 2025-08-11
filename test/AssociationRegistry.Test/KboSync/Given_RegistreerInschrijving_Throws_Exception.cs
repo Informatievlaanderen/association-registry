@@ -7,8 +7,7 @@
 // using KboSyncLambda.SyncKbo;
 // using Microsoft.Extensions.Logging;
 // using Moq;
-// using Notifications;
-// using Vereniging;
+// // using Vereniging;
 // using Xunit;
 //
 // public class Given_RegistreerInschrijving_Throws_Exception
