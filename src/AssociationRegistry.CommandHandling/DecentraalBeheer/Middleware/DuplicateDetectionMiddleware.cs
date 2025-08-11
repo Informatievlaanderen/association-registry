@@ -4,6 +4,8 @@ using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using AssociationRegistry.Framework;
 using Microsoft.Extensions.Logging;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class DuplicateDetectionMiddleware
 {

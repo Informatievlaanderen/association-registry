@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Publiek.Zoeken.Without_Header;
 
+using Contracts.JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Xunit;

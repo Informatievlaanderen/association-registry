@@ -2,12 +2,12 @@
 
 using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.Comparison;
 using AssociationRegistry.Test.E2E.Framework.Mappers;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using Contracts.JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;

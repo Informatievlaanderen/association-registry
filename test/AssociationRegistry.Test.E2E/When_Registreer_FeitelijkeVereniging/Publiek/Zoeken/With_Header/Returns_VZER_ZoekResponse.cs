@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.Zoeken.With_Header;
 
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Mappers;
 using Framework.AlbaHost;
@@ -7,7 +8,6 @@ using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Vereniging;

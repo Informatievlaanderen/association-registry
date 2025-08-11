@@ -1,11 +1,12 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 
 using Amazon.Lambda.Core;
+using global::OpenTelemetry.Metrics;
+using global::OpenTelemetry.Trace;
 using JasperFx.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Metrics;
-using OpenTelemetry.Trace;
 
 public class TelemetryManager : IDisposable
 {

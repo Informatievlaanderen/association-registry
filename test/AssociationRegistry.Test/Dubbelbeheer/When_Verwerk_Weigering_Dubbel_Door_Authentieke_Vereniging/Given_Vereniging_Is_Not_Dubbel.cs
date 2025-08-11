@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Dubbelbeheer.When_Verwerk_Weigering_Dubbel_Door_Authentieke_Vereniging;
 
-using AssociationRegistry.Notifications;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
@@ -9,6 +8,7 @@ using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeige
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
+using Integrations.Slack;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;

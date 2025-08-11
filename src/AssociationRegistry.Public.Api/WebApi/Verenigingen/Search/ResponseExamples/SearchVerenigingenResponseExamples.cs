@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.ResponseExamples;
 
-using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Vereniging;

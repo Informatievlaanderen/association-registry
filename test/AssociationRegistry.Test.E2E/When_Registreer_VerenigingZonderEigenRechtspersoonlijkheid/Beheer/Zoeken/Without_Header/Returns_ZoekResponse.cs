@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Zoeken.Without_Header;
 
 using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
+using Contracts.JsonLdContext;
 using Formats;
-using JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;

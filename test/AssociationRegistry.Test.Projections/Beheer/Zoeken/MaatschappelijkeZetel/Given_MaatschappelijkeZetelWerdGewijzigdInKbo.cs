@@ -2,9 +2,9 @@
 
 using Admin.Schema;
 using Admin.Schema.Search;
+using Contracts.JsonLdContext;
 using Events;
 using Formats;
-using JsonLdContext;
 using Scenario.MaatschappelijkeZetelVolgensKbo;
 
 [Collection(nameof(ProjectionContext))]

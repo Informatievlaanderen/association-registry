@@ -4,11 +4,15 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Kbo;
-using AssociationRegistry.Notifications;
-using AssociationRegistry.Notifications.Messages;
 using AssociationRegistry.Resources;
+using Integrations.Slack;
+using Messages;
 using Microsoft.Extensions.Logging;
+using OpenTelemetry.Metrics;
 using ResultNet;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class SyncKboCommandHandler
 {
@@ -50,7 +54,7 @@ public class SyncKboCommandHandler
         if (verenigingVolgensMagda.IsFailure())
         {
             scope.Failed();
-            await _notifier.Notify(new KboSynchronisatieMisluktMessage(message.Command.KboNummer));
+            await _notifier.Notify(new KboSynchronisatieMisluktNotification(message.Command.KboNummer));
 
             throw new GeenGeldigeVerenigingInKbo();
         }

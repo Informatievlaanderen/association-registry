@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Notifications.Messages;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Notifications;
 
-using DecentraalBeheer.Vereniging;
-using Notifications;
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Integrations.Slack;
+using System;
 
-public class VerwerkWeigeringDubbelDoorAuthentiekeVerenigingGefaald : IMessage
+public class VerwerkWeigeringDubbelDoorAuthentiekeVerenigingGefaald : INotification
 {
     private readonly Exception _exception;
     private readonly VCode _vCode;
