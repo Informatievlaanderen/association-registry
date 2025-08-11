@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Grar.AdresMatch;
+using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
@@ -20,9 +21,13 @@ public class Returns_Single_Response_Score98
            .WithResponses(new MockScore(98))
                         .Build();
 
-      var actual =  await LegacyAdresMatchWrapperService.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(), grarClient.Object,
-                                                   CancellationToken.None, fixture.Create<VCode>());
+        var matchStrategy = new PerfectScoreMatchStrategy();
+        var verrijkingService = new GemeenteVerrijkingService(grarClient.Object);
+        var service = new AdresMatchService(grarClient.Object, matchStrategy, verrijkingService);
 
-      actual.Should().BeOfType<AdresNietUniekInAdressenregister>();
+        var actual = await service.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(),
+                                                     fixture.Create<VCode>(), CancellationToken.None);
+
+        actual.Should().BeOfType<AdresNietUniekInAdressenregister>();
     }
 }
