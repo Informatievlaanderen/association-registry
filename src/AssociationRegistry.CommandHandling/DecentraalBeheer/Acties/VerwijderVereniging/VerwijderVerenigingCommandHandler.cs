@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.VerwijderVereniging;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.VerwijderVereniging;
 
-using Framework;
-using Vereniging;
-using Vereniging.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.Framework;
 
 public class VerwijderVerenigingCommandHandler
 {

@@ -1,7 +1,5 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Acties.Lidmaatschappen.VoegLidmaatschapToe;
-using Acties.Lidmaatschappen.WijzigLidmaatschap;
 using Adressen;
 using Events;
 using Framework;
@@ -107,7 +105,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.LocatieWerdVerwijderd(State.VCode, locatie));
     }
 
-    public Lidmaatschap VoegLidmaatschapToe(VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap lidmaatschap)
+    public Lidmaatschap VoegLidmaatschapToe(ToeTeVoegenLidmaatschap lidmaatschap)
     {
         Throw<LidmaatschapMagNietVerwijzenNaarEigenVereniging>.If(VCode == lidmaatschap.AndereVereniging);
         Throw<VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs>.If(State.Verenigingssubtype.IsSubverenigingVan(lidmaatschap.AndereVereniging));
@@ -125,7 +123,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.LidmaatschapWerdVerwijderd(State.VCode, locatie));
     }
 
-    public void WijzigLidmaatschap(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap lidmaatschap)
+    public void WijzigLidmaatschap(TeWijzigenLidmaatschap lidmaatschap)
     {
         var toegevoegdLidmaatschap = State.Lidmaatschappen.Wijzig(lidmaatschap);
 

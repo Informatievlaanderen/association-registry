@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Middleware;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Middleware;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.Framework;
 using AssociationRegistry.GemeentenaamVerrijking;

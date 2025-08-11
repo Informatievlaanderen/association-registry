@@ -1,7 +1,7 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using Acties.Subtype;
+using Subtypes.Subvereniging;
+using Adressen;
 using Events;
 using Framework;
 using Emails;
@@ -16,46 +16,46 @@ using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
     public static async Task<Vereniging> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
-        RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command,
+        RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid registratieData,
         IVCodeService vCodeService,
         IGeotagsService geotagsService,
         IClock clock)
     {
-        Throw<StartdatumMagNietInToekomstZijn>.If(command.Startdatum?.IsInFutureOf(clock.Today) ?? false);
+        Throw<StartdatumMagNietInToekomstZijn>.If(registratieData.Startdatum?.IsInFutureOf(clock.Today) ?? false);
 
         var vCode = await vCodeService.GetNext();
 
-        var toegevoegdeLocaties = Locaties.Empty.VoegToe(command.Locaties);
-        var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(command.Contactgegevens);
-        var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(command.Vertegenwoordigers);
+        var toegevoegdeLocaties = Locaties.Empty.VoegToe(registratieData.Locaties);
+        var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(registratieData.Contactgegevens);
+        var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(registratieData.Vertegenwoordigers);
 
         var vereniging = new Vereniging();
 
         vereniging.AddEvent(
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
-                command.Naam,
-                command.KorteNaam ?? string.Empty,
-                command.KorteBeschrijving ?? string.Empty,
-                command.Startdatum?.Value,
-                EventFactory.Doelgroep(command.Doelgroep),
-                command.IsUitgeschrevenUitPubliekeDatastroom,
+                registratieData.Naam,
+                registratieData.KorteNaam ?? string.Empty,
+                registratieData.KorteBeschrijving ?? string.Empty,
+                registratieData.Startdatum?.Value,
+                EventFactory.Doelgroep(registratieData.Doelgroep),
+                registratieData.IsUitgeschrevenUitPubliekeDatastroom,
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
-                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(command.HoofdactiviteitenVerenigingsloket))
+                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(registratieData.HoofdactiviteitenVerenigingsloket))
             ));
 
-        vereniging.RegistreerWerkingsgebieden(command.Werkingsgebieden);
+        vereniging.RegistreerWerkingsgebieden(registratieData.Werkingsgebieden);
 
         return vereniging;
     }
 
-    public void NeemAdresDetailsOver(Locatie[] metAdresId, VerrijkteAdressenUitGrar verrijkteAdressenUitGrar)
+    public void NeemAdresDetailsOver(Locatie[] metAdresId, IReadOnlyDictionary<string, Adres> verrijkteAdressenUitGrar)
     {
         foreach (var locatieMetAdresId in metAdresId)
         {
-            var adres = verrijkteAdressenUitGrar.For(locatieMetAdresId.AdresId!);
+            var adres = verrijkteAdressenUitGrar[locatieMetAdresId.AdresId!.Bronwaarde];
 
             AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieMetAdresId.LocatieId,
                                                                        new Registratiedata.AdresId(
@@ -309,7 +309,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
              .ForEach(AddEvent);
     }
 
-    public void VerfijnNaarSubvereniging(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
+    public void VerfijnNaarSubvereniging(SubverenigingVanDto subverenigingVan)
     {
         Throw<VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs>.If(
             AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging));

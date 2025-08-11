@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.VerenigingMetRechtspersoonlijkheid.When_Removing_Vertegenwoordiger.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;

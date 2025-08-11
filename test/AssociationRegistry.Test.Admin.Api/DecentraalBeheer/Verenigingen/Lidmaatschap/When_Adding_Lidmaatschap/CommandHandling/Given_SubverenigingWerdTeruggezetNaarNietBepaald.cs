@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.When_Adding_Lidmaatschap.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
@@ -29,7 +30,7 @@ public class Given_SubverenigingWerdTeruggezetNaarNietBepaald
         var command = fixture.Create<VoegLidmaatschapToeCommand>() with
         {
             VCode = subverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario.VCode,
-            Lidmaatschap = fixture.Create<VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap>() with
+            Lidmaatschap = fixture.Create<ToeTeVoegenLidmaatschap>() with
             {
                 AndereVereniging = rechtspersoonlijkheidScenario.VCode,
             },

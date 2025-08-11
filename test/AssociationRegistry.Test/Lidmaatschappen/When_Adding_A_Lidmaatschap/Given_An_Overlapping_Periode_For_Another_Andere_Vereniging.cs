@@ -3,7 +3,7 @@
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;
@@ -24,7 +24,7 @@ public class Given_An_Overlapping_Periode_For_Another_Andere_Vereniging
             Geldigheidsperiode = Geldigheidsperiode.Infinity,
         };
 
-        var toeTeVoegenLidmaatschap = fixture.Create<VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap>() with
+        var toeTeVoegenLidmaatschap = fixture.Create<ToeTeVoegenLidmaatschap>() with
         {
             AndereVereniging = fixture.Create<VCode>(),
         };

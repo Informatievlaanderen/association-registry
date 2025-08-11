@@ -1,8 +1,8 @@
-namespace AssociationRegistry.DecentraalBeheer.Acties.Geotags.InitialiseerGeotags;
+namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Geotags.InitialiseerGeotags;
 
-using Framework;
-using Vereniging;
-using Vereniging.Geotags;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
+using AssociationRegistry.Framework;
 
 public class InitialiseerGeotagsCommandHandler
 {

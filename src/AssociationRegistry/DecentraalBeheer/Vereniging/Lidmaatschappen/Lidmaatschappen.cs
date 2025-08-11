@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Acties.Lidmaatschappen.VoegLidmaatschapToe;
-using Acties.Lidmaatschappen.WijzigLidmaatschap;
 using Framework;
 using Exceptions;
 using System.Collections.ObjectModel;
@@ -34,7 +32,7 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
         return new LidmaatschapId(Math.Max(lidmaatschappen.Max(x => x.LidmaatschapId).Next, NextId));
     }
 
-    public Lidmaatschap VoegToe(VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap lidmaatschap)
+    public Lidmaatschap VoegToe(ToeTeVoegenLidmaatschap lidmaatschap)
     {
         var toeTeVoegenLidmaatschap = Lidmaatschap.Create(
             new LidmaatschapId(NextId),
@@ -45,7 +43,7 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
         return toeTeVoegenLidmaatschap;
     }
 
-    public Lidmaatschap? Wijzig(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap teWijzigenLidmaatschap)
+    public Lidmaatschap? Wijzig(TeWijzigenLidmaatschap teWijzigenLidmaatschap)
     {
         var lidmaatschap = Get(teWijzigenLidmaatschap.LidmaatschapId);
         var gewijzigdeLidmaatschap = lidmaatschap.Wijzig(teWijzigenLidmaatschap);

@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
 
-using Framework;
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 
 public class VoegContactgegevenToeCommandHandler
 {

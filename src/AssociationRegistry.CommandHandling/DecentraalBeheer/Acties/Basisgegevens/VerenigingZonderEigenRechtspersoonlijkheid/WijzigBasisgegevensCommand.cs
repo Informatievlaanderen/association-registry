@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Basisgegevens.VerenigingZonderEigenRechtspersoonlijkheid;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Basisgegevens.VerenigingZonderEigenRechtspersoonlijkheid;
 
-using Primitives;
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Primitives;
 
 public record WijzigBasisgegevensCommand(
     VCode VCode,

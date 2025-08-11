@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
-using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
 using global::AutoFixture;
 using Vereniging;
@@ -39,7 +39,7 @@ public static class CommandCustomizations
 
     private static void CustomizeTewijzigenLidmaatschap(this IFixture fixture)
     {
-        fixture.Customize<WijzigLidmaatschapCommand.TeWijzigenLidmaatschap>(
+        fixture.Customize<TeWijzigenLidmaatschap>(
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () =>
                                                              {
@@ -48,7 +48,7 @@ public static class CommandCustomizations
                                                                  var geldigTot =
                                                                      new GeldigTot(geldigVan.DateOnly.Value.AddDays(fixture.Create<int>()));
 
-                                                                 return new WijzigLidmaatschapCommand.TeWijzigenLidmaatschap(
+                                                                 return new TeWijzigenLidmaatschap(
                                                                      fixture.Create<LidmaatschapId>(),
                                                                      geldigVan,
                                                                      geldigTot,

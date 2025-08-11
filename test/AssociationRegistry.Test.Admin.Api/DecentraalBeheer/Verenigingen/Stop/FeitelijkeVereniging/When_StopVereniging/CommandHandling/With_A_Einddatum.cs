@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Stop.FeitelijkeVereniging.When_StopVereniging.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.StopVereniging;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.StopVereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;

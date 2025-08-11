@@ -6,7 +6,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
-using DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
@@ -26,7 +26,7 @@ public class Given_AndereVerwijstNaamEigenVereniging
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         sut.Hydrate(new VerenigingState().Apply((dynamic)verenigingWerdGeregistreerd));
 
-        var toeTeVoegenLidmaatschap = fixture.Create<VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap>()
+        var toeTeVoegenLidmaatschap = fixture.Create<ToeTeVoegenLidmaatschap>()
             with
             {
                 AndereVereniging = VCode.Create(verenigingWerdGeregistreerd.VCode),

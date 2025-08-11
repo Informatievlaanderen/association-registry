@@ -1,6 +1,6 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.NoSubtype;
 
-using Acties.Subtype;
+using Subvereniging;
 using Events;
 
 public record NoSubtype : IVerenigingssubtype
@@ -20,7 +20,7 @@ public record NoSubtype : IVerenigingssubtype
         => throw new InvalidOperationException("This subtype is not supposed to be used.");
 
 
-    public IEvent[] VerFijnNaarSubvereniging(VCode vCode, VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
+    public IEvent[] VerFijnNaarSubvereniging(VCode vCode, SubverenigingVanDto subverenigingVan)
         => throw new InvalidOperationException("This subtype is not supposed to be used.");
 
     public bool IsSubverenigingVan(VCode lidmaatschapAndereVereniging)

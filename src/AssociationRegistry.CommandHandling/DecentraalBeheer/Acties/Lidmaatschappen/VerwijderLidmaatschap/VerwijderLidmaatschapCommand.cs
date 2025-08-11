@@ -1,5 +1,5 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.VerwijderLidmaatschap;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VerwijderLidmaatschap;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record VerwijderLidmaatschapCommand(VCode VCode, LidmaatschapId LidmaatschapId);

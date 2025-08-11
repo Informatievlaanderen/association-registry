@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Messages;
+﻿namespace AssociationRegistry.CommandHandling.Messages;
 
-using Grar.Models;
+using AssociationRegistry.Grar.Models;
 using Grar.NightlyAdresSync.SyncAdresLocaties;
 
 public record TeSynchroniserenLocatieAdresMessage(string VCode, List<LocatieWithAdres> LocatiesWithAdres, string IdempotenceKey)

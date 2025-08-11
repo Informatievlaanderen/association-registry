@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
 
-using Framework;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.Framework;
 using Marten;
 using Reacties.AanvaardDubbel;
-using Vereniging;
-using Vereniging.Exceptions;
 using Wolverine.Marten;
 
 public class MarkeerAlsDubbelVanCommandHandler

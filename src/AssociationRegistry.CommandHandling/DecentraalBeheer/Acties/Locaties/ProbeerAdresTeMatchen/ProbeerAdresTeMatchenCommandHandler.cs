@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 
-using EventStore;
-using Framework;
-using Grar.Clients;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Grar.Clients;
 using Microsoft.Extensions.Logging;
-using Vereniging;
-using Vereniging.Exceptions;
 
 public class ProbeerAdresTeMatchenCommandHandler
 {

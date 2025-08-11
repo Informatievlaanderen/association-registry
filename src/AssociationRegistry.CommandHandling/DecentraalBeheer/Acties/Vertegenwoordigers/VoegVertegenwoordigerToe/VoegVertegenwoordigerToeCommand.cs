@@ -1,5 +1,5 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record VoegVertegenwoordigerToeCommand(VCode VCode, Vertegenwoordiger Vertegenwoordiger);

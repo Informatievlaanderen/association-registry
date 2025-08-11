@@ -3,7 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.DecentraalBeheer.Acties.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;

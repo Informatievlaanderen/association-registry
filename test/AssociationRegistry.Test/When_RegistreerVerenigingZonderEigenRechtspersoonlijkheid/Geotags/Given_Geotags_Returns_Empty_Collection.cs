@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.When_RegistreerVerenigingZonderEigenRechtspersoonlijkheid.Geotags;
 
 using AutoFixture;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common.AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Faktories;
-using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;
 using Events;
@@ -29,7 +29,19 @@ public class Given_Geotags_Returns_Empty_Collection
         {
             Startdatum = Datum.Create(clock.Today)
         };
-        var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(registreerVerenigingZonderEigenRechtspersoonlijkheidCommand, new StubVCodeService(vCode), geotagsService.Object, clock);
+        var registratieData = new RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid(
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Naam,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.KorteNaam,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.KorteBeschrijving,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Startdatum,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Doelgroep,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.IsUitgeschrevenUitPubliekeDatastroom,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Contactgegevens,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Locaties,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Vertegenwoordigers,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.HoofdactiviteitenVerenigingsloket,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Werkingsgebieden);
+        var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(registratieData, new StubVCodeService(vCode), geotagsService.Object, clock);
         await vereniging.BerekenGeotags(geotagsService.Object);
 
         vereniging.UncommittedEvents.OfType<GeotagsWerdenBepaald>().Single()

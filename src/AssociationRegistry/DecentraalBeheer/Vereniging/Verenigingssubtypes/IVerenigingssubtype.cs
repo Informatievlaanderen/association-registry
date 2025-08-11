@@ -1,6 +1,6 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Acties.Subtype;
+using Subtypes.Subvereniging;
 using Events;
 
 public interface IVerenigingssubtype
@@ -11,6 +11,6 @@ public interface IVerenigingssubtype
     IVerenigingssubtype Apply(SubverenigingDetailsWerdenGewijzigd @event);
     IEvent[] VerFijnNaarFeitelijkeVereniging(VCode vCode);
     IEvent[] ZetSubtypeNaarNietBepaald(VCode vCode);
-    IEvent[] VerFijnNaarSubvereniging(VCode vCode, VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan);
+    IEvent[] VerFijnNaarSubvereniging(VCode vCode, SubverenigingVanDto subverenigingVan);
     bool IsSubverenigingVan(VCode lidmaatschapAndereVereniging);
 }

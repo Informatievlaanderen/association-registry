@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Basisgegevens.VerenigingZonderEigenRechtspersoonlijkheid;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Basisgegevens.VerenigingZonderEigenRechtspersoonlijkheid;
 
-using Framework;
-using Primitives;
-using Vereniging;
-using Vereniging.Geotags;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Primitives;
 
 public class WijzigBasisgegevensCommandHandler
 {

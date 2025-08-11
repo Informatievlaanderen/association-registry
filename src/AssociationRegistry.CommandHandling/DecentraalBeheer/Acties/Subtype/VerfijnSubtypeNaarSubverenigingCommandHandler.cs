@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Subtype;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Subtype;
 
-using Framework;
-using Vereniging;
-using Vereniging.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.Framework;
 
 public class VerfijnSubtypeNaarSubverenigingCommandHandler
 {

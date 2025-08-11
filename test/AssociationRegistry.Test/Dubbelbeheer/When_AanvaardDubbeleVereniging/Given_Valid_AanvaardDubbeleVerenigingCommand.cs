@@ -1,15 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.When_AanvaardDubbeleVereniging;
 
 using AssociationRegistry.Events;
-using AssociationRegistry.Messages;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
+using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
+using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
-using DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using Moq;
 using Wolverine;
 using Xunit;

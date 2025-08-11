@@ -4,7 +4,7 @@ using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
@@ -34,7 +34,7 @@ public class Given_An_Overlapping_Periode_For_The_Same_Andere_Vereniging
             Geldigheidsperiode = new Geldigheidsperiode(new GeldigVan(2020, 10, 10), new GeldigTot(2020, 10, 10)),
         };
 
-        var command = fixture.Create<WijzigLidmaatschapCommand.TeWijzigenLidmaatschap>() with
+        var command = fixture.Create<TeWijzigenLidmaatschap>() with
         {
             LidmaatschapId = teWijzigenLidmaatschap.LidmaatschapId,
             GeldigVan = overlappendePeriode.Van,

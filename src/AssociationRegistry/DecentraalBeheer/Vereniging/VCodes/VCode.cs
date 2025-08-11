@@ -38,7 +38,7 @@ public class VCode : ValueObject<VCode>
         return new VCode(vCode);
     }
 
-    internal static VCode Hydrate(string vCode)
+    public static VCode Hydrate(string vCode)
         => new(int.Parse(vCode[1..]));
 
     private static bool VCodeHasLengthEight(string vCode)

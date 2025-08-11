@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Grar.NightlyAdresSync.SyncAdresLocaties;
 using AutoFixture;
+using CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;

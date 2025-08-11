@@ -5,7 +5,7 @@ using Hosts.Configuration;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using AutoFixture;
-using DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using FluentAssertions;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;

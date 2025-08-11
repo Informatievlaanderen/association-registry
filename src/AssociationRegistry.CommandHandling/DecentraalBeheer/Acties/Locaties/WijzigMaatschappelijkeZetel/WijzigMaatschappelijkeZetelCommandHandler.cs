@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
 
-using Framework;
-using Vereniging;
-using Vereniging.Geotags;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
+using AssociationRegistry.Framework;
 
 public class WijzigMaatschappelijkeZetelCommandHandler
 {

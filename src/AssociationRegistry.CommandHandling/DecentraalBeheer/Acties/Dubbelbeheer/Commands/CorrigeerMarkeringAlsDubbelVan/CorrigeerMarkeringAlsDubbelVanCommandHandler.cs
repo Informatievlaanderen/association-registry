@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Dubbelbeheer.Commands.CorrigeerMarkeringAlsDubbelVan;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.CorrigeerMarkeringAlsDubbelVan;
 
-using Framework;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 using Marten;
 using Reacties.AanvaardCorrectieDubbel;
-using Vereniging;
 using Wolverine.Marten;
 
 public class CorrigeerMarkeringAlsDubbelVanCommandHandler

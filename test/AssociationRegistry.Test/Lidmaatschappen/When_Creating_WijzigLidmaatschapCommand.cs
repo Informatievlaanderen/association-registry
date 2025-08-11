@@ -5,7 +5,7 @@ using AssociationRegistry.Primitives;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;
@@ -40,7 +40,7 @@ public class When_Creating_WijzigLidmaatschapCommand
             _someLidmaatschapId);
 
         actual.Lidmaatschap.Should().BeEquivalentTo(
-            new WijzigLidmaatschapCommand.TeWijzigenLidmaatschap(
+            new TeWijzigenLidmaatschap(
                 new LidmaatschapId(_someLidmaatschapId),
                 null,
                 null,
@@ -66,7 +66,7 @@ public class When_Creating_WijzigLidmaatschapCommand
             _someLidmaatschapId);
 
         actual.Lidmaatschap.Should().BeEquivalentTo(
-            new WijzigLidmaatschapCommand.TeWijzigenLidmaatschap(
+            new TeWijzigenLidmaatschap(
                 new LidmaatschapId(_someLidmaatschapId),
                 GeldigVan.Infinite,
                 GeldigTot.Infinite,

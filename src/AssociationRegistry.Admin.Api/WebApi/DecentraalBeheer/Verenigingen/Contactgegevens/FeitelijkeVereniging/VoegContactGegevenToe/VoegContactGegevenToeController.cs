@@ -12,7 +12,7 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
+using CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
 using DecentraalBeheer.Vereniging;
 using Examples;
 using FluentValidation;

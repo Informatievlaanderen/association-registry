@@ -1,12 +1,12 @@
-﻿namespace AssociationRegistry.KboSyncLambda;
+﻿namespace AssociationRegistry.CommandHandling.KboSyncLambda;
 
-using DecentraalBeheer.Vereniging;
-using Framework;
-using Kbo;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Kbo;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 using SyncKbo;
-using Vereniging;
+using AssociationRegistry.Vereniging;
 
 public class RecordProcessor
 {
