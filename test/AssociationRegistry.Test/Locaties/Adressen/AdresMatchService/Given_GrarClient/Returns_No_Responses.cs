@@ -5,6 +5,7 @@ using Common.AutoFixture;
 using Events;
 using FluentAssertions;
 using AssociationRegistry.Grar.AdresMatch;
+using AssociationRegistry.Grar.Clients;
 using DecentraalBeheer.Vereniging;
 using Vereniging;
 using Xunit;
@@ -20,9 +21,13 @@ public class Returns_No_Responses
                         .WithNoResponses()
                         .Build();
 
-      var actual =  await LegacyAdresMatchWrapperService.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(), grarClient.Object,
-                                                   CancellationToken.None, fixture.Create<VCode>());
+        var matchStrategy = new PerfectScoreMatchStrategy();
+        var verrijkingService = new GemeenteVerrijkingService(grarClient.Object);
+        var service = new AdresMatchService(grarClient.Object, matchStrategy, verrijkingService);
 
-      actual.Should().BeOfType<AdresWerdNietGevondenInAdressenregister>();
+        var actual = await service.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(),
+                                                     fixture.Create<VCode>(), CancellationToken.None);
+
+        actual.Should().BeOfType<AdresWerdNietGevondenInAdressenregister>();
     }
 }
