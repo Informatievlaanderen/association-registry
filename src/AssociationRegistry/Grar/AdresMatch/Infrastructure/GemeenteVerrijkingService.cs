@@ -25,7 +25,7 @@ public class GemeenteVerrijkingService : IAdresVerrijkingService
         CancellationToken cancellationToken)
     {
         var postalInformation = await _grarClient.GetPostalInformationDetail(origineleAdres.Postcode);
-        
+
         var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
             origineleAdres.Gemeente,
             postalInformation,

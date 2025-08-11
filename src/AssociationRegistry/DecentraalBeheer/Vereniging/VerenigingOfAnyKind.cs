@@ -5,6 +5,7 @@ using Events;
 using Framework;
 using GemeentenaamVerrijking;
 using Grar.AdresMatch;
+using Grar.AdresMatch.Domain;
 using Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
 using Grar.Models;
@@ -213,6 +214,61 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                                   idempotenceKey));
             }
         }
+    }
+
+    public AdresMatchRequest CreateAdresMatchRequest(int locatieId)
+    {
+        var locatie = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
+        return new AdresMatchRequest(VCode, locatieId, locatie);
+    }
+
+    public void ProcessAdresMatchResult(AdresMatchResult result, int locatieId)
+    {
+        var locatie = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
+        var @event = result.ToEvent(VCode, locatieId);
+
+        if (@event is not AdresWerdOvergenomenUitAdressenregister adresWerdOvergenomen)
+        {
+            AddEvent(@event);
+            return;
+        }
+
+        if (!NieuweWaardenIndienWerdOvergenomen(adresWerdOvergenomen, locatie))
+        {
+            AddEvent(new AdresHeeftGeenVerschillenMetAdressenregister(VCode,
+                                                                      locatieId,
+                                                                      adresWerdOvergenomen.AdresId,
+                                                                      adresWerdOvergenomen.Adres));
+            return;
+        }
+
+        var stateLocatie = State.Locaties.SingleOrDefault(
+            sod =>
+                sod.LocatieId != locatieId &&
+                sod.AdresId is not null &&
+                sod.AdresId == adresWerdOvergenomen.AdresId &&
+                sod.Naam == locatie.Naam &&
+                sod.Locatietype == locatie.Locatietype);
+
+        if (stateLocatie is not null)
+        {
+            var verwijderdeLocatieId = !stateLocatie.IsPrimair && locatie.IsPrimair ? stateLocatie.LocatieId : locatieId;
+            var behoudenLocatieId = verwijderdeLocatieId == locatieId ? stateLocatie.LocatieId : locatieId;
+
+            AddEvent(adresWerdOvergenomen with
+            {
+                VCode = VCode,
+                LocatieId = locatieId
+            });
+
+            AddEvent(new LocatieDuplicaatWerdVerwijderdNaAdresMatch(VCode, verwijderdeLocatieId,
+                                                                    behoudenLocatieId,
+                                                                    locatie.Naam,
+                                                                    adresWerdOvergenomen.AdresId));
+            return;
+        }
+
+        AddEvent(adresWerdOvergenomen);
     }
 
     public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId, CancellationToken cancellationToken)
