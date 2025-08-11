@@ -5,7 +5,6 @@ using Events;
 using Framework;
 using GemeentenaamVerrijking;
 using Grar.AdresMatch;
-using Grar.AdresMatch.Domain;
 using Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
 using Grar.Models;
@@ -219,7 +218,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public AdresMatchRequest CreateAdresMatchRequest(int locatieId)
     {
         var locatie = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
-        return new AdresMatchRequest(VCode, locatieId, locatie);
+        return new AdresMatchRequest(locatie);
     }
 
     public void ProcessAdresMatchResult(AdresMatchResult result, int locatieId)
@@ -271,74 +270,74 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(adresWerdOvergenomen);
     }
 
-    public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId, CancellationToken cancellationToken)
-    {
-        var locatie = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
-
-        try
-        {
-            var @event = await AdresMatchService.GetAdresMatchEvent(locatieId, locatie, grarClient, cancellationToken, VCode);
-
-            if (@event is not AdresWerdOvergenomenUitAdressenregister adresWerdOvergenomen)
-            {
-                AddEvent(@event);
-
-                return;
-            }
-
-            if (!NieuweWaardenIndienWerdOvergenomen(adresWerdOvergenomen, locatie))
-            {
-                AddEvent(new AdresHeeftGeenVerschillenMetAdressenregister(VCode,
-                                                                          locatieId,
-                                                                          adresWerdOvergenomen.AdresId,
-                                                                          adresWerdOvergenomen.Adres));
-
-                return;
-            }
-
-            var stateLocatie = State.Locaties.SingleOrDefault(
-                sod =>
-                    sod.LocatieId != locatieId &&
-                    sod.AdresId is not null &&
-                    sod.AdresId == adresWerdOvergenomen.AdresId &&
-                    sod.Naam == locatie.Naam &&
-                    sod.Locatietype == locatie.Locatietype);
-
-            if (stateLocatie is not null)
-            {
-                var verwijderdeLocatieId = !stateLocatie.IsPrimair && locatie.IsPrimair ? stateLocatie.LocatieId : locatieId;
-                var behoudenLocatieId = verwijderdeLocatieId == locatieId ? stateLocatie.LocatieId : locatieId;
-
-                AddEvent(adresWerdOvergenomen with
-                {
-                    VCode = VCode,
-                    LocatieId = locatieId
-                });
-
-                AddEvent(new LocatieDuplicaatWerdVerwijderdNaAdresMatch(VCode, verwijderdeLocatieId,
-                                                                        behoudenLocatieId,
-                                                                        locatie.Naam,
-                                                                        adresWerdOvergenomen.AdresId));
-
-                return;
-            }
-
-            AddEvent(adresWerdOvergenomen);
-        }
-        catch (AdressenregisterReturnedNonSuccessStatusCode ex)
-        {
-            AddEvent(new AdresKonNietOvergenomenWordenUitAdressenregister(
-                         VCode,
-                         locatieId,
-                         locatie.Adres.ToAdresString(),
-                         ex.Message
-                     ));
-        }
-        catch(AdressenregisterReturnedNotFoundStatusCode ex)
-        {
-            AddEvent(EventFactory.AdresWerdNietGevondenInAdressenregister(VCode, locatie));
-        }
-    }
+    // public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId, CancellationToken cancellationToken)
+    // {
+    //     var locatie = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
+    //
+    //     try
+    //     {
+    //         var @event = await LegacyAdresMatchWrapperService.GetAdresMatchEvent(locatieId, locatie, grarClient, cancellationToken, VCode);
+    //
+    //         if (@event is not AdresWerdOvergenomenUitAdressenregister adresWerdOvergenomen)
+    //         {
+    //             AddEvent(@event);
+    //
+    //             return;
+    //         }
+    //
+    //         if (!NieuweWaardenIndienWerdOvergenomen(adresWerdOvergenomen, locatie))
+    //         {
+    //             AddEvent(new AdresHeeftGeenVerschillenMetAdressenregister(VCode,
+    //                                                                       locatieId,
+    //                                                                       adresWerdOvergenomen.AdresId,
+    //                                                                       adresWerdOvergenomen.Adres));
+    //
+    //             return;
+    //         }
+    //
+    //         var stateLocatie = State.Locaties.SingleOrDefault(
+    //             sod =>
+    //                 sod.LocatieId != locatieId &&
+    //                 sod.AdresId is not null &&
+    //                 sod.AdresId == adresWerdOvergenomen.AdresId &&
+    //                 sod.Naam == locatie.Naam &&
+    //                 sod.Locatietype == locatie.Locatietype);
+    //
+    //         if (stateLocatie is not null)
+    //         {
+    //             var verwijderdeLocatieId = !stateLocatie.IsPrimair && locatie.IsPrimair ? stateLocatie.LocatieId : locatieId;
+    //             var behoudenLocatieId = verwijderdeLocatieId == locatieId ? stateLocatie.LocatieId : locatieId;
+    //
+    //             AddEvent(adresWerdOvergenomen with
+    //             {
+    //                 VCode = VCode,
+    //                 LocatieId = locatieId
+    //             });
+    //
+    //             AddEvent(new LocatieDuplicaatWerdVerwijderdNaAdresMatch(VCode, verwijderdeLocatieId,
+    //                                                                     behoudenLocatieId,
+    //                                                                     locatie.Naam,
+    //                                                                     adresWerdOvergenomen.AdresId));
+    //
+    //             return;
+    //         }
+    //
+    //         AddEvent(adresWerdOvergenomen);
+    //     }
+    //     catch (AdressenregisterReturnedNonSuccessStatusCode ex)
+    //     {
+    //         AddEvent(new AdresKonNietOvergenomenWordenUitAdressenregister(
+    //                      VCode,
+    //                      locatieId,
+    //                      locatie.Adres.ToAdresString(),
+    //                      ex.Message
+    //                  ));
+    //     }
+    //     catch(AdressenregisterReturnedNotFoundStatusCode ex)
+    //     {
+    //         AddEvent(EventFactory.AdresWerdNietGevondenInAdressenregister(VCode, locatie));
+    //     }
+    // }
 
     public async Task NeemAdresDetailOver(
         int locatieId,

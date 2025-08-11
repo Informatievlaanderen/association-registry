@@ -1,8 +1,7 @@
-namespace AssociationRegistry.Grar.AdresMatch.Domain;
+namespace AssociationRegistry.Grar.AdresMatch;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
-using AssociationRegistry.Vereniging;
 
 public abstract record AdresMatchResult
 {

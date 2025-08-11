@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
 using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using Events;
@@ -8,8 +9,12 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
+using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using Common.StubsMocksFakes.Faktories;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
@@ -43,7 +48,7 @@ public class Bugfix_20240902_Given_GrarClient_Returned_Same_Id_With_Different_Co
     [Theory]
     [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
     [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
-    public void Then_AdresWerdOvergenomenUitAdressenregister_IsApplied_And_LocatieDuplicaatWerdVerwijderdNaAdresMatch_IsNeverApplied(Type verenigingType)
+    public async Task Then_AdresWerdOvergenomenUitAdressenregister_IsApplied_And_LocatieDuplicaatWerdVerwijderdNaAdresMatch_IsNeverApplied(Type verenigingType)
     {
         var fixture = new Fixture().CustomizeDomain();
         var context = new SpecimenContext(fixture);
@@ -55,20 +60,26 @@ public class Bugfix_20240902_Given_GrarClient_Returned_Same_Id_With_Different_Co
         var grarClient = SetupGrarClientMock(fixture, locatie);
 
         var vereniging = new VerenigingOfAnyKind();
-        vereniging.Hydrate(
-            new VerenigingState()
-               .Apply((dynamic)verenigingWerdGeregistreerd));
 
-        vereniging.ProbeerAdresTeMatchen(grarClient.Object, verenigingWerdGeregistreerd.Locaties.ToArray()[0].LocatieId,
-                                          CancellationToken.None)
-                   .GetAwaiter().GetResult();
+        var state = new VerenigingState()
+           .Apply((dynamic)verenigingWerdGeregistreerd);
 
-        var overgenomenEvent = vereniging.UncommittedEvents.OfType<AdresWerdOvergenomenUitAdressenregister>().SingleOrDefault();
+        vereniging.Hydrate(state);
 
-        overgenomenEvent.Should().NotBeNull();
+        var faktory = Faktory.New();
 
-        var duplicaatEvent = vereniging.UncommittedEvents.OfType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>().SingleOrDefault();
+        VerenigingRepositoryMock repository = faktory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
 
-        duplicaatEvent.Should().BeNull();
+        var handler = new ProbeerAdresTeMatchenCommandHandler(repository, new AdresMatchService(
+                                                    grarClient.Object, new PerfectScoreMatchStrategy(),
+                                                    new GemeenteVerrijkingService(grarClient.Object)),
+                                                NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
+
+        await handler.Handle(new ProbeerAdresTeMatchenCommand(verenigingWerdGeregistreerd.VCode,
+                                                        verenigingWerdGeregistreerd.Locaties.ToArray()[0].LocatieId));
+
+
+        repository.ShouldHaveSavedEventType<AdresWerdOvergenomenUitAdressenregister>(1);
+        repository.ShouldNotHaveSaved<LocatieDuplicaatWerdVerwijderdNaAdresMatch>();
     }
 }
