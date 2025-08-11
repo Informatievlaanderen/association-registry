@@ -20,7 +20,7 @@ public class Returns_Single_Response_Score98
            .WithResponses(new MockScore(98))
                         .Build();
 
-      var actual =  await AdresMatchService.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(), grarClient.Object,
+      var actual =  await LegacyAdresMatchWrapperService.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(), grarClient.Object,
                                                    CancellationToken.None, fixture.Create<VCode>());
 
       actual.Should().BeOfType<AdresNietUniekInAdressenregister>();

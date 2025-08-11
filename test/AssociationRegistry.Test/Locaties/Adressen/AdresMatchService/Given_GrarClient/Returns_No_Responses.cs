@@ -20,7 +20,7 @@ public class Returns_No_Responses
                         .WithNoResponses()
                         .Build();
 
-      var actual =  await AdresMatchService.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(), grarClient.Object,
+      var actual =  await LegacyAdresMatchWrapperService.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(), grarClient.Object,
                                                    CancellationToken.None, fixture.Create<VCode>());
 
       actual.Should().BeOfType<AdresWerdNietGevondenInAdressenregister>();

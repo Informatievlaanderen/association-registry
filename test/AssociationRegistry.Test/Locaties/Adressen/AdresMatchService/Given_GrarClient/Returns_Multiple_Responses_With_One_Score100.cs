@@ -23,7 +23,7 @@ public class Returns_Multiple_Responses_With_One_Score100
                                     new MockScore(98))
                         .Build();
 
-        var actual =  await AdresMatchService.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(), grarClient.Object,
+        var actual =  await LegacyAdresMatchWrapperService.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(), grarClient.Object,
                                                                  CancellationToken.None, fixture.Create<VCode>());
 
         actual.Should().BeOfType<AdresWerdOvergenomenUitAdressenregister>();
