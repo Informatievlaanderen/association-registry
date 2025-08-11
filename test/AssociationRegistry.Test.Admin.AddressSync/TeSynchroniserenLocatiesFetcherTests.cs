@@ -6,7 +6,7 @@ using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Grar.Models;
 using AutoFixture;
-using CommandHandling.Messages;
+using AssociationRegistry.Grar.Integration.Messages;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging.Adressen;
 using Events;
