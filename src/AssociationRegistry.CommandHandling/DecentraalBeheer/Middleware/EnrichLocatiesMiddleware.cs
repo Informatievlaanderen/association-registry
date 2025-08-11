@@ -6,6 +6,10 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.GemeentenaamVerrijking;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class EnrichLocatiesMiddleware
 {

@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.NutsLauInfo;
 
 using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.Clients.Contracts;
 using AssociationRegistry.Grar.Models.PostalInfo;
+using Contracts.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;

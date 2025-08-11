@@ -3,11 +3,11 @@
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Contracts.JsonLdContext;
 using Events;
 using FluentAssertions;
 using Formats;
 using Framework;
-using JsonLdContext;
 using Xunit;
 
 public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo

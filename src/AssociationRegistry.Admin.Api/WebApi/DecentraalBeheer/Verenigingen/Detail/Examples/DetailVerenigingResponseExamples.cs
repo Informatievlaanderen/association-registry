@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Formats;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Bronnen;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using DecentraalBeheer.Vereniging.Mappers;

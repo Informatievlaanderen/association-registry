@@ -1,13 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.KboSync.When_SyncKbo.CommandHandling;
 
 using AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
+using AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo.Messages;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Kbo;
-using AssociationRegistry.Notifications;
-using AssociationRegistry.Notifications.Messages;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
@@ -16,6 +15,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Integrations.Slack;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -139,8 +139,8 @@ public class With_FailureResultFromMagda
         }
 
         _notifierMock.Verify(notifier => notifier.Notify(
-                                 It.Is<KboSynchronisatieMisluktMessage>(
-                                     message => message.Value == new KboSynchronisatieMisluktMessage(_scenario.KboNummer).Value)));
+                                 It.Is<KboSynchronisatieMisluktNotification>(
+                                     message => message.Value == new KboSynchronisatieMisluktNotification(_scenario.KboNummer).Value)));
     }
 
     [Fact]

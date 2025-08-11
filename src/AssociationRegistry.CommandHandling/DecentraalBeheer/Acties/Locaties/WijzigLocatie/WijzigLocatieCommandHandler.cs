@@ -7,6 +7,8 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
 using Marten;
 using ProbeerAdresTeMatchen;
+using System.Threading;
+using System.Threading.Tasks;
 using Wolverine.Marten;
 
 public class WijzigLocatieCommandHandler

@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Public.Api.WebApi.Verenigingen.Detail.ResponseExamples;
 
-using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using DecentraalBeheer.Vereniging.Mappers;

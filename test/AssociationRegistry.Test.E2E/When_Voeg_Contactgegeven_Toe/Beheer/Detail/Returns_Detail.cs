@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Contactgegeven_Toe.Beheer.Detail;
 
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Contracts.JsonLdContext;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using JsonLdContext;
 using Vereniging.Bronnen;
 using Xunit;
 

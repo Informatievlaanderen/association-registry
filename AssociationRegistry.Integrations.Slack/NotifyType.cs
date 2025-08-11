@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Notifications;
+﻿namespace AssociationRegistry.Integrations.Slack;
 
 public enum NotifyType
 {

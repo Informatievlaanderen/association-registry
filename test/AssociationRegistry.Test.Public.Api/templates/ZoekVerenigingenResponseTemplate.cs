@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Public.Api.templates;
 
 using Common.Extensions;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
-using JsonLdContext;
 using Scriban;
 using System.Dynamic;
 using Vereniging;

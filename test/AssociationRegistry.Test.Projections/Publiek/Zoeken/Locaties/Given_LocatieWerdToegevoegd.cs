@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Locaties;
 
+using Contracts.JsonLdContext;
 using Events;
 using Formats;
-using JsonLdContext;
 using Public.Schema.Detail;
 using Public.Schema.Search;
 using Scenario.Locaties;

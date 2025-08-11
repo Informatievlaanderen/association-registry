@@ -2,10 +2,10 @@
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Metrics;
 using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
 using Marten;
+using OpenTelemetry.Metrics;
 
 public class VerenigingsRepository : IVerenigingsRepository
 {

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Detail.With_Header;
 
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Contracts.JsonLdContext;
 using FluentAssertions;
 using Formats;
 using Framework.AlbaHost;
@@ -8,7 +9,6 @@ using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Vereniging.Bronnen;

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Contracts.Grar;
+﻿namespace AssociationRegistry.Contracts;
 
 using System.Threading;
 using System.Threading.Tasks;

@@ -7,6 +7,9 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Clients;
 using Marten;
 using ProbeerAdresTeMatchen;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Wolverine.Marten;
 
 public class VoegLocatieToeCommandHandler

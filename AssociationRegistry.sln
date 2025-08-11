@@ -212,6 +212,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Contrac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.CommandHandling", "src\AssociationRegistry.CommandHandling\AssociationRegistry.CommandHandling.csproj", "{1BEFE15D-E836-49E7-860E-3490811842D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Integrations.Slack", "AssociationRegistry.Integrations.Slack\AssociationRegistry.Integrations.Slack.csproj", "{282596DA-A818-4908-9F09-2DA5BA22CFB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -570,6 +572,18 @@ Global
 		{1BEFE15D-E836-49E7-860E-3490811842D3}.Release|x64.Build.0 = Release|Any CPU
 		{1BEFE15D-E836-49E7-860E-3490811842D3}.Release|x86.ActiveCfg = Release|Any CPU
 		{1BEFE15D-E836-49E7-860E-3490811842D3}.Release|x86.Build.0 = Release|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Debug|x64.Build.0 = Debug|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Debug|x86.Build.0 = Debug|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Release|x64.ActiveCfg = Release|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Release|x64.Build.0 = Release|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Release|x86.ActiveCfg = Release|Any CPU
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -628,5 +642,6 @@ Global
 		{9B2909A8-D63C-4FBD-A0AD-76DCEFACCA29} = {C3D4E5F6-A7B8-9012-3456-7890ABCDEF12}
 		{8E20CFA8-D985-4831-B4E9-8565CD19F219} = {D0D4E5F6-A7B8-9012-3456-7890ABCDEF01}
 		{1BEFE15D-E836-49E7-860E-3490811842D3} = {D0D4E5F6-A7B8-9012-3456-7890ABCDEF01}
+		{282596DA-A818-4908-9F09-2DA5BA22CFB1} = {C3D4E5F6-A7B8-9012-3456-7890ABCDEF12}
 	EndGlobalSection
 EndGlobal

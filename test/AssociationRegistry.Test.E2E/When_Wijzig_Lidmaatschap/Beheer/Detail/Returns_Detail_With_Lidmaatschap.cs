@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Beheer.Detail;
 
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Contracts.JsonLdContext;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using Lidmaatschap = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Lidmaatschap;

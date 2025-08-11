@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Notifications;
+﻿namespace AssociationRegistry.Integrations.Slack;
 
+using global::Slack.Webhooks;
 using Microsoft.Extensions.Logging;
-using Slack.Webhooks;
 
 public class SlackNotifier : INotifier
 {
@@ -16,14 +16,14 @@ public class SlackNotifier : INotifier
         _slackClient = new SlackClient(webhookUrl.Url);
     }
 
-    public async Task Notify(IMessage message)
+    public async Task Notify(INotification notification)
     {
         var postAsync = await _slackClient.PostAsync(new SlackMessage
         {
             Channel = string.Empty,
             Markdown = true,
-            Text = message.Value,
-            IconEmoji = message.Type switch
+            Text = notification.Value,
+            IconEmoji = notification.Type switch
             {
                 NotifyType.None => Emoji.Bulb,
                 NotifyType.Success => Emoji.Up,
@@ -34,11 +34,11 @@ public class SlackNotifier : INotifier
 
         if(!postAsync)
         {
-            _logger.LogWarning($"Slack bericht kon niet verstuurd worden: '{message.Value}' ({message.Type})");
+            _logger.LogWarning($"Slack bericht kon niet verstuurd worden: '{notification.Value}' ({notification.Type})");
         }
         else
         {
-            _logger.LogInformation($"Slack bericht verstuurd: '{message.Value}' ({message.Type})");
+            _logger.LogInformation($"Slack bericht verstuurd: '{notification.Value}' ({notification.Type})");
         }
     }
 }

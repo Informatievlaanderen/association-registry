@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using Events;
 using Formats;
 using Framework;
 using JasperFx.Events;
-using JsonLdContext;
 using Schema.Detail;
 using Vereniging;
 
