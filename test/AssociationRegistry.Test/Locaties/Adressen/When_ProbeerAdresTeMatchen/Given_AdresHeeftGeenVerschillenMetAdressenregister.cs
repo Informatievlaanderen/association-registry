@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
 using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using Events;
@@ -9,9 +10,14 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
+using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using Common.StubsMocksFakes.Faktories;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Wolverine;
 using Xunit;
 
 public class Given_AdresHeeftGeenVerschillenMetAdressenregister
@@ -48,7 +54,7 @@ public class Given_AdresHeeftGeenVerschillenMetAdressenregister
     [Theory]
     [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
     [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
-    public void Then_AdresHeeftGeenVerschillenMetAdressenregister_IsApplied(Type verenigingType)
+    public async Task Then_AdresHeeftGeenVerschillenMetAdressenregister_IsApplied(Type verenigingType)
     {
         var fixture = new Fixture().CustomizeDomain();
         var context = new SpecimenContext(fixture);
@@ -60,16 +66,22 @@ public class Given_AdresHeeftGeenVerschillenMetAdressenregister
 
         var vereniging = new VerenigingOfAnyKind();
 
-        vereniging.Hydrate(
-            new VerenigingState()
-               .Apply((dynamic)verenigingWerdGeregistreerd));
+        var state = new VerenigingState()
+           .Apply((dynamic)verenigingWerdGeregistreerd);
 
-        vereniging.ProbeerAdresTeMatchen(grarClient.Object, locatie.LocatieId,
-                                          CancellationToken.None)
-                   .GetAwaiter().GetResult();
+        vereniging.Hydrate(state);
 
-        var overgenomenEvent = vereniging.UncommittedEvents.OfType<AdresHeeftGeenVerschillenMetAdressenregister>().SingleOrDefault();
+        var faktory = Faktory.New();
 
-        overgenomenEvent.Should().NotBeNull();
+        VerenigingRepositoryMock verenigingsRepository = faktory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
+        var handler = new ProbeerAdresTeMatchenCommandHandler(verenigingsRepository, new AdresMatchService(
+                                                                  grarClient.Object, new PerfectScoreMatchStrategy(),
+                                                                  new GemeenteVerrijkingService(grarClient.Object)),
+                                                              NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
+
+        await handler.Handle(new ProbeerAdresTeMatchenCommand(verenigingWerdGeregistreerd.VCode,
+                                                              verenigingWerdGeregistreerd.Locaties.ToArray()[0].LocatieId));
+
+        verenigingsRepository.ShouldHaveSavedEventType<AdresHeeftGeenVerschillenMetAdressenregister>(1);
     }
 }

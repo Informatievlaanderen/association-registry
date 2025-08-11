@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
+using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
 using Events;
@@ -8,8 +9,12 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
+using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using Common.StubsMocksFakes.Faktories;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using System.Net;
 using Xunit;
@@ -38,15 +43,24 @@ public class Given_GrarClient_Returned_InternalServerError
                              It.IsAny<CancellationToken>()))
                   .ThrowsAsync(new AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode.InternalServerError));
 
+        var state = new VerenigingState()
+           .Apply((dynamic)verenigingWerdGeregistreerd);
+
         vereniging.Hydrate(
-            new VerenigingState()
-               .Apply((dynamic)verenigingWerdGeregistreerd));
+            state);
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, verenigingWerdGeregistreerd.Locaties.First().LocatieId,
-                                               CancellationToken.None);
+        var faktory = Faktory.New();
 
-        var @event = vereniging.UncommittedEvents.OfType<AdresKonNietOvergenomenWordenUitAdressenregister>().SingleOrDefault();
+        VerenigingRepositoryMock repository = faktory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
+        var handler = new ProbeerAdresTeMatchenCommandHandler(repository, new AdresMatchService(
+                                                                  grarClient.Object, new PerfectScoreMatchStrategy(),
+                                                                  new GemeenteVerrijkingService(grarClient.Object)),
+                                                              NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
+        await handler.Handle(new ProbeerAdresTeMatchenCommand(verenigingWerdGeregistreerd.VCode,
+                                                              verenigingWerdGeregistreerd.Locaties.First().LocatieId));
+
+        var @event = repository.ShouldHaveSavedEventType<AdresKonNietOvergenomenWordenUitAdressenregister>(1).First();
         @event.Should().NotBeNull();
         @event!.Reden.Should().Be(ExceptionMessages.AdresKonNietOvergenomenWorden);
     }
