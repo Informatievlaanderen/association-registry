@@ -1,9 +1,7 @@
-namespace AssociationRegistry.Grar.AdresMatch.Application;
+namespace AssociationRegistry.Grar.AdresMatch;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
-using AssociationRegistry.Vereniging;
-using Domain;
 
 public interface IAdresMatchService
 {
