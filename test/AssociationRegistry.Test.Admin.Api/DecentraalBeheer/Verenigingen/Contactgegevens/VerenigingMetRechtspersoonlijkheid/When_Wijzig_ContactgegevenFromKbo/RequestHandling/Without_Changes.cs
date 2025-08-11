@@ -3,7 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
-using AssociationRegistry.DecentraalBeheer.Acties.Contactgegevens.WijzigContactgegevenFromKbo;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Contactgegevens.WijzigContactgegevenFromKbo;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;

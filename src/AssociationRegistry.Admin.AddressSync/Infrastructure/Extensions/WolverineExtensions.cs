@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync.Infrastructure.Extensions;
 
+using CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
+using CommandHandling.Messages;
 using DecentraalBeheer.Vereniging;
-using Grar.NightlyAdresSync.SyncAdresLocaties;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
 using MessageHandling.Sqs.AddressSync;
-using Messages;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Vereniging;

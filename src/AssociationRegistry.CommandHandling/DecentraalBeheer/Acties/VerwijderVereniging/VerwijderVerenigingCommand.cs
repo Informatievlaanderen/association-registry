@@ -1,5 +1,5 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.VerwijderVereniging;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.VerwijderVereniging;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record VerwijderVerenigingCommand(VCode VCode, string Reden);

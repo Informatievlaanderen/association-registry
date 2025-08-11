@@ -6,8 +6,8 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common.Stubs.VCodeServices;
-using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;
 using FluentAssertions;
@@ -46,8 +46,20 @@ public class Given_A_New_Vereniging : IAsyncLifetime
             Werkingsgebieden: []
         );
 
+        var registratieData = new RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid(
+            command.Naam,
+            command.KorteNaam,
+            command.KorteBeschrijving,
+            command.Startdatum,
+            command.Doelgroep,
+            command.IsUitgeschrevenUitPubliekeDatastroom,
+            command.Contactgegevens,
+            command.Locaties,
+            command.Vertegenwoordigers,
+            command.HoofdactiviteitenVerenigingsloket,
+            command.Werkingsgebieden);
         _vereniging = Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
-            command,
+            registratieData,
             new StubVCodeService(_vCode),
             Mock.Of<IGeotagsService>(),
             new ClockStub(now: DateTime.Today))

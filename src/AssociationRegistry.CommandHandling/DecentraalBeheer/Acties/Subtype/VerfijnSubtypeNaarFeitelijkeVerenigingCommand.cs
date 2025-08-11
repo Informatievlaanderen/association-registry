@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Subtype;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Subtype;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record VerfijnSubtypeNaarFeitelijkeVerenigingCommand(VCode VCode): IWijzigSubtypeCommand
 { }

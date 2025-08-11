@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
 
-using Vereniging;
-using Vereniging.Emails;
-using Vereniging.SocialMedias;
-using Vereniging.TelefoonNummers;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Emails;
+using AssociationRegistry.DecentraalBeheer.Vereniging.SocialMedias;
+using AssociationRegistry.DecentraalBeheer.Vereniging.TelefoonNummers;
 
 public record WijzigVertegenwoordigerCommand(
     VCode VCode,

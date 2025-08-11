@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.VerfijnNaarSubvereniging;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Subtype;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Subtype;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.Subvereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -25,7 +26,7 @@ public class Given_A_Vereniging_Is_Loaded
 
         var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(verenigingRepositoryMock.Object);
 
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(rechtspersoonScenario.VCode, null, null));
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(scenario.VCode, new SubverenigingVanDto(rechtspersoonScenario.VCode, null, null));
 
         // we don't care if it throws, we want to check if the vereniging is correctly loaded
         await Assert.ThrowsAnyAsync<Exception>(() => commandHandler.Handle(

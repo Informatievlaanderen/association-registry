@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Subtype.RequestModels;
 
 using AssociationRegistry.Vereniging;
-using DecentraalBeheer.Acties.Subtype;
+using CommandHandling.DecentraalBeheer.Acties.Subtype;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Subtypes.Subvereniging;
 using System.Runtime.Serialization;
@@ -50,7 +50,7 @@ public class WijzigSubtypeRequest
     public VerfijnSubtypeNaarSubverenigingCommand ToWijzigSubtypeCommand(string vCodeAsString)
         => new(
             VCode.Create(vCodeAsString),
-            new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(
+            new SubverenigingVanDto(
                 AndereVereniging is null ? null : VCode.Create(AndereVereniging!),
                 Identificatie is null ? null : SubverenigingIdentificatie.Create(Identificatie),
                 Beschrijving is null ? null : SubverenigingBeschrijving.Create(Beschrijving)));

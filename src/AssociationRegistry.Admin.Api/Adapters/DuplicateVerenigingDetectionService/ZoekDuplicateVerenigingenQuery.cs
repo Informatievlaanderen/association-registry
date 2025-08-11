@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 
-using DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using DecentraalBeheer.Vereniging;
 using Schema.Search;
 using GemeentenaamVerrijking;

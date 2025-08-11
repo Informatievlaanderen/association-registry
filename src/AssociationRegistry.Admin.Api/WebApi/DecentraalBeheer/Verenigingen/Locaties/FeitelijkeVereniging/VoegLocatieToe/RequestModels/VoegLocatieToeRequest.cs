@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
 
 using AssociationRegistry.Vereniging;
+using CommandHandling.DecentraalBeheer.Acties.Locaties.VoegLocatieToe;
 using Common;
-using DecentraalBeheer.Acties.Locaties.VoegLocatieToe;
 using DecentraalBeheer.Vereniging;
 using Adres = DecentraalBeheer.Vereniging.Adressen.Adres;
 using AdresId = DecentraalBeheer.Vereniging.Adressen.AdresId;

@@ -3,7 +3,7 @@
 using Asp.Versioning;
 using AssociationRegistry.Admin.Schema.Detail;
 using Be.Vlaanderen.Basisregisters.Api;
-using DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

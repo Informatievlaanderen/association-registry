@@ -1,6 +1,6 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.FeitelijkeVereniging;
 
-using Acties.Subtype;
+using Subvereniging;
 using Events;
 using Events.Factories;
 
@@ -19,7 +19,7 @@ public record FeitelijkeVerenigingSubtype : IVerenigingssubtype
     public IEvent[] ZetSubtypeNaarNietBepaald(VCode vCode)
         => [EventFactory.SubtypeWerdTerugGezetNaarNietBepaald(vCode)];
 
-    public IEvent[] VerFijnNaarSubvereniging(VCode vCode, VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
+    public IEvent[] VerFijnNaarSubvereniging(VCode vCode, SubverenigingVanDto subverenigingVan)
     {
         VCode.ValidateVCode(subverenigingVan.AndereVereniging ?? string.Empty);
 

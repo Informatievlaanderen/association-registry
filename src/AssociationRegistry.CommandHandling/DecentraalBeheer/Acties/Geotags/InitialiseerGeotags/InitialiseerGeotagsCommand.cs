@@ -1,5 +1,5 @@
-namespace AssociationRegistry.DecentraalBeheer.Acties.Geotags.InitialiseerGeotags;
+namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Geotags.InitialiseerGeotags;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record InitialiseerGeotagsCommand(VCode VCode);

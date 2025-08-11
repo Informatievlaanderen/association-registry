@@ -1,15 +1,14 @@
-﻿namespace AssociationRegistry.KboSyncLambda.SyncKbo;
+﻿namespace AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
 
-using DecentraalBeheer.Vereniging;
-using DecentraalBeheer.Vereniging.Exceptions;
-using Framework;
-using Kbo;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Kbo;
+using AssociationRegistry.Notifications;
+using AssociationRegistry.Notifications.Messages;
+using AssociationRegistry.Resources;
 using Microsoft.Extensions.Logging;
-using Notifications;
-using Notifications.Messages;
-using Resources;
 using ResultNet;
-using Vereniging;
 
 public class SyncKboCommandHandler
 {

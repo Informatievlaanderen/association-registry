@@ -4,11 +4,11 @@ namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using Amazon.Lambda.SQSEvents;
 using AssociationRegistry.Notifications;
+using CommandHandling.KboSyncLambda.SyncKbo;
 using DecentraalBeheer.Vereniging;
 using Kbo;
 using KboMutations.Configuration;
-using KboSyncLambda;
-using KboSyncLambda.SyncKbo;
+using CommandHandling.KboSyncLambda;
 using Logging;
 using Magda.Models;
 using Microsoft.Extensions.Logging;

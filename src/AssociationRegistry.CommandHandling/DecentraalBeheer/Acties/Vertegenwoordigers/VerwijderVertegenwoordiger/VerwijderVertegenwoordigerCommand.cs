@@ -1,5 +1,5 @@
-namespace AssociationRegistry.DecentraalBeheer.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
+namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record VerwijderVertegenwoordigerCommand(VCode VCode, int VertegenwoordigerId);

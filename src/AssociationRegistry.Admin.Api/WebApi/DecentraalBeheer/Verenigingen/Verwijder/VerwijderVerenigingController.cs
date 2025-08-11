@@ -9,7 +9,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
-using DecentraalBeheer.Acties.VerwijderVereniging;
+using CommandHandling.DecentraalBeheer.Acties.VerwijderVereniging;
 using DecentraalBeheer.Vereniging;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;

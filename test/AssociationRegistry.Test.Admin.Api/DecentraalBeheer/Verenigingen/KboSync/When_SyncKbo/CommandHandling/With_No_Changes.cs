@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.KboSync.When_SyncKbo.CommandHandling;
 
+using AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Kbo;
-using AssociationRegistry.KboSyncLambda.SyncKbo;
 using AssociationRegistry.Notifications;
 using AssociationRegistry.Notifications.Messages;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;

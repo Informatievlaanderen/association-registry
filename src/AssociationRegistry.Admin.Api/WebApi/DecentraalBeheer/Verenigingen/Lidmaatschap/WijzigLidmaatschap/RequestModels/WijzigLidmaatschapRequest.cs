@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Primitives;
 using AssociationRegistry.Vereniging;
-using DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
+using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 using DecentraalBeheer.Vereniging;
 using System.Runtime.Serialization;
 
@@ -35,7 +35,7 @@ public class WijzigLidmaatschapRequest
 
     public WijzigLidmaatschapCommand ToCommand(string vCode, int lidmaatschapId) => new(
         VCode.Create(vCode),
-        new WijzigLidmaatschapCommand.TeWijzigenLidmaatschap(
+        new TeWijzigenLidmaatschap(
             new LidmaatschapId(lidmaatschapId),
             GeldigVan.FromNullOrEmpty(Van),
             GeldigTot.FromNullOrEmpty(Tot),

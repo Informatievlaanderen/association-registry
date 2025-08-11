@@ -1,5 +1,5 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.StopVereniging;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.StopVereniging;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record StopVerenigingCommand(VCode VCode, Datum Einddatum);

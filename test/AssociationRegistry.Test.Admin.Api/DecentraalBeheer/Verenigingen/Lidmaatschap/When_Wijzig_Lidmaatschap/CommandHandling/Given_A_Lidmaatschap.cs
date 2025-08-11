@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.When_Wijzig_Lidmaatschap.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
@@ -28,7 +28,7 @@ public class Given_A_Lidmaatschap
         var command = fixture.Create<WijzigLidmaatschapCommand>() with
         {
             VCode = scenario.VCode,
-            Lidmaatschap = fixture.Create<WijzigLidmaatschapCommand.TeWijzigenLidmaatschap>() with
+            Lidmaatschap = fixture.Create<TeWijzigenLidmaatschap>() with
             {
                 LidmaatschapId = new LidmaatschapId(scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId),
             },

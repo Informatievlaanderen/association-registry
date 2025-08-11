@@ -1,5 +1,5 @@
-namespace AssociationRegistry.DecentraalBeheer.Acties.Locaties.VerwijderLocatie;
+namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.VerwijderLocatie;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record VerwijderLocatieCommand(VCode VCode, int LocatieId);

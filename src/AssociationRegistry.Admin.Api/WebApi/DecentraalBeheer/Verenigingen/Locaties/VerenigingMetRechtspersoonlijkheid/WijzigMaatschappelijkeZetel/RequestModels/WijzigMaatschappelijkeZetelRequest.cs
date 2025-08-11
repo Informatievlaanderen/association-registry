@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
 
 using AssociationRegistry.Vereniging;
-using DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
+using CommandHandling.DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
 using DecentraalBeheer.Vereniging;
 
 public class WijzigMaatschappelijkeZetelRequest

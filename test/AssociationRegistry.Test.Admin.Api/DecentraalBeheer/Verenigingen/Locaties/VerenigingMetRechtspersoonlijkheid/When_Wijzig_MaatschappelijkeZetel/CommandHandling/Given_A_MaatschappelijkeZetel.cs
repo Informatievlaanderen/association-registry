@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;

@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 
-using Framework;
-using Notifications;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Notifications;
 using AssociationRegistry.Notifications.Messages;
 using Microsoft.Extensions.Logging;
 using Polly;
-using Vereniging;
 
 public class VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(
     IVerenigingsRepository repository,

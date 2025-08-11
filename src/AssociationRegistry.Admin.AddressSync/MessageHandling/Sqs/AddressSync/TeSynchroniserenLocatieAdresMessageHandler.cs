@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync.MessageHandling.Sqs.AddressSync;
 
-using Messages;
+using CommandHandling.Messages;
 using Wolverine;
 
 public class TeSynchroniserenLocatieAdresMessageHandler(IMessageBus messageBus)

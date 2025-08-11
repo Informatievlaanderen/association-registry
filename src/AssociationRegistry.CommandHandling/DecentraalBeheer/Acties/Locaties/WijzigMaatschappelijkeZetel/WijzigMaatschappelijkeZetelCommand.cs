@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
 
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record WijzigMaatschappelijkeZetelCommand(VCode VCode, WijzigMaatschappelijkeZetelCommand.Locatie TeWijzigenLocatie)
 {

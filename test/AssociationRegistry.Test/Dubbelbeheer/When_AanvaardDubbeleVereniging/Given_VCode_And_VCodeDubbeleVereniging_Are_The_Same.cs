@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.When_AanvaardDubbeleVereniging;
 
 using AutoFixture;
+using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Moq;

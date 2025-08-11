@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.VerfijnNaarSubvereniging;
 
-using AssociationRegistry.DecentraalBeheer.Acties.Subtype;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Subtype;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.Subvereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.Subvereniging;
 using AssociationRegistry.Events;
@@ -39,7 +40,7 @@ public class Given_The_Same_Subtype
     [Fact]
     public async ValueTask With_Relatie_Changes_Then_SubverenigingRelatieWerdGewijzigd()
     {
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(_rechtspersoonScenario.VCode, null, null));
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new SubverenigingVanDto(_rechtspersoonScenario.VCode, null, null));
 
         await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
 
@@ -54,7 +55,7 @@ public class Given_The_Same_Subtype
         var subtypeIdentificatie = SubverenigingIdentificatie.Create(_fixture.Create<string>());
         var subtypeBeschrijving = SubverenigingBeschrijving.Create(_fixture.Create<string>());
 
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, subtypeIdentificatie, subtypeBeschrijving));
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new SubverenigingVanDto(null, subtypeIdentificatie, subtypeBeschrijving));
 
         await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
 
@@ -66,7 +67,7 @@ public class Given_The_Same_Subtype
     [Fact]
     public async ValueTask With_No_Changes_Then_Nothing()
     {
-       var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, SubverenigingIdentificatie.Create(_scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.Identificatie), null));
+       var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new SubverenigingVanDto(null, SubverenigingIdentificatie.Create(_scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.Identificatie), null));
 
         await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
 
@@ -76,7 +77,7 @@ public class Given_The_Same_Subtype
     [Fact]
     public async ValueTask With_All_Null_Values_Then_Throw_WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben()
     {
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, null, null));
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new SubverenigingVanDto(null, null, null));
 
         var exception = await Assert.ThrowsAsync<WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben>(() => _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>())));
         exception.Message.Should().Be(ExceptionMessages.WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben);
