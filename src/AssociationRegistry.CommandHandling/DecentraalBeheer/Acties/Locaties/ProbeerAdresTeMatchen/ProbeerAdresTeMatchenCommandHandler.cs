@@ -4,6 +4,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar.AdresMatch.Application;
 using AssociationRegistry.Grar.Clients;
 using Microsoft.Extensions.Logging;
 
@@ -11,15 +12,18 @@ public class ProbeerAdresTeMatchenCommandHandler
 {
     private readonly ILogger<ProbeerAdresTeMatchenCommandHandler> _logger;
     private readonly IGrarClient _grarClient;
+    private readonly IAdresMatchService _adresMatchService;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
     public ProbeerAdresTeMatchenCommandHandler(
         IVerenigingsRepository verenigingsRepository,
         IGrarClient grarClient,
+        IAdresMatchService adresMatchService,
         ILogger<ProbeerAdresTeMatchenCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
         _grarClient = grarClient;
+        _adresMatchService = adresMatchService;
         _logger = logger;
     }
 
@@ -34,7 +38,9 @@ public class ProbeerAdresTeMatchenCommandHandler
             var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
             var vereniging = await _verenigingsRepository.Load<VerenigingOfAnyKind>(VCode.Hydrate(command.VCode), metadata, allowDubbeleVereniging: true);
 
-            await vereniging.ProbeerAdresTeMatchen(_grarClient, command.LocatieId, cancellationToken);
+            var request = vereniging.CreateAdresMatchRequest(command.LocatieId);
+            var result = await _adresMatchService.ProcessAdresMatch(request, cancellationToken);
+            vereniging.ProcessAdresMatchResult(result, command.LocatieId);
 
             await _verenigingsRepository.Save(
                 vereniging,

@@ -45,3 +45,9 @@ public record AdresGevondenResult(
     public override IEvent ToEvent(VCode vCode, int locatieId)
         => new AdresWerdOvergenomenUitAdressenregister(vCode, locatieId, AdresId, Adres);
 }
+
+public record AdresKonNietOvergenomenResult(string AdresString, string Reden) : AdresMatchResult
+{
+    public override IEvent ToEvent(VCode vCode, int locatieId)
+        => new AdresKonNietOvergenomenWordenUitAdressenregister(vCode, locatieId, AdresString, Reden);
+}
