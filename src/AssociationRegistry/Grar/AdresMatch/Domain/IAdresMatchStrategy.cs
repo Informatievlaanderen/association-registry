@@ -13,7 +13,7 @@ public class PerfectScoreMatchStrategy : IAdresMatchStrategy
     {
         if (responses.HasNoResponse)
             return null;
-            
+
         // Returns the single 100-score response, or null if there are multiple or none
         return responses.Singular100ScoreResponse;
     }

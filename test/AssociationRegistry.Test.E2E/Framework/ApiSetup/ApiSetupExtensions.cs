@@ -28,7 +28,12 @@ public static class ApiSetupExtensions
 
     private static bool HasForeachLocationAnAdresMatchEvent(int aantalLocaties, IReadOnlyList<JasperFx.Events.IEvent> events)
     {
-        var adresEventCount = events.Count(e => AdresEventsTypes.Contains(e.GetType()));
+        var adresEventCount = events.Count(e =>
+            e.EventType == typeof(AdresWerdOvergenomenUitAdressenregister) ||
+            e.EventType == typeof(AdresKonNietOvergenomenWordenUitAdressenregister) ||
+            e.EventType == typeof(AdresWerdNietGevondenInAdressenregister) ||
+            e.EventType == typeof(NietUniekeAdresMatchUitAdressenregister) ||
+            e.EventType == typeof(AdresHeeftGeenVerschillenMetAdressenregister));
         return adresEventCount == aantalLocaties;
     }
 
@@ -38,5 +43,6 @@ public static class ApiSetupExtensions
         typeof(Event<AdresKonNietOvergenomenWordenUitAdressenregister>),
         typeof(Event<AdresWerdNietGevondenInAdressenregister>),
         typeof(Event<AdresNietUniekInAdressenregister>),
+        typeof(Event<AdresHeeftGeenVerschillenMetAdressenregister>),
     ];
 }

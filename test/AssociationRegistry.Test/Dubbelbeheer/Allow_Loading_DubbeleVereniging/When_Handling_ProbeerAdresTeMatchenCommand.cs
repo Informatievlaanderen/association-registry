@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.Allow_Loading_DubbeleVereniging;
 
+using AssociationRegistry.Grar.AdresMatch.Application;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
@@ -17,7 +18,7 @@ public class When_Handling_ProbeerAdresTeMatchenCommand : When_Loading_With_Dubb
     {
         await VerifyVerenigingWasLoadedWithAllowDubbeleVereniging(async repositoryMock =>
         {
-            var sut = new ProbeerAdresTeMatchenCommandHandler(repositoryMock, Mock.Of<IGrarClient>(), NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
+            var sut = new ProbeerAdresTeMatchenCommandHandler(repositoryMock, Mock.Of<IGrarClient>(), Mock.Of<IAdresMatchService>(), NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
             await sut.Handle(_fixture.Create<ProbeerAdresTeMatchenCommand>() with
             {
