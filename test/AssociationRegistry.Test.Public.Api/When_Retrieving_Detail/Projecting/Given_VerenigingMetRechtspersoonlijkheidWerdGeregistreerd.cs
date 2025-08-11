@@ -4,12 +4,12 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
 using FluentAssertions;
 using Formats;
 using Framework;
-using JsonLdContext;
 using Vereniging;
 
 using Xunit;

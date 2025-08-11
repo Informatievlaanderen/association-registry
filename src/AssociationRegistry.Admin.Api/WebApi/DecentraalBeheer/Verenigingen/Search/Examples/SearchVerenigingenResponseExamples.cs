@@ -2,8 +2,8 @@ namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Search.Examples;
 
 using AssociationRegistry.Formats;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Vereniging;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Mappers;
 using ResponseModels;

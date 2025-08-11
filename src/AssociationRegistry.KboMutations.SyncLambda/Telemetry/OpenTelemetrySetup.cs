@@ -1,15 +1,17 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 
 using Amazon.Lambda.Core;
+using global::OpenTelemetry;
+using global::OpenTelemetry.Exporter;
+using global::OpenTelemetry.Logs;
+using global::OpenTelemetry.Metrics;
+using global::OpenTelemetry.Resources;
+using global::OpenTelemetry.Trace;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using OpenTelemetry;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using System.Reflection;
 
 public class OpenTelemetrySetup : IDisposable

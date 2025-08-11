@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Lidmaatschap;
 
+using Contracts.JsonLdContext;
 using Events;
 using Formats;
-using JsonLdContext;
 using Public.Schema.Detail;
 using Public.Schema.Search;
 using Scenario.Lidmaatschappen;

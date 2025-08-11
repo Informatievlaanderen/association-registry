@@ -9,7 +9,10 @@ using Locaties.ProbeerAdresTeMatchen;
 using Marten;
 using Microsoft.Extensions.Logging;
 using ResultNet;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
 using Wolverine.Marten;
 
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler

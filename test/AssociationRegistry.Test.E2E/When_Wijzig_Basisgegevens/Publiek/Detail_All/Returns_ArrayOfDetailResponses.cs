@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens.Publiek.Detail_All;
 
+using Contracts.JsonLdContext;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;

@@ -2,9 +2,9 @@
 
 using Admin.Api.WebApi.Verenigingen.Common;
 using Common.Framework;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
-using JsonLdContext;
 using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Vereniging;
 using Contactgegeven = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Contactgegeven;

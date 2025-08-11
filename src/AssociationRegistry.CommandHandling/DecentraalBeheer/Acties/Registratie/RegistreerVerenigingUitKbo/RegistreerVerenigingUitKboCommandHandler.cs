@@ -10,6 +10,9 @@ using Marten;
 using Microsoft.Extensions.Logging;
 using RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using ResultNet;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class RegistreerVerenigingUitKboCommandHandler
 {

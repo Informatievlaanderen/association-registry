@@ -3,6 +3,8 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using System.Threading;
+using System.Threading.Tasks;
 using VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using Wolverine;
 

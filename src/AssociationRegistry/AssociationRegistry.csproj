@@ -61,11 +61,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DecentraalBeheer\Acties\" />
-    <Folder Include="Repositories\"/>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="JasperFx.Events"/>
     <PackageReference Include="Marten"/>
     <PackageReference Include="Be.Vlaanderen.Basisregisters.AggregateSource"/>

@@ -2,11 +2,11 @@
 
 using AssociationRegistry.Grar.GrarUpdates.Fusies;
 using AssociationRegistry.Grar.GrarUpdates.Hernummering;
-using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
 using IdentityModel;
 using Infrastructure.Kafka;
+using Integrations.Slack;
 using Marten;
 using Notifications.Messages;
 using Polly;

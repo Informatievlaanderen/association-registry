@@ -2,12 +2,12 @@
 
 using Grar.Models;
 using Infrastructure.Notifications;
+using Integrations.Slack;
 using Marten;
 using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Notifications;
 
 public record NachtelijkeAdresSyncVolgensAdresId(string AdresId, List<LocatieIdWithVCode> LocatieIdWithVCodes);
 public record NachtelijkeAdresSyncVolgensVCode(string VCode, List<LocatieWithAdres> LocatieWithAdres);

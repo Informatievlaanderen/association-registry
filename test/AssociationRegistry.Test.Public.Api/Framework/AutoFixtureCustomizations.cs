@@ -4,8 +4,8 @@ using AssociationRegistry.Public.Schema.Detail;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
 using Common.AutoFixture;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
-using JsonLdContext;
 using Vereniging;
 
 public static class AutoFixtureCustomizations
