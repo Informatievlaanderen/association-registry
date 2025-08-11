@@ -2,7 +2,7 @@
 
 using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
-using JsonLdContext;
+using Contracts.JsonLdContext;
 using Scenario.Vertegenwoordigers.Vzer;
 
 [Collection(nameof(ProjectionContext))]

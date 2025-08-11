@@ -5,10 +5,10 @@ using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestMode
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Common.Framework;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
-using JsonLdContext;
 using Vereniging;
 using HoofdactiviteitVerenigingsloket = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Lidmaatschap;

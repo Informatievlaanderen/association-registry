@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Notifications.Messages;
 
-using AssociationRegistry.Notifications;
+using Integrations.Slack;
 
-public readonly record struct AdresKafkaConsumerGefaald : IMessage
+public readonly record struct AdresKafkaConsumerGefaald : INotification
 {
     private readonly Exception _exception;
 

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Publiek.Zoeken;
 
-using AssociationRegistry.JsonLdContext;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.Comparison;
@@ -8,6 +7,7 @@ using AssociationRegistry.Test.E2E.Framework.Mappers;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo;
 using AssociationRegistry.Vereniging;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.WebApi.Verenigingen.Search.ResponseModels;

@@ -1,9 +1,8 @@
+namespace AssociationRegistry.OpenTelemetry.Metrics;
+
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
-using OpenTelemetry;
-using OpenTelemetry.Metrics;
 
 public enum SyncResult
 {

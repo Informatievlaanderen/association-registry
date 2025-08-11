@@ -2,7 +2,7 @@
 
 using Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
-using JsonLdContext;
+using Contracts.JsonLdContext;
 using Vereniging.Bronnen;
 using Scenario.Contactgegevens.Kbo;
 

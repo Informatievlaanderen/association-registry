@@ -1,11 +1,11 @@
 namespace AssociationRegistry.PowerBi.ExportHost.Infrastructure.Extensions;
 
+using global::OpenTelemetry.Exporter;
+using global::OpenTelemetry.Metrics;
+using global::OpenTelemetry.Resources;
+using global::OpenTelemetry.Trace;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using System.Reflection;
 
 public static class ServiceCollectionOpenTelemetryExtensions

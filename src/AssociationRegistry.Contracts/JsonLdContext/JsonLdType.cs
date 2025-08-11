@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.JsonLdContext;
+﻿namespace AssociationRegistry.Contracts.JsonLdContext;
 
 using Be.Vlaanderen.Basisregisters.Generators.Guid;
 using System.Text;

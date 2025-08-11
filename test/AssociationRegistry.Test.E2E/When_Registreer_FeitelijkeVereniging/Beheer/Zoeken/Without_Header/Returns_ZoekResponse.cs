@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Zoeken.Without_Header;
 
 using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
+using Contracts.JsonLdContext;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using NodaTime;

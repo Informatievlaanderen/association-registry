@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Common.templates.adminApi;
 
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
-using JsonLdContext;
 using System.Dynamic;
 using Vereniging;
 

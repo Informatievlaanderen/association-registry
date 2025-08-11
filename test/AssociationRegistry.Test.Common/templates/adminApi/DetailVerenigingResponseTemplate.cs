@@ -2,11 +2,11 @@
 
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Extensions.Mappers;
 using Formats;
-using JsonLdContext;
 using NodaTime;
 using System.Dynamic;
 using Vereniging;

@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
+using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
 using JasperFx.Core.Reflection;
-using JsonLdContext;
 using Schema.Detail;
 using Schema.Search;
 using Vereniging;
