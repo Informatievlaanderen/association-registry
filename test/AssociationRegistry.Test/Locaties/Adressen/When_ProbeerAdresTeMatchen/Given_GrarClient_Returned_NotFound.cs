@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AdresMatch;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -14,6 +13,8 @@ using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using AssociationRegistry.Integrations.Grar.AdresMatch;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using System.Net;
@@ -53,7 +54,7 @@ public class Given_GrarClient_Returned_NotFound
         VerenigingRepositoryMock repository = faktory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
         var handler = new ProbeerAdresTeMatchenCommandHandler(repository, new AdresMatchService(
                                                                   grarClient.Object, new PerfectScoreMatchStrategy(),
-                                                                  new GemeenteVerrijkingService(grarClient.Object)),
+                                                                  new GrarAddressVerrijkingsService(grarClient.Object)),
                                                               NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
         await handler.Handle(new ProbeerAdresTeMatchenCommand(verenigingWerdGeregistreerd.VCode,

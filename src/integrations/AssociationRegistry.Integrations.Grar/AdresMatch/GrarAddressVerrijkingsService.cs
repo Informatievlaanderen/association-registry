@@ -24,15 +24,14 @@ public class GrarAddressVerrijkingsService : IAddressVerrijkingsService
         Adres origineleAdres,
         CancellationToken cancellationToken)
     {
-        var postalInformation = await _grarClient.GetPostalInformationDetail(origineleAdres.Postcode);
+        var postalInformation = await _grarClient.GetPostalInformationDetail(matchResponse.Postcode);
 
         var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
             origineleAdres.Gemeente,
             postalInformation,
             matchResponse.Gemeente);
 
-        return VerrijktAdresUitGrar.FromAdresAndVerrijkteGemeentenaam(
-            origineleAdres, verrijkteGemeentenaam, matchResponse);
+        return new VerrijktAdresUitGrar(matchResponse, verrijkteGemeentenaam, origineleAdres);
     }
 
     public async Task<VerrijktAdresUitGrar> FromActiefAdresId(
@@ -50,7 +49,14 @@ public class GrarAddressVerrijkingsService : IAddressVerrijkingsService
             postalInformation,
             adresDetailResponse.Gemeente);
 
-        return VerrijktAdresUitGrar.FromAdresUitGrarAndVerrijkteGemeentenaam(
-            adresDetailResponse, verrijkteGemeentenaam);
+        var adres = Adres.Hydrate(
+            straatnaam: adresDetailResponse.Straatnaam,
+            huisnummer: adresDetailResponse.Huisnummer,
+            busnummer: adresDetailResponse.Busnummer,
+            postcode: adresDetailResponse.Postcode,
+            gemeente: verrijkteGemeentenaam.Naam,
+            land: Adres.België);
+
+        return new VerrijktAdresUitGrar(adresDetailResponse, verrijkteGemeentenaam, adres);
     }
 }

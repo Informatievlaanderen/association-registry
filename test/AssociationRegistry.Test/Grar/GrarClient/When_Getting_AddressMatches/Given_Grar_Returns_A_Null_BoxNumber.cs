@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_AddressMatches;
 
-using AssociationRegistry.Grar.Clients;
 using FluentAssertions;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using System.Net;
@@ -25,7 +25,7 @@ public class Given_Grar_Returns_A_Null_BoxNumber
                            Content = new StringContent(AddressMatchResponseWithoutBoxNumber),
                        });
 
-        var sut = new GrarClient(grarHttpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), NullLogger<GrarClient>.Instance);
+        var sut = new GrarClient(grarHttpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), NullLogger <GrarClient>.Instance);
 
         var result = await sut.GetAddressMatches(straatnaam: "Fosselstraat", huisnummer: "48", busnummer: null, postcode: "1790",
                                                  gemeentenaam: "Affligem", CancellationToken.None);

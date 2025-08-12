@@ -1,10 +1,11 @@
 namespace AssociationRegistry.Admin.AddressSync;
 
+using Grar.Exceptions;
+using Grar.Models;
 using Integrations.Grar.Integration.Messages;
 using Integrations.Grar;
 using Integrations.Grar.Clients;
 using Integrations.Grar.Exceptions;
-using Integrations.Grar.Models;
 using Marten;
 using Microsoft.Extensions.Logging;
 using Schema.Detail;

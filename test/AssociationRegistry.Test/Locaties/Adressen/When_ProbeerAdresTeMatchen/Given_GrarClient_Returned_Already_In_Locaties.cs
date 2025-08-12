@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AdresMatch;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -13,6 +12,8 @@ using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using AssociationRegistry.Integrations.Grar.AdresMatch;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -94,7 +95,7 @@ public class Given_Duplicate_Locaties_With_Same_Name
 
         var handler = new ProbeerAdresTeMatchenCommandHandler(repository, new AdresMatchService(
                                                                   grarClient.Object, new PerfectScoreMatchStrategy(),
-                                                                  new GemeenteVerrijkingService(grarClient.Object)),
+                                                                  new GrarAddressVerrijkingsService(grarClient.Object)),
                                                               NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
         await handler.Handle(new ProbeerAdresTeMatchenCommand(feitelijkeVerenigingWerdGeregistreerd.VCode,
@@ -174,7 +175,7 @@ public class Given_Duplicate_Locaties_With_Different_Names
         var repository = faktory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
         var handler = new ProbeerAdresTeMatchenCommandHandler(repository, new AdresMatchService(
                                                                   grarClient.Object, new PerfectScoreMatchStrategy(),
-                                                                  new GemeenteVerrijkingService(grarClient.Object)),
+                                                                  new GrarAddressVerrijkingsService(grarClient.Object)),
                                                               NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
         await handler.Handle(new ProbeerAdresTeMatchenCommand(feitelijkeVerenigingWerdGeregistreerd.VCode,

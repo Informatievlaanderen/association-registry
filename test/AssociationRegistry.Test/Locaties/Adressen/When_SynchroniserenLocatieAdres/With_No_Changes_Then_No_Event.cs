@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_SynchroniserenLocatieAdres;
 
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
 using Common.AutoFixture;
@@ -12,9 +10,12 @@ using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
 using Events.Factories;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
+using AddressDetailResponse = AssociationRegistry.Grar.Models.AddressDetailResponse;
+using LocatieWithAdres = AssociationRegistry.Grar.Models.LocatieWithAdres;
 
 public class With_No_Changes_Then_No_Event
 {

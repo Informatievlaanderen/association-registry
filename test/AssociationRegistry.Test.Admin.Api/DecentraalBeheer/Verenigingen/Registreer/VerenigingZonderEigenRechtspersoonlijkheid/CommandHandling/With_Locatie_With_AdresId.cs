@@ -9,7 +9,6 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;

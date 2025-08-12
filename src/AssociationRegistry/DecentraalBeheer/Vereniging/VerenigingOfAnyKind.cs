@@ -4,7 +4,7 @@ using Adressen;
 using Events;
 using Framework;
 using GemeentenaamVerrijking;
-using Grar.AdresMatch;
+using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Exceptions;
 using Grar.Models;
 using Emails;
@@ -147,17 +147,25 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
             var verrijktAdres = await addressVerrijkingsService.FromAdresAndGrarResponse(adresDetailResponse, locatie.Adres, CancellationToken.None);
 
-            var verrijkteLocatie = locatie.MetAdresUitGrar(verrijktAdres);
+            var adres = Adres.Hydrate(
+                straatnaam: verrijktAdres.AddressResponse.Straatnaam,
+                huisnummer: verrijktAdres.AddressResponse.Huisnummer,
+                busnummer: verrijktAdres.AddressResponse.Busnummer,
+                postcode: verrijktAdres.AddressResponse.Postcode,
+                gemeente: verrijktAdres.Gemeente.Naam,
+                land: Adres.België);
+            
+            var verrijkteLocatie = locatie.MetAdresUitGrar(adres);
 
             State.Locaties.ThrowIfCannotAppendOrUpdate(verrijkteLocatie);
 
             var verrijktAdresUitAdressenRegister =
-                EventFactory.VerrijktAdresUitAdressenregister(adresDetailResponse, verrijktAdres);
+                EventFactory.VerrijktAdresUitAdressenregister(verrijktAdres);
 
             AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
                                                               locatieId,
                                                               adresDetailResponse.AdresId,
-                                                              verrijktAdresUitAdressenRegister,
+                                                              verrijktAdresUitAdressenRegister.Adres,
                                                               idempotenceKey));
         }
     }
@@ -188,9 +196,17 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 continue;
             }
 
-            var verrijkteGemeentenaam = await verrijkingService.FromAdresAndGrarResponse(adresDetailResponse, locatie.Adres, CancellationToken.None);
+            var verrijktAdres = await verrijkingService.FromAdresAndGrarResponse(adresDetailResponse, locatie.Adres, CancellationToken.None);
 
-            var verrijkteLocatie = locatie.VerrijkMet(locatie.Adres! with { Gemeente = Gemeentenaam.FromVerrijkteGemeentenaam(verrijkteGemeentenaam) });
+            var adres = Adres.Hydrate(
+                straatnaam: verrijktAdres.AddressResponse.Straatnaam,
+                huisnummer: verrijktAdres.AddressResponse.Huisnummer,
+                busnummer: verrijktAdres.AddressResponse.Busnummer,
+                postcode: verrijktAdres.AddressResponse.Postcode,
+                gemeente: verrijktAdres.Gemeente.Naam,
+                land: Adres.België);
+            
+            var verrijkteLocatie = locatie.VerrijkMet(adres);
             State.Locaties.ThrowIfCannotAppendOrUpdate(verrijkteLocatie);
 
             if (locatie.Adres != verrijkteLocatie.Adres)
@@ -199,8 +215,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                                   locatieId,
                                                                   adresDetailResponse.AdresId,
                                                                   EventFactory
-                                                                     .VerrijktAdresUitAdressenregister(
-                                                                          adresDetailResponse, verrijkteGemeentenaam)!,
+                                                                     .VerrijktAdresUitAdressenregister(verrijktAdres)!.Adres,
                                                                   idempotenceKey));
             }
         }
@@ -337,17 +352,25 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         var locatie = State.Locaties[locatieId];
 
-        verrijkingService.
+        var verrijktAdres = await verrijkingService.FromActiefAdresId(locatie.AdresId!, cancellationToken);
 
-        var decoratedLocatie = locatie.MetAdresUitGrar(adresDetailResponse);
+        var adres = Adres.Hydrate(
+            straatnaam: verrijktAdres.AddressResponse.Straatnaam,
+            huisnummer: verrijktAdres.AddressResponse.Huisnummer,
+            busnummer: verrijktAdres.AddressResponse.Busnummer,
+            postcode: verrijktAdres.AddressResponse.Postcode,
+            gemeente: verrijktAdres.Gemeente.Naam,
+            land: Adres.België);
+        
+        var decoratedLocatie = locatie.MetAdresUitGrar(adres);
         State.Locaties.ThrowIfCannotAppendOrUpdate(decoratedLocatie);
 
         var registratieData =
-            EventFactory.VerrijktAdresUitAdressenregister(adresDetailResponse, verrijkteGemeentenaam);
+            EventFactory.VerrijktAdresUitAdressenregister(verrijktAdres);
 
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatie.LocatieId,
-                                                             adresDetailResponse.AdresId,
-                                                             registratieData));
+                                                             verrijktAdres.AddressResponse.AdresId,
+                                                             registratieData.Adres));
     }
 
     public void OntkoppelLocatie(int locatieId)

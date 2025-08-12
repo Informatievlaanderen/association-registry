@@ -2,20 +2,27 @@ namespace AssociationRegistry.Grar.AdresMatch;
 
 using DecentraalBeheer.Vereniging.Adressen;
 using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
+using Grar.Models;
 
-public record VerrijktAdresUitGrar : Adres
+public record VerrijktAdresUitGrar
 {
-    private VerrijktAdresUitGrar(string straatnaam, string huisnummer, string busnummer, string postcode, Gemeentenaam gemeente, string land) : 
-        base(straatnaam, huisnummer, busnummer, postcode, gemeente, land)
+    public IAddressResponse AddressResponse { get; }
+    public VerrijkteGemeentenaam Gemeente { get; }
+    public Adres OrigineleAdres { get; }
+
+    public VerrijktAdresUitGrar(IAddressResponse addressResponse, VerrijkteGemeentenaam gemeente, Adres origineleAdres)
     {
+        AddressResponse = addressResponse;
+        Gemeente = gemeente;
+        OrigineleAdres = origineleAdres;
     }
 
-    public static VerrijktAdresUitGrar FromAdresAndVerrijkteGemeentenaam(Adres adres, VerrijkteGemeentenaam verrijkteGemeentenaam)
-        => new(
-            straatnaam: adres.Straatnaam,
-            huisnummer: adres.Huisnummer,
-            busnummer: adres.Busnummer,
-            postcode: adres.Postcode,
-            gemeente: Gemeentenaam.FromVerrijkteGemeentenaam(verrijkteGemeentenaam),
-            Adres.België);
+    public Adres ToAdres()
+        => Adres.Hydrate(
+            straatnaam: AddressResponse.Straatnaam,
+            huisnummer: AddressResponse.Huisnummer,
+            busnummer: AddressResponse.Busnummer,
+            postcode: AddressResponse.Postcode,
+            gemeente: Gemeente.Naam,
+            land: Adres.België);
 }

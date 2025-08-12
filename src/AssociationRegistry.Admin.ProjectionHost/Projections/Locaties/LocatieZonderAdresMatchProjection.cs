@@ -2,7 +2,7 @@
 
 using DecentraalBeheer.Vereniging;
 using Events;
-using Grar.Clients;
+using Integrations.Grar.Clients;
 using Marten.Events.Aggregation;
 using Schema.Detail;
 using Vereniging;
