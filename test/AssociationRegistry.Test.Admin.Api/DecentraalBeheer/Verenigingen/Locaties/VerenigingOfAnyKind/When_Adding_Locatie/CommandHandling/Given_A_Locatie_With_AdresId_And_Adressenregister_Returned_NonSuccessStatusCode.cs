@@ -6,7 +6,6 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
@@ -16,6 +15,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRec
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Marten;
 using Moq;
 using System.Net;

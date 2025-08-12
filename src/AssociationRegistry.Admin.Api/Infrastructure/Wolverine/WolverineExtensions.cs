@@ -4,8 +4,6 @@ using Amazon.Runtime;
 using Amazon.SQS;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.GrarConsumer.Messaging;
 using AssociationRegistry.Hosts.Configuration;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
@@ -13,6 +11,7 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.Re
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using CommandHandling.DecentraalBeheer.Middleware;
+using CommandHandling.Grar.GrarConsumer.Messaging;
 using CommandHandling.KboSyncLambda;
 using Contracts.KboSync;
 using DecentraalBeheer.Vereniging;
@@ -20,6 +19,7 @@ using global::Wolverine;
 using global::Wolverine.AmazonSqs;
 using global::Wolverine.ErrorHandling;
 using global::Wolverine.Postgresql;
+using Integrations.Grar.Clients;
 using JasperFx.CodeGeneration;
 using Serilog;
 

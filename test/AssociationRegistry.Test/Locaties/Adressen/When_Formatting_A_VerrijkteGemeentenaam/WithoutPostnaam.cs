@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Locaties.Adressen.When_Formatting_A_VerrijkteGemeentenaam;
 
+using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using FluentAssertions;
 using GemeentenaamVerrijking;
 using Xunit;

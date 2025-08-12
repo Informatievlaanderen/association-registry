@@ -5,6 +5,7 @@ using AssociationRegistry.Grar.Models.PostalInfo;
 using Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using FluentAssertions;
 using GemeentenaamVerrijking;
 using Xunit;

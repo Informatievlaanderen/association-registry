@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_AddressMatches;
 
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using System.Net;
@@ -22,7 +22,7 @@ public class Given_Grar_Returns_Bad_Request
                                  It.IsAny<string>(), It.IsAny<CancellationToken>()))
                       .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest));
 
-        var sut = new GrarClient(grarHttpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), NullLogger<GrarClient>.Instance);
+        var sut = new GrarClient(grarHttpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), NullLogger <GrarClient>.Instance);
 
         await Assert.ThrowsAsync<AdressenregisterReturnedNonSuccessStatusCode>(
             () => sut.GetAddressMatches(straatnaam: "straatnaam", huisnummer: "nr", busnummer: null, postcode: "postcode",

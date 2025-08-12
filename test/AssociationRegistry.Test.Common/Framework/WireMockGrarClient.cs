@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Common.Framework;
 
-using Grar.Clients;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 
 public class WireMockGrarClient : GrarClient

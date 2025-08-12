@@ -6,8 +6,8 @@ using Common.AutoFixture;
 using Events;
 using FluentAssertions;
 using AssociationRegistry.Grar.AdresMatch;
-using AssociationRegistry.Grar.Clients;
 using DecentraalBeheer.Vereniging;
+using AssociationRegistry.Integrations.Grar.AdresMatch;
 using Vereniging;
 using Xunit;
 
@@ -25,7 +25,7 @@ public class Returns_Multiple_Responses_With_One_Score100
                         .Build();
 
         var matchStrategy = new PerfectScoreMatchStrategy();
-        var verrijkingService = new GemeenteVerrijkingService(grarClient.Object);
+        var verrijkingService = new GrarAddressVerrijkingsService(grarClient.Object);
         var service = new AdresMatchService(grarClient.Object, matchStrategy, verrijkingService);
 
         var actual = await service.GetAdresMatchEvent(fixture.Create<int>(), fixture.Create<Locatie>(),

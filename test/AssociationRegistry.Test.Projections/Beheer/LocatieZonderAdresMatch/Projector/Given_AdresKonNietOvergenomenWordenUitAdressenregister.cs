@@ -4,7 +4,7 @@ using Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using Framework.Fixtures;
-using Grar.Clients;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Marten;
 
 [Collection(nameof(MultiStreamTestCollection))]

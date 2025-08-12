@@ -52,7 +52,7 @@
     <ProjectReference Include="..\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj" />
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
     <ProjectReference Include="..\AssociationRegistry.CommandHandling\AssociationRegistry.CommandHandling.csproj" />
-    <ProjectReference Include="..\integrations\AssociationRegistry.Grar\AssociationRegistry.Grar.csproj" />
+    <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Grar\AssociationRegistry.Integrations.Grar.csproj" />
   </ItemGroup>
 
 

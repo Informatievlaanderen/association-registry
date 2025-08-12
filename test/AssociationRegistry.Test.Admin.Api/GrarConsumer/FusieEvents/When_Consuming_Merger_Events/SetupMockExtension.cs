@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar.GrarConsumer.Messaging;
+using CommandHandling.Grar.GrarConsumer.Messaging;
 using Moq;
 using Wolverine;
 using Wolverine.Marten;
