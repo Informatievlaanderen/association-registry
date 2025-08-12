@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.KboSync;
 
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
 using CommandHandling.KboSyncLambda.SyncKbo;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using EventStore;
 using Integrations.Slack;
-using Kbo;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using Moq;

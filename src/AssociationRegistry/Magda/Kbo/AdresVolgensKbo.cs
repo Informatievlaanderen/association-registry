@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Kbo;
+﻿namespace AssociationRegistry.Magda.Kbo;
 
 public class AdresVolgensKbo
 {

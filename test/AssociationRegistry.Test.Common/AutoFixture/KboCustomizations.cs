@@ -6,7 +6,7 @@ using DecentraalBeheer.Vereniging.Emails;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
 using DecentraalBeheer.Vereniging.Websites;
 using global::AutoFixture;
-using Kbo;
+using Magda.Kbo;
 using Vereniging;
 
 public static class KboCustomizations
