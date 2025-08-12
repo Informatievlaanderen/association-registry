@@ -206,7 +206,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdresDetail", "AdresDetail"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.MartenDb", "src\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj", "{FD9A80A6-2905-4DFE-8FB2-F9F32EE4AD6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Grar", "src\integrations\AssociationRegistry.Grar\AssociationRegistry.Grar.csproj", "{9B2909A8-D63C-4FBD-A0AD-76DCEFACCA29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Integrations.Grar", "src\integrations\AssociationRegistry.Integrations.Grar\AssociationRegistry.Integrations.Grar.csproj", "{9B2909A8-D63C-4FBD-A0AD-76DCEFACCA29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Contracts", "src\AssociationRegistry.Contracts\AssociationRegistry.Contracts.csproj", "{8E20CFA8-D985-4831-B4E9-8565CD19F219}"
 EndProject

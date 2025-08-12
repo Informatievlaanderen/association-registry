@@ -6,6 +6,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.GemeentenaamVerrijking;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Exceptions;
+using Integrations.Grar.Clients;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

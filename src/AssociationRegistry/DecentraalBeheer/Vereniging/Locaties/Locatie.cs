@@ -129,26 +129,14 @@ public record Locatie
             ),
         };
 
-    public Locatie MetAdresUitGrar(AddressDetailResponse decoratedAdres, VerrijkteGemeentenaam verrijkteGemeentenaam)
+    public Locatie MetAdresUitGrar(Adres decoratedAdres)
         => this with
         {
-            Adres = Adres.Create(
-                straatnaam: decoratedAdres.Straatnaam,
-                huisnummer: decoratedAdres.Huisnummer,
-                busnummer: decoratedAdres.Busnummer,
-                postcode: decoratedAdres.Postcode,
-                gemeente: verrijkteGemeentenaam.Format(),
-                Adres.België
-            ),
+            Adres = decoratedAdres
         };
 
-    public Locatie VerrijkMet(VerrijkteGemeentenaam gemeentenaam)
-        => this with { Adres = Adres! with { Gemeente = Gemeentenaam.FromVerrijkteGemeentenaam(gemeentenaam) } };
-
-    public bool IsVerschillendVan(Registratiedata.AdresUitAdressenregister registratieData)
-    {
-        throw new NotImplementedException();
-    }
+    public Locatie VerrijkMet(Adres adres)
+        => this with { Adres = adres };
 }
 
 public record Locatienaam

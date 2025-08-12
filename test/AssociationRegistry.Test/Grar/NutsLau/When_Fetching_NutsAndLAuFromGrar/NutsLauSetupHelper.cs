@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Grar.NutsLau.When_Fetching_NutsAndLAuFromGrar;
 
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models.PostalInfo;
 using AssociationRegistry.Grar.NutsLau;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Moq;
 
 public class NutsLauSetupHelper

@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.List;
 
-using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.Contracts;
 using AssociationRegistry.Grar.Models.PostalInfo;
 using FluentAssertions;
+using AssociationRegistry.Integrations.Grar.Clients;
+using Integrations.Grar.Contracts;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
@@ -30,7 +30,7 @@ public class Given_Grar_Retuns_A_List_Of_Postal_Info_With_VolgendeUrl
 
         SetupHttpClientMockToReturnPostInfoResponse(postalInfoResponse, httpClient, offset, limit);
 
-        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger <GrarClient>>());
 
 
         var expected = new PostcodesLijstResponse()

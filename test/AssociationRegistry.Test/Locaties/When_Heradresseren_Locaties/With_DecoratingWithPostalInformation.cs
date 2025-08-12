@@ -1,12 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Locaties.When_Heradresseren_Locaties;
 
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
-using AssociationRegistry.Grar.GrarUpdates.Hernummering;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Grar.Models.PostalInfo;
 using AutoFixture;
+using CommandHandling.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
+using CommandHandling.Grar.GrarUpdates.Hernummering;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
@@ -14,6 +13,7 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using Events;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Moq;
 using Vereniging;
 using Xunit;

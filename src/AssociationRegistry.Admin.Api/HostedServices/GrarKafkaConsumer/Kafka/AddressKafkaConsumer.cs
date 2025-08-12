@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Kafka;
 
-using AssociationRegistry.Grar.GrarUpdates.Fusies;
-using AssociationRegistry.Grar.GrarUpdates.Hernummering;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
+using CommandHandling.Grar.GrarUpdates.Fusies;
+using CommandHandling.Grar.GrarUpdates.Hernummering;
 using Confluent.Kafka;
 using IdentityModel;
 using Infrastructure.Kafka;

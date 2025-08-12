@@ -4,6 +4,8 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
+using Integrations.Grar.AdresMatch;
+using Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
@@ -25,7 +27,7 @@ public class SyncAdresLocatiesCommandHandler(
 
             var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(locatiesCommand.VCode), metadata, allowDubbeleVereniging: true);
 
-            await vereniging.SyncAdresLocaties(locatiesCommand.LocatiesWithAdres, locatiesCommand.IdempotenceKey, grarClient);
+            await vereniging.SyncAdresLocaties(locatiesCommand.LocatiesWithAdres, locatiesCommand.IdempotenceKey, new GrarAddressVerrijkingsService(grarClient));
 
             await vereniging.HerberekenGeotags(geotagsService);
 

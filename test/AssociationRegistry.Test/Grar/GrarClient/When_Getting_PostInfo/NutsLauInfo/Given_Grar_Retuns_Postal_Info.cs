@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.NutsLauInfo;
 
-using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.Contracts;
 using AssociationRegistry.Grar.Models.PostalInfo;
 using FluentAssertions;
+using AssociationRegistry.Integrations.Grar.Clients;
+using Integrations.Grar.Contracts;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
@@ -31,7 +31,7 @@ public class Given_Grar_Retuns_Postal_Info
 
         SetupHttpClientMockToReturnPostInfoResponse(postalInfoResponse, httpClient, postcode);
 
-        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger <GrarClient>>());
 
         var expected = new PostalNutsLauInfoResponse(postcode, gemeentenaam, nutsCode, lauCode);
 

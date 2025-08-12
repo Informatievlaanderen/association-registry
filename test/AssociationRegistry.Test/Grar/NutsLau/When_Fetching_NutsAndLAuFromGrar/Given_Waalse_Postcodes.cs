@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Grar.NutsLau.When_Fetching_NutsAndLAuFromGrar;
 
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.NutsLau;
+using AssociationRegistry.Integrations.Grar.Clients;
+using Integrations.Grar.NutsLau;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
