@@ -3,6 +3,7 @@
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Constants;
+using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
@@ -12,7 +13,6 @@ using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Hosts.Configuration.ConfigurationBindings;
-using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;

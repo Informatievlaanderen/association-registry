@@ -3,9 +3,9 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Kbo;
 using AssociationRegistry.Resources;
 using Integrations.Slack;
+using Magda.Kbo;
 using Messages;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Metrics;

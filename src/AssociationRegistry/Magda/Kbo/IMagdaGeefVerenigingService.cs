@@ -1,9 +1,8 @@
-﻿namespace AssociationRegistry.Kbo;
+﻿namespace AssociationRegistry.Magda.Kbo;
 
-using DecentraalBeheer.Vereniging;
-using Framework;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 using ResultNet;
-using Vereniging;
 
 public interface IMagdaGeefVerenigingService
 {

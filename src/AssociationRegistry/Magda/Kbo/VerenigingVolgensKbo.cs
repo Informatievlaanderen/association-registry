@@ -1,8 +1,6 @@
-﻿namespace AssociationRegistry.Kbo;
+﻿namespace AssociationRegistry.Magda.Kbo;
 
-using DecentraalBeheer.Vereniging;
-using Vereniging;
-
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record VerenigingVolgensKbo
 {
