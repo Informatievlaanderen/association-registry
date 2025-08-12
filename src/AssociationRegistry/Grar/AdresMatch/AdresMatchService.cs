@@ -5,7 +5,6 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.Events;
 using AssociationRegistry.Events.Factories;
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 
 public class AdresMatchService : IAdresMatchService

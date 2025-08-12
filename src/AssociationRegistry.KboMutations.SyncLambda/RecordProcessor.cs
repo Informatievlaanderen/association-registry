@@ -1,12 +1,11 @@
-﻿namespace AssociationRegistry.CommandHandling.KboSyncLambda;
+﻿namespace AssociationRegistry.KboMutations.SyncLambda;
 
+using AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Kbo;
+using Contracts.KboSync;
 using Microsoft.Extensions.Logging;
 using NodaTime;
-using SyncKbo;
-using AssociationRegistry.Vereniging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
