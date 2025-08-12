@@ -4,6 +4,7 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.VoegL
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Resources;

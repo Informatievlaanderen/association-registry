@@ -8,6 +8,7 @@ using EventStore.ConflictResolution;
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Logs;
 using global::OpenTelemetry.Resources;
+using Grar;
 using Grar.Clients;
 using Hosts;
 using Infrastructure.Extensions;

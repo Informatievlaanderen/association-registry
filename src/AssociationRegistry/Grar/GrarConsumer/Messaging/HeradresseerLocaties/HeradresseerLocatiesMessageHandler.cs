@@ -3,7 +3,6 @@ namespace AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using Framework;
 using GrarUpdates.Hernummering;
 using Vereniging;
-using Clients;
 using DecentraalBeheer.Vereniging;
 using Models;
 

@@ -22,7 +22,7 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
         => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode}",
                                               setup.AdminApiHost.DocumentStore(),
-                                              headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+                                              headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
