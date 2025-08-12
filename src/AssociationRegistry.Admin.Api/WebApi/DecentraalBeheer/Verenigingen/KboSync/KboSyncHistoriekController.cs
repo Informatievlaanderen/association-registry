@@ -4,7 +4,6 @@ using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Schema.KboSync;
 using AssociationRegistry.Events;
-using AssociationRegistry.Kbo;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.KboSyncLambda;

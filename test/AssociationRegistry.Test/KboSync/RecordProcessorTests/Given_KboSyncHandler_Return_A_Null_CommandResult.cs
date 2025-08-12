@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.KboSync.RecordProcessorTests;
 
+using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
 using CommandHandling.KboSyncLambda.SyncKbo;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
-using Kbo;
 using CommandHandling.KboSyncLambda;
 using Contracts.KboSync;
 using Integrations.Slack;
