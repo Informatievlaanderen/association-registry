@@ -1,16 +1,15 @@
-namespace AssociationRegistry.GemeentenaamVerrijking;
+namespace AssociationRegistry.DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 
-using DecentraalBeheer.Vereniging.Adressen;
-using Grar;
-using Grar.Models.PostalInfo;
-using Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.Grar.Models.PostalInfo;
 
-public record VerrijkteGemeentenaam
+public record VerrijkteGemeentenaam: Gemeentenaam
 {
     public Postnaam? Postnaam { get; }
     public string Gemeentenaam { get; }
 
     private VerrijkteGemeentenaam(Postnaam? postnaam, string gemeentenaam)
+        : base(Format(postnaam, gemeentenaam))
     {
         Postnaam = postnaam;
         Gemeentenaam = gemeentenaam;
@@ -36,11 +35,14 @@ public record VerrijkteGemeentenaam
     }
 
     public string Format()
-    {
-        if (Postnaam is not null)
-            return $"{Postnaam.Value} ({Gemeentenaam})";
+        => Format(Postnaam, Gemeentenaam);
 
-        return Gemeentenaam;
+    private static string Format(Postnaam? postnaam, string gemeentenaam)
+    {
+        if (postnaam is not null)
+            return $"{postnaam.Value} ({gemeentenaam})";
+
+        return gemeentenaam;
     }
 
     public static VerrijkteGemeentenaam FromGemeentenaam(Gemeentenaam gemeentenaam)

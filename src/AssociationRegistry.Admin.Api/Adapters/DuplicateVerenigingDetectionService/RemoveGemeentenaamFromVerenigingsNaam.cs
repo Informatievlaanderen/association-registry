@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using GemeentenaamVerrijking;
 using System.Text.RegularExpressions;
 using Vereniging;

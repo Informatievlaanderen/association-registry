@@ -2,6 +2,7 @@ namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registrati
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using AssociationRegistry.GemeentenaamVerrijking;
 using System.Linq;
 
