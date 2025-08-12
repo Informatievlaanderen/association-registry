@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AssociationRegistry.Grar.NutsLau;
 using Events;
 using global::AutoFixture;
+using Grar;
 using Grar.Clients;
 using Grar.Models;
 using Moq;

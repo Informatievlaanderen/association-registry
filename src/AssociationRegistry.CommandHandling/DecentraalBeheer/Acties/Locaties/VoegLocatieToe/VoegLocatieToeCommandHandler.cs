@@ -4,7 +4,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar;
 using Marten;
 using ProbeerAdresTeMatchen;
 using System.Linq;

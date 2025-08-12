@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Contracts.Contracts
+﻿namespace AssociationRegistry.Grar.Contracts
 {
     using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;

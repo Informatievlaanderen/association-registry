@@ -14,6 +14,8 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.Re
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using CommandHandling.DecentraalBeheer.Middleware;
+using CommandHandling.KboSyncLambda;
+using Contracts.KboSync;
 using DecentraalBeheer.Vereniging;
 using global::Wolverine;
 using global::Wolverine.AmazonSqs;

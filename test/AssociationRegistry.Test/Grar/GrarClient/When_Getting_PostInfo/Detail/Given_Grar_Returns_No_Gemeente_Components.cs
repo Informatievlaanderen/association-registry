@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.Detail;
 
+using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models.PostalInfo;
 using FluentAssertions;

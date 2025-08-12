@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_SynchroniserenLocatieAdres;
 
+using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using AutoFixture;

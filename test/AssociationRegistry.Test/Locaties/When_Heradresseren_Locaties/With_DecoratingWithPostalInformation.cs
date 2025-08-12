@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.When_Heradresseren_Locaties;
 
+using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using AssociationRegistry.Grar.GrarUpdates.Hernummering;

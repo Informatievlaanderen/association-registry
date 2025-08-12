@@ -46,7 +46,6 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
            .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging));
 
         while(VerenigingAanvaarddeDubbeleVereniging is null && counter < 200)
-
         {
             counter++;
             await Task.Delay(500);

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.GemeentenaamVerrijking;
 
 using DecentraalBeheer.Vereniging.Adressen;
+using Grar;
 using Grar.Models.PostalInfo;
 using Vereniging;
 
@@ -25,7 +26,7 @@ public record VerrijkteGemeentenaam
 
     public static VerrijkteGemeentenaam MetPostnaam(Postnaam postnaam, string gemeentenaam)
     {
-        if (string.IsNullOrEmpty(postnaam))
+        if (string.IsNullOrEmpty(postnaam.Value))
             throw new ArgumentException(nameof(postnaam));
 
         if (string.IsNullOrEmpty(gemeentenaam))
