@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
+using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
