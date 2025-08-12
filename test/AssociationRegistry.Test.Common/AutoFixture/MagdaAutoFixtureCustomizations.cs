@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using global::AutoFixture;
-using Magda.Constants;
-using Magda.Onderneming.GeefOnderneming;
-using AntwoordenType = Magda.Repertorium.RegistreerInschrijving.AntwoordenType;
-using ContextType = Magda.Repertorium.RegistreerInschrijving.ContextType;
-using RepliekType = Magda.Repertorium.RegistreerInschrijving.RepliekType;
+using AssociationRegistry.Integrations.Magda.Constants;
+using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
+using AntwoordenType = AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.AntwoordenType;
+using ContextType = AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.ContextType;
+using RepliekType = AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RepliekType;
 
 public static class MagdaAutoFixtureCustomizations
 {
@@ -125,7 +125,7 @@ public static class MagdaAutoFixtureCustomizations
             composer => composer.FromFactory(
                 () => new RepliekType()
                 {
-                    Uitzonderingen = Array.Empty<Magda.Repertorium.RegistreerInschrijving.UitzonderingType>(),
+                    Uitzonderingen = Array.Empty<AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.UitzonderingType>(),
                     Antwoorden = fixture.Create<AntwoordenType>(),
                     Context = fixture.Create<ContextType>(),
                 }
