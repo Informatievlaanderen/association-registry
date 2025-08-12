@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\src\AssociationRegistry.KboMutations.SyncLambda\AssociationRegistry.KboMutations.SyncLambda.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.ProjectionHost\AssociationRegistry.Public.ProjectionHost.csproj" />
+    <ProjectReference Include="..\..\src\integrations\AssociationRegistry.Integrations.Grar\AssociationRegistry.Integrations.Grar.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Test.Common\AssociationRegistry.Test.Common.csproj" />
   </ItemGroup>
 

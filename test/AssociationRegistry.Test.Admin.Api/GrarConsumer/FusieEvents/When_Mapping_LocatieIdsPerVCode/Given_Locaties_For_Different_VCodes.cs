@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Mapping_LocatieIdsPerVCode;
 
-using AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
-using AssociationRegistry.Grar.GrarUpdates.Hernummering;
-using AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using CommandHandling.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
+using CommandHandling.Grar.GrarUpdates.Hernummering;
+using CommandHandling.Grar.GrarUpdates.LocatieFinder;
 using FluentAssertions;
 using Xunit;
 

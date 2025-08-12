@@ -2,7 +2,7 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
-using Kbo;
+using AssociationRegistry.Magda.Kbo;
 using ResultNet;
 using Vereniging;
 

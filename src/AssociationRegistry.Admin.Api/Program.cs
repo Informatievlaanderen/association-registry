@@ -17,6 +17,11 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using CommandHandling.Grar.GrarUpdates.Fusies;
+using CommandHandling.Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using CommandHandling.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
+using CommandHandling.Grar.GrarUpdates.Hernummering;
+using CommandHandling.Grar.GrarUpdates.LocatieFinder;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;
 using Events;
@@ -28,11 +33,6 @@ using Framework;
 using Grar;
 using Grar.AdresMatch;
 using Grar.Clients;
-using Grar.GrarUpdates.Fusies;
-using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
-using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
-using Grar.GrarUpdates.Hernummering;
-using Grar.GrarUpdates.LocatieFinder;
 using Grar.NutsLau;
 using HostedServices.GrarKafkaConsumer.Finders;
 using HostedServices.GrarKafkaConsumer.Kafka;
@@ -53,10 +53,11 @@ using Infrastructure.WebApi.ResponseWriter;
 using Infrastructure.WebApi.Security;
 using Infrastructure.WebApi.Swagger;
 using Infrastructure.Wolverine;
+using Integrations.Grar.NutsLau;
 using Integrations.Slack;
 using JasperFx;
-using Kbo;
 using Magda;
+using Magda.Kbo;
 using Marten;
 using MartenDb.Store;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -463,7 +464,7 @@ public class Program
                .AddTransient<IGrarClient, GrarClient>()
                .AddTransient<IAdresMatchService, AdresMatchService>()
                .AddTransient<IAdresMatchStrategy, PerfectScoreMatchStrategy>()
-               .AddTransient<IAdresVerrijkingService, GemeenteVerrijkingService>()
+               .AddTransient<IAddressVerrijkingsService, GemeenteVerrijkingService>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
                .AddTransient<INotifier, SlackNotifier>()
                .AddTransient<ILocatieFinder, LocatieFinder>()

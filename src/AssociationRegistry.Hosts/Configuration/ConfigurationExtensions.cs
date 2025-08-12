@@ -2,7 +2,7 @@ namespace AssociationRegistry.Hosts.Configuration;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Grar.Clients;
+using Integrations.Grar.Clients;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;

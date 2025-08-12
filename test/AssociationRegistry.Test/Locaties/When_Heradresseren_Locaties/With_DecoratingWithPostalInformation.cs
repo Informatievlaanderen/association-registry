@@ -2,11 +2,11 @@
 
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
-using AssociationRegistry.Grar.GrarUpdates.Hernummering;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Grar.Models.PostalInfo;
 using AutoFixture;
+using CommandHandling.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
+using CommandHandling.Grar.GrarUpdates.Hernummering;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;

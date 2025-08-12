@@ -6,7 +6,9 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;
 using AssociationRegistry.GemeentenaamVerrijking;
 using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Kbo;
+using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
+using Grar.AdresMatch;
+using Magda.Kbo;
 
 public static class EventFactory
 {
@@ -311,15 +313,14 @@ public static class EventFactory
                 response.Gemeente),
         };
 
-    public static Registratiedata.AdresUitAdressenregister AdresUitAdressenregister(
-        IAddressResponse adres,
-        VerrijkteGemeentenaam gemeentenaam)
+    public static Registratiedata.AdresUitAdressenregister FromVerrijktAdresUitAdressenregister(
+        VerrijktAdresUitGrar verrijktAdresUitGrar)
         => new(
-            adres.Straatnaam,
-            adres.Huisnummer,
-            adres.Busnummer,
-            adres.Postcode,
-            gemeentenaam.Format());
+            verrijktAdresUitGrar.AddressResponse.Straatnaam,
+            verrijktAdresUitGrar.AddressResponse.Huisnummer,
+            verrijktAdresUitGrar.AddressResponse.Busnummer,
+            verrijktAdresUitGrar.AddressResponse.Postcode,
+            verrijktAdresUitGrar.Gemeente.Naam);
 
     public static Registratiedata.AdresUitAdressenregister? AdresUitAdressenregister(AdresDetailUitAdressenregister? adres)
     {

@@ -6,7 +6,7 @@ using Events;
 using global::Marten;
 using global::Wolverine;
 using Hosts.Configuration.ConfigurationBindings;
-using Kbo;
+using Magda.Kbo;
 using Marten;
 using Wolverine;
 

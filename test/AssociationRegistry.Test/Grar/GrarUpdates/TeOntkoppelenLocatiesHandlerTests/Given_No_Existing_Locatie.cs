@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
 
-using AssociationRegistry.Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
+using CommandHandling.Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Xunit;
 
