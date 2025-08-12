@@ -4,7 +4,7 @@ using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.Framework;
 using AssociationRegistry.GemeentenaamVerrijking;
-using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Exceptions;
 using System.Collections.Generic;
 using System.Linq;

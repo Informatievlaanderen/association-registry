@@ -8,6 +8,7 @@ using DecentraalBeheer.Vereniging;
 using Kbo;
 using KboMutations.Configuration;
 using CommandHandling.KboSyncLambda;
+using Contracts.KboSync;
 using Integrations.Slack;
 using Logging;
 using Magda.Models;

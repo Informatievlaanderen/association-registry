@@ -3,7 +3,7 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;

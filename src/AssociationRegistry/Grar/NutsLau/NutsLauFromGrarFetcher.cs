@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Grar.NutsLau;
 
-using Clients;
 using Marten.Schema;
 using Microsoft.Extensions.Logging;
 

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.NutsLauInfo;
 
-using Contracts.Contracts;
+using AssociationRegistry.Grar.Contracts;
 
 public class PostalInformationOsloResponseBuilder
 {
