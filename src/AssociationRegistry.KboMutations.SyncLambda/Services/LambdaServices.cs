@@ -1,7 +1,7 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Services;
 
 using AssociationRegistry.EventStore;
-using AssociationRegistry.Magda;
+using AssociationRegistry.Integrations.Magda;
 using Integrations.Slack;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;

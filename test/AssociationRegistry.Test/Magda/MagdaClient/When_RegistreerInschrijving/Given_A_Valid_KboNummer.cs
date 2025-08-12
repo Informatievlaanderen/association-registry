@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Magda.MagdaClient.When_RegistreerInschrijving;
 
-using AssociationRegistry.Magda;
-using AssociationRegistry.Magda.Models;
-using AssociationRegistry.Magda.Repertorium.RegistreerInschrijving;
+using AssociationRegistry.Integrations.Magda;
+using AssociationRegistry.Integrations.Magda.Models;
+using AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving;
 using AutoFixture;
 using Common.Configuration;
 using FluentAssertions;
