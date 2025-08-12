@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework;
 
-using AssociationRegistry.Magda.Constants;
-using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
+using AssociationRegistry.Integrations.Magda.Constants;
+using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
 using AutoFixture;
 
 public static class MagdaAutoFixtureCustomizations

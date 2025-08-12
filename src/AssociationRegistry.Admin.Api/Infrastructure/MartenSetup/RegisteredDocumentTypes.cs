@@ -4,7 +4,7 @@ using DecentraalBeheer.Vereniging;
 using Grar.NutsLau;
 using HostedServices.GrarKafkaConsumer.Kafka;
 using Hosts.Configuration.ConfigurationBindings;
-using Magda.Models;
+using AssociationRegistry.Integrations.Magda.Models;
 using Marten;
 using Schema.Detail;
 using Schema.Historiek;

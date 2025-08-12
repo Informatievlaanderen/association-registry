@@ -5,7 +5,7 @@ using Json;
 using Formats;
 using global::Wolverine.Marten;
 using Hosts.Configuration.ConfigurationBindings;
-using Magda.Models;
+using AssociationRegistry.Integrations.Magda.Models;
 using Marten.Services;
 using JasperFx;
 using JasperFx.CodeGeneration;

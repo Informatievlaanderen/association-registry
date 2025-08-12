@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Magda.GeefOndernemingService.Contactgegevens;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Magda;
-using AssociationRegistry.Magda.Constants;
+using AssociationRegistry.Integrations.Magda;
+using AssociationRegistry.Integrations.Magda.Constants;
 using AssociationRegistry.Magda.Kbo;
-using AssociationRegistry.Magda.Models;
-using AssociationRegistry.Magda.Models.GeefOnderneming;
-using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
+using AssociationRegistry.Integrations.Magda.Models;
+using AssociationRegistry.Integrations.Magda.Models.GeefOnderneming;
+using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
 using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;

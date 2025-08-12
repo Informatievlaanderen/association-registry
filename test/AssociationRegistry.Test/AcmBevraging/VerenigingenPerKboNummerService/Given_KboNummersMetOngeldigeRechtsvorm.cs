@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.AcmBevraging.VerenigingenPerKboNummerService;
 
 using Acm.Api.Queries.VerenigingenPerKbo;
-using AssociationRegistry.Magda.Services;
+using AssociationRegistry.Integrations.Magda.Services;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
