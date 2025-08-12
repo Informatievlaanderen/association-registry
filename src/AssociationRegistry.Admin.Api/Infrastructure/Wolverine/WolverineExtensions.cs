@@ -8,7 +8,6 @@ using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.GrarConsumer.Messaging;
 using AssociationRegistry.Hosts.Configuration;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Kbo;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;

@@ -6,7 +6,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;
 using AssociationRegistry.GemeentenaamVerrijking;
 using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Kbo;
+using Magda.Kbo;
 
 public static class EventFactory
 {

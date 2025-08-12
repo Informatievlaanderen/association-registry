@@ -3,11 +3,11 @@
 using Adressen;
 using Events;
 using Framework;
-using Kbo;
 using AssociationRegistry.Vereniging.Bronnen;
 using Events.Factories;
 using Exceptions;
 using Geotags;
+using Magda.Kbo;
 using ResultNet;
 
 public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<VerenigingState>
