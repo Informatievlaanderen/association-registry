@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
@@ -11,6 +10,7 @@ using CommandHandling.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using CommandHandling.Grar.GrarUpdates.Hernummering;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Moq;
 using Xunit;
 

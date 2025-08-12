@@ -4,7 +4,6 @@ using Amazon.Runtime;
 using Amazon.SQS;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Hosts.Configuration;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
@@ -20,6 +19,7 @@ using global::Wolverine;
 using global::Wolverine.AmazonSqs;
 using global::Wolverine.ErrorHandling;
 using global::Wolverine.Postgresql;
+using Integrations.Grar.Clients;
 using JasperFx.CodeGeneration;
 using Serilog;
 

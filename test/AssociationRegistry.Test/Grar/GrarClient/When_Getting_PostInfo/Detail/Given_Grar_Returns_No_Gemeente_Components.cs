@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.Detail;
 
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models.PostalInfo;
 using FluentAssertions;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;
@@ -22,7 +22,7 @@ public class Given_Grar_Returns_No_Gemeente_Components
                            Content = new StringContent(PostInfoResponseWithoutGemeenteComponents),
                        });
 
-        var sut = new GrarClient(grarHttpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(grarHttpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger <GrarClient>>());
 
         var result = await sut.GetPostalInformationDetail("0612");
 

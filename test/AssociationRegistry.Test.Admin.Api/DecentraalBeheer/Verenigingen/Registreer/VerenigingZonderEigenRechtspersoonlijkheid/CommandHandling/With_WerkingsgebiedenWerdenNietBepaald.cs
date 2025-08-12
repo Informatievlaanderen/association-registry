@@ -5,7 +5,6 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.Re
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;

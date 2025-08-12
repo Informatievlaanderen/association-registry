@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Grar.Models;
 using AutoFixture;
@@ -13,6 +12,7 @@ using Common.StubsMocksFakes.Faktories;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using FluentAssertions;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Moq;
 using Vereniging;
 using Xunit;

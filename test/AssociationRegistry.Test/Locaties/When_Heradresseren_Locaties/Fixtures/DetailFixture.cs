@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Locaties.When_Heradresseren_Locaties.Fixtures;
 
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Xunit;
 
 public class DetailFixture : IAsyncLifetime

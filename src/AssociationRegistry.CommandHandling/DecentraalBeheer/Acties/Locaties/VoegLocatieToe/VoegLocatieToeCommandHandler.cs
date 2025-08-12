@@ -5,6 +5,8 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
+using Integrations.Grar.AdresMatch;
+using Integrations.Grar.Clients;
 using Marten;
 using ProbeerAdresTeMatchen;
 using System.Linq;
@@ -45,7 +47,7 @@ public class VoegLocatieToeCommandHandler
         var toegevoegdeLocatie = vereniging.VoegLocatieToe(locatie);
 
         if (toegevoegdeLocatie.AdresId is not null)
-            await vereniging.NeemAdresDetailOver(toegevoegdeLocatie.LocatieId, _grarClient, cancellationToken);
+            await vereniging.NeemAdresDetailOver(toegevoegdeLocatie.LocatieId, new GrarAddressVerrijkingsService(_grarClient), cancellationToken);
         else
             await _outbox.SendAsync(new ProbeerAdresTeMatchenCommand(
                                         envelope.Command.VCode,

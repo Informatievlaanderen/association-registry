@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Grar.UrlBuilder;
 
-using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Xunit;
 
 public class UrlBuilderTests
