@@ -313,6 +313,19 @@ public static class EventFactory
                 response.Gemeente),
         };
 
+    public static AdresDetailUitAdressenregister VerrijktAdresUitAdressenregister(
+        VerrijktAdresUitGrar verrijktAdresUitGrar)
+        => new()
+        {
+            AdresId = verrijktAdresUitGrar.AddressResponse.AdresId,
+            Adres = new Registratiedata.AdresUitAdressenregister(
+                verrijktAdresUitGrar.AddressResponse.Straatnaam,
+                verrijktAdresUitGrar.AddressResponse.Huisnummer,
+                verrijktAdresUitGrar.AddressResponse.Busnummer,
+                verrijktAdresUitGrar.AddressResponse.Postcode,
+                verrijktAdresUitGrar.Gemeente.Naam),
+        };
+
     public static Registratiedata.AdresUitAdressenregister FromVerrijktAdresUitAdressenregister(
         VerrijktAdresUitGrar verrijktAdresUitGrar)
         => new(

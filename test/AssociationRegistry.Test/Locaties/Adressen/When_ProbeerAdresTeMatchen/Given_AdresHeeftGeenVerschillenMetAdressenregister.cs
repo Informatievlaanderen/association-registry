@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AdresMatch;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using Events;
 using Formats;
@@ -15,6 +14,8 @@ using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using AssociationRegistry.Integrations.Grar.AdresMatch;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Wolverine;
@@ -76,7 +77,7 @@ public class Given_AdresHeeftGeenVerschillenMetAdressenregister
         VerenigingRepositoryMock verenigingsRepository = faktory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
         var handler = new ProbeerAdresTeMatchenCommandHandler(verenigingsRepository, new AdresMatchService(
                                                                   grarClient.Object, new PerfectScoreMatchStrategy(),
-                                                                  new GemeenteVerrijkingService(grarClient.Object)),
+                                                                  new GrarAddressVerrijkingsService(grarClient.Object)),
                                                               NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
         await handler.Handle(new ProbeerAdresTeMatchenCommand(verenigingWerdGeregistreerd.VCode,

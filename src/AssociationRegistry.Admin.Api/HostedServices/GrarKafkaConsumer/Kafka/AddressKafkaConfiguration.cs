@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Kafka;
 
-using AssociationRegistry.Grar.Clients;
 using Confluent.Kafka;
+using Integrations.Grar.Clients;
 
 public class AddressKafkaConfiguration : ConsumerConfig
 {

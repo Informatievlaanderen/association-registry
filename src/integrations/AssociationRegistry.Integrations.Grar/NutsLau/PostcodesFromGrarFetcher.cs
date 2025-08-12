@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Grar.NutsLau;
 
 using Models.PostalInfo;
+using AssociationRegistry.Integrations.Grar.Clients;
 
 public class PostcodesFromGrarFetcher:  IPostcodesFromGrarFetcher
 {

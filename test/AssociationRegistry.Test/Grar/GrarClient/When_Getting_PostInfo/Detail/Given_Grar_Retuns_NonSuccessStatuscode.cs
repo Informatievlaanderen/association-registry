@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.Detail;
 
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
 using FluentAssertions;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Resources;
@@ -22,7 +22,7 @@ public class Given_Grar_Retuns_NonSuccessStatuscode
         httpClient.Setup(x => x.GetPostInfoDetail(postcode, It.IsAny<CancellationToken>()))
                   .ReturnsAsync(new HttpResponseMessage(httpStatusCode));
 
-        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger <GrarClient>>());
 
         var exception = await Assert.ThrowsAsync<AdressenregisterReturnedNonSuccessStatusCode>(async () => await sut.GetPostalInformationDetail(postcode));
         exception.Message.Should().Be(ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister);
@@ -39,7 +39,7 @@ public class Given_Grar_Retuns_NonSuccessStatuscode
         httpClient.Setup(x => x.GetPostInfoDetail(postcode, It.IsAny<CancellationToken>()))
                   .ReturnsAsync(new HttpResponseMessage(httpStatusCode));
 
-        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger <GrarClient>>());
 
         var exception = await Assert.ThrowsAsync<AdressenregisterReturnedNonSuccessStatusCode>(async () => await sut.GetPostalInformationDetail(postcode));
         exception.Message.Should().Be(ExceptionMessages.AdresKonNietOvergenomenWorden);
