@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Magda.MagdaClient.When_GeefOnderneming;
 
-using AssociationRegistry.Magda;
-using AssociationRegistry.Magda.Constants;
-using AssociationRegistry.Magda.Models;
+using AssociationRegistry.Integrations.Magda;
+using AssociationRegistry.Integrations.Magda.Constants;
+using AssociationRegistry.Integrations.Magda.Models;
 using AutoFixture;
 using Common.Configuration;
 using FluentAssertions;

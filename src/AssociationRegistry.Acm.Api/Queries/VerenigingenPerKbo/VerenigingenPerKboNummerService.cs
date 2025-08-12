@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Acm.Api.Queries.VerenigingenPerKbo;
 
+using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Magda;
 using Marten;
 

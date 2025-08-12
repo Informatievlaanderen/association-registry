@@ -4,7 +4,7 @@ using AssociationRegistry.Acm.Api.Queries.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Api.Queries.VerenigingenPerKbo;
 using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
-using AssociationRegistry.Magda.Constants;
+using AssociationRegistry.Integrations.Magda.Constants;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
