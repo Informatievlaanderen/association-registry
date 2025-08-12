@@ -25,6 +25,7 @@ using EventStore.ConflictResolution;
 using FluentValidation;
 using Formats;
 using Framework;
+using Grar;
 using Grar.AdresMatch;
 using Grar.Clients;
 using Grar.GrarUpdates.Fusies;

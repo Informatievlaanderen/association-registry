@@ -4,13 +4,10 @@ public record Postnaam
 {
     public string Value { get; init; }
 
-    private Postnaam(string Value)
+    public Postnaam(string Value)
     {
         this.Value = Value;
     }
-
-    public static Postnaam FromGrar(Contracts.Contracts.Postnaam postnaam)
-        => new(postnaam.GeografischeNaam.Spelling);
 
     public static Postnaam FromValue(string postnaam)
     {

@@ -2,9 +2,9 @@ namespace AssociationRegistry.Grar.Models.PostalInfo;
 
 using System.Collections.ObjectModel;
 
-public class Postnamen: ReadOnlyCollection<Postnaam>
+public class Postnamen: ReadOnlyCollection<Postnaam>, IReadOnlyCollection<Postnaam>
 {
-    private Postnamen(IList<Postnaam> list) : base(list)
+    public Postnamen(IList<Postnaam> list) : base(list)
     {
     }
 
@@ -19,9 +19,6 @@ public class Postnamen: ReadOnlyCollection<Postnaam>
 
     public Postnaam? FindSingleOrDefault()
         => HasSinglePostnaam ? this.SingleOrDefault() : null;
-
-    public static Postnamen FromPostalInfo(List<Contracts.Contracts.Postnaam> postnamen)
-        => new (postnamen.Select(Postnaam.FromGrar).ToList());
 
     public static Postnamen FromValues(params string[] values)
         => new(values.Select(Postnaam.FromValue).ToList());

@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.List;
 
 using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar.Contracts;
 using AssociationRegistry.Grar.Models.PostalInfo;
-using Contracts.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;

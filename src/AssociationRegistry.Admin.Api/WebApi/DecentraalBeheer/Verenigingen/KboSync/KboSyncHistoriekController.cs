@@ -7,6 +7,8 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Kbo;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using CommandHandling.KboSyncLambda;
+using Contracts.KboSync;
 using Historiek.Examples;
 using Marten;
 using Microsoft.AspNetCore.Authorization;

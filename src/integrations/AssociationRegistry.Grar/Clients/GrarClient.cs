@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Grar.Clients;
 
-using Contracts.Contracts;
+using Contracts;
 using DecentraalBeheer.Vereniging.Adressen;
 using Events;
 using Exceptions;
@@ -15,6 +15,7 @@ using Resources;
 using System.Net;
 using System.Web;
 using Vereniging;
+using Postnaam = Models.PostalInfo.Postnaam;
 
 public class GrarClient : IGrarClient
 {
@@ -96,7 +97,7 @@ public class GrarClient : IGrarClient
             return null;
 
         var gemeentenaam = result.Gemeente?.Gemeentenaam?.GeografischeNaam?.Spelling;
-        var postnamen = Postnamen.FromPostalInfo(result.Postnamen);
+        var postnamen = new Postnamen(result.Postnamen.Select<Contracts.Postnaam, Postnaam>(postnaam => new Postnaam(postnaam.GeografischeNaam.Spelling)).ToList<Postnaam>());
 
         return new PostalInfoDetailResponse(postcode, gemeentenaam ?? postnamen[0], postnamen);
     }
