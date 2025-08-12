@@ -6,9 +6,8 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Events.Factories;
 using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Models;
-using Grar;
-using Grar.Models;
-using Clients;
+using AssociationRegistry.Integrations.Grar.Clients;
+using AssociationRegistry.Grar.Exceptions;
 
 public class AdresMatchService : IAdresMatchService
 {
@@ -58,11 +57,11 @@ public class AdresMatchService : IAdresMatchService
 
             return await CreateGevondenResult(request, matchedAdres, cancellationToken);
         }
-        catch (Exceptions.AdressenregisterReturnedNonSuccessStatusCode ex)
+        catch (AdressenregisterReturnedNonSuccessStatusCode ex)
         {
             return new AdresKonNietOvergenomenResult(request.Locatie?.Adres.ToAdresString() ?? "", ex.Message);
         }
-        catch (Exceptions.AdressenregisterReturnedNotFoundStatusCode ex)
+        catch (AdressenregisterReturnedNotFoundStatusCode ex)
         {
             return new AdresNietGevondenResult(request.Locatie!);
         }
@@ -95,13 +94,13 @@ public class AdresMatchService : IAdresMatchService
         AddressMatchResponse matchedAdres,
         CancellationToken cancellationToken)
     {
-        var verrijkteGemeentenaam = await _verrijkingService.FromAdresAndGrarResponse(
+        var verrijktAdres = await _verrijkingService.FromAdresAndGrarResponse(
             matchedAdres,
             request.Adres,
             cancellationToken);
-
+        
         return new AdresGevondenResult(
             matchedAdres.AdresId!,
-            EventFactory.FromVerrijktAdresUitAdressenregister(matchedAdres, verrijkteGemeentenaam));
+            EventFactory.FromVerrijktAdresUitAdressenregister(verrijktAdres));
     }
 }

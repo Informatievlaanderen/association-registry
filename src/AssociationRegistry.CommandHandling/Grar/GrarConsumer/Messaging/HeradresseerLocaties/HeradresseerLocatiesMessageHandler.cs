@@ -4,7 +4,8 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Models;
 using GrarUpdates.Hernummering;
-using AssociationRegistry.Integrations.
+using AssociationRegistry.Integrations.Grar.Clients;
+using Integrations.Grar.AdresMatch;
 
 public class HeradresseerLocatiesMessageHandler
 {
@@ -24,7 +25,7 @@ public class HeradresseerLocatiesMessageHandler
 
         var locatiesWithAddresses = await FetchAddressesForLocaties(doorFusieMessage.TeHeradresserenLocaties, cancellationToken);
 
-        await vereniging.HeradresseerLocaties(locatiesWithAddresses, doorFusieMessage.idempotencyKey, _client);
+        await vereniging.HeradresseerLocaties(locatiesWithAddresses, doorFusieMessage.idempotencyKey, new GrarAddressVerrijkingsService(_client));
 
         await _repository.Save(vereniging, metadata with { ExpectedVersion = vereniging.Version }, cancellationToken);
     }

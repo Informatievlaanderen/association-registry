@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_SynchroniserenLocatieAdres;
 
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
 using Common.AutoFixture;
@@ -14,12 +12,14 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;
 using Events;
 using Events.Factories;
+using AssociationRegistry.Integrations.Grar.Clients;
 using JasperFx.Events;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
 using Xunit;
 using IEvent = Events.IEvent;
+using LocatieWithAdres = AssociationRegistry.Grar.Models.LocatieWithAdres;
 
 public class With_AddressId_Different_In_Response_And_Location
 {

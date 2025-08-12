@@ -5,6 +5,8 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
+using Integrations.Grar.AdresMatch;
+using Integrations.Grar.Clients;
 using Marten;
 using ProbeerAdresTeMatchen;
 using System.Threading;
@@ -65,7 +67,7 @@ public class WijzigLocatieCommandHandler
     {
         if (adresId is not null)
         {
-            await vereniging.NeemAdresDetailOver(locatieId, _grarClient, cancellationToken);
+            await vereniging.NeemAdresDetailOver(locatieId, new GrarAddressVerrijkingsService(_grarClient), cancellationToken);
         }
         else if(adres is not null)
         {

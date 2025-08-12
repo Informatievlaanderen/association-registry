@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AdresMatch;
-using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -12,6 +11,8 @@ using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using Common.StubsMocksFakes.Faktories;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using AssociationRegistry.Integrations.Grar.AdresMatch;
+using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -92,7 +93,7 @@ public class Given_Duplicate_Locaties_With_Same_Name_For_VZER
         var repository = faktory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
         var handler = new ProbeerAdresTeMatchenCommandHandler(repository, new AdresMatchService(
                                                                   grarClient.Object, new PerfectScoreMatchStrategy(),
-                                                                  new GemeenteVerrijkingService(grarClient.Object)),
+                                                                  new GrarAddressVerrijkingsService(grarClient.Object)),
                                                               NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
         await handler.Handle(new ProbeerAdresTeMatchenCommand(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
@@ -173,7 +174,7 @@ public class Given_Duplicate_Locaties_With_Different_Names_For_VZER
         var repository = faktory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
         var handler = new ProbeerAdresTeMatchenCommandHandler(repository, new AdresMatchService(
                                                                   grarClient.Object, new PerfectScoreMatchStrategy(),
-                                                                  new GemeenteVerrijkingService(grarClient.Object)),
+                                                                  new GrarAddressVerrijkingsService(grarClient.Object)),
                                                               NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
         await handler.Handle(new ProbeerAdresTeMatchenCommand(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,

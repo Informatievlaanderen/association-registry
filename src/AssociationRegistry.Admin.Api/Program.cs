@@ -32,7 +32,6 @@ using Formats;
 using Framework;
 using Grar;
 using Grar.AdresMatch;
-using Grar.Clients;
 using Grar.NutsLau;
 using HostedServices.GrarKafkaConsumer.Finders;
 using HostedServices.GrarKafkaConsumer.Kafka;
@@ -53,6 +52,8 @@ using Infrastructure.WebApi.ResponseWriter;
 using Infrastructure.WebApi.Security;
 using Infrastructure.WebApi.Swagger;
 using Infrastructure.Wolverine;
+using Integrations.Grar.AdresMatch;
+using Integrations.Grar.Clients;
 using Integrations.Grar.NutsLau;
 using Integrations.Slack;
 using JasperFx;
@@ -464,7 +465,7 @@ public class Program
                .AddTransient<IGrarClient, GrarClient>()
                .AddTransient<IAdresMatchService, AdresMatchService>()
                .AddTransient<IAdresMatchStrategy, PerfectScoreMatchStrategy>()
-               .AddTransient<IAddressVerrijkingsService, GemeenteVerrijkingService>()
+               .AddTransient<IAddressVerrijkingsService, GrarAddressVerrijkingsService>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
                .AddTransient<INotifier, SlackNotifier>()
                .AddTransient<ILocatieFinder, LocatieFinder>()
