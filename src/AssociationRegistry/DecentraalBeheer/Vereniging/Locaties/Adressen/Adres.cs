@@ -2,9 +2,9 @@ namespace AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 
 using Events;
 using Framework;
-using Kbo;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
+using Magda.Kbo;
 
 public record Adres
 {
@@ -79,3 +79,4 @@ public record Adres
                   adres.Gemeente,
                   België);
 }
+

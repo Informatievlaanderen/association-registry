@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_VerrijkteGemeent
 
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Models.PostalInfo;
+using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using GemeentenaamVerrijking;
 using Xunit;
 

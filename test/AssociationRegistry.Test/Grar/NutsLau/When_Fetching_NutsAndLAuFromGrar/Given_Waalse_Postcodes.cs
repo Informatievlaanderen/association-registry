@@ -3,6 +3,7 @@
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.NutsLau;
+using Integrations.Grar.NutsLau;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;

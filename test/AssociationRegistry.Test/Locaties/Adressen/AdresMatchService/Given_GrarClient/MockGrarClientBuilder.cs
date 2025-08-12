@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
 using AutoFixture;

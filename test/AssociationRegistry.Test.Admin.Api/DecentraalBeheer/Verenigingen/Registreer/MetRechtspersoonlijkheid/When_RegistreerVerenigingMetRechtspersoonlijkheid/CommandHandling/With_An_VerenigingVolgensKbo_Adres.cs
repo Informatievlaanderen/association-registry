@@ -5,7 +5,7 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.Re
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Kbo;
+using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;

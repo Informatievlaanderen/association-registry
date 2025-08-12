@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Grar.AdresMatch;
 
 using AssociationRegistry.Grar.Models;
+using Contracts;
 
 public interface IAdresMatchStrategy
 {
