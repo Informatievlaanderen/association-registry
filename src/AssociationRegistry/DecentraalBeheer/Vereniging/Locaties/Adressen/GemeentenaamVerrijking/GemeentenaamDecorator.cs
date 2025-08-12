@@ -1,6 +1,7 @@
 namespace AssociationRegistry.GemeentenaamVerrijking;
 
 using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using Grar.Models.PostalInfo;
 using Vereniging;
 

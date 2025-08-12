@@ -5,8 +5,8 @@ using Hosts.Configuration;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using AutoFixture;
+using CommandHandling.Grar.GrarConsumer.Messaging;
 using FluentAssertions;
-using Grar.GrarConsumer.Messaging;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 

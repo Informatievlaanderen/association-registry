@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using FluentAssertions;
 using GemeentenaamVerrijking;
 using Vereniging;

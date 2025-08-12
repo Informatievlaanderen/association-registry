@@ -1,9 +1,9 @@
 ﻿// namespace AssociationRegistry.Test.Middleware;
 //
 // using AssociationRegistry.Framework;
-// using AssociationRegistry.Grar.Clients;
-// using AssociationRegistry.Grar.Models;
-// using AssociationRegistry.Grar.Models.PostalInfo;
+// using AssociationRegistry.Integrations.Grar.Clients;
+// using AssociationRegistry.Integrations.Grar.Models;
+// using AssociationRegistry.Integrations.Grar.Models.PostalInfo;
 // using AssociationRegistry.Middleware;
 // using AutoFixture;
 // using Common.AutoFixture;

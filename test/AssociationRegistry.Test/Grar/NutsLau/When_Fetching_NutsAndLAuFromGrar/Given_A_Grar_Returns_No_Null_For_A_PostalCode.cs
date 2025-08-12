@@ -7,6 +7,7 @@ using AssociationRegistry.Grar.NutsLau;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
+using Integrations.Grar.NutsLau;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;

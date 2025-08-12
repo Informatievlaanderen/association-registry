@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync.Infrastructure.Extensions;
 
 using CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
-using AssociationRegistry.Grar.Integration.Messages;
+using Integrations.Grar.Integration.Messages;
 using DecentraalBeheer.Vereniging;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
