@@ -61,6 +61,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AssociationRegistry.Contracts\AssociationRegistry.Contracts.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj"/>
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj"/>
     <ProjectReference Include="..\AssociationRegistry.Public.Schema\AssociationRegistry.Public.Schema.csproj"/>

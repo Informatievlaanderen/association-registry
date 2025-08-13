@@ -3,12 +3,13 @@ namespace AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.ResponseExam
 using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
-using JsonLdContext;
+using Contracts.JsonLdContext;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Mappers;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using Vereniging;
-using Vereniging.Mappers;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
