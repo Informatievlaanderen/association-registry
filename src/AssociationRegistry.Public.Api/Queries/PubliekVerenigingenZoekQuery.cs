@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.Api.Queries;
 
 using Constants;
+using DecentraalBeheer.Vereniging;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Aggregations;
 using Elastic.Clients.Elasticsearch.Fluent;
@@ -80,9 +81,7 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                                                                                                        .Field(
                                                                                                             "hoofdactiviteitenVerenigingsloket.code.keyword")
                                                                                                        .Size(
-                                                                                                            AssociationRegistry
-                                                                                                               .Vereniging
-                                                                                                               .HoofdactiviteitVerenigingsloket
+                                                                                                            HoofdactiviteitVerenigingsloket
                                                                                                                .HoofdactiviteitenVerenigingsloketCount)
                                                                                                     )
                                                                                             )
@@ -117,37 +116,34 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                                                                          .Global()
                                                                          .Aggregations(agg2 => agg2
                                                                                           .Add(WellknownFacets.FilterAggregateName, f => f
-                                                                                              .Filter(fq => fq
-                                                                                                  .Bool(b => b
-                                                                                                      .Must(
-                                                                                                           MatchQueryString(
-                                                                                                               filter
-                                                                                                                  .Query),
-                                                                                                           BeActief()
+                                                                                                      .Filter(fq => fq
+                                                                                                                  .Bool(b => b
+                                                                                                                              .Must(
+                                                                                                                                   MatchQueryString(
+                                                                                                                                       filter
+                                                                                                                                          .Query),
+                                                                                                                                   BeActief()
+                                                                                                                               )
+                                                                                                                              .MustNot(
+                                                                                                                                   BeUitgeschrevenUitPubliekeDatastroom(),
+                                                                                                                                   BeRemoved(),
+                                                                                                                                   BeDubbel()
+                                                                                                                               )
+                                                                                                                   )
                                                                                                        )
-                                                                                                      .MustNot(
-                                                                                                           BeUitgeschrevenUitPubliekeDatastroom(),
-                                                                                                           BeRemoved(),
-                                                                                                           BeDubbel()
+                                                                                                      .Aggregations(agg3 => agg3
+                                                                                                                  .Add(
+                                                                                                                       WellknownFacets
+                                                                                                                          .HoofdactiviteitenCountAggregateName,
+                                                                                                                       terms => terms
+                                                                                                                          .Terms(t => t
+                                                                                                                                      .Field(
+                                                                                                                                           "hoofdactiviteitenVerenigingsloket.code.keyword")
+                                                                                                                                      .Size(HoofdactiviteitVerenigingsloket
+                                                                                                                                              .HoofdactiviteitenVerenigingsloketCount)
+                                                                                                                           )
+                                                                                                                   )
                                                                                                        )
-                                                                                                   )
-                                                                                               )
-                                                                                              .Aggregations(agg3 => agg3
-                                                                                                  .Add(
-                                                                                                       WellknownFacets
-                                                                                                          .HoofdactiviteitenCountAggregateName,
-                                                                                                       terms => terms
-                                                                                                          .Terms(t => t
-                                                                                                              .Field(
-                                                                                                                   "hoofdactiviteitenVerenigingsloket.code.keyword")
-                                                                                                              .Size(
-                                                                                                                   AssociationRegistry
-                                                                                                                      .Vereniging
-                                                                                                                      .HoofdactiviteitVerenigingsloket
-                                                                                                                      .HoofdactiviteitenVerenigingsloketCount)
-                                                                                                           )
-                                                                                                   )
-                                                                                               )
                                                                                            )
                                                                           )
             );

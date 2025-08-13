@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Admin.Api;
-using Admin.Api.Infrastructure.Elastic;
+using Admin.Api.Infrastructure.Extensions;
 using Admin.ProjectionHost.Projections;
 using Alba;
 using AlbaHost;
@@ -59,7 +59,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         var clients = new Clients(adminApiHost.Services.GetRequiredService<OAuth2IntrospectionOptions>(),
                                   createClientFunc: () => new HttpClient());
-        
+
         SuperAdminHttpClient = clients.SuperAdmin.HttpClient;
         UnautenticatedClient = clients.Unauthenticated.HttpClient;
         UnauthorizedClient = clients.Unauthorized.HttpClient;

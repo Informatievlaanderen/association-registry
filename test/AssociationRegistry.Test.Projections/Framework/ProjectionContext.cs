@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework;
 
-using Admin.Api.Infrastructure.Elastic;
+using Admin.ProjectionHost.Infrastructure.Extensions;
 using Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 using Admin.ProjectionHost.Projections.Locaties;
 using Admin.ProjectionHost.Projections.Search;

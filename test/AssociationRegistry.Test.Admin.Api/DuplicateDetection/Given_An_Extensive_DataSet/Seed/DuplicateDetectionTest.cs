@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed;
 
 using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
-using AssociationRegistry.Admin.Api.Infrastructure.Elastic;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
+using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Search;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
