@@ -87,8 +87,6 @@ jobs:
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
 
-          deployment:
-
   deployment_lambdas:
     name: Deploy lambdas
     environment: staging_ik4
