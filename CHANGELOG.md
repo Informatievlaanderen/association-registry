@@ -1,3 +1,19 @@
+# [8.265.0](https://github.com/informatievlaanderen/association-registry/compare/v8.264.1...v8.265.0) (2025-08-14)
+
+
+### Bug Fixes
+
+* or-2890 downgrade elastic to latest 8x version ([6ecacf5](https://github.com/informatievlaanderen/association-registry/commit/6ecacf5a3a8cdee4583fb76e20d155a3250f8b88))
+* or-2894 extensions folder split up into responsibilites ([3945aa6](https://github.com/informatievlaanderen/association-registry/commit/3945aa6caadb678f8c651316d5c2f9ac9beb59ad))
+* or-2894 move messages and commands for dubbelbeheer closer together ([9083d97](https://github.com/informatievlaanderen/association-registry/commit/9083d97cb64ad314bc694ff2f99f2d5f6b8519d8))
+* or-2894 remove intermediary listener for ProbeerAdresTeMatchen ([cbc8320](https://github.com/informatievlaanderen/association-registry/commit/cbc8320e2817b490f3d9806098e3479dd6cdeec7))
+* or-2894 set EnableDefaultCompileItems false ([1426dd3](https://github.com/informatievlaanderen/association-registry/commit/1426dd3d9bce610f360d973040edcb4298e956ad))
+
+
+### Features
+
+* or-2890 use Elastic.Clients.Elasticsearch instead of Nest ([a302a4d](https://github.com/informatievlaanderen/association-registry/commit/a302a4d11e286a251f996d2612689d6d1bb5e7a6))
+
 ## [8.264.1](https://github.com/informatievlaanderen/association-registry/compare/v8.264.0...v8.264.1) (2025-08-01)
 
 
