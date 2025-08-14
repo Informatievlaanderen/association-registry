@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/informatievlaanderen/association-registry.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
@@ -41,10 +41,6 @@
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj" />
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Grar\AssociationRegistry.Integrations.Grar.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
