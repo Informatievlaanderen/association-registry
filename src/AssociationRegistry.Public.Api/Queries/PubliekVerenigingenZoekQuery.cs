@@ -3,7 +3,6 @@ namespace AssociationRegistry.Public.Api.Queries;
 using Constants;
 using DecentraalBeheer.Vereniging;
 using Elastic.Clients.Elasticsearch;
-using Elastic.Clients.Elasticsearch.Aggregations;
 using Elastic.Clients.Elasticsearch.Fluent;
 using Elastic.Clients.Elasticsearch.Mapping;
 using Elastic.Clients.Elasticsearch.QueryDsl;
@@ -107,46 +106,6 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                 BeDubbel()
             }
         };
-    }
-
-    private static AggregationDescriptor<VerenigingZoekDocument> BuildPubliekFacetsAggregation(PubliekVerenigingenZoekFilter filter)
-    {
-        return new AggregationDescriptor<VerenigingZoekDocument>()
-           .AddAggregation(WellknownFacets.GlobalAggregateName, global => global
-                                                                         .Global()
-                                                                         .Aggregations(agg2 => agg2
-                                                                                          .Add(WellknownFacets.FilterAggregateName, f => f
-                                                                                                      .Filter(fq => fq
-                                                                                                                  .Bool(b => b
-                                                                                                                              .Must(
-                                                                                                                                   MatchQueryString(
-                                                                                                                                       filter
-                                                                                                                                          .Query),
-                                                                                                                                   BeActief()
-                                                                                                                               )
-                                                                                                                              .MustNot(
-                                                                                                                                   BeUitgeschrevenUitPubliekeDatastroom(),
-                                                                                                                                   BeRemoved(),
-                                                                                                                                   BeDubbel()
-                                                                                                                               )
-                                                                                                                   )
-                                                                                                       )
-                                                                                                      .Aggregations(agg3 => agg3
-                                                                                                                  .Add(
-                                                                                                                       WellknownFacets
-                                                                                                                          .HoofdactiviteitenCountAggregateName,
-                                                                                                                       terms => terms
-                                                                                                                          .Terms(t => t
-                                                                                                                                      .Field(
-                                                                                                                                           "hoofdactiviteitenVerenigingsloket.code.keyword")
-                                                                                                                                      .Size(HoofdactiviteitVerenigingsloket
-                                                                                                                                              .HoofdactiviteitenVerenigingsloketCount)
-                                                                                                                           )
-                                                                                                                   )
-                                                                                                       )
-                                                                                           )
-                                                                          )
-            );
     }
 
     private static Query MatchQueryString(string query)

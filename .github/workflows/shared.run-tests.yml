@@ -59,7 +59,7 @@ jobs:
         shell: bash
         if: ${{ inputs.run-docker-elasticsearch }}
         run: |
-          docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:9.1.1
+          docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.18.1
 
       - name: Run wiremock container
         shell: bash
