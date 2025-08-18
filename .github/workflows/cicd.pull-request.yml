@@ -192,10 +192,13 @@ jobs:
         run: |
           docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=fullblowne2e postgres:15.0
 
+      - name: Create OpenTelemetry config from secret
+        run: echo "${{ secrets.OTEL_COLLECTOR_CONFIG }}" > otel-collector-config.yaml
+
       - name: Run OpenTelemetry container
         shell: bash
         run: |
-          docker run -d --name otel-collector -p 4317:4317 -v ${{ github.workspace }}./otel-collector-config.yaml:/etc/otel-collector-config.yaml otel/opentelemetry-collector-contrib
+          docker run -d --name otel-collector -p 4317:4317 -v ${{ github.workspace }}/otel-collector-config.yaml:/etc/otel-collector-config.yaml otel/opentelemetry-collector-contrib
 
       - name: Cache Python
         uses: actions/cache@v4
