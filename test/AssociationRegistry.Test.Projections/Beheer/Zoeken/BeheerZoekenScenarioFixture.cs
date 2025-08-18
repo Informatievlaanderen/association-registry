@@ -7,37 +7,34 @@ using JasperFx.Events.Daemon;
 using Marten;
 using Elastic.Clients.Elasticsearch;
 using Polly;
+using System;
 
-public class BeheerZoekenScenarioFixture<TScenario>(ProjectionContext context)
-    : ScenarioFixture<TScenario, VerenigingZoekDocument, ProjectionContext>(context)
+public class BeheerZoekenScenarioFixture<TScenario> : ScenarioFixture<TScenario, VerenigingZoekDocument, ProjectionContext>
     where TScenario : IScenario, new()
 {
+    private readonly ElasticsearchDocumentRetriever<VerenigingZoekDocument> _documentRetriever;
+    private readonly ProjectionRefresher _projectionRefresher;
+    
+    public BeheerZoekenScenarioFixture(ProjectionContext context) : base(context)
+    {
+        _documentRetriever = new ElasticsearchDocumentRetriever<VerenigingZoekDocument>(
+            context.AdminElasticClient);
+        _projectionRefresher = new ProjectionRefresher(context.AdminElasticClient);
+    }
+    
     protected override IDocumentStore DocumentStore => Context.AdminStore;
 
     protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
     {
         await daemon.RebuildProjectionAsync(ProjectionNames.BeheerZoek, CancellationToken.None);
-        await Context.AdminElasticClient.Indices.RefreshAsync(Indices.All);
+        await _projectionRefresher.RefreshAsync();
     }
 
     protected override async Task<VerenigingZoekDocument> GetResultAsync(
         IDocumentSession _,
         TScenario scenario)
     {
-        var retryPolicy = Polly.Policy
-                               .HandleResult<GetResponse<VerenigingZoekDocument>>(result =>
-                                                                                      result == null || !result.Found || !result.IsValidResponse)
-                               .WaitAndRetryAsync(
-                                    retryCount: 5,
-                                    sleepDurationProvider: retryAttempt => TimeSpan.FromMilliseconds(200 * Math.Pow(2, retryAttempt))); // Exponential backoff: 200ms, 400ms, 800ms
-
-        var getResponse = await retryPolicy.ExecuteAsync(async () =>
-        {
-            return await Context.AdminElasticClient
-                                .GetAsync<VerenigingZoekDocument>(scenario.VCode);
-        });
-
-        return getResponse?.Source;
+        return await _documentRetriever.GetDocumentAsync(scenario.VCode);
     }
 }
 
