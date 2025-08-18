@@ -3,6 +3,7 @@
 using AssociationRegistry.Test.Projections.Scenario.NaamWerdGewijzigd.Kbo;
 using DecentraalBeheer.Vereniging;
 using Public.Schema.Detail;
+using Scenario.RechtsvormWerdGewijzigdInKBO;
 using Vereniging;
 
 [Collection(nameof(ProjectionContext))]

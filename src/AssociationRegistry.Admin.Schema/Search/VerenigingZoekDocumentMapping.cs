@@ -136,6 +136,38 @@ public static class VerenigingZoekDocumentMapping
                 {
                     ["identificatie"] = new TextProperty(),
                 }
+            },
+            ["lidmaatschappen"] = new NestedProperty
+            {
+                IncludeInRoot = true,
+                Properties = new Properties
+                {
+                    ["lidmaatschapId"] = new IntegerNumberProperty(),
+                    ["andereVereniging"] = new TextProperty
+                    {
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = BeheerZoekenNormalizer }
+                        }
+                    },
+                    ["datumVan"] = new TextProperty(),
+                    ["datumTot"] = new TextProperty(),
+                    ["beschrijving"] = new TextProperty
+                    {
+                        Analyzer = BeheerZoekenAnalyzer,
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = BeheerZoekenNormalizer }
+                        }
+                    },
+                    ["identificatie"] = new TextProperty
+                    {
+                        Fields = new Properties
+                        {
+                            ["keyword"] = new KeywordProperty { Normalizer = BeheerZoekenNormalizer }
+                        }
+                    }
+                }
             }
         }
     };
