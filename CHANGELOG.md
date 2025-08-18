@@ -1,3 +1,11 @@
+## [8.265.1](https://github.com/informatievlaanderen/association-registry/compare/v8.265.0...v8.265.1) (2025-08-18)
+
+
+### Bug Fixes
+
+* or-2890 add explicit mapping for dates as text in lidmaatschappen properties ([d7ad8b4](https://github.com/informatievlaanderen/association-registry/commit/d7ad8b45505b5a73dd6eeb6176357cc3868c61e1))
+* or-2890 throw on items that could not be indexed ([db9f8a5](https://github.com/informatievlaanderen/association-registry/commit/db9f8a5b424ca68901cb87985817ac1091565771))
+
 # [8.265.0](https://github.com/informatievlaanderen/association-registry/compare/v8.264.1...v8.265.0) (2025-08-14)
 
 
