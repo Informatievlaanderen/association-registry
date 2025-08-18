@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection;
 
-using AssociationRegistry.Admin.ProjectionHost.Projections;
 using Admin.Schema.Search;
+using AssociationRegistry.Admin.ProjectionHost.Projections;
 using Framework.Fixtures;
 using JasperFx.Events.Daemon;
 using Marten;

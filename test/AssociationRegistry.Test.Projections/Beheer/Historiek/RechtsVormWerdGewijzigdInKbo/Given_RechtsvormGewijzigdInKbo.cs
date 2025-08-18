@@ -4,6 +4,7 @@ using Admin.Schema.Historiek;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Scenario.NaamWerdGewijzigd.Kbo;
+using Scenario.RechtsvormWerdGewijzigdInKBO;
 using Vereniging;
 
 [Collection(nameof(ProjectionContext))]

@@ -1,6 +1,6 @@
-namespace AssociationRegistry.Test.Projections.Scenario.NaamWerdGewijzigd.Kbo;
+namespace AssociationRegistry.Test.Projections.Scenario.RechtsvormWerdGewijzigdInKBO;
 
-using Events;
+using AssociationRegistry.Events;
 using AutoFixture;
 
 public class RechtsvormWerdGewijzigdInKBOScenario : ScenarioBase
