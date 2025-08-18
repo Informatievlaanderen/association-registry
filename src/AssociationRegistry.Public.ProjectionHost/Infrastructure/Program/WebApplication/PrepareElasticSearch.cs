@@ -11,11 +11,14 @@ public static class PrepareElasticSearch
 {
     public static async Task EnsureElasticSearchIsInitialized(this WebApplication source)
     {
-        var elasticClient = source.Services.GetRequiredService<ElasticsearchClient>();
-        var elasticSearchOptions = source.Services.GetRequiredService<ElasticSearchOptionsSection>();
+        await EnsureElasticSearchIsInitialized(source.Services.GetRequiredService<ElasticsearchClient>(), source.Services.GetRequiredService<ElasticSearchOptionsSection>(),
+                                               source.Services.GetRequiredService<ILogger<Program>>());
+    }
 
+    public static async Task EnsureElasticSearchIsInitialized(ElasticsearchClient elasticClient, ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
+    {
         await WaitFor.ElasticSearchToBecomeAvailable(
-            elasticClient, source.Services.GetRequiredService<ILogger<Program>>(), cancellationToken: CancellationToken.None);
+            elasticClient, logger, cancellationToken: CancellationToken.None);
 
         await EnsureIndexExists(elasticClient, elasticSearchOptions.Indices!.Verenigingen!);
     }

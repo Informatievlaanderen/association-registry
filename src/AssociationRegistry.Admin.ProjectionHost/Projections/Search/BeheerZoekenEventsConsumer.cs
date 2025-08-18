@@ -5,6 +5,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using MartenDb.Subscriptions;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Core.MGet;
+using Infrastructure.Extensions;
 using Resources;
 using Schema.Search;
 using Zoeken;
@@ -27,6 +28,11 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
         _options = options;
         _logger = logger;
     }
+
+    public async Task InitializeProjectionAsync()
+        => await ElasticSearchExtensions.EnsureIndicesExistsAsync(_elasticClient,
+                                                                _options.Indices!.Verenigingen!,
+                                                                _options.Indices!.DuplicateDetection!);
 
     public async Task ConsumeAsync(SubscriptionEventList eventList)
     {
