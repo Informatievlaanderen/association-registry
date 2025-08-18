@@ -6,3 +6,12 @@ public class IndexDocumentFailed : Exception
     {
     }
 }
+
+public class BulkAllFailed : Exception
+{
+    public BulkAllFailed(string[] errorMessages, string debugInformation) : base($"IndexDocument failed: " +
+                                                                                 $"{string.Join(", \n", errorMessages)} \n " +
+                                                                                 $"Debug info: {debugInformation}")
+    {
+    }
+}
