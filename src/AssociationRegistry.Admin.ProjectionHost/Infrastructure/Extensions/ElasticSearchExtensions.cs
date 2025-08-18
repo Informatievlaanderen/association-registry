@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 
 using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Transport;
 using ElasticSearch;
 using Hosts.Configuration.ConfigurationBindings;
@@ -9,23 +10,40 @@ using System.Text;
 
 public static class ElasticSearchExtensions
 {
-    public static async Task EnsureIndexExistsAsync(
+    public static async Task EnsureIndicesExistsAsync(
         ElasticsearchClient elasticClient,
         string verenigingenIndexName,
         string duplicateDetectionIndexName)
     {
-        var verenigingenExists = await elasticClient.Indices.ExistsAsync(verenigingenIndexName);
+        await EnsureBeheerZoekVerenigingIndexExists(elasticClient, verenigingenIndexName);
+        await EnsureDuplicateDetectionIndexExists(elasticClient, duplicateDetectionIndexName);
+    }
 
-        if (!verenigingenExists.Exists)
+    private static async Task EnsureDuplicateDetectionIndexExists(ElasticsearchClient elasticClient, string duplicateDetectionIndexName)
+    {
+        await EnsureIndexExistsAsync(elasticClient,
+                                     duplicateDetectionIndexName,
+                                     () => elasticClient.CreateDuplicateDetectionIndexAsync(duplicateDetectionIndexName));
+    }
+
+    private static async Task EnsureBeheerZoekVerenigingIndexExists(
+        ElasticsearchClient elasticClient,
+        string verenigingenIndexName)
+    {
+        await EnsureIndexExistsAsync(elasticClient, verenigingenIndexName,
+                                     () => elasticClient.CreateVerenigingIndexAsync(verenigingenIndexName));
+    }
+
+    private static async Task EnsureIndexExistsAsync(
+        ElasticsearchClient elasticClient,
+        string indexName,
+        Func<Task<CreateIndexResponse>> indexCreationFunc)
+    {
+        var indexExists = await elasticClient.Indices.ExistsAsync(indexName);
+
+        if (!indexExists.Exists)
         {
-            await elasticClient.CreateVerenigingIndexAsync(verenigingenIndexName);
-        }
-
-        var duplicateExists = await elasticClient.Indices.ExistsAsync(duplicateDetectionIndexName);
-
-        if (!duplicateExists.Exists)
-        {
-            await elasticClient.CreateDuplicateDetectionIndexAsync(duplicateDetectionIndexName);
+            await indexCreationFunc();
         }
     }
 
