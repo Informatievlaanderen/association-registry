@@ -148,12 +148,14 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
 
         if (!response.IsValidResponse)
         {
-            foreach (var item in response.Items.Where(i => i.Error is not null))
+            var errorItems = response.Items.Where(i => i.Error is not null);
+
+            foreach (var item in errorItems)
             {
                 _logger.LogError("Failed to index document {Id}: {Error}", item.Id, item.Error?.Reason);
             }
 
-            return false;
+            throw new BulkAllFailed(errorItems.Select(x => x.Error.Reason).ToArray(), response.DebugInformation);
         }
 
         _logger.LogInformation($"Successfully indexed {response.Items.Count} documents");

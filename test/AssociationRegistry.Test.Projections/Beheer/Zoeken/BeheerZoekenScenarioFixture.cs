@@ -26,7 +26,7 @@ public class BeheerZoekenScenarioFixture<TScenario>(ProjectionContext context)
     {
         var retryPolicy = Polly.Policy
                                .HandleResult<GetResponse<VerenigingZoekDocument>>(result =>
-                                                                                      result == null || !result.Found)
+                                                                                      result == null || !result.Found || !result.IsValidResponse)
                                .WaitAndRetryAsync(
                                     retryCount: 3,
                                     sleepDurationProvider: retryAttempt => TimeSpan.FromMilliseconds(100 * Math.Pow(2, retryAttempt))); // Exponential backoff: 200ms, 400ms, 800ms
