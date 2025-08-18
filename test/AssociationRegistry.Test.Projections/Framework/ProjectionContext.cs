@@ -122,6 +122,17 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         await acmStore.Advanced.Clean.DeleteAllEventDataAsync();
 
         AcmStore = acmStore;
+
+        // Ensure ElasticSearch indices exist
+        await Admin.ProjectionHost.Infrastructure.Extensions.ElasticSearchExtensions.EnsureIndicesExistsAsync(
+            AdminProjectionElasticClient,
+            Configuration.GetElasticSearchOptionsSection().Indices!.Verenigingen!,
+            Configuration.GetElasticSearchOptionsSection().Indices!.DuplicateDetection!);
+
+        await Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder.PrepareElasticSearch.EnsureElasticSearchIsInitialized(
+            PublicProjectionElasticClient,
+            Configuration.GetElasticSearchOptionsSection(),
+            NullLogger<PrepareElasticSearch>.Instance);
     }
 
     public async Task SaveAsync(EventsPerVCode[] events, IDocumentSession session)

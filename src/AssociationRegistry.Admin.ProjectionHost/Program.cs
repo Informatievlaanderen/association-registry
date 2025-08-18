@@ -96,6 +96,10 @@ public class Program
             return;
         }
 
+        await ElasticSearchExtensions.EnsureIndicesExistsAsync(app.Services.GetRequiredService<ElasticsearchClient>(),
+                                                             elasticSearchOptions.Indices!.Verenigingen!,
+                                                             elasticSearchOptions.Indices!.DuplicateDetection!);
+
         app.AddProjectionEndpoints(
             app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
 

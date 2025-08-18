@@ -30,11 +30,6 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
         _logger = logger;
     }
 
-    public async Task InitializeProjectionAsync()
-        => await ElasticSearchExtensions.EnsureIndicesExistsAsync(_elasticClient,
-                                                                _options.Indices!.Verenigingen!,
-                                                                _options.Indices!.DuplicateDetection!);
-
     public async Task ConsumeAsync(SubscriptionEventList eventList)
     {
         if (!eventList.Events.Any())

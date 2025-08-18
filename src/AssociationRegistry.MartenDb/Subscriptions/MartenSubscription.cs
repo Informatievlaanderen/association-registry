@@ -38,7 +38,6 @@ public class MartenSubscription : IProjection
                                return Task.CompletedTask;
                            });
 
-         consumer.InitializeProjectionAsync().GetAwaiter().GetResult();
     }
 
     public void Apply(
