@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
 using Npgsql;
+using Public.ProjectionHost.Infrastructure.Program.WebApplication;
 using Public.ProjectionHost.Projections.Search;
 
 public class ProjectionContext : IProjectionContext, IAsyncLifetime
@@ -124,15 +125,15 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         AcmStore = acmStore;
 
         // Ensure ElasticSearch indices exist
-        await Admin.ProjectionHost.Infrastructure.Extensions.ElasticSearchExtensions.EnsureIndicesExistsAsync(
+        await ElasticSearchExtensions.EnsureIndicesExistsAsync(
             AdminProjectionElasticClient,
             Configuration.GetElasticSearchOptionsSection().Indices!.Verenigingen!,
             Configuration.GetElasticSearchOptionsSection().Indices!.DuplicateDetection!);
 
-        await Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder.PrepareElasticSearch.EnsureElasticSearchIsInitialized(
+        await PrepareElasticSearch.EnsureElasticSearchIsInitialized(
             PublicProjectionElasticClient,
             Configuration.GetElasticSearchOptionsSection(),
-            NullLogger<PrepareElasticSearch>.Instance);
+            NullLogger<ProjectionContext>.Instance);
     }
 
     public async Task SaveAsync(EventsPerVCode[] events, IDocumentSession session)
