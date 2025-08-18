@@ -287,6 +287,12 @@ jobs:
         run: |
           docker logs db
 
+      - name: Shows logs db otel
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs otel-collector
+
   notify:
     if: ${{ always() }}
     name: Notify slack
