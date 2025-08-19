@@ -20,7 +20,7 @@ public class MartenSubscription : IProjection
         _consumer = consumer;
         _handledEventTypes = handledEventTypes;
         _logger = logger;
-        var maxDelay = TimeSpan.FromSeconds(30); // Set the maximum delay limit here
+        var maxDelay = TimeSpan.FromSeconds(30);
 
         _retryPolicy = Policy
                       .Handle<Exception>()
@@ -32,12 +32,11 @@ public class MartenSubscription : IProjection
                            },
                            onRetryAsync: (exception, delay) =>
                            {
-                               LoggerExtensions.LogError((ILogger)logger, (Exception?)exception, "Error occurred while consuming events. Retrying in {Delay} seconds.",
-                                                         delay.TotalSeconds);
+                               logger.LogError(exception, "Error occurred while consuming events. Retrying in {Delay} seconds.",
+                                               delay.TotalSeconds);
 
                                return Task.CompletedTask;
                            });
-
     }
 
     public void Apply(
