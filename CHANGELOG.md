@@ -1,3 +1,10 @@
+# [8.266.0](https://github.com/informatievlaanderen/association-registry/compare/v8.265.2...v8.266.0) (2025-08-19)
+
+
+### Features
+
+* or-2730 enrich telemetry with api key ([6dd0c26](https://github.com/informatievlaanderen/association-registry/commit/6dd0c26968f4b67212bff548ab51f901d35dad5b))
+
 ## [8.265.2](https://github.com/informatievlaanderen/association-registry/compare/v8.265.1...v8.265.2) (2025-08-18)
 
 ## [8.265.1](https://github.com/informatievlaanderen/association-registry/compare/v8.265.0...v8.265.1) (2025-08-18)
