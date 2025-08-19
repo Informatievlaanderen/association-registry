@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
     private const string VrInitiatorHeaderName = "VR-Initiator";
     private const string XCorrelationIdHeaderName = "X-Correlation-Id";
     private const string BevestigingsTokenHeaderName = "VR-BevestigingsToken";
+    private const string VrApiKeyHeaderName = "vr-api-key";
 
     private static ILoggingBuilder ConfigureOpenTelemetryLogging(this IHostApplicationBuilder builder)
     {
@@ -80,6 +81,10 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection ConfigureOpenTelemetry<T>(this IHostApplicationBuilder builder, params T[] instrumentations)
         where T : class, IInstrumentation
+        => builder.ConfigureOpenTelemetry(Array.Empty<string>(), instrumentations);
+
+    public static IServiceCollection ConfigureOpenTelemetry<T>(this IHostApplicationBuilder builder, string[] additionalHeaders, params T[] instrumentations)
+        where T : class, IInstrumentation
     {
         var services = builder.Services;
 
@@ -130,6 +135,11 @@ public static class ServiceCollectionExtensions
 
                                                 activity.SetCustomProperty(BevestigingsTokenHeaderName,
                                                                            request.Headers[BevestigingsTokenHeaderName]);
+
+                                                foreach (var header in additionalHeaders)
+                                                {
+                                                    activity.SetCustomProperty(header, request.Headers[header]);
+                                                }
 
                                                 activity.SetParentId(request.Headers["traceparent"]);
                                             };

@@ -24,6 +24,7 @@ using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
+using Infrastructure;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Localization;
@@ -267,6 +268,7 @@ public class Program
            .UseMiddleware<AddCorrelationIdToResponseMiddleware>()
            .UseMiddleware<AddCorrelationIdMiddleware>()
            .UseMiddleware<AddCorrelationIdToLogContextMiddleware>()
+           .UseMiddleware<Infrastructure.Middleware.ApiKeyEnrichmentMiddleware>()
            .UseMiddleware<AddHttpSecurityHeadersMiddleware>()
            .UseMiddleware<AddRemoteIpAddressMiddleware>(AddRemoteIpAddressMiddleware.UrnBasisregistersVlaanderenIp)
            .UseMiddleware<AddVersionHeaderMiddleware>(AddVersionHeaderMiddleware.HeaderName)
@@ -314,7 +316,7 @@ public class Program
         builder.Services.AddSingleton<IEventPostConflictResolutionStrategy, EmptyConflictResolutionStrategy>();
         builder.Services.AddSingleton<EventConflictResolver>();
 
-        builder.ConfigureOpenTelemetry(new Instrumentation());
+        builder.ConfigureOpenTelemetry(new[] { WellknownHeaderNames.ApiKey }, new Instrumentation());
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
