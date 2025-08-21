@@ -97,6 +97,7 @@
     </PackageReference>
     <PackageReference Include="WolverineFx"/>
     <PackageReference Include="WolverineFx.AmazonSqs"/>
+    <PackageReference Include="WolverineFx.Http"/>
     <PackageReference Include="Elastic.Clients.Elasticsearch"/>
     <PackageReference Include="Slack.Webhooks"/>
     <PackageReference Include="Npgsql.OpenTelemetry"/>
