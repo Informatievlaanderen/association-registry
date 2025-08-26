@@ -131,7 +131,12 @@ jobs:
           LIVEMAGDAOPTIONS__AFZENDER: ${{ secrets.LIVEMAGDAOPTIONS_AFZENDER }}
           LIVEMAGDAOPTIONS__HOEDANIGHEID: ${{ secrets.LIVEMAGDAOPTIONS_HOEDANIGHEID }}
           LIVEMAGDAOPTIONS__ONTVANGER: ${{ secrets.LIVEMAGDAOPTIONS_ONTVANGER }}
-        run: dotnet test test/${{ inputs.test-project }} --logger html
+        run: |
+          if [[ "${{ inputs.test-project }}" == "AssociationRegistry.Test.E2E" ]]; then
+            dotnet test test/${{ inputs.test-project }} --logger html -- -parallel none
+          else
+            dotnet test test/${{ inputs.test-project }} --logger html
+          fi
 
       - name: Archive code coverage results
         if: ${{ always() && inputs.test-project != '' && inputs.test-project != 'none' }}
