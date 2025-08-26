@@ -66,7 +66,10 @@ public class Program
 
         builder.Services.CritterStackDefaults(x =>
         {
+            x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+            x.Production.SourceCodeWritingEnabled = false;
         });
 
         builder.ConfigureOpenTelemetry(new AdminInstrumentation());
