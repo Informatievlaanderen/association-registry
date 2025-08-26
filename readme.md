@@ -34,3 +34,4 @@ docker compose down -v
 - strings are empty or have a value (never NULL)
 - collections are empty or have values (never NULL)
 - objects can be NULL
+
