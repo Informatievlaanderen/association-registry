@@ -177,7 +177,7 @@ public class SmartHttpClient
         responseMeetsCriteria ??= _ => true;
         deSerializedResponseMeetsCriteria ??= _ => true;
 
-        const int maxRetries = 20;
+        const int maxRetries = 30;
         var delay = TimeSpan.FromMilliseconds(300);
 
         for (var attempt = 0; attempt < maxRetries; attempt++)
