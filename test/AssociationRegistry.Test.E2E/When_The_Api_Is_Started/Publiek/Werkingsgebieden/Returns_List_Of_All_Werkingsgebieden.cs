@@ -16,9 +16,9 @@ public class Returns_List_Of_All_Werkingsgebieden
     }
 
     [Fact]
-    public void Returns_Werkingsgebieden()
+    public async Task Returns_Werkingsgebieden()
     {
-        var result = _apiSetup.PublicApiHost.GetWerkingsgebieden();
+        var result = await _apiSetup.PublicApiHost.GetWerkingsgebieden();
         result.Werkingsgebieden.Should().NotBeEmpty();
     }
 }

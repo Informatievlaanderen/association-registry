@@ -9,22 +9,26 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Xunit;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(StopVerenigingCollection))]
 public class Returns_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly StopVerenigingContext _testContext;
+    private readonly ITestOutputHelper _testOutputHelper;
 
-    public Returns_ZoekResponse(StopVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_ZoekResponse(StopVerenigingContext testContext, ITestOutputHelper testOutputHelper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _testOutputHelper = testOutputHelper;
     }
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.VCode}",
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.VCode}",
                                               setup.AdminApiHost.DocumentStore(),
-                                              headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+                                              headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence),
+                                              testOutputHelper: _testOutputHelper);
 
     [Fact]
     public void With_Context()

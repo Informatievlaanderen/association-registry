@@ -21,10 +21,10 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<DetailVerenigingRespon
         _helper = helper;
     }
 
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.Scenario.AuthentiekeVereniging.VCode, headers:
+    public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.Scenario.AuthentiekeVereniging.VCode, headers:
                                               new RequestParameters()
-                                                 .WithExpectedSequence(_testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence)).GetAwaiter().GetResult();
+                                                 .WithExpectedSequence(_testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence));
 
     [Fact]
     public void With_IsDubbelVan_VCode_Of_AndereFeitelijkeVerenigingWerdGeregistreerd()

@@ -12,6 +12,7 @@ using KellermanSoftware.CompareNetObjects;
 using Marten;
 using NodaTime;
 using Xunit;
+
 using DoelgroepResponse = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
@@ -22,14 +23,16 @@ using Verenigingstype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Vere
 public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
+    private readonly ITestOutputHelper _testOutputHelper;
 
-    public Returns_VZER_ZoekResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext.ApiSetup)
+    public Returns_VZER_ZoekResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext, ITestOutputHelper testOutputHelper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _testOutputHelper = testOutputHelper;
     }
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), testOutputHelper: _testOutputHelper, headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence));
 
 
     [Fact]

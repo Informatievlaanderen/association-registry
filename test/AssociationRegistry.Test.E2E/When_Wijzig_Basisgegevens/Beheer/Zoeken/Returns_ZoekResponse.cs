@@ -12,6 +12,7 @@ using KellermanSoftware.CompareNetObjects;
 using Marten;
 using NodaTime;
 using Xunit;
+
 using Vereniging = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingstype;
@@ -23,13 +24,16 @@ public class Returns_SearchVerenigingenResponse
 {
     private readonly WijzigBasisgegevensContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensContext testContext) : base(testContext.ApiSetup)
+    private readonly ITestOutputHelper _testOutputHelper;
+
+    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensContext testContext, ITestOutputHelper testOutputHelper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _testOutputHelper = testOutputHelper;
     }
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence), testOutputHelper: _testOutputHelper);
 
 
     [Fact]

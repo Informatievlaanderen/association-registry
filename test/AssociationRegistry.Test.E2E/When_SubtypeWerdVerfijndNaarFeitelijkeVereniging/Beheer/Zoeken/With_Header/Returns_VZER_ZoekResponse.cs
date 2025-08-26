@@ -11,21 +11,24 @@ using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Vereniging;
 using Xunit;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
 [Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
 public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _testContext;
+    private readonly ITestOutputHelper _testOutputHelper;
 
-    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext, ITestOutputHelper testOutputHelper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _testOutputHelper = testOutputHelper;
     }
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters()
-                                                 .V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters()
+                                                 .V2().WithExpectedSequence(_testContext.CommandResult.Sequence), testOutputHelper: _testOutputHelper);
 
     [Fact]
     public void With_Context()

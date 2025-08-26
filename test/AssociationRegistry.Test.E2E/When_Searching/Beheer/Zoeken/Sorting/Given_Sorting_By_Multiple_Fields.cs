@@ -5,16 +5,19 @@ using Framework.AlbaHost;
 using Marten;
 using System.Reflection;
 using Xunit;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(SearchCollection))]
 public class Given_Sorting_By_Multiple_Fields
 {
     private readonly SearchContext _testContext;
+    private readonly ITestOutputHelper _testOutputHelper;
 
-    public Given_Sorting_By_Multiple_Fields( SearchContext testContext)
+    public Given_Sorting_By_Multiple_Fields( SearchContext testContext, ITestOutputHelper testOutputHelper)
 
     {
         _testContext = testContext;
+        _testOutputHelper = testOutputHelper;
     }
 
     [Theory]
@@ -25,7 +28,7 @@ public class Given_Sorting_By_Multiple_Fields
     {
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               $"*&sort={ascendingField},-{descendingField}",
-                                                                              _testContext.ApiSetup.AdminApiHost.DocumentStore(), headers: new RequestParameters().V2().WithExpectedSequence(_testContext.MaxSequenceByScenario));
+                                                                              _testContext.ApiSetup.AdminApiHost.DocumentStore(), headers: new RequestParameters().V2().WithExpectedSequence(_testContext.MaxSequenceByScenario), testOutputHelper: _testOutputHelper);
 
         var verenigingen = result.Verenigingen;
 
@@ -55,7 +58,7 @@ public class Given_Sorting_By_Multiple_Fields
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               $"*&sort=-{descendingField},{ascendingField}",
                                                                               _testContext.ApiSetup.AdminApiHost.DocumentStore(),
-                                                                              headers: new RequestParameters().V2().WithExpectedSequence(_testContext.MaxSequenceByScenario));
+                                                                              headers: new RequestParameters().V2().WithExpectedSequence(_testContext.MaxSequenceByScenario), testOutputHelper: _testOutputHelper);
 
         var verenigingen = result.Verenigingen;
 

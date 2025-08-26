@@ -9,20 +9,25 @@ using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Xunit;
 
+
 [Collection(nameof(MarkeerAlsDubbelVanCollection))]
 public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly MarkeerAlsDubbelVanContext _testContext;
+    private readonly ITestOutputHelper _helper;
 
-    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
+    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _helper = helper;
     }
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode}",
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode}",
                                               setup.AdminApiHost.DocumentStore(),
-                                              headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence)).GetAwaiter().GetResult();
+                                                
+                                              headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence),
+                                              testOutputHelper: _helper);
 
     [Fact]
     public void With_Context()

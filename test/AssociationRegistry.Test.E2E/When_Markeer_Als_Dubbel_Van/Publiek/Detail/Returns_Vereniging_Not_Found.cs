@@ -17,8 +17,8 @@ public class Returns_Vereniging : End2EndTest<HttpStatusCode>
         _testContext = testContext;
     }
 
-    public override HttpStatusCode GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetailStatusCode(_testContext.VCode, _testContext.CommandResult.Sequence);
+    public override async Task<HttpStatusCode> GetResponse(FullBlownApiSetup setup)
+        => await setup.PublicApiHost.GetPubliekDetailStatusCode(_testContext.VCode, _testContext.CommandResult.Sequence);
 
     [Fact]
     public void Status_Code_Is_NotFound()

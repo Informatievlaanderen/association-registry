@@ -25,8 +25,8 @@ public class Returns_KboSyncHistoriekResponse : End2EndTest<KboSyncHistoriekResp
         _outputHelper = outputHelper;
     }
 
-    public override KboSyncHistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetKboSyncHistoriek(setup.SuperAdminHttpClient ,_testContext.VCode, outputHelper: _outputHelper).GetAwaiter().GetResult();
+    public override async Task<KboSyncHistoriekResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetKboSyncHistoriek(setup.SuperAdminHttpClient ,_testContext.VCode, outputHelper: _outputHelper);
 
     [Fact(Skip = "Wait until we have a REAL record in the kbo event stream")]
     public void With_VCode()

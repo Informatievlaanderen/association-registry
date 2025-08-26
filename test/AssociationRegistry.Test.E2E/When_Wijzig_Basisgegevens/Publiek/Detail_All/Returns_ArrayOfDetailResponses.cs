@@ -28,10 +28,11 @@ public class Returns_ArrayOfDetailResponses
         _testContext = testContext;
     }
 
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost
-                           .GetPubliekDetailAll(_testContext.CommandResult.Sequence)
-                           .FindVereniging(_testContext.VCode);
+    public override async Task<PubliekVerenigingDetailResponse> GetResponse(FullBlownApiSetup setup)
+    {
+        var details = await setup.PublicApiHost.GetPubliekDetailAll(_testContext.CommandResult.Sequence);
+        return details.FindVereniging(_testContext.VCode);
+    }
 
     [Fact]
     public void With_Context()

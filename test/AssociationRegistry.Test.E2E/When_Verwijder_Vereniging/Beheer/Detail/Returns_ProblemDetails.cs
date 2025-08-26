@@ -25,6 +25,6 @@ public class Returns_ProblemDetails : End2EndTest<ProblemDetails>
         Response.ProblemTypeUri.Should().Be("urn:associationregistry.admin.api:validation");
     }
 
-    public override ProblemDetails GetResponse(FullBlownApiSetup setup)
-        => _context.ApiSetup.AdminApiHost.GetProblemDetailsForBeheerDetailHttpResponse(_context.ApiSetup.SuperAdminHttpClient, _context.VCode, _context.MaxSequenceByScenario.Value);
+    public override async Task<ProblemDetails> GetResponse(FullBlownApiSetup setup)
+        => await _context.ApiSetup.AdminApiHost.GetProblemDetailsForBeheerDetailHttpResponse(_context.ApiSetup.SuperAdminHttpClient, _context.VCode, _context.MaxSequenceByScenario.Value);
 }

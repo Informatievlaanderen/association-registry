@@ -19,8 +19,8 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
         _testContext = testContext;
     }
 
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetail(_testContext.CommandResult.VCode);
+    public override async Task<PubliekVerenigingDetailResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.PublicApiHost.GetPubliekDetail(_testContext.CommandResult.VCode);
 
     [Fact]
     public void With_Context()

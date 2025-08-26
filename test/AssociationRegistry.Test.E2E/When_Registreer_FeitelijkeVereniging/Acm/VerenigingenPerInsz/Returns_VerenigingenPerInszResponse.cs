@@ -31,9 +31,8 @@ public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
         };
     }
 
-    public override VerenigingenPerInszResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AcmApiHost.GetVerenigingenPerInsz(_request, _testContext.CommandResult.Sequence)
-                .GetAwaiter().GetResult();
+    public override async Task<VerenigingenPerInszResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AcmApiHost.GetVerenigingenPerInsz(_request, _testContext.CommandResult.Sequence);
 
     [Fact]
     public void With_Verenigingen()

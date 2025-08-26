@@ -9,25 +9,30 @@ using JasperFx.Core;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Xunit;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
+    private readonly ITestOutputHelper _helper;
 
-    public Returns_SearchVerenigingenResponse(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
+    public Returns_SearchVerenigingenResponse(CorrigeerMarkeringAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _helper = helper;
     }
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
     {
-        Task.Delay(5.Seconds()).GetAwaiter().GetResult();
+        await Task.Delay(5.Seconds());
 
-        return setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}",
-                                                  setup.AdminApiHost.DocumentStore(),headers: new RequestParameters().WithExpectedSequence(
-                                                      _testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence)).GetAwaiter()
-                    .GetResult();
+        return await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}",
+                                                        setup.AdminApiHost.DocumentStore(),
+                                                        
+                                                        headers: new RequestParameters().WithExpectedSequence(
+                                                            _testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence),
+                                                        testOutputHelper: _helper);
     }
 
     [Fact]

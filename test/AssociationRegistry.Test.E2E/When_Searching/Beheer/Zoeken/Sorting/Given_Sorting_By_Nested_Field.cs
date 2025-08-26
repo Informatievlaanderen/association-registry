@@ -5,16 +5,18 @@ using Framework.AlbaHost;
 using Marten;
 using System.Reflection;
 using Xunit;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(SearchCollection))]
 public class Given_Sorting_By_Nested_Fields
 {
     private readonly SearchContext _testContext;
+    private readonly ITestOutputHelper _helper;
 
-    public Given_Sorting_By_Nested_Fields(SearchContext testContext)
-
+    public Given_Sorting_By_Nested_Fields(SearchContext testContext, ITestOutputHelper helper)
     {
         _testContext = testContext;
+        _helper = helper;
     }
 
     [Fact]
@@ -24,8 +26,10 @@ public class Given_Sorting_By_Nested_Fields
 
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               "*", _testContext.ApiSetup.AdminApiHost.DocumentStore(), "doelgroep.minimumleeftijd",
+                                                                              
                                                                               headers: new RequestParameters().V2()
-                                                                                 .WithExpectedSequence(_testContext.MaxSequenceByScenario));
+                                                                                 .WithExpectedSequence(_testContext.MaxSequenceByScenario),
+                                                                              testOutputHelper: _helper);
 
         var values = result.Verenigingen
                            .Select(x => GetNestedPropertyValue(x, field))
@@ -42,9 +46,11 @@ public class Given_Sorting_By_Nested_Fields
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               "*",
                                                                               _testContext.ApiSetup.AdminApiHost.DocumentStore(), sort: "-doelgroep.minimumleeftijd",
-                                                                               new RequestParameters()
+                                                                              
+                                                                              new RequestParameters()
                                                                                   .V2()
-                                                                                 .WithExpectedSequence(_testContext.MaxSequenceByScenario));
+                                                                                 .WithExpectedSequence(_testContext.MaxSequenceByScenario),
+                                                                              testOutputHelper: _helper);
 
         var values = result.Verenigingen
                            .Select(x => GetNestedPropertyValue(x, field))

@@ -22,8 +22,8 @@ public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
         _testContext = testContext;
     }
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", _testContext.CommandResult.Sequence).GetAwaiter().GetResult();
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", _testContext.CommandResult.Sequence);
 
     [Fact]
     public void With_Context()

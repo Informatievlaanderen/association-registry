@@ -46,7 +46,7 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IAsyncLifetime
 
     public async ValueTask InitializeAsync()
     {
-        Response = _context.ApiSetup.PublicApiHost.GetPubliekDetail(_context.VCode);
+        Response = await _context.ApiSetup.PublicApiHost.GetPubliekDetail(_context.VCode);
     }
 
     public async ValueTask DisposeAsync()

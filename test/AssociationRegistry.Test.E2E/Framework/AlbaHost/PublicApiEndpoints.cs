@@ -16,8 +16,8 @@ using System.Net;
 
 public static class PublicApiEndpoints
 {
-    public static PubliekVerenigingDetailResponse GetPubliekDetail(this IAlbaHost source, string vCode)
-        => source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
+    public static async Task<PubliekVerenigingDetailResponse> GetPubliekDetail(this IAlbaHost source, string vCode)
+        => await source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}");
 
     public static async Task<PubliekVerenigingDetailResponse> GetPubliekDetailWithHeader(
         this IAlbaHost source,
@@ -25,26 +25,26 @@ public static class PublicApiEndpoints
         string vCode)
         => await GetResponseFromRequestWithHeader<PubliekVerenigingDetailResponse>(source, authenticatedClient, $"/v1/verenigingen/{vCode}");
 
-    public static HttpStatusCode GetPubliekDetailStatusCode(this IAlbaHost source, string vCode, long? expectedSequence)
+    public static async Task<HttpStatusCode> GetPubliekDetailStatusCode(this IAlbaHost source, string vCode, long? expectedSequence)
     {
-        WaitForExpectedSequence(source, expectedSequence, "AssociationRegistry.Public.ProjectionHost.Projections.Detail.PubliekVerenigingDetailProjection:All").GetAwaiter().GetResult();
+        await WaitForExpectedSequence(source, expectedSequence, "AssociationRegistry.Public.ProjectionHost.Projections.Detail.PubliekVerenigingDetailProjection:All");
 
         var client = source.Server.CreateClient();
-        var response = client.GetAsync($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult();
+        var response = await client.GetAsync($"/v1/verenigingen/{vCode}");
 
         return response.StatusCode;
     }
 
-    public static PubliekVerenigingSequenceResponse[] GetVerenigingMutationsSequence(this IAlbaHost source)
+    public static async Task<PubliekVerenigingSequenceResponse[]> GetVerenigingMutationsSequence(this IAlbaHost source)
     {
-        return source.GetAsJson<PubliekVerenigingSequenceResponse[]>($"/v1/verenigingen/mutaties").GetAwaiter().GetResult()!;
+        return await source.GetAsJson<PubliekVerenigingSequenceResponse[]>($"/v1/verenigingen/mutaties");
     }
 
-    public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string query, long? expectedSequence)
+    public static async Task<SearchVerenigingenResponse> GetPubliekZoeken(this IAlbaHost source, string query, long? expectedSequence)
     {
-        WaitForExpectedSequence(source, expectedSequence, "PubliekVerenigingZoekenDocument:All").GetAwaiter().GetResult();
+        await WaitForExpectedSequence(source, expectedSequence, "PubliekVerenigingZoekenDocument:All");
 
-        return source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;
+        return await source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}");
     }
 
     public static async Task<SearchVerenigingenResponse> GetPubliekZoekenWithHeader(
@@ -107,18 +107,18 @@ public static class PublicApiEndpoints
         return JsonConvert.DeserializeObject<TResponse>(readAsStringAsync);
     }
 
-    public static WerkingsgebiedenResponse GetWerkingsgebieden(this IAlbaHost source)
-        => source.GetAsJson<WerkingsgebiedenResponse>($"/v1/werkingsgebieden").GetAwaiter().GetResult()!;
+    public static async Task<WerkingsgebiedenResponse> GetWerkingsgebieden(this IAlbaHost source)
+        => await source.GetAsJson<WerkingsgebiedenResponse>($"/v1/werkingsgebieden");
 
-    public static JObject[] GetPubliekDetailAll(this IAlbaHost source, long? expectedSequence)
+    public static async Task<JObject[]> GetPubliekDetailAll(this IAlbaHost source, long? expectedSequence)
     {
-        WaitForExpectedSequence(source, expectedSequence, "AssociationRegistry.Public.ProjectionHost.Projections.Detail.PubliekVerenigingDetailProjection:All").GetAwaiter().GetResult();
+        await WaitForExpectedSequence(source, expectedSequence, "AssociationRegistry.Public.ProjectionHost.Projections.Detail.PubliekVerenigingDetailProjection:All");
 
-        var locationHeader = GetDetailAllLocationHeader(source);
+        var locationHeader = await GetDetailAllLocationHeader(source);
 
-        var s3Response = GetS3Response(locationHeader);
+        var s3Response = await GetS3Response(locationHeader);
 
-        var responseContent = s3Response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+        var responseContent = await s3Response.Content.ReadAsStringAsync();
 
         return ParseResponse(responseContent);
     }
@@ -140,20 +140,20 @@ public static class PublicApiEndpoints
         return verenigingen.ToArray();
     }
 
-    private static HttpResponseMessage GetS3Response(Uri? locationHeader)
+    private static async Task<HttpResponseMessage> GetS3Response(Uri? locationHeader)
     {
         using var handler = new HttpClientHandler();
         handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
 
         using var s3HttpClient = new HttpClient(handler);
 
-        return s3HttpClient.GetAsync(locationHeader).GetAwaiter().GetResult();
+        return await s3HttpClient.GetAsync(locationHeader);
     }
 
-    private static Uri? GetDetailAllLocationHeader(IAlbaHost source)
+    private static async Task<Uri?> GetDetailAllLocationHeader(IAlbaHost source)
     {
         var client = source.Server.CreateClient();
-        var response = client.GetAsync($"/v1/verenigingen/detail/all").GetAwaiter().GetResult();
+        var response = await client.GetAsync($"/v1/verenigingen/detail/all");
 
         return response.Headers.Location;
     }

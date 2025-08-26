@@ -9,14 +9,17 @@ using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Xunit;
 
+
 [Collection(nameof(VerwijderVerenigingCollection))]
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly VerwijderVerenigingContext _testContext;
+    private readonly ITestOutputHelper _testOutputHelper;
 
-    public Returns_SearchVerenigingenResponse(VerwijderVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_SearchVerenigingenResponse(VerwijderVerenigingContext testContext, ITestOutputHelper testOutputHelper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _testOutputHelper = testOutputHelper;
     }
 
     [Fact]
@@ -29,7 +32,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     public async ValueTask With_No_Vereniging()
         => Response.Verenigingen.SingleOrDefault(x => x.VCode == _testContext.VCode).Should().BeNull();
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), testOutputHelper: _testOutputHelper, headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
 
 }
