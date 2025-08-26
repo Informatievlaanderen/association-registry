@@ -48,6 +48,8 @@ public class TestEvent<T> : IEvent<T> where T : notnull
 
     public bool IsArchived { get; set; }
     public string? AggregateTypeName { get; set; }
+    public string? UserName { get; set; }
+    public bool IsSkipped { get; set; }
 
     /// <summary>
     ///     A reference to the stream that contains
