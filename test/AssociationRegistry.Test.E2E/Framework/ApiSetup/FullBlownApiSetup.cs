@@ -49,6 +49,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     public IAlbaHost PublicProjectionHost { get; private set; }
     public IAlbaHost PublicApiHost { get; private set; }
 
+    public IDocumentSession AdminApiSharedSession { get; private set; }
+
     public async ValueTask InitializeAsync()
     {
         SetUpAdminApiConfiguration();
@@ -68,6 +70,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         AdminHttpClient = clients.Authenticated.HttpClient;
 
         await AdminApiHost.ResetAllMartenDataAsync();
+
+        AdminApiSharedSession = AdminApiHost.DocumentStore().LightweightSession();
 
         var elasticSearchOptions = AdminApiHost.Server.Services.GetRequiredService<IConfiguration>().GetElasticSearchOptionsSection();
         ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
@@ -235,5 +239,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         UnauthorizedClient.Dispose();
         AdminHttpClient.Dispose();
         AmazonSqs.Dispose();
+        AdminApiSharedSession.Dispose();
     }
 }

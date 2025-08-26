@@ -36,16 +36,14 @@ where TScenario : IScenario
     public Hosts.Configuration.ConfigurationBindings.AppSettings AdminApiAppSettings =>
         ApiSetup.AdminApiHost.Services.GetRequiredService<Hosts.Configuration.ConfigurationBindings.AppSettings>();
 
-    private IDocumentSession _sharedSession;
 
     public async ValueTask InitializeAsync()
     {
         ApiSetup.Logger.LogWarning($"INITIALIZING Scenario: {Scenario}");
 
-        _sharedSession = ApiSetup.AdminApiHost.DocumentStore().LightweightSession();
-
         Scenario = InitializeScenario();
-        var executedEvents = await ApiSetup.ExecuteGiven(Scenario, _sharedSession);
+        await using var lightweightSession = ApiSetup.AdminApiHost.DocumentStore().LightweightSession();
+        var executedEvents = await ApiSetup.ExecuteGiven(Scenario, lightweightSession);
 
         ApiSetup.Logger.LogWarning($"WAITING FOR EVENTS TO BE PROCESSED: {Scenario}");
 
@@ -53,8 +51,8 @@ where TScenario : IScenario
         {
             MaxSequenceByScenario = executedEvents.SelectMany(x => x.Value).Max(x => x.Sequence);
 
-            await WaitBeforeCommands(ApiSetup, MaxSequenceByScenario.Value, ApiSetup.AdminProjectionHost, "BEFORE");
-            await WaitBeforeCommands(ApiSetup, MaxSequenceByScenario.Value, ApiSetup.PublicProjectionHost, "BEFORE");
+            await WaitBeforeCommands(ApiSetup, MaxSequenceByScenario.Value, ApiSetup.AdminProjectionHost, "BEFORE", lightweightSession);
+            await WaitBeforeCommands(ApiSetup, MaxSequenceByScenario.Value, ApiSetup.PublicProjectionHost, "BEFORE", lightweightSession);
         }
 
 
@@ -65,8 +63,8 @@ where TScenario : IScenario
 
         if (CommandResult.Sequence.HasValue)
         {
-            await WaitBeforeCommands(ApiSetup, CommandResult.Sequence.Value, ApiSetup.AdminProjectionHost, "AFTER");
-            await WaitBeforeCommands(ApiSetup, CommandResult.Sequence.Value, ApiSetup.PublicProjectionHost, "AFTER");
+            await WaitBeforeCommands(ApiSetup, CommandResult.Sequence.Value, ApiSetup.AdminProjectionHost, "AFTER", lightweightSession);
+            await WaitBeforeCommands(ApiSetup, CommandResult.Sequence.Value, ApiSetup.PublicProjectionHost, "AFTER", lightweightSession);
         }
         ApiSetup.Logger.LogWarning($"SCENARIO SETUP DONE: {Scenario}");
         await ApiSetup.ElasticClient.Indices.RefreshAsync(Indices.All);
@@ -74,10 +72,14 @@ where TScenario : IScenario
 
     public long? MaxSequenceByScenario { get; set; }
 
-    private async Task WaitBeforeCommands(FullBlownApiSetup setup, long max, IAlbaHost host, string beforeOrAfter)
+    private async Task WaitBeforeCommands(
+        FullBlownApiSetup setup,
+        long max,
+        IAlbaHost host,
+        string beforeOrAfter,
+        IDocumentSession lightweightSession)
     {
         setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: WAITING FOR REAL NOW", beforeOrAfter);
-        var documentStore = host.Server.Services.GetRequiredService<IDocumentStore>();
 
         var highWaterMark = max;
 
@@ -86,14 +88,14 @@ where TScenario : IScenario
         setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: Waiting for high water mark of {HighWaterMark} on database schema {DatabaseSchemaName}",
                           beforeOrAfter, highWaterMark, databaseSchemaName);
 
-        var projectionProgress = await documentStore.Advanced.AllProjectionProgress();
+        var projectionProgress = await lightweightSession.DocumentStore.Advanced.AllProjectionProgress();
 
         setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", beforeOrAfter, databaseSchemaName, projectionProgress);
 
         while (!projectionProgress.Any() || !projectionProgress.Any(x => !x.ShardName.Contains("ater")))
         {
             await Task.Delay(1.Seconds());
-            projectionProgress = await _sharedSession.DocumentStore.Advanced.AllProjectionProgress();
+            projectionProgress = await lightweightSession.DocumentStore.Advanced.AllProjectionProgress();
             ApiSetup.Logger.LogInformation("WAITING FOR ANY projection progress");
         }
 
@@ -106,7 +108,7 @@ where TScenario : IScenario
                                                                             .Select(x => $"{x.ShardName}: {x.Sequence}\n"))}");
 
             counter++;
-            projectionProgress = await UpdateProjectionProgress(databaseSchemaName, setup, highWaterMark, counter);
+            projectionProgress = await UpdateProjectionProgress(databaseSchemaName, setup, highWaterMark, lightweightSession);
         }
 
         if(!projectionProgress.All(x => x.Sequence >= highWaterMark))
@@ -124,15 +126,13 @@ where TScenario : IScenario
         }
     }
 
-    private async Task<IReadOnlyList<ShardState>> UpdateProjectionProgress(string databaseSchemaName, FullBlownApiSetup setup, long? highWaterMark, int counter)
+    private async Task<IReadOnlyList<ShardState>> UpdateProjectionProgress(string databaseSchemaName, FullBlownApiSetup setup, long? highWaterMark, IDocumentSession lightweightSession)
     {
-        var documentStore = setup.AdminApiHost.DocumentStore();
-
         IReadOnlyList<ShardState> projectionProgress;
         setup.Logger.LogWarning("COMMANDS: Waiting for projection progress to be at least {HighWaterMark} on database schema {DatabaseSchemaName}",
                           highWaterMark, databaseSchemaName);
         await Task.Delay(2000);
-        projectionProgress = await _sharedSession.DocumentStore.Advanced.AllProjectionProgress();
+        projectionProgress = await lightweightSession.DocumentStore.Advanced.AllProjectionProgress();
         setup.Logger.LogWarning("COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", databaseSchemaName, projectionProgress);
 
         return  projectionProgress;
@@ -147,14 +147,6 @@ where TScenario : IScenario
     }
 
     public async ValueTask DisposeAsync()
-    {
-        if (_sharedSession != null)
-        {
-            await _sharedSession.DisposeAsync();
-            _sharedSession = null;
-        }
-
         // Clear connection pool between tests to avoid leaked connections
-        Npgsql.NpgsqlConnection.ClearAllPools();
-    }
+        => Npgsql.NpgsqlConnection.ClearAllPools();
 }
