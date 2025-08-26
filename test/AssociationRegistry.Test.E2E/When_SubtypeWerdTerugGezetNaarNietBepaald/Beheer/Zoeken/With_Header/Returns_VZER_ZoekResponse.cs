@@ -11,20 +11,23 @@ using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Vereniging;
 using Xunit;
+
 using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
 [Collection(nameof(ZetSubtypeNaarNietBepaaldCollection))]
 public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly ZetSubtypeNaarNietBepaaldContext _testContext;
+    private readonly ITestOutputHelper _testOutputHelper;
 
-    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext testContext, ITestOutputHelper testOutputHelper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _testOutputHelper = testOutputHelper;
     }
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), testOutputHelper: _testOutputHelper, headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence));
 
     [Fact]
     public void With_Context()

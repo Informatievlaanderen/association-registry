@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
 using System.Web;
-using Xunit.Abstractions;
+
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 public static class AdminApiEndpoints
@@ -30,11 +30,9 @@ public static class AdminApiEndpoints
         HttpClient authenticatedClient,
         string vCode,
         RequestParameters? headers = null)
-        => SmartHttpClient
+        => await SmartHttpClient
           .Create(source, authenticatedClient, headers)
-          .GetWithRetryAsync<HistoriekResponse>($"/v1/verenigingen/{vCode}/historiek")
-          .GetAwaiter()
-          .GetResult();
+          .GetWithRetryAsync<HistoriekResponse>($"/v1/verenigingen/{vCode}/historiek");
 
     public static async Task<KboSyncHistoriekResponse> GetKboSyncHistoriek(
         this IAlbaHost source,
@@ -42,38 +40,32 @@ public static class AdminApiEndpoints
         string vCode,
         ITestOutputHelper? outputHelper = null,
         RequestParameters? headers = null)
-        => SmartHttpClient
+        => await SmartHttpClient
           .Create(source, authenticatedClient, headers)
           .GetWithRetryUntilAsync<KboSyncHistoriekResponse>(
                $"/v1/verenigingen/kbo/historiek",
                deSerializedResponseMeetsCriteria: response => response.Any(x => x.VCode == vCode),
-               outputHelper: outputHelper)
-          .GetAwaiter()
-          .GetResult();
+               outputHelper: outputHelper);
 
     public static async Task<DetailVerenigingResponse> GetBeheerDetail(
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
         RequestParameters? headers = null)
-        => SmartHttpClient
+        => await SmartHttpClient
           .Create(source, authenticatedClient, headers)
-          .GetWithRetryAsync<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}")
-          .GetAwaiter()
-          .GetResult();
+          .GetWithRetryAsync<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}");
 
-    public static ProblemDetails GetProblemDetailsForBeheerDetailHttpResponse(
+    public static async Task<ProblemDetails> GetProblemDetailsForBeheerDetailHttpResponse(
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
         long expectedSequence,
         RequestParameters? headers = null)
-        => SmartHttpClient
+        => await SmartHttpClient
           .Create(source, authenticatedClient, headers)
           .GetWithRetryUntilAsync<ProblemDetails>($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}",
-                                                  responseMeetsCriteria: message => message.StatusCode != HttpStatusCode.PreconditionFailed)
-          .GetAwaiter()
-          .GetResult();
+                                                  responseMeetsCriteria: message => message.StatusCode != HttpStatusCode.PreconditionFailed);
 
     public static async Task<MinimumScoreDuplicateDetectionOverrideResponse> GetMinimumScoreDuplicateDetectionOverride(
         this IAlbaHost source,
@@ -97,7 +89,8 @@ public static class AdminApiEndpoints
         string query,
         IDocumentStore store,
         string? sort = "",
-        RequestParameters? headers = null)
+        RequestParameters? headers = null,
+        ITestOutputHelper? testOutputHelper = null)
     {
         var store2 = source.Services.GetRequiredService<IDocumentStore>();
         var logger = source.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Program>>();
@@ -114,8 +107,9 @@ public static class AdminApiEndpoints
 
         while ((!result.HasValue || !reachedSequence) && counter < 20)
         {
-            logger.LogCritical(
-                $"<<<<<<<<<<<<<<Did not reach the expected sequence yet. Expected: {expectedSequence}, Actual: {result} >>>>>>>>>>>>>{query}");
+            var message = $"<<<<<<<<<<<<<<Did not reach the expected sequence yet. Expected: {expectedSequence}, Actual: {result} >>>>>>>>>>>>>{query}";
+            logger.LogCritical(message);
+            testOutputHelper?.WriteLine(message);
 
             counter++;
             await Task.Delay(500 + (100 * counter));

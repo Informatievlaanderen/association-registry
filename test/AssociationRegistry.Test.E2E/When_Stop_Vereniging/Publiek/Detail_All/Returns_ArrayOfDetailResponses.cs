@@ -20,8 +20,8 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<IEnumerable<JObject>>
         _testContext = testContext;
     }
 
-    public override IEnumerable<JObject> GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetailAll(_testContext.CommandResult.Sequence);
+    public override async Task<IEnumerable<JObject>> GetResponse(FullBlownApiSetup setup)
+        => await setup.PublicApiHost.GetPubliekDetailAll(_testContext.CommandResult.Sequence);
 
     [Fact]
     public void WithVereniging()

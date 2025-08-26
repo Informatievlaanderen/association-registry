@@ -15,6 +15,7 @@ using Marten;
 using NodaTime;
 using Vereniging;
 using Xunit;
+
 using Vereniging = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingssubtype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
@@ -25,14 +26,16 @@ using Verenigingstype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Vere
 public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly RegistreerFeitelijkeVerenigingContext _testContext;
+    private readonly ITestOutputHelper _testOutputHelper;
 
-    public Returns_Vereniging(RegistreerFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_Vereniging(RegistreerFeitelijkeVerenigingContext testContext, ITestOutputHelper testOutputHelper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _testOutputHelper = testOutputHelper;
     }
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.VCode}",setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.VCode}",setup.AdminApiHost.DocumentStore(), testOutputHelper: _testOutputHelper, headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence));
 
     [Fact]
     public void With_Context()

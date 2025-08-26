@@ -23,10 +23,10 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<HistoriekResponse>
         _helper = helper;
     }
 
-    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(
+    public override async Task<HistoriekResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerHistoriek(
             setup.AdminHttpClient ,_testContext.Scenario.AuthentiekeVereniging.VCode,
-            headers: new RequestParameters().WithExpectedSequence(_testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence)).GetAwaiter().GetResult();
+            headers: new RequestParameters().WithExpectedSequence(_testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence));
 
 
     [Fact]

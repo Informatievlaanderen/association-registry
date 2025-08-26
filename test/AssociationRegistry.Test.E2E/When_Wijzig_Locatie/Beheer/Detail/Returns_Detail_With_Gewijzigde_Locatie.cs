@@ -69,10 +69,9 @@ public class Returns_Detail_With_Gewijzigde_Locatie : End2EndTest<DetailVerenigi
                 .ShouldCompare(expected, compareConfig: comparisonConfig);
     }
 
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetail(
+    public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup)
+        => await _testContext.ApiSetup.AdminApiHost.GetBeheerDetail(
                             setup.AdminHttpClient,
                             _testContext.VCode,
-                            headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence))
-                       .GetAwaiter().GetResult();
+                            headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
 }

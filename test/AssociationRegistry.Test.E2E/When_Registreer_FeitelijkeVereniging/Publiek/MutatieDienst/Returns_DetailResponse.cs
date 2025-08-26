@@ -17,8 +17,8 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingSequenceResponse[
         _testContext = testContext;
     }
 
-    public override PubliekVerenigingSequenceResponse[] GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetVerenigingMutationsSequence();
+    public override async Task<PubliekVerenigingSequenceResponse[]> GetResponse(FullBlownApiSetup setup)
+        => await setup.PublicApiHost.GetVerenigingMutationsSequence();
 
     [Fact]
     public void With_RegisteredVereniging()

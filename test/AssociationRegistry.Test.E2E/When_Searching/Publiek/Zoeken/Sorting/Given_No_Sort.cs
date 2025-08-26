@@ -16,9 +16,10 @@ public class Given_No_Sort
     }
 
     [Fact]
-    public void Then_it_sorts_by_vcode_descending()
+    public async Task Then_it_sorts_by_vcode_descending()
     {
-        var verenigingen = _testContext.ApiSetup.PublicApiHost.GetPubliekZoeken("*", _testContext.CommandResult.Sequence).Verenigingen.Select(x => x.VCode);
+        var response = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoeken("*", _testContext.CommandResult.Sequence);
+        var verenigingen = response.Verenigingen.Select(x => x.VCode);
         verenigingen.Should().BeInDescendingOrder();
     }
 }

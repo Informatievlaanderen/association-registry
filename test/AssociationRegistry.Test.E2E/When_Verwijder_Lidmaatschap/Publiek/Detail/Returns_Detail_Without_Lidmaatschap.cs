@@ -23,6 +23,6 @@ public class Returns_Detail_Without_Lidmaatschap : End2EndTest<PubliekVereniging
         Response.Vereniging.Lidmaatschappen.Should().BeEmpty();
     }
 
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetail(_testContext.VCode);
+    public override async Task<PubliekVerenigingDetailResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.PublicApiHost.GetPubliekDetail(_testContext.VCode);
 }

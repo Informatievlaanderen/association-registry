@@ -25,7 +25,7 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
         _helper = helper;
     }
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
     {
         return setup.AdminApiHost.GetBeheerZoeken(setup.SuperAdminHttpClient, $"vCode:{_testContext.CommandResult.VCode}",
                                                   setup.AdminApiHost.DocumentStore(),headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter()

@@ -15,10 +15,9 @@ public class Returns_Historiek : End2EndTest<HistoriekResponse>
 {
     private readonly WijzigBasisgegevensKboContext _testContext;
 
-    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient, _testContext.VCode,
-                                                 new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence))
-                .GetAwaiter().GetResult();
+    public override async Task<HistoriekResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient, _testContext.VCode,
+                                                 new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
 
     public Returns_Historiek(WijzigBasisgegevensKboContext testContext) : base(testContext.ApiSetup)
     {

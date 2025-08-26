@@ -22,13 +22,12 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
         _testContext = testContext;
     }
 
-    public override VerenigingenPerInszResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AcmApiHost.GetVerenigingenPerInsz(new VerenigingenPerInszRequest()
+    public override async Task<VerenigingenPerInszResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AcmApiHost.GetVerenigingenPerInsz(new VerenigingenPerInszRequest()
                  {
                      Insz = _testContext.CommandRequest.Vertegenwoordigers[0].Insz,
                      KboNummers = [],
-                 }, _testContext.CommandResult.Sequence)
-                .GetAwaiter().GetResult();
+                 }, _testContext.CommandResult.Sequence);
 
     [Fact]
     public void With_Verenigingen()

@@ -13,6 +13,7 @@ using Marten;
 using NodaTime;
 
 using Xunit;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 using Vereniging = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigingstype;
@@ -21,11 +22,13 @@ using Verenigingstype = Admin.Api.WebApi.Verenigingen.Search.ResponseModels.Vere
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly WijzigBasisgegevensKboContext _testContext;
+    private readonly ITestOutputHelper _testOutputHelper;
 
-    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboContext testContext)
+    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboContext testContext, ITestOutputHelper testOutputHelper)
         : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _testOutputHelper = testOutputHelper;
     }
 
     [Fact]
@@ -71,6 +74,6 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+    public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
+        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence), testOutputHelper: _testOutputHelper);
 }

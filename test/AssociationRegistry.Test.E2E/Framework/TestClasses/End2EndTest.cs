@@ -20,10 +20,10 @@ public abstract class End2EndTest<TResponse>: IAsyncLifetime
     {
         _setup.Logger.LogInformation("STARTING TEST BASE INITIALIZE: {Type}", typeof(TResponse).Name);
 
-        Response = GetResponse(_setup);
+        Response = await GetResponse(_setup);
     }
 
-    public abstract TResponse GetResponse(FullBlownApiSetup setup);
+    public abstract Task<TResponse> GetResponse(FullBlownApiSetup setup);
 
 
 
