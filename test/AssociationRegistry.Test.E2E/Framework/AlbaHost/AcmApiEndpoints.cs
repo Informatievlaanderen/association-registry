@@ -24,7 +24,7 @@ public static class AcmApiEndpoints
 
         bool reachedSequence = result >= expectedSequence;
         var counter = 0;
-        while (!reachedSequence && counter < 10)
+        while (!reachedSequence && counter < 30)
         {
             counter++;
             await Task.Delay(500);
