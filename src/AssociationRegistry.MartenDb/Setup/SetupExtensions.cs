@@ -1,6 +1,7 @@
 namespace AssociationRegistry.MartenDb.Setup;
 
 using Admin.Api.Adapters.VCodeGeneration;
+using Converters;
 using DecentraalBeheer.Vereniging;
 using Marten;
 using Upcasters;
@@ -47,6 +48,7 @@ public static class SetupExtensions
             settings.DateParseHandling = DateParseHandling.None;
             settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
             settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            settings.Converters.Add(new VCodeJsonConverter());
     }
 
     public static StoreOptions SetUpOpenTelemetry(this StoreOptions opts)
