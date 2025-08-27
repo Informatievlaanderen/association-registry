@@ -27,6 +27,7 @@ using Projections.PowerBiExport;
 using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
+using Schema.KboSync;
 using System.Configuration;
 using ConfigurationManager = ConfigurationManager;
 
@@ -136,6 +137,8 @@ public static class ConfigureMartenExtensions
         opts.UpcastLegacyTombstoneEvents();
 
         opts.RegisterAllEventTypes();
+
+        opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
 
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
