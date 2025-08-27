@@ -95,6 +95,14 @@ public class ProjectionController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
+    [HttpPost("admin/historiek-kbosync/rebuild")]
+    public async Task<IActionResult> RebuildAdminKboSyncProjection(CancellationToken cancellationToken)
+    {
+        var response = await _adminHttpClient.RebuildAdminKboSyncProjection(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
+
     [HttpGet("admin/status")]
     public async Task<IActionResult> GetAdminProjectionStatus(CancellationToken cancellationToken)
     {
