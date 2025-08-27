@@ -33,6 +33,10 @@ public class AdminProjectionHostHttpClient : IDisposable
     public async Task<HttpResponseMessage> RebuildDuplicateDetectionProjection(CancellationToken cancellationToken)
         => await _httpClient.PostAsync(requestUri: "/v1/projections/duplicatedetection/rebuild", content: null, cancellationToken);
 
+    public async Task<HttpResponseMessage> RebuildAdminKboSyncProjection(CancellationToken cancellationToken)
+        => await _httpClient.PostAsync(requestUri: "/v1/projections/historiek-kbosync/rebuild", content: null, cancellationToken);
+
+
     public async Task<HttpResponseMessage> GetStatus(CancellationToken cancellationToken)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, requestUri: "/v1/projections/status");
