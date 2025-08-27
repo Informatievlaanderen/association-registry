@@ -112,7 +112,7 @@ public static class AdminApiEndpoints
             testOutputHelper?.WriteLine(message);
 
             counter++;
-            await Task.Delay(500 + (500 * counter));
+            await Task.Delay(1000 + (500 * counter));
             await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
 
             result = (await store2.Advanced
@@ -187,14 +187,14 @@ public class SmartHttpClient
                 {
                     if(outputHelper is not null)
                         outputHelper.WriteLine($"Found a response that doesn't meet criteria. Attempt: {attempt}, Response: {json}");
-                    await Task.Delay(200 + (attempt * 100));
+                    await Task.Delay(100 + (attempt * 500));
                     continue;
                 }
 
                 return deserializeObject!;
             }
 
-            await Task.Delay(500 + (attempt * 500));
+            await Task.Delay(1000 + (attempt * 500));
         }
 
         if (_shouldThrowOnCriteriaNotMet)
