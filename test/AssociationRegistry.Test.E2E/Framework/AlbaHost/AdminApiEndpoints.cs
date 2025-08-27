@@ -112,7 +112,7 @@ public static class AdminApiEndpoints
             testOutputHelper?.WriteLine(message);
 
             counter++;
-            await Task.Delay(500 + (100 * counter));
+            await Task.Delay(500 + (500 * counter));
             await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
 
             result = (await store2.Advanced
