@@ -1,3 +1,10 @@
+## [8.267.2](https://github.com/informatievlaanderen/association-registry/compare/v8.267.1...v8.267.2) (2025-08-27)
+
+
+### Bug Fixes
+
+* or-2901 add converter to support vcode in deadletter endpoints ([8f8c9a8](https://github.com/informatievlaanderen/association-registry/commit/8f8c9a832630dbb08b5c174568a278b6f2f9415c))
+
 ## [8.267.1](https://github.com/informatievlaanderen/association-registry/compare/v8.267.0...v8.267.1) (2025-08-27)
 
 
