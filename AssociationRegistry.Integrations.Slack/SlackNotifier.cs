@@ -18,27 +18,35 @@ public class SlackNotifier : INotifier
 
     public async Task Notify(INotification notification)
     {
-        var postAsync = await _slackClient.PostAsync(new SlackMessage
+        try
         {
-            Channel = string.Empty,
-            Markdown = true,
-            Text = notification.Value,
-            IconEmoji = notification.Type switch
+            var postAsync = await _slackClient.PostAsync(new SlackMessage
             {
-                NotifyType.None => Emoji.Bulb,
-                NotifyType.Success => Emoji.Up,
-                NotifyType.Failure => Emoji.X,
-            },
-            Username = "Adres sync",
-        });
+                Channel = string.Empty,
+                Markdown = true,
+                Text = notification.Value,
+                IconEmoji = notification.Type switch
+                {
+                    NotifyType.None => Emoji.Bulb,
+                    NotifyType.Success => Emoji.Up,
+                    NotifyType.Failure => Emoji.X,
+                },
+                Username = "Adres sync",
+            });
 
-        if(!postAsync)
-        {
-            _logger.LogWarning($"Slack bericht kon niet verstuurd worden: '{notification.Value}' ({notification.Type})");
+            if(!postAsync)
+            {
+                _logger.LogWarning($"Slack bericht kon niet verstuurd worden: '{notification.Value}' ({notification.Type})");
+            }
+            else
+            {
+                _logger.LogInformation($"Slack bericht verstuurd: '{notification.Value}' ({notification.Type})");
+            }
         }
-        else
+        catch (Exception e)
         {
-            _logger.LogInformation($"Slack bericht verstuurd: '{notification.Value}' ({notification.Type})");
+            _logger.LogError(e, "Slack bericht kon niet verstuurd worden");
+            return;
         }
     }
 }
