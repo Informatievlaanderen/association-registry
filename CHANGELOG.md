@@ -1,3 +1,13 @@
+## [8.267.1](https://github.com/informatievlaanderen/association-registry/compare/v8.267.0...v8.267.1) (2025-08-27)
+
+
+### Bug Fixes
+
+* or-2901 don't throw if slack notification fails ([a216d61](https://github.com/informatievlaanderen/association-registry/commit/a216d6176be050b81a1f06119fc35bb3024a7fa5))
+* or-2901 wait longer in e2e tests for beheer zoeken ([408852d](https://github.com/informatievlaanderen/association-registry/commit/408852daa99f1066ea2019f9f8d45c2e6f0b36bd))
+* or-2901 wait longer in more retries ([3258bfc](https://github.com/informatievlaanderen/association-registry/commit/3258bfcc64c947c8b1b2c5ed763c787309cadd15))
+* or-2901 wait longer in other retries as well ([8cc1f78](https://github.com/informatievlaanderen/association-registry/commit/8cc1f78dc31ad9667c0b976051bcf1d38e994c8f))
+
 # [8.267.0](https://github.com/informatievlaanderen/association-registry/compare/v8.266.1...v8.267.0) (2025-08-26)
 
 
