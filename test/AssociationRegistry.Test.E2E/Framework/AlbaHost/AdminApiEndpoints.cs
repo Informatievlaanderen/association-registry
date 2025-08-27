@@ -172,7 +172,6 @@ public class SmartHttpClient
         deSerializedResponseMeetsCriteria ??= _ => true;
 
         const int maxRetries = 30;
-        var delay = TimeSpan.FromMilliseconds(300);
 
         for (var attempt = 0; attempt < maxRetries; attempt++)
         {
@@ -195,7 +194,7 @@ public class SmartHttpClient
                 return deserializeObject!;
             }
 
-            await Task.Delay(200 + (attempt * 100));
+            await Task.Delay(500 + (attempt * 500));
         }
 
         if (_shouldThrowOnCriteriaNotMet)
