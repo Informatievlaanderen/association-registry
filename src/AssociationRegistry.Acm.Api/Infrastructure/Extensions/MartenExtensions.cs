@@ -1,16 +1,12 @@
 ﻿namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
-using Constants;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using JasperFx.Events.Daemon;
-using Json;
 using Marten;
 using MartenDb.Setup;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using Schema.VerenigingenPerInsz;
 
 public static class MartenExtensions
