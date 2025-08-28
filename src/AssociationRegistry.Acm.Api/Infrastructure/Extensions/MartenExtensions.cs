@@ -8,6 +8,7 @@ using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using Json;
 using Marten;
+using MartenDb.Setup;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Schema.VerenigingenPerInsz;
@@ -60,9 +61,7 @@ public static class MartenExtensions
         opts.Events.StreamIdentity = StreamIdentity.AsString;
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {
-            settings.DateParseHandling = DateParseHandling.None;
-            settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-            settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            settings.ConfigureForVerenigingsregister();
         });
         opts.Events.MetadataConfig.EnableAll();
         opts.AddPostgresProjections();
