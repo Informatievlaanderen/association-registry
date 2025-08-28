@@ -1,3 +1,11 @@
+## [8.267.3](https://github.com/informatievlaanderen/association-registry/compare/v8.267.2...v8.267.3) (2025-08-28)
+
+
+### Bug Fixes
+
+* or-2901 manually register BeheerKboSyncHistoriekGebeurtenisDocument because it doesn't get generated otherwise ([61f8ae1](https://github.com/informatievlaanderen/association-registry/commit/61f8ae16c2164d3387b9f9bdff7894737586f950))
+* or-2970 reference marten db project and use configure settings ([1b5bf6e](https://github.com/informatievlaanderen/association-registry/commit/1b5bf6e94c0bfd8a52484abe6ca0c5ec18e4a4dd))
+
 ## [8.267.2](https://github.com/informatievlaanderen/association-registry/compare/v8.267.1...v8.267.2) (2025-08-27)
 
 
