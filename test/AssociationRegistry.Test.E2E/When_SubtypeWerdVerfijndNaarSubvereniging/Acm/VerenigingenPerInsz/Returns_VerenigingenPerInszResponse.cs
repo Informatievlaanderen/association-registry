@@ -1,12 +1,14 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Acm.VerenigingenPerInsz;
 
 using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Vereniging;
+using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 using DecentraalBeheer.Vereniging;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using Marten;
+using Newtonsoft.Json;
 using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
 using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
@@ -32,8 +34,16 @@ public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
     public override async Task<VerenigingenPerInszResponse> GetResponse(FullBlownApiSetup setup)
         => await setup.AcmApiHost.GetVerenigingenPerInsz(_request, _testContext.CommandResult.Sequence);
     [Fact]
-    public void With_Verenigingen()
+    public async ValueTask With_Verenigingen()
     {
+        await using var session = _testContext.ApiSetup.AcmApiHost.DocumentStore().LightweightSession();
+
+        var missingDocs = string.Empty;
+        if (Response.Verenigingen.Length == 0)
+        {
+            missingDocs = LogMissingDocuments(session);
+        }
+
         Response.ShouldCompare(new VerenigingenPerInszResponse()
         {
             Insz = _inszToCompare,
@@ -60,6 +70,21 @@ public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
                 },
             ],
             KboNummers = [],
-        });
+        }, missingDocs);
+    }
+
+    private string LogMissingDocuments(IDocumentSession session)
+    {
+        var verenigingPerInszDocument = session.Query<VerenigingenPerInszDocument>()
+                                               .Where(x => x.Insz == _inszToCompare)
+                                               .Single();
+
+        var verenigingDocument = session.Query<VerenigingDocument>()
+                                        .Where(x => x.VCode == _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode)
+                                        .Single();
+
+        return $"VerenigingenPerInszDocument: {JsonConvert.SerializeObject(verenigingPerInszDocument)}{Environment.NewLine}" +
+               $"VerenigingDocument: {JsonConvert.SerializeObject(verenigingDocument)}";
+
     }
 }
