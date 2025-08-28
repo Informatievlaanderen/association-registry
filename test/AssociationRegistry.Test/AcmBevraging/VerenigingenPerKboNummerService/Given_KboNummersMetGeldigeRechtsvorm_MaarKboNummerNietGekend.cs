@@ -7,7 +7,10 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
+using EventStore.ConflictResolution;
 using FluentAssertions;
+using MartenDb.Store;
+using Microsoft.Extensions.Logging.Abstractions;
 using Vereniging;
 using Xunit;
 
@@ -21,8 +24,9 @@ public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend
         var kboNummer = fixture.Create<KboNummer>();
 
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend));
+        var eventStore = new EventStore(store, new EventConflictResolver([], []), NullLogger<EventStore>.Instance);
 
-        var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), store);
+        var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), eventStore);
 
         var actual = await service.GetVerenigingenPerKbo([
             new KboNummerMetRechtsvorm(kboNummer, rechtsvorm),

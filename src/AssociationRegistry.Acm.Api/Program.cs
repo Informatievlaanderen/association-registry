@@ -23,6 +23,8 @@ using JasperFx;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Services;
 using AssociationRegistry.Magda;
+using EventStore.ConflictResolution;
+using MartenDb.Store;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -96,10 +98,10 @@ public class Program
 
         var app = builder.Build();
 
-
         app.UseRequestLocalization();
         app.UseSwagger();
         app.UseSwaggerUI();
+
         app.UseReDoc(opt =>
         {
             opt.RoutePrefix = "docs";
@@ -282,39 +284,36 @@ public class Program
                .AddHttpContextAccessor()
                .AddControllers();
 
+        builder.Services
+               .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
+               .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
+               .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+               .Configure<RequestLocalizationOptions>(opts =>
+                {
+                    const string fallbackCulture = "en-GB";
+                    var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                    var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
 
-        builder.            Services
-                           .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
-                           .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
-                           .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+                    opts.DefaultRequestCulture = defaultRequestCulture;
+                    opts.SupportedCultures = supportedCulturesOrDefault;
+                    opts.SupportedUICultures = supportedCulturesOrDefault;
 
-                           .Configure<RequestLocalizationOptions>(opts =>
-                            {
-                                const string fallbackCulture = "en-GB";
-                                var defaultRequestCulture = new RequestCulture( new CultureInfo(fallbackCulture));
-                                var supportedCulturesOrDefault =  new[] { new CultureInfo(fallbackCulture) };
+                    opts.FallBackToParentCultures = true;
+                    opts.FallBackToParentUICultures = true;
+                })
+               .Configure<RequestLocalizationOptions>(opts =>
+                {
+                    const string fallbackCulture = "en-GB";
+                    var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                    var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
 
-                                opts.DefaultRequestCulture = defaultRequestCulture;
-                                opts.SupportedCultures = supportedCulturesOrDefault;
-                                opts.SupportedUICultures = supportedCulturesOrDefault;
+                    opts.DefaultRequestCulture = defaultRequestCulture;
+                    opts.SupportedCultures = supportedCulturesOrDefault;
+                    opts.SupportedUICultures = supportedCulturesOrDefault;
 
-                                opts.FallBackToParentCultures = true;
-                                opts.FallBackToParentUICultures = true;
-                            })
-
-                           .Configure<RequestLocalizationOptions>(opts =>
-                            {
-                                const string fallbackCulture = "en-GB";
-                                var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
-                                var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
-
-                                opts.DefaultRequestCulture = defaultRequestCulture;
-                                opts.SupportedCultures = supportedCulturesOrDefault;
-                                opts.SupportedUICultures = supportedCulturesOrDefault;
-
-                                opts.FallBackToParentCultures = true;
-                                opts.FallBackToParentUICultures = true;
-                            });
+                    opts.FallBackToParentCultures = true;
+                    opts.FallBackToParentUICultures = true;
+                });
 
         builder.Services.AddEndpointsApiExplorer();
 
@@ -403,9 +402,10 @@ public class Program
                .AddApiExplorer();
 
         var oAuth2IntrospectionOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
-                                   .Get<OAuth2IntrospectionOptions>()!;
+                                                .Get<OAuth2IntrospectionOptions>()!;
 
         builder.Services.AddSingleton(oAuth2IntrospectionOptions);
+
         builder.Services.AddAuthentication(
                     options =>
                     {
@@ -504,11 +504,14 @@ public class Program
 
         builder.Services.AddAcmApiSwagger(appSettings);
 
-
         builder.Services
                .AddTransient<IVerenigingenPerInszQuery, VerenigingenPerInszQuery>()
                .AddTransient<IVerenigingenPerKboNummerService, VerenigingenPerKboNummerService>()
-               .AddTransient<IRechtsvormCodeService, RechtsvormCodeService>();
+               .AddTransient<IRechtsvormCodeService, RechtsvormCodeService>()
+               .AddTransient<IEventStore, EventStore>()
+               .AddSingleton<IEventPreConflictResolutionStrategy, EmptyConflictResolutionStrategy>()
+               .AddSingleton<IEventPostConflictResolutionStrategy, EmptyConflictResolutionStrategy>()
+               .AddSingleton<EventConflictResolver>();
 
         builder.Services.AddSingleton<ProblemDetailsHelper>();
     }

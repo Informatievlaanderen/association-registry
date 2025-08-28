@@ -72,4 +72,7 @@ public class EventStoreMock : IEventStore
         CancellationToken cancellationToken,
         IEvent[] events)
         => throw new NotImplementedException();
+
+    public async Task<VCode?> GetVCodeForKbo(string kboNummer)
+        => throw new NotImplementedException();
 }

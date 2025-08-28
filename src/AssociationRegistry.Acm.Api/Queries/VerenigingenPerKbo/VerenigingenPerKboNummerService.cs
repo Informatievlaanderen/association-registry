@@ -2,14 +2,17 @@ namespace AssociationRegistry.Acm.Api.Queries.VerenigingenPerKbo;
 
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Magda;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
+using Events;
 using Marten;
+using MartenDb.Store;
 
 public class VerenigingenPerKboNummerService : IVerenigingenPerKboNummerService
 {
     private readonly IRechtsvormCodeService _rechtsvormCodeService;
-    private readonly IDocumentStore _store;
+    private readonly IEventStore _store;
 
-    public VerenigingenPerKboNummerService(IRechtsvormCodeService rechtsvormCodeService, IDocumentStore store)
+    public VerenigingenPerKboNummerService(IRechtsvormCodeService rechtsvormCodeService, IEventStore store)
     {
         _rechtsvormCodeService = rechtsvormCodeService;
         _store = store;
@@ -34,19 +37,11 @@ public class VerenigingenPerKboNummerService : IVerenigingenPerKboNummerService
         if (!_rechtsvormCodeService.IsValidRechtsvormCode(kboNummerMetRechtsvorm.Rechtsvorm))
             return VerenigingenPerKbo.NietVanToepassing(kboNummerMetRechtsvorm.KboNummer);
 
-        await using var session = _store.LightweightSession();
+        var vCode = await _store.GetVCodeForKbo(kboNummerMetRechtsvorm.KboNummer);
 
-        var events = await session.Events.FetchStreamAsync(kboNummerMetRechtsvorm.KboNummer);
+        if (vCode is null)
+            return VerenigingenPerKbo.NogNietBekend(kboNummerMetRechtsvorm.KboNummer);
 
-        if (events.Any())
-        {
-            var data = events.First().Data as dynamic;
-            var vCodeProperty = data.GetType().GetProperty("VCode");
-            var vCode = vCodeProperty.GetValue(data);
-
-            return VerenigingenPerKbo.Bekend(kboNummerMetRechtsvorm.KboNummer, vCode);
-        }
-
-        return VerenigingenPerKbo.NogNietBekend(kboNummerMetRechtsvorm.KboNummer);
+        return VerenigingenPerKbo.Bekend(kboNummerMetRechtsvorm.KboNummer, vCode!);
     }
 }

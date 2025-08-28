@@ -168,16 +168,12 @@ public class EventStore : Store.IEventStore
 
     public async Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new()
     {
-        await using var session = _documentStore.LightweightSession();
+        var vCode = await GetVCodeForKbo(kboNummer);
 
-        var id = (await session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-                               .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)
-                               .SingleOrDefaultAsync())?.VCode;
-
-        if (string.IsNullOrEmpty(id))
+        if (vCode is null)
             throw new AggregateNotFoundException(kboNummer, typeof(T));
 
-        return await Load<T>(id, expectedVersion);
+        return await Load<T>(vCode!, expectedVersion);
     }
 
     public async Task<bool> Exists(VCode vCode)
@@ -201,4 +197,19 @@ public class EventStore : Store.IEventStore
         return streamState != null ||
                verenigingMetRechtspersoonlijkheidWerdGeregistreerd != null;
     }
+
+    public async Task<VCode?> GetVCodeForKbo(string kboNummer)
+    {
+        await using var session = _documentStore.LightweightSession();
+
+        var id = (await session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+                               .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)
+                               .SingleOrDefaultAsync())?.VCode;
+
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return VCode.Hydrate(id);
+    }
+
 }
