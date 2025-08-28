@@ -21,6 +21,7 @@ using global::Wolverine.ErrorHandling;
 using global::Wolverine.Postgresql;
 using Integrations.Grar.Clients;
 using JasperFx.CodeGeneration;
+using MartenDb.Setup;
 using Serilog;
 
 public static class WolverineExtensions
@@ -72,6 +73,8 @@ public static class WolverineExtensions
 
                 if (grarOptions.Wolverine.AutoProvision)
                     transportConfiguration.AutoProvision();
+
+                options.UseNewtonsoftForSerialization(settings => settings.ConfigureForVerenigingsregister());
 
                 Log.Logger.Information(messageTemplate: "Wolverine Transport SQS configuration: {@TransportConfig}",
                                        transportConfiguration);
