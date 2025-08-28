@@ -1,11 +1,13 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Acm.VerenigingenPerInsz;
 
 using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
+using BecauseData;
 using DecentraalBeheer.Vereniging;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using Marten;
 using Vereniging;
 using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
@@ -33,8 +35,16 @@ public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
         => await setup.AcmApiHost.GetVerenigingenPerInsz(_request, _testContext.CommandResult.Sequence);
 
     [Fact]
-    public void With_Verenigingen()
+    public async ValueTask With_Verenigingen()
     {
+        await using var session = _testContext.ApiSetup.AcmApiHost.DocumentStore().LightweightSession();
+
+        var missingDocs = string.Empty;
+        if (Response.Verenigingen.Length == 0)
+        {
+            missingDocs = AcmDocuments.GetMissingDocuments(session, _inszToCompare, _testContext.VCode);
+        }
+
         Response.ShouldCompare(new VerenigingenPerInszResponse()
         {
             Insz = _inszToCompare,
@@ -60,6 +70,6 @@ public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
                 },
             ],
             KboNummers = [],
-        });
+        }, missingDocs);
     }
 }
