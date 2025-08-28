@@ -1,14 +1,17 @@
 namespace AssociationRegistry.Test.AcmBevraging.VerenigingenPerKboNummerService;
 
 using Acm.Api.Queries.VerenigingenPerKbo;
-using AssociationRegistry.Integrations.Magda.Constants;
-using AssociationRegistry.Integrations.Magda.Services;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
+using Events;
+using EventStore.ConflictResolution;
 using FluentAssertions;
-using Vereniging;
+using Integrations.Magda.Constants;
+using Integrations.Magda.Services;
+using MartenDb.Store;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend
@@ -21,13 +24,22 @@ public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend
         var kboNummer = fixture.Create<KboNummer>();
 
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend));
+        var eventStore = new EventStore(store, new EventConflictResolver([], []), NullLogger<EventStore>.Instance);
 
         await using var session = store.LightweightSession();
         var vCode = fixture.Create<VCode>().Value;
+
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
+        {
+            VCode = vCode,
+            KboNummer = kboNummer,
+            Rechtsvorm = rechtsvorm,
+        };
         session.Events.StartStream<KboNummer>(kboNummer, new { VCode = vCode });
+        session.Events.Append(vCode, verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
         await session.SaveChangesAsync();
 
-        var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), store);
+        var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), eventStore);
 
         var actual = await service.GetVerenigingenPerKbo([
             new KboNummerMetRechtsvorm(kboNummer, rechtsvorm),
