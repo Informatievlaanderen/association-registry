@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
+using BecauseData;
 using DecentraalBeheer.Vereniging;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -44,7 +45,7 @@ public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
         var missingDocs = string.Empty;
         if (Response.Verenigingen.Length == 0)
         {
-            missingDocs = LogMissingDocuments(session);
+            missingDocs = AcmDocuments.GetMissingDocuments(session, _inszToCompare, _testContext.VCode);
         }
 
         Response.ShouldCompare(new VerenigingenPerInszResponse()
@@ -73,20 +74,5 @@ public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
             ],
             KboNummers = [],
         }, missingDocs);
-    }
-
-    private string LogMissingDocuments(IDocumentSession session)
-    {
-        var verenigingPerInszDocument = session.Query<VerenigingenPerInszDocument>()
-                                               .Where(x => x.Insz == _inszToCompare)
-                                               .Single();
-
-        var verenigingDocument = session.Query<VerenigingDocument>()
-                                        .Where(x => x.VCode == _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode)
-                                        .Single();
-
-        return $"VerenigingenPerInszDocument: {JsonConvert.SerializeObject(verenigingPerInszDocument)}{Environment.NewLine}" +
-               $"VerenigingDocument: {JsonConvert.SerializeObject(verenigingDocument)}";
-
     }
 }
