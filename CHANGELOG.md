@@ -1,3 +1,23 @@
+# [8.268.0](https://github.com/informatievlaanderen/association-registry/compare/v8.267.3...v8.268.0) (2025-08-29)
+
+
+### Bug Fixes
+
+* or-2901 use newtonsoft for wolverine ([4f6e15b](https://github.com/informatievlaanderen/association-registry/commit/4f6e15ba89b959100ae47bb91307b22cb32b48b1))
+* or-2907 get vcode for kbo through query raw events instead of stream ([54634a0](https://github.com/informatievlaanderen/association-registry/commit/54634a09338879972bf641e2c3c8808d9b9ed621))
+* or-2911 unskip test, and skip waiting for null expectedseq ([e9cb8f3](https://github.com/informatievlaanderen/association-registry/commit/e9cb8f3c0d9f3292deb75755abbb5c82cafec4e8))
+
+
+### Features
+
+* or-2903 allow rebuilding kbo sync historiek ([87c3830](https://github.com/informatievlaanderen/association-registry/commit/87c3830f80a2a160029f2b711eb4a79f7c957ef9))
+* or-2911 update marten and wolverine packages ([01e8079](https://github.com/informatievlaanderen/association-registry/commit/01e8079af157e68be034e435405819334d74a379))
+
+
+### Reverts
+
+* Revert "ci: set run pre merge tests to self hosted" ([d866e0e](https://github.com/informatievlaanderen/association-registry/commit/d866e0ef8e8c645c3a7f7594fab6dc5092dd2602))
+
 ## [8.267.3](https://github.com/informatievlaanderen/association-registry/compare/v8.267.2...v8.267.3) (2025-08-28)
 
 
