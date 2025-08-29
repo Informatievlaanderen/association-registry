@@ -9,13 +9,13 @@ public class Given_No_Sort
 {
     private readonly SearchContext _testContext;
 
-    public Given_No_Sort( SearchContext testContext)
+    public Given_No_Sort(SearchContext testContext)
 
     {
         _testContext = testContext;
     }
 
-    [Fact(Skip = "TODO undo")]
+    [Fact]
     public async Task Then_it_sorts_by_vcode_descending()
     {
         var response = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoeken("*", _testContext.CommandResult.Sequence);

@@ -61,6 +61,9 @@ public static class PublicApiEndpoints
 
     private static async Task WaitForExpectedSequence(IAlbaHost source, long? expectedSequence, string publiekverenigingzoekendocumentAll)
     {
+        if(expectedSequence is null)
+            return;
+
         var store = source.Services.GetRequiredService<IDocumentStore>();
         await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
         var result = (await store.Advanced
