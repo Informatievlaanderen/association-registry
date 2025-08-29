@@ -5,6 +5,7 @@ using Marten;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
 using Elastic.Clients.Elasticsearch;
+using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Public.Api.Infrastructure;
@@ -68,7 +69,7 @@ public static class PublicApiEndpoints
 
         bool reachedSequence = result >= expectedSequence;
         var counter = 0;
-        while (!reachedSequence && counter < 10)
+        while (!reachedSequence && counter < 200)
         {
             counter++;
             await Task.Delay(500);
@@ -78,6 +79,8 @@ public static class PublicApiEndpoints
 
             reachedSequence = result >= expectedSequence;
         }
+
+        reachedSequence.Should().BeTrue();
     }
 
     private static async Task<TResponse> GetResponseFromRequestWithHeader<TResponse>(
