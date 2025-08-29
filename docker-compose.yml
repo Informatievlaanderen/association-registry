@@ -147,7 +147,7 @@ services:
       - vr-net
 
   db:
-    image: postgres:15.0
+    image: postgres:17.6
     container_name: vr_postgres
     restart: always
     environment:
