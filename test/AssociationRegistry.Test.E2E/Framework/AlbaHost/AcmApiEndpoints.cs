@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Acm.Api.WebApi.VerenigingenPerInsz;
 using Alba;
+using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,7 +25,7 @@ public static class AcmApiEndpoints
 
         bool reachedSequence = result >= expectedSequence;
         var counter = 0;
-        while (!reachedSequence && counter < 30)
+        while (!reachedSequence && counter < 200)
         {
             counter++;
             await Task.Delay(500);
@@ -33,5 +34,7 @@ public static class AcmApiEndpoints
 
             reachedSequence = result >= expectedSequence;
         }
+
+        reachedSequence.Should().BeTrue();
     }
 }
