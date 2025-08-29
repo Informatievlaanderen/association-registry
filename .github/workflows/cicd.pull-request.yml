@@ -8,7 +8,7 @@ on:
 
 jobs:
   analyze-code:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout Code
@@ -87,7 +87,7 @@ jobs:
 
   build-sync-lambda:
     if: github.repository_owner == 'Informatievlaanderen'
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     name: Build Sync Lambda
 
     steps:
@@ -126,7 +126,7 @@ jobs:
   run-tests:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Run Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         projects:
@@ -301,7 +301,7 @@ jobs:
   notify:
     if: ${{ always() }}
     name: Notify slack
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     needs: [ run-tests ]
 
