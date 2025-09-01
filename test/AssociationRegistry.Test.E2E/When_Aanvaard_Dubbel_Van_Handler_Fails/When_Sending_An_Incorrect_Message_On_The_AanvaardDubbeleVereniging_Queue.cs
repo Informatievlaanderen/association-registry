@@ -42,7 +42,7 @@ public class Given_Incorrect_VCode_In_The_Message
     /// VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage (onbestaande vCode) -> VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageHandler
     /// VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageHandler -> throws exception -> Message comes on dlq
     /// </summary>
-    [Fact(Skip = "todo unskip")]
+    [Fact]
     public async ValueTask Then_VerwerkWeigeringDubbelDoorAuthentiekeVerenigingHandler_Puts_A_Message_On_The_Dlq()
     {
         using var scope =  _setup.AdminApiHost.Services.CreateScope();
