@@ -52,6 +52,20 @@ services:
     networks:
       - vr-net
 
+  migration-runner:
+    restart: on-failure
+    build:
+      context: src/AssociationRegistry.Migrations.Runner
+      dockerfile: ./Dockerfile
+
+    container_name: vr_migrations_runner
+    environment:
+      MIGRATIONS_CONNECTIONSTRING: "host=db;database=verenigingsregister;password=root;username=root;"
+    depends_on:
+      - db
+    networks:
+      - vr-net
+
   token-fetcher:
     image: curlimages/curl
     command: >

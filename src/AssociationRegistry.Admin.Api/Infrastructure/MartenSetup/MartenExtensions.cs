@@ -40,11 +40,13 @@ public static class MartenExtensions
                                              .RegisterAllEventTypes()
                                              .RegisterDocumentTypes();
 
+                                          opts.RegisterDocumentType<NewTableDocument2>();
+
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                          opts.AutoCreateSchemaObjects = AutoCreate.All;
+                                          opts.AutoCreateSchemaObjects = AutoCreate.None;
 
                                           return opts;
                                       })
@@ -55,8 +57,8 @@ public static class MartenExtensions
                                   })
                                  .UseLightweightSessions();
 
-        if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        // if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
+        //     martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
         services.CritterStackDefaults(x =>
         {
@@ -76,4 +78,10 @@ public static class MartenExtensions
            $"database={postgreSqlOptions.Database};" +
            $"password={postgreSqlOptions.Password};" +
            $"username={postgreSqlOptions.Username};";
+}
+
+public record NewTableDocument2
+{
+    public string Id { get; set; }
+    public string FULLNAME { get; set; }
 }

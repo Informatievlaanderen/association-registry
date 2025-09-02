@@ -11,4 +11,5 @@ public record PostalNutsLauInfo
     public string Nuts3 { get; set; }
     public string Lau { get; set; }
     public string Nuts3Lau => $"{Nuts3}{Lau}";
+    public string SomethingElse { get; set; }
 };

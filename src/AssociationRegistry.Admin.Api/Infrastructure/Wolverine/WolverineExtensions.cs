@@ -71,8 +71,8 @@ public static class WolverineExtensions
 
                 ConfigurePostgresQueues(options, wolverineSchema, builder.Configuration);
 
-                if (grarOptions.Wolverine.AutoProvision)
-                    transportConfiguration.AutoProvision();
+                // if (grarOptions.Wolverine.AutoProvision)
+                //     transportConfiguration.AutoProvision();
 
                 options.UseNewtonsoftForSerialization(settings => settings.ConfigureForVerenigingsregister());
 
@@ -118,7 +118,13 @@ public static class WolverineExtensions
 
         options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
                .ToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
+
+        options.PublishMessage<ProbeerAdresTeMatchenCommand>()
+               .ToPostgresqlQueue("ProbeerAdresQueue");
         options.ListenToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
+
+
+
     }
 
     private static void ConfigureAddressMatchPublisher(WolverineOptions options, string sqsQueueName)

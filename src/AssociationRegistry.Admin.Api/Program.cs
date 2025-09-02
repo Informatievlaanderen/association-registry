@@ -75,6 +75,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Elastic.Clients.Elasticsearch;
 using Infrastructure.Extensions;
+using JasperFx.Resources;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -131,10 +132,10 @@ public class Program
         ConfigureWebHost(builder);
         ConfigureServices(builder);
 
-        builder.Host.ApplyJasperFxExtensions();
-        //builder.Host.UseLamar();
-
         builder.AddWolverine();
+        builder.Host.UseResourceSetupOnStartup();
+        builder.Host.ApplyJasperFxExtensions();
+
         ConfigureHostedServices(builder);
 
         var app = builder.Build();
