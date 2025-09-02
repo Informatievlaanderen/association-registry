@@ -6,7 +6,6 @@ using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using Marten;
 using MartenDb.Setup;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Wolverine.Marten;
 
@@ -14,11 +13,8 @@ public static class MartenExtensions
 {
     private const string WolverineSchemaName = "public";
 
-    public static IServiceCollection AddMarten(
-        this IServiceCollection services,
-        IConfiguration configuration,
-        PostgreSqlOptionsSection postgreSqlOptions,
-        bool isDevelopment)
+    public static IServiceCollection AddMartenV2(
+        this IServiceCollection services)
     {
         var martenConfiguration = services
                                  .AddMarten(
@@ -27,7 +23,7 @@ public static class MartenExtensions
                                           var opts = new StoreOptions();
 
                                           opts
-                                             .UsePostgreSqlOptions(postgreSqlOptions)
+                                             .UsePostgreSqlOptions()
                                              .AddVCodeSequence()
                                              .ConfigureSerialization()
                                              .SetUpOpenTelemetry()
@@ -53,17 +49,30 @@ public static class MartenExtensions
         // if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
         //     martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
-        services.CritterStackDefaults(x =>
-        {
-            x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            //x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
-
-            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            //x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
-            x.Production.SourceCodeWritingEnabled = false;
-        });
+        // services.CritterStackDefaults(x =>
+        // {
+        //     x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+        //     //x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+        //
+        //     x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+        //     //x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+        //     x.Production.SourceCodeWritingEnabled = false;
+        // });
 
         return services;
+    }
+
+    public static StoreOptions UsePostgreSqlOptions(this StoreOptions opts)
+    {
+        opts.Connection("host=127.0.0.1;database=verenigingsregister;password=root;username=root;");
+
+        if (!string.IsNullOrEmpty("public"))
+        {
+            opts.Events.DatabaseSchemaName = "public";
+            opts.DatabaseSchemaName = "public";
+        }
+
+        return opts;
     }
 
     public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions)

@@ -5,6 +5,7 @@ using Marten;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Wolverine;
 
 class Program
 {
@@ -12,23 +13,16 @@ class Program
     {
         // Typical console host setup
         using var host = Host.CreateDefaultBuilder(args)
+                             .UseWolverine(WolverineBootstrap.Configure)
                              .ConfigureServices((context, services) =>
                               {
-                                  var configuration = context.Configuration;
-
-                                  // however you load your PostgreSqlOptionsSection
-                                  var postgresOptions = configuration
-                                                       .GetSection("PostgreSql")
-                                                       .Get<PostgreSqlOptionsSection>()!;
-
                                   // Call your extension method
-                                  services.AddMarten(configuration, postgresOptions, isDevelopment: true);
+                                  services.AddMartenV2();
 
                                   // register any other services you need
                               })
                              .Build();
 
         await host.RunJasperFxCommands(args);
-        await host.StartAsync();
     }
 }
