@@ -140,6 +140,11 @@ public class Program
 
         var app = builder.Build();
 
+        if (ProgramArguments.IsCodeGen(args))
+        {
+            await app.RunJasperFxCommands(args);
+            return;
+        }
 
         app.UseRequestLocalization();
         app.UseSwagger();
@@ -150,13 +155,7 @@ public class Program
             opt.SpecUrl = "/docs/v1/docs.json";
             opt.FooterVersion = Assembly.GetExecutingAssembly().GetVersionText();
         });
-
-        if (ProgramArguments.IsCodeGen(args))
-        {
-            await app.RunJasperFxCommands(args);
-            return;
-        }
-
+        
         var logger = app.Services.GetRequiredService<ILogger<Program>>();
 
         await WaitFor.PostGreSQLToBecomeAvailable(logger, app.Configuration.GetPostgreSqlOptionsSection().GetConnectionString());
