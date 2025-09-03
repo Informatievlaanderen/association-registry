@@ -143,8 +143,6 @@ public static class ConfigureMartenExtensions
 
         opts.RegisterAllEventTypes();
 
-        opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
-
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
