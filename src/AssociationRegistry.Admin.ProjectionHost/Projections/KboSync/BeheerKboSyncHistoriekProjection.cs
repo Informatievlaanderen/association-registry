@@ -11,6 +11,9 @@ public class BeheerKboSyncHistoriekProjection : EventProjection
 {
     public BeheerKboSyncHistoriekProjection()
     {
+        Options.TeardownDataOnRebuild = true;
+        Options.DeleteViewTypeOnTeardown<BeheerKboSyncHistoriekGebeurtenisDocument>();
+
         Project<IEvent<VerenigingWerdIngeschrevenOpWijzigingenUitKbo>>((geregistreerd, operations) =>
         {
             operations.Insert(new BeheerKboSyncHistoriekGebeurtenisDocument(
