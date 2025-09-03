@@ -1,3 +1,11 @@
+## [8.268.1](https://github.com/informatievlaanderen/association-registry/compare/v8.268.0...v8.268.1) (2025-09-03)
+
+
+### Bug Fixes
+
+* or-2903 tear down data on rebuild for kbo projection ([849eb22](https://github.com/informatievlaanderen/association-registry/commit/849eb22ad2675e7a6b68e2a77564ebe732be91a3))
+* or-2914 disable sql logging ([af37f0f](https://github.com/informatievlaanderen/association-registry/commit/af37f0f31110cc50f5e9bedd52796315c44cde12))
+
 # [8.268.0](https://github.com/informatievlaanderen/association-registry/compare/v8.267.3...v8.268.0) (2025-08-29)
 
 
