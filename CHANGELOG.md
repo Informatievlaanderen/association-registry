@@ -1,3 +1,10 @@
+## [8.268.3](https://github.com/informatievlaanderen/association-registry/compare/v8.268.2...v8.268.3) (2025-09-03)
+
+
+### Bug Fixes
+
+* or-2903 set document tracking by id for kbo sync projection ([22d2fe9](https://github.com/informatievlaanderen/association-registry/commit/22d2fe9d90077fbb16fb0c051da1843ed5f4b225))
+
 ## [8.268.2](https://github.com/informatievlaanderen/association-registry/compare/v8.268.1...v8.268.2) (2025-09-03)
 
 
