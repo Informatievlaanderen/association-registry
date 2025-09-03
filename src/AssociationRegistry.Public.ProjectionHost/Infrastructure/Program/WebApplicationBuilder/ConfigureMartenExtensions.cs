@@ -18,6 +18,7 @@ using MartenDb.Setup;
 using MartenDb.Subscriptions;
 using MartenDb.Upcasters;
 using Elastic.Clients.Elasticsearch;
+using MartenDb.Logging;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -41,6 +42,7 @@ public static class ConfigureMartenExtensions
                                          serviceProvider.GetRequiredService<ElasticsearchClient>(),
                                          serviceProvider.GetRequiredService<ILogger<PubliekZoekenEventsConsumer>>(),
                                          serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
+                                         serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
                                          configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
                                                              .Get<PostgreSqlOptionsSection>(),
                                          serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
@@ -70,6 +72,7 @@ public static class ConfigureMartenExtensions
         ElasticsearchClient elasticClient,
         ILogger<PubliekZoekenEventsConsumer> publiekZoekenEventsConsumerLogger,
         ILogger<MartenSubscription> martenSubscriptionLogger,
+        ILogger<SecureMartenLogger> secureMartenLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
         bool isDevelopment,
         ElasticSearchOptionsSection? elasticSearchOptionsSection)
@@ -93,6 +96,8 @@ public static class ConfigureMartenExtensions
         }
 
         opts.SetUpOpenTelemetry(isDevelopment);
+
+        opts.Logger(new SecureMartenLogger(secureMartenLogger));
 
         opts.Events.StreamIdentity = StreamIdentity.AsString;
 

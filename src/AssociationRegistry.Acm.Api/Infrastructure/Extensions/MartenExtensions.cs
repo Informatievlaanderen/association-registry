@@ -6,6 +6,7 @@ using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using Marten;
+using MartenDb.Logging;
 using MartenDb.Setup;
 using Schema.VerenigingenPerInsz;
 
@@ -22,7 +23,9 @@ public static class MartenExtensions
                                       serviceProvider =>
                                       {
                                           var opts = new StoreOptions();
-                                          ConfigureStoreOptions(opts, postgreSqlOptions, serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment());
+                                          ConfigureStoreOptions(opts, postgreSqlOptions,
+                                                                serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
+                                                                serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment());
                                           return opts;
                                       });
 
@@ -44,7 +47,11 @@ public static class MartenExtensions
         return services;
     }
 
-    public static void ConfigureStoreOptions(StoreOptions opts, PostgreSqlOptionsSection postgreSqlOptions, bool isDevelopment)
+    public static void ConfigureStoreOptions(
+        StoreOptions opts,
+        PostgreSqlOptionsSection postgreSqlOptions,
+        ILogger<SecureMartenLogger> secureMartenLogger,
+        bool isDevelopment)
     {
         opts.Connection(postgreSqlOptions.GetConnectionString());
 
@@ -63,6 +70,7 @@ public static class MartenExtensions
         opts.AddPostgresProjections();
 
         opts.SetUpOpenTelemetry(isDevelopment);
+        opts.Logger(new SecureMartenLogger(secureMartenLogger));
 
         opts.Projections.DaemonLockId = 2;
 

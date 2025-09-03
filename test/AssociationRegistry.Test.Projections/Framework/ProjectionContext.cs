@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
+using MartenDb.Logging;
 using Npgsql;
 using Public.ProjectionHost.Infrastructure.Program.WebApplication;
 using Public.ProjectionHost.Projections.Search;
@@ -57,6 +58,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                                                                 NullLogger<BeheerZoekenEventsConsumer>.Instance,
                                                                 NullLogger<DuplicateDetectionEventsConsumer>.Instance,
                                                                 () => NullLogger<MartenSubscription>.Instance,
+                                                                NullLogger<SecureMartenLogger>.Instance,
                                                                 new PostgreSqlOptionsSection()
                                                                 {
                                                                     Host = "localhost",
@@ -87,6 +89,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                    PublicProjectionElasticClient,
                     NullLogger<PubliekZoekenEventsConsumer>.Instance,
                     NullLogger<MartenSubscription>.Instance,
+                    NullLogger<SecureMartenLogger>.Instance,
                     new PostgreSqlOptionsSection()
                     {
                         Host = "localhost",
@@ -117,6 +120,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                         Username = "root",
                         Schema = "admin",
                     },
+                    NullLogger<SecureMartenLogger>.Instance,
                     true);
             });
 

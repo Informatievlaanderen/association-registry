@@ -1,20 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 
-using Adapters.VCodeGeneration;
-using Json;
-using Formats;
 using global::Wolverine.Marten;
 using Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Integrations.Magda.Models;
-using Marten.Services;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using Marten;
+using MartenDb.Logging;
 using MartenDb.Setup;
-using Newtonsoft.Json;
-using static MartenDb.Setup.SetupExtensions;
-using IEvent = Events.IEvent;
 
 public static class MartenExtensions
 {
@@ -40,6 +33,8 @@ public static class MartenExtensions
                                              .RegisterAllEventTypes()
                                              .RegisterDocumentTypes();
 
+                                          opts.Logger(new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>()));
+
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.Events.AppendMode = EventAppendMode.Quick;
@@ -53,6 +48,7 @@ public static class MartenExtensions
                                       integration.TransportSchemaName = WolverineSchemaName;
                                       integration.MessageStorageSchemaName = WolverineSchemaName;
                                   })
+
                                  .UseLightweightSessions();
 
         if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")

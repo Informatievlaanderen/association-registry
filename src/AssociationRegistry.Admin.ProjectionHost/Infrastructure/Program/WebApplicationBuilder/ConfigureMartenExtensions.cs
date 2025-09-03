@@ -17,6 +17,7 @@ using MartenDb.Setup;
 using MartenDb.Subscriptions;
 using MartenDb.Upcasters;
 using Elastic.Clients.Elasticsearch;
+using MartenDb.Logging;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -64,6 +65,7 @@ public static class ConfigureMartenExtensions
                                              serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(),
                                              serviceProvider.GetRequiredService<ILogger<DuplicateDetectionEventsConsumer>>(),
                                              () => serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
+                                             serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
                                              configurationManager
                                                 .GetSection(PostgreSqlOptionsSection.SectionName)
                                                 .Get<PostgreSqlOptionsSection>(),
@@ -94,6 +96,7 @@ public static class ConfigureMartenExtensions
         ILogger<BeheerZoekenEventsConsumer> beheerZoekenEventsConsumerLogger,
         ILogger<DuplicateDetectionEventsConsumer> duplicateDetectionEventsConsumerLogger,
         Func<ILogger<MartenSubscription>> subscriptionLogger,
+        ILogger<SecureMartenLogger> secureMartenLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
         ElasticSearchOptionsSection? elasticSearchOptionsSection)
     {
@@ -126,6 +129,7 @@ public static class ConfigureMartenExtensions
         opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
         opts.OpenTelemetry.TrackEventCounters();
         opts.DisableNpgsqlLogging = !isDevelopment;
+        opts.Logger(new SecureMartenLogger(secureMartenLogger));
 
         opts.Events.StreamIdentity = StreamIdentity.AsString;
 

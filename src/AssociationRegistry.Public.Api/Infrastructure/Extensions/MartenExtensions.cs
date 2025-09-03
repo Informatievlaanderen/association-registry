@@ -6,6 +6,7 @@ using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using Json;
 using Marten;
+using MartenDb.Logging;
 using MartenDb.Setup;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,10 +17,10 @@ public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
-        Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection postgreSqlOptions,
+        PostgreSqlOptionsSection postgreSqlOptions,
         IConfiguration configuration)
     {
-        services.AddMarten(_ =>
+        services.AddMarten(serviceProvider =>
         {
             var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
 
@@ -34,7 +35,7 @@ public static class MartenExtensions
             }
 
             opts.SetUpOpenTelemetry();
-
+            opts.Logger(new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>()));
             opts.Events.StreamIdentity = StreamIdentity.AsString;
 
             opts.Events.MetadataConfig.EnableAll();
