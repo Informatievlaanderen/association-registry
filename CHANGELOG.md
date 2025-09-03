@@ -1,3 +1,10 @@
+## [8.268.4](https://github.com/informatievlaanderen/association-registry/compare/v8.268.3...v8.268.4) (2025-09-03)
+
+
+### Bug Fixes
+
+* or-2913 configure opent telemtry in admin api ([d9b6d5d](https://github.com/informatievlaanderen/association-registry/commit/d9b6d5d0ea562c8ad8af4e59587ea23f482030d5))
+
 ## [8.268.3](https://github.com/informatievlaanderen/association-registry/compare/v8.268.2...v8.268.3) (2025-09-03)
 
 
