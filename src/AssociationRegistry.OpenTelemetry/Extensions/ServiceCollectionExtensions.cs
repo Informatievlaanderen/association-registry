@@ -81,7 +81,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection ConfigureOpenTelemetry<T>(this IHostApplicationBuilder builder, params T[] instrumentations)
         where T : class, IInstrumentation
-        => builder.ConfigureOpenTelemetry(Array.Empty<string>(), instrumentations);
+        => builder.ConfigureOpenTelemetry([], instrumentations);
 
     public static IServiceCollection ConfigureOpenTelemetry<T>(this IHostApplicationBuilder builder, string[] additionalHeaders, params T[] instrumentations)
         where T : class, IInstrumentation

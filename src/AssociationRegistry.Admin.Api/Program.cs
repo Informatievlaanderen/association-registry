@@ -75,6 +75,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Elastic.Clients.Elasticsearch;
 using Infrastructure.Extensions;
+using Infrastructure.Metrics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -611,6 +612,8 @@ public class Program
                .AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddHealthChecks();
+
+        builder.ConfigureOpenTelemetry([], new Instrumentation());
 
         // var connectionStrings = builder.Configuration
         //                                .GetSection("ConnectionStrings")
