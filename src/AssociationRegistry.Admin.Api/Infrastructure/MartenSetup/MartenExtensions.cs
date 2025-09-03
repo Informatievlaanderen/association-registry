@@ -36,7 +36,7 @@ public static class MartenExtensions
                                              .UsePostgreSqlOptions(postgreSqlOptions)
                                              .AddVCodeSequence()
                                              .ConfigureSerialization()
-                                             .SetUpOpenTelemetry()
+                                             .SetUpOpenTelemetry(isDevelopment)
                                              .RegisterAllEventTypes()
                                              .RegisterDocumentTypes();
 

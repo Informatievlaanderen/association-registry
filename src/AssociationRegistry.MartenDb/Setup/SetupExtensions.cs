@@ -51,10 +51,11 @@ public static class SetupExtensions
             settings.Converters.Add(new VCodeJsonConverter());
     }
 
-    public static StoreOptions SetUpOpenTelemetry(this StoreOptions opts)
+    public static StoreOptions SetUpOpenTelemetry(this StoreOptions opts, bool isDevelopment = false)
     {
         opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
         opts.OpenTelemetry.TrackEventCounters();
+        opts.DisableNpgsqlLogging = !isDevelopment;
 
         return opts;
     }

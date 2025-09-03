@@ -6,6 +6,7 @@ using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using Json;
 using Marten;
+using MartenDb.Setup;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Schema.Sequence;
@@ -31,6 +32,8 @@ public static class MartenExtensions
                 opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
                 opts.DatabaseSchemaName = postgreSqlOptions.Schema;
             }
+
+            opts.SetUpOpenTelemetry();
 
             opts.Events.StreamIdentity = StreamIdentity.AsString;
 

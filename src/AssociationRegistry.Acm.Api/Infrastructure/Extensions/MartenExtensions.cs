@@ -62,6 +62,8 @@ public static class MartenExtensions
         opts.Events.MetadataConfig.EnableAll();
         opts.AddPostgresProjections();
 
+        opts.SetUpOpenTelemetry(isDevelopment);
+
         opts.Projections.DaemonLockId = 2;
 
         opts.RegisterDocumentType<VerenigingenPerInszDocument>();

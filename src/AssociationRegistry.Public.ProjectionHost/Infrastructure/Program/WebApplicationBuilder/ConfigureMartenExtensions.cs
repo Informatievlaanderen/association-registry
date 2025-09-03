@@ -92,6 +92,8 @@ public static class ConfigureMartenExtensions
             opts.DatabaseSchemaName = postgreSqlOptions.Schema;
         }
 
+        opts.SetUpOpenTelemetry(isDevelopment);
+
         opts.Events.StreamIdentity = StreamIdentity.AsString;
 
         opts.Projections.DaemonLockId = 3;

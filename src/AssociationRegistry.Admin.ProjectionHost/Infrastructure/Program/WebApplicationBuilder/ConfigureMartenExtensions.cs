@@ -125,6 +125,7 @@ public static class ConfigureMartenExtensions
 
         opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
         opts.OpenTelemetry.TrackEventCounters();
+        opts.DisableNpgsqlLogging = !isDevelopment;
 
         opts.Events.StreamIdentity = StreamIdentity.AsString;
 
