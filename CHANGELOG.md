@@ -1,3 +1,10 @@
+## [8.268.2](https://github.com/informatievlaanderen/association-registry/compare/v8.268.1...v8.268.2) (2025-09-03)
+
+
+### Bug Fixes
+
+* or-2914 use custom logger for marten logging ([f94cf0a](https://github.com/informatievlaanderen/association-registry/commit/f94cf0a8f5edaebf868fb3b673be17dfa8b61bce))
+
 ## [8.268.1](https://github.com/informatievlaanderen/association-registry/compare/v8.268.0...v8.268.1) (2025-09-03)
 
 
