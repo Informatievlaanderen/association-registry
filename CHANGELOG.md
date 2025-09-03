@@ -1,3 +1,10 @@
+## [8.268.5](https://github.com/informatievlaanderen/association-registry/compare/v8.268.4...v8.268.5) (2025-09-03)
+
+
+### Bug Fixes
+
+* or-2903 remove explicit registering kbo sync document ([259c652](https://github.com/informatievlaanderen/association-registry/commit/259c652f11ed7d010810b774b1391b1817667518))
+
 ## [8.268.4](https://github.com/informatievlaanderen/association-registry/compare/v8.268.3...v8.268.4) (2025-09-03)
 
 
