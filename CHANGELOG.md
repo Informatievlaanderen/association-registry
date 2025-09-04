@@ -1,3 +1,10 @@
+## [8.268.7](https://github.com/informatievlaanderen/association-registry/compare/v8.268.6...v8.268.7) (2025-09-04)
+
+
+### Bug Fixes
+
+* or-2903 remove start and stop deamon on rebuilds ([3e34989](https://github.com/informatievlaanderen/association-registry/commit/3e34989950d1df6a677fdf66de2f80a0d9404156))
+
 ## [8.268.6](https://github.com/informatievlaanderen/association-registry/compare/v8.268.5...v8.268.6) (2025-09-04)
 
 
