@@ -4,7 +4,7 @@ using Hosts.Configuration.ConfigurationBindings;
 
 public static class ConfigurationExtensions
 {
-    public static Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection GetValidPostgreSqlOptionsOrThrow(this ConfigurationManager source)
+    public static PostgreSqlOptionsSection GetValidPostgreSqlOptionsOrThrow(this ConfigurationManager source)
     {
         var postgreSqlOptions = source.GetSection(PostgreSqlOptionsSection.SectionName)
                                       .Get<PostgreSqlOptionsSection>();
