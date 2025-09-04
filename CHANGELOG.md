@@ -1,3 +1,10 @@
+## [8.268.6](https://github.com/informatievlaanderen/association-registry/compare/v8.268.5...v8.268.6) (2025-09-04)
+
+
+### Bug Fixes
+
+* or-2903 force build ([53a95f0](https://github.com/informatievlaanderen/association-registry/commit/53a95f0fed6b0ce1624d5adc8c6794c1cf9d9799))
+
 ## [8.268.5](https://github.com/informatievlaanderen/association-registry/compare/v8.268.4...v8.268.5) (2025-09-03)
 
 
