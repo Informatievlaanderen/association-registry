@@ -1,3 +1,10 @@
+## [8.268.8](https://github.com/informatievlaanderen/association-registry/compare/v8.268.7...v8.268.8) (2025-09-04)
+
+
+### Bug Fixes
+
+* or-2903 disable secure marten logger when include error detail ([25c3154](https://github.com/informatievlaanderen/association-registry/commit/25c3154a8f060590e418450293c35d34ca54934b))
+
 ## [8.268.7](https://github.com/informatievlaanderen/association-registry/compare/v8.268.6...v8.268.7) (2025-09-04)
 
 
