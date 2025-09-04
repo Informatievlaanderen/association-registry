@@ -1,11 +1,10 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Rebuild;
 
-using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
-using AssociationRegistry.Admin.ProjectionHost.Projections;
-using AssociationRegistry.Admin.Schema.Search;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration.ConfigurationBindings;
+using Infrastructure.ConfigurationBindings;
+using Infrastructure.ElasticSearch;
+using JasperFx.Events.Projections;
 using Marten;
 
 public static class ProjectionEndpointsExtensions
@@ -130,16 +129,15 @@ public static class ProjectionEndpointsExtensions
         {
             try
             {
-                var shardState = await store.Advanced.AllProjectionProgress(token: CancellationToken.None);
-                var shardName = shardState.Single(s => s.ShardName.Contains(projectionName)).ShardName;
+                var shardName = new ShardName(projectionName);
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
 
-                await projectionDaemon.StopAgentAsync(shardName);
+                await projectionDaemon.StopAgentAsync(shardName.Identity);
                 if (beforeRebuild is not null) await beforeRebuild();
                 await projectionDaemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
                 await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
-                await projectionDaemon.StopAgentAsync(shardName);
-                await projectionDaemon.StartAgentAsync(shardName, CancellationToken.None);
+                await projectionDaemon.StopAgentAsync(shardName.Identity);
+                await projectionDaemon.StartAgentAsync(shardName.Identity, CancellationToken.None);
 
                 logger.LogInformation("Rebuild {ProjectionName} complete", projectionName);
             }
