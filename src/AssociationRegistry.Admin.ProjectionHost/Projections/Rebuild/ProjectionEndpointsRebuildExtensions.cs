@@ -129,15 +129,10 @@ public static class ProjectionEndpointsExtensions
         {
             try
             {
-                var shardName = new ShardName(projectionName);
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
 
-                await projectionDaemon.StopAgentAsync(shardName.Identity);
                 if (beforeRebuild is not null) await beforeRebuild();
                 await projectionDaemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
-                await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
-                await projectionDaemon.StopAgentAsync(shardName.Identity);
-                await projectionDaemon.StartAgentAsync(shardName.Identity, CancellationToken.None);
 
                 logger.LogInformation("Rebuild {ProjectionName} complete", projectionName);
             }
