@@ -7,7 +7,7 @@ using Npgsql;
 
 public class SecureMartenLogger : IMartenLogger, IMartenSessionLogger
 {
-       private readonly ILogger<SecureMartenLogger> _logger;
+    private readonly ILogger<SecureMartenLogger> _logger;
     private readonly bool _includeParameterNames;
 
     public SecureMartenLogger(ILogger<SecureMartenLogger> logger, bool includeParameterNames = false)

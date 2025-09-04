@@ -97,7 +97,8 @@ public static class ConfigureMartenExtensions
 
         opts.SetUpOpenTelemetry(isDevelopment);
 
-        opts.Logger(new SecureMartenLogger(secureMartenLogger));
+        if(!postgreSqlOptions.IncludeErrorDetail)
+            opts.Logger(new SecureMartenLogger(secureMartenLogger));
 
         opts.Events.StreamIdentity = StreamIdentity.AsString;
 

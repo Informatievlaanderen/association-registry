@@ -70,7 +70,9 @@ public static class MartenExtensions
         opts.AddPostgresProjections();
 
         opts.SetUpOpenTelemetry(isDevelopment);
-        opts.Logger(new SecureMartenLogger(secureMartenLogger));
+
+        if(!postgreSqlOptions.IncludeErrorDetail)
+            opts.Logger(new SecureMartenLogger(secureMartenLogger));
 
         opts.Projections.DaemonLockId = 2;
 

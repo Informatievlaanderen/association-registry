@@ -33,7 +33,8 @@ public static class MartenExtensions
                                              .RegisterAllEventTypes()
                                              .RegisterDocumentTypes();
 
-                                          opts.Logger(new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>()));
+                                          if(!postgreSqlOptions.IncludeErrorDetail)
+                                            opts.Logger(new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>()));
 
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Events.MetadataConfig.EnableAll();
