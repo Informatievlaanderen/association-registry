@@ -4,6 +4,9 @@ services:
     build:
       context: migrations/admin.api/
       dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
     container_name: vr_admin_migrations
     environment:
       - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
