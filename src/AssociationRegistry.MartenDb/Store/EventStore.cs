@@ -123,7 +123,7 @@ public class EventStore : Store.IEventStore
     private static void TryLockForKboNumber(string vCode, IDocumentSession session, IEvent? registreerEvent)
     {
         if (registreerEvent is VerenigingMetRechtspersoonlijkheidWerdGeregistreerd evnt)
-            session.Events.StartStream<KboNummer>(evnt.KboNummer, new { VCode = vCode });
+            session.Events.StartStream<KboNummer>(evnt.KboNummer, new KboNummerWerdGereserveerd(vCode));
     }
 
     private static StreamAction AppendEvents(
