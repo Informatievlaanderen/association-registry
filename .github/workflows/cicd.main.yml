@@ -399,7 +399,7 @@ jobs:
       - name: Save Api Image
         if: needs.set-release-version.outputs.version != 'none'
         shell: bash
-        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-adminapi:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-api-image.tar
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-adminapi-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-api-migration-image.tar
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
@@ -408,8 +408,8 @@ jobs:
         if: needs.set-release-version.outputs.version != 'none'
         uses: actions/upload-artifact@v4
         with:
-          name: verenigingsregister-adminapi
-          path: ~/ar-admin-api-image.tar
+          name: verenigingsregister-adminapi-migrations
+          path: ~/ar-admin-api-migration-image.tar
 
   run-powerbi-tests:
     name: PowerBi
