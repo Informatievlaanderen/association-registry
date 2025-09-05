@@ -369,6 +369,48 @@ jobs:
       pre-gen-marten: false
     secrets: inherit
 
+  build-admin-api-migrations:
+    name: Build Admin Api Migrations
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version, run-admin-tests ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build migrations/admin.api/  --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi-migrations:$VERSION
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Api Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-adminapi:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-api-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload Api artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-adminapi
+          path: ~/ar-admin-api-image.tar
+
   run-powerbi-tests:
     name: PowerBi
     uses: ./.github/workflows/shared.run-tests.yml
