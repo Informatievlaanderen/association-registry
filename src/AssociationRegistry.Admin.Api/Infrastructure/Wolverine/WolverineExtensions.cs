@@ -20,6 +20,7 @@ using global::Wolverine.AmazonSqs;
 using global::Wolverine.ErrorHandling;
 using global::Wolverine.Postgresql;
 using Integrations.Grar.Clients;
+using JasperFx;
 using JasperFx.CodeGeneration;
 using MartenDb.Setup;
 using Serilog;
@@ -71,8 +72,8 @@ public static class WolverineExtensions
 
                 ConfigurePostgresQueues(options, wolverineSchema, builder.Configuration);
 
-                if (grarOptions.Wolverine.AutoProvision)
-                    transportConfiguration.AutoProvision();
+                // if (grarOptions.Wolverine.AutoProvision)
+                //     transportConfiguration.AutoProvision();
 
                 options.UseNewtonsoftForSerialization(settings => settings.ConfigureForVerenigingsregister());
 
@@ -115,6 +116,8 @@ public static class WolverineExtensions
         var connectionString = configuration.GetPostgreSqlOptionsSection().GetConnectionString();
 
         options.PersistMessagesWithPostgresql(connectionString, wolverineSchema).EnableMessageTransport();
+
+        options.AutoBuildMessageStorageOnStartup = AutoCreate.None;
 
         options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
                .ToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);

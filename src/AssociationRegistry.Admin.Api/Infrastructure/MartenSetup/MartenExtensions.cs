@@ -6,13 +6,12 @@ using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using Marten;
+using MartenDb;
 using MartenDb.Logging;
 using MartenDb.Setup;
 
 public static class MartenExtensions
 {
-    private const string WolverineSchemaName = "public";
-
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
         IConfigurationRoot configuration,
@@ -39,20 +38,24 @@ public static class MartenExtensions
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                          opts.AutoCreateSchemaObjects = AutoCreate.All;
+                                          opts.AutoCreateSchemaObjects = AutoCreate.None;
 
                                           return opts;
                                       })
                                  .IntegrateWithWolverine(integration =>
                                   {
-                                      integration.TransportSchemaName = WolverineSchemaName;
-                                      integration.MessageStorageSchemaName = WolverineSchemaName;
+                                      integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
+                                      integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
+
+                                      integration.AutoCreate = AutoCreate.None;
                                   })
 
                                  .UseLightweightSessions();
 
-        if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        // if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
+        //     martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+
+        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         services.CritterStackDefaults(x =>
         {

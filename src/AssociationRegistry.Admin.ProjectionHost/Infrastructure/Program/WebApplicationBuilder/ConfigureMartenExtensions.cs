@@ -41,10 +41,22 @@ public static class ConfigureMartenExtensions
     {
         var martenConfiguration = AddMarten(source, configurationManager);
 
+
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(isDevelopment ? DaemonMode.Solo : DaemonMode.HotCold);
 
         //martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+
+        source.CritterStackDefaults(options =>
+        {
+            options.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+            options.Development.ResourceAutoCreate = AutoCreate.None;
+
+            options.Production.GeneratedCodeMode = TypeLoadMode.Static;
+            options.Production.SourceCodeWritingEnabled = false;
+            options.Production.ResourceAutoCreate = AutoCreate.None;
+        });
+
 
         return source;
     }
