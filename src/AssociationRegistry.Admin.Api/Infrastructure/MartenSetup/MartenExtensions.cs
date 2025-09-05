@@ -38,7 +38,7 @@ public static class MartenExtensions
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                          opts.AutoCreateSchemaObjects = AutoCreate.None;
+                                          opts.AutoCreateSchemaObjects = AutoCreate.All;
 
                                           return opts;
                                       })
@@ -47,23 +47,23 @@ public static class MartenExtensions
                                       integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
                                       integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
 
-                                      integration.AutoCreate = AutoCreate.None;
+                                      integration.AutoCreate = AutoCreate.All;
                                   })
 
                                  .UseLightweightSessions();
 
-        // if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
-        //     martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
+            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
-        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
+        // martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            //x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+            // x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            //x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+            // x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
             x.Production.SourceCodeWritingEnabled = false;
         });
 
