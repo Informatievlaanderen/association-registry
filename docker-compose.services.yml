@@ -1,5 +1,18 @@
 services:
 
+  admin-migrations:
+    build:
+      context: migrations/admin.api/
+      dockerfile: Dockerfile
+    container_name: vr_admin_migrations
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    depends_on:
+      - db
+    networks:
+      - vr-net
+
   admin-api:
     restart: on-failure
     build:
@@ -20,6 +33,9 @@ services:
       ElasticClientOptions__EnableDevelopmentLogs: true
 
       PostgreSQLOptions__Host: "db"
+      PostgreSQLOptions__database: "verenigingsregister"
+      PostgreSQLOptions__username: "root"
+      PostgreSQLOptions__password: "root"
 
       COLLECTOR_URL: "http://otel-collector:4317"
 
@@ -43,12 +59,12 @@ services:
       LiveMagdaOptions__RegistreerInschrijvingEndpoint: "http://wiremock:8080/RegistreerInschrijvingDienst-02.01/soap/WebService"
       SuperAdminClientIds: "vloketClient,superAdminClient"
     depends_on:
+      - admin-migrations
       - db
       - elasticsearch
       - acm
       - localstack
       - wiremock
-      - admin-projections
     networks:
       - vr-net
 
@@ -86,6 +102,9 @@ services:
       COLLECTOR_URL: "http://otel-collector:4317"
 
       PostgreSQLOptions__Host: "db"
+      PostgreSQLOptions__database: "verenigingsregister"
+      PostgreSQLOptions__username: "root"
+      PostgreSQLOptions__password: "root"
 
       OAuth2IntrospectionOptions__Authority: "http://acm"
       OAuth2IntrospectionOptions__IntrospectionEndpoint: "http://acm/connect/introspect"
