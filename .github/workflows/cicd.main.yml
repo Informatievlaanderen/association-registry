@@ -547,6 +547,7 @@ jobs:
       build-public-projections,
       build-admin-api,
       build-admin-projections,
+      build-admin-api-migrations,
       build-admin-address-sync,
       build-powerbi-exporthost,
 #      pack-association-registry,
@@ -892,6 +893,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-powerbiexport-image.tar
 
+      - name: Download Admin API Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-adminapi-migrations
+          path: ~/
+
+      - name: Load Admin API Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-admin-api-migration-image.tar
+
       - name: Push docker images to ECR Test
         if: needs.release.outputs.version != 'none'
         shell: bash
@@ -904,6 +915,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adressensync:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-powerbiexport:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi-migrations:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.release.outputs.version }}

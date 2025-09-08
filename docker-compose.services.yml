@@ -62,12 +62,18 @@ services:
       LiveMagdaOptions__RegistreerInschrijvingEndpoint: "http://wiremock:8080/RegistreerInschrijvingDienst-02.01/soap/WebService"
       SuperAdminClientIds: "vloketClient,superAdminClient"
     depends_on:
-      - admin-migrations
-      - db
-      - elasticsearch
-      - acm
-      - localstack
-      - wiremock
+      admin-migrations:
+        condition: service_completed_successfully
+      db:
+        condition: service_started
+      elasticsearch:
+        condition: service_started
+      acm:
+        condition: service_started
+      localstack:
+        condition: service_started
+      wiremock:
+        condition: service_started
     networks:
       - vr-net
 
