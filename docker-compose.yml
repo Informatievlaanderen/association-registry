@@ -153,11 +153,10 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_MULTIPLE_DATABASES: verenigingsregister,fullblowne2e
       # you can drop PGOPTIONS here, and move lock_timeout into the command flags
       # override the entrypoint to pass in both max_connections and lock_timeout
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U root -d verenigingsregister" ]
+      test: [ "CMD-SHELL", "pg_isready -U root -d postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -192,6 +191,7 @@ services:
       - "4317:4317" # OTLP gRPC receiver
     networks:
       - vr-net
+
 
 volumes:
   pg-data:

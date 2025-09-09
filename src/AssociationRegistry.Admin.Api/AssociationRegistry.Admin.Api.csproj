@@ -111,8 +111,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="migrations\scripts\runAfterCreateDatabase\" />
-    <Folder Include="migrations\scripts\up\" />
     <Folder Include="WebApi\" />
   </ItemGroup>
 </Project>

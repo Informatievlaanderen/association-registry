@@ -11,15 +11,16 @@ using Hosts.Configuration.ConfigurationBindings;
 using Marten.Services;
 using Newtonsoft.Json;
 using Serialization;
-using Vereniging;
 
 public static class SetupExtensions
 {
-    public static void UpcastLegacyTombstoneEvents(this StoreOptions source)
+    public static StoreOptions UpcastLegacyTombstoneEvents(this StoreOptions source)
     {
         source.Events.Upcast(
             new TombstoneUpcaster()
         );
+
+        return source;
     }
 
     public static StoreOptions RegisterAllEventTypes(this StoreOptions opts)

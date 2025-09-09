@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using Constants;
-using Events;
-using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -11,12 +9,9 @@ using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Json;
 using Marten;
-using Marten.Services;
-using MartenDb;
 using MartenDb.PubliekZoeken;
 using MartenDb.Setup;
 using MartenDb.Subscriptions;
-using MartenDb.Upcasters;
 using Elastic.Clients.Elasticsearch;
 using MartenDb.Logging;
 using Newtonsoft.Json;
@@ -24,8 +19,6 @@ using Projections;
 using Projections.Detail;
 using Projections.Search;
 using Projections.Sequence;
-using Schema.Detail;
-using Schema.Sequence;
 using PostgreSqlOptionsSection = Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection;
 
 public static class ConfigureMartenExtensions
@@ -57,12 +50,14 @@ public static class ConfigureMartenExtensions
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+            x.Development.ResourceAutoCreate = AutoCreate.None;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+            x.Production.ResourceAutoCreate = AutoCreate.None;
             x.Production.SourceCodeWritingEnabled = false;
         });
 
-        martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         return services;
     }
@@ -133,9 +128,6 @@ public static class ConfigureMartenExtensions
             settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
             settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
         });
-
-        opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
-        opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
 
         return opts;
     }

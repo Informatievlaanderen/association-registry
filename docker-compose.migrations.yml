@@ -1,0 +1,58 @@
+services:
+
+  # Migration service template - reusable configuration
+  migration-template: &migration-base
+    build:
+      context: migrations/admin.api/
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_TYPE=postgresql
+      - GRATE_VERSION=1.0.0
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vr-net
+
+  admin-migrations:
+    <<: *migration-base
+    container_name: vr_admin_migrations
+    profiles: ["admin", "verenigingsregister", "all-migrations"]
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    volumes:
+      - ./test/migrations/createDatabase/general:/db/createDatabase
+      - ./test/migrations/runAfterCreateDatabase:/db/runAfterCreateDatabase
+
+  admin-migrations-e2e:
+    <<: *migration-base
+    container_name: vr_admin_migrations_e2e
+    profiles: ["e2e", "fullblowne2e", "all-migrations"]
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    volumes:
+      - ./test/migrations/createDatabase/e2e:/db/createDatabase
+      - ./test/migrations/runAfterCreateDatabase:/db/runAfterCreateDatabase
+
+  # TODO: Add when migration images are ready
+  # public-migrations:
+  #   <<: *migration-base
+  #   container_name: vr_public_migrations
+  #   profiles: ["public", "all-migrations"]
+  #   build:
+  #     context: migrations/public.projections/
+  #   environment:
+  #     - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
+
+  # acm-migrations:
+  #   <<: *migration-base
+  #   container_name: vr_acm_migrations
+  #   profiles: ["acm", "all-migrations"]
+  #   build:
+  #     context: migrations/acm/
+  #   environment:
+  #     - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
+#
+# Networks are defined in the main docker-compose.yml

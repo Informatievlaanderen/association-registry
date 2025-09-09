@@ -6,6 +6,7 @@ using Elastic.Transport;
 using ElasticSearch;
 using Hosts.Configuration.ConfigurationBindings;
 using Schema;
+using Schema.Setup.Elasticsearch;
 using System.Text;
 
 public static class ElasticSearchExtensions

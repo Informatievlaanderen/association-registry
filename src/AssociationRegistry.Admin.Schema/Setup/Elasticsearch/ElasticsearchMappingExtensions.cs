@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Admin.Schema;
+namespace AssociationRegistry.Admin.Schema.Setup.Elasticsearch;
 
-using Elastic.Clients.Elasticsearch;
 using Search;
+using Elastic.Clients.Elasticsearch;
 
-public static class ElasticSearchMappingExtensions
+public static class ElasticsearchMappingExtensions
 {
     private static ElasticsearchClientSettings MapVerenigingZoekDocument(this ElasticsearchClientSettings settings, string indexName)
     {

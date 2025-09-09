@@ -1,20 +1,16 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
+namespace AssociationRegistry.Admin.Schema.Setup.Marten;
 
-using DecentraalBeheer.Vereniging;
-using Grar.NutsLau;
-using HostedServices.GrarKafkaConsumer.Kafka;
-using Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Integrations.Magda.Models;
-using Marten;
-using Schema.Detail;
-using Schema.Historiek;
-using Schema.KboSync;
-using Schema.PowerBiExport;
-using Vereniging;
+using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Admin.Schema.Historiek;
+using AssociationRegistry.Admin.Schema.KboSync;
+using AssociationRegistry.Admin.Schema.PowerBiExport;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Grar.NutsLau;
+using global::Marten;
 
-public static class RegisteredDocumentTypes
+public static class ProjectionDocumentTypeRegistrations
 {
-    public static StoreOptions RegisterDocumentTypes(this StoreOptions opts)
+    public static StoreOptions RegisterProjectionDocumentTypes(this StoreOptions opts)
     {
         opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
         opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
@@ -36,15 +32,9 @@ public static class RegisteredDocumentTypes
 
         opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
 
-        opts.RegisterDocumentType<AddressKafkaConsumerOffset>();
-
         opts.RegisterDocumentType<PostalNutsLauInfo>();
 
         opts.RegisterDocumentType<VerenigingState>();
-
-        opts.RegisterDocumentType<SettingOverride>();
-
-        opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
 
         return opts;
     }
