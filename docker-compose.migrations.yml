@@ -1,6 +1,4 @@
 services:
-
-  # Migration service template - reusable configuration
   migration-template: &migration-base
     build:
       context: migrations/admin.api/
@@ -35,6 +33,47 @@ services:
     volumes:
       - ./test/migrations/createDatabase/e2e:/db/createDatabase
       - ./test/migrations/runAfterCreateDatabase:/db/runAfterCreateDatabase
+
+#  # Migration service template - reusable configuration
+#  admin-migrations:
+#    build:
+#      context: migrations/admin.api/
+#      dockerfile: Dockerfile
+#      args:
+#        CI_BUILD_NUMBER: "8.2.3"
+#        GIT_HASH: "local-dev"
+#    container_name: vr_admin_migrations
+#    environment:
+#      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
+#      - DATABASE_TYPE=postgresql
+#    volumes:
+#      - ./test/migrations/createDatabase/general:/db/createDatabase
+#      - ./test/migrations/runAfterCreateDatabase:/db/runAfterCreateDatabase
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    networks:
+#      - vr-net
+#
+#  admin-migrations-e2e:
+#    build:
+#      context: migrations/admin.api/
+#      dockerfile: Dockerfile
+#      args:
+#        CI_BUILD_NUMBER: "8.2.3"
+#        GIT_HASH: "local-dev"
+#    container_name: vr_admin_migrations_e2e
+#    environment:
+#      - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
+#      - DATABASE_TYPE=postgresql
+#    volumes:
+#      - ./test/migrations/createDatabase/e2e:/db/createDatabase
+#      - ./test/migrations/runAfterCreateDatabase:/db/runAfterCreateDatabase
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    networks:
+#      - vr-net
 
   # TODO: Add when migration images are ready
   # public-migrations:

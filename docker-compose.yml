@@ -156,7 +156,7 @@ services:
       # you can drop PGOPTIONS here, and move lock_timeout into the command flags
       # override the entrypoint to pass in both max_connections and lock_timeout
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U root -d postgres" ]
+      test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1 -p 5432 -U root -d postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -167,7 +167,7 @@ services:
       - "5432:5432"
     volumes:
       - pg-data:/var/lib/postgresql/data
-      - ./scripts/multipledb:/docker-entrypoint-initdb.d
+      #- ./scripts/multipledb:/docker-entrypoint-initdb.d
     networks:
       - vr-net
 
@@ -192,6 +192,151 @@ services:
     networks:
       - vr-net
 
+  # also creates db as is on test when started the migrations story
+  admin-api-migrations:
+    build:
+      context: migrations/production/admin.api/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_admin_api_migrations
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    volumes:
+      - ./migrations/local/createDatabase/general:/db/createDatabase
+      - ./migrations/local/runAfterCreateDatabase:/db/runAfterCreateDatabase
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vr-net
+
+  admin-projections-migrations:
+    build:
+      context: migrations/production/admin.projections/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_admin_projections_migrations
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    depends_on:
+      admin-api-migrations:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  public-projections-migrations:
+    build:
+      context: migrations/production/public.projections/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_public_projections_migrations
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    depends_on:
+      admin-api-migrations:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  acm-api-migrations:
+    build:
+      context: migrations/production/acm.api/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_acm_api_migrations
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    depends_on:
+      admin-api-migrations:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  # e2e
+  admin-api-migrations-e2e:
+    build:
+      context: migrations/production/admin.api/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_admin_api_migrations-e2e
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    volumes:
+      - ./migrations/local/createDatabase/general:/db/createDatabase
+      - ./migrations/local/runAfterCreateDatabase:/db/runAfterCreateDatabase
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vr-net
+
+  admin-projections-migrations-e2e:
+    build:
+      context: migrations/production/admin.projections/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_admin_projections_migrations-e2e
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    volumes:
+      - ./migrations/local/runAfterCreateDatabase:/db/runAfterCreateDatabase
+    depends_on:
+      admin-api-migrations-e2e:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  public-projections-migrations-e2e:
+    build:
+      context: migrations/production/public.projections/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_public_projections_migrations-e2e
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    depends_on:
+      admin-api-migrations-e2e:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  acm-api-migrations-e2e:
+    build:
+      context: migrations/production/acm.api/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_acm_api_migrations-e2e
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    depends_on:
+      admin-api-migrations-e2e:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
 
 volumes:
   pg-data:
