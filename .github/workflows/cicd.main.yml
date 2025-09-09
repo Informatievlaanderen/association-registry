@@ -389,7 +389,7 @@ jobs:
           if [ "$VERSION" == "none" ]; then
             VERSION="0.0.0"
           fi
-          docker buildx build migrations/admin.api/  --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          docker buildx build migrations/production/admin.api/  --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
           --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi-migrations:$VERSION
 
       - name: Show images
