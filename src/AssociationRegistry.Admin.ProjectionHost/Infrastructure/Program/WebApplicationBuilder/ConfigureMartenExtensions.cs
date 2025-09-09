@@ -28,7 +28,8 @@ using Projections.PowerBiExport;
 using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
-using Schema.KboSync;
+using Schema;
+using Schema.Setup.Marten;
 using System.Configuration;
 using ConfigurationManager = ConfigurationManager;
 
@@ -45,7 +46,7 @@ public static class ConfigureMartenExtensions
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(isDevelopment ? DaemonMode.Solo : DaemonMode.HotCold);
 
-        //martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         source.CritterStackDefaults(options =>
         {
@@ -153,9 +154,9 @@ public static class ConfigureMartenExtensions
 
         opts.Projections.DaemonLockId = 1;
 
-        opts.UpcastLegacyTombstoneEvents();
-
-        opts.RegisterAllEventTypes();
+        opts.UpcastLegacyTombstoneEvents()
+            .RegisterAllEventTypes()
+            .RegisterProjectionDocumentTypes();
 
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
