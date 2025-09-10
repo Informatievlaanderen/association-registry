@@ -190,7 +190,7 @@ jobs:
         if: matrix.projects == 'test/AssociationRegistry.Test.E2E'
         shell: bash
         run: |
-          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=fullblowne2e postgres:15.0
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=golden_master_template postgres:15.0
 
       - name: Create OpenTelemetry config from secret
         run: echo "${{ secrets.OTEL_COLLECTOR_CONFIG }}" > otel-collector-config.yaml

@@ -8,6 +8,7 @@ using AlbaHost;
 using Amazon.SQS;
 using AssociationRegistry.Framework;
 using Common.Clients;
+using Common.Database;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using Grar.NutsLau;
@@ -26,6 +27,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
 using NodaTime;
 using NodaTime.Text;
+using Npgsql;
 using Oakton;
 using Scenarios.Givens.FeitelijkeVereniging;
 using System.Diagnostics;
@@ -54,6 +56,9 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     public async ValueTask InitializeAsync()
     {
         SetUpAdminApiConfiguration();
+
+        // Ensure database exists before starting any hosts
+        await EnsureDatabaseExistsBeforeHostStarts("adminapi");
 
         JasperFxEnvironment.AutoStartHost = true;
 
@@ -106,7 +111,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await using var session = PublicApiHost.DocumentStore().LightweightSession();
 
         // await ExecuteGiven(new RandomEventSequenceScenario());
-         // await ExecuteGiven(new MassiveRandomEventSequenceScenario());
+        // await ExecuteGiven(new MassiveRandomEventSequenceScenario());
 
         await session.SaveChangesAsync();
 
@@ -173,6 +178,71 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
              .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
         };
     }
+    
+    private async Task EnsureDatabaseExistsBeforeHostStarts(string name)
+    {
+        // Only need to ensure DB exists for adminapi (primary host)
+        if (name != "adminapi")
+            return;
+            
+        var configuration = new ConfigurationBuilder()
+                           .AddJsonFile("appsettings.development.json", false)
+                           .AddJsonFile("appsettings.e2e.json", false)
+                           .AddJsonFile($"appsettings.e2e.adminapi.json", false)
+                           .Build();
+
+        var databaseName = configuration["PostgreSQLOptions:database"] ?? configuration["PostgreSQLOptions:Database"];
+        var connectionString = GetConnectionString(configuration, "postgres");
+
+        try
+        {
+            // Check if database exists
+            using var connection = new NpgsqlConnection(connectionString);
+            using var cmd = connection.CreateCommand();
+            
+            connection.Open();
+            cmd.CommandText = $"SELECT 1 FROM pg_database WHERE datname = '{databaseName}'";
+            var exists = cmd.ExecuteScalar() != null;
+            
+            if (!exists)
+            {
+                Console.WriteLine($"Database '{databaseName}' does not exist. Creating from template...");
+                
+                // Check if golden master template is available
+                if (DatabaseTemplateHelper.IsGoldenMasterTemplateAvailable(configuration, NullLogger.Instance))
+                {
+                    DatabaseTemplateHelper.CreateDatabaseFromTemplate(
+                        configuration, 
+                        databaseName!, 
+                        NullLogger.Instance);
+                    Console.WriteLine($"Database '{databaseName}' created successfully from template.");
+                }
+                else
+                {
+                    // Fallback to creating empty database
+                    Console.WriteLine("Golden master template not available. Creating empty database.");
+                    cmd.CommandText = $"CREATE DATABASE \"{databaseName}\"";
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine($"Database '{databaseName}' created successfully.");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Database '{databaseName}' already exists.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error ensuring database exists: {ex.Message}");
+            throw;
+        }
+    }
+    
+    private static string GetConnectionString(IConfiguration configuration, string database)
+        => $"host={configuration["PostgreSQLOptions:host"]};" +
+           $"database={database};" +
+           $"password={configuration["PostgreSQLOptions:password"]};" +
+           $"username={configuration["PostgreSQLOptions:username"]}";
 
     public IConfigurationRoot AdminApiConfiguration { get; set; }
 

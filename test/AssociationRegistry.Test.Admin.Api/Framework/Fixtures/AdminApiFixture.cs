@@ -7,6 +7,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.NutsLau;
+using Common.Database;
 using Common.Framework;
 using Events;
 using EventStore.ConflictResolution;
@@ -66,7 +67,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     protected AdminApiFixture(string?  identifier = "adminapifixture")
     {
-        Environment.SetEnvironmentVariable(WellknownFeatureFlags.TestMode, "true");
+        Environment.SetEnvironmentVariable(WellknownFeatureFlags.TestMode, "false");
 
         _identifier = identifier;
         Configuration = GetConfiguration();
@@ -77,7 +78,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                .GetAwaiter().GetResult();
 
         DropDatabase();
-        EnsureDbExists(Configuration);
+        CreateDatabaseFromTemplate(Configuration);
 
         OaktonEnvironment.AutoStartHost = true;
 
@@ -179,29 +180,13 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         DropDatabase();
     }
 
-    private static void EnsureDbExists(IConfigurationRoot configuration)
+    private void CreateDatabaseFromTemplate(IConfigurationRoot configuration)
     {
         var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
-        using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
-
-        using var cmd = connection.CreateCommand();
-
-        try
-        {
-            connection.Open();
-            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
-            cmd.ExecuteNonQuery();
-        }
-        catch (PostgresException ex)
-        {
-            if (ex.MessageText != $"database \"{postgreSqlOptionsSection.Database.ToLower()}\" already exists")
-                throw;
-        }
-        finally
-        {
-            connection.Close();
-            connection.Dispose();
-        }
+        DatabaseTemplateHelper.CreateDatabaseFromTemplate(
+            configuration, 
+            postgreSqlOptionsSection.Database!, 
+            new NullLogger<AdminApiFixture>());
     }
 
     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)

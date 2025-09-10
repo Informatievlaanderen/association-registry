@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AutoFixture;
 using Common.AutoFixture;
+using Common.Database;
 using Helpers;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
@@ -97,7 +98,7 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
     {
         await WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetConnectionString(_configuration, RootDatabase));
 
-        RecreateDatabase();
+        CreateDatabaseFromTemplate();
 
         await Host.StartAsync();
 
@@ -118,30 +119,12 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
         await Host.StopAsync();
     }
 
-    private void RecreateDatabase()
+    private void CreateDatabaseFromTemplate()
     {
-        using var connection = new NpgsqlConnection(GetConnectionString(_configuration, RootDatabase));
-
-        using var cmd = connection.CreateCommand();
-
-        try
-        {
-            connection.Open();
-            cmd.CommandText += $"DROP DATABASE IF EXISTS \"{_configuration["PostgreSQLOptions:database"]}\" WITH (FORCE);";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText += $"CREATE DATABASE {_postgreSqlOptions.Database} WITH OWNER = {_postgreSqlOptions.Username};";
-            cmd.ExecuteNonQuery();
-        }
-        catch (PostgresException ex)
-        {
-            if (ex.MessageText != $"database \"{_postgreSqlOptions.Database!.ToLower()}\" already exists")
-                throw;
-        }
-        finally
-        {
-            connection.Close();
-            connection.Dispose();
-        }
+        DatabaseTemplateHelper.CreateDatabaseFromTemplate(
+            _configuration, 
+            _postgreSqlOptions.Database!, 
+            new NullLogger<MultiStreamTestFixture>());
     }
 
     private static string GetConnectionString(IConfiguration configurationRoot, string database)

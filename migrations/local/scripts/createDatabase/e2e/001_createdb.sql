@@ -1,11 +1,11 @@
--- Create the fullblowne2e database
--- This database will be used for E2E testing
+-- Create the golden_master_template database
+-- This database will be used as a template for fast test database creation
 -- The schema will be applied from the scripts in runAfterCreateDatabase folder
 -- Drop the database if it exists (with force to disconnect any active connections)
-DROP DATABASE IF EXISTS fullblowne2e WITH (FORCE);
+DROP DATABASE IF EXISTS golden_master_template WITH (FORCE);
 
--- Create the new database
-CREATE DATABASE fullblowne2e
+-- Create the new golden master template database
+CREATE DATABASE golden_master_template
     WITH
     OWNER = root
     ENCODING = 'UTF8'

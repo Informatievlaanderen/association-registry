@@ -5,6 +5,7 @@ using Admin.Api.Infrastructure.WebApi.Security;
 using AssociationRegistry.Framework;
 using Common.Clients;
 using Common.Configuration;
+using Common.Database;
 using Events;
 using EventStore;
 using EventStore.ConflictResolution;
@@ -65,7 +66,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                .GetAwaiter().GetResult();
 
         DropDatabase();
-        EnsureDbExists(GetConfiguration());
+        CreateDatabaseFromTemplate(GetConfiguration());
 
         OaktonEnvironment.AutoStartHost = true;
 
@@ -148,29 +149,13 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         _projectionHostServer.SafeDispose();
     }
 
-    private static void EnsureDbExists(IConfigurationRoot configuration)
+    private static void CreateDatabaseFromTemplate(IConfigurationRoot configuration)
     {
         var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
-        using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
-
-        using var cmd = connection.CreateCommand();
-
-        try
-        {
-            connection.Open();
-            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
-            cmd.ExecuteNonQuery();
-        }
-        catch (PostgresException ex)
-        {
-            if (ex.MessageText != $"database \"{postgreSqlOptionsSection.Database.ToLower()}\" already exists")
-                throw;
-        }
-        finally
-        {
-            connection.Close();
-            connection.Dispose();
-        }
+        DatabaseTemplateHelper.CreateDatabaseFromTemplate(
+            configuration, 
+            postgreSqlOptionsSection.Database!, 
+            new NullLogger<AdminApiFixture>());
     }
 
     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)
