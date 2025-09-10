@@ -213,88 +213,36 @@ services:
 #    networks:
 #      - vr-net
 
-  admin-api-migrations:
+  # Create verenigingsregister database from golden master template (fast)
+  create-verenigingsregister-db:
+    image: postgres:15.0
+    container_name: vr_create_verenigingsregister_db
+    environment:
+      - PGPASSWORD=root
+    command: >
+      sh -c "
+        echo 'Creating verenigingsregister database from golden master template...' &&
+        psql -h db -U root -d postgres -c 'DROP DATABASE IF EXISTS verenigingsregister WITH (FORCE);' &&
+        psql -h db -U root -d postgres -c 'CREATE DATABASE verenigingsregister WITH TEMPLATE golden_master_template;' &&
+        echo 'Successfully created verenigingsregister database from template'
+      "
+    depends_on:
+      acm-api-migrations-golden-master:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  # golden master template creation
+  admin-api-migrations-golden-master:
     build:
       context: migrations/production/admin.api/
       dockerfile: Dockerfile
       args:
         CI_BUILD_NUMBER: "8.2.3"
         GIT_HASH: "local-dev"
-    container_name: vr_admin_api_migrations
+    container_name: vr_admin_api_migrations-golden-master
     environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
-      - DATABASE_TYPE=postgresql
-    volumes:
-      - ./migrations/local/scripts/createDatabase/general:/db/createDatabase
-      - ./migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - vr-net
-
-  admin-projections-migrations:
-    build:
-      context: migrations/production/admin.projections/
-      dockerfile: Dockerfile
-      args:
-        CI_BUILD_NUMBER: "8.2.3"
-        GIT_HASH: "local-dev"
-    container_name: vr_admin_projections_migrations
-    environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
-      - DATABASE_TYPE=postgresql
-    depends_on:
-      admin-api-migrations:
-        condition: service_completed_successfully
-    networks:
-      - vr-net
-
-  public-projections-migrations:
-    build:
-      context: migrations/production/public.projections/
-      dockerfile: Dockerfile
-      args:
-        CI_BUILD_NUMBER: "8.2.3"
-        GIT_HASH: "local-dev"
-    container_name: vr_public_projections_migrations
-    environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
-      - DATABASE_TYPE=postgresql
-    depends_on:
-      admin-api-migrations:
-        condition: service_completed_successfully
-    networks:
-      - vr-net
-
-  acm-api-migrations:
-    build:
-      context: migrations/production/acm.api/
-      dockerfile: Dockerfile
-      args:
-        CI_BUILD_NUMBER: "8.2.3"
-        GIT_HASH: "local-dev"
-    container_name: vr_acm_api_migrations
-    environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
-      - DATABASE_TYPE=postgresql
-    depends_on:
-      admin-api-migrations:
-        condition: service_completed_successfully
-    networks:
-      - vr-net
-
-  # e2e
-  admin-api-migrations-e2e:
-    build:
-      context: migrations/production/admin.api/
-      dockerfile: Dockerfile
-      args:
-        CI_BUILD_NUMBER: "8.2.3"
-        GIT_HASH: "local-dev"
-    container_name: vr_admin_api_migrations-e2e
-    environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
+      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
     volumes:
       - ./migrations/local/scripts/createDatabase/e2e:/db/createDatabase
@@ -305,53 +253,53 @@ services:
     networks:
       - vr-net
 
-  admin-projections-migrations-e2e:
+  admin-projections-migrations-golden-master:
     build:
       context: migrations/production/admin.projections/
       dockerfile: Dockerfile
       args:
         CI_BUILD_NUMBER: "8.2.3"
         GIT_HASH: "local-dev"
-    container_name: vr_admin_projections_migrations-e2e
+    container_name: vr_admin_projections_migrations-golden-master
     environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
+      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
     depends_on:
-      admin-api-migrations-e2e:
+      admin-api-migrations-golden-master:
         condition: service_completed_successfully
     networks:
       - vr-net
 
-  public-projections-migrations-e2e:
+  public-projections-migrations-golden-master:
     build:
       context: migrations/production/public.projections/
       dockerfile: Dockerfile
       args:
         CI_BUILD_NUMBER: "8.2.3"
         GIT_HASH: "local-dev"
-    container_name: vr_public_projections_migrations-e2e
+    container_name: vr_public_projections_migrations-golden-master
     environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
+      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
     depends_on:
-      admin-api-migrations-e2e:
+      admin-api-migrations-golden-master:
         condition: service_completed_successfully
     networks:
       - vr-net
 
-  acm-api-migrations-e2e:
+  acm-api-migrations-golden-master:
     build:
       context: migrations/production/acm.api/
       dockerfile: Dockerfile
       args:
         CI_BUILD_NUMBER: "8.2.3"
         GIT_HASH: "local-dev"
-    container_name: vr_acm_api_migrations-e2e
+    container_name: vr_acm_api_migrations-golden-master
     environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
+      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
     depends_on:
-      admin-api-migrations-e2e:
+      admin-api-migrations-golden-master:
         condition: service_completed_successfully
     networks:
       - vr-net
