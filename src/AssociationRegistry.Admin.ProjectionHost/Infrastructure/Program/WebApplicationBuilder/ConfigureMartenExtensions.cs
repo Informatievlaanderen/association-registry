@@ -17,6 +17,7 @@ using MartenDb.Setup;
 using MartenDb.Subscriptions;
 using MartenDb.Upcasters;
 using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration;
 using MartenDb.Logging;
 using Newtonsoft.Json;
 using Projections;
@@ -46,16 +47,26 @@ public static class ConfigureMartenExtensions
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(isDevelopment ? DaemonMode.Solo : DaemonMode.HotCold);
 
-        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
+        if(FeatureFlags.IsTestingMode())
+            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        else
+            martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
+
 
         source.CritterStackDefaults(options =>
         {
             options.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            options.Development.ResourceAutoCreate = AutoCreate.None;
+            options.Development.ResourceAutoCreate =
+                FeatureFlags.IsTestingMode()
+                    ? AutoCreate.CreateOrUpdate
+                    : AutoCreate.None;
 
             options.Production.GeneratedCodeMode = TypeLoadMode.Static;
+            options.Production.ResourceAutoCreate =
+                FeatureFlags.IsTestingMode()
+                    ? AutoCreate.CreateOrUpdate
+                    : AutoCreate.None;
             options.Production.SourceCodeWritingEnabled = false;
-            options.Production.ResourceAutoCreate = AutoCreate.None;
         });
 
 
@@ -86,16 +97,6 @@ public static class ConfigureMartenExtensions
                                                 .GetSection(ElasticSearchOptionsSection.SectionName)
                                                 .Get<ElasticSearchOptionsSection>());
             });
-
-        services.CritterStackDefaults(x =>
-        {
-            x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate = AutoCreate.None;
-
-            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.SourceCodeWritingEnabled = false;
-            x.Production.ResourceAutoCreate = AutoCreate.None;
-        });
 
         return martenConfigurationExpression;
     }

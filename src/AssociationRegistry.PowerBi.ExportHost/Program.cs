@@ -17,6 +17,7 @@ using NodaTime;
 using Serilog;
 using Serilog.Debugging;
 using Writers;
+using Environment = System.Environment;
 
 public static class Program
 {

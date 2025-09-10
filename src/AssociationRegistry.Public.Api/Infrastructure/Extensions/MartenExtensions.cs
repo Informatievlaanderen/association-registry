@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
 using Constants;
+using Hosts.Configuration;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
@@ -19,7 +20,7 @@ public static class MartenExtensions
         PostgreSqlOptionsSection postgreSqlOptions,
         IConfiguration configuration)
     {
-        services.AddMarten(serviceProvider =>
+        var martenConfiguration = services.AddMarten(serviceProvider =>
                  {
                      var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
 
@@ -49,16 +50,27 @@ public static class MartenExtensions
                      });
 
                      return opts;
-                 }).UseLightweightSessions()
-                .AssertDatabaseMatchesConfigurationOnStartup();
+                 }).UseLightweightSessions();
+
+
+        if(FeatureFlags.IsTestingMode())
+            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        else
+            martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate = AutoCreate.None;
+            x.Development.ResourceAutoCreate =
+                FeatureFlags.IsTestingMode()
+                    ? AutoCreate.CreateOrUpdate
+                    : AutoCreate.None;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate = AutoCreate.None;
+            x.Production.ResourceAutoCreate =
+                FeatureFlags.IsTestingMode()
+                    ? AutoCreate.CreateOrUpdate
+                    : AutoCreate.None;
             x.Production.SourceCodeWritingEnabled = false;
         });
 

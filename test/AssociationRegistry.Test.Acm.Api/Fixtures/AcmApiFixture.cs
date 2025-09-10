@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
 using AssociationRegistry.Acm.Api;
-using AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Common.Fixtures;
@@ -9,6 +8,7 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore.ConflictResolution;
 using Framework.Helpers;
+using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
@@ -25,6 +25,7 @@ using Polly;
 using System.Reflection;
 using Vereniging;
 using Xunit;
+using ConfigurationExtensions = AssociationRegistry.Acm.Api.Infrastructure.Extensions.ConfigurationExtensions;
 
 public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 {
@@ -49,6 +50,8 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 
     protected AcmApiFixture()
     {
+        Environment.SetEnvironmentVariable(WellknownFeatureFlags.TestMode, "true");
+
         WaitFor.PostGreSQLToBecomeAvailable(
                     new NullLogger<AcmApiFixture>(),
                     GetConnectionString(GetConfiguration(), RootDatabase))
@@ -58,7 +61,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 
         WaitFor.PostGreSQLToBecomeAvailable(
                     new NullLogger<AcmApiFixture>(),
-                    GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
+                    GetConnectionString(GetConfiguration(), ConfigurationExtensions.GetPostgreSqlOptionsSection(GetConfiguration()).Database!))
                .GetAwaiter().GetResult();
 
         OaktonEnvironment.AutoStartHost = true;
@@ -117,7 +120,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 
     private void EnsureDbExists(IConfigurationRoot configuration)
     {
-        var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
+        var postgreSqlOptionsSection = ConfigurationExtensions.GetPostgreSqlOptionsSection(configuration);
         using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
 
         using var cmd = connection.CreateCommand();

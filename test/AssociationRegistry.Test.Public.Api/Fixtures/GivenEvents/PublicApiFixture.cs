@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration;
 using NodaTime;
 using Npgsql;
 using Oakton;
@@ -56,6 +57,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     public PublicApiFixture()
     {
+        Environment.SetEnvironmentVariable(WellknownFeatureFlags.TestMode, "true");
+
         WaitFor.PostGreSQLToBecomeAvailable(
                     new NullLogger<PublicApiFixture>(),
                     GetConnectionString(GetConfiguration(), RootDatabase))
