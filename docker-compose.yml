@@ -193,6 +193,26 @@ services:
       - vr-net
 
   # also creates db as is on test when started the migrations story
+#  init-migrations:
+#    build:
+#      context: migrations/local
+#      dockerfile: Dockerfile
+#      args:
+#        CI_BUILD_NUMBER: "8.2.3"
+#        GIT_HASH: "local-dev"
+#    container_name: vr_initial_migrations
+#    environment:
+#      - APP_CONNSTRING=Host=db;Port=5432;Database=postgres;Username=root;Password=root;
+#      - DATABASE_TYPE=postgresql
+#    volumes:
+#      - ./migrations/local/scripts/createDatabase/general:/db/createDatabase
+#      - ./migrations/local/scripts/runAfterCreateDatabase/general:/db/runAfterCreateDatabase
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    networks:
+#      - vr-net
+
   admin-api-migrations:
     build:
       context: migrations/production/admin.api/
@@ -205,8 +225,8 @@ services:
       - APP_CONNSTRING=Host=db;Port=5432;Database=verenigingsregister;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
     volumes:
-      - ./migrations/local/createDatabase/general:/db/createDatabase
-      - ./migrations/local/runAfterCreateDatabase:/db/runAfterCreateDatabase
+      - ./migrations/local/scripts/createDatabase/general:/db/createDatabase
+      - ./migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase
     depends_on:
       db:
         condition: service_healthy
@@ -277,8 +297,8 @@ services:
       - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
     volumes:
-      - ./migrations/local/createDatabase/general:/db/createDatabase
-      - ./migrations/local/runAfterCreateDatabase:/db/runAfterCreateDatabase
+      - ./migrations/local/scripts/createDatabase/e2e:/db/createDatabase
+      - ./migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase
     depends_on:
       db:
         condition: service_healthy
@@ -296,8 +316,6 @@ services:
     environment:
       - APP_CONNSTRING=Host=db;Port=5432;Database=fullblowne2e;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
-    volumes:
-      - ./migrations/local/runAfterCreateDatabase:/db/runAfterCreateDatabase
     depends_on:
       admin-api-migrations-e2e:
         condition: service_completed_successfully
