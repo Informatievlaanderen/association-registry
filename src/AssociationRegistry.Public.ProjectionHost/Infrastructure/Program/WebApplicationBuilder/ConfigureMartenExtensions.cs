@@ -13,6 +13,7 @@ using MartenDb.PubliekZoeken;
 using MartenDb.Setup;
 using MartenDb.Subscriptions;
 using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration;
 using MartenDb.Logging;
 using Newtonsoft.Json;
 using Projections;
@@ -47,17 +48,26 @@ public static class ConfigureMartenExtensions
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
 
+        if(FeatureFlags.IsTestingMode())
+            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        else
+            martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
+
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate = AutoCreate.None;
+            x.Development.ResourceAutoCreate =
+                FeatureFlags.IsTestingMode()
+                    ? AutoCreate.All
+                    : AutoCreate.None;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate = AutoCreate.None;
+            x.Production.ResourceAutoCreate =
+                FeatureFlags.IsTestingMode()
+                    ? AutoCreate.All
+                    : AutoCreate.None;
             x.Production.SourceCodeWritingEnabled = false;
         });
-
-        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         return services;
     }

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 
 using global::Wolverine.Marten;
+using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -40,7 +41,10 @@ public static class MartenExtensions
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                          opts.AutoCreateSchemaObjects = AutoCreate.None;
+                                          opts.AutoCreateSchemaObjects =
+                                              FeatureFlags.IsTestingMode()
+                                                  ? AutoCreate.All
+                                                  : AutoCreate.None;
 
                                           return opts;
                                       })
@@ -49,20 +53,32 @@ public static class MartenExtensions
                                       integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
                                       integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
 
-                                      integration.AutoCreate = AutoCreate.None;
+                                      integration.AutoCreate =
+                                          FeatureFlags.IsTestingMode()
+                                              ? AutoCreate.All
+                                              : AutoCreate.None;
                                   })
 
                                  .UseLightweightSessions();
 
-        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
+        if(FeatureFlags.IsTestingMode())
+            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        else
+            martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate = AutoCreate.None;
+            x.Development.ResourceAutoCreate =
+                FeatureFlags.IsTestingMode()
+                    ? AutoCreate.All
+                    : AutoCreate.None;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate = AutoCreate.None;
+            x.Production.ResourceAutoCreate =
+                FeatureFlags.IsTestingMode()
+                    ? AutoCreate.All
+                    : AutoCreate.None;
             x.Production.SourceCodeWritingEnabled = false;
         });
 

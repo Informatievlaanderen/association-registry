@@ -66,6 +66,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     protected AdminApiFixture(string?  identifier = "adminapifixture")
     {
+        Environment.SetEnvironmentVariable(WellknownFeatureFlags.TestMode, "true");
+
         _identifier = identifier;
         Configuration = GetConfiguration();
 
