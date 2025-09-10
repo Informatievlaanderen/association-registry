@@ -181,13 +181,13 @@ jobs:
           docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
 
       - name: Run db container
-        if: matrix.projects != 'test/AssociationRegistry.Test.E2E'
+        if: matrix.projects != 'test/AssociationRegistry.Test.E2E' && matrix.projects != 'test/AssociationRegistry.Test.Projections' && matrix.projects != 'test/AssociationRegistry.Test.Admin.Api' && matrix.projects != 'test/AssociationRegistry.Test.Acm.Api' && matrix.projects != 'test/AssociationRegistry.Test.Public.Api'
         shell: bash
         run: |
           docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
 
-      - name: Run e2e db container
-        if: matrix.projects == 'test/AssociationRegistry.Test.E2E'
+      - name: Run template db container
+        if: matrix.projects == 'test/AssociationRegistry.Test.E2E' || matrix.projects == 'test/AssociationRegistry.Test.Projections' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.Acm.Api' || matrix.projects == 'test/AssociationRegistry.Test.Public.Api'
         shell: bash
         run: |
           docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=golden_master_template postgres:15.0
@@ -238,6 +238,58 @@ jobs:
         shell: bash
         run: |
           timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
+
+      - name: Setup golden master template
+        shell: bash
+        if: matrix.projects == 'test/AssociationRegistry.Test.E2E' || matrix.projects == 'test/AssociationRegistry.Test.Projections'
+        run: |
+          echo "Setting up golden master template with full migrations..."
+          
+          # Build and run admin API migrations (creates golden_master_template + schema)
+          docker build migrations/production/admin.api/ \
+            --build-arg CI_BUILD_NUMBER=ci-build \
+            --build-arg GIT_HASH=${{ github.sha }} \
+            -t admin-api-migrations-ci
+          
+          docker run --rm --network host \
+            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e DATABASE_TYPE=postgresql \
+            -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
+            -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
+            admin-api-migrations-ci
+          
+          # Run other migrations on the template
+          docker build migrations/production/admin.projections/ \
+            --build-arg CI_BUILD_NUMBER=ci-build \
+            --build-arg GIT_HASH=${{ github.sha }} \
+            -t admin-projections-migrations-ci
+          
+          docker run --rm --network host \
+            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e DATABASE_TYPE=postgresql \
+            admin-projections-migrations-ci
+          
+          docker build migrations/production/public.projections/ \
+            --build-arg CI_BUILD_NUMBER=ci-build \
+            --build-arg GIT_HASH=${{ github.sha }} \
+            -t public-projections-migrations-ci
+          
+          docker run --rm --network host \
+            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e DATABASE_TYPE=postgresql \
+            public-projections-migrations-ci
+          
+          docker build migrations/production/acm.api/ \
+            --build-arg CI_BUILD_NUMBER=ci-build \
+            --build-arg GIT_HASH=${{ github.sha }} \
+            -t acm-api-migrations-ci
+          
+          docker run --rm --network host \
+            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e DATABASE_TYPE=postgresql \
+            acm-api-migrations-ci
+          
+          echo "Golden master template setup complete!"
 
       - name: Run all tests
         env:
