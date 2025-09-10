@@ -163,6 +163,7 @@ jobs:
       run-docker-localstack: false
       run-docker-otelcollector: false
       pre-gen-marten: true
+      db-name: golden_master_template
     secrets: inherit
 
   build-acm-api:
@@ -196,7 +197,7 @@ jobs:
       run-docker-elasticsearch: true
       run-docker-localstack: false
       run-docker-otelcollector: true
-      db-name: verenigingsregister
+      db-name: golden_master_template
     secrets: inherit
 
   build-public-api:
@@ -249,7 +250,7 @@ jobs:
       run-docker-elasticsearch: true
       run-docker-localstack: true
       run-docker-otelcollector: true
-      db-name: verenigingsregister
+      db-name: golden_master_template
     secrets: inherit
 
   build-admin-api:
