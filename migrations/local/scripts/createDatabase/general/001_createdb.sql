@@ -7,7 +7,7 @@ DROP DATABASE IF EXISTS verenigingsregister WITH (FORCE);
 
 -- Create the new database
 CREATE DATABASE verenigingsregister
-    WITH 
+    WITH
     OWNER = root
     ENCODING = 'UTF8'
     LC_COLLATE = 'en_US.utf8'
