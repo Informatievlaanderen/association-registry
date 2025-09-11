@@ -247,10 +247,6 @@ jobs:
           
           # First create the base schema using grate with local migration scripts
           docker run --rm --network host \
-            -e GRATE_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
-            -e GRATE_VERSION="0.0.0" \
-            -e GRATE_TRANSACTION=Transaction \
-            -e GRATE_SILENT=false \
             -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
             -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
             erikbra/grate:1.8.0 \
