@@ -206,7 +206,7 @@ services:
       - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
     volumes:
-      - ./migrations/local/scripts/createDatabase/e2e:/db/createDatabase
+      - ./migrations/local/scripts/createDatabase:/db/createDatabase
       - ./migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase
     depends_on:
       db:

@@ -246,18 +246,15 @@ jobs:
           echo "Setting up golden master template with full migrations..."
 
           # First: Build and run local migrations to create base schema (like docker-compose)
-          cd migrations/local && docker build . \
-            --build-arg CI_BUILD_NUMBER=0.0.0 \
-            --build-arg GIT_HASH=local-dev \
-            -t local-migrations-ci && cd ../..
+          cd migrations/local && docker build .             --build-arg CI_BUILD_NUMBER=0.0.0 \
+          --build-arg GIT_HASH=local-dev \
+          -t local-migrations-ci && cd ../..
 
           docker run --rm --network host \
-            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=postgres;Username=root;Password=root;" \
-            -e DATABASE_TYPE=postgresql \
-            -e GRATE_VERSION=0.0.0 \
-            -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
-            -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
-            local-migrations-ci
+          -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+          -e DATABASE_TYPE=postgresql \
+          -e GRATE_VERSION=0.0.0 \
+          local-migrations-ci
 
           # Second: Build and run admin API migrations (no volumes needed)
           cd migrations/production/admin.api && docker build . \
