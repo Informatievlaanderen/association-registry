@@ -52,25 +52,15 @@ public static class MartenExtensions
                      return opts;
                  }).UseLightweightSessions();
 
-
-        if(FeatureFlags.IsTestingMode())
-            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
-        else
-            martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
+        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate =
-                FeatureFlags.IsTestingMode()
-                    ? AutoCreate.CreateOrUpdate
-                    : AutoCreate.None;
+            x.Development.ResourceAutoCreate = AutoCreate.None;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate =
-                FeatureFlags.IsTestingMode()
-                    ? AutoCreate.CreateOrUpdate
-                    : AutoCreate.None;
+            x.Production.ResourceAutoCreate = AutoCreate.None;
             x.Production.SourceCodeWritingEnabled = false;
         });
 

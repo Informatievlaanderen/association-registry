@@ -42,10 +42,7 @@ public static class MartenExtensions
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                          opts.AutoCreateSchemaObjects =
-                                              FeatureFlags.IsTestingMode()
-                                                  ? AutoCreate.All
-                                                  : AutoCreate.None;
+                                          opts.AutoCreateSchemaObjects = AutoCreate.None;
 
                                           return opts;
                                       })
@@ -54,32 +51,20 @@ public static class MartenExtensions
                                       integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
                                       integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
 
-                                      integration.AutoCreate =
-                                          FeatureFlags.IsTestingMode()
-                                              ? AutoCreate.All
-                                              : AutoCreate.None;
+                                      integration.AutoCreate = AutoCreate.None;
                                   })
 
                                  .UseLightweightSessions();
 
-        if(FeatureFlags.IsTestingMode())
-            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
-        else
-            martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
+        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate =
-                FeatureFlags.IsTestingMode()
-                    ? AutoCreate.All
-                    : AutoCreate.None;
+            x.Development.ResourceAutoCreate = AutoCreate.None;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate =
-                FeatureFlags.IsTestingMode()
-                    ? AutoCreate.All
-                    : AutoCreate.None;
+            x.Production.ResourceAutoCreate = AutoCreate.None;
             x.Production.SourceCodeWritingEnabled = false;
         });
 

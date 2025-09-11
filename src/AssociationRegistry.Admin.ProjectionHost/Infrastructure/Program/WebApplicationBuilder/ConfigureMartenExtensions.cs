@@ -47,25 +47,15 @@ public static class ConfigureMartenExtensions
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(isDevelopment ? DaemonMode.Solo : DaemonMode.HotCold);
 
-        if(FeatureFlags.IsTestingMode())
-            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
-        else
-            martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
-
+        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         source.CritterStackDefaults(options =>
         {
             options.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            options.Development.ResourceAutoCreate =
-                FeatureFlags.IsTestingMode()
-                    ? AutoCreate.CreateOrUpdate
-                    : AutoCreate.None;
+            options.Development.ResourceAutoCreate = AutoCreate.None;
 
             options.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            options.Production.ResourceAutoCreate =
-                FeatureFlags.IsTestingMode()
-                    ? AutoCreate.CreateOrUpdate
-                    : AutoCreate.None;
+            options.Production.ResourceAutoCreate = AutoCreate.None;
             options.Production.SourceCodeWritingEnabled = false;
         });
 
