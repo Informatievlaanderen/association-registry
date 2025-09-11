@@ -1,3 +1,10 @@
+# [8.272.0](https://github.com/informatievlaanderen/association-registry/compare/v8.271.0...v8.272.0) (2025-09-11)
+
+
+### Features
+
+* or-2876 upload missing artefact ([f7bb93b](https://github.com/informatievlaanderen/association-registry/commit/f7bb93ba34c755f5c581551e84bd7035045aca69))
+
 # [8.271.0](https://github.com/informatievlaanderen/association-registry/compare/v8.270.0...v8.271.0) (2025-09-11)
 
 
