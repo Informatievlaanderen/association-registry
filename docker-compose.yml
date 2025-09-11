@@ -192,45 +192,6 @@ services:
     networks:
       - vr-net
 
-  # also creates db as is on test when started the migrations story
-#  init-migrations:
-#    build:
-#      context: migrations/local
-#      dockerfile: Dockerfile
-#      args:
-#        CI_BUILD_NUMBER: "8.2.3"
-#        GIT_HASH: "local-dev"
-#    container_name: vr_initial_migrations
-#    environment:
-#      - APP_CONNSTRING=Host=db;Port=5432;Database=postgres;Username=root;Password=root;
-#      - DATABASE_TYPE=postgresql
-#    volumes:
-#      - ./migrations/local/scripts/createDatabase/general:/db/createDatabase
-#      - ./migrations/local/scripts/runAfterCreateDatabase/general:/db/runAfterCreateDatabase
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#    networks:
-#      - vr-net
-
-  # Create verenigingsregister database from golden master template (fast)
-  create-verenigingsregister-db:
-    image: postgres:15.0
-    container_name: vr_create_verenigingsregister_db
-    environment:
-      - PGPASSWORD=root
-    command: >
-      sh -c "
-        echo 'Creating verenigingsregister database from golden master template...' &&
-        psql -h db -U root -d postgres -c 'DROP DATABASE IF EXISTS verenigingsregister WITH (FORCE);' &&
-        psql -h db -U root -d postgres -c 'CREATE DATABASE verenigingsregister WITH TEMPLATE golden_master_template;' &&
-        echo 'Successfully created verenigingsregister database from template'
-      "
-    depends_on:
-      acm-api-migrations-golden-master:
-        condition: service_completed_successfully
-    networks:
-      - vr-net
 
   # golden master template creation
   admin-api-migrations-golden-master:
@@ -300,6 +261,25 @@ services:
       - DATABASE_TYPE=postgresql
     depends_on:
       admin-api-migrations-golden-master:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  # Create the verenigingsregister database from the golden master template
+  create-verenigingsregister-db:
+    image: postgres:15.0
+    container_name: vr_create_verenigingsregister_db
+    environment:
+      - PGPASSWORD=root
+    command: >
+      sh -c "
+        echo 'Creating verenigingsregister database from golden master template...' &&
+        psql -h db -U root -d postgres -c 'DROP DATABASE IF EXISTS verenigingsregister WITH (FORCE);' &&
+        psql -h db -U root -d postgres -c 'CREATE DATABASE verenigingsregister WITH TEMPLATE golden_master_template;' &&
+        echo 'Successfully created verenigingsregister database from template'
+      "
+    depends_on:
+      acm-api-migrations-golden-master:
         condition: service_completed_successfully
     networks:
       - vr-net
