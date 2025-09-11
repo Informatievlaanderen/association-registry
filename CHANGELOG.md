@@ -1,3 +1,10 @@
+# [8.271.0](https://github.com/informatievlaanderen/association-registry/compare/v8.270.0...v8.271.0) (2025-09-11)
+
+
+### Features
+
+* or-2876 download and load all migration images ([1ccb354](https://github.com/informatievlaanderen/association-registry/commit/1ccb3540f543e43bcd6858a4508b0fde98fbbc0f))
+
 # [8.270.0](https://github.com/informatievlaanderen/association-registry/compare/v8.269.0...v8.270.0) (2025-09-11)
 
 
