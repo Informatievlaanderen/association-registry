@@ -412,6 +412,132 @@ jobs:
           name: verenigingsregister-adminapi-migrations
           path: ~/ar-admin-api-migration-image.tar
 
+  build-admin-projections-migrations:
+    name: Build Admin Projections Migrations
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version, run-admin-tests ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build migrations/production/admin.projections/  --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminprojections-migrations:$VERSION
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Api Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-adminprojections-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-proj-migration-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload Admin Projections artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-projections-migrations
+          path: ~/ar-admin-proj-migration-image.tar
+
+  build-acm-api-migrations:
+    name: Build Acm Api Migrations
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version, run-acm-tests ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build migrations/production/acm.api/  --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-acmapi-migrations:$VERSION
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Api Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-acmapi-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-acm-api-migration-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload Api artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-acmapi-migrations
+          path: ~/ar-acm-api-migration-image.tar
+
+  build-public-projections-migrations:
+    name: Build Public Projections Migrations
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version, run-public-tests ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build migrations/production/public.projections/  --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-publicprojections-migrations:$VERSION
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Api Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-publicprojections-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-public-proj-migration-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload Api artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-publicprojections-migrations
+          path: ~/ar-public-proj-migration-image.tar
+
   run-powerbi-tests:
     name: PowerBi
     uses: ./.github/workflows/shared.run-tests.yml
@@ -904,6 +1030,24 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-admin-api-migration-image.tar
 
+      - name: Load Admin Projections Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-admin-proj-migration-image.tar
+
+      - name: Load Admin API Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-admin-api-migration-image.tar
+
+
+      - name: Load Acm API Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-acm-api-migration-image.tar
+
+
+      - name: Load Public Projections Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-public-proj-migration-image.tar
+
       - name: Push docker images to ECR Test
         if: needs.release.outputs.version != 'none'
         shell: bash
@@ -917,6 +1061,9 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adressensync:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-powerbiexport:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi-migrations:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections-migrations:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi-migrations:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections-migrations:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.release.outputs.version }}
