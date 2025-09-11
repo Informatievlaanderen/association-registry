@@ -198,7 +198,7 @@ services:
 #      context: migrations/local
 #      dockerfile: Dockerfile
 #      args:
-#        CI_BUILD_NUMBER: "8.2.3"
+#        CI_BUILD_NUMBER: "0.0.1"
 #        GIT_HASH: "local-dev"
 #    container_name: vr_initial_migrations
 #    environment:
@@ -213,34 +213,17 @@ services:
 #    networks:
 #      - vr-net
 
-  # Create verenigingsregister database from golden master template (fast)
-  create-verenigingsregister-db:
-    image: postgres:15.0
-    container_name: vr_create_verenigingsregister_db
-    environment:
-      - PGPASSWORD=root
-    command: >
-      sh -c "
-        echo 'Creating verenigingsregister database from golden master template...' &&
-        psql -h db -U root -d postgres -c 'DROP DATABASE IF EXISTS verenigingsregister WITH (FORCE);' &&
-        psql -h db -U root -d postgres -c 'CREATE DATABASE verenigingsregister WITH TEMPLATE golden_master_template;' &&
-        echo 'Successfully created verenigingsregister database from template'
-      "
-    depends_on:
-      acm-api-migrations-golden-master:
-        condition: service_completed_successfully
-    networks:
-      - vr-net
 
   # golden master template creation
-  admin-api-migrations-golden-master:
+  # First create the base schema
+  golden-master-schema:
     build:
-      context: migrations/production/admin.api/
+      context: migrations/local/
       dockerfile: Dockerfile
       args:
-        CI_BUILD_NUMBER: "8.2.3"
+        CI_BUILD_NUMBER: "0.0.1"
         GIT_HASH: "local-dev"
-    container_name: vr_admin_api_migrations-golden-master
+    container_name: vr_golden_master_schema
     environment:
       - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
@@ -253,17 +236,38 @@ services:
     networks:
       - vr-net
 
+  admin-api-migrations-golden-master:
+    build:
+      context: migrations/production/admin.api/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "0.0.1"
+        GIT_HASH: "local-dev"
+    container_name: vr_admin_api_migrations-golden-master
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    volumes:
+      - ./migrations/production/admin.api/scripts/up:/db/up
+    depends_on:
+      golden-master-schema:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
   admin-projections-migrations-golden-master:
     build:
       context: migrations/production/admin.projections/
       dockerfile: Dockerfile
       args:
-        CI_BUILD_NUMBER: "8.2.3"
+        CI_BUILD_NUMBER: "0.0.1"
         GIT_HASH: "local-dev"
     container_name: vr_admin_projections_migrations-golden-master
     environment:
       - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
+    volumes:
+      - ./migrations/production/admin.projections/scripts/up:/db/up
     depends_on:
       admin-api-migrations-golden-master:
         condition: service_completed_successfully
@@ -275,12 +279,14 @@ services:
       context: migrations/production/public.projections/
       dockerfile: Dockerfile
       args:
-        CI_BUILD_NUMBER: "8.2.3"
+        CI_BUILD_NUMBER: "0.0.1"
         GIT_HASH: "local-dev"
     container_name: vr_public_projections_migrations-golden-master
     environment:
       - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
+    volumes:
+      - ./migrations/production/public.projections/scripts/up:/db/up
     depends_on:
       admin-api-migrations-golden-master:
         condition: service_completed_successfully
@@ -292,14 +298,72 @@ services:
       context: migrations/production/acm.api/
       dockerfile: Dockerfile
       args:
-        CI_BUILD_NUMBER: "8.2.3"
+        CI_BUILD_NUMBER: "0.0.1"
         GIT_HASH: "local-dev"
     container_name: vr_acm_api_migrations-golden-master
     environment:
       - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
       - DATABASE_TYPE=postgresql
+    volumes:
+      - ./migrations/production/acm.api/scripts/up:/db/up
     depends_on:
       admin-api-migrations-golden-master:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  optimize-golden-master-template:
+    build:
+      context: migrations/optimize-template/
+      dockerfile: Dockerfile
+    container_name: vr_optimize_golden_master_template
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    depends_on:
+      acm-api-migrations-golden-master:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  ready-to-start:
+    image: alpine:latest
+    container_name: vr_ready_to_start
+    command: |
+      sh -c "
+        echo '';
+        echo '🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉';
+        echo '🎉                                                                  🎉';
+        echo '🎉        ██████  ███████  █████  ██████  ██    ██                 🎉';
+        echo '🎉        ██   ██ ██      ██   ██ ██   ██  ██  ██                  🎉';
+        echo '🎉        ██████  █████   ███████ ██   ██   ████                   🎉';
+        echo '🎉        ██   ██ ██      ██   ██ ██   ██    ██                    🎉';
+        echo '🎉        ██   ██ ███████ ██   ██ ██████     ██                    🎉';
+        echo '🎉                                                                  🎉';
+        echo '🎉    🚀 Association Registry is ready to start! 🚀                🎉';
+        echo '🎉                                                                  🎉';
+        echo '🎉    ✅ Database migrations completed                              🎉';
+        echo '🎉    ✅ Golden master template optimized                          🎉';
+        echo '🎉    ✅ All services configured                                   🎉';
+        echo '🎉                                                                  🎉';
+        echo '🎉    You can now run your tests and applications!                 🎉';
+        echo '🎉                                                                  🎉';
+        echo '🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉';
+        echo '';
+        echo '💻 Services available:';
+        echo '   📊 Elasticsearch: http://localhost:9200';
+        echo '   📋 Seq Logs: http://localhost:9580';
+        echo '   🗄️  PostgreSQL: localhost:5432';
+        echo '   🎭 Wiremock: http://localhost:8080';
+        echo '   🔐 ACM Identity Server: http://localhost:5051';
+        echo '   ☁️  LocalStack: http://localhost:4566';
+        echo '';
+        sleep 5;
+      "
+    depends_on:
+      optimize-golden-master-template:
         condition: service_completed_successfully
     networks:
       - vr-net
