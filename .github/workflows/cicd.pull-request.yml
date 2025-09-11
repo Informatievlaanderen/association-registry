@@ -245,7 +245,21 @@ jobs:
         run: |
           echo "Setting up golden master template with full migrations..."
           
-          # Build and run admin API migrations (includes base schema creation)
+          # First: Build and run local migrations to create base schema (like docker-compose)
+          docker build migrations/local/ \
+            --build-arg CI_BUILD_NUMBER=0.0.0 \
+            --build-arg GIT_HASH=local-dev \
+            -t local-migrations-ci
+          
+          docker run --rm --network host \
+            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e DATABASE_TYPE=postgresql \
+            -e GRATE_VERSION=0.0.0 \
+            -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
+            -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
+            local-migrations-ci
+          
+          # Second: Build and run admin API migrations (no volumes needed)
           docker build migrations/production/admin.api/ \
             --build-arg CI_BUILD_NUMBER=ci-build \
             --build-arg GIT_HASH=${{ github.sha }} \
@@ -254,8 +268,7 @@ jobs:
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
-            -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
-            -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
+            -e GRATE_VERSION=ci-build \
             admin-api-migrations-ci
           
           # Run admin projections migrations  
