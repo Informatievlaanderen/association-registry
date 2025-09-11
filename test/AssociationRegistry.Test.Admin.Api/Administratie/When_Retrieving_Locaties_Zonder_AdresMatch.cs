@@ -28,7 +28,7 @@ public class When_Retrieving_Locaties_Zonder_AdresMatch
     }
 
     [Fact]
-    public async Task With_SuperAdmin_ReturnsLocatiesZonderAdresMatch()
+    public async Task orWith_SuperAdmin_ReturnsLocatiesZonderAdresMatch()
     {
         var testClient = _fixture.SuperAdminApiClient.HttpClient;
         var result = await testClient.GetAsync("/v1/admin/locaties/zonder-adresmatch");

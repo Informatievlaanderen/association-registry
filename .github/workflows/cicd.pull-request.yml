@@ -306,6 +306,30 @@ jobs:
             acm-api-migrations-ci
           
           echo "Golden master template setup complete!"
+          
+          # Create individual test databases from the golden master template
+          docker exec db psql -U root -d postgres -c "DROP DATABASE IF EXISTS acm_api_test WITH (FORCE);"
+          docker exec db psql -U root -d postgres -c "CREATE DATABASE acm_api_test WITH TEMPLATE golden_master_template;"
+          
+          docker exec db psql -U root -d postgres -c "DROP DATABASE IF EXISTS admin_api_test WITH (FORCE);"
+          docker exec db psql -U root -d postgres -c "CREATE DATABASE admin_api_test WITH TEMPLATE golden_master_template;"
+          
+          docker exec db psql -U root -d postgres -c "DROP DATABASE IF EXISTS public_api_test WITH (FORCE);"
+          docker exec db psql -U root -d postgres -c "CREATE DATABASE public_api_test WITH TEMPLATE golden_master_template;"
+          
+          docker exec db psql -U root -d postgres -c "DROP DATABASE IF EXISTS projections_test WITH (FORCE);"
+          docker exec db psql -U root -d postgres -c "CREATE DATABASE projections_test WITH TEMPLATE golden_master_template;"
+          
+          docker exec db psql -U root -d postgres -c "DROP DATABASE IF EXISTS test_common WITH (FORCE);"
+          docker exec db psql -U root -d postgres -c "CREATE DATABASE test_common WITH TEMPLATE golden_master_template;"
+          
+          docker exec db psql -U root -d postgres -c "DROP DATABASE IF EXISTS address_sync_test WITH (FORCE);"
+          docker exec db psql -U root -d postgres -c "CREATE DATABASE address_sync_test WITH TEMPLATE golden_master_template;"
+          
+          docker exec db psql -U root -d postgres -c "DROP DATABASE IF EXISTS fullblowne2e WITH (FORCE);"
+          docker exec db psql -U root -d postgres -c "CREATE DATABASE fullblowne2e WITH TEMPLATE golden_master_template;"
+          
+          echo "Individual test databases created successfully!"
 
       - name: Run all tests
         env:

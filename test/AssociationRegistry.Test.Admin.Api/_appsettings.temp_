@@ -1,0 +1,84 @@
+{
+  "BaseUrl": "http://127.0.0.1:11004/",
+  "ElasticClientOptions": {
+    "Uri": "http://127.0.0.1:9200",
+    "Username": "elastic",
+    "Password": "local_development",
+    "Indices": {
+      "Verenigingen": "test-verenigingsregister-admin-verenigingen",
+      "DuplicateDetection": "test-verenigingsregister-duplicate-detection"
+    }
+  },
+  "PostgreSQLOptions": {
+    "Host": "127.0.0.1",
+    "database": "golden_master_template",
+    "username": "root",
+    "password": "root"
+  },
+  "RootPostgreSQLOptions": {
+    "Host": "127.0.0.1",
+    "database": "golden_master_template",
+    "username": "root",
+    "password": "root"
+  },
+  "OAuth2IntrospectionOptions": {
+    "ClientId": "association-registry-local-dev-admin",
+    "ClientSecret": "a_very=Secr3t*Key",
+    "Authority": "http://127.0.0.1:5051",
+    "IntrospectionEndpoint": "http://127.0.0.1:5051/connect/introspect"
+  },
+  "ProjectionDaemonDisabled": true,
+  "DistributedLock": {
+    "Region": "eu-west-1",
+    "TableName": "__DistributedLocks__",
+    "LeasePeriodInMinutes": 5,
+    "ThrowOnFailedRenew": true,
+    "TerminateApplicationOnFailedRenew": true,
+    "Enabled": false
+  },
+  "ApiDocs": {
+    "Title": "Basisregisters Vlaanderen Verenigingsregister Beheer API",
+    "Contact": {
+      "Name": "Digitaal Vlaanderen",
+      "Email": "digitaal.vlaanderen@vlaanderen.be",
+      "Url": "https://beheer.verenigingen.vlaanderen.be"
+    }
+  },
+  "MagdaOptions": {
+    "Afzender": "1234",
+    "Hoedanigheid": "1234",
+    "Ontvanger": "vip.vlaanderen.be",
+    "GeefOndernemingVkboEndpoint": "http://localhost:8080/GeefOndernemingVkboDienst-02.00/soap/WebService",
+    "GeefOndernemingEndpoint": "http://localhost:8080/GeefOndernemingDienst-02.00/soap/WebService",
+    "RegistreerInschrijvingEndpoint": "http://localhost:8080/RegistreerInschrijvingDienst-02.01/soap/WebService"
+  },
+  "WiremockMagdaOptions": {
+    "Afzender": "1234",
+    "Hoedanigheid": "1234",
+    "Ontvanger": "vip.vlaanderen.be",
+    "GeefOndernemingVkboEndpoint": "http://localhost:8080/GeefOndernemingVkboDienst-02.00/soap/WebService",
+    "GeefOndernemingEndpoint": "http://localhost:8080/GeefOndernemingDienst-02.00/soap/WebService",
+    "RegistreerInschrijvingEndpoint": "http://localhost:8080/RegistreerInschrijvingDienst-02.01/soap/WebService"
+  },
+  "LiveMagdaOptions": {
+    "Afzender": "kbbj.vlaanderen.be/dv/verenigingsregister-aip",
+    "Hoedanigheid": "7001",
+    "Ontvanger": "vip.vlaanderen.be",
+    "GeefOndernemingVkboEndpoint": "http://localhost:8080/GeefOndernemingVkboDienst-02.00/soap/WebService",
+    "GeefOndernemingEndpoint": "https://magdaondernemingdienst-aip.vlaanderen.be/GeefOndernemingDienst-02.00/soap/WebService",
+    "RegistreerInschrijvingEndpoint": "https://magdarepertoriumdienst-aip.vlaanderen.be/RegistreerInschrijvingDienst-02.01/soap/WebService",
+    "ClientCertificate": "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",
+    "ClientCertificatePassword": "6z3DNaq3@Rd&2vUct^KjPwC&ugQwh7Z%Hu^JbY2ptYrqWN%B",
+  },
+
+"RebuildConfiguration": {
+    "TimeoutInMinutes": 120
+  },
+  "BeheerProjectionHostBaseUrl": "http://127.0.0.1:8080",
+  "PublicApiBaseUrl": "http://127.0.0.1:11003/",
+  "PublicProjectionHostBaseUrl": "http://127.0.0.1:8080",
+  "SuperAdminClientIds": [
+    "superAdminClient"
+  ],
+  "TemporaryMagdaVertegenwoordigers": "{\"TemporaryVertegenwoordigers\": [{\"Insz\": \"1234567890\",\"Voornaam\": \"Ikkeltje\",\"Achternaam\": \"Persoon\"},{\"Insz\": \"0987654321\",\"Voornaam\": \"Kramikkeltje\",\"Achternaam\": \"Persoon\"}]}"
+}

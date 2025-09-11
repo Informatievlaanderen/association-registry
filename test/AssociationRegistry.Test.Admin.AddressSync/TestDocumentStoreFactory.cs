@@ -11,7 +11,7 @@ public class TestDocumentStoreFactory
         var documentStore = DocumentStore.For(options =>
         {
             options.Connection("host=127.0.0.1:5432;" +
-                               "database=verenigingsregister;" +
+                               "database=address_sync_test;" +
                                "password=root;" +
                                "username=root");
 
