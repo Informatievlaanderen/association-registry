@@ -1,5 +1,7 @@
 services:
 
+
+
   admin-api:
     restart: on-failure
     build:
@@ -20,6 +22,9 @@ services:
       ElasticClientOptions__EnableDevelopmentLogs: true
 
       PostgreSQLOptions__Host: "db"
+      PostgreSQLOptions__database: "verenigingsregister"
+      PostgreSQLOptions__username: "root"
+      PostgreSQLOptions__password: "root"
 
       COLLECTOR_URL: "http://otel-collector:4317"
 
@@ -43,12 +48,16 @@ services:
       LiveMagdaOptions__RegistreerInschrijvingEndpoint: "http://wiremock:8080/RegistreerInschrijvingDienst-02.01/soap/WebService"
       SuperAdminClientIds: "vloketClient,superAdminClient"
     depends_on:
-      - db
-      - elasticsearch
-      - acm
-      - localstack
-      - wiremock
-      - admin-projections
+      db:
+        condition: service_started
+      elasticsearch:
+        condition: service_started
+      acm:
+        condition: service_started
+      localstack:
+        condition: service_started
+      wiremock:
+        condition: service_started
     networks:
       - vr-net
 
@@ -86,6 +95,9 @@ services:
       COLLECTOR_URL: "http://otel-collector:4317"
 
       PostgreSQLOptions__Host: "db"
+      PostgreSQLOptions__database: "verenigingsregister"
+      PostgreSQLOptions__username: "root"
+      PostgreSQLOptions__password: "root"
 
       OAuth2IntrospectionOptions__Authority: "http://acm"
       OAuth2IntrospectionOptions__IntrospectionEndpoint: "http://acm/connect/introspect"

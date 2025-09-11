@@ -49,24 +49,26 @@
     <Content Include="appsettings.json" CopyToOutputDirectory="Always"/>
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always"/>
     <Content Include="init.sh" CopyToOutputDirectory="Always"/>
+    <None Remove="migrations\scripts\up\00001_KboWerdGereserveerd.sql" />
+    <None Remove="migrations\scripts\runAfterCreateDatabase\002_wolverine_schema.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs"/>
+    <Compile Include="..\..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AssociationRegistry.Admin.Schema\AssociationRegistry.Admin.Schema.csproj"/>
-    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj"/>
-    <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Magda\AssociationRegistry.Integrations.Magda.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry.Admin.Schema\AssociationRegistry.Admin.Schema.csproj" />
+    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
+    <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Magda\AssociationRegistry.Integrations.Magda.csproj" />
     <ProjectReference Include="..\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj" />
-    <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj"/>
-    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
-    <ProjectReference Include="..\AssociationRegistry.CommandHandling\AssociationRegistry.CommandHandling.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj" />
+    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
+    <ProjectReference Include="..\AssociationRegistry.CommandHandling\AssociationRegistry.CommandHandling.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Contexten\*.json"/>
+    <EmbeddedResource Include="Contexten\*.json" />
     <Compile Update="ValidationMessages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -83,7 +85,7 @@
     <PackageReference Include="AWSSDK.DynamoDbv2" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" />
-    <PackageReference Include="Confluent.Kafka"/>
+    <PackageReference Include="Confluent.Kafka" />
     <PackageReference Include="CsvHelper" />
     <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
@@ -95,13 +97,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="WolverineFx"/>
-    <PackageReference Include="WolverineFx.AmazonSqs"/>
-    <PackageReference Include="WolverineFx.Http"/>
-    <PackageReference Include="Elastic.Clients.Elasticsearch"/>
-    <PackageReference Include="Slack.Webhooks"/>
-    <PackageReference Include="Npgsql.OpenTelemetry"/>
-    <PackageReference Include="Marten"/>
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="WolverineFx.AmazonSqs" />
+    <PackageReference Include="WolverineFx.Http" />
+    <PackageReference Include="Elastic.Clients.Elasticsearch" />
+    <PackageReference Include="Slack.Webhooks" />
+    <PackageReference Include="Npgsql.OpenTelemetry" />
+    <PackageReference Include="Marten" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />

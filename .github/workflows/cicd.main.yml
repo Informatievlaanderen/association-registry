@@ -163,6 +163,7 @@ jobs:
       run-docker-localstack: false
       run-docker-otelcollector: false
       pre-gen-marten: true
+      db-name: golden_master_template
     secrets: inherit
 
   build-acm-api:
@@ -196,7 +197,7 @@ jobs:
       run-docker-elasticsearch: true
       run-docker-localstack: false
       run-docker-otelcollector: true
-      db-name: verenigingsregister
+      db-name: golden_master_template
     secrets: inherit
 
   build-public-api:
@@ -249,7 +250,7 @@ jobs:
       run-docker-elasticsearch: true
       run-docker-localstack: true
       run-docker-otelcollector: true
-      db-name: verenigingsregister
+      db-name: golden_master_template
     secrets: inherit
 
   build-admin-api:
@@ -369,6 +370,48 @@ jobs:
       pre-gen-marten: false
     secrets: inherit
 
+  build-admin-api-migrations:
+    name: Build Admin Api Migrations
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version, run-admin-tests ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build migrations/production/admin.api/  --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi-migrations:$VERSION
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Api Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-adminapi-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-api-migration-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload Api artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-adminapi-migrations
+          path: ~/ar-admin-api-migration-image.tar
+
   run-powerbi-tests:
     name: PowerBi
     uses: ./.github/workflows/shared.run-tests.yml
@@ -465,7 +508,7 @@ jobs:
       run-docker-elasticsearch: true
       run-docker-localstack: true
       run-docker-otelcollector: true
-      db-name: fullblowne2e
+      db-name: golden_master_template
     secrets: inherit
 
   run-projections-tests:
@@ -480,7 +523,7 @@ jobs:
       run-docker-elasticsearch: true
       run-docker-localstack: false
       run-docker-otelcollector: true
-      db-name: fullblowne2e
+      db-name: golden_master_template
     secrets: inherit
 
 #  pack-association-registry:
@@ -505,6 +548,7 @@ jobs:
       build-public-projections,
       build-admin-api,
       build-admin-projections,
+      build-admin-api-migrations,
       build-admin-address-sync,
       build-powerbi-exporthost,
 #      pack-association-registry,
@@ -850,6 +894,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-powerbiexport-image.tar
 
+      - name: Download Admin API Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-adminapi-migrations
+          path: ~/
+
+      - name: Load Admin API Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-admin-api-migration-image.tar
+
       - name: Push docker images to ECR Test
         if: needs.release.outputs.version != 'none'
         shell: bash
@@ -862,6 +916,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adressensync:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-powerbiexport:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi-migrations:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.release.outputs.version }}

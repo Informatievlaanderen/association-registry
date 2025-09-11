@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
+using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -29,16 +30,15 @@ public static class MartenExtensions
                                           return opts;
                                       });
 
-        if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
-
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
+
+        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-
+            x.Development.ResourceAutoCreate = AutoCreate.None;
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
             x.Production.ResourceAutoCreate = AutoCreate.None;
             x.Production.SourceCodeWritingEnabled = false;
@@ -78,16 +78,6 @@ public static class MartenExtensions
 
         opts.RegisterDocumentType<VerenigingenPerInszDocument>();
         opts.RegisterDocumentType<VerenigingDocument>();
-
-        if (isDevelopment)
-        {
-            opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-        }
-        else
-        {
-            opts.GeneratedCodeMode = TypeLoadMode.Static;
-            opts.SourceCodeWritingEnabled = false;
-        }
     }
 
     public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions)

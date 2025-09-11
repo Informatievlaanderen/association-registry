@@ -17,6 +17,7 @@ using MartenDb.Setup;
 using MartenDb.Subscriptions;
 using MartenDb.Upcasters;
 using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration;
 using MartenDb.Logging;
 using Newtonsoft.Json;
 using Projections;
@@ -28,7 +29,8 @@ using Projections.PowerBiExport;
 using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
-using Schema.KboSync;
+using Schema;
+using Schema.Setup.Marten;
 using System.Configuration;
 using ConfigurationManager = ConfigurationManager;
 
@@ -41,10 +43,22 @@ public static class ConfigureMartenExtensions
     {
         var martenConfiguration = AddMarten(source, configurationManager);
 
+
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(isDevelopment ? DaemonMode.Solo : DaemonMode.HotCold);
 
-        //martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
+
+        source.CritterStackDefaults(options =>
+        {
+            options.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+            options.Development.ResourceAutoCreate = AutoCreate.None;
+
+            options.Production.GeneratedCodeMode = TypeLoadMode.Static;
+            options.Production.ResourceAutoCreate = AutoCreate.None;
+            options.Production.SourceCodeWritingEnabled = false;
+        });
+
 
         return source;
     }
@@ -73,16 +87,6 @@ public static class ConfigureMartenExtensions
                                                 .GetSection(ElasticSearchOptionsSection.SectionName)
                                                 .Get<ElasticSearchOptionsSection>());
             });
-
-        services.CritterStackDefaults(x =>
-        {
-            x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            x.Development.ResourceAutoCreate = AutoCreate.None;
-
-            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.SourceCodeWritingEnabled = false;
-            x.Production.ResourceAutoCreate = AutoCreate.None;
-        });
 
         return martenConfigurationExpression;
     }
@@ -141,9 +145,9 @@ public static class ConfigureMartenExtensions
 
         opts.Projections.DaemonLockId = 1;
 
-        opts.UpcastLegacyTombstoneEvents();
-
-        opts.RegisterAllEventTypes();
+        opts.UpcastLegacyTombstoneEvents()
+            .RegisterAllEventTypes()
+            .RegisterProjectionDocumentTypes();
 
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);

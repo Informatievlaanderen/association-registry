@@ -1,18 +1,19 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 
 using global::Wolverine.Marten;
+using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using Marten;
+using MartenDb;
 using MartenDb.Logging;
 using MartenDb.Setup;
+using Schema;
 
 public static class MartenExtensions
 {
-    private const string WolverineSchemaName = "public";
-
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
         IConfigurationRoot configuration,
@@ -31,7 +32,8 @@ public static class MartenExtensions
                                              .ConfigureSerialization()
                                              .SetUpOpenTelemetry(isDevelopment)
                                              .RegisterAllEventTypes()
-                                             .RegisterDocumentTypes();
+                                             .RegisterAdminDocumentTypes();
+                                             // .RegisterProjectionDocumentTypes();
 
                                           if(!postgreSqlOptions.IncludeErrorDetail)
                                             opts.Logger(new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>()));
@@ -40,28 +42,29 @@ public static class MartenExtensions
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                          opts.AutoCreateSchemaObjects = AutoCreate.All;
+                                          opts.AutoCreateSchemaObjects = AutoCreate.None;
 
                                           return opts;
                                       })
                                  .IntegrateWithWolverine(integration =>
                                   {
-                                      integration.TransportSchemaName = WolverineSchemaName;
-                                      integration.MessageStorageSchemaName = WolverineSchemaName;
+                                      integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
+                                      integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
+
+                                      integration.AutoCreate = AutoCreate.None;
                                   })
 
                                  .UseLightweightSessions();
 
-        if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
         services.CritterStackDefaults(x =>
         {
             x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-            //x.Development.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+            x.Development.ResourceAutoCreate = AutoCreate.None;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            //x.Production.ResourceAutoCreate = AutoCreate.CreateOrUpdate;
+            x.Production.ResourceAutoCreate = AutoCreate.None;
             x.Production.SourceCodeWritingEnabled = false;
         });
 

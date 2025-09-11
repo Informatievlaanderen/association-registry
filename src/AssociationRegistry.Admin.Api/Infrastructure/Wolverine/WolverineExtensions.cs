@@ -20,6 +20,7 @@ using global::Wolverine.AmazonSqs;
 using global::Wolverine.ErrorHandling;
 using global::Wolverine.Postgresql;
 using Integrations.Grar.Clients;
+using JasperFx;
 using JasperFx.CodeGeneration;
 using MartenDb.Setup;
 using Serilog;

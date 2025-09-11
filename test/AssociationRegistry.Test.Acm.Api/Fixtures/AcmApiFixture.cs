@@ -1,14 +1,15 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
 using AssociationRegistry.Acm.Api;
-using AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using Common.Database;
 using Common.Fixtures;
 using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore.ConflictResolution;
 using Framework.Helpers;
+using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
@@ -25,6 +26,7 @@ using Polly;
 using System.Reflection;
 using Vereniging;
 using Xunit;
+using ConfigurationExtensions = AssociationRegistry.Acm.Api.Infrastructure.Extensions.ConfigurationExtensions;
 
 public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 {
@@ -54,11 +56,11 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
                     GetConnectionString(GetConfiguration(), RootDatabase))
                .GetAwaiter().GetResult();
 
-        EnsureDbExists(GetConfiguration());
+        CreateDatabaseFromTemplate(GetConfiguration());
 
         WaitFor.PostGreSQLToBecomeAvailable(
                     new NullLogger<AcmApiFixture>(),
-                    GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
+                    GetConnectionString(GetConfiguration(), ConfigurationExtensions.GetPostgreSqlOptionsSection(GetConfiguration()).Database!))
                .GetAwaiter().GetResult();
 
         OaktonEnvironment.AutoStartHost = true;
@@ -115,29 +117,13 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         DropDatabase();
     }
 
-    private void EnsureDbExists(IConfigurationRoot configuration)
+    private void CreateDatabaseFromTemplate(IConfigurationRoot configuration)
     {
-        var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
-        using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
-
-        using var cmd = connection.CreateCommand();
-
-        try
-        {
-            connection.Open();
-            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
-            cmd.ExecuteNonQuery();
-        }
-        catch (PostgresException ex)
-        {
-            if (ex.MessageText != $"database \"{postgreSqlOptionsSection.Database.ToLower()}\" already exists")
-                throw;
-        }
-        finally
-        {
-            connection.Close();
-            connection.Dispose();
-        }
+        var postgreSqlOptionsSection = ConfigurationExtensions.GetPostgreSqlOptionsSection(configuration);
+        DatabaseTemplateHelper.CreateDatabaseFromTemplate(
+            configuration,
+            postgreSqlOptionsSection.Database!,
+            new NullLogger<AcmApiFixture>());
     }
 
     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)

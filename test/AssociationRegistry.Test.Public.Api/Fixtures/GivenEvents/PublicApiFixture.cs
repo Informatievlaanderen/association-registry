@@ -6,6 +6,7 @@ using EventStore;
 using EventStore.ConflictResolution;
 using FluentAssertions;
 using Framework.Helpers;
+using Common.Database;
 using Marten;
 using MartenDb.Store;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration;
 using NodaTime;
 using Npgsql;
 using Oakton;
@@ -62,7 +64,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                .GetAwaiter().GetResult();
 
         DropDatabase();
-        CreateDatabase(GetConfiguration());
+        CreateDatabaseFromTemplate(GetConfiguration());
 
         _publicApiServer = new WebApplicationFactory<PublicApiProgram>()
            .WithWebHostBuilder(
@@ -177,25 +179,12 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         await client.Indices.RefreshAsync(Indices.All);
     }
 
-    private static void CreateDatabase(IConfiguration configuration)
+    private static void CreateDatabaseFromTemplate(IConfiguration configuration)
     {
-        using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
-        using var cmd = connection.CreateCommand();
-
-        try
-        {
-            connection.Open();
-
-            cmd.CommandText +=
-                $"CREATE DATABASE {configuration["PostgreSQLOptions:database"]} WITH OWNER = {configuration["PostgreSQLOptions:username"]};";
-
-            cmd.ExecuteNonQuery();
-        }
-        finally
-        {
-            connection.Close();
-            connection.Dispose();
-        }
+        DatabaseTemplateHelper.CreateDatabaseFromTemplate(
+            configuration,
+            configuration["PostgreSQLOptions:database"]!,
+            new NullLogger<PublicApiFixture>());
     }
 
     private void DropDatabase()

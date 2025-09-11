@@ -3,6 +3,7 @@
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using EventStore;
 using Framework.Helpers;
+using Common.Database;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -37,7 +38,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
                .GetAwaiter().GetResult();
 
         DropDatabase();
-        CreateDatabase();
+        CreateDatabaseFromTemplate();
 
         ProjectionHost = RunProjectionHost();
         _elasticClient = CreateElasticClient(ProjectionHost.Services);
@@ -100,26 +101,12 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         await client.Indices.RefreshAsync(Indices.All);
     }
 
-    private void CreateDatabase()
+    private void CreateDatabaseFromTemplate()
     {
-        var configuration = GetConfiguration();
-        using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
-        using var cmd = connection.CreateCommand();
-
-        try
-        {
-            connection.Open();
-
-            cmd.CommandText +=
-                $"CREATE DATABASE {configuration["PostgreSQLOptions:database"]} WITH OWNER = {configuration["PostgreSQLOptions:username"]};";
-
-            cmd.ExecuteNonQuery();
-        }
-        finally
-        {
-            connection.Close();
-            connection.Dispose();
-        }
+        DatabaseTemplateHelper.CreateDatabaseFromTemplate(
+            _configurationRoot, 
+            _configurationRoot["PostgreSQLOptions:database"]!, 
+            new NullLogger<ProjectionHostFixture>());
     }
 
     private void DropDatabase()
@@ -131,7 +118,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         {
             connection.Open();
             // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-            cmd.CommandText += $"DROP DATABASE IF EXISTS {_configurationRoot["PostgreSQLOptions:database"]} WITH (FORCE);";
+            cmd.CommandText += $"DROP DATABASE IF EXISTS \"{_configurationRoot["PostgreSQLOptions:database"]}\" WITH (FORCE);";
             cmd.ExecuteNonQuery();
         }
         finally

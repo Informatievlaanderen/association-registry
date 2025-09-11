@@ -99,6 +99,7 @@ using WebApi.Verenigingen.Historiek;
 using WebApi.Verenigingen.KboSync;
 using WebApi.Verenigingen.SequenceGuarding;
 using Wolverine.Http;
+using Environment = System.Environment;
 using HealthStatus = Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;

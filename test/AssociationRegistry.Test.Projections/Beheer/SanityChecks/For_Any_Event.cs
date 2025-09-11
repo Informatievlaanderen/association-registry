@@ -10,6 +10,12 @@ using Xunit;
 
 public class For_Any_Event
 {
+    private IEnumerable<Type> _excludedEventTypes =
+    [
+        typeof(AfdelingWerdGeregistreerd),
+        typeof(KboNummerWerdGereserveerd),
+    ];
+
     // Because we want to update the metadata for each event!
     [Fact]
     public void There_Should_Be_A_Create_Or_Project_Method()
@@ -18,7 +24,7 @@ public class For_Any_Event
                                                                      .GetTypes()
                                                                      .Where(t => typeof(Events.IEvent)
                                                                                .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
-                                                                     .Except([typeof(AfdelingWerdGeregistreerd)]) // only add events that are obsolete
+                                                                     .Except(_excludedEventTypes) // only add events that are obsolete
                                                                      .ToList();
 
         var projectionType = typeof(BeheerVerenigingDetailProjection);
@@ -46,7 +52,7 @@ public class For_Any_Event
                                                                      .GetTypes()
                                                                      .Where(t => typeof(Events.IEvent)
                                                                                .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
-                                                                     .Except([typeof(AfdelingWerdGeregistreerd)]) // only add events that are obsolete
+                                                                     .Except(_excludedEventTypes) // only add events that are obsolete
                                                                      .ToList();
 
         var projectionType = typeof(PowerBiExportProjection);
@@ -74,7 +80,7 @@ public class For_Any_Event
                                                                      .GetTypes()
                                                                      .Where(t => typeof(Events.IEvent)
                                                                                .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
-                                                                     .Except([typeof(AfdelingWerdGeregistreerd)]) // only add events that are obsolete
+                                                                     .Except(_excludedEventTypes) // only add events that are obsolete
                                                                      .ToList();
 
         var projectionType = typeof(PubliekVerenigingSequenceProjection);

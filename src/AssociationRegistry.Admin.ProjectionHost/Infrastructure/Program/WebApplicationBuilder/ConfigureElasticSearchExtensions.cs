@@ -4,6 +4,7 @@ using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
 using Hosts.Configuration.ConfigurationBindings;
 using Schema;
+using Schema.Setup.Elasticsearch;
 
 public static class ConfigureElasticSearchExtensions
 {

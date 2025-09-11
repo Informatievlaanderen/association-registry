@@ -153,11 +153,10 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_MULTIPLE_DATABASES: verenigingsregister,fullblowne2e
       # you can drop PGOPTIONS here, and move lock_timeout into the command flags
       # override the entrypoint to pass in both max_connections and lock_timeout
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U root -d verenigingsregister" ]
+      test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1 -p 5432 -U root -d postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -168,7 +167,7 @@ services:
       - "5432:5432"
     volumes:
       - pg-data:/var/lib/postgresql/data
-      - ./scripts/multipledb:/docker-entrypoint-initdb.d
+      #- ./scripts/multipledb:/docker-entrypoint-initdb.d
     networks:
       - vr-net
 
@@ -190,6 +189,98 @@ services:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
       - "4317:4317" # OTLP gRPC receiver
+    networks:
+      - vr-net
+
+
+  # golden master template creation
+  admin-api-migrations-golden-master:
+    build:
+      context: migrations/production/admin.api/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_admin_api_migrations-golden-master
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    volumes:
+      - ./migrations/local/scripts/createDatabase:/db/createDatabase
+      - ./migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vr-net
+
+  admin-projections-migrations-golden-master:
+    build:
+      context: migrations/production/admin.projections/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_admin_projections_migrations-golden-master
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    depends_on:
+      admin-api-migrations-golden-master:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  public-projections-migrations-golden-master:
+    build:
+      context: migrations/production/public.projections/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_public_projections_migrations-golden-master
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    depends_on:
+      admin-api-migrations-golden-master:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  acm-api-migrations-golden-master:
+    build:
+      context: migrations/production/acm.api/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_acm_api_migrations-golden-master
+    environment:
+      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
+      - DATABASE_TYPE=postgresql
+    depends_on:
+      admin-api-migrations-golden-master:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  # Create the verenigingsregister database from the golden master template
+  create-verenigingsregister-db:
+    image: postgres:15.0
+    container_name: vr_create_verenigingsregister_db
+    environment:
+      - PGPASSWORD=root
+    command: >
+      sh -c "
+        echo 'Creating verenigingsregister database from golden master template...' &&
+        psql -h db -U root -d postgres -c 'DROP DATABASE IF EXISTS verenigingsregister WITH (FORCE);' &&
+        psql -h db -U root -d postgres -c 'CREATE DATABASE verenigingsregister WITH TEMPLATE golden_master_template;' &&
+        echo 'Successfully created verenigingsregister database from template'
+      "
+    depends_on:
+      acm-api-migrations-golden-master:
+        condition: service_completed_successfully
     networks:
       - vr-net
 
