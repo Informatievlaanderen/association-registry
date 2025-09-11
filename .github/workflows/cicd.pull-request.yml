@@ -254,6 +254,7 @@ jobs:
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
+            -v ${{ github.workspace }}/migrations/production/admin.api/scripts/up:/db/up \
             -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
             -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
             admin-api-migrations-ci
@@ -267,6 +268,7 @@ jobs:
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
+            -v ${{ github.workspace }}/migrations/production/admin.projections/scripts/up:/db/up \
             admin-projections-migrations-ci
           
           docker build migrations/production/public.projections/ \
@@ -277,6 +279,7 @@ jobs:
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
+            -v ${{ github.workspace }}/migrations/production/public.projections/scripts/up:/db/up \
             public-projections-migrations-ci
           
           docker build migrations/production/acm.api/ \
