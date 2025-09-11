@@ -73,11 +73,10 @@ jobs:
         run: |
           docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
 
-      - name: Run db container
+      - name: Run template db container
         shell: bash
-        if: ${{ inputs.run-docker-db }}
         run: |
-          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=${{ inputs.db-name }} postgres:15.0
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root postgres:15.0
 
       - name: Run OpenTelemetry container
         shell: bash
@@ -121,6 +120,77 @@ jobs:
         if: ${{ inputs.run-docker-db }}
         run: |
           timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
+
+      - name: Setup golden master template
+        shell: bash
+        run: |
+          echo "Setting up golden master template with full migrations..."
+
+          # First: Build and run local migrations to create base schema (like docker-compose)
+          cd migrations/local && docker build .             --build-arg CI_BUILD_NUMBER=0.0.0 \
+          --build-arg GIT_HASH=local-dev \
+          -t local-migrations-ci && cd ../..
+
+          docker run --rm --network host \
+          -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+          -e DATABASE_TYPE=postgresql \
+          -e GRATE_VERSION=0.0.0 \
+          local-migrations-ci
+
+          # Second: Build and run admin API migrations (no volumes needed)
+          cd migrations/production/admin.api && docker build . \
+            --build-arg CI_BUILD_NUMBER=ci-build \
+            --build-arg GIT_HASH=${{ github.sha }} \
+            -t admin-api-migrations-ci && cd ../../..
+
+          docker run --rm --network host \
+            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e DATABASE_TYPE=postgresql \
+            -e GRATE_VERSION=ci-build \
+            admin-api-migrations-ci
+
+          # Run admin projections migrations
+          cd migrations/production/admin.projections && docker build . \
+            --build-arg CI_BUILD_NUMBER=ci-build \
+            --build-arg GIT_HASH=${{ github.sha }} \
+            -t admin-projections-migrations-ci && cd ../../..
+
+          docker run --rm --network host \
+            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e DATABASE_TYPE=postgresql \
+            admin-projections-migrations-ci
+
+          # Run public projections migrations (depends on admin-api, not admin-projections)
+          cd migrations/production/public.projections && docker build . \
+            --build-arg CI_BUILD_NUMBER=ci-build \
+            --build-arg GIT_HASH=${{ github.sha }} \
+            -t public-projections-migrations-ci && cd ../../..
+
+          docker run --rm --network host \
+            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e DATABASE_TYPE=postgresql \
+            public-projections-migrations-ci
+
+          # Run ACM API migrations (depends on admin-api, not public-projections)
+          cd migrations/production/acm.api && docker build . \
+            --build-arg CI_BUILD_NUMBER=ci-build \
+            --build-arg GIT_HASH=${{ github.sha }} \
+            -t acm-api-migrations-ci && cd ../../..
+
+          docker run --rm --network host \
+            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e DATABASE_TYPE=postgresql \
+            acm-api-migrations-ci
+
+          echo "Golden master template setup complete!"
+
+      - name: Create verenigingsregister database from golden master template
+        shell: bash
+        run: |
+          echo "Creating verenigingsregister database from golden master template..."
+          docker exec db psql -U root -d postgres -c "DROP DATABASE IF EXISTS verenigingsregister WITH (FORCE);"
+          docker exec db psql -U root -d postgres -c "CREATE DATABASE verenigingsregister WITH TEMPLATE golden_master_template;"
+          echo "Successfully created verenigingsregister database from template"
 
       - name: Run all tests
         if: ${{ inputs.test-project != '' && inputs.test-project != 'none' }}
