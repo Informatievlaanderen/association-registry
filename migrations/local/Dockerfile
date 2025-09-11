@@ -9,7 +9,7 @@ ENV GRATE_SILENT=false
 
 # Create entrypoint script that includes the version parameter
 RUN echo '#!/bin/sh' > /entrypoint.sh && \
-    echo 'exec /app/grate --connstring="$APP_CONNSTRING" --version="$GRATE_VERSION" --databasetype=PostgreSQL --schema=grate_init --files=/db "$@"' >> /entrypoint.sh && \
+    echo 'exec /app/grate --connstring="$APP_CONNSTRING" --version="$GRATE_VERSION" --databasetype=PostgreSQL --schema=grate_init --create --files=/db "$@"' >> /entrypoint.sh && \
     chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]

@@ -184,7 +184,7 @@ jobs:
         if: matrix.projects != 'test/AssociationRegistry.Test.E2E' && matrix.projects != 'test/AssociationRegistry.Test.Projections' && matrix.projects != 'test/AssociationRegistry.Test.Admin.Api' && matrix.projects != 'test/AssociationRegistry.Test.Acm.Api' && matrix.projects != 'test/AssociationRegistry.Test.Public.Api'
         shell: bash
         run: |
-          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root  postgres:15.0
 
       - name: Run template db container
         if: matrix.projects == 'test/AssociationRegistry.Test.E2E' || matrix.projects == 'test/AssociationRegistry.Test.Projections' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.Acm.Api' || matrix.projects == 'test/AssociationRegistry.Test.Public.Api'
@@ -244,66 +244,66 @@ jobs:
         if: matrix.projects == 'test/AssociationRegistry.Test.E2E' || matrix.projects == 'test/AssociationRegistry.Test.Projections' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.Acm.Api' || matrix.projects == 'test/AssociationRegistry.Test.Public.Api'
         run: |
           echo "Setting up golden master template with full migrations..."
-          
+
           # First: Build and run local migrations to create base schema (like docker-compose)
-          docker build migrations/local/ \
+          cd migrations/local && docker build . \
             --build-arg CI_BUILD_NUMBER=0.0.0 \
             --build-arg GIT_HASH=local-dev \
-            -t local-migrations-ci
-          
+            -t local-migrations-ci && cd ../..
+
           docker run --rm --network host \
-            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=postgres;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
             -e GRATE_VERSION=0.0.0 \
             -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
             -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
             local-migrations-ci
-          
+
           # Second: Build and run admin API migrations (no volumes needed)
-          docker build migrations/production/admin.api/ \
+          cd migrations/production/admin.api && docker build . \
             --build-arg CI_BUILD_NUMBER=ci-build \
             --build-arg GIT_HASH=${{ github.sha }} \
-            -t admin-api-migrations-ci
-          
+            -t admin-api-migrations-ci && cd ../../..
+
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
             -e GRATE_VERSION=ci-build \
             admin-api-migrations-ci
-          
-          # Run admin projections migrations  
-          docker build migrations/production/admin.projections/ \
+
+          # Run admin projections migrations
+          cd migrations/production/admin.projections && docker build . \
             --build-arg CI_BUILD_NUMBER=ci-build \
             --build-arg GIT_HASH=${{ github.sha }} \
-            -t admin-projections-migrations-ci
-          
+            -t admin-projections-migrations-ci && cd ../../..
+
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
             admin-projections-migrations-ci
-          
-          # Run public projections migrations (depends on admin-api, not admin-projections) 
-          docker build migrations/production/public.projections/ \
+
+          # Run public projections migrations (depends on admin-api, not admin-projections)
+          cd migrations/production/public.projections && docker build . \
             --build-arg CI_BUILD_NUMBER=ci-build \
             --build-arg GIT_HASH=${{ github.sha }} \
-            -t public-projections-migrations-ci
-          
+            -t public-projections-migrations-ci && cd ../../..
+
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
             public-projections-migrations-ci
-          
+
           # Run ACM API migrations (depends on admin-api, not public-projections)
-          docker build migrations/production/acm.api/ \
+          cd migrations/production/acm.api && docker build . \
             --build-arg CI_BUILD_NUMBER=ci-build \
             --build-arg GIT_HASH=${{ github.sha }} \
-            -t acm-api-migrations-ci
-          
+            -t acm-api-migrations-ci && cd ../../..
+
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
             acm-api-migrations-ci
-          
+
           echo "Golden master template setup complete!"
 
       - name: Create verenigingsregister database from golden master template
