@@ -58,8 +58,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     public PublicApiFixture()
     {
-        Environment.SetEnvironmentVariable(WellknownFeatureFlags.TestMode, "false");
-
         WaitFor.PostGreSQLToBecomeAvailable(
                     new NullLogger<PublicApiFixture>(),
                     GetConnectionString(GetConfiguration(), RootDatabase))
@@ -184,8 +182,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private static void CreateDatabaseFromTemplate(IConfiguration configuration)
     {
         DatabaseTemplateHelper.CreateDatabaseFromTemplate(
-            configuration, 
-            configuration["PostgreSQLOptions:database"]!, 
+            configuration,
+            configuration["PostgreSQLOptions:database"]!,
             new NullLogger<PublicApiFixture>());
     }
 

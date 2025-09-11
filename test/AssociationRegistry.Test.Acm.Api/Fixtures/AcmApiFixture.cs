@@ -51,8 +51,6 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 
     protected AcmApiFixture()
     {
-        Environment.SetEnvironmentVariable(WellknownFeatureFlags.TestMode, "false");
-
         WaitFor.PostGreSQLToBecomeAvailable(
                     new NullLogger<AcmApiFixture>(),
                     GetConnectionString(GetConfiguration(), RootDatabase))
@@ -123,8 +121,8 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     {
         var postgreSqlOptionsSection = ConfigurationExtensions.GetPostgreSqlOptionsSection(configuration);
         DatabaseTemplateHelper.CreateDatabaseFromTemplate(
-            configuration, 
-            postgreSqlOptionsSection.Database!, 
+            configuration,
+            postgreSqlOptionsSection.Database!,
             new NullLogger<AcmApiFixture>());
     }
 

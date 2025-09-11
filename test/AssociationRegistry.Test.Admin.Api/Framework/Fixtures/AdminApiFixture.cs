@@ -67,8 +67,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     protected AdminApiFixture(string?  identifier = "adminapifixture")
     {
-        Environment.SetEnvironmentVariable(WellknownFeatureFlags.TestMode, "false");
-
         _identifier = identifier;
         Configuration = GetConfiguration();
 
@@ -184,8 +182,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     {
         var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
         DatabaseTemplateHelper.CreateDatabaseFromTemplate(
-            configuration, 
-            postgreSqlOptionsSection.Database!, 
+            configuration,
+            postgreSqlOptionsSection.Database!,
             new NullLogger<AdminApiFixture>());
     }
 
