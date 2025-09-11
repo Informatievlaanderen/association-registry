@@ -307,6 +307,15 @@ jobs:
           
           echo "Golden master template setup complete!"
 
+      - name: Create verenigingsregister database from golden master template
+        shell: bash
+        if: matrix.projects == 'test/AssociationRegistry.Test.E2E' || matrix.projects == 'test/AssociationRegistry.Test.Projections' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.Acm.Api' || matrix.projects == 'test/AssociationRegistry.Test.Public.Api'
+        run: |
+          echo "Creating verenigingsregister database from golden master template..."
+          docker exec db psql -U root -d postgres -c "DROP DATABASE IF EXISTS verenigingsregister WITH (FORCE);"
+          docker exec db psql -U root -d postgres -c "CREATE DATABASE verenigingsregister WITH TEMPLATE golden_master_template;"
+          echo "Successfully created verenigingsregister database from template"
+
       - name: Run all tests
         env:
           LIVEMAGDAOPTIONS__CLIENTCERTIFICATE: ${{ secrets.LIVEMAGDAOPTIONS_CLIENTCERTIFICATE }}
