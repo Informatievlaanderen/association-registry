@@ -451,7 +451,7 @@ jobs:
         if: needs.set-release-version.outputs.version != 'none'
         uses: actions/upload-artifact@v4
         with:
-          name: verenigingsregister-projections-migrations
+          name: verenigingsregister-adminprojections-migrations
           path: ~/ar-admin-proj-migration-image.tar
 
   build-acm-api-migrations:
