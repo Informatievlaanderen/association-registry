@@ -245,7 +245,21 @@ jobs:
         run: |
           echo "Setting up golden master template with full migrations..."
           
-          # Build and run admin API migrations (creates golden_master_template + schema)
+          # First create the base schema using grate with local migration scripts
+          docker run --rm --network host \
+            -e GRATE_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e GRATE_VERSION="0.0.0" \
+            -e GRATE_TRANSACTION=Transaction \
+            -e GRATE_SILENT=false \
+            -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
+            -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
+            erikbra/grate:1.8.0 \
+            --connstring="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            --version="0.0.0" \
+            --databasetype=PostgreSQL \
+            --files=/db
+          
+          # Build and run admin API migrations
           docker build migrations/production/admin.api/ \
             --build-arg CI_BUILD_NUMBER=ci-build \
             --build-arg GIT_HASH=${{ github.sha }} \
@@ -255,8 +269,6 @@ jobs:
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
             -v ${{ github.workspace }}/migrations/production/admin.api/scripts/up:/db/up \
-            -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
-            -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
             admin-api-migrations-ci
           
           # Run other migrations on the template
@@ -290,6 +302,7 @@ jobs:
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
+            -v ${{ github.workspace }}/migrations/production/acm.api/scripts/up:/db/up \
             acm-api-migrations-ci
           
           echo "Golden master template setup complete!"
