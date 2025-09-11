@@ -523,7 +523,7 @@ jobs:
         shell: bash
         run: docker images
 
-      - name: Save Api Image
+      - name: Save publicprojections migrations Image
         if: needs.set-release-version.outputs.version != 'none'
         shell: bash
         run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-publicprojections-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-public-proj-migration-image.tar
@@ -1030,19 +1030,31 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-admin-api-migration-image.tar
 
+      - name: Download Admin Projections Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-adminprojections-migrations
+          path: ~/
+
       - name: Load Admin Projections Migrations image
         shell: bash
         run: docker image load -i ~/ar-admin-proj-migration-image.tar
 
-      - name: Load Admin API Migrations image
-        shell: bash
-        run: docker image load -i ~/ar-admin-api-migration-image.tar
-
+      - name: Download ACM API Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-acmapi-migrations
+          path: ~/
 
       - name: Load Acm API Migrations image
         shell: bash
         run: docker image load -i ~/ar-acm-api-migration-image.tar
 
+      - name: Download ACM API Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-publicprojections-migrations
+          path: ~/
 
       - name: Load Public Projections Migrations image
         shell: bash
