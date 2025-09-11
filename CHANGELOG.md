@@ -1,3 +1,10 @@
+# [8.269.0](https://github.com/informatievlaanderen/association-registry/compare/v8.268.8...v8.269.0) (2025-09-11)
+
+
+### Features
+
+* or-2876 introduce migrations ([c52c8d0](https://github.com/informatievlaanderen/association-registry/commit/c52c8d0981801bc1d43d25e4e038025fe0744ce3))
+
 ## [8.268.8](https://github.com/informatievlaanderen/association-registry/compare/v8.268.7...v8.268.8) (2025-09-04)
 
 
