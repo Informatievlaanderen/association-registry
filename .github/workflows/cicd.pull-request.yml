@@ -298,7 +298,6 @@ jobs:
 
       - name: Create verenigingsregister database from golden master template
         shell: bash
-        if: matrix.projects == 'test/AssociationRegistry.Test.E2E' || matrix.projects == 'test/AssociationRegistry.Test.Projections' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.Acm.Api' || matrix.projects == 'test/AssociationRegistry.Test.Public.Api'
         run: |
           echo "Creating verenigingsregister database from golden master template..."
           docker exec db psql -U root -d postgres -c "DROP DATABASE IF EXISTS verenigingsregister WITH (FORCE);"
