@@ -245,17 +245,7 @@ jobs:
         run: |
           echo "Setting up golden master template with full migrations..."
           
-          # First create the base schema using grate with local migration scripts
-          docker run --rm --network host \
-            -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
-            -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
-            erikbra/grate:1.8.0 \
-            --connstring="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
-            --version="0.0.0" \
-            --databasetype=PostgreSQL \
-            --files=/db
-          
-          # Build and run admin API migrations
+          # Build and run admin API migrations (includes base schema creation)
           docker build migrations/production/admin.api/ \
             --build-arg CI_BUILD_NUMBER=ci-build \
             --build-arg GIT_HASH=${{ github.sha }} \
@@ -264,10 +254,11 @@ jobs:
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
-            -v ${{ github.workspace }}/migrations/production/admin.api/scripts/up:/db/up \
+            -v ${{ github.workspace }}/migrations/local/scripts/createDatabase/e2e:/db/createDatabase \
+            -v ${{ github.workspace }}/migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase \
             admin-api-migrations-ci
           
-          # Run other migrations on the template
+          # Run admin projections migrations  
           docker build migrations/production/admin.projections/ \
             --build-arg CI_BUILD_NUMBER=ci-build \
             --build-arg GIT_HASH=${{ github.sha }} \
@@ -276,9 +267,9 @@ jobs:
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
-            -v ${{ github.workspace }}/migrations/production/admin.projections/scripts/up:/db/up \
             admin-projections-migrations-ci
           
+          # Run public projections migrations (depends on admin-api, not admin-projections) 
           docker build migrations/production/public.projections/ \
             --build-arg CI_BUILD_NUMBER=ci-build \
             --build-arg GIT_HASH=${{ github.sha }} \
@@ -287,9 +278,9 @@ jobs:
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
-            -v ${{ github.workspace }}/migrations/production/public.projections/scripts/up:/db/up \
             public-projections-migrations-ci
           
+          # Run ACM API migrations (depends on admin-api, not public-projections)
           docker build migrations/production/acm.api/ \
             --build-arg CI_BUILD_NUMBER=ci-build \
             --build-arg GIT_HASH=${{ github.sha }} \
@@ -298,7 +289,6 @@ jobs:
           docker run --rm --network host \
             -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
             -e DATABASE_TYPE=postgresql \
-            -v ${{ github.workspace }}/migrations/production/acm.api/scripts/up:/db/up \
             acm-api-migrations-ci
           
           echo "Golden master template setup complete!"
