@@ -1,3 +1,10 @@
+# [8.270.0](https://github.com/informatievlaanderen/association-registry/compare/v8.269.0...v8.270.0) (2025-09-11)
+
+
+### Features
+
+* remove todo (and force build) ([6b26c12](https://github.com/informatievlaanderen/association-registry/commit/6b26c12b99b693b56117af90b6271fd8c35cc259))
+
 # [8.269.0](https://github.com/informatievlaanderen/association-registry/compare/v8.268.8...v8.269.0) (2025-09-11)
 
 
