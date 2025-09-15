@@ -1058,10 +1058,10 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-acm-api-migration-image.tar
 
-      - name: Download ACM API Migrations artifact
+      - name: Download Public projections Migrations artifact
         uses: actions/download-artifact@v4
         with:
-          name: verenigingsregister-acmapi-migrations
+          name: verenigingsregister-publicprojections-migrations
           path: ~/
 
       - name: Load Public Projections Migrations image
