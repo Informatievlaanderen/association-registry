@@ -203,7 +203,11 @@ services:
         GIT_HASH: "local-dev"
     container_name: vr_admin_api_migrations-golden-master
     environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
+      - APP_CONNSTRING_HOST=db
+      - APP_CONNSTRING_DB=golden_master_template
+      - APP_CONNSTRING_PORT=5432;
+      - APP_CONNSTRING_USERNAME=root
+      - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
     volumes:
       - ./migrations/local/scripts/createDatabase:/db/createDatabase
@@ -223,7 +227,11 @@ services:
         GIT_HASH: "local-dev"
     container_name: vr_admin_projections_migrations-golden-master
     environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
+      - APP_CONNSTRING_HOST=db
+      - APP_CONNSTRING_DB=golden_master_template
+      - APP_CONNSTRING_PORT=5432;
+      - APP_CONNSTRING_USERNAME=root
+      - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
     depends_on:
       admin-api-migrations-golden-master:
@@ -240,7 +248,11 @@ services:
         GIT_HASH: "local-dev"
     container_name: vr_public_projections_migrations-golden-master
     environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
+      - APP_CONNSTRING_HOST=db
+      - APP_CONNSTRING_DB=golden_master_template
+      - APP_CONNSTRING_PORT=5432;
+      - APP_CONNSTRING_USERNAME=root
+      - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
     depends_on:
       admin-api-migrations-golden-master:
@@ -257,7 +269,11 @@ services:
         GIT_HASH: "local-dev"
     container_name: vr_acm_api_migrations-golden-master
     environment:
-      - APP_CONNSTRING=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root;
+      - APP_CONNSTRING_HOST=db
+      - APP_CONNSTRING_DB=golden_master_template
+      - APP_CONNSTRING_PORT=5432;
+      - APP_CONNSTRING_USERNAME=root
+      - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
     depends_on:
       admin-api-migrations-golden-master:

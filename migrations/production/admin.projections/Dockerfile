@@ -11,7 +11,7 @@ COPY scripts/ /db/
 
 # Create entrypoint script that includes the version parameter
 RUN echo '#!/bin/sh' > /entrypoint.sh && \
-    echo 'exec /app/grate --connstring="$APP_CONNSTRING" --version="$GRATE_VERSION" --databasetype=PostgreSQL --schema=grate_admin_projections --files=/db "$@"' >> /entrypoint.sh && \
+    echo 'exec /app/grate --connstring="Host=$APP_CONNSTRING_HOST;Port=$APP_CONNSTRING_PORT;Database=$APP_CONNSTRING_DB;Username=$APP_CONNSTRING_USERNAME;Password=$APP_CONNSTRING_PASSWORD" --version="$GRATE_VERSION" --databasetype=PostgreSQL --schema=grate_admin_api --files=/db "$@"' >> /entrypoint.sh && \
     chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
