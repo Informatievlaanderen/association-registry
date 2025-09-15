@@ -1,3 +1,16 @@
+## [8.272.2](https://github.com/informatievlaanderen/association-registry/compare/v8.272.1...v8.272.2) (2025-09-15)
+
+
+### Bug Fixes
+
+* or-2876 build connection string from individual env vars ([8d1912c](https://github.com/informatievlaanderen/association-registry/commit/8d1912ca96445b0fbf99ef6cc69856d1d929d2e9))
+* or-2876 build connection string from individual env vars; also port ([f562c51](https://github.com/informatievlaanderen/association-registry/commit/f562c51ce3a97279ad2c365d6cc856513ccf9865))
+* or-2876 fix end of line returns ([0503960](https://github.com/informatievlaanderen/association-registry/commit/0503960e95dc1ca03325324531962b47eaa06df9))
+* or-2876 use constructed conn string ([c71f8f9](https://github.com/informatievlaanderen/association-registry/commit/c71f8f9060e3d6edcc8c711811de60bf8ccbec01))
+* or-2876 use individual env vars for compose file ([dc5eb9a](https://github.com/informatievlaanderen/association-registry/commit/dc5eb9aa179375d3194e4d75b81b4b877eb1a824))
+* or-2876 use individual env vars for github action tests ([ed26f92](https://github.com/informatievlaanderen/association-registry/commit/ed26f9286ad9a66d36be3afc089e408a667a35db))
+* or-2876 use localhost ([aba0b95](https://github.com/informatievlaanderen/association-registry/commit/aba0b95fb504c9eaab6f250f2f77e7f0866b039b))
+
 ## [8.272.1](https://github.com/informatievlaanderen/association-registry/compare/v8.272.0...v8.272.1) (2025-09-15)
 
 
