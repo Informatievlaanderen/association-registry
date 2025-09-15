@@ -1,3 +1,11 @@
+## [8.272.3](https://github.com/informatievlaanderen/association-registry/compare/v8.272.2...v8.272.3) (2025-09-15)
+
+
+### Bug Fixes
+
+* or-2876 set migration schemas right ([11108d6](https://github.com/informatievlaanderen/association-registry/commit/11108d6a9244fbe8e6a24f487eb988a40186d16c))
+* or-2876 set right folder for migrations ([dce29e8](https://github.com/informatievlaanderen/association-registry/commit/dce29e82b64316d7606f629cd45aea2658b996d7))
+
 ## [8.272.2](https://github.com/informatievlaanderen/association-registry/compare/v8.272.1...v8.272.2) (2025-09-15)
 
 
