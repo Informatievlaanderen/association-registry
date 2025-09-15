@@ -1061,7 +1061,7 @@ jobs:
       - name: Download ACM API Migrations artifact
         uses: actions/download-artifact@v4
         with:
-          name: verenigingsregister-publicprojections-migrations
+          name: verenigingsregister-acmapi-migrations
           path: ~/
 
       - name: Load Public Projections Migrations image
