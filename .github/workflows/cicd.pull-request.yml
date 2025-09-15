@@ -244,7 +244,11 @@ jobs:
           -t local-migrations-ci && cd ../..
 
           docker run --rm --network host \
-          -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e APP_CONNSTRING_HOST=db
+            -e APP_CONNSTRING_DB=golden_master_template
+            -e APP_CONNSTRING_PORT=5432;
+            -e APP_CONNSTRING_USERNAME=root
+            -e APP_CONNSTRING_PASSWORD=root
           -e DATABASE_TYPE=postgresql \
           -e GRATE_VERSION=0.0.0 \
           local-migrations-ci
@@ -256,7 +260,11 @@ jobs:
             -t admin-api-migrations-ci && cd ../../..
 
           docker run --rm --network host \
-            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e APP_CONNSTRING_HOST=db
+            -e APP_CONNSTRING_DB=golden_master_template
+            -e APP_CONNSTRING_PORT=5432;
+            -e APP_CONNSTRING_USERNAME=root
+            -e APP_CONNSTRING_PASSWORD=root
             -e DATABASE_TYPE=postgresql \
             -e GRATE_VERSION=ci-build \
             admin-api-migrations-ci
@@ -268,7 +276,11 @@ jobs:
             -t admin-projections-migrations-ci && cd ../../..
 
           docker run --rm --network host \
-            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e APP_CONNSTRING_HOST=db
+            -e APP_CONNSTRING_DB=golden_master_template
+            -e APP_CONNSTRING_PORT=5432;
+            -e APP_CONNSTRING_USERNAME=root
+            -e APP_CONNSTRING_PASSWORD=root
             -e DATABASE_TYPE=postgresql \
             admin-projections-migrations-ci
 
@@ -279,7 +291,11 @@ jobs:
             -t public-projections-migrations-ci && cd ../../..
 
           docker run --rm --network host \
-            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e APP_CONNSTRING_HOST=db
+            -e APP_CONNSTRING_DB=golden_master_template
+            -e APP_CONNSTRING_PORT=5432;
+            -e APP_CONNSTRING_USERNAME=root
+            -e APP_CONNSTRING_PASSWORD=root
             -e DATABASE_TYPE=postgresql \
             public-projections-migrations-ci
 
@@ -290,7 +306,11 @@ jobs:
             -t acm-api-migrations-ci && cd ../../..
 
           docker run --rm --network host \
-            -e APP_CONNSTRING="Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root;" \
+            -e APP_CONNSTRING_HOST=db
+            -e APP_CONNSTRING_DB=golden_master_template
+            -e APP_CONNSTRING_PORT=5432;
+            -e APP_CONNSTRING_USERNAME=root
+            -e APP_CONNSTRING_PASSWORD=root
             -e DATABASE_TYPE=postgresql \
             acm-api-migrations-ci
 
