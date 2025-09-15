@@ -229,7 +229,7 @@ services:
     environment:
       - APP_CONNSTRING_HOST=db
       - APP_CONNSTRING_DB=golden_master_template
-      - APP_CONNSTRING_PORT=5432;
+      - APP_CONNSTRING_PORT=5432
       - APP_CONNSTRING_USERNAME=root
       - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
@@ -250,7 +250,7 @@ services:
     environment:
       - APP_CONNSTRING_HOST=db
       - APP_CONNSTRING_DB=golden_master_template
-      - APP_CONNSTRING_PORT=5432;
+      - APP_CONNSTRING_PORT=5432
       - APP_CONNSTRING_USERNAME=root
       - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
@@ -271,7 +271,7 @@ services:
     environment:
       - APP_CONNSTRING_HOST=db
       - APP_CONNSTRING_DB=golden_master_template
-      - APP_CONNSTRING_PORT=5432;
+      - APP_CONNSTRING_PORT=5432
       - APP_CONNSTRING_USERNAME=root
       - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
