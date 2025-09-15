@@ -1,0 +1,73 @@
+name: "[SHARED] Build migration"
+
+on:
+  workflow_call:
+    inputs:
+      migration-name:
+        required: true
+        type: string
+        description: "Name of the migration (e.g., 'Admin Api', 'Public Projections')"
+      migration-path:
+        required: true
+        type: string
+        description: "Path to migration directory (e.g., 'migrations/production/admin.api/')"
+      image-name:
+        required: true
+        type: string
+        description: "Docker image name (e.g., 'verenigingsregister-adminapi-migrations')"
+      artifact-name:
+        required: true
+        type: string
+        description: "Artifact name for upload (e.g., 'verenigingsregister-adminapi-migrations')"
+      artifact-path:
+        required: true
+        type: string
+        description: "Path to save the tar file (e.g., '~/ar-admin-api-migration-image.tar')"
+      semver:
+        required: true
+        type: string
+        description: "Semantic version"
+      needs-tests:
+        required: true
+        type: string
+        description: "Test job dependencies (e.g., 'run-admin-tests')"
+
+jobs:
+  build-migration:
+    name: Build ${{ inputs.migration-name }} Migrations
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ inputs.semver }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build ${{ inputs.migration-path }} --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/${{ inputs.image-name }}:$VERSION
+          
+      - name: Show images
+        shell: bash
+        run: docker images
+        
+      - name: Save Migration Image
+        if: inputs.semver != 'none'
+        shell: bash
+        run: docker image save ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/${{ inputs.image-name }}:${{ inputs.semver }} -o ${{ inputs.artifact-path }}
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          
+      - name: Upload artifact
+        if: inputs.semver != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ${{ inputs.artifact-path }}
