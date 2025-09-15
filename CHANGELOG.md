@@ -1,3 +1,10 @@
+## [8.272.6](https://github.com/informatievlaanderen/association-registry/compare/v8.272.5...v8.272.6) (2025-09-15)
+
+
+### Bug Fixes
+
+* or-2876 register beheerkbosynchistoriekgebeurtenisdocument ([e3e1368](https://github.com/informatievlaanderen/association-registry/commit/e3e136831b465a30fec4a217b118e4391ff83833))
+
 ## [8.272.5](https://github.com/informatievlaanderen/association-registry/compare/v8.272.4...v8.272.5) (2025-09-15)
 
 
