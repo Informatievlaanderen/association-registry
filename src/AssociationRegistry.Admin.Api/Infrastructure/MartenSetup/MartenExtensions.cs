@@ -11,6 +11,7 @@ using MartenDb;
 using MartenDb.Logging;
 using MartenDb.Setup;
 using Schema;
+using Schema.KboSync;
 
 public static class MartenExtensions
 {
@@ -32,7 +33,8 @@ public static class MartenExtensions
                                              .ConfigureSerialization()
                                              .SetUpOpenTelemetry(isDevelopment)
                                              .RegisterAllEventTypes()
-                                             .RegisterAdminDocumentTypes();
+                                             .RegisterAdminDocumentTypes()
+                                             .RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
                                              // .RegisterProjectionDocumentTypes();
 
                                           if(!postgreSqlOptions.IncludeErrorDetail)
