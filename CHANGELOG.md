@@ -1,3 +1,10 @@
+## [8.272.1](https://github.com/informatievlaanderen/association-registry/compare/v8.272.0...v8.272.1) (2025-09-15)
+
+
+### Bug Fixes
+
+* or-2876 remove non-existing artifact ([e72af06](https://github.com/informatievlaanderen/association-registry/commit/e72af062f660fcf5270aab0c25ff63765e756c30))
+
 # [8.272.0](https://github.com/informatievlaanderen/association-registry/compare/v8.271.0...v8.272.0) (2025-09-11)
 
 
