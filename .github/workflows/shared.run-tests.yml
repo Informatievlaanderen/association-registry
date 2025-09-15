@@ -132,7 +132,7 @@ jobs:
           -t local-migrations-ci && cd ../..
 
           docker run --rm --network host \
-          -e APP_CONNSTRING_HOST=db  \
+          -e APP_CONNSTRING_HOST=127.0.0.1  \
           -e APP_CONNSTRING_DB=golden_master_template  \
           -e APP_CONNSTRING_PORT=5432 \
           -e APP_CONNSTRING_USERNAME=root  \
@@ -148,7 +148,7 @@ jobs:
             -t admin-api-migrations-ci && cd ../../..
 
           docker run --rm --network host \
-            -e APP_CONNSTRING_HOST=db  \
+            -e APP_CONNSTRING_HOST=127.0.0.1  \
             -e APP_CONNSTRING_DB=golden_master_template  \
             -e APP_CONNSTRING_PORT=5432 \
             -e APP_CONNSTRING_USERNAME=root  \
@@ -164,7 +164,7 @@ jobs:
             -t admin-projections-migrations-ci && cd ../../..
 
           docker run --rm --network host \
-            -e APP_CONNSTRING_HOST=db  \
+            -e APP_CONNSTRING_HOST=127.0.0.1  \
             -e APP_CONNSTRING_DB=golden_master_template  \
             -e APP_CONNSTRING_PORT=5432 \
             -e APP_CONNSTRING_USERNAME=root  \
@@ -180,7 +180,7 @@ jobs:
             -t public-projections-migrations-ci && cd ../../..
 
           docker run --rm --network host \
-            -e APP_CONNSTRING_HOST=db  \
+            -e APP_CONNSTRING_HOST=127.0.0.1  \
             -e APP_CONNSTRING_DB=golden_master_template  \
             -e APP_CONNSTRING_PORT=5432 \
             -e APP_CONNSTRING_USERNAME=root  \
@@ -196,7 +196,7 @@ jobs:
             -t acm-api-migrations-ci && cd ../../..
 
           docker run --rm --network host \
-            -e APP_CONNSTRING_HOST=db  \
+            -e APP_CONNSTRING_HOST=127.0.0.1  \
             -e APP_CONNSTRING_DB=golden_master_template  \
             -e APP_CONNSTRING_PORT=5432 \
             -e APP_CONNSTRING_USERNAME=root  \
