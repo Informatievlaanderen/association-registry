@@ -1,3 +1,11 @@
+## [8.272.5](https://github.com/informatievlaanderen/association-registry/compare/v8.272.4...v8.272.5) (2025-09-15)
+
+
+### Bug Fixes
+
+* or-2876 fix name public projection download artifactÃ ([7c98e2e](https://github.com/informatievlaanderen/association-registry/commit/7c98e2e896412c5ff53659b1721e36d424f4b570))
+* or-2876 push acm migration image ([ef46f80](https://github.com/informatievlaanderen/association-registry/commit/ef46f809c982b745db5b0905936bed9c8de7a4a3))
+
 ## [8.272.4](https://github.com/informatievlaanderen/association-registry/compare/v8.272.3...v8.272.4) (2025-09-15)
 
 
