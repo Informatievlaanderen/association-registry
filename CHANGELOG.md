@@ -1,3 +1,11 @@
+## [8.272.4](https://github.com/informatievlaanderen/association-registry/compare/v8.272.3...v8.272.4) (2025-09-15)
+
+
+### Bug Fixes
+
+* or-2876 download right acm migration on ci ([54c50bb](https://github.com/informatievlaanderen/association-registry/commit/54c50bbc96a32b8f19c9c858a86d6c9e8c6f7d82))
+* or-2876 move kbo sql to up folder ([9363a57](https://github.com/informatievlaanderen/association-registry/commit/9363a575e0982f92b8294470e6ffacdd39574bbf))
+
 ## [8.272.3](https://github.com/informatievlaanderen/association-registry/compare/v8.272.2...v8.272.3) (2025-09-15)
 
 
