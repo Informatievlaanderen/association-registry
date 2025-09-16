@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
 using Events;
-using Infrastructure.Extensions;
+using Extensions;
 using JasperFx.Events;
 using Marten;
 using Marten.Events.Projections;

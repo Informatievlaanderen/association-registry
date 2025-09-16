@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Extensions;
 
 public static class IEnumerableExtensions
 {

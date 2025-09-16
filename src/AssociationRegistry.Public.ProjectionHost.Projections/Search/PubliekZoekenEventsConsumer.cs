@@ -4,8 +4,8 @@ using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Core.MGet;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
-using Infrastructure.Program.WebApplication;
 using MartenDb.Subscriptions;
+using Microsoft.Extensions.Logging;
 using Resources;
 using Schema.Search;
 
@@ -27,8 +27,6 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
         _logger = logger;
     }
 
-    public async Task InitializeProjectionAsync()
-        => await PrepareElasticSearch.EnsureElasticSearchIsInitialized(_elasticClient, _options, _logger);
 
 
     public async Task ConsumeAsync(SubscriptionEventList eventList)
