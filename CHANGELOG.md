@@ -1,3 +1,10 @@
+## [8.272.9](https://github.com/informatievlaanderen/association-registry/compare/v8.272.8...v8.272.9) (2025-09-16)
+
+
+### Bug Fixes
+
+* or-2876 register document types for public api ([c7d7717](https://github.com/informatievlaanderen/association-registry/commit/c7d7717ce2461fb412c4c1459bcfd572e5a63e78))
+
 ## [8.272.8](https://github.com/informatievlaanderen/association-registry/compare/v8.272.7...v8.272.8) (2025-09-16)
 
 
