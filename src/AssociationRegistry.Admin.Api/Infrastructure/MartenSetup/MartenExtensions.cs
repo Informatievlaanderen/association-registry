@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 
 using global::Wolverine.Marten;
-using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -10,8 +9,6 @@ using Marten;
 using MartenDb;
 using MartenDb.Logging;
 using MartenDb.Setup;
-using Schema;
-using Schema.KboSync;
 
 public static class MartenExtensions
 {
@@ -33,9 +30,7 @@ public static class MartenExtensions
                                              .ConfigureSerialization()
                                              .SetUpOpenTelemetry(isDevelopment)
                                              .RegisterAllEventTypes()
-                                             .RegisterAdminDocumentTypes()
-                                             .RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
-                                             // .RegisterProjectionDocumentTypes();
+                                             .RegisterAdminDocumentTypes();
 
                                           if(!postgreSqlOptions.IncludeErrorDetail)
                                             opts.Logger(new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>()));
@@ -62,8 +57,9 @@ public static class MartenExtensions
 
         services.CritterStackDefaults(x =>
         {
-            x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
+            x.Development.GeneratedCodeMode = TypeLoadMode.Static;
             x.Development.ResourceAutoCreate = AutoCreate.None;
+            x.Development.SourceCodeWritingEnabled = false;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
             x.Production.ResourceAutoCreate = AutoCreate.None;
