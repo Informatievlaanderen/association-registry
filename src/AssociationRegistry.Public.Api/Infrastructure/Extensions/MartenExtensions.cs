@@ -14,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectionHost.Projections.Detail;
 using ProjectionHost.Projections.Sequence;
+using Schema.Detail;
+using Schema.Sequence;
 using PostgreSqlOptionsSection = Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection;
 
 public static class MartenExtensions
@@ -45,6 +47,9 @@ public static class MartenExtensions
                      opts.Events.StreamIdentity = StreamIdentity.AsString;
 
                      opts.Events.MetadataConfig.EnableAll();
+
+                     opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
+                     opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
 
                      opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
                      opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
