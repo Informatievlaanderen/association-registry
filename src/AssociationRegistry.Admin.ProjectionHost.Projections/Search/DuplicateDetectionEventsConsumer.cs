@@ -6,7 +6,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using MartenDb.Subscriptions;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Core.MGet;
-using Infrastructure.Extensions;
+using Microsoft.Extensions.Logging;
 using Resources;
 using Schema.Search;
 

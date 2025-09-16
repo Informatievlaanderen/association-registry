@@ -9,7 +9,6 @@ using Schema.Search;
 using Vereniging;
 using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
-using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerZoekProjectionHandler
 {

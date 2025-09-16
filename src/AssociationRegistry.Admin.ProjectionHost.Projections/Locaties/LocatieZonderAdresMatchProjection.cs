@@ -4,6 +4,7 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using Integrations.Grar.Clients;
 using Marten.Events.Aggregation;
+using Microsoft.Extensions.Logging;
 using Schema.Detail;
 using Vereniging;
 

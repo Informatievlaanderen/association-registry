@@ -10,7 +10,6 @@ using Schema.Historiek;
 using Schema.Historiek.EventData;
 using Vereniging;
 using IEvent = JasperFx.Events.IEvent;
-using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerVerenigingHistoriekProjector
 {

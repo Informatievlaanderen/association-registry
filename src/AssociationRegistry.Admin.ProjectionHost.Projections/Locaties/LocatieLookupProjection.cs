@@ -6,6 +6,7 @@ using JasperFx.Events.Grouping;
 using Marten;
 using Marten.Events.Aggregation;
 using Marten.Events.Projections;
+using Microsoft.Extensions.Logging;
 using Schema.Detail;
 using IEvent = JasperFx.Events.IEvent;
 

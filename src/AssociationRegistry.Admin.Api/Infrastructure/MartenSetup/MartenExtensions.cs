@@ -5,10 +5,17 @@ using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Marten;
 using MartenDb;
 using MartenDb.Logging;
 using MartenDb.Setup;
+using Microsoft.Extensions.Logging.Abstractions;
+using ProjectionHost.Projections.Detail;
+using ProjectionHost.Projections.Historiek;
+using ProjectionHost.Projections.KboSync;
+using ProjectionHost.Projections.Locaties;
+using ProjectionHost.Projections.PowerBiExport;
 
 public static class MartenExtensions
 {
@@ -40,6 +47,13 @@ public static class MartenExtensions
                                           opts.Events.AppendMode = EventAppendMode.Quick;
 
                                           opts.AutoCreateSchemaObjects = AutoCreate.None;
+
+                                          opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
+                                          opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
+                                          opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
+                                          opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
+                                          opts.Projections.Add(new LocatieLookupProjection(NullLogger<LocatieLookupProjection>.Instance), ProjectionLifecycle.Async);
+                                          opts.Projections.Add(new LocatieZonderAdresMatchProjection(NullLogger<LocatieZonderAdresMatchProjection>.Instance), ProjectionLifecycle.Async);
 
                                           return opts;
                                       })
