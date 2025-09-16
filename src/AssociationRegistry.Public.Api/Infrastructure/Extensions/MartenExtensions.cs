@@ -5,12 +5,15 @@ using Hosts.Configuration;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Json;
 using Marten;
 using MartenDb.Logging;
 using MartenDb.Setup;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProjectionHost.Projections.Detail;
+using ProjectionHost.Projections.Sequence;
 using PostgreSqlOptionsSection = Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection;
 
 public static class MartenExtensions
@@ -42,6 +45,9 @@ public static class MartenExtensions
                      opts.Events.StreamIdentity = StreamIdentity.AsString;
 
                      opts.Events.MetadataConfig.EnableAll();
+
+                     opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
+                     opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
 
                      opts.UseNewtonsoftForSerialization(configure: settings =>
                      {

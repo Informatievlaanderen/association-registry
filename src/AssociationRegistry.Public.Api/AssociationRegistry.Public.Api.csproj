@@ -65,6 +65,7 @@
     <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj"/>
     <ProjectReference Include="..\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj" />
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry.Public.ProjectionHost.Projections\AssociationRegistry.Public.ProjectionHost.Projections.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Public.Schema\AssociationRegistry.Public.Schema.csproj"/>
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
   </ItemGroup>
