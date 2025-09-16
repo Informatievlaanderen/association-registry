@@ -1,0 +1,25 @@
+projects:
+  Admin API:
+    name: Admin API
+    csprojPath: src/AssociationRegistry.Admin.Api
+    migrationDestination: migrations/production/admin.api/scripts/up
+    connectionString: postgresql://127.0.0.1/verenigingsregister
+  Admin Projections:
+    name: Admin Projections
+    csprojPath: src/AssociationRegistry.Admin.ProjectionHost
+    migrationDestination: migrations/production/admin.projections/scripts/up
+    connectionString: postgresql://127.0.0.1/verenigingsregister
+  Public Projections:
+    name: Public Projections
+    csprojPath: src/AssociationRegistry.Public.ProjectionHost
+    migrationDestination: migrations/production/public.projections/scripts/up
+    connectionString: postgresql://127.0.0.1/verenigingsregister
+  ACM API:
+    name: ACM API
+    csprojPath: src/AssociationRegistry.Acm.Api
+    migrationDestination: migrations/production/acm.api/scripts/up
+    connectionString: postgresql://127.0.0.1/verenigingsregister
+customScripts:
+- name: Regenerate Marten
+  command: ./regen-marten.sh
+  workingDirectory: .

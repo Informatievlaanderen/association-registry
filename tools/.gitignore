@@ -1,0 +1,15 @@
+# Tools directory gitignore
+
+# Grate database migration tool
+grate*
+*.zip.*
+*.pdb
+
+# Migration Runner
+migration-runner/config.yaml
+migration-runner/test-*.csx
+migration-runner/*.tmp
+migration-runner/*.temp
+migration-runner/*.pdb
+migration-runner/migration-runner.csx
+migration-runner/migration-runner-simple.csx
