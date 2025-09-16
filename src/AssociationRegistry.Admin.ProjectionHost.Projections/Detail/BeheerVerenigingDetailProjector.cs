@@ -9,7 +9,6 @@ using Framework;
 using JasperFx.Events;
 using Schema;
 using Schema.Detail;
-using Vereniging;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = JasperFx.Events.IEvent;
@@ -17,7 +16,6 @@ using SubverenigingVan = Schema.Detail.SubverenigingVan;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Verenigingstype = Schema.Detail.Verenigingstype;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
-using WellknownFormats = Constants.WellknownFormats;
 using Werkingsgebied = Schema.Detail.Werkingsgebied;
 
 public class BeheerVerenigingDetailProjector
