@@ -212,11 +212,11 @@ jobs:
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
       run-docker-wiremock: false
-      run-docker-db: false
+      run-docker-db: true
       run-docker-elasticsearch: false
       run-docker-localstack: false
       run-docker-otelcollector: false
-      pre-gen-marten: false
+      pre-gen-marten: true
     secrets: inherit
 
   build-public-projections:
