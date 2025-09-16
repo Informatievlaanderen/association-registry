@@ -1,3 +1,12 @@
+## [8.272.7](https://github.com/informatievlaanderen/association-registry/compare/v8.272.6...v8.272.7) (2025-09-16)
+
+
+### Bug Fixes
+
+* or-2876 extract projections to project so admin api can register them ([9e64c4c](https://github.com/informatievlaanderen/association-registry/commit/9e64c4c8646b0f53fea218b4fee473bc870d99ab))
+* or-2876 register doc types in admin api ([6f07146](https://github.com/informatievlaanderen/association-registry/commit/6f07146f72df715daa760a8ea265ba105defebaf))
+* or-2876 remove dummy sql files and set typeloadmode back to dynamÃic on dev ([eb0bd40](https://github.com/informatievlaanderen/association-registry/commit/eb0bd40e7310386523a3ced6fabec4ab69ed7223))
+
 ## [8.272.6](https://github.com/informatievlaanderen/association-registry/compare/v8.272.5...v8.272.6) (2025-09-15)
 
 
