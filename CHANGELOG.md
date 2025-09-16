@@ -1,3 +1,14 @@
+## [8.272.8](https://github.com/informatievlaanderen/association-registry/compare/v8.272.7...v8.272.8) (2025-09-16)
+
+
+### Bug Fixes
+
+* or-2876 ci set public api migrations ([d770358](https://github.com/informatievlaanderen/association-registry/commit/d770358c01eb9c0c92f702d501bdeba151a4c176))
+* or-2876 move projections to new project and register it for public api ([77a71e7](https://github.com/informatievlaanderen/association-registry/commit/77a71e77fc97325f12ec82dcf1f313ae2943e968))
+* or-2876 remove comments in yml ([6276b75](https://github.com/informatievlaanderen/association-registry/commit/6276b753d533b1097db21ad4f3e278d93dd6ef8e))
+* or-2876 remove comments in yml ([ddda64e](https://github.com/informatievlaanderen/association-registry/commit/ddda64eb944084230abef5f52f3edaf1e1c44fff))
+* or-2876 set public api migrations in comment ([7143fc3](https://github.com/informatievlaanderen/association-registry/commit/7143fc33b7d869065b9a6b51d93635ff8413ba06))
+
 ## [8.272.7](https://github.com/informatievlaanderen/association-registry/compare/v8.272.6...v8.272.7) (2025-09-16)
 
 
