@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
+using JasperFx.CommandLine;
 using Npgsql;
 using System.Reflection;
 using Xunit;
@@ -31,6 +32,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
 
     protected ProjectionHostFixture(string identifier)
     {
+        JasperFxEnvironment.AutoStartHost = true;
         _identifier += identifier.ToLowerInvariant();
         _configurationRoot = GetConfiguration();
 
@@ -104,8 +106,8 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
     private void CreateDatabaseFromTemplate()
     {
         DatabaseTemplateHelper.CreateDatabaseFromTemplate(
-            _configurationRoot, 
-            _configurationRoot["PostgreSQLOptions:database"]!, 
+            _configurationRoot,
+            _configurationRoot["PostgreSQLOptions:database"]!,
             new NullLogger<ProjectionHostFixture>());
     }
 

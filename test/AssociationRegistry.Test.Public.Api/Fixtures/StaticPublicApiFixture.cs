@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
 using AssociationRegistry.Public.Api;
+using JasperFx.CommandLine;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -16,6 +17,8 @@ public class StaticPublicApiFixture : IDisposable
 
     public StaticPublicApiFixture()
     {
+        JasperFxEnvironment.AutoStartHost = true;
+
         _webApplicationFactory = new WebApplicationFactory<Program>()
            .WithWebHostBuilder(
                 builder => { builder.UseConfiguration(GetConfiguration()); });
