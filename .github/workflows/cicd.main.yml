@@ -502,49 +502,49 @@ jobs:
           name: verenigingsregister-acmapi-migrations
           path: ~/ar-acm-api-migration-image.tar
 
-  build-public-api-migrations:
-    name: Build Public Api Migrations
-    runs-on: ubuntu-latest
-    if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-public-tests ]
-    steps:
-
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Build
-        shell: bash
-        env:
-          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ needs.set-release-version.outputs.version }}
-        run: |
-          VERSION=${SEMVER:-"0.0.0"}
-          if [ "$VERSION" == "none" ]; then
-            VERSION="0.0.0"
-          fi
-          pushd migrations/production/public.api/ \
-          && docker buildx build . --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
-          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-publicapi-migrations:$VERSION \
-          && popd
-
-      - name: Show images
-        shell: bash
-        run: docker images
-
-      - name: Save publicapi migrations Image
-        if: needs.set-release-version.outputs.version != 'none'
-        shell: bash
-        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-publicapi-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-public-api-migration-image.tar
-        env:
-          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ needs.set-release-version.outputs.version }}
-
-      - name: Upload Api artifact
-        if: needs.set-release-version.outputs.version != 'none'
-        uses: actions/upload-artifact@v4
-        with:
-          name: verenigingsregister-publicapi-migrations
-          path: ~/ar-public-api-migration-image.tar
+#  build-public-api-migrations:
+#    name: Build Public Api Migrations
+#    runs-on: ubuntu-latest
+#    if: github.repository_owner == 'Informatievlaanderen'
+#    needs: [ set-release-version, run-public-tests ]
+#    steps:
+#
+#      - name: Checkout Code
+#        uses: actions/checkout@v4
+#
+#      - name: Build
+#        shell: bash
+#        env:
+#          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+#          SEMVER: ${{ needs.set-release-version.outputs.version }}
+#        run: |
+#          VERSION=${SEMVER:-"0.0.0"}
+#          if [ "$VERSION" == "none" ]; then
+#            VERSION="0.0.0"
+#          fi
+#          pushd migrations/production/public.api/ \
+#          && docker buildx build . --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+#          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-publicapi-migrations:$VERSION \
+#          && popd
+#
+#      - name: Show images
+#        shell: bash
+#        run: docker images
+#
+#      - name: Save publicapi migrations Image
+#        if: needs.set-release-version.outputs.version != 'none'
+#        shell: bash
+#        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-publicapi-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-public-api-migration-image.tar
+#        env:
+#          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+#          SEMVER: ${{ needs.set-release-version.outputs.version }}
+#
+#      - name: Upload Api artifact
+#        if: needs.set-release-version.outputs.version != 'none'
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: verenigingsregister-publicapi-migrations
+#          path: ~/ar-public-api-migration-image.tar
 
 
   build-public-projections-migrations:
@@ -1103,15 +1103,15 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-acm-api-migration-image.tar
 
-      - name: Download Public Api Migrations artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: verenigingsregister-publicapi-migrations
-          path: ~/
-
-      - name: Load Public Api Migrations image
-        shell: bash
-        run: docker image load -i ~/ar-public-api-migration-image.tar
+#      - name: Download Public Api Migrations artifact
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: verenigingsregister-publicapi-migrations
+#          path: ~/
+#
+#      - name: Load Public Api Migrations image
+#        shell: bash
+#        run: docker image load -i ~/ar-public-api-migration-image.tar
 
       - name: Download Public projections Migrations artifact
         uses: actions/download-artifact@v4
@@ -1137,7 +1137,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-powerbiexport:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi-migrations:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections-migrations:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi-migrations:$SEMVER
+#          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi-migrations:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections-migrations:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-acmapi-migrations:$SEMVER
         env:

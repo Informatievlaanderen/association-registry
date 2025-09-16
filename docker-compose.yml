@@ -239,26 +239,26 @@ services:
     networks:
       - vr-net
 
-  public-api-migrations-golden-master:
-    build:
-      context: migrations/production/public.api/
-      dockerfile: Dockerfile
-      args:
-        CI_BUILD_NUMBER: "8.2.3"
-        GIT_HASH: "local-dev"
-    container_name: vr_public_api_migrations-golden-master
-    environment:
-      - APP_CONNSTRING_HOST=db
-      - APP_CONNSTRING_DB=golden_master_template
-      - APP_CONNSTRING_PORT=5432
-      - APP_CONNSTRING_USERNAME=root
-      - APP_CONNSTRING_PASSWORD=root
-      - DATABASE_TYPE=postgresql
-    depends_on:
-      admin-api-migrations-golden-master:
-        condition: service_completed_successfully
-    networks:
-      - vr-net
+#  public-api-migrations-golden-master:
+#    build:
+#      context: migrations/production/public.api/
+#      dockerfile: Dockerfile
+#      args:
+#        CI_BUILD_NUMBER: "8.2.3"
+#        GIT_HASH: "local-dev"
+#    container_name: vr_public_api_migrations-golden-master
+#    environment:
+#      - APP_CONNSTRING_HOST=db
+#      - APP_CONNSTRING_DB=golden_master_template
+#      - APP_CONNSTRING_PORT=5432
+#      - APP_CONNSTRING_USERNAME=root
+#      - APP_CONNSTRING_PASSWORD=root
+#      - DATABASE_TYPE=postgresql
+#    depends_on:
+#      admin-api-migrations-golden-master:
+#        condition: service_completed_successfully
+#    networks:
+#      - vr-net
 
   public-projections-migrations-golden-master:
     build:
