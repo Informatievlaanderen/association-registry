@@ -1,3 +1,10 @@
+## [8.272.10](https://github.com/informatievlaanderen/association-registry/compare/v8.272.9...v8.272.10) (2025-09-16)
+
+
+### Bug Fixes
+
+* or-2876 pregen marten for public api ([10fe3b8](https://github.com/informatievlaanderen/association-registry/commit/10fe3b85f8c0cd5665d1a0d94a514b02722e6d42))
+
 ## [8.272.9](https://github.com/informatievlaanderen/association-registry/compare/v8.272.8...v8.272.9) (2025-09-16)
 
 
