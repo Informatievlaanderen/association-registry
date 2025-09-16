@@ -25,6 +25,7 @@ using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
 using Infrastructure;
+using JasperFx;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Localization;
@@ -147,7 +148,7 @@ public class Program
 
         ConfigureLifetimeHooks(app);
 
-        await app.RunAsync();
+        await app.RunJasperFxCommands(args);
     }
 
     private static void ConfigureRequestLocalization(WebApplication app)
