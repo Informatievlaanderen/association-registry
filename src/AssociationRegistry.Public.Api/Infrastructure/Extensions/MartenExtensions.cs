@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
 using Constants;
+using Grar.NutsLau;
 using Hosts.Configuration;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -50,6 +51,7 @@ public static class MartenExtensions
 
                      opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
                      opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
+                     opts.RegisterDocumentType<PostalNutsLauInfo>();
 
                      opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
                      opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
