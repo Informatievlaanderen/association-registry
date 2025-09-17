@@ -1,3 +1,10 @@
+## [8.272.11](https://github.com/informatievlaanderen/association-registry/compare/v8.272.10...v8.272.11) (2025-09-17)
+
+
+### Bug Fixes
+
+* or-2876 register doc type postalnutslauinfo on public api ([91da1b6](https://github.com/informatievlaanderen/association-registry/commit/91da1b6dbb7a64ffea281be29269847729a71799))
+
 ## [8.272.10](https://github.com/informatievlaanderen/association-registry/compare/v8.272.9...v8.272.10) (2025-09-16)
 
 
