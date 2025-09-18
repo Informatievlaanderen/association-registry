@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Lidmaatschappen;
 
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using DecentraalBeheer.Vereniging;
 using Xunit;
 using Geldigheidsperiode = AssociationRegistry.Geldigheidsperiode;

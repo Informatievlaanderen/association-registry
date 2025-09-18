@@ -4,7 +4,7 @@ using AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AutoFixture;
-using CommandHandling.Grar.GrarUpdates.LocatieFinder;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.LocatieFinder;
 using Common.AutoFixture;
 using Common.Framework;
 using FluentAssertions;

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Lidmaatschappen.When_Removing_A_Lidmaatschap;
 
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;

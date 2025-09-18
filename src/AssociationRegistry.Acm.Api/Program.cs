@@ -23,6 +23,7 @@ using JasperFx;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Services;
 using AssociationRegistry.Magda;
+using EventStore;
 using EventStore.ConflictResolution;
 using MartenDb.Store;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

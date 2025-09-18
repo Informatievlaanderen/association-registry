@@ -12,7 +12,6 @@ using EventStore.ConflictResolution;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
-using Vereniging;
 using Xunit;
 
 public class Given_An_Higer_Version

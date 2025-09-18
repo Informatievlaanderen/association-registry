@@ -5,7 +5,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.Common;
-using CommandHandling.Grar.GrarUpdates.Hernummering;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.Hernummering;
 using FluentAssertions;
 using Xunit;
 

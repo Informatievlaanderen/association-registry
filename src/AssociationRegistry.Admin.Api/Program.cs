@@ -58,6 +58,7 @@ using Integrations.Slack;
 using JasperFx;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Magda.Kbo;
+using DecentraalBeheer.Vereniging.DuplicaatDetectie;
 using Marten;
 using MartenDb.Store;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

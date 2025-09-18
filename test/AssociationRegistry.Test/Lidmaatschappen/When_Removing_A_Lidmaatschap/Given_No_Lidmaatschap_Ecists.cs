@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Lidmaatschappen.When_Removing_A_Lidmaatschap;
 
 using AssociationRegistry.Resources;
-using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;

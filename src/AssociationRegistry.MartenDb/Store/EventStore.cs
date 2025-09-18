@@ -1,20 +1,19 @@
 namespace AssociationRegistry.MartenDb.Store;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.EventStore.ConflictResolution;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.DuplicaatDetectie;
+using Events;
+using Framework;
 using JasperFx.Events;
 using Marten;
 using Microsoft.Extensions.Logging;
 using NodaTime.Text;
 using IEvent = Events.IEvent;
-using IEventStore = Store.IEventStore;
 
-public class EventStore : Store.IEventStore
+public class EventStore : IEventStore
 {
     public class ExpectedVersion
     {
@@ -46,7 +45,6 @@ public class EventStore : Store.IEventStore
 
     public async Task<StreamActionResult> SaveNew(
         string aggregateId,
-        long aggregateVersion,
         IDocumentSession session,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
@@ -180,6 +178,14 @@ public class EventStore : Store.IEventStore
     {
         await using var session = _documentStore.LightweightSession();
         var streamState = await session.Events.FetchStreamStateAsync(vCode);
+
+        return streamState != null;
+    }
+
+    public async Task<bool> Exists(string aggregateId)
+    {
+        await using var session = _documentStore.LightweightSession();
+        var streamState = await session.Events.FetchStreamStateAsync(aggregateId);
 
         return streamState != null;
     }

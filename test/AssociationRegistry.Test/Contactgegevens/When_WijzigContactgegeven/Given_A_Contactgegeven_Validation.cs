@@ -3,7 +3,6 @@
 using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;

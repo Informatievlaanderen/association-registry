@@ -5,7 +5,6 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Framework.Helpers;
-using Vereniging;
 using Xunit;
 
 public class Given_A_List_Of_Werkingsgebieden_With_Duplicates

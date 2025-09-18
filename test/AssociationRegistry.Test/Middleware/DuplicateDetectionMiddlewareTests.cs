@@ -1,6 +1,5 @@
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -10,11 +9,12 @@ using Xunit;
 
 namespace AssociationRegistry.Test.Middleware;
 
-using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
-using CommandHandling.DecentraalBeheer.Middleware;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Middleware;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.DuplicaatDetectie;
 
 public class DuplicateDetectionMiddlewareTests
 {

@@ -1,11 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Grar.NutsLau.When_Fetching_The_PostalCodes;
 
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Models.PostalInfo;
 using AssociationRegistry.Grar.NutsLau;
 using FluentAssertions;
 using AssociationRegistry.Integrations.Grar.Clients;
-using Integrations.Grar.NutsLau;
 using Moq;
 using Xunit;
 

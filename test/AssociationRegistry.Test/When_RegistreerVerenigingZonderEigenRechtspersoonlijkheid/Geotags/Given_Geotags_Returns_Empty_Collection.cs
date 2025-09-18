@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_RegistreerVerenigingZonderEigenRechtspersoonlijkheid.Geotags;
 
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common.AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.Faktories;
@@ -9,9 +9,7 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;
 using Events;
 using Events.Factories;
-using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
-using Vereniging;
 using Xunit;
 
 public class Given_Geotags_Returns_Empty_Collection

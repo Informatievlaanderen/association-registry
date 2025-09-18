@@ -10,7 +10,6 @@ using EventStore.ConflictResolution;
 using FluentAssertions;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
-using Vereniging;
 using Xunit;
 
 public class Given_KboNummersMetOngeldigeRechtsvorm

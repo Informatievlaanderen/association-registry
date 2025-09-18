@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_An_Insz;
 
 using AssociationRegistry.Test.Framework;
-using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;

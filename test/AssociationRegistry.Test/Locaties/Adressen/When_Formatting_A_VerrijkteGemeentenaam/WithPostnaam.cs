@@ -1,10 +1,8 @@
 namespace AssociationRegistry.Test.Locaties.Adressen.When_Formatting_A_VerrijkteGemeentenaam;
 
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Models.PostalInfo;
 using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using FluentAssertions;
-using GemeentenaamVerrijking;
 using Xunit;
 
 public class WithPostnaam

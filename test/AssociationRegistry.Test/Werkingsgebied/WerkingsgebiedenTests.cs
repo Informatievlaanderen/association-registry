@@ -2,7 +2,6 @@
 
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
-using Vereniging;
 using Xunit;
 
 public class WerkingsgebiedenTests

@@ -1,8 +1,7 @@
 namespace AssociationRegistry.Test.Dubbelbeheer.Allow_Loading_DubbeleVereniging;
 
-using AssociationRegistry.Vereniging;
 using AutoFixture;
-using CommandHandling.Grar.GrarConsumer.Messaging.OntkoppelAdres;
+using AssociationRegistry.CommandHandling.Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using DecentraalBeheer.Vereniging;
 using Xunit;
 

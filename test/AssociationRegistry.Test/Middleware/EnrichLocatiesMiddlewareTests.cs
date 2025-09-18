@@ -1,12 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Middleware;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Grar.Models;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using CommandHandling.DecentraalBeheer.Middleware;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Middleware;
 using Common.AutoFixture;
 using Common.StubsMocksFakes.Faktories;
 using DecentraalBeheer.Vereniging;
@@ -14,7 +13,6 @@ using DecentraalBeheer.Vereniging.Adressen;
 using FluentAssertions;
 using AssociationRegistry.Integrations.Grar.Clients;
 using Moq;
-using Vereniging;
 using Xunit;
 
 public class EnrichLocatiesMiddlewareTests

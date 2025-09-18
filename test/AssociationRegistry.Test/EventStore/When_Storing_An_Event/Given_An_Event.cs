@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.When_Storing_An_Event;
 
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.Framework;
 using EventStore.ConflictResolution;

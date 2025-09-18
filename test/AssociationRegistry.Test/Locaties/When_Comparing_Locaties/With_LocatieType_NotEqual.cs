@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Locaties.When_Comparing_Locaties;
 
-using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using FluentAssertions;

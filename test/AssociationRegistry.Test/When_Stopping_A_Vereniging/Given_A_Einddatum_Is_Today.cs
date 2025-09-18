@@ -6,7 +6,6 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using FluentAssertions;
 using Framework;
-using Vereniging;
 using Xunit;
 
 public class Given_A_Einddatum_Is_Today

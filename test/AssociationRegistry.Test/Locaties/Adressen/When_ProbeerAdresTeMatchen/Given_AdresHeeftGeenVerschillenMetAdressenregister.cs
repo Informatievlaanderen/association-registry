@@ -1,24 +1,20 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Models;
 using Events;
 using Formats;
 using AssociationRegistry.Test.Common.AutoFixture;
-using Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
-using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
-using FluentAssertions;
 using AssociationRegistry.Integrations.Grar.AdresMatch;
 using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Wolverine;
 using Xunit;
 
 public class Given_AdresHeeftGeenVerschillenMetAdressenregister

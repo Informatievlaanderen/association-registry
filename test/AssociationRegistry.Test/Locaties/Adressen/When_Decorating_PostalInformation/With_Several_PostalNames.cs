@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_Decorating_PostalInformation;
 
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Models.PostalInfo;
-using Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging.Adressen;
 using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;

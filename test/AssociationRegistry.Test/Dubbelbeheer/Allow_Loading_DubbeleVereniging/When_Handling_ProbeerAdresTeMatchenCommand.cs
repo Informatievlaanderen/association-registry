@@ -1,14 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.Allow_Loading_DubbeleVereniging;
 
 using AssociationRegistry.Grar.AdresMatch;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using DecentraalBeheer.Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
-using ProbeerAdresTeMatchenCommandHandler = CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen.ProbeerAdresTeMatchenCommandHandler;
 
 public class When_Handling_ProbeerAdresTeMatchenCommand : When_Loading_With_Dubbels_TestBase
 {

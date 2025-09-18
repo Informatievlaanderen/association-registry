@@ -3,7 +3,6 @@
 using DecentraalBeheer.Vereniging.Adressen;
 using Events;
 using FluentAssertions;
-using Vereniging;
 using Xunit;
 
 public class AdresIdEqualityTests

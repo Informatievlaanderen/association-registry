@@ -6,7 +6,6 @@ using Common.AutoFixture;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
-using Vereniging;
 using Xunit;
 
 public class Given_An_Non_Existing_WerkingsgebiedCode

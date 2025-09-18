@@ -6,7 +6,6 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using Marten;
 using MartenDb.Store;
-using Vereniging;
 
 public class EventStoreMock : IEventStore
 {
@@ -66,7 +65,6 @@ public class EventStoreMock : IEventStore
 
     public async Task<StreamActionResult> SaveNew(
         string aggregateId,
-        long verenigingVersion,
         IDocumentSession session,
         CommandMetadata metadata,
         CancellationToken cancellationToken,

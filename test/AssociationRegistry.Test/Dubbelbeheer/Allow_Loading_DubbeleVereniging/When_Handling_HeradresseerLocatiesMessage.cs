@@ -1,9 +1,7 @@
 namespace AssociationRegistry.Test.Dubbelbeheer.Allow_Loading_DubbeleVereniging;
 
-using AssociationRegistry.Grar;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
-using CommandHandling.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
+using AssociationRegistry.CommandHandling.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using DecentraalBeheer.Vereniging;
 using AssociationRegistry.Integrations.Grar.Clients;
 using Moq;

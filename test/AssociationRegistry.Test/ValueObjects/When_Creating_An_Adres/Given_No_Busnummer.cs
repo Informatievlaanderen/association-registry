@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_An_Adres;
 
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging.Adressen;
 using FluentAssertions;

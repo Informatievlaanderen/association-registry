@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_HoofdactiviteitenLijst;
 
 using AssociationRegistry.Test.Framework.Helpers;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;

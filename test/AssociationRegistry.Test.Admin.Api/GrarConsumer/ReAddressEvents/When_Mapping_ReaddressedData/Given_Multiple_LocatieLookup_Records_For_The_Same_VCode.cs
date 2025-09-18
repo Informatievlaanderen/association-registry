@@ -2,9 +2,9 @@
 
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
-using CommandHandling.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
-using CommandHandling.Grar.GrarUpdates.Hernummering;
-using CommandHandling.Grar.GrarUpdates.LocatieFinder;
+using AssociationRegistry.CommandHandling.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.Hernummering;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.LocatieFinder;
 using Common.AutoFixture;
 using FluentAssertions;
 using Moq;

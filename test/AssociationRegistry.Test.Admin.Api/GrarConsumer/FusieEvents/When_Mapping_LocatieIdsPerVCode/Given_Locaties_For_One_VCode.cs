@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using CommandHandling.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
-using CommandHandling.Grar.GrarUpdates.Hernummering;
-using CommandHandling.Grar.GrarUpdates.LocatieFinder;
+using AssociationRegistry.CommandHandling.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.Hernummering;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.LocatieFinder;
 using FluentAssertions;
 using Xunit;
 

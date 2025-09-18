@@ -2,9 +2,8 @@
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
-using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Notifications;
-using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Notifications;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using DecentraalBeheer.Vereniging;
 using Integrations.Slack;
 using Microsoft.Extensions.Logging.Abstractions;

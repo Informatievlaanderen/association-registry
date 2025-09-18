@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_Loading_A_Vereniging;
 
-using AssociationRegistry.EventStore;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
@@ -11,7 +10,6 @@ using Events;
 using FluentAssertions;
 using Framework;
 using MartenDb.Store;
-using Vereniging;
 using Xunit;
 
 public class Given_A_Wrong_Type

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.List;
 
 using AssociationRegistry.Grar.Exceptions;
-using Events;
 using FluentAssertions;
 using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging;

@@ -164,7 +164,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 
         await using var session = DocumentStore.LightweightSession();
 
-        await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), EventStore.ExpectedVersion.NewStream, session, metadata, CancellationToken.None, eventsToAdd);
+        await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), session, metadata, CancellationToken.None, eventsToAdd);
 
         var retry = Policy
                    .Handle<Exception>()

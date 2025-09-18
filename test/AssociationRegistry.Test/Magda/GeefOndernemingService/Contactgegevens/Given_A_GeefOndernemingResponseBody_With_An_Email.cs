@@ -16,7 +16,6 @@ using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Xunit;
 
 public class Given_A_GeefOndernemingResponseBody_With_An_Email

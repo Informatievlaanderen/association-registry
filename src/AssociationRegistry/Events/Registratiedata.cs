@@ -1,5 +1,8 @@
 namespace AssociationRegistry.Events;
 
+using DecentraalBeheer.Vereniging;
+using System.Collections.Immutable;
+
 public static class Registratiedata
 {
     public record Contactgegeven(
@@ -95,6 +98,27 @@ public static class Registratiedata
         string Beschrijving);
 
     public record Geotag(string Identificiatie);
+
+    public record DuplicaatVereniging(
+        string VCode,
+        Verenigingstype Verenigingstype,
+        Verenigingssubtype? Verenigingssubtype,
+        string Naam,
+        string KorteNaam,
+        HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
+        DuplicaatVerenigingLocatie[] Locaties);
+
+    public record Verenigingstype(string Code, string Naam);
+
+    public record Verenigingssubtype(string Code, string Naam);
+
+    public record DuplicaatVerenigingLocatie(
+        string Locatietype,
+        bool IsPrimair,
+        string Adres,
+        string? Naam,
+        string Postcode,
+        string Gemeente);
 }
 
 public interface IAdresId

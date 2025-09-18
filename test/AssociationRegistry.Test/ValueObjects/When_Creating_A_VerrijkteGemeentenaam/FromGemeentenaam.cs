@@ -3,8 +3,6 @@
 using DecentraalBeheer.Vereniging.Adressen;
 using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using FluentAssertions;
-using GemeentenaamVerrijking;
-using Vereniging;
 using Xunit;
 
 public class FromGemeentenaam
