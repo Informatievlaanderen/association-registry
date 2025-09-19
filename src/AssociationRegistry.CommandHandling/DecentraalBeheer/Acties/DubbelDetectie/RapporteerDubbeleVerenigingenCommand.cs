@@ -2,9 +2,9 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.DuplicaatDetectie;
-using Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 
 public record RapporteerDubbeleVerenigingenCommand(
+    string Key,
     VerenigingsNaam Naam,
     Locatie[] Locaties,
     DuplicaatVereniging[] GedetecteerdeDubbels);

@@ -9,12 +9,15 @@ using Xunit;
 
 namespace AssociationRegistry.Test.Middleware;
 
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.DubbelDetectie;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.
+    DuplicateVerenigingDetection;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Middleware;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using DecentraalBeheer.Vereniging.DuplicaatDetectie;
+using Wolverine;
 
 public class DuplicateDetectionMiddlewareTests
 {
@@ -23,11 +26,13 @@ public class DuplicateDetectionMiddlewareTests
     private readonly ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> _logger;
     private readonly VerrijkteAdressenUitGrar _verrijkteAdressen;
     private readonly CancellationToken _cancellationToken;
+    private readonly Mock<IMessageBus> _messagebus;
 
     public DuplicateDetectionMiddlewareTests()
     {
         _fixture = new Fixture().CustomizeDomain();
         _duplicateServiceMock = new Mock<IDuplicateVerenigingDetectionService>();
+        _messagebus = new Mock<IMessageBus>();
         _logger = NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance;
         _verrijkteAdressen = _fixture.Create<VerrijkteAdressenUitGrar>();
         _cancellationToken = CancellationToken.None;
@@ -41,7 +46,7 @@ public class DuplicateDetectionMiddlewareTests
 
         // Act
         var result = await DuplicateDetectionMiddleware.BeforeAsync(
-            envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _logger, _cancellationToken);
+            envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _messagebus.Object, _logger, _cancellationToken);
 
         // Assert
         result.Should().Be(PotentialDuplicatesFound.None);
@@ -55,7 +60,7 @@ public class DuplicateDetectionMiddlewareTests
 
         // Act
         await DuplicateDetectionMiddleware.BeforeAsync(
-            envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _logger, _cancellationToken);
+            envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _messagebus.Object, _logger, _cancellationToken);
 
         // Assert
         _duplicateServiceMock.VerifyNoOtherCalls();
@@ -70,7 +75,7 @@ public class DuplicateDetectionMiddlewareTests
 
         // Act
         var result = await DuplicateDetectionMiddleware.BeforeAsync(
-            envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _logger, _cancellationToken);
+            envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _messagebus.Object, _logger, _cancellationToken);
 
         // Assert
         result.Should().Be(PotentialDuplicatesFound.None);
@@ -78,7 +83,7 @@ public class DuplicateDetectionMiddlewareTests
     }
 
     [Fact]
-    public async Task WhenSkipDuplicateDetectionIsFalseAndDuplicatesFound_ShouldReturnSome()
+    public async Task WhenSkipDuplicateDetectionIsFalseAndDuplicatesFound_ShouldReturnSome_And_Send_RapporteerDubbeleVerenigingenCommand()
     {
         // Arrange
         var envelope = CreateCommand(skipDuplicateDetection: false);
@@ -87,18 +92,31 @@ public class DuplicateDetectionMiddlewareTests
 
         // Act
         var result = await DuplicateDetectionMiddleware.BeforeAsync(
-            envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _logger, _cancellationToken);
+            envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _messagebus.Object, _logger, _cancellationToken);
 
         // Assert
         result.Should().NotBe(PotentialDuplicatesFound.None);
         result.PotentialDuplicates.Should().BeEquivalentTo(duplicates);
         VerifyDuplicateServiceCalledWithCorrectParameters(envelope);
+
+        _messagebus.Verify(x => x.SendAsync(
+                               It.Is<CommandEnvelope<RapporteerDubbeleVerenigingenCommand>>(
+                                   c =>
+                                       !string.IsNullOrWhiteSpace(c.Command.Key)
+                                    && c.Command.Naam == envelope.Command.Naam
+                                    && c.Command.Locaties.SequenceEqual(envelope.Command.Locaties)
+                                    && c.Command.GedetecteerdeDubbels.SequenceEqual(duplicates)
+                                    && c.Metadata.Initiator == WellknownOvoNumbers.DigitaalVlaanderenOvoNumber
+                               ),
+                               It.IsAny<DeliveryOptions>()
+                           ), Times.Once);
     }
 
     [Fact]
     public async Task WithNoLocations_ShouldReturnNone()
     {
         var envelope = CreateCommand(skipDuplicateDetection: false);
+
         envelope = envelope with
         {
             Command = envelope.Command with
@@ -111,7 +129,7 @@ public class DuplicateDetectionMiddlewareTests
         SetupDuplicateServiceReturnsDuplicates(duplicates);
 
         var result = await DuplicateDetectionMiddleware.BeforeAsync(
-            envelope, VerrijkteAdressenUitGrar.Empty, _duplicateServiceMock.Object, _logger, _cancellationToken);
+            envelope, VerrijkteAdressenUitGrar.Empty, _duplicateServiceMock.Object, _messagebus.Object, _logger, _cancellationToken);
 
         result.Should().Be(PotentialDuplicatesFound.None);
     }
@@ -125,7 +143,7 @@ public class DuplicateDetectionMiddlewareTests
 
         // Act
         var result = await DuplicateDetectionMiddleware.BeforeAsync(
-            envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _logger, _cancellationToken);
+            envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _messagebus.Object, _logger, _cancellationToken);
 
         // Assert
         result.Should().Be(PotentialDuplicatesFound.None);
@@ -140,9 +158,11 @@ public class DuplicateDetectionMiddlewareTests
             AdresId = _fixture.Create<AdresId>(),
             Adres = null
         };
+
         var enrichedAdres = _fixture.Create<Adres>();
 
         var envelope = CreateCommandWithSpecificLocaties(skipDuplicateDetection: false, locatieWithAdresId);
+
         var verrijkteAdressen = new VerrijkteAdressenUitGrar(
             new Dictionary<string, Adres> { { locatieWithAdresId.AdresId.Bronwaarde, enrichedAdres } });
 
@@ -150,7 +170,7 @@ public class DuplicateDetectionMiddlewareTests
 
         // Act
         await DuplicateDetectionMiddleware.BeforeAsync(
-            envelope, verrijkteAdressen, _duplicateServiceMock.Object, _logger, _cancellationToken);
+            envelope, verrijkteAdressen, _duplicateServiceMock.Object, _messagebus.Object, _logger, _cancellationToken);
 
         // Assert
         _duplicateServiceMock.Verify(
@@ -171,7 +191,9 @@ public class DuplicateDetectionMiddlewareTests
         {
             SkipDuplicateDetection = skipDuplicateDetection
         };
-        return new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, _fixture.Create<CommandMetadata>());
+
+        return new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+            command, _fixture.Create<CommandMetadata>());
     }
 
     private CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> CreateCommandWithSpecificLocaties(
@@ -183,7 +205,9 @@ public class DuplicateDetectionMiddlewareTests
             SkipDuplicateDetection = skipDuplicateDetection,
             Locaties = locaties
         };
-        return new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, _fixture.Create<CommandMetadata>());
+
+        return new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+            command, _fixture.Create<CommandMetadata>());
     }
 
     // Helper methods for setting up mocks - using It.IsAny for complex object matching
@@ -241,6 +265,7 @@ public class DuplicateDetectionMiddlewareTests
     private static bool CaptureQuery(DuplicateVerenigingZoekQueryLocaties query, out DuplicateVerenigingZoekQueryLocaties captured)
     {
         captured = query;
+
         return true;
     }
 }

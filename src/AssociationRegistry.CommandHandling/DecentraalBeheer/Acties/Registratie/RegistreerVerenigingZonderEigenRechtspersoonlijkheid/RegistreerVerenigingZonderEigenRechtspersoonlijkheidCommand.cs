@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.DuplicaatDetectie;
 
 public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
     VerenigingsNaam Naam,
@@ -14,4 +15,5 @@ public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
     Vertegenwoordiger[] Vertegenwoordigers,
     HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
     Werkingsgebied[] Werkingsgebieden,
-    bool SkipDuplicateDetection = false);
+    bool SkipDuplicateDetection = false,
+    DummyBevestigingsToken? BevestigingsToken = null);

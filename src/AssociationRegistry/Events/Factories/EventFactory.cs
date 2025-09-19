@@ -388,12 +388,12 @@ public static class EventFactory
         => new(vCode, geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
 
     public static DubbeleVerenigingenWerdenGedetecteerd DubbeleVerenigingenWerdenGedetecteerd(
-        string DDCode,
+        string Key,
         string naam,
         Locatie[] locaties,
         DuplicaatVereniging[] gedetecteerdeDubbels)
         => new(
-            DDCode,
+            Key,
             naam,
             locaties.Select(Locatie).ToArray(),
             gedetecteerdeDubbels.Select(DuplicaatVereniging).ToArray());

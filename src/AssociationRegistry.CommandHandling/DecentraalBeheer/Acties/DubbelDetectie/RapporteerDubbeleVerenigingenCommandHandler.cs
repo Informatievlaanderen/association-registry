@@ -12,10 +12,10 @@ public class RapporteerDubbeleVerenigingenCommandHandler
 {
     private readonly ILogger<RapporteerDubbeleVerenigingenCommandHandler> _logger;
     private readonly IDocumentSession _session;
-    private readonly IDuplicateVerenigingsRepository _repository;
+    private readonly IDubbelDetectieVerenigingsRepository _repository;
 
     public RapporteerDubbeleVerenigingenCommandHandler(
-        IDuplicateVerenigingsRepository repository,
+        IDubbelDetectieVerenigingsRepository repository,
         IDocumentSession session,
         ILogger<RapporteerDubbeleVerenigingenCommandHandler> logger)
     {
@@ -32,9 +32,9 @@ public class RapporteerDubbeleVerenigingenCommandHandler
 
         var command = message.Command;
 
-        var @event = EventFactory.DubbeleVerenigingenWerdenGedetecteerd("DD0001", command.Naam, command.Locaties, command.GedetecteerdeDubbels);
+        var @event = EventFactory.DubbeleVerenigingenWerdenGedetecteerd(message.Command.Key,command.Naam, command.Locaties, command.GedetecteerdeDubbels);
 
-        var result = await _repository.Save("DD0001", _session, message.Metadata, cancellationToken, [@event]);
+        var result = await _repository.Save(message.Command.Key, _session, message.Metadata, cancellationToken, [@event]);
 
         _logger.LogInformation($"Handle {nameof(RapporteerDubbeleVerenigingenCommandHandler)} end");
 

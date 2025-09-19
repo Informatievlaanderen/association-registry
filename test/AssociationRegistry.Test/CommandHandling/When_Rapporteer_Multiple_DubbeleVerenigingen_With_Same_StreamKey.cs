@@ -12,11 +12,11 @@ using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
-public class When_RegistreerGedetecteerdeDubbels
+public class When_Rapporteer_Multiple_DubbeleVerenigingen_With_Same_StreamKey
 {
     private readonly Fixture _fixture;
 
-    public When_RegistreerGedetecteerdeDubbels()
+    public When_Rapporteer_Multiple_DubbeleVerenigingen_With_Same_StreamKey()
     {
         _fixture = new Fixture().CustomizeAdminApi();
     }
@@ -42,10 +42,19 @@ public class When_RegistreerGedetecteerdeDubbels
         await sut.Handle(new CommandEnvelope<RapporteerDubbeleVerenigingenCommand>(
                              registreerDuplicateVerenigingenGedetecteerdCommand, _fixture.Create<CommandMetadata>()));
 
+        await sut.Handle(new CommandEnvelope<RapporteerDubbeleVerenigingenCommand>(
+                             registreerDuplicateVerenigingenGedetecteerdCommand, _fixture.Create<CommandMetadata>()));
+
         var events = await session.Events.FetchStreamAsync(registreerDuplicateVerenigingenGedetecteerdCommand.Key);
         events.Should().NotBeNull();
+        events.Should().HaveCount(2);
 
-        events.First().Data.Should().BeEquivalentTo(EventFactory.DubbeleVerenigingenWerdenGedetecteerd(
+        events[0].Data.Should().BeEquivalentTo(EventFactory.DubbeleVerenigingenWerdenGedetecteerd(
+                                                        registreerDuplicateVerenigingenGedetecteerdCommand.Key,
+                                                        registreerDuplicateVerenigingenGedetecteerdCommand.Naam,
+                                                        registreerDuplicateVerenigingenGedetecteerdCommand.Locaties,
+                                                        registreerDuplicateVerenigingenGedetecteerdCommand.GedetecteerdeDubbels));
+        events[0].Data.Should().BeEquivalentTo(EventFactory.DubbeleVerenigingenWerdenGedetecteerd(
                                                         registreerDuplicateVerenigingenGedetecteerdCommand.Key,
                                                         registreerDuplicateVerenigingenGedetecteerdCommand.Naam,
                                                         registreerDuplicateVerenigingenGedetecteerdCommand.Locaties,

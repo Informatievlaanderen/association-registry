@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
+using Events;
+using EventStore;
+using Framework;
 using Marten;
 
-public interface IDuplicateVerenigingsRepository
+public interface IDubbelDetectieVerenigingsRepository
 {
     public Task<StreamActionResult> Save(
         string aggregateId,

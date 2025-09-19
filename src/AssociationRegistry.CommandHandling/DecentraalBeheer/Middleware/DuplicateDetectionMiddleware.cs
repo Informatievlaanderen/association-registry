@@ -1,11 +1,13 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Middleware;
 
+using Acties.DubbelDetectie;
 using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using AssociationRegistry.Framework;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
+using Wolverine;
 
 public class DuplicateDetectionMiddleware
 {
@@ -17,6 +19,7 @@ public class DuplicateDetectionMiddleware
             CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> envelope,
             VerrijkteAdressenUitGrar verrijkteAdressenUitGrar,
             IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService,
+            IMessageBus messageBus,
             ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger,
             CancellationToken cancellation)
     {
@@ -32,7 +35,13 @@ public class DuplicateDetectionMiddleware
            .ToArray();
 
         if (duplicates.Any())
+        {
+            var key = envelope.Command.BevestigingsToken is not null ? envelope.Command.BevestigingsToken.Key : Guid.NewGuid().ToString();
+            await messageBus.SendAsync(new CommandEnvelope<RapporteerDubbeleVerenigingenCommand>(
+                                           new RapporteerDubbeleVerenigingenCommand(key, envelope.Command.Naam, envelope.Command.Locaties, duplicates),
+                                           CommandMetadata.ForDigitaalVlaanderenProcess));
             return PotentialDuplicatesFound.Some(duplicates);
+        }
 
         return PotentialDuplicatesFound.None;
     }
