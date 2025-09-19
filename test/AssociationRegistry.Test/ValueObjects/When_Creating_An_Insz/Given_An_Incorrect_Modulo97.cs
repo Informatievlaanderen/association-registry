@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_An_Insz;
 
-using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;

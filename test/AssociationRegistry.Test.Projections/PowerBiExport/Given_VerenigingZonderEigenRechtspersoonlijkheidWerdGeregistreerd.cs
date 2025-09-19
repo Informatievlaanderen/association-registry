@@ -26,4 +26,10 @@ public class Given_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
         fixture.Result.Verenigingssubtype.Code.Should().BeEquivalentTo(VerenigingssubtypeCode.Default.Code);
         fixture.Result.Verenigingssubtype.Naam.Should().BeEquivalentTo(VerenigingssubtypeCode.Default.Naam);
     }
+
+    [Fact]
+    public void Sleutel_Is_Niet_Ingevuld()
+    {
+        fixture.Result.DuplicaatDetectieSleutel.Should().BeEmpty();
+    }
 }

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_Comparing_AdresIds;
 
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging.Adressen;
 using Xunit;

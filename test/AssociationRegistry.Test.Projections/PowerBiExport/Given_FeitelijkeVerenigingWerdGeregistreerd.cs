@@ -36,4 +36,10 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(PowerBiScenarioFixture<
         fixture.Result.VCode.Should().Be(fixture.Scenario.VerenigingWerdGeregistreerd.VCode);
         fixture.Result.Historiek.Should().NotBeEmpty();
     }
+
+    [Fact]
+    public void Sleutel_Is_Niet_Ingevuld()
+    {
+        fixture.Result.DuplicaatDetectieSleutel.Should().BeEmpty();
+    }
 }

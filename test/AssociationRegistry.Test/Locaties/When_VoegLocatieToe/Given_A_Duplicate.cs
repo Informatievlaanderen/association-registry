@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Locaties.When_VoegLocatieToe;
 
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
-using Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
 using DecentraalBeheer.Vereniging;

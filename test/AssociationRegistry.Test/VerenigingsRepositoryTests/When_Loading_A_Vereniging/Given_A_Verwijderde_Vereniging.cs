@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_Loading_A_Vereniging;
 
-using AssociationRegistry.EventStore;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
@@ -12,7 +11,6 @@ using FluentAssertions;
 using Framework;
 using MartenDb.Store;
 using Resources;
-using Vereniging;
 using Xunit;
 
 public class Given_A_Verwijderde_Vereniging

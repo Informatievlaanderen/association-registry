@@ -7,7 +7,6 @@ using DecentraalBeheer.Vereniging.Exceptions;
 using Events;
 using FluentAssertions;
 using Framework;
-using Vereniging;
 using Xunit;
 
 public class Given_A_Einddatum_In_The_Future

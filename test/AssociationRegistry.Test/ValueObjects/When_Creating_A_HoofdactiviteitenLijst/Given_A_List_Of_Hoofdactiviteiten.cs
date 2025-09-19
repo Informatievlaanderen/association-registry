@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_HoofdactiviteitenLijst;
 
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;

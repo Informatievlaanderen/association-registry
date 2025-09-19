@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using CommandHandling.Grar.GrarConsumer.Messaging.OntkoppelAdres;
-using CommandHandling.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
-using CommandHandling.Grar.GrarUpdates.LocatieFinder;
+using AssociationRegistry.CommandHandling.Grar.GrarConsumer.Messaging.OntkoppelAdres;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.LocatieFinder;
 using Common.AutoFixture;
 using FluentAssertions;
 using Moq;

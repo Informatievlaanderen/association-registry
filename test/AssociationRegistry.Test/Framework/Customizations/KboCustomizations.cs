@@ -7,7 +7,6 @@ using DecentraalBeheer.Vereniging.Adressen;
 using DecentraalBeheer.Vereniging.Emails;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
 using DecentraalBeheer.Vereniging.Websites;
-using Vereniging;
 
 public static class KboCustomizations
 {

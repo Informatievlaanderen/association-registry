@@ -7,7 +7,6 @@ using Events;
 using Events.Factories;
 using FluentAssertions;
 using Framework;
-using Vereniging;
 using Xunit;
 
 public class Given_Einddatum_Is_The_Same

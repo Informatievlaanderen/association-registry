@@ -12,7 +12,6 @@ using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
 using Xunit;
 
 public class Given_Repliek_Uitzondering_Fout

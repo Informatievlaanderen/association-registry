@@ -1,13 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Models;
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
-using Vereniging;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;

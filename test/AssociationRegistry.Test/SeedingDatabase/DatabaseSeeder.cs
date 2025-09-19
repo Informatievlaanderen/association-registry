@@ -14,7 +14,6 @@ using Marten.Exceptions;
 using Marten.Services;
 using Newtonsoft.Json;
 using NodaTime.Text;
-using Xunit;
 
 public class DatabaseSeeder
 {

@@ -1,10 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_SynchroniserenLocatieAdres;
 
-using AssociationRegistry.Grar;
 using AutoFixture;
-using CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
+using AssociationRegistry.CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
 using Common.AutoFixture;
-using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -13,10 +11,8 @@ using DecentraalBeheer.Vereniging.Geotags;
 using Events;
 using Events.Factories;
 using AssociationRegistry.Integrations.Grar.Clients;
-using JasperFx.Events;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
 using Xunit;
 using IEvent = Events.IEvent;
 using LocatieWithAdres = AssociationRegistry.Grar.Models.LocatieWithAdres;

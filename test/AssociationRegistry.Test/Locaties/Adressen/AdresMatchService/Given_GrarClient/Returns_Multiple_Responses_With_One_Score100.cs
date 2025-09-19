@@ -8,7 +8,6 @@ using FluentAssertions;
 using AssociationRegistry.Grar.AdresMatch;
 using DecentraalBeheer.Vereniging;
 using AssociationRegistry.Integrations.Grar.AdresMatch;
-using Vereniging;
 using Xunit;
 
 public class Returns_Multiple_Responses_With_One_Score100

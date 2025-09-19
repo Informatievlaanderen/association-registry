@@ -1,10 +1,7 @@
 namespace AssociationRegistry.Test.Lidmaatschappen.When_Adding_A_Lidmaatschap;
 
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
-using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;

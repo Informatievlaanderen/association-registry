@@ -32,7 +32,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class RegistreerFeitelijkeVerenigingController : ApiController
 {
     private readonly AppSettings _appSettings;
-    private readonly BevestigingsTokenHelper _bevestigingsTokenHelper;
+    private readonly BevestigingstokenHelper _bevestigingstokenHelper;
     private readonly IMessageBus _bus;
     private readonly IValidator<RegistreerFeitelijkeVerenigingRequest> _validator;
 
@@ -44,7 +44,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
         _bus = bus;
         _validator = validator;
         _appSettings = appSettings;
-        _bevestigingsTokenHelper = new BevestigingsTokenHelper(_appSettings);
+        _bevestigingstokenHelper = new BevestigingstokenHelper(_appSettings);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
     {
         await _validator.NullValidateAndThrowAsync(request);
 
-        var skipDuplicateDetection = _bevestigingsTokenHelper.IsValid(bevestigingsToken, request);
+        var skipDuplicateDetection = _bevestigingstokenHelper.IsValid(bevestigingsToken, request);
         Throw<InvalidBevestigingstokenProvided>.If(!string.IsNullOrWhiteSpace(bevestigingsToken) && !skipDuplicateDetection);
 
         var command = request.ToCommand(werkingsgebiedenService)
@@ -108,7 +108,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
 
             Result<PotentialDuplicatesFound> potentialDuplicates => Conflict(
                 new PotentialDuplicatesResponse(
-                    _bevestigingsTokenHelper.Calculate(request),
+                    _bevestigingstokenHelper.Calculate(request),
                     potentialDuplicates.Data,
                     _appSettings,
                     new VerenigingstypeMapperV1())),

@@ -100,7 +100,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 },
             };
 
-            var bevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
+            var bevestigingsTokenHelper = new BevestigingstokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
 
             var requestAsJson = JsonConvert.SerializeObject(Request);
 

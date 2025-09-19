@@ -101,7 +101,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 Startdatum = DateOnly.FromDateTime(DateTime.Now).AddDays(autoFixture.Create<int>()* -1),
             };
 
-            var bevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
+            var bevestigingsTokenHelper = new BevestigingstokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
 
             var requestAsJson = JsonConvert.SerializeObject(Request);
 

@@ -4,6 +4,7 @@ using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Magda;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Events;
+using EventStore;
 using Marten;
 using MartenDb.Store;
 

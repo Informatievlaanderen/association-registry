@@ -25,7 +25,7 @@ using Xunit;
 public sealed class RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Same_Naam_And_Gemeente
 {
     private static RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Same_Naam_And_Gemeente? called;
-    public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
+    public readonly BevestigingstokenHelper BevestigingstokenHelper;
     public readonly string Naam;
     public readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest Request;
     public readonly HttpResponseMessage Response;
@@ -51,7 +51,7 @@ public sealed class RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Sa
         };
 
         Naam = fixture.V083VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForDuplicateCheck.Naam;
-        BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
+        BevestigingstokenHelper = new BevestigingstokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
         RequestAsJson = JsonConvert.SerializeObject(Request);
 
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.V083VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForDuplicateCheck
@@ -80,8 +80,8 @@ public class With_Same_Naam_And_Gemeente
     private HttpResponseMessage Response
         => RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Same_Naam_And_Gemeente.Called(_fixture).Response;
 
-    private BevestigingsTokenHelper BevestigingsTokenHelper
-        => RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Same_Naam_And_Gemeente.Called(_fixture).BevestigingsTokenHelper;
+    private BevestigingstokenHelper BevestigingstokenHelper
+        => RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Same_Naam_And_Gemeente.Called(_fixture).BevestigingstokenHelper;
 
     private string Naam
         => RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Same_Naam_And_Gemeente.Called(_fixture).Naam;
@@ -94,7 +94,7 @@ public class With_Same_Naam_And_Gemeente
 
     private string ResponseBody
         => @$"{{
-  ""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"",
+  ""bevestigingsToken"": ""{BevestigingstokenHelper.Calculate(Request)}"",
   ""mogelijkeDuplicateVerenigingen"": [
     {{
       ""vCode"": ""{VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}"",

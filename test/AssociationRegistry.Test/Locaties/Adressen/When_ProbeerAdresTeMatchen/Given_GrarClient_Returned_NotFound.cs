@@ -1,14 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Exceptions;
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
-using Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
-using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
@@ -17,7 +15,6 @@ using AssociationRegistry.Integrations.Grar.AdresMatch;
 using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using System.Net;
 using Xunit;
 
 public class Given_GrarClient_Returned_NotFound

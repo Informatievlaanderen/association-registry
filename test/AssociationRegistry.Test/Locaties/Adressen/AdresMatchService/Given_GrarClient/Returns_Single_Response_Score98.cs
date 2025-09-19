@@ -3,7 +3,6 @@
 using AssociationRegistry.Events;
 using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;

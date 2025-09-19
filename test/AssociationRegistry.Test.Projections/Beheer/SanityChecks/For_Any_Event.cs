@@ -14,11 +14,12 @@ public class For_Any_Event
     [
         typeof(AfdelingWerdGeregistreerd),
         typeof(KboNummerWerdGereserveerd),
+        typeof(DubbeleVerenigingenWerdenGedetecteerd),
     ];
 
     // Because we want to update the metadata for each event!
     [Fact]
-    public void There_Should_Be_A_Create_Or_Project_Method()
+    public void BeheerVerenigingDetail_Should_Have_A_Create_Or_Project_Method()
     {
         var eventTypes = typeof(Events.IEvent).Assembly
                                                                      .GetTypes()
@@ -46,7 +47,7 @@ public class For_Any_Event
     }
 
     [Fact]
-    public void There_Should_Be_A_Create_Or_Project_Method_For_PowerBi()
+    public void PowerBi_Should_Have_Be_A_Create_Or_Project_Method()
     {
         var eventTypes = typeof(Events.IEvent).Assembly
                                                                      .GetTypes()

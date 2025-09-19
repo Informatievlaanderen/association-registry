@@ -4,9 +4,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using DecentraalBeheer.Vereniging;
 using JasperFx.Events;
-using Marten.Events;
 using NodaTime;
-using Vereniging;
 
 public class TestEventSpecimenBuilder : ISpecimenBuilder
 {

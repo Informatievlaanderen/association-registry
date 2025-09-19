@@ -64,6 +64,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                                                                      .ToArray(),
             Werkingsgebieden = [],
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
+            DuplicaatDetectieSleutel = string.Empty,
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                           .ConvertAndFormatToBelgianDate(),
         };
@@ -107,6 +108,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                                                                       })
                                                                                      .ToArray(),
             Werkingsgebieden = [],
+            DuplicaatDetectieSleutel = @event.Data.DuplicaatDetectieInfo?.BevestigingstokenSleutel ?? string.Empty,
             Bron = @event.Data.Bron,
             DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                           .ConvertAndFormatToBelgianDate(),
@@ -150,6 +152,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             Werkingsgebieden = Array.Empty<Werkingsgebied>(),
             Bron = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Bron,
             KboNummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
+            DuplicaatDetectieSleutel = string.Empty,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                                         .ConvertAndFormatToBelgianDate(),
         };

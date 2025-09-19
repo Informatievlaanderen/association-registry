@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Locaties.Adressen.When_Mapping_RegistratieDat
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging.Adressen;
 using Events.Factories;

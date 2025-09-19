@@ -8,7 +8,6 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using DecentraalBeheer.Vereniging.Geotags;
 using FluentAssertions;
-using Vereniging;
 using Xunit;
 
 public class GeotagsServiceTests

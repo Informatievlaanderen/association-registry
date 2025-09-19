@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_Comparing_AdresIds;
 
-using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using Xunit;
 

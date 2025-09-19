@@ -6,7 +6,6 @@ using Common.AutoFixture;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
-using Vereniging;
 using Xunit;
 
 public class Given_An_Existing_WerkingsgebiedCode

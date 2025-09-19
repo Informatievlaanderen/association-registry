@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Voornaam;
 
-using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;

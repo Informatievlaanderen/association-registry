@@ -1,12 +1,10 @@
 namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_saving_a_vereniging;
 
 using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Framework;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common.Stubs.VCodeServices;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;

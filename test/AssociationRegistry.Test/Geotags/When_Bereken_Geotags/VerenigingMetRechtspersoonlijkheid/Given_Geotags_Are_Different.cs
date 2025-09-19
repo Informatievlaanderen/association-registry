@@ -3,7 +3,6 @@
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;

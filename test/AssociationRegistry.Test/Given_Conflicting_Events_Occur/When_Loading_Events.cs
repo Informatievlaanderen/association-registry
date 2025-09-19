@@ -7,13 +7,11 @@ using Common.AutoFixture;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using Events;
-using EventStore;
 using EventStore.ConflictResolution;
 using FluentAssertions;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
-using Vereniging;
 using Xunit;
 
 public class When_Loading_Events

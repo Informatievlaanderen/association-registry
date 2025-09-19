@@ -5,11 +5,11 @@ using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
 
-public class BevestigingsTokenHelper
+public class BevestigingstokenHelper
 {
     private readonly string _salt;
 
-    public BevestigingsTokenHelper(AppSettings appSettings)
+    public BevestigingstokenHelper(AppSettings appSettings)
     {
         _salt = appSettings.Salt;
     }

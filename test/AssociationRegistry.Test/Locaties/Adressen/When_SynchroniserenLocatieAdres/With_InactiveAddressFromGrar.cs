@@ -1,14 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_SynchroniserenLocatieAdres;
 
-using AssociationRegistry.Grar;
 using AutoFixture;
-using CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
+using AssociationRegistry.CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
 using Common.AutoFixture;
-using Common.Framework;
 using Common.Scenarios.CommandHandling;
-using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.Faktories;
-using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
 using Events.Factories;
 using AssociationRegistry.Integrations.Grar.Clients;

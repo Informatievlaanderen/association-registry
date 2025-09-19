@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_KboNummer;
 
-using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;

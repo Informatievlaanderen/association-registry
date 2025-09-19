@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_Comparing_Adressen;
 
 using AssociationRegistry.Normalizers;
-using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using Xunit;
 

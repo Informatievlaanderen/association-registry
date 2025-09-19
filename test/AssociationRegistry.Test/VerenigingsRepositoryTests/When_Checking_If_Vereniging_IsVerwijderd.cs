@@ -1,13 +1,11 @@
 namespace AssociationRegistry.Test.VerenigingsRepositoryTests;
 
-using AssociationRegistry.EventStore;
 using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using MartenDb.Store;
 using Moq;
-using Vereniging;
 using Xunit;
 
 public class When_Checking_If_Vereniging_IsVerwijderd

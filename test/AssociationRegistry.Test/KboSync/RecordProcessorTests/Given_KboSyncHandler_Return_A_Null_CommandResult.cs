@@ -2,18 +2,15 @@
 
 using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
-using CommandHandling.KboSyncLambda.SyncKbo;
+using AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
-using CommandHandling.KboSyncLambda;
 using Contracts.KboSync;
 using Integrations.Slack;
 using KboMutations.SyncLambda;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
-using Wolverine;
 using Xunit;
 
 public class Given_KboSyncHandler_Return_A_Null_CommandResult

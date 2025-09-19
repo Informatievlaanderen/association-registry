@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using CommandHandling.Grar.GrarUpdates.LocatieFinder;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.LocatieFinder;
 using FluentAssertions;
 using Xunit;
 

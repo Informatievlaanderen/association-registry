@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.AdresMatchService.Given_GrarClient;
 
 using AssociationRegistry.Events;
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Models;
 using AutoFixture;

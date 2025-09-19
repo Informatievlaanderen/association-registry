@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Vertegenwoordigers.When_VoegVertegenwoordiger
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
 using DecentraalBeheer.Vereniging;

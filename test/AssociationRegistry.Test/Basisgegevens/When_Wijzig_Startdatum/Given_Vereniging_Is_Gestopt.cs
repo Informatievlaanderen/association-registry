@@ -9,7 +9,6 @@ using Events;
 using Events.Factories;
 using FluentAssertions;
 using Framework;
-using Vereniging;
 using Xunit;
 
 public class Given_Vereniging_Is_Gestopt

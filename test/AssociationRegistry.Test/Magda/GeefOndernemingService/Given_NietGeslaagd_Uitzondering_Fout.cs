@@ -13,7 +13,6 @@ using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Xunit;
 
 public class Given_NietGeslaagd_Uitzondering_Fout

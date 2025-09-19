@@ -2,7 +2,6 @@
 
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
-using Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;

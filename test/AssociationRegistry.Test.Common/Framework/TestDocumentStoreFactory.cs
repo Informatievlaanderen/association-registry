@@ -12,7 +12,7 @@ using Weasel.Core;
 
 public static class TestDocumentStoreFactory
 {
-    public static async Task<DocumentStore> CreateAsync(string schema)
+    public static async Task<DocumentStore> CreateAsync(string schema, bool applyDbChanges = false)
     {
         var documentStore = DocumentStore.For(options =>
         {
@@ -35,6 +35,9 @@ public static class TestDocumentStoreFactory
                 settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
             });
         });
+
+        if(applyDbChanges)
+            documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
 
         await documentStore.Advanced.ResetAllData();
 

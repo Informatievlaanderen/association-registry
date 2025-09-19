@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Contactgegeven;
 
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;

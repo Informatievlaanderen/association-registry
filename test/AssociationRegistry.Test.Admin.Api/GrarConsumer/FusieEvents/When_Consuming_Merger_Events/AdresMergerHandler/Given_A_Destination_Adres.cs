@@ -2,9 +2,9 @@ namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consu
 
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using CommandHandling.Grar.GrarUpdates.Fusies;
-using CommandHandling.Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
-using CommandHandling.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.Fusies;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using AssociationRegistry.CommandHandling.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Moq;
 using Xunit;
 

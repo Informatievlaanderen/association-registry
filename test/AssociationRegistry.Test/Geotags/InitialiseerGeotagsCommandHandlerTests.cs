@@ -1,15 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Geotags;
 
 using AssociationRegistry.Framework;
-using CommandHandling.DecentraalBeheer.Acties.Geotags.InitialiseerGeotags;
-using Common.Scenarios.CommandHandling;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Geotags.InitialiseerGeotags;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Common.StubsMocksFakes;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using Events.Factories;
-using Vereniging;
 using Xunit;
 
 public class InitialiseerGeotagsCommandHandlerTests

@@ -7,7 +7,6 @@ using DecentraalBeheer.Vereniging.Emails;
 using DecentraalBeheer.Vereniging.SocialMedias;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
 using Events;
-using Vereniging;
 
 public static class EventCustomizations
 {

@@ -1,10 +1,9 @@
 namespace AssociationRegistry.MartenDb.Store;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
+using Events;
+using Framework;
 using Marten;
 
 public interface IEventStore
@@ -28,6 +27,6 @@ public interface IEventStore
     Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new();
     Task<bool> Exists(VCode vCode);
     Task<bool> Exists(KboNummer kboNummer);
-    Task<StreamActionResult> SaveNew(string aggregateId, long verenigingVersion, IDocumentSession session, CommandMetadata metadata, CancellationToken cancellationToken, IEvent[] events);
+    Task<StreamActionResult> SaveNew(string aggregateId, IDocumentSession session, CommandMetadata metadata, CancellationToken cancellationToken, IEvent[] events);
     Task<VCode?> GetVCodeForKbo(string kboNummer);
 }

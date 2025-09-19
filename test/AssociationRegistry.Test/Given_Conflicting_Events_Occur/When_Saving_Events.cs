@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Given_Conflicting_Events_Occur;
 
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using AutoFixture.Kernel;

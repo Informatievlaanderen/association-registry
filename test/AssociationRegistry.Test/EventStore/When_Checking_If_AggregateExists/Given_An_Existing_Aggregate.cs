@@ -1,11 +1,9 @@
 namespace AssociationRegistry.Test.When_Checking_If_AggregateExists;
 
 using Events;
-using EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
-using Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
 using DecentraalBeheer.Vereniging;

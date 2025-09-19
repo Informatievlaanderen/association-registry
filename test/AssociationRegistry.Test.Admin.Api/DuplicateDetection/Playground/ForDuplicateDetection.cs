@@ -7,7 +7,7 @@ using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
-using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using FluentAssertions;
 using Framework.Fixtures;
 using Hosts;
