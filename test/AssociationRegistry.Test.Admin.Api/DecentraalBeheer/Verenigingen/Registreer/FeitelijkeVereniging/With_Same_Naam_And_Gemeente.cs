@@ -25,7 +25,7 @@ using Xunit;
 public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente
 {
     private static When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente? called;
-    public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
+    public readonly BevestigingstokenHelper BevestigingstokenHelper;
     public readonly string Naam;
     public readonly RegistreerFeitelijkeVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
@@ -51,7 +51,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemee
         };
 
         Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.Naam;
-        BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
+        BevestigingstokenHelper = new BevestigingstokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
         RequestAsJson = JsonConvert.SerializeObject(Request);
 
         FeitelijkeVerenigingWerdGeregistreerd = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck
@@ -80,8 +80,8 @@ public class With_Same_Naam_And_Gemeente
     private HttpResponseMessage Response
         => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Response;
 
-    private BevestigingsTokenHelper BevestigingsTokenHelper
-        => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).BevestigingsTokenHelper;
+    private BevestigingstokenHelper BevestigingstokenHelper
+        => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).BevestigingstokenHelper;
 
     private string Naam
         => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Naam;
@@ -94,7 +94,7 @@ public class With_Same_Naam_And_Gemeente
 
     private string ResponseBody
         => @$"{{
-  ""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"",
+  ""bevestigingsToken"": ""{BevestigingstokenHelper.Calculate(Request)}"",
   ""mogelijkeDuplicateVerenigingen"": [
     {{
       ""vCode"": ""{FeitelijkeVerenigingWerdGeregistreerd.VCode}"",

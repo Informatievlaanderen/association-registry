@@ -132,7 +132,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
             HoofdactiviteitenVerenigingsloket = new[] { "BIAG", "BWWC" },
         };
 
-        var bevestigingsTokenHelper = new BevestigingsTokenHelper(apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>());
+        var bevestigingsTokenHelper = new BevestigingstokenHelper(apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>());
 
         var hashForAllowingDuplicate = bevestigingsTokenHelper.Calculate(request);
 

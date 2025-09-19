@@ -25,7 +25,7 @@ using Xunit;
 public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postcode
 {
     private static When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postcode? called;
-    public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
+    public readonly BevestigingstokenHelper BevestigingstokenHelper;
     public readonly string Naam;
     public readonly RegistreerFeitelijkeVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
@@ -51,7 +51,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postc
         };
 
         Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.Naam;
-        BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
+        BevestigingstokenHelper = new BevestigingstokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
 
         FeitelijkeVerenigingWerdGeregistreerd = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck
                                                        .FeitelijkeVerenigingWerdGeregistreerd;
@@ -77,8 +77,8 @@ public class With_Same_Naam_And_Postcode
     private RegistreerFeitelijkeVerenigingRequest Request
         => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postcode.Called(_fixture).Request;
 
-    private BevestigingsTokenHelper BevestigingsTokenHelper
-        => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postcode.Called(_fixture).BevestigingsTokenHelper;
+    private BevestigingstokenHelper BevestigingstokenHelper
+        => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postcode.Called(_fixture).BevestigingstokenHelper;
 
     private HttpResponseMessage Response
         => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postcode.Called(_fixture).Response;
@@ -91,7 +91,7 @@ public class With_Same_Naam_And_Postcode
 
     private string ResponseBody
         => @$"{{
-  ""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"",
+  ""bevestigingsToken"": ""{BevestigingstokenHelper.Calculate(Request)}"",
   ""mogelijkeDuplicateVerenigingen"": [
     {{
       ""vCode"": ""{FeitelijkeVerenigingWerdGeregistreerd.VCode}"",

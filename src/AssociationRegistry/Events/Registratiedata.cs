@@ -119,6 +119,8 @@ public static class Registratiedata
         string? Naam,
         string Postcode,
         string Gemeente);
+
+    public record DuplicaatDetectieInfo(string BevestigingstokenSleutel);
 }
 
 public interface IAdresId
