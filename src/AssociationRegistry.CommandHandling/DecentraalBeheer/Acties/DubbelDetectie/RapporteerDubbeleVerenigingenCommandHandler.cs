@@ -26,6 +26,7 @@ public class RapporteerDubbeleVerenigingenCommandHandler
 
     public async Task<Result> Handle(
         CommandEnvelope<RapporteerDubbeleVerenigingenCommand> message,
+        bool isNew,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Handle {nameof(RapporteerDubbeleVerenigingenCommandHandler)} start");
@@ -34,7 +35,14 @@ public class RapporteerDubbeleVerenigingenCommandHandler
 
         var @event = EventFactory.DubbeleVerenigingenWerdenGedetecteerd(message.Command.Key,command.Naam, command.Locaties, command.GedetecteerdeDubbels);
 
-        var result = await _repository.Save(message.Command.Key, _session, message.Metadata, cancellationToken, [@event]);
+        if (isNew)
+        {
+            await _repository.SaveNew(message.Command.Key, _session, message.Metadata, cancellationToken, [@event]);
+        }
+        else
+        {
+            await _repository.Save(message.Command.Key, _session, message.Metadata, cancellationToken, [@event]);
+        }
 
         _logger.LogInformation($"Handle {nameof(RapporteerDubbeleVerenigingenCommandHandler)} end");
 

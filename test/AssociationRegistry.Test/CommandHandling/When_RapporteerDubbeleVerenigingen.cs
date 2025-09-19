@@ -4,53 +4,67 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.DubbelDetectie
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
-using Common.Framework;
+using Events;
 using Events.Factories;
-using EventStore.ConflictResolution;
 using FluentAssertions;
+using Marten;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using Xunit;
 
 public class When_RegistreerGedetecteerdeDubbels
 {
     private readonly Fixture _fixture;
+    private RapporteerDubbeleVerenigingenCommandHandler _sut;
+    private Mock<IEventStore> _eventStore;
+    private Events.IEvent[]? _capturedEvents;
 
     public When_RegistreerGedetecteerdeDubbels()
     {
         _fixture = new Fixture().CustomizeAdminApi();
+
+        _eventStore = new Mock<IEventStore>();
+        var duplicateVerenigingsRepository = new DubbelDetectieVerenigingsRepository(_eventStore.Object);
+
+        _sut = new RapporteerDubbeleVerenigingenCommandHandler(duplicateVerenigingsRepository, Mock.Of<IDocumentSession>(),
+                                                               NullLogger<RapporteerDubbeleVerenigingenCommandHandler>.Instance);
+
+        _capturedEvents = null;
+
+        _eventStore
+           .Setup(s => s.SaveNew(
+                      It.IsAny<string>(),
+                      It.IsAny<IDocumentSession>(),
+                      It.IsAny<CommandMetadata>(),
+                      It.IsAny<CancellationToken>(),
+                      It.IsAny<AssociationRegistry.Events.IEvent[]>()))
+           .Callback<string, IDocumentSession, CommandMetadata, CancellationToken, AssociationRegistry.Events.IEvent[]>(
+                (_, _, _, _, evts) => _capturedEvents = evts);
     }
 
     [Fact]
     public async Task Then_It_Saved_A_New_Stream_Of_GedeteceerdeDubbels()
     {
-        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(When_RegistreerGedetecteerdeDubbels));
+        var cmd  = _fixture.Create<RapporteerDubbeleVerenigingenCommand>();
+        var meta = _fixture.Create<CommandMetadata>();
+        var expectedEvent = EventFactory.DubbeleVerenigingenWerdenGedetecteerd(
+            cmd.Key,
+            cmd.Naam,
+            cmd.Locaties,
+            cmd.GedetecteerdeDubbels);
 
-        documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
+        await _sut.Handle(new CommandEnvelope<RapporteerDubbeleVerenigingenCommand>(cmd, meta), true);
 
-        var eventConflictResolver = new EventConflictResolver([new AddressMatchConflictResolutionStrategy(),], []);
+        _capturedEvents.Should().NotBeNull();
+        _capturedEvents!.Should().HaveCount(1);
+        _capturedEvents[0].Should().BeOfType<DubbeleVerenigingenWerdenGedetecteerd>();
 
-        await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
-        var duplicateVerenigingsRepository = new DubbelDetectieVerenigingsRepository(eventStore);
+        var e = (DubbeleVerenigingenWerdenGedetecteerd)_capturedEvents[0];
 
-        var sut = new RapporteerDubbeleVerenigingenCommandHandler(duplicateVerenigingsRepository, session,
-                                                                  NullLogger<RapporteerDubbeleVerenigingenCommandHandler>.Instance);
-
-        var registreerDuplicateVerenigingenGedetecteerdCommand = _fixture.Create<RapporteerDubbeleVerenigingenCommand>();
-
-        await sut.Handle(new CommandEnvelope<RapporteerDubbeleVerenigingenCommand>(
-                             registreerDuplicateVerenigingenGedetecteerdCommand, _fixture.Create<CommandMetadata>()));
-
-        var events = await session.Events.FetchStreamAsync(registreerDuplicateVerenigingenGedetecteerdCommand.Key);
-        events.Should().NotBeNull();
-
-        events.First().Data.Should().BeEquivalentTo(EventFactory.DubbeleVerenigingenWerdenGedetecteerd(
-                                                        registreerDuplicateVerenigingenGedetecteerdCommand.Key,
-                                                        registreerDuplicateVerenigingenGedetecteerdCommand.Naam,
-                                                        registreerDuplicateVerenigingenGedetecteerdCommand.Locaties,
-                                                        registreerDuplicateVerenigingenGedetecteerdCommand.GedetecteerdeDubbels));
-
-        await documentStore.DisposeAsync();
+        e.Key.Should().Be(expectedEvent.Key);
+        e.Naam.Should().Be(expectedEvent.Naam);
+        e.Locaties.Should().BeEquivalentTo(expectedEvent.Locaties);
+        e.GedetecteerdeDubbels.Should().BeEquivalentTo(expectedEvent.GedetecteerdeDubbels);
     }
 }

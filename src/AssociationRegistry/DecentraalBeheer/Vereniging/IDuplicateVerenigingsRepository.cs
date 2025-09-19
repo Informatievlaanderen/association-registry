@@ -13,4 +13,10 @@ public interface IDubbelDetectieVerenigingsRepository
         CommandMetadata metadata,
         CancellationToken cancellationToken,
         IEvent[] events);
+    public Task<StreamActionResult> SaveNew(
+        string aggregateId,
+        IDocumentSession session,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        IEvent[] events);
 }
