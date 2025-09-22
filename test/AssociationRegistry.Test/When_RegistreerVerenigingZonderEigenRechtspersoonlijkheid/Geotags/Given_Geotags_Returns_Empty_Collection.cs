@@ -41,7 +41,11 @@ public class Given_Geotags_Returns_Empty_Collection
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Vertegenwoordigers,
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.HoofdactiviteitenVerenigingsloket,
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Werkingsgebieden);
-        var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(registratieData, new StubVCodeService(vCode), geotagsService.Object, clock);
+        var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(registratieData,
+            fixture.Create<bool>(),
+            new StubVCodeService(vCode),
+            geotagsService.Object,
+            clock);
         await vereniging.BerekenGeotags(geotagsService.Object);
 
         vereniging.UncommittedEvents.OfType<GeotagsWerdenBepaald>().Single()

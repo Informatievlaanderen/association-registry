@@ -89,15 +89,15 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         var vCode = _vCodeService.GetLast();
 
         _repositoryMock.ShouldHaveSavedExact(
-            new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                vCode,
-                _command.Naam,
-                _command.KorteNaam ?? string.Empty,
-                _command.KorteBeschrijving ?? string.Empty,
-                _command.Startdatum,
-                EventFactory.Doelgroep(_command.Doelgroep),
-                _command.IsUitgeschrevenUitPubliekeDatastroom,
-                new[]
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+                vCode: vCode,
+                naam: _command.Naam,
+                korteNaam: _command.KorteNaam ?? string.Empty,
+                korteBeschrijving: _command.KorteBeschrijving ?? string.Empty,
+                startdatum: _command.Startdatum,
+                ddoelgroep: EventFactory.Doelgroep(_command.Doelgroep),
+                isUitgeschrevenUitPubliekeDatastroom: _command.IsUitgeschrevenUitPubliekeDatastroom,
+                contactgegevens: new[]
                 {
                     new Registratiedata.Contactgegeven(
                         ContactgegevenId: 1,
@@ -114,20 +114,20 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                         _command.Contactgegevens[1].IsPrimair
                     ),
                 },
-                _command.Locaties.Select(
-                    (l, index) => EventFactory.Locatie(l) with
-                    {
-                        LocatieId = index + 1,
-                    }).ToArray(),
-                _command.Vertegenwoordigers.Select(
-                    (v, index) => EventFactory.Vertegenwoordiger(v) with
-                    {
-                        VertegenwoordigerId = index + 1,
-                    }).ToArray(),
-                _command.HoofdactiviteitenVerenigingsloket.Select(
-                    h => new Registratiedata.HoofdactiviteitVerenigingsloket(
-                        h.Code,
-                        h.Naam)).ToArray()
-            ), new GeotagsWerdenBepaald(vCode, []));
+                locaties: _command.Locaties.Select((l, index) => EventFactory.Locatie(l) with
+                {
+                    LocatieId = index + 1,
+                }).ToArray(),
+                vertegenwoordigers: _command.Vertegenwoordigers.Select((v, index) => EventFactory.Vertegenwoordiger(v) with
+                {
+                    VertegenwoordigerId = index + 1,
+                }).ToArray(),
+                hoofdactiviteitenVerenigingsloket: _command.HoofdactiviteitenVerenigingsloket
+                                                           .Select(h => new Registratiedata.HoofdactiviteitVerenigingsloket(
+                                                                       h.Code,
+                                                                       h.Naam)).ToArray(),
+                new Registratiedata.DuplicatieInfo(false)
+            ),
+            new GeotagsWerdenBepaald(vCode, []));
     }
 }

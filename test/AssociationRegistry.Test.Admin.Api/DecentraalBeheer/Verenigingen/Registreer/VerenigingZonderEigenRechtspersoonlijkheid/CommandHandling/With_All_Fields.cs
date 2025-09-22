@@ -122,7 +122,8 @@ public class With_All_Fields
             _command.HoofdactiviteitenVerenigingsloket.Select(
                 h =>
                     new Registratiedata.HoofdactiviteitVerenigingsloket(h.Code, h.Naam)
-            ).ToArray());
+            ).ToArray(),
+            new Registratiedata.DuplicatieInfo(false));
 
         var werkingsgebiedenWerdenBepaald = new WerkingsgebiedenWerdenBepaald(
             _vCodeService.VCode,

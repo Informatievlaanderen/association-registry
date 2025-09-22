@@ -17,6 +17,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
     public static async Task<Vereniging> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
         RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid registratieData,
+        bool potentialDuplicatesSkipped,
         IVCodeService vCodeService,
         IGeotagsService geotagsService,
         IClock clock)
@@ -43,7 +44,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
-                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(registratieData.HoofdactiviteitenVerenigingsloket))
+                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(registratieData.HoofdactiviteitenVerenigingsloket)),
+                new Registratiedata.DuplicatieInfo(BevestigdNaDuplicatie: potentialDuplicatesSkipped)
             ));
 
         vereniging.RegistreerWerkingsgebieden(registratieData.Werkingsgebieden);

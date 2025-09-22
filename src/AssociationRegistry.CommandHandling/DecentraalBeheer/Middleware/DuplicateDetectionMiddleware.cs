@@ -22,7 +22,10 @@ public class DuplicateDetectionMiddleware
     {
         var registrationHasNoLocations = envelope.Command.Locaties.Length == 0 && verrijkteAdressenUitGrar.Count == 0;
 
-        if (envelope.Command.SkipDuplicateDetection || registrationHasNoLocations)
+        if (envelope.Command.SkipDuplicateDetection)
+            return PotentialDuplicatesFound.Skip;
+
+        if (registrationHasNoLocations)
             return PotentialDuplicatesFound.None;
 
         var locaties = new DuplicateVerenigingZoekQueryLocaties(envelope.Command.Locaties)

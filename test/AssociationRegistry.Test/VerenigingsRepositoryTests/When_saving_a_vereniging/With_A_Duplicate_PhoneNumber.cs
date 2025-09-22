@@ -79,6 +79,7 @@ public class With_A_Duplicate_PhoneNumber
             command.Werkingsgebieden);
         await Assert.ThrowsAsync<ContactgegevenIsDuplicaat>(() => Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
                                                                 registratieData,
+                                                                fixture.Create<bool>(),
                                                                 vCodeService,
                                                                 Mock.Of<IGeotagsService>(),
                                                                 clock: new ClockStub(DateTime.Today)));
