@@ -25,5 +25,8 @@ record BasisgegevensRecord(
     [property: Name("verenigingssubtype.naam"), Index(19)] string NaamVerenigingssubtype,
     [property: Name("subverenigingVan.andereVereniging"), Index(20)] string SubverenigingVanAndereVereniging,
     [property: Name("subverenigingVan.identificatie"), Index(21)] string SubverenigingVanIdentificatie,
-    [property: Name("subverenigingVan.beschrijving"), Index(22)] string SubverenigingVanBeschrijving
+    [property: Name("subverenigingVan.beschrijving"), Index(22)] string SubverenigingVanBeschrijving,
+    [property: Name("duplicatieInfo.bevestigdNaDuplicatie"), Index(23)] bool? DuplicatieInfoBevestigdNaDuplicatie,
+    [property: Name("duplicatieInfo.bevestigingstoken"), Index(23)] string DuplicatieInfoBevestigingstoken,
+    [property: Name("duplicatieInfo.bevestigingstokenKey"), Index(23)] string DuplicatieInfoBevestigingstokenKey
     );

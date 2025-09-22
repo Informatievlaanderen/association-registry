@@ -36,7 +36,10 @@ public class BasisgegevensRecordWriter : IRecordWriter
                                        vereniging.Verenigingssubtype?.Naam ?? string.Empty,
                                        vereniging.SubverenigingVan?.AndereVereniging ?? string.Empty,
                                        vereniging.SubverenigingVan?.Identificatie ?? string.Empty,
-                                       vereniging.SubverenigingVan?.Beschrijving ?? string.Empty));
+                                       vereniging.SubverenigingVan?.Beschrijving ?? string.Empty,
+                                       vereniging.DuplicatieInfo?.BevestigdNaDuplicatie,
+                                       vereniging.DuplicatieInfo?.Bevestigingstoken ?? string.Empty,
+                                       vereniging.DuplicatieInfo?.BevestigingstokenKey ?? string.Empty));
 
             await csvWriter.NextRecordAsync();
         }
