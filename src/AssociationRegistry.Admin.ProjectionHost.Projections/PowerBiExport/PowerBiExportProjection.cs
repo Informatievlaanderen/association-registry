@@ -110,7 +110,11 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             Bron = @event.Data.Bron,
             DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                           .ConvertAndFormatToBelgianDate(),
-            BevestigdNaDuplicatie = @event.Data.DuplicatieInfo?.BevestigdNaDuplicatie ?? false,
+            DuplicatieInfo = @event.Data.DuplicatieInfo is null ?
+                new DuplicatieInfo(null, string.Empty, string.Empty) :
+                new DuplicatieInfo(@event.Data.DuplicatieInfo.BevestigdNaDuplicatie,
+                                   @event.Data.DuplicatieInfo.Bevestigingstoken,
+                                   @event.Data.DuplicatieInfo.BevestigingstokenKey),
         };
 
         UpdateHistoriek(document, @event);

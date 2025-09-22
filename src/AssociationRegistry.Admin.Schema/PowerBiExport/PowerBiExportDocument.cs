@@ -39,5 +39,7 @@ public record PowerBiExportDocument : IVCode
     public DateTimeOffset? DeletedAt { get; set; }
     public string KboNummer { get; set; }
     public string DatumLaatsteAanpassing { get; set; }
-    public bool BevestigdNaDuplicatie { get; set; }
+    public DuplicatieInfo DuplicatieInfo { get; set; }
 }
+    public record DuplicatieInfo(bool? BevestigdNaDuplicatie, string Bevestigingstoken, string BevestigingstokenKey);
+
