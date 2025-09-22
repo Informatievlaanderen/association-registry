@@ -1,3 +1,18 @@
+# [8.273.0](https://github.com/informatievlaanderen/association-registry/compare/v8.272.11...v8.273.0) (2025-09-22)
+
+
+### Bug Fixes
+
+* or-2888 introduce new object to hold token and key ([1cd056f](https://github.com/informatievlaanderen/association-registry/commit/1cd056fe866ed62bc2a0712ca588f887bc9a99c1))
+* or-2888 mvp for denoting if registration skipped duplicates ([6f3b6ff](https://github.com/informatievlaanderen/association-registry/commit/6f3b6ff3a83bbeea5aeff46591505c39e060192c))
+* or-2888 write duplicatieinfo to powerbi ([7c37116](https://github.com/informatievlaanderen/association-registry/commit/7c37116f31facd265217748614158c77e97f19ca))
+
+
+### Features
+
+* or-2888 add extra prop to denote duplicates skipped with token ([63f510c](https://github.com/informatievlaanderen/association-registry/commit/63f510c235555376e66d88e045c6e5cfd99b1d7e))
+* write duplicate info to csvv ([976f06b](https://github.com/informatievlaanderen/association-registry/commit/976f06be67756182e3400a45f77671ac05ef5dba))
+
 ## [8.272.11](https://github.com/informatievlaanderen/association-registry/compare/v8.272.10...v8.272.11) (2025-09-17)
 
 
