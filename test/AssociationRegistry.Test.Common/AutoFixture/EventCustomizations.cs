@@ -178,7 +178,7 @@ public static class EventCustomizations
                     fixture.Create<string>(),
                     fixture.Create<DateOnly?>(),
                     fixture.Create<Registratiedata.Doelgroep>(),
-                    IsUitgeschrevenUitPubliekeDatastroom: false,
+                    isUitgeschrevenUitPubliekeDatastroom: false,
                     fixture.CreateMany<Registratiedata.Contactgegeven>()
                            .OrderBy(x => x.ContactgegevenId).ToArray(),
                     fixture.CreateMany<Registratiedata.Locatie>()

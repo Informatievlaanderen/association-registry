@@ -35,6 +35,7 @@ public static class Registratiedata
 
         public static bool operator !=(AdresId first, IAdresId second)
             => first.Broncode != second.Adresbron.Code || first.Bronwaarde != second.Bronwaarde;
+
         public override string ToString()
             => new Uri(Bronwaarde).Segments.Last();
 
@@ -93,6 +94,11 @@ public static class Registratiedata
         string AndereVerenigingNaam,
         string Identificatie,
         string Beschrijving);
+
+    public record DuplicatieInfo(bool? BevestigdNaDuplicatie)
+    {
+        public static DuplicatieInfo Onbekend = new DuplicatieInfo((bool?)null);
+    }
 
     public record Geotag(string Identificiatie);
 }

@@ -44,7 +44,7 @@ public class DuplicateDetectionMiddlewareTests
             envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _logger, _cancellationToken);
 
         // Assert
-        result.Should().Be(PotentialDuplicatesFound.None);
+        result.Should().Be(PotentialDuplicatesFound.Skip);
     }
 
     [Fact]

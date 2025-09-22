@@ -60,6 +60,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
             command.Werkingsgebieden);
         _vereniging = Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
             registratieData,
+            false,
             new StubVCodeService(_vCode),
             Mock.Of<IGeotagsService>(),
             new ClockStub(now: DateTime.Today))

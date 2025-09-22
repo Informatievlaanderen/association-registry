@@ -47,15 +47,15 @@ public class With_Duplicate : IClassFixture<With_Duplicate.Setup>
 
         savedEvents.Should().NotContainEquivalentOf(
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                VCode: string.Empty,
-                Naam: _setup.Request.Naam,
-                KorteNaam: _setup.Request.KorteNaam ?? string.Empty,
-                KorteBeschrijving: _setup.Request.KorteBeschrijving ?? string.Empty,
-                Startdatum: _setup.Request.Startdatum,
-                Doelgroep: EventFactory.Doelgroep(Doelgroep.Null),
-                IsUitgeschrevenUitPubliekeDatastroom: _setup.Request.IsUitgeschrevenUitPubliekeDatastroom,
-                Contactgegevens: [],
-                Locaties:
+                vCode: string.Empty,
+                naam: _setup.Request.Naam,
+                korteNaam: _setup.Request.KorteNaam ?? string.Empty,
+                korteBeschrijving: _setup.Request.KorteBeschrijving ?? string.Empty,
+                startdatum: _setup.Request.Startdatum,
+                ddoelgroep: EventFactory.Doelgroep(Doelgroep.Null),
+                isUitgeschrevenUitPubliekeDatastroom: _setup.Request.IsUitgeschrevenUitPubliekeDatastroom,
+                contactgegevens: [],
+                locaties:
                 [
                     new Registratiedata.Locatie(
                         LocatieId: 1,
@@ -70,8 +70,8 @@ public class With_Duplicate : IClassFixture<With_Duplicate.Setup>
                                                   _setup.RequestLocatie.Adres.Land),
                         AdresId: null),
                 ],
-                Vertegenwoordigers: [],
-                HoofdactiviteitenVerenigingsloket: []
+                vertegenwoordigers: [],
+                hoofdactiviteitenVerenigingsloket: []
             ),
             config: options => options.Excluding(e => e.VCode));
     }
