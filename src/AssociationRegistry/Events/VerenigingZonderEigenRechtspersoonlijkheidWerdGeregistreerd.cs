@@ -16,7 +16,7 @@ public record VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
     Registratiedata.Locatie[] Locaties,
     Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
-    bool? BevestigdNaDuplicaten) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+    Registratiedata.DuplicatieInfo? DuplicatieInfo) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
 {
     [IgnoreDataMember]
     public Bron Bron

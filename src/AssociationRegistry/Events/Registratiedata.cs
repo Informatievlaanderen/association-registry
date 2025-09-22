@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Events;
 
+using Marten.Linq.SqlGeneration.Filters;
+
 public static class Registratiedata
 {
     public record Contactgegeven(
@@ -95,11 +97,12 @@ public static class Registratiedata
         string Identificatie,
         string Beschrijving);
 
-    public record DuplicatieInfo(bool? BevestigdNaDuplicatie)
+    public record DuplicatieInfo(bool? BevestigdNaDuplicatie, string Bevestigingstoken, string BevestigingstokenKey)
     {
-        public static DuplicatieInfo Onbekend = new((bool?)null);
-        public static DuplicatieInfo GeenDuplicaten = new(false);
-        public static DuplicatieInfo BevestigdGeenDuplicaat = new(true);
+        public static DuplicatieInfo Onbekend = new(null, string.Empty, string.Empty);
+        public static DuplicatieInfo GeenDuplicaten = new(false, string.Empty, string.Empty);
+        public static DuplicatieInfo BevestigdGeenDuplicaat(string bevestigingstoken, string bevestigingstokenKey)
+            => new(true, bevestigingstoken, bevestigingstokenKey);
 
         public static implicit operator bool?(DuplicatieInfo info) => info?.BevestigdNaDuplicatie;
     }

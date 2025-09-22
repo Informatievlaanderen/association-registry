@@ -18,8 +18,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public static async Task<Vereniging> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
         RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid registratieData,
         bool potentialDuplicatesSkipped,
+        string bevestigingsToken,
         IVCodeService vCodeService,
-        IGeotagsService geotagsService,
         IClock clock)
     {
         Throw<StartdatumMagNietInToekomstZijn>.If(registratieData.Startdatum?.IsInFutureOf(clock.Today) ?? false);
@@ -45,7 +45,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(registratieData.HoofdactiviteitenVerenigingsloket)),
-                 potentialDuplicatesSkipped
+                potentialDuplicatesSkipped
+                    ? Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(bevestigingsToken, string.Empty)
+                    : Registratiedata.DuplicatieInfo.GeenDuplicaten
             ));
 
         vereniging.RegistreerWerkingsgebieden(registratieData.Werkingsgebieden);

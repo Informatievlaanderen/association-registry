@@ -126,7 +126,8 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                                                            .Select(h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                                                                        h.Code,
                                                                        h.Naam)).ToArray(),
-                false
+                Registratiedata.DuplicatieInfo.GeenDuplicaten
+
             ),
             new GeotagsWerdenBepaald(vCode, []));
     }

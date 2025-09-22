@@ -91,6 +91,7 @@ public class With_WerkingsgebiedenWerdenNietBepaald
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                false            ), new GeotagsWerdenBepaald(vCode, []));
+                Registratiedata.DuplicatieInfo.GeenDuplicaten
+            ), new GeotagsWerdenBepaald(vCode, []));
     }
 }

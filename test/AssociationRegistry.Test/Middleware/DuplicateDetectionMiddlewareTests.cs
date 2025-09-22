@@ -34,17 +34,17 @@ public class DuplicateDetectionMiddlewareTests
     }
 
     [Fact]
-    public async Task WhenSkipDuplicateDetection_ShouldReturnNone()
+    public async Task WhenSkipDuplicateDetection_ShouldReturnSkip()
     {
         // Arrange
-        var envelope = CreateCommand(skipDuplicateDetection: true);
+        var envelope = CreateCommand(skipDuplicateDetection: true, _fixture.Create<string>());
 
         // Act
         var result = await DuplicateDetectionMiddleware.BeforeAsync(
             envelope, _verrijkteAdressen, _duplicateServiceMock.Object, _logger, _cancellationToken);
 
         // Assert
-        result.Should().Be(PotentialDuplicatesFound.Skip);
+        result.Should().Be(PotentialDuplicatesFound.Skip(envelope.Command.Bevestigingstoken));
     }
 
     [Fact]
@@ -165,11 +165,14 @@ public class DuplicateDetectionMiddlewareTests
     }
 
     // Helper methods for creating test data
-    private CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> CreateCommand(bool skipDuplicateDetection)
+    private CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> CreateCommand(
+        bool skipDuplicateDetection,
+        string bevestigingstoken = "")
     {
         var command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
-            SkipDuplicateDetection = skipDuplicateDetection
+            SkipDuplicateDetection = skipDuplicateDetection,
+            Bevestigingstoken = bevestigingstoken
         };
         return new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, _fixture.Create<CommandMetadata>());
     }

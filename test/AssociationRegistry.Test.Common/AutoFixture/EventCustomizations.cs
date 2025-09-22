@@ -186,7 +186,7 @@ public static class EventCustomizations
                     fixture.CreateMany<Registratiedata.Vertegenwoordiger>()
                            .OrderBy(x => x.VertegenwoordigerId).ToArray(),
                     fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray(),
-                    false
+                    Registratiedata.DuplicatieInfo.GeenDuplicaten
                 )).OmitAutoProperties());
     }
 

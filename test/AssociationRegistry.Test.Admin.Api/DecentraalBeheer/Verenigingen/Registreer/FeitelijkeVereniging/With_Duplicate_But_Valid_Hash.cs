@@ -73,7 +73,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                true
+                Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(_setup.BevestigingsToken, string.Empty)
             ),
             config: options => options.Excluding(e => e.VCode));
     }
@@ -82,6 +82,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
     {
         public readonly RegistreerFeitelijkeVerenigingRequest Request;
         public readonly HttpResponseMessage Response;
+        public string BevestigingsToken { get; }
 
         public Setup(EventsInDbScenariosFixture fixture)
         {
@@ -105,7 +106,9 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
 
             var requestAsJson = JsonConvert.SerializeObject(Request);
 
-            Response = fixture.DefaultClient.RegistreerFeitelijkeVereniging(requestAsJson, bevestigingsTokenHelper.Calculate(Request))
+            BevestigingsToken = bevestigingsTokenHelper.Calculate(Request);
+
+            Response = fixture.DefaultClient.RegistreerFeitelijkeVereniging(requestAsJson, BevestigingsToken)
                               .GetAwaiter().GetResult();
         }
 

@@ -96,6 +96,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
             with
             {
                 SkipDuplicateDetection = skipDuplicateDetection,
+                Bevestigingstoken = bevestigingsToken!,
             };
 
         var metaData = metadataProvider.GetMetadata();

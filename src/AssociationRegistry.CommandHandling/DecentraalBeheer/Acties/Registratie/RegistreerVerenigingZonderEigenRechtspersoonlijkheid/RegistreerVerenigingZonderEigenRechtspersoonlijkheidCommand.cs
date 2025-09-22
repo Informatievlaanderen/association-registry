@@ -14,4 +14,7 @@ public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
     Vertegenwoordiger[] Vertegenwoordigers,
     HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
     Werkingsgebied[] Werkingsgebieden,
-    bool SkipDuplicateDetection = false);
+    bool SkipDuplicateDetection = false,
+    string Bevestigingstoken = "")
+{
+}
