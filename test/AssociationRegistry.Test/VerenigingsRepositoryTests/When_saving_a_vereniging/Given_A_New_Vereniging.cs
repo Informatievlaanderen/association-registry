@@ -9,10 +9,8 @@ using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common.Stubs.VCodeServices;
 using DecentraalBeheer.Vereniging;
-using DecentraalBeheer.Vereniging.Geotags;
 using FluentAssertions;
 using MartenDb.Store;
-using Moq;
 using Xunit;
 
 public class Given_A_New_Vereniging : IAsyncLifetime
@@ -61,8 +59,8 @@ public class Given_A_New_Vereniging : IAsyncLifetime
         _vereniging = Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
             registratieData,
             false,
+            string.Empty,
             new StubVCodeService(_vCode),
-            Mock.Of<IGeotagsService>(),
             new ClockStub(now: DateTime.Today))
                                 .GetAwaiter().GetResult();
     }

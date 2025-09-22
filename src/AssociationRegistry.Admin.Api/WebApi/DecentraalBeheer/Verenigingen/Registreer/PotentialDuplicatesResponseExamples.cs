@@ -19,7 +19,7 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
     public PotentialDuplicatesResponse GetExamples()
         => new(
             hashedRequest: "AB-CD-12-23-43-98-36-A8",
-            potentialDuplicates: new PotentialDuplicatesFound(false, new DuplicaatVereniging(
+            potentialDuplicates: new PotentialDuplicatesFound(false, string.Empty, new DuplicaatVereniging(
                     VCode: "V0001001",
                     new DuplicaatVereniging.Types.Verenigingstype()
                     {

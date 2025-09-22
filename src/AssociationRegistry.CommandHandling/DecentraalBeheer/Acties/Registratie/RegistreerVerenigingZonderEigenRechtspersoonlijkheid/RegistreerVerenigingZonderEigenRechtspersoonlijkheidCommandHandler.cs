@@ -77,8 +77,8 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
             registratieData,
             potentialDuplicates.PotentialDuplicatesSkipped,
+            potentialDuplicates.Bevestigingstoken,
             _vCodeService,
-            _geotagsService,
             _clock);
 
         var (metAdresId, zonderAdresId) = vereniging.GeefLocatiesMetEnZonderAdresId();

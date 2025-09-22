@@ -8,8 +8,6 @@ using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZo
 using Common.Stubs.VCodeServices;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
-using DecentraalBeheer.Vereniging.Geotags;
-using Moq;
 using Xunit;
 
 public class With_A_Duplicate_PhoneNumber
@@ -79,9 +77,9 @@ public class With_A_Duplicate_PhoneNumber
             command.Werkingsgebieden);
         await Assert.ThrowsAsync<ContactgegevenIsDuplicaat>(() => Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
                                                                 registratieData,
-                                                                fixture.Create<bool>(),
+                                                                false,
+                                                                string.Empty,
                                                                 vCodeService,
-                                                                Mock.Of<IGeotagsService>(),
                                                                 clock: new ClockStub(DateTime.Today)));
     }
 

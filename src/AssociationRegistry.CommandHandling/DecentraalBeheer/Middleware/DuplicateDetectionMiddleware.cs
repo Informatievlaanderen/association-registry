@@ -23,7 +23,7 @@ public class DuplicateDetectionMiddleware
         var registrationHasNoLocations = envelope.Command.Locaties.Length == 0 && verrijkteAdressenUitGrar.Count == 0;
 
         if (envelope.Command.SkipDuplicateDetection)
-            return PotentialDuplicatesFound.Skip;
+            return PotentialDuplicatesFound.Skip(envelope.Command.Bevestigingstoken);
 
         if (registrationHasNoLocations)
             return PotentialDuplicatesFound.None;

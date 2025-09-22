@@ -72,7 +72,7 @@ public class With_Duplicate : IClassFixture<With_Duplicate.Setup>
                 ],
                 Vertegenwoordigers: [],
                 HoofdactiviteitenVerenigingsloket: [],
-                false
+                Registratiedata.DuplicatieInfo.GeenDuplicaten
             ),
             config: options => options.Excluding(e => e.VCode));
     }

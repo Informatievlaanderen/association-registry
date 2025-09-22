@@ -89,6 +89,7 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                false), new GeotagsWerdenBepaald(vCode, []));
+                Registratiedata.DuplicatieInfo.GeenDuplicaten
+            ), new GeotagsWerdenBepaald(vCode, []));
     }
 }

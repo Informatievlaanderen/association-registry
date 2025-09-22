@@ -96,6 +96,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidController : Ap
             with
             {
                 SkipDuplicateDetection = skipDuplicateDetection,
+                Bevestigingstoken = bevestigingsToken,
             };
 
         var metaData = metadataProvider.GetMetadata();

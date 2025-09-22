@@ -92,7 +92,8 @@ public class With_NietVanToepassing_Werkingsgebieden
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                false            ),
+                Registratiedata.DuplicatieInfo.GeenDuplicaten
+            ),
             new WerkingsgebiedenWerdenNietVanToepassing(vCode), new GeotagsWerdenBepaald(vCode, []));
     }
 }

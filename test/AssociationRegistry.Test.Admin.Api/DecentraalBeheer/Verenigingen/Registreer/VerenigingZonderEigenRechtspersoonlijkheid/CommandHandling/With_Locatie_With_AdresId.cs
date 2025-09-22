@@ -124,7 +124,8 @@ public class With_Locatie_With_AdresId
                 Locaties: [EventFactory.Locatie(locatie) with { LocatieId = Locatie.IdNotSet + 1}],
                 Vertegenwoordigers: [],
                 HoofdactiviteitenVerenigingsloket: [],
-                false),
+                Registratiedata.DuplicatieInfo.GeenDuplicaten
+            ),
             new AdresWerdOvergenomenUitAdressenregister(vCode, LocatieId: Locatie.IdNotSet + 1,
                                                         Registratiedata.AdresId.FromAdresId(locatie.AdresId),
                                                         Registratiedata.AdresUitAdressenregister.FromAdres(verrijktAdresUitGrar[locatie.AdresId.Bronwaarde])),
