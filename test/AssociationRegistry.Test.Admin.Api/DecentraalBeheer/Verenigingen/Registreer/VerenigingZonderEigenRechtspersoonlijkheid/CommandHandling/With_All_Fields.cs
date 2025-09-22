@@ -123,7 +123,7 @@ public class With_All_Fields
                 h =>
                     new Registratiedata.HoofdactiviteitVerenigingsloket(h.Code, h.Naam)
             ).ToArray(),
-            new Registratiedata.DuplicatieInfo(false));
+            false);
 
         var werkingsgebiedenWerdenBepaald = new WerkingsgebiedenWerdenBepaald(
             _vCodeService.VCode,

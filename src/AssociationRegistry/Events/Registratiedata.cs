@@ -97,7 +97,11 @@ public static class Registratiedata
 
     public record DuplicatieInfo(bool? BevestigdNaDuplicatie)
     {
-        public static DuplicatieInfo Onbekend = new DuplicatieInfo((bool?)null);
+        public static DuplicatieInfo Onbekend = new((bool?)null);
+        public static DuplicatieInfo GeenDuplicaten = new(false);
+        public static DuplicatieInfo BevestigdGeenDuplicaat = new(true);
+
+        public static implicit operator bool?(DuplicatieInfo info) => info?.BevestigdNaDuplicatie;
     }
 
     public record Geotag(string Identificiatie);

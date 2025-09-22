@@ -78,6 +78,9 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
 
                                                                  opts.AutoCreateSchemaObjects = AutoCreate.All;
 
+                                                                 opts.Projections.Errors.SkipSerializationErrors = false;
+
+
                                                                  return opts;
                                                              })
 
@@ -121,8 +124,8 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
     private void CreateDatabaseFromTemplate()
     {
         DatabaseTemplateHelper.CreateDatabaseFromTemplate(
-            _configuration, 
-            _postgreSqlOptions.Database!, 
+            _configuration,
+            _postgreSqlOptions.Database!,
             new NullLogger<MultiStreamTestFixture>());
     }
 

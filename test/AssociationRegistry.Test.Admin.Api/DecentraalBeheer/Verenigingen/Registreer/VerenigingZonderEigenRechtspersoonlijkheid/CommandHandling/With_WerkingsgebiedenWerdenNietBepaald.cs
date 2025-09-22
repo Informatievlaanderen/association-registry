@@ -84,14 +84,13 @@ public class With_WerkingsgebiedenWerdenNietBepaald
                 Naam,
                 string.Empty,
                 string.Empty,
-                startdatum: null,
+                Startdatum: null,
                 EventFactory.Doelgroep(Doelgroep.Null),
-                isUitgeschrevenUitPubliekeDatastroom: false,
+                IsUitgeschrevenUitPubliekeDatastroom: false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                new Registratiedata.DuplicatieInfo(false)
-            ), new GeotagsWerdenBepaald(vCode, []));
+                false            ), new GeotagsWerdenBepaald(vCode, []));
     }
 }

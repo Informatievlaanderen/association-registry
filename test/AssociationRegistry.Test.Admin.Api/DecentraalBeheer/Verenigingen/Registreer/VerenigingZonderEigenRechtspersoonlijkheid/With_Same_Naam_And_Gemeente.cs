@@ -195,7 +195,8 @@ public class With_Same_Naam_And_Gemeente
                         AdresId: null),
                 },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
+                false
             ),
             config: options => options.Excluding(e => e.VCode));
     }

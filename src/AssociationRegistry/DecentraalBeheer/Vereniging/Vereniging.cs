@@ -45,7 +45,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(registratieData.HoofdactiviteitenVerenigingsloket)),
-                new Registratiedata.DuplicatieInfo(BevestigdNaDuplicatie: potentialDuplicatesSkipped)
+                 potentialDuplicatesSkipped
             ));
 
         vereniging.RegistreerWerkingsgebieden(registratieData.Werkingsgebieden);
