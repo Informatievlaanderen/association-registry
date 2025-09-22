@@ -183,6 +183,7 @@ public static class ConfigureMartenExtensions
             ProjectionLifecycle.Async,
             ProjectionNames.DuplicateDetection);
 
+
         return opts;
     }
 }

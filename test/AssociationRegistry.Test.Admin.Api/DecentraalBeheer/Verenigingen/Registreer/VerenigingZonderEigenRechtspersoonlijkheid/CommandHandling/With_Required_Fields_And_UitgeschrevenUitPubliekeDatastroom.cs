@@ -82,13 +82,13 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
                 Naam,
                 string.Empty,
                 string.Empty,
-                startdatum: null,
+                Startdatum: null,
                 EventFactory.Doelgroep(Doelgroep.Null),
-                isUitgeschrevenUitPubliekeDatastroom: true,
+                IsUitgeschrevenUitPubliekeDatastroom: true,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                new Registratiedata.DuplicatieInfo(false)), new GeotagsWerdenBepaald(vCode, []));
+                false), new GeotagsWerdenBepaald(vCode, []));
     }
 }
