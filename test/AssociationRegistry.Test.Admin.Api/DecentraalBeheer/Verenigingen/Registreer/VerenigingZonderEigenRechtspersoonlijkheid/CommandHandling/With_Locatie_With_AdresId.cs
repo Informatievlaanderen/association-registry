@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.
     CommandHandling;
 
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
@@ -70,6 +71,7 @@ public class With_Locatie_With_AdresId
                       .ReturnsAsync(GeotagsCollection.Hydrate(geotags));
 
         var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
+            fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(),
             Naam: VerenigingsNaam.Create(naam),
             KorteNaam: null,
             KorteBeschrijving: null,

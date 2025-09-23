@@ -575,6 +575,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Het bevestigingstoken dat werd opgegeven is ongeldig..
+        /// </summary>
+        public static string OngeldigBevestigingsToken {
+            get {
+                return ResourceManager.GetString("OngeldigBevestigingsToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VCode moet groter zijn dan 1000.
         /// </summary>
         public static string OutOfRangeVCode {

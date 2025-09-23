@@ -1,8 +1,10 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
+using Framework;
 using global::AutoFixture;
 using Vereniging;
 
@@ -19,6 +21,7 @@ public static class CommandCustomizations
         fixture.Customize<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () => new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
+                                                                 fixture.Create<object>(),
                                                                  fixture.Create<VerenigingsNaam>(),
                                                                  fixture.Create<string>(),
                                                                  fixture.Create<string>(),
@@ -31,10 +34,10 @@ public static class CommandCustomizations
                                                                  fixture.CreateMany<HoofdactiviteitVerenigingsloket>().DistinctBy(x => x.Code).ToArray(),
                                                                  withoutWerkingsgebieden
                                                                      ? []
-                                                                     : fixture.CreateMany<Werkingsgebied>().Distinct().ToArray(),
-                                                                 SkipDuplicateDetection: true)
+                                                                     : fixture.CreateMany<Werkingsgebied>().Distinct().ToArray())
                                                          )
                                                         .OmitAutoProperties());
+
     }
 
     private static void CustomizeTewijzigenLidmaatschap(this IFixture fixture)

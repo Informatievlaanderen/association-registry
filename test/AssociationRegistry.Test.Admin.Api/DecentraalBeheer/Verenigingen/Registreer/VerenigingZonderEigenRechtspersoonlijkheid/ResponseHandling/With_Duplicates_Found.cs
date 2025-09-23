@@ -84,7 +84,9 @@ public class With_Duplicates_Found
     private static Mock<IMessageBus> SetupRegistreerVZERCommandHandling(Fixture fixture)
     {
         var messageBus = new Mock<IMessageBus>();
-        var duplicatesFound = PotentialDuplicatesFound.Some(fixture.CreateMany<DuplicaatVereniging>().Select(x => x with
+        var duplicatesFound = PotentialDuplicatesFound.Some(
+            fixture.Create<string>(),
+            fixture.CreateMany<DuplicaatVereniging>().Select(x => x with
         {
             Verenigingstype = new DuplicaatVereniging.Types.Verenigingstype()
             {

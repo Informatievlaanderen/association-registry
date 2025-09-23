@@ -58,6 +58,8 @@ using Integrations.Slack;
 using JasperFx;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Magda.Kbo;
+using CommandHandling.DecentraalBeheer.Acties.DubbelDetectie;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Marten;
 using MartenDb.Store;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -94,6 +96,7 @@ using System.Reflection;
 using System.Text;
 using Vereniging;
 using Weasel.Core.Migrations;
+using WebApi.Verenigingen;
 using WebApi.Verenigingen.Detail;
 using WebApi.Verenigingen.Historiek;
 using WebApi.Verenigingen.KboSync;
@@ -470,10 +473,13 @@ public class Program
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
                .AddTransient<IEventStore, EventStore>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
+               .AddTransient<IDubbelDetectieRepository, DubbelDetectieRepository>()
                .AddTransient<IDuplicateVerenigingDetectionService, ZoekDuplicateVerenigingenQuery>()
                .AddTransient<IGrarClient, GrarClient>()
                .AddTransient<IAdresMatchService, AdresMatchService>()
                .AddTransient<IAdresMatchStrategy, PerfectScoreMatchStrategy>()
+               .AddTransient<IBevestigingsTokenHelper, BevestigingsTokenHelper>()
+               .AddTransient<IRapporteerDubbeleVerenigingenService, RapporteerDubbeleVerenigingenService>()
                .AddTransient<IAddressVerrijkingsService, GrarAddressVerrijkingsService>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
                .AddTransient<INotifier, SlackNotifier>()

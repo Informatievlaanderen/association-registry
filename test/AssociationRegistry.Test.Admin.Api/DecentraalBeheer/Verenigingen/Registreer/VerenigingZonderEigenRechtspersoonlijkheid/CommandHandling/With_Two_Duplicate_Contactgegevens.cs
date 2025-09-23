@@ -37,7 +37,6 @@ public class With_Two_Duplicate_Contactgegevens
         var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
             Contactgegevens = new[] { contactgegeven, contactgegeven },
-            SkipDuplicateDetection = true,
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();

@@ -1,11 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen;
 
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
 
-public class BevestigingsTokenHelper
+public class BevestigingsTokenHelper : IBevestigingsTokenHelper
 {
     private readonly string _salt;
 

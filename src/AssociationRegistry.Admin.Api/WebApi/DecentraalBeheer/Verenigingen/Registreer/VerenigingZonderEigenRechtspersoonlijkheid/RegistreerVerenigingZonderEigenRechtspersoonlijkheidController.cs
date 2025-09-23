@@ -89,13 +89,9 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidController : Ap
     {
         await _validator.NullValidateAndThrowAsync(request);
 
-        var skipDuplicateDetection = _bevestigingsTokenHelper.IsValid(bevestigingsToken, request);
-        Throw<InvalidBevestigingstokenProvided>.If(!string.IsNullOrWhiteSpace(bevestigingsToken) && !skipDuplicateDetection);
-
-        var command = request.ToCommand(werkingsgebiedenService)
+        var command = request.ToCommand(request.Werkingsgebieden?.Select(s => werkingsgebiedenService.Create(s)).ToArray())
             with
             {
-                SkipDuplicateDetection = skipDuplicateDetection,
                 Bevestigingstoken = bevestigingsToken,
             };
 

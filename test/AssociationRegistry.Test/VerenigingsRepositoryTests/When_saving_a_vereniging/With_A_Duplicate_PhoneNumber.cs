@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_saving_a_vereniging;
 
+using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
@@ -51,6 +52,7 @@ public class With_A_Duplicate_PhoneNumber
         var vCodeService = new StubVCodeService(vCode);
 
         var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
+            fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(),
             Naam: fixture.Create<VerenigingsNaam>(),
             KorteNaam: null,
             KorteBeschrijving: null,

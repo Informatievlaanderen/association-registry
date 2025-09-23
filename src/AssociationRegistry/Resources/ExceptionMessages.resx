@@ -53,6 +53,9 @@
   <data name="GeenGeldigeVerenigingInKbo">
     <value>Er werd voor dit KBO-nummer geen geldige vereniging gevonden.</value>
   </data>
+  <data name="OngeldigBevestigingsToken">
+    <value>Het bevestigingstoken dat werd opgegeven is ongeldig.</value>
+  </data>
   <data name="UnsupportedOperationForVerenigingstype">
     <value>Deze actie kan niet uitgevoerd worden op dit type vereniging.</value>
   </data>

@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Test.Framework.Customizations;
 
+using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
@@ -18,20 +20,14 @@ public static class CommandCustomizations
     {
         fixture.Customize<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
             composerTransformation: composer => composer.FromFactory(
-                                                             factory: () => new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
-                                                                 fixture.Create<VerenigingsNaam>(),
-                                                                 fixture.Create<string>(),
-                                                                 fixture.Create<string>(),
-                                                                 fixture.Create<Datum>(),
-                                                                 fixture.Create<Doelgroep>(),
-                                                                 IsUitgeschrevenUitPubliekeDatastroom: false,
-                                                                 fixture.CreateMany<Contactgegeven>().ToArray(),
-                                                                 fixture.CreateMany<Locatie>().ToArray(),
-                                                                 fixture.CreateMany<Vertegenwoordiger>().ToArray(),
-                                                                 fixture.CreateMany<HoofdactiviteitVerenigingsloket>().Distinct().ToArray(),
-                                                                 fixture.CreateMany<Werkingsgebied>().Distinct().ToArray(),
-                                                                 SkipDuplicateDetection: true)
-                                                         )
+                                                             factory: () =>
+                                                             {
+                                                                 var request =
+                                                                     fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>();
+
+                                                                 return request.ToCommand(
+                                                                     fixture.CreateMany<Werkingsgebied>().Distinct().ToArray());
+                                                             })
                                                         .OmitAutoProperties());
     }
 

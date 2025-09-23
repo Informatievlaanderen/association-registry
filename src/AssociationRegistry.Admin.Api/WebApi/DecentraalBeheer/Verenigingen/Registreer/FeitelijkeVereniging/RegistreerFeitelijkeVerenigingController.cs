@@ -14,6 +14,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Exceptions;
 using DecentraalBeheer.Vereniging.Mappers;
 using Examples;
 using FluentValidation;
@@ -89,13 +90,9 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
     {
         await _validator.NullValidateAndThrowAsync(request);
 
-        var skipDuplicateDetection = _bevestigingsTokenHelper.IsValid(bevestigingsToken, request);
-        Throw<InvalidBevestigingstokenProvided>.If(!string.IsNullOrWhiteSpace(bevestigingsToken) && !skipDuplicateDetection);
-
-        var command = request.ToCommand(werkingsgebiedenService)
+        var command = request.ToCommand(request.Werkingsgebieden?.Select(s => werkingsgebiedenService.Create(s)).ToArray())
             with
             {
-                SkipDuplicateDetection = skipDuplicateDetection,
                 Bevestigingstoken = bevestigingsToken!,
             };
 

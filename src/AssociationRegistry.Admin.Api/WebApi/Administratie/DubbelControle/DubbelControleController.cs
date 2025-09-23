@@ -25,7 +25,7 @@ public class DubbelControleController : ApiController
         [FromServices] IWerkingsgebiedenService werkingsgebiedenService
     )
     {
-        var command = request.ToCommand(werkingsgebiedenService);
+        var command = request.ToCommand(request.Werkingsgebieden?.Select(s => werkingsgebiedenService.Create(s)).ToArray());
 
         var result = await duplicateVerenigingDetectionService.ExecuteAsync(
             command.Naam, command.Locaties,

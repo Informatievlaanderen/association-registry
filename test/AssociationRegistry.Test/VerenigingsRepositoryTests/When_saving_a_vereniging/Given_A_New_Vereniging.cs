@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_saving_a_vereniging;
 
+using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
@@ -31,6 +32,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
         _naam = VerenigingsNaam.Create(naam: "Vereniging 1");
 
         var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
+            new RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest(),
             Naam: _naam,
             KorteNaam: null,
             KorteBeschrijving: null,

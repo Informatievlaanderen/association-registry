@@ -22,9 +22,11 @@ public class To_A_RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand
 
         var request = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>();
 
-        var actual = request.ToCommand(new WerkingsgebiedenServiceMock());
+        IWerkingsgebiedenService werkingsgebiedenService = new WerkingsgebiedenServiceMock();
+        var actual = request.ToCommand(request.Werkingsgebieden?.Select(s => werkingsgebiedenService.Create(s)).ToArray());
 
         actual.Deconstruct(
+            out var originalRequest,
             out var naam,
             out var korteNaam,
             out var korteBeschrijving,
@@ -36,9 +38,9 @@ public class To_A_RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand
             out var vertegenwoordigers,
             out var hoofdactiviteiten,
             out var werkingsgebieden,
-            out var skipDuplicateDetection,
             out var bevestigingstoken);
 
+        originalRequest.Should().Be(request);
         naam.ToString().Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
@@ -52,7 +54,6 @@ public class To_A_RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand
 
         hoofdactiviteiten.Select(x => x.Code).Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
         werkingsgebieden.Select(x => x.Code).Should().BeEquivalentTo(request.Werkingsgebieden);
-        skipDuplicateDetection.Should().BeFalse();
         bevestigingstoken.Should().BeEmpty();
     }
 

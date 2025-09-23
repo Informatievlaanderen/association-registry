@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.CommandHandling;
 
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
@@ -39,6 +40,7 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
         var clock = new ClockStub(today);
 
         var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
+            fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(),
             VerenigingsNaam.Create(Naam),
             KorteNaam: null,
             KorteBeschrijving: null,
