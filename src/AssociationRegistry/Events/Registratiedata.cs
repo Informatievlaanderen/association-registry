@@ -108,6 +108,27 @@ public static class Registratiedata
     }
 
     public record Geotag(string Identificiatie);
+
+    public record DuplicateVereniging(
+        string VCode,
+        Verenigingstype Verenigingstype,
+        Verenigingssubtype? Verenigingssubtype,
+        string Naam,
+        string KorteNaam,
+        HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
+        DuplicateVerenigingLocatie[] Locaties);
+
+    public record Verenigingstype(string Code, string Naam);
+
+    public record Verenigingssubtype(string Code, string Naam);
+
+    public record DuplicateVerenigingLocatie(
+        string Locatietype,
+        bool IsPrimair,
+        string Adres,
+        string? Naam,
+        string Postcode,
+        string Gemeente);
 }
 
 public interface IAdresId

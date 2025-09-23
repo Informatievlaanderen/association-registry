@@ -3,6 +3,7 @@
 using AssociationRegistry.Vereniging;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 using System.Runtime.Serialization;
 
 [DataContract]
