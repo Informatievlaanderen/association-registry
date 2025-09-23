@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.GemeentenaamVerrijking;
 using AssociationRegistry.Grar.Models;
 using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Grar.AdresMatch;
 using Magda.Kbo;
 
@@ -384,4 +385,44 @@ public static class EventFactory
 
     public static GeotagsWerdenBepaald GeotagsWerdenBepaald(VCode vCode, GeotagsCollection geotags)
     => new(vCode, geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
+
+    public static DubbeleVerenigingenWerdenGedetecteerd DubbeleVerenigingenWerdenGedetecteerd(
+        string Key,
+        string naam,
+        Locatie[] locaties,
+        DuplicaatVereniging[] gedetecteerdeDubbels)
+        => new(
+            Key,
+            naam,
+            locaties.Select(Locatie).ToArray(),
+            gedetecteerdeDubbels.Select(DuplicaatVereniging).ToArray());
+
+    private static Registratiedata.DuplicateVereniging DuplicaatVereniging(DuplicaatVereniging duplicaatVereniging)
+        => new(
+            duplicaatVereniging.VCode,
+            Verenigingstype(duplicaatVereniging.Verenigingstype),
+            Verenigingssubtype(duplicaatVereniging.Verenigingssubtype),
+            duplicaatVereniging.Naam,
+            duplicaatVereniging.KorteNaam,
+            duplicaatVereniging.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket).ToArray(),
+            duplicaatVereniging.Locaties.Select(Locatie).ToArray()
+        );
+
+    private static Registratiedata.HoofdactiviteitVerenigingsloket HoofdactiviteitVerenigingsloket(
+        DuplicaatVereniging.Types.HoofdactiviteitVerenigingsloket activiteit)
+        => new(activiteit.Code, activiteit.Naam);
+    private static Registratiedata.DuplicateVerenigingLocatie Locatie(
+        DuplicaatVereniging.Types.Locatie locatie)
+        => new(
+            locatie.Locatietype,
+            locatie.IsPrimair,
+            locatie.Adres,
+            locatie.Naam,
+            locatie.Postcode,
+            locatie.Gemeente);
+
+    private static Registratiedata.Verenigingstype Verenigingstype(DuplicaatVereniging.Types.Verenigingstype verenigingstype)
+        => new(verenigingstype.Code, verenigingstype.Naam);
+    private static Registratiedata.Verenigingssubtype Verenigingssubtype(DuplicaatVereniging.Types.Verenigingssubtype verenigingssubtype)
+        => new(verenigingssubtype.Code, verenigingssubtype.Naam);
 }

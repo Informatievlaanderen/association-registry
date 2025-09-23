@@ -4,6 +4,7 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 using DecentraalBeheer.Vereniging.Mappers;
 using Swashbuckle.AspNetCore.Filters;
 

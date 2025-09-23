@@ -66,7 +66,6 @@ public class EventStoreMock : IEventStore
 
     public async Task<StreamActionResult> SaveNew(
         string aggregateId,
-        long verenigingVersion,
         IDocumentSession session,
         CommandMetadata metadata,
         CancellationToken cancellationToken,

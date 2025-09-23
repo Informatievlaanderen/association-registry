@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.DecentraalBeheer.Vereniging.DubbelDetectie;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;

@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Schema.Search;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.DubbelDetectie;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using Common.AutoFixture;

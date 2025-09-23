@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 
+using AssociationRegistry.DecentraalBeheer.Vereniging.DubbelDetectie;
+
 public record PotentialDuplicatesFound(bool PotentialDuplicatesSkipped, string Bevestigingstoken, params DuplicaatVereniging[] PotentialDuplicates)
 {
     public static PotentialDuplicatesFound None => new(false, string.Empty);

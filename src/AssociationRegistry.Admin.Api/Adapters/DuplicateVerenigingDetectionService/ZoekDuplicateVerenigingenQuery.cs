@@ -2,6 +2,7 @@
 
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Schema.Search;
 using GemeentenaamVerrijking;
 using Vereniging;

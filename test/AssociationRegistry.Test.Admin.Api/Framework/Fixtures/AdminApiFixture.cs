@@ -205,7 +205,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         await using var session = DocumentStore.LightweightSession();
         var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
-        var result = await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), EventStore.ExpectedVersion.NewStream, session, metadata, CancellationToken.None, eventsToAdd);
+        var result = await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), session, metadata, CancellationToken.None, eventsToAdd);
 
         return result;
     }

@@ -46,7 +46,6 @@ public class EventStore : Store.IEventStore
 
     public async Task<StreamActionResult> SaveNew(
         string aggregateId,
-        long aggregateVersion,
         IDocumentSession session,
         CommandMetadata metadata,
         CancellationToken cancellationToken,

@@ -3,6 +3,7 @@
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.DubbelDetectie;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;

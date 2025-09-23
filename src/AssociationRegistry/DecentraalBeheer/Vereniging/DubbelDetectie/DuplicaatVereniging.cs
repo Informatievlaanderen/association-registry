@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.DubbelDetectie;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using System.Collections.Immutable;

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer;
 
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 using System.Runtime.Serialization;
 
 /// <summary>Een activiteit van een vereniging</summary>

@@ -15,6 +15,7 @@ using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZo
 using CommandHandling.DecentraalBeheer.Middleware;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 
 public class DuplicateDetectionMiddlewareTests
 {
