@@ -74,14 +74,17 @@ public class With_Duplicates_Found
 
         var mogelijkeDuplicateVerenigingen = actualPotentialDuplicatesResponse.MogelijkeDuplicateVerenigingen;
 
-                mogelijkeDuplicateVerenigingen.Should()
-                                              .AllSatisfy(x => x.Verenigingssubtype.Should().BeNull());
+        mogelijkeDuplicateVerenigingen
+           .Should()
+           .AllSatisfy(x => x.Verenigingssubtype.Should().BeNull());
     }
 
     private static Mock<IMessageBus> MockRegistreerVzerCommandHandling(Fixture fixture)
     {
         var messageBus = new Mock<IMessageBus>();
-        var duplicatesFound = PotentialDuplicatesFound.Some(fixture.CreateMany<DuplicaatVereniging>().Select(x => x with
+        var duplicatesFound = PotentialDuplicatesFound.Some(
+            fixture.Create<string>(),
+            fixture.CreateMany<DuplicaatVereniging>().Select(x => x with
         {
             Verenigingstype = new DuplicaatVereniging.Types.Verenigingstype()
             {

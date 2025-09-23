@@ -5,7 +5,7 @@ using EventStore;
 using Framework;
 using Marten;
 
-public interface IDubbelDetectieVerenigingsRepository
+public interface IDubbelDetectieRepository
 {
     public Task<StreamActionResult> Save(
         string aggregateId,

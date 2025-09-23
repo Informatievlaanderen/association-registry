@@ -14,6 +14,7 @@ public class For_Any_Event
     [
         typeof(AfdelingWerdGeregistreerd),
         typeof(KboNummerWerdGereserveerd),
+        typeof(DubbeleVerenigingenWerdenGedetecteerd),
     ];
 
     // Because we want to update the metadata for each event!

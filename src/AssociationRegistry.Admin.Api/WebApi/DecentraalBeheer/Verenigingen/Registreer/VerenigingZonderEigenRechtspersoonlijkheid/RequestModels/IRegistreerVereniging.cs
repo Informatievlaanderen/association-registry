@@ -44,5 +44,5 @@ public interface IRegistreerVereniging
     /// <summary>De codes van de werkingsgebieden</summary>
     string[]? Werkingsgebieden { get; set; }
 
-    RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(IWerkingsgebiedenService werkingsgebiedenService);
+    RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(Werkingsgebied[]? werkingsgebieden);
 }

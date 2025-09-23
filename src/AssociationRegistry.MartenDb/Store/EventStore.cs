@@ -61,7 +61,7 @@ public class EventStore : Store.IEventStore
 
         var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
 
-        if(maxSequence == 0)
+        if (maxSequence == 0)
             maxSequence = (await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken)).Max(x => x.Sequence);
 
         return new StreamActionResult(maxSequence, events.Length);
@@ -88,7 +88,8 @@ public class EventStore : Store.IEventStore
             var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
             var maxSequence = eventsAgain.Max(@event => @event.Sequence);
 
-            _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}", string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence);
+            _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}",
+                                   string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence);
 
             return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
         }
@@ -110,7 +111,9 @@ public class EventStore : Store.IEventStore
                 var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
                 var maxSequence = eventsAgain.Max(@event => @event.Sequence);
 
-                _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}", string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence);
+                _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}",
+                                       string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence);
+
                 return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
                 //return new StreamActionResult(maxSequence, streamAction.Version);
             }

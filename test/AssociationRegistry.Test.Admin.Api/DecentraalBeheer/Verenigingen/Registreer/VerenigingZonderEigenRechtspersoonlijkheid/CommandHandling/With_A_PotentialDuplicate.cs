@@ -44,10 +44,9 @@ public class With_A_PotentialDuplicate
         {
             Naam = VerenigingsNaam.Create(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario.Naam),
             Locaties = new[] { locatie },
-            SkipDuplicateDetection = false,
         };
 
-        _potentialDuplicates = PotentialDuplicatesFound.Some(fixture.Create<DuplicaatVereniging>());
+        _potentialDuplicates = PotentialDuplicatesFound.Some(fixture.Create<string>(), fixture.Create<DuplicaatVereniging>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 

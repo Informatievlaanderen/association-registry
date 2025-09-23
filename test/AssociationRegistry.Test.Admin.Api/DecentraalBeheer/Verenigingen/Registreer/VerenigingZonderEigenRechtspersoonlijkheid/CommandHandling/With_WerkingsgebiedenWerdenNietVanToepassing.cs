@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.CommandHandling;
 
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
@@ -40,16 +41,17 @@ public class With_NietVanToepassing_Werkingsgebieden
         var clock = new ClockStub(today);
 
         var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
+            fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(),
             VerenigingsNaam.Create(Naam),
             KorteNaam: null,
             KorteBeschrijving: null,
             Startdatum: null,
             Doelgroep.Null,
             IsUitgeschrevenUitPubliekeDatastroom: false,
-            Array.Empty<Contactgegeven>(),
-            Array.Empty<Locatie>(),
-            Array.Empty<Vertegenwoordiger>(),
-            Array.Empty<HoofdactiviteitVerenigingsloket>(),
+            [],
+            [],
+            [],
+            [],
             Werkingsgebieden.NietVanToepassing);
 
         var commandMetadata = fixture.Create<CommandMetadata>();

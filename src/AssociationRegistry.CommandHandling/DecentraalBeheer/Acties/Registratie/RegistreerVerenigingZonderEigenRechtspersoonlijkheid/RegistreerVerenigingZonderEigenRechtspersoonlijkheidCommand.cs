@@ -3,6 +3,7 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
+    object OriginalRequest,
     VerenigingsNaam Naam,
     string? KorteNaam,
     string? KorteBeschrijving,
@@ -14,7 +15,7 @@ public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
     Vertegenwoordiger[] Vertegenwoordigers,
     HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
     Werkingsgebied[] Werkingsgebieden,
-    bool SkipDuplicateDetection = false,
     string Bevestigingstoken = "")
 {
+    public bool HeeftBevestigingstoken => !string.IsNullOrWhiteSpace(Bevestigingstoken);
 }

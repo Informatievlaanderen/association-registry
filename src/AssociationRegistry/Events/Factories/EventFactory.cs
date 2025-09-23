@@ -387,12 +387,14 @@ public static class EventFactory
     => new(vCode, geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
 
     public static DubbeleVerenigingenWerdenGedetecteerd DubbeleVerenigingenWerdenGedetecteerd(
-        string Key,
+        string bevestigingstokenKey,
+        string bevestigingstoken,
         string naam,
         Locatie[] locaties,
         DuplicaatVereniging[] gedetecteerdeDubbels)
         => new(
-            Key,
+            bevestigingstokenKey,
+            bevestigingstoken,
             naam,
             locaties.Select(Locatie).ToArray(),
             gedetecteerdeDubbels.Select(DuplicaatVereniging).ToArray());
@@ -423,6 +425,6 @@ public static class EventFactory
 
     private static Registratiedata.Verenigingstype Verenigingstype(DuplicaatVereniging.Types.Verenigingstype verenigingstype)
         => new(verenigingstype.Code, verenigingstype.Naam);
-    private static Registratiedata.Verenigingssubtype Verenigingssubtype(DuplicaatVereniging.Types.Verenigingssubtype verenigingssubtype)
-        => new(verenigingssubtype.Code, verenigingssubtype.Naam);
+    private static Registratiedata.Verenigingssubtype? Verenigingssubtype(DuplicaatVereniging.Types.Verenigingssubtype? verenigingssubtype)
+        => verenigingssubtype is null ? null : new Registratiedata.Verenigingssubtype(verenigingssubtype.Code, verenigingssubtype.Naam);
 }
