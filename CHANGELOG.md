@@ -1,3 +1,14 @@
+# [8.274.0](https://github.com/informatievlaanderen/association-registry/compare/v8.273.0...v8.274.0) (2025-09-24)
+
+
+### Features
+
+* or-2888 add metadate to powerbi dubbeldetectie ([d4646b1](https://github.com/informatievlaanderen/association-registry/commit/d4646b1adcc7897a5052dd8055cac7d922114864))
+* or-2888 allow rebuilding for powerbi dubbeldetectie ([c41b225](https://github.com/informatievlaanderen/association-registry/commit/c41b22511a7156308f2cf92b69c8e889dee4fb3a))
+* or-2888 implement powerbi for dubbeldetectie ([3e450da](https://github.com/informatievlaanderen/association-registry/commit/3e450da471260da08141057bb7888b03970d14cc))
+* or-2888 move logic to calculate bevestigingstoken to middleware ([a7d9837](https://github.com/informatievlaanderen/association-registry/commit/a7d983799f86666eb5dfa236a6295ab634c781a8))
+* rapporteer dubbele verenigingen ([03bc888](https://github.com/informatievlaanderen/association-registry/commit/03bc88876de3f3e3bec671ee375303a1ecf3a1a7))
+
 # [8.273.0](https://github.com/informatievlaanderen/association-registry/compare/v8.272.11...v8.273.0) (2025-09-22)
 
 
