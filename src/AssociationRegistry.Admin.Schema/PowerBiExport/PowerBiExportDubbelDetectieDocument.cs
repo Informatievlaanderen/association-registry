@@ -10,6 +10,10 @@ public record PowerBiExportDubbelDetectieDocument
     public string Naam { get; set; } = null!;
     public Types.Locatie[] Locaties { get; set; } = [];
     public Types.DuplicateVereniging[] GedetecteerdeDubbels { get; init; }
+    public string Tijdstip { get; set; } = null!;
+    public string Initiator { get; set; } = null!;
+    public string CorrelationId { get; set; } = null!;
+
     public class Types
     {
         public record Locatie

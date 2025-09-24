@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.PowerBiExport;
 
 using Events;
 using Formats;
+using Framework;
 using JasperFx.Events;
 using Marten.Events.Aggregation;
 using Schema.PowerBiExport;
@@ -17,6 +18,9 @@ public class PowerBiExportDubbelDetectieProjection : SingleStreamProjection<Powe
             Naam = dubbeleVerenigingenWerdenGedetecteerd.Data.Naam,
             Locaties = dubbeleVerenigingenWerdenGedetecteerd.Data.Locaties.Select(MapLocatie).ToArray(),
             GedetecteerdeDubbels = dubbeleVerenigingenWerdenGedetecteerd.Data.GedetecteerdeDubbels.Select(MapDuplicate).ToArray(),
+            Tijdstip = dubbeleVerenigingenWerdenGedetecteerd.GetHeaderString(MetadataHeaderNames.Tijdstip),
+            Initiator = dubbeleVerenigingenWerdenGedetecteerd.GetHeaderString(MetadataHeaderNames.Initiator),
+            CorrelationId = dubbeleVerenigingenWerdenGedetecteerd.CorrelationId,
         };
         return document;
     }
