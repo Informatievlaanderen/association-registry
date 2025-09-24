@@ -1,3 +1,10 @@
+## [8.274.2](https://github.com/informatievlaanderen/association-registry/compare/v8.274.1...v8.274.2) (2025-09-24)
+
+
+### Bug Fixes
+
+* or-2888 use metadata from command instead of digitaal vlaanderen for rapporteer dubbels ([d34b3c9](https://github.com/informatievlaanderen/association-registry/commit/d34b3c9676d7d1c005ae7cd5967e28e19458de42))
+
 ## [8.274.1](https://github.com/informatievlaanderen/association-registry/compare/v8.274.0...v8.274.1) (2025-09-24)
 
 
