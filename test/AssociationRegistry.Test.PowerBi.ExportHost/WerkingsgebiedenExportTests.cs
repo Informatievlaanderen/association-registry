@@ -89,11 +89,11 @@ public class WerkingsgebiedenRecordWriterTests
 
     private async Task Export(IEnumerable<PowerBiExportDocument> docs)
     {
-        var exporter = new Exporter(WellKnownFileNames.Werkingsgebieden,
-                                    bucketName: "something",
-                                    new WerkingsgebiedenRecordWriter(),
-                                    _s3ClientMock.Object,
-                                    new NullLogger<Exporter>());
+        var exporter = new Exporter<PowerBiExportDocument>(WellKnownFileNames.Werkingsgebieden,
+                                                           bucketName: "something",
+                                                           new WerkingsgebiedenRecordWriter(),
+                                                           _s3ClientMock.Object,
+                                                           new NullLogger<Exporter<PowerBiExportDocument>>());
 
         await exporter.Export(docs);
     }

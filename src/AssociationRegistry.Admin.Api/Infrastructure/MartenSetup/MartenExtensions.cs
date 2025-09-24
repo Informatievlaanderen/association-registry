@@ -51,6 +51,7 @@ public static class MartenExtensions
                                           opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
                                           opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
                                           opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
+                                          opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
                                           opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
                                           opts.Projections.Add(new LocatieLookupProjection(NullLogger<LocatieLookupProjection>.Instance), ProjectionLifecycle.Async);
                                           opts.Projections.Add(new LocatieZonderAdresMatchProjection(NullLogger<LocatieZonderAdresMatchProjection>.Instance), ProjectionLifecycle.Async);

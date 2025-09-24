@@ -84,11 +84,11 @@ public class HistoriekExportTests
 
     private async Task Export(IEnumerable<PowerBiExportDocument> docs)
     {
-        var exporter = new Exporter(WellKnownFileNames.Historiek,
-                                    bucketName: "something",
-                                    new HistoriekRecordWriter(),
-                                    _s3ClientMock.Object,
-                                    new NullLogger<Exporter>());
+        var exporter = new Exporter<PowerBiExportDocument>(WellKnownFileNames.Historiek,
+                                                           bucketName: "something",
+                                                           new HistoriekRecordWriter(),
+                                                           _s3ClientMock.Object,
+                                                           new NullLogger<Exporter<PowerBiExportDocument>>());
 
         await exporter.Export(docs);
     }

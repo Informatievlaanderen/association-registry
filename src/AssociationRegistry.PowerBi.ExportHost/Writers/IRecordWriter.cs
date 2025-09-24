@@ -3,7 +3,7 @@
 using Admin.Schema.PowerBiExport;
 using CsvHelper;
 
-public interface IRecordWriter
+public interface IRecordWriter<in TSource>
 {
-    Task Write(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter);
+    Task Write(IEnumerable<TSource> docs, IWriter csvWriter);
 }

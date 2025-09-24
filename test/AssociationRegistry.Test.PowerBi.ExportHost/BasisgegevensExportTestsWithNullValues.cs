@@ -81,11 +81,11 @@ public class BasisgegevensExportTestsWithNullValues
 
     private async Task Export(IEnumerable<PowerBiExportDocument> docs)
     {
-        var exporter = new Exporter(WellKnownFileNames.Basisgegevens,
-                                    bucketName: "something",
-                                    new BasisgegevensRecordWriter(),
-                                    _s3ClientMock.Object,
-                                    new NullLogger<Exporter>());
+        var exporter = new Exporter<PowerBiExportDocument>(WellKnownFileNames.Basisgegevens,
+                                                           bucketName: "something",
+                                                           new BasisgegevensRecordWriter(),
+                                                           _s3ClientMock.Object,
+                                                           new NullLogger<Exporter<PowerBiExportDocument>>());
 
         await exporter.Export(docs);
     }

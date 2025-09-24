@@ -20,6 +20,11 @@ public static class ProjectionDocumentTypeRegistrations
             .UseNumericRevisions(true)
             .UseOptimisticConcurrency(false);
 
+        opts.RegisterDocumentType<PowerBiExportDubbelDetectieDocument>();
+        opts.Schema.For<PowerBiExportDubbelDetectieDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
+
         opts.RegisterDocumentType<LocatieLookupDocument>();
         opts.Schema.For<LocatieLookupDocument>()
             .UseNumericRevisions(true)
