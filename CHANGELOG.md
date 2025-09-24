@@ -1,3 +1,10 @@
+## [8.274.1](https://github.com/informatievlaanderen/association-registry/compare/v8.274.0...v8.274.1) (2025-09-24)
+
+
+### Bug Fixes
+
+* or-2888 register powerbi exporters the right way ([879dbf6](https://github.com/informatievlaanderen/association-registry/commit/879dbf6716755371b209137e217d582eb2a6ee31))
+
 # [8.274.0](https://github.com/informatievlaanderen/association-registry/compare/v8.273.0...v8.274.0) (2025-09-24)
 
 
