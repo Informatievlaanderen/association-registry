@@ -71,6 +71,14 @@ public class ProjectionController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
+    [HttpPost("admin/powerbi-dubbeldetectie/rebuild")]
+    public async Task<IActionResult> RebuildAdminProjectionPowerBiDubbelDetectieExport(CancellationToken cancellationToken)
+    {
+        var response = await _adminHttpClient.RebuildPowerBiExportProjection(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
+
     [HttpPost("admin/historiek/rebuild")]
     public async Task<IActionResult> RebuildAdminProjectionHistoriek(CancellationToken cancellationToken)
     {

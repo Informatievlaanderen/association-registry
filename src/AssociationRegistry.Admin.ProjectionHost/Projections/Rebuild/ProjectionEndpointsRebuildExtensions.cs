@@ -26,6 +26,7 @@ public static class ProjectionEndpointsExtensions
                 await StartRebuild(ProjectionNames.LocatieLookup, store, shardTimeout, logger);
                 await StartRebuild(ProjectionNames.LocatieZonderAdresMatch, store, shardTimeout, logger);
                 await StartRebuild(ProjectionNames.PowerBi, store, shardTimeout, logger);
+                await StartRebuild(ProjectionNames.PowerBiDubbelDetectie, store, shardTimeout, logger);
                 await StartRebuild(ProjectionNames.BeheerKboSync, store, shardTimeout, logger);
 
                 await StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
@@ -70,6 +71,12 @@ public static class ProjectionEndpointsExtensions
         app.MapPost("v1/projections/powerbi/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
         {
             await StartRebuild(ProjectionNames.PowerBi, store, shardTimeout, logger);
+            return Results.Accepted();
+        });
+        
+        app.MapPost("v1/projections/powerbi-dubbeldetectie/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
+        {
+            await StartRebuild(ProjectionNames.PowerBiDubbelDetectie, store, shardTimeout, logger);
             return Results.Accepted();
         });
 
