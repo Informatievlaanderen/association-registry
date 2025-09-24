@@ -114,7 +114,7 @@ public class DuplicateDetectionMiddlewareTests
                                                && c.Command.Naam == envelope.Command.Naam
                                                && c.Command.Locaties.SequenceEqual(envelope.Command.Locaties)
                                                && c.Command.GedetecteerdeDubbels.SequenceEqual(duplicates)
-                                               && c.Metadata.Initiator == WellknownOvoNumbers.DigitaalVlaanderenOvoNumber
+                                               && c.Metadata.Initiator == envelope.Metadata.Initiator
                                       ),
                                       It.IsAny<CancellationToken>()
                                   ), Times.Once);

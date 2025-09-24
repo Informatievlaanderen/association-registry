@@ -48,7 +48,7 @@ public class DuplicateDetectionMiddleware
             var newBevestigingstoken = bevestigingsTokenHelper.Calculate(envelope.Command.OriginalRequest);
             await rapporteerDubbeleVerenigingenService.RapporteerAsync(new CommandEnvelope<RapporteerDubbeleVerenigingenMessage>(
                                                                            new RapporteerDubbeleVerenigingenMessage(key, newBevestigingstoken, envelope.Command.Naam, envelope.Command.Locaties, duplicates),
-                                                                           CommandMetadata.ForDigitaalVlaanderenProcess), cancellation);
+                                                                           envelope.Metadata), cancellation);
 
             return PotentialDuplicatesFound.Some(newBevestigingstoken, duplicates);
         }
