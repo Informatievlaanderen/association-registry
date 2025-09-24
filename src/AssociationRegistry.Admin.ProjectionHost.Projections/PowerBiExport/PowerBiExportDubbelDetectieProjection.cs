@@ -13,7 +13,7 @@ public class PowerBiExportDubbelDetectieProjection : SingleStreamProjection<Powe
     {
         var document = new PowerBiExportDubbelDetectieDocument()
         {
-            BevestigingstokenKey = dubbeleVerenigingenWerdenGedetecteerd.Data.BevestigingstokenKey,
+            Id = dubbeleVerenigingenWerdenGedetecteerd.StreamKey!,
             Bevestigingstoken = dubbeleVerenigingenWerdenGedetecteerd.Data.Bevestigingstoken,
             Naam = dubbeleVerenigingenWerdenGedetecteerd.Data.Naam,
             Locaties = dubbeleVerenigingenWerdenGedetecteerd.Data.Locaties.Select(MapLocatie).ToArray(),

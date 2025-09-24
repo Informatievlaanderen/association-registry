@@ -97,12 +97,12 @@ public static class Registratiedata
         string Identificatie,
         string Beschrijving);
 
-    public record DuplicatieInfo(bool? BevestigdNaDuplicatie, string Bevestigingstoken, string BevestigingstokenKey)
+    public record DuplicatieInfo(bool? BevestigdNaDuplicatie, string Bevestigingstoken)
     {
-        public static DuplicatieInfo Onbekend = new(null, string.Empty, string.Empty);
-        public static DuplicatieInfo GeenDuplicaten = new(false, string.Empty, string.Empty);
-        public static DuplicatieInfo BevestigdGeenDuplicaat(string bevestigingstoken, string bevestigingstokenKey)
-            => new(true, bevestigingstoken, bevestigingstokenKey);
+        public static DuplicatieInfo Onbekend = new(null, string.Empty);
+        public static DuplicatieInfo GeenDuplicaten = new(false, string.Empty);
+        public static DuplicatieInfo BevestigdGeenDuplicaat(string bevestigingstoken)
+            => new(true, bevestigingstoken);
 
         public static implicit operator bool?(DuplicatieInfo info) => info?.BevestigdNaDuplicatie;
     }

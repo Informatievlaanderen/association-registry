@@ -73,7 +73,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(_setup.BevestigingsToken, string.Empty)
+                Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(_setup.BevestigingsToken)
             ),
             config: options => options.Excluding(e => e.VCode));
     }
