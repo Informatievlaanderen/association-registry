@@ -11,15 +11,18 @@ public class DubbelDetectieRecordWriter: IRecordWriter<PowerBiExportDubbelDetect
         csvWriter.WriteHeader<DubbelDetectieRecord>();
         await csvWriter.NextRecordAsync();
 
-        foreach (var vereniging in docs)
+        foreach (var doc in docs)
         {
             csvWriter.WriteRecord(new DubbelDetectieRecord(
-                                      vereniging.BevestigingstokenKey,
-                                      vereniging.Bevestigingstoken,
-                                      vereniging.Naam,
-                                      string.Join(", ", vereniging.Locaties.Select(x => x.Adres?.Postcode)),
-                                      string.Join(", ", vereniging.Locaties.Select(x => x.Adres?.Gemeente)),
-                                      string.Join(", ", vereniging.GedetecteerdeDubbels.Select(x => x.VCode))));
+                                      doc.BevestigingstokenKey,
+                                      doc.Bevestigingstoken,
+                                      doc.Naam,
+                                      string.Join(", ", doc.Locaties.Select(x => x.Adres?.Postcode)),
+                                      string.Join(", ", doc.Locaties.Select(x => x.Adres?.Gemeente)),
+                                      string.Join(", ", doc.GedetecteerdeDubbels.Select(x => x.VCode)),
+                                      doc.Tijdstip,
+                                      doc.Initiator,
+                                      doc.CorrelationId));
 
             await csvWriter.NextRecordAsync();
         }
