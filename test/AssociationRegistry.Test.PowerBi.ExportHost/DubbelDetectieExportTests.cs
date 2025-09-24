@@ -14,13 +14,13 @@ using System.Net;
 using System.Text;
 using Xunit;
 
-public class LocatiesExportTests
+public class DubbelDetectieExportTests
 {
     private Stream _resultStream;
     private readonly Fixture _fixture;
     private readonly Mock<IAmazonS3> _s3ClientMock;
 
-    public LocatiesExportTests()
+    public DubbelDetectieExportTests()
     {
         _fixture = new Fixture().CustomizeDomain();
         _s3ClientMock = SetupS3Client();
@@ -29,7 +29,7 @@ public class LocatiesExportTests
     [Fact]
     public async ValueTask WithMultipleDocuments_ThenCsvExportShouldExport()
     {
-        var docs = _fixture.CreateMany<PowerBiExportDocument>();
+        var docs = _fixture.CreateMany<PowerBiExportDubbelDetectieDocument>();
 
         await Export(docs);
 
@@ -48,20 +48,17 @@ public class LocatiesExportTests
         return content;
     }
 
-    private static string GetExpectedResult(IEnumerable<PowerBiExportDocument> docs)
+    private static string GetExpectedResult(IEnumerable<PowerBiExportDubbelDetectieDocument> docs)
     {
         var stringBuilder = new StringBuilder();
 
         stringBuilder.Append(
-            "adresId.broncode,adresId.bronwaarde,adresvoorstelling,bron,busnummer,gemeente,huisnummer,isPrimair,land,locatieId,locatieType,naam,postcode,straatnaam,vCode\r\n");
+            "bevestigingstokenKey,bevestigingstoken,naam,postcodes,gemeentes,gedetecteerdeDubbels\r\n");
 
         foreach (var doc in docs)
         {
-            foreach (var locatie in doc.Locaties)
-            {
-                stringBuilder.Append(
-                    $"{locatie.AdresId?.Broncode},{locatie.AdresId?.Bronwaarde},{locatie.Adresvoorstelling},{locatie.Bron},{locatie.Adres?.Busnummer},{locatie.Adres?.Gemeente},{locatie.Adres?.Huisnummer},{locatie.IsPrimair},{locatie.Adres?.Land},{locatie.LocatieId},{locatie.Locatietype},{locatie.Naam},{locatie.Adres?.Postcode},{locatie.Adres?.Straatnaam},{doc.VCode}\r\n");
-            }
+            stringBuilder.Append(
+                $"{doc.BevestigingstokenKey},{doc.Bevestigingstoken},{doc.Naam},\"{string.Join(separator: ", ", doc.Locaties.Select(x => x.Adres?.Postcode))}\",\"{string.Join(separator: ", ", doc.Locaties.Select(x => x.Adres?.Gemeente))}\",\"{string.Join(separator: ", ", doc.GedetecteerdeDubbels.Select(x => x.VCode))}\"\r\n");
         }
 
         return stringBuilder.ToString();
@@ -78,13 +75,13 @@ public class LocatiesExportTests
         return s3ClientMock;
     }
 
-    private async Task Export(IEnumerable<PowerBiExportDocument> docs)
+    private async Task Export(IEnumerable<PowerBiExportDubbelDetectieDocument> docs)
     {
-        var exporter = new Exporter<PowerBiExportDocument>(WellKnownFileNames.Locaties,
-                                                           bucketName: "something",
-                                                           new LocatiesRecordWriter(),
-                                                           _s3ClientMock.Object,
-                                                           new NullLogger<Exporter<PowerBiExportDocument>>());
+        var exporter = new Exporter<PowerBiExportDubbelDetectieDocument>(WellKnownFileNames.Basisgegevens,
+                                                                         bucketName: "something",
+                                                                         new DubbelDetectieRecordWriter(),
+                                                                         _s3ClientMock.Object,
+                                                                         new NullLogger<Exporter<PowerBiExportDubbelDetectieDocument>>());
 
         await exporter.Export(docs);
     }

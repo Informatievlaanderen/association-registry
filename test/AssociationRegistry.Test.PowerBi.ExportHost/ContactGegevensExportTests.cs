@@ -78,11 +78,11 @@ public class ContactgegevensExportTests
 
     private async Task Export(IEnumerable<PowerBiExportDocument> docs)
     {
-        var exporter = new Exporter(WellKnownFileNames.Contactgegevens,
-                                    bucketName: "something",
-                                    new ContactgegevensRecordWriter(),
-                                    _s3ClientMock.Object,
-                                    new NullLogger<Exporter>());
+        var exporter = new Exporter<PowerBiExportDocument>(WellKnownFileNames.Contactgegevens,
+                                                           bucketName: "something",
+                                                           new ContactgegevensRecordWriter(),
+                                                           _s3ClientMock.Object,
+                                                           new NullLogger<Exporter<PowerBiExportDocument>>());
 
         await exporter.Export(docs);
     }

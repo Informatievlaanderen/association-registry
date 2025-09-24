@@ -6,7 +6,7 @@ using CsvHelper;
 using Formats;
 using NodaTime;
 
-public class HistoriekRecordWriter : IRecordWriter
+public class HistoriekRecordWriter: IRecordWriter<PowerBiExportDocument>
 {
     public async Task Write(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
     {

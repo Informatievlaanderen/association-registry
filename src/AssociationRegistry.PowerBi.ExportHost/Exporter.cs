@@ -2,22 +2,26 @@
 
 using Amazon.S3;
 using Amazon.S3.Model;
-using Admin.Schema.PowerBiExport;
-using Writers;
 using CsvHelper;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
 using System.Text;
+using Writers;
 
-public class Exporter
+public class Exporter<TSource>
 {
     private readonly string _key;
     private readonly string _bucketName;
-    private readonly IRecordWriter _writer;
+    private readonly IRecordWriter<TSource> _writer;
     private readonly IAmazonS3 _s3Client;
-    private readonly ILogger<Exporter> _logger;
+    private readonly ILogger<Exporter<TSource>> _logger;
 
-    public Exporter(string key, string bucketName, IRecordWriter writer, IAmazonS3 s3Client, ILogger<Exporter> logger)
+    public Exporter(
+        string key,
+        string bucketName,
+        IRecordWriter<TSource> writer,
+        IAmazonS3 s3Client,
+        ILogger<Exporter<TSource>> logger)
     {
         _key = key;
         _bucketName = bucketName;
@@ -26,7 +30,7 @@ public class Exporter
         _logger = logger;
     }
 
-    public async Task Export(IEnumerable<PowerBiExportDocument> docs)
+    public async Task Export(IEnumerable<TSource> docs)
     {
         var stream = await WriteToStream(docs, _writer);
 
@@ -47,7 +51,8 @@ public class Exporter
         await _s3Client.PutObjectAsync(putRequest);
     }
 
-    private async Task<MemoryStream> WriteToStream(IEnumerable<PowerBiExportDocument> docs, IRecordWriter recordWriter)
+    private static async Task<MemoryStream> WriteToStream(
+        IEnumerable<TSource> docs, IRecordWriter<TSource> recordWriter)
     {
         var memoryStream = new MemoryStream();
         var writer = new StreamWriter(memoryStream, Encoding.UTF8);

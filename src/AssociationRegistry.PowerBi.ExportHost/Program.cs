@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.PowerBi.ExportHost;
 
+using Admin.Schema.PowerBiExport;
 using Amazon.S3;
 using Destructurama;
 using global::OpenTelemetry.Exporter;
@@ -62,13 +63,33 @@ public static class Program
            .AddSingleton<IAmazonS3, AmazonS3Client>()
            .AddSingleton(sp => new[]
             {
-                new Exporter(WellKnownFileNames.Basisgegevens, powerBiExportOptions.BucketName, new BasisgegevensRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
-                new Exporter(WellKnownFileNames.Contactgegevens, powerBiExportOptions.BucketName, new ContactgegevensRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
-                new Exporter(WellKnownFileNames.Hoofdactiviteiten, powerBiExportOptions.BucketName, new HoofdactiviteitenRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
-                new Exporter(WellKnownFileNames.Werkingsgebieden, powerBiExportOptions.BucketName, new WerkingsgebiedenRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
-                new Exporter(WellKnownFileNames.Locaties, powerBiExportOptions.BucketName, new LocatiesRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
-                new Exporter(WellKnownFileNames.Historiek, powerBiExportOptions.BucketName, new HistoriekRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
-                new Exporter(WellKnownFileNames.Lidmaatschappen, powerBiExportOptions.BucketName, new LidmaatschappenRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
+                new Exporter<PowerBiExportDocument>(WellKnownFileNames.Basisgegevens, powerBiExportOptions.BucketName,
+                                                    new BasisgegevensRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
+                                                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
+                new Exporter<PowerBiExportDocument>(WellKnownFileNames.Contactgegevens, powerBiExportOptions.BucketName,
+                                                    new ContactgegevensRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
+                                                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
+                new Exporter<PowerBiExportDocument>(WellKnownFileNames.Hoofdactiviteiten, powerBiExportOptions.BucketName,
+                                                    new HoofdactiviteitenRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
+                                                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
+                new Exporter<PowerBiExportDocument>(WellKnownFileNames.Werkingsgebieden, powerBiExportOptions.BucketName,
+                                                    new WerkingsgebiedenRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
+                                                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
+                new Exporter<PowerBiExportDocument>(WellKnownFileNames.Locaties, powerBiExportOptions.BucketName,
+                                                    new LocatiesRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
+                                                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
+                new Exporter<PowerBiExportDocument>(WellKnownFileNames.Historiek, powerBiExportOptions.BucketName,
+                                                    new HistoriekRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
+                                                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
+                new Exporter<PowerBiExportDocument>(WellKnownFileNames.Lidmaatschappen, powerBiExportOptions.BucketName,
+                                                    new LidmaatschappenRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
+                                                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
+            }).AddSingleton(sp => new[]
+            {
+                new Exporter<PowerBiExportDubbelDetectieDocument>(WellKnownFileNames.DubbelDetectie, powerBiExportOptions.BucketName,
+                                                                  new DubbelDetectieRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
+                                                                  sp.GetRequiredService<
+                                                                      ILogger<Exporter<PowerBiExportDubbelDetectieDocument>>>()),
             });
 
         services.AddHostedService<PowerBiExportService>();
