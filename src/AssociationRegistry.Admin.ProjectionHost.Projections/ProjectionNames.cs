@@ -12,4 +12,5 @@ public class ProjectionNames
     public const string LocatieZonderAdresMatch = "LocatieZonderAdresMatchDocument";
     public const string DuplicateDetection = "DuplicateDetection";
     public const string PowerBi = "PowerBiExportDocument";
+    public const string PowerBiDubbelDetectie = "PowerBiExportDubbelDetectieDocument";
 }
