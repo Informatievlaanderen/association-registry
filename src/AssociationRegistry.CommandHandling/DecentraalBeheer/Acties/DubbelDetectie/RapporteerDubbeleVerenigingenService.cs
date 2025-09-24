@@ -38,9 +38,9 @@ public class RapporteerDubbeleVerenigingenService : IRapporteerDubbeleVereniging
 
         var command = message.Command;
 
-        var @event = EventFactory.DubbeleVerenigingenWerdenGedetecteerd(command.BevestigingstokenKey, command.Bevestigingstoken,command.Naam, command.Locaties, command.GedetecteerdeDubbels);
+        var @event = EventFactory.DubbeleVerenigingenWerdenGedetecteerd(command.Bevestigingstoken,command.Naam, command.Locaties, command.GedetecteerdeDubbels);
 
-        await _repository.SaveNew(command.BevestigingstokenKey, _session, message.Metadata, cancellationToken, [@event]);
+        await _repository.SaveNew(Guid.NewGuid().ToString(), _session, message.Metadata, cancellationToken, [@event]);
         _logger.LogInformation($"Handle {nameof(RapporteerDubbeleVerenigingenService)} end");
 
         return Result.Success();

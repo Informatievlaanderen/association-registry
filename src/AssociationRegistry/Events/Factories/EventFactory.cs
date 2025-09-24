@@ -6,6 +6,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;
 using AssociationRegistry.GemeentenaamVerrijking;
 using AssociationRegistry.Grar.Models;
+using Be.Vlaanderen.Basisregisters.Utilities;
 using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Grar.AdresMatch;
@@ -387,17 +388,14 @@ public static class EventFactory
     => new(vCode, geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
 
     public static DubbeleVerenigingenWerdenGedetecteerd DubbeleVerenigingenWerdenGedetecteerd(
-        string bevestigingstokenKey,
         string bevestigingstoken,
         string naam,
         Locatie[] locaties,
         DuplicaatVereniging[] gedetecteerdeDubbels)
-        => new(
-            bevestigingstokenKey,
-            bevestigingstoken,
-            naam,
-            locaties.Select(Locatie).ToArray(),
-            gedetecteerdeDubbels.Select(DuplicaatVereniging).ToArray());
+        => new(bevestigingstoken,
+               naam,
+               locaties.Select(Locatie).ToArray(),
+               gedetecteerdeDubbels.Select(DuplicaatVereniging).ToArray());
 
     private static Registratiedata.DuplicateVereniging DuplicaatVereniging(DuplicaatVereniging duplicaatVereniging)
         => new(

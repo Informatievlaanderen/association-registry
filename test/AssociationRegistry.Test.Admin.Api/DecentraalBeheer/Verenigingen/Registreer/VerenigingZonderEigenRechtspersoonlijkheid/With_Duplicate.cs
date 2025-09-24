@@ -99,42 +99,40 @@ public class With_Duplicate : IClassFixture<With_Duplicate.Setup>
 
             var p = JsonConvert.SerializeObject(savedEvents.First());
 
-            var dubbeleVerenigingenWerdenGedetecteerd = new DubbeleVerenigingenWerdenGedetecteerd(
-                BevestigingstokenKey: string.Empty,
-                Bevestigingstoken: string.Empty,
-                Naam: _setup.Request.Naam,
-                Locaties:
-                [
-                    new Registratiedata.Locatie(
-                        LocatieId: 0,
-                        _setup.RequestLocatie.Locatietype,
-                        _setup.RequestLocatie.IsPrimair,
-                        _setup.RequestLocatie.Naam ?? string.Empty,
-                        new Registratiedata.Adres(_setup.RequestLocatie.Adres!.Straatnaam,
-                                                  _setup.RequestLocatie.Adres.Huisnummer,
-                                                  _setup.RequestLocatie.Adres.Busnummer ?? string.Empty,
-                                                  _setup.RequestLocatie.Adres.Postcode,
-                                                  _setup.RequestLocatie.Adres.Gemeente,
-                                                  _setup.RequestLocatie.Adres.Land),
-                        AdresId: null),
-                ],
-                GedetecteerdeDubbels: new Registratiedata.DuplicateVereniging[]
-                {
-                    new Registratiedata.DuplicateVereniging(potentieleDubbel.VCode,
-                                                            new Registratiedata.Verenigingstype(Verenigingstype.VZER.Code,Verenigingstype.VZER.Naam),
-                                                            new Registratiedata.Verenigingssubtype(VerenigingssubtypeCode.Default.Code,VerenigingssubtypeCode.Default.Naam),
-                                                            potentieleDubbel.Naam,
-                                                            potentieleDubbel.KorteNaam,
-                                                            potentieleDubbel.HoofdactiviteitenVerenigingsloket.Select(x => new Registratiedata.HoofdactiviteitVerenigingsloket(x.Code, x.Naam)).ToArray(),
-                                                            potentieleDubbel.Locaties.Select(x => new Registratiedata.DuplicateVerenigingLocatie(x.Locatietype, x.IsPrimair, x.Adres.ToAdresString(), x.Naam, x.Adres.Postcode, x.Adres.Gemeente )).ToArray()
-                    )
-                }
+            var dubbeleVerenigingenWerdenGedetecteerd = new DubbeleVerenigingenWerdenGedetecteerd(Bevestigingstoken: string.Empty,
+                                                                                                  Naam: _setup.Request.Naam,
+                                                                                                  Locaties:
+                                                                                                  [
+                                                                                                      new Registratiedata.Locatie(
+                                                                                                          LocatieId: 0,
+                                                                                                          _setup.RequestLocatie.Locatietype,
+                                                                                                          _setup.RequestLocatie.IsPrimair,
+                                                                                                          _setup.RequestLocatie.Naam ?? string.Empty,
+                                                                                                          new Registratiedata.Adres(_setup.RequestLocatie.Adres!.Straatnaam,
+                                                                                                                                    _setup.RequestLocatie.Adres.Huisnummer,
+                                                                                                                                    _setup.RequestLocatie.Adres.Busnummer ?? string.Empty,
+                                                                                                                                    _setup.RequestLocatie.Adres.Postcode,
+                                                                                                                                    _setup.RequestLocatie.Adres.Gemeente,
+                                                                                                                                    _setup.RequestLocatie.Adres.Land),
+                                                                                                          AdresId: null),
+                                                                                                  ],
+                                                                                                  GedetecteerdeDubbels: new Registratiedata.DuplicateVereniging[]
+                                                                                                  {
+                                                                                                      new Registratiedata.DuplicateVereniging(potentieleDubbel.VCode,
+                                                                                                                                              new Registratiedata.Verenigingstype(Verenigingstype.VZER.Code,Verenigingstype.VZER.Naam),
+                                                                                                                                              new Registratiedata.Verenigingssubtype(VerenigingssubtypeCode.Default.Code,VerenigingssubtypeCode.Default.Naam),
+                                                                                                                                              potentieleDubbel.Naam,
+                                                                                                                                              potentieleDubbel.KorteNaam,
+                                                                                                                                              potentieleDubbel.HoofdactiviteitenVerenigingsloket.Select(x => new Registratiedata.HoofdactiviteitVerenigingsloket(x.Code, x.Naam)).ToArray(),
+                                                                                                                                              potentieleDubbel.Locaties.Select(x => new Registratiedata.DuplicateVerenigingLocatie(x.Locatietype, x.IsPrimair, x.Adres.ToAdresString(), x.Naam, x.Adres.Postcode, x.Adres.Gemeente )).ToArray()
+                                                                                                      )
+                                                                                                  }
             );
 
             var expected = JsonConvert.SerializeObject(dubbeleVerenigingenWerdenGedetecteerd);
            savedEvents.Should().ContainEquivalentOf(
             dubbeleVerenigingenWerdenGedetecteerd,
-            config: options => options.Excluding(e => e.Bevestigingstoken).Excluding(e => e.BevestigingstokenKey));
+            config: options => options.Excluding(e => e.Bevestigingstoken));
         }
 
 

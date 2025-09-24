@@ -5,7 +5,7 @@ using Marten.Schema;
 public record PowerBiExportDubbelDetectieDocument
 {
     [Identity]
-    public string BevestigingstokenKey { get; init; } = null!;
+    public string Id { get; init; } = null!;
     public string Bevestigingstoken { get; init; } = null!;
     public string Naam { get; set; } = null!;
     public Types.Locatie[] Locaties { get; set; } = [];

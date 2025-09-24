@@ -53,12 +53,12 @@ public class DubbelDetectieExportTests
         var stringBuilder = new StringBuilder();
 
         stringBuilder.Append(
-            "bevestigingstokenKey,bevestigingstoken,naam,postcodes,gemeentes,gedetecteerdeDubbels,tijdstip,initiator,correlationId\r\n");
+            "id,bevestigingstoken,naam,postcodes,gemeentes,gedetecteerdeDubbels,tijdstip,initiator,correlationId\r\n");
 
         foreach (var doc in docs)
         {
             stringBuilder.Append(
-                $"{doc.BevestigingstokenKey},{doc.Bevestigingstoken},{doc.Naam},\"{string.Join(separator: ", ", doc.Locaties.Select(x => x.Adres?.Postcode))}\",\"{string.Join(separator: ", ", doc.Locaties.Select(x => x.Adres?.Gemeente))}\",\"{string.Join(separator: ", ", doc.GedetecteerdeDubbels.Select(x => x.VCode))}\",{doc.Tijdstip},{doc.Initiator},{doc.CorrelationId}\r\n");
+                $"{doc.Id},{doc.Bevestigingstoken},{doc.Naam},\"{string.Join(separator: ", ", doc.Locaties.Select(x => x.Adres?.Postcode))}\",\"{string.Join(separator: ", ", doc.Locaties.Select(x => x.Adres?.Gemeente))}\",\"{string.Join(separator: ", ", doc.GedetecteerdeDubbels.Select(x => x.VCode))}\",{doc.Tijdstip},{doc.Initiator},{doc.CorrelationId}\r\n");
         }
 
         return stringBuilder.ToString();

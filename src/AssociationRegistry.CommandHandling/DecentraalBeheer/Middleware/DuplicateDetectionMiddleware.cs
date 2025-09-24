@@ -23,36 +23,63 @@ public class DuplicateDetectionMiddleware
             ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger,
             CancellationToken cancellation)
     {
-        var registrationHasNoLocations = envelope.Command.Locaties.Length == 0 && verrijkteAdressenUitGrar.Count == 0;
-
         if (envelope.Command.HeeftBevestigingstoken)
-        {
-            var validBevestigingstoken = bevestigingsTokenHelper.IsValid(envelope.Command.Bevestigingstoken, envelope.Command.OriginalRequest);
-            Throw<InvalidBevestigingstokenProvided>.If(!validBevestigingstoken);
+            return HandleWithBevestigingstoken(envelope, bevestigingsTokenHelper);
 
-            return PotentialDuplicatesFound.Skip(envelope.Command.Bevestigingstoken);
-        }
-
-        if (registrationHasNoLocations)
+        if (RegistrationHasNoLocations(envelope, verrijkteAdressenUitGrar))
             return PotentialDuplicatesFound.None;
 
+        var duplicates = await FindDuplicateVerenigingen(envelope, verrijkteAdressenUitGrar, duplicateVerenigingDetectionService);
+
+        if (duplicates.Any())
+        {
+            var newBevestigingstoken = await RapporteerDuplicateVerenigingen(envelope, rapporteerDubbeleVerenigingenService, bevestigingsTokenHelper, cancellation, duplicates);
+
+            return PotentialDuplicatesFound.Some(newBevestigingstoken, duplicates);
+        }
+
+        return PotentialDuplicatesFound.None;
+    }
+
+    private static async Task<string> RapporteerDuplicateVerenigingen(
+        CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> envelope,
+        IRapporteerDubbeleVerenigingenService rapporteerDubbeleVerenigingenService,
+        IBevestigingsTokenHelper bevestigingsTokenHelper,
+        CancellationToken cancellation,
+        DuplicaatVereniging[] duplicates)
+    {
+        var newBevestigingstoken = bevestigingsTokenHelper.Calculate(envelope.Command.OriginalRequest);
+        await rapporteerDubbeleVerenigingenService.RapporteerAsync(new CommandEnvelope<RapporteerDubbeleVerenigingenMessage>(
+                                                                       new RapporteerDubbeleVerenigingenMessage(newBevestigingstoken, envelope.Command.Naam, envelope.Command.Locaties, duplicates),
+                                                                       envelope.Metadata), cancellation);
+
+        return newBevestigingstoken;
+    }
+
+    private static async Task<DuplicaatVereniging[]> FindDuplicateVerenigingen(
+        CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> envelope,
+        VerrijkteAdressenUitGrar verrijkteAdressenUitGrar,
+        IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService)
+    {
         var locaties = new DuplicateVerenigingZoekQueryLocaties(envelope.Command.Locaties)
            .VerrijkMetVerrijkteAdressenUitGrar(verrijkteAdressenUitGrar);
 
         var duplicates = (await duplicateVerenigingDetectionService.ExecuteAsync(envelope.Command.Naam, locaties))
            .ToArray();
 
-        if (duplicates.Any())
-        {
-            var key = Guid.NewGuid().ToString();
-            var newBevestigingstoken = bevestigingsTokenHelper.Calculate(envelope.Command.OriginalRequest);
-            await rapporteerDubbeleVerenigingenService.RapporteerAsync(new CommandEnvelope<RapporteerDubbeleVerenigingenMessage>(
-                                                                           new RapporteerDubbeleVerenigingenMessage(key, newBevestigingstoken, envelope.Command.Naam, envelope.Command.Locaties, duplicates),
-                                                                           envelope.Metadata), cancellation);
+        return duplicates;
+    }
 
-            return PotentialDuplicatesFound.Some(newBevestigingstoken, duplicates);
-        }
+    private static bool RegistrationHasNoLocations(CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> envelope, VerrijkteAdressenUitGrar verrijkteAdressenUitGrar)
+        => envelope.Command.Locaties.Length == 0 && verrijkteAdressenUitGrar.Count == 0;
 
-        return PotentialDuplicatesFound.None;
+    private static PotentialDuplicatesFound HandleWithBevestigingstoken(
+        CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> envelope,
+        IBevestigingsTokenHelper bevestigingsTokenHelper)
+    {
+        var validBevestigingstoken = bevestigingsTokenHelper.IsValid(envelope.Command.Bevestigingstoken, envelope.Command.OriginalRequest);
+        Throw<InvalidBevestigingstokenProvided>.If(!validBevestigingstoken);
+
+        return PotentialDuplicatesFound.Skip(envelope.Command.Bevestigingstoken);
     }
 }
