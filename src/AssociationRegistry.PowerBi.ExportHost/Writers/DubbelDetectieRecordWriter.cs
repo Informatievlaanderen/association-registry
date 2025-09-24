@@ -14,7 +14,7 @@ public class DubbelDetectieRecordWriter: IRecordWriter<PowerBiExportDubbelDetect
         foreach (var doc in docs)
         {
             csvWriter.WriteRecord(new DubbelDetectieRecord(
-                                      doc.BevestigingstokenKey,
+                                      doc.Id,
                                       doc.Bevestigingstoken,
                                       doc.Naam,
                                       string.Join(", ", doc.Locaties.Select(x => x.Adres?.Postcode)),

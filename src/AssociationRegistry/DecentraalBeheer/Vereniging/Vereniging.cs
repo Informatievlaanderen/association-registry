@@ -46,7 +46,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(registratieData.HoofdactiviteitenVerenigingsloket)),
                 potentialDuplicatesSkipped
-                    ? Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(bevestigingsToken, string.Empty)
+                    ? Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(bevestigingsToken)
                     : Registratiedata.DuplicatieInfo.GeenDuplicaten
             ));
 
