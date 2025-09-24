@@ -41,5 +41,5 @@ public record PowerBiExportDocument : IVCode
     public string DatumLaatsteAanpassing { get; set; }
     public DuplicatieInfo DuplicatieInfo { get; set; }
 }
-    public record DuplicatieInfo(bool? BevestigdNaDuplicatie, string Bevestigingstoken, string BevestigingstokenKey);
+    public record DuplicatieInfo(bool? BevestigdNaDuplicatie, string Bevestigingstoken);
 
