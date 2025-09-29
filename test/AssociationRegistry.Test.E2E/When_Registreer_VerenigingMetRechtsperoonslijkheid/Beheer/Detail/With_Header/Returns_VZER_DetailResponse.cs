@@ -46,6 +46,4 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
     [Fact]
     public async ValueTask WithVertegenwoordiger()
         => Response.Vereniging.Vertegenwoordigers.Should().NotBeNullOrEmpty();
-
-
 }
