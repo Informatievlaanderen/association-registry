@@ -114,18 +114,27 @@ public static class MagdaAutoFixtureCustomizations
                 {
                     Inhoud = fixture.Create<AntwoordInhoudType>(),
                     Referte = fixture.Create<string>(),
-                    Uitzonderingen = Array.Empty<UitzonderingType>(),
+                    Uitzonderingen = [],
+                }
+            ).OmitAutoProperties());
+        fixture.Customize<AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming.RepliekType>(
+            composer => composer.FromFactory(
+                () => new AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming.RepliekType()
+                {
+                    Uitzonderingen = [],
+                    Antwoorden = fixture.Create<AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming.AntwoordenType>(),
+                    Context = fixture.Create<AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming.ContextType>(),
                 }
             ).OmitAutoProperties());
     }
 
     private static void DoNotAutoGenerateRepliekUitzonderingen(this IFixture fixture)
     {
-        fixture.Customize<RepliekType>(
+        fixture.Customize<AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RepliekType>(
             composer => composer.FromFactory(
                 () => new RepliekType()
                 {
-                    Uitzonderingen = Array.Empty<AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.UitzonderingType>(),
+                    Uitzonderingen = [],
                     Antwoorden = fixture.Create<AntwoordenType>(),
                     Context = fixture.Create<ContextType>(),
                 }
