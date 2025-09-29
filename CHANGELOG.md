@@ -1,3 +1,11 @@
+## [8.274.3](https://github.com/informatievlaanderen/association-registry/compare/v8.274.2...v8.274.3) (2025-09-29)
+
+
+### Bug Fixes
+
+* or-1733 don't generate errors via autofixture for magda responses ([fd6aa48](https://github.com/informatievlaanderen/association-registry/commit/fd6aa4825a571d3cd3ca5e808472a4f6290f068c))
+* or-1733 throw in case of repliek FOUT ([31070c9](https://github.com/informatievlaanderen/association-registry/commit/31070c9bf9e34e8bba651ad37fd2cf092e896c8c))
+
 ## [8.274.2](https://github.com/informatievlaanderen/association-registry/compare/v8.274.1...v8.274.2) (2025-09-24)
 
 
