@@ -189,7 +189,6 @@ public class ServiceFactory
         return new MagdaGeefVerenigingService(
             new MagdaCallReferenceRepository(store.LightweightSession()),
             new MagdaClient(magdaOptions, loggerFactory.CreateLogger<MagdaClient>()),
-            new TemporaryMagdaVertegenwoordigersSection(),
             loggerFactory.CreateLogger<MagdaGeefVerenigingService>());
     }
 

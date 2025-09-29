@@ -10,7 +10,6 @@ using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
-using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
@@ -45,7 +44,6 @@ public class Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_Ending_In_The_P
                    .ReturnsAsync(envelope);
 
         _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object,
-                                                  new TemporaryMagdaVertegenwoordigersSection(),
                                                   new NullLogger<MagdaGeefVerenigingService>());
     }
 

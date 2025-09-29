@@ -9,7 +9,6 @@ using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
-using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
@@ -48,8 +47,7 @@ public class Given_NietGeslaagd_Uitzondering_Fout
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
                    .ReturnsAsync(envelope);
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object,
-                                                  new TemporaryMagdaVertegenwoordigersSection(), _logger.Object);
+        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, _logger.Object);
     }
 
     [Fact]

@@ -135,26 +135,6 @@ public static class ConfigurationExtensions
         return magdaOptionsSection;
     }
 
-    public static TemporaryMagdaVertegenwoordigersSection GetMagdaTemporaryVertegenwoordigersSection(
-        this IConfiguration configuration,
-        bool isProduction,
-        string magdaOptionsSectionName = TemporaryMagdaVertegenwoordigersSection.SectionName)
-    {
-        if (isProduction)
-        {
-            Log.Logger.Information("Not loading temporary vertegenwoordigers in Production");
-
-            return new TemporaryMagdaVertegenwoordigersSection();
-        }
-
-        var vertegenwoordigersJson = configuration[magdaOptionsSectionName];
-        var temporaryVertegenwoordigers = JsonConvert.DeserializeObject<TemporaryMagdaVertegenwoordigersSection>(vertegenwoordigersJson);
-
-        Log.Logger.Information(messageTemplate: "Found {@Vertegenwoordigers}", temporaryVertegenwoordigers);
-
-        return temporaryVertegenwoordigers;
-    }
-
     private static void ThrowIfInvalid(this MagdaOptionsSection magdaOptionsSection)
     {
         const string sectionName = nameof(MagdaOptionsSection);

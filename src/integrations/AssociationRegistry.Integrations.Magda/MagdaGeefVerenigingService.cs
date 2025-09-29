@@ -2,7 +2,6 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.Vereniging;
 using Constants;
@@ -27,18 +26,15 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 
     protected readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
     protected readonly IMagdaClient _magdaClient;
-    protected readonly TemporaryMagdaVertegenwoordigersSection _temporaryMagdaVertegenwoordigersSection;
     protected readonly ILogger<MagdaGeefVerenigingService> _logger;
 
     public MagdaGeefVerenigingService(
         IMagdaCallReferenceRepository magdaCallReferenceRepository,
         IMagdaClient magdaClient,
-        TemporaryMagdaVertegenwoordigersSection temporaryMagdaVertegenwoordigersSection,
         ILogger<MagdaGeefVerenigingService> logger)
     {
         _magdaCallReferenceRepository = magdaCallReferenceRepository;
         _magdaClient = magdaClient;
-        _temporaryMagdaVertegenwoordigersSection = temporaryMagdaVertegenwoordigersSection;
         _logger = logger;
     }
 
@@ -161,14 +157,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         => IsActief(magdaOnderneming) || IsInOprichting(magdaOnderneming);
 
     protected VertegenwoordigerVolgensKbo[] GetVertegenwoordigers()
-        => _temporaryMagdaVertegenwoordigersSection.TemporaryVertegenwoordigers
-                                                   .Select(x => new VertegenwoordigerVolgensKbo
-                                                    {
-                                                        Insz = x.Insz,
-                                                        Voornaam = x.Voornaam,
-                                                        Achternaam = x.Achternaam,
-                                                    })
-                                                   .ToArray();
+        => [];
 
     protected bool HeeftToegestaneActieveRechtsvorm(Onderneming2_0Type magdaOnderneming)
     {
