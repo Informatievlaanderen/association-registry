@@ -411,9 +411,6 @@ public class Program
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
         var grarOptions = builder.Configuration.GetGrarOptions();
 
-        var magdaTemporaryVertegenwoordigersSection =
-            builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment.IsProduction());
-
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         var sqsClient = grarOptions.Sqs.UseLocalStack
@@ -448,7 +445,6 @@ public class Program
                .AddSingleton(appSettings)
                .AddSingleton(builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
                                     .Get<OAuth2IntrospectionOptions>())
-               .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
                .AddSingleton<IAmazonSQS>(sqsClient)
                .AddSingleton<IClock, Clock>()

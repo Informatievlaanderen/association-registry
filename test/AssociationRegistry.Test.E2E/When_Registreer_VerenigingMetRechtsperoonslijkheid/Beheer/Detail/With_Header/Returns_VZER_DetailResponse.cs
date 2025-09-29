@@ -20,11 +20,9 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
     }
 
     public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup)
-               => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode, headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence));
-
-
-
-
+        => await setup.AdminApiHost
+                      .GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode, headers:
+                                       new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence));
 
     [Fact]
     public void With_Context()
@@ -43,4 +41,11 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
     [Fact]
     public async ValueTask WithKboVereniging()
         => Response.Vereniging.Verenigingssubtype.Should().BeNull();
+
+
+    [Fact]
+    public async ValueTask WithVertegenwoordiger()
+        => Response.Vereniging.Vertegenwoordigers.Should().NotBeNullOrEmpty();
+
+
 }
