@@ -84,7 +84,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                     IsActief = IsActiefOfInOprichting(magdaOnderneming),
                     Adres = GetAdresFrom(maatschappelijkeZetel),
                     Contactgegevens = GetContactgegevensFrom(maatschappelijkeZetel),
-                    Vertegenwoordigers = GetVertegenwoordigers(),
+                    Vertegenwoordigers = GetVertegenwoordigers(magdaOnderneming.Functies),
                 });
         }
         catch (Exception e)
@@ -144,7 +144,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                     IsActief = IsActiefOfInOprichting(magdaOnderneming),
                     Adres = GetAdresFrom(maatschappelijkeZetel),
                     Contactgegevens = GetContactgegevensFrom(maatschappelijkeZetel),
-                    Vertegenwoordigers = GetVertegenwoordigers(),
+                    Vertegenwoordigers = []// GetVertegenwoordigers(magdaOnderneming.Functies),
                 });
         }
         catch (Exception e)
@@ -156,8 +156,13 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
     protected bool IsActiefOfInOprichting(Onderneming2_0Type magdaOnderneming)
         => IsActief(magdaOnderneming) || IsInOprichting(magdaOnderneming);
 
-    protected VertegenwoordigerVolgensKbo[] GetVertegenwoordigers()
-        => [];
+    protected VertegenwoordigerVolgensKbo[] GetVertegenwoordigers(FunctieType[] functies)
+        => functies.Select(x => new VertegenwoordigerVolgensKbo()
+        {
+            Insz = x.Persoon.INSZ,
+            Voornaam = x.Persoon.VoorNaam,
+            Achternaam = x.Persoon.AchterNaam
+        }).ToArray();
 
     protected bool HeeftToegestaneActieveRechtsvorm(Onderneming2_0Type magdaOnderneming)
     {
