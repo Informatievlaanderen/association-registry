@@ -9,8 +9,10 @@ using AssociationRegistry.KboMutations.Notifications;
 using AssociationRegistry.KboMutations.SyncLambda.JsonSerialization;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Models;
+using CommandHandling.Magda;
 using Configuration;
 using EventStore.ConflictResolution;
+using Integrations.Magda.GeefOnderneming;
 using Integrations.Slack;
 using JasperFx;
 using JasperFx.Events;
@@ -51,15 +53,16 @@ public class ServiceFactory
         var magdaOptions = await GetMagdaOptionsAsync(ssmClientWrapper, paramNamesConfiguration, logger);
         var store = await SetUpDocumentStoreAsync(ssmClientWrapper, paramNamesConfiguration, logger);
         var repository = CreateRepository(store, loggerFactory);
-        var geefOndernemingService = CreateGeefOndernemingService(store, magdaOptions, loggerFactory);
-        var registreerInschrijvingService = CreateRegistreerInschrijvingService(store, magdaOptions, loggerFactory);
+        var referenceRepository = new MagdaCallReferenceRepository(store.LightweightSession());
+        var magdaClient = new MagdaClient(magdaOptions, referenceRepository,  loggerFactory.CreateLogger<MagdaClient>());
+        var registreerInschrijvingService = CreateRegistreerInschrijvingService(magdaOptions, loggerFactory, referenceRepository);
         var notifier = await CreateNotifierAsync(ssmClientWrapper, paramNamesConfiguration);
 
         return new LambdaServices(
             messageProcessor,
             loggerFactory,
             registreerInschrijvingService,
-            geefOndernemingService,
+            new SyncGeefVerenigingService(magdaClient, loggerFactory.CreateLogger<SyncGeefVerenigingService>()),
             repository,
             notifier
         );
@@ -184,19 +187,11 @@ public class ServiceFactory
             new EventStore(store, eventConflictResolver, loggerFactory.CreateLogger<EventStore>()));
     }
 
-    private static MagdaGeefVerenigingService CreateGeefOndernemingService(DocumentStore store, MagdaOptionsSection magdaOptions, ILoggerFactory loggerFactory)
-    {
-        return new MagdaGeefVerenigingService(
-            new MagdaCallReferenceRepository(store.LightweightSession()),
-            new MagdaClient(magdaOptions, loggerFactory.CreateLogger<MagdaClient>()),
-            loggerFactory.CreateLogger<MagdaGeefVerenigingService>());
-    }
-
-    private static MagdaRegistreerInschrijvingService CreateRegistreerInschrijvingService(DocumentStore store, MagdaOptionsSection magdaOptions, ILoggerFactory loggerFactory)
+    private static MagdaRegistreerInschrijvingService CreateRegistreerInschrijvingService(MagdaOptionsSection magdaOptions, ILoggerFactory loggerFactory, MagdaCallReferenceRepository referenceRepository)
     {
         return new MagdaRegistreerInschrijvingService(
-            new MagdaCallReferenceRepository(store.LightweightSession()),
-            new MagdaClient(magdaOptions, loggerFactory.CreateLogger<MagdaClient>()),
+            referenceRepository,
+            new MagdaClient(magdaOptions, referenceRepository, loggerFactory.CreateLogger<MagdaClient>()),
             loggerFactory.CreateLogger<MagdaRegistreerInschrijvingService>());
     }
 

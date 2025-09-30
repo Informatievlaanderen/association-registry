@@ -3,12 +3,15 @@
 using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Models;
-using AssociationRegistry.Integrations.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
 using AutoFixture;
+using CommandHandling.Magda;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using Integrations.Magda.Constants;
+using Integrations.Magda.GeefOnderneming;
+using Integrations.Magda.GeefOnderneming.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
@@ -38,10 +41,20 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_For_T
             },
         };
 
-        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
-                   .ReturnsAsync(responseEnvelope);
+        responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Rechtsvormen =
+        [
+            new RechtsvormExtentieType()
+            {
+                Code = new CodeRechtsvormType() { Beschrijving = RechtsvormCodes.VZW, Value = RechtsvormCodes.VZW },
+                Afkorting = "Bla",
+                DatumBegin = "1900-01-01",
+                DatumEinde = "2100-01-01",
+            }
+        ];
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object,
+        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+                   .ReturnsAsync(responseEnvelope);
+        _service = new MagdaGeefVerenigingService(magdaFacade.Object,
                                                   new NullLogger<MagdaGeefVerenigingService>());
     }
 

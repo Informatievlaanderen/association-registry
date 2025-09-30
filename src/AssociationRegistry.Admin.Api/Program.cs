@@ -59,6 +59,9 @@ using JasperFx;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Magda.Kbo;
 using CommandHandling.DecentraalBeheer.Acties.DubbelDetectie;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
+using CommandHandling.KboSyncLambda.SyncKbo;
+using CommandHandling.Magda;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Marten;
 using MartenDb.Store;
@@ -78,6 +81,7 @@ using Microsoft.Extensions.Options;
 using Elastic.Clients.Elasticsearch;
 using Infrastructure.Extensions;
 using Infrastructure.Metrics;
+using Integrations.Magda.GeefOnderneming;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -462,7 +466,6 @@ public class Program
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
                .AddScoped<InitiatorProvider>()
                .AddScoped<ICommandMetadataProvider, CommandMetadataProvider>()
-               .AddScoped<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddScoped<IMagdaClient, MagdaClient>()
                .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
@@ -492,6 +495,8 @@ public class Program
                .AddTransient<IGeotagsService, GeotagsService>()
                .AddTransient<KboSyncHistoriekResponseMapper>()
                .AddTransient<VerenigingHistoriekResponseMapper>()
+               .AddScoped<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
+               .AddScoped<IMagdaSyncGeefVerenigingService, SyncGeefVerenigingService>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()

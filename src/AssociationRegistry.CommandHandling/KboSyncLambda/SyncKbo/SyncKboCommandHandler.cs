@@ -3,9 +3,11 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.Resources;
+using Integrations.Magda;
 using Integrations.Slack;
-using Magda.Kbo;
+using Magda;
 using Messages;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Metrics;
@@ -17,18 +19,18 @@ using System.Threading.Tasks;
 public class SyncKboCommandHandler
 {
     private readonly IMagdaRegistreerInschrijvingService _registreerInschrijvingService;
-    private readonly IMagdaGeefVerenigingService _magdaGeefVerenigingService;
     private readonly INotifier _notifier;
     private readonly ILogger<SyncKboCommandHandler> _logger;
+    private readonly IMagdaSyncGeefVerenigingService _geefVerenigingService;
 
     public SyncKboCommandHandler(
         IMagdaRegistreerInschrijvingService registreerInschrijvingService,
-        IMagdaGeefVerenigingService magdaGeefVerenigingService,
+        IMagdaSyncGeefVerenigingService geefVerenigingService,
         INotifier notifier,
         ILogger<SyncKboCommandHandler> logger)
     {
         _registreerInschrijvingService = registreerInschrijvingService;
-        _magdaGeefVerenigingService = magdaGeefVerenigingService;
+        _geefVerenigingService = geefVerenigingService;
         _notifier = notifier;
         _logger = logger;
     }
@@ -49,7 +51,7 @@ public class SyncKboCommandHandler
         }
 
         var verenigingVolgensMagda =
-            await _magdaGeefVerenigingService.GeefSyncVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
+            await _geefVerenigingService.GeefVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
 
         if (verenigingVolgensMagda.IsFailure())
         {

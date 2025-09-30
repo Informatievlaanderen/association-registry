@@ -30,7 +30,7 @@ public class MessageProcessor
     public async Task ProcessMessage(SQSEvent sqsEvent,
         ILoggerFactory loggerFactory,
         IMagdaRegistreerInschrijvingService registreerInschrijvingService,
-        IMagdaGeefVerenigingService geefOndernemingService,
+        IMagdaSyncGeefVerenigingService geefOndernemingService,
         IVerenigingsRepository repository,
         INotifier notifier,
         CancellationToken cancellationToken)

@@ -44,7 +44,7 @@ public class With_No_Changes
         _magdaRegistreerInschrijvingServiceMock = new Mock<IMagdaRegistreerInschrijvingService>();
 
         var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object,
-                                                       new MagdaGeefVerenigingNumberFoundServiceMock(
+                                                       new MagdaSyncGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
                                                        _notifierMock.Object,
@@ -100,7 +100,7 @@ public class With_FailureResultFromMagda
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly Mock<INotifier> _notifierMock;
-    private readonly Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
+    private readonly Mock<IMagdaSyncGeefVerenigingService> _magdaGeefVerenigingService;
     private readonly Func<Task<CommandResult>> _action;
 
     public With_FailureResultFromMagda()
@@ -109,10 +109,10 @@ public class With_FailureResultFromMagda
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
         _notifierMock = new Mock<INotifier>();
 
-        _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
+        _magdaGeefVerenigingService = new Mock<IMagdaSyncGeefVerenigingService>();
 
         _magdaGeefVerenigingService
-           .Setup(s => s.GeefSyncVereniging(It.IsAny<KboNummer>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+           .Setup(s => s.GeefVereniging(It.IsAny<KboNummer>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
            .ReturnsAsync(VerenigingVolgensKboResult.GeenGeldigeVereniging);
 
         var fixture = new Fixture().CustomizeAdminApi();

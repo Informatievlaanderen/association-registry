@@ -1,16 +1,19 @@
 ﻿namespace AssociationRegistry.Test.Magda.MagdaClient.When_GeefOnderneming;
 
+using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Constants;
 using AssociationRegistry.Integrations.Magda.Models;
 using AutoFixture;
 using Common.Configuration;
+using Common.Framework;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using Xunit;
 
 public class Given_A_Valid_KboNummer
@@ -22,9 +25,9 @@ public class Given_A_Valid_KboNummer
     [MemberData(nameof(GetData))]
     public async Task Then_It_Returns_GeefOndernemingResponseBody(MagdaOptionsSection magdaOptionsSection)
     {
-        var facade = new MagdaClient(magdaOptionsSection, new NullLogger<MagdaClient>());
+        var facade = new MagdaClient(magdaOptionsSection, Mock.Of<IMagdaCallReferenceRepository>(), new NullLogger<MagdaClient>());
 
-        var response = await facade.GeefOnderneming(KboNummer, _fixture.Create<MagdaCallReference>());
+        var response = await facade.GeefOnderneming(KboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
 
         using (new AssertionScope())
         {

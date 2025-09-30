@@ -4,6 +4,7 @@ using Asp.Versioning;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

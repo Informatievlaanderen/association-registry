@@ -7,5 +7,9 @@ using ResultNet;
 public interface IMagdaGeefVerenigingService
 {
     Task<Result> GeefVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken);
-    Task<Result> GeefSyncVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken);
+}
+
+public interface IMagdaSyncGeefVerenigingService
+{
+    Task<Result> GeefVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken);
 }

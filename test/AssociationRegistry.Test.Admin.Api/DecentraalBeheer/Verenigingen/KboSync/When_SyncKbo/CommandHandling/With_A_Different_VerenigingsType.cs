@@ -43,7 +43,7 @@ public class With_A_Different_VerenigingsType
 
         var commandHandler =
             new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
-                                      new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
+                                      new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
                                       _notifierMock.Object,
                                       NullLogger<SyncKboCommandHandler>.Instance);
 

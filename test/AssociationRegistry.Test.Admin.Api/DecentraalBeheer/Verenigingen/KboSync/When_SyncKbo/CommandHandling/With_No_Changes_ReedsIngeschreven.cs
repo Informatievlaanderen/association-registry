@@ -39,7 +39,7 @@ public class With_No_Changes_ReedsIngeschreven
         _magdaRegistreerInschrijvingServiceMock = new Mock<IMagdaRegistreerInschrijvingService>();
 
         var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object,
-                                                       new MagdaGeefVerenigingNumberFoundServiceMock(
+                                                       new MagdaSyncGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
                                                        _notifierMock.Object,

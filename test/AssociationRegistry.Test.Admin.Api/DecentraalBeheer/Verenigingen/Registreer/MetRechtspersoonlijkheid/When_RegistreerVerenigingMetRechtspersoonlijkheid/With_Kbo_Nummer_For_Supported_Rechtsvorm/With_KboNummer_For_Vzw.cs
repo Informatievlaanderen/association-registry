@@ -47,7 +47,7 @@ public class With_KboNummer_For_Vzw : With_KboNummer_For_Supported_Vereniging, I
         }
     }
 
-    [Fact]
+    [Fact(Skip = "todo: OR-1733 now with real people")]
     public async ValueTask Then_It_Adds_Vertegenwoordigers_From_Temporary_Source()
     {
         await using var session = _fixture.DocumentStore

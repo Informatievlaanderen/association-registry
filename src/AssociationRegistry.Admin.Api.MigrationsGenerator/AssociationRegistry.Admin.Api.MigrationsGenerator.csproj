@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AssociationRegistry.Admin.ProjectionHost\AssociationRegistry.Admin.ProjectionHost.csproj" />
+      <ProjectReference Include="..\AssociationRegistry.CommandHandling\AssociationRegistry.CommandHandling.csproj" />
       <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
       <ProjectReference Include="..\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj" />
     </ItemGroup>
