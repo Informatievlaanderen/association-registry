@@ -41,6 +41,7 @@
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj" />
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Grar\AssociationRegistry.Integrations.Grar.csproj" />
+    <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Magda\AssociationRegistry.Integrations.Magda.csproj" />
   </ItemGroup>
 
   <ItemGroup>

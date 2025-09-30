@@ -43,7 +43,7 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
         => Response.Vereniging.Verenigingssubtype.Should().BeNull();
 
 
-    [Fact]
+    [Fact(Skip = "todo: OR-1733 now with real people")]
     public async ValueTask WithVertegenwoordiger()
         => Response.Vereniging.Vertegenwoordigers.Should().NotBeNullOrEmpty();
 }

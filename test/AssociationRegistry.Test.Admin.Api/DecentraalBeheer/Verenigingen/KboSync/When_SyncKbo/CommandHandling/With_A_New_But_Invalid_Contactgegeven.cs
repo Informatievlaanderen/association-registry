@@ -50,7 +50,7 @@ public class With_A_New_But_Invalid_Contactgegeven
 
         var commandHandler =
             new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
-                                      new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
+                                      new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
                                       _notifierMock.Object,
                                       NullLogger<SyncKboCommandHandler>.Instance);
 

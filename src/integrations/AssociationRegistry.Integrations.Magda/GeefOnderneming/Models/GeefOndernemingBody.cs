@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Integrations.Magda.Models.GeefOnderneming;
+namespace AssociationRegistry.Integrations.Magda.GeefOnderneming.Models;
 
-using Hosts.Configuration.ConfigurationBindings;
-using Onderneming.GeefOnderneming;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
 using System.Xml.Serialization;
 
 [Serializable]

@@ -5,6 +5,7 @@ using Constants;
 using DecentraalBeheer.Vereniging;
 using Extensions;
 using Onderneming.GeefOnderneming;
+using ResultNet;
 
 public static class MagdaOndernemingExtensions
 {
@@ -39,21 +40,18 @@ public static class MagdaOndernemingExtensions
 
     public static bool IsActief(this Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.StatusKBO.Code.Value == StatusKBOCodes.Actief;
-    private static bool IsActiveToday(string datumBegin, string datumEinde)
+    public static bool IsActiveToday(string datumBegin, string datumEinde)
         => DateOnlyHelper.ParseOrNull(datumBegin, Formats.DateOnly).IsNullOrBeforeToday() &&
            DateOnlyHelper.ParseOrNull(datumEinde, Formats.DateOnly).IsNullOrAfterToday();
 
-    public static VerenigingVolgensKbo MapVerenigingVolgensKbo(this Onderneming2_0Type magdaOnderneming, KboNummer kboNummer)
+    public static VerenigingVolgensKbo MapVerenigingVolgensKbo(
+        this Onderneming2_0Type magdaOnderneming,
+        KboNummer kboNummer,
+        NaamOndernemingType naamOndernemingType)
     {
-        var naamOndernemingType = GetBestMatchingNaam(magdaOnderneming.Namen.MaatschappelijkeNamen);
-
-        if (naamOndernemingType is null)
-            return VerenigingVolgensKboResult.GeenGeldigeVereniging;
-
         var maatschappelijkeZetel =
             magdaOnderneming.Adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel &&
                                                            IsActiveToday(a.DatumBegin, a.DatumEinde));
-
         return new VerenigingVolgensKbo
         {
             KboNummer = KboNummer.Create(kboNummer),
@@ -69,7 +67,7 @@ public static class MagdaOndernemingExtensions
         };
     }
 
-    private static ContactgegevensVolgensKbo GetContactgegevensFrom(AdresOndernemingType? maatschappelijkeZetel)
+    public static ContactgegevensVolgensKbo GetContactgegevensFrom(AdresOndernemingType? maatschappelijkeZetel)
     {
         if (maatschappelijkeZetel is null)
             return new ContactgegevensVolgensKbo();
@@ -85,7 +83,7 @@ public static class MagdaOndernemingExtensions
         };
     }
 
-    private static DescriptieType GetBestMatchingAdres(DescriptieType[] descripties)
+    public static DescriptieType GetBestMatchingAdres(DescriptieType[] descripties)
     {
         if (descripties.Length == 1)
             return descripties.Single();
@@ -97,10 +95,10 @@ public static class MagdaOndernemingExtensions
                descripties.First();
     }
 
-    private static DescriptieType? GetDescriptieInTaal(DescriptieType[] descripties, string taalcode)
+    public static DescriptieType? GetDescriptieInTaal(DescriptieType[] descripties, string taalcode)
         => descripties.SingleOrDefault(n => n.Taalcode.Equals(taalcode, StringComparison.InvariantCultureIgnoreCase));
 
-    private static AdresVolgensKbo GetAdresFrom(AdresOndernemingType? maatschappelijkeZetel)
+    public static AdresVolgensKbo GetAdresFrom(AdresOndernemingType? maatschappelijkeZetel)
     {
         if (maatschappelijkeZetel is null)
             return new AdresVolgensKbo();
@@ -119,10 +117,10 @@ public static class MagdaOndernemingExtensions
     }
 
 
-    private static bool IsActiefOfInOprichting(Onderneming2_0Type magdaOnderneming)
+    public static bool IsActiefOfInOprichting(Onderneming2_0Type magdaOnderneming)
         => IsActief(magdaOnderneming) || IsInOprichting(magdaOnderneming);
 
-    private static VertegenwoordigerVolgensKbo[] GetVertegenwoordigers(FunctieType[] functies)
+    public static VertegenwoordigerVolgensKbo[] GetVertegenwoordigers(FunctieType[] functies)
         => functies.Select(x => new VertegenwoordigerVolgensKbo()
         {
             Insz = x.Persoon.INSZ,
@@ -131,10 +129,10 @@ public static class MagdaOndernemingExtensions
         }).ToArray();
 
 
-    private static bool IsInOprichting(Onderneming2_0Type magdaOnderneming)
+    public static bool IsInOprichting(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.StatusKBO.Code.Value == StatusKBOCodes.InOprichting;
 
-    private static NaamOndernemingType? GetBestMatchingNaam(NaamOndernemingType[]? namen)
+    public static NaamOndernemingType? GetBestMatchingNaam(this NaamOndernemingType[]? namen)
     {
         if (namen is null) return null;
 
@@ -155,7 +153,7 @@ public static class MagdaOndernemingExtensions
                activeNamen.First();
     }
 
-    private static NaamOndernemingType? GetNaamInTaal(NaamOndernemingType[] namen, string taalcode)
+    public static NaamOndernemingType? GetNaamInTaal(NaamOndernemingType[] namen, string taalcode)
         => namen.SingleOrDefault(n => n.Taalcode.Equals(taalcode, StringComparison.InvariantCultureIgnoreCase));
 }
 

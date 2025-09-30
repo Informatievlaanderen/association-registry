@@ -5,6 +5,7 @@ using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;

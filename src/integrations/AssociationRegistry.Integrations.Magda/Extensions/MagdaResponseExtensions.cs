@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Integrations.Magda.Extensions;
 
+using GeefOnderneming.Models;
 using Models;
-using Models.GeefOnderneming;
 using System;
 using System.Linq;
 using UitzonderingType = Onderneming.GeefOnderneming.UitzonderingType;

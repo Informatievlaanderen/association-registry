@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Integrations.Magda;
 
 using Extensions;
+using GeefOnderneming.Models;
 using Models;
-using Models.GeefOnderneming;
 using Onderneming.GeefOnderneming;
 
 public static class MagdaResponseValidator

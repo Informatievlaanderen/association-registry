@@ -11,6 +11,7 @@ using Framework;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using Xunit;
 
 public class Given_A_Valid_KboNummer
@@ -22,7 +23,7 @@ public class Given_A_Valid_KboNummer
     [MemberData(nameof(GetData))]
     public async Task Then_It_Returns_RegistreerInschrijvingResponseBody(MagdaOptionsSection magdaOptionsSection)
     {
-        var facade = new MagdaClient(magdaOptionsSection, new NullLogger<MagdaClient>());
+        var facade = new MagdaClient(magdaOptionsSection, Mock.Of<IMagdaCallReferenceRepository>(), new NullLogger<MagdaClient>());
 
         var response = await facade.RegistreerInschrijving(KboNummer, _fixture.Create<MagdaCallReference>());
 

@@ -18,7 +18,7 @@ public class SyncKboCommandHandlerBuilder
 {
     private readonly Fixture _fixture;
     private Mock<IMagdaRegistreerInschrijvingService> _magdaRegistreerInschrijvingService;
-    private Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
+    private Mock<IMagdaSyncGeefVerenigingService> _magdaGeefVerenigingService;
     private Mock<IVerenigingsRepository> _verenigingsRepository;
     private KboNummer? _kboNummer;
 
@@ -28,7 +28,7 @@ public class SyncKboCommandHandlerBuilder
     {
         _fixture = new Fixture().CustomizeAdminApi();
         _magdaRegistreerInschrijvingService = new Mock<IMagdaRegistreerInschrijvingService>();
-        _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
+        _magdaGeefVerenigingService = new Mock<IMagdaSyncGeefVerenigingService>();
         _verenigingsRepository = new Mock<IVerenigingsRepository>();
         _kboNummer = _fixture.Create<KboNummer>();
     }
@@ -52,7 +52,7 @@ public class SyncKboCommandHandlerBuilder
     public SyncKboCommandHandlerBuilder MetGeldigeVerenigingVolgensMagda()
     {
         _magdaGeefVerenigingService
-           .Setup(x => x.GeefSyncVereniging(KboNummer.Create(_kboNummer),
+           .Setup(x => x.GeefVereniging(KboNummer.Create(_kboNummer),
                                             It.IsAny<CommandMetadata>(),
                                             It.IsAny<CancellationToken>()))
            .ReturnsAsync(VerenigingVolgensKboResult.GeldigeVereniging(_fixture.Create<VerenigingVolgensKbo>() with
@@ -66,7 +66,7 @@ public class SyncKboCommandHandlerBuilder
     public SyncKboCommandHandlerBuilder MetGeenGeldigeVerenigingVolgensMagda()
     {
         _magdaGeefVerenigingService
-           .Setup(x => x.GeefSyncVereniging(KboNummer.Create(_kboNummer),
+           .Setup(x => x.GeefVereniging(KboNummer.Create(_kboNummer),
                                             It.IsAny<CommandMetadata>(),
                                             It.IsAny<CancellationToken>()))
            .ReturnsAsync(VerenigingVolgensKboResult.GeenGeldigeVereniging);
@@ -77,7 +77,7 @@ public class SyncKboCommandHandlerBuilder
     public SyncKboCommandHandlerBuilder MetFoutBijVerenigingOphalenBijMagda()
     {
         _magdaGeefVerenigingService
-           .Setup(x => x.GeefSyncVereniging(KboNummer.Create(_kboNummer),
+           .Setup(x => x.GeefVereniging(KboNummer.Create(_kboNummer),
                                             It.IsAny<CommandMetadata>(),
                                             It.IsAny<CancellationToken>()))
            .ThrowsAsync(new Exception());

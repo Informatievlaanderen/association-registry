@@ -5,6 +5,7 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
+using DecentraalBeheer.Vereniging.DubbelDetectie;
 using FluentAssertions;
 using System.Net;
 using Xunit;
