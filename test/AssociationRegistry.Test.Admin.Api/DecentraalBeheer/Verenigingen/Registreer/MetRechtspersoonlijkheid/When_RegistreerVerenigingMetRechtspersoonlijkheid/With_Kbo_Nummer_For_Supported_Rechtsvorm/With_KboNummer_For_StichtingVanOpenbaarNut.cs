@@ -74,7 +74,7 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
     }
 
     [Fact]
-    public async ValueTask Then_It_Adds_Vertegenwoordigers_From_Temporary_Source()
+    public async ValueTask Then_It_Adds_Vertegenwoordigers_From_Magda()
     {
         await using var session = _fixture.DocumentStore
                                           .LightweightSession();
@@ -99,13 +99,13 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
                 new(
                     VertegenwoordigerId: 1,
                     Insz: "1234567890",
-                    Voornaam: "Ikkeltje",
-                    Achternaam: "Persoon"),
+                    Voornaam: "Raymonda",
+                    Achternaam: "Verdyck"),
                 new(
                     VertegenwoordigerId: 2,
                     Insz: "0987654321",
-                    Voornaam: "Kramikkeltje",
-                    Achternaam: "Persoon"),
+                    Voornaam: "Sofie",
+                    Achternaam: "Christiaens"),
             });
     }
 }

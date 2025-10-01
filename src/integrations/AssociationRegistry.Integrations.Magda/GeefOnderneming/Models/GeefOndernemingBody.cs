@@ -55,6 +55,11 @@ public class GeefOndernemingBody
                                     // Activiteiten = VlagEnumType.Item1,
                                     // Bankrekeningen = VlagEnumType.Item1,
                                     // Bijhuis = VlagEnumType.Item1,
+                                    Functies = new CriteriaFunctiesType()
+                                    {
+                                        Aanduiding = VlagEnumType.Item1,
+                                        Onderneming = VlagEnumType.Item1
+                                    }
                                 },
                             },
                         },

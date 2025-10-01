@@ -112,6 +112,68 @@
                                         <Code>017</Code>
                                     </Rechtsvorm>
                                 </Rechtsvormen>
+                                <Functies>
+                                  <Functie DatumBegin="2009-03-20">
+                                    <FunctiehouderVan>0883632089</FunctiehouderVan>
+                                    <AardFunctie>
+                                      <Code xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">10002</Code>
+                                    </AardFunctie>
+                                    <Persoon>
+                                      <AchterNaam>Verdyck</AchterNaam>
+                                      <VoorNaam>Raymonda</VoorNaam>
+                                    </Persoon>
+                                  </Functie>
+                                  <Functie DatumBegin="2006-09-13">
+                                    <FunctiehouderVan>0883632089</FunctiehouderVan>
+                                    <AardFunctie>
+                                      <Code xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">10002</Code>
+                                    </AardFunctie>
+                                    <Persoon>
+                                      <AchterNaam>Christiaens</AchterNaam>
+                                      <VoorNaam>Sofie</VoorNaam>
+                                    </Persoon>
+                                  </Functie>
+                                  <Functie DatumBegin="2006-09-13">
+                                    <FunctiehouderVan>0883632089</FunctiehouderVan>
+                                    <AardFunctie>
+                                      <Code xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">10002</Code>
+                                    </AardFunctie>
+                                    <Persoon>
+                                      <AchterNaam>Vansweevelt</AchterNaam>
+                                      <VoorNaam>George</VoorNaam>
+                                    </Persoon>
+                                  </Functie>
+                                  <Functie DatumBegin="2006-09-13">
+                                    <FunctiehouderVan>0883632089</FunctiehouderVan>
+                                    <AardFunctie>
+                                      <Code xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">10002</Code>
+                                    </AardFunctie>
+                                    <Persoon>
+                                      <AchterNaam>Van Gheem</AchterNaam>
+                                      <VoorNaam>Fran&#231;ois</VoorNaam>
+                                    </Persoon>
+                                  </Functie>
+                                  <Functie DatumBegin="2006-09-13">
+                                    <FunctiehouderVan>0883632089</FunctiehouderVan>
+                                    <AardFunctie>
+                                      <Code xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">10002</Code>
+                                    </AardFunctie>
+                                    <Persoon>
+                                      <AchterNaam>Depaepe</AchterNaam>
+                                      <VoorNaam>Danny</VoorNaam>
+                                    </Persoon>
+                                  </Functie>
+                                  <Functie DatumBegin="2006-09-13">
+                                    <FunctiehouderVan>0883632089</FunctiehouderVan>
+                                    <AardFunctie>
+                                      <Code xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">10002</Code>
+                                    </AardFunctie>
+                                    <Persoon>
+                                      <AchterNaam>Giraldo</AchterNaam>
+                                      <VoorNaam>Filip</VoorNaam>
+                                    </Persoon>
+                                  </Functie>
+                                </Functies>
                             </Onderneming>
                         </Inhoud>
                     </Antwoord>
