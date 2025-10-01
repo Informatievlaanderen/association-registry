@@ -121,7 +121,7 @@ public static class MagdaOndernemingExtensions
         => IsActief(magdaOnderneming) || IsInOprichting(magdaOnderneming);
 
     public static VertegenwoordigerVolgensKbo[] GetVertegenwoordigers(FunctieType[] functies)
-        => functies.Select(x => new VertegenwoordigerVolgensKbo()
+        => functies is null ? [] : functies.Select(x => new VertegenwoordigerVolgensKbo()
         {
             Insz = x.Persoon.INSZ,
             Voornaam = x.Persoon.VoorNaam,

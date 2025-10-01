@@ -71,9 +71,6 @@ public class MagdaClient : IMagdaClient
             clientCertificate,
             signedEnvelope);
 
-        // todo: remove
-        envelope.Body.GeefOndernemingResponse.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Functies = [];
-
         return envelope;
     }
 
