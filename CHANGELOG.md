@@ -1,3 +1,10 @@
+## [8.274.4](https://github.com/informatievlaanderen/association-registry/compare/v8.274.3...v8.274.4) (2025-10-01)
+
+
+### Bug Fixes
+
+* or-2928 also migrate anonymous types to KboNummerWerdGereserveerd ([1d1e6a0](https://github.com/informatievlaanderen/association-registry/commit/1d1e6a06edb55981667801d8feadf0ed034e7ea9))
+
 ## [8.274.3](https://github.com/informatievlaanderen/association-registry/compare/v8.274.2...v8.274.3) (2025-09-29)
 
 
