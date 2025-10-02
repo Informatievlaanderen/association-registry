@@ -1,3 +1,16 @@
+# [8.275.0](https://github.com/informatievlaanderen/association-registry/compare/v8.274.4...v8.275.0) (2025-10-02)
+
+
+### Bug Fixes
+
+* or-1733 remove temporary magda vertegenwoordigers section ([5fb9b02](https://github.com/informatievlaanderen/association-registry/commit/5fb9b02d752d94babe82e226b150f6d301eb1a44))
+
+
+### Features
+
+* or-1733 change request to get functies from geefOnderneming ([7cb99d3](https://github.com/informatievlaanderen/association-registry/commit/7cb99d3a73778552e7b79b2c795c635914e79a7d))
+* or-1733 map vertegenwoordigers from functies magda get verenging ([9ff9e17](https://github.com/informatievlaanderen/association-registry/commit/9ff9e17f4885e4589a97c49df6650adde35e861b))
+
 ## [8.274.4](https://github.com/informatievlaanderen/association-registry/compare/v8.274.3...v8.274.4) (2025-10-01)
 
 
