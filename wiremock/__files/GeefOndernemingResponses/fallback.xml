@@ -130,9 +130,9 @@
                                       <Code xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">10002</Code>
                                     </AardFunctie>
                                     <Persoon>
-                                      <INSZ>1234567890</INSZ>
-                                      <AchterNaam>Verdyck</AchterNaam>
-                                      <VoorNaam>Raymonda</VoorNaam>
+                                      <INSZ xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">1234567890</INSZ>
+                                      <AchterNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Verdyck</AchterNaam>
+                                      <VoorNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Raymonda</VoorNaam>
                                     </Persoon>
                                   </Functie>
                                   <Functie DatumBegin="2006-09-13">
@@ -141,9 +141,9 @@
                                       <Code xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">10002</Code>
                                     </AardFunctie>
                                     <Persoon>
-                                      <INSZ>0987654321</INSZ>
-                                      <AchterNaam>Christiaens</AchterNaam>
-                                      <VoorNaam>Sofie</VoorNaam>
+                                      <INSZ xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">0987654321</INSZ>
+                                      <AchterNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Christiaens</AchterNaam>
+                                      <VoorNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Sofie</VoorNaam>
                                     </Persoon>
                                   </Functie>
                                 </Functies>
