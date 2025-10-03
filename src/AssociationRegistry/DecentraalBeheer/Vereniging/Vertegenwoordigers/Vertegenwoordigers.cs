@@ -127,6 +127,18 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
             Items.Any(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId == vertegenwoordigerId),
             vertegenwoordigerId.ToString());
     }
+
+    public IReadOnlyCollection<Vertegenwoordiger> ProvideTeWijzigenVertegenwoordigers(IEnumerable<Vertegenwoordiger> vertegenwoordigersCreatedFromKbo)
+    {
+        var existingInszToId = this.ToDictionary(v => v.Insz, v => v.VertegenwoordigerId);
+
+        var teWijzigen = vertegenwoordigersCreatedFromKbo
+            .Where(kbo => existingInszToId.ContainsKey(kbo.Insz))
+            .Select(kbo => kbo with { VertegenwoordigerId = existingInszToId[kbo.Insz] })
+            .ToList();
+
+        return new ReadOnlyCollection<Vertegenwoordiger>(teWijzigen);
+    }
 }
 
 public static class VertegenwoordigerEnumerableExtensions
@@ -161,6 +173,23 @@ public static class VertegenwoordigerEnumerableExtensions
     public static IEnumerable<Vertegenwoordiger> AppendFromEventData(
         this IEnumerable<Vertegenwoordiger> vertegenwoordigers,
         VertegenwoordigerWerdToegevoegdVanuitKBO eventData)
+        => vertegenwoordigers.Append(
+            Vertegenwoordiger.Hydrate(
+                eventData.VertegenwoordigerId,
+                Insz.Hydrate(eventData.Insz),
+                string.Empty,
+                string.Empty,
+                Voornaam.Hydrate(eventData.Voornaam),
+                Achternaam.Hydrate(eventData.Achternaam),
+                isPrimair: false,
+                Email.Leeg,
+                TelefoonNummer.Leeg,
+                TelefoonNummer.Leeg,
+                SocialMedia.Leeg));
+
+    public static IEnumerable<Vertegenwoordiger> AppendFromEventData(
+        this IEnumerable<Vertegenwoordiger> vertegenwoordigers,
+        VertegenwoordigerWerdGewijzigdInKBO eventData)
         => vertegenwoordigers.Append(
             Vertegenwoordiger.Hydrate(
                 eventData.VertegenwoordigerId,

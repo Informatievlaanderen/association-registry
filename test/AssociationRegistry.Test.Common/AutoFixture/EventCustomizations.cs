@@ -25,6 +25,7 @@ public static class EventCustomizations
         fixture.CustomizeLidmaatschapWerdToegevoegd();
         fixture.CustomizeWeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt();
         fixture.CustomizeVerenigingAanvaarddeDubbeleVereniging();
+        fixture.CustomizeVertegenwoordigerWerdToegevoegdVanuitKBO();
     }
 
     private static void CustomizeLidmaatschapWerdToegevoegd(this IFixture fixture)
@@ -43,6 +44,20 @@ public static class EventCustomizations
                                          fixture.Create<string>(),
                                          fixture.Create<string>()
                                      ))))
+                        .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeVertegenwoordigerWerdToegevoegdVanuitKBO(this IFixture fixture)
+    {
+        fixture.Customize<VertegenwoordigerWerdToegevoegdVanuitKBO>(
+            composer =>
+                composer.FromFactory(
+                             () => new VertegenwoordigerWerdToegevoegdVanuitKBO(
+                                 fixture.Create<int>(),
+                                 fixture.Create<Insz>(),
+                                 fixture.Create<Voornaam>(),
+                                 fixture.Create<Achternaam>()))
                         .OmitAutoProperties()
         );
     }
