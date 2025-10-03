@@ -91,6 +91,11 @@ public class VerenigingenPerInszProjection : EventProjection
         IDocumentOperations ops)
         => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, ops));
 
+    public async Task Project(
+        IEvent<VertegenwoordigerWerdToegevoegdVanuitKBO> @event,
+        IDocumentOperations ops)
+        => ops.Store(await VerenigingenPerInszProjector.Apply(@event, ops));
+
     public async Task Project(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, IDocumentOperations ops)
     {
         var docs = new List<object>();

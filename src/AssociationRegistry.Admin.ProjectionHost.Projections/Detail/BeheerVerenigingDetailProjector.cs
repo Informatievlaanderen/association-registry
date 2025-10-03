@@ -542,6 +542,45 @@ public class BeheerVerenigingDetailProjector
                                               .ToArray();
     }
 
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdToegevoegdVanuitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Vertegenwoordigers = document.Vertegenwoordigers.Append(
+                                                   new Vertegenwoordiger
+                                                   {
+                                                       JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                           JsonLdType.Vertegenwoordiger, document.VCode,
+                                                           vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId.ToString()),
+                                                       VertegenwoordigerId =
+                                                           vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId,
+                                                       Insz = vertegenwoordigerWerdOvergenomenUitKbo.Data.Insz,
+                                                       Achternaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam,
+                                                       Voornaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Voornaam,
+                                                       Roepnaam = string.Empty,
+                                                       Rol = string.Empty,
+                                                       IsPrimair = false,
+                                                       Email = string.Empty,
+                                                       Telefoon = string.Empty,
+                                                       Mobiel = string.Empty,
+                                                       SocialMedia = string.Empty,
+                                                       Bron = vertegenwoordigerWerdOvergenomenUitKbo.Data.Bron,
+                                                       VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
+                                                       {
+                                                           JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                               JsonLdType.VertegenwoordigerContactgegeven, document.VCode,
+                                                               vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId.ToString()),
+                                                           IsPrimair = false,
+                                                           Email = string.Empty,
+                                                           Telefoon = string.Empty,
+                                                           Mobiel = string.Empty,
+                                                           SocialMedia = string.Empty,
+                                                       },
+                                                   })
+                                              .OrderBy(v => v.VertegenwoordigerId)
+                                              .ToArray();
+    }
+
     public static void UpdateMetadata(IEvent e, BeheerVerenigingDetailDocument document)
     {
         document.DatumLaatsteAanpassing = e.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate();

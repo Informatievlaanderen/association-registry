@@ -246,6 +246,17 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
+    public async Task Project(
+        IEvent<VertegenwoordigerWerdToegevoegdVanuitKBO> @event,
+        IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(@event.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(@event, doc);
+
+        ops.Store(doc);
+    }
+
     public async Task Project(IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 

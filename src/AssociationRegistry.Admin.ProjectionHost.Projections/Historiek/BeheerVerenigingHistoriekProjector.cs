@@ -475,6 +475,17 @@ public class BeheerVerenigingHistoriekProjector
             $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd overgenomen uit KBO."
         );
     }
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdToegevoegdVanuitKBO> @event,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            VertegenwoordigerData.Create(@event.Data),
+            document,
+            $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd toegevoegd vanuit KBO."
+        );
+    }
 
     public static void Apply(IEvent<NaamWerdGewijzigdInKbo> @event, BeheerVerenigingHistoriekDocument document)
     {

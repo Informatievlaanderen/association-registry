@@ -165,6 +165,9 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
     public PubliekVerenigingSequenceDocument Apply(IEvent<VertegenwoordigerWerdOvergenomenUitKBO> e, PubliekVerenigingSequenceDocument doc)
         => UpdateVersion(e, doc);
 
+    public PubliekVerenigingSequenceDocument Apply(IEvent<VertegenwoordigerWerdToegevoegdVanuitKBO> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
     public PubliekVerenigingSequenceDocument Apply(IEvent<ContactgegevenUitKBOWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
         => UpdateVersion(e, doc);
 
