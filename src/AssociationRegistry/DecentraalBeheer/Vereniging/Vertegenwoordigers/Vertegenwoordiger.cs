@@ -99,6 +99,9 @@ public record Vertegenwoordiger
         return this == updatedVertegenwoordiger;
     }
 
+    public bool WouldBeEquivalent(Vertegenwoordiger vertegenwoordiger)
+        => this == vertegenwoordiger with { VertegenwoordigerId = VertegenwoordigerId };
+
     private Vertegenwoordiger CopyWithValuesIfNotNull(
         string? rol,
         string? roepnaam,

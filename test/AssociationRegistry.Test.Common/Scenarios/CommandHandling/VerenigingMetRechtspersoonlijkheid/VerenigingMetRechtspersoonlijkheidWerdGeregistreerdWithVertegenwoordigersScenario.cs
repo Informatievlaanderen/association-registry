@@ -10,7 +10,8 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoor
 {
     public override VCode VCode => VCode.Create("V0009011");
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
-    public readonly VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO;
+    public readonly VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO1;
+    public readonly VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO2;
 
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario()
     {
@@ -21,13 +22,22 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoor
             VCode = VCode,
         };
 
-        VertegenwoordigerWerdToegevoegdVanuitKBO = fixture.Create<VertegenwoordigerWerdToegevoegdVanuitKBO>();
+        VertegenwoordigerWerdToegevoegdVanuitKBO1 = fixture.Create<VertegenwoordigerWerdToegevoegdVanuitKBO>() with
+        {
+            VertegenwoordigerId = 1,
+        };
+
+        VertegenwoordigerWerdToegevoegdVanuitKBO2 = fixture.Create<VertegenwoordigerWerdToegevoegdVanuitKBO>() with
+        {
+            VertegenwoordigerId = 2,
+        };
     }
 
     public override IEnumerable<IEvent> Events()
         => new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            VertegenwoordigerWerdToegevoegdVanuitKBO,
+            VertegenwoordigerWerdToegevoegdVanuitKBO1,
+            VertegenwoordigerWerdToegevoegdVanuitKBO2,
         };
 }

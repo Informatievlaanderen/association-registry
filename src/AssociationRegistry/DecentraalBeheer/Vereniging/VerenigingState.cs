@@ -839,6 +839,14 @@ public record VerenigingState : IHasVersion
             Vertegenwoordigers = Vertegenwoordigers.Hydrate(Vertegenwoordigers.AppendFromEventData(@event)),
         };
 
+    public VerenigingState Apply(VertegenwoordigerWerdGewijzigdInKBO @event)
+        => this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Hydrate(Vertegenwoordigers
+                                                           .Without(@event.VertegenwoordigerId)
+                                                                              .AppendFromEventData(@event)),
+        };
+
     public void ThrowIfVerwijderd()
     {
         if (IsVerwijderd)
