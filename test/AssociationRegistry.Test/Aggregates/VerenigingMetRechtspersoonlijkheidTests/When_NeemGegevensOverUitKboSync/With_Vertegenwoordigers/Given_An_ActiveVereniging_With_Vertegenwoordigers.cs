@@ -132,6 +132,8 @@ public class Given_An_ActiveVereniging_With_Vertegenwoordigers
 
     private static void ShouldHaveEvents(VerenigingMetRechtspersoonlijkheid sut, IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> events)
     {
+        // TODO: BeEquivalentTo does not compare types!
+        // also change VertegenwoordigerWerdToegevoegdVanuitKBO
         sut.UncommittedEvents.OfType<VertegenwoordigerWerdGewijzigdInKBO>()
            .Should()
            .BeEquivalentTo(events);
