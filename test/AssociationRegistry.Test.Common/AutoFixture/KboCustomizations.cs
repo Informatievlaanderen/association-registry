@@ -16,6 +16,7 @@ public static class KboCustomizations
         fixture.CustomizeVerenigingVolgensKbo();
         fixture.CustomizeAdresVolgensKbo();
         fixture.CustomizeContactgegevensVolgensKbo();
+        fixture.CustomizeVertegenwoordigerVolgensKbo();
     }
 
     private static void CustomizeVerenigingVolgensKbo(this Fixture fixture)
@@ -40,6 +41,24 @@ public static class KboCustomizations
                                      Startdatum = fixture.Create<DateOnly>(),
                                      IsActief = true,
                                      EindDatum = null,
+                                     Vertegenwoordigers = fixture.CreateMany<VertegenwoordigerVolgensKbo>().ToArray(),
+                                 };
+                             })
+                        .OmitAutoProperties());
+    }
+
+    private static void CustomizeVertegenwoordigerVolgensKbo(this Fixture fixture)
+    {
+        fixture.Customize<VertegenwoordigerVolgensKbo>(
+            composer =>
+                composer.FromFactory<int>(
+                             i =>
+                             {
+                                 return new VertegenwoordigerVolgensKbo
+                                 {
+                                     Insz = fixture.Create<Insz>(),
+                                     Voornaam = fixture.Create<string>(),
+                                     Achternaam = fixture.Create<string>(),
                                  };
                              })
                         .OmitAutoProperties());

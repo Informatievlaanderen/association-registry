@@ -1,6 +1,8 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Emails;
+using Magda.Kbo;
 using SocialMedias;
 using TelefoonNummers;
 
@@ -119,4 +121,17 @@ public record Vertegenwoordiger
             {
                 VertegenwoordigerId = VertegenwoordigerId,
             };
+
+    public static Vertegenwoordiger CreateFromKbo(VertegenwoordigerVolgensKbo vertegenwoordigerVolgensKbo)
+        => Create(
+            Insz.Create(vertegenwoordigerVolgensKbo.Insz),
+            false,
+            string.Empty,
+            string.Empty,
+            Voornaam.Hydrate(vertegenwoordigerVolgensKbo.Voornaam),
+            Achternaam.Hydrate(vertegenwoordigerVolgensKbo.Achternaam),
+            Email.Leeg,
+            TelefoonNummer.Leeg,
+            TelefoonNummer.Leeg,
+            SocialMedia.Leeg);
 }

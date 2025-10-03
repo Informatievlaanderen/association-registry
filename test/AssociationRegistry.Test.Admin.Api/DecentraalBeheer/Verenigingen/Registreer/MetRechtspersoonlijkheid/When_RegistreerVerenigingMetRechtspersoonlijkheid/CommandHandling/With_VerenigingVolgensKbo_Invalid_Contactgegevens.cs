@@ -37,6 +37,7 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
+        _verenigingVolgensKbo.Vertegenwoordigers = [];
 
         _verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo
         {

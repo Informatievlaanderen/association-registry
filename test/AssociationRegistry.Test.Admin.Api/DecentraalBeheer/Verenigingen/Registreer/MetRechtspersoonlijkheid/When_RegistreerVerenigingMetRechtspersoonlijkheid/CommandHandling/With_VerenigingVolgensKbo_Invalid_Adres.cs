@@ -35,6 +35,7 @@ public class With_VerenigingVolgensKbo_Invalid_Adres
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
+        _verenigingVolgensKbo.Vertegenwoordigers = [];
 
         _verenigingVolgensKbo.Adres = new AdresVolgensKbo
         {
