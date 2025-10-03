@@ -150,8 +150,25 @@ public static class VertegenwoordigerEnumerableExtensions
                 Insz.Hydrate(eventData.Insz),
                 string.Empty,
                 string.Empty,
-                eventData.Voornaam,
-                eventData.Achternaam,
+                Voornaam.Hydrate(eventData.Voornaam),
+                Achternaam.Hydrate(eventData.Achternaam),
+                isPrimair: false,
+                Email.Leeg,
+                TelefoonNummer.Leeg,
+                TelefoonNummer.Leeg,
+                SocialMedia.Leeg));
+
+    public static IEnumerable<Vertegenwoordiger> AppendFromEventData(
+        this IEnumerable<Vertegenwoordiger> vertegenwoordigers,
+        VertegenwoordigerWerdToegevoegdVanuitKBO eventData)
+        => vertegenwoordigers.Append(
+            Vertegenwoordiger.Hydrate(
+                eventData.VertegenwoordigerId,
+                Insz.Hydrate(eventData.Insz),
+                string.Empty,
+                string.Empty,
+                Voornaam.Hydrate(eventData.Voornaam),
+                Achternaam.Hydrate(eventData.Achternaam),
                 isPrimair: false,
                 Email.Leeg,
                 TelefoonNummer.Leeg,

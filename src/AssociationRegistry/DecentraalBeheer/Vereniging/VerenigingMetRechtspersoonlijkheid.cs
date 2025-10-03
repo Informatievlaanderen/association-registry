@@ -365,6 +365,22 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         WijzigStartdatum(Datum.CreateOptional(verenigingVolgensMagda.Startdatum ?? null));
         WijzigMaatschappelijkeZetelUitKbo(verenigingVolgensMagda.Adres);
         HandleContactgegevens(verenigingVolgensMagda);
+        HandleVertegenwoordigers(verenigingVolgensMagda);
+    }
+
+    private void HandleVertegenwoordigers(VerenigingVolgensKbo verenigingVolgensMagda)
+    {
+        var toegevoegdeVertegenwoordigers = State
+                                           .Vertegenwoordigers
+                                           .VoegToe(verenigingVolgensMagda
+                                                   .Vertegenwoordigers
+                                                   .Select(Vertegenwoordiger
+                                                              .CreateFromKbo).ToArray());
+
+        foreach (var vertegenwoordiger in toegevoegdeVertegenwoordigers)
+        {
+            AddEvent(EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(vertegenwoordiger));
+        }
     }
 
     private void HandleInactief(InactieveVereniging verenigingVolgensMagda)

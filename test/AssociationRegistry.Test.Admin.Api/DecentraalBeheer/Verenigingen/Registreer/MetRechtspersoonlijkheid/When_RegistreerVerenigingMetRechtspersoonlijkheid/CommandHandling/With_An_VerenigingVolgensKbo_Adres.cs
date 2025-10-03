@@ -38,6 +38,7 @@ public class With_An_VerenigingVolgensKbo_Adres
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
         _verenigingVolgensKbo.Adres = fixture.Create<AdresVolgensKbo>();
+        _verenigingVolgensKbo.Vertegenwoordigers = [];
 
         _command = new RegistreerVerenigingUitKboCommand(KboNummer: _verenigingVolgensKbo.KboNummer);
 

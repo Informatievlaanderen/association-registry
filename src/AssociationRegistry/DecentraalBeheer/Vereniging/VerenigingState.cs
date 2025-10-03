@@ -833,6 +833,12 @@ public record VerenigingState : IHasVersion
             Geotags = GeotagsCollection.Hydrate(@event.Geotags),
         };
 
+    public VerenigingState Apply(VertegenwoordigerWerdToegevoegdVanuitKBO @event)
+        => this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Hydrate(Vertegenwoordigers.AppendFromEventData(@event)),
+        };
+
     public void ThrowIfVerwijderd()
     {
         if (IsVerwijderd)
