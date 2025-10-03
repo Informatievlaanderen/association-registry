@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Geotags;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Geotags;
 
-using Admin.Schema.Search;
+using AssociationRegistry.Admin.Schema.Search;
+using AssociationRegistry.Test.Projections.Beheer.Zoeken;
 using AssociationRegistry.Test.Projections.Scenario.Geotags;
-using Zoeken;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_GeotagsWerdenBepaald(BeheerZoekenScenarioFixture<GeotagsWerdenBepaaldScenario> fixture)

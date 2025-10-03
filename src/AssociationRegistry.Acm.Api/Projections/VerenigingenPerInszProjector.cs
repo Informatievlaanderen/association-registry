@@ -169,6 +169,30 @@ public static class VerenigingenPerInszProjector
         return document;
     }
 
+    public static async Task<VerenigingenPerInszDocument> Apply(
+        IEvent<VertegenwoordigerWerdToegevoegdVanuitKBO> @event,
+        IDocumentOperations ops)
+    {
+        var vCode = @event.StreamKey!;
+        var vereniging = await ops.GetVerenigingDocument(vCode);
+        var document = await ops.GetVerenigingenPerInszDocumentOrNew(@event.Data.Insz);
+
+        document.Verenigingen.Add(
+            new Vereniging
+            {
+                VCode = vereniging.VCode,
+                VertegenwoordigerId = @event.Data.VertegenwoordigerId,
+                Naam = vereniging.Naam,
+                Status = vereniging.Status,
+                KboNummer = vereniging.KboNummer,
+                Verenigingstype = vereniging.VerenigingsType,
+                Verenigingssubtype = vereniging.Verenigingssubtype,
+                IsHoofdvertegenwoordigerVan = true,
+            });
+
+        return document;
+    }
+
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<VerenigingWerdGestopt> verenigingWerdGestopt,
         IDocumentOperations ops)

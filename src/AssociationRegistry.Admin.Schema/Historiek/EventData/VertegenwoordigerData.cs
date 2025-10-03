@@ -78,4 +78,16 @@ public record VertegenwoordigerData
                string.Empty,
                string.Empty,
                string.Empty);
+
+    public static VertegenwoordigerData Create(VertegenwoordigerWerdToegevoegdVanuitKBO vertegenwoordiger)
+        => new(vertegenwoordiger.VertegenwoordigerId,
+               IsPrimair: false,
+               string.Empty,
+               string.Empty,
+               vertegenwoordiger.Voornaam,
+               vertegenwoordiger.Achternaam,
+               string.Empty,
+               string.Empty,
+               string.Empty,
+               string.Empty);
 }

@@ -150,6 +150,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<VertegenwoordigerWerdOvergenomenUitKBO> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegdVanuitKBO> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
     public async Task Project(IEvent<ContactgegevenUitKBOWerdGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
