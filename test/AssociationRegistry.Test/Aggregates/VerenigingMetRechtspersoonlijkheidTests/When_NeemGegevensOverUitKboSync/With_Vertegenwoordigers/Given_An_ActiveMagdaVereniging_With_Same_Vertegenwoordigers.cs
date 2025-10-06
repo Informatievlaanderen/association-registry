@@ -10,13 +10,13 @@ using Events.Factories;
 using FluentAssertions;
 using Xunit;
 
-public class Given_An_ActiveVereniging_With_Vertegenwoordigers
+public class Given_An_ActiveMagdaVereniging_With_Same_Vertegenwoordigers
 {
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario _scenario;
     private readonly Fixture _fixture;
     private readonly VerenigingMetRechtspersoonlijkheid _sut;
 
-    public Given_An_ActiveVereniging_With_Vertegenwoordigers()
+    public Given_An_ActiveMagdaVereniging_With_Same_Vertegenwoordigers()
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario();
@@ -40,6 +40,8 @@ public class Given_An_ActiveVereniging_With_Vertegenwoordigers
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
         _sut.UncommittedEvents.OfType<VertegenwoordigerWerdGewijzigdInKBO>().Should().BeEmpty();
+        _sut.UncommittedEvents.OfType<VertegenwoordigerWerdToegevoegdVanuitKBO>().Should().BeEmpty();
+        _sut.UncommittedEvents.OfType<VertegenwoordigerWerdVerwijderdUitKBO>().Should().BeEmpty();
     }
 
     [Fact]
@@ -58,7 +60,7 @@ public class Given_An_ActiveVereniging_With_Vertegenwoordigers
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
-        ShouldHaveEvents(_sut, CreateVVertegenwoordigerWerdGewijzigdInKBOEvents(gewijzigdeVertegenwoordigers));
+        ShouldHaveEvents(_sut, CreateVertegenwoordigerWerdGewijzigdInKBOEvents(gewijzigdeVertegenwoordigers));
     }
 
     [Fact]
@@ -74,12 +76,12 @@ public class Given_An_ActiveVereniging_With_Vertegenwoordigers
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
-        var vVertegenwoordigerWerdGewijzigdInKboEvents = CreateVVertegenwoordigerWerdGewijzigdInKBOEvents(gewijzigdeVertegenwoordigers);
+        var vertegenwoordigerWerdGewijzigdInKboEvents = CreateVertegenwoordigerWerdGewijzigdInKBOEvents(gewijzigdeVertegenwoordigers);
 
-        ShouldHaveEvents(_sut, vVertegenwoordigerWerdGewijzigdInKboEvents);
+        ShouldHaveEvents(_sut, vertegenwoordigerWerdGewijzigdInKboEvents);
     }
 
-    private static IEnumerable<VertegenwoordigerWerdGewijzigdInKBO> CreateVVertegenwoordigerWerdGewijzigdInKBOEvents(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
+    private static IEnumerable<VertegenwoordigerWerdGewijzigdInKBO> CreateVertegenwoordigerWerdGewijzigdInKBOEvents(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
     {
         return gewijzigdeVertegenwoordigers.Select((x, i) =>
                                                        EventFactory.VertegenwoordigerWerdGewijzigdInKBO(
