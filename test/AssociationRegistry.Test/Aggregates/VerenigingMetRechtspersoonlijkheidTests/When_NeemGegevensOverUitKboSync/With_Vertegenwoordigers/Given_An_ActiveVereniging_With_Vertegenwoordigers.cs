@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Aggregates.VerenigingMetRechtspersoonlijkheidTests.When_NeemGegevensOverUitKboSync.With_Vertegenwoordigers;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Events;
-using AssociationRegistry.Events.Factories;
 using AssociationRegistry.Magda.Kbo;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using DecentraalBeheer.Vereniging;
+using Events;
+using Events.Factories;
 using FluentAssertions;
 using Xunit;
 
@@ -58,7 +58,7 @@ public class Given_An_ActiveVereniging_With_Vertegenwoordigers
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
-        ShouldHaveEvents(_sut, CreateVertegenwoordigerWerdToegevoegdEvents(gewijzigdeVertegenwoordigers));
+        ShouldHaveEvents(_sut, CreateVVertegenwoordigerWerdGewijzigdInKBOEvents(gewijzigdeVertegenwoordigers));
     }
 
     [Fact]
@@ -74,15 +74,15 @@ public class Given_An_ActiveVereniging_With_Vertegenwoordigers
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
-        var vertegenwoordigerWerdToegevoegdVanuitKbos = CreateVertegenwoordigerWerdToegevoegdEvents(gewijzigdeVertegenwoordigers);
+        var vVertegenwoordigerWerdGewijzigdInKboEvents = CreateVVertegenwoordigerWerdGewijzigdInKBOEvents(gewijzigdeVertegenwoordigers);
 
-        ShouldHaveEvents(_sut, vertegenwoordigerWerdToegevoegdVanuitKbos);
+        ShouldHaveEvents(_sut, vVertegenwoordigerWerdGewijzigdInKboEvents);
     }
 
-    private static IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> CreateVertegenwoordigerWerdToegevoegdEvents(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
+    private static IEnumerable<VertegenwoordigerWerdGewijzigdInKBO> CreateVVertegenwoordigerWerdGewijzigdInKBOEvents(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
     {
         return gewijzigdeVertegenwoordigers.Select((x, i) =>
-                                                       EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(
+                                                       EventFactory.VertegenwoordigerWerdGewijzigdInKBO(
                                                            Vertegenwoordiger.CreateFromKbo(x) with
                                                            {
                                                                VertegenwoordigerId = ++i,
@@ -130,12 +130,12 @@ public class Given_An_ActiveVereniging_With_Vertegenwoordigers
             Achternaam = vertegenwoordigerWerdToegevoegd.Achternaam,
         };
 
-    private static void ShouldHaveEvents(VerenigingMetRechtspersoonlijkheid sut, IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> events)
+    private static void ShouldHaveEvents(VerenigingMetRechtspersoonlijkheid sut, IEnumerable<VertegenwoordigerWerdGewijzigdInKBO> events)
     {
-        // TODO: BeEquivalentTo does not compare types!
-        // also change VertegenwoordigerWerdToegevoegdVanuitKBO
         sut.UncommittedEvents.OfType<VertegenwoordigerWerdGewijzigdInKBO>()
            .Should()
+           .AllBeOfType<VertegenwoordigerWerdGewijzigdInKBO>()
+           .And
            .BeEquivalentTo(events);
     }
 }
