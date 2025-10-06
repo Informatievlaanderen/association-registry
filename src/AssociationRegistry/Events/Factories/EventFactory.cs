@@ -107,6 +107,9 @@ public static class EventFactory
     public static VertegenwoordigerWerdGewijzigdInKBO VertegenwoordigerWerdGewijzigdInKBO(Vertegenwoordiger vertegenwoordiger)
         => new(vertegenwoordiger.VertegenwoordigerId, vertegenwoordiger.Insz, vertegenwoordiger.Voornaam, vertegenwoordiger.Achternaam);
 
+    public static VertegenwoordigerWerdVerwijderdUitKBO VertegenwoordigerWerdVerwijderdUitKBO(Vertegenwoordiger vertegenwoordiger)
+        => new(vertegenwoordiger.VertegenwoordigerId, vertegenwoordiger.Insz, vertegenwoordiger.Voornaam, vertegenwoordiger.Achternaam);
+
     public static WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
         VCode vCode,
         VerenigingStatus.StatusDubbel verenigingStatus)
