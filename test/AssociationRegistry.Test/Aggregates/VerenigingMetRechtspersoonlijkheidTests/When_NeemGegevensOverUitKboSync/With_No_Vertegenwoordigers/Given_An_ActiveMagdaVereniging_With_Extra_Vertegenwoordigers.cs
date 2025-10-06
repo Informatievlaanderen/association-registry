@@ -10,7 +10,7 @@ using Events.Factories;
 using FluentAssertions;
 using Xunit;
 
-public class Given_An_ActiveVereniging_With_Vertegenwoordigers
+public class Given_An_ActiveMagdaVereniging_With_Same_Vertegenwoordigers
 {
     [Fact]
     public void Then_It_Saves_The_Vertegenwoordigers()
