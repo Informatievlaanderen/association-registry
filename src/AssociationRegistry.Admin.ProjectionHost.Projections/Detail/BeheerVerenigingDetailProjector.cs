@@ -581,6 +581,17 @@ public class BeheerVerenigingDetailProjector
                                               .ToArray();
     }
 
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdVerwijderdUitKBO> @event,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Vertegenwoordigers = document.Vertegenwoordigers
+                                           .Where(
+                                                v => v.VertegenwoordigerId != @event.Data.VertegenwoordigerId)
+                                           .OrderBy(v => v.VertegenwoordigerId)
+                                           .ToArray();
+    }
+
     public static void UpdateMetadata(IEvent e, BeheerVerenigingDetailDocument document)
     {
         document.DatumLaatsteAanpassing = e.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate();
