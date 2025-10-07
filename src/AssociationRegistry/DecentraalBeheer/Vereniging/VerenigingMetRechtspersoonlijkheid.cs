@@ -373,14 +373,14 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         HandleVertegenwoordigers(verenigingVolgensMagda);
     }
 
-    private void HandleVertegenwoordigers(VerenigingVolgensKbo verenigingVolgensMagda)
+    private void HandleVertegenwoordigers(VerenigingVolgensKbo verenigingVolgensKbo)
     {
-        var inkomend = verenigingVolgensMagda
+        var vertegenwoordigersVolgensKbo = verenigingVolgensKbo
                       .Vertegenwoordigers
                       .Select(Vertegenwoordiger.CreateFromKbo)
                       .ToArray();
 
-        var diff = State.Vertegenwoordigers.SyncMetKboVertegenwoordigers(inkomend);
+        var diff = State.Vertegenwoordigers.SyncMetKboVertegenwoordigers(vertegenwoordigersVolgensKbo);
 
         foreach (var v in diff.Toegevoegd)
             AddEvent(EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(v));
