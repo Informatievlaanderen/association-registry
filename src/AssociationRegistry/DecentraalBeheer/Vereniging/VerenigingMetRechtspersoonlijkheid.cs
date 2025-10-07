@@ -375,35 +375,21 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
     private void HandleVertegenwoordigers(VerenigingVolgensKbo verenigingVolgensMagda)
     {
-        var vertegenwoordigersCreatedFromKbo = verenigingVolgensMagda
-                                              .Vertegenwoordigers
-                                              .Select(Vertegenwoordiger.CreateFromKbo)
-                                              .ToArray();
+        var inkomend = verenigingVolgensMagda
+                      .Vertegenwoordigers
+                      .Select(Vertegenwoordiger.CreateFromKbo)
+                      .ToArray();
 
-        var teWijzigenVertegenwoordigers =
-            State
-               .Vertegenwoordigers
-               .ProvideTeWijzigenVertegenwoordigers(vertegenwoordigersCreatedFromKbo);
+        var diff = State.Vertegenwoordigers.SyncMetKboVertegenwoordigers(inkomend);
 
-        var toeTeVoegenVertegenwoordigers = State.Vertegenwoordigers
-                                                 .VoegToe(vertegenwoordigersCreatedFromKbo
-                                                         .ExceptBy(State.Vertegenwoordigers.Select(v => v.Insz), x => x.Insz)
-                                                         .ToArray());
+        foreach (var v in diff.Toegevoegd)
+            AddEvent(EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(v));
 
-        foreach (var vertegenwoordiger in toeTeVoegenVertegenwoordigers)
-        {
-            AddEvent(EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(vertegenwoordiger));
-        }
+        foreach (var v in diff.Gewijzigd)
+            AddEvent(EventFactory.VertegenwoordigerWerdGewijzigdInKBO(v));
 
-        foreach (var vertegenwoordiger in teWijzigenVertegenwoordigers)
-        {
-            var bestaandeVertegenwoordiger = State.Vertegenwoordigers.Single(x => x.Insz == vertegenwoordiger.Insz);
-
-            if (vertegenwoordiger.WouldBeEquivalent(bestaandeVertegenwoordiger))
-                continue;
-
-            AddEvent(EventFactory.VertegenwoordigerWerdGewijzigdInKBO(vertegenwoordiger));
-        }
+        foreach (var v in diff.Verwijderd)
+            AddEvent(EventFactory.VertegenwoordigerWerdVerwijderdUitKBO(v));
     }
 
     private void HandleInactief(InactieveVereniging verenigingVolgensMagda)

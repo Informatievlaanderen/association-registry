@@ -12,6 +12,8 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoor
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
     public readonly VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO1;
     public readonly VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO2;
+    public readonly VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO3;
+    public readonly int AmountOfVertegenwoordigers = 3;
 
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario()
     {
@@ -31,6 +33,11 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoor
         {
             VertegenwoordigerId = 2,
         };
+
+        VertegenwoordigerWerdToegevoegdVanuitKBO3 = fixture.Create<VertegenwoordigerWerdToegevoegdVanuitKBO>() with
+        {
+            VertegenwoordigerId = 3,
+        };
     }
 
     public override IEnumerable<IEvent> Events()
@@ -39,5 +46,6 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoor
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             VertegenwoordigerWerdToegevoegdVanuitKBO1,
             VertegenwoordigerWerdToegevoegdVanuitKBO2,
+            VertegenwoordigerWerdToegevoegdVanuitKBO3,
         };
 }
