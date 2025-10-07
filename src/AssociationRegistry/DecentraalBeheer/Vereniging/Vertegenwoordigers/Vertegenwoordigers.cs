@@ -140,9 +140,9 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         return new ReadOnlyCollection<Vertegenwoordiger>(teWijzigen);
     }
 
-    public VertegenwoordigersKboDiff SyncMetKboVertegenwoordigers(IEnumerable<Vertegenwoordiger> vertegenwoordigersCreatedFromKbo)
+    public VertegenwoordigersKboDiff SyncMetKboVertegenwoordigers(IEnumerable<Vertegenwoordiger> vertegenwoordigersVolgensKbo)
     {
-        var inkomend = vertegenwoordigersCreatedFromKbo.ToArray();
+        var inkomend = vertegenwoordigersVolgensKbo.ToArray();
 
         var existingByInsz = this.ToDictionary(v => v.Insz, v => v);
 
@@ -178,9 +178,9 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 }
 
 public readonly record struct VertegenwoordigersKboDiff(
-    Vertegenwoordiger[] Toegevoegd,   // met toegewezen VertegenwoordigerId
-    Vertegenwoordiger[] Gewijzigd,    // met bestaand VertegenwoordigerId
-    Vertegenwoordiger[] Verwijderd    // met bestaand VertegenwoordigerId
+    Vertegenwoordiger[] Toegevoegd,
+    Vertegenwoordiger[] Gewijzigd,
+    Vertegenwoordiger[] Verwijderd
 );
 
 public static class VertegenwoordigerEnumerableExtensions

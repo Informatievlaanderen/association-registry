@@ -1,22 +1,22 @@
-﻿namespace AssociationRegistry.Test.Aggregates.VerenigingMetRechtspersoonlijkheidTests.When_NeemGegevensOverUitKboSync.With_Vertegenwoordigers;
+﻿namespace AssociationRegistry.Test.Aggregates.VerenigingMetRechtspersoonlijkheidTests.When_NeemGegevensOverUitKboSync;
 
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Events;
+using AssociationRegistry.Events.Factories;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using DecentraalBeheer.Vereniging;
-using Events;
-using Events.Factories;
 using FluentAssertions;
 using Xunit;
 
-public class Given_An_ActiveMagdaVereniging_With_Less_Vertegenwoordigers
+public class Given_An_ActiveMagdaVereniging
 {
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario _scenario;
     private readonly Fixture _fixture;
     private readonly VerenigingMetRechtspersoonlijkheid _sut;
 
-    public Given_An_ActiveMagdaVereniging_With_Less_Vertegenwoordigers()
+    public Given_An_ActiveMagdaVereniging()
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario();
@@ -65,7 +65,7 @@ public class Given_An_ActiveMagdaVereniging_With_Less_Vertegenwoordigers
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
-        ShouldHaveEvents(_sut, CreateVertegenwoordigerWerdToegevoegdVanuitKBO(extraVertegenwoordigers));
+        ShouldHaveEvents(_sut, CreateVertegenwoordigerWerdToegevoegdVanuitKBOEvents(extraVertegenwoordigers));
         ShouldHaveNotSavedEvents(_sut, typeof(VertegenwoordigerWerdGewijzigdInKBO), typeof(VertegenwoordigerWerdVerwijderdUitKBO));
     }
 
@@ -211,7 +211,7 @@ public class Given_An_ActiveMagdaVereniging_With_Less_Vertegenwoordigers
                                                            }));
     }
 
-    private IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> CreateVertegenwoordigerWerdToegevoegdVanuitKBO(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
+    private IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> CreateVertegenwoordigerWerdToegevoegdVanuitKBOEvents(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
     {
         return gewijzigdeVertegenwoordigers.Select((x, i) =>
                                                        EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(
