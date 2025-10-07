@@ -1,3 +1,15 @@
+# [8.276.0](https://github.com/informatievlaanderen/association-registry/compare/v8.275.0...v8.276.0) (2025-10-07)
+
+
+### Features
+
+* or-1847 apply VertegenwoordigerWerdGewijzigdInKBO in projections ([7ad77f0](https://github.com/informatievlaanderen/association-registry/commit/7ad77f05c603168c0e5c1918d110b77718e68928))
+* or-1847 apply VertegenwoordigerWerdToegevoegdVanuitKBO in projections ([56c22bb](https://github.com/informatievlaanderen/association-registry/commit/56c22bb8c64561233dd9115d01d0253940cdc57e))
+* or-1847 implement VertegenwoordigerWerdVerwijderdUitKBO in projections ([b800b19](https://github.com/informatievlaanderen/association-registry/commit/b800b19d8c96b48c0b7d3d4fa6b3f2b0c44ec9a7))
+* or-1847 implement wijzigingen for vertegenwoordigers from kbo sync ([4a16c64](https://github.com/informatievlaanderen/association-registry/commit/4a16c64f1b4e6022363bfe41f85f682f8525870e))
+* or-1847 remove vertegenwoordigers when missing from kbo sync ([89c7200](https://github.com/informatievlaanderen/association-registry/commit/89c7200da7e101ee0ae017b18371a23120824181))
+* or-1847 voeg vertegenwoordiger toe from kbo sync ([b260c03](https://github.com/informatievlaanderen/association-registry/commit/b260c03c7cbb5c0674ceaa28aa394b26280c50cc))
+
 # [8.275.0](https://github.com/informatievlaanderen/association-registry/compare/v8.274.4...v8.275.0) (2025-10-02)
 
 
