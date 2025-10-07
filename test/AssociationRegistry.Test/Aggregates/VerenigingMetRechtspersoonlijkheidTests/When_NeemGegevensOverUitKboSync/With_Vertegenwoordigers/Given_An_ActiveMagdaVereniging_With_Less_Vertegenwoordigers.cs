@@ -28,41 +28,177 @@ public class Given_An_ActiveMagdaVereniging_With_Less_Vertegenwoordigers
     [Fact]
     public void With_No_Changes_Then_Nothing()
     {
-        var (verenigingVolgensKbo, _, _) =
+        var (verenigingVolgensKbo, _, _, _) =
             CreateVerenigingVolgensKbo(
+                extraVertegenwoordigers: 0,
                 gewijzigdeVertegenwoordigers: [],
                 nietGewijzigdeVertegenwoordigers:
                 [
                     _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1,
                     _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO2,
+                    _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO3,
                 ],
                 ontbrekendeVertegenwoordigers: []);
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
-        _sut.UncommittedEvents.OfType<VertegenwoordigerWerdGewijzigdInKBO>().Should().BeEmpty();
-        _sut.UncommittedEvents.OfType<VertegenwoordigerWerdToegevoegdVanuitKBO>().Should().BeEmpty();
-        _sut.UncommittedEvents.OfType<VertegenwoordigerWerdVerwijderdUitKBO>().Should().BeEmpty();
+        ShouldHaveNotSavedEvents(_sut,
+                                 typeof(VertegenwoordigerWerdToegevoegdVanuitKBO),
+                                 typeof(VertegenwoordigerWerdGewijzigdInKBO),
+                                 typeof(VertegenwoordigerWerdVerwijderdUitKBO));
     }
 
     [Fact]
-    public void With_One_Less_Vertegenwoordiger_Then_One_VertegenwoordigerWerdVerwijderdUitKBO_Event()
+    public void With_Extra_Vertegenwoordigers_Then_It_Creates_VertegenwoordigerWerdToegevoegdVanuitKBO_Events()
     {
-        var (verenigingVolgensKbo, _, teVerwijderenVertegenwoordigers) =
+        var (verenigingVolgensKbo, extraVertegenwoordigers, _, _) =
             CreateVerenigingVolgensKbo(
+                extraVertegenwoordigers: 3,
                 gewijzigdeVertegenwoordigers: [],
-                nietGewijzigdeVertegenwoordigers: [
+                nietGewijzigdeVertegenwoordigers:
+                [
+                    _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1,
                     _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO2,
+                    _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO3,
                 ],
-                ontbrekendeVertegenwoordigers: [
-                    _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1]
-                );
+                ontbrekendeVertegenwoordigers: []);
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
-        var teVerwijderenVertegenwoordigersUitKbo = CreateVertegenwoordigerWerdVerwijderdUitKBO(teVerwijderenVertegenwoordigers);
+        ShouldHaveEvents(_sut, CreateVertegenwoordigerWerdToegevoegdVanuitKBO(extraVertegenwoordigers));
+        ShouldHaveNotSavedEvents(_sut, typeof(VertegenwoordigerWerdGewijzigdInKBO), typeof(VertegenwoordigerWerdVerwijderdUitKBO));
+    }
 
-        ShouldHaveEvents(_sut, teVerwijderenVertegenwoordigersUitKbo);
+    [Fact]
+    public void With_1_Difference_Then_One_VertegenwoordigerWerdGewijzigdInKBO_Event()
+    {
+        var (verenigingVolgensKbo,_ , gewijzigdeVertegenwoordigers, _) =
+            CreateVerenigingVolgensKbo(
+                extraVertegenwoordigers: 0,
+                gewijzigdeVertegenwoordigers:
+                [
+                    _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1
+                ],
+                nietGewijzigdeVertegenwoordigers:
+                [
+                    _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO2,
+                    _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO3
+                ],
+                ontbrekendeVertegenwoordigers: []);
+
+        _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
+
+        ShouldHaveEvents(_sut, CreateVertegenwoordigerWerdGewijzigdInKBOEvents(gewijzigdeVertegenwoordigers));
+        ShouldHaveNotSavedEvents(_sut, typeof(VertegenwoordigerWerdToegevoegdVanuitKBO), typeof(VertegenwoordigerWerdVerwijderdUitKBO));
+    }
+
+    [Fact]
+    public void With_All_Differences_Then_Foreach_Vertegenwoordiger_A_VertegenwoordigerWerdGewijzigdInKBO_Event()
+    {
+        var (verenigingVolgensKbo, _, gewijzigdeVertegenwoordigers, _) = CreateVerenigingVolgensKbo(
+            extraVertegenwoordigers: 0,
+            gewijzigdeVertegenwoordigers:
+            [
+                _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1,
+                _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO2,
+                _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO3,
+            ],
+            nietGewijzigdeVertegenwoordigers: [],
+            ontbrekendeVertegenwoordigers: []);
+
+        _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
+
+        var vertegenwoordigerWerdGewijzigdInKboEvents = CreateVertegenwoordigerWerdGewijzigdInKBOEvents(gewijzigdeVertegenwoordigers);
+
+        ShouldHaveEvents(_sut, vertegenwoordigerWerdGewijzigdInKboEvents);
+        ShouldHaveNotSavedEvents(_sut, typeof(VertegenwoordigerWerdToegevoegdVanuitKBO), typeof(VertegenwoordigerWerdVerwijderdUitKBO));
+    }
+
+    [Fact]
+    public void With_Missing_Vertegenwoordigers_Then_Foreach_Missing_Vertegenwoordiger_A_VertegenwoordigerWerdVerwijderdUitKBO_Event()
+    {
+        var (verenigingVolgensKbo, _, _, teVerwijderenVertegenwoordigers) = CreateVerenigingVolgensKbo(
+            extraVertegenwoordigers: 0,
+            gewijzigdeVertegenwoordigers:
+            [],
+            nietGewijzigdeVertegenwoordigers: [
+                _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO3,
+            ],
+            ontbrekendeVertegenwoordigers: [
+                _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1,
+                _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO2,
+            ]);
+
+        _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
+
+        var vertegenwoordigerWerdVerwijderdUitKbo = CreateVertegenwoordigerWerdVerwijderdUitKBO(teVerwijderenVertegenwoordigers);
+
+        ShouldHaveEvents(_sut, vertegenwoordigerWerdVerwijderdUitKbo);
+        ShouldHaveNotSavedEvents(_sut, typeof(VertegenwoordigerWerdToegevoegdVanuitKBO), typeof(VertegenwoordigerWerdGewijzigdInKBO));
+    }
+
+    private (VerenigingVolgensKbo verenigingVolgensKbo,
+        VertegenwoordigerVolgensKbo[] toeTeVoegenVertegenwoordigers,
+        VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers,
+        VertegenwoordigerVolgensKbo[] teVerwijderenVertegenwoordigers)
+        CreateVerenigingVolgensKbo(
+            int extraVertegenwoordigers,
+            IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> gewijzigdeVertegenwoordigers,
+            IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> nietGewijzigdeVertegenwoordigers,
+            IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> ontbrekendeVertegenwoordigers)
+    {
+        var toeTeVoegenVertegenwoordigers = _fixture.CreateMany<VertegenwoordigerVolgensKbo>(extraVertegenwoordigers)
+                                                    .ToArray();
+
+        var nietGewijzigdeKboVertegenwoordigers = nietGewijzigdeVertegenwoordigers
+            .Select(CreateExistingWithoutChangesVertegenwoordigerVolgensKboFromScenario)
+            .ToArray();
+
+        var gewijzigdeKboVertegenwoordigers = gewijzigdeVertegenwoordigers
+            .Select(CreateExistingWithChangesVertegenwoordigerVolgensKboFromScenario)
+            .ToArray();
+
+        var teVerwijderenVertegenwoordigers = ontbrekendeVertegenwoordigers
+                                             .Select(CreateExistingWithoutChangesVertegenwoordigerVolgensKboFromScenario)
+                                             .ToArray();
+
+        var alleVertegenwoordigersVolgensKbo = nietGewijzigdeKboVertegenwoordigers
+            .Concat(toeTeVoegenVertegenwoordigers)
+            .Concat(gewijzigdeKboVertegenwoordigers)
+            .ToArray();
+
+        var verenigingVolgensKbo = _fixture.Create<VerenigingVolgensKbo>() with
+        {
+            Vertegenwoordigers = alleVertegenwoordigersVolgensKbo,
+        };
+
+        return (verenigingVolgensKbo, toeTeVoegenVertegenwoordigers, gewijzigdeKboVertegenwoordigers, teVerwijderenVertegenwoordigers);
+    }
+
+    private VertegenwoordigerVolgensKbo CreateExistingWithChangesVertegenwoordigerVolgensKboFromScenario(VertegenwoordigerWerdToegevoegdVanuitKBO vertegenwoordigerWerdToegevoegd)
+        => new()
+        {
+            Insz = vertegenwoordigerWerdToegevoegd.Insz,
+            Voornaam = _fixture.Create<Voornaam>(),
+            Achternaam = _fixture.Create<Achternaam>(),
+        };
+
+    private VertegenwoordigerVolgensKbo CreateExistingWithoutChangesVertegenwoordigerVolgensKboFromScenario(VertegenwoordigerWerdToegevoegdVanuitKBO vertegenwoordigerWerdToegevoegd)
+        => new()
+        {
+            Insz = vertegenwoordigerWerdToegevoegd.Insz,
+            Voornaam = vertegenwoordigerWerdToegevoegd.Voornaam,
+            Achternaam = vertegenwoordigerWerdToegevoegd.Achternaam,
+        };
+
+    private static IEnumerable<VertegenwoordigerWerdGewijzigdInKBO> CreateVertegenwoordigerWerdGewijzigdInKBOEvents(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
+    {
+        return gewijzigdeVertegenwoordigers.Select((x, i) =>
+                                                       EventFactory.VertegenwoordigerWerdGewijzigdInKBO(
+                                                           Vertegenwoordiger.CreateFromKbo(x) with
+                                                           {
+                                                               VertegenwoordigerId = ++i,
+                                                           }));
     }
 
     private static IEnumerable<VertegenwoordigerWerdVerwijderdUitKBO> CreateVertegenwoordigerWerdVerwijderdUitKBO(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
@@ -75,61 +211,33 @@ public class Given_An_ActiveMagdaVereniging_With_Less_Vertegenwoordigers
                                                            }));
     }
 
-    private (VerenigingVolgensKbo verenigingVolgensKbo, VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers, VertegenwoordigerVolgensKbo[] teVerwijderenVertegenwoordigers)
-        CreateVerenigingVolgensKbo(
-            IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> gewijzigdeVertegenwoordigers,
-            IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> nietGewijzigdeVertegenwoordigers,
-            IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> ontbrekendeVertegenwoordigers)
+    private IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> CreateVertegenwoordigerWerdToegevoegdVanuitKBO(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
     {
-        var nietGewijzigdeKboVertegenwoordigers = nietGewijzigdeVertegenwoordigers
-            .Select(CreateNietGewijzigdeKboVertegenwoordiger)
-            .ToArray();
-
-        var gewijzigdeKboVertegenwoordigers = gewijzigdeVertegenwoordigers
-            .Select(CreateVertegenwoordigerVolgensKboFromScenario)
-            .ToArray();
-
-        var teVerwijderenVertegenwoordigers = ontbrekendeVertegenwoordigers
-                                             .Select(CreateVertegenwoordigerVolgensKboFromScenario)
-                                             .ToArray();
-
-        var alleVertegenwoordigersVolgensKbo = nietGewijzigdeKboVertegenwoordigers
-            .Concat(gewijzigdeKboVertegenwoordigers)
-            .ToArray();
-
-        var verenigingVolgensKbo = _fixture.Create<VerenigingVolgensKbo>() with
-        {
-            Vertegenwoordigers = alleVertegenwoordigersVolgensKbo,
-        };
-
-        return (verenigingVolgensKbo, gewijzigdeKboVertegenwoordigers, teVerwijderenVertegenwoordigers);
+        return gewijzigdeVertegenwoordigers.Select((x, i) =>
+                                                       EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(
+                                                           Vertegenwoordiger.CreateFromKbo(x) with
+                                                           {
+                                                               VertegenwoordigerId = ++i + _scenario.AmountOfVertegenwoordigers,
+                                                           }));
     }
 
-    private VertegenwoordigerVolgensKbo CreateVertegenwoordigerVolgensKboFromScenario(VertegenwoordigerWerdToegevoegdVanuitKBO vertegenwoordigerWerdToegevoegd)
-        => new()
-        {
-            Insz = vertegenwoordigerWerdToegevoegd.Insz,
-            Voornaam = _fixture.Create<Voornaam>(),
-            Achternaam = _fixture.Create<Achternaam>(),
-        };
-
-    private VertegenwoordigerVolgensKbo CreateNietGewijzigdeKboVertegenwoordiger(VertegenwoordigerWerdToegevoegdVanuitKBO vertegenwoordigerWerdToegevoegd)
-        => new()
-        {
-            Insz = vertegenwoordigerWerdToegevoegd.Insz,
-            Voornaam = vertegenwoordigerWerdToegevoegd.Voornaam,
-            Achternaam = vertegenwoordigerWerdToegevoegd.Achternaam,
-        };
-
-    private static void ShouldHaveEvents(VerenigingMetRechtspersoonlijkheid sut, IEnumerable<VertegenwoordigerWerdVerwijderdUitKBO> events)
+    private static void ShouldHaveEvents<T>(VerenigingMetRechtspersoonlijkheid sut, IEnumerable<T> events)
     {
-        sut.UncommittedEvents.OfType<VertegenwoordigerWerdGewijzigdInKBO>().Should().BeEmpty();
-        sut.UncommittedEvents.OfType<VertegenwoordigerWerdToegevoegdVanuitKBO>().Should().BeEmpty();
-
-        sut.UncommittedEvents.OfType<VertegenwoordigerWerdVerwijderdUitKBO>()
+        sut.UncommittedEvents.OfType<T>()
            .Should()
-           .AllBeOfType<VertegenwoordigerWerdVerwijderdUitKBO>()
+           .AllBeOfType<T>()
            .And
            .BeEquivalentTo(events);
+    }
+
+    private static void ShouldHaveNotSavedEvents(VerenigingMetRechtspersoonlijkheid sut, params Type[] types)
+    {
+        foreach (var type in types)
+        {
+            sut.UncommittedEvents
+               .Where(e => e.GetType() == type)
+               .Should()
+               .BeEmpty($"Expected no uncommitted events of type {type.Name}");
+        }
     }
 }
