@@ -487,6 +487,30 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdGewijzigdInKBO> @event,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            VertegenwoordigerData.Create(@event.Data),
+            document,
+            $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd gewijzigd in KBO."
+        );
+    }
+
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdVerwijderdUitKBO> @event,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            VertegenwoordigerData.Create(@event.Data),
+            document,
+            $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd verwijderd uit KBO."
+        );
+    }
+
     public static void Apply(IEvent<NaamWerdGewijzigdInKbo> @event, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(

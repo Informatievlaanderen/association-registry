@@ -565,6 +565,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     }
 
     public void Apply(
+        IEvent<VertegenwoordigerWerdGewijzigdInKBO> @event,
+        PowerBiExportDocument document)
+    {
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(
         IEvent<VertegenwoordigerWerdVerwijderdUitKBO> @event,
         PowerBiExportDocument document)
     {
