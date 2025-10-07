@@ -10,12 +10,12 @@ public class Given_VertegenwoordigerWerdVerwijderdUitKBO(
     [Fact]
     public void Metadata_Is_Updated()
         => fixture.Result
-                  .Metadata.Version.Should().Be(3);
+                  .Metadata.Version.Should().Be(4);
 
     [Fact]
     public void Vertegenwoordiger_Is_Toegevoegd()
     {
-        var vertegenwoordiger = fixture.Result.Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == fixture.Scenario.VertegenwoordigerWerdVerwijderdUitKBO.VertegenwoordigerId);
+        var vertegenwoordiger = fixture.Result.Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO.VertegenwoordigerId);
         vertegenwoordiger.Should().BeNull();
     }
 }

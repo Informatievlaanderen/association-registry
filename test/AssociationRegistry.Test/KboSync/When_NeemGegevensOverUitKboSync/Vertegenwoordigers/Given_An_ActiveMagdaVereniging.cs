@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Aggregates.VerenigingMetRechtspersoonlijkheidTests.When_NeemGegevensOverUitKboSync;
+﻿namespace AssociationRegistry.Test.KboSync.When_NeemGegevensOverUitKboSync.Vertegenwoordigers;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
@@ -191,33 +191,37 @@ public class Given_An_ActiveMagdaVereniging
             Achternaam = vertegenwoordigerWerdToegevoegd.Achternaam,
         };
 
-    private static IEnumerable<VertegenwoordigerWerdGewijzigdInKBO> CreateVertegenwoordigerWerdGewijzigdInKBOEvents(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
+    private IEnumerable<VertegenwoordigerWerdGewijzigdInKBO> CreateVertegenwoordigerWerdGewijzigdInKBOEvents(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
     {
-        return gewijzigdeVertegenwoordigers.Select((x, i) =>
+        return gewijzigdeVertegenwoordigers.Select(x =>
                                                        EventFactory.VertegenwoordigerWerdGewijzigdInKBO(
                                                            Vertegenwoordiger.CreateFromKbo(x) with
                                                            {
-                                                               VertegenwoordigerId = ++i,
+                                                               VertegenwoordigerId = _scenario.GetVerenigingState().Vertegenwoordigers
+                                                                  .Single(y => x.Insz == y.Insz).VertegenwoordigerId,
                                                            }));
     }
 
-    private static IEnumerable<VertegenwoordigerWerdVerwijderdUitKBO> CreateVertegenwoordigerWerdVerwijderdUitKBO(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
+    private IEnumerable<VertegenwoordigerWerdVerwijderdUitKBO> CreateVertegenwoordigerWerdVerwijderdUitKBO(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
     {
         return gewijzigdeVertegenwoordigers.Select((x, i) =>
                                                        EventFactory.VertegenwoordigerWerdVerwijderdUitKBO(
                                                            Vertegenwoordiger.CreateFromKbo(x) with
                                                            {
-                                                               VertegenwoordigerId = ++i,
+                                                               VertegenwoordigerId = _scenario.GetVerenigingState().Vertegenwoordigers
+                                                                  .Single(y => x.Insz == y.Insz).VertegenwoordigerId,
                                                            }));
     }
 
     private IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> CreateVertegenwoordigerWerdToegevoegdVanuitKBOEvents(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
     {
-        return gewijzigdeVertegenwoordigers.Select((x, i) =>
+        var nextId = _scenario.GetVerenigingState().Vertegenwoordigers.NextId;
+
+        return gewijzigdeVertegenwoordigers.Select(x =>
                                                        EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(
                                                            Vertegenwoordiger.CreateFromKbo(x) with
                                                            {
-                                                               VertegenwoordigerId = ++i + _scenario.AmountOfVertegenwoordigers,
+                                                               VertegenwoordigerId = nextId++,
                                                            }));
     }
 

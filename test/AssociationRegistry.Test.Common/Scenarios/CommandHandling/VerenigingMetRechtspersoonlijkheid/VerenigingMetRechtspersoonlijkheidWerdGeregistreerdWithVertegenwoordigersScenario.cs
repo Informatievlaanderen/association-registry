@@ -13,7 +13,10 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoor
     public readonly VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO1;
     public readonly VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO2;
     public readonly VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO3;
+    public readonly VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO4;
+    public readonly VertegenwoordigerWerdVerwijderdUitKBO VertegenwoordigerWerdVerwijderdVanuitKBO4;
     public readonly int AmountOfVertegenwoordigers = 3;
+    private IEvent[] _events;
 
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario()
     {
@@ -38,14 +41,30 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoor
         {
             VertegenwoordigerId = 3,
         };
-    }
 
-    public override IEnumerable<IEvent> Events()
-        => new IEvent[]
+        // add this one, so we can test nextId
+        VertegenwoordigerWerdToegevoegdVanuitKBO4 = fixture.Create<VertegenwoordigerWerdToegevoegdVanuitKBO>() with
         {
+            VertegenwoordigerId = 4,
+        };
+
+        VertegenwoordigerWerdVerwijderdVanuitKBO4 = new VertegenwoordigerWerdVerwijderdUitKBO(
+            4,
+            VertegenwoordigerWerdToegevoegdVanuitKBO4.Insz,
+            VertegenwoordigerWerdToegevoegdVanuitKBO4.Voornaam,
+            VertegenwoordigerWerdToegevoegdVanuitKBO4.Achternaam);
+
+        _events =
+        [
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             VertegenwoordigerWerdToegevoegdVanuitKBO1,
             VertegenwoordigerWerdToegevoegdVanuitKBO2,
             VertegenwoordigerWerdToegevoegdVanuitKBO3,
-        };
+            VertegenwoordigerWerdToegevoegdVanuitKBO4,
+            VertegenwoordigerWerdVerwijderdVanuitKBO4,
+        ];
+    }
+
+    public override IEnumerable<IEvent> Events()
+        => _events;
 }
