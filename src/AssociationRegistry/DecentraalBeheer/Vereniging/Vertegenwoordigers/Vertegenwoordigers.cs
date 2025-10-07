@@ -139,7 +139,49 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 
         return new ReadOnlyCollection<Vertegenwoordiger>(teWijzigen);
     }
+
+    public VertegenwoordigersKboDiff SyncMetKboVertegenwoordigers(IEnumerable<Vertegenwoordiger> vertegenwoordigersCreatedFromKbo)
+    {
+        var inkomend = vertegenwoordigersCreatedFromKbo.ToArray();
+
+        var existingByInsz = this.ToDictionary(v => v.Insz, v => v);
+
+        var toeTeVoegen = new List<Vertegenwoordiger>();
+        var nextId = NextId;
+
+        foreach (var v in inkomend)
+        {
+            if (existingByInsz.ContainsKey(v.Insz))
+                continue;
+
+            toeTeVoegen.Add(v with { VertegenwoordigerId = nextId++ });
+        }
+
+        var teWijzigenMetId = ProvideTeWijzigenVertegenwoordigers(inkomend);
+        var gewijzigd = teWijzigenMetId
+            .Where(nieuw =>
+            {
+                var oud = existingByInsz[nieuw.Insz];
+                return !nieuw.WouldBeEquivalent(oud);
+            })
+            .ToArray();
+
+        var inkomendInsz = new HashSet<string>(inkomend.Select(x => x.Insz.ToString()));
+        var verwijderd = this.Where(s => !inkomendInsz.Contains(s.Insz)).ToArray();
+
+        return new VertegenwoordigersKboDiff(
+            Toegevoegd: toeTeVoegen.ToArray(),
+            Gewijzigd : gewijzigd,
+            Verwijderd: verwijderd
+        );
+    }
 }
+
+public readonly record struct VertegenwoordigersKboDiff(
+    Vertegenwoordiger[] Toegevoegd,   // met toegewezen VertegenwoordigerId
+    Vertegenwoordiger[] Gewijzigd,    // met bestaand VertegenwoordigerId
+    Vertegenwoordiger[] Verwijderd    // met bestaand VertegenwoordigerId
+);
 
 public static class VertegenwoordigerEnumerableExtensions
 {
