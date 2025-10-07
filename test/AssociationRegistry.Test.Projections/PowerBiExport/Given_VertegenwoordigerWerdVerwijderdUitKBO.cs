@@ -11,7 +11,7 @@ public class Given_VertegenwoordigerWerdVerwijderdUitKBO(PowerBiScenarioFixture<
     public void Vertegenwoordigers_Count_Is_Decreased()
     {
         fixture.Result.VCode.Should().Be(fixture.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
-        fixture.Result.AantalVertegenwoordigers.Should().Be(0);
+        fixture.Result.AantalVertegenwoordigers.Should().Be(1);
     }
 
     [Fact]

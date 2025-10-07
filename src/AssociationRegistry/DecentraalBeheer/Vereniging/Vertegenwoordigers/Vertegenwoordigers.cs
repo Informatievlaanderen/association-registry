@@ -127,61 +127,7 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
             Items.Any(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId == vertegenwoordigerId),
             vertegenwoordigerId.ToString());
     }
-
-    public IReadOnlyCollection<Vertegenwoordiger> ProvideTeWijzigenVertegenwoordigers(IEnumerable<Vertegenwoordiger> vertegenwoordigersCreatedFromKbo)
-    {
-        var existingInszToId = this.ToDictionary(v => v.Insz, v => v.VertegenwoordigerId);
-
-        var teWijzigen = vertegenwoordigersCreatedFromKbo
-            .Where(kbo => existingInszToId.ContainsKey(kbo.Insz))
-            .Select(kbo => kbo with { VertegenwoordigerId = existingInszToId[kbo.Insz] })
-            .ToList();
-
-        return new ReadOnlyCollection<Vertegenwoordiger>(teWijzigen);
-    }
-
-    public VertegenwoordigersKboDiff SyncMetKboVertegenwoordigers(IEnumerable<Vertegenwoordiger> vertegenwoordigersVolgensKbo)
-    {
-        var inkomend = vertegenwoordigersVolgensKbo.ToArray();
-
-        var existingByInsz = this.ToDictionary(v => v.Insz, v => v);
-
-        var toeTeVoegen = new List<Vertegenwoordiger>();
-        var nextId = NextId;
-
-        foreach (var v in inkomend)
-        {
-            if (existingByInsz.ContainsKey(v.Insz))
-                continue;
-
-            toeTeVoegen.Add(v with { VertegenwoordigerId = nextId++ });
-        }
-
-        var teWijzigenMetId = ProvideTeWijzigenVertegenwoordigers(inkomend);
-        var gewijzigd = teWijzigenMetId
-            .Where(nieuw =>
-            {
-                var oud = existingByInsz[nieuw.Insz];
-                return !nieuw.WouldBeEquivalent(oud);
-            })
-            .ToArray();
-
-        var inkomendInsz = new HashSet<string>(inkomend.Select(x => x.Insz.ToString()));
-        var verwijderd = this.Where(s => !inkomendInsz.Contains(s.Insz)).ToArray();
-
-        return new VertegenwoordigersKboDiff(
-            Toegevoegd: toeTeVoegen.ToArray(),
-            Gewijzigd : gewijzigd,
-            Verwijderd: verwijderd
-        );
-    }
 }
-
-public readonly record struct VertegenwoordigersKboDiff(
-    Vertegenwoordiger[] Toegevoegd,
-    Vertegenwoordiger[] Gewijzigd,
-    Vertegenwoordiger[] Verwijderd
-);
 
 public static class VertegenwoordigerEnumerableExtensions
 {

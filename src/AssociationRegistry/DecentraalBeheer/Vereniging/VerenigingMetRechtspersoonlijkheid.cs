@@ -380,7 +380,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
                       .Select(Vertegenwoordiger.CreateFromKbo)
                       .ToArray();
 
-        var diff = State.Vertegenwoordigers.SyncMetKboVertegenwoordigers(vertegenwoordigersVolgensKbo);
+        var diff = VertegenwoordigersKboDiff.BerekenVerschillen(State.Vertegenwoordigers, vertegenwoordigersVolgensKbo);
 
         foreach (var v in diff.Toegevoegd)
             AddEvent(EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(v));

@@ -6,21 +6,23 @@ using Events;
 public class VertegenwoordigerWerdVerwijderdUitKBOScenario : InszScenarioBase
 {
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; set; }
-    public VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKBO { get; }
-    public VertegenwoordigerWerdVerwijderdUitKBO VertegenwoordigerWerdVerwijderdUitKBO { get; }
+    public VertegenwoordigerWerdToegevoegdVanuitKBO Vertegenwoordiger1WerdToegevoegdVanuitKBO { get; }
+    public VertegenwoordigerWerdToegevoegdVanuitKBO Vertegenwoordiger2WerdToegevoegdVanuitKBO { get; }
+    public VertegenwoordigerWerdVerwijderdUitKBO Vertegenwoordiger1WerdVerwijderdUitKBO { get; }
     private string _insz { get; }
 
     public VertegenwoordigerWerdVerwijderdUitKBOScenario()
     {
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
-        VertegenwoordigerWerdToegevoegdVanuitKBO = AutoFixture.Create<VertegenwoordigerWerdToegevoegdVanuitKBO>();
-        _insz = VertegenwoordigerWerdToegevoegdVanuitKBO.Insz;
+        Vertegenwoordiger1WerdToegevoegdVanuitKBO = AutoFixture.Create<VertegenwoordigerWerdToegevoegdVanuitKBO>();
+        Vertegenwoordiger2WerdToegevoegdVanuitKBO = AutoFixture.Create<VertegenwoordigerWerdToegevoegdVanuitKBO>();
+        _insz = Vertegenwoordiger1WerdToegevoegdVanuitKBO.Insz;
 
-        VertegenwoordigerWerdVerwijderdUitKBO = new VertegenwoordigerWerdVerwijderdUitKBO(
-            Insz: VertegenwoordigerWerdToegevoegdVanuitKBO.Insz,
-            VertegenwoordigerId: VertegenwoordigerWerdToegevoegdVanuitKBO.VertegenwoordigerId,
-            Voornaam: VertegenwoordigerWerdToegevoegdVanuitKBO.Voornaam,
-            Achternaam: VertegenwoordigerWerdToegevoegdVanuitKBO.Achternaam);
+        Vertegenwoordiger1WerdVerwijderdUitKBO = new VertegenwoordigerWerdVerwijderdUitKBO(
+            Insz: Vertegenwoordiger1WerdToegevoegdVanuitKBO.Insz,
+            VertegenwoordigerId: Vertegenwoordiger1WerdToegevoegdVanuitKBO.VertegenwoordigerId,
+            Voornaam: Vertegenwoordiger1WerdToegevoegdVanuitKBO.Voornaam,
+            Achternaam: Vertegenwoordiger1WerdToegevoegdVanuitKBO.Achternaam);
     }
 
     public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
@@ -28,8 +30,9 @@ public class VertegenwoordigerWerdVerwijderdUitKBOScenario : InszScenarioBase
     public override EventsPerVCode[] Events =>
     [
         new(VCode, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            VertegenwoordigerWerdToegevoegdVanuitKBO,
-            VertegenwoordigerWerdVerwijderdUitKBO),
+            Vertegenwoordiger1WerdToegevoegdVanuitKBO,
+            Vertegenwoordiger2WerdToegevoegdVanuitKBO,
+            Vertegenwoordiger1WerdVerwijderdUitKBO),
     ];
 
     public override string Insz => _insz;
