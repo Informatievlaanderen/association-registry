@@ -582,6 +582,21 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static void Apply(
+        IEvent<VertegenwoordigerWerdGewijzigdInKBO> @event,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Vertegenwoordigers = document.Vertegenwoordigers.UpdateSingle(
+                                                   v => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId,
+                                                   vertegenwoordiger => vertegenwoordiger with
+                                                   {
+                                                       Voornaam = @event.Data.Voornaam,
+                                                       Achternaam = @event.Data.Achternaam,
+                                                   })
+                                              .OrderBy(v => v.VertegenwoordigerId)
+                                              .ToArray();
+    }
+
+    public static void Apply(
         IEvent<VertegenwoordigerWerdVerwijderdUitKBO> @event,
         BeheerVerenigingDetailDocument document)
     {
