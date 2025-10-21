@@ -1,3 +1,10 @@
+# [8.277.0](https://github.com/informatievlaanderen/association-registry/compare/v8.276.2...v8.277.0) (2025-10-21)
+
+
+### Features
+
+* or-2934 optional return kbo verenigingen for acm api ([5e4cf6a](https://github.com/informatievlaanderen/association-registry/commit/5e4cf6ab60dd382ec20dca10d2fc765171663bc1))
+
 ## [8.276.2](https://github.com/informatievlaanderen/association-registry/compare/v8.276.1...v8.276.2) (2025-10-21)
 
 
