@@ -16,7 +16,8 @@ public class VerenigingenPerInszQuery : IVerenigingenPerInszQuery
     {
         return await _session.Query<VerenigingenPerInszDocument>()
                             .Where(x => x.Insz.Equals(filter.Insz, StringComparison.CurrentCultureIgnoreCase))
-                            .SingleOrDefaultAsync(token: cancellationToken)
+                             .WithKboFilter(filter.IncludeKboVerenigingen)
+                             .SingleOrDefaultAsync(token: cancellationToken)
             ?? new VerenigingenPerInszDocument { Insz = filter.Insz };
     }
 }

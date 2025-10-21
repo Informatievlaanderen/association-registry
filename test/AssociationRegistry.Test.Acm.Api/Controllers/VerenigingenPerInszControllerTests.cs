@@ -120,7 +120,7 @@ public class VerenigingenPerInszControllerTests
             KboNummers = [],
         });
     }
-
+    
     private async Task<VerenigingenPerInszResponse?> GetVerenigingenPerInsz(
         VerenigingenPerInszDocument verenigingenPerInsz,
         VerenigingenPerKbo[] kboNummerInfos,

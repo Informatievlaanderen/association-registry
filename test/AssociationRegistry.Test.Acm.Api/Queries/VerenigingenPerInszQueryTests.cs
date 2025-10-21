@@ -40,7 +40,7 @@ public class VerenigingenPerInszQueryTests : IClassFixture<VerenigingenPerInszQu
 
         var query = new VerenigingenPerInszQuery(_session);
 
-        var actual = await query.ExecuteAsync(new VerenigingenPerInszFilter(vereniging.Insz), CancellationToken.None);
+        var actual = await query.ExecuteAsync(new VerenigingenPerInszFilter(vereniging.Insz, IncludeKboVerenigingen: true), CancellationToken.None);
 
         actual.Should().BeEquivalentTo(vereniging);
     }
@@ -53,7 +53,7 @@ public class VerenigingenPerInszQueryTests : IClassFixture<VerenigingenPerInszQu
 
         var query = new VerenigingenPerInszQuery(_session);
 
-        var actual = await query.ExecuteAsync(new VerenigingenPerInszFilter(vereniging.Insz), CancellationToken.None);
+        var actual = await query.ExecuteAsync(new VerenigingenPerInszFilter(vereniging.Insz, IncludeKboVerenigingen: true), CancellationToken.None);
 
         actual.Should().BeEquivalentTo(vereniging);
     }
@@ -67,10 +67,23 @@ public class VerenigingenPerInszQueryTests : IClassFixture<VerenigingenPerInszQu
 
         var query = new VerenigingenPerInszQuery(_session);
 
-        var actual = await query.ExecuteAsync(new VerenigingenPerInszFilter(insz), CancellationToken.None);
+        var actual = await query.ExecuteAsync(new VerenigingenPerInszFilter(insz, IncludeKboVerenigingen: true), CancellationToken.None);
 
         actual.Insz.Should().Be(insz);
         actual.Verenigingen.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async ValueTask With_IncludeKboVerenigingen_False_Then_Returns_No_KboVerenigingen()
+    {
+        var vereniging = await StoreVereniging(_session);
+
+        var query = new VerenigingenPerInszQuery(_session);
+
+        var actual = await query.ExecuteAsync(new VerenigingenPerInszFilter(vereniging.Insz, IncludeKboVerenigingen: false), CancellationToken.None);
+    
+        var verenigingenPerInszDocumentZonderKboVerenigingen = new VerenigingenPerInszDocument { Insz = vereniging.Insz };
+        actual.Should().BeEquivalentTo(verenigingenPerInszDocumentZonderKboVerenigingen);
     }
 
     private async Task<VerenigingenPerInszDocument> StoreVereniging(IDocumentSession session)

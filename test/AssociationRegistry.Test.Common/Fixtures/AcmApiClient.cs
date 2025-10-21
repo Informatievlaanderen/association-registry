@@ -15,8 +15,8 @@ public class AcmApiClient : IDisposable
     public async Task<HttpResponseMessage> GetDocsJson()
         => await HttpClient.GetAsync("/docs/v1/docs.json?culture=en-GB");
 
-    public async Task<HttpResponseMessage> GetVerenigingenForInsz(string insz)
-        => await HttpClient.GetAsync($"/v1/verenigingen?insz={insz}");
+    public async Task<HttpResponseMessage> GetVerenigingenForInsz(string insz, bool includeKboVerenigingen = false)
+        => await HttpClient.GetAsync($"/v1/verenigingen?insz={insz}&includeKboVerenigingen={includeKboVerenigingen}");
 
     public void Dispose()
     {

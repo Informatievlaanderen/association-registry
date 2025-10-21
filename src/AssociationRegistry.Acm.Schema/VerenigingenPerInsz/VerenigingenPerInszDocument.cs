@@ -4,7 +4,7 @@ using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
 using Marten.Schema;
 
-public class VerenigingenPerInszDocument
+public record VerenigingenPerInszDocument
 {
     /// <summary>
     /// Het Insz nummer van de aanvraag.
@@ -17,7 +17,7 @@ public class VerenigingenPerInszDocument
     public List<Vereniging> Verenigingen { get; set; } = new();
 }
 
-public class Vereniging
+public record Vereniging
 {
     /// <summary>
     /// De vCode van de vereniging
