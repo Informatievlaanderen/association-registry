@@ -22,7 +22,7 @@ public class Given_VertegenwoordigerWerdGewijzigdInKBO(
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
                                                Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.VertegenwoordigerWerdGewijzigdInKBO.Voornaam} {fixture.Scenario.VertegenwoordigerWerdGewijzigdInKBO.Achternaam}' werd gewijzigd in KBO.",
                                                nameof(VertegenwoordigerWerdGewijzigdInKBO),
-                                               VertegenwoordigerData.Create(fixture.Scenario.VertegenwoordigerWerdGewijzigdInKBO),
+                                               KBOVertegenwoordigerData.Create(fixture.Scenario.VertegenwoordigerWerdGewijzigdInKBO),
                                                                             fixture.MetadataInitiator,
                                                                             fixture.MetadataTijdstip));
 }

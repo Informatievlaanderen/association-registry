@@ -14,6 +14,11 @@ public record KBOVertegenwoordigerData
     string Achternaam
 )
 {
+    public static KBOVertegenwoordigerData Create(VertegenwoordigerWerdOvergenomenUitKBO vertegenwoordiger)
+        => new(vertegenwoordiger.VertegenwoordigerId,
+               vertegenwoordiger.Voornaam,
+               vertegenwoordiger.Achternaam);
+
     public static KBOVertegenwoordigerData Create(VertegenwoordigerWerdToegevoegdVanuitKBO vertegenwoordiger)
         => new(vertegenwoordiger.VertegenwoordigerId,
                vertegenwoordiger.Voornaam,

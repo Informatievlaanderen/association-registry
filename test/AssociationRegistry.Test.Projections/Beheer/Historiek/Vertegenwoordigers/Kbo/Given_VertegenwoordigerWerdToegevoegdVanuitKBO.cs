@@ -22,7 +22,7 @@ public class Given_VertegenwoordigerWerdToegevoegdVanuitKBO(
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
                                                Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO.Voornaam} {fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO.Achternaam}' werd toegevoegd vanuit KBO.",
                                                nameof(VertegenwoordigerWerdToegevoegdVanuitKBO),
-                                               VertegenwoordigerData.Create(fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO),
+                                               KBOVertegenwoordigerData.Create(fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO),
                                                                             fixture.MetadataInitiator,
                                                                             fixture.MetadataTijdstip));
 }

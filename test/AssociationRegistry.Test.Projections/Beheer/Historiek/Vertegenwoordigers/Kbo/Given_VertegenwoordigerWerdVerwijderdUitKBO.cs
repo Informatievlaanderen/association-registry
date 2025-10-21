@@ -22,7 +22,7 @@ public class Given_VertegenwoordigerWerdVerwijderdUitKBO(
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
                                                Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO.Voornaam} {fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO.Achternaam}' werd verwijderd uit KBO.",
                                                nameof(VertegenwoordigerWerdVerwijderdUitKBO),
-                                               VertegenwoordigerData.Create(fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO),
+                                               KBOVertegenwoordigerData.Create(fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO),
                                                                             fixture.MetadataInitiator,
                                                                             fixture.MetadataTijdstip));
 }

@@ -470,7 +470,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             @event,
-            VertegenwoordigerData.Create(@event.Data),
+            KBOVertegenwoordigerData.Create(@event.Data),
             document,
             $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd overgenomen uit KBO."
         );
@@ -481,7 +481,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             @event,
-            VertegenwoordigerData.Create(@event.Data),
+            KBOVertegenwoordigerData.Create(@event.Data),
             document,
             $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd toegevoegd vanuit KBO."
         );
@@ -493,7 +493,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             @event,
-            VertegenwoordigerData.Create(@event.Data),
+            KBOVertegenwoordigerData.Create(@event.Data),
             document,
             $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd gewijzigd in KBO."
         );
@@ -505,7 +505,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             @event,
-            VertegenwoordigerData.Create(@event.Data),
+            KBOVertegenwoordigerData.Create(@event.Data),
             document,
             $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd verwijderd uit KBO."
         );
