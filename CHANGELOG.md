@@ -1,3 +1,10 @@
+## [8.276.2](https://github.com/informatievlaanderen/association-registry/compare/v8.276.1...v8.276.2) (2025-10-21)
+
+
+### Bug Fixes
+
+* or-1847 remove empty values from kbo changes in historiek ([f25ef02](https://github.com/informatievlaanderen/association-registry/commit/f25ef02d3f5f66add653cffc103f021954c02f80))
+
 ## [8.276.1](https://github.com/informatievlaanderen/association-registry/compare/v8.276.0...v8.276.1) (2025-10-13)
 
 
