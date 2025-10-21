@@ -42,13 +42,14 @@ public class VerenigingenPerInszController : ApiController
         [FromServices] IVerenigingenPerInszQuery verenigingenPerInszQuery,
         [FromServices] IVerenigingenPerKboNummerService kboNummerService,
         [FromBody] VerenigingenPerInszRequest request,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        [FromQuery] bool includeKboVerenigingen = false)
     {
         var validator = new VerenigingenPerInszRequestValidator();
         await validator.ValidateAndThrowAsync(request, cancellationToken: cancellationToken);
 
         var verenigingenPerInsz =
-            await verenigingenPerInszQuery.ExecuteAsync(new VerenigingenPerInszFilter(request.Insz), cancellationToken);
+            await verenigingenPerInszQuery.ExecuteAsync(new VerenigingenPerInszFilter(request.Insz, includeKboVerenigingen), cancellationToken);
 
         var kboNummersMetRechtsvorm = request.KboNummers
                                              .Select(s => new KboNummerMetRechtsvorm(s.KboNummer, s.Rechtsvorm))
@@ -73,20 +74,17 @@ public class VerenigingenPerInszController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(VerenigingenPerInszResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Get(
+        [FromServices] IVerenigingenPerInszQuery verenigingenPerInszQuery,
         [FromServices] IDocumentStore documentStore,
-        [FromQuery] string insz)
+        [FromQuery] string insz,
+        CancellationToken cancellationToken,
+        [FromQuery] bool includeKboVerenigingen = false)
     {
         await using var session = documentStore.LightweightSession();
 
-        var verenigingenPerInsz = await GetVerenigingenPerInsz(session, insz);
-        return Ok(VerenigingPerInszMapper.ToResponse(verenigingenPerInsz, []));
-    }
+        var verenigingenPerInsz =
+            await verenigingenPerInszQuery.ExecuteAsync(new VerenigingenPerInszFilter(insz, includeKboVerenigingen), cancellationToken);
 
-    private static async Task<VerenigingenPerInszDocument> GetVerenigingenPerInsz(IDocumentSession session, string insz)
-    {
-        return await session.Query<VerenigingenPerInszDocument>()
-                            .Where(x => x.Insz.Equals(insz, StringComparison.CurrentCultureIgnoreCase))
-                            .SingleOrDefaultAsync()
-            ?? new VerenigingenPerInszDocument { Insz = insz };
+        return Ok(VerenigingPerInszMapper.ToResponse(verenigingenPerInsz, []));
     }
 }
