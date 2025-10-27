@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.KboSync.When_NeemGegevensOverUitKboSync.Vertegenwoordigers;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Events;
-using AssociationRegistry.Events.Factories;
 using AssociationRegistry.Magda.Kbo;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using DecentraalBeheer.Vereniging;
+using Events;
+using Events.Factories;
 using FluentAssertions;
 using Xunit;
 
@@ -67,6 +67,24 @@ public class Given_An_ActiveMagdaVereniging
 
         ShouldHaveEvents(_sut, CreateVertegenwoordigerWerdToegevoegdVanuitKBOEvents(extraVertegenwoordigers));
         ShouldHaveNotSavedEvents(_sut, typeof(VertegenwoordigerWerdGewijzigdInKBO), typeof(VertegenwoordigerWerdVerwijderdUitKBO));
+    }
+
+    [Fact]
+    public void With_3_Extra_Vertegenwoordigers_With_Same_Insz_Then_It_Creates_Only_One_VertegenwoordigerWerdToegevoegdVanuitKBO_Event()
+    {
+        var dezelfdeInsz = _fixture.Create<Insz>();
+
+        var verenigingVolgensKbo = _fixture.Create<VerenigingVolgensKbo>() with
+        {
+            Vertegenwoordigers = _fixture
+                                .CreateMany<VertegenwoordigerVolgensKbo>()
+                                .Select(v => v with { Insz = dezelfdeInsz })
+                                .ToArray(),
+        };
+
+        _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
+
+        ShouldHaveEvents(_sut, CreateVertegenwoordigerWerdToegevoegdVanuitKBOEvents([verenigingVolgensKbo.Vertegenwoordigers.First()]));
     }
 
     [Fact]
@@ -213,11 +231,11 @@ public class Given_An_ActiveMagdaVereniging
                                                            }));
     }
 
-    private IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> CreateVertegenwoordigerWerdToegevoegdVanuitKBOEvents(VertegenwoordigerVolgensKbo[] gewijzigdeVertegenwoordigers)
+    private IEnumerable<VertegenwoordigerWerdToegevoegdVanuitKBO> CreateVertegenwoordigerWerdToegevoegdVanuitKBOEvents(VertegenwoordigerVolgensKbo[] vertegenwoordigersVolgensKbo)
     {
         var nextId = _scenario.GetVerenigingState().Vertegenwoordigers.NextId;
 
-        return gewijzigdeVertegenwoordigers.Select(x =>
+        return vertegenwoordigersVolgensKbo.Select(x =>
                                                        EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(
                                                            Vertegenwoordiger.CreateFromKbo(x) with
                                                            {
