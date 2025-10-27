@@ -376,9 +376,10 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     private void HandleVertegenwoordigers(VerenigingVolgensKbo verenigingVolgensKbo)
     {
         var vertegenwoordigersVolgensKbo = verenigingVolgensKbo
-                      .Vertegenwoordigers
-                      .Select(Vertegenwoordiger.CreateFromKbo)
-                      .ToArray();
+                                          .Vertegenwoordigers
+                                          .Select(Vertegenwoordiger.CreateFromKbo)
+                                          .DistinctBy(x => x.Insz)
+                                          .ToArray();
 
         var diff = VertegenwoordigersKboDiff.BerekenVerschillen(State.Vertegenwoordigers, vertegenwoordigersVolgensKbo);
 
