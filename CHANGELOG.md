@@ -1,3 +1,10 @@
+## [8.277.1](https://github.com/informatievlaanderen/association-registry/compare/v8.277.0...v8.277.1) (2025-10-27)
+
+
+### Bug Fixes
+
+* or-2958 distinct dubbele functiehouders ([403f168](https://github.com/informatievlaanderen/association-registry/commit/403f168b6773f7b8976f60fef4439482f94aafc6))
+
 # [8.277.0](https://github.com/informatievlaanderen/association-registry/compare/v8.276.2...v8.277.0) (2025-10-21)
 
 
