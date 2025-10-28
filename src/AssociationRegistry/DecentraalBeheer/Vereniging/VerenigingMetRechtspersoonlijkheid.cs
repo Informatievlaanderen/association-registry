@@ -67,7 +67,9 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
     private void VoegVertegenwoordigersToe(VertegenwoordigerVolgensKbo[] vertegenwoordigers)
     {
-        foreach (var (vertegenwoordiger, id) in vertegenwoordigers.Select((x, i) => (x, i)))
+        foreach (var (vertegenwoordiger, id) in vertegenwoordigers
+                                               .DistinctBy(x => x.Insz)
+                                               .Select((x, i) => (x, i)))
         {
             AddEvent(
                 new VertegenwoordigerWerdOvergenomenUitKBO(
