@@ -1,3 +1,10 @@
+## [8.277.2](https://github.com/informatievlaanderen/association-registry/compare/v8.277.1...v8.277.2) (2025-10-28)
+
+
+### Bug Fixes
+
+* or-2958 dont add duplicate vertegenwoordiger on registreer kbo vereniging ([def4b5c](https://github.com/informatievlaanderen/association-registry/commit/def4b5cf15515cd3a8c5a254915af163f5e8c39d))
+
 ## [8.277.1](https://github.com/informatievlaanderen/association-registry/compare/v8.277.0...v8.277.1) (2025-10-27)
 
 
