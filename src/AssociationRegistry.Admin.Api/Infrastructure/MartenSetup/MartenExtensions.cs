@@ -63,7 +63,7 @@ public static class MartenExtensions
                                       integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
                                       integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
 
-                                      integration.AutoCreate = AutoCreate.None;
+                                      integration.AutoCreate = AutoCreate.All;
                                   })
 
                                  .UseLightweightSessions();

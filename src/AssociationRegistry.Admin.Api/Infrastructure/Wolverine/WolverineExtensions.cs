@@ -10,6 +10,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using CommandHandling.DecentraalBeheer.Middleware;
 using CommandHandling.Grar.GrarConsumer.Messaging;
 using CommandHandling.KboSyncLambda;
@@ -19,9 +20,11 @@ using global::Wolverine;
 using global::Wolverine.AmazonSqs;
 using global::Wolverine.ErrorHandling;
 using global::Wolverine.Postgresql;
+using global::Wolverine.RDBMS;
 using Integrations.Grar.Clients;
 using JasperFx;
 using JasperFx.CodeGeneration;
+using JasperFx.Resources;
 using MartenDb.Setup;
 using Serilog;
 
@@ -79,7 +82,13 @@ public static class WolverineExtensions
 
                 Log.Logger.Information(messageTemplate: "Wolverine Transport SQS configuration: {@TransportConfig}",
                                        transportConfiguration);
+
+                options.AutoBuildMessageStorageOnStartup = AutoCreate.All;
+                options.AddSagaType(typeof(Bewaartermijn));
             });
+
+        builder.Host.UseResourceSetupOnStartup(StartupAction.SetupOnly);
+
     }
 
     private static void ConfigureSqsQueues(WolverineOptions options, GrarOptions grarOptions, AppSettings appSettings)
