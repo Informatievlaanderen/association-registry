@@ -34,6 +34,9 @@ public class MessageBusMock : IMessageBus
     public IReadOnlyList<Envelope> PreviewSubscriptions(object message)
         => throw new NotImplementedException();
 
+    public IReadOnlyList<Envelope> PreviewSubscriptions(object message, DeliveryOptions options)
+        => throw new NotImplementedException();
+
     public async ValueTask SendAsync<T>(T message, DeliveryOptions? options = null)
         => throw new NotImplementedException();
 

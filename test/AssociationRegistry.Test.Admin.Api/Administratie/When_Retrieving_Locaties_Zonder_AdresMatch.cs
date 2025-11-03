@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
 using Wolverine.Http;
+using Wolverine.Persistence.Durability.DeadLetterManagement;
 using Xunit;
 
 [Collection(nameof(AdminApiCollection))]
@@ -66,7 +67,7 @@ public class When_Querying_Deadletters
         result.StatusCode.Should().Be(HttpStatusCode.OK);
         result.Content.Should().NotBeNull();
         var content = result.Content.ReadAsStringAsync().Result;
-        var actual = JsonConvert.DeserializeObject<DeadLetterEnvelopesFoundResponse>(content);
+        var actual = JsonConvert.DeserializeObject<DeadLetterEnvelopeResults[]>(content);
         actual.Should().NotBeNull();
     }
 }

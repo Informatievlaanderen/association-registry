@@ -76,5 +76,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
     <PackageReference Include="AWSSDK.Core" />
     <PackageReference Remove="Marten" />
+    <PackageReference Remove="WolverineFx" />
+    <PackageReference Remove="WolverineFx.Http" />
   </ItemGroup>
 </Project>

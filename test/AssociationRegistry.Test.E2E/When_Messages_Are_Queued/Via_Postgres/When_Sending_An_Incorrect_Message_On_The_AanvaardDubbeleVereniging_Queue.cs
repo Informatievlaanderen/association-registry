@@ -20,7 +20,9 @@ public class When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly Fixture _autoFixture;
 
-    public When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_Queue(FullBlownApiSetup setup, ITestOutputHelper testOutputHelper)
+    public When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_Queue(
+        FullBlownApiSetup setup,
+        ITestOutputHelper testOutputHelper)
     {
         _autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -44,20 +46,22 @@ public class When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_
         var maxRetries = 100;
         var tries = 0;
         IReadOnlyList<DeadLetterEnvelope> messages = null;
+
         while (tries < maxRetries)
         {
             tries++;
 
-            var envelopesFound = await messageStore.DeadLetters.QueryDeadLetterEnvelopesAsync(new DeadLetterEnvelopeQueryParameters());
-            messages = envelopesFound.DeadLetterEnvelopes.Where(x => x.ExceptionType == typeof(VCodeFormaatIsOngeldig).FullName).ToArray();
-
-            var deadLetterEnvelopes = envelopesFound.DeadLetterEnvelopes;
-            deadLetterEnvelopes.ToList().ForEach(x => _testOutputHelper.WriteLine(x.ExceptionType));
-
-            if (messages.Any())
+            var envelopesFound = await messageStore.DeadLetters.QueryAsync(new DeadLetterEnvelopeQuery
             {
-                break;
-            }
+                ExceptionType = typeof(VCodeFormaatIsOngeldig).FullName
+            }, CancellationToken.None);
+
+            var all = envelopesFound.Envelopes;
+            foreach (var x in all) _testOutputHelper.WriteLine(x.ExceptionType);
+
+            messages = all.Where(x => x.ExceptionType == typeof(VCodeFormaatIsOngeldig).FullName).ToArray();
+
+            if (messages.Any()) break;
 
             _testOutputHelper.WriteLine($"Attempt {tries}");
             await Task.Delay(500);
@@ -69,11 +73,14 @@ public class When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_
 
     private static async Task PurgeDeadLetters(IMessageStore messageStore, string? exceptionTypeToPurge)
     {
-        var deadLetters = await messageStore.DeadLetters.QueryDeadLetterEnvelopesAsync(new DeadLetterEnvelopeQueryParameters()
+        var results = await messageStore.DeadLetters.QueryAsync(new DeadLetterEnvelopeQuery
         {
-            ExceptionType = exceptionTypeToPurge,
-        });
+            ExceptionType = exceptionTypeToPurge
+        }, CancellationToken.None);
 
-        await messageStore.DeadLetters.DeleteDeadLetterEnvelopesAsync(deadLetters.DeadLetterEnvelopes.Select(x => x.Id).ToArray());
+        var ids = results.Envelopes.Select(x => x.Id).ToArray();
+
+        foreach (var id in ids)
+            await messageStore.DeadLetters.DeadLetterEnvelopeByIdAsync(id);
     }
 }

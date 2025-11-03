@@ -116,16 +116,17 @@ public class Given_Incorrect_VCode_In_The_Message
         {
             tries++;
 
-            var envelopesFound = await messageStore.DeadLetters.QueryDeadLetterEnvelopesAsync(new DeadLetterEnvelopeQueryParameters());
-            messages = envelopesFound.DeadLetterEnvelopes.Where(x => x.MessageType == typeof(TMessage).FullName).ToArray();
-
-            var deadLetterEnvelopes = envelopesFound.DeadLetterEnvelopes;
-            deadLetterEnvelopes.ToList().ForEach(x => _testOutputHelper.WriteLine(x.MessageType));
-
-            if (messages.Any())
+            var envelopesFound = await messageStore.DeadLetters.QueryAsync(new DeadLetterEnvelopeQuery
             {
-                break;
-            }
+                MessageType = typeof(TMessage).FullName
+            }, CancellationToken.None);
+
+            var all = envelopesFound.Envelopes;
+            all.ToList().ForEach(x => _testOutputHelper.WriteLine(x.MessageType));
+
+            messages = all.Where(x => x.MessageType == typeof(TMessage).FullName).ToArray();
+
+            if (messages.Any()) break;
 
             _testOutputHelper.WriteLine($"Attempt {tries}");
             await Task.Delay(500);
@@ -136,11 +137,14 @@ public class Given_Incorrect_VCode_In_The_Message
 
     private static async Task PurgeDeadLetters(IMessageStore messageStore, string? messageType)
     {
-        var deadLetters = await messageStore.DeadLetters.QueryDeadLetterEnvelopesAsync(new DeadLetterEnvelopeQueryParameters()
+        var results = await messageStore.DeadLetters.QueryAsync(new DeadLetterEnvelopeQuery
         {
-            MessageType = messageType,
-        });
+            MessageType = messageType
+        }, CancellationToken.None);
 
-        await messageStore.DeadLetters.DeleteDeadLetterEnvelopesAsync(deadLetters.DeadLetterEnvelopes.Select(x => x.Id).ToArray());
+        var ids = results.Envelopes.Select(x => x.Id).ToArray();
+
+        foreach (var id in ids)
+            await messageStore.DeadLetters.DeadLetterEnvelopeByIdAsync(id);
     }
 }
