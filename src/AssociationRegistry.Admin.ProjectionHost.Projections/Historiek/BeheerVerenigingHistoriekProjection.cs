@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
 using Events;
+using Events.Enriched;
 using JasperFx.Events;
 using Marten;
 using Marten.Events;
@@ -81,10 +82,10 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<ContactgegevenUitKBOWerdGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> @event, IDocumentOperations ops)
+    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegdMetPersoonsdata> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<VertegenwoordigerWerdGewijzigd> @event, IDocumentOperations ops)
+    public async Task Project(IEvent<VertegenwoordigerWerdGewijzigdMetPersoonsdata> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> @event, IDocumentOperations ops)

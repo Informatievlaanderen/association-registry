@@ -23,8 +23,8 @@ public class VoegVertegenwoordigerToeCommandHandler
                                           .OrWhenUnsupportedOperationForType()
                                           .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen>();
 
-        var vertegenwoordigerId = vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger);
-
+        var vertegenwoordigerId = vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger, null);
+        
         var result = await _repository.Save(vereniging, envelope.Metadata, cancellationToken);
 
         return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), vertegenwoordigerId.VertegenwoordigerId, result);

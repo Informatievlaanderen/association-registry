@@ -6,6 +6,7 @@ using HostedServices.GrarKafkaConsumer.Kafka;
 using Hosts.Configuration.ConfigurationBindings;
 using Integrations.Magda.Models;
 using Marten;
+using Persoonsdata;
 using Schema.Detail;
 using Schema.Historiek;
 using Schema.KboSync;
@@ -43,6 +44,8 @@ public static class AdminDocumentTypeRegistrations
         opts.RegisterDocumentType<PostalNutsLauInfo>();
 
         opts.RegisterDocumentType<VerenigingState>();
+
+        opts.RegisterDocumentType<Vertegenwoordigerspersoonsdata>();
 
         return opts;
     }

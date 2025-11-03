@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Vertegenwoordigers.When_VoegVertegenwoordigerToe;
 
+using Admin.Api.WebApi.Verenigingen.Common;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
@@ -26,7 +27,7 @@ public class Given_A_Duplicate
         vereniging.Hydrate(new VerenigingState()
                               .Apply((dynamic)verenigingWerdGeregistreerd));
 
-        var toeTeVoegenVertegenwoordiger = fixture.Create<Vertegenwoordiger>() with { Insz = Insz.Create(verenigingWerdGeregistreerd.Vertegenwoordigers.First().Insz) };
+        var toeTeVoegenVertegenwoordiger = fixture.Create<ToeTeVoegenVertegenwoordiger>() with { Insz = Insz.Create(verenigingWerdGeregistreerd.Vertegenwoordigers.First().Insz) };
         Assert.Throws<InszMoetUniekZijn>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger));
     }
 }

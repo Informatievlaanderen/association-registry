@@ -110,16 +110,8 @@ public static class EventCustomizations
             composer => composer.FromFactory(
                                      () => new VertegenwoordigerWerdToegevoegd(
                                          fixture.Create<int>(),
-                                         fixture.Create<Insz>(),
-                                         IsPrimair: false,
-                                         fixture.Create<string>(),
-                                         fixture.Create<string>(),
-                                         fixture.Create<Voornaam>(),
-                                         fixture.Create<Achternaam>(),
-                                         fixture.Create<Email>().Waarde,
-                                         fixture.Create<TelefoonNummer>().Waarde,
-                                         fixture.Create<TelefoonNummer>().Waarde,
-                                         fixture.Create<SocialMedia>().Waarde
+                                         fixture.Create<PersoonsdataRefId>().RefId,
+                                         IsPrimair: false
                                      ))
                                 .OmitAutoProperties());
     }

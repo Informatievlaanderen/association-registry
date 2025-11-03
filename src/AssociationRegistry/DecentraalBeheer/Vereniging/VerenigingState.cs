@@ -86,16 +86,7 @@ public record VerenigingState : IHasVersion
                     lijst.Append(
                         Vertegenwoordiger.Hydrate(
                             v.VertegenwoordigerId,
-                            Insz.Hydrate(v.Insz),
-                            v.Rol,
-                            v.Roepnaam,
-                            Voornaam.Hydrate(v.Voornaam),
-                            Achternaam.Hydrate(v.Achternaam),
-                            v.IsPrimair,
-                            Email.Hydrate(v.Email),
-                            TelefoonNummer.Hydrate(v.Telefoon),
-                            TelefoonNummer.Hydrate(v.Mobiel),
-                            SocialMedia.Hydrate(v.SocialMedia)
+                            v.IsPrimair
                         )))),
             Locaties = @event.Locaties.Aggregate(
                 Locaties.Empty,
@@ -157,16 +148,7 @@ public record VerenigingState : IHasVersion
                     lijst.Append(
                         Vertegenwoordiger.Hydrate(
                             v.VertegenwoordigerId,
-                            Insz.Hydrate(v.Insz),
-                            v.Rol,
-                            v.Roepnaam,
-                            Voornaam.Hydrate(v.Voornaam),
-                            Achternaam.Hydrate(v.Achternaam),
-                            v.IsPrimair,
-                            Email.Hydrate(v.Email),
-                            TelefoonNummer.Hydrate(v.Telefoon),
-                            TelefoonNummer.Hydrate(v.Mobiel),
-                            SocialMedia.Hydrate(v.SocialMedia)
+                            v.IsPrimair
                         )))),
             Locaties = @event.Locaties.Aggregate(
                 Locaties.Empty,
@@ -343,7 +325,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(WerkingsgebiedenWerdenNietVanToepassing _)
         => this with { Werkingsgebieden = Werkingsgebieden.NietVanToepassing };
 
-    public VerenigingState Apply(VertegenwoordigerWerdToegevoegd @event)
+    public VerenigingState Apply(VertegenwoordigerWerdToegevoegd @event, PersoonsdataRefId persoonsdataRefId)
         => this with
         {
             Vertegenwoordigers = Vertegenwoordigers.Hydrate(
@@ -351,16 +333,7 @@ public record VerenigingState : IHasVersion
                    .Append(
                         Vertegenwoordiger.Hydrate(
                             @event.VertegenwoordigerId,
-                            Insz.Hydrate(@event.Insz),
-                            @event.Rol,
-                            @event.Roepnaam,
-                            Voornaam.Hydrate(@event.Voornaam),
-                            Achternaam.Hydrate(@event.Achternaam),
-                            @event.IsPrimair,
-                            Email.Hydrate(@event.Email),
-                            TelefoonNummer.Hydrate(@event.Telefoon),
-                            TelefoonNummer.Hydrate(@event.Mobiel),
-                            SocialMedia.Hydrate(@event.SocialMedia)
+                            @event.IsPrimair
                         ))),
         };
 
@@ -376,16 +349,7 @@ public record VerenigingState : IHasVersion
                    .Append(
                         Vertegenwoordiger.Hydrate(
                             @event.VertegenwoordigerId,
-                            Insz.Hydrate(vertegenwoordiger.Insz),
-                            @event.Rol,
-                            @event.Roepnaam,
-                            Voornaam.Hydrate(@event.Voornaam),
-                            Achternaam.Hydrate(@event.Achternaam),
-                            @event.IsPrimair,
-                            Email.Hydrate(@event.Email),
-                            TelefoonNummer.Hydrate(@event.Telefoon),
-                            TelefoonNummer.Hydrate(@event.Mobiel),
-                            SocialMedia.Hydrate(@event.SocialMedia)
+                            @event.IsPrimair
                         ))),
         };
     }

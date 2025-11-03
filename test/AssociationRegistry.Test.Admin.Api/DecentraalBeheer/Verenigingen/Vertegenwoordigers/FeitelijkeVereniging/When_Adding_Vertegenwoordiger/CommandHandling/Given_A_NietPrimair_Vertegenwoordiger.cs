@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.CommandHandling;
 
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
@@ -32,7 +33,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
 
         _command = new VoegVertegenwoordigerToeCommand(
             _scenario.VCode,
-            _fixture.Create<Vertegenwoordiger>());
+            _fixture.Create<ToeTeVoegenVertegenwoordiger>());
     }
 
     [Fact]
@@ -50,10 +51,10 @@ public class Given_A_NietPrimair_Vertegenwoordiger
                 _command.Vertegenwoordiger.Rol ?? string.Empty,
                 _command.Vertegenwoordiger.Voornaam,
                 _command.Vertegenwoordiger.Achternaam,
-                _command.Vertegenwoordiger.Email.Waarde,
-                _command.Vertegenwoordiger.Telefoon.Waarde,
-                _command.Vertegenwoordiger.Mobiel.Waarde,
-                _command.Vertegenwoordiger.SocialMedia.Waarde)
+                _command.Vertegenwoordiger.Email,
+                _command.Vertegenwoordiger.Telefoon,
+                _command.Vertegenwoordiger.Mobiel,
+                _command.Vertegenwoordiger.SocialMedia)
         );
     }
 

@@ -2,4 +2,5 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 
-public record VoegVertegenwoordigerToeCommand(VCode VCode, Vertegenwoordiger Vertegenwoordiger);
+public record VoegVertegenwoordigerToeCommand(VCode VCode, IToeTeVoegenVertegenwoordiger Vertegenwoordiger);
+

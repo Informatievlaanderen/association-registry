@@ -84,15 +84,15 @@ public static class EventFactory
     public static VertegenwoordigerWerdGewijzigd VertegenwoordigerWerdGewijzigd(Vertegenwoordiger vertegenwoordiger)
         => new(
             vertegenwoordiger.VertegenwoordigerId,
-            vertegenwoordiger.IsPrimair,
-            vertegenwoordiger.Roepnaam ?? string.Empty,
-            vertegenwoordiger.Rol ?? string.Empty,
-            vertegenwoordiger.Voornaam,
-            vertegenwoordiger.Achternaam,
-            vertegenwoordiger.Email.Waarde,
-            vertegenwoordiger.Telefoon.Waarde,
-            vertegenwoordiger.Mobiel.Waarde,
-            vertegenwoordiger.SocialMedia.Waarde
+            vertegenwoordiger.IsPrimair//,
+            // vertegenwoordiger.Roepnaam ?? string.Empty,
+            // vertegenwoordiger.Rol ?? string.Empty,
+            // vertegenwoordiger.Voornaam,
+            // vertegenwoordiger.Achternaam,
+            // vertegenwoordiger.Email.Waarde,
+            // vertegenwoordiger.Telefoon.Waarde,
+            // vertegenwoordiger.Mobiel.Waarde,
+            // vertegenwoordiger.SocialMedia.Waarde
         );
 
     public static WerkingsgebiedenWerdenNietBepaald WerkingsgebiedenWerdenNietBepaald(VCode vCode) => new(vCode);
@@ -127,19 +127,11 @@ public static class EventFactory
                      .Select(Werkingsgebied)
                      .ToArray());
 
-    public static VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd(Vertegenwoordiger vertegenwoordiger)
+    public static VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd(Vertegenwoordiger vertegenwoordiger, PersoonsdataRefId refId)
         => new(
             vertegenwoordiger.VertegenwoordigerId,
-            vertegenwoordiger.Insz,
-            vertegenwoordiger.IsPrimair,
-            vertegenwoordiger.Roepnaam ?? string.Empty,
-            vertegenwoordiger.Rol ?? string.Empty,
-            vertegenwoordiger.Voornaam,
-            vertegenwoordiger.Achternaam,
-            vertegenwoordiger.Email.Waarde,
-            vertegenwoordiger.Telefoon.Waarde,
-            vertegenwoordiger.Mobiel.Waarde,
-            vertegenwoordiger.SocialMedia.Waarde
+            refId.RefId,
+            vertegenwoordiger.IsPrimair
         );
 
     public static Registratiedata.Adres? Adres(Adres? adres)

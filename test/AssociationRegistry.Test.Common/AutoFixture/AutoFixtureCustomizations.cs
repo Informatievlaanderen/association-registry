@@ -7,6 +7,7 @@ using DecentraalBeheer.Vereniging.Emails;
 using DecentraalBeheer.Vereniging.SocialMedias;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
 using DecentraalBeheer.Vereniging.Websites;
+using Events;
 using Framework;
 using global::AutoFixture;
 using global::AutoFixture.Dsl;
@@ -74,16 +75,7 @@ public static class AutoFixtureCustomizations
         fixture.Customize<Vertegenwoordiger>(
             composer => composer.FromFactory(
                 () => Vertegenwoordiger.Create(
-                    fixture.Create<Insz>(),
-                    primairContactpersoon: false,
-                    fixture.Create<string>(),
-                    fixture.Create<string>(),
-                    fixture.Create<Voornaam>(),
-                    fixture.Create<Achternaam>(),
-                    fixture.Create<Email>(),
-                    fixture.Create<TelefoonNummer>(),
-                    fixture.Create<TelefoonNummer>(),
-                    fixture.Create<SocialMedia>()
+                    false
                 )).OmitAutoProperties());
     }
 

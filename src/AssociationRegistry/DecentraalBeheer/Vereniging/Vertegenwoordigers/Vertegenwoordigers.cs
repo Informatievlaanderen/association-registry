@@ -70,7 +70,7 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
     {
         MustContain(vertegenwoordigerId);
 
-        if (this[vertegenwoordigerId].WouldBeEquivalent(rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair,
+        if (this[vertegenwoordigerId].WouldBeEquivalent(isPrimair,
                                                         out var gewijzigdeVertegenwoordiger))
             return null;
 
@@ -107,7 +107,7 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         => vertegenwoordigersArray.Count(vertegenwoordiger => vertegenwoordiger.IsPrimair) > 1;
 
     private static bool HasDuplicateInsz(Vertegenwoordiger[] vertegenwoordigers)
-        => vertegenwoordigers.DistinctBy(x => x.Insz).Count() != vertegenwoordigers.Length;
+        => throw new NotImplementedException("Query this in the linked table or hydrate all vtgwoordigers");//vertegenwoordigers.DistinctBy(x => x.Insz).Count() != vertegenwoordigers.Length;
 
     public void MustNotHaveDuplicateOf(Vertegenwoordiger vertegenwoordiger)
         => Throw<InszMoetUniekZijn>.If(
@@ -147,16 +147,7 @@ public static class VertegenwoordigerEnumerableExtensions
         => vertegenwoordigers.Append(
             Vertegenwoordiger.Hydrate(
                 eventData.VertegenwoordigerId,
-                Insz.Hydrate(eventData.Insz),
-                string.Empty,
-                string.Empty,
-                Voornaam.Hydrate(eventData.Voornaam),
-                Achternaam.Hydrate(eventData.Achternaam),
-                isPrimair: false,
-                Email.Leeg,
-                TelefoonNummer.Leeg,
-                TelefoonNummer.Leeg,
-                SocialMedia.Leeg));
+                isPrimair: false));
 
     public static IEnumerable<Vertegenwoordiger> AppendFromEventData(
         this IEnumerable<Vertegenwoordiger> vertegenwoordigers,
@@ -164,16 +155,7 @@ public static class VertegenwoordigerEnumerableExtensions
         => vertegenwoordigers.Append(
             Vertegenwoordiger.Hydrate(
                 eventData.VertegenwoordigerId,
-                Insz.Hydrate(eventData.Insz),
-                string.Empty,
-                string.Empty,
-                Voornaam.Hydrate(eventData.Voornaam),
-                Achternaam.Hydrate(eventData.Achternaam),
-                isPrimair: false,
-                Email.Leeg,
-                TelefoonNummer.Leeg,
-                TelefoonNummer.Leeg,
-                SocialMedia.Leeg));
+                isPrimair: false));
 
     public static IEnumerable<Vertegenwoordiger> AppendFromEventData(
         this IEnumerable<Vertegenwoordiger> vertegenwoordigers,
@@ -181,14 +163,5 @@ public static class VertegenwoordigerEnumerableExtensions
         => vertegenwoordigers.Append(
             Vertegenwoordiger.Hydrate(
                 eventData.VertegenwoordigerId,
-                Insz.Hydrate(eventData.Insz),
-                string.Empty,
-                string.Empty,
-                Voornaam.Hydrate(eventData.Voornaam),
-                Achternaam.Hydrate(eventData.Achternaam),
-                isPrimair: false,
-                Email.Leeg,
-                TelefoonNummer.Leeg,
-                TelefoonNummer.Leeg,
-                SocialMedia.Leeg));
+                isPrimair: false));
 }

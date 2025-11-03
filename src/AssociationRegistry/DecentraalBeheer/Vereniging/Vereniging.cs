@@ -218,11 +218,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         return true;
     }
 
-    public Vertegenwoordiger VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)
+    public Vertegenwoordiger VoegVertegenwoordigerToe(IToeTeVoegenVertegenwoordiger toeTeVoegenVertegenwoordiger, PersoonsdataRefId refId)
     {
+        var vertegenwoordiger = Vertegenwoordiger.Create(toeTeVoegenVertegenwoordiger.IsPrimair);
         var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
 
-        AddEvent(EventFactory.VertegenwoordigerWerdToegevoegd(toegevoegdeVertegenwoordiger));
+        AddEvent(EventFactory.VertegenwoordigerWerdToegevoegd(toegevoegdeVertegenwoordiger, refId));
 
         return toegevoegdeVertegenwoordiger;
     }

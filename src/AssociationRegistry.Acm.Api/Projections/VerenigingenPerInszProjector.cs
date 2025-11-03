@@ -112,25 +112,27 @@ public static class VerenigingenPerInszProjector
         IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
         IDocumentOperations ops)
     {
-        var vCode = vertegenwoordigerWerdToegevoegd.StreamKey!;
-        var vereniging = await ops.GetVerenigingDocument(vCode);
-        var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdToegevoegd.Data.Insz);
+        throw new NotImplementedException("Query this in the linked table or hydrate all vtgwoordigers");
 
-        document.Verenigingen.Add(
-            new Vereniging
-            {
-                VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
-                VCode = vereniging.VCode,
-                Naam = vereniging.Naam,
-                Status = vereniging.Status,
-                KboNummer = vereniging.KboNummer,
-                Verenigingstype = vereniging.VerenigingsType,
-                Verenigingssubtype = vereniging.Verenigingssubtype,
-                IsHoofdvertegenwoordigerVan = true,
-                CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
-            });
-
-        return document;
+        // var vCode = vertegenwoordigerWerdToegevoegd.StreamKey!;
+        // var vereniging = await ops.GetVerenigingDocument(vCode);
+        // var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdToegevoegd.Data.Insz);
+        //
+        // document.Verenigingen.Add(
+        //     new Vereniging
+        //     {
+        //         VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
+        //         VCode = vereniging.VCode,
+        //         Naam = vereniging.Naam,
+        //         Status = vereniging.Status,
+        //         KboNummer = vereniging.KboNummer,
+        //         Verenigingstype = vereniging.VerenigingsType,
+        //         Verenigingssubtype = vereniging.Verenigingssubtype,
+        //         IsHoofdvertegenwoordigerVan = true,
+        //         CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
+        //     });
+        //
+        // return document;
     }
 
     public static async Task<VerenigingenPerInszDocument> Apply(

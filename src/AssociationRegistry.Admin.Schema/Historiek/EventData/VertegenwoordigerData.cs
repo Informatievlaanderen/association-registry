@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
 using Events;
+using Events.Enriched;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -28,7 +29,7 @@ public record VertegenwoordigerData
     string SocialMedia
 )
 {
-    public static VertegenwoordigerData Create(VertegenwoordigerWerdToegevoegd e)
+    public static VertegenwoordigerData Create(VertegenwoordigerWerdToegevoegdMetPersoonsdata e)
         => new(
             e.VertegenwoordigerId,
             e.IsPrimair,
@@ -41,7 +42,7 @@ public record VertegenwoordigerData
             e.Mobiel,
             e.SocialMedia);
 
-    public static VertegenwoordigerData Create(VertegenwoordigerWerdGewijzigd e)
+    public static VertegenwoordigerData Create(VertegenwoordigerWerdGewijzigdMetPersoonsdata e)
         => new(
             e.VertegenwoordigerId,
             e.IsPrimair,

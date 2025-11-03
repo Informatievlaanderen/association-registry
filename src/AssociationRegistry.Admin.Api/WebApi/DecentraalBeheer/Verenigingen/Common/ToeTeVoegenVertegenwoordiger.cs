@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
 
 using AssociationRegistry.Vereniging;
+using CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
 using System.Runtime.Serialization;
@@ -8,7 +9,7 @@ using System.Text.Json.Serialization;
 
 /// <summary>Een vertegenwoordiger van een vereniging</summary>
 [DataContract]
-public class ToeTeVoegenVertegenwoordiger
+public record ToeTeVoegenVertegenwoordiger: IToeTeVoegenVertegenwoordiger
 {
     /// <summary>
     /// Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
@@ -55,17 +56,18 @@ public class ToeTeVoegenVertegenwoordiger
     [DataMember]
     public string? SocialMedia { get; set; }
 
-    public static Vertegenwoordiger Map(ToeTeVoegenVertegenwoordiger vert)
-        => Vertegenwoordiger.Create(
-            DecentraalBeheer.Vereniging.Insz.Create(vert.Insz),
-            vert.IsPrimair,
-            vert.Roepnaam,
-            vert.Rol,
-            DecentraalBeheer.Vereniging.Voornaam.Create(vert.Voornaam),
-            DecentraalBeheer.Vereniging.Achternaam.Create(vert.Achternaam),
-            DecentraalBeheer.Vereniging.Emails.Email.Create(vert.Email),
-            TelefoonNummer.Create(vert.Telefoon),
-            TelefoonNummer.Create(vert.Mobiel),
-            DecentraalBeheer.Vereniging.SocialMedias.SocialMedia.Create(vert.SocialMedia)
-        );
+    // public static Vertegenwoordiger Map(ToeTeVoegenVertegenwoordiger vert)
+    //     => Vertegenwoordiger.Create(
+    //         DecentraalBeheer.Vereniging.Insz.Create(vert.Insz),
+    //         vert.IsPrimair,
+    //         vert.Roepnaam,
+    //         vert.Rol,
+    //         DecentraalBeheer.Vereniging.Voornaam.Create(vert.Voornaam),
+    //         DecentraalBeheer.Vereniging.Achternaam.Create(vert.Achternaam),
+    //         DecentraalBeheer.Vereniging.Emails.Email.Create(vert.Email),
+    //         TelefoonNummer.Create(vert.Telefoon),
+    //         TelefoonNummer.Create(vert.Mobiel),
+    //         DecentraalBeheer.Vereniging.SocialMedias.SocialMedia.Create(vert.SocialMedia)
+    //     );
 }
+
