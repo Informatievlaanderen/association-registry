@@ -48,5 +48,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Hosting" />
     <PackageReference Include="AWSSDK.Core" />
     <PackageReference Remove="Marten" />
+    <PackageReference Remove="WolverineFx" />
   </ItemGroup>
 </Project>
