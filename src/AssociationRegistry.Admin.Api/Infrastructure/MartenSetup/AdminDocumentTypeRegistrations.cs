@@ -6,10 +6,10 @@ using HostedServices.GrarKafkaConsumer.Kafka;
 using Hosts.Configuration.ConfigurationBindings;
 using Integrations.Magda.Models;
 using Marten;
-using Persoonsgegevens;
 using Schema.Detail;
 using Schema.Historiek;
 using Schema.KboSync;
+using Schema.Persoonsgegevens;
 using Schema.PowerBiExport;
 
 public static class AdminDocumentTypeRegistrations
@@ -42,7 +42,7 @@ public static class AdminDocumentTypeRegistrations
         opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
 
         opts.RegisterDocumentType<PostalNutsLauInfo>();
-        opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevens>();
+        opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
 
         opts.RegisterDocumentType<VerenigingState>();
 

@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Persoonsgegevens;
+﻿namespace AssociationRegistry.Admin.Schema.Persoonsgegevens;
 
 using Marten.Schema;
 
-public class VertegenwoordigerPersoonsgegevens
+public class VertegenwoordigerPersoonsgegevensDocument
 {
     [Identity]
     public Guid RefId { get; set; }
