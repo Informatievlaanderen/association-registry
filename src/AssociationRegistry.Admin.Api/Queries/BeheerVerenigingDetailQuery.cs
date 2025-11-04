@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Queries;
 using Framework;
 using Marten;
 using Marten.Linq.SoftDeletes;
+using MartenDb;
 using Schema.Detail;
 
 public interface IBeheerVerenigingDetailQuery : IQuery<BeheerVerenigingDetailDocument?, BeheerVerenigingDetailFilter>;

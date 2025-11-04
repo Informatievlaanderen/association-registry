@@ -1,10 +1,7 @@
-namespace AssociationRegistry.Admin.Api.Queries;
+namespace AssociationRegistry.Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 
-using Framework;
+using AssociationRegistry.Admin.Schema.Persoonsgegevens;
 using Marten;
-using Schema.Persoonsgegevens;
-
-public interface IVertegenwoordigerPersoonsgegevensQuery : IQuery<VertegenwoordigerPersoonsgegevensDocument?, VertegenwoordigerPersoonsgegevensFilter>;
 
 public class VertegenwoordigerPersoonsgegevensQuery : IVertegenwoordigerPersoonsgegevensQuery
 {
@@ -19,14 +16,4 @@ public class VertegenwoordigerPersoonsgegevensQuery : IVertegenwoordigerPersoons
         => await _session.Query<VertegenwoordigerPersoonsgegevensDocument>()
                          .ForRefId(filter.RefId)
                          .SingleOrDefaultAsync(token: cancellationToken);
-}
-
-public record VertegenwoordigerPersoonsgegevensFilter
-{
-    public Guid RefId { get; }
-
-    public VertegenwoordigerPersoonsgegevensFilter(Guid refId)
-    {
-        RefId = refId;
-    }
 }

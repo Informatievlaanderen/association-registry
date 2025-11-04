@@ -11,6 +11,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using Marten;
+using MartenDb;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using SequenceGuarding;

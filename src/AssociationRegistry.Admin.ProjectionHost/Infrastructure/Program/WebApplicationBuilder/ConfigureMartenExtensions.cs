@@ -1,5 +1,9 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
+using AssociationRegistry.MartenDb.BeheerZoeken;
+using AssociationRegistry.MartenDb.Logging;
+using AssociationRegistry.MartenDb.Setup;
+using AssociationRegistry.MartenDb.Subscriptions;
 using Constants;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
@@ -12,13 +16,8 @@ using Json;
 using Marten;
 using Marten.Services;
 using MartenDb;
-using MartenDb.BeheerZoeken;
-using MartenDb.Setup;
-using MartenDb.Subscriptions;
-using MartenDb.Upcasters;
 using Elastic.Clients.Elasticsearch;
 using Hosts.Configuration;
-using MartenDb.Logging;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -105,6 +104,69 @@ public static class ConfigureMartenExtensions
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
         ElasticSearchOptionsSection? elasticSearchOptionsSection)
     {
+        return ConfigureStoreOptionsCore(
+            opts,
+            () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession(),
+            locatieLookupLogger,
+            locatieZonderAdresMatchProjectionLogger,
+            elasticClient,
+            isDevelopment,
+            beheerZoekenEventsConsumerLogger,
+            duplicateDetectionEventsConsumerLogger,
+            subscriptionLogger,
+            secureMartenLogger,
+            postgreSqlOptionsSection,
+            elasticSearchOptionsSection);
+    }
+
+    public static StoreOptions ConfigureStoreOptions(
+        StoreOptions opts,
+        ILogger<LocatieLookupProjection> locatieLookupLogger,
+        ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
+        ElasticsearchClient elasticClient,
+        bool isDevelopment,
+        ILogger<BeheerZoekenEventsConsumer> beheerZoekenEventsConsumerLogger,
+        ILogger<DuplicateDetectionEventsConsumer> duplicateDetectionEventsConsumerLogger,
+        Func<ILogger<MartenSubscription>> subscriptionLogger,
+        ILogger<SecureMartenLogger> secureMartenLogger,
+        PostgreSqlOptionsSection? postgreSqlOptionsSection,
+        ElasticSearchOptionsSection? elasticSearchOptionsSection)
+    {
+        IDocumentStore? builtStore = null;
+
+        return ConfigureStoreOptionsCore(
+            opts,
+            () =>
+            {
+                builtStore ??= new DocumentStore(opts);
+                return builtStore.QuerySession();
+            },
+            locatieLookupLogger,
+            locatieZonderAdresMatchProjectionLogger,
+            elasticClient,
+            isDevelopment,
+            beheerZoekenEventsConsumerLogger,
+            duplicateDetectionEventsConsumerLogger,
+            subscriptionLogger,
+            secureMartenLogger,
+            postgreSqlOptionsSection,
+            elasticSearchOptionsSection);
+    }
+
+    private static StoreOptions ConfigureStoreOptionsCore(
+        StoreOptions opts,
+        Func<IQuerySession> querySessionFactory,
+        ILogger<LocatieLookupProjection> locatieLookupLogger,
+        ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
+        ElasticsearchClient elasticClient,
+        bool isDevelopment,
+        ILogger<BeheerZoekenEventsConsumer> beheerZoekenEventsConsumerLogger,
+        ILogger<DuplicateDetectionEventsConsumer> duplicateDetectionEventsConsumerLogger,
+        Func<ILogger<MartenSubscription>> subscriptionLogger,
+        ILogger<SecureMartenLogger> secureMartenLogger,
+        PostgreSqlOptionsSection? postgreSqlOptionsSection,
+        ElasticSearchOptionsSection? elasticSearchOptionsSection)
+    {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
             => $"host={postgreSqlOptions.Host};" +
                $"database={postgreSqlOptions.Database};" +
@@ -149,7 +211,7 @@ public static class ConfigureMartenExtensions
         opts.UpcastLegacyTombstoneEvents()
             .RegisterAllEventTypes()
             .RegisterProjectionDocumentTypes()
-            .UpcastEvents(serviceProvider);
+            .UpcastEvents(querySessionFactory);
 
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);

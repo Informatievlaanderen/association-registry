@@ -3,19 +3,18 @@
 using Events;
 using Events.Enriched;
 using Marten;
+using Marten.Services.Json.Transformations;
+using Marten.Services.Json.Transformations.JsonNet;
 using Schema.Persoonsgegevens;
 
 public static class EventUpcaster
 {
-    public static StoreOptions UpcastEvents(this StoreOptions opts, IServiceProvider sp)
+    public static StoreOptions UpcastEvents(this StoreOptions opts, Func<IQuerySession> querySessionFunc)
     {
-        Func<IQuerySession> openQuerySession = () =>
-            sp.GetRequiredService<IDocumentStore>().QuerySession();
-
         opts.Events.Upcast<VertegenwoordigerWerdToegevoegd, VertegenwoordigerWerdToegevoegdMetPersoonsgegevens>(
             async (vertegenwoordigerWerdToegevoegd, ct) =>
             {
-                await using var session = openQuerySession();
+                await using var session = querySessionFunc();
 
                 var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
                                                                      .Where(x => x.RefId == vertegenwoordigerWerdToegevoegd.RefId)
@@ -41,4 +40,14 @@ public static class EventUpcaster
 
         return opts;
     }
+}
+
+public class MyEventUpcaster : AsyncOnlyEventUpcaster<VertegenwoordigerWerdToegevoegd, VertegenwoordigerWerdToegevoegdMetPersoonsgegevens>
+{
+    public MyEventUpcaster(IDocumentSession session)
+    {
+
+    }
+    protected override async Task<VertegenwoordigerWerdToegevoegdMetPersoonsgegevens> UpcastAsync(VertegenwoordigerWerdToegevoegd oldEvent, CancellationToken ct)
+        => throw new NotImplementedException();
 }

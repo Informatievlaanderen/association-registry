@@ -1,5 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 
+using AssociationRegistry.MartenDb;
+using AssociationRegistry.MartenDb.Logging;
+using AssociationRegistry.MartenDb.Setup;
 using global::Wolverine.Marten;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
@@ -8,8 +11,6 @@ using JasperFx.Events;
 using JasperFx.Events.Projections;
 using Marten;
 using MartenDb;
-using MartenDb.Logging;
-using MartenDb.Setup;
 using Microsoft.Extensions.Logging.Abstractions;
 using ProjectionHost.Projections.Detail;
 using ProjectionHost.Projections.Historiek;

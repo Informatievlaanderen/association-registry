@@ -3,7 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using DuplicateDetection;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
-using MartenDb.Subscriptions;
+using AssociationRegistry.MartenDb.Subscriptions;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Core.MGet;
 using Microsoft.Extensions.Logging;
