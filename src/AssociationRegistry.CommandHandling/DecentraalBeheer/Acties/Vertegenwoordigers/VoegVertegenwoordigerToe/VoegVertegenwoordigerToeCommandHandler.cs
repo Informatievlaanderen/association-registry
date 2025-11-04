@@ -10,11 +10,16 @@ public class VoegVertegenwoordigerToeCommandHandler
 {
     private readonly IVerenigingsRepository _repository;
     private readonly IDocumentStore _store;
+    private readonly IVertegenwoordigerPersoonsgegevensRepository _vertegenwoordigerPersoonsgegevensRepository;
 
-    public VoegVertegenwoordigerToeCommandHandler(IVerenigingsRepository verenigingRepository, IDocumentStore store)
+    public VoegVertegenwoordigerToeCommandHandler(
+        IVerenigingsRepository verenigingRepository,
+        IDocumentStore store,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
     {
         _repository = verenigingRepository;
         _store = store;
+        _vertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository;
     }
 
     public async Task<EntityCommandResult> Handle(
@@ -27,6 +32,21 @@ public class VoegVertegenwoordigerToeCommandHandler
 
         var refId = Guid.NewGuid();
 
+        _vertegenwoordigerPersoonsgegevensRepository.Save(new VertegenwoordigerPersoonsgegevens(
+                refId,
+                envelope.Command.VCode,
+                envelope.Command.Vertegenwoordiger.VertegenwoordigerId,
+                envelope.Command.Vertegenwoordiger.Insz,
+                envelope.Command.Vertegenwoordiger.IsPrimair,
+                envelope.Command.Vertegenwoordiger.Roepnaam,
+                envelope.Command.Vertegenwoordiger.Rol,
+                envelope.Command.Vertegenwoordiger.Voornaam,
+                envelope.Command.Vertegenwoordiger.Achternaam,
+                envelope.Command.Vertegenwoordiger.Email.Waarde,
+                envelope.Command.Vertegenwoordiger.Telefoon.Waarde,
+                envelope.Command.Vertegenwoordiger.Mobiel.Waarde,
+                envelope.Command.Vertegenwoordiger.SocialMedia.Waarde
+            ));
 
         var vertegenwoordigerId = vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger, refId);
 

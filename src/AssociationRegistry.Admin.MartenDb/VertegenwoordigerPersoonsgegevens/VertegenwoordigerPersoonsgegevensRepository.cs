@@ -1,0 +1,37 @@
+namespace AssociationRegistry.Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
+
+using Marten;
+using Persoonsgegevens;
+using Schema.Persoonsgegevens;
+
+public class VertegenwoordigerPersoonsgegevensRepository: IVertegenwoordigerPersoonsgegevensRepository
+{
+    private readonly IDocumentSession _session;
+
+    public VertegenwoordigerPersoonsgegevensRepository(IDocumentSession session)
+    {
+        _session = session;
+    }
+
+    public async Task Save(VertegenwoordigerPersoonsgegevens vertegenwoordigerPersoonsgegevens)
+    {
+        _session.Insert(new VertegenwoordigerPersoonsgegevensDocument
+        {
+            RefId = vertegenwoordigerPersoonsgegevens.RefId,
+            VCode = vertegenwoordigerPersoonsgegevens.VCode,
+            VertegenwoordigerId = vertegenwoordigerPersoonsgegevens.VertegenwoordigerId,
+            Insz = vertegenwoordigerPersoonsgegevens.Insz,
+            IsPrimair = vertegenwoordigerPersoonsgegevens.IsPrimair,
+            Roepnaam = vertegenwoordigerPersoonsgegevens.Roepnaam,
+            Rol = vertegenwoordigerPersoonsgegevens.Rol,
+            Voornaam = vertegenwoordigerPersoonsgegevens.Voornaam,
+            Achternaam = vertegenwoordigerPersoonsgegevens.Achternaam,
+            Email = vertegenwoordigerPersoonsgegevens.Email,
+            Telefoon = vertegenwoordigerPersoonsgegevens.Telefoon,
+            Mobiel = vertegenwoordigerPersoonsgegevens.Mobiel,
+            SocialMedia = vertegenwoordigerPersoonsgegevens.SocialMedia,
+        });
+
+        await _session.SaveChangesAsync();
+    }
+}

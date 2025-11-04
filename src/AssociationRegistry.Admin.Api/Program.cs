@@ -82,11 +82,13 @@ using Elastic.Clients.Elasticsearch;
 using Infrastructure.Extensions;
 using Infrastructure.Metrics;
 using Integrations.Magda.GeefOnderneming;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
+using Persoonsgegevens;
 using Queries;
 using Schema.Detail;
 using Schema.Historiek;
@@ -471,6 +473,7 @@ public class Program
                .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
                .AddTransient<IEventStore, EventStore>()
+               .AddTransient<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
                .AddTransient<IDubbelDetectieRepository, DubbelDetectieRepository>()
                .AddTransient<IDuplicateVerenigingDetectionService, ZoekDuplicateVerenigingenQuery>()
