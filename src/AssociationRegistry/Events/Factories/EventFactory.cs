@@ -127,19 +127,20 @@ public static class EventFactory
                      .Select(Werkingsgebied)
                      .ToArray());
 
-    public static VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd(Vertegenwoordiger vertegenwoordiger)
+    public static VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd(Vertegenwoordiger vertegenwoordiger, Guid refId)
         => new(
+            refId,
             vertegenwoordiger.VertegenwoordigerId,
-            vertegenwoordiger.Insz,
+            string.Empty,
             vertegenwoordiger.IsPrimair,
-            vertegenwoordiger.Roepnaam ?? string.Empty,
-            vertegenwoordiger.Rol ?? string.Empty,
-            vertegenwoordiger.Voornaam,
-            vertegenwoordiger.Achternaam,
-            vertegenwoordiger.Email.Waarde,
-            vertegenwoordiger.Telefoon.Waarde,
-            vertegenwoordiger.Mobiel.Waarde,
-            vertegenwoordiger.SocialMedia.Waarde
+           string.Empty,
+            string.Empty,
+            string.Empty,
+            string.Empty,
+            string.Empty,
+            string.Empty,
+            string.Empty,
+            string.Empty
         );
 
     public static Registratiedata.Adres? Adres(Adres? adres)

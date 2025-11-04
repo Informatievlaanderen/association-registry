@@ -1,11 +1,9 @@
-﻿namespace AssociationRegistry.Events;
-
+﻿namespace AssociationRegistry.Events.Enriched;
 
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
-public record VertegenwoordigerWerdToegevoegd(
-    Guid RefId,
+public record VertegenwoordigerWerdToegevoegdMetPersoonsgegevens(
     int VertegenwoordigerId,
     string Insz,
     bool IsPrimair,
@@ -21,6 +19,4 @@ public record VertegenwoordigerWerdToegevoegd(
     [IgnoreDataMember]
     public Bron Bron
         => Bron.Initiator;
-
-
-}
+};

@@ -10,12 +10,12 @@ public class VertegenwoordigerPersoonsgegevens
     public int VertegenwoordigerId { get; set; }
     public string Insz { get; init; }
     public bool IsPrimair { get; init; }
-    public string? Roepnaam { get; }
-    public string? Rol { get; }
-    public string Voornaam { get; }
-    public string Achternaam { get; }
-    public string Email { get; }
-    public string Telefoon { get; }
-    public string Mobiel { get; }
-    public string SocialMedia { get; }
+    public string? Roepnaam { get; set; }
+    public string? Rol { get; set; }
+    public string Voornaam { get; set; }
+    public string Achternaam { get; set; }
+    public string Email { get; set; }
+    public string Telefoon { get; set; }
+    public string Mobiel { get; set; }
+    public string SocialMedia { get; set; }
 }

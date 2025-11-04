@@ -4,6 +4,7 @@ using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
+using Events.Enriched;
 using Formats;
 using Framework;
 using JasperFx.Events;
@@ -291,7 +292,7 @@ public class BeheerVerenigingDetailProjector
 
 
     public static void Apply(
-        IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
+        IEvent<VertegenwoordigerWerdToegevoegdMetPersoonsgegevens> vertegenwoordigerWerdToegevoegd,
         BeheerVerenigingDetailDocument document)
     {
         document.Vertegenwoordigers = document.Vertegenwoordigers.Append(

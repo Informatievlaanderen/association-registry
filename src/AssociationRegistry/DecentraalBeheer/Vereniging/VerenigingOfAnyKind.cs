@@ -43,11 +43,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.ContactgegevenWerdVerwijderd(verwijderdContactgegeven));
     }
 
-    public void VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)
+    public void VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger, Guid refId)
     {
         var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
 
-        AddEvent(EventFactory.VertegenwoordigerWerdToegevoegd(toegevoegdeVertegenwoordiger));
+        AddEvent(EventFactory.VertegenwoordigerWerdToegevoegd(toegevoegdeVertegenwoordiger, refId));
     }
 
     public void WijzigVertegenwoordiger(
@@ -154,7 +154,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 postcode: verrijktAdres.AddressResponse.Postcode,
                 gemeente: verrijktAdres.Gemeente.Naam,
                 land: Adres.België);
-            
+
             var verrijkteLocatie = locatie.MetAdresUitGrar(adres);
 
             State.Locaties.ThrowIfCannotAppendOrUpdate(verrijkteLocatie);
@@ -205,7 +205,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 postcode: verrijktAdres.AddressResponse.Postcode,
                 gemeente: verrijktAdres.Gemeente.Naam,
                 land: Adres.België);
-            
+
             var verrijkteLocatie = locatie.VerrijkMet(adres);
             State.Locaties.ThrowIfCannotAppendOrUpdate(verrijkteLocatie);
 
@@ -361,7 +361,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             postcode: verrijktAdres.AddressResponse.Postcode,
             gemeente: verrijktAdres.Gemeente.Naam,
             land: Adres.België);
-        
+
         var decoratedLocatie = locatie.MetAdresUitGrar(adres);
         State.Locaties.ThrowIfCannotAppendOrUpdate(decoratedLocatie);
 

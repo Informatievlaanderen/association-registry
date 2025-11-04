@@ -72,7 +72,7 @@ public static class ConfigureMartenExtensions
             {
                 var opts = new StoreOptions();
 
-                return ConfigureStoreOptions(opts, serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(),
+                return ConfigureStoreOptions(opts, serviceProvider, serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(),
                                              serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
                                              serviceProvider.GetRequiredService<ElasticsearchClient>(),
                                              serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
@@ -93,6 +93,7 @@ public static class ConfigureMartenExtensions
 
     public static StoreOptions ConfigureStoreOptions(
         StoreOptions opts,
+        IServiceProvider serviceProvider,
         ILogger<LocatieLookupProjection> locatieLookupLogger,
         ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
         ElasticsearchClient elasticClient,
@@ -147,7 +148,8 @@ public static class ConfigureMartenExtensions
 
         opts.UpcastLegacyTombstoneEvents()
             .RegisterAllEventTypes()
-            .RegisterProjectionDocumentTypes();
+            .RegisterProjectionDocumentTypes()
+            .UpcastEvents(serviceProvider);
 
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);

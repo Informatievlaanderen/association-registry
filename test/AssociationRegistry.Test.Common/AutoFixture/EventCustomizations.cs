@@ -148,6 +148,7 @@ public static class EventCustomizations
         fixture.Customize<VertegenwoordigerWerdToegevoegd>(
             composer => composer.FromFactory(
                                      () => new VertegenwoordigerWerdToegevoegd(
+                                         Guid.NewGuid(),
                                          fixture.Create<int>(),
                                          fixture.Create<Insz>(),
                                          IsPrimair: false,

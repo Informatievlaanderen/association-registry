@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe;
+namespace AssociationRegistry.Test.E2E.When_Voeg_Vertegenwoordiger_Toe;
 
-using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegVertegenwoordigerToe.RequestModels;
-using Framework.ApiSetup;
-using Framework.TestClasses;
-using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
-using Scenarios.Requests.FeitelijkeVereniging;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegVertegenwoordigerToe.RequestModels;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Test.E2E.Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 using Xunit;
 
 public class VoegVertegenwoordigerToeContext : TestContextBase<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario, VoegVertegenwoordigerToeRequest>
