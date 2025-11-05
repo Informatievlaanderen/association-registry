@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
 using AssociationRegistry.MartenDb.Store;
+using CommandHandling.Persoonsgegevens;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;
 using Destructurama;
@@ -13,12 +14,14 @@ using Infrastructure.Extensions;
 using Integrations.Grar.Clients;
 using Integrations.Slack;
 using JasperFx;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NodaTime;
+using Persoonsgegevens;
 using Serilog;
 using Serilog.Debugging;
 
@@ -86,6 +89,9 @@ public static class Program
            .AddSingleton(new SlackWebhook(addressSyncOptions.SlackWebhook))
            .AddSingleton<IGrarClient, GrarClient>()
            .AddSingleton<IEventStore, EventStore>()
+           .AddTransient<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+           .AddTransient<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+           .AddTransient<IVertegenwoordigerPersoonsgegevensService, VertegenwoordigerPersoonsgegevensService>()
            .AddSingleton<IVerenigingsRepository, VerenigingsRepository>()
            .AddScoped<TeSynchroniserenLocatieAdresMessageHandler>()
            .AddScoped<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
