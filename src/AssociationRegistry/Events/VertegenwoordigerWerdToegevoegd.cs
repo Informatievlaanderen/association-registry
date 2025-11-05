@@ -7,16 +7,7 @@ using Vereniging.Bronnen;
 public record VertegenwoordigerWerdToegevoegd(
     Guid RefId,
     int VertegenwoordigerId,
-    string Insz,
-    bool IsPrimair,
-    string Roepnaam,
-    string Rol,
-    string Voornaam,
-    string Achternaam,
-    string Email,
-    string Telefoon,
-    string Mobiel,
-    string SocialMedia) : IEvent
+    bool IsPrimair) : IEvent
 {
     [IgnoreDataMember]
     public Bron Bron

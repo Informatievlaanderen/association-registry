@@ -131,16 +131,7 @@ public static class EventFactory
         => new(
             refId,
             vertegenwoordiger.VertegenwoordigerId,
-            string.Empty,
-            vertegenwoordiger.IsPrimair,
-           string.Empty,
-            string.Empty,
-            string.Empty,
-            string.Empty,
-            string.Empty,
-            string.Empty,
-            string.Empty,
-            string.Empty
+            vertegenwoordiger.IsPrimair
         );
 
     public static Registratiedata.Adres? Adres(Adres? adres)

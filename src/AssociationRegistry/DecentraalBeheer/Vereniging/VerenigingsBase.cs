@@ -1,10 +1,16 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
 using Events;
+using Persoonsgegevens;
 
 public abstract class VerenigingsBase
 {
-    protected VerenigingState State = new();
+    public VerenigingsBase(IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService)
+    {
+        State = new VerenigingState(vertegenwoordigerPersoonsgegevensService);
+    }
+
+    protected VerenigingState State { get; set; }
 
     public VCode VCode
         => State.VCode;

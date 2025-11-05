@@ -4,6 +4,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Persoonsgegevens;
 using DuplicateVerenigingDetection;
 using Locaties.ProbeerAdresTeMatchen;
 using Marten;
@@ -24,9 +25,11 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
     private readonly IDocumentSession _session;
     private readonly IVCodeService _vCodeService;
     private readonly IVerenigingsRepository _verenigingsRepository;
+    private readonly IVertegenwoordigerPersoonsgegevensService _vertegenwoordigerPersoonsgegevensService;
 
     public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
         IVerenigingsRepository verenigingsRepository,
+        IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService,
         IVCodeService vCodeService,
         IMartenOutbox outbox,
         IDocumentSession session,
@@ -35,6 +38,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
+        _vertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService;
         _vCodeService = vCodeService;
         _outbox = outbox;
         _session = session;

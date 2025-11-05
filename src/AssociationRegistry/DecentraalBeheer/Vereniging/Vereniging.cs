@@ -9,17 +9,23 @@ using Events.Factories;
 using Exceptions;
 using Geotags;
 using ImTools;
+using Persoonsgegevens;
 using SocialMedias;
 using TelefoonNummers;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
+    public Vereniging(IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService) : base(vertegenwoordigerPersoonsgegevensService)
+    {
+    }
+
     public static async Task<Vereniging> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
         RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid registratieData,
         bool potentialDuplicatesSkipped,
         string bevestigingsToken,
         IVCodeService vCodeService,
+        IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService,
         IClock clock)
     {
         Throw<StartdatumMagNietInToekomstZijn>.If(registratieData.Startdatum?.IsInFutureOf(clock.Today) ?? false);
@@ -30,7 +36,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(registratieData.Contactgegevens);
         var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(registratieData.Vertegenwoordigers);
 
-        var vereniging = new Vereniging();
+        var vereniging = new Vereniging(vertegenwoordigerPersoonsgegevensService);
 
         vereniging.AddEvent(
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(

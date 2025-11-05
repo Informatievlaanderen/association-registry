@@ -4,6 +4,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.Persoonsgegevens;
 using AssociationRegistry.Resources;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Integrations.Magda;
@@ -25,9 +26,11 @@ public class RegistreerVerenigingUitKboCommandHandler
     private readonly IDocumentSession _session;
     private readonly ILogger<RegistreerVerenigingUitKboCommandHandler> _logger;
     private readonly IVerenigingsRepository _verenigingsRepository;
+    private readonly IVertegenwoordigerPersoonsgegevensService _service;
 
     public RegistreerVerenigingUitKboCommandHandler(
         IVerenigingsRepository verenigingsRepository,
+        IVertegenwoordigerPersoonsgegevensService service,
         IVCodeService vCodeService,
         IMagdaGeefVerenigingService geefVerenigingService,
         IMagdaRegistreerInschrijvingService magdaRegistreerInschrijvingService,
@@ -35,6 +38,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         ILogger<RegistreerVerenigingUitKboCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
+        _service = service;
         _vCodeService = vCodeService;
         _magdaGeefVerenigingService = geefVerenigingService;
         _magdaRegistreerInschrijvingService = magdaRegistreerInschrijvingService;

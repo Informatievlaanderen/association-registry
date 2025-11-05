@@ -25,6 +25,6 @@ public record Voornaam
     public static implicit operator string(Voornaam voornaam)
         => voornaam.Waarde;
 
-    internal static Voornaam Hydrate(string waarde)
+    public static Voornaam Hydrate(string waarde)
         => new() { Waarde = waarde };
 }

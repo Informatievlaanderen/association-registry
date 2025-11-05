@@ -12,12 +12,17 @@ using Events.Factories;
 using Exceptions;
 using Geotags;
 using Grar;
+using Persoonsgegevens;
 using SocialMedias;
 using System.Diagnostics.Contracts;
 using TelefoonNummers;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 {
+    public VerenigingOfAnyKind(IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService) : base(vertegenwoordigerPersoonsgegevensService)
+    {
+    }
+
     public Contactgegeven VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);

@@ -1,0 +1,6 @@
+﻿namespace AssociationRegistry.Persoonsgegevens;
+
+public interface IVertegenwoordigerPersoonsgegevensService
+{
+    Task<VertegenwoordigerPersoonsgegevens> Get(Guid refId);
+}

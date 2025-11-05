@@ -8,11 +8,16 @@ using Events.Factories;
 using Exceptions;
 using Geotags;
 using Magda.Kbo;
+using Persoonsgegevens;
 using ResultNet;
 
 public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<VerenigingState>
 {
     private static Verenigingstype[] _allowedTypes;
+
+    public VerenigingMetRechtspersoonlijkheid(IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService) : base(vertegenwoordigerPersoonsgegevensService)
+    {
+    }
 
     public void Hydrate(VerenigingState obj)
     {
@@ -30,9 +35,9 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         State = obj;
     }
 
-    public static VerenigingMetRechtspersoonlijkheid Registreer(VCode vCode, VerenigingVolgensKbo verenigingVolgensKbo)
+    public static VerenigingMetRechtspersoonlijkheid Registreer(VCode vCode, VerenigingVolgensKbo verenigingVolgensKbo, IVertegenwoordigerPersoonsgegevensService service)
     {
-        var vereniging = new VerenigingMetRechtspersoonlijkheid();
+        var vereniging = new VerenigingMetRechtspersoonlijkheid(service);
 
         vereniging.AddEvent(
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(

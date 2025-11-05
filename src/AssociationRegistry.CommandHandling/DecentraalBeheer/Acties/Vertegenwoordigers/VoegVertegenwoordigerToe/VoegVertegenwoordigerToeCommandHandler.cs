@@ -2,6 +2,7 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.Persoonsgegevens;
 using Framework;
 using Marten;
 using Persoonsgegevens;

@@ -1,31 +1,26 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
+using AssociationRegistry.MartenDb.Store;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;
 using Destructurama;
-using EventStore;
 using EventStore.ConflictResolution;
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Logs;
 using global::OpenTelemetry.Resources;
-using Integrations.Grar;
-using Integrations.Grar.Clients;
 using Hosts;
 using Infrastructure.Extensions;
+using Integrations.Grar.Clients;
 using Integrations.Slack;
 using JasperFx;
-using MartenDb.Store;
 using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Http;
 using NodaTime;
 using Serilog;
 using Serilog.Debugging;
-using Vereniging;
-using Wolverine;
 
 public static class Program
 {

@@ -1,13 +1,14 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
 using Adressen;
-using Events;
-using Framework;
 using AssociationRegistry.Vereniging.Bronnen;
 using Emails;
+using Events;
 using Exceptions;
+using Framework;
 using Geotags;
 using Marten.Schema;
+using Persoonsgegevens;
 using SocialMedias;
 using Subtypes.Default;
 using Subtypes.FeitelijkeVereniging;
@@ -18,6 +19,13 @@ using TelefoonNummers;
 
 public record VerenigingState : IHasVersion
 {
+    private readonly IVertegenwoordigerPersoonsgegevensService _vertegenwoordigerPersoonsgegevensService;
+
+    public VerenigingState(IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService)
+    {
+        _vertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService;
+    }
+
     [Identity]
     public string Identity
     {
@@ -59,7 +67,8 @@ public record VerenigingState : IHasVersion
     public GeotagsCollection Geotags { get; set; } = GeotagsCollection.Null;
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
-        => new()
+    {
+       return this with
         {
             Verenigingstype = Verenigingstype.FeitelijkeVereniging,
             VCode = VCode.Hydrate(@event.VCode),
@@ -127,9 +136,11 @@ public record VerenigingState : IHasVersion
             Werkingsgebieden = Werkingsgebieden.NietBepaald,
             VerenigingStatus = new VerenigingStatus.StatusActief(),
         };
+    }
 
     public VerenigingState Apply(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
-        => new()
+    {
+        return this with
         {
             Verenigingstype = Verenigingstype.VZER,
             Verenigingssubtype = new DefaultSubtype(),
@@ -198,9 +209,11 @@ public record VerenigingState : IHasVersion
             Werkingsgebieden = Werkingsgebieden.NietBepaald,
             VerenigingStatus = new VerenigingStatus.StatusActief(),
         };
+    }
 
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
-        => new()
+    {
+        return this with
         {
             Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
             Verenigingssubtype = new NoSubtype(),
@@ -211,6 +224,7 @@ public record VerenigingState : IHasVersion
             Startdatum = Datum.Hydrate(@event.Startdatum),
             VerenigingStatus = new VerenigingStatus.StatusActief(),
         };
+    }
 
     public VerenigingState Apply(VerenigingWerdIngeschrevenOpWijzigingenUitKbo _)
         => this with { IsIngeschrevenOpWijzigingenUitKbo = true };
@@ -344,25 +358,28 @@ public record VerenigingState : IHasVersion
         => this with { Werkingsgebieden = Werkingsgebieden.NietVanToepassing };
 
     public VerenigingState Apply(VertegenwoordigerWerdToegevoegd @event)
-        => this with
+    {
+        var vertegenwoordigerPersoonsgegevens =  _vertegenwoordigerPersoonsgegevensService.Get(@event.RefId).GetAwaiter().GetResult();
+        return this with
         {
             Vertegenwoordigers = Vertegenwoordigers.Hydrate(
                 Vertegenwoordigers
                    .Append(
                         Vertegenwoordiger.Hydrate(
                             @event.VertegenwoordigerId,
-                            Insz.Hydrate(@event.Insz),
-                            @event.Rol,
-                            @event.Roepnaam,
-                            Voornaam.Hydrate(@event.Voornaam),
-                            Achternaam.Hydrate(@event.Achternaam),
-                            @event.IsPrimair,
-                            Email.Hydrate(@event.Email),
-                            TelefoonNummer.Hydrate(@event.Telefoon),
-                            TelefoonNummer.Hydrate(@event.Mobiel),
-                            SocialMedia.Hydrate(@event.SocialMedia)
+                            Insz.Hydrate(vertegenwoordigerPersoonsgegevens.Insz),
+                            vertegenwoordigerPersoonsgegevens.Rol,
+                            vertegenwoordigerPersoonsgegevens.Roepnaam,
+                            Voornaam.Hydrate(vertegenwoordigerPersoonsgegevens.Voornaam),
+                            Achternaam.Hydrate(vertegenwoordigerPersoonsgegevens.Achternaam),
+                            vertegenwoordigerPersoonsgegevens.IsPrimair,
+                            Email.Hydrate(vertegenwoordigerPersoonsgegevens.Email),
+                            TelefoonNummer.Hydrate(vertegenwoordigerPersoonsgegevens.Telefoon),
+                            TelefoonNummer.Hydrate(vertegenwoordigerPersoonsgegevens.Mobiel),
+                            SocialMedia.Hydrate(vertegenwoordigerPersoonsgegevens.SocialMedia)
                         ))),
         };
+    }
 
     public VerenigingState Apply(VertegenwoordigerWerdGewijzigd @event)
     {
