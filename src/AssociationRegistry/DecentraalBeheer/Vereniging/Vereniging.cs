@@ -16,9 +16,6 @@ using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
-    public Vereniging(IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService) : base(vertegenwoordigerPersoonsgegevensService)
-    {
-    }
 
     public static async Task<Vereniging> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
         RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid registratieData,
@@ -36,7 +33,13 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(registratieData.Contactgegevens);
         var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(registratieData.Vertegenwoordigers);
 
-        var vereniging = new Vereniging(vertegenwoordigerPersoonsgegevensService);
+        var vereniging = new Vereniging()
+        {
+            State = new VerenigingState()
+            {
+                VertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService,
+            }
+        };
 
         vereniging.AddEvent(
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(

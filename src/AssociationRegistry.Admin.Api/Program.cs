@@ -63,6 +63,7 @@ using CommandHandling.DecentraalBeheer.Acties.DubbelDetectie;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 using CommandHandling.KboSyncLambda.SyncKbo;
 using CommandHandling.Magda;
+using CommandHandling.Persoonsgegevens;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Marten;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -474,6 +475,8 @@ public class Program
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
                .AddTransient<IEventStore, EventStore>()
                .AddTransient<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+               .AddTransient<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+               .AddTransient<IVertegenwoordigerPersoonsgegevensService, VertegenwoordigerPersoonsgegevensService>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
                .AddTransient<IDubbelDetectieRepository, DubbelDetectieRepository>()
                .AddTransient<IDuplicateVerenigingDetectionService, ZoekDuplicateVerenigingenQuery>()

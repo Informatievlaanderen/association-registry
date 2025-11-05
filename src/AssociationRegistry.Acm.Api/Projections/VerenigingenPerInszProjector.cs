@@ -3,6 +3,7 @@ namespace AssociationRegistry.Acm.Api.Projections;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
+using Events.Enriched;
 using JasperFx.Events;
 using Marten;
 using Schema.VerenigingenPerInsz;
@@ -109,12 +110,12 @@ public static class VerenigingenPerInszProjector
     }
 
     public static async Task<VerenigingenPerInszDocument> Apply(
-        IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
+        IEvent<VertegenwoordigerWerdToegevoegdMetPersoonsgegevens> vertegenwoordigerWerdToegevoegd,
         IDocumentOperations ops)
     {
         var vCode = vertegenwoordigerWerdToegevoegd.StreamKey!;
         var vereniging = await ops.GetVerenigingDocument(vCode);
-        var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdToegevoegd.Data.Insz);
+        var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerPersoonsgegevens.Insz); //todo: persoonsgegevens
 
         document.Verenigingen.Add(
             new Vereniging

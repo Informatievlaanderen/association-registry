@@ -101,7 +101,8 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         var vereniging = VerenigingMetRechtspersoonlijkheid.Registreer(
             vCode,
-            verenigingVolgensKbo);
+            verenigingVolgensKbo,
+            _service);
 
         var duplicateResult = await CheckForDuplicate(verenigingVolgensKbo.KboNummer, messageMetadata);
 

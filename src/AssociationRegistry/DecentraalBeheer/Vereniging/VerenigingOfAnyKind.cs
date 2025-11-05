@@ -19,10 +19,6 @@ using TelefoonNummers;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 {
-    public VerenigingOfAnyKind(IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService) : base(vertegenwoordigerPersoonsgegevensService)
-    {
-    }
-
     public Contactgegeven VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);

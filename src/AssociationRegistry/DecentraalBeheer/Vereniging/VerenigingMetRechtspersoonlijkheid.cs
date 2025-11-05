@@ -15,9 +15,6 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 {
     private static Verenigingstype[] _allowedTypes;
 
-    public VerenigingMetRechtspersoonlijkheid(IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService) : base(vertegenwoordigerPersoonsgegevensService)
-    {
-    }
 
     public void Hydrate(VerenigingState obj)
     {
@@ -35,9 +32,18 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         State = obj;
     }
 
-    public static VerenigingMetRechtspersoonlijkheid Registreer(VCode vCode, VerenigingVolgensKbo verenigingVolgensKbo, IVertegenwoordigerPersoonsgegevensService service)
+    public static VerenigingMetRechtspersoonlijkheid Registreer(
+        VCode vCode,
+        VerenigingVolgensKbo verenigingVolgensKbo,
+        IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService)
     {
-        var vereniging = new VerenigingMetRechtspersoonlijkheid(service);
+        var vereniging = new VerenigingMetRechtspersoonlijkheid()
+        {
+            State = new VerenigingState()
+            {
+                VertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService,
+            }
+        };
 
         vereniging.AddEvent(
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(

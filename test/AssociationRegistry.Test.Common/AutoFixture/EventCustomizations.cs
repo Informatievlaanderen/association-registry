@@ -150,17 +150,7 @@ public static class EventCustomizations
                                      () => new VertegenwoordigerWerdToegevoegd(
                                          Guid.NewGuid(),
                                          fixture.Create<int>(),
-                                         fixture.Create<Insz>(),
-                                         IsPrimair: false,
-                                         fixture.Create<string>(),
-                                         fixture.Create<string>(),
-                                         fixture.Create<Voornaam>(),
-                                         fixture.Create<Achternaam>(),
-                                         fixture.Create<Email>().Waarde,
-                                         fixture.Create<TelefoonNummer>().Waarde,
-                                         fixture.Create<TelefoonNummer>().Waarde,
-                                         fixture.Create<SocialMedia>().Waarde
-                                     ))
+                                         IsPrimair: false))
                                 .OmitAutoProperties());
     }
 

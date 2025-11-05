@@ -3,17 +3,21 @@
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using DecentraalBeheer.Vereniging;
 using Marten;
 using OpenTelemetry.Metrics;
+using Persoonsgegevens;
 
 public class VerenigingsRepository : IVerenigingsRepository
 {
     private readonly IEventStore _eventStore;
+    private readonly IVertegenwoordigerPersoonsgegevensService _vertegenwoordigerPersoonsgegevensService;
 
-    public VerenigingsRepository(IEventStore eventStore)
+    public VerenigingsRepository(IEventStore eventStore, IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService)
     {
         _eventStore = eventStore;
+        _vertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService;
     }
 
     public async Task<StreamActionResult> Save(
@@ -58,7 +62,11 @@ public class VerenigingsRepository : IVerenigingsRepository
     {
         RepositoryMetrics.RecordAggregateLoaded(metadata.ExpectedVersion.HasValue, metadata.Initiator);
 
-        var verenigingState = await _eventStore.Load<VerenigingState>(vCode, metadata.ExpectedVersion);
+        var verenigingState = await _eventStore.Load(vCode, metadata.ExpectedVersion,
+            () => new VerenigingState()
+            {
+                VertegenwoordigerPersoonsgegevensService = _vertegenwoordigerPersoonsgegevensService,
+            });
 
         if (!allowVerwijderdeVereniging)
             verenigingState.ThrowIfVerwijderd();
@@ -76,7 +84,15 @@ public class VerenigingsRepository : IVerenigingsRepository
     {
         RepositoryMetrics.RecordAggregateLoaded(metadata.ExpectedVersion.HasValue, metadata.Initiator);
 
-        var verenigingState = await _eventStore.Load<VerenigingState>(kboNummer, metadata.ExpectedVersion);
+        var vCode = await _eventStore.GetVCodeForKbo(kboNummer);
+        if (vCode is null)
+            throw new AggregateNotFoundException(kboNummer, typeof(VerenigingMetRechtspersoonlijkheid));
+
+        var verenigingState = await _eventStore.Load(vCode, metadata.ExpectedVersion,
+            () => new VerenigingState()
+            {
+                VertegenwoordigerPersoonsgegevensService = _vertegenwoordigerPersoonsgegevensService,
+            });
         var verenigingMetRechtspersoonlijkheid = new VerenigingMetRechtspersoonlijkheid();
         verenigingMetRechtspersoonlijkheid.Hydrate(verenigingState);
 
@@ -85,14 +101,22 @@ public class VerenigingsRepository : IVerenigingsRepository
 
     public async Task<bool> IsVerwijderd(VCode vCode)
     {
-        var verenigingState = await _eventStore.Load<VerenigingState>(vCode, null);
+        var verenigingState = await _eventStore.Load(vCode, null,
+            () => new VerenigingState()
+            {
+                VertegenwoordigerPersoonsgegevensService = _vertegenwoordigerPersoonsgegevensService,
+            });
 
         return verenigingState.IsVerwijderd;
     }
 
     public async Task<bool> IsDubbel(VCode vCode)
     {
-        var verenigingState = await _eventStore.Load<VerenigingState>(vCode, null);
+        var verenigingState = await _eventStore.Load(vCode, null,
+                                                     () => new VerenigingState()
+                                                     {
+                                                         VertegenwoordigerPersoonsgegevensService = _vertegenwoordigerPersoonsgegevensService,
+                                                     });
 
         return verenigingState.VerenigingStatus is VerenigingStatus.StatusDubbel;
     }

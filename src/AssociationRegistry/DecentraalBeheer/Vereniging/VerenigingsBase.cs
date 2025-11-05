@@ -5,9 +5,9 @@ using Persoonsgegevens;
 
 public abstract class VerenigingsBase
 {
-    public VerenigingsBase(IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService)
+    public VerenigingsBase()
     {
-        State = new VerenigingState(vertegenwoordigerPersoonsgegevensService);
+        State = new VerenigingState();
     }
 
     protected VerenigingState State { get; set; }

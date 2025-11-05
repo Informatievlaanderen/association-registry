@@ -5,9 +5,9 @@ using Marten;
 
 public class VertegenwoordigerPersoonsgegevensQuery : IVertegenwoordigerPersoonsgegevensQuery
 {
-    private readonly IDocumentSession _session;
+    private readonly IQuerySession _session;
 
-    public VertegenwoordigerPersoonsgegevensQuery(IDocumentSession session)
+    public VertegenwoordigerPersoonsgegevensQuery(IQuerySession session)
     {
         _session = session;
     }

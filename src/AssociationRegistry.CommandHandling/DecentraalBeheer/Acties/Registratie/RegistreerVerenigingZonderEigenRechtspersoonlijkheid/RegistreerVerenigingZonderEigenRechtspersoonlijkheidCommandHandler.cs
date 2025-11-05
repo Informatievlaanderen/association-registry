@@ -83,6 +83,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
             potentialDuplicates.PotentialDuplicatesSkipped,
             potentialDuplicates.Bevestigingstoken,
             _vCodeService,
+            _vertegenwoordigerPersoonsgegevensService,
             _clock);
 
         var (metAdresId, zonderAdresId) = vereniging.GeefLocatiesMetEnZonderAdresId();

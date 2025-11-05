@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
 using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Enriched;
 using Formats;
 using Framework;
 using JasperFx.Events;
@@ -199,14 +200,14 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
-        IEvent<VertegenwoordigerWerdToegevoegd> @event,
+        IEvent<VertegenwoordigerWerdToegevoegdMetPersoonsgegevens> @event,
         BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             @event,
             VertegenwoordigerData.Create(@event.Data),
             document,
-            $"'{@event.Data.Voornaam} {@event.Data.Achternaam}' werd toegevoegd als vertegenwoordiger."
+            $"'{@event.Data.VertegenwoordigerPersoonsgegevens.Voornaam} {@event.Data.VertegenwoordigerPersoonsgegevens.Achternaam}' werd toegevoegd als vertegenwoordiger."
         );
     }
 

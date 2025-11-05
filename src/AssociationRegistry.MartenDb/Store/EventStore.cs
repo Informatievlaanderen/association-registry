@@ -147,7 +147,7 @@ public class EventStore : Store.IEventStore
         session.CorrelationId = metadata.CorrelationId.ToString();
     }
 
-    public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion, new()
+    public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion
     {
         await using var session = _documentStore.LightweightSession();
 
@@ -168,7 +168,29 @@ public class EventStore : Store.IEventStore
         return aggregate;
     }
 
-    public async Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new()
+    public async Task<T> Load<T>(string id, long? expectedVersion, Func<T> stateFactory) where T : class, IHasVersion
+    {
+        await using var session = _documentStore.LightweightSession();
+
+        var initialState = stateFactory();
+        var aggregate = await session.Events.AggregateStreamAsync<T>(id, state: initialState) ??
+                        throw new AggregateNotFoundException(id, typeof(T));
+
+        if (expectedVersion is not null && aggregate.Version != expectedVersion)
+        {
+            Throw<UnexpectedAggregateVersionException>.If(expectedVersion > aggregate.Version);
+
+            var eventsInNewVersion = (await session.Events.FetchStreamAsync(id, aggregate.Version))
+               .Where(x => x.Version > expectedVersion);
+
+            if (!_conflictResolver.IsAllowedPreConflict(eventsInNewVersion))
+                throw new UnexpectedAggregateVersionException();
+        }
+
+        return aggregate;
+    }
+
+    public async Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion
     {
         var vCode = await GetVCodeForKbo(kboNummer);
 

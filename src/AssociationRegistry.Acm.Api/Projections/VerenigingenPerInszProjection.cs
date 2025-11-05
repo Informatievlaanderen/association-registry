@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
 using Events;
+using Events.Enriched;
 using JasperFx.Events;
 using Marten;
 using Marten.Events.Projections;
@@ -80,7 +81,7 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
+    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegdMetPersoonsgegevens> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)//todo: persoonsgegevens
         => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdToegevoegd, ops));
 
     public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
