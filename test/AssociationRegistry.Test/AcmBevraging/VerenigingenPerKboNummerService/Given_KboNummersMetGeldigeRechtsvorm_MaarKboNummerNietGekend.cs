@@ -26,7 +26,7 @@ public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend
         var kboNummer = fixture.Create<KboNummer>();
 
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend));
-        var eventStore = new EventStore(store, new EventConflictResolver([], []), Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(store.LightweightSession(), new EventConflictResolver([], []), Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
 
         var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), eventStore);
 

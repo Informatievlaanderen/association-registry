@@ -226,13 +226,13 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         return true;
     }
 
-    public Vertegenwoordiger VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger, IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
+    public async Task<Vertegenwoordiger> VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger, IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
     {
         var refId = Guid.NewGuid();
 
         var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
 
-        vertegenwoordigerPersoonsgegevensRepository.Save(new VertegenwoordigerPersoonsgegevens(
+        await vertegenwoordigerPersoonsgegevensRepository.Save(new VertegenwoordigerPersoonsgegevens(
                                                               refId,
                                                               VCode,
                                                               toegevoegdeVertegenwoordiger.VertegenwoordigerId,

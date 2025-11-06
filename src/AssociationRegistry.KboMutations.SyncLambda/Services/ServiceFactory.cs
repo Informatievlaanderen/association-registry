@@ -190,11 +190,11 @@ public class ServiceFactory
             Array.Empty<IEventPostConflictResolutionStrategy>());
 
         return new VerenigingsRepository(
-            new EventStore(store, eventConflictResolver,
+            new EventStore(store.LightweightSession(), eventConflictResolver,
                            new VertegenwoordigerPersoonsgegevensRepository(store.LightweightSession(),
                                                                            new VertegenwoordigerPersoonsgegevensService(
                                                                                new VertegenwoordigerPersoonsgegevensQuery(
-                                                                                   store.QuerySession()))),
+                                                                                   store.LightweightSession()))),
                            loggerFactory.CreateLogger<EventStore>()));
     }
 

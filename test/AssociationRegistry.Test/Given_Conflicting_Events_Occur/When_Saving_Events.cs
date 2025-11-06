@@ -43,7 +43,7 @@ public class When_Saving_Events
                                                               });
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, eventConflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore.LightweightSession(), eventConflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 

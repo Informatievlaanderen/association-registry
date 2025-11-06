@@ -28,6 +28,6 @@ public class Given_A_Duplicate
                               .Apply((dynamic)verenigingWerdGeregistreerd));
 
         var toeTeVoegenVertegenwoordiger = fixture.Create<Vertegenwoordiger>() with { Insz = Insz.Create(verenigingWerdGeregistreerd.Vertegenwoordigers.First().Insz) };
-        Assert.Throws<InszMoetUniekZijn>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>()));
+        Assert.ThrowsAsync<InszMoetUniekZijn>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>()));
     }
 }

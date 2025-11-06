@@ -24,7 +24,7 @@ public class Given_A_Second_Primaire_Vertegenwoordiger
 
         var toeTeVoegenVertegenwoordiger = fixture.Create<Vertegenwoordiger>() with { IsPrimair = true };
 
-        Assert.Throws<MeerderePrimaireVertegenwoordigers>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>()));
+        Assert.ThrowsAsync<MeerderePrimaireVertegenwoordigers>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>()));
     }
 
     public static IEnumerable<object[]> Data

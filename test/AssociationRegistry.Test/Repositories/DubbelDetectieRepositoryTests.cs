@@ -21,7 +21,7 @@ public class DubbelDetectieRepositoryTests
         var fixture = new Fixture();
         var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(DubbelDetectieRepositoryTests));
         var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, new EventConflictResolver([], []), Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore.LightweightSession(), new EventConflictResolver([], []), Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
 
         var sut = new DubbelDetectieRepository(eventStore);
 

@@ -26,7 +26,7 @@ public class VoegVertegenwoordigerToeCommandHandler
                                           .OrWhenUnsupportedOperationForType()
                                           .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen>();
 
-        var vertegenwoordigerId = vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger, _vertegenwoordigerPersoonsgegevensRepository);
+        var vertegenwoordigerId = await vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger, _vertegenwoordigerPersoonsgegevensRepository);
 
         var result = await _repository.Save(vereniging, envelope.Metadata, cancellationToken);
 

@@ -206,12 +206,12 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         await using var session = DocumentStore.LightweightSession();
-        var eventStore = new EventStore(ProjectionsDocumentStore,
+        var eventStore = new EventStore(ProjectionsDocumentStore.LightweightSession(),
                                         EventConflictResolver,
                                         new VertegenwoordigerPersoonsgegevensRepository(
                                             session,
                                             new VertegenwoordigerPersoonsgegevensService(
-                                                new VertegenwoordigerPersoonsgegevensQuery(DocumentStore.QuerySession()))),
+                                                new VertegenwoordigerPersoonsgegevensQuery(DocumentStore.LightweightSession()))),
                                         NullLogger<EventStore>.Instance);
         var result = await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), session, metadata, CancellationToken.None, eventsToAdd);
 
