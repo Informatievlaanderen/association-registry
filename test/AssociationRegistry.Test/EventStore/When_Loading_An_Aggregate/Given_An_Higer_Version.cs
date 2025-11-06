@@ -58,7 +58,7 @@ public class Given_An_Higer_Version
         var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Higer_Version));
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensService>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 
         await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),

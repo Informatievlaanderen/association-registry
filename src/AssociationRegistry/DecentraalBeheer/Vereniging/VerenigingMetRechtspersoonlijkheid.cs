@@ -35,13 +35,13 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     public static VerenigingMetRechtspersoonlijkheid Registreer(
         VCode vCode,
         VerenigingVolgensKbo verenigingVolgensKbo,
-        IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService)
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
     {
         var vereniging = new VerenigingMetRechtspersoonlijkheid()
         {
             State = new VerenigingState()
             {
-                VertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService,
+                VertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository,
             }
         };
 

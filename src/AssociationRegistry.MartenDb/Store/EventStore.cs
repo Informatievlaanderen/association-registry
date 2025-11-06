@@ -22,14 +22,14 @@ public class EventStore : IEventStore
 
     private readonly IDocumentSession _session;
     private readonly EventConflictResolver _conflictResolver;
-    private readonly IVertegenwoordigerPersoonsgegevensService _vertegenwoordigerPersoonsgegevensService;
+    private readonly IVertegenwoordigerPersoonsgegevensRepository _vertegenwoordigerPersoonsgegevensRepository;
     private readonly ILogger<EventStore> _logger;
 
-    public EventStore(IDocumentSession session, EventConflictResolver conflictResolver, IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService,  ILogger<EventStore> logger)
+    public EventStore(IDocumentSession session, EventConflictResolver conflictResolver, IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,  ILogger<EventStore> logger)
     {
         _session = session;
         _conflictResolver = conflictResolver;
-        _vertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService;
+        _vertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository;
         _logger = logger;
     }
 
@@ -169,14 +169,13 @@ public class EventStore : IEventStore
     {
         var defaultVerenigingState = new VerenigingState
         {
-            VertegenwoordigerPersoonsgegevensService = _vertegenwoordigerPersoonsgegevensService,
+            VertegenwoordigerPersoonsgegevensRepository = _vertegenwoordigerPersoonsgegevensRepository,
         };
 
         var aggregate = await _session.Events.AggregateStreamAsync(id, state: defaultVerenigingState);
 
         if (aggregate == defaultVerenigingState)
             throw new AggregateNotFoundException(id, typeof(VerenigingState));
-
         if (expectedVersion is not null && aggregate.Version != expectedVersion)
         {
             Throw<UnexpectedAggregateVersionException>.If(expectedVersion > aggregate.Version);
@@ -223,7 +222,6 @@ public class EventStore : IEventStore
 
     public async Task<VCode?> GetVCodeForKbo(string kboNummer)
     {
-
         var id = (await _session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                                .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)
                                .SingleOrDefaultAsync())?.VCode;

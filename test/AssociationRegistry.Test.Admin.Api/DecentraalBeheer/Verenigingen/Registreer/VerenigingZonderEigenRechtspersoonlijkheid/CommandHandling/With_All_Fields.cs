@@ -18,6 +18,7 @@ using Events.Factories;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Persoonsgegevens;
 using ResultNet;
 using Vereniging;
 using Wolverine.Marten;
@@ -56,6 +57,7 @@ public class With_All_Fields
 
         var commandHandler =
             new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(_verenigingRepositoryMock,
+                                                                                   Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(),
                                                                                    _vCodeService,
                                                                                    Mock.Of<IMartenOutbox>(),
                                                                                    Mock.Of<IDocumentSession>(),

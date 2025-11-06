@@ -17,7 +17,7 @@ public class Given_No_KboNummersMetRechtsvorm
     public async ValueTask Returns_No_VerenigingenPerKbo()
     {
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_No_KboNummersMetRechtsvorm));
-        var eventStore = new EventStore(store, new EventConflictResolver([], []), Mock.Of<IVertegenwoordigerPersoonsgegevensService>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(store, new EventConflictResolver([], []), Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
 
         var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), eventStore);
         var result = await service.GetVerenigingenPerKbo([], CancellationToken.None);

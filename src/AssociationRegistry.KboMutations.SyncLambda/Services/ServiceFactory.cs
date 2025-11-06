@@ -14,21 +14,17 @@ using CommandHandling.Magda;
 using CommandHandling.Persoonsgegevens;
 using Configuration;
 using EventStore.ConflictResolution;
-using Integrations.Magda.GeefOnderneming;
 using Integrations.Slack;
 using JasperFx;
 using JasperFx.Events;
 using Logging;
 using Marten;
-using Marten.Events;
-using Marten.Services;
 using MartenDb.Store;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Npgsql;
 using Telemetry;
-using Weasel.Core;
 using PostgreSqlOptionsSection = Configuration.PostgreSqlOptionsSection;
 
 public class ServiceFactory
@@ -194,8 +190,11 @@ public class ServiceFactory
             Array.Empty<IEventPostConflictResolutionStrategy>());
 
         return new VerenigingsRepository(
-            new EventStore(store.LightweightSession(), eventConflictResolver,
-                           new VertegenwoordigerPersoonsgegevensService(new VertegenwoordigerPersoonsgegevensQuery(store.QuerySession())),
+            new EventStore(store, eventConflictResolver,
+                           new VertegenwoordigerPersoonsgegevensRepository(store.LightweightSession(),
+                                                                           new VertegenwoordigerPersoonsgegevensService(
+                                                                               new VertegenwoordigerPersoonsgegevensQuery(
+                                                                                   store.QuerySession()))),
                            loggerFactory.CreateLogger<EventStore>()));
     }
 

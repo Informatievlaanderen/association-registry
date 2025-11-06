@@ -35,20 +35,21 @@ public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
 
     public async ValueTask InitializeAsync()
     {
-        var command = new WijzigVertegenwoordigerCommand(
-            _scenario.VCode,
-            new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
-                _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-                _scenario.VertegenwoordigerWerdToegevoegd.Rol,
-                _scenario.VertegenwoordigerWerdToegevoegd.Roepnaam,
-                Email.Create(_scenario.VertegenwoordigerWerdToegevoegd.Email),
-                TelefoonNummer.Create(_scenario.VertegenwoordigerWerdToegevoegd.Telefoon),
-                TelefoonNummer.Create(_scenario.VertegenwoordigerWerdToegevoegd.Mobiel),
-                SocialMedia.Create(_scenario.VertegenwoordigerWerdToegevoegd.SocialMedia),
-                _scenario.VertegenwoordigerWerdToegevoegd.IsPrimair));
-
-        _commandResult =
-            await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
+        throw new NotImplementedException();
+        // var command = new WijzigVertegenwoordigerCommand(
+        //     _scenario.VCode,
+        //     new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
+        //         _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+        //         _scenario.VertegenwoordigerWerdToegevoegd.Rol,
+        //         _scenario.VertegenwoordigerWerdToegevoegd.Roepnaam,
+        //         Email.Create(_scenario.VertegenwoordigerWerdToegevoegd.Email),
+        //         TelefoonNummer.Create(_scenario.VertegenwoordigerWerdToegevoegd.Telefoon),
+        //         TelefoonNummer.Create(_scenario.VertegenwoordigerWerdToegevoegd.Mobiel),
+        //         SocialMedia.Create(_scenario.VertegenwoordigerWerdToegevoegd.SocialMedia),
+        //         _scenario.VertegenwoordigerWerdToegevoegd.IsPrimair));
+        //
+        // _commandResult =
+        //     await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
     }
 
     [Fact]

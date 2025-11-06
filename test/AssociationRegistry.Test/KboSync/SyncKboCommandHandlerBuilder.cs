@@ -99,7 +99,7 @@ public class SyncKboCommandHandlerBuilder
         {
             KboNummer = _kboNummer,
         },
-        Mock.Of<IVertegenwoordigerPersoonsgegevensService>());
+        Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>());
 
         _verenigingsRepository.Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>()))
                               .ReturnsAsync(vereniging);

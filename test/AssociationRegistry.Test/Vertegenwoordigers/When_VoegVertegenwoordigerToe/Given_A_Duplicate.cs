@@ -7,6 +7,8 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
+using Moq;
+using Persoonsgegevens;
 using Xunit;
 
 public class Given_A_Duplicate
@@ -26,6 +28,6 @@ public class Given_A_Duplicate
                               .Apply((dynamic)verenigingWerdGeregistreerd));
 
         var toeTeVoegenVertegenwoordiger = fixture.Create<Vertegenwoordiger>() with { Insz = Insz.Create(verenigingWerdGeregistreerd.Vertegenwoordigers.First().Insz) };
-        Assert.Throws<InszMoetUniekZijn>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger, Guid.NewGuid()));
+        Assert.Throws<InszMoetUniekZijn>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>()));
     }
 }

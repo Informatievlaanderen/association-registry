@@ -84,7 +84,7 @@ public class With_A_Duplicate_PhoneNumber
                                                                 false,
                                                                 string.Empty,
                                                                 vCodeService,
-                                                                Mock.Of<IVertegenwoordigerPersoonsgegevensService>(),
+                                                                Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(),
                                                                 clock: new ClockStub(DateTime.Today)));
     }
 

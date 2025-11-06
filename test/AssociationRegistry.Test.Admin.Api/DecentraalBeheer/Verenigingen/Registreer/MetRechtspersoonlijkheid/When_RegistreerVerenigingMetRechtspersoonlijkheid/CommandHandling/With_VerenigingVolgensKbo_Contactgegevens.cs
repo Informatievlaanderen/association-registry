@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.
+    When_RegistreerVerenigingMetRechtspersoonlijkheid.
     CommandHandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
@@ -16,6 +17,7 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Persoonsgegevens;
 using ResultNet;
 using Xunit;
 
@@ -46,6 +48,7 @@ public class With_VerenigingVolgensKbo_Contactgegevens
 
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
+            Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(),
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
@@ -133,6 +136,7 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
 
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
+            Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(),
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),

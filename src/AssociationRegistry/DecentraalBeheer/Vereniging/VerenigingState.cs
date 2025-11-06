@@ -19,7 +19,7 @@ using TelefoonNummers;
 
 public record VerenigingState : IHasVersion
 {
-    public IVertegenwoordigerPersoonsgegevensService VertegenwoordigerPersoonsgegevensService { get; set; }
+    public IVertegenwoordigerPersoonsgegevensRepository VertegenwoordigerPersoonsgegevensRepository { get; set; }
 
     public VerenigingState()
     {
@@ -358,7 +358,7 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(VertegenwoordigerWerdToegevoegd @event)
     {
-        var vertegenwoordigerPersoonsgegevens =  VertegenwoordigerPersoonsgegevensService.Get(@event.RefId).GetAwaiter().GetResult();
+        var vertegenwoordigerPersoonsgegevens =  VertegenwoordigerPersoonsgegevensRepository.Get(@event.RefId).GetAwaiter().GetResult();
         return this with
         {
             Vertegenwoordigers = Vertegenwoordigers.Hydrate(

@@ -14,6 +14,7 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Persoonsgegevens;
 using ResultNet;
 using Xunit;
 
@@ -37,6 +38,7 @@ public class With_An_Unknown_VerenigingVolgensKbo
 
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
+            Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(),
             _vCodeService,
             new MagdaGeefVerenigingNumberNotFoundServiceMock(),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),

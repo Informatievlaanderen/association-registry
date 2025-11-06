@@ -17,6 +17,7 @@ using Events.Factories;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Persoonsgegevens;
 using Wolverine.Marten;
 using Xunit;
 
@@ -59,6 +60,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
 
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             _repositoryMock,
+            Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(),
             _vCodeService,
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),

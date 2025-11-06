@@ -26,11 +26,11 @@ public class RegistreerVerenigingUitKboCommandHandler
     private readonly IDocumentSession _session;
     private readonly ILogger<RegistreerVerenigingUitKboCommandHandler> _logger;
     private readonly IVerenigingsRepository _verenigingsRepository;
-    private readonly IVertegenwoordigerPersoonsgegevensService _service;
+    private readonly IVertegenwoordigerPersoonsgegevensRepository _vertegenwoordigerPersoonsgegevensRepository;
 
     public RegistreerVerenigingUitKboCommandHandler(
         IVerenigingsRepository verenigingsRepository,
-        IVertegenwoordigerPersoonsgegevensService service,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
         IVCodeService vCodeService,
         IMagdaGeefVerenigingService geefVerenigingService,
         IMagdaRegistreerInschrijvingService magdaRegistreerInschrijvingService,
@@ -38,7 +38,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         ILogger<RegistreerVerenigingUitKboCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
-        _service = service;
+        _vertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository;
         _vCodeService = vCodeService;
         _magdaGeefVerenigingService = geefVerenigingService;
         _magdaRegistreerInschrijvingService = magdaRegistreerInschrijvingService;
@@ -102,7 +102,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         var vereniging = VerenigingMetRechtspersoonlijkheid.Registreer(
             vCode,
             verenigingVolgensKbo,
-            _service);
+            _vertegenwoordigerPersoonsgegevensRepository);
 
         var duplicateResult = await CheckForDuplicate(verenigingVolgensKbo.KboNummer, messageMetadata);
 

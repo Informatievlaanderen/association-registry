@@ -10,7 +10,10 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.VertegenwoordigerPersoonsgegevensRepositories;
 using FluentAssertions;
+using Moq;
+using Persoonsgegevens;
 using Xunit;
 
 public class Given_A_Second_Primair_Vertegenwoordiger
@@ -22,11 +25,13 @@ public class Given_A_Second_Primair_Vertegenwoordiger
     public Given_A_Second_Primair_Vertegenwoordiger()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
-
+        var verenigingState = _scenario.GetVerenigingState();
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(verenigingState);
+        var vertegenwoordigerRepositoryMock = new VertegenwoordigerPersoonsgegevensRepositoryMock();
+        verenigingState.VertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerRepositoryMock;
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock);
+        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock, vertegenwoordigerRepositoryMock);
     }
 
     [Fact]

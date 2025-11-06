@@ -21,7 +21,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         bool potentialDuplicatesSkipped,
         string bevestigingsToken,
         IVCodeService vCodeService,
-        IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
         IClock clock)
     {
         Throw<StartdatumMagNietInToekomstZijn>.If(registratieData.Startdatum?.IsInFutureOf(clock.Today) ?? false);
@@ -36,7 +36,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         {
             State = new VerenigingState()
             {
-                VertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService,
+                VertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository,
             }
         };
 
@@ -226,9 +226,27 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         return true;
     }
 
-    public Vertegenwoordiger VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger, Guid refId)
+    public Vertegenwoordiger VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger, IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
     {
+        var refId = Guid.NewGuid();
+
         var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
+
+        vertegenwoordigerPersoonsgegevensRepository.Save(new VertegenwoordigerPersoonsgegevens(
+                                                              refId,
+                                                              VCode,
+                                                              toegevoegdeVertegenwoordiger.VertegenwoordigerId,
+                                                              vertegenwoordiger.Insz,
+                                                              vertegenwoordiger.IsPrimair,
+                                                              vertegenwoordiger.Roepnaam,
+                                                              vertegenwoordiger.Rol,
+                                                              vertegenwoordiger.Voornaam,
+                                                              vertegenwoordiger.Achternaam,
+                                                              vertegenwoordiger.Email.Waarde,
+                                                              vertegenwoordiger.Telefoon.Waarde,
+                                                              vertegenwoordiger.Mobiel.Waarde,
+                                                              vertegenwoordiger.SocialMedia.Waarde
+                                                          ));
 
         AddEvent(EventFactory.VertegenwoordigerWerdToegevoegd(toegevoegdeVertegenwoordiger, refId));
 

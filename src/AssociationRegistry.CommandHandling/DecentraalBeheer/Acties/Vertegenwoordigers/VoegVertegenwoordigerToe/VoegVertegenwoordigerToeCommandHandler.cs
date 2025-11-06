@@ -4,8 +4,6 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Persoonsgegevens;
 using Framework;
-using Marten;
-using Persoonsgegevens;
 
 public class VoegVertegenwoordigerToeCommandHandler
 {
@@ -28,25 +26,7 @@ public class VoegVertegenwoordigerToeCommandHandler
                                           .OrWhenUnsupportedOperationForType()
                                           .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen>();
 
-        var refId = Guid.NewGuid();
-
-        await _vertegenwoordigerPersoonsgegevensRepository.Save(new VertegenwoordigerPersoonsgegevens(
-                                                                    refId,
-                                                                    envelope.Command.VCode,
-                                                                    envelope.Command.Vertegenwoordiger.VertegenwoordigerId,
-                                                                    envelope.Command.Vertegenwoordiger.Insz,
-                                                                    envelope.Command.Vertegenwoordiger.IsPrimair,
-                                                                    envelope.Command.Vertegenwoordiger.Roepnaam,
-                                                                    envelope.Command.Vertegenwoordiger.Rol,
-                                                                    envelope.Command.Vertegenwoordiger.Voornaam,
-                                                                    envelope.Command.Vertegenwoordiger.Achternaam,
-                                                                    envelope.Command.Vertegenwoordiger.Email.Waarde,
-                                                                    envelope.Command.Vertegenwoordiger.Telefoon.Waarde,
-                                                                    envelope.Command.Vertegenwoordiger.Mobiel.Waarde,
-                                                                    envelope.Command.Vertegenwoordiger.SocialMedia.Waarde
-                                                                ));
-
-        var vertegenwoordigerId = vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger, refId);
+        var vertegenwoordigerId = vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger, _vertegenwoordigerPersoonsgegevensRepository);
 
         var result = await _repository.Save(vereniging, envelope.Metadata, cancellationToken);
 

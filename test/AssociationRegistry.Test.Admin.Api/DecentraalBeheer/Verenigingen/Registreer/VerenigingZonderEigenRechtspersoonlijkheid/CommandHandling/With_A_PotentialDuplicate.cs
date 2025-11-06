@@ -19,6 +19,7 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Persoonsgegevens;
 using ResultNet;
 using Wolverine.Marten;
 using Xunit;
@@ -52,6 +53,7 @@ public class With_A_PotentialDuplicate
 
         var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             new VerenigingRepositoryMock(scenario.GetVerenigingState()),
+            Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(),
             new InMemorySequentialVCodeService(),
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),

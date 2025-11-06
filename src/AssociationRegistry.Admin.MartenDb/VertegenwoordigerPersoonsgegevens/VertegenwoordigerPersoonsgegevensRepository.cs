@@ -7,10 +7,12 @@ using Schema.Persoonsgegevens;
 public class VertegenwoordigerPersoonsgegevensRepository: IVertegenwoordigerPersoonsgegevensRepository
 {
     private readonly IDocumentSession _session;
+    private readonly IVertegenwoordigerPersoonsgegevensService _vertegenwoordigerPersoonsgegevensService;
 
-    public VertegenwoordigerPersoonsgegevensRepository(IDocumentSession session)
+    public VertegenwoordigerPersoonsgegevensRepository(IDocumentSession session, IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService)
     {
         _session = session;
+        _vertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService;
     }
 
     public async Task Save(VertegenwoordigerPersoonsgegevens vertegenwoordigerPersoonsgegevens)
@@ -32,4 +34,7 @@ public class VertegenwoordigerPersoonsgegevensRepository: IVertegenwoordigerPers
             SocialMedia = vertegenwoordigerPersoonsgegevens.SocialMedia,
         });
     }
+
+    public async Task<VertegenwoordigerPersoonsgegevens> Get(Guid refId)
+        => await _vertegenwoordigerPersoonsgegevensService.Get(refId);
 }

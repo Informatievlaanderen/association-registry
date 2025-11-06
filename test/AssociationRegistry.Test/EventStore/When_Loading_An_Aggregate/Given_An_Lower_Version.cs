@@ -48,7 +48,7 @@ public class Given_An_Lower_Version
         var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensService>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
         var vCode = VCode.Create(verenigingWerdGeregistreerd.VCode);
@@ -75,7 +75,7 @@ public class Given_An_Lower_Version
         var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensService>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
         var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 
         var @event = (IEvent)new SpecimenContext(_fixture).Resolve(eventType);
@@ -105,7 +105,7 @@ public class Given_An_Lower_Version
         var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensService>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
         var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = _fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
         var @event = (IEvent)new SpecimenContext(_fixture).Resolve(eventType);

@@ -14,6 +14,7 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Persoonsgegevens;
 using ResultNet;
 using Xunit;
 
@@ -49,6 +50,7 @@ public class With_VerenigingVolgensKbo_No_Adres
 
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
+            Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(),
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(
                 _verenigingVolgensKbo

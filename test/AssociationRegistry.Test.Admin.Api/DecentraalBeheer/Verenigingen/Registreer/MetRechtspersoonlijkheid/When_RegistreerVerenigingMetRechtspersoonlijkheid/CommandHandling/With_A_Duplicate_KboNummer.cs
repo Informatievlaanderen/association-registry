@@ -17,6 +17,7 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Persoonsgegevens;
 using ResultNet;
 
 using Xunit;
@@ -55,6 +56,7 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
 
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             new VerenigingRepositoryMock(_moederVCodeAndNaam),
+            Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(),
             new InMemorySequentialVCodeService(),
             _magdaGeefVerenigingService.Object,
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),

@@ -25,11 +25,11 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
     private readonly IDocumentSession _session;
     private readonly IVCodeService _vCodeService;
     private readonly IVerenigingsRepository _verenigingsRepository;
-    private readonly IVertegenwoordigerPersoonsgegevensService _vertegenwoordigerPersoonsgegevensService;
+    private readonly IVertegenwoordigerPersoonsgegevensRepository _vertegenwoordigerPersoonsgegevensRepository;
 
     public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
         IVerenigingsRepository verenigingsRepository,
-        IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
         IVCodeService vCodeService,
         IMartenOutbox outbox,
         IDocumentSession session,
@@ -38,7 +38,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
-        _vertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService;
+        _vertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository;
         _vCodeService = vCodeService;
         _outbox = outbox;
         _session = session;
@@ -83,7 +83,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
             potentialDuplicates.PotentialDuplicatesSkipped,
             potentialDuplicates.Bevestigingstoken,
             _vCodeService,
-            _vertegenwoordigerPersoonsgegevensService,
+            _vertegenwoordigerPersoonsgegevensRepository,
             _clock);
 
         var (metAdresId, zonderAdresId) = vereniging.GeefLocatiesMetEnZonderAdresId();

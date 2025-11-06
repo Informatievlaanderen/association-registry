@@ -17,6 +17,7 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Persoonsgegevens;
 using Wolverine.Marten;
 using Xunit;
 
@@ -40,6 +41,7 @@ public class With_A_Startdatum_In_The_Future
 
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             repositoryMock,
+            Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(),
             new InMemorySequentialVCodeService(),
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),
