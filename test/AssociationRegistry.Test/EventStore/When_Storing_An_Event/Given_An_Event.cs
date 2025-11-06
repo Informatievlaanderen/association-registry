@@ -9,8 +9,10 @@ using JasperFx.Events;
 using Marten;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using NodaTime;
 using NodaTime.Text;
+using Persoonsgegevens;
 using Xunit;
 
 public class Given_An_Event
@@ -22,7 +24,7 @@ public class Given_An_Event
         // arrange
         var streamId = Guid.NewGuid().ToString();
         var someEvent = new SomeEvent("some event");
-        var eventStore = new EventStore(documentStore, new EventConflictResolver([new EmptyConflictResolutionStrategy()], [new EmptyConflictResolutionStrategy()]), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore, new EventConflictResolver([new EmptyConflictResolutionStrategy()], [new EmptyConflictResolutionStrategy()]), Mock.Of<IVertegenwoordigerPersoonsgegevensService>(), NullLogger<EventStore>.Instance);
 
         // act
         var tijdstip = new Instant();

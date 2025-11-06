@@ -10,7 +10,7 @@ public abstract class VerenigingsBase
         State = new VerenigingState();
     }
 
-    protected VerenigingState State { get; set; }
+    public VerenigingState State { get; set; }
 
     public VCode VCode
         => State.VCode;

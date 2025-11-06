@@ -11,6 +11,7 @@ using Integrations.Slack;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Persoonsgegevens;
 using ResultNet;
 using Vereniging;
 
@@ -97,7 +98,8 @@ public class SyncKboCommandHandlerBuilder
         var vereniging = VerenigingMetRechtspersoonlijkheid.Registreer(_fixture.Create<VCode>(), _fixture.Create<VerenigingVolgensKbo>() with
         {
             KboNummer = _kboNummer,
-        });
+        },
+        Mock.Of<IVertegenwoordigerPersoonsgegevensService>());
 
         _verenigingsRepository.Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>()))
                               .ReturnsAsync(vereniging);

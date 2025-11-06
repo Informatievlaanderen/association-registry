@@ -16,7 +16,6 @@ using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
-
     public static async Task<Vereniging> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
         RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid registratieData,
         bool potentialDuplicatesSkipped,

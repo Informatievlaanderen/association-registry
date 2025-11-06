@@ -9,6 +9,8 @@ using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZo
 using Common.Stubs.VCodeServices;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
+using Moq;
+using Persoonsgegevens;
 using Xunit;
 
 public class With_A_Duplicate_PhoneNumber
@@ -82,6 +84,7 @@ public class With_A_Duplicate_PhoneNumber
                                                                 false,
                                                                 string.Empty,
                                                                 vCodeService,
+                                                                Mock.Of<IVertegenwoordigerPersoonsgegevensService>(),
                                                                 clock: new ClockStub(DateTime.Today)));
     }
 

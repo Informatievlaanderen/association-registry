@@ -10,6 +10,8 @@ using EventStore.ConflictResolution;
 using FluentAssertions;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
+using Persoonsgegevens;
 using Vereniging;
 using Xunit;
 
@@ -23,7 +25,7 @@ public class Given_KboNummersMetOngeldigeRechtsvorm
         var kboNummer = fixture.Create<KboNummer>();
 
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_KboNummersMetOngeldigeRechtsvorm));
-        var eventStore = new EventStore(store, new EventConflictResolver([], []), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(store, new EventConflictResolver([], []), Mock.Of<IVertegenwoordigerPersoonsgegevensService>(), NullLogger<EventStore>.Instance);
 
         var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), eventStore);
 

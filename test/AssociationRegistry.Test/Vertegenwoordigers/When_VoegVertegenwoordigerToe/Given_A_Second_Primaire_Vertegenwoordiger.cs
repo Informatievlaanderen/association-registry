@@ -22,7 +22,7 @@ public class Given_A_Second_Primaire_Vertegenwoordiger
 
         var toeTeVoegenVertegenwoordiger = fixture.Create<Vertegenwoordiger>() with { IsPrimair = true };
 
-        Assert.Throws<MeerderePrimaireVertegenwoordigers>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger));
+        Assert.Throws<MeerderePrimaireVertegenwoordigers>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger, Guid.NewGuid()));
     }
 
     public static IEnumerable<object[]> Data

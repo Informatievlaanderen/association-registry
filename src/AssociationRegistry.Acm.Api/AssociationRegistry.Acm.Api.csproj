@@ -57,6 +57,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.Acm.Schema\AssociationRegistry.Acm.Schema.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry.Admin.MartenDb\AssociationRegistry.Admin.MartenDb.csproj" />
+    <ProjectReference Include="..\AssociationRegistry.CommandHandling\AssociationRegistry.CommandHandling.csproj" />
     <ProjectReference Include="..\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj" />
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Magda\AssociationRegistry.Integrations.Magda.csproj"/>
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj"/>

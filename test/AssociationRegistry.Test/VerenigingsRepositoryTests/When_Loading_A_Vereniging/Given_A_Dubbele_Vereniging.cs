@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_Loading_A_Vereniging;
 
-using AssociationRegistry.EventStore;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
@@ -11,13 +10,13 @@ using Events;
 using FluentAssertions;
 using Framework;
 using MartenDb.Store;
+using Moq;
+using Persoonsgegevens;
 using Resources;
-using Vereniging;
 using Xunit;
 
 public class Given_A_Dubbele_Vereniging
 {
-
     [Theory]
     [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
     [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
@@ -27,11 +26,19 @@ public class Given_A_Dubbele_Vereniging
         var context = new SpecimenContext(fixture);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
-        var eventStoreMock = new EventStoreMock(
-            (dynamic)verenigingWerdGeregistreerd,
-            fixture.Create<VerenigingWerdGemarkeerdAlsDubbelVan>() with{ VCode = verenigingWerdGeregistreerd.VCode, VCodeAuthentiekeVereniging = fixture.Create<VCode>()});
+        var eventStoreMock = new Mock<IEventStore>();
+        eventStoreMock
+           .Setup(x => x.Load(It.IsAny<string>(), It.IsAny<long?>()))
+           .ReturnsAsync(new VerenigingState
+            {
+                IsVerwijderd = false,
+                VerenigingStatus = new VerenigingStatus.StatusDubbel(
+                    fixture.Create<VCode>(),
+                    new VerenigingStatus.StatusActief()
+                ),
+            });
 
-        var repo = new VerenigingsRepository(eventStoreMock);
+        var repo = new VerenigingsRepository(eventStoreMock.Object);
 
         var exception = await
             Assert.ThrowsAsync<VerenigingIsDubbel>(async () => await repo.Load<Vereniging>(VCode.Create(verenigingWerdGeregistreerd.VCode), TestCommandMetadata.Empty)) ;

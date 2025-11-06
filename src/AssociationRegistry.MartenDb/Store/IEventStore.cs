@@ -25,7 +25,7 @@ public interface IEventStore
         params IEvent[] events);
 
     Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion;
-    Task<T> Load<T>(string id, long? expectedVersion, Func<T> stateFactory) where T : class, IHasVersion;
+    Task<VerenigingState> Load(string id, long? expectedVersion);
     Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion;
     Task<bool> Exists(VCode vCode);
     Task<bool> Exists(KboNummer kboNummer);

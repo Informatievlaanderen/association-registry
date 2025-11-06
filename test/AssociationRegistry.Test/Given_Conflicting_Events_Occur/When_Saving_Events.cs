@@ -11,7 +11,9 @@ using EventStore.ConflictResolution;
 using FluentAssertions;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using NodaTime;
+using Persoonsgegevens;
 using Xunit;
 
 public class When_Saving_Events
@@ -41,7 +43,7 @@ public class When_Saving_Events
                                                               });
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore, eventConflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensService>(), NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 

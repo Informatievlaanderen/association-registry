@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Acm.Api;
 
+using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using Asp.Versioning.ApplicationModels;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -23,6 +24,7 @@ using JasperFx;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Services;
 using AssociationRegistry.Magda;
+using CommandHandling.Persoonsgegevens;
 using EventStore.ConflictResolution;
 using MartenDb.Store;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -49,6 +51,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Oakton;
 using OpenTelemetry.Extensions;
+using Persoonsgegevens;
 using Queries.VerenigingenPerInsz;
 using Queries.VerenigingenPerKbo;
 using Serilog;
@@ -505,10 +508,13 @@ public class Program
         builder.Services.AddAcmApiSwagger(appSettings);
 
         builder.Services
+               .AddScoped<IEventStore, EventStore>()
+               .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+               .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+               .AddScoped<IVertegenwoordigerPersoonsgegevensService, VertegenwoordigerPersoonsgegevensService>() // TODO 2949 reference to commandhanlding?
                .AddTransient<IVerenigingenPerInszQuery, VerenigingenPerInszQuery>()
                .AddTransient<IVerenigingenPerKboNummerService, VerenigingenPerKboNummerService>()
                .AddTransient<IRechtsvormCodeService, RechtsvormCodeService>()
-               .AddTransient<IEventStore, EventStore>()
                .AddSingleton<IEventPreConflictResolutionStrategy, EmptyConflictResolutionStrategy>()
                .AddSingleton<IEventPostConflictResolutionStrategy, EmptyConflictResolutionStrategy>()
                .AddSingleton<EventConflictResolver>();

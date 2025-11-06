@@ -11,6 +11,8 @@ using Events;
 using Events.Factories;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
+using Moq;
+using Persoonsgegevens;
 using Vereniging;
 using Xunit;
 
@@ -45,6 +47,7 @@ public class Given_Geotags_Returns_Empty_Collection
         var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(registratieData,
             false,
             string.Empty, new StubVCodeService(vCode),
+            Mock.Of<IVertegenwoordigerPersoonsgegevensService>(),
             clock);
 
         await vereniging.BerekenGeotags(geotagsService.Object);

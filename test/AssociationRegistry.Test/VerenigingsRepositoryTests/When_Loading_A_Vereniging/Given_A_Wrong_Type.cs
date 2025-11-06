@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_Loading_A_Vereniging;
 
-using AssociationRegistry.EventStore;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
@@ -9,9 +8,8 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using Events;
 using FluentAssertions;
-using Framework;
 using MartenDb.Store;
-using Vereniging;
+using Moq;
 using Xunit;
 
 public class Given_A_Wrong_Type
@@ -26,10 +24,16 @@ public class Given_A_Wrong_Type
 
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
-        var eventStoreMock = new EventStoreMock(
-            (dynamic)verenigingWerdGeregistreerd);
+        var eventStoreMock = new Mock<IEventStore>();
+        eventStoreMock
+           .Setup(x => x.Load(It.IsAny<string>(), It.IsAny<long?>()))
+           .ReturnsAsync(new VerenigingState
+            {
+                IsVerwijderd = false,
+                VerenigingStatus = new VerenigingStatus.StatusActief(),
+            });
 
-        var repo = new VerenigingsRepository(eventStoreMock);
+        var repo = new VerenigingsRepository(eventStoreMock.Object);
         var loadMethod = () => repo.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(verenigingWerdGeregistreerd.VCode), TestCommandMetadata.Empty);
         await loadMethod.Should().ThrowAsync<ActieIsNietToegestaanVoorVerenigingstype>();
     }

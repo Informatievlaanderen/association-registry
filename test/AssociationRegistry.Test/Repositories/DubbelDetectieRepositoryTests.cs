@@ -8,6 +8,8 @@ using EventStore.ConflictResolution;
 using FluentAssertions;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
+using Persoonsgegevens;
 using Resources;
 using Xunit;
 
@@ -19,7 +21,7 @@ public class DubbelDetectieRepositoryTests
         var fixture = new Fixture();
         var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(DubbelDetectieRepositoryTests));
         var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, new EventConflictResolver([], []), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore, new EventConflictResolver([], []), Mock.Of<IVertegenwoordigerPersoonsgegevensService>(), NullLogger<EventStore>.Instance);
 
         var sut = new DubbelDetectieRepository(eventStore);
 

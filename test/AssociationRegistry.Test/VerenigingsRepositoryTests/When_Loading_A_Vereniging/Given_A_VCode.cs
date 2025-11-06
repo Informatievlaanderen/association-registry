@@ -11,6 +11,7 @@ using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using MartenDb.Store;
+using Moq;
 using Xunit;
 
 public class Given_A_VCode
@@ -24,9 +25,17 @@ public class Given_A_VCode
         var context = new SpecimenContext(fixture);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
-        var eventStoreMock = new EventStoreMock((dynamic)verenigingWerdGeregistreerd);
+        var eventStoreMock = new Mock<IEventStore>();
+        eventStoreMock
+           .Setup(x => x.Load(It.IsAny<string>(), It.IsAny<long?>()))
+           .ReturnsAsync(new VerenigingState
+            {
+                IsVerwijderd = false,
+                VerenigingStatus = new VerenigingStatus.StatusActief(),
+                Verenigingstype = Verenigingstype.VZER,
+            });
 
-        var repo = new VerenigingsRepository(eventStoreMock);
+        var repo = new VerenigingsRepository(eventStoreMock.Object);
 
         var feteitelijkeVerenging = await repo.Load<Vereniging>(VCode.Create(verenigingWerdGeregistreerd.VCode), TestCommandMetadata.Empty);
 

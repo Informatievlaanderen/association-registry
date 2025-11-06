@@ -1,20 +1,19 @@
 namespace AssociationRegistry.MartenDb.Store;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.EventStore.ConflictResolution;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using DecentraalBeheer.Vereniging;
+using Events;
+using Framework;
 using JasperFx.Events;
 using Marten;
 using Microsoft.Extensions.Logging;
 using NodaTime.Text;
+using Persoonsgegevens;
 using IEvent = Events.IEvent;
-using IEventStore = Store.IEventStore;
 
-public class EventStore : Store.IEventStore
+public class EventStore : IEventStore
 {
     public class ExpectedVersion
     {
@@ -23,12 +22,14 @@ public class EventStore : Store.IEventStore
 
     private readonly IDocumentStore _documentStore;
     private readonly EventConflictResolver _conflictResolver;
+    private readonly IVertegenwoordigerPersoonsgegevensService _vertegenwoordigerPersoonsgegevensService;
     private readonly ILogger<EventStore> _logger;
 
-    public EventStore(IDocumentStore documentStore, EventConflictResolver conflictResolver, ILogger<EventStore> logger)
+    public EventStore(IDocumentStore documentStore, EventConflictResolver conflictResolver, IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService,  ILogger<EventStore> logger)
     {
         _documentStore = documentStore;
         _conflictResolver = conflictResolver;
+        _vertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService;
         _logger = logger;
     }
 
@@ -168,13 +169,15 @@ public class EventStore : Store.IEventStore
         return aggregate;
     }
 
-    public async Task<T> Load<T>(string id, long? expectedVersion, Func<T> stateFactory) where T : class, IHasVersion
+    public async Task<VerenigingState> Load(string id, long? expectedVersion)
     {
         await using var session = _documentStore.LightweightSession();
 
-        var initialState = stateFactory();
-        var aggregate = await session.Events.AggregateStreamAsync<T>(id, state: initialState) ??
-                        throw new AggregateNotFoundException(id, typeof(T));
+        var aggregate = await session.Events.AggregateStreamAsync(id, state: new VerenigingState()
+                        {
+                            VertegenwoordigerPersoonsgegevensService = _vertegenwoordigerPersoonsgegevensService,
+                        }) ??
+                        throw new AggregateNotFoundException(id, typeof(VerenigingState));
 
         if (expectedVersion is not null && aggregate.Version != expectedVersion)
         {
