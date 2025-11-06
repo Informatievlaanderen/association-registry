@@ -20,14 +20,14 @@ public class EventStore : IEventStore
         public const long NewStream = 0;
     }
 
-    private readonly IDocumentStore _documentStore;
+    private readonly IDocumentSession _session;
     private readonly EventConflictResolver _conflictResolver;
     private readonly IVertegenwoordigerPersoonsgegevensService _vertegenwoordigerPersoonsgegevensService;
     private readonly ILogger<EventStore> _logger;
 
-    public EventStore(IDocumentStore documentStore, EventConflictResolver conflictResolver, IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService,  ILogger<EventStore> logger)
+    public EventStore(IDocumentSession session, EventConflictResolver conflictResolver, IVertegenwoordigerPersoonsgegevensService vertegenwoordigerPersoonsgegevensService,  ILogger<EventStore> logger)
     {
-        _documentStore = documentStore;
+        _session = session;
         _conflictResolver = conflictResolver;
         _vertegenwoordigerPersoonsgegevensService = vertegenwoordigerPersoonsgegevensService;
         _logger = logger;
@@ -40,9 +40,7 @@ public class EventStore : IEventStore
         CancellationToken cancellationToken = default,
         params IEvent[] events)
     {
-        await using var session = _documentStore.LightweightSession();
-
-        return await Save(aggregateId, aggregateVersion, session, metadata, cancellationToken, events);
+        return await Save(aggregateId, aggregateVersion, _session, metadata, cancellationToken, events);
     }
 
     public async Task<StreamActionResult> SaveNew(
@@ -150,16 +148,14 @@ public class EventStore : IEventStore
 
     public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion
     {
-        await using var session = _documentStore.LightweightSession();
-
-        var aggregate = await session.Events.AggregateStreamAsync<T>(id) ??
+        var aggregate = await _session.Events.AggregateStreamAsync<T>(id) ??
                         throw new AggregateNotFoundException(id, typeof(T));
 
         if (expectedVersion is not null && aggregate.Version != expectedVersion)
         {
             Throw<UnexpectedAggregateVersionException>.If(expectedVersion > aggregate.Version);
 
-            var eventsInNewVersion = (await session.Events.FetchStreamAsync(id, aggregate.Version))
+            var eventsInNewVersion = (await _session.Events.FetchStreamAsync(id, aggregate.Version))
                .Where(x => x.Version > expectedVersion);
 
             if (!_conflictResolver.IsAllowedPreConflict(eventsInNewVersion))
@@ -171,19 +167,21 @@ public class EventStore : IEventStore
 
     public async Task<VerenigingState> Load(string id, long? expectedVersion)
     {
-        await using var session = _documentStore.LightweightSession();
+        var defaultVerenigingState = new VerenigingState
+        {
+            VertegenwoordigerPersoonsgegevensService = _vertegenwoordigerPersoonsgegevensService,
+        };
 
-        var aggregate = await session.Events.AggregateStreamAsync(id, state: new VerenigingState()
-                        {
-                            VertegenwoordigerPersoonsgegevensService = _vertegenwoordigerPersoonsgegevensService,
-                        }) ??
-                        throw new AggregateNotFoundException(id, typeof(VerenigingState));
+        var aggregate = await _session.Events.AggregateStreamAsync(id, state: defaultVerenigingState);
+
+        if (aggregate == defaultVerenigingState)
+            throw new AggregateNotFoundException(id, typeof(VerenigingState));
 
         if (expectedVersion is not null && aggregate.Version != expectedVersion)
         {
             Throw<UnexpectedAggregateVersionException>.If(expectedVersion > aggregate.Version);
 
-            var eventsInNewVersion = (await session.Events.FetchStreamAsync(id, aggregate.Version))
+            var eventsInNewVersion = (await _session.Events.FetchStreamAsync(id, aggregate.Version))
                .Where(x => x.Version > expectedVersion);
 
             if (!_conflictResolver.IsAllowedPreConflict(eventsInNewVersion))
@@ -205,19 +203,17 @@ public class EventStore : IEventStore
 
     public async Task<bool> Exists(VCode vCode)
     {
-        await using var session = _documentStore.LightweightSession();
-        var streamState = await session.Events.FetchStreamStateAsync(vCode);
+        var streamState = await _session.Events.FetchStreamStateAsync(vCode);
 
         return streamState != null;
     }
 
     public async Task<bool> Exists(KboNummer kboNummer)
     {
-        await using var session = _documentStore.LightweightSession();
-        var streamState = await session.Events.FetchStreamStateAsync(kboNummer);
+        var streamState = await _session.Events.FetchStreamStateAsync(kboNummer);
 
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd =
-            await session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+            await _session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                          .Where(x => x.KboNummer == kboNummer.Value)
                          .SingleOrDefaultAsync();
 
@@ -227,9 +223,8 @@ public class EventStore : IEventStore
 
     public async Task<VCode?> GetVCodeForKbo(string kboNummer)
     {
-        await using var session = _documentStore.LightweightSession();
 
-        var id = (await session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+        var id = (await _session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                                .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)
                                .SingleOrDefaultAsync())?.VCode;
 

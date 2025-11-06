@@ -31,7 +31,5 @@ public class VertegenwoordigerPersoonsgegevensRepository: IVertegenwoordigerPers
             Mobiel = vertegenwoordigerPersoonsgegevens.Mobiel,
             SocialMedia = vertegenwoordigerPersoonsgegevens.SocialMedia,
         });
-
-        await _session.SaveChangesAsync();
     }
 }

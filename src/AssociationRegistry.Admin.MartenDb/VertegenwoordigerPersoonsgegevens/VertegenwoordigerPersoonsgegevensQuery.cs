@@ -5,15 +5,17 @@ using Marten;
 
 public class VertegenwoordigerPersoonsgegevensQuery : IVertegenwoordigerPersoonsgegevensQuery
 {
-    private readonly IQuerySession _session;
+    private readonly IDocumentSession _session;
 
-    public VertegenwoordigerPersoonsgegevensQuery(IQuerySession session)
+    public VertegenwoordigerPersoonsgegevensQuery(IDocumentSession session)
     {
         _session = session;
     }
 
-    public async Task<VertegenwoordigerPersoonsgegevensDocument?> ExecuteAsync(VertegenwoordigerPersoonsgegevensFilter filter, CancellationToken cancellationToken)
-        => await _session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-                         .ForRefId(filter.RefId)
-                         .SingleOrDefaultAsync(token: cancellationToken);
+    public async Task<VertegenwoordigerPersoonsgegevensDocument?> ExecuteAsync(
+        VertegenwoordigerPersoonsgegevensFilter filter,
+        CancellationToken cancellationToken)
+        => _session.PendingChanges.Inserts().OfType<VertegenwoordigerPersoonsgegevensDocument>()
+                   .SingleOrDefault(x => x.RefId == filter.RefId) ??
+           await _session.LoadAsync<VertegenwoordigerPersoonsgegevensDocument>(filter.RefId, cancellationToken);
 }
