@@ -2,6 +2,7 @@
 // ReSharper disable InconsistentNaming
 namespace AssociationRegistry.Test.Acm.Api.Fixtures.Scenarios;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
@@ -17,6 +18,7 @@ public interface IEventsInDbScenario
     StreamActionResult Result { get; set; }
     IEvent[] GetEvents();
     CommandMetadata GetCommandMetadata();
+    VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens();
 }
 
 public class FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEventsInDbScenario
@@ -56,6 +58,10 @@ public class FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScena
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
+        =>
+        [];
 }
 
 
@@ -68,7 +74,7 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
     public readonly CommandMetadata Metadata;
     public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
     public readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
-
+    public readonly VertegenwoordigerPersoonsgegevensDocument VertegenwoordigerPersoonsgegevensDocument;
     public VertegenwoordigerWerdToegevoegd_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAcmApi();
@@ -87,8 +93,19 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
 
         FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid = new(VCode);
 
-        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
-        Insz = VertegenwoordigerWerdToegevoegd.Insz;
+        var refId = Guid.NewGuid();
+        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>() with
+        {
+            RefId = refId,
+        };
+
+        VertegenwoordigerPersoonsgegevensDocument = fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+        {
+            RefId = refId,
+            VertegenwoordigerId = VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+            VCode = VCode,
+        };
+        Insz = VertegenwoordigerPersoonsgegevensDocument.Insz;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -105,6 +122,9 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
+        => [VertegenwoordigerPersoonsgegevensDocument];
 }
 
 public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbScenario
@@ -117,6 +137,7 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
     public readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
+    public readonly VertegenwoordigerPersoonsgegevensDocument VertegenwoordigerPersoonsgegevensDocument;
 
     public NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario()
     {
@@ -138,8 +159,19 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
             new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode);
 
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
-        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
-        Insz = VertegenwoordigerWerdToegevoegd.Insz;
+        var refId = Guid.NewGuid();
+        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>() with
+        {
+            RefId = refId,
+        };
+
+        VertegenwoordigerPersoonsgegevensDocument = fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+        {
+            RefId = refId,
+            VertegenwoordigerId = VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+            VCode = VCode,
+        };
+        Insz = VertegenwoordigerPersoonsgegevensDocument.Insz;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -157,6 +189,9 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
+        => [VertegenwoordigerPersoonsgegevensDocument];
 }
 
 public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbScenario
@@ -208,6 +243,9 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
+        => [];
 }
 
 public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbScenario
@@ -219,6 +257,7 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
     public readonly CommandMetadata Metadata;
     private readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
     public readonly VertegenwoordigerWerdVerwijderd VertegenwoordigerWerdVerwijderd;
+    public readonly VertegenwoordigerPersoonsgegevensDocument VertegenwoordigerPersoonsgegevensDocument;
 
     public VertegenwoordigerWerdVerwijderd_EventsInDbScenario()
     {
@@ -239,15 +278,26 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
         FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid =
             new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode);
 
-        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
+        var refId = Guid.NewGuid();
+        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>() with
+        {
+            RefId = refId,
+        };
 
+        VertegenwoordigerPersoonsgegevensDocument = fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+        {
+            RefId = refId,
+            VertegenwoordigerId = VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+            VCode = VCode,
+        };
+        Insz = VertegenwoordigerPersoonsgegevensDocument.Insz;
         VertegenwoordigerWerdVerwijderd = new VertegenwoordigerWerdVerwijderd(
-            VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-            VertegenwoordigerWerdToegevoegd.Insz,
-            VertegenwoordigerWerdToegevoegd.Voornaam,
-            VertegenwoordigerWerdToegevoegd.Achternaam);
+            VertegenwoordigerPersoonsgegevensDocument.VertegenwoordigerId,
+            VertegenwoordigerPersoonsgegevensDocument.Insz,
+            VertegenwoordigerPersoonsgegevensDocument.Voornaam,
+            VertegenwoordigerPersoonsgegevensDocument.Achternaam);
 
-        Insz = VertegenwoordigerWerdToegevoegd.Insz;
+        Insz = VertegenwoordigerPersoonsgegevensDocument.Insz;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -265,6 +315,9 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
+        => [VertegenwoordigerPersoonsgegevensDocument];
 }
 
 public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbScenario
@@ -305,6 +358,9 @@ public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbSce
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
+        => [];
 }
 
 public class FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario : IEventsInDbScenario
@@ -345,6 +401,9 @@ public class FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario : IEventsInDb
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
+        => [];
 }
 
 public class VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario : IEventsInDbScenario
@@ -387,6 +446,9 @@ public class VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
+        => [];
 }
 
 public class RechtsvormWerdGewijzigdInKBO_EventsInDbScenario : IEventsInDbScenario
@@ -395,6 +457,7 @@ public class RechtsvormWerdGewijzigdInKBO_EventsInDbScenario : IEventsInDbScenar
     public readonly RechtsvormWerdGewijzigdInKBO RechtsvormWerdGewijzigdInKBO;
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
     public readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
+    public readonly VertegenwoordigerPersoonsgegevensDocument VertegenwoordigerPersoonsgegevensDocument;
 
     public RechtsvormWerdGewijzigdInKBO_EventsInDbScenario()
     {
@@ -406,8 +469,19 @@ public class RechtsvormWerdGewijzigdInKBO_EventsInDbScenario : IEventsInDbScenar
 
         RechtsvormWerdGewijzigdInKBO = new RechtsvormWerdGewijzigdInKBO(Rechtsvorm: "IVZW");
 
-        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
-        Insz = VertegenwoordigerWerdToegevoegd.Insz;
+        var refId = Guid.NewGuid();
+        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>() with
+        {
+            RefId = refId,
+        };
+
+        VertegenwoordigerPersoonsgegevensDocument = fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+        {
+            RefId = refId,
+            VertegenwoordigerId = VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+            VCode = VCode,
+        };
+        Insz = VertegenwoordigerPersoonsgegevensDocument.Insz;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -425,4 +499,7 @@ public class RechtsvormWerdGewijzigdInKBO_EventsInDbScenario : IEventsInDbScenar
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
+        => [VertegenwoordigerPersoonsgegevensDocument];
 }

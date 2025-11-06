@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Fixtures.Scenarios;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -44,4 +45,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_EventsInDbScena
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
+        => [];
 }

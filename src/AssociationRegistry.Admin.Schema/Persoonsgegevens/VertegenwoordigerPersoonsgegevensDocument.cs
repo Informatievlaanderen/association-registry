@@ -2,7 +2,7 @@
 
 using Marten.Schema;
 
-public class VertegenwoordigerPersoonsgegevensDocument
+public record VertegenwoordigerPersoonsgegevensDocument
 {
     [Identity]
     public Guid RefId { get; set; }

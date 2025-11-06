@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
+using Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
@@ -24,7 +25,9 @@ public static class MartenExtensions
                                       serviceProvider =>
                                       {
                                           var opts = new StoreOptions();
-                                          ConfigureStoreOptions(opts, postgreSqlOptions,
+                                          ConfigureStoreOptions(opts,
+                                                                serviceProvider,
+                                                                postgreSqlOptions,
                                                                 serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
                                                                 serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment());
                                           return opts;
@@ -49,6 +52,7 @@ public static class MartenExtensions
 
     public static void ConfigureStoreOptions(
         StoreOptions opts,
+        IServiceProvider serviceProvider,
         PostgreSqlOptionsSection postgreSqlOptions,
         ILogger<SecureMartenLogger> secureMartenLogger,
         bool isDevelopment)
@@ -78,6 +82,7 @@ public static class MartenExtensions
 
         opts.RegisterDocumentType<VerenigingenPerInszDocument>();
         opts.RegisterDocumentType<VerenigingDocument>();
+        opts.UpcastEvents(() => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession());
     }
 
     public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions)

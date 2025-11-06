@@ -1,8 +1,11 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
+using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Acm.Api;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using CommandHandling.Persoonsgegevens;
 using Common.Database;
 using Common.Fixtures;
 using DecentraalBeheer.Vereniging;
@@ -143,7 +146,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         return rootDirectory;
     }
 
-    protected async Task<StreamActionResult> AddEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
+    protected async Task<StreamActionResult> AddEvents(string vCode, IEvent[] eventsToAdd, VertegenwoordigerPersoonsgegevensDocument[] vertegenwoordigerPersoonsgegevensDocuments, CommandMetadata? metadata = null)
     {
         if (!eventsToAdd.Any())
             return StreamActionResult.Empty;
@@ -159,11 +162,18 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(DocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(DocumentStore.LightweightSession(),
+                                        EventConflictResolver,
+                                        new VertegenwoordigerPersoonsgegevensRepository(DocumentStore.LightweightSession(),
+                                                                                        new VertegenwoordigerPersoonsgegevensService(
+                                                                                            new VertegenwoordigerPersoonsgegevensQuery(
+                                                                                                DocumentStore.LightweightSession()))),
+                                        NullLogger<EventStore>.Instance);
         var result = StreamActionResult.Empty;
 
         await using var session = DocumentStore.LightweightSession();
 
+        session.Store(vertegenwoordigerPersoonsgegevensDocuments);
         await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), session, metadata, CancellationToken.None, eventsToAdd);
 
         var retry = Policy

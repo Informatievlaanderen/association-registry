@@ -48,7 +48,7 @@ public class EventsInDbScenariosFixture : AcmApiFixture
 
         foreach (var scenario in scenarios)
         {
-            scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
+            scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetVertegenwoordigerPersoonsgegevens(), scenario.GetCommandMetadata());
         }
     }
 }
