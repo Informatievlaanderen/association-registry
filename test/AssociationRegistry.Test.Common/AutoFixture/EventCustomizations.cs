@@ -18,6 +18,7 @@ public static class EventCustomizations
         fixture.CustomizeVerenigingMetRechtspersoonlijkheidWerdGeregistreerd();
         fixture.CustomizeContactgegevenWerdToegevoegd();
         fixture.CustomizeVertegenwoordigerWerdToegevoegd();
+        fixture.CustomizeVertegenwoordigerWerdToegevoegdMetPersoonsgegevens();
         fixture.CustomizeContactgegevenWerdOvergenomenUitKBO();
         fixture.CustomizeVertegenwoordigerWerdOvergenomenUitKBO();
         fixture.CustomizeContactgegevenKonNietOvergenomenWordenUitKBO();
@@ -151,6 +152,27 @@ public static class EventCustomizations
                                          Guid.NewGuid(),
                                          fixture.Create<int>(),
                                          IsPrimair: false))
+                                .OmitAutoProperties());
+    }
+
+    private static void CustomizeVertegenwoordigerWerdToegevoegdMetPersoonsgegevens(this IFixture fixture)
+    {
+        fixture.Customize<VertegenwoordigerWerdToegevoegdMetPersoonsgegevens>(
+            composer => composer.FromFactory(
+                                     () => new VertegenwoordigerWerdToegevoegdMetPersoonsgegevens(
+                                         fixture.Create<int>(),
+                                         IsPrimair: false,
+                                         new VertegenwoordigerPersoonsgegevens(
+                                             fixture.Create<Insz>(),
+                                             fixture.Create<string>(),
+                                             fixture.Create<string>(),
+                                             fixture.Create<string>(),
+                                             fixture.Create<string>(),
+                                             fixture.Create<string>(),
+                                             fixture.Create<string>(),
+                                             fixture.Create<string>(),
+                                             fixture.Create<string>())
+                                     ))
                                 .OmitAutoProperties());
     }
 

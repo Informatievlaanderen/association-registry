@@ -7,8 +7,8 @@ using Scenario.Vertegenwoordigers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VertegenwoordigerWerdToegevoegd(
-    BeheerHistoriekScenarioFixture<VertegenwoordigerWerdToegevoegdScenario> fixture)
-    : BeheerHistoriekScenarioClassFixture<VertegenwoordigerWerdToegevoegdScenario>
+    BeheerHistoriekScenarioFixture<VertegenwoordigerWerdToegevoegdMetPersoonsgegevensScenario> fixture)
+    : BeheerHistoriekScenarioClassFixture<VertegenwoordigerWerdToegevoegdMetPersoonsgegevensScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()
@@ -20,9 +20,9 @@ public class Given_VertegenwoordigerWerdToegevoegd(
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving:$"'{fixture.Scenario.VertegenwoordigerWerdToegevoegd.Voornaam} {fixture.Scenario.VertegenwoordigerWerdToegevoegd.Achternaam}' werd toegevoegd als vertegenwoordiger.",
+                                               Beschrijving:$"'{fixture.Scenario.VertegenwoordigerWerdToegevoegdMetPersoonsgegevens.VertegenwoordigerPersoonsgegevens.Voornaam} {fixture.Scenario.VertegenwoordigerWerdToegevoegdMetPersoonsgegevens.VertegenwoordigerPersoonsgegevens.Achternaam}' werd toegevoegd als vertegenwoordiger.",
                                                nameof(VertegenwoordigerWerdToegevoegd),
-                                               VertegenwoordigerData.Create(fixture.Scenario.VertegenwoordigerWerdToegevoegd),
+                                               VertegenwoordigerData.Create(fixture.Scenario.VertegenwoordigerWerdToegevoegdMetPersoonsgegevens),
                                                                             fixture.MetadataInitiator,
                                                                             fixture.MetadataTijdstip));
 }

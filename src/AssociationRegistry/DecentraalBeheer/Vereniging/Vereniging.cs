@@ -13,6 +13,7 @@ using Persoonsgegevens;
 using SocialMedias;
 using TelefoonNummers;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
+using VertegenwoordigerPersoonsgegevens = Persoonsgegevens.VertegenwoordigerPersoonsgegevens;
 
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {

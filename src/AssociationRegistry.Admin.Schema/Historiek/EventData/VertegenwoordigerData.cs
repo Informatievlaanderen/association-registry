@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
 using Events;
-using Events.Enriched;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -44,9 +43,9 @@ public record VertegenwoordigerData
             DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.Mobiel),
             DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.SocialMedia));
 
-    private static string DataOfOnbekend(string? vertegenwoordigerPersoonsgegevensRoepnaam)
+    private static string DataOfOnbekend(string? data)
     {
-        return vertegenwoordigerPersoonsgegevensRoepnaam ?? VerlopenPersoonsgegevenText;
+        return data ?? VerlopenPersoonsgegevenText;
     }
 
     public static VertegenwoordigerData Create(VertegenwoordigerWerdGewijzigd e)

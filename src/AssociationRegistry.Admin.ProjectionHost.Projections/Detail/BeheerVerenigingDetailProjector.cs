@@ -4,7 +4,6 @@ using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
-using Events.Enriched;
 using Formats;
 using Framework;
 using JasperFx.Events;

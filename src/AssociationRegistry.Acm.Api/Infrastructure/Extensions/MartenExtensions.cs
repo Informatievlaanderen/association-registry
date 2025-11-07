@@ -25,8 +25,8 @@ public static class MartenExtensions
                                       serviceProvider =>
                                       {
                                           var opts = new StoreOptions();
-                                          ConfigureStoreOptions(opts,
-                                                                serviceProvider,
+                                          ConfigureStoreOptionsCore(opts,
+                                                                () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession(),
                                                                 postgreSqlOptions,
                                                                 serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
                                                                 serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment());
@@ -50,9 +50,29 @@ public static class MartenExtensions
         return services;
     }
 
-    public static void ConfigureStoreOptions(
+    public static StoreOptions ConfigureStoreOptions(
         StoreOptions opts,
-        IServiceProvider serviceProvider,
+        bool isDevelopment,
+        ILogger<SecureMartenLogger> secureMartenLogger,
+        PostgreSqlOptionsSection? postgreSqlOptionsSection)
+    {
+        IDocumentStore? builtStore = null;
+
+        return ConfigureStoreOptionsCore(
+            opts,
+            () =>
+            {
+                builtStore ??= new DocumentStore(opts);
+                return builtStore.QuerySession();
+            },
+            postgreSqlOptionsSection,
+            secureMartenLogger,
+            isDevelopment);
+    }
+
+    private static StoreOptions ConfigureStoreOptionsCore(
+        StoreOptions opts,
+        Func<IQuerySession> querySessionFactory,
         PostgreSqlOptionsSection postgreSqlOptions,
         ILogger<SecureMartenLogger> secureMartenLogger,
         bool isDevelopment)
@@ -82,7 +102,9 @@ public static class MartenExtensions
 
         opts.RegisterDocumentType<VerenigingenPerInszDocument>();
         opts.RegisterDocumentType<VerenigingDocument>();
-        opts.UpcastEvents(() => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession());
+        opts.UpcastEvents(querySessionFactory);
+
+        return opts;
     }
 
     public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions)

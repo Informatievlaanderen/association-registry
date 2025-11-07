@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using Events;
-using Events.Enriched;
 using Marten;
 using Marten.Services.Json.Transformations;
 using Marten.Services.Json.Transformations.JsonNet;
@@ -24,18 +23,18 @@ public static class EventUpcaster
                     VertegenwoordigerId: vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                     IsPrimair: vertegenwoordigerWerdToegevoegd.IsPrimair,
                     vertegenwoordigerPersoonsgegevens is not null
-                        ? VertegenwoordigerPersoonsgegevens.Create(
-                            insz: vertegenwoordigerPersoonsgegevens.Insz,
-                            roepnaam: vertegenwoordigerPersoonsgegevens.Roepnaam,
-                            rol: vertegenwoordigerPersoonsgegevens.Rol,
-                            voornaam: vertegenwoordigerPersoonsgegevens.Voornaam,
-                            achternaam: vertegenwoordigerPersoonsgegevens.Achternaam,
-                            email: vertegenwoordigerPersoonsgegevens.Email,
-                            telefoon: vertegenwoordigerPersoonsgegevens.Telefoon,
-                            mobiel: vertegenwoordigerPersoonsgegevens.Mobiel,
-                            socialMedia: vertegenwoordigerPersoonsgegevens.SocialMedia
+                        ? new VertegenwoordigerPersoonsgegevens(
+                            vertegenwoordigerPersoonsgegevens.Insz,
+                            vertegenwoordigerPersoonsgegevens.Roepnaam,
+                            vertegenwoordigerPersoonsgegevens.Rol,
+                            vertegenwoordigerPersoonsgegevens.Voornaam,
+                            vertegenwoordigerPersoonsgegevens.Achternaam,
+                            vertegenwoordigerPersoonsgegevens.Email,
+                            vertegenwoordigerPersoonsgegevens.Telefoon,
+                            vertegenwoordigerPersoonsgegevens.Mobiel,
+                            vertegenwoordigerPersoonsgegevens.SocialMedia
                         )
-                        : VertegenwoordigerPersoonsgegevens.Verlopen);
+                        : null);
             });
 
         return opts;

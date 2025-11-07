@@ -9,7 +9,7 @@ public class VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario : I
     public FeitelijkeVerenigingWerdGeregistreerd AuthentiekeVerenigingWerdGeregistreerd { get; }
     public VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan { get; set; }
     public VerenigingAanvaarddeDubbeleVereniging VerenigingAanvaarddeDubbeleVereniging { get; set; }
-    public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd { get; set; }
+    public VertegenwoordigerWerdToegevoegdMetPersoonsgegevens VertegenwoordigerWerdToegevoegdMetPersoonsgegevens { get; set; }
 
     private string _insz { get; }
     public VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario()
@@ -37,8 +37,8 @@ public class VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario : I
             VCodeDubbeleVereniging = DubbeleVerenigingWerdGeregistreerd.VCode,
         };
 
-        VertegenwoordigerWerdToegevoegd = AutoFixture.Create<VertegenwoordigerWerdToegevoegd>();
-        _insz = VertegenwoordigerWerdToegevoegd.Insz;
+        VertegenwoordigerWerdToegevoegdMetPersoonsgegevens = AutoFixture.Create<VertegenwoordigerWerdToegevoegdMetPersoonsgegevens>();
+        _insz = VertegenwoordigerWerdToegevoegdMetPersoonsgegevens.VertegenwoordigerPersoonsgegevens.Insz;
     }
 
     public override string VCode => AuthentiekeVerenigingWerdGeregistreerd.VCode;
@@ -46,7 +46,7 @@ public class VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario : I
     public override EventsPerVCode[] Events =>
     [
         new(DubbeleVerenigingWerdGeregistreerd.VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan),
-        new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging, VertegenwoordigerWerdToegevoegd),
+        new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging, VertegenwoordigerWerdToegevoegdMetPersoonsgegevens),
     ];
 
     public override string Insz => _insz;

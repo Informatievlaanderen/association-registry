@@ -15,6 +15,7 @@ using FluentAssertions;
 using Moq;
 using Persoonsgegevens;
 using Xunit;
+using VertegenwoordigerPersoonsgegevens = Persoonsgegevens.VertegenwoordigerPersoonsgegevens;
 
 public class Given_A_NietPrimair_Vertegenwoordiger
 {

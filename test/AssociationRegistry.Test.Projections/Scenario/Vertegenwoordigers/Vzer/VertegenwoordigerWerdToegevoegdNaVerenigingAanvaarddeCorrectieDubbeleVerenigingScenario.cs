@@ -13,7 +13,7 @@ public class VertegenwoordigerWerdToegevoegdNaVerenigingAanvaarddeCorrectieDubbe
     public VerenigingAanvaarddeDubbeleVereniging AuthentiekeVerenigingAanvaarddeTeHoudenDubbeleVereniging { get; set; }
     public MarkeringDubbeleVerengingWerdGecorrigeerd MarkeringDubbeleVerengingWerdGecorrigeerd { get; set; }
     public VerenigingAanvaarddeCorrectieDubbeleVereniging VerenigingAanvaarddeCorrectieDubbeleVereniging { get; set; }
-    public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd { get; set; }
+    public VertegenwoordigerWerdToegevoegdMetPersoonsgegevens VertegenwoordigerWerdToegevoegdMetPersoonsgegevens { get; set; }
 
 
     private string _insz { get; }
@@ -61,8 +61,8 @@ public class VertegenwoordigerWerdToegevoegdNaVerenigingAanvaarddeCorrectieDubbe
             VCodeDubbeleVereniging = DubbeleVerengingOmTeHouden.VCode,
         };
 
-        VertegenwoordigerWerdToegevoegd = AutoFixture.Create<VertegenwoordigerWerdToegevoegd>();
-        _insz = VertegenwoordigerWerdToegevoegd.Insz;
+        VertegenwoordigerWerdToegevoegdMetPersoonsgegevens = AutoFixture.Create<VertegenwoordigerWerdToegevoegdMetPersoonsgegevens>();
+        _insz = VertegenwoordigerWerdToegevoegdMetPersoonsgegevens.VertegenwoordigerPersoonsgegevens.Insz;
     }
 
     public override string VCode => AuthentiekeVereniging.VCode;
@@ -71,7 +71,7 @@ public class VertegenwoordigerWerdToegevoegdNaVerenigingAanvaarddeCorrectieDubbe
     [
         new(DubbeleVerengingOmTeHouden.VCode, DubbeleVerengingOmTeHouden),
         new(DubbeleVerenigingOmTeCorrigeren.VCode, DubbeleVerenigingOmTeCorrigeren, DubbeleVerenigingOmTeCorrigerenWerdGemarkeerdAlsDubbelVan, MarkeringDubbeleVerengingWerdGecorrigeerd),
-        new(AuthentiekeVereniging.VCode, AuthentiekeVereniging, AuthentiekeVerenigingAanvaarddeTeCorrigerenDubbeleVereniging, VerenigingAanvaarddeCorrectieDubbeleVereniging, VertegenwoordigerWerdToegevoegd, AuthentiekeVerenigingAanvaarddeTeHoudenDubbeleVereniging),
+        new(AuthentiekeVereniging.VCode, AuthentiekeVereniging, AuthentiekeVerenigingAanvaarddeTeCorrigerenDubbeleVereniging, VerenigingAanvaarddeCorrectieDubbeleVereniging, VertegenwoordigerWerdToegevoegdMetPersoonsgegevens, AuthentiekeVerenigingAanvaarddeTeHoudenDubbeleVereniging),
     ];
 
     public override string Insz => _insz;

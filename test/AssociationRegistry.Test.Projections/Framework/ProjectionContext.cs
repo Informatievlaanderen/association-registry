@@ -112,6 +112,8 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
             {
                 AssociationRegistry.Acm.Api.Infrastructure.Extensions.MartenExtensions.ConfigureStoreOptions(
                     opts,
+                    true,
+                    NullLogger<SecureMartenLogger>.Instance,
                     new PostgreSqlOptionsSection()
                     {
                         Host = "localhost",
@@ -119,9 +121,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                         Password = "root",
                         Username = "root",
                         Schema = "admin",
-                    },
-                    NullLogger<SecureMartenLogger>.Instance,
-                    true);
+                    });
             });
 
         await acmStore.Advanced.Clean.DeleteAllEventDataAsync();

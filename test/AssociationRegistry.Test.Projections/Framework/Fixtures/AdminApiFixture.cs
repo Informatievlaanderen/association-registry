@@ -2,7 +2,9 @@ namespace AssociationRegistry.Test.Projections.Framework.Fixtures;
 
 using Admin.Api;
 using Admin.Api.Infrastructure.WebApi.Security;
+using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using AssociationRegistry.Framework;
+using CommandHandling.Persoonsgegevens;
 using Common.Clients;
 using Common.Configuration;
 using Common.Database;
@@ -153,8 +155,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     {
         var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
         DatabaseTemplateHelper.CreateDatabaseFromTemplate(
-            configuration, 
-            postgreSqlOptionsSection.Database!, 
+            configuration,
+            postgreSqlOptionsSection.Database!,
             new NullLogger<AdminApiFixture>());
     }
 
@@ -174,7 +176,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
+        var session = ProjectionsDocumentStore.LightweightSession();
+        var eventStore = new EventStore(session, EventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensService(new VertegenwoordigerPersoonsgegevensQuery(session))),NullLogger<EventStore>.Instance);
         var result = await eventStore.Save(vCode.ToUpperInvariant(), EventStore.ExpectedVersion.NewStream, metadata, CancellationToken.None, eventsToAdd);
 
         return result;

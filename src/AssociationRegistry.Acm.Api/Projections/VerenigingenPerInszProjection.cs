@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
 using Events;
-using Events.Enriched;
 using JasperFx.Events;
 using Marten;
 using Marten.Events.Projections;

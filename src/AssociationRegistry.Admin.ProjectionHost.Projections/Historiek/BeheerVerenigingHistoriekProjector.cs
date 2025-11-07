@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
 using DecentraalBeheer.Vereniging;
 using Events;
-using Events.Enriched;
 using Formats;
 using Framework;
 using JasperFx.Events;
@@ -207,7 +206,8 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             VertegenwoordigerData.Create(@event.Data),
             document,
-            $"'{@event.Data.VertegenwoordigerPersoonsgegevens.Voornaam} {@event.Data.VertegenwoordigerPersoonsgegevens.Achternaam}' werd toegevoegd als vertegenwoordiger."
+            $"'{@event.Data.VertegenwoordigerPersoonsgegevens.Voornaam} {@event.Data.VertegenwoordigerPersoonsgegevens.Achternaam}' werd toegevoegd als vertegenwoordiger.",
+            nameof(VertegenwoordigerWerdToegevoegd)
         );
     }
 
@@ -316,7 +316,7 @@ public class BeheerVerenigingHistoriekProjector
             )).ToList();
     }
 
-    private static void AddHistoriekEntry(IEvent @event, object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
+    private static void AddHistoriekEntry(IEvent @event, object data, BeheerVerenigingHistoriekDocument document, string beschrijving, string? oldEventName = null)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
         var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsZuluTime();
@@ -324,7 +324,7 @@ public class BeheerVerenigingHistoriekProjector
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
                 beschrijving,
-                @event.Data.GetType().Name,
+                oldEventName ?? @event.Data.GetType().Name,
                 data,
                 initiator,
                 tijdstip
