@@ -3,15 +3,15 @@
 using Events;
 using AutoFixture;
 
-public class VertegenwoordigerWerdGewijzigdScenario : ScenarioBase
+public class VertegenwoordigerWerdGewijzigdMetPersoonsgegevensScenario : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
-    public VertegenwoordigerWerdGewijzigd VertegenwoordigerWerdGewijzigd { get; }
+    public VertegenwoordigerWerdGewijzigdMetPersoonsgegevens VertegenwoordigerWerdGewijzigd { get; }
 
-    public VertegenwoordigerWerdGewijzigdScenario()
+    public VertegenwoordigerWerdGewijzigdMetPersoonsgegevensScenario()
     {
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
-        VertegenwoordigerWerdGewijzigd = AutoFixture.Create<VertegenwoordigerWerdGewijzigd>() with
+        VertegenwoordigerWerdGewijzigd = AutoFixture.Create<VertegenwoordigerWerdGewijzigdMetPersoonsgegevens>() with
         {
             VertegenwoordigerId = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers.First().VertegenwoordigerId,
         };

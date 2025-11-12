@@ -67,7 +67,6 @@ public class Given_A_NietPrimair_Vertegenwoordiger
                                                                                       VCode.Hydrate(_scenario.VCode),
                                                                                       _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Max(v => v.VertegenwoordigerId) + 1,
                                                                                       _command.Vertegenwoordiger.Insz,
-                                                                                      _command.Vertegenwoordiger.IsPrimair,
                                                                                       _command.Vertegenwoordiger.Roepnaam ?? string.Empty,
                                                                                       _command.Vertegenwoordiger.Rol ?? string.Empty,
                                                                                       _command.Vertegenwoordiger.Voornaam,

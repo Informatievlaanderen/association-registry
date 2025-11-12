@@ -329,7 +329,7 @@ public class BeheerVerenigingDetailProjector
                                               .ToArray();
     }
 
-    public static void Apply(IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    public static void Apply(IEvent<VertegenwoordigerWerdGewijzigdMetPersoonsgegevens> vertegenwoordigerWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Vertegenwoordigers = document.Vertegenwoordigers
                                               .UpdateSingle(
@@ -337,20 +337,20 @@ public class BeheerVerenigingDetailProjector
                                                        => v.VertegenwoordigerId == vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
                                                    update: v => v with
                                                    {
-                                                       Roepnaam = vertegenwoordigerWerdGewijzigd.Data.Roepnaam,
-                                                       Rol = vertegenwoordigerWerdGewijzigd.Data.Rol,
+                                                       Roepnaam = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerPersoonsgegevens.Roepnaam,
+                                                       Rol = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerPersoonsgegevens.Rol,
                                                        IsPrimair = vertegenwoordigerWerdGewijzigd.Data.IsPrimair,
-                                                       Email = vertegenwoordigerWerdGewijzigd.Data.Email,
-                                                       Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon,
-                                                       Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
-                                                       SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
+                                                       Email = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerPersoonsgegevens.Email,
+                                                       Telefoon = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerPersoonsgegevens.Telefoon,
+                                                       Mobiel = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerPersoonsgegevens.Mobiel,
+                                                       SocialMedia = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerPersoonsgegevens.SocialMedia,
                                                        VertegenwoordigerContactgegevens = v.VertegenwoordigerContactgegevens with
                                                        {
                                                            IsPrimair = vertegenwoordigerWerdGewijzigd.Data.IsPrimair,
-                                                           Email = vertegenwoordigerWerdGewijzigd.Data.Email,
-                                                           Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon,
-                                                           Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
-                                                           SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
+                                                           Email = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerPersoonsgegevens.Email,
+                                                           Telefoon = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerPersoonsgegevens.Telefoon,
+                                                           Mobiel = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerPersoonsgegevens.Mobiel,
+                                                           SocialMedia = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerPersoonsgegevens.SocialMedia,
                                                        },
                                                    })
                                               .OrderBy(v => v.VertegenwoordigerId)

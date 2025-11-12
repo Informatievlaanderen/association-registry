@@ -81,18 +81,11 @@ public static class EventFactory
     public static StartdatumWerdGewijzigdInKbo StartdatumWerdGewijzigdInKbo(Datum? startDatum)
         => new(startDatum?.Value ?? null);
 
-    public static VertegenwoordigerWerdGewijzigd VertegenwoordigerWerdGewijzigd(Vertegenwoordiger vertegenwoordiger)
+    public static VertegenwoordigerWerdGewijzigd VertegenwoordigerWerdGewijzigd(Vertegenwoordiger vertegenwoordiger, Guid refId)
         => new(
+            refId,
             vertegenwoordiger.VertegenwoordigerId,
-            vertegenwoordiger.IsPrimair,
-            vertegenwoordiger.Roepnaam ?? string.Empty,
-            vertegenwoordiger.Rol ?? string.Empty,
-            vertegenwoordiger.Voornaam,
-            vertegenwoordiger.Achternaam,
-            vertegenwoordiger.Email.Waarde,
-            vertegenwoordiger.Telefoon.Waarde,
-            vertegenwoordiger.Mobiel.Waarde,
-            vertegenwoordiger.SocialMedia.Waarde
+            vertegenwoordiger.IsPrimair
         );
 
     public static WerkingsgebiedenWerdenNietBepaald WerkingsgebiedenWerdenNietBepaald(VCode vCode) => new(vCode);

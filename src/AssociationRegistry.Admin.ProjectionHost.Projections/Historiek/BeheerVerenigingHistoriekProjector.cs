@@ -212,14 +212,15 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
-        IEvent<VertegenwoordigerWerdGewijzigd> @event,
+        IEvent<VertegenwoordigerWerdGewijzigdMetPersoonsgegevens> @event,
         BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             @event,
             VertegenwoordigerData.Create(@event.Data),
             document,
-            $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd gewijzigd."
+            $"Vertegenwoordiger '{@event.Data.VertegenwoordigerPersoonsgegevens.Voornaam} {@event.Data.VertegenwoordigerPersoonsgegevens.Achternaam}' werd gewijzigd.",
+            nameof(VertegenwoordigerWerdGewijzigd)
         );
     }
 

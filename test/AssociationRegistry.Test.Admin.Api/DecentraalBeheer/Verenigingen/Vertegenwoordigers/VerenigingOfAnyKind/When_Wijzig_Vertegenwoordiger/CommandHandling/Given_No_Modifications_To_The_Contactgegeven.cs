@@ -1,69 +1,44 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger.CommandHandling;
 
+using AssociationRegistry.Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
-using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Emails;
 using AssociationRegistry.DecentraalBeheer.Vereniging.SocialMedias;
 using AssociationRegistry.DecentraalBeheer.Vereniging.TelefoonNummers;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using AssociationRegistry.Vereniging;
-using AutoFixture;
-using Common.StubsMocksFakes.VerenigingsRepositories;
+using Events;
 using FluentAssertions;
 using Xunit;
 
-public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
+public class Given_No_Modifications_To_The_Vertegenwoordiger :
+    WijzigVertegenwoordigerCommandHandlerTestBase<FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario>
 {
-    private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private CommandResult _commandResult = null!;
+    public VertegenwoordigerWerdToegevoegd TeWijzigenVertegenwoordiger => Scenario.VertegenwoordigerWerdToegevoegd;
+    public VertegenwoordigerPersoonsgegevensDocument PersoonsdataBijRegistratie
+        => VertegenwoordigerPersoonsgegevensRepositoryMock.FindByRefId(TeWijzigenVertegenwoordiger.RefId)!;
 
-    public Given_No_Modifications_To_The_Vertegenwoordiger()
-    {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
-
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _commandHandler = new WijzigVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
-    }
-
-    public async ValueTask InitializeAsync()
-    {
-        throw new NotImplementedException();
-        // var command = new WijzigVertegenwoordigerCommand(
-        //     _scenario.VCode,
-        //     new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
-        //         _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-        //         _scenario.VertegenwoordigerWerdToegevoegd.Rol,
-        //         _scenario.VertegenwoordigerWerdToegevoegd.Roepnaam,
-        //         Email.Create(_scenario.VertegenwoordigerWerdToegevoegd.Email),
-        //         TelefoonNummer.Create(_scenario.VertegenwoordigerWerdToegevoegd.Telefoon),
-        //         TelefoonNummer.Create(_scenario.VertegenwoordigerWerdToegevoegd.Mobiel),
-        //         SocialMedia.Create(_scenario.VertegenwoordigerWerdToegevoegd.SocialMedia),
-        //         _scenario.VertegenwoordigerWerdToegevoegd.IsPrimair));
-        //
-        // _commandResult =
-        //     await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
-    }
+    protected override WijzigVertegenwoordigerCommand CreateCommand() =>
+        new(
+            Scenario.VCode,
+            new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
+                TeWijzigenVertegenwoordiger.VertegenwoordigerId,
+                PersoonsdataBijRegistratie.Rol,
+                PersoonsdataBijRegistratie.Roepnaam,
+                Email.Create(PersoonsdataBijRegistratie.Email),
+                TelefoonNummer.Create(PersoonsdataBijRegistratie.Telefoon),
+                TelefoonNummer.Create(PersoonsdataBijRegistratie.Mobiel),
+                SocialMedia.Create(PersoonsdataBijRegistratie.SocialMedia),
+                Scenario.VertegenwoordigerWerdToegevoegd.IsPrimair));
 
     [Fact]
     public void Then_No_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        VerenigingRepositoryMock.ShouldNotHaveAnySaves();
     }
 
     [Fact]
     public void Then_CommandResult_Has_No_Changes()
     {
-        _commandResult.HasChanges().Should().BeFalse();
+        CommandResult.HasChanges().Should().BeFalse();
     }
-
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
 }

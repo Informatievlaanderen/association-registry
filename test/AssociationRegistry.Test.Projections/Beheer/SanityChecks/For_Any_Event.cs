@@ -25,7 +25,7 @@ public class For_Any_Event
                                                                      .GetTypes()
                                                                      .Where(t => typeof(Events.IEvent)
                                                                                .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
-                                                                     .Except(_excludedEventTypes.Union([typeof(VertegenwoordigerWerdToegevoegd)])) // only add events that are obsolete
+                                                                     .Except(_excludedEventTypes.Union([typeof(VertegenwoordigerWerdToegevoegd), typeof(VertegenwoordigerWerdGewijzigd)])) // only add events that are obsolete
                                                                      .ToList();
 
         var projectionType = typeof(BeheerVerenigingDetailProjection);
@@ -81,7 +81,7 @@ public class For_Any_Event
                                                                      .GetTypes()
                                                                      .Where(t => typeof(Events.IEvent)
                                                                                .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
-                                                                     .Except(_excludedEventTypes.Union([typeof(VertegenwoordigerWerdToegevoegdMetPersoonsgegevens)])) // only add events that are obsolete
+                                                                     .Except(_excludedEventTypes.Union([typeof(VertegenwoordigerWerdToegevoegdMetPersoonsgegevens), typeof(VertegenwoordigerWerdGewijzigdMetPersoonsgegevens)])) // only add events that are obsolete
                                                                      .ToList();
 
         var projectionType = typeof(PubliekVerenigingSequenceProjection);

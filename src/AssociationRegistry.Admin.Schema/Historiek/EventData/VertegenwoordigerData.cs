@@ -48,18 +48,18 @@ public record VertegenwoordigerData
         return data ?? VerlopenPersoonsgegevenText;
     }
 
-    public static VertegenwoordigerData Create(VertegenwoordigerWerdGewijzigd e)
+    public static VertegenwoordigerData Create(VertegenwoordigerWerdGewijzigdMetPersoonsgegevens e)
         => new(
             e.VertegenwoordigerId,
             e.IsPrimair,
-            e.Roepnaam,
-            e.Rol,
-            e.Voornaam,
-            e.Achternaam,
-            e.Email,
-            e.Telefoon,
-            e.Mobiel,
-            e.SocialMedia);
+            DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.Roepnaam),
+            DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.Rol),
+            DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.Voornaam),
+            DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.Achternaam),
+            DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.Email),
+            DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.Telefoon),
+            DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.Mobiel),
+            DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.SocialMedia));
 
     public static VertegenwoordigerData Create(Registratiedata.Vertegenwoordiger vertegenwoordiger)
         => new(

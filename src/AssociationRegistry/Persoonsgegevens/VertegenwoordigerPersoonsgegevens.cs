@@ -4,26 +4,24 @@ using DecentraalBeheer.Vereniging;
 
 public record VertegenwoordigerPersoonsgegevens
 {
-    public Guid RefId { get; }
-    public VCode VCode { get; }
-    public int VertegenwoordigerId { get; }
-    public Insz Insz { get; }
-    public bool IsPrimair { get; }
-    public string? Roepnaam { get; }
-    public string? Rol { get; }
-    public Voornaam Voornaam { get; }
-    public Achternaam Achternaam { get; }
-    public string Email { get; }
-    public string Telefoon { get; }
-    public string Mobiel { get; }
-    public string SocialMedia { get; }
+    public Guid RefId { get; init; }
+    public VCode VCode { get; init; }
+    public int VertegenwoordigerId { get; init; }
+    public Insz Insz { get; init; }
+    public string? Roepnaam { get; init; }
+    public string? Rol { get; init; }
+    public Voornaam Voornaam { get; init; }
+    public Achternaam Achternaam { get; init; }
+    public string Email { get; init; }
+    public string Telefoon { get; init; }
+    public string Mobiel { get; init; }
+    public string SocialMedia { get; init; }
 
     public VertegenwoordigerPersoonsgegevens(
         Guid refId,
         VCode VCode,
         int vertegenwoordigerId,
         Insz insz,
-        bool isPrimair,
         string? roepnaam,
         string? rol,
         Voornaam voornaam,
@@ -37,7 +35,6 @@ public record VertegenwoordigerPersoonsgegevens
         this.VCode = VCode;
         VertegenwoordigerId = vertegenwoordigerId;
         Insz = insz;
-        IsPrimair = isPrimair;
         Roepnaam = roepnaam;
         Rol = rol;
         Voornaam = voornaam;

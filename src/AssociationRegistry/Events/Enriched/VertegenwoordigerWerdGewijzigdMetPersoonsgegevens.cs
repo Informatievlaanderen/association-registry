@@ -3,7 +3,7 @@
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
-public record VertegenwoordigerWerdToegevoegdMetPersoonsgegevens(
+public record VertegenwoordigerWerdGewijzigdMetPersoonsgegevens(
     int VertegenwoordigerId,
     bool IsPrimair,
     VertegenwoordigerPersoonsgegevens? VertegenwoordigerPersoonsgegevens) : IEvent

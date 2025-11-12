@@ -2,16 +2,19 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Persoonsgegevens;
 using System.Threading;
 using System.Threading.Tasks;
 
 public class WijzigVertegenwoordigerCommandHandler
 {
     private readonly IVerenigingsRepository _verenigingRepository;
+    private readonly IVertegenwoordigerPersoonsgegevensRepository _vertegenwoordigerPersoonsgegevensRepository;
 
-    public WijzigVertegenwoordigerCommandHandler(IVerenigingsRepository verenigingRepository)
+    public WijzigVertegenwoordigerCommandHandler(IVerenigingsRepository verenigingRepository, IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
     {
         _verenigingRepository = verenigingRepository;
+        _vertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository;
     }
 
     public async Task<CommandResult> Handle(
@@ -24,7 +27,7 @@ public class WijzigVertegenwoordigerCommandHandler
         var (vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair) =
             envelope.Command.Vertegenwoordiger;
 
-        vereniging.WijzigVertegenwoordiger(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
+        await vereniging.WijzigVertegenwoordiger(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair, _vertegenwoordigerPersoonsgegevensRepository);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
 

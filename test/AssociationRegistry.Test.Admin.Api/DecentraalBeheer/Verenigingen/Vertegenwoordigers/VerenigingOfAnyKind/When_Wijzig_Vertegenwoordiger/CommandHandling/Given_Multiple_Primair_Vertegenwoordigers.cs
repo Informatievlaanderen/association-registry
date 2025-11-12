@@ -3,48 +3,39 @@
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using AutoFixture;
-using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Xunit;
 
-public class Given_Multiple_Primair_Vertegenwoordigers
+public class Given_Multiple_Primair_Vertegenwoordigers :
+    WijzigVertegenwoordigerCommandHandlerTestBase<FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario>
 {
-    private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
+    private MeerderePrimaireVertegenwoordigers ActualException;
+    protected override WijzigVertegenwoordigerCommand CreateCommand() => new(
+        Scenario.VCode,
+        new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
+            Scenario.VertegenwoordigerWerdToegevoegd2.VertegenwoordigerId,
+            Rol: null,
+            Roepnaam: null,
+            Email: null,
+            Telefoon: null,
+            Mobiel: null,
+            SocialMedia: null,
+            IsPrimair: true)); // <== changed value
 
-    public Given_Multiple_Primair_Vertegenwoordigers()
+    public override async Task ExecuteCommand()
     {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
-
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _commandHandler = new WijzigVertegenwoordigerCommandHandler(verenigingRepositoryMock);
+        try
+        {
+           await base.ExecuteCommand();
+        }
+        catch (MeerderePrimaireVertegenwoordigers e)
+        {
+            ActualException = e;
+        }
     }
 
     [Fact]
     public async ValueTask Then_A_MultiplePrimaryVertegenwoordiger_Is_Thrown()
-    {
-        var command = new WijzigVertegenwoordigerCommand(
-            _scenario.VCode,
-            new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
-                _scenario.VertegenwoordigerWerdToegevoegd2.VertegenwoordigerId,
-                Rol: null,
-                Roepnaam: null,
-                Email: null,
-                Telefoon: null,
-                Mobiel: null,
-                SocialMedia: null,
-                IsPrimair: true)); // <== changed value
-
-        var handle = ()
-            => _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
-
-        await handle.Should().ThrowAsync<MeerderePrimaireVertegenwoordigers>();
-    }
+        => ActualException.Should().BeOfType<MeerderePrimaireVertegenwoordigers>();
 }

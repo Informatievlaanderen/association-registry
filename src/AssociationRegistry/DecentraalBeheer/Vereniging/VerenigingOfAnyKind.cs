@@ -16,6 +16,7 @@ using Persoonsgegevens;
 using SocialMedias;
 using System.Diagnostics.Contracts;
 using TelefoonNummers;
+using VertegenwoordigerPersoonsgegevens = Persoonsgegevens.VertegenwoordigerPersoonsgegevens;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 {
@@ -44,14 +45,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.ContactgegevenWerdVerwijderd(verwijderdContactgegeven));
     }
 
-    public void VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger, Guid refId)
-    {
-        var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
-
-        AddEvent(EventFactory.VertegenwoordigerWerdToegevoegd(toegevoegdeVertegenwoordiger, refId));
-    }
-
-    public void WijzigVertegenwoordiger(
+    public async Task WijzigVertegenwoordiger(
         int vertegenwoordigerId,
         string? rol,
         string? roepnaam,
@@ -59,15 +53,19 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         TelefoonNummer? telefoonNummer,
         TelefoonNummer? mobiel,
         SocialMedia? socialMedia,
-        bool? isPrimair)
+        bool? isPrimair,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
     {
+        var refId = Guid.NewGuid();
         var gewijzigdeVertegenwoordiger =
             State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
 
         if (gewijzigdeVertegenwoordiger is null)
             return;
 
-        AddEvent(EventFactory.VertegenwoordigerWerdGewijzigd(gewijzigdeVertegenwoordiger));
+        await InsertVertegenwoordigerPersoonsgegevens(refId, gewijzigdeVertegenwoordiger, vertegenwoordigerPersoonsgegevensRepository);
+
+        AddEvent(EventFactory.VertegenwoordigerWerdGewijzigd(gewijzigdeVertegenwoordiger, refId));
     }
 
     public void VerwijderVertegenwoordiger(int vertegenwoordigerId)
@@ -277,75 +275,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(adresWerdOvergenomen);
     }
 
-    // public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId, CancellationToken cancellationToken)
-    // {
-    //     var locatie = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
-    //
-    //     try
-    //     {
-    //         var @event = await LegacyAdresMatchWrapperService.GetAdresMatchEvent(locatieId, locatie, grarClient, cancellationToken, VCode);
-    //
-    //         if (@event is not AdresWerdOvergenomenUitAdressenregister adresWerdOvergenomen)
-    //         {
-    //             AddEvent(@event);
-    //
-    //             return;
-    //         }
-    //
-    //         if (!NieuweWaardenIndienWerdOvergenomen(adresWerdOvergenomen, locatie))
-    //         {
-    //             AddEvent(new AdresHeeftGeenVerschillenMetAdressenregister(VCode,
-    //                                                                       locatieId,
-    //                                                                       adresWerdOvergenomen.AdresId,
-    //                                                                       adresWerdOvergenomen.Adres));
-    //
-    //             return;
-    //         }
-    //
-    //         var stateLocatie = State.Locaties.SingleOrDefault(
-    //             sod =>
-    //                 sod.LocatieId != locatieId &&
-    //                 sod.AdresId is not null &&
-    //                 sod.AdresId == adresWerdOvergenomen.AdresId &&
-    //                 sod.Naam == locatie.Naam &&
-    //                 sod.Locatietype == locatie.Locatietype);
-    //
-    //         if (stateLocatie is not null)
-    //         {
-    //             var verwijderdeLocatieId = !stateLocatie.IsPrimair && locatie.IsPrimair ? stateLocatie.LocatieId : locatieId;
-    //             var behoudenLocatieId = verwijderdeLocatieId == locatieId ? stateLocatie.LocatieId : locatieId;
-    //
-    //             AddEvent(adresWerdOvergenomen with
-    //             {
-    //                 VCode = VCode,
-    //                 LocatieId = locatieId
-    //             });
-    //
-    //             AddEvent(new LocatieDuplicaatWerdVerwijderdNaAdresMatch(VCode, verwijderdeLocatieId,
-    //                                                                     behoudenLocatieId,
-    //                                                                     locatie.Naam,
-    //                                                                     adresWerdOvergenomen.AdresId));
-    //
-    //             return;
-    //         }
-    //
-    //         AddEvent(adresWerdOvergenomen);
-    //     }
-    //     catch (AdressenregisterReturnedNonSuccessStatusCode ex)
-    //     {
-    //         AddEvent(new AdresKonNietOvergenomenWordenUitAdressenregister(
-    //                      VCode,
-    //                      locatieId,
-    //                      locatie.Adres.ToAdresString(),
-    //                      ex.Message
-    //                  ));
-    //     }
-    //     catch(AdressenregisterReturnedNotFoundStatusCode ex)
-    //     {
-    //         AddEvent(EventFactory.AdresWerdNietGevondenInAdressenregister(VCode, locatie));
-    //     }
-    // }
-
     public async Task NeemAdresDetailOver(
         int locatieId,
         IAddressVerrijkingsService verrijkingService,
@@ -438,5 +367,26 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             return;
 
         AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
+    }
+
+    private async Task InsertVertegenwoordigerPersoonsgegevens(
+        Guid refId,
+        Vertegenwoordiger vertegenwoordiger,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
+    {
+        await vertegenwoordigerPersoonsgegevensRepository.Save(new VertegenwoordigerPersoonsgegevens(
+                                                                   refId,
+                                                                   VCode,
+                                                                   vertegenwoordiger.VertegenwoordigerId,
+                                                                   vertegenwoordiger.Insz,
+                                                                   vertegenwoordiger.Roepnaam,
+                                                                   vertegenwoordiger.Rol,
+                                                                   vertegenwoordiger.Voornaam,
+                                                                   vertegenwoordiger.Achternaam,
+                                                                   vertegenwoordiger.Email.Waarde,
+                                                                   vertegenwoordiger.Telefoon.Waarde,
+                                                                   vertegenwoordiger.Mobiel.Waarde,
+                                                                   vertegenwoordiger.SocialMedia.Waarde
+                                                               ));
     }
 }

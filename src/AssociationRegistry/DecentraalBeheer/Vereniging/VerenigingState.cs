@@ -371,7 +371,7 @@ public record VerenigingState : IHasVersion
                             vertegenwoordigerPersoonsgegevens.Roepnaam,
                             Voornaam.Hydrate(vertegenwoordigerPersoonsgegevens.Voornaam),
                             Achternaam.Hydrate(vertegenwoordigerPersoonsgegevens.Achternaam),
-                            vertegenwoordigerPersoonsgegevens.IsPrimair,
+                            @event.IsPrimair,
                             Email.Hydrate(vertegenwoordigerPersoonsgegevens.Email),
                             TelefoonNummer.Hydrate(vertegenwoordigerPersoonsgegevens.Telefoon),
                             TelefoonNummer.Hydrate(vertegenwoordigerPersoonsgegevens.Mobiel),
@@ -382,7 +382,7 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(VertegenwoordigerWerdGewijzigd @event)
     {
-        var vertegenwoordiger = Vertegenwoordigers[@event.VertegenwoordigerId];
+        var vertegenwoordigerPersoonsgegevens =  VertegenwoordigerPersoonsgegevensRepository.Get(@event.RefId).GetAwaiter().GetResult();
 
         return this with
         {
@@ -392,16 +392,16 @@ public record VerenigingState : IHasVersion
                    .Append(
                         Vertegenwoordiger.Hydrate(
                             @event.VertegenwoordigerId,
-                            Insz.Hydrate(vertegenwoordiger.Insz),
-                            @event.Rol,
-                            @event.Roepnaam,
-                            Voornaam.Hydrate(@event.Voornaam),
-                            Achternaam.Hydrate(@event.Achternaam),
+                            Insz.Hydrate(vertegenwoordigerPersoonsgegevens.Insz),
+                            @vertegenwoordigerPersoonsgegevens.Rol,
+                            @vertegenwoordigerPersoonsgegevens.Roepnaam,
+                            Voornaam.Hydrate(@vertegenwoordigerPersoonsgegevens.Voornaam),
+                            Achternaam.Hydrate(@vertegenwoordigerPersoonsgegevens.Achternaam),
                             @event.IsPrimair,
-                            Email.Hydrate(@event.Email),
-                            TelefoonNummer.Hydrate(@event.Telefoon),
-                            TelefoonNummer.Hydrate(@event.Mobiel),
-                            SocialMedia.Hydrate(@event.SocialMedia)
+                            Email.Hydrate(@vertegenwoordigerPersoonsgegevens.Email),
+                            TelefoonNummer.Hydrate(@vertegenwoordigerPersoonsgegevens.Telefoon),
+                            TelefoonNummer.Hydrate(@vertegenwoordigerPersoonsgegevens.Mobiel),
+                            SocialMedia.Hydrate(@vertegenwoordigerPersoonsgegevens.SocialMedia)
                         ))),
         };
     }

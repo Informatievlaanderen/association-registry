@@ -233,44 +233,11 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
 
-        await vertegenwoordigerPersoonsgegevensRepository.Save(new VertegenwoordigerPersoonsgegevens(
-                                                              refId,
-                                                              VCode,
-                                                              toegevoegdeVertegenwoordiger.VertegenwoordigerId,
-                                                              vertegenwoordiger.Insz,
-                                                              vertegenwoordiger.IsPrimair,
-                                                              vertegenwoordiger.Roepnaam,
-                                                              vertegenwoordiger.Rol,
-                                                              vertegenwoordiger.Voornaam,
-                                                              vertegenwoordiger.Achternaam,
-                                                              vertegenwoordiger.Email.Waarde,
-                                                              vertegenwoordiger.Telefoon.Waarde,
-                                                              vertegenwoordiger.Mobiel.Waarde,
-                                                              vertegenwoordiger.SocialMedia.Waarde
-                                                          ));
+        await InsertVertegenwoordigerPersoonsgegevens(refId, toegevoegdeVertegenwoordiger, vertegenwoordigerPersoonsgegevensRepository);
 
         AddEvent(EventFactory.VertegenwoordigerWerdToegevoegd(toegevoegdeVertegenwoordiger, refId));
 
         return toegevoegdeVertegenwoordiger;
-    }
-
-    public void WijzigVertegenwoordiger(
-        int vertegenwoordigerId,
-        string? rol,
-        string? roepnaam,
-        Email? email,
-        TelefoonNummer? telefoonNummer,
-        TelefoonNummer? mobiel,
-        SocialMedia? socialMedia,
-        bool? isPrimair)
-    {
-        var gewijzigdeVertegenwoordiger =
-            State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
-
-        if (gewijzigdeVertegenwoordiger is null)
-            return;
-
-        AddEvent(EventFactory.VertegenwoordigerWerdGewijzigd(gewijzigdeVertegenwoordiger));
     }
 
     public void VerwijderVertegenwoordiger(int vertegenwoordigerId)
@@ -363,4 +330,25 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public (Locatie[] metAdresId, Locatie[] zonderAdresId) GeefLocatiesMetEnZonderAdresId()
         => State.Locaties.Partition(x => x.AdresId is not null);
+
+    private async Task InsertVertegenwoordigerPersoonsgegevens(
+        Guid refId,
+        Vertegenwoordiger vertegenwoordiger,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
+    {
+        await vertegenwoordigerPersoonsgegevensRepository.Save(new VertegenwoordigerPersoonsgegevens(
+                                                                   refId,
+                                                                   VCode,
+                                                                   vertegenwoordiger.VertegenwoordigerId,
+                                                                   vertegenwoordiger.Insz,
+                                                                   vertegenwoordiger.Roepnaam,
+                                                                   vertegenwoordiger.Rol,
+                                                                   vertegenwoordiger.Voornaam,
+                                                                   vertegenwoordiger.Achternaam,
+                                                                   vertegenwoordiger.Email.Waarde,
+                                                                   vertegenwoordiger.Telefoon.Waarde,
+                                                                   vertegenwoordiger.Mobiel.Waarde,
+                                                                   vertegenwoordiger.SocialMedia.Waarde
+                                                               ));
+    }
 }

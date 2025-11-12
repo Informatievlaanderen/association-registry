@@ -178,13 +178,13 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
              .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
         };
     }
-    
+
     private async Task EnsureDatabaseExistsBeforeHostStarts(string name)
     {
         // Only need to ensure DB exists for adminapi (primary host)
         if (name != "adminapi")
             return;
-            
+
         var configuration = new ConfigurationBuilder()
                            .AddJsonFile("appsettings.development.json", false)
                            .AddJsonFile("appsettings.e2e.json", false)
@@ -199,21 +199,21 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
             // Check if database exists
             using var connection = new NpgsqlConnection(connectionString);
             using var cmd = connection.CreateCommand();
-            
+
             connection.Open();
             cmd.CommandText = $"SELECT 1 FROM pg_database WHERE datname = '{databaseName}'";
             var exists = cmd.ExecuteScalar() != null;
-            
+
             if (!exists)
             {
                 Console.WriteLine($"Database '{databaseName}' does not exist. Creating from template...");
-                
+
                 // Check if golden master template is available
                 if (DatabaseTemplateHelper.IsGoldenMasterTemplateAvailable(configuration, NullLogger.Instance))
                 {
                     DatabaseTemplateHelper.CreateDatabaseFromTemplate(
-                        configuration, 
-                        databaseName!, 
+                        configuration,
+                        databaseName!,
                         NullLogger.Instance);
                     Console.WriteLine($"Database '{databaseName}' created successfully from template.");
                 }
@@ -237,7 +237,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
             throw;
         }
     }
-    
+
     private static string GetConnectionString(IConfiguration configuration, string database)
         => $"host={configuration["PostgreSQLOptions:host"]};" +
            $"database={database};" +
@@ -284,6 +284,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
                 executedEvents[streamAction.Key] = streamAction.Events.Concat(executedEvents[streamAction.Key]).ToArray();
             }
         }
+
+        session.Store(scenario.GivenVertegenwoordigerPersoonsgegevens());
 
         await session.SaveChangesAsync();
 

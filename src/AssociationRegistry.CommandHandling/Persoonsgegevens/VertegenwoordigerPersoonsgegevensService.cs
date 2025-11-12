@@ -21,7 +21,6 @@ public class VertegenwoordigerPersoonsgegevensService : IVertegenwoordigerPersoo
                                                      VCode.Hydrate(doc.VCode),
                                                      doc.VertegenwoordigerId,
                                                      Insz.Hydrate(doc.Insz),
-                                                     doc.IsPrimair,
                                                      doc.Roepnaam,
                                                      doc.Rol,
                                                      Voornaam.Hydrate(doc.Voornaam),

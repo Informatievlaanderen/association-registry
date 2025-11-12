@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger.CommandHandling;
 
 using AssociationRegistry.Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
@@ -6,21 +6,19 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Emails;
 using AssociationRegistry.DecentraalBeheer.Vereniging.SocialMedias;
 using AssociationRegistry.DecentraalBeheer.Vereniging.TelefoonNummers;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Events;
 using FluentAssertions;
 using Xunit;
-using VertegenwoordigerPersoonsgegevens = Persoonsgegevens.VertegenwoordigerPersoonsgegevens;
 
-public class Given_A_Vertegenwoordiger :
-    WijzigVertegenwoordigerCommandHandlerTestBase<FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario>
+public class Given_A_Vertegenwoordiger_WithKboVereniging :
+    WijzigVertegenwoordigerCommandHandlerTestBase<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario>
 {
-    public VertegenwoordigerWerdToegevoegd TeWijzigenVertegenwoordiger => Scenario.VertegenwoordigerWerdToegevoegd;
+    public VertegenwoordigerWerdToegevoegdVanuitKBO TeWijzigenVertegenwoordiger => Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1;
 
     public VertegenwoordigerPersoonsgegevensDocument? PersoonsdataBijRegistratie
-        => VertegenwoordigerPersoonsgegevensRepositoryMock.FindByRefId(TeWijzigenVertegenwoordiger.RefId);
+        => throw new NotImplementedException();//VertegenwoordigerPersoonsgegevensRepositoryMock.FindByRefId(TeWijzigenVertegenwoordiger.RefId);
 
     protected override WijzigVertegenwoordigerCommand CreateCommand() => new(
         Scenario.VCode,
@@ -39,7 +37,7 @@ public class Given_A_Vertegenwoordiger :
         => VerenigingRepositoryMock.ShouldHaveSavedExact(
             new VertegenwoordigerWerdGewijzigd(
                 VertegenwoordigerPersoonsgegevensRepositoryMock.SavedRefIds.Last(),
-                Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+                Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1.VertegenwoordigerId,
                 Command.Vertegenwoordiger.IsPrimair!.Value)
         );
 
@@ -50,8 +48,8 @@ public class Given_A_Vertegenwoordiger :
         var actualSaved = await VertegenwoordigerPersoonsgegevensRepositoryMock.Get(refId);
 
         actualSaved.Insz.Should().Be(Insz.Hydrate(PersoonsdataBijRegistratie.Insz));
-        actualSaved.Voornaam.Waarde.Should().Be(PersoonsdataBijRegistratie.Voornaam);
-        actualSaved.Achternaam.Waarde.Should().Be(PersoonsdataBijRegistratie.Achternaam);
+        actualSaved.Voornaam.Should().Be(PersoonsdataBijRegistratie.Voornaam);
+        actualSaved.Achternaam.Should().Be(PersoonsdataBijRegistratie.Achternaam);
     }
 
     [Fact]
@@ -62,6 +60,7 @@ public class Given_A_Vertegenwoordiger :
 
         actualSaved.Roepnaam.Should().Be(Command.Vertegenwoordiger.Roepnaam);
         actualSaved.Rol.Should().Be(Command.Vertegenwoordiger.Rol);
+        //actualSaved.IsPrimair.Should().Be(Command.Vertegenwoordiger.IsPrimair!.Value);
         actualSaved.Email.Should().Be(Command.Vertegenwoordiger.Email.Waarde);
         actualSaved.Telefoon.Should().Be(Command.Vertegenwoordiger.Telefoon.Waarde);
         actualSaved.Mobiel.Should().Be(Command.Vertegenwoordiger.Mobiel.Waarde);
@@ -76,6 +75,10 @@ public class Given_A_Vertegenwoordiger :
 
         actualSaved.RefId.Should().Be(refId);
         actualSaved.VCode.Should().Be(VCode.Hydrate(Scenario.VCode));
-        actualSaved.VertegenwoordigerId.Should().Be(Command.Vertegenwoordiger.VertegenwoordigerId);
+
+        throw new NotImplementedException();
+        // todo: fix
+        // actualSaved.VertegenwoordigerId.Should().Be(
+        //     Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers.Max(v => v.VertegenwoordigerId) + 1);
     }
 }

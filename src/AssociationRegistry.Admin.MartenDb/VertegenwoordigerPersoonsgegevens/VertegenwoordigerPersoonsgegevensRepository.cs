@@ -23,7 +23,6 @@ public class VertegenwoordigerPersoonsgegevensRepository: IVertegenwoordigerPers
             VCode = vertegenwoordigerPersoonsgegevens.VCode,
             VertegenwoordigerId = vertegenwoordigerPersoonsgegevens.VertegenwoordigerId,
             Insz = vertegenwoordigerPersoonsgegevens.Insz,
-            IsPrimair = vertegenwoordigerPersoonsgegevens.IsPrimair,
             Roepnaam = vertegenwoordigerPersoonsgegevens.Roepnaam,
             Rol = vertegenwoordigerPersoonsgegevens.Rol,
             Voornaam = vertegenwoordigerPersoonsgegevens.Voornaam,

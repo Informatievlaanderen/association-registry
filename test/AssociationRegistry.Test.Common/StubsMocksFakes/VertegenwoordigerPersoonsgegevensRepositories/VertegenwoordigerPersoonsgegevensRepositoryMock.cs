@@ -10,7 +10,10 @@ public class VertegenwoordigerPersoonsgegevensRepositoryMock
     private readonly List<VertegenwoordigerPersoonsgegevensDocument> _documents
         = new();
 
-    public List<Guid> SavedRefIds => _documents.Select(x => x.RefId).ToList();
+    public List<Guid> SavedRefIds
+    {
+        get { return _documents.Select(x => x.RefId).ToList(); }
+    }
 
     public Task Save(VertegenwoordigerPersoonsgegevens vertegenwoordigerPersoonsgegevens)
     {
@@ -20,7 +23,6 @@ public class VertegenwoordigerPersoonsgegevensRepositoryMock
             VCode = vertegenwoordigerPersoonsgegevens.VCode,
             VertegenwoordigerId = vertegenwoordigerPersoonsgegevens.VertegenwoordigerId,
             Insz = vertegenwoordigerPersoonsgegevens.Insz,
-            IsPrimair = vertegenwoordigerPersoonsgegevens.IsPrimair,
             Roepnaam = vertegenwoordigerPersoonsgegevens.Roepnaam,
             Rol = vertegenwoordigerPersoonsgegevens.Rol,
             Voornaam = vertegenwoordigerPersoonsgegevens.Voornaam,
@@ -31,7 +33,6 @@ public class VertegenwoordigerPersoonsgegevensRepositoryMock
             SocialMedia = vertegenwoordigerPersoonsgegevens.SocialMedia,
         });
 
-        SavedRefIds.Add(vertegenwoordigerPersoonsgegevens.RefId);
         return Task.CompletedTask;
     }
 
@@ -43,7 +44,6 @@ public class VertegenwoordigerPersoonsgegevensRepositoryMock
                                                      VCode.Hydrate(doc.VCode),
                                                      doc.VertegenwoordigerId,
                                                      Insz.Hydrate(doc.Insz),
-                                                     doc.IsPrimair,
                                                      doc.Roepnaam,
                                                      doc.Rol,
                                                      Voornaam.Hydrate(doc.Voornaam),
