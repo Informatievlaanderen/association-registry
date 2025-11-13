@@ -134,7 +134,7 @@ public static class VerenigingenPerInszProjector
     }
 
     public static async Task<VerenigingenPerInszDocument> Apply(
-        IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd,
+        IEvent<VertegenwoordigerWerdVerwijderdMetPersoonsgegevens> vertegenwoordigerWerdVerwijderd,
         IDocumentOperations ops)
     {
         var vCode = vertegenwoordigerWerdVerwijderd.StreamKey!;

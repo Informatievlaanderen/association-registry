@@ -225,14 +225,15 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
-        IEvent<VertegenwoordigerWerdVerwijderd> @event,
+        IEvent<VertegenwoordigerWerdVerwijderdMetPersoonsgegevens> @event,
         BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             @event,
             VertegenwoordigerWerdVerwijderdData.Create(@event.Data),
             document,
-            $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd verwijderd."
+            $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd verwijderd.",
+            nameof(VertegenwoordigerWerdVerwijderd)
         );
     }
 

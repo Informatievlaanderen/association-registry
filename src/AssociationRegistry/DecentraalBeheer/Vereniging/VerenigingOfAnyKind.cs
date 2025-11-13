@@ -68,12 +68,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.VertegenwoordigerWerdGewijzigd(gewijzigdeVertegenwoordiger, refId));
     }
 
-    public void VerwijderVertegenwoordiger(int vertegenwoordigerId)
-    {
-        var vertegenwoordiger = State.Vertegenwoordigers.Verwijder(vertegenwoordigerId);
-        AddEvent(EventFactory.VertegenwoordigerWerdVerwijderd(vertegenwoordiger));
-    }
-
     public Locatie VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
         Throw<MaatschappelijkeZetelIsNietToegestaan>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);

@@ -15,11 +15,21 @@ public class With_An_Unknown_VertegenwoordigerId :
         Scenario.VCode,
         Fixture.Create<WijzigVertegenwoordigerCommand.CommandVertegenwoordiger>());
 
+    public override async Task ExecuteCommand()
+    {
+        try
+        {
+            await base.ExecuteCommand();
+        }
+        catch (VertegenwoordigerIsNietGekend e)
+        {
+            ActualException = e;
+        }
+    }
+
+    public VertegenwoordigerIsNietGekend ActualException { get; set; }
+
     [Fact]
     public async ValueTask Then_A_UnknownVertegenoordigerException_Is_Thrown()
-    {
-        var handle = () => CommandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(Command, CommandMetadata));
-
-        await handle.Should().ThrowAsync<VertegenwoordigerIsNietGekend>();
-    }
+        => ActualException.Should().BeOfType<VertegenwoordigerIsNietGekend>();
 }

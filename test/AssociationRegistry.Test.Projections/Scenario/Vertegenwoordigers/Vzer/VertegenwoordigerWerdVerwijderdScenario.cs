@@ -7,14 +7,14 @@ public class VertegenwoordigerWerdVerwijderdScenario : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
 
-    public VertegenwoordigerWerdVerwijderd VertegenwoordigerWerdVerwijderd { get; }
+    public VertegenwoordigerWerdVerwijderdMetPersoonsgegevens VertegenwoordigerWerdVerwijderdMetPersoonsgegevens { get; }
 
     public VertegenwoordigerWerdVerwijderdScenario()
     {
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
-        VertegenwoordigerWerdVerwijderd = AutoFixture.Create<VertegenwoordigerWerdVerwijderd>() with
+        VertegenwoordigerWerdVerwijderdMetPersoonsgegevens = AutoFixture.Create<VertegenwoordigerWerdVerwijderdMetPersoonsgegevens>() with
         {
             VertegenwoordigerId = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers.First().VertegenwoordigerId
         };
@@ -24,6 +24,6 @@ public class VertegenwoordigerWerdVerwijderdScenario : ScenarioBase
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VertegenwoordigerWerdVerwijderd),
+        new(VCode, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VertegenwoordigerWerdVerwijderdMetPersoonsgegevens),
     ];
 }

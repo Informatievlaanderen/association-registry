@@ -11,30 +11,30 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Xunit;
 
-public class With_An_Unknown_VertegenwoordigerId
+public class With_An_Unknown_VertegenwoordigerId: VerwijderVertegenwoordigerCommandHandlerTestBase<FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario>
 {
-    private readonly FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields _scenario;
-    private readonly VerwijderVertegenwoordigerCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-
-    public With_An_Unknown_VertegenwoordigerId()
+    public override async Task ExecuteCommand()
     {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields();
-
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
-
-        _fixture = new Fixture().CustomizeAdminApi();
-        _commandHandler = new VerwijderVertegenwoordigerCommandHandler(verenigingRepositoryMock);
+        try
+        {
+            await base.ExecuteCommand();
+        }
+        catch (VertegenwoordigerIsNietGekend e)
+        {
+            ActualException = e;
+        }
     }
 
+    public VertegenwoordigerIsNietGekend ActualException { get; set; }
+
     [Fact]
-    public async ValueTask Then_A_UnknownVertegenoordigerException_Is_Thrown()
+    public async ValueTask Then_A_MultiplePrimaryVertegenwoordiger_Is_Thrown()
+        => ActualException.Should().BeOfType<VertegenwoordigerIsNietGekend>();
+
+    protected override VerwijderVertegenwoordigerCommand CreateCommand()
     {
-        var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _fixture.Create<int>());
-        var commandMetadata = _fixture.Create<CommandMetadata>();
+        var unknownVertegenwoordigerId = Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId + Fixture.Create<int>();
 
-        var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata));
-
-        await handle.Should().ThrowAsync<VertegenwoordigerIsNietGekend>();
+        return new VerwijderVertegenwoordigerCommand(Scenario.VCode, unknownVertegenwoordigerId);
     }
 }

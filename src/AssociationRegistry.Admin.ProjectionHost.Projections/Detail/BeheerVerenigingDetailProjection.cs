@@ -111,7 +111,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<VertegenwoordigerWerdGewijzigdMetPersoonsgegevens> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
-    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> @event, IDocumentOperations ops)
+    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderdMetPersoonsgegevens> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
     public async Task Project(IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> @event, IDocumentOperations ops)

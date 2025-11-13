@@ -83,7 +83,7 @@ public class VerenigingenPerInszProjection : EventProjection
     public async Task Project(IEvent<VertegenwoordigerWerdToegevoegdMetPersoonsgegevens> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)//todo: persoonsgegevens
         => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdToegevoegd, ops));
 
-    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
+    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderdMetPersoonsgegevens> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
         => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdVerwijderd, ops));
 
     public async Task Project(

@@ -240,10 +240,17 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         return toegevoegdeVertegenwoordiger;
     }
 
-    public void VerwijderVertegenwoordiger(int vertegenwoordigerId)
+    public async Task VerwijderVertegenwoordiger(
+        int vertegenwoordigerId,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
     {
+        var refId = Guid.NewGuid();
+
         var vertegenwoordiger = State.Vertegenwoordigers.Verwijder(vertegenwoordigerId);
-        AddEvent(EventFactory.VertegenwoordigerWerdVerwijderd(vertegenwoordiger));
+
+        await InsertVertegenwoordigerPersoonsgegevens(refId, vertegenwoordiger, vertegenwoordigerPersoonsgegevensRepository);
+
+        AddEvent(EventFactory.VertegenwoordigerWerdVerwijderd(refId, vertegenwoordiger));
     }
 
     public void SchrijfUitUitPubliekeDatastroom()

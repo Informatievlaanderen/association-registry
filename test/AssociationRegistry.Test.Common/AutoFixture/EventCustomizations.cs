@@ -4,6 +4,7 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Emails;
 using DecentraalBeheer.Vereniging.SocialMedias;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
+using DecentraalBeheer.Vereniging.Websites;
 using Events;
 using Events.Factories;
 using global::AutoFixture;
@@ -168,10 +169,10 @@ public static class EventCustomizations
                                              fixture.Create<string>(),
                                              fixture.Create<string>(),
                                              fixture.Create<string>(),
-                                             fixture.Create<string>(),
-                                             fixture.Create<string>(),
-                                             fixture.Create<string>(),
-                                             fixture.Create<string>())
+                                             fixture.Create<Email>().Waarde,
+                                             fixture.Create<TelefoonNummer>().Waarde,
+                                             fixture.Create<TelefoonNummer>().Waarde,
+                                             fixture.Create<Website>().Waarde)
                                      ))
                                 .OmitAutoProperties());
     }

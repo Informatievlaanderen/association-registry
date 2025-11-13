@@ -15,7 +15,7 @@ public class Given_VertegenwoordigerWerdVerwijderd(
     [Fact]
     public void Vertegenwoordiger_Is_Toegevoegd()
     {
-        var vertegenwoordiger = fixture.Result.Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == fixture.Scenario.VertegenwoordigerWerdVerwijderd.VertegenwoordigerId);
+        var vertegenwoordiger = fixture.Result.Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == fixture.Scenario.VertegenwoordigerWerdVerwijderdMetPersoonsgegevens.VertegenwoordigerId);
 
         vertegenwoordiger.Should().BeNull();
     }

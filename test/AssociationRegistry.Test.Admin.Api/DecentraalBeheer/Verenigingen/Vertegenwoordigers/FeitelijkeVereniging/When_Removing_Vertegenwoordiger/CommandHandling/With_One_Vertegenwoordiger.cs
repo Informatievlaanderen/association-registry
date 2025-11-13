@@ -4,34 +4,36 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordi
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using FluentAssertions;
 using Xunit;
 
-public class With_One_Vertegenwoordiger
+public class With_One_Vertegenwoordiger : VerwijderVertegenwoordigerCommandHandlerTestBase<FeitelijkeVerenigingWerdGeregistreerdWithOneVertegenwoordigerScenario>
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly FeitelijkeVerenigingWerdGeregistreerdWithOneVertegenwoordigerScenario _scenario;
-    private readonly Fixture _fixture;
-
-    public With_One_Vertegenwoordiger()
+    public override async Task ExecuteCommand()
     {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithOneVertegenwoordigerScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
-        _fixture = new Fixture().CustomizeAdminApi();
+        try
+        {
+            await base.ExecuteCommand();
+        }
+        catch (LaatsteVertegenwoordigerKanNietVerwijderdWorden e)
+        {
+            ActualException = e;
+        }
     }
 
+    public LaatsteVertegenwoordigerKanNietVerwijderdWorden ActualException { get; set; }
+
     [Fact]
-    public async ValueTask Then_Throws_LaatsteVertegenwoordigerKanNietVerwijderdWordenException()
+    public async ValueTask Then_A_MultiplePrimaryVertegenwoordiger_Is_Thrown()
+        => ActualException.Should().BeOfType<LaatsteVertegenwoordigerKanNietVerwijderdWorden>();
+
+    protected override VerwijderVertegenwoordigerCommand CreateCommand()
     {
-        var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerId);
-        var commandMetadata = _fixture.Create<CommandMetadata>();
-        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
-        await Assert.ThrowsAsync<LaatsteVertegenwoordigerKanNietVerwijderdWorden>(async () => await commandHandler.Handle(
-                                                                                      new CommandEnvelope<VerwijderVertegenwoordigerCommand>(
-                                                                                          command, commandMetadata),
-                                                                                      CancellationToken.None));
+        var unknownVertegenwoordigerId = Scenario.VertegenwoordigerId;
+
+        return new VerwijderVertegenwoordigerCommand(Scenario.VCode, unknownVertegenwoordigerId);
     }
 }

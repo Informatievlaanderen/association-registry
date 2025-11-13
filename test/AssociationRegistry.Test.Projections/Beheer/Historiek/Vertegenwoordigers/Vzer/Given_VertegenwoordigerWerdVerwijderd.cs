@@ -20,9 +20,9 @@ public class Given_VertegenwoordigerWerdVerwijderd(
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.VertegenwoordigerWerdVerwijderd.Voornaam} {fixture.Scenario.VertegenwoordigerWerdVerwijderd.Achternaam}' werd verwijderd.",
+                                               Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.VertegenwoordigerWerdVerwijderdMetPersoonsgegevens.Voornaam} {fixture.Scenario.VertegenwoordigerWerdVerwijderdMetPersoonsgegevens.Achternaam}' werd verwijderd.",
                                                nameof(VertegenwoordigerWerdVerwijderd),
-                                               VertegenwoordigerWerdVerwijderdData.Create(fixture.Scenario.VertegenwoordigerWerdVerwijderd),
+                                               VertegenwoordigerWerdVerwijderdData.Create(fixture.Scenario.VertegenwoordigerWerdVerwijderdMetPersoonsgegevens),
                                                                             fixture.MetadataInitiator,
                                                                             fixture.MetadataTijdstip));
 }

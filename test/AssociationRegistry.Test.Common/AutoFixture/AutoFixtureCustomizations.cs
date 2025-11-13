@@ -42,6 +42,8 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeWerkingsgebied();
         fixture.CustomizeLidmaatschap();
         fixture.CustomizeGeldigheidsperiode();
+        fixture.CustomizeVertegenwoordigerWerdToegevoegdMetPersoonsgegevens();
+
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -68,6 +70,28 @@ public static class AutoFixtureCustomizations
             Contactgegeventype.Labels.Website => source.Create<Website>(),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, message: null),
         };
+
+    private static void CustomizeVertegenwoordigerWerdToegevoegdMetPersoonsgegevens(this IFixture fixture)
+    {
+        fixture.Customize<AssociationRegistry.Persoonsgegevens.VertegenwoordigerPersoonsgegevens>(
+            composer => composer.FromFactory(
+                                     () => new AssociationRegistry.Persoonsgegevens.VertegenwoordigerPersoonsgegevens(
+                                         Guid.NewGuid(),
+                                         fixture.Create<VCode>(),
+                                         fixture.Create<int>(),
+                                             fixture.Create<Insz>(),
+                                             fixture.Create<string>(),
+                                             fixture.Create<string>(),
+                                             fixture.Create<Voornaam>(),
+                                             fixture.Create<Achternaam>(),
+                                             fixture.Create<Email>().Waarde,
+                                             fixture.Create<TelefoonNummer>().Waarde,
+                                             fixture.Create<TelefoonNummer>().Waarde,
+                                             fixture.Create<Website>().Waarde)
+                                     )
+                                .OmitAutoProperties());
+    }
+
 
     private static void CustomizeVertegenwoordiger(this IFixture fixture)
     {

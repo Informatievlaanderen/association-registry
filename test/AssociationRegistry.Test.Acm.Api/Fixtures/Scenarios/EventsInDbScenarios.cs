@@ -292,10 +292,8 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
         };
         Insz = VertegenwoordigerPersoonsgegevensDocument.Insz;
         VertegenwoordigerWerdVerwijderd = new VertegenwoordigerWerdVerwijderd(
-            VertegenwoordigerPersoonsgegevensDocument.VertegenwoordigerId,
-            VertegenwoordigerPersoonsgegevensDocument.Insz,
-            VertegenwoordigerPersoonsgegevensDocument.Voornaam,
-            VertegenwoordigerPersoonsgegevensDocument.Achternaam);
+            refId,
+            VertegenwoordigerPersoonsgegevensDocument.VertegenwoordigerId);
 
         Insz = VertegenwoordigerPersoonsgegevensDocument.Insz;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

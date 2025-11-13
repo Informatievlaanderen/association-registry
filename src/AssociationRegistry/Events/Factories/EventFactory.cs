@@ -91,8 +91,8 @@ public static class EventFactory
     public static WerkingsgebiedenWerdenNietBepaald WerkingsgebiedenWerdenNietBepaald(VCode vCode) => new(vCode);
     public static WerkingsgebiedenWerdenNietVanToepassing WerkingsgebiedenWerdenNietVanToepassing(VCode vCode) => new(vCode);
 
-    public static VertegenwoordigerWerdVerwijderd VertegenwoordigerWerdVerwijderd(Vertegenwoordiger vertegenwoordiger)
-        => new(vertegenwoordiger.VertegenwoordigerId, vertegenwoordiger.Insz, vertegenwoordiger.Voornaam, vertegenwoordiger.Achternaam);
+    public static VertegenwoordigerWerdVerwijderd VertegenwoordigerWerdVerwijderd(Guid refId, Vertegenwoordiger vertegenwoordiger)
+        => new(refId, vertegenwoordiger.VertegenwoordigerId);
 
     public static VertegenwoordigerWerdToegevoegdVanuitKBO VertegenwoordigerWerdToegevoegdVanuitKbo(Vertegenwoordiger vertegenwoordiger)
         => new(vertegenwoordiger.VertegenwoordigerId, vertegenwoordiger.Insz, vertegenwoordiger.Voornaam, vertegenwoordiger.Achternaam);

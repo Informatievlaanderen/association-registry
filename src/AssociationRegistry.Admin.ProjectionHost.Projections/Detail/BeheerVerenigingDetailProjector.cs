@@ -358,7 +358,7 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static void Apply(
-        IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd,
+        IEvent<VertegenwoordigerWerdVerwijderdMetPersoonsgegevens> vertegenwoordigerWerdVerwijderd,
         BeheerVerenigingDetailDocument document)
     {
         document.Vertegenwoordigers = document.Vertegenwoordigers

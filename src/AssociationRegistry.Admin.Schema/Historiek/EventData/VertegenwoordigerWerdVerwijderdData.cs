@@ -8,7 +8,7 @@ public record VertegenwoordigerWerdVerwijderdData
     string Voornaam,
     string Achternaam)
 {
-    public static VertegenwoordigerWerdVerwijderdData Create(VertegenwoordigerWerdVerwijderd e)
+    public static VertegenwoordigerWerdVerwijderdData Create(VertegenwoordigerWerdVerwijderdMetPersoonsgegevens e)
         => new(
             e.VertegenwoordigerId,
             e.Voornaam,

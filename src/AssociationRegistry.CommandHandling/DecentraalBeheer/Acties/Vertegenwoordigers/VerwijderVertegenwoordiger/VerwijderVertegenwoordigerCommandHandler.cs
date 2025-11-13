@@ -3,16 +3,21 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Persoonsgegevens;
 using System.Threading;
 using System.Threading.Tasks;
 
 public class VerwijderVertegenwoordigerCommandHandler
 {
     private readonly IVerenigingsRepository _repository;
+    private readonly IVertegenwoordigerPersoonsgegevensRepository _vertegenwoordigerPersoonsgegevensRepository;
 
-    public VerwijderVertegenwoordigerCommandHandler(IVerenigingsRepository repository)
+    public VerwijderVertegenwoordigerCommandHandler(
+        IVerenigingsRepository repository,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
     {
         _repository = repository;
+        _vertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository;
     }
 
     public async Task<CommandResult> Handle(
@@ -23,7 +28,7 @@ public class VerwijderVertegenwoordigerCommandHandler
                                           .OrWhenUnsupportedOperationForType()
                                           .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersVerwijderen>();
 
-        vereniging.VerwijderVertegenwoordiger(message.Command.VertegenwoordigerId);
+        await vereniging.VerwijderVertegenwoordiger(message.Command.VertegenwoordigerId, _vertegenwoordigerPersoonsgegevensRepository);
 
         var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
 

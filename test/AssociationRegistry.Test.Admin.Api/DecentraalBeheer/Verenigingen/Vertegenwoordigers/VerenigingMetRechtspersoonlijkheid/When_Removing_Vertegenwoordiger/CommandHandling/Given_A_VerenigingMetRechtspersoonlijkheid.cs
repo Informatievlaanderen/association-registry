@@ -8,7 +8,10 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.VertegenwoordigerPersoonsgegevensRepositories;
 using FluentAssertions;
+using Moq;
+using Persoonsgegevens;
 using Xunit;
 
 public class Given_A_VerenigingMetRechtspersoonlijkheid
@@ -25,7 +28,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid
         var command = fixture.Create<VerwijderVertegenwoordigerCommand>() with { VCode = scenario.VCode };
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        _commandHandler = new VerwijderVertegenwoordigerCommandHandler(verenigingRepositoryMock);
+        _commandHandler = new VerwijderVertegenwoordigerCommandHandler(verenigingRepositoryMock, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>());
         _envelope = new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata);
     }
 

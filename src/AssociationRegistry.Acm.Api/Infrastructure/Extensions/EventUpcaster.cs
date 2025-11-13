@@ -37,6 +37,22 @@ public static class EventUpcaster
                         : null);
             });
 
+        opts.Events.Upcast<VertegenwoordigerWerdVerwijderd, VertegenwoordigerWerdVerwijderdMetPersoonsgegevens>(
+            async (vertegenwoordigerWerdToegevoegd, ct) =>
+            {
+                await using var session = querySessionFunc();
+
+                var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
+                                                                     .Where(x => x.RefId == vertegenwoordigerWerdToegevoegd.RefId)
+                                                                     .SingleOrDefaultAsync(ct);
+
+                return new VertegenwoordigerWerdVerwijderdMetPersoonsgegevens(
+                    VertegenwoordigerId: vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+                    vertegenwoordigerPersoonsgegevens?.Insz,
+                    vertegenwoordigerPersoonsgegevens?.Voornaam,
+                    vertegenwoordigerPersoonsgegevens?.Achternaam);
+            });
+
         return opts;
     }
 }
