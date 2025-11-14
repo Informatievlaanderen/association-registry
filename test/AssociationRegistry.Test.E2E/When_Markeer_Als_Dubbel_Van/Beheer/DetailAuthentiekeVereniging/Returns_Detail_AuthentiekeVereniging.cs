@@ -23,7 +23,7 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
     }
 
     public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence));
+        => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence));
 
     [Fact]
     public void With_IsDubbelVan_VCode_Of_AndereFeitelijkeVerenigingWerdGeregistreerd()
@@ -50,7 +50,7 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
 
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
-        Response.Vereniging.CorresponderendeVCodes.Should().Contain(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
+        Response.Vereniging.CorresponderendeVCodes.Should().Contain(_testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode);
     }
 
     [Fact]

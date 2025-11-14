@@ -300,7 +300,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
                                      .Where(x => x is FeitelijkeVerenigingWerdGeregistreerd).Cast<FeitelijkeVerenigingWerdGeregistreerd>()
                                      .Select(eventToAdd => new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(@eventToAdd.VCode)).ToList();
 
-            scenario.Result = await SaveEvents(scenario.VCode, originalEvents.Concat(eventsWithMigration).ToArray(), scenario.GetCommandMetadata());
+            scenario.Result = await SaveEvents(scenario.VCode, originalEvents.Concat(eventsWithMigration).ToArray(), scenario.GetCommandMetadata(), scenario.GetVertegenwoordigerPersoonsgegevensDocuments());
             if(scenario.Result.Sequence.HasValue)
             {
                 MaxSequence = Math.Max(MaxSequence, scenario.Result.Sequence.Value);

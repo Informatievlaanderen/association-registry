@@ -6,6 +6,7 @@ using DecentraalBeheer.Vereniging.SocialMedias;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
 using DecentraalBeheer.Vereniging.Websites;
 using Events;
+using Events.Enriched;
 using Events.Factories;
 using global::AutoFixture;
 using Vereniging;

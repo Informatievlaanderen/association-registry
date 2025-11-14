@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
 using Events;
+using Events.Enriched;
 using JasperFx.Events;
 using Marten;
 using Marten.Events;
@@ -20,12 +21,12 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     }
 
     public BeheerVerenigingHistoriekDocument Create(
-        IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event,
+        IEvent<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens> @event,
         IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 
     public BeheerVerenigingHistoriekDocument Create(
-        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event,
+        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens> @event,
         IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 

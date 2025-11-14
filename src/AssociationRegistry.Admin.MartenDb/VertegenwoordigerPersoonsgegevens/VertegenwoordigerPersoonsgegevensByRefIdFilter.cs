@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 
-public record VertegenwoordigerPersoonsgegevensFilter
+public record VertegenwoordigerPersoonsgegevensByRefIdFilter
 {
     public Guid RefId { get; }
 
-    public VertegenwoordigerPersoonsgegevensFilter(Guid refId)
+    public VertegenwoordigerPersoonsgegevensByRefIdFilter(Guid refId)
     {
         RefId = refId;
     }

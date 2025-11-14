@@ -5,6 +5,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.MartenDb.Subscriptions;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Core.MGet;
+using Events.Enriched;
 using Microsoft.Extensions.Logging;
 using Resources;
 using Schema.Search;
@@ -72,9 +73,9 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
 
             switch (@event.EventType.Name)
             {
-                case nameof(FeitelijkeVerenigingWerdGeregistreerd):
+                case nameof(FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens):
                 case nameof(DoelgroepWerdGewijzigd):
-                case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd):
+                case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens):
                 case nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid):
                 case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
                 case nameof(WerkingsgebiedenWerdenNietBepaald):

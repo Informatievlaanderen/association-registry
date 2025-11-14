@@ -13,12 +13,10 @@ using Xunit;
 public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly MarkeerAlsDubbelVanContext _testContext;
-    public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
 
     public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd;
     }
 
     public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)

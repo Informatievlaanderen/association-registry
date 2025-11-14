@@ -106,7 +106,7 @@ public class MultipleVerenigingRepositoryMock : IVerenigingsRepository
     public async Task<bool> Exists(KboNummer kboNummer)
         => throw new NotImplementedException();
 
-    public async Task<StreamActionResult> SaveNew(VerenigingsBase vereniging, IDocumentSession session, CommandMetadata messageMetadata, CancellationToken cancellationToken)
+    public async Task<StreamActionResult> SaveNew(VerenigingsBase vereniging, CommandMetadata messageMetadata, CancellationToken cancellationToken)
         => await Save(vereniging, messageMetadata, cancellationToken);
 
     public void ShouldHaveLoaded<TVereniging>(params string[] keys) where TVereniging : IHydrate<VerenigingState>, new()

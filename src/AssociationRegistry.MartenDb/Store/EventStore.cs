@@ -45,23 +45,22 @@ public class EventStore : IEventStore
 
     public async Task<StreamActionResult> SaveNew(
         string aggregateId,
-        IDocumentSession session,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
         IEvent[] events)
     {
-        SetHeaders(metadata, session);
+        SetHeaders(metadata, _session);
 
-        TryLockForKboNumber(aggregateId, session, events.FirstOrDefault());
+        TryLockForKboNumber(aggregateId, _session, events.FirstOrDefault());
 
-        var streamAction = session.Events.StartStream(aggregateId, events);
+        var streamAction = _session.Events.StartStream(aggregateId, events);
 
-        await session.SaveChangesAsync(cancellationToken);
+        await _session.SaveChangesAsync(cancellationToken);
 
         var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
 
         if (maxSequence == 0)
-            maxSequence = (await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken)).Max(x => x.Sequence);
+            maxSequence = (await _session.Events.FetchStreamAsync(aggregateId, token: cancellationToken)).Max(x => x.Sequence);
 
         return new StreamActionResult(maxSequence, events.Length);
     }

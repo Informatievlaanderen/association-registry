@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
@@ -7,8 +8,6 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore;
 using Framework.TestClasses;
-using MartenDb.Store;
-using Vereniging;
 
 public class SubtypeWerdVerfijndNaarSubverenigingScenario : IScenario
 {
@@ -28,7 +27,7 @@ public class SubtypeWerdVerfijndNaarSubverenigingScenario : IScenario
 
         VerenigingssubtypeWerdVerfijndNaarSubvereniging = fixture.Create<VerenigingssubtypeWerdVerfijndNaarSubvereniging>() with
         {
-            VCode = BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+            VCode = BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.VCode,
             SubverenigingVan = new Registratiedata.SubverenigingVan(fixture.Create<VCode>(), // because we want to change it to the VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                                                                     fixture.Create<string>(), // because we want to change it to the VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                                                                     fixture.Create<string>(), fixture.Create<string>())
@@ -39,6 +38,9 @@ public class SubtypeWerdVerfijndNaarSubverenigingScenario : IScenario
         return givenEvents.Append(new KeyValuePair<string, IEvent[]>(VerenigingssubtypeWerdVerfijndNaarSubvereniging.VCode, [VerenigingssubtypeWerdVerfijndNaarSubvereniging]))
                           .ToArray();
     }
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
+        => BaseScenario.GivenVertegenwoordigerPersoonsgegevens();
 
     public StreamActionResult Result { get; set; } = null!;
 

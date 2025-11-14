@@ -1,21 +1,25 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Enriched;
 using EventStore;
+using Framework.Mappers;
 using Framework.TestClasses;
 using MartenDb.Store;
 using Vereniging;
 
 public class VzerAndKboVerenigingWerdenGeregistreerdScenario : IScenario
 {
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens { get; set; }
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; set; }
 
     private CommandMetadata Metadata;
+    private VertegenwoordigerPersoonsgegevensDocument[] _vertegenwoordigerPersoonsgegevens;
 
     public VzerAndKboVerenigingWerdenGeregistreerdScenario()
     {
@@ -25,10 +29,14 @@ public class VzerAndKboVerenigingWerdenGeregistreerdScenario : IScenario
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens>() with
         {
             VCode = await service.GetNext(),
         };
+        var (verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, persoonsgegevensDocuments) = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.MapDomainWithPersoonsgegevens();
+        _vertegenwoordigerPersoonsgegevens = persoonsgegevensDocuments
+                                            .ToArray();
+
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = await service.GetNext(),
@@ -39,10 +47,13 @@ public class VzerAndKboVerenigingWerdenGeregistreerdScenario : IScenario
 
         return
         [
-            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd]),
+            new(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd]),
             new(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingMetRechtspersoonlijkheidWerdGeregistreerd]),
         ];
     }
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
+        => _vertegenwoordigerPersoonsgegevens;
 
     public StreamActionResult Result { get; set; } = null!;
 

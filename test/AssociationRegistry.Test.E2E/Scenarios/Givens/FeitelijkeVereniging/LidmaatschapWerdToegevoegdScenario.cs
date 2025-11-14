@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
 
+using Admin.Schema.Persoonsgegevens;
 using Events;
 using EventStore;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -24,19 +25,22 @@ public class LidmaatschapWerdToegevoegdScenario : Framework.TestClasses.IScenari
         var fixture = new Fixture().CustomizeAdminApi();
 
         var givenEvents = await BaseScenario.GivenEvents(service);
-        NaamVereniging = BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.Naam;
+        NaamVereniging = BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam;
 
         LidmaatschapWerdToegevoegd = new LidmaatschapWerdToegevoegd(
-            VCode: BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
+            VCode: BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode,
             Lidmaatschap: fixture.Create<Registratiedata.Lidmaatschap>() with
             {
-                AndereVereniging = BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
-                AndereVerenigingNaam = BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
+                AndereVereniging = BaseScenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode,
+                AndereVerenigingNaam = BaseScenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam,
             });
 
         return givenEvents.Append(new KeyValuePair<string, IEvent[]>(LidmaatschapWerdToegevoegd.VCode, [LidmaatschapWerdToegevoegd]))
                           .ToArray();
     }
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
+        => BaseScenario.GivenVertegenwoordigerPersoonsgegevens();
 
     public StreamActionResult Result { get; set; } = null!;
 }

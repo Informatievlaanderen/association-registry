@@ -3,6 +3,7 @@ namespace AssociationRegistry.Acm.Api.Projections;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
+using Events.Enriched;
 using JasperFx.Events;
 using Marten;
 using Schema.VerenigingenPerInsz;
@@ -12,18 +13,18 @@ using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 public static class VerenigingDocumentProjector
 {
-    public static VerenigingDocument Apply(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd)
+    public static VerenigingDocument Apply(FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens werd)
         => new()
         {
-            VCode = werdGeregistreerd.VCode,
-            Naam = werdGeregistreerd.Naam,
+            VCode = werd.VCode,
+            Naam = werd.Naam,
             Status = VerenigingStatus.Actief,
             VerenigingsType = new(Verenigingstype.FeitelijkeVereniging.Code, Verenigingstype.FeitelijkeVereniging.Naam),
             Verenigingssubtype = null,
             KboNummer = string.Empty,
         };
 
-    public static VerenigingDocument Apply(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
+    public static VerenigingDocument Apply(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens werdGeregistreerd)
         => new()
         {
             VCode = werdGeregistreerd.VCode,

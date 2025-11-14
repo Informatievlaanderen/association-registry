@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
 using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Enriched;
 using Formats;
 using Framework;
 using JasperFx.Events;
@@ -14,7 +15,7 @@ using IEvent = JasperFx.Events.IEvent;
 public class BeheerVerenigingHistoriekProjector
 {
     public static BeheerVerenigingHistoriekDocument Create(
-        IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event)
+        IEvent<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens> @event)
     {
         var beheerVerenigingHistoriekDocument = CreateNewDocument(@event.Data.VCode);
 
@@ -22,13 +23,14 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             VerenigingWerdGeregistreerdData.Create(@event.Data),
             beheerVerenigingHistoriekDocument,
-            $"Feitelijke vereniging werd geregistreerd met naam '{@event.Data.Naam}'.");
+            $"Feitelijke vereniging werd geregistreerd met naam '{@event.Data.Naam}'.",
+            nameof(FeitelijkeVerenigingWerdGeregistreerd));
 
         return beheerVerenigingHistoriekDocument;
     }
 
     public static BeheerVerenigingHistoriekDocument Create(
-        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event)
+        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens> @event)
     {
         var beheerVerenigingHistoriekDocument = CreateNewDocument(@event.Data.VCode);
 
@@ -36,7 +38,8 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             VerenigingWerdGeregistreerdData.Create(@event.Data),
             beheerVerenigingHistoriekDocument,
-            $"Vereniging zonder eigen rechtspersoonlijkheid werd geregistreerd met naam '{@event.Data.Naam}'.");
+            $"Vereniging zonder eigen rechtspersoonlijkheid werd geregistreerd met naam '{@event.Data.Naam}'.",
+            nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd));
 
         return beheerVerenigingHistoriekDocument;
     }

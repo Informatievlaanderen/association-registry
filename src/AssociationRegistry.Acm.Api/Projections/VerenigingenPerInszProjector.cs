@@ -3,6 +3,7 @@ namespace AssociationRegistry.Acm.Api.Projections;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
+using Events.Enriched;
 using JasperFx.Events;
 using Marten;
 using Schema.VerenigingenPerInsz;
@@ -15,8 +16,8 @@ using Verenigingstype = Schema.VerenigingenPerInsz.Verenigingstype;
 public static class VerenigingenPerInszProjector
 {
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
-        IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd,
-        IDocumentOperations ops)
+      IVerenigingWerdGeregistreerdMetPersoonsgegevens werdGeregistreerd,
+                                                        IDocumentOperations ops)
     {
         var docs = new List<VerenigingenPerInszDocument>();
 
@@ -34,7 +35,7 @@ public static class VerenigingenPerInszProjector
                 IsHoofdvertegenwoordigerVan = true,
             };
 
-            var verenigingenPerInszDocument = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordiger.Insz);
+            var verenigingenPerInszDocument = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordiger.VertegenwoordigerPersoonsgegevens?.Insz); //TODO: 2950 fix when null
             verenigingenPerInszDocument.Verenigingen.Add(vereniging);
             docs.Add(verenigingenPerInszDocument);
         }
@@ -42,16 +43,16 @@ public static class VerenigingenPerInszProjector
         return docs;
     }
 
-    private static Verenigingstype MapVerenigingstype(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
+    private static Verenigingstype MapVerenigingstype(IVerenigingWerdGeregistreerdMetPersoonsgegevens werdGeregistreerd)
     {
         return werdGeregistreerd switch
         {
-            FeitelijkeVerenigingWerdGeregistreerd =>
+            FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens =>
                 new(
                     DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                     DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam),
 
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =>
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens =>
                 new(
                     DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
                     DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam),
@@ -60,13 +61,13 @@ public static class VerenigingenPerInszProjector
         };
     }
 
-    private static Verenigingssubtype? MapVerenigingssubtype(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
+    private static Verenigingssubtype? MapVerenigingssubtype(IVerenigingWerdGeregistreerdMetPersoonsgegevens werdGeregistreerd)
     {
         return werdGeregistreerd switch
         {
-            FeitelijkeVerenigingWerdGeregistreerd => null,
+            FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens => null,
 
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens => VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
 
             _ => throw new ArgumentOutOfRangeException(nameof(werdGeregistreerd)),
         };

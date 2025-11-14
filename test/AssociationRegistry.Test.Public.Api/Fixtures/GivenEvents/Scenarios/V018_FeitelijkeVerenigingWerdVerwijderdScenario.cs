@@ -66,21 +66,8 @@ public class V018_FeitelijkeVerenigingWerdVerwijderdScenario : IScenario
                     Land: "België"),
                 AdresId: null),
         },
-        new[]
-        {
-            new Registratiedata.Vertegenwoordiger(
-                VertegenwoordigerId: 1,
-                Insz: "01234567890",
-                IsPrimair: true,
-                Roepnaam: "father",
-                Rol: "Leader",
-                Voornaam: "Odin",
-                Achternaam: "Allfather",
-                Email: "asgard@world.tree",
-                Telefoon: "",
-                Mobiel: "",
-                SocialMedia: ""),
-        },
+        []
+        ,
         new Registratiedata.HoofdactiviteitVerenigingsloket[]
         {
             new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),

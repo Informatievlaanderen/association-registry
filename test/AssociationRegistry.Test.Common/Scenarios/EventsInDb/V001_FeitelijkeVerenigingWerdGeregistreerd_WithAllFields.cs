@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
@@ -13,12 +14,14 @@ using Vereniging;
 public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public readonly VertegenwoordigerPersoonsgegevensDocument VertegenwoordigerPersoonsgegevensDocument;
     public readonly CommandMetadata Metadata;
 
     public V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999001";
+        var refId = Guid.NewGuid();
 
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode: VCode,
@@ -76,22 +79,30 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
             Vertegenwoordigers:
             [
                 new Registratiedata.Vertegenwoordiger(
+                    refId,
                     VertegenwoordigerId: 1,
-                    Insz: "01234567890",
-                    IsPrimair: true,
-                    Roepnaam: "father",
-                    Rol: "Leader",
-                    Voornaam: "Odin",
-                    Achternaam: "Allfather",
-                    Email: "asgard@world.tree",
-                    Telefoon: "",
-                    Mobiel: "",
-                    SocialMedia: ""),
+                    IsPrimair: true),
             ],
             HoofdactiviteitenVerenigingsloket:
             [
                 new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
             ]);
+
+        VertegenwoordigerPersoonsgegevensDocument = fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+        {
+            VCode = VCode,
+            RefId = refId,
+            VertegenwoordigerId = 1,
+            Insz = "01234567890",
+            Roepnaam = "father",
+            Rol = "Leader",
+            Voornaam = "Odin",
+            Achternaam = "Allfather",
+            Email = "asgard@world.tree",
+            Telefoon = "",
+            Mobiel = "",
+            SocialMedia = "",
+        };
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -101,6 +112,9 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
 
     public IEvent[] GetEvents()
         => [FeitelijkeVerenigingWerdGeregistreerd];
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVerenwoordigerPersoonsgegevensDocument()
+        => [VertegenwoordigerPersoonsgegevensDocument];
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

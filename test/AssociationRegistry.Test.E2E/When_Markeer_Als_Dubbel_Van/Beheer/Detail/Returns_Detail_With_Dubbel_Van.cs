@@ -24,7 +24,7 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
     [Fact]
     public void With_IsDubbelVan_VCode_Of_AndereFeitelijkeVerenigingWerdGeregistreerd()
     {
-        Response.Vereniging.IsDubbelVan.Should().Be(_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+        Response.Vereniging.IsDubbelVan.Should().Be(_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode);
     }
 
     [Fact]

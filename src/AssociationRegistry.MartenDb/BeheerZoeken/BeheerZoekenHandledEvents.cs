@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.MartenDb.BeheerZoeken;
 
 using Events;
+using Events.Enriched;
 
 public class BeheerZoekenHandledEvents
 {
     public static Type[] Types =
     [
-        typeof(FeitelijkeVerenigingWerdGeregistreerd),
+        typeof(FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens),
         typeof(DoelgroepWerdGewijzigd),
-        typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd),
+        typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens),
         typeof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid),
         typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd),
         typeof(WerkingsgebiedenWerdenNietBepaald),

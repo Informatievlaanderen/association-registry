@@ -44,4 +44,18 @@ public record VertegenwoordigerPersoonsgegevens
         Mobiel = mobiel;
         SocialMedia = socialMedia;
     }
+
+    public static VertegenwoordigerPersoonsgegevens ToVertegenwoordiger(Guid refId, VCode VCode, Vertegenwoordiger vertegenwoordiger)
+        => new(refId,
+               VCode,
+               vertegenwoordiger.VertegenwoordigerId,
+               vertegenwoordiger.Insz,
+               vertegenwoordiger.Roepnaam,
+               vertegenwoordiger.Rol,
+               vertegenwoordiger.Voornaam,
+               vertegenwoordiger.Achternaam,
+               vertegenwoordiger.Email.Waarde,
+               vertegenwoordiger.Telefoon.Waarde,
+               vertegenwoordiger.Mobiel.Waarde,
+               vertegenwoordiger.SocialMedia.Waarde);
 }

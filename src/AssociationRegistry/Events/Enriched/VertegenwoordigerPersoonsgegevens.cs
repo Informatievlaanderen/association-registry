@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Events;
+namespace AssociationRegistry.Events.Enriched;
 
 public record VertegenwoordigerPersoonsgegevens(
     string? Insz,

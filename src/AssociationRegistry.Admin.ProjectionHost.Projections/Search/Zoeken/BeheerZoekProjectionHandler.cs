@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.Zoeken;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Enriched;
 using Formats;
 using Schema;
 using Schema.Search;
@@ -17,7 +18,7 @@ public class BeheerZoekProjectionHandler
     {
     }
 
-    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message, VerenigingZoekDocument document)
+    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens> message, VerenigingZoekDocument document)
     {
         document.JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type;
         document.VCode = message.Data.VCode;
@@ -74,7 +75,7 @@ public class BeheerZoekProjectionHandler
     }
 
     public void Handle(
-        EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message,
+        EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens> message,
         VerenigingZoekDocument zoekDocument)
     {
         zoekDocument.JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type;

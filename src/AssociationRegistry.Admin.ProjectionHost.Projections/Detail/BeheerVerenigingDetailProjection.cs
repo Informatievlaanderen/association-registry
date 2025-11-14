@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Events;
+using Events.Enriched;
 using JasperFx.Events;
 using Marten;
 using Marten.Events;
@@ -20,10 +21,10 @@ public class BeheerVerenigingDetailProjection : EventProjection
         Options.DeleteViewTypeOnTeardown<BeheerVerenigingDetailDocument>();
     }
 
-    public BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
+    public BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens> @event, IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingDetailProjector.Create);
 
-    public BeheerVerenigingDetailDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event, IDocumentOperations ops)
+    public BeheerVerenigingDetailDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens> @event, IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingDetailProjector.Create);
 
     public BeheerVerenigingDetailDocument Create(

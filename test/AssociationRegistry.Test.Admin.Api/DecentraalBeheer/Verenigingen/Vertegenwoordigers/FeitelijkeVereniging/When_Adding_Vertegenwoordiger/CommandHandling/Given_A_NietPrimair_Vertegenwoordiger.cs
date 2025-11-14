@@ -64,17 +64,17 @@ public class Given_A_NietPrimair_Vertegenwoordiger
     {
         var refId = _vertegenwoordigerRepositoryMock.SavedRefIds.Last();
         var vertegenwoordigerPersoonsgegevens = new VertegenwoordigerPersoonsgegevens(refId,
-                                                                                      VCode.Hydrate(_scenario.VCode),
-                                                                                      _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Max(v => v.VertegenwoordigerId) + 1,
-                                                                                      _command.Vertegenwoordiger.Insz,
-                                                                                      _command.Vertegenwoordiger.Roepnaam ?? string.Empty,
-                                                                                      _command.Vertegenwoordiger.Rol ?? string.Empty,
-                                                                                      _command.Vertegenwoordiger.Voornaam,
-                                                                                      _command.Vertegenwoordiger.Achternaam,
-                                                                                      _command.Vertegenwoordiger.Email.Waarde,
-                                                                                      _command.Vertegenwoordiger.Telefoon.Waarde,
-                                                                                      _command.Vertegenwoordiger.Mobiel.Waarde,
-                                                                                      _command.Vertegenwoordiger.SocialMedia.Waarde);
+                                                               VCode.Hydrate(_scenario.VCode),
+                                                               _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Max(v => v.VertegenwoordigerId) + 1,
+                                                               _command.Vertegenwoordiger.Insz,
+                                                               _command.Vertegenwoordiger.Roepnaam ?? string.Empty,
+                                                               _command.Vertegenwoordiger.Rol ?? string.Empty,
+                                                               _command.Vertegenwoordiger.Voornaam,
+                                                               _command.Vertegenwoordiger.Achternaam,
+                                                               _command.Vertegenwoordiger.Email.Waarde,
+                                                               _command.Vertegenwoordiger.Telefoon.Waarde,
+                                                               _command.Vertegenwoordiger.Mobiel.Waarde,
+                                                               _command.Vertegenwoordiger.SocialMedia.Waarde);
 
         var actualSaved = await _vertegenwoordigerRepositoryMock.Get(refId);
         actualSaved.Should().BeEquivalentTo(vertegenwoordigerPersoonsgegevens);

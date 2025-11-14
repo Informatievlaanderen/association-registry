@@ -32,7 +32,7 @@ public class Returns_Detail_With_Lidmaatschap : End2EndTest<HistoriekResponse>
     [Fact]
     public void With_LidmaatschapWerdToegevoegd_Gebeurtenissen()
     {
-        var nextContactgegevenId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+        var nextContactgegevenId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens
                                            .Contactgegevens.Max(x => x.ContactgegevenId) + 1;
         var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(ContactgegevenWerdToegevoegd));
         gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.ContactgegevenWerdToegevoegd(nextContactgegevenId,_testContext.CommandRequest),

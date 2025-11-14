@@ -62,12 +62,15 @@ public record VerenigingState : IHasVersion
     public string[] CorresponderendeVCodes { get; set; } = [];
     public VerenigingStatus VerenigingStatus { get; set; }
     public long Version { get; set; }
-
     public GeotagsCollection Geotags { get; set; } = GeotagsCollection.Null;
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
     {
-       return this with
+        var refIds = @event.Vertegenwoordigers.Select(x => x.RefId).ToArray();
+        var vertegenwoordigerPersoonsgegevens = VertegenwoordigerPersoonsgegevensRepository.Get(refIds).GetAwaiter().GetResult();
+        var persoonsgegevensByRefId = vertegenwoordigerPersoonsgegevens.ToDictionary(p => p.RefId);
+
+        return this with
         {
             Verenigingstype = Verenigingstype.FeitelijkeVereniging,
             VCode = VCode.Hydrate(@event.VCode),
@@ -90,21 +93,26 @@ public record VerenigingState : IHasVersion
                             Bron.Initiator)))),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
-                func: (lijst, v) => Vertegenwoordigers.Hydrate(
-                    lijst.Append(
-                        Vertegenwoordiger.Hydrate(
-                            v.VertegenwoordigerId,
-                            Insz.Hydrate(v.Insz),
-                            v.Rol,
-                            v.Roepnaam,
-                            Voornaam.Hydrate(v.Voornaam),
-                            Achternaam.Hydrate(v.Achternaam),
-                            v.IsPrimair,
-                            Email.Hydrate(v.Email),
-                            TelefoonNummer.Hydrate(v.Telefoon),
-                            TelefoonNummer.Hydrate(v.Mobiel),
-                            SocialMedia.Hydrate(v.SocialMedia)
-                        )))),
+                (lijst, v) =>
+                {
+                    persoonsgegevensByRefId.TryGetValue(v.RefId, out var pers);
+
+                    var merged = Vertegenwoordiger.Hydrate(
+                        v.VertegenwoordigerId,
+                        Insz.Hydrate(pers?.Insz),
+                        pers.Rol,
+                        pers.Roepnaam,
+                        Voornaam.Hydrate(pers.Voornaam),
+                        Achternaam.Hydrate(pers.Achternaam),
+                        v.IsPrimair,
+                        Email.Hydrate(pers.Email),
+                        TelefoonNummer.Hydrate(pers.Telefoon),
+                        TelefoonNummer.Hydrate(pers.Mobiel),
+                        SocialMedia.Hydrate(pers.SocialMedia)
+                    );
+
+                    return Vertegenwoordigers.Hydrate(lijst.Append(merged));
+                }),
             Locaties = @event.Locaties.Aggregate(
                 Locaties.Empty,
                 func: (lijst, l) => Locaties.Hydrate(
@@ -139,6 +147,10 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
     {
+        var refIds = @event.Vertegenwoordigers.Select(x => x.RefId).ToArray();
+        var vertegenwoordigerPersoonsgegevens = VertegenwoordigerPersoonsgegevensRepository.Get(refIds).GetAwaiter().GetResult();
+        var persoonsgegevensByRefId = vertegenwoordigerPersoonsgegevens.ToDictionary(p => p.RefId);
+
         return this with
         {
             Verenigingstype = Verenigingstype.VZER,
@@ -163,21 +175,26 @@ public record VerenigingState : IHasVersion
                             Bron.Initiator)))),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
-                func: (lijst, v) => Vertegenwoordigers.Hydrate(
-                    lijst.Append(
-                        Vertegenwoordiger.Hydrate(
-                            v.VertegenwoordigerId,
-                            Insz.Hydrate(v.Insz),
-                            v.Rol,
-                            v.Roepnaam,
-                            Voornaam.Hydrate(v.Voornaam),
-                            Achternaam.Hydrate(v.Achternaam),
-                            v.IsPrimair,
-                            Email.Hydrate(v.Email),
-                            TelefoonNummer.Hydrate(v.Telefoon),
-                            TelefoonNummer.Hydrate(v.Mobiel),
-                            SocialMedia.Hydrate(v.SocialMedia)
-                        )))),
+                (lijst, v) =>
+                {
+                    persoonsgegevensByRefId.TryGetValue(v.RefId, out var pers);
+
+                    var merged = Vertegenwoordiger.Hydrate(
+                        v.VertegenwoordigerId,
+                        Insz.Hydrate(pers?.Insz),
+                        pers.Rol,
+                        pers.Roepnaam,
+                        Voornaam.Hydrate(pers.Voornaam),
+                        Achternaam.Hydrate(pers.Achternaam),
+                        v.IsPrimair,
+                        Email.Hydrate(pers.Email),
+                        TelefoonNummer.Hydrate(pers.Telefoon),
+                        TelefoonNummer.Hydrate(pers.Mobiel),
+                        SocialMedia.Hydrate(pers.SocialMedia)
+                    );
+
+                    return Vertegenwoordigers.Hydrate(lijst.Append(merged));
+                }),
             Locaties = @event.Locaties.Aggregate(
                 Locaties.Empty,
                 func: (lijst, l) => Locaties.Hydrate(
@@ -358,7 +375,8 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(VertegenwoordigerWerdToegevoegd @event)
     {
-        var vertegenwoordigerPersoonsgegevens =  VertegenwoordigerPersoonsgegevensRepository.Get(@event.RefId).GetAwaiter().GetResult();
+        var vertegenwoordigerPersoonsgegevens = VertegenwoordigerPersoonsgegevensRepository.Get(@event.RefId).GetAwaiter().GetResult();
+
         return this with
         {
             Vertegenwoordigers = Vertegenwoordigers.Hydrate(
@@ -382,7 +400,7 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(VertegenwoordigerWerdGewijzigd @event)
     {
-        var vertegenwoordigerPersoonsgegevens =  VertegenwoordigerPersoonsgegevensRepository.Get(@event.RefId).GetAwaiter().GetResult();
+        var vertegenwoordigerPersoonsgegevens = VertegenwoordigerPersoonsgegevensRepository.Get(@event.RefId).GetAwaiter().GetResult();
 
         return this with
         {
@@ -860,14 +878,14 @@ public record VerenigingState : IHasVersion
         {
             Vertegenwoordigers = Vertegenwoordigers.Hydrate(Vertegenwoordigers
                                                            .Without(@event.VertegenwoordigerId)
-                                                                              .AppendFromEventData(@event)),
+                                                           .AppendFromEventData(@event)),
         };
 
     public VerenigingState Apply(VertegenwoordigerWerdVerwijderdUitKBO @event)
         => this with
         {
             Vertegenwoordigers = Vertegenwoordigers.Hydrate(Vertegenwoordigers
-                                                           .Without(@event.VertegenwoordigerId)),
+                                                               .Without(@event.VertegenwoordigerId)),
         };
 
     public void ThrowIfVerwijderd()

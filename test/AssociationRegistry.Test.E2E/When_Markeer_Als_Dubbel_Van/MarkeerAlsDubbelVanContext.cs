@@ -39,7 +39,7 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
         var stream = await session
-                          .Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+                          .Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode);
         var counter = 0;
 
         VerenigingAanvaarddeDubbeleVereniging = stream
@@ -50,7 +50,7 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
             counter++;
             await Task.Delay(500);
 
-            stream = await session.Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+            stream = await session.Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode);
 
             VerenigingAanvaarddeDubbeleVereniging = stream
                .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging));

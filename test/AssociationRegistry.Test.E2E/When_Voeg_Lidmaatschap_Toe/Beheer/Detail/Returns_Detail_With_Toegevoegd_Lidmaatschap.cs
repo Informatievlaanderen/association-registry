@@ -44,7 +44,7 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : End2EndTest<DetailVer
             Van = _testContext.CommandRequest.Van.FormatAsBelgianDate(),
             Tot = _testContext.CommandRequest.Tot.FormatAsBelgianDate(),
             Identificatie = _testContext.CommandRequest.Identificatie,
-            Naam = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
+            Naam = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam,
         };
 
         Response.Vereniging.Lidmaatschappen.Single(x => x.LidmaatschapId == 1)

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
 
+using Admin.Schema.Persoonsgegevens;
 using Events;
 using EventStore;
 using AssociationRegistry.Framework;
@@ -16,6 +17,8 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigi
     private readonly bool _isUitgeschreven;
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
     public FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid { get; set; }
+    public VertegenwoordigerPersoonsgegevensDocument VertegenwoordigerPersoonsgegevensDocument { get; set; }
+
     private CommandMetadata Metadata;
     public VCode VCode { get; private set; }
 
@@ -28,7 +31,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigi
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = await service.GetNext();
-
+        var refId = Guid.NewGuid();
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
             Naam: fixture.Create<string>(),
@@ -85,22 +88,22 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigi
             new[]
             {
                 new Registratiedata.Vertegenwoordiger(
+                    refId,
                     VertegenwoordigerId: 1,
-                    Insz: "01234567890",
-                    IsPrimair: true,
-                    Roepnaam: "father",
-                    Rol: "Leader",
-                    Voornaam: "Odin",
-                    Achternaam: "Allfather",
-                    Email: "asgard@world.tree",
-                    Telefoon: "",
-                    Mobiel: "",
-                    SocialMedia: ""),
+                    IsPrimair: true),
             },
             new Registratiedata.HoofdactiviteitVerenigingsloket[]
             {
                 new(HoofdactiviteitVerenigingsloket.All()[0].Code, Naam: "Buitengewoon Leuke Afkortingen"),
             });
+
+        VertegenwoordigerPersoonsgegevensDocument = fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+        {
+            VCode = VCode,
+            RefId = refId,
+            VertegenwoordigerId = 1,
+            Insz = "01234567890",
+        };
 
         FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid = new(VCode);
 
@@ -115,4 +118,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigi
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
+        => [VertegenwoordigerPersoonsgegevensDocument];
 }

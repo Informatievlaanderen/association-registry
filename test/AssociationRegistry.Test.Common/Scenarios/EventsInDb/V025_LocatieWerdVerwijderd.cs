@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
@@ -14,6 +15,7 @@ using Vereniging;
 public class V025_LocatieWerdVerwijderd : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public readonly VertegenwoordigerPersoonsgegevensDocument VertegenwoordigerPersoonsgegevensDocument;
     public readonly LocatieWerdVerwijderd LocatieWerdVerwijderd;
     public readonly CommandMetadata Metadata;
 
@@ -21,6 +23,7 @@ public class V025_LocatieWerdVerwijderd : IEventsInDbScenario
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999025";
+        var refId = Guid.NewGuid();
 
         var teVerwijderenLocatie = new Registratiedata.Locatie(
             LocatieId: 1,
@@ -80,22 +83,30 @@ public class V025_LocatieWerdVerwijderd : IEventsInDbScenario
             new[]
             {
                 new Registratiedata.Vertegenwoordiger(
+                    refId,
                     VertegenwoordigerId: 1,
-                    Insz: "01234567890",
-                    IsPrimair: true,
-                    Roepnaam: "father",
-                    Rol: "Leader",
-                    Voornaam: "Odin",
-                    Achternaam: "Allfather",
-                    Email: "asgard@world.tree",
-                    Telefoon: "",
-                    Mobiel: "",
-                    SocialMedia: ""),
+                    IsPrimair: true),
             },
             new Registratiedata.HoofdactiviteitVerenigingsloket[]
             {
                 new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
             });
+
+        VertegenwoordigerPersoonsgegevensDocument = fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+        {
+            VCode = VCode,
+            RefId = refId,
+            VertegenwoordigerId = 1,
+            Insz = "01234567890",
+            Roepnaam = "father",
+            Rol = "Leader",
+            Voornaam = "Odin",
+            Achternaam = "Allfather",
+            Email = "asgard@world.tree",
+            Telefoon = "",
+            Mobiel = "",
+            SocialMedia = "",
+        };
 
         LocatieWerdVerwijderd = new LocatieWerdVerwijderd(VCode, teVerwijderenLocatie);
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -110,6 +121,9 @@ public class V025_LocatieWerdVerwijderd : IEventsInDbScenario
             FeitelijkeVerenigingWerdGeregistreerd,
             LocatieWerdVerwijderd,
         };
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GetVerenwoordigerPersoonsgegevensDocument()
+        => [VertegenwoordigerPersoonsgegevensDocument];
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

@@ -35,7 +35,7 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IAsyncLifetime
             Van = _context.CommandRequest.Van.FormatAsBelgianDate(),
             Tot = _context.CommandRequest.Tot.FormatAsBelgianDate(),
             Identificatie = _context.CommandRequest.Identificatie,
-            Naam = _context.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
+            Naam = _context.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam,
         };
 
         Response.Vereniging.Lidmaatschappen.Single(x => x.id == JsonLdType.Lidmaatschap.CreateWithIdValues(_context.VCode, "1"))

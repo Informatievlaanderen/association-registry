@@ -24,7 +24,7 @@ public class Returns_Detail_With_Lidmaatschap : End2EndTest<PubliekVerenigingDet
     [Fact]
     public void JsonContentMatches()
     {
-        var nextContactgegevenId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+        var nextContactgegevenId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens
                                            .Contactgegevens.Max(x => x.ContactgegevenId) + 1;
         Response.Vereniging.Contactgegevens.Last()
                 .Should().BeEquivalentTo(new Contactgegeven()

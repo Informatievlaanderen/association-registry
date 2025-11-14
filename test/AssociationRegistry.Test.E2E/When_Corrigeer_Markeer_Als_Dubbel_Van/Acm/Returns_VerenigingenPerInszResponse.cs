@@ -21,7 +21,7 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
     public Returns_VerenigingenPerInszResponse(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        _inszToCompare = testContext.Scenario.DubbeleVerenging.Vertegenwoordigers[0].Insz;
+        _inszToCompare = testContext.Scenario.DubbeleVerenigingPersoonsGegevens.Insz;
 
         _request = new VerenigingenPerInszRequest()
         {

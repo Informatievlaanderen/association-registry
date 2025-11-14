@@ -4,6 +4,7 @@ using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
+using Events.Enriched;
 using Formats;
 using Framework;
 using JasperFx.Events;
@@ -20,7 +21,7 @@ using Werkingsgebied = Schema.Detail.Werkingsgebied;
 
 public class BeheerVerenigingDetailProjector
 {
-    public static BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
+    public static BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
@@ -64,7 +65,7 @@ public class BeheerVerenigingDetailProjector
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
 
-    public static BeheerVerenigingDetailDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
+    public static BeheerVerenigingDetailDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,

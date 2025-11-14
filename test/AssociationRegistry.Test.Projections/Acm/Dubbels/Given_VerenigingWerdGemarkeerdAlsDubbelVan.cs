@@ -11,7 +11,7 @@ public class Given_VerenigingWerdGemarkeerdAlsDubbelVan(
     public void Then_Dubbele_Vereniging_Is_Gemarkeerd_Als_Dubbel()
     {
         var dubbeleVereniging =
-            fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode);
+            fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.DubbeleVerenging.VCode);
 
         dubbeleVereniging.IsDubbel.Should().BeTrue();
     }
@@ -20,8 +20,8 @@ public class Given_VerenigingWerdGemarkeerdAlsDubbelVan(
     public void Then_Authentieke_Vereniging_Has_CorresponderendeVCodes()
     {
         var authentiekeVereniging =
-            fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode);
+            fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.AuthentiekeVereniging.VCode);
 
-        authentiekeVereniging.CorresponderendeVCodes.Should().Contain(fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode);
+        authentiekeVereniging.CorresponderendeVCodes.Should().Contain(fixture.Scenario.DubbeleVerenging.VCode);
     }
 }

@@ -41,7 +41,7 @@ public class Returns_Detail_With_Lidmaatschap : End2EndTest<PubliekVerenigingDet
             Van = _testContext.CommandRequest.Van.Value.FormatAsBelgianDate(),
             Tot = _testContext.CommandRequest.Tot.Value.FormatAsBelgianDate(),
             Identificatie = _testContext.CommandRequest.Identificatie,
-            Naam = _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
+            Naam = _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam,
         };
 
         Response.Vereniging.Lidmaatschappen.Single(x => x.id == JsonLdType.Lidmaatschap.CreateWithIdValues(_testContext.VCode, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()))

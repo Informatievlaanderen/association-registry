@@ -29,6 +29,8 @@ public class FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScena
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
     public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
+    public List<VertegenwoordigerPersoonsgegevensDocument> VertegenwoordigerPersoonsgegevensDocuments = new();
+
 
     public FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
     {
@@ -37,14 +39,21 @@ public class FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScena
 
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
 
+        foreach (var vertegenwoordiger in FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers)
+        {
+            VertegenwoordigerPersoonsgegevensDocuments.Add(fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+            {
+                RefId = vertegenwoordiger.RefId,
+                VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
+                VCode = VCode,
+            });
+        }
+
         FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid =
             new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode: VCode);
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
-
-    public string Insz
-        => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
 
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
@@ -60,8 +69,7 @@ public class FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScena
         => Metadata;
 
     public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
-        =>
-        [];
+        => VertegenwoordigerPersoonsgegevensDocuments.ToArray();
 }
 
 
@@ -205,12 +213,23 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     public readonly CommandMetadata Metadata;
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
+    public List<VertegenwoordigerPersoonsgegevensDocument> VertegenwoordigerPersoonsgegevensDocuments = new();
 
     public AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003004";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
+
+        foreach (var vertegenwoordiger in FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers)
+        {
+            VertegenwoordigerPersoonsgegevensDocuments.Add(fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+            {
+                RefId = vertegenwoordiger.RefId,
+                VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
+                VCode = VCode,
+            });
+        }
 
         FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid =
             new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode: VCode);
@@ -227,7 +246,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     }
 
     public string Insz
-        => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
+        => VertegenwoordigerPersoonsgegevensDocuments[0].Insz;
 
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
@@ -245,7 +264,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
         => Metadata;
 
     public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
-        => [];
+        => VertegenwoordigerPersoonsgegevensDocuments.ToArray();
 }
 
 public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbScenario
@@ -327,6 +346,7 @@ public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbSce
     public readonly CommandMetadata Metadata;
     public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
     public readonly VerenigingWerdGestopt VerenigingWerdGestopt;
+    public readonly List<VertegenwoordigerPersoonsgegevensDocument> VertegenwoordigerPersoonsgegevensDocuments = new();
 
     public FeitelijkeVerenigingWerdGestopt_EventsInDbScenario()
     {
@@ -334,6 +354,15 @@ public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbSce
         VCode = "V0003008";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
 
+        foreach (var vertegenwoordiger in FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers)
+        {
+            VertegenwoordigerPersoonsgegevensDocuments.Add(fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+            {
+                RefId = vertegenwoordiger.RefId,
+                VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
+                VCode = VCode,
+            });
+        }
         FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid =
             new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode: VCode);
 
@@ -342,7 +371,7 @@ public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbSce
     }
 
     public string Insz
-        => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
+        => VertegenwoordigerPersoonsgegevensDocuments[0].Insz;
 
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
@@ -358,7 +387,7 @@ public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbSce
         => Metadata;
 
     public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
-        => [];
+        => VertegenwoordigerPersoonsgegevensDocuments.ToArray();
 }
 
 public class FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario : IEventsInDbScenario
@@ -370,12 +399,22 @@ public class FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario : IEventsInDb
     public readonly CommandMetadata Metadata;
     public readonly VerenigingWerdVerwijderd VerenigingWerdVerwijderd;
 
+    public List<VertegenwoordigerPersoonsgegevensDocument> VertegenwoordigerPersoonsgegevensDocuments = new();
+
     public FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003009";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
-
+        foreach (var vertegenwoordiger in FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers)
+        {
+            VertegenwoordigerPersoonsgegevensDocuments.Add(fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
+            {
+                RefId = vertegenwoordiger.RefId,
+                VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
+                VCode = VCode,
+            });
+        }
         FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid =
             new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode: VCode);
 
@@ -384,7 +423,7 @@ public class FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario : IEventsInDb
     }
 
     public string Insz
-        => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
+        => VertegenwoordigerPersoonsgegevensDocuments[0].Insz;
 
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
@@ -401,7 +440,7 @@ public class FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario : IEventsInDb
         => Metadata;
 
     public VertegenwoordigerPersoonsgegevensDocument[] GetVertegenwoordigerPersoonsgegevens()
-        => [];
+        => VertegenwoordigerPersoonsgegevensDocuments.ToArray();
 }
 
 public class VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario : IEventsInDbScenario

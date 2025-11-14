@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Acm.VerenigingenPerInsz;
 
 using AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
-using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 using BecauseData;
 using DecentraalBeheer.Vereniging;
 using Framework.AlbaHost;
@@ -9,9 +8,6 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Vereniging;
 using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
 using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
@@ -26,7 +22,7 @@ public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
     public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        _inszToCompare = testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers.First().Insz;
+        _inszToCompare = testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.Vertegenwoordigers.First().VertegenwoordigerPersoonsgegevens.Insz;
         _request = new VerenigingenPerInszRequest()
         {
             Insz = _inszToCompare,
@@ -57,8 +53,8 @@ public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
                 {
                     VCode = _testContext.VCode,
                     CorresponderendeVCodes = [],
-                    VertegenwoordigerId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers[0].VertegenwoordigerId,
-                    Naam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
+                    VertegenwoordigerId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.Vertegenwoordigers[0].VertegenwoordigerId,
+                    Naam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(

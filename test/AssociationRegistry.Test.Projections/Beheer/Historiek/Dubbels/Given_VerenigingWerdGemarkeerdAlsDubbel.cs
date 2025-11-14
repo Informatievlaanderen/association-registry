@@ -18,12 +18,12 @@ public class Given_VerenigingWerdGemarkeerdAlsDubbel(BeheerHistoriekScenarioFixt
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Vereniging werd gemarkeerd als dubbel van {fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode}.",
+                                               Beschrijving: $"Vereniging werd gemarkeerd als dubbel van {fixture.Scenario.AuthentiekeVereniging.VCode}.",
                                                nameof(VerenigingWerdGemarkeerdAlsDubbelVan),
                                                new
                                                {
                                                    VCode = fixture.Scenario.VCode,
-                                                   VCodeAuthentiekeVereniging = fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode,
+                                                   VCodeAuthentiekeVereniging = fixture.Scenario.AuthentiekeVereniging.VCode,
                                                },
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));

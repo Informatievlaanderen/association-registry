@@ -1,17 +1,14 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Subtypes.Subvereniging;
 using Adressen;
 using Events;
-using Framework;
-using Emails;
 using Events.Factories;
 using Exceptions;
+using Framework;
 using Geotags;
 using ImTools;
 using Persoonsgegevens;
-using SocialMedias;
-using TelefoonNummers;
+using Subtypes.Subvereniging;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 using VertegenwoordigerPersoonsgegevens = Persoonsgegevens.VertegenwoordigerPersoonsgegevens;
 
@@ -41,6 +38,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             }
         };
 
+        var vertegenwoordigers = await CreateVertegenwooridgers(vertegenwoordigerPersoonsgegevensRepository, toegevoegdeVertegenwoordigers, vCode);
+
         vereniging.AddEvent(
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
@@ -52,7 +51,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 registratieData.IsUitgeschrevenUitPubliekeDatastroom,
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
-                ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
+                vertegenwoordigers,
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(registratieData.HoofdactiviteitenVerenigingsloket)),
                 potentialDuplicatesSkipped
                     ? Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(bevestigingsToken)
@@ -62,6 +61,24 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         vereniging.RegistreerWerkingsgebieden(registratieData.Werkingsgebieden);
 
         return vereniging;
+    }
+
+    private static async Task<Registratiedata.Vertegenwoordiger[]> CreateVertegenwooridgers(
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
+        Vertegenwoordiger[] toegevoegdeVertegenwoordigers,
+        VCode vCode)
+    {
+        var vertegenwoordigers = new List<Registratiedata.Vertegenwoordiger>();
+
+        foreach (var vertegenwoordiger in toegevoegdeVertegenwoordigers)
+        {
+            var refId = Guid.NewGuid();
+            var vertegenwoordigerPersoonsgegevens = VertegenwoordigerPersoonsgegevens.ToVertegenwoordiger(refId, vCode, vertegenwoordiger);
+            await vertegenwoordigerPersoonsgegevensRepository.Save(vertegenwoordigerPersoonsgegevens);
+            vertegenwoordigers.Add(EventFactory.Vertegenwoordiger(refId, vertegenwoordiger));
+        }
+
+        return vertegenwoordigers.ToArray();
     }
 
     public void NeemAdresDetailsOver(Locatie[] metAdresId, IReadOnlyDictionary<string, Adres> verrijkteAdressenUitGrar)
@@ -118,9 +135,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     private static Registratiedata.Werkingsgebied[] ToWerkingsgebiedenLijst(
         Werkingsgebied[] werkingsgebieden)
         => werkingsgebieden.Select(EventFactory.Werkingsgebied).ToArray();
-
-    private static Registratiedata.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
-        => vertegenwoordigersLijst.Select(EventFactory.Vertegenwoordiger).ToArray();
 
     private static Registratiedata.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
         => locatieLijst.Select(EventFactory.Locatie).ToArray();
@@ -233,7 +247,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
 
-        await InsertVertegenwoordigerPersoonsgegevens(refId, toegevoegdeVertegenwoordiger, vertegenwoordigerPersoonsgegevensRepository);
+        // must happen before AddEvent, because apply event will fetch it from the repository
+        var vertegenwoordigerPersoonsgegevens = VertegenwoordigerPersoonsgegevens.ToVertegenwoordiger(refId, VCode, toegevoegdeVertegenwoordiger);
+        await vertegenwoordigerPersoonsgegevensRepository.Save(vertegenwoordigerPersoonsgegevens);
 
         AddEvent(EventFactory.VertegenwoordigerWerdToegevoegd(toegevoegdeVertegenwoordiger, refId));
 
@@ -248,7 +264,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         var vertegenwoordiger = State.Vertegenwoordigers.Verwijder(vertegenwoordigerId);
 
-        await InsertVertegenwoordigerPersoonsgegevens(refId, vertegenwoordiger, vertegenwoordigerPersoonsgegevensRepository);
+        var vertegenwoordigerPersoonsgegevens = VertegenwoordigerPersoonsgegevens.ToVertegenwoordiger(refId, VCode, vertegenwoordiger);
+        await vertegenwoordigerPersoonsgegevensRepository.Save(vertegenwoordigerPersoonsgegevens);
 
         AddEvent(EventFactory.VertegenwoordigerWerdVerwijderd(refId, vertegenwoordiger));
     }
@@ -337,25 +354,4 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public (Locatie[] metAdresId, Locatie[] zonderAdresId) GeefLocatiesMetEnZonderAdresId()
         => State.Locaties.Partition(x => x.AdresId is not null);
-
-    private async Task InsertVertegenwoordigerPersoonsgegevens(
-        Guid refId,
-        Vertegenwoordiger vertegenwoordiger,
-        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
-    {
-        await vertegenwoordigerPersoonsgegevensRepository.Save(new VertegenwoordigerPersoonsgegevens(
-                                                                   refId,
-                                                                   VCode,
-                                                                   vertegenwoordiger.VertegenwoordigerId,
-                                                                   vertegenwoordiger.Insz,
-                                                                   vertegenwoordiger.Roepnaam,
-                                                                   vertegenwoordiger.Rol,
-                                                                   vertegenwoordiger.Voornaam,
-                                                                   vertegenwoordiger.Achternaam,
-                                                                   vertegenwoordiger.Email.Waarde,
-                                                                   vertegenwoordiger.Telefoon.Waarde,
-                                                                   vertegenwoordiger.Mobiel.Waarde,
-                                                                   vertegenwoordiger.SocialMedia.Waarde
-                                                               ));
-    }
 }

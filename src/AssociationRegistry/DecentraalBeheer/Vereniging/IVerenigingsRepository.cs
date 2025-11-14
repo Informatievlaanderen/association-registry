@@ -14,5 +14,5 @@ public interface IVerenigingsRepository
     Task<bool> IsDubbel(VCode vCode);
     Task<bool> Exists(VCode vCode);
     Task<bool> Exists(KboNummer kboNummer);
-    Task<StreamActionResult> SaveNew(VerenigingsBase vereniging, IDocumentSession session, CommandMetadata messageMetadata, CancellationToken cancellationToken);
+    Task<StreamActionResult> SaveNew(VerenigingsBase vereniging, CommandMetadata messageMetadata, CancellationToken cancellationToken);
 }

@@ -316,42 +316,6 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
         return this;
     }
 
-    public DetailVerenigingResponseTemplate FromEvent(FeitelijkeVerenigingWerdGeregistreerd e)
-    {
-        WithVCode(e.VCode)
-           .WithJsonLdType(JsonLdType.FeitelijkeVereniging)
-           .WithType(Verenigingstype.FeitelijkeVereniging)
-           .WithNaam(e.Naam)
-           .WithKorteNaam(e.KorteNaam)
-           .WithKorteBeschrijving(e.KorteBeschrijving)
-           .WithStartdatum(e.Startdatum)
-           .WithDoelgroep(e.VCode, e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd)
-           .WithBron(e.Bron);
-
-        foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-        {
-            WithHoofdactiviteit(h.Code, h.Naam);
-        }
-
-        foreach (var c in e.Contactgegevens)
-        {
-            WithContactgegeven(c.ContactgegevenId, Bron.Initiator, c.Contactgegeventype, c.Waarde, e.VCode, c.Beschrijving, c.IsPrimair);
-        }
-
-        foreach (var l in e.Locaties)
-        {
-            WithLocatie(l, e.Bron, e.VCode);
-        }
-
-        foreach (var v in e.Vertegenwoordigers)
-        {
-            WithVertegenwoordiger(v.VertegenwoordigerId, v.Voornaam, v.Achternaam, v.Roepnaam, v.Rol, v.Insz, v.Email, v.Telefoon, v.Mobiel,
-                                  v.SocialMedia, v.IsPrimair, e.Bron, e.VCode);
-        }
-
-        return this;
-    }
-
     public DetailVerenigingResponseTemplate WithVertegenwoordiger(
         int id,
         string voornaam,

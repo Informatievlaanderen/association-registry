@@ -4,6 +4,7 @@ using Amazon.SQS;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Security;
 using AssociationRegistry.Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
+using AssociationRegistry.Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using EventStore;
 using AssociationRegistry.Framework;
@@ -195,7 +196,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
            $"password={postgreSqlOptionsSection.Password};" +
            $"username={postgreSqlOptionsSection.Username}";
 
-    protected async Task<StreamActionResult> SaveEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
+    protected async Task<StreamActionResult> SaveEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null, VertegenwoordigerPersoonsgegevensDocument[]? vertegenwoordigerPersoonsgegevensDocuments = null)
     {
         if (!eventsToAdd.Any())
             return StreamActionResult.Empty;
@@ -206,6 +207,10 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         await using var session = DocumentStore.LightweightSession();
+
+        if(vertegenwoordigerPersoonsgegevensDocuments is not null)
+            session.StoreObjects(vertegenwoordigerPersoonsgegevensDocuments);
+
         var eventStore = new EventStore(ProjectionsDocumentStore.LightweightSession(),
                                         EventConflictResolver,
                                         new VertegenwoordigerPersoonsgegevensRepository(

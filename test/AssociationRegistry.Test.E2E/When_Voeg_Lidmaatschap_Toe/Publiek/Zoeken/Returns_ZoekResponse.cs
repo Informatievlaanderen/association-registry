@@ -20,12 +20,10 @@ using Vereniging = Public.Api.WebApi.Verenigingen.Search.ResponseModels.Verenigi
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly VoegLidmaatschapToeContext _testContext;
-    private readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
     public Returns_SearchVerenigingenResponse(VoegLidmaatschapToeContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd;
     }
 
     [Fact]
@@ -44,21 +42,21 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             {
                 type = JsonLdType.Doelgroep.Type,
                 id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
-                Minimumleeftijd = FeitelijkeVerenigingWerdGeregistreerd.Doelgroep.Minimumleeftijd,
-                Maximumleeftijd = FeitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd,
+                Minimumleeftijd = _testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Doelgroep.Minimumleeftijd,
+                Maximumleeftijd = _testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Doelgroep.Maximumleeftijd,
             },
             VCode = _testContext.VCode,
-            KorteBeschrijving = FeitelijkeVerenigingWerdGeregistreerd.KorteBeschrijving,
-            KorteNaam = FeitelijkeVerenigingWerdGeregistreerd.KorteNaam,
+            KorteBeschrijving = _testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.KorteBeschrijving,
+            KorteNaam = _testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = FeitelijkeVerenigingWerdGeregistreerd.Naam,
-            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket),
+            Naam = _testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam,
+            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = [],
-            Locaties = PubliekZoekResponseMapper.MapLocaties(FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
+            Locaties = PubliekZoekResponseMapper.MapLocaties(_testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Locaties, _testContext.VCode),
             Lidmaatschappen = PubliekZoekResponseMapper.MapLidmaatschappen(_testContext.CommandRequest, _testContext.VCode),
             Relaties = [],
             Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode),

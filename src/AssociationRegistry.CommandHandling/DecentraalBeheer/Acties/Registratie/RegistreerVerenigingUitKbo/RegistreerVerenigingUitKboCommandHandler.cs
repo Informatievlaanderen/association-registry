@@ -108,7 +108,7 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         if (duplicateResult.IsFailure()) return duplicateResult;
 
-        var result = await _verenigingsRepository.SaveNew(vereniging, _session, messageMetadata, cancellationToken);
+        var result = await _verenigingsRepository.SaveNew(vereniging, messageMetadata, cancellationToken);
 
         return Result.Success(CommandResult.Create(vCode, result));
     }

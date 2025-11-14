@@ -1,18 +1,20 @@
-namespace AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
+namespace AssociationRegistry.Test.E2E.Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 
+using Admin.Schema.Persoonsgegevens;
 using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Enriched;
 using EventStore;
+using Framework.Mappers;
 using Framework.TestClasses;
-using MartenDb.Store;
-using Vereniging;
 
 public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : IScenario
 {
+    private VertegenwoordigerPersoonsgegevensDocument[] _vertegenwoordigerPersoonsgegevens;
     public string NaamVereniging { get; set; }
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get;
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens { get;
         set;
     }
     public VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging { get; set; }
@@ -25,19 +27,26 @@ public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : IScenario
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens>() with
         {
             VCode = await service.GetNext(),
         };
 
+        var (verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, persoonsgegevensDocuments) = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.MapDomainWithPersoonsgegevens();
+        _vertegenwoordigerPersoonsgegevens = persoonsgegevensDocuments
+                                            .ToArray();
+
         VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging = new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
-            VCode: VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
+            VCode: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
 
         return
         [
-            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging]),
+            new(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging]),
         ];
     }
+
+    public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
+        => _vertegenwoordigerPersoonsgegevens;
 
     public StreamActionResult Result { get; set; } = null!;
 

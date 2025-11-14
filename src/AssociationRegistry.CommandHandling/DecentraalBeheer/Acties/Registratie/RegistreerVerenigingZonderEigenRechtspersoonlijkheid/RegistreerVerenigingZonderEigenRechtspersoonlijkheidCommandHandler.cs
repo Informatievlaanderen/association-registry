@@ -96,7 +96,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
             await _outbox.SendAsync(new ProbeerAdresTeMatchenCommand(vereniging.VCode, locatieZonderAdresId.LocatieId));
         }
 
-        var result = await _verenigingsRepository.SaveNew(vereniging, _session ,message.Metadata, cancellationToken);
+        var result = await _verenigingsRepository.SaveNew(vereniging,message.Metadata, cancellationToken);
 
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} end");
 

@@ -2,10 +2,12 @@
 
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Admin.Schema.Persoonsgegevens;
 using Common.Framework;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Enriched;
 using Vereniging;
 using Vereniging.Bronnen;
 using Contactgegeven = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Contactgegeven;
@@ -102,7 +104,7 @@ public class BeheerDetailResponseMapper
         }).ToArray();
     }
 
-    public static Vertegenwoordiger[] MapVertegenwoordigers(Registratiedata.Vertegenwoordiger[] vertegenwoordigers, string vCode)
+    public static Vertegenwoordiger[] MapVertegenwoordigers(EnrichedVertegenwoordiger[] vertegenwoordigers, string vCode)
     {
         return vertegenwoordigers.Select((x, i) => new Vertegenwoordiger
         {
@@ -111,25 +113,25 @@ public class BeheerDetailResponseMapper
             type = JsonLdType.Vertegenwoordiger.Type,
             VertegenwoordigerId = i + 1,
             PrimairContactpersoon = x.IsPrimair,
-            Achternaam = x.Achternaam,
-            Email = x.Email,
-            Insz = x.Insz,
-            Voornaam = x.Voornaam,
-            Roepnaam = x.Roepnaam,
-            Rol = x.Rol,
-            Telefoon = x.Telefoon,
-            Mobiel = x.Mobiel,
-            SocialMedia = x.SocialMedia,
+            Achternaam = x.VertegenwoordigerPersoonsgegevens.Achternaam,
+            Email = x.VertegenwoordigerPersoonsgegevens.Email,
+            Insz = x.VertegenwoordigerPersoonsgegevens.Insz,
+            Voornaam = x.VertegenwoordigerPersoonsgegevens.Voornaam,
+            Roepnaam = x.VertegenwoordigerPersoonsgegevens.Roepnaam,
+            Rol = x.VertegenwoordigerPersoonsgegevens.Rol,
+            Telefoon = x.VertegenwoordigerPersoonsgegevens.Telefoon,
+            Mobiel = x.VertegenwoordigerPersoonsgegevens.Mobiel,
+            SocialMedia = x.VertegenwoordigerPersoonsgegevens.SocialMedia,
             VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
             {
                 id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
                     vCode, $"{i + 1}"),
                 type = JsonLdType.VertegenwoordigerContactgegeven.Type,
                 IsPrimair = x.IsPrimair,
-                Email = x.Email,
-                Telefoon = x.Telefoon,
-                Mobiel = x.Mobiel,
-                SocialMedia = x.SocialMedia,
+                Email = x.VertegenwoordigerPersoonsgegevens.Email,
+                Telefoon = x.VertegenwoordigerPersoonsgegevens.Telefoon,
+                Mobiel = x.VertegenwoordigerPersoonsgegevens.Mobiel,
+                SocialMedia = x.VertegenwoordigerPersoonsgegevens.SocialMedia,
             },
             Bron = Bron.Initiator,
         }).ToArray();
@@ -229,5 +231,38 @@ public class BeheerDetailResponseMapper
                 type = JsonLdType.Werkingsgebied.Type,
             };
         }).ToArray();
+    }
+
+    public static Vertegenwoordiger[] MapVertegenwoordigers(VertegenwoordigerPersoonsgegevensDocument vertegenwoordigerPersoonsgegevensDocument, VCode vCode)
+    {
+        return [new Vertegenwoordiger
+        {
+            id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(
+                vCode, $"{vertegenwoordigerPersoonsgegevensDocument.VertegenwoordigerId}"),
+            type = JsonLdType.Vertegenwoordiger.Type,
+            VertegenwoordigerId = vertegenwoordigerPersoonsgegevensDocument.VertegenwoordigerId,
+            PrimairContactpersoon = vertegenwoordigerPersoonsgegevensDocument.IsPrimair,
+            Achternaam = vertegenwoordigerPersoonsgegevensDocument.Achternaam,
+            Email = vertegenwoordigerPersoonsgegevensDocument.Email,
+            Insz = vertegenwoordigerPersoonsgegevensDocument.Insz,
+            Voornaam = vertegenwoordigerPersoonsgegevensDocument.Voornaam,
+            Roepnaam = vertegenwoordigerPersoonsgegevensDocument.Roepnaam,
+            Rol = vertegenwoordigerPersoonsgegevensDocument.Rol,
+            Telefoon = vertegenwoordigerPersoonsgegevensDocument.Telefoon,
+            Mobiel = vertegenwoordigerPersoonsgegevensDocument.Mobiel,
+            SocialMedia = vertegenwoordigerPersoonsgegevensDocument.SocialMedia,
+            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
+            {
+                id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
+                    vCode, $"{vertegenwoordigerPersoonsgegevensDocument.VertegenwoordigerId}"),
+                type = JsonLdType.VertegenwoordigerContactgegeven.Type,
+                IsPrimair = vertegenwoordigerPersoonsgegevensDocument.IsPrimair,
+                Email = vertegenwoordigerPersoonsgegevensDocument.Email,
+                Telefoon = vertegenwoordigerPersoonsgegevensDocument.Telefoon,
+                Mobiel = vertegenwoordigerPersoonsgegevensDocument.Mobiel,
+                SocialMedia = vertegenwoordigerPersoonsgegevensDocument.SocialMedia,
+            },
+            Bron = Bron.Initiator,
+        }];
     }
 }

@@ -15,7 +15,7 @@ public class VertegenwoordigerPersoonsgegevensService : IVertegenwoordigerPersoo
 
     public async Task<VertegenwoordigerPersoonsgegevens> Get(Guid refId)
     {
-        var doc =  await _query.ExecuteAsync(new VertegenwoordigerPersoonsgegevensFilter(refId), CancellationToken.None);
+        var doc =  await _query.ExecuteAsync(new VertegenwoordigerPersoonsgegevensByRefIdFilter(refId), CancellationToken.None);
 
         return new VertegenwoordigerPersoonsgegevens(doc.RefId,
                                                      VCode.Hydrate(doc.VCode),
@@ -29,5 +29,23 @@ public class VertegenwoordigerPersoonsgegevensService : IVertegenwoordigerPersoo
                                                      doc.Telefoon,
                                                      doc.Mobiel,
                                                      doc.SocialMedia);
+    }
+
+    public async Task<VertegenwoordigerPersoonsgegevens[]> Get(Guid[] refIds)
+    {
+        var docs =  await _query.ExecuteAsync(new VertegenwoordigerPersoonsgegevensByRefIdsFilter(refIds), CancellationToken.None);
+
+        return docs.Select(doc => new VertegenwoordigerPersoonsgegevens(doc.RefId,
+                                                     VCode.Hydrate(doc.VCode),
+                                                     doc.VertegenwoordigerId,
+                                                     Insz.Hydrate(doc.Insz),
+                                                     doc.Roepnaam,
+                                                     doc.Rol,
+                                                     Voornaam.Hydrate(doc.Voornaam),
+                                                     Achternaam.Hydrate(doc.Achternaam),
+                                                     doc.Email,
+                                                     doc.Telefoon,
+                                                     doc.Mobiel,
+                                                     doc.SocialMedia)).ToArray();
     }
 }

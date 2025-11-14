@@ -79,7 +79,7 @@ public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
             Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
             Locaties = BeheerDetailResponseMapper.MapLocaties(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
             Vertegenwoordigers =
-                BeheerDetailResponseMapper.MapVertegenwoordigers(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers, _testContext.VCode),
+                BeheerDetailResponseMapper.MapVertegenwoordigers(_testContext.Scenario.VertegenwoordigerPersoonsgegevensDocument, _testContext.VCode),
             Relaties = [],
             Lidmaatschappen = [],
             Sleutels = BeheerDetailResponseMapper.MapSleutels( _testContext.VCode),

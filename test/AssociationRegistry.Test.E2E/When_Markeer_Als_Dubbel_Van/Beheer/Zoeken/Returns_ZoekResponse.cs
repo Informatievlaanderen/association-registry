@@ -16,13 +16,11 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly MarkeerAlsDubbelVanContext _testContext;
     private readonly ITestOutputHelper _helper;
-    public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
 
     public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
         _helper = helper;
-        FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd;
 
     }
 
@@ -30,7 +28,6 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
         => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(),
                                               headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence),
                                               testOutputHelper: _helper);
-
 
     [Fact]
     public void With_Context()

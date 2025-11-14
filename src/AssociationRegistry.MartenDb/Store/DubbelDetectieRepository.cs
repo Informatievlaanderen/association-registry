@@ -30,5 +30,5 @@ public class DubbelDetectieRepository : IDubbelDetectieRepository
 
     public async Task<StreamActionResult> SaveNew(
         string aggregateId, IDocumentSession session, CommandMetadata metadata, CancellationToken cancellationToken, IEvent[] events)
-        => await _eventStore.SaveNew(aggregateId, session, metadata, cancellationToken, events);
+        => await _eventStore.SaveNew(aggregateId, metadata, cancellationToken, events);
 }

@@ -13,7 +13,7 @@ using Vereniging;
 
 public class VertegenwoordigerWerdToegevoegdScenario : IScenario
 {
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario BaseScenario = new();
     public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd { get; set; }
     public VertegenwoordigerPersoonsgegevensDocument VertegenwoordigerPersoonsgegevensDocument { get; set; }
 
@@ -27,13 +27,6 @@ public class VertegenwoordigerWerdToegevoegdScenario : IScenario
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var vCode = await service.GetNext();
-
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
-        {
-            VCode = vCode,
-        };
-
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
         var refId = fixture.Create<Guid>();
 
@@ -44,19 +37,19 @@ public class VertegenwoordigerWerdToegevoegdScenario : IScenario
 
         VertegenwoordigerPersoonsgegevensDocument = fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
         {
-            VCode = vCode,
+            VCode = BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
             RefId = refId,
             VertegenwoordigerId = VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
         };
 
         return
         [
-            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VertegenwoordigerWerdToegevoegd]),
+            new(BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VertegenwoordigerWerdToegevoegd]),
         ];
     }
 
     public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
-        => [VertegenwoordigerPersoonsgegevensDocument];
+        => BaseScenario.GivenVertegenwoordigerPersoonsgegevens().Append(VertegenwoordigerPersoonsgegevensDocument).ToArray();
 
     public StreamActionResult Result { get; set; } = null!;
 

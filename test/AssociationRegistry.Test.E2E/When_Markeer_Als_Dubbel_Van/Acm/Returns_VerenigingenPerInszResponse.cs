@@ -20,7 +20,7 @@ public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
     public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        _inszToCompare = testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
+        _inszToCompare = testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Vertegenwoordigers[0].VertegenwoordigerPersoonsgegevens.Insz;
         _request = new VerenigingenPerInszRequest()
         {
             Insz = _inszToCompare,
@@ -43,10 +43,10 @@ public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
                 // Authentieke vereniging wordt getoond met corresponderende verenigingen
                 new VerenigingenPerInszResponse.Vereniging()
                 {
-                    VCode = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
-                    CorresponderendeVCodes = [_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode],
-                    VertegenwoordigerId = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].VertegenwoordigerId,
-                    Naam = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
+                    VCode = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode,
+                    CorresponderendeVCodes = [_testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode],
+                    VertegenwoordigerId = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Vertegenwoordigers[0].VertegenwoordigerId,
+                    Naam = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(

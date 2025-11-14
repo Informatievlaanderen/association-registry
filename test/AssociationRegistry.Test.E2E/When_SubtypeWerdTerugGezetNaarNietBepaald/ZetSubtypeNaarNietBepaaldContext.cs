@@ -4,6 +4,7 @@ using Admin.Api.WebApi.Verenigingen.Subtype.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.FeitelijkeVereniging;
+using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests.VZER;
 using Xunit;
 

@@ -40,6 +40,6 @@ public class Returns_Historiek : End2EndTest<HistoriekResponse>
     public void With_LidmaatschapWerdToegevoegd_Gebeurtenissen()
     {
         var lidmaatschapWerdToegevoegd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(LidmaatschapWerdToegevoegd));
-        lidmaatschapWerdToegevoegd.ShouldCompare(HistoriekGebeurtenisMapper.LidmaatschapWerdToegevoegd(_testContext.CommandRequest, _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam), compareConfig: HistoriekComparisonConfig.Instance);
+        lidmaatschapWerdToegevoegd.ShouldCompare(HistoriekGebeurtenisMapper.LidmaatschapWerdToegevoegd(_testContext.CommandRequest, _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam), compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

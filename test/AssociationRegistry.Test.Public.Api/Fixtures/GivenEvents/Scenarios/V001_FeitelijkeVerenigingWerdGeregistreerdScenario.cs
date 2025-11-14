@@ -69,20 +69,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
                 AdresId: null),
         ],
         Vertegenwoordigers:
-        [
-            new Registratiedata.Vertegenwoordiger(
-                VertegenwoordigerId: 1,
-                Insz: "01234567890",
-                IsPrimair: true,
-                Roepnaam: "father",
-                Rol: "Leader",
-                Voornaam: "Odin",
-                Achternaam: "Allfather",
-                Email: "asgard@world.tree",
-                Telefoon: "",
-                Mobiel: "",
-                SocialMedia: ""),
-        ],
+        [],
         HoofdactiviteitenVerenigingsloket:
         [
             new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
