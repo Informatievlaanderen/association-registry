@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Projections.Scenario.Registratie;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Enriched;
 using Formats;
 using Vereniging;
 using Vereniging.Bronnen;
@@ -37,7 +38,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
         fixture.Result.Should().BeEquivalentTo(expected);
     }
 
-    private BeheerVerenigingDetailDocument MapVereniging(FeitelijkeVerenigingWerdGeregistreerd feitelijkeVerenigingWerdGeregistreerd)
+    private BeheerVerenigingDetailDocument MapVereniging(FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd feitelijkeVerenigingWerdGeregistreerd)
     {
         return new BeheerVerenigingDetailDocument
         {
@@ -136,16 +137,16 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
                         Type = JsonLdType.Vertegenwoordiger.Type,
                     },
                     VertegenwoordigerId = v.VertegenwoordigerId,
-                    Insz = v.Insz,
+                    Insz = v.VertegenwoordigerPersoonsgegevens.Insz,
                     IsPrimair = v.IsPrimair,
-                    Roepnaam = v.Roepnaam,
-                    Rol = v.Rol,
-                    Achternaam = v.Achternaam,
-                    Voornaam = v.Voornaam,
-                    Email = v.Email,
-                    Telefoon = v.Telefoon,
-                    Mobiel = v.Mobiel,
-                    SocialMedia = v.SocialMedia,
+                    Roepnaam = v.VertegenwoordigerPersoonsgegevens.Roepnaam,
+                    Rol = v.VertegenwoordigerPersoonsgegevens.Rol,
+                    Achternaam = v.VertegenwoordigerPersoonsgegevens.Achternaam,
+                    Voornaam = v.VertegenwoordigerPersoonsgegevens.Voornaam,
+                    Email = v.VertegenwoordigerPersoonsgegevens.Email,
+                    Telefoon = v.VertegenwoordigerPersoonsgegevens.Telefoon,
+                    Mobiel = v.VertegenwoordigerPersoonsgegevens.Mobiel,
+                    SocialMedia = v.VertegenwoordigerPersoonsgegevens.SocialMedia,
                     Bron = Bron.Initiator,
                     VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
                     {
@@ -156,10 +157,10 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
                             Type = JsonLdType.VertegenwoordigerContactgegeven.Type,
                         },
                         IsPrimair = v.IsPrimair,
-                        Email = v.Email,
-                        Telefoon = v.Telefoon,
-                        Mobiel = v.Mobiel,
-                        SocialMedia = v.SocialMedia,
+                        Email = v.VertegenwoordigerPersoonsgegevens.Email,
+                        Telefoon = v.VertegenwoordigerPersoonsgegevens.Telefoon,
+                        Mobiel = v.VertegenwoordigerPersoonsgegevens.Mobiel,
+                        SocialMedia = v.VertegenwoordigerPersoonsgegevens.SocialMedia,
                     },
                 }).ToArray(),
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(

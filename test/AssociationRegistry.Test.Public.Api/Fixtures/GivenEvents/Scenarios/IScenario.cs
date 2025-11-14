@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents.Scenarios;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Framework;
 using DecentraalBeheer.Vereniging;
 using Events;

@@ -54,10 +54,30 @@ public class VertegenwoordigerPersoonsgegevensRepositoryMock
                                                      doc.SocialMedia);
     }
 
+    public async Task<VertegenwoordigerPersoonsgegevens[]> Get(Guid[] refIds)
+    {
+        var docs = _documents.Where(x => refIds.Contains(x.RefId));
+
+        return docs.Select(doc => new VertegenwoordigerPersoonsgegevens(doc.RefId,
+                                                                        VCode.Hydrate(doc.VCode),
+                                                                        doc.VertegenwoordigerId,
+                                                                        Insz.Hydrate(doc.Insz),
+                                                                        doc.Roepnaam,
+                                                                        doc.Rol,
+                                                                        Voornaam.Hydrate(doc.Voornaam),
+                                                                        Achternaam.Hydrate(doc.Achternaam),
+                                                                        doc.Email,
+                                                                        doc.Telefoon,
+                                                                        doc.Mobiel,
+                                                                        doc.SocialMedia)).ToArray();
+    }
+
     public IReadOnlyList<VertegenwoordigerPersoonsgegevensDocument> GetAll()
         => _documents.ToList();
 
     public VertegenwoordigerPersoonsgegevensDocument? FindByRefId(Guid refId)
         => _documents.FirstOrDefault(x => x.RefId == refId);
-}
 
+    public VertegenwoordigerPersoonsgegevensDocument? FindByVCodeAndVertegenwoordigerId(string vCode, int vertegenwoordigerId)
+        => _documents.FirstOrDefault(x => x.VCode == vCode && x.VertegenwoordigerId == vertegenwoordigerId);
+}

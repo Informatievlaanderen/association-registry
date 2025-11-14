@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Events;
+﻿namespace AssociationRegistry.Events.Enriched;
 
+using AssociationRegistry.Vereniging.Bronnen;
 using System.Runtime.Serialization;
-using Vereniging.Bronnen;
 
 public record VertegenwoordigerWerdGewijzigdMetPersoonsgegevens(
     int VertegenwoordigerId,

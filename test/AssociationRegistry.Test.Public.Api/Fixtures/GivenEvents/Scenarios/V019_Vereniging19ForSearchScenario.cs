@@ -45,21 +45,7 @@ public class V019_Vereniging19ForSearchScenario : IScenario
                     Bronwaarde: "https://data.vlaanderen.be/id/adres/0")
             ),
         },
-        new[]
-        {
-            new Registratiedata.Vertegenwoordiger(
-                VertegenwoordigerId: 1,
-                Insz: "01234567890",
-                IsPrimair: true,
-                Roepnaam: "engine",
-                Rol: "Leader",
-                Voornaam: "Put",
-                Achternaam: "Put",
-                Email: "putput@broembroem.com",
-                Telefoon: "",
-                Mobiel: "",
-                SocialMedia: ""),
-        },
+        [],
         new Registratiedata.HoofdactiviteitVerenigingsloket[]
         {
             new(Code: "HAHA", Naam: "Hilarische Afkortingen Hebben Afgedaan"),

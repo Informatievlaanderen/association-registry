@@ -2,6 +2,7 @@
 
 using Events;
 using AutoFixture;
+using Events.Enriched;
 
 public class VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario : InszScenarioBase
 {

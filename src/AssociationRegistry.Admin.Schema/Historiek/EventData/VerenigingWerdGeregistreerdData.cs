@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
 using Events;
+using Events.Enriched;
 
 public record VerenigingWerdGeregistreerdData(
     string VCode,
@@ -15,7 +16,7 @@ public record VerenigingWerdGeregistreerdData(
     VertegenwoordigerData[] Vertegenwoordigers,
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket)
 {
-    public static VerenigingWerdGeregistreerdData Create(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd e)
+    public static VerenigingWerdGeregistreerdData Create(IVerenigingWerdGeregistreerdMetPersoonsgegevens e)
         => new(
             e.VCode,
             e.Naam,

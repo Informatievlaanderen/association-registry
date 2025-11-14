@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
 using Events;
+using Events.Enriched;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -61,18 +62,18 @@ public record VertegenwoordigerData
             DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.Mobiel),
             DataOfOnbekend(e.VertegenwoordigerPersoonsgegevens.SocialMedia));
 
-    public static VertegenwoordigerData Create(Registratiedata.Vertegenwoordiger vertegenwoordiger)
+    public static VertegenwoordigerData Create(EnrichedVertegenwoordiger vertegenwoordiger)
         => new(
             vertegenwoordiger.VertegenwoordigerId,
             vertegenwoordiger.IsPrimair,
-            vertegenwoordiger.Roepnaam,
-            vertegenwoordiger.Rol,
-            vertegenwoordiger.Voornaam,
-            vertegenwoordiger.Achternaam,
-            vertegenwoordiger.Email,
-            vertegenwoordiger.Telefoon,
-            vertegenwoordiger.Mobiel,
-            vertegenwoordiger.SocialMedia);
+            DataOfOnbekend(vertegenwoordiger.VertegenwoordigerPersoonsgegevens.Roepnaam),
+            DataOfOnbekend(vertegenwoordiger.VertegenwoordigerPersoonsgegevens.Rol),
+            DataOfOnbekend(vertegenwoordiger.VertegenwoordigerPersoonsgegevens.Voornaam),
+            DataOfOnbekend(vertegenwoordiger.VertegenwoordigerPersoonsgegevens.Achternaam),
+            DataOfOnbekend(vertegenwoordiger.VertegenwoordigerPersoonsgegevens.Email),
+            DataOfOnbekend(vertegenwoordiger.VertegenwoordigerPersoonsgegevens.Telefoon),
+            DataOfOnbekend(vertegenwoordiger.VertegenwoordigerPersoonsgegevens.Mobiel),
+            DataOfOnbekend(vertegenwoordiger.VertegenwoordigerPersoonsgegevens.SocialMedia));
 
     public static VertegenwoordigerData Create(VertegenwoordigerWerdOvergenomenUitKBO vertegenwoordiger)
         => new(vertegenwoordiger.VertegenwoordigerId,

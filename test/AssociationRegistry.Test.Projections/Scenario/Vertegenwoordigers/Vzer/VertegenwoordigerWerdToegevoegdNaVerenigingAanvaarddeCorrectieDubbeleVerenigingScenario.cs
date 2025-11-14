@@ -2,12 +2,13 @@
 
 using Events;
 using AutoFixture;
+using Events.Enriched;
 
 public class VertegenwoordigerWerdToegevoegdNaVerenigingAanvaarddeCorrectieDubbeleVerenigingScenario : InszScenarioBase
 {
-    public FeitelijkeVerenigingWerdGeregistreerd DubbeleVerenigingOmTeCorrigeren { get; }
-    public FeitelijkeVerenigingWerdGeregistreerd DubbeleVerengingOmTeHouden { get; }
-    public FeitelijkeVerenigingWerdGeregistreerd AuthentiekeVereniging { get; }
+    public FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd DubbeleVerenigingOmTeCorrigeren { get; }
+    public FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd DubbeleVerengingOmTeHouden { get; }
+    public FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd AuthentiekeVereniging { get; }
     public VerenigingWerdGemarkeerdAlsDubbelVan DubbeleVerenigingOmTeCorrigerenWerdGemarkeerdAlsDubbelVan { get; set; }
     public VerenigingAanvaarddeDubbeleVereniging AuthentiekeVerenigingAanvaarddeTeCorrigerenDubbeleVereniging { get; set; }
     public VerenigingAanvaarddeDubbeleVereniging AuthentiekeVerenigingAanvaarddeTeHoudenDubbeleVereniging { get; set; }
@@ -20,16 +21,16 @@ public class VertegenwoordigerWerdToegevoegdNaVerenigingAanvaarddeCorrectieDubbe
     public VertegenwoordigerWerdToegevoegdNaVerenigingAanvaarddeCorrectieDubbeleVerenigingScenario()
     {
 
-        DubbeleVerengingOmTeHouden = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
-        DubbeleVerenigingOmTeCorrigeren = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        DubbeleVerengingOmTeHouden = AutoFixture.Create<FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd>();
+        DubbeleVerenigingOmTeCorrigeren = AutoFixture.Create<FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd>();
 
-        AuthentiekeVereniging = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
+        AuthentiekeVereniging = AutoFixture.Create<FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd>()
             with
             {
                 Vertegenwoordigers = DubbeleVerenigingOmTeCorrigeren.Vertegenwoordigers,
             };
 
-        _insz = AuthentiekeVereniging.Vertegenwoordigers[0].Insz;
+        _insz = AuthentiekeVereniging.Vertegenwoordigers[0].VertegenwoordigerPersoonsgegevens.Insz;
 
         DubbeleVerenigingOmTeCorrigerenWerdGemarkeerdAlsDubbelVan = AutoFixture.Create<VerenigingWerdGemarkeerdAlsDubbelVan>() with
         {

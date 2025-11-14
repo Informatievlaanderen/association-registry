@@ -54,6 +54,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                     beschrijving: _fixture.Create<string>(),
                     isPrimair: true),
             },
+            Vertegenwoordigers = [],
         };
 
         _vCodeService = new InMemorySequentialVCodeService();
@@ -120,10 +121,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 {
                     LocatieId = index + 1,
                 }).ToArray(),
-                Vertegenwoordigers: _command.Vertegenwoordigers.Select((v, index) => EventFactory.Vertegenwoordiger(v) with
-                {
-                    VertegenwoordigerId = index + 1,
-                }).ToArray(),
+                Vertegenwoordigers: [],
                 HoofdactiviteitenVerenigingsloket: _command.HoofdactiviteitenVerenigingsloket
                                                            .Select(h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                                                                        h.Code,

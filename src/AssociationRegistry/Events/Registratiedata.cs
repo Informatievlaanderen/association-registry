@@ -62,17 +62,9 @@ public static class Registratiedata
     public record Doelgroep(int Minimumleeftijd, int Maximumleeftijd);
 
     public record Vertegenwoordiger(
+        Guid RefId,
         int VertegenwoordigerId,
-        string Insz,
-        bool IsPrimair,
-        string Roepnaam,
-        string Rol,
-        string Voornaam,
-        string Achternaam,
-        string Email,
-        string Telefoon,
-        string Mobiel,
-        string SocialMedia);
+        bool IsPrimair);
 
     public record HoofdactiviteitVerenigingsloket(
         string Code,

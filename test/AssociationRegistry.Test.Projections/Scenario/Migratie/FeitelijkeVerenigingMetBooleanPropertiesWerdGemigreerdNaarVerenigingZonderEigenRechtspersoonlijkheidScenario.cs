@@ -3,13 +3,14 @@ namespace AssociationRegistry.Test.Projections.Scenario.Migratie;
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using Events.Enriched;
 
 /// <summary>
 /// zie bug: or-2749
 /// </summary>
 public class FeitelijkeVerenigingMetBooleanPropertiesWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario : InszScenarioBase
 {
-    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan;
     public readonly VerenigingWerdVerwijderd VerenigingWerdVerwijderd;
     public readonly VerenigingWerdUitgeschrevenUitPubliekeDatastroom VerenigingWerdUitgeschrevenUitPubliekeDatastroom;
@@ -21,7 +22,7 @@ public class FeitelijkeVerenigingMetBooleanPropertiesWerdGemigreerdNaarVerenigin
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd>();
 
         VerenigingWerdGemarkeerdAlsDubbelVan = fixture.Create<VerenigingWerdGemarkeerdAlsDubbelVan>() with
         {
@@ -42,7 +43,7 @@ public class FeitelijkeVerenigingMetBooleanPropertiesWerdGemigreerdNaarVerenigin
     }
 
     public override string VCode => FeitelijkeVerenigingWerdGeregistreerd.VCode;
-    public override string Insz => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.First().Insz;
+    public override string Insz => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.First().VertegenwoordigerPersoonsgegevens.Insz;
 
     public override EventsPerVCode[] Events =>
     [

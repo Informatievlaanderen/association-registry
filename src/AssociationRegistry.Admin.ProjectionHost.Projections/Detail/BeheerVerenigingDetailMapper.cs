@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Enriched;
 using Formats;
 using Schema;
 using Schema.Detail;
@@ -106,28 +107,28 @@ public class BeheerVerenigingDetailMapper
             Bron = bron,
         };
 
-    public static Vertegenwoordiger MapVertegenwoordiger(Registratiedata.Vertegenwoordiger v, string bron, string vCode)
+    public static Vertegenwoordiger MapVertegenwoordiger(EnrichedVertegenwoordiger v, string bron, string vCode)
         => new()
         {
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Vertegenwoordiger, vCode, v.VertegenwoordigerId.ToString()),
             VertegenwoordigerId = v.VertegenwoordigerId,
-            Insz = v.Insz,
+            Insz = v.VertegenwoordigerPersoonsgegevens.Insz,
             IsPrimair = v.IsPrimair,
-            Roepnaam = v.Roepnaam,
-            Rol = v.Rol,
-            Achternaam = v.Achternaam,
-            Voornaam = v.Voornaam,
-            Email = v.Email,
-            Telefoon = v.Telefoon,
-            Mobiel = v.Mobiel,
-            SocialMedia = v.SocialMedia,
+            Roepnaam = v.VertegenwoordigerPersoonsgegevens.Roepnaam,
+            Rol = v.VertegenwoordigerPersoonsgegevens.Rol,
+            Achternaam = v.VertegenwoordigerPersoonsgegevens.Achternaam,
+            Voornaam = v.VertegenwoordigerPersoonsgegevens.Voornaam,
+            Email = v.VertegenwoordigerPersoonsgegevens.Email,
+            Telefoon = v.VertegenwoordigerPersoonsgegevens.Telefoon,
+            Mobiel = v.VertegenwoordigerPersoonsgegevens.Mobiel,
+            SocialMedia = v.VertegenwoordigerPersoonsgegevens.SocialMedia,
             VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
             {
                 JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.VertegenwoordigerContactgegeven, vCode, v.VertegenwoordigerId.ToString()),
-                Email = v.Email,
-                Telefoon = v.Telefoon,
-                Mobiel = v.Mobiel,
-                SocialMedia = v.SocialMedia,
+                Email = v.VertegenwoordigerPersoonsgegevens.Email,
+                Telefoon = v.VertegenwoordigerPersoonsgegevens.Telefoon,
+                Mobiel = v.VertegenwoordigerPersoonsgegevens.Mobiel,
+                SocialMedia = v.VertegenwoordigerPersoonsgegevens.SocialMedia,
                 IsPrimair = v.IsPrimair,
             },
             Bron = bron,

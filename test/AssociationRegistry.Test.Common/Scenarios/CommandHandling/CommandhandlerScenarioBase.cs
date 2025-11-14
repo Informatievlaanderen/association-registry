@@ -9,7 +9,7 @@ using Persoonsgegevens;
 using StubsMocksFakes.VerenigingsRepositories;
 using StubsMocksFakes.VertegenwoordigerPersoonsgegevensRepositories;
 using Vereniging;
-using VertegenwoordigerPersoonsgegevens = Events.VertegenwoordigerPersoonsgegevens;
+using VertegenwoordigerPersoonsgegevens = Events.Enriched.VertegenwoordigerPersoonsgegevens;
 
 public abstract class CommandhandlerScenarioBase
 {

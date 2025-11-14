@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
 using Events;
+using Events.Enriched;
 using JasperFx.Events;
 using Marten;
 using Marten.Events.Projections;
@@ -21,7 +22,7 @@ public class VerenigingenPerInszProjection : EventProjection
         Options.DeleteViewTypeOnTeardown<VerenigingDocument>();
     }
 
-    public async Task Project(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+    public async Task Project(FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd werdGeregistreerd, IDocumentOperations ops)
     {
         var docs = new List<object>();
 
@@ -31,7 +32,7 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+    public async Task Project(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens werdGeregistreerd, IDocumentOperations ops)
     {
         var docs = new List<object>();
 

@@ -179,19 +179,11 @@ public static class EventFactory
             lidmaatschap.Identificatie,
             lidmaatschap.Beschrijving);
 
-    public static Registratiedata.Vertegenwoordiger Vertegenwoordiger(Vertegenwoordiger vertegenwoordiger)
+    public static Registratiedata.Vertegenwoordiger Vertegenwoordiger(Guid refId, Vertegenwoordiger vertegenwoordiger)
         => new(
+            refId,
             vertegenwoordiger.VertegenwoordigerId,
-            vertegenwoordiger.Insz,
-            vertegenwoordiger.IsPrimair,
-            vertegenwoordiger.Roepnaam ?? string.Empty,
-            vertegenwoordiger.Rol ?? string.Empty,
-            vertegenwoordiger.Voornaam,
-            vertegenwoordiger.Achternaam,
-            vertegenwoordiger.Email.Waarde,
-            vertegenwoordiger.Telefoon.Waarde,
-            vertegenwoordiger.Mobiel.Waarde,
-            vertegenwoordiger.SocialMedia.Waarde);
+            vertegenwoordiger.IsPrimair);
 
     public static ContactgegevenWerdInBeheerGenomenDoorKbo ContactgegevenWerdInBeheerGenomenDoorKbo(
         Contactgegeven contactgegeven,

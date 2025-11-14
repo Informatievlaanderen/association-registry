@@ -2,15 +2,16 @@ namespace AssociationRegistry.Test.Projections.Scenario.Registratie;
 
 using Events;
 using AutoFixture;
+using Events.Enriched;
 
 public class FeitelijkeVerenigingWerdGeregistreerdScenario : ScenarioBase
 {
-    public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; }
+    public FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; }
 
     public FeitelijkeVerenigingWerdGeregistreerdScenario()
     {
         FeitelijkeVerenigingWerdGeregistreerd =
-            AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+            AutoFixture.Create<FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd>();
     }
 
     public override string VCode => FeitelijkeVerenigingWerdGeregistreerd.VCode;

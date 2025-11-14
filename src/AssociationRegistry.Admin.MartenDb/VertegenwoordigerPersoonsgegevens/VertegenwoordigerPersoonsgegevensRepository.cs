@@ -36,4 +36,7 @@ public class VertegenwoordigerPersoonsgegevensRepository: IVertegenwoordigerPers
 
     public async Task<VertegenwoordigerPersoonsgegevens> Get(Guid refId)
         => await _vertegenwoordigerPersoonsgegevensService.Get(refId);
+
+    public async Task<VertegenwoordigerPersoonsgegevens[]> Get(Guid[] refId)
+        => await _vertegenwoordigerPersoonsgegevensService.Get(refId);
 }

@@ -63,7 +63,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (gewijzigdeVertegenwoordiger is null)
             return;
 
-        await InsertVertegenwoordigerPersoonsgegevens(refId, gewijzigdeVertegenwoordiger, vertegenwoordigerPersoonsgegevensRepository);
+        var vertegenwoordigerPersoonsgegevens = VertegenwoordigerPersoonsgegevens.ToVertegenwoordiger(refId, VCode, gewijzigdeVertegenwoordiger);
+        await vertegenwoordigerPersoonsgegevensRepository.Save(vertegenwoordigerPersoonsgegevens);
 
         AddEvent(EventFactory.VertegenwoordigerWerdGewijzigd(gewijzigdeVertegenwoordiger, refId));
     }
@@ -361,26 +362,5 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             return;
 
         AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
-    }
-
-    private async Task InsertVertegenwoordigerPersoonsgegevens(
-        Guid refId,
-        Vertegenwoordiger vertegenwoordiger,
-        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository)
-    {
-        await vertegenwoordigerPersoonsgegevensRepository.Save(new VertegenwoordigerPersoonsgegevens(
-                                                                   refId,
-                                                                   VCode,
-                                                                   vertegenwoordiger.VertegenwoordigerId,
-                                                                   vertegenwoordiger.Insz,
-                                                                   vertegenwoordiger.Roepnaam,
-                                                                   vertegenwoordiger.Rol,
-                                                                   vertegenwoordiger.Voornaam,
-                                                                   vertegenwoordiger.Achternaam,
-                                                                   vertegenwoordiger.Email.Waarde,
-                                                                   vertegenwoordiger.Telefoon.Waarde,
-                                                                   vertegenwoordiger.Mobiel.Waarde,
-                                                                   vertegenwoordiger.SocialMedia.Waarde
-                                                               ));
     }
 }

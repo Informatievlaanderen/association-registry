@@ -45,21 +45,7 @@ public class V020_Vereniging20ForSearchScenario : IScenario
                     Bronwaarde: "https://data.vlaanderen.be/id/adres/0")
             ),
         },
-        new[]
-        {
-            new Registratiedata.Vertegenwoordiger(
-                VertegenwoordigerId: 1,
-                Insz: "01234567890",
-                IsPrimair: true,
-                Roepnaam: "bakkerijhoofd",
-                Rol: "Bakker",
-                Voornaam: "Beau",
-                Achternaam: "Ter Ham",
-                Email: "",
-                Telefoon: "",
-                Mobiel: "",
-                SocialMedia: ""),
-        },
+        [],
         new Registratiedata.HoofdactiviteitVerenigingsloket[]
         {
             new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),

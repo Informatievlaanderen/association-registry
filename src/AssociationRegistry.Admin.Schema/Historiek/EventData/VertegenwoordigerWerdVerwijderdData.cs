@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
 using Events;
+using Events.Enriched;
 
 public record VertegenwoordigerWerdVerwijderdData
 (

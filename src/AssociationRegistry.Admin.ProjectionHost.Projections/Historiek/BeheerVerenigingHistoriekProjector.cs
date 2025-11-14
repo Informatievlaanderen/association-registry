@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
 using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Enriched;
 using Formats;
 using Framework;
 using JasperFx.Events;
@@ -14,7 +15,7 @@ using IEvent = JasperFx.Events.IEvent;
 public class BeheerVerenigingHistoriekProjector
 {
     public static BeheerVerenigingHistoriekDocument Create(
-        IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event)
+        IEvent<FeitelijkeVerenigingMetPersoonsgegevensGeregistreerd> @event)
     {
         var beheerVerenigingHistoriekDocument = CreateNewDocument(@event.Data.VCode);
 
@@ -28,7 +29,7 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static BeheerVerenigingHistoriekDocument Create(
-        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event)
+        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens> @event)
     {
         var beheerVerenigingHistoriekDocument = CreateNewDocument(@event.Data.VCode);
 
