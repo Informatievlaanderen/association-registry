@@ -201,9 +201,9 @@ public static class EventCustomizations
 
     private static void CustomizeFeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens(this IFixture fixture)
     {
-        fixture.Customize<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens>(
+        fixture.Customize<FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens>(
             composer => composer.FromFactory(
-                () => new FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens(
+                () => new FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens(
                     fixture.Create<VCode>().ToString(),
                     fixture.Create<string>(),
                     fixture.Create<string>(),

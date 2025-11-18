@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.DuplicateD
 
 using DecentraalBeheer.Vereniging;
 using Events;
+using Events.Enriched;
 using Formats;
 using Hosts.Configuration.ConfigurationBindings;
 using Schema.Search;
@@ -13,7 +14,7 @@ public class DuplicateDetectionProjectionHandler
     {
     }
 
-    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message, DuplicateDetectionDocument document)
+    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens> message, DuplicateDetectionDocument document)
     {
         document.VCode = message.Data.VCode;
         document.VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code;
@@ -28,7 +29,7 @@ public class DuplicateDetectionProjectionHandler
     }
 
     public void Handle(
-        EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message,
+        EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens> message,
         DuplicateDetectionDocument document)
     {
         document.VCode = message.Data.VCode;

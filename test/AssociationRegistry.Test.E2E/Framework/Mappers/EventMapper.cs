@@ -32,7 +32,7 @@ public static class EventMapper
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var metPersoonsgegevens = fixture.Create<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens>();
+        var metPersoonsgegevens = fixture.Create<FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens>();
 
         return metPersoonsgegevens.ToGeregistreerdeVereniging(insz);
     }
@@ -58,7 +58,7 @@ public static class EventMapper
     // -------------------------------------------------
 
     public static GeregistreerdeVerenigingMetPersoonsgegevens<FeitelijkeVerenigingWerdGeregistreerd> ToGeregistreerdeVereniging(
-        this FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens src,
+        this FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens src,
         string? insz)
     {
         if (src is null) throw new ArgumentNullException(nameof(src));
@@ -81,7 +81,7 @@ public static class EventMapper
             KorteBeschrijving: src.KorteBeschrijving,
             Startdatum: src.Startdatum,
             Doelgroep: src.Doelgroep,
-            IsUitgeschrevenUitPubliekeDatastroom: src.IsUitgeschrevenUitPubliekeDatastroom,
+            IsUitgeschrevenUitPubliekeDatastroom: false,
             Contactgegevens: src.Contactgegevens,
             Locaties: src.Locaties,
             Vertegenwoordigers: vertegenwoordigers,
@@ -118,7 +118,7 @@ public static class EventMapper
             KorteBeschrijving: src.KorteBeschrijving,
             Startdatum: src.Startdatum,
             Doelgroep: src.Doelgroep,
-            IsUitgeschrevenUitPubliekeDatastroom: src.IsUitgeschrevenUitPubliekeDatastroom,
+            IsUitgeschrevenUitPubliekeDatastroom: false,
             Contactgegevens: src.Contactgegevens,
             Locaties: src.Locaties,
             Vertegenwoordigers: vertegenwoordigers,

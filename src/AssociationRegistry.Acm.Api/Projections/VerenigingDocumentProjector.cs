@@ -13,7 +13,7 @@ using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 public static class VerenigingDocumentProjector
 {
-    public static VerenigingDocument Apply(FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens werd)
+    public static VerenigingDocument Apply(FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens werd)
         => new()
         {
             VCode = werd.VCode,

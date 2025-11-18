@@ -12,6 +12,7 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
+using Newtonsoft.Json;
 using Xunit;
 
 
@@ -32,7 +33,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
     {
         _testOutputHelper.WriteLine(_testContext.CommandResult.Sequence + ": expected sequence");
-        return await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}",
+        _testOutputHelper.WriteLine(_testContext.VCode);
+        return await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:*",
                                                         setup.AdminApiHost.DocumentStore(),
                                                         headers: new RequestParameters().WithExpectedSequence(
                                                             _testContext.CommandResult.Sequence), testOutputHelper: _testOutputHelper);
@@ -47,7 +49,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
     {
-        _testOutputHelper.WriteLine(_testContext.VCode);
+        _testOutputHelper.WriteLine(JsonConvert.SerializeObject(Response));
         Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,

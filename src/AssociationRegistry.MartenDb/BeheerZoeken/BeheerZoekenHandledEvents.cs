@@ -7,7 +7,7 @@ public class BeheerZoekenHandledEvents
 {
     public static Type[] Types =
     [
-        typeof(FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens),
+        typeof(FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens),
         typeof(DoelgroepWerdGewijzigd),
         typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens),
         typeof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid),

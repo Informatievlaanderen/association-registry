@@ -6,6 +6,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.MartenDb.Subscriptions;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Core.MGet;
+using Events.Enriched;
 using Microsoft.Extensions.Logging;
 using Resources;
 using Schema.Search;
@@ -73,8 +74,8 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
 
             switch (@event.EventType.Name)
             {
-                case nameof(FeitelijkeVerenigingWerdGeregistreerd):
-                case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd):
+                case nameof(FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens):
+                case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens):
                 case nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid):
                 case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
                 case nameof(KorteNaamWerdGewijzigd):

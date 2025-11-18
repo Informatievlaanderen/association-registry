@@ -15,7 +15,7 @@ using IEvent = JasperFx.Events.IEvent;
 public class BeheerVerenigingHistoriekProjector
 {
     public static BeheerVerenigingHistoriekDocument Create(
-        IEvent<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens> @event)
+        IEvent<FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens> @event)
     {
         var beheerVerenigingHistoriekDocument = CreateNewDocument(@event.Data.VCode);
 

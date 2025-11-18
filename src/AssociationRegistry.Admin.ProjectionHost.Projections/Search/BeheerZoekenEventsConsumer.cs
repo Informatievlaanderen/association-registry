@@ -73,7 +73,7 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
 
             switch (@event.EventType.Name)
             {
-                case nameof(FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens):
+                case nameof(FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens):
                 case nameof(DoelgroepWerdGewijzigd):
                 case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens):
                 case nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid):

@@ -47,7 +47,7 @@ public static class VerenigingenPerInszProjector
     {
         return werdGeregistreerd switch
         {
-            FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens =>
+            FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens =>
                 new(
                     DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                     DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam),
@@ -65,7 +65,7 @@ public static class VerenigingenPerInszProjector
     {
         return werdGeregistreerd switch
         {
-            FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens => null,
+            FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens => null,
 
             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens => VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
 

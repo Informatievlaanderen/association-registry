@@ -1,13 +1,14 @@
 ﻿namespace AssociationRegistry.MartenDb.BeheerZoeken;
 
 using Events;
+using Events.Enriched;
 
 public class DuplicateDetectionHandledEvents
 {
     public static Type[] Types =
     [
-        typeof(FeitelijkeVerenigingWerdGeregistreerd),
-        typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd),
+        typeof(FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens),
+        typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens),
         typeof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid),
         typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd),
         typeof(KorteNaamWerdGewijzigd),

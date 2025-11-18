@@ -21,7 +21,7 @@ using Werkingsgebied = Schema.Detail.Werkingsgebied;
 
 public class BeheerVerenigingDetailProjector
 {
-    public static BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens> feitelijkeVerenigingWerdGeregistreerd)
+    public static BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,

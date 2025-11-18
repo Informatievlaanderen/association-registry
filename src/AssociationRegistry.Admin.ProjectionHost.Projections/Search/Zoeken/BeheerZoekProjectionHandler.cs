@@ -18,7 +18,7 @@ public class BeheerZoekProjectionHandler
     {
     }
 
-    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens> message, VerenigingZoekDocument document)
+    public void Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens> message, VerenigingZoekDocument document)
     {
         document.JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type;
         document.VCode = message.Data.VCode;

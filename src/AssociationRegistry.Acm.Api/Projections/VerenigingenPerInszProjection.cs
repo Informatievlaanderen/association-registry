@@ -22,7 +22,7 @@ public class VerenigingenPerInszProjection : EventProjection
         Options.DeleteViewTypeOnTeardown<VerenigingDocument>();
     }
 
-    public async Task Project(FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens werd, IDocumentOperations ops)
+    public async Task Project(FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens werd, IDocumentOperations ops)
     {
         var docs = new List<object>();
 

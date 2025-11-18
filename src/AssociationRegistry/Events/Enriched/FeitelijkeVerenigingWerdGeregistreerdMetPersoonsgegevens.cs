@@ -3,7 +3,7 @@
 using Vereniging.Bronnen;
 using System.Runtime.Serialization;
 
-public record FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens(
+public record FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens(
     string VCode,
     string Naam,
     string KorteNaam,

@@ -21,7 +21,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
         Options.DeleteViewTypeOnTeardown<BeheerVerenigingDetailDocument>();
     }
 
-    public BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens> @event, IDocumentOperations ops)
+    public BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens> @event, IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingDetailProjector.Create);
 
     public BeheerVerenigingDetailDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens> @event, IDocumentOperations ops)

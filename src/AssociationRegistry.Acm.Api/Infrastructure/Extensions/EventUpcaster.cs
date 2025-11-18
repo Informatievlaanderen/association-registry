@@ -54,7 +54,7 @@ public static class EventUpcaster
                     vertegenwoordigerPersoonsgegevens?.Achternaam);
             });
 
-        opts.Events.Upcast<FeitelijkeVerenigingWerdGeregistreerd, FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens>(
+        opts.Events.Upcast<FeitelijkeVerenigingWerdGeregistreerd, FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens>(
             async (feitelijkeVerenigingWerdGeregistreerd, ct) =>
             {
                 await using var session = querySessionFunc();
@@ -98,7 +98,7 @@ public static class EventUpcaster
                                                                                        })
                                                                                       .ToArray();
 
-                return new FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens(
+                return new FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens(
                     VCode: feitelijkeVerenigingWerdGeregistreerd.VCode,
                     Naam: feitelijkeVerenigingWerdGeregistreerd.Naam,
                     KorteNaam: feitelijkeVerenigingWerdGeregistreerd.KorteNaam,

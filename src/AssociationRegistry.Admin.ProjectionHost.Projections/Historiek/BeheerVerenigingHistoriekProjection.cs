@@ -21,7 +21,7 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     }
 
     public BeheerVerenigingHistoriekDocument Create(
-        IEvent<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens> @event,
+        IEvent<FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens> @event,
         IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 
