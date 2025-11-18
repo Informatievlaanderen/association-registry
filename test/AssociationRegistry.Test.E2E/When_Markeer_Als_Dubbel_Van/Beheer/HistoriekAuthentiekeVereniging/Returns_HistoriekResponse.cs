@@ -24,7 +24,7 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
     }
 
     public override async Task<HistoriekResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient ,_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence));
+        => await setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient ,_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence));
 
     [Fact]
     public async ValueTask With_VCode()
@@ -46,7 +46,7 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
 
-        Response.VCode.ShouldCompare(_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode);
+        Response.VCode.ShouldCompare(_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
     [Fact]

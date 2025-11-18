@@ -12,41 +12,24 @@ using Framework.TestClasses;
 
 public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : IScenario
 {
-    private VertegenwoordigerPersoonsgegevensDocument[] _vertegenwoordigerPersoonsgegevens;
     public string NaamVereniging { get; set; }
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens { get;
-        set;
-    }
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario BaseScenario = new();
     public VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging { get; set; }
 
     public SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario()
     {
+        VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging = new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
+            VCode: BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
     }
 
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
-    {
-        var fixture = new Fixture().CustomizeAdminApi();
-
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens>() with
-        {
-            VCode = await service.GetNext(),
-        };
-
-        var (verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, persoonsgegevensDocuments) = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.MapDomainWithPersoonsgegevens();
-        _vertegenwoordigerPersoonsgegevens = persoonsgegevensDocuments
-                                            .ToArray();
-
-        VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging = new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
-            VCode: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
-
-        return
+        =>
         [
-            new(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging]),
+            new(BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging]),
         ];
-    }
 
     public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
-        => _vertegenwoordigerPersoonsgegevens;
+        => BaseScenario.GivenVertegenwoordigerPersoonsgegevens();
 
     public StreamActionResult Result { get; set; } = null!;
 

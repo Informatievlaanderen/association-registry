@@ -25,14 +25,14 @@ public class LidmaatschapWerdToegevoegdScenario : Framework.TestClasses.IScenari
         var fixture = new Fixture().CustomizeAdminApi();
 
         var givenEvents = await BaseScenario.GivenEvents(service);
-        NaamVereniging = BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam;
+        NaamVereniging = BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.Naam;
 
         LidmaatschapWerdToegevoegd = new LidmaatschapWerdToegevoegd(
-            VCode: BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode,
+            VCode: BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
             Lidmaatschap: fixture.Create<Registratiedata.Lidmaatschap>() with
             {
-                AndereVereniging = BaseScenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode,
-                AndereVerenigingNaam = BaseScenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam,
+                AndereVereniging = BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+                AndereVerenigingNaam = BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
             });
 
         return givenEvents.Append(new KeyValuePair<string, IEvent[]>(LidmaatschapWerdToegevoegd.VCode, [LidmaatschapWerdToegevoegd]))

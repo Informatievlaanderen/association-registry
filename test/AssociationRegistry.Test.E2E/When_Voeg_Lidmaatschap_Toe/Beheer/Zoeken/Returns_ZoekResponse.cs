@@ -30,7 +30,13 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     }
 
     public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence), testOutputHelper: _testOutputHelper);
+    {
+        _testOutputHelper.WriteLine(_testContext.CommandResult.Sequence + ": expected sequence");
+        return await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}",
+                                                        setup.AdminApiHost.DocumentStore(),
+                                                        headers: new RequestParameters().WithExpectedSequence(
+                                                            _testContext.CommandResult.Sequence), testOutputHelper: _testOutputHelper);
+    }
 
     [Fact]
     public void With_Context()
@@ -41,6 +47,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
     {
+        _testOutputHelper.WriteLine(_testContext.VCode);
         Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
@@ -48,23 +55,23 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             {
                 type = JsonLdType.Doelgroep.Type,
                 id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
-                Minimumleeftijd = _testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Doelgroep.Minimumleeftijd,
-                Maximumleeftijd = _testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Doelgroep.Maximumleeftijd,
+                Minimumleeftijd = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Doelgroep.Minimumleeftijd,
+                Maximumleeftijd = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd,
             },
             VCode = _testContext.VCode,
-            KorteNaam = _testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.KorteNaam,
+            KorteNaam = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = _testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam,
-            Startdatum = _testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Startdatum.FormatAsBelgianDate(),
+            Naam = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
+            Startdatum = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Startdatum.FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.HoofdactiviteitenVerenigingsloket),
+            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = [],
-            Locaties = BeheerZoekResponseMapper.MapLocaties(_testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Locaties, _testContext.VCode),
+            Locaties = BeheerZoekResponseMapper.MapLocaties(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
             Sleutels = BeheerZoekResponseMapper.MapSleutels(_testContext.VCode),
             Lidmaatschappen = BeheerZoekResponseMapper.MapLidmaatschappen(_testContext.CommandRequest, _testContext.VCode),
             Links = new VerenigingLinks()

@@ -38,7 +38,7 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
             }
             s.Delete
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.VCode}");
+             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         })).Context.Response;
@@ -46,6 +46,6 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
         return new CommandResult<VerwijderVerenigingRequest>(
-            VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.VCode), request, sequence);
+            VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request, sequence);
     }
 }

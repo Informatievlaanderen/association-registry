@@ -26,7 +26,7 @@ public class Returns_Detail_With_Toegevoegde_Vertegenwoordiger : End2EndTest<Det
   [Fact]
     public void JsonContentMatches()
     {
-        var nextVertegenwoordigerId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens
+        var nextVertegenwoordigerId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
                                            .Vertegenwoordigers.Max(x => x.VertegenwoordigerId) + 1;
         Response.Vereniging.Vertegenwoordigers.Single(x => x.VertegenwoordigerId == nextVertegenwoordigerId)
                 .Should().BeEquivalentTo(new Vertegenwoordiger()

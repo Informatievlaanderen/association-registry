@@ -6,32 +6,28 @@ using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using Events;
-using Events.Enriched;
 using EventStore;
 using Framework.Mappers;
 using Framework.TestClasses;
 
 public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario : IScenario
 {
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens { get; set; }
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
-
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get;
+        set;
+    }
     private CommandMetadata Metadata;
-    private VertegenwoordigerPersoonsgegevensDocument[] _vertegenwoordigerPersoonsgegevens;
+    public readonly VertegenwoordigerPersoonsgegevensDocument[] VertegenwoordigerPersoonsgegevens;
 
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens>() with
-        {
-            VCode = fixture.Create<VCode>(),
-        };
-
-        var (verenigingZonderEigenRechtspersoonWerdGeregistreerd, persoonsgegevensDocuments) = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.MapDomainWithPersoonsgegevens();
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = verenigingZonderEigenRechtspersoonWerdGeregistreerd;
-        _vertegenwoordigerPersoonsgegevens = persoonsgegevensDocuments
+        var geregistreerdeVerenigingMetPersoongegevens = EventMapper.CreateVzerGeregistreerdMetPersoonsgegevens();
+        var geregistreerdEvent = geregistreerdeVerenigingMetPersoongegevens.GeregistreerdEvent;
+        var vertegenwoordigerPersoonsgegevensDocuments = geregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten;
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = geregistreerdEvent;
+        VertegenwoordigerPersoonsgegevens = vertegenwoordigerPersoonsgegevensDocuments
            .ToArray();
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -40,10 +36,11 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario
         [
             new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd]),
         ];
+
     public StreamActionResult Result { get; set; } = null!;
 
     public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
-        => _vertegenwoordigerPersoonsgegevens;
+        => VertegenwoordigerPersoonsgegevens;
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

@@ -21,7 +21,7 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
     public Returns_VerenigingenPerInszResponse(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        _inszToCompare = testContext.Scenario.DubbeleVerenigingPersoonsGegevens.Insz;
+        _inszToCompare = testContext.Scenario.MultipleWerdGeregistreerdScenario.VertegenwoordigerPersoonsgegevens[0].Insz;
 
         _request = new VerenigingenPerInszRequest()
         {
@@ -44,10 +44,10 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
                 // Dubbele vereniging wordt getoond
                 new VerenigingenPerInszResponse.Vereniging()
                 {
-                    VCode = _testContext.Scenario.DubbeleVerenging.VCode,
+                    VCode = _testContext.Scenario.MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
                     CorresponderendeVCodes = [],
-                    VertegenwoordigerId = _testContext.Scenario.DubbeleVerenging.Vertegenwoordigers[0].VertegenwoordigerId,
-                    Naam = _testContext.Scenario.DubbeleVerenging.Naam,
+                    VertegenwoordigerId = _testContext.Scenario.MultipleWerdGeregistreerdScenario.VertegenwoordigerPersoonsgegevens[0].VertegenwoordigerId,
+                    Naam = _testContext.Scenario.MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(
@@ -64,10 +64,10 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
                 // Authentieke vereniging wordt getoond zonder corresponderende verenigingen dubbele verenigingen
                 new VerenigingenPerInszResponse.Vereniging()
                 {
-                    VCode = _testContext.Scenario.AuthentiekeVereniging.VCode,
+                    VCode = _testContext.Scenario.MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
                     CorresponderendeVCodes = [],
-                    VertegenwoordigerId = _testContext.Scenario.AuthentiekeVereniging.Vertegenwoordigers[0].VertegenwoordigerId,
-                    Naam = _testContext.Scenario.AuthentiekeVereniging.Naam,
+                    VertegenwoordigerId = _testContext.Scenario.MultipleWerdGeregistreerdScenario.AndereVertegenwoordigerPersoonsgegevens[0].VertegenwoordigerId,
+                    Naam = _testContext.Scenario.MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(

@@ -23,7 +23,7 @@ public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
     public Returns_Detail(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        _inszToCompare = testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.Vertegenwoordigers[0].VertegenwoordigerPersoonsgegevens.Insz;
+        _inszToCompare = testContext.Scenario.BaseScenario.VertegenwoordigerPersoonsgegevens[0].Insz;
         _request = new VerenigingenPerInszRequest()
         {
             Insz = _inszToCompare,
@@ -54,8 +54,8 @@ public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
                 {
                     VCode = _testContext.VCode,
                     CorresponderendeVCodes = [],
-                    VertegenwoordigerId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.Vertegenwoordigers[0].VertegenwoordigerId,
-                    Naam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.Naam,
+                    VertegenwoordigerId = _testContext.Scenario.BaseScenario.VertegenwoordigerPersoonsgegevens[0].VertegenwoordigerId,
+                    Naam = _testContext.Scenario.BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(

@@ -27,9 +27,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     {
         await Task.Delay(5.Seconds());
 
-        return await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}",
+        return await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.Scenario.MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode}",
                                                         setup.AdminApiHost.DocumentStore(),
-                                                        
+
                                                         headers: new RequestParameters().WithExpectedSequence(
                                                             _testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence),
                                                         testOutputHelper: _helper);
@@ -44,7 +44,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     [Fact]
     public void WithFeitelijkeVereniging()
     {
-        Response.Verenigingen.Single(x => x.VCode == _testContext.Scenario.AuthentiekeVereniging.VCode)
+        Response.Verenigingen.Single(x => x.VCode == _testContext.Scenario.MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode)
                 .CorresponderendeVCodes.Should().BeEmpty();
     }
 }

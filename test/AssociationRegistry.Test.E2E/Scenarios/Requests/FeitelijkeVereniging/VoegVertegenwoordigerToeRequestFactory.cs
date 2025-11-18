@@ -33,13 +33,13 @@ public class VoegVertegenwoordigerToeRequestFactory : ITestRequestFactory<VoegVe
         {
             s.Post
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.VCode}/vertegenwoordigers");
+             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/vertegenwoordigers");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new CommandResult<VoegVertegenwoordigerToeRequest>(VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.VCode), request, sequence);
+        return new CommandResult<VoegVertegenwoordigerToeRequest>(VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request, sequence);
     }
 }

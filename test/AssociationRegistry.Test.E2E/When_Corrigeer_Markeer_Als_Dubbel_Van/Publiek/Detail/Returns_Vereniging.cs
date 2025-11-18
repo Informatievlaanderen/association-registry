@@ -18,7 +18,7 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
     }
 
     public override async Task<PubliekVerenigingDetailResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.PublicApiHost.GetPubliekDetail(_testContext.Scenario.DubbeleVerenging.VCode);
+        => await setup.PublicApiHost.GetPubliekDetail(_testContext.Scenario.MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
     [Fact]
     public void Response_Not_Null()

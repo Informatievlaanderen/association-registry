@@ -22,7 +22,7 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<DetailVerenigingRespon
     }
 
     public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.Scenario.AuthentiekeVereniging.VCode, headers:
+        => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.Scenario.MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode, headers:
                                               new RequestParameters()
                                                  .WithExpectedSequence(_testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence));
 

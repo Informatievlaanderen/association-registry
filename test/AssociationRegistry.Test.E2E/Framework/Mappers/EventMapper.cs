@@ -1,20 +1,73 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
-using Admin.Schema.Persoonsgegevens;
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Events;
 using Events.Enriched;
+using AutoFixture;
+using Common.AutoFixture;
+using DecentraalBeheer.Vereniging;
+
+/// <summary>
+/// Wrapper around the geregistreerd-event + de persoonsgegevens-documenten.
+/// </summary>
+public sealed record GeregistreerdeVerenigingMetPersoonsgegevens<TEvent>(
+    TEvent GeregistreerdEvent,
+    VertegenwoordigerPersoonsgegevensDocument[] PersoonsgegevensDocumenten);
 
 public static class EventMapper
 {
-    public static (
-        FeitelijkeVerenigingWerdGeregistreerd Event,
-        VertegenwoordigerPersoonsgegevensDocument[] Documents)
-        MapDomainWithPersoonsgegevens(
-            this FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens src)
+    // -------------------------------
+    // 1. Factory helpers using Fixture
+    // -------------------------------
+
+    /// <summary>
+    /// Maakt met AutoFixture een FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens,
+    /// mapt die naar FeitelijkeVerenigingWerdGeregistreerd + documenten,
+    /// en geeft dat alles terug als een GeregistreerdeVereniging.
+    /// </summary>
+    public static GeregistreerdeVerenigingMetPersoonsgegevens<FeitelijkeVerenigingWerdGeregistreerd>
+        CreateFeitelijkeGeregistreerdMetPersoonsgegevens(string? insz = null)
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+
+        var metPersoonsgegevens = fixture.Create<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens>();
+
+        return metPersoonsgegevens.ToGeregistreerdeVereniging(insz);
+    }
+
+    /// <summary>
+    /// Maakt met AutoFixture een VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens,
+    /// mapt die naar VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd + documenten,
+    /// en geeft dat alles terug als een GeregistreerdeVereniging.
+    /// </summary>
+    public static GeregistreerdeVerenigingMetPersoonsgegevens<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>
+        CreateVzerGeregistreerdMetPersoonsgegevens(string? insz = null)
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+
+        var metPersoonsgegevens = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens>();
+
+        return metPersoonsgegevens.ToGeregistreerdeVereniging(insz);
+    }
+
+    // -------------------------------------------------
+    // 2. Extension methods: from *MetPersoonsgegevens*
+    //    -> (GeregistreerdEvent + docs) wrapper
+    // -------------------------------------------------
+
+    public static GeregistreerdeVerenigingMetPersoonsgegevens<FeitelijkeVerenigingWerdGeregistreerd> ToGeregistreerdeVereniging(
+        this FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens src,
+        string? insz)
     {
         if (src is null) throw new ArgumentNullException(nameof(src));
+
+        if(insz is not null)
+            src.Vertegenwoordigers[0] = src.Vertegenwoordigers[0] with{ VertegenwoordigerPersoonsgegevens = src.Vertegenwoordigers[0].VertegenwoordigerPersoonsgegevens with
+                {
+                    Insz = insz,
+                }};
 
         var (vertegenwoordigers, docs) = MapVertegenwoordigersMetDocumenten(
             src.VCode,
@@ -35,16 +88,23 @@ public static class EventMapper
             HoofdactiviteitenVerenigingsloket: src.HoofdactiviteitenVerenigingsloket
         );
 
-        return (domainEvent, docs);
+        return new GeregistreerdeVerenigingMetPersoonsgegevens<FeitelijkeVerenigingWerdGeregistreerd>(
+            domainEvent,
+            docs
+        );
     }
 
-    public static (
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd Event,
-        VertegenwoordigerPersoonsgegevensDocument[] Documents)
-        MapDomainWithPersoonsgegevens(
-            this VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens src)
+    public static GeregistreerdeVerenigingMetPersoonsgegevens<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>
+        ToGeregistreerdeVereniging(this VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens src, string? insz)
     {
         if (src is null) throw new ArgumentNullException(nameof(src));
+
+        if(insz is not null)
+            src.Vertegenwoordigers[0] = src.Vertegenwoordigers[0] with{ VertegenwoordigerPersoonsgegevens = src.Vertegenwoordigers[0].VertegenwoordigerPersoonsgegevens with
+            {
+                Insz = insz,
+            }};
+
 
         var (vertegenwoordigers, docs) = MapVertegenwoordigersMetDocumenten(
             src.VCode,
@@ -66,8 +126,15 @@ public static class EventMapper
             DuplicatieInfo: null
         );
 
-        return (domainEvent, docs);
+        return new GeregistreerdeVerenigingMetPersoonsgegevens<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>(
+            domainEvent,
+            docs
+        );
     }
+
+    // ------------------------------------------
+    // 3. Shared mapping for Vertegenwoordigers
+    // ------------------------------------------
 
     private static (
         Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,

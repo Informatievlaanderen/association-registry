@@ -22,7 +22,7 @@ public class MarkeerAlsDubbelVanRequestFactory : ITestRequestFactory<MarkeerAlsD
     {
         var request = new MarkeerAlsDubbelVanRequest
         {
-            IsDubbelVan = _scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode,
+            IsDubbelVan = _scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
         };
 
        var response = (await apiSetup.AdminApiHost.Scenario(s =>
@@ -30,13 +30,13 @@ public class MarkeerAlsDubbelVanRequestFactory : ITestRequestFactory<MarkeerAlsD
             s.WithRequestHeader("Authorization", apiSetup.SuperAdminHttpClient.DefaultRequestHeaders.GetValues("Authorization").First());
             s.Post
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode}/dubbelVan");
+             .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/dubbelVan");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new CommandResult<MarkeerAlsDubbelVanRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode), request, sequence);
+        return new CommandResult<MarkeerAlsDubbelVanRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, sequence);
     }
 }

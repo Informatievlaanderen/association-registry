@@ -39,7 +39,7 @@ public class CorrigeerMarkeringAlsDubbelVanContext : TestContextBase<VerenigingW
         await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
         var stream = await session
-                          .Events.FetchStreamAsync(scenario.AuthentiekeVereniging.VCode);
+                          .Events.FetchStreamAsync(scenario.MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
         var counter = 0;
 
         AanvaarddeCorrectieDubbeleVereniging = stream
@@ -51,7 +51,7 @@ public class CorrigeerMarkeringAlsDubbelVanContext : TestContextBase<VerenigingW
             counter++;
             await Task.Delay(500 + (counter * 100));
 
-            stream = await session.Events.FetchStreamAsync(scenario.AuthentiekeVereniging.VCode);
+            stream = await session.Events.FetchStreamAsync(scenario.MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
 
             AanvaarddeCorrectieDubbeleVereniging = stream
                .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeCorrectieDubbeleVereniging));

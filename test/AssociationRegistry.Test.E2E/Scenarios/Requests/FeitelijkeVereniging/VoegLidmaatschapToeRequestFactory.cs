@@ -27,7 +27,7 @@ public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaat
         var date = fixture.Create<DateOnly>();
         var request = new VoegLidmaatschapToeRequest
         {
-            AndereVereniging = _scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode,
+            AndereVereniging = _scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
             Van = date,
             Tot = date.AddDays(new Random().Next(1, 99)),
             Identificatie = fixture.Create<string>(),
@@ -38,13 +38,13 @@ public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaat
         {
             s.Post
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode}/lidmaatschappen");
+             .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/lidmaatschappen");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new CommandResult<VoegLidmaatschapToeRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode), request, sequence);
+        return new CommandResult<VoegLidmaatschapToeRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, sequence);
     }
 }

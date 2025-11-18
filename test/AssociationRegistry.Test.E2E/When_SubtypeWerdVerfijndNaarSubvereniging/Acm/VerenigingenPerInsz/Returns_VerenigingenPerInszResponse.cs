@@ -24,7 +24,7 @@ public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
     public Returns_Vereniging(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        _inszToCompare = testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.Vertegenwoordigers[0].VertegenwoordigerPersoonsgegevens.Insz;
+        _inszToCompare = testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario.VertegenwoordigerPersoonsgegevens.First().Insz;
         _request = new VerenigingenPerInszRequest()
         {
             Insz = _inszToCompare,
@@ -54,8 +54,8 @@ public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
                 {
                     VCode = _testContext.VCode,
                     CorresponderendeVCodes = [],
-                    VertegenwoordigerId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.Vertegenwoordigers[0].VertegenwoordigerId,
-                    Naam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.Naam,
+                    VertegenwoordigerId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario.VertegenwoordigerPersoonsgegevens.First().VertegenwoordigerId,
+                    Naam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(

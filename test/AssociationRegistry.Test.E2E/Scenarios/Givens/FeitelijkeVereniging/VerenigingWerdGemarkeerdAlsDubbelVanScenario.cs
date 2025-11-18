@@ -12,10 +12,7 @@ using MartenDb.Store;
 
 public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : Framework.TestClasses.IScenario
 {
-    public FeitelijkeVerenigingWerdGeregistreerd DubbeleVerenging { get; set; }
-    public VertegenwoordigerPersoonsgegevensDocument DubbeleVerenigingPersoonsGegevens { get; set; }
-    public FeitelijkeVerenigingWerdGeregistreerd AuthentiekeVereniging { get; set; }
-    public VertegenwoordigerPersoonsgegevensDocument AuthentiekeVerenigingPersoonsGegevens { get; set; }
+    public MultipleWerdGeregistreerdScenario MultipleWerdGeregistreerdScenario = new ();
 
     public VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan { get; set; }
     public VerenigingAanvaarddeDubbeleVereniging VerenigingAanvaarddeDubbeleVereniging { get; set; }
@@ -29,42 +26,16 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : Framework.TestClasse
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var vCodeDubbeleVereniging = await service.GetNext();
-        var refIdDubbeleVereniging = Guid.NewGuid();
-        DubbeleVerenigingPersoonsGegevens = fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
-        {
-            VCode = vCodeDubbeleVereniging,
-            RefId = refIdDubbeleVereniging,
-        };
-        DubbeleVerenging = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
-        {
-            VCode = vCodeDubbeleVereniging,
-            Vertegenwoordigers = new []{new Registratiedata.Vertegenwoordiger(refIdDubbeleVereniging, DubbeleVerenigingPersoonsGegevens.VertegenwoordigerId, false)}
-        };
-
-        var vCodeAuthentiekeVereniging = await service.GetNext();
-        var refIdAuthentiekeVereniging = Guid.NewGuid();
-        AuthentiekeVerenigingPersoonsGegevens = fixture.Create<VertegenwoordigerPersoonsgegevensDocument>() with
-        {
-            VCode = vCodeAuthentiekeVereniging,
-            RefId = refIdAuthentiekeVereniging,
-        };
-        AuthentiekeVereniging = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
-        {
-            VCode = vCodeAuthentiekeVereniging,
-            Vertegenwoordigers = new []{new Registratiedata.Vertegenwoordiger(refIdAuthentiekeVereniging, AuthentiekeVerenigingPersoonsGegevens.VertegenwoordigerId, false)}
-        };
-
         VerenigingWerdGemarkeerdAlsDubbelVan = fixture.Create<VerenigingWerdGemarkeerdAlsDubbelVan>() with
         {
-            VCode = DubbeleVerenging.VCode,
-            VCodeAuthentiekeVereniging = AuthentiekeVereniging.VCode,
+            VCode = MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
+            VCodeAuthentiekeVereniging = MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
         };
 
         VerenigingAanvaarddeDubbeleVereniging = fixture.Create<VerenigingAanvaarddeDubbeleVereniging>() with
         {
-            VCode = AuthentiekeVereniging.VCode,
-            VCodeDubbeleVereniging = DubbeleVerenging.VCode,
+            VCode = MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+            VCodeDubbeleVereniging = MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
         };
 
 
@@ -72,8 +43,8 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : Framework.TestClasse
 
         return
         [
-            new(DubbeleVerenging.VCode, [DubbeleVerenging, VerenigingWerdGemarkeerdAlsDubbelVan, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(DubbeleVerenging.VCode)]),
-            new(AuthentiekeVereniging.VCode, [AuthentiekeVereniging, VerenigingAanvaarddeDubbeleVereniging,new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(AuthentiekeVereniging.VCode)]),
+            new(MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode, [MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)]),
+            new(MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, [MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging,new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode)]),
         ];
     }
 
@@ -83,5 +54,5 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : Framework.TestClasse
         => Metadata;
 
     public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
-        => [DubbeleVerenigingPersoonsGegevens, AuthentiekeVerenigingPersoonsGegevens];
+        => MultipleWerdGeregistreerdScenario.VertegenwoordigerPersoonsgegevens.Concat(MultipleWerdGeregistreerdScenario.AndereVertegenwoordigerPersoonsgegevens).ToArray();
 }

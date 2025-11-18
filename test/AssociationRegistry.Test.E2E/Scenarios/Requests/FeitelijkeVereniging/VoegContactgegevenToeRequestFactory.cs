@@ -30,7 +30,7 @@ public class VoegContactgegevenToeRequestFactory : ITestRequestFactory<VoegConta
         {
             s.Post
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.VCode}/contactgegevens");
+             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/contactgegevens");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         })).Context.Response;
@@ -38,6 +38,6 @@ public class VoegContactgegevenToeRequestFactory : ITestRequestFactory<VoegConta
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
 
-        return new CommandResult<VoegContactgegevenToeRequest>(VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.VCode), request, sequence);
+        return new CommandResult<VoegContactgegevenToeRequest>(VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request, sequence);
     }
 }

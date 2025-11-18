@@ -23,7 +23,7 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
     }
 
     public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode}",
+        => await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode}",
                                               setup.AdminApiHost.DocumentStore(),
 
                                               headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence),
@@ -38,7 +38,7 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
     {
-        Response.Verenigingen.Single(x => x.VCode == _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode)
-                .CorresponderendeVCodes.Should().Contain(_testContext.Scenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode);
+        Response.Verenigingen.Single(x => x.VCode == _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode)
+                .CorresponderendeVCodes.Should().Contain(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 }

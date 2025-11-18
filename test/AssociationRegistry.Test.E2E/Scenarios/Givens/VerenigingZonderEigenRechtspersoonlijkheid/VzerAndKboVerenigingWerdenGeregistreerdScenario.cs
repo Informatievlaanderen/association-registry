@@ -15,11 +15,10 @@ using Vereniging;
 
 public class VzerAndKboVerenigingWerdenGeregistreerdScenario : IScenario
 {
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens { get; set; }
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario = new();
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; set; }
 
     private CommandMetadata Metadata;
-    private VertegenwoordigerPersoonsgegevensDocument[] _vertegenwoordigerPersoonsgegevens;
 
     public VzerAndKboVerenigingWerdenGeregistreerdScenario()
     {
@@ -28,14 +27,6 @@ public class VzerAndKboVerenigingWerdenGeregistreerdScenario : IScenario
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
-
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens>() with
-        {
-            VCode = await service.GetNext(),
-        };
-        var (verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, persoonsgegevensDocuments) = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.MapDomainWithPersoonsgegevens();
-        _vertegenwoordigerPersoonsgegevens = persoonsgegevensDocuments
-                                            .ToArray();
 
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
@@ -47,13 +38,13 @@ public class VzerAndKboVerenigingWerdenGeregistreerdScenario : IScenario
 
         return
         [
-            new(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd]),
+            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd]),
             new(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingMetRechtspersoonlijkheidWerdGeregistreerd]),
         ];
     }
 
     public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
-        => _vertegenwoordigerPersoonsgegevens;
+        => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario.GivenVertegenwoordigerPersoonsgegevens();
 
     public StreamActionResult Result { get; set; } = null!;
 

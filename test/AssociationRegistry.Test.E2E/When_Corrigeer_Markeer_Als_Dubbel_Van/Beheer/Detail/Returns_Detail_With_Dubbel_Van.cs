@@ -19,7 +19,7 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<DetailVerenigingRespon
     }
 
     public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.Scenario.DubbeleVerenging.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
+        => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.Scenario.MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
 
     [Fact]
     public void With_IsDubbelVan_VCode_Of_AndereFeitelijkeVerenigingWerdGeregistreerd()

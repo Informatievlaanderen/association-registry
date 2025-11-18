@@ -43,8 +43,8 @@ public class Returns_Historiek: End2EndTest<HistoriekResponse>
         lidmaatschapWerdToegevoegd.ShouldCompare(HistoriekGebeurtenisMapper.LidmaatschapWerdGewijzigd(
                                                      _testContext.CommandRequest,
                                                      _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
-                                                     _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.VCode,
-                                                     _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam),
+                                                     _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+                                                     _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam),
                                                  compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

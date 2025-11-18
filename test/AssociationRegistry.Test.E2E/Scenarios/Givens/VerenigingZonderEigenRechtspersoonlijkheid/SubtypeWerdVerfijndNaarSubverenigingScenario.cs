@@ -27,7 +27,7 @@ public class SubtypeWerdVerfijndNaarSubverenigingScenario : IScenario
 
         VerenigingssubtypeWerdVerfijndNaarSubvereniging = fixture.Create<VerenigingssubtypeWerdVerfijndNaarSubvereniging>() with
         {
-            VCode = BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens.VCode,
+            VCode = BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
             SubverenigingVan = new Registratiedata.SubverenigingVan(fixture.Create<VCode>(), // because we want to change it to the VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                                                                     fixture.Create<string>(), // because we want to change it to the VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                                                                     fixture.Create<string>(), fixture.Create<string>())

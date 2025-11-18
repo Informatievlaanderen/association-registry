@@ -18,7 +18,7 @@ public class CorrigeerMarkeringAlsDubbelVanRequestFactory : ITestRequestFactory<
 
     public async Task<CommandResult<NullRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
-        var vCode = _scenario.DubbeleVerenging.VCode;
+        var vCode = _scenario.MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode;
 
        var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {

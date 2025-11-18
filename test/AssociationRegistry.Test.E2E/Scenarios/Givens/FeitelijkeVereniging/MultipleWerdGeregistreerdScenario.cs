@@ -13,43 +13,32 @@ using Framework.TestClasses;
 
 public class MultipleWerdGeregistreerdScenario : IScenario
 {
-    public FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens { get; set; }
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
-    public FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens { get; set; }
     public FeitelijkeVerenigingWerdGeregistreerd AndereFeitelijkeVerenigingWerdGeregistreerd { get; set; }
 
     private CommandMetadata Metadata;
-    private VertegenwoordigerPersoonsgegevensDocument[] _vertegenwoordigerPersoonsgegevens;
+    public readonly VertegenwoordigerPersoonsgegevensDocument[] VertegenwoordigerPersoonsgegevens;
+    public readonly VertegenwoordigerPersoonsgegevensDocument[] AndereVertegenwoordigerPersoonsgegevens;
 
     public MultipleWerdGeregistreerdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens = fixture.Create<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens>() with
-        {
-            VCode = fixture.Create<VCode>(),
-        };
-        AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens = fixture.Create<FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens>() with
-        {
-            VCode = fixture.Create<VCode>(),
-            Vertegenwoordigers = FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Vertegenwoordigers,
-        };
+        var geregistreerdeVerenigingMetPersoongegevens = EventMapper.CreateFeitelijkeGeregistreerdMetPersoonsgegevens();
+        var geregistreerdEvent = geregistreerdeVerenigingMetPersoongegevens.GeregistreerdEvent;
+        VertegenwoordigerPersoonsgegevens = geregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten;
+        FeitelijkeVerenigingWerdGeregistreerd = geregistreerdEvent;
 
-        var (feitelijkeVerenigingWerdGeregistreerd, persoonsgegevensDocuments) = FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.MapDomainWithPersoonsgegevens();
-        var (andereFeitelijkeVerenigingWerdGeregistreerd, andereVerenigingvertegenwoordigerPersoonsgegevensDocuments) = AndereFeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.MapDomainWithPersoonsgegevens();
-        FeitelijkeVerenigingWerdGeregistreerd = feitelijkeVerenigingWerdGeregistreerd;
-        AndereFeitelijkeVerenigingWerdGeregistreerd = andereFeitelijkeVerenigingWerdGeregistreerd;
-        _vertegenwoordigerPersoonsgegevens = persoonsgegevensDocuments
-                                            .Concat(andereVerenigingvertegenwoordigerPersoonsgegevensDocuments)
-                                            .ToArray();
+        var andereGeregistreerdeVerenigingMetPersoongegevens = EventMapper.CreateFeitelijkeGeregistreerdMetPersoonsgegevens(geregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten[0].Insz);
+        var andereGeregistreerdEvent = andereGeregistreerdeVerenigingMetPersoongegevens.GeregistreerdEvent;
+        AndereVertegenwoordigerPersoonsgegevens = andereGeregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten;
+        AndereFeitelijkeVerenigingWerdGeregistreerd = andereGeregistreerdEvent;
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
-
-
         return
         [
             new(FeitelijkeVerenigingWerdGeregistreerd.VCode, [FeitelijkeVerenigingWerdGeregistreerd, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(FeitelijkeVerenigingWerdGeregistreerd.VCode)]),
@@ -58,7 +47,7 @@ public class MultipleWerdGeregistreerdScenario : IScenario
     }
 
     public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
-        => _vertegenwoordigerPersoonsgegevens;
+        => VertegenwoordigerPersoonsgegevens.Concat(AndereVertegenwoordigerPersoonsgegevens).ToArray();
 
     public StreamActionResult Result { get; set; } = null!;
 

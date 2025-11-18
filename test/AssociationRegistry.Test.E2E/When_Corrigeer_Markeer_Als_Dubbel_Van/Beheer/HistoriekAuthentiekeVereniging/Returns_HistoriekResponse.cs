@@ -25,7 +25,7 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<HistoriekResponse>
 
     public override async Task<HistoriekResponse> GetResponse(FullBlownApiSetup setup)
         => await setup.AdminApiHost.GetBeheerHistoriek(
-            setup.AdminHttpClient ,_testContext.Scenario.AuthentiekeVereniging.VCode,
+            setup.AdminHttpClient ,_testContext.Scenario.MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
             headers: new RequestParameters().WithExpectedSequence(_testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence));
 
 
@@ -49,7 +49,7 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<HistoriekResponse>
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
 
-        Response.VCode.ShouldCompare(_testContext.Scenario.AuthentiekeVereniging.VCode);
+        Response.VCode.ShouldCompare(_testContext.Scenario.MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
     [Fact]

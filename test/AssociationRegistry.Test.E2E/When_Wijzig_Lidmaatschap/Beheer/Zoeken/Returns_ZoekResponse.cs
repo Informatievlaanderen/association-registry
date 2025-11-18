@@ -50,25 +50,25 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             {
                 type = JsonLdType.Doelgroep.Type,
                 id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
-                Minimumleeftijd = _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Doelgroep.Minimumleeftijd,
-                Maximumleeftijd = _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Doelgroep.Maximumleeftijd,
+                Minimumleeftijd = _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.Doelgroep.Minimumleeftijd,
+                Maximumleeftijd = _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd,
             },
             VCode = _testContext.VCode,
-            KorteNaam = _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.KorteNaam,
+            KorteNaam = _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Naam,
-            Startdatum = _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Startdatum.FormatAsBelgianDate(),
+            Naam = _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
+            Startdatum = _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.Startdatum.FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
             HoofdactiviteitenVerenigingsloket =
                 BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(
-                    _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.HoofdactiviteitenVerenigingsloket),
+                    _testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = [],
-            Locaties = BeheerZoekResponseMapper.MapLocaties(_testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeristreerdMetPersoonsgegevens.Locaties, _testContext.VCode),
+            Locaties = BeheerZoekResponseMapper.MapLocaties(_testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
             Sleutels = BeheerZoekResponseMapper.MapSleutels(_testContext.VCode),
             Lidmaatschappen = BeheerZoekResponseMapper.MapLidmaatschappen(_testContext.CommandRequest, _testContext.VCode,
                                                                           _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap
