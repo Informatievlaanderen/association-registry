@@ -38,6 +38,23 @@ public static class EventUpcaster
                         : null);
             });
 
+        opts.Events.Upcast<VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens, VertegenwoordigerWerdToegevoegdVanuitKBO>(
+            async (vertegenwoordigerWerdToegevoegdVanuitKboZonderPersoonsgegevens, ct) =>
+            {
+                await using var session = querySessionFunc();
+
+                var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
+                                                                     .Where(x => x.RefId == vertegenwoordigerWerdToegevoegdVanuitKboZonderPersoonsgegevens.RefId)
+                                                                     .SingleOrDefaultAsync(ct);
+
+                return new VertegenwoordigerWerdToegevoegdVanuitKBO(
+                    VertegenwoordigerId: vertegenwoordigerWerdToegevoegdVanuitKboZonderPersoonsgegevens.VertegenwoordigerId,
+                    vertegenwoordigerPersoonsgegevens.Insz,
+                    vertegenwoordigerPersoonsgegevens.Voornaam,
+                    vertegenwoordigerPersoonsgegevens.Achternaam
+                );
+            });
+
         opts.Events.Upcast<VertegenwoordigerWerdGewijzigd, VertegenwoordigerWerdGewijzigdMetPersoonsgegevens>(
             async (vertegenwoordigerWerdToegevoegd, ct) =>
             {

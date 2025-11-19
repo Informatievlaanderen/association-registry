@@ -27,7 +27,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IVere
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VCode = fixture.Create<VCode>();
+        VCode = await service.GetNext();
 
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
             VCode,
@@ -38,10 +38,12 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IVere
             Startdatum: DateOnly.FromDateTime(DateTime.Now)
         );
 
+        var vertegenwoordiger = fixture.Create<VertegenwoordigerWerdToegevoegdVanuitKBO>();
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
         return [
-            new(VCode, [VerenigingMetRechtspersoonlijkheidWerdGeregistreerd])
+            new(VCode, [VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, vertegenwoordiger])
         ];
     }
 

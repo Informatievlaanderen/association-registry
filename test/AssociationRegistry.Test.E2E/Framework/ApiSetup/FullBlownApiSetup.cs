@@ -2,11 +2,13 @@
 
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
+using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using Admin.ProjectionHost.Projections;
 using Alba;
 using AlbaHost;
 using Amazon.SQS;
 using AssociationRegistry.Framework;
+using CommandHandling.Persoonsgegevens;
 using Common.Clients;
 using Common.Database;
 using Common.Framework;
@@ -15,7 +17,6 @@ using Grar.NutsLau;
 using Hosts.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using JasperFx.CommandLine;
-using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
@@ -25,16 +26,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
+using Events;
 using NodaTime;
 using NodaTime.Text;
 using Npgsql;
 using Oakton;
+using Persoonsgegevens;
 using Scenarios.Givens.FeitelijkeVereniging;
 using System.Diagnostics;
 using TestClasses;
 using Vereniging;
 using Wolverine;
 using Xunit;
+using IEvent = JasperFx.Events.IEvent;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
@@ -272,8 +276,28 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         if (givenEvents.Length == 0)
             return [];
 
+        var vertegenwoordigerPersoonsgegevensRepository = new VertegenwoordigerPersoonsgegevensRepository(
+            session, new VertegenwoordigerPersoonsgegevensService(new VertegenwoordigerPersoonsgegevensQuery(session)));
+
         foreach (var eventsPerStream in givenEvents)
         {
+            for (int i = 0; i < eventsPerStream.Value.Length; i++)
+            {
+                if (eventsPerStream.Value[i] is VertegenwoordigerWerdToegevoegdVanuitKBO oldEvent)
+                {
+                    var refId = Guid.NewGuid();
+                    eventsPerStream.Value[i] = new VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens(
+                        refId,
+                        oldEvent.VertegenwoordigerId
+                    );
+
+                    var vertegenwoordigerPersoonsgegevens = new VertegenwoordigerPersoonsgegevens(refId, VCode.Hydrate(eventsPerStream.Key), oldEvent.VertegenwoordigerId, Insz.Hydrate(oldEvent.Insz), null, null, oldEvent.Voornaam, oldEvent.Achternaam, null, null, null, null);
+
+
+                    await vertegenwoordigerPersoonsgegevensRepository.Save(vertegenwoordigerPersoonsgegevens);
+                }
+            }
+
             var streamAction = session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
             if(!executedEvents.ContainsKey(streamAction.Key))
             {

@@ -40,6 +40,7 @@ public class EventStore : IEventStore
         CancellationToken cancellationToken = default,
         params IEvent[] events)
     {
+
         return await Save(aggregateId, aggregateVersion, _session, metadata, cancellationToken, events);
     }
 
@@ -75,6 +76,22 @@ public class EventStore : IEventStore
     {
         try
         {
+
+            for (int i = 0; i < events.Length; i++)
+            {
+                if (events[i] is VertegenwoordigerWerdToegevoegdVanuitKBO oldEvent)
+                {
+                    var refId = Guid.NewGuid();
+                    events[i] = new VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens(
+                        refId,
+                        oldEvent.VertegenwoordigerId
+                    );
+
+                    var vertegenwoordigerPersoonsgegevens = new VertegenwoordigerPersoonsgegevens(refId, VCode.Hydrate(aggregateId), oldEvent.VertegenwoordigerId, Insz.Hydrate(oldEvent.Insz), null, null, oldEvent.Voornaam, oldEvent.Achternaam, null, null, null, null);
+                    await _vertegenwoordigerPersoonsgegevensRepository.Save(vertegenwoordigerPersoonsgegevens);
+                }
+            }
+
             SetHeaders(metadata, session);
 
             TryLockForKboNumber(aggregateId, session, events.FirstOrDefault());

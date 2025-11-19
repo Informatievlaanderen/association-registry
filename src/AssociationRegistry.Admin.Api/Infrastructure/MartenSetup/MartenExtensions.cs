@@ -3,6 +3,7 @@
 using AssociationRegistry.MartenDb;
 using AssociationRegistry.MartenDb.Logging;
 using AssociationRegistry.MartenDb.Setup;
+using Events;
 using global::Wolverine.Marten;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
@@ -39,6 +40,14 @@ public static class MartenExtensions
                                              .SetUpOpenTelemetry(isDevelopment)
                                              .RegisterAllEventTypes()
                                              .RegisterAdminDocumentTypes();
+
+                                          opts.Events
+                                              .Upcast<VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens,
+                                                   VertegenwoordigerWerdToegevoegdVanuitKBO>(
+                                                   persoonsgegevens =>
+                                                   {
+                                                       return new VertegenwoordigerWerdToegevoegdVanuitKBO(1, "123456789", "f", "f");
+                                                   });
 
                                           if(!postgreSqlOptions.IncludeErrorDetail)
                                             opts.Logger(new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>()));
