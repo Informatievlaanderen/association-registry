@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using Amazon.SQS;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Security;
+using AssociationRegistry.Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using EventStore;
 using AssociationRegistry.Framework;
@@ -204,8 +205,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         await using var session = DocumentStore.LightweightSession();
-        var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
-        var result = await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), session, metadata, CancellationToken.None, eventsToAdd);
+        var eventStore = new EventStore(session, EventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),NullLogger<EventStore>.Instance);
+        var result = await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), metadata, CancellationToken.None, eventsToAdd);
 
         return result;
     }

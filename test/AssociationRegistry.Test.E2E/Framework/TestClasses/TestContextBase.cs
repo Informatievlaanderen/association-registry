@@ -43,16 +43,17 @@ where TScenario : IScenario
 
         Scenario = InitializeScenario();
         await using var lightweightSession = ApiSetup.AdminApiHost.DocumentStore().LightweightSession();
-        var executedEvents = await ApiSetup.ExecuteGiven(Scenario, lightweightSession);
+        var sequence = await ApiSetup.ExecuteGiven(Scenario, lightweightSession);
 
         ApiSetup.Logger.LogWarning($"WAITING FOR EVENTS TO BE PROCESSED: {Scenario}");
 
-        if (executedEvents.Count != 0)
+        if (sequence != 0)
         {
-            MaxSequenceByScenario = executedEvents.SelectMany(x => x.Value).Max(x => x.Sequence);
+            //MaxSequenceByScenario = sequence.SelectMany(x => x.Value).Max(x => x.c);
 
-            await WaitBeforeCommands(ApiSetup, MaxSequenceByScenario.Value, ApiSetup.AdminProjectionHost, "BEFORE", lightweightSession);
-            await WaitBeforeCommands(ApiSetup, MaxSequenceByScenario.Value, ApiSetup.PublicProjectionHost, "BEFORE", lightweightSession);
+            MaxSequenceByScenario = sequence;
+            await WaitBeforeCommands(ApiSetup, sequence, ApiSetup.AdminProjectionHost, "BEFORE", lightweightSession);
+            await WaitBeforeCommands(ApiSetup, sequence, ApiSetup.PublicProjectionHost, "BEFORE", lightweightSession);
         }
 
 

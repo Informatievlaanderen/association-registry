@@ -1,5 +1,6 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Services;
 
+using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using Amazon.Lambda.Core;
 using Amazon.SimpleSystemsManagement;
 using AssociationRegistry.EventStore;
@@ -183,8 +184,9 @@ public class ServiceFactory
             Array.Empty<IEventPreConflictResolutionStrategy>(),
             Array.Empty<IEventPostConflictResolutionStrategy>());
 
+        var session = store.LightweightSession();
         return new VerenigingsRepository(
-            new EventStore(store, eventConflictResolver, loggerFactory.CreateLogger<EventStore>()));
+            new EventStore(session, eventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), loggerFactory.CreateLogger<EventStore>()));
     }
 
     private static MagdaRegistreerInschrijvingService CreateRegistreerInschrijvingService(MagdaOptionsSection magdaOptions, ILoggerFactory loggerFactory, MagdaCallReferenceRepository referenceRepository)

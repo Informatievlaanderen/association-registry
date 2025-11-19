@@ -12,6 +12,7 @@
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always"/>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AssociationRegistry.Admin.MartenDb\AssociationRegistry.Admin.MartenDb.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Test.Common\AssociationRegistry.Test.Common.csproj"/>
   </ItemGroup>
   <ItemGroup>

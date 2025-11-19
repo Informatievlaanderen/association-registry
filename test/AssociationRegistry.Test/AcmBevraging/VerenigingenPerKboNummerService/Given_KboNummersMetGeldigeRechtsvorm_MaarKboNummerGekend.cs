@@ -12,6 +12,8 @@ using Integrations.Magda.Constants;
 using Integrations.Magda.Services;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
+using Persoonsgegevens;
 using Xunit;
 
 public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend
@@ -24,9 +26,10 @@ public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend
         var kboNummer = fixture.Create<KboNummer>();
 
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend));
-        var eventStore = new EventStore(store, new EventConflictResolver([], []), NullLogger<EventStore>.Instance);
-
         await using var session = store.LightweightSession();
+
+        var eventStore = new EventStore(session, new EventConflictResolver([], []), Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
+
         var vCode = fixture.Create<VCode>().Value;
 
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with

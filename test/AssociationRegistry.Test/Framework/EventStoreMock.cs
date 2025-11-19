@@ -4,7 +4,6 @@ using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using DecentraalBeheer.Vereniging;
 using Events;
-using Marten;
 using MartenDb.Store;
 using Vereniging;
 
@@ -21,22 +20,9 @@ public class EventStoreMock : IEventStore
 
     public readonly List<SaveInvocation> SaveInvocations = new();
 
-    public Task<StreamActionResult> Save(
-        string aggregateId,
-        long aggregateVersion,
-        CommandMetadata metadata,
-        CancellationToken cancellationToken = default,
-        params IEvent[] events)
-    {
-        SaveInvocations.Add(new SaveInvocation(aggregateId, events));
-
-        return Task.FromResult(new StreamActionResult(Sequence: -1, Version: -1));
-    }
-
     public async Task<StreamActionResult> Save(
         string aggregateId,
         long aggregateVersion,
-        IDocumentSession session,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
         params IEvent[] events)
@@ -66,7 +52,6 @@ public class EventStoreMock : IEventStore
 
     public async Task<StreamActionResult> SaveNew(
         string aggregateId,
-        IDocumentSession session,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
         IEvent[] events)

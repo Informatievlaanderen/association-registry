@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
+using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using AssociationRegistry.Acm.Api;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
@@ -19,9 +20,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using NodaTime;
 using Npgsql;
 using Oakton;
+using Persoonsgegevens;
 using Polly;
 using System.Reflection;
 using Vereniging;
@@ -158,13 +161,13 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
             throw new NullReferenceException("Projection daemon cannot be null when adding an event");
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
-
-        var eventStore = new EventStore(DocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
-        var result = StreamActionResult.Empty;
-
         await using var session = DocumentStore.LightweightSession();
 
-        await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), session, metadata, CancellationToken.None, eventsToAdd);
+        var eventStore = new EventStore(session, EventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<EventStore>.Instance);
+        var result = StreamActionResult.Empty;
+
+
+        await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), metadata, CancellationToken.None, eventsToAdd);
 
         var retry = Policy
                    .Handle<Exception>()

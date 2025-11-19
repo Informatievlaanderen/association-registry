@@ -2,27 +2,24 @@
 
 using Amazon.Runtime;
 using Amazon.SQS;
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.MartenDb.Setup;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using CommandHandling.DecentraalBeheer.Middleware;
 using CommandHandling.Grar.GrarConsumer.Messaging;
-using CommandHandling.KboSyncLambda;
 using Contracts.KboSync;
 using DecentraalBeheer.Vereniging;
+using EventStore;
+using Framework;
 using global::Wolverine;
 using global::Wolverine.AmazonSqs;
 using global::Wolverine.ErrorHandling;
 using global::Wolverine.Postgresql;
+using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using Integrations.Grar.Clients;
-using JasperFx;
 using JasperFx.CodeGeneration;
-using MartenDb.Setup;
 using Serilog;
 
 public static class WolverineExtensions

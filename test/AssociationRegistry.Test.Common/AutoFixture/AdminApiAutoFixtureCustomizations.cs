@@ -8,6 +8,7 @@ using Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.
 using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegVertegenwoordigerToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.WijzigVertegenwoordiger.RequestModels;
 using Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Admin.Schema;
@@ -47,6 +48,8 @@ public static class AdminApiAutoFixtureCustomizations
         fixture.CustomizeToeTeVoegenVertegenwoordiger();
 
         fixture.CustomizeWijzigVertegenwoordigerRequest();
+        fixture.CustomizeTeWijzigenVertegenwoordiger();
+        fixture.CustomizeVoegVertegenwoordigerToeRequest();
         fixture.CustomizeWijzigLocatieRequest();
 
         fixture.CustomizeVoegLidmaatschapToeRequest();
@@ -281,6 +284,23 @@ public static class AdminApiAutoFixtureCustomizations
                                                         .OmitAutoProperties());
     }
 
+    private static void CustomizeTeWijzigenVertegenwoordiger(this IFixture fixture)
+    {
+        fixture.Customize<TeWijzigenVertegenwoordiger>(
+            composerTransformation: composer => composer.FromFactory(
+                                                             factory: () => new TeWijzigenVertegenwoordiger()
+                                                             {
+                                                                 Roepnaam = fixture.Create<string>(),
+                                                                 Rol = fixture.Create<string>(),
+                                                                 IsPrimair = false,
+                                                                 Email = fixture.Create<Email>().Waarde,
+                                                                 Telefoon = fixture.Create<TelefoonNummer>().Waarde,
+                                                                 Mobiel = fixture.Create<TelefoonNummer>().Waarde,
+                                                                 SocialMedia = fixture.Create<SocialMedia>().Waarde,
+                                                             })
+                                                        .OmitAutoProperties());
+    }
+
     private static void CustomizeToeTeVoegenLocatie(this IFixture fixture)
     {
         fixture.Customize<ToeTeVoegenLocatie>(
@@ -334,6 +354,29 @@ public static class AdminApiAutoFixtureCustomizations
                                                              {
                                                                  Vertegenwoordiger = new TeWijzigenVertegenwoordiger
                                                                  {
+                                                                     Email = fixture.Create<Email>().Waarde,
+                                                                     Telefoon = fixture.Create<TelefoonNummer>().Waarde,
+                                                                     Mobiel = fixture.Create<TelefoonNummer>().Waarde,
+                                                                     SocialMedia = fixture.Create<SocialMedia>().Waarde,
+                                                                     Rol = fixture.Create<string>(),
+                                                                     Roepnaam = fixture.Create<string>(),
+                                                                     IsPrimair = false,
+                                                                 },
+                                                             })
+                                                        .OmitAutoProperties());
+    }
+
+    private static void CustomizeVoegVertegenwoordigerToeRequest(this IFixture fixture)
+    {
+        fixture.Customize<VoegVertegenwoordigerToeRequest>(
+            composerTransformation: composer => composer.FromFactory(
+                                                             factory: () => new VoegVertegenwoordigerToeRequest
+                                                             {
+                                                                 Vertegenwoordiger = new ToeTeVoegenVertegenwoordiger()
+                                                                 {
+                                                                     Insz = fixture.Create<Insz>(),
+                                                                     Achternaam = fixture.Create<Achternaam>(),
+                                                                     Voornaam = fixture.Create<Voornaam>(),
                                                                      Email = fixture.Create<Email>().Waarde,
                                                                      Telefoon = fixture.Create<TelefoonNummer>().Waarde,
                                                                      Mobiel = fixture.Create<TelefoonNummer>().Waarde,

@@ -5,6 +5,7 @@ using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using Marten;
 using TestClasses;
+using IEvent = Events.IEvent;
 
 public interface IApiSetup
 {
@@ -19,6 +20,6 @@ public interface IApiSetup
 
     public IProjectionDaemon AdminProjectionDaemon { get; }
 
-    Task<Dictionary<string, IEvent[]>> ExecuteGiven(IScenario scenario, IDocumentSession session);
+    Task<long> ExecuteGiven(IScenario scenario, IDocumentSession session);
     Task RefreshIndices();
 }
