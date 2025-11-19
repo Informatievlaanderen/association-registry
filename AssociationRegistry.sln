@@ -213,7 +213,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Contrac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.CommandHandling", "src\AssociationRegistry.CommandHandling\AssociationRegistry.CommandHandling.csproj", "{1BEFE15D-E836-49E7-860E-3490811842D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Integrations.Slack", "AssociationRegistry.Integrations.Slack\AssociationRegistry.Integrations.Slack.csproj", "{282596DA-A818-4908-9F09-2DA5BA22CFB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Integrations.Slack", "src\AssociationRegistry.Integrations.Slack\AssociationRegistry.Integrations.Slack.csproj", "{282596DA-A818-4908-9F09-2DA5BA22CFB1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Admin.Api.MigrationsGenerator", "src\AssociationRegistry.Admin.Api.MigrationsGenerator\AssociationRegistry.Admin.Api.MigrationsGenerator.csproj", "{5D53B4F9-1BC4-4B8D-ABA8-89CC4316EAED}"
 EndProject
