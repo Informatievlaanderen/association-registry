@@ -34,7 +34,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     {
         _testOutputHelper.WriteLine(_testContext.CommandResult.Sequence + ": expected sequence");
         _testOutputHelper.WriteLine(_testContext.VCode);
-        return await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:*",
+        return await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}",
                                                         setup.AdminApiHost.DocumentStore(),
                                                         headers: new RequestParameters().WithExpectedSequence(
                                                             _testContext.CommandResult.Sequence), testOutputHelper: _testOutputHelper);

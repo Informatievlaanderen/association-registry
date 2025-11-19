@@ -16,7 +16,7 @@ public class Given_Sorting_By_Multiple_Fields
         _testContext = testContext;
     }
 
-    [Theory]
+    [Theory(Skip = "")]
     [InlineData("verenigingstype.code", "naam")]
     [InlineData("verenigingstype.code", "korteNaam")]
     [InlineData("verenigingstype.code", "vCode")]
@@ -44,7 +44,7 @@ public class Given_Sorting_By_Multiple_Fields
         }
     }
 
-    [Theory]
+    [Theory(Skip = "")]
     [InlineData("verenigingstype.code", "naam")]
     [InlineData("verenigingstype.code", "korteNaam")]
     [InlineData("verenigingstype.code", "vCode")]

@@ -27,10 +27,10 @@ public class VzerAndKboVerenigingWerdenGeregistreerdScenario : IScenario
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
-
+        await VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario.GivenEvents(service);
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
-            VCode = await service.GetNext(),
+            VCode = fixture.Create<VCode>(),
             Naam = "Vereniging met rechtspersoonlijkheid",
         };
 

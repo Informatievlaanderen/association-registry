@@ -26,7 +26,7 @@ public class VertegenwoordigerWerdToegevoegdScenario : IScenario
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
-
+        await BaseScenario.GivenEvents(service);
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
         var refId = fixture.Create<Guid>();
 

@@ -35,8 +35,10 @@ public class SubtypeWerdVerfijndNaarSubverenigingScenario : IScenario
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
-        return givenEvents.Append(new KeyValuePair<string, IEvent[]>(VerenigingssubtypeWerdVerfijndNaarSubvereniging.VCode, [VerenigingssubtypeWerdVerfijndNaarSubvereniging]))
-                          .ToArray();
+        return [
+            new(BaseScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode, [BaseScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd]),
+            new(BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarSubvereniging]),
+        ];
     }
 
     public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()

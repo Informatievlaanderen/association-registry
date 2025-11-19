@@ -27,7 +27,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IVere
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VCode = await service.GetNext();
+        VCode = fixture.Create<VCode>();
 
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
             VCode,

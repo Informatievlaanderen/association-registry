@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
 
 using Admin.Api.Infrastructure;
+using Admin.Api.WebApi.Verenigingen;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using Alba;
@@ -30,7 +31,7 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
 
         var request = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest
         {
-            Naam = "Een unieke naam",
+            Naam = "Andere VZER",
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
@@ -127,8 +128,14 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
             //Werkingsgebieden = ["BE25", "BE25535002"],
         };
 
+        var bevestigingsTokenHelper = new BevestigingsTokenHelper(apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>());
+
+        var hashForAllowingDuplicate = bevestigingsTokenHelper.Calculate(request);
+
         var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
+            s.WithRequestHeader(WellknownHeaderNames.BevestigingsToken, hashForAllowingDuplicate);
+
             s.Post
              .Json(request, JsonStyle.Mvc)
              .ToUrl("/v1/verenigingen/vzer");

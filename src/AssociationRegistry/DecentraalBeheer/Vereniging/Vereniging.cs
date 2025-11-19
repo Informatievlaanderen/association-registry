@@ -39,7 +39,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         };
 
         var vertegenwoordigers = await CreateVertegenwooridgers(vertegenwoordigerPersoonsgegevensRepository, toegevoegdeVertegenwoordigers, vCode);
-
         vereniging.AddEvent(
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,

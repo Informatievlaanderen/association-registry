@@ -18,15 +18,23 @@ public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : IScenario
 
     public SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario()
     {
-        VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging = new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
-            VCode: BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
+
     }
 
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
-        =>
+    {
+        await BaseScenario.GivenEvents(service);
+        VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging = new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
+            VCode: BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
+        return
         [
-            new(BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging]),
+            new(BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+            [
+                BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+                VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging
+            ]),
         ];
+    }
 
     public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()
         => BaseScenario.GivenVertegenwoordigerPersoonsgegevens();

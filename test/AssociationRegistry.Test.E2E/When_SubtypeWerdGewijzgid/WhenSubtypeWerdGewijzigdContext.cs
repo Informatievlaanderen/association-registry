@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.When_SubtypeWerdGewijzgid;
 
 using Admin.Api.WebApi.Verenigingen.Subtype.RequestModels;
+using DecentraalBeheer.Vereniging;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
@@ -17,6 +18,7 @@ public class WhenSubtypeWerdGewijzigdCollection : ICollectionFixture<WhenSubtype
 }
 public class WhenSubtypeWerdGewijzigdContext : TestContextBase<SubtypeWerdVerfijndNaarSubverenigingScenario, WijzigSubtypeRequest>
 {
+
     protected override SubtypeWerdVerfijndNaarSubverenigingScenario InitializeScenario()
         => new();
 

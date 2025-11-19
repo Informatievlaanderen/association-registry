@@ -27,12 +27,14 @@ public static class EventMapper
     /// mapt die naar FeitelijkeVerenigingWerdGeregistreerd + documenten,
     /// en geeft dat alles terug als een GeregistreerdeVereniging.
     /// </summary>
-    public static GeregistreerdeVerenigingMetPersoonsgegevens<FeitelijkeVerenigingWerdGeregistreerd>
-        CreateFeitelijkeGeregistreerdMetPersoonsgegevens(string? insz = null)
+    public static async Task<GeregistreerdeVerenigingMetPersoonsgegevens<FeitelijkeVerenigingWerdGeregistreerd>> CreateFeitelijkeGeregistreerdMetPersoonsgegevens(IVCodeService service, string? insz = null)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var metPersoonsgegevens = fixture.Create<FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens>();
+        var metPersoonsgegevens = fixture.Create<FeitelijkeVerenigingWerdGeregistreerdMetPersoonsgegevens>() with
+        {
+            VCode = await service.GetNext(),
+        };
 
         return metPersoonsgegevens.ToGeregistreerdeVereniging(insz);
     }
@@ -42,12 +44,14 @@ public static class EventMapper
     /// mapt die naar VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd + documenten,
     /// en geeft dat alles terug als een GeregistreerdeVereniging.
     /// </summary>
-    public static GeregistreerdeVerenigingMetPersoonsgegevens<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>
-        CreateVzerGeregistreerdMetPersoonsgegevens(string? insz = null)
+    public static async Task<GeregistreerdeVerenigingMetPersoonsgegevens<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>> CreateVzerGeregistreerdMetPersoonsgegevens(IVCodeService service, string? insz = null)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var metPersoonsgegevens = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens>();
+        var metPersoonsgegevens = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdMetPersoonsgegevens>() with
+        {
+            VCode = await service.GetNext(),
+        };
 
         return metPersoonsgegevens.ToGeregistreerdeVereniging(insz);
     }

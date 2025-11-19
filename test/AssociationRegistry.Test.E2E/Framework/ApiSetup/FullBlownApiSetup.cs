@@ -80,7 +80,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         var elasticSearchOptions = AdminApiHost.Server.Services.GetRequiredService<IConfiguration>().GetElasticSearchOptionsSection();
         ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
-        await ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.DuplicateDetection);
+        await ElasticClient.Indices.DeleteAsync(Indices.All);
 
         await InsertNutsLauInfo();
 

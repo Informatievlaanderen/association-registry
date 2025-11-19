@@ -17,28 +17,28 @@ public class MultipleWerdGeregistreerdScenario : IScenario
     public FeitelijkeVerenigingWerdGeregistreerd AndereFeitelijkeVerenigingWerdGeregistreerd { get; set; }
 
     private CommandMetadata Metadata;
-    public readonly VertegenwoordigerPersoonsgegevensDocument[] VertegenwoordigerPersoonsgegevens;
-    public readonly VertegenwoordigerPersoonsgegevensDocument[] AndereVertegenwoordigerPersoonsgegevens;
+    public VertegenwoordigerPersoonsgegevensDocument[] VertegenwoordigerPersoonsgegevens;
+    public VertegenwoordigerPersoonsgegevensDocument[] AndereVertegenwoordigerPersoonsgegevens;
 
     public MultipleWerdGeregistreerdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-
-        var geregistreerdeVerenigingMetPersoongegevens = EventMapper.CreateFeitelijkeGeregistreerdMetPersoonsgegevens();
-        var geregistreerdEvent = geregistreerdeVerenigingMetPersoongegevens.GeregistreerdEvent;
-        VertegenwoordigerPersoonsgegevens = geregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten;
-        FeitelijkeVerenigingWerdGeregistreerd = geregistreerdEvent;
-
-        var andereGeregistreerdeVerenigingMetPersoongegevens = EventMapper.CreateFeitelijkeGeregistreerdMetPersoonsgegevens(geregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten[0].Insz);
-        var andereGeregistreerdEvent = andereGeregistreerdeVerenigingMetPersoongegevens.GeregistreerdEvent;
-        AndereVertegenwoordigerPersoonsgegevens = andereGeregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten;
-        AndereFeitelijkeVerenigingWerdGeregistreerd = andereGeregistreerdEvent;
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
+        var geregistreerdeVerenigingMetPersoongegevens = await EventMapper.CreateFeitelijkeGeregistreerdMetPersoonsgegevens(service);
+        var geregistreerdEvent = geregistreerdeVerenigingMetPersoongegevens.GeregistreerdEvent;
+        VertegenwoordigerPersoonsgegevens = geregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten;
+        FeitelijkeVerenigingWerdGeregistreerd = geregistreerdEvent;
+
+        var andereGeregistreerdeVerenigingMetPersoongegevens = await EventMapper.CreateFeitelijkeGeregistreerdMetPersoonsgegevens(service, geregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten[0].Insz);
+        var andereGeregistreerdEvent = andereGeregistreerdeVerenigingMetPersoongegevens.GeregistreerdEvent;
+        AndereVertegenwoordigerPersoonsgegevens = andereGeregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten;
+        AndereFeitelijkeVerenigingWerdGeregistreerd = andereGeregistreerdEvent;
+
         return
         [
             new(FeitelijkeVerenigingWerdGeregistreerd.VCode, [FeitelijkeVerenigingWerdGeregistreerd, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(FeitelijkeVerenigingWerdGeregistreerd.VCode)]),

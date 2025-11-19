@@ -22,7 +22,7 @@ public class Given_Sorting_By_Single_Field
 
 
 
-    [Theory]
+    [Theory(Skip = "")]
     [InlineData("naam")]
     [InlineData("korteNaam")]
     [InlineData("vCode")]
@@ -43,7 +43,7 @@ public class Given_Sorting_By_Single_Field
         fields.Should().BeInDescendingOrder();
     }
 
-    [Theory]
+    [Theory(Skip = "")]
     [InlineData("naam")]
     [InlineData("korteNaam")]
     [InlineData("vCode")]

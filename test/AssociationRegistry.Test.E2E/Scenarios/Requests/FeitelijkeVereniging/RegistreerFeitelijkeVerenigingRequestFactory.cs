@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
 using Alba;
 using Admin.Api.Infrastructure;
+using Admin.Api.WebApi.Verenigingen;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Hosts.Configuration.ConfigurationBindings;
@@ -129,8 +130,14 @@ public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<
             Werkingsgebieden = ["BE25", "BE25535002"],
         };
 
+        var bevestigingsTokenHelper = new BevestigingsTokenHelper(apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>());
+
+        var hashForAllowingDuplicate = bevestigingsTokenHelper.Calculate(request);
+
         var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
+            s.WithRequestHeader(WellknownHeaderNames.BevestigingsToken, hashForAllowingDuplicate);
+
             s.Post
              .Json(request, JsonStyle.Mvc)
              .ToUrl("/v1/verenigingen/feitelijkeverenigingen");

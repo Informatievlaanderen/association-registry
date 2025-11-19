@@ -64,6 +64,8 @@ public record VerenigingState : IHasVersion
     public long Version { get; set; }
     public GeotagsCollection Geotags { get; set; } = GeotagsCollection.Null;
 
+    //public VerenigingState Apply(Zondergg @event)
+    // getDoc -> merge
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
     {
         var refIds = @event.Vertegenwoordigers.Select(x => x.RefId).ToArray();

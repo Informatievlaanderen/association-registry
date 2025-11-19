@@ -18,7 +18,7 @@ public class WijzigLidmaatschapCollection : ICollectionFixture<WijzigLidmaatscha
 public class WijzigLidmaatschapContext : TestContextBase<LidmaatschapWerdToegevoegdScenario, WijzigLidmaatschapRequest>
 {
     protected override LidmaatschapWerdToegevoegdScenario InitializeScenario()
-        => new(new MultipleWerdGeregistreerdScenario());
+        => new();
 
     public WijzigLidmaatschapContext(FullBlownApiSetup apiSetup): base(apiSetup)
     {

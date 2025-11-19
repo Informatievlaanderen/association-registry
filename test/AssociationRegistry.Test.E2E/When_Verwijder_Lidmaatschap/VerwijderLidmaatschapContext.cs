@@ -10,7 +10,7 @@ using Xunit;
 public class VerwijderLidmaatschapContext : TestContextBase<LidmaatschapWerdToegevoegdScenario, NullRequest>
 {
     protected override LidmaatschapWerdToegevoegdScenario InitializeScenario()
-        => new(new MultipleWerdGeregistreerdScenario());
+        => new();
     public VerwijderLidmaatschapContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
     }

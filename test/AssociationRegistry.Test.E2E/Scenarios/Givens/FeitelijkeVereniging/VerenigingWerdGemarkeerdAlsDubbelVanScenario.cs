@@ -25,7 +25,7 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : Framework.TestClasse
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
-
+        await MultipleWerdGeregistreerdScenario.GivenEvents(service);
         VerenigingWerdGemarkeerdAlsDubbelVan = fixture.Create<VerenigingWerdGemarkeerdAlsDubbelVan>() with
         {
             VCode = MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
@@ -37,7 +37,6 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : Framework.TestClasse
             VCode = MultipleWerdGeregistreerdScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
             VCodeDubbeleVereniging = MultipleWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
         };
-
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 

@@ -16,12 +16,17 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario
         set;
     }
     private CommandMetadata Metadata;
-    public readonly VertegenwoordigerPersoonsgegevensDocument[] VertegenwoordigerPersoonsgegevens;
+    public VertegenwoordigerPersoonsgegevensDocument[] VertegenwoordigerPersoonsgegevens;
 
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario()
     {
+
+    }
+
+    public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
+    {
         var fixture = new Fixture().CustomizeAdminApi();
-        var geregistreerdeVerenigingMetPersoongegevens = EventMapper.CreateVzerGeregistreerdMetPersoonsgegevens();
+        var geregistreerdeVerenigingMetPersoongegevens = await EventMapper.CreateVzerGeregistreerdMetPersoonsgegevens(service);
         var geregistreerdEvent = geregistreerdeVerenigingMetPersoongegevens.GeregistreerdEvent;
         var vertegenwoordigerPersoonsgegevensDocuments = geregistreerdeVerenigingMetPersoongegevens.PersoonsgegevensDocumenten;
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = geregistreerdEvent;
@@ -29,13 +34,12 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario
            .ToArray();
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
-    }
-
-    public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
-        =>
+        return
         [
-            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd]),
+            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd]),
         ];
+    }
 
     public StreamActionResult Result { get; set; } = null!;
 

@@ -11,20 +11,19 @@ using MartenDb.Store;
 
 public class LidmaatschapWerdToegevoegdScenario : Framework.TestClasses.IScenario
 {
-    public readonly MultipleWerdGeregistreerdScenario BaseScenario;
+    public readonly MultipleWerdGeregistreerdScenario BaseScenario = new();
     public string NaamVereniging { get; set; }
     public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegd { get; set; }
 
-    public LidmaatschapWerdToegevoegdScenario(MultipleWerdGeregistreerdScenario baseScenario)
+    public LidmaatschapWerdToegevoegdScenario()
     {
-        BaseScenario = baseScenario;
     }
 
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
+        await BaseScenario.GivenEvents(service);
 
-        var givenEvents = await BaseScenario.GivenEvents(service);
         NaamVereniging = BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.Naam;
 
         LidmaatschapWerdToegevoegd = new LidmaatschapWerdToegevoegd(
@@ -35,8 +34,11 @@ public class LidmaatschapWerdToegevoegdScenario : Framework.TestClasses.IScenari
                 AndereVerenigingNaam = BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
             });
 
-        return givenEvents.Append(new KeyValuePair<string, IEvent[]>(LidmaatschapWerdToegevoegd.VCode, [LidmaatschapWerdToegevoegd]))
-                          .ToArray();
+        return
+        [
+            new(BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, [BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode)]),
+            new(BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode, [BaseScenario.FeitelijkeVerenigingWerdGeregistreerd, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), LidmaatschapWerdToegevoegd]),
+        ];
     }
 
     public VertegenwoordigerPersoonsgegevensDocument[] GivenVertegenwoordigerPersoonsgegevens()

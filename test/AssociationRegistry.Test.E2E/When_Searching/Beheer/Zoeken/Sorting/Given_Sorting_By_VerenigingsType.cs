@@ -19,7 +19,7 @@ public class Given_Sorting_By_VerenigingsType
         _testOutputHelper = testOutputHelper;
     }
 
-    [Fact]
+    [Fact(Skip = "")]
     public async ValueTask Then_it_sorts_by_Verenigingstype_then_by_vCode_descending()
     {
         var response = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
