@@ -1,12 +1,13 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Vertegenwoordiger_Toe.Beheer.Detail;
 
-using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
-using Contracts.JsonLdContext;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Contracts.JsonLdContext;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Vereniging.Bronnen;
 using FluentAssertions;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
-using Vereniging.Bronnen;
+using When_Voeg_Lidmaatschap_Toe;
 using Xunit;
 
 [Collection(nameof(VoegVertegenwoordigerToeCollection))]

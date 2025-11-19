@@ -42,7 +42,7 @@ public static class AdminDocumentTypeRegistrations
         opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
 
         opts.RegisterDocumentType<PostalNutsLauInfo>();
-        opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevens>();
+        opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
 
         opts.RegisterDocumentType<VerenigingState>();
 
