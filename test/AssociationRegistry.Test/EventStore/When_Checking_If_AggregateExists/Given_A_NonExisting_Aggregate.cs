@@ -13,7 +13,9 @@ using EventStore.ConflictResolution;
 using FluentAssertions;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using NodaTime;
+using Persoonsgegevens;
 using Xunit;
 
 public class Given_A_NonExisting_Aggregate
@@ -45,12 +47,12 @@ public class Given_A_NonExisting_Aggregate
 
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
         var nonExistingVCode = _fixture.Create<VCode>();
 
-        await eventStore.Save(verenigingWerdGeregistreerd.VCode, EventStore.ExpectedVersion.NewStream, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+        await eventStore.Save(verenigingWerdGeregistreerd.VCode, EventStore.ExpectedVersion.NewStream, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
                               (dynamic)verenigingWerdGeregistreerd);
 

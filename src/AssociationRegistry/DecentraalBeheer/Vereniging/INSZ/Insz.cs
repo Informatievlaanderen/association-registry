@@ -20,7 +20,7 @@ public record Insz
         return new Insz(sanitezedInsz);
     }
 
-    internal static Insz Hydrate(string insz)
+    public static Insz Hydrate(string insz)
         => new(insz);
 
     public override string ToString()

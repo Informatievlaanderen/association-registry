@@ -58,13 +58,13 @@ using Integrations.Slack;
 using JasperFx;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.MartenDb.Store;
 using CommandHandling.DecentraalBeheer.Acties.DubbelDetectie;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 using CommandHandling.KboSyncLambda.SyncKbo;
 using CommandHandling.Magda;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Marten;
-using MartenDb.Store;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
@@ -82,11 +82,13 @@ using Elastic.Clients.Elasticsearch;
 using Infrastructure.Extensions;
 using Infrastructure.Metrics;
 using Integrations.Magda.GeefOnderneming;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
+using Persoonsgegevens;
 using Queries;
 using Schema.Detail;
 using Schema.Historiek;
@@ -470,6 +472,8 @@ public class Program
                .AddScoped<IMagdaClient, MagdaClient>()
                .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
+               .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+               .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
                .AddTransient<IEventStore, EventStore>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
                .AddTransient<IDubbelDetectieRepository, DubbelDetectieRepository>()

@@ -40,7 +40,7 @@ public class VerenigingsRepository : IVerenigingsRepository
         if (!events.Any())
             return StreamActionResult.Empty;
 
-        return await _eventStore.Save(vereniging.VCode, vereniging.Version, session, metadata, cancellationToken, events);
+        return await _eventStore.Save(vereniging.VCode, vereniging.Version, metadata, cancellationToken, events);
     }
 
     public async Task<StreamActionResult> SaveNew(VerenigingsBase vereniging, IDocumentSession session, CommandMetadata metadata, CancellationToken cancellationToken)
@@ -50,7 +50,7 @@ public class VerenigingsRepository : IVerenigingsRepository
         if (!events.Any())
             return StreamActionResult.Empty;
 
-        return await _eventStore.SaveNew(vereniging.VCode, session, metadata, cancellationToken, events);
+        return await _eventStore.SaveNew(vereniging.VCode, metadata, cancellationToken, events);
     }
 
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, CommandMetadata metadata, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)

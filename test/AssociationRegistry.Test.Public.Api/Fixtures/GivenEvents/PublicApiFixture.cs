@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
+using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using EventStore;
@@ -131,7 +132,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         using var scope = _publicApiServer.Services.CreateScope();
         var eventConflictResolver = scope.ServiceProvider.GetRequiredService<EventConflictResolver>();
 
-        var eventStore = new EventStore(ProjectionsDocumentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
+        var session = ProjectionsDocumentStore.LightweightSession();
+        var eventStore = new EventStore(session, eventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<EventStore>.Instance);
 
         foreach (var (@event, i) in eventsToAdd.Select((x, i) => (x, i)))
         {

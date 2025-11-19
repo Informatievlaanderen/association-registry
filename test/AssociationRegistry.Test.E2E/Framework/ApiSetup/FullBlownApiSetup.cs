@@ -2,6 +2,7 @@
 
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
+using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using Admin.ProjectionHost.Projections;
 using Alba;
 using AlbaHost;
@@ -25,6 +26,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
+using EventStore.ConflictResolution;
+using MartenDb.Store;
 using NodaTime;
 using NodaTime.Text;
 using Npgsql;
@@ -178,13 +181,13 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
              .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
         };
     }
-    
+
     private async Task EnsureDatabaseExistsBeforeHostStarts(string name)
     {
         // Only need to ensure DB exists for adminapi (primary host)
         if (name != "adminapi")
             return;
-            
+
         var configuration = new ConfigurationBuilder()
                            .AddJsonFile("appsettings.development.json", false)
                            .AddJsonFile("appsettings.e2e.json", false)
@@ -199,21 +202,21 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
             // Check if database exists
             using var connection = new NpgsqlConnection(connectionString);
             using var cmd = connection.CreateCommand();
-            
+
             connection.Open();
             cmd.CommandText = $"SELECT 1 FROM pg_database WHERE datname = '{databaseName}'";
             var exists = cmd.ExecuteScalar() != null;
-            
+
             if (!exists)
             {
                 Console.WriteLine($"Database '{databaseName}' does not exist. Creating from template...");
-                
+
                 // Check if golden master template is available
                 if (DatabaseTemplateHelper.IsGoldenMasterTemplateAvailable(configuration, NullLogger.Instance))
                 {
                     DatabaseTemplateHelper.CreateDatabaseFromTemplate(
-                        configuration, 
-                        databaseName!, 
+                        configuration,
+                        databaseName!,
                         NullLogger.Instance);
                     Console.WriteLine($"Database '{databaseName}' created successfully from template.");
                 }
@@ -237,7 +240,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
             throw;
         }
     }
-    
+
     private static string GetConnectionString(IConfiguration configuration, string database)
         => $"host={configuration["PostgreSQLOptions:host"]};" +
            $"database={database};" +
@@ -260,7 +263,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await AcmApiHost.DisposeAsync();
     }
 
-    public async Task<Dictionary<string, IEvent[]>> ExecuteGiven(IScenario scenario, IDocumentSession session)
+    public async Task<long> ExecuteGiven(IScenario scenario, IDocumentSession session)
     {
         session.SetHeader(MetadataHeaderNames.Initiator, value: "metadata.Initiator");
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(new Instant()));
@@ -268,26 +271,38 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         var givenEvents = await scenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>());
 
-        var executedEvents = new Dictionary<string, JasperFx.Events.IEvent[]>();
         if (givenEvents.Length == 0)
-            return [];
+            return 0;
 
+        var eventConflictResolver = new EventConflictResolver(
+            Array.Empty<IEventPreConflictResolutionStrategy>(),
+            Array.Empty<IEventPostConflictResolutionStrategy>());
+
+        var eventStore = new EventStore(session, eventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<EventStore>.Instance);
+
+        long maxSequence = 0;
         foreach (var eventsPerStream in givenEvents)
         {
-            var streamAction = session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
-            if(!executedEvents.ContainsKey(streamAction.Key))
+            var exists = await eventStore.Exists(VCode.Hydrate(eventsPerStream.Key));
+
+            if (exists)
             {
-                executedEvents.Add(streamAction.Key, streamAction.Events.ToArray());
+                var vereniging = await eventStore.Load<VerenigingState>(VCode.Hydrate(eventsPerStream.Key), null);
+                var streamAction = await eventStore.Save(eventsPerStream.Key, vereniging.Version,
+                                                            new CommandMetadata("metadata.Initiator", new Instant(), Guid.NewGuid(), null), CancellationToken.None, eventsPerStream.Value);
+                maxSequence = streamAction.Sequence.Value;
             }
             else
             {
-                executedEvents[streamAction.Key] = streamAction.Events.Concat(executedEvents[streamAction.Key]).ToArray();
+                var streamAction = await eventStore.SaveNew(eventsPerStream.Key,
+                                                            new CommandMetadata("metadata.Initiator", new Instant(), Guid.NewGuid(), null), CancellationToken.None, eventsPerStream.Value);
+                maxSequence = streamAction.Sequence.Value;
             }
         }
 
         await session.SaveChangesAsync();
 
-        return executedEvents;
+        return maxSequence;
     }
 
     public async Task RefreshIndices()

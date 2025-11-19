@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Acm.Api;
 
+using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using Asp.Versioning.ApplicationModels;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -49,6 +50,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Oakton;
 using OpenTelemetry.Extensions;
+using Persoonsgegevens;
 using Queries.VerenigingenPerInsz;
 using Queries.VerenigingenPerKbo;
 using Serilog;
@@ -508,7 +510,9 @@ public class Program
                .AddTransient<IVerenigingenPerInszQuery, VerenigingenPerInszQuery>()
                .AddTransient<IVerenigingenPerKboNummerService, VerenigingenPerKboNummerService>()
                .AddTransient<IRechtsvormCodeService, RechtsvormCodeService>()
-               .AddTransient<IEventStore, EventStore>()
+               .AddScoped<IEventStore, EventStore>()
+               .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+               .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
                .AddSingleton<IEventPreConflictResolutionStrategy, EmptyConflictResolutionStrategy>()
                .AddSingleton<IEventPostConflictResolutionStrategy, EmptyConflictResolutionStrategy>()
                .AddSingleton<EventConflictResolver>();

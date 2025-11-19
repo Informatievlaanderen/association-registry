@@ -10,7 +10,7 @@ using DecentraalBeheer.Vereniging.TelefoonNummers;
 using System.Runtime.Serialization;
 
 [DataContract]
-public class VoegVertegenwoordigerToeRequest
+public record VoegVertegenwoordigerToeRequest
 {
     /// <summary>De toe te voegen vertegenwoordiger</summary>
     [DataMember(Name = "vertegenwoordiger")]

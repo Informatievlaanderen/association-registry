@@ -7,6 +7,8 @@ using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegVertegenwoordigerToe.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.WijzigVertegenwoordiger.RequestModels;
 using Admin.ProjectionHost.Constants;
 using Admin.Schema.Historiek.EventData;
 using AlbaHost;
@@ -653,6 +655,25 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
+    public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdToegevoegd(int nextVertegenwoordigerId, VoegVertegenwoordigerToeRequest request)
+        => new()
+        {
+            Beschrijving = $"'{request.Vertegenwoordiger.Voornaam} {request.Vertegenwoordiger.Achternaam}' werd toegevoegd als vertegenwoordiger.",
+            Gebeurtenis = nameof(Events.VertegenwoordigerWerdToegevoegd),
+            Data = new VertegenwoordigerData(nextVertegenwoordigerId,
+                                             request.Vertegenwoordiger.IsPrimair,
+                                             request.Vertegenwoordiger.Roepnaam,
+                                             request.Vertegenwoordiger.Rol,
+                                             request.Vertegenwoordiger.Voornaam,
+                                             request.Vertegenwoordiger.Achternaam,
+                                             request.Vertegenwoordiger.Email,
+                                             request.Vertegenwoordiger.Telefoon,
+                                             request.Vertegenwoordiger.Mobiel,
+                                             request.Vertegenwoordiger.SocialMedia),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
     public static HistoriekGebeurtenisResponse? VerenigingWerdVerwijderd(string reden)
         => new()
         {
@@ -661,6 +682,25 @@ public static class HistoriekGebeurtenisMapper
             Data = new VerenigingWerdVerwijderdData(
                reden
             ),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse VertegenwoordigerWerdGewijzigd(VertegenwoordigerWerdToegevoegd vertegenwoordigerWerdToegevoegd, WijzigVertegenwoordigerRequest request)
+        => new()
+        {
+            Beschrijving = $"Vertegenwoordiger '{vertegenwoordigerWerdToegevoegd.Voornaam} {vertegenwoordigerWerdToegevoegd.Achternaam}' werd gewijzigd.",
+            Gebeurtenis = nameof(Events.VertegenwoordigerWerdGewijzigd),
+            Data = new VertegenwoordigerData(vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+                                             request.Vertegenwoordiger.IsPrimair.Value,
+                                             request.Vertegenwoordiger.Roepnaam,
+                                             request.Vertegenwoordiger.Rol,
+                                             vertegenwoordigerWerdToegevoegd.Voornaam,
+                                             vertegenwoordigerWerdToegevoegd.Achternaam,
+                                             request.Vertegenwoordiger.Email,
+                                             request.Vertegenwoordiger.Telefoon,
+                                             request.Vertegenwoordiger.Mobiel,
+                                             request.Vertegenwoordiger.SocialMedia),
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
