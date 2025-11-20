@@ -98,6 +98,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                         Username = "root",
                         Schema = "admin",
                     },
+
                     true,
                     Configuration.GetElasticSearchOptionsSection());
             });

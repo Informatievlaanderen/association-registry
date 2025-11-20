@@ -4,18 +4,20 @@ using Admin.ProjectionHost.Projections.PowerBiExport;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using Events;
 using JasperFx.Events;
+using MartenDb.Transformers;
 using Public.ProjectionHost.Projections.Sequence;
 using System.Reflection;
 using Xunit;
 
 public class For_Any_Event
 {
+
     private IEnumerable<Type> _excludedEventTypes =
     [
         typeof(AfdelingWerdGeregistreerd),
         typeof(KboNummerWerdGereserveerd),
         typeof(DubbeleVerenigingenWerdenGedetecteerd),
-        typeof(VertegenwoordigerWerdToegevoegdZonderPersoonsgegevens)
+        ..new PersoonsgegevensEventTransformers().Select(x => x.PersistedEventType),
     ];
 
     // Because we want to update the metadata for each event!

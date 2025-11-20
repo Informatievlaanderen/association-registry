@@ -11,7 +11,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Acm.Api\AssociationRegistry.Acm.Api.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj" />
-    <ProjectReference Include="..\..\src\AssociationRegistry.Admin.MartenDb\AssociationRegistry.Admin.MartenDb.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.ProjectionHost\AssociationRegistry.Admin.ProjectionHost.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.ProjectionHost\AssociationRegistry.Public.ProjectionHost.csproj" />

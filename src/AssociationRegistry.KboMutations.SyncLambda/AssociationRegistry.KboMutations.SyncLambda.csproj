@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AssociationRegistry.Admin.MartenDb\AssociationRegistry.Admin.MartenDb.csproj" />
     <ProjectReference Include="..\AssociationRegistry.KboMutations\AssociationRegistry.KboMutations.csproj" />
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Magda\AssociationRegistry.Integrations.Magda.csproj" />
     <ProjectReference Include="..\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj" />

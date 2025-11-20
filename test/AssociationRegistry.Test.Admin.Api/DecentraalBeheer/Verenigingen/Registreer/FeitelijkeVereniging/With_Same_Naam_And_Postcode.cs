@@ -158,11 +158,11 @@ public class With_Same_Naam_And_Postcode
                                           .LightweightSession();
 
         var savedEvents = await session.Events
-                                       .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
+                                       .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens>()
                                        .ToListAsync();
 
         savedEvents.Should().NotContainEquivalentOf(
-            new FeitelijkeVerenigingWerdGeregistreerd(
+            new FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens(
                 string.Empty,
                 Request.Naam,
                 Request.KorteNaam ?? string.Empty,
@@ -187,7 +187,7 @@ public class With_Same_Naam_And_Postcode
                             Request.Locaties.First().Adres!.Land),
                         AdresId: null),
                 },
-                Array.Empty<Registratiedata.Vertegenwoordiger>(),
+                Array.Empty<Registratiedata.VertegenwoordigerZonderPersoonsgegevens>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
             ),
             config: options => options.Excluding(e => e.VCode));

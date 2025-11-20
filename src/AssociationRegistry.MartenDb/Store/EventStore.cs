@@ -10,7 +10,7 @@ using JasperFx.Events;
 using Marten;
 using Microsoft.Extensions.Logging;
 using NodaTime.Text;
-using Persoonsgegevens;
+using Transformers;
 using IEvent = Events.IEvent;
 
 public class EventStore : IEventStore
@@ -22,18 +22,18 @@ public class EventStore : IEventStore
 
     private readonly IDocumentSession _session;
     private readonly EventConflictResolver _conflictResolver;
-    private readonly IVertegenwoordigerPersoonsgegevensRepository _vertegenwoordigerPersoonsgegevensRepository;
+    private readonly IPersoonsgegevensProcessor _persoonsgegevensProcessor;
     private readonly ILogger<EventStore> _logger;
 
     public EventStore(
         IDocumentSession session,
         EventConflictResolver conflictResolver,
-        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
+        IPersoonsgegevensProcessor persoonsgegevensProcessor,
         ILogger<EventStore> logger)
     {
         _session = session;
         _conflictResolver = conflictResolver;
-        _vertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository;
+        _persoonsgegevensProcessor = persoonsgegevensProcessor;
         _logger = logger;
     }
 
@@ -43,13 +43,15 @@ public class EventStore : IEventStore
         CancellationToken cancellationToken,
         IEvent[] events)
     {
-        await SplitPersoonsgegevensFromEvents(aggregateId, events);
+        var processedEvents = await _persoonsgegevensProcessor.ProcessEvents(
+            aggregateId,
+            events);
 
         SetHeaders(metadata, _session);
 
-        TryLockForKboNumber(aggregateId, _session, events.FirstOrDefault());
+        TryLockForKboNumber(aggregateId, _session, processedEvents.FirstOrDefault());
 
-        var streamAction = _session.Events.StartStream(aggregateId, events);
+        var streamAction = _session.Events.StartStream(aggregateId, processedEvents);
 
         await _session.SaveChangesAsync(cancellationToken);
 
@@ -58,7 +60,7 @@ public class EventStore : IEventStore
         if (maxSequence == 0)
             maxSequence = (await _session.Events.FetchStreamAsync(aggregateId, token: cancellationToken)).Max(x => x.Sequence);
 
-        return new StreamActionResult(maxSequence, events.Length);
+        return new StreamActionResult(maxSequence, processedEvents.Length);
     }
 
     public async Task<StreamActionResult> Save(
@@ -68,15 +70,17 @@ public class EventStore : IEventStore
         CancellationToken cancellationToken,
         params IEvent[] events)
     {
+        var processedEvents = await _persoonsgegevensProcessor.ProcessEvents(
+            aggregateId,
+            events);
+
         try
         {
-            await SplitPersoonsgegevensFromEvents(aggregateId, events);
-
             SetHeaders(metadata, _session);
 
-            TryLockForKboNumber(aggregateId, _session, events.FirstOrDefault());
+            TryLockForKboNumber(aggregateId, _session, processedEvents.FirstOrDefault());
 
-            var streamAction = AppendEvents(_session, aggregateId, events, aggregateVersion);
+            var streamAction = AppendEvents(_session, aggregateId, processedEvents, aggregateVersion);
 
             await _session.SaveChangesAsync(cancellationToken);
 
@@ -84,7 +88,7 @@ public class EventStore : IEventStore
             var maxSequence = eventsAgain.Max(@event => @event.Sequence);
 
             _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}",
-                                   string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence);
+                                   string.Join(", ", processedEvents.Select(x => x.GetType().Name)), maxSequence);
 
             return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
         }
@@ -94,12 +98,12 @@ public class EventStore : IEventStore
                 await _session.Events.FetchStreamAsync(aggregateId, fromVersion: aggregateVersion + 1,
                                                        token: cancellationToken);
 
-            if (_conflictResolver.IsAllowedPostConflict(events, eventsDiff))
+            if (_conflictResolver.IsAllowedPostConflict(processedEvents, eventsDiff))
             {
                 _session.EjectAllPendingChanges();
 
-                var streamAction = _session.Events.Append(aggregateId, aggregateVersion + events.Length + eventsDiff.Count,
-                                                          events);
+                var streamAction = _session.Events.Append(aggregateId, aggregateVersion + processedEvents.Length + eventsDiff.Count,
+                                                          processedEvents);
 
                 await _session.SaveChangesAsync(cancellationToken);
 
@@ -107,46 +111,13 @@ public class EventStore : IEventStore
                 var maxSequence = eventsAgain.Max(@event => @event.Sequence);
 
                 _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}",
-                                       string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence);
+                                       string.Join(", ", processedEvents.Select(x => x.GetType().Name)), maxSequence);
 
                 return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
                 //return new StreamActionResult(maxSequence, streamAction.Version);
             }
 
             throw new UnexpectedAggregateVersionException();
-        }
-    }
-
-    private async Task SplitPersoonsgegevensFromEvents(string aggregateId, IEvent[] events)
-    {
-        for (int i = 0; i < events.Length; i++)
-        {
-            if (events[i] is VertegenwoordigerWerdToegevoegd oldEvent)
-            {
-                var refId = Guid.NewGuid();
-
-                events[i] = new VertegenwoordigerWerdToegevoegdZonderPersoonsgegevens(
-                    refId,
-                    oldEvent.VertegenwoordigerId,
-                    oldEvent.IsPrimair
-                );
-
-                var vertegenwoordigerPersoonsgegevens = new VertegenwoordigerPersoonsgegevens(
-                    refId,
-                    VCode.Hydrate(aggregateId),
-                    oldEvent.VertegenwoordigerId,
-                    Insz.Hydrate(oldEvent.Insz),
-                    oldEvent.Roepnaam,
-                    oldEvent.Rol,
-                    oldEvent.Voornaam,
-                    oldEvent.Achternaam,
-                    oldEvent.Email,
-                    oldEvent.Telefoon,
-                    oldEvent.Mobiel,
-                    oldEvent.SocialMedia);
-
-                await _vertegenwoordigerPersoonsgegevensRepository.Save(vertegenwoordigerPersoonsgegevens);
-            }
         }
     }
 

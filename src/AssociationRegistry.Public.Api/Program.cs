@@ -15,16 +15,15 @@ using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
 using DecentraalBeheer.Vereniging;
 using Destructurama;
-using EventStore;
 using EventStore.ConflictResolution;
 using FluentValidation;
-using Hosts.HealthChecks;
+using Infrastructure;
 using Infrastructure.Caching;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
-using Infrastructure;
+using Infrastructure.Middleware;
 using JasperFx;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -49,7 +48,6 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
-using Vereniging;
 using WebApi.Verenigingen.DetailAll;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 
@@ -269,7 +267,7 @@ public class Program
            .UseMiddleware<AddCorrelationIdToResponseMiddleware>()
            .UseMiddleware<AddCorrelationIdMiddleware>()
            .UseMiddleware<AddCorrelationIdToLogContextMiddleware>()
-           .UseMiddleware<Infrastructure.Middleware.ApiKeyEnrichmentMiddleware>()
+           .UseMiddleware<ApiKeyEnrichmentMiddleware>()
            .UseMiddleware<AddHttpSecurityHeadersMiddleware>()
            .UseMiddleware<AddRemoteIpAddressMiddleware>(AddRemoteIpAddressMiddleware.UrnBasisregistersVlaanderenIp)
            .UseMiddleware<AddVersionHeaderMiddleware>(AddVersionHeaderMiddleware.HeaderName)

@@ -58,7 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AssociationRegistry.Admin.MartenDb\AssociationRegistry.Admin.MartenDb.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Admin.ProjectionHost\AssociationRegistry.Admin.ProjectionHost.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Admin.Schema\AssociationRegistry.Admin.Schema.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />

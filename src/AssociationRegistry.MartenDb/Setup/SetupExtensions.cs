@@ -1,6 +1,5 @@
 namespace AssociationRegistry.MartenDb.Setup;
 
-using Admin.Api.Adapters.VCodeGeneration;
 using Converters;
 using DecentraalBeheer.Vereniging;
 using Marten;
@@ -11,6 +10,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using Marten.Services;
 using Newtonsoft.Json;
 using Serialization;
+using VCodeGeneration;
 
 public static class SetupExtensions
 {

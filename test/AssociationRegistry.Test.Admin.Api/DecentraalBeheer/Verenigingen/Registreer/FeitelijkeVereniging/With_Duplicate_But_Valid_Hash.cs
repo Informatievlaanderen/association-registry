@@ -43,11 +43,11 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                                           .LightweightSession();
 
         var savedEvents = await session.Events
-                                       .QueryRawEventDataOnly<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
+                                       .QueryRawEventDataOnly<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens>()
                                        .ToListAsync();
 
         savedEvents.Should().ContainEquivalentOf(
-            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens(
                 string.Empty,
                 _setup.Request.Naam,
                 _setup.Request.KorteNaam ?? string.Empty,
@@ -71,7 +71,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                                                   _setup.RequestLocatie.Adres.Land),
                         AdresId: null),
                 },
-                Array.Empty<Registratiedata.Vertegenwoordiger>(),
+                Array.Empty<Registratiedata.VertegenwoordigerZonderPersoonsgegevens>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
                 Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(_setup.BevestigingsToken)
             ),

@@ -11,6 +11,8 @@ using EventStore;
 using EventStore.ConflictResolution;
 using FluentAssertions;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NodaTime;
@@ -41,7 +43,7 @@ public class When_Loading_Events
         var eventConflictResolver = new EventConflictResolver([new AddressMatchConflictResolutionStrategy(),], []);
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(session, eventConflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, eventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
 
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 

@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
-using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using EventStore;
@@ -18,6 +17,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
 using Hosts.Configuration;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using NodaTime;
 using Npgsql;
 using Oakton;
@@ -133,7 +134,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         var eventConflictResolver = scope.ServiceProvider.GetRequiredService<EventConflictResolver>();
 
         var session = ProjectionsDocumentStore.LightweightSession();
-        var eventStore = new EventStore(session, eventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, eventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
 
         foreach (var (@event, i) in eventsToAdd.Select((x, i) => (x, i)))
         {

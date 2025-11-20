@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api;
 
 using Adapters.DuplicateVerenigingDetectionService;
-using Adapters.VCodeGeneration;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
@@ -82,6 +81,8 @@ using Elastic.Clients.Elasticsearch;
 using Infrastructure.Extensions;
 using Infrastructure.Metrics;
 using Integrations.Magda.GeefOnderneming;
+using MartenDb.Transformers;
+using MartenDb.VCodeGeneration;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -150,10 +151,10 @@ public class Program
 
         var app = builder.Build();
 
-
         app.UseRequestLocalization();
         app.UseSwagger();
         app.UseSwaggerUI();
+
         app.UseReDoc(opt =>
         {
             opt.RoutePrefix = "docs";
@@ -164,6 +165,7 @@ public class Program
         if (ProgramArguments.IsCodeGen(args))
         {
             await app.RunJasperFxCommands(args);
+
             return;
         }
 
@@ -198,7 +200,6 @@ public class Program
                 routeBuilder.MapDeadLettersEndpoints().RequireAuthorization(SuperAdminPolicyName);
             });
 
-
         ConfigureLifetimeHooks(app);
 
         await RunPreStartupTasks(app, logger);
@@ -206,7 +207,6 @@ public class Program
         await WaitFor.ElasticSearchToBecomeAvailable(
             app.Services.GetRequiredService<ElasticsearchClient>(),
             app.Services.GetRequiredService<ILogger<Program>>());
-
 
         await app.RunJasperFxCommands(args);
     }
@@ -240,7 +240,8 @@ public class Program
 
         try
         {
-            var registreerInschrijvinCatchupService = scope.ServiceProvider.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
+            var registreerInschrijvinCatchupService =
+                scope.ServiceProvider.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
 
             await registreerInschrijvinCatchupService
                .RegistreerInschrijvingVoorVerenigingenMetRechtspersoonlijkheidDieNogNietIngeschrevenZijn();
@@ -474,6 +475,8 @@ public class Program
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+               .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
+               .AddScoped<PersoonsgegevensEventTransformers>()
                .AddTransient<IEventStore, EventStore>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
                .AddTransient<IDubbelDetectieRepository, DubbelDetectieRepository>()
@@ -708,38 +711,36 @@ public class Program
                         cfg.SubstituteApiVersionInUrl = true;
                     });
 
-               builder.            Services
-                           .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
-                           .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
-                           .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+        builder.Services
+               .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
+               .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
+               .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+               .Configure<RequestLocalizationOptions>(opts =>
+                {
+                    const string fallbackCulture = "en-GB";
+                    var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                    var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
 
-                           .Configure<RequestLocalizationOptions>(opts =>
-                            {
-                                const string fallbackCulture = "en-GB";
-                                var defaultRequestCulture = new RequestCulture( new CultureInfo(fallbackCulture));
-                                var supportedCulturesOrDefault =  new[] { new CultureInfo(fallbackCulture) };
+                    opts.DefaultRequestCulture = defaultRequestCulture;
+                    opts.SupportedCultures = supportedCulturesOrDefault;
+                    opts.SupportedUICultures = supportedCulturesOrDefault;
 
-                                opts.DefaultRequestCulture = defaultRequestCulture;
-                                opts.SupportedCultures = supportedCulturesOrDefault;
-                                opts.SupportedUICultures = supportedCulturesOrDefault;
+                    opts.FallBackToParentCultures = true;
+                    opts.FallBackToParentUICultures = true;
+                })
+               .Configure<RequestLocalizationOptions>(opts =>
+                {
+                    const string fallbackCulture = "en-GB";
+                    var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                    var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
 
-                                opts.FallBackToParentCultures = true;
-                                opts.FallBackToParentUICultures = true;
-                            })
+                    opts.DefaultRequestCulture = defaultRequestCulture;
+                    opts.SupportedCultures = supportedCulturesOrDefault;
+                    opts.SupportedUICultures = supportedCulturesOrDefault;
 
-                           .Configure<RequestLocalizationOptions>(opts =>
-                            {
-                                const string fallbackCulture = "en-GB";
-                                var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
-                                var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
-
-                                opts.DefaultRequestCulture = defaultRequestCulture;
-                                opts.SupportedCultures = supportedCulturesOrDefault;
-                                opts.SupportedUICultures = supportedCulturesOrDefault;
-
-                                opts.FallBackToParentCultures = true;
-                                opts.FallBackToParentUICultures = true;
-                            });
+                    opts.FallBackToParentCultures = true;
+                    opts.FallBackToParentUICultures = true;
+                });
 
         builder.Services.AddEndpointsApiExplorer();
 

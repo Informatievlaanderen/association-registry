@@ -43,11 +43,11 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                                           .LightweightSession();
 
         var savedEvents = await session.Events
-                                       .QueryRawEventDataOnly<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
+                                       .QueryRawEventDataOnly<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens>()
                                        .ToListAsync();
 
         savedEvents.Should().ContainEquivalentOf(
-            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens(
                 VCode: string.Empty,
                 Naam: _setup.Request.Naam,
                 KorteNaam: _setup.Request.KorteNaam ?? string.Empty,
