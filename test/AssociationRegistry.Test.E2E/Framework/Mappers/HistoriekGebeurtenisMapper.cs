@@ -704,4 +704,23 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdGewijzigd(VertegenwoordigerWerdOvergenomenUitKBO vertegenwoordigerWerdOvergenomenUitKbo, WijzigVertegenwoordigerRequest request)
+        => new()
+        {
+            Beschrijving = $"Vertegenwoordiger '{vertegenwoordigerWerdOvergenomenUitKbo.Voornaam} {vertegenwoordigerWerdOvergenomenUitKbo.Achternaam}' werd gewijzigd.",
+            Gebeurtenis = nameof(Events.VertegenwoordigerWerdGewijzigd),
+            Data = new VertegenwoordigerData(vertegenwoordigerWerdOvergenomenUitKbo.VertegenwoordigerId,
+                                             request.Vertegenwoordiger.IsPrimair.Value,
+                                             request.Vertegenwoordiger.Roepnaam,
+                                             request.Vertegenwoordiger.Rol,
+                                             vertegenwoordigerWerdOvergenomenUitKbo.Voornaam,
+                                             vertegenwoordigerWerdOvergenomenUitKbo.Achternaam,
+                                             request.Vertegenwoordiger.Email,
+                                             request.Vertegenwoordiger.Telefoon,
+                                             request.Vertegenwoordiger.Mobiel,
+                                             request.Vertegenwoordiger.SocialMedia),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }

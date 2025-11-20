@@ -7,29 +7,29 @@ public record VertegenwoordigerPersoonsgegevens
     public Guid RefId { get; init; }
     public VCode VCode { get; init; }
     public int VertegenwoordigerId { get; init; }
-    public Insz Insz { get; init; }
+    public string? Insz { get; init; }
     public string? Roepnaam { get; init; }
     public string? Rol { get; init; }
-    public Voornaam Voornaam { get; init; }
-    public Achternaam Achternaam { get; init; }
-    public string Email { get; init; }
-    public string Telefoon { get; init; }
-    public string Mobiel { get; init; }
-    public string SocialMedia { get; init; }
+    public string? Voornaam { get; init; }
+    public string? Achternaam { get; init; }
+    public string? Email { get; init; }
+    public string? Telefoon { get; init; }
+    public string? Mobiel { get; init; }
+    public string? SocialMedia { get; init; }
 
     public VertegenwoordigerPersoonsgegevens(
         Guid refId,
         VCode VCode,
         int vertegenwoordigerId,
-        Insz insz,
+        string? insz,
         string? roepnaam,
         string? rol,
-        Voornaam voornaam,
-        Achternaam achternaam,
-        string email,
-        string telefoon,
-        string mobiel,
-        string socialMedia)
+        string? voornaam,
+        string? achternaam,
+        string? email,
+        string? telefoon,
+        string? mobiel,
+        string? socialMedia)
     {
         RefId = refId;
         this.VCode = VCode;

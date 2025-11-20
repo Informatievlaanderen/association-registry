@@ -11,6 +11,10 @@ public record VertegenwoordigerWerdGewijzigd(
     string Telefoon,
     string Mobiel,
     string SocialMedia) : IEvent
-{
+{ }
 
-}
+public record VertegenwoordigerWerdGewijzigdZonderPersoongegevens(
+    Guid RefId,
+    int VertegenwoordigerId,
+    bool IsPrimair) : IEvent
+{ }
