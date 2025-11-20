@@ -1,36 +1,20 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Persoonsgegevens;
+using Events;
+using AssociationRegistry.MartenDb.Upcasters.Persoonsgegevens;
 using Marten;
 
 public static class EventUpcaster
 {
     public static StoreOptions UpcastEvents(this StoreOptions opts, Func<IQuerySession> querySessionFunc)
     {
+        var vertegenwoordigerWerdToegevoegdUpcaster = new VertegenwoordigerWerdToegevoegdUpcaster(querySessionFunc);
         opts.Events.Upcast<VertegenwoordigerWerdToegevoegdZonderPersoonsgegevens, VertegenwoordigerWerdToegevoegd>(
-            async (vertegenwoordigerWerdToegevoegd, ct) =>
-            {
-                await using var session = querySessionFunc();
+            vertegenwoordigerWerdToegevoegdUpcaster.UpcastAsync);
 
-                var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-                                                                     .Where(x => x.RefId == vertegenwoordigerWerdToegevoegd.RefId)
-                                                                     .SingleOrDefaultAsync(ct);
-
-                return new VertegenwoordigerWerdToegevoegd(
-                    VertegenwoordigerId: vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-                    vertegenwoordigerPersoonsgegevens.Insz,
-                    vertegenwoordigerWerdToegevoegd.IsPrimair,
-                    vertegenwoordigerPersoonsgegevens.Roepnaam,
-                    vertegenwoordigerPersoonsgegevens.Rol,
-                    vertegenwoordigerPersoonsgegevens.Voornaam,
-                    vertegenwoordigerPersoonsgegevens.Achternaam,
-                    vertegenwoordigerPersoonsgegevens.Email,
-                    vertegenwoordigerPersoonsgegevens.Telefoon,
-                    vertegenwoordigerPersoonsgegevens.Mobiel,
-                    vertegenwoordigerPersoonsgegevens.SocialMedia
-                );
-            });
+        var vertegenwoordigerWerdVerwijderdUpcaster = new VertegenwoordigerWerdVerwijderdUpcaster(querySessionFunc);
+        opts.Events.Upcast<VertegenwoordigerWerdVerwijderdZonderPersoonsgegevens, VertegenwoordigerWerdVerwijderd>(
+            vertegenwoordigerWerdVerwijderdUpcaster.UpcastAsync);
         //
         // opts.Events.Upcast<VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens, VertegenwoordigerWerdToegevoegdVanuitKBO>(
         //     async (vertegenwoordigerWerdToegevoegdVanuitKboZonderPersoonsgegevens, ct) =>
@@ -92,120 +76,13 @@ public static class EventUpcaster
         //             vertegenwoordigerPersoonsgegevens?.Achternaam);
         //     });
         //
+        var feitelijkeVerenigingWerdGeregistreerdUpcaster = new FeitelijkeVerenigingWerdGeregistreerdUpcaster(querySessionFunc);
         opts.Events.Upcast<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens, FeitelijkeVerenigingWerdGeregistreerd>(
-            async (feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens, ct) =>
-            {
-                await using var session = querySessionFunc();
+            feitelijkeVerenigingWerdGeregistreerdUpcaster.UpcastAsync);
 
-                var refIdsFromFeitelijkeVereniging = feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.Vertegenwoordigers
-                                                                                          .Select(x => x.RefId)
-                                                                                          .ToList();
-
-                var vertegenwoordigerPersoonsgegevens = await session
-                                                             .Query<VertegenwoordigerPersoonsgegevensDocument>()
-                                                             .Where(x => refIdsFromFeitelijkeVereniging.Contains(x.RefId))
-                                                             .ToListAsync(ct);
-
-                var persoonsgegevensByRefId = vertegenwoordigerPersoonsgegevens
-                   .ToDictionary(x => x.RefId);
-
-                var vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.Vertegenwoordigers
-                                                                                      .Select(v =>
-                                                                                       {
-                                                                                           persoonsgegevensByRefId.TryGetValue(
-                                                                                               v.RefId, out var doc);
-
-                                                                                           var vertegenwoordiger = doc is null
-                                                                                               ? null // RegistratieData.VertegenwoordigerZonderPersoonsgegevens();
-                                                                                               : new Registratiedata.Vertegenwoordiger(
-                                                                                                   doc.VertegenwoordigerId,
-                                                                                                   doc.Insz,
-                                                                                                   v.IsPrimair,
-                                                                                                   doc.Roepnaam,
-                                                                                                   doc.Rol,
-                                                                                                   doc.Voornaam,
-                                                                                                   doc.Achternaam,
-                                                                                                   doc.Email,
-                                                                                                   doc.Telefoon,
-                                                                                                   doc.Mobiel,
-                                                                                                   doc.SocialMedia);
-
-                                                                                           return vertegenwoordiger;
-                                                                                       })
-                                                                                      .ToArray();
-
-                return new FeitelijkeVerenigingWerdGeregistreerd(
-                    VCode: feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.VCode,
-                    Naam: feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.Naam,
-                    KorteNaam: feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.KorteNaam,
-                    KorteBeschrijving: feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.KorteBeschrijving,
-                    Startdatum: feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.Startdatum,
-                    Doelgroep: feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.Doelgroep,
-                    IsUitgeschrevenUitPubliekeDatastroom: feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.IsUitgeschrevenUitPubliekeDatastroom,
-                    Contactgegevens: feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.Contactgegevens,
-                    Locaties: feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.Locaties,
-                    Vertegenwoordigers: vertegenwoordigers,
-                    HoofdactiviteitenVerenigingsloket: feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.HoofdactiviteitenVerenigingsloket
-                );
-            });
-
+        var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster(querySessionFunc);
         opts.Events.Upcast<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>(
-            async (verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens, ct) =>
-            {
-                await using var session = querySessionFunc();
-
-                var refIdsFromFeitelijkeVereniging = verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.Vertegenwoordigers
-                                                                                          .Select(x => x.RefId)
-                                                                                          .ToList();
-
-                var vertegenwoordigerPersoonsgegevens = await session
-                                                             .Query<VertegenwoordigerPersoonsgegevensDocument>()
-                                                             .Where(x => refIdsFromFeitelijkeVereniging.Contains(x.RefId))
-                                                             .ToListAsync(ct);
-
-                var persoonsgegevensByRefId = vertegenwoordigerPersoonsgegevens
-                   .ToDictionary(x => x.RefId);
-
-                var vertegenwoordigers = verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.Vertegenwoordigers
-                                                                                      .Select(v =>
-                                                                                       {
-                                                                                           persoonsgegevensByRefId.TryGetValue(
-                                                                                               v.RefId, out var doc);
-
-                                                                                           var vertegenwoordiger = doc is null
-                                                                                               ? null // RegistratieData.VertegenwoordigerZonderPersoonsgegevens();
-                                                                                               : new Registratiedata.Vertegenwoordiger(
-                                                                                                   doc.VertegenwoordigerId,
-                                                                                                   doc.Insz,
-                                                                                                   v.IsPrimair,
-                                                                                                   doc.Roepnaam,
-                                                                                                   doc.Rol,
-                                                                                                   doc.Voornaam,
-                                                                                                   doc.Achternaam,
-                                                                                                   doc.Email,
-                                                                                                   doc.Telefoon,
-                                                                                                   doc.Mobiel,
-                                                                                                   doc.SocialMedia);
-
-                                                                                           return vertegenwoordiger;
-                                                                                       })
-                                                                                      .ToArray();
-
-                return new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                    VCode: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.VCode,
-                    Naam: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.Naam,
-                    KorteNaam: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.KorteNaam,
-                    KorteBeschrijving: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.KorteBeschrijving,
-                    Startdatum: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.Startdatum,
-                    Doelgroep: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.Doelgroep,
-                    IsUitgeschrevenUitPubliekeDatastroom: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.IsUitgeschrevenUitPubliekeDatastroom,
-                    Contactgegevens: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.Contactgegevens,
-                    Locaties: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.Locaties,
-                    Vertegenwoordigers: vertegenwoordigers,
-                    HoofdactiviteitenVerenigingsloket: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.HoofdactiviteitenVerenigingsloket,
-                    DuplicatieInfo: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.DuplicatieInfo
-                );
-            });
+            verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster.UpcastAsync);
 
         return opts;
     }
