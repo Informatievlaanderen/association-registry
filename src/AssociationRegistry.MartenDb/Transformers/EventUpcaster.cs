@@ -31,67 +31,29 @@ public static class EventUpcaster
                     vertegenwoordigerPersoonsgegevens.SocialMedia
                 );
             });
-        //
-        // opts.Events.Upcast<VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens, VertegenwoordigerWerdToegevoegdVanuitKBO>(
-        //     async (vertegenwoordigerWerdToegevoegdVanuitKboZonderPersoonsgegevens, ct) =>
-        //     {
-        //         await using var session = querySessionFunc();
-        //
-        //         var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-        //                                                              .Where(x => x.RefId == vertegenwoordigerWerdToegevoegdVanuitKboZonderPersoonsgegevens.RefId)
-        //                                                              .SingleOrDefaultAsync(ct);
-        //
-        //         return new VertegenwoordigerWerdToegevoegdVanuitKBO(
-        //             VertegenwoordigerId: vertegenwoordigerWerdToegevoegdVanuitKboZonderPersoonsgegevens.VertegenwoordigerId,
-        //             vertegenwoordigerPersoonsgegevens.Insz,
-        //             vertegenwoordigerPersoonsgegevens.Voornaam,
-        //             vertegenwoordigerPersoonsgegevens.Achternaam
-        //         );
-        //     });
-        //
-        // opts.Events.Upcast<VertegenwoordigerWerdGewijzigd, VertegenwoordigerWerdGewijzigdMetPersoonsgegevens>(
-        //     async (vertegenwoordigerWerdToegevoegd, ct) =>
-        //     {
-        //         await using var session = querySessionFunc();
-        //
-        //         var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-        //                                                              .Where(x => x.RefId == vertegenwoordigerWerdToegevoegd.RefId)
-        //                                                              .SingleOrDefaultAsync(ct);
-        //
-        //         return new VertegenwoordigerWerdGewijzigdMetPersoonsgegevens(
-        //             VertegenwoordigerId: vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-        //             IsPrimair: vertegenwoordigerWerdToegevoegd.IsPrimair,
-        //             vertegenwoordigerPersoonsgegevens is not null
-        //                 ? new VertegenwoordigerPersoonsgegevens(
-        //                     vertegenwoordigerPersoonsgegevens.Insz,
-        //                     vertegenwoordigerPersoonsgegevens.Roepnaam,
-        //                     vertegenwoordigerPersoonsgegevens.Rol,
-        //                     vertegenwoordigerPersoonsgegevens.Voornaam,
-        //                     vertegenwoordigerPersoonsgegevens.Achternaam,
-        //                     vertegenwoordigerPersoonsgegevens.Email,
-        //                     vertegenwoordigerPersoonsgegevens.Telefoon,
-        //                     vertegenwoordigerPersoonsgegevens.Mobiel,
-        //                     vertegenwoordigerPersoonsgegevens.SocialMedia
-        //                 )
-        //                 : null);
-        //     });
-        //
-        // opts.Events.Upcast<VertegenwoordigerWerdVerwijderd, VertegenwoordigerWerdVerwijderdMetPersoonsgegevens>(
-        //     async (vertegenwoordigerWerdToegevoegd, ct) =>
-        //     {
-        //         await using var session = querySessionFunc();
-        //
-        //         var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-        //                                                              .Where(x => x.RefId == vertegenwoordigerWerdToegevoegd.RefId)
-        //                                                              .SingleOrDefaultAsync(ct);
-        //
-        //         return new VertegenwoordigerWerdVerwijderdMetPersoonsgegevens(
-        //             VertegenwoordigerId: vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-        //             vertegenwoordigerPersoonsgegevens?.Insz,
-        //             vertegenwoordigerPersoonsgegevens?.Voornaam,
-        //             vertegenwoordigerPersoonsgegevens?.Achternaam);
-        //     });
-        //
+
+        opts.Events.Upcast<VertegenwoordigerWerdGewijzigdZonderPersoongegevens, VertegenwoordigerWerdGewijzigd>(
+            async (vertegenwoordigerWerdGewijzigdZonderPersoongegevens, ct) =>
+            {
+                await using var session = querySessionFunc();
+
+                var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
+                                                                     .Where(x => x.RefId == vertegenwoordigerWerdGewijzigdZonderPersoongegevens.RefId)
+                                                                     .SingleOrDefaultAsync(ct);
+
+                return new VertegenwoordigerWerdGewijzigd(
+                    VertegenwoordigerId: vertegenwoordigerWerdGewijzigdZonderPersoongegevens.VertegenwoordigerId,
+                    vertegenwoordigerWerdGewijzigdZonderPersoongegevens.IsPrimair,
+                    vertegenwoordigerPersoonsgegevens.Roepnaam,
+                    vertegenwoordigerPersoonsgegevens.Rol,
+                    vertegenwoordigerPersoonsgegevens.Voornaam,
+                    vertegenwoordigerPersoonsgegevens.Achternaam,
+                    vertegenwoordigerPersoonsgegevens.Email,
+                    vertegenwoordigerPersoonsgegevens.Telefoon,
+                    vertegenwoordigerPersoonsgegevens.Mobiel,
+                    vertegenwoordigerPersoonsgegevens.SocialMedia
+                );
+            });
 
         opts.Events.Upcast<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens, FeitelijkeVerenigingWerdGeregistreerd>(
             async (feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens, ct) =>

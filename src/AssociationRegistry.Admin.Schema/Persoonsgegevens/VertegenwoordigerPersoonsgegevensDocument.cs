@@ -8,7 +8,7 @@ public class VertegenwoordigerPersoonsgegevensDocument
     public Guid RefId { get; set; }
     public string VCode { get; set; }
     public int VertegenwoordigerId { get; set; }
-    public string Insz { get; init; }
+    public string? Insz { get; init; }
     public bool IsPrimair { get; init; }
     public string? Roepnaam { get; set; }
     public string? Rol { get; set; }
