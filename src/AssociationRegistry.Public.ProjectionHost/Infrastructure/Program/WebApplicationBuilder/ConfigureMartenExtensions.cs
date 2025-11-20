@@ -15,6 +15,7 @@ using MartenDb.Subscriptions;
 using Elastic.Clients.Elasticsearch;
 using Hosts.Configuration;
 using MartenDb.Logging;
+using MartenDb.Transformers;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -32,13 +33,14 @@ public static class ConfigureMartenExtensions
         {
             var opts = new StoreOptions();
 
-            return ConfigureStoreOptions(opts,
+            return ConfigureStoreOptionsCore(opts,
                                          serviceProvider.GetRequiredService<ElasticsearchClient>(),
                                          serviceProvider.GetRequiredService<ILogger<PubliekZoekenEventsConsumer>>(),
                                          serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
                                          serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
                                          configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
                                                              .Get<PostgreSqlOptionsSection>(),
+                                         () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession(),
                                          serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
                                          configurationManager
                                             .GetSection(ElasticSearchOptionsSection.SectionName)
@@ -63,13 +65,14 @@ public static class ConfigureMartenExtensions
         return services;
     }
 
-    public static StoreOptions ConfigureStoreOptions(
+    public static StoreOptions ConfigureStoreOptionsCore(
         StoreOptions opts,
         ElasticsearchClient elasticClient,
         ILogger<PubliekZoekenEventsConsumer> publiekZoekenEventsConsumerLogger,
         ILogger<MartenSubscription> martenSubscriptionLogger,
         ILogger<SecureMartenLogger> secureMartenLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
+        Func<IQuerySession> querySessionFunc,
         bool isDevelopment,
         ElasticSearchOptionsSection? elasticSearchOptionsSection)
     {
@@ -106,7 +109,8 @@ public static class ConfigureMartenExtensions
 
         opts.UpcastLegacyTombstoneEvents();
 
-        opts.RegisterAllEventTypes();
+        opts.RegisterAllEventTypes()
+            .UpcastEvents(querySessionFunc);
 
         opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
@@ -132,5 +136,35 @@ public static class ConfigureMartenExtensions
         });
 
         return opts;
+    }
+
+    public static StoreOptions ConfigureStoreOptions(
+        StoreOptions opts,
+        ElasticsearchClient elasticClient,
+        ILogger<PubliekZoekenEventsConsumer> publiekZoekenEventsConsumerLogger,
+        ILogger<MartenSubscription> martenSubscriptionLogger,
+        ILogger<SecureMartenLogger> secureMartenLogger,
+        PostgreSqlOptionsSection? postgreSqlOptionsSection,
+        bool isDevelopment,
+        ElasticSearchOptionsSection? elasticSearchOptionsSection)
+    {
+        IDocumentStore? builtStore = null;
+
+        return ConfigureStoreOptionsCore(
+            opts,
+            elasticClient,
+            publiekZoekenEventsConsumerLogger,
+            martenSubscriptionLogger,
+            secureMartenLogger,
+            postgreSqlOptionsSection,
+            () =>
+            {
+                builtStore ??= new DocumentStore(opts);
+
+                return builtStore.QuerySession();
+            },
+            isDevelopment,
+            elasticSearchOptionsSection
+        );
     }
 }

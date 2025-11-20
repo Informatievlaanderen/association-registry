@@ -2,7 +2,6 @@
 
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
-using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using Admin.ProjectionHost.Projections;
 using Alba;
 using AlbaHost;
@@ -28,6 +27,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
 using EventStore.ConflictResolution;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using NodaTime;
 using NodaTime.Text;
 using Npgsql;
@@ -278,7 +279,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
             Array.Empty<IEventPreConflictResolutionStrategy>(),
             Array.Empty<IEventPostConflictResolutionStrategy>());
 
-        var eventStore = new EventStore(session, eventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, eventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
 
         long maxSequence = 0;
         foreach (var eventsPerStream in givenEvents)

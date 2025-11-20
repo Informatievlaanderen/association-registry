@@ -12,6 +12,8 @@ using DecentraalBeheer.Vereniging;
 using EventStore.ConflictResolution;
 using FluentAssertions;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NodaTime;
@@ -45,9 +47,8 @@ public class Given_An_Existing_Aggregate
 
         var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Existing_Aggregate));
 
-
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(session, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
         await eventStore.Save(verenigingWerdGeregistreerd.VCode, EventStore.ExpectedVersion.NewStream, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),

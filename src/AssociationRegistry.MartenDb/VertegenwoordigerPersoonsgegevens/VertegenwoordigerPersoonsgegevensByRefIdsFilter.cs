@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
+namespace AssociationRegistry.MartenDb.VertegenwoordigerPersoonsgegevens;
 
 public record VertegenwoordigerPersoonsgegevensByRefIdsFilter
 {

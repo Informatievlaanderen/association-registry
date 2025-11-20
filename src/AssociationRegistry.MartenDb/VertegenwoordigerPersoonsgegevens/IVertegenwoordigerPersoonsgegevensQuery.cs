@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
+namespace AssociationRegistry.MartenDb.VertegenwoordigerPersoonsgegevens;
 
-using Framework;
-using Persoonsgegevens;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Persoonsgegevens;
 
 public interface IVertegenwoordigerPersoonsgegevensQuery : IQuery<VertegenwoordigerPersoonsgegevensDocument?, VertegenwoordigerPersoonsgegevensByRefIdFilter>,
                                                            IQuery<VertegenwoordigerPersoonsgegevensDocument[], VertegenwoordigerPersoonsgegevensByRefIdsFilter>;

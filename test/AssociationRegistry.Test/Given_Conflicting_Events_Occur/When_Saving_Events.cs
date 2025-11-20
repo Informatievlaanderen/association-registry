@@ -6,10 +6,13 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
+using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore.ConflictResolution;
 using FluentAssertions;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NodaTime;
@@ -43,11 +46,11 @@ public class When_Saving_Events
                                                               });
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(session, eventConflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, eventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 
-        var vCode = _fixture.Create<string>();
+        var vCode = _fixture.Create<VCode>();
 
         var allowedTypeEvents = AddressMatchConflictResolutionStrategy
                                .AllowedTypes

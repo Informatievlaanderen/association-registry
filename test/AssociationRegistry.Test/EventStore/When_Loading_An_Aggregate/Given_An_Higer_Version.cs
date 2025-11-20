@@ -10,6 +10,8 @@ using Events;
 using EventStore;
 using EventStore.ConflictResolution;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NodaTime;
@@ -58,7 +60,7 @@ public class Given_An_Higer_Version
         var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Higer_Version));
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(session, _conflictResolver, Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 
         await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),

@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Admin.MartenDb;
+namespace AssociationRegistry.MartenDb;
 
-using Persoonsgegevens;
-using Schema;
+using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Persoonsgegevens;
 
 public static class IQueryableExtensions
 {

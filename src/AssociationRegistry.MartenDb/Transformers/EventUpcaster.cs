@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
+﻿namespace AssociationRegistry.MartenDb.Transformers;
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Persoonsgegevens;
@@ -92,6 +92,7 @@ public static class EventUpcaster
         //             vertegenwoordigerPersoonsgegevens?.Achternaam);
         //     });
         //
+
         opts.Events.Upcast<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens, FeitelijkeVerenigingWerdGeregistreerd>(
             async (feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens, ct) =>
             {

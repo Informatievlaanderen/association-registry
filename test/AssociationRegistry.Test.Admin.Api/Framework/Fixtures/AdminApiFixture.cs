@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using Amazon.SQS;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Security;
-using AssociationRegistry.Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using EventStore;
 using AssociationRegistry.Framework;
@@ -27,6 +26,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using NodaTime;
 using Npgsql;
 using Oakton;
@@ -205,7 +206,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         await using var session = DocumentStore.LightweightSession();
-        var eventStore = new EventStore(session, EventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, EventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var result = await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), metadata, CancellationToken.None, eventsToAdd);
 
         return result;

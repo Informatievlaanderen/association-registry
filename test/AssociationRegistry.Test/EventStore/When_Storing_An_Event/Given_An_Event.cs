@@ -8,6 +8,8 @@ using FluentAssertions;
 using JasperFx.Events;
 using Marten;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NodaTime;
@@ -24,7 +26,8 @@ public class Given_An_Event
         // arrange
         var streamId = Guid.NewGuid().ToString();
         var someEvent = new SomeEvent("some event");
-        var eventStore = new EventStore(documentStore.LightweightSession(), new EventConflictResolver([new EmptyConflictResolutionStrategy()], [new EmptyConflictResolutionStrategy()]), Mock.Of<IVertegenwoordigerPersoonsgegevensRepository>(), NullLogger<EventStore>.Instance);
+        var session = documentStore.LightweightSession();
+        var eventStore = new EventStore(documentStore.LightweightSession(), new EventConflictResolver([new EmptyConflictResolutionStrategy()], [new EmptyConflictResolutionStrategy()]), new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
 
         // act
         var tijdstip = new Instant();

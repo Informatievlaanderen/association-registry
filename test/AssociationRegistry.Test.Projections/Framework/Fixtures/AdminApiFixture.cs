@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Projections.Framework.Fixtures;
 
 using Admin.Api;
 using Admin.Api.Infrastructure.WebApi.Security;
-using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using AssociationRegistry.Framework;
 using Common.Clients;
 using Common.Configuration;
@@ -25,6 +24,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Elastic.Clients.Elasticsearch;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using NodaTime;
 using Npgsql;
 using Oakton;
@@ -177,7 +178,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         var session = ProjectionsDocumentStore.LightweightSession();
 
-        var eventStore = new EventStore(session, EventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, EventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance),NullLogger<EventStore>.Instance);
         var result = await eventStore.Save(vCode.ToUpperInvariant(), EventStore.ExpectedVersion.NewStream, metadata, CancellationToken.None, eventsToAdd);
 
         return result;

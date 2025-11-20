@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Acm.Api;
 
-using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using Asp.Versioning.ApplicationModels;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -26,6 +25,8 @@ using AssociationRegistry.Integrations.Magda.Services;
 using AssociationRegistry.Magda;
 using EventStore.ConflictResolution;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -513,6 +514,8 @@ public class Program
                .AddScoped<IEventStore, EventStore>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+               .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
+               .AddScoped<PersoonsgegevensEventTransformers>()
                .AddSingleton<IEventPreConflictResolutionStrategy, EmptyConflictResolutionStrategy>()
                .AddSingleton<IEventPostConflictResolutionStrategy, EmptyConflictResolutionStrategy>()
                .AddSingleton<EventConflictResolver>();

@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
+namespace AssociationRegistry.MartenDb.VertegenwoordigerPersoonsgegevens;
 
-using DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Persoonsgegevens;
 using Marten;
-using Persoonsgegevens;
 
 public class VertegenwoordigerPersoonsgegevensRepository : IVertegenwoordigerPersoonsgegevensRepository
 {

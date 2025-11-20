@@ -74,6 +74,11 @@ public static class Registratiedata
         string Mobiel,
         string SocialMedia);
 
+    public record VertegenwoordigerZonderPersoonsgegevens(
+        Guid RefId,
+        int VertegenwoordigerId,
+        bool IsPrimair);
+
     public record HoofdactiviteitVerenigingsloket(
         string Code,
         string Naam);

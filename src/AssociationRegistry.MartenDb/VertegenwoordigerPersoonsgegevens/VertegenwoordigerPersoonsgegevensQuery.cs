@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
+namespace AssociationRegistry.MartenDb.VertegenwoordigerPersoonsgegevens;
 
+using AssociationRegistry.Persoonsgegevens;
 using Marten;
-using Persoonsgegevens;
 
 public class VertegenwoordigerPersoonsgegevensQuery : IVertegenwoordigerPersoonsgegevensQuery
 {

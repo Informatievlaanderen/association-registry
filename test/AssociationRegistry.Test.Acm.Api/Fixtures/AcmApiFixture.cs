@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
-using Admin.MartenDb.VertegenwoordigerPersoonsgegevens;
 using AssociationRegistry.Acm.Api;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
@@ -15,6 +14,8 @@ using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -163,7 +164,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
         await using var session = DocumentStore.LightweightSession();
 
-        var eventStore = new EventStore(session, EventConflictResolver, new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, EventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var result = StreamActionResult.Empty;
 
 
