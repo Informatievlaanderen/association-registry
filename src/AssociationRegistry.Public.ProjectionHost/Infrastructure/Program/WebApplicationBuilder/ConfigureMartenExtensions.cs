@@ -16,6 +16,7 @@ using Elastic.Clients.Elasticsearch;
 using Hosts.Configuration;
 using MartenDb.Logging;
 using MartenDb.Transformers;
+using MartenDb.Upcasters.Persoonsgegevens;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;

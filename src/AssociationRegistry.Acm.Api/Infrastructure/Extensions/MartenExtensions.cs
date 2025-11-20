@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
-using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -9,7 +8,7 @@ using JasperFx.Events.Daemon;
 using Marten;
 using MartenDb.Logging;
 using MartenDb.Setup;
-using MartenDb.Transformers;
+using MartenDb.Upcasters.Persoonsgegevens;
 using Schema.VerenigingenPerInsz;
 
 public static class MartenExtensions
