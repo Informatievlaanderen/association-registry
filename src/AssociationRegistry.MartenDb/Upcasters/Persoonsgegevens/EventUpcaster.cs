@@ -20,6 +20,10 @@ public static class EventUpcaster
         opts.Events.Upcast<VertegenwoordigerWerdVerwijderdZonderPersoonsgegevens, VertegenwoordigerWerdVerwijderd>(
             vertegenwoordigerWerdVerwijderdUpcaster.UpcastAsync);
 
+        var vertegenwoordigerWerdOvergenomenUitKBO = new VertegenwoordigerWerdOvergenomenUitKBOUpcaster(querySessionFunc);
+        opts.Events.Upcast<VertegenwoordigerWerdOvergenomenUitKBOZonderPersoonsgegevens, VertegenwoordigerWerdOvergenomenUitKBO>(
+            vertegenwoordigerWerdOvergenomenUitKBO.UpcastAsync);
+
         var feitelijkeVerenigingWerdGeregistreerdUpcaster = new FeitelijkeVerenigingWerdGeregistreerdUpcaster(querySessionFunc);
         opts.Events.Upcast<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens, FeitelijkeVerenigingWerdGeregistreerd>(
             feitelijkeVerenigingWerdGeregistreerdUpcaster.UpcastAsync);

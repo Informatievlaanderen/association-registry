@@ -9,6 +9,7 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore;
 using EventStore.ConflictResolution;
+using Marten;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -19,14 +20,31 @@ using Persoonsgegevens;
 using Vereniging;
 using Xunit;
 
-public class Given_An_Higer_Version
+public class GivenAnHigerVersionFixture : IAsyncLifetime
+{
+    public IDocumentStore Store { get; private set; } = default!;
+
+    public async ValueTask InitializeAsync()
+    {
+        Store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Higer_Version));
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await Store.DisposeAsync();
+    }
+}
+
+public class Given_An_Higer_Version : IClassFixture<GivenAnHigerVersionFixture>
 {
     private readonly Fixture _fixture;
     private readonly EventConflictResolver _conflictResolver;
+    private readonly IDocumentStore _documentStore;
 
-    public Given_An_Higer_Version()
+    public Given_An_Higer_Version(GivenAnHigerVersionFixture fixture)
     {
         _fixture = new Fixture().CustomizeAdminApi();
+        _documentStore = fixture.Store;
 
         _conflictResolver = new EventConflictResolver(
             new IEventPreConflictResolutionStrategy[]
@@ -57,9 +75,8 @@ public class Given_An_Higer_Version
 
     private async Task<EventStore> SetupEventStore(VCode vCode, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd verenigingWerdGeregistreerd)
     {
-        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Higer_Version));
+        await using var session = _documentStore.LightweightSession();
 
-        await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 
