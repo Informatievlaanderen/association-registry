@@ -5,18 +5,18 @@ using Events;
 using Persoonsgegevens;
 using Store;
 
-public class VertegenwoordigerWerdVerwijderdTransformer : IPersoonsgegevensEventTransformer
+public class VertegenwoordigerWerdOvergenomenUitKBOTransformer : IPersoonsgegevensEventTransformer
 {
-    public Type EventType => typeof(VertegenwoordigerWerdVerwijderd);
-    public Type PersistedEventType => typeof(VertegenwoordigerWerdVerwijderdZonderPersoonsgegevens);
+    public Type EventType => typeof(VertegenwoordigerWerdOvergenomenUitKBO);
+    public Type PersistedEventType => typeof(VertegenwoordigerWerdOvergenomenUitKBOZonderPersoonsgegevens);
 
     public EventTransformationResult Transform(IEvent @event, string aggregateId)
     {
         var refId = Guid.NewGuid();
-        var originalEvent = (VertegenwoordigerWerdVerwijderd)@event;
+        var originalEvent = (VertegenwoordigerWerdOvergenomenUitKBO)@event;
 
         var eventZonderPersoonsgegevens =
-            new VertegenwoordigerWerdVerwijderdZonderPersoonsgegevens(refId, originalEvent.VertegenwoordigerId);
+            new VertegenwoordigerWerdOvergenomenUitKBOZonderPersoonsgegevens(refId, originalEvent.VertegenwoordigerId);
 
         var persoonsgegevens = new VertegenwoordigerPersoonsgegevens(
             refId: refId,

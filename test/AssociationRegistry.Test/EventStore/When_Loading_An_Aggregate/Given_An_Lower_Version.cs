@@ -11,6 +11,7 @@ using AutoFixture.Kernel;
 using DecentraalBeheer.Vereniging;
 using EventStore.ConflictResolution;
 using FluentAssertions;
+using Marten;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -20,14 +21,32 @@ using NodaTime;
 using Persoonsgegevens;
 using Xunit;
 
-public class Given_An_Lower_Version
+
+public class GivenAnLowerVersionFixture : IAsyncLifetime
+{
+    public IDocumentStore Store { get; private set; } = default!;
+
+    public async ValueTask InitializeAsync()
+    {
+        Store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Lower_Version));
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await Store.DisposeAsync();
+    }
+}
+
+public class Given_An_Lower_Version: IClassFixture<GivenAnLowerVersionFixture>
 {
     private readonly Fixture _fixture;
     private readonly EventConflictResolver _conflictResolver;
+    private readonly IDocumentStore _documentStore;
 
-    public Given_An_Lower_Version()
+    public Given_An_Lower_Version(GivenAnLowerVersionFixture fixture)
     {
         _fixture = new Fixture().CustomizeAdminApi();
+        _documentStore = fixture.Store;
 
         _conflictResolver = new EventConflictResolver(
             new IEventPreConflictResolutionStrategy[]
@@ -47,9 +66,8 @@ public class Given_An_Lower_Version
     {
         var context = new SpecimenContext(_fixture);
 
-        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Lower_Version));
+        await using var session = _documentStore.LightweightSession();
 
-        await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
@@ -60,7 +78,6 @@ public class Given_An_Lower_Version
                               (dynamic)verenigingWerdGeregistreerd, locatieWerdToegevoegd);
 
         await Assert.ThrowsAsync<UnexpectedAggregateVersionException>(() => eventStore.Load<VerenigingState>(vCode, expectedVersion: 1));
-        await documentStore.DisposeAsync();
     }
 
     [Theory]
@@ -74,9 +91,8 @@ public class Given_An_Lower_Version
     [InlineData(typeof(AdresHeeftGeenVerschillenMetAdressenregister))]
     public async Task With_FeitelijkeVereniging_With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version(Type eventType)
     {
-        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Lower_Version));
+        await using var session = _documentStore.LightweightSession();
 
-        await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 
@@ -90,7 +106,6 @@ public class Given_An_Lower_Version
 
         var aggregate = await eventStore.Load<VerenigingState>(vCode, expectedVersion: 1);
         aggregate.Version.Should().Be(2);
-        await documentStore.DisposeAsync();
     }
 
     [Theory]
@@ -104,9 +119,8 @@ public class Given_An_Lower_Version
     [InlineData(typeof(AdresHeeftGeenVerschillenMetAdressenregister))]
     public async Task With_VerenigingZonderEigenRechtspersoonlijkheid_With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version(Type eventType)
     {
-        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Lower_Version));
+        await using var session = _documentStore.LightweightSession();
 
-        await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = _fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
@@ -121,6 +135,5 @@ public class Given_An_Lower_Version
 
         var aggregate = await eventStore.Load<VerenigingState>(vCode, expectedVersion: 1);
         aggregate.Version.Should().Be(2);
-        await documentStore.DisposeAsync();
     }
 }

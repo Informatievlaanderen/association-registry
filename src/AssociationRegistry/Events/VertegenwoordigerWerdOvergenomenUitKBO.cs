@@ -14,3 +14,12 @@ public record VertegenwoordigerWerdOvergenomenUitKBO(
     public Bron Bron
         => Bron.KBO;
 }
+
+public record VertegenwoordigerWerdOvergenomenUitKBOZonderPersoonsgegevens(
+    Guid RefId,
+    int VertegenwoordigerId) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+}

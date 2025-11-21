@@ -10,6 +10,7 @@ using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using JasperFx.Events.Projections;
 using Marten;
+using MartenDb.Upcasters.Persoonsgegevens;
 using Microsoft.Extensions.Logging.Abstractions;
 using ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 using ProjectionHost.Projections.Detail;

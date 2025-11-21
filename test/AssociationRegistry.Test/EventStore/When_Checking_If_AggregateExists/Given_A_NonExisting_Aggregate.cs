@@ -11,6 +11,7 @@ using AutoFixture.Kernel;
 using DecentraalBeheer.Vereniging;
 using EventStore.ConflictResolution;
 using FluentAssertions;
+using Marten;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -20,15 +21,30 @@ using NodaTime;
 using Persoonsgegevens;
 using Xunit;
 
-public class Given_A_NonExisting_Aggregate
+public class Given_A_NonExisting_AggregateFixture : IAsyncLifetime
+{
+    public IDocumentStore Store { get; private set; } = default!;
+
+    public async ValueTask InitializeAsync()
+    {
+        Store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_A_NonExisting_Aggregate));
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await Store.DisposeAsync();
+    }
+}
+
+public class Given_A_NonExisting_Aggregate : IClassFixture<Given_A_NonExisting_AggregateFixture>
 {
     private readonly Fixture _fixture;
     private readonly EventConflictResolver _conflictResolver;
-
-    public Given_A_NonExisting_Aggregate()
+    private readonly IDocumentStore _documentStore;
+    public Given_A_NonExisting_Aggregate(Given_A_NonExisting_AggregateFixture fixture)
     {
         _fixture = new Fixture().CustomizeAdminApi();
-
+        _documentStore = fixture.Store;
         _conflictResolver = new EventConflictResolver(
             [
                 new AddressMatchConflictResolutionStrategy(),
@@ -45,10 +61,7 @@ public class Given_A_NonExisting_Aggregate
     {
         var context = new SpecimenContext(_fixture);
 
-        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_A_NonExisting_Aggregate));
-
-
-        await using var session = documentStore.LightweightSession();
+        await using var session = _documentStore.LightweightSession();
         var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
@@ -59,7 +72,5 @@ public class Given_A_NonExisting_Aggregate
                               (dynamic)verenigingWerdGeregistreerd);
 
         (await eventStore.Exists(nonExistingVCode)).Should().BeFalse();
-
-        await documentStore.DisposeAsync();
     }
 }
