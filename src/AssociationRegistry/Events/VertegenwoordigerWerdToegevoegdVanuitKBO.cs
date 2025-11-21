@@ -14,3 +14,12 @@ public record VertegenwoordigerWerdToegevoegdVanuitKBO(
     public Bron Bron
         => Bron.KBO;
 }
+
+public record VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens(
+    Guid RefId,
+    int VertegenwoordigerId) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+}

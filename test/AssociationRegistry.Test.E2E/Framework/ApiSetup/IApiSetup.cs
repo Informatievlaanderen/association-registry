@@ -20,6 +20,6 @@ public interface IApiSetup
 
     public IProjectionDaemon AdminProjectionDaemon { get; }
 
-    Task<long> ExecuteGiven(IScenario scenario, IDocumentSession session);
+    Task<long> ExecuteGiven(IScenario scenario);
     Task RefreshIndices();
 }

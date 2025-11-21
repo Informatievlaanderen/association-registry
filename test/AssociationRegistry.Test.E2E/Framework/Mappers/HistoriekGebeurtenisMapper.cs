@@ -735,4 +735,16 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse VertegenwoordigerWerdToegevoegdVanuitKBO(VertegenwoordigerWerdToegevoegdVanuitKBO vertegenwoordigerWerdToegevoegdVanuitKBO)
+        => new()
+        {
+            Beschrijving = $"Vertegenwoordiger '{vertegenwoordigerWerdToegevoegdVanuitKBO.Voornaam} {vertegenwoordigerWerdToegevoegdVanuitKBO.Achternaam}' werd toegevoegd vanuit KBO.",
+            Gebeurtenis = nameof(Events.VertegenwoordigerWerdToegevoegdVanuitKBO),
+            Data = new KBOVertegenwoordigerData(vertegenwoordigerWerdToegevoegdVanuitKBO.VertegenwoordigerId,
+                                                vertegenwoordigerWerdToegevoegdVanuitKBO.Voornaam,
+                                                vertegenwoordigerWerdToegevoegdVanuitKBO.Achternaam),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }
