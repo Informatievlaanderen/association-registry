@@ -17,7 +17,7 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens,
         CancellationToken ct)
     {
-        await using var session = _querySessionFunc();
+        var session = _querySessionFunc();
 
         var refIdsFromFeitelijkeVereniging = verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.Vertegenwoordigers
                                                                                   .Select(x => x.RefId)
