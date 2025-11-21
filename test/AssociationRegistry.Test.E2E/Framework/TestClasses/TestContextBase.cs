@@ -42,8 +42,7 @@ where TScenario : IScenario
         ApiSetup.Logger.LogWarning($"INITIALIZING Scenario: {Scenario}");
 
         Scenario = InitializeScenario();
-        await using var lightweightSession = ApiSetup.AdminApiHost.DocumentStore().LightweightSession();
-        var sequence = await ApiSetup.ExecuteGiven(Scenario, lightweightSession);
+        var sequence = await ApiSetup.ExecuteGiven(Scenario);
 
         ApiSetup.Logger.LogWarning($"WAITING FOR EVENTS TO BE PROCESSED: {Scenario}");
 
@@ -52,8 +51,8 @@ where TScenario : IScenario
             //MaxSequenceByScenario = sequence.SelectMany(x => x.Value).Max(x => x.c);
 
             MaxSequenceByScenario = sequence;
-            await WaitBeforeCommands(ApiSetup, sequence, ApiSetup.AdminProjectionHost, "BEFORE", lightweightSession);
-            await WaitBeforeCommands(ApiSetup, sequence, ApiSetup.PublicProjectionHost, "BEFORE", lightweightSession);
+            await WaitBeforeCommands(ApiSetup, sequence, ApiSetup.AdminProjectionHost, "BEFORE");
+            await WaitBeforeCommands(ApiSetup, sequence, ApiSetup.PublicProjectionHost, "BEFORE");
         }
 
 
@@ -64,8 +63,8 @@ where TScenario : IScenario
 
         if (CommandResult.Sequence.HasValue)
         {
-            await WaitBeforeCommands(ApiSetup, CommandResult.Sequence.Value, ApiSetup.AdminProjectionHost, "AFTER", lightweightSession);
-            await WaitBeforeCommands(ApiSetup, CommandResult.Sequence.Value, ApiSetup.PublicProjectionHost, "AFTER", lightweightSession);
+            await WaitBeforeCommands(ApiSetup, CommandResult.Sequence.Value, ApiSetup.AdminProjectionHost, "AFTER");
+            await WaitBeforeCommands(ApiSetup, CommandResult.Sequence.Value, ApiSetup.PublicProjectionHost, "AFTER");
         }
         ApiSetup.Logger.LogWarning($"SCENARIO SETUP DONE: {Scenario}");
         await ApiSetup.ElasticClient.Indices.RefreshAsync(Indices.All);
@@ -77,9 +76,11 @@ where TScenario : IScenario
         FullBlownApiSetup setup,
         long max,
         IAlbaHost host,
-        string beforeOrAfter,
-        IDocumentSession lightweightSession)
+        string beforeOrAfter)
     {
+        var documentStore = ApiSetup.AdminApiHost.DocumentStore();
+        await using var session = documentStore.LightweightSession();
+
         setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: WAITING FOR REAL NOW", beforeOrAfter);
 
         var highWaterMark = max;
@@ -89,14 +90,14 @@ where TScenario : IScenario
         setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: Waiting for high water mark of {HighWaterMark} on database schema {DatabaseSchemaName}",
                           beforeOrAfter, highWaterMark, databaseSchemaName);
 
-        var projectionProgress = await lightweightSession.DocumentStore.Advanced.AllProjectionProgress();
+        var projectionProgress = await session.DocumentStore.Advanced.AllProjectionProgress();
 
         setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", beforeOrAfter, databaseSchemaName, projectionProgress);
 
         while (!projectionProgress.Any() || !projectionProgress.Any(x => !x.ShardName.Contains("ater")))
         {
             await Task.Delay(1.Seconds());
-            projectionProgress = await lightweightSession.DocumentStore.Advanced.AllProjectionProgress();
+            projectionProgress = await session.DocumentStore.Advanced.AllProjectionProgress();
             ApiSetup.Logger.LogInformation("WAITING FOR ANY projection progress");
         }
 
@@ -109,7 +110,7 @@ where TScenario : IScenario
                                                                             .Select(x => $"{x.ShardName}: {x.Sequence}\n"))}");
 
             counter++;
-            projectionProgress = await UpdateProjectionProgress(databaseSchemaName, setup, highWaterMark, lightweightSession);
+            projectionProgress = await UpdateProjectionProgress(databaseSchemaName, setup, highWaterMark, session);
         }
 
         if(!projectionProgress.All(x => x.Sequence >= highWaterMark))

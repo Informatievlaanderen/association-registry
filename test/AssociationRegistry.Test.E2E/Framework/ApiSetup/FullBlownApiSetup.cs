@@ -55,8 +55,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     public IAlbaHost PublicProjectionHost { get; private set; }
     public IAlbaHost PublicApiHost { get; private set; }
 
-    public IDocumentSession AdminApiSharedSession { get; private set; }
-
     public async ValueTask InitializeAsync()
     {
         SetUpAdminApiConfiguration();
@@ -79,8 +77,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         AdminHttpClient = clients.Authenticated.HttpClient;
 
         await AdminApiHost.ResetAllMartenDataAsync();
-
-        AdminApiSharedSession = AdminApiHost.DocumentStore().LightweightSession();
 
         var elasticSearchOptions = AdminApiHost.Server.Services.GetRequiredService<IConfiguration>().GetElasticSearchOptionsSection();
         ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
@@ -264,8 +260,11 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await AcmApiHost.DisposeAsync();
     }
 
-    public async Task<long> ExecuteGiven(IScenario scenario, IDocumentSession session)
+    public async Task<long> ExecuteGiven(IScenario scenario)
     {
+        var documentStore = AdminApiHost.DocumentStore();
+        await using var session = documentStore.LightweightSession();
+
         session.SetHeader(MetadataHeaderNames.Initiator, value: "metadata.Initiator");
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(new Instant()));
         session.CorrelationId = Guid.NewGuid().ToString();
@@ -325,6 +324,5 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         UnauthorizedClient.Dispose();
         AdminHttpClient.Dispose();
         AmazonSqs.Dispose();
-        AdminApiSharedSession.Dispose();
     }
 }
