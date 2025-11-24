@@ -20,6 +20,17 @@ public record VertegenwoordigerWerdToegevoegd(
     [IgnoreDataMember]
     public Bron Bron
         => Bron.Initiator;
+}
+
+public record VertegenwoordigerWerdToegevoegdZonderPersoonsgegevens(
+    Guid RefId,
+    int VertegenwoordigerId,
+    bool IsPrimair) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.Initiator;
 
 
 }
+
