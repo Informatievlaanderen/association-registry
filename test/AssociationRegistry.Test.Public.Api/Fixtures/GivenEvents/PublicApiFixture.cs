@@ -52,6 +52,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         get
         {
             var scope = _publicApiServer.Services.CreateScope();
+
             return scope.ServiceProvider;
         }
     }
@@ -71,8 +72,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         _publicApiServer = new WebApplicationFactory<PublicApiProgram>()
            .WithWebHostBuilder(
                 builder => { builder.UseConfiguration(GetConfiguration()); });
-
-
 
         WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, ServiceProvider.GetRequiredService<ILogger<PublicApiFixture>>())
                .GetAwaiter().GetResult();
@@ -134,11 +133,18 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         var eventConflictResolver = scope.ServiceProvider.GetRequiredService<EventConflictResolver>();
 
         var session = ProjectionsDocumentStore.LightweightSession();
-        var eventStore = new EventStore(session, eventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+
+        var eventStore = new EventStore(session, eventConflictResolver,
+                                        new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(),
+                                                                      new VertegenwoordigerPersoonsgegevensRepository(
+                                                                          session, new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                                                      NullLogger<PersoonsgegevensProcessor>.Instance),
+                                        NullLogger<EventStore>.Instance);
 
         foreach (var (@event, i) in eventsToAdd.Select((x, i) => (x, i)))
         {
             var result = await eventStore.Save(vCode, i, metadata, CancellationToken.None, @event);
+
             if (result.Sequence.HasValue)
                 MaxSequence = Math.Max(MaxSequence, result.Sequence.Value);
         }
@@ -153,6 +159,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         var reachedSequence = sequencesPerProjection.All(x => x.Value >= MaxSequence);
         var counter = 0;
+
         while (!reachedSequence && counter < 20)
         {
             counter++;
@@ -166,10 +173,13 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
             reachedSequence = sequencesPerProjection.All(x => x.Value >= MaxSequence);
         }
 
-        sequencesPerProjection.Should().AllSatisfy(x => x.Value.Should().BeGreaterThanOrEqualTo(MaxSequence, $"Because we want projection {x.Key} to be up to date"));
+        sequencesPerProjection.Should()
+                              .AllSatisfy(x => x.Value.Should()
+                                                .BeGreaterThanOrEqualTo(
+                                                     MaxSequence, $"Because we want projection {x.Key} to be up to date"));
 
         await ElasticClient.Indices.ForcemergeAsync(Indices.All, fm => fm
-                                                 .MaxNumSegments(1));
+                                                       .MaxNumSegments(1));
     }
 
     private static async Task ConfigureElasticClient(ElasticsearchClient client, string verenigingenIndexName)
@@ -218,6 +228,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
+        NpgsqlConnection.ClearAllPools();
         PublicApiClient.Dispose();
 
         DropDatabase();

@@ -118,6 +118,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
+        NpgsqlConnection.ClearAllPools();
         DropDatabase();
     }
 

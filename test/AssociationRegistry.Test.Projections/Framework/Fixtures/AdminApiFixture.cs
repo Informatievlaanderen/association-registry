@@ -145,6 +145,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
+        NpgsqlConnection.ClearAllPools();
         AdminApiClients.SafeDispose();
 
         _adminApiServer.SafeDispose();
