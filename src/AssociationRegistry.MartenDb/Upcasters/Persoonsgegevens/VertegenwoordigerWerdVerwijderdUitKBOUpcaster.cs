@@ -17,7 +17,7 @@ public class VertegenwoordigerWerdVerwijderdUitKBOUpcaster
         VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens vertegenwoordigerWerdVerwijderdUitKboZonderPersoonsgegevens,
         CancellationToken ct)
     {
-        await using var session = _querySessionFunc();
+        var session = _querySessionFunc();
 
         var refId = vertegenwoordigerWerdVerwijderdUitKboZonderPersoonsgegevens.RefId;
         var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()

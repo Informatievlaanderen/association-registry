@@ -17,7 +17,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdUpcaster
         FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens,
         CancellationToken ct)
     {
-        await using var session = _querySessionFunc();
+        var session = _querySessionFunc();
 
         var refIdsFromFeitelijkeVereniging = feitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens.Vertegenwoordigers
                                                                                   .Select(x => x.RefId)
