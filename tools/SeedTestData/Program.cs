@@ -188,11 +188,21 @@ session.Events.Append(
 
 session.Events.Append(
     "V9000003",
+    new VertegenwoordigerWerdGewijzigdInKBO(
+        VertegenwoordigerId: 2,
+        Insz: "66778899001",
+        Voornaam: "Boromir",
+        Achternaam: "son of Denethor"
+    )
+);
+
+session.Events.Append(
+    "V9000003",
     new VertegenwoordigerWerdVerwijderdUitKBO(
-        VertegenwoordigerId: 1,
-        Insz: "55667788990",
-        Voornaam: "Aragorn",
-        Achternaam: "Elessar"
+        VertegenwoordigerId: 2,
+        Insz: "66778899001",
+        Voornaam: "Boromir",
+        Achternaam: "son of Denethor"
     )
 );
 
@@ -308,7 +318,7 @@ await session.SaveChangesAsync();
 Console.WriteLine("\n✅ Test data seeded successfully!");
 Console.WriteLine($"   - V9000001: The Shire Preservation Society (Frodo: toegevoegd → gewijzigd → verwijderd)");
 Console.WriteLine($"   - V9000002: The Fellowship of the Ring (Gandalf & Sam in registration array)");
-Console.WriteLine($"   - V9000003: Guardians of Minas Tirith (Aragorn & Boromir: overgenomen → toegevoegd → verwijderd)");
+Console.WriteLine($"   - V9000003: Guardians of Minas Tirith (Aragorn: overgenomen, Boromir: toegevoegd → gewijzigd → verwijderd from KBO)");
 Console.WriteLine($"   - V9000004: Council of Elrond (5 council members toegevoegd)");
 Console.WriteLine($"   - V9000005: White Council of the Istari (Galadriel & Saruman)");
 Console.WriteLine($"\n🎯 Total: 5 verenigingen with rich vertegenwoordiger event sequences");
@@ -321,4 +331,5 @@ Console.WriteLine($"   ✓ VertegenwoordigerWerdGewijzigd");
 Console.WriteLine($"   ✓ VertegenwoordigerWerdVerwijderd");
 Console.WriteLine($"   ✓ VertegenwoordigerWerdOvergenomenUitKBO");
 Console.WriteLine($"   ✓ VertegenwoordigerWerdToegevoegdVanuitKBO");
+Console.WriteLine($"   ✓ VertegenwoordigerWerdGewijzigdInKBO");
 Console.WriteLine($"   ✓ VertegenwoordigerWerdVerwijderdUitKBO");

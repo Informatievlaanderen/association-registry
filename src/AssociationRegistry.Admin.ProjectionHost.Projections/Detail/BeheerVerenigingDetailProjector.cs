@@ -7,6 +7,7 @@ using Events;
 using Formats;
 using Framework;
 using JasperFx.Events;
+using Newtonsoft.Json;
 using Schema;
 using Schema.Detail;
 using Contactgegeven = Schema.Detail.Contactgegeven;
@@ -507,37 +508,56 @@ public class BeheerVerenigingDetailProjector
         IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
         BeheerVerenigingDetailDocument document)
     {
+        Console.WriteLine(JsonConvert.SerializeObject(vertegenwoordigerWerdOvergenomenUitKbo));
+        var dataVertegenwoordigerId = vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId;
+
+        var dataAchternaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam;
+
+        var dataVoornaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Voornaam;
+
+        var dataInsz = vertegenwoordigerWerdOvergenomenUitKbo.Data.Insz;
+
+        var documentVCode = document.VCode;
+
+        var idValue = dataVertegenwoordigerId.ToString();
+
+        var jsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+            JsonLdType.VertegenwoordigerContactgegeven, documentVCode,
+            idValue);
+
+        var dataBron = vertegenwoordigerWerdOvergenomenUitKbo.Data.Bron;
+
+        var vertegenwoordiger = new Vertegenwoordiger
+        {
+            JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                JsonLdType.Vertegenwoordiger, documentVCode,
+                idValue),
+            VertegenwoordigerId =
+                dataVertegenwoordigerId,
+            Insz = dataInsz,
+            Achternaam = dataAchternaam,
+            Voornaam = dataVoornaam,
+            Roepnaam = string.Empty,
+            Rol = string.Empty,
+            IsPrimair = false,
+            Email = string.Empty,
+            Telefoon = string.Empty,
+            Mobiel = string.Empty,
+            SocialMedia = string.Empty,
+            Bron = dataBron,
+            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
+            {
+                JsonLdMetadata = jsonLdMetadata,
+                IsPrimair = false,
+                Email = string.Empty,
+                Telefoon = string.Empty,
+                Mobiel = string.Empty,
+                SocialMedia = string.Empty,
+            },
+        };
+
         document.Vertegenwoordigers = document.Vertegenwoordigers.Append(
-                                                   new Vertegenwoordiger
-                                                   {
-                                                       JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                                                           JsonLdType.Vertegenwoordiger, document.VCode,
-                                                           vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId.ToString()),
-                                                       VertegenwoordigerId =
-                                                           vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId,
-                                                       Insz = vertegenwoordigerWerdOvergenomenUitKbo.Data.Insz,
-                                                       Achternaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam,
-                                                       Voornaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Voornaam,
-                                                       Roepnaam = string.Empty,
-                                                       Rol = string.Empty,
-                                                       IsPrimair = false,
-                                                       Email = string.Empty,
-                                                       Telefoon = string.Empty,
-                                                       Mobiel = string.Empty,
-                                                       SocialMedia = string.Empty,
-                                                       Bron = vertegenwoordigerWerdOvergenomenUitKbo.Data.Bron,
-                                                       VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
-                                                       {
-                                                           JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                                                               JsonLdType.VertegenwoordigerContactgegeven, document.VCode,
-                                                               vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId.ToString()),
-                                                           IsPrimair = false,
-                                                           Email = string.Empty,
-                                                           Telefoon = string.Empty,
-                                                           Mobiel = string.Empty,
-                                                           SocialMedia = string.Empty,
-                                                       },
-                                                   })
+                                                   vertegenwoordiger)
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();
     }
