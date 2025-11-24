@@ -12,7 +12,7 @@ public static class EventUpcaster
             vertegenwoordigerWerdToegevoegdUpcaster.UpcastAsync);
 
         var vertegenwoordigerWerdGewijzigdUpcaster = new VertegenwoordigerWerdGewijzigdUpcaster(querySessionFunc);
-        opts.Events.Upcast<VertegenwoordigerWerdGewijzigdZonderPersoongegevens, VertegenwoordigerWerdGewijzigd>(
+        opts.Events.Upcast<VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens, VertegenwoordigerWerdGewijzigd>(
             vertegenwoordigerWerdGewijzigdUpcaster.UpcastAsync);
 
         var vertegenwoordigerWerdVerwijderdUpcaster = new VertegenwoordigerWerdVerwijderdUpcaster(querySessionFunc);

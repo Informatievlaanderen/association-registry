@@ -193,15 +193,15 @@ services:
       - vr-net
 
 
-  # golden master template creation
-  admin-api-migrations-golden-master:
+  # golden master template creation - Step 1: Run Grate with local scripts (schema only, no production migrations)
+  admin-api-migrations-golden-master-local:
     build:
-      context: migrations/production/admin.api/
+      context: migrations/local/
       dockerfile: Dockerfile
       args:
         CI_BUILD_NUMBER: "8.2.3"
         GIT_HASH: "local-dev"
-    container_name: vr_admin_api_migrations-golden-master
+    container_name: vr_admin_api_migrations_golden_master_local
     environment:
       - APP_CONNSTRING_HOST=db
       - APP_CONNSTRING_DB=golden_master_template
@@ -209,12 +209,45 @@ services:
       - APP_CONNSTRING_USERNAME=root
       - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
-    volumes:
-      - ./migrations/local/scripts/createDatabase:/db/createDatabase
-      - ./migrations/local/scripts/runAfterCreateDatabase:/db/runAfterCreateDatabase
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - vr-net
+
+  # Step 2: Seed test data using C# and Marten
+  admin-api-seed-testdata:
+    build:
+      context: .
+      dockerfile: tools/SeedTestData/Dockerfile
+    container_name: vr_admin_api_seed_testdata
+    environment:
+      - ConnectionString=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root
+    depends_on:
+      admin-api-migrations-golden-master-local:
+        condition: service_completed_successfully
+    networks:
+      - vr-net
+
+  # Step 3: Run Grate with production scripts (including persoonsgegevens split)
+  admin-api-migrations-golden-master-production:
+    build:
+      context: migrations/production/admin.api/
+      dockerfile: Dockerfile
+      args:
+        CI_BUILD_NUMBER: "8.2.3"
+        GIT_HASH: "local-dev"
+    container_name: vr_admin_api_migrations_golden_master_production
+    environment:
+      - APP_CONNSTRING_HOST=db
+      - APP_CONNSTRING_DB=golden_master_template
+      - APP_CONNSTRING_PORT=5432
+      - APP_CONNSTRING_USERNAME=root
+      - APP_CONNSTRING_PASSWORD=root
+      - DATABASE_TYPE=postgresql
+    depends_on:
+      admin-api-seed-testdata:
+        condition: service_completed_successfully
     networks:
       - vr-net
 
@@ -234,7 +267,7 @@ services:
       - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
     depends_on:
-      admin-api-migrations-golden-master:
+      admin-api-migrations-golden-master-production:
         condition: service_completed_successfully
     networks:
       - vr-net
@@ -276,7 +309,7 @@ services:
       - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
     depends_on:
-      admin-api-migrations-golden-master:
+      admin-api-migrations-golden-master-production:
         condition: service_completed_successfully
     networks:
       - vr-net
@@ -297,7 +330,7 @@ services:
       - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
     depends_on:
-      admin-api-migrations-golden-master:
+      admin-api-migrations-golden-master-production:
         condition: service_completed_successfully
     networks:
       - vr-net

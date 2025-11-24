@@ -9,14 +9,14 @@ using System.Collections.ObjectModel;
 public class VertegenwoordigerWerdGewijzigdTransformer : IPersoonsgegevensEventTransformer
 {
     public Type EventType => typeof(VertegenwoordigerWerdGewijzigd);
-    public Type PersistedEventType => typeof(VertegenwoordigerWerdGewijzigdZonderPersoongegevens);
+    public Type PersistedEventType => typeof(VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens);
 
     public EventTransformationResult Transform(IEvent @event, string vCode)
     {
         var original = (VertegenwoordigerWerdGewijzigd)@event;
         var refId = Guid.NewGuid();
 
-        var transformedEvent = new VertegenwoordigerWerdGewijzigdZonderPersoongegevens(
+        var transformedEvent = new VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens(
             refId,
             original.VertegenwoordigerId,
             original.IsPrimair
