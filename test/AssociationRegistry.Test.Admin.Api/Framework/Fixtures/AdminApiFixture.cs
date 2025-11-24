@@ -178,9 +178,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     {
         GC.SuppressFinalize(this);
         DropDatabase();
-        NpgsqlConnection.ClearAllPools();
-        _projectionHostServer?.Dispose();
-        _adminApiServer?.Dispose();
     }
 
     private void CreateDatabaseFromTemplate(IConfigurationRoot configuration)

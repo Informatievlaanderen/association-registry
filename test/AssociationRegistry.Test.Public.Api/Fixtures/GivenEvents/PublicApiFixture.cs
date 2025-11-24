@@ -228,7 +228,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        NpgsqlConnection.ClearAllPools();
         PublicApiClient.Dispose();
 
         DropDatabase();

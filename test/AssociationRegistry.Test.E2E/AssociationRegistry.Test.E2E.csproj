@@ -24,12 +24,6 @@
   <ItemGroup>
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <None Update="xunit.runner.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 
 
   <ItemGroup>
