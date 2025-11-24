@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.MartenDb.Upcasters.Persoonsgegevens;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Persoonsgegevens;
+using Events;
 using Marten;
 
 public static class EventUpcaster
@@ -24,13 +23,17 @@ public static class EventUpcaster
         opts.Events.Upcast<VertegenwoordigerWerdOvergenomenUitKBOZonderPersoonsgegevens, VertegenwoordigerWerdOvergenomenUitKBO>(
             vertegenwoordigerWerdOvergenomenUitKBOUpcaster.UpcastAsync);
 
-        var vertegenwoordigerWerdGewijzigdInKBO = new VertegenwoordigerWerdGewijzigdInKBOUpcaster(querySessionFunc);
+        var vertegenwoordigerWerdGewijzigdInKBOUpcaster = new VertegenwoordigerWerdGewijzigdInKBOUpcaster(querySessionFunc);
         opts.Events.Upcast<VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens, VertegenwoordigerWerdGewijzigdInKBO>(
-            vertegenwoordigerWerdGewijzigdInKBO.UpcastAsync);
+            vertegenwoordigerWerdGewijzigdInKBOUpcaster.UpcastAsync);
 
-        var vertegenwoordigerWerdToegevoegdVanuitKBO = new VertegenwoordigerWerdToegevoegdVanuitKBOUpcaster(querySessionFunc);
+        var vertegenwoordigerWerdToegevoegdVanuitKBOUpcaster = new VertegenwoordigerWerdToegevoegdVanuitKBOUpcaster(querySessionFunc);
         opts.Events.Upcast<VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens, VertegenwoordigerWerdToegevoegdVanuitKBO>(
-            vertegenwoordigerWerdToegevoegdVanuitKBO.UpcastAsync);
+            vertegenwoordigerWerdToegevoegdVanuitKBOUpcaster.UpcastAsync);
+
+        var vertegenwoordigerWerdVerwijderdUitKboUpcaster = new VertegenwoordigerWerdVerwijderdUitKBOUpcaster(querySessionFunc);
+        opts.Events.Upcast<VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens, VertegenwoordigerWerdVerwijderdUitKBO>(
+            vertegenwoordigerWerdVerwijderdUitKboUpcaster.UpcastAsync);
 
         var feitelijkeVerenigingWerdGeregistreerdUpcaster = new FeitelijkeVerenigingWerdGeregistreerdUpcaster(querySessionFunc);
         opts.Events.Upcast<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens, FeitelijkeVerenigingWerdGeregistreerd>(
