@@ -139,6 +139,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
+        NpgsqlConnection.ClearAllPools();
         DropDatabase();
 
         _elasticClient.Indices.Delete(VerenigingenIndexName);
