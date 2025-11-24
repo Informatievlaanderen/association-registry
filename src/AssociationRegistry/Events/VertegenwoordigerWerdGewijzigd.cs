@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Events;
 
-public record VertegenwoordigerWerdGewijzigd(
+public record
+    VertegenwoordigerWerdGewijzigd(
     int VertegenwoordigerId,
     bool IsPrimair,
     string Roepnaam,

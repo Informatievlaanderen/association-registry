@@ -24,6 +24,10 @@ public static class EventUpcaster
         opts.Events.Upcast<VertegenwoordigerWerdOvergenomenUitKBOZonderPersoonsgegevens, VertegenwoordigerWerdOvergenomenUitKBO>(
             vertegenwoordigerWerdOvergenomenUitKBOUpcaster.UpcastAsync);
 
+        var vertegenwoordigerWerdGewijzigdInKBO = new VertegenwoordigerWerdGewijzigdInKBOUpcaster(querySessionFunc);
+        opts.Events.Upcast<VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens, VertegenwoordigerWerdGewijzigdInKBO>(
+            vertegenwoordigerWerdGewijzigdInKBO.UpcastAsync);
+
         var vertegenwoordigerWerdToegevoegdVanuitKBO = new VertegenwoordigerWerdToegevoegdVanuitKBOUpcaster(querySessionFunc);
         opts.Events.Upcast<VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens, VertegenwoordigerWerdToegevoegdVanuitKBO>(
             vertegenwoordigerWerdToegevoegdVanuitKBO.UpcastAsync);

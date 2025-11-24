@@ -19,6 +19,7 @@ public static class EventCustomizations
         fixture.CustomizeContactgegevenWerdToegevoegd();
         fixture.CustomizeVertegenwoordigerWerdToegevoegd();
         fixture.CustomizeContactgegevenWerdOvergenomenUitKBO();
+        fixture.CustomizeVertegenwoordigerWerdGewijzigdInKBO();
         fixture.CustomizeVertegenwoordigerWerdOvergenomenUitKBO();
         fixture.CustomizeContactgegevenKonNietOvergenomenWordenUitKBO();
         fixture.CustomizeRechtsvormWerdGewijzigdInKBO();
@@ -120,6 +121,17 @@ public static class EventCustomizations
     {
         fixture.Customize<VertegenwoordigerWerdOvergenomenUitKBO>(
             composer => composer.FromFactory(() => new VertegenwoordigerWerdOvergenomenUitKBO(
+                                                 fixture.Create<int>(),
+                                                 fixture.Create<Insz>(),
+                                                 fixture.Create<Voornaam>(),
+                                                 fixture.Create<Achternaam>()))
+                                .OmitAutoProperties());
+    }
+
+    private static void CustomizeVertegenwoordigerWerdGewijzigdInKBO(this IFixture fixture)
+    {
+        fixture.Customize<VertegenwoordigerWerdGewijzigdInKBO>(
+            composer => composer.FromFactory(() => new VertegenwoordigerWerdGewijzigdInKBO(
                                                  fixture.Create<int>(),
                                                  fixture.Create<Insz>(),
                                                  fixture.Create<Voornaam>(),

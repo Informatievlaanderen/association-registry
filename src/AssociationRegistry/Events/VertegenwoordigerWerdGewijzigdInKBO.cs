@@ -14,3 +14,12 @@ public record VertegenwoordigerWerdGewijzigdInKBO(
     public Bron Bron
         => Bron.KBO;
 }
+
+public record VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens(
+    Guid RefId,
+    int VertegenwoordigerId) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.KBO;
+}
