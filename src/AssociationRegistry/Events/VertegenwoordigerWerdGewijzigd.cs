@@ -14,7 +14,7 @@ public record
     string SocialMedia) : IEvent
 { }
 
-public record VertegenwoordigerWerdGewijzigdZonderPersoongegevens(
+public record VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens(
     Guid RefId,
     int VertegenwoordigerId,
     bool IsPrimair) : IEvent

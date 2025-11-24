@@ -14,18 +14,18 @@ public class VertegenwoordigerWerdGewijzigdUpcaster
     }
 
     public async Task<VertegenwoordigerWerdGewijzigd> UpcastAsync(
-        VertegenwoordigerWerdGewijzigdZonderPersoongegevens vertegenwoordigerWerdGewijzigdZonderPersoongegevens,
+        VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens vertegenwoordigerWerdGewijzigdZonderPersoonsgegevens,
         CancellationToken ct)
     {
         await using var session = _querySessionFunc();
 
         var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-                                                             .Where(x => x.RefId == vertegenwoordigerWerdGewijzigdZonderPersoongegevens.RefId)
+                                                             .Where(x => x.RefId == vertegenwoordigerWerdGewijzigdZonderPersoonsgegevens.RefId)
                                                              .SingleOrDefaultAsync(ct);
 
         return new VertegenwoordigerWerdGewijzigd(
-            VertegenwoordigerId: vertegenwoordigerWerdGewijzigdZonderPersoongegevens.VertegenwoordigerId,
-            vertegenwoordigerWerdGewijzigdZonderPersoongegevens.IsPrimair,
+            VertegenwoordigerId: vertegenwoordigerWerdGewijzigdZonderPersoonsgegevens.VertegenwoordigerId,
+            vertegenwoordigerWerdGewijzigdZonderPersoonsgegevens.IsPrimair,
             vertegenwoordigerPersoonsgegevens.Roepnaam,
             vertegenwoordigerPersoonsgegevens.Rol,
             vertegenwoordigerPersoonsgegevens.Voornaam,
