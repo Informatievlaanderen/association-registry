@@ -155,6 +155,20 @@ public static class HistoriekGebeurtenisMapper
         };
     }
 
+    public static HistoriekGebeurtenisResponse NaamWerdGewijzigdInKBO(
+        string naam)
+    {
+        var @event = new NaamWerdGewijzigdInKbo(naam);
+
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = $"Naam werd gewijzigd naar '{@event.Naam}'.",
+            Gebeurtenis = nameof(Events.NaamWerdGewijzigdInKbo),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
     public static HistoriekGebeurtenisResponse KorteNaamWerdGewijzigd(
         string vCode,
         string naam)
