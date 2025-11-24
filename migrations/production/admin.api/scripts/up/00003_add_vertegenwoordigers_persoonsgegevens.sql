@@ -554,18 +554,17 @@ WHERE type = 'vertegenwoordiger_werd_toegevoegd'
   AND mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdToegevoegd, AssociationRegistry';
 
 -- FeitelijkeVerenigingWerdGeregistreerd -> FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens
+-- Always rename ALL FeitelijkeVerenigingWerdGeregistreerd events (regardless of whether they have vertegenwoordigers)
 UPDATE public.mt_events
 SET type = 'feitelijke_vereniging_werd_geregistreerd_zonder_persoonsgegevens',
     mt_dotnet_type = 'AssociationRegistry.Events.FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens, AssociationRegistry'
 WHERE type = 'feitelijke_vereniging_werd_geregistreerd'
   AND mt_dotnet_type = 'AssociationRegistry.Events.FeitelijkeVerenigingWerdGeregistreerd, AssociationRegistry';
 
--- VerenigingMetRechtspersoonlijkheidWerdGeregistreerd -> VerenigingMetRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens
-UPDATE public.mt_events
-SET type = 'vereniging_met_rechtspersoonlijkheid_werd_geregistreerd_zonder_persoonsgegevens',
-    mt_dotnet_type = 'AssociationRegistry.Events.VerenigingMetRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens, AssociationRegistry'
-WHERE type = 'vereniging_met_rechtspersoonlijkheid_werd_geregistreerd'
-  AND mt_dotnet_type = 'AssociationRegistry.Events.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, AssociationRegistry';
+-- NOTE: VerenigingMetRechtspersoonlijkheidWerdGeregistreerd is NOT renamed because:
+-- 1. The event itself has no personal data (only VCode, KboNummer, Rechtsvorm, Naam, KorteNaam, Startdatum)
+-- 2. Personal data only appears in separate vertegenwoordiger events from KBO
+-- 3. No upcaster exists for this event type (see EventUpcaster.cs)
 
 -- VertegenwoordigerWerdToegevoegdVanuitKBO -> VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens
 UPDATE public.mt_events
