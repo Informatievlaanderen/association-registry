@@ -588,9 +588,9 @@ SET type = 'vertegenwoordiger_werd_verwijderd_uit_kbo_zonder_persoonsgegevens',
 WHERE type = 'vertegenwoordiger_werd_verwijderd_uit_kbo'
   AND mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdVerwijderdUitKBO, AssociationRegistry';
 
--- Fix typo: VertegenwoordigerWerdGewijzigdZonderPersoongegevens -> VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens
+-- Fix typo: VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens -> VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens
 UPDATE public.mt_events
 SET type = 'vertegenwoordiger_werd_gewijzigd_zonder_persoonsgegevens',
     mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens, AssociationRegistry'
-WHERE type = 'vertegenwoordiger_werd_gewijzigd_zonder_persoongegevens'
-  AND mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdGewijzigdZonderPersoongegevens, AssociationRegistry';
+WHERE type = 'vertegenwoordiger_werd_gewijzigd_zonder_persoonsgegevens'
+  AND mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens, AssociationRegistry';
