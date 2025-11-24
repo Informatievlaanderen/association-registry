@@ -46,8 +46,6 @@ public class Returns_Historiek : End2EndTest<HistoriekResponse>
             HistoriekGebeurtenisMapper.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(_testContext.RegistratieData),
             compareConfig: HistoriekComparisonConfig.Instance);
 
-        var naamWerdGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(NaamWerdGewijzigd));
-
         var korteBeschrijvingWerdGewijzigd =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(KorteBeschrijvingWerdGewijzigd));
 
