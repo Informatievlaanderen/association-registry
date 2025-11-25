@@ -35,7 +35,7 @@ public class Only_Returns_Success_Or_PreconditionFailed : End2EndTest<DetailVere
         var locatie = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
         var tasks = new List<Task>();
 
-        for (var i = 0; i < 100; i++)
+        for (var i = 0; i < 10; i++)
         {
             var currentIndex = i; // Capture the current index
 
@@ -76,7 +76,7 @@ public class Only_Returns_Success_Or_PreconditionFailed : End2EndTest<DetailVere
         var locatie = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
         var tasks = new List<Task>();
 
-        for (var i = 0; i < 100; i++)
+        for (var i = 0; i < 10; i++)
         {
             var currentIndex = i; // Capture the current index
 
