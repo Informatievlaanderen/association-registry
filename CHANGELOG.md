@@ -1,3 +1,30 @@
+# [8.278.0](https://github.com/informatievlaanderen/association-registry/compare/v8.277.2...v8.278.0) (2025-11-25)
+
+
+### Bug Fixes
+
+* or-2949 add more seed data, fix problems in vertegenwoordiger persoonsgegevens migration script ([a6f6dae](https://github.com/informatievlaanderen/association-registry/commit/a6f6dae6c671a121e470223ecb92b236b0fc6282))
+* or-2949 change VertegenwoordigerPersoonsgegevens to VertegenwoordigerPersoonsgegevensDocument ([d8dcf93](https://github.com/informatievlaanderen/association-registry/commit/d8dcf93dc907ed1a6e7a99af413f043b8995a451))
+* or-2949 dont await using when querysessionfunc on upcasters ([86c1b1f](https://github.com/informatievlaanderen/association-registry/commit/86c1b1fa9791150fb70ce08a2144dca9e3dcc8b2))
+* or-2949 remove console writeline ([6a9e703](https://github.com/informatievlaanderen/association-registry/commit/6a9e703805d444518f002cf177425abb0fdc1445))
+* or-2949 remove duplicate slack notification project ([f74b05e](https://github.com/informatievlaanderen/association-registry/commit/f74b05e33fac203b49109650f7e177b6610931f5))
+
+
+### Features
+
+* or-2949 add vertegenwoordigers persoonsgegevens ([79ef4bc](https://github.com/informatievlaanderen/association-registry/commit/79ef4bc2446fad4d2397d62a8cf90597fca4f011))
+* or-2949 don't migrate kbo werd geregistreerd ([3a12310](https://github.com/informatievlaanderen/association-registry/commit/3a12310489ef028eb2e0091934958b45968c1a4c))
+* or-2949 fix typo in migrations as well ([aaaf3d3](https://github.com/informatievlaanderen/association-registry/commit/aaaf3d30790bc7f58ed37ce7918f83e49d6bd5b8))
+* or-2949 seed data on startup, add gdpr migration script ([8cc875b](https://github.com/informatievlaanderen/association-registry/commit/8cc875bd74205d0fa24a2d3b268d483b639c8331))
+* or-2949 split persoongegevens from VertegenwoordigerWerdGewijzigdInKBO ([e9b76a2](https://github.com/informatievlaanderen/association-registry/commit/e9b76a24cf3fc9350f18e168867f29a3c59b4b7c))
+* or-2949 split persoongegevens on vertegenwoordiger werd gewijzigd ([7036b9a](https://github.com/informatievlaanderen/association-registry/commit/7036b9a60fe82f34f8127cdaebdfd6c2e18272d5))
+* or-2949 split persoongegevens on vertegenwoordiger werd verwijderd ([fcb6858](https://github.com/informatievlaanderen/association-registry/commit/fcb68584365bc709268687a2799553c5c0001d8d))
+* or-2949 split persoonsgegevens from VertegenwoordigerWerdVerwijderdUitKBO ([38e8d05](https://github.com/informatievlaanderen/association-registry/commit/38e8d05993614a36a8fc5e0c211ba741fc1bee1b))
+* or-2949 split persoonsgegevens on registratie vzer and introduce persoonsgegevens transformers ([a186479](https://github.com/informatievlaanderen/association-registry/commit/a18647997025de910360baba3a1f3b85e3e71b9f))
+* or-2949 split persoonsgegevens on VertegenwoordigerWerdToegevoegdVanuitKBO ([ac7b64f](https://github.com/informatievlaanderen/association-registry/commit/ac7b64fc0b50aed3730ea8f97ec1f9686643f45e))
+* or-2949 split persoonsgegevens on voegvertegenwoordigertoe ([6c3eb85](https://github.com/informatievlaanderen/association-registry/commit/6c3eb851d1f81fbfc1fc22071a51fc7e8f436026))
+* or-2949 upgrade marten and wolverine ([bac37f4](https://github.com/informatievlaanderen/association-registry/commit/bac37f4932ba42869b18255a4494f69aef3e287a))
+
 ## [8.277.2](https://github.com/informatievlaanderen/association-registry/compare/v8.277.1...v8.277.2) (2025-10-28)
 
 
