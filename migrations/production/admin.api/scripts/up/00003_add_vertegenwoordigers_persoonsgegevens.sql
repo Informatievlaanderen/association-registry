@@ -42,6 +42,128 @@ RETURN final_version;
 END;
 $function$;
 
+-- ==================================================================================
+-- PRE-MIGRATION COUNTS: Track events to be migrated
+-- ==================================================================================
+
+DO $$
+DECLARE
+    v_count_gewijzigd INTEGER;
+    v_count_verwijderd INTEGER;
+    v_count_toegevoegd INTEGER;
+    v_count_kbo_toegevoegd INTEGER;
+    v_count_kbo_overgenomen INTEGER;
+    v_count_kbo_verwijderd INTEGER;
+    v_count_kbo_gewijzigd INTEGER;
+    v_count_feitelijk_events INTEGER;
+    v_count_feitelijk_verteg INTEGER;
+    v_count_rechtspersoon_verteg INTEGER;
+    v_count_zonder_rechtspersoon_verteg INTEGER;
+    v_total_expected INTEGER;
+BEGIN
+    -- Count individual vertegenwoordiger events
+    SELECT COUNT(*) INTO v_count_gewijzigd FROM mt_events
+    WHERE type = 'vertegenwoordiger_werd_gewijzigd'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.VertegenwoordigerWerdGewijzigd, AssociationRegistry%';
+
+    SELECT COUNT(*) INTO v_count_verwijderd FROM mt_events
+    WHERE type = 'vertegenwoordiger_werd_verwijderd'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.VertegenwoordigerWerdVerwijderd, AssociationRegistry%';
+
+    SELECT COUNT(*) INTO v_count_toegevoegd FROM mt_events
+    WHERE type = 'vertegenwoordiger_werd_toegevoegd'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.VertegenwoordigerWerdToegevoegd, AssociationRegistry%';
+
+    SELECT COUNT(*) INTO v_count_kbo_toegevoegd FROM mt_events
+    WHERE type = 'vertegenwoordiger_werd_toegevoegd_vanuit_kbo'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.VertegenwoordigerWerdToegevoegdVanuitKBO, AssociationRegistry%';
+
+    SELECT COUNT(*) INTO v_count_kbo_overgenomen FROM mt_events
+    WHERE type = 'vertegenwoordiger_werd_overgenomen_uit_kbo'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.VertegenwoordigerWerdOvergenomenUitKBO, AssociationRegistry%';
+
+    SELECT COUNT(*) INTO v_count_kbo_verwijderd FROM mt_events
+    WHERE type = 'vertegenwoordiger_werd_verwijderd_uit_kbo'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.VertegenwoordigerWerdVerwijderdUitKBO, AssociationRegistry%';
+
+    SELECT COUNT(*) INTO v_count_kbo_gewijzigd FROM mt_events
+    WHERE type = 'vertegenwoordiger_werd_gewijzigd_in_kbo'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.VertegenwoordigerWerdGewijzigdInKBO, AssociationRegistry%';
+
+    -- Count registration events
+    SELECT COUNT(*) INTO v_count_feitelijk_events FROM mt_events
+    WHERE type = 'feitelijke_vereniging_werd_geregistreerd'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.FeitelijkeVerenigingWerdGeregistreerd, AssociationRegistry%';
+
+    -- Count vertegenwoordigers in registration event arrays
+    SELECT COALESCE(SUM(jsonb_array_length(data->'Vertegenwoordigers')), 0) INTO v_count_feitelijk_verteg
+    FROM mt_events
+    WHERE type = 'feitelijke_vereniging_werd_geregistreerd'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.FeitelijkeVerenigingWerdGeregistreerd, AssociationRegistry%'
+      AND data ? 'Vertegenwoordigers';
+
+    SELECT COALESCE(SUM(jsonb_array_length(data->'Vertegenwoordigers')), 0) INTO v_count_rechtspersoon_verteg
+    FROM mt_events
+    WHERE type = 'vereniging_met_rechtspersoonlijkheid_werd_geregistreerd'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, AssociationRegistry%'
+      AND data ? 'Vertegenwoordigers';
+
+    SELECT COALESCE(SUM(jsonb_array_length(data->'Vertegenwoordigers')), 0) INTO v_count_zonder_rechtspersoon_verteg
+    FROM mt_events
+    WHERE type = 'vereniging_zonder_eigen_rechtspersoonlijkheid_werd_geregistreerd'
+      AND mt_dotnet_type LIKE 'AssociationRegistry.Events.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, AssociationRegistry%'
+      AND data ? 'Vertegenwoordigers';
+
+    -- Calculate total expected persoonsgegevens records
+    v_total_expected := COALESCE(v_count_gewijzigd, 0) +
+                        COALESCE(v_count_verwijderd, 0) +
+                        COALESCE(v_count_toegevoegd, 0) +
+                        COALESCE(v_count_kbo_toegevoegd, 0) +
+                        COALESCE(v_count_kbo_overgenomen, 0) +
+                        COALESCE(v_count_kbo_verwijderd, 0) +
+                        COALESCE(v_count_kbo_gewijzigd, 0) +
+                        COALESCE(v_count_feitelijk_verteg, 0) +
+                        COALESCE(v_count_rechtspersoon_verteg, 0) +
+                        COALESCE(v_count_zonder_rechtspersoon_verteg, 0);
+
+    -- Store counts in temp table for post-migration verification
+    CREATE TEMP TABLE migration_verification (
+        event_type VARCHAR,
+        expected_count INTEGER
+    );
+
+    INSERT INTO migration_verification VALUES
+        ('VertegenwoordigerWerdGewijzigd', v_count_gewijzigd),
+        ('VertegenwoordigerWerdVerwijderd', v_count_verwijderd),
+        ('VertegenwoordigerWerdToegevoegd', v_count_toegevoegd),
+        ('VertegenwoordigerWerdToegevoegdVanuitKBO', v_count_kbo_toegevoegd),
+        ('VertegenwoordigerWerdOvergenomenUitKBO', v_count_kbo_overgenomen),
+        ('VertegenwoordigerWerdVerwijderdUitKBO', v_count_kbo_verwijderd),
+        ('VertegenwoordigerWerdGewijzigdInKBO', v_count_kbo_gewijzigd),
+        ('FeitelijkeVerenigingWerdGeregistreerd', v_count_feitelijk_events),
+        ('FeitelijkeVerenigingWerdGeregistreerd_Vertegenwoordigers', v_count_feitelijk_verteg),
+        ('VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_Vertegenwoordigers', v_count_rechtspersoon_verteg),
+        ('VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_Vertegenwoordigers', v_count_zonder_rechtspersoon_verteg),
+        ('TOTAL_EXPECTED_PERSOONSGEGEVENS', v_total_expected);
+
+    RAISE NOTICE '==========================================';
+    RAISE NOTICE 'PRE-MIGRATION EVENT COUNTS';
+    RAISE NOTICE '==========================================';
+    RAISE NOTICE 'VertegenwoordigerWerdGewijzigd: %', v_count_gewijzigd;
+    RAISE NOTICE 'VertegenwoordigerWerdVerwijderd: %', v_count_verwijderd;
+    RAISE NOTICE 'VertegenwoordigerWerdToegevoegd: %', v_count_toegevoegd;
+    RAISE NOTICE 'VertegenwoordigerWerdToegevoegdVanuitKBO: %', v_count_kbo_toegevoegd;
+    RAISE NOTICE 'VertegenwoordigerWerdOvergenomenUitKBO: %', v_count_kbo_overgenomen;
+    RAISE NOTICE 'VertegenwoordigerWerdVerwijderdUitKBO: %', v_count_kbo_verwijderd;
+    RAISE NOTICE 'VertegenwoordigerWerdGewijzigdInKBO: %', v_count_kbo_gewijzigd;
+    RAISE NOTICE 'FeitelijkeVerenigingWerdGeregistreerd events: %', v_count_feitelijk_events;
+    RAISE NOTICE 'FeitelijkeVereniging Vertegenwoordigers in arrays: %', v_count_feitelijk_verteg;
+    RAISE NOTICE 'VerenigingMetRechtspersoonlijkheid Vertegenwoordigers in arrays: %', v_count_rechtspersoon_verteg;
+    RAISE NOTICE 'VerenigingZonderEigenRechtspersoonlijkheid Vertegenwoordigers in arrays: %', v_count_zonder_rechtspersoon_verteg;
+    RAISE NOTICE '==========================================';
+    RAISE NOTICE 'TOTAL EXPECTED PERSOONSGEGEVENS RECORDS: %', v_total_expected;
+    RAISE NOTICE '==========================================';
+END $$;
 
 -- ==================================================================================
 -- DATA SPLIT: Extract persoonsgegevens from events into separate table
@@ -378,6 +500,59 @@ WHERE e.id = t.event_id;
 
 DROP TABLE temp_event_refids_kbo_verwijderd;
 
+-- Step 6b: VertegenwoordigerWerdGewijzigdInKBO
+-- Persoonsgegevens: Insz, Voornaam, Achternaam
+-- Note: Similar to VertegenwoordigerWerdOvergenomenUitKBO but for changes in KBO
+
+CREATE TEMP TABLE temp_event_refids_kbo_gewijzigd (
+    event_id uuid,
+    stream_id varchar,
+    data jsonb,
+    ref_id uuid
+);
+
+INSERT INTO temp_event_refids_kbo_gewijzigd (event_id, stream_id, data, ref_id)
+SELECT
+    e.id as event_id,
+    e.stream_id,
+    e.data,
+    gen_random_uuid() as ref_id
+FROM public.mt_events e
+WHERE e.type = 'vertegenwoordiger_werd_gewijzigd_in_kbo'
+  AND e.mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdGewijzigdInKBO, AssociationRegistry';
+
+INSERT INTO public.mt_doc_vertegenwoordigerpersoonsgegevensdocument (id, data, mt_dotnet_type, mt_version)
+SELECT
+    ref_id as id,
+    jsonb_build_object(
+        'RefId', ref_id,
+        'VCode', stream_id,
+        'VertegenwoordigerId', (data->>'VertegenwoordigerId')::int,
+        'Insz', data->>'Insz',
+        'IsPrimair', NULL,
+        'Roepnaam', NULL,
+        'Rol', NULL,
+        'Voornaam', data->>'Voornaam',
+        'Achternaam', data->>'Achternaam',
+        'Email', NULL,
+        'Telefoon', NULL,
+        'Mobiel', NULL,
+        'SocialMedia', NULL
+    ) as data,
+    'AssociationRegistry.Persoonsgegevens.VertegenwoordigerPersoonsgegevensDocument, AssociationRegistry.Admin.Schema' as mt_dotnet_type,
+    md5(random()::text || clock_timestamp()::text)::uuid as mt_version
+FROM temp_event_refids_kbo_gewijzigd;
+
+-- Update events: Add RefId and REMOVE personal data fields
+UPDATE public.mt_events e
+SET data = e.data
+    - 'Insz' - 'Voornaam' - 'Achternaam'
+    || jsonb_build_object('RefId', t.ref_id)
+FROM temp_event_refids_kbo_gewijzigd t
+WHERE e.id = t.event_id;
+
+DROP TABLE temp_event_refids_kbo_gewijzigd;
+
 -- Step 7: FeitelijkeVerenigingWerdGeregistreerd (Vertegenwoordigers ARRAY)
 -- This is more complex - each event may have MULTIPLE vertegenwoordigers in an array
 -- We need to extract each one and update the array element with RefId
@@ -451,9 +626,9 @@ WHERE e.id = uv.event_id;
 
 DROP TABLE temp_registratie_feitelijk;
 
--- Step 8: VerenigingMetRechtspersoonlijkheidWerdGeregistreerd (Vertegenwoordigers ARRAY)
+-- Step 9: VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd (Vertegenwoordigers ARRAY)
 
-CREATE TEMP TABLE temp_registratie_rechtspersoon (
+CREATE TEMP TABLE temp_registratie_zonder_rechtspersoon (
     event_id uuid,
     stream_id varchar,
     vertegenwoordiger_id int,
@@ -462,7 +637,7 @@ CREATE TEMP TABLE temp_registratie_rechtspersoon (
     ref_id uuid
 );
 
-INSERT INTO temp_registratie_rechtspersoon (event_id, stream_id, vertegenwoordiger_id, array_index, vertegenwoordiger, ref_id)
+INSERT INTO temp_registratie_zonder_rechtspersoon (event_id, stream_id, vertegenwoordiger_id, array_index, vertegenwoordiger, ref_id)
 SELECT
     e.id as event_id,
     e.stream_id,
@@ -472,8 +647,8 @@ SELECT
     gen_random_uuid() as ref_id
 FROM public.mt_events e
 CROSS JOIN LATERAL jsonb_array_elements(e.data->'Vertegenwoordigers') WITH ORDINALITY AS t(vertegenwoordiger, vertegenwoordiger_index)
-WHERE e.type = 'vereniging_met_rechtspersoonlijkheid_werd_geregistreerd'
-  AND e.mt_dotnet_type = 'AssociationRegistry.Events.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, AssociationRegistry';
+WHERE e.type = 'vereniging_zonder_eigen_rechtspersoonlijkheid_werd_geregistreerd'
+  AND e.mt_dotnet_type = 'AssociationRegistry.Events.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, AssociationRegistry';
 
 INSERT INTO public.mt_doc_vertegenwoordigerpersoonsgegevensdocument (id, data, mt_dotnet_type, mt_version)
 SELECT
@@ -495,7 +670,7 @@ SELECT
     ) as data,
     'AssociationRegistry.Persoonsgegevens.VertegenwoordigerPersoonsgegevensDocument, AssociationRegistry.Admin.Schema' as mt_dotnet_type,
     md5(random()::text || clock_timestamp()::text)::uuid as mt_version
-FROM temp_registratie_rechtspersoon;
+FROM temp_registratie_zonder_rechtspersoon;
 
 WITH updated_vertegenwoordigers AS (
     SELECT
@@ -507,7 +682,7 @@ WITH updated_vertegenwoordigers AS (
             || jsonb_build_object('RefId', ref_id)
             ORDER BY array_index
         ) as new_vertegenwoordigers_array
-    FROM temp_registratie_rechtspersoon
+    FROM temp_registratie_zonder_rechtspersoon
     GROUP BY event_id
 )
 UPDATE public.mt_events e
@@ -515,7 +690,7 @@ SET data = jsonb_set(e.data, '{Vertegenwoordigers}', uv.new_vertegenwoordigers_a
 FROM updated_vertegenwoordigers uv
 WHERE e.id = uv.event_id;
 
-DROP TABLE temp_registratie_rechtspersoon;
+DROP TABLE temp_registratie_zonder_rechtspersoon;
 
 -- ==================================================================================
 -- EVENT RENAMING: Mark old events as "ZonderPersoonsgegevens"
@@ -587,9 +762,16 @@ SET type = 'vertegenwoordiger_werd_verwijderd_uit_kbo_zonder_persoonsgegevens',
 WHERE type = 'vertegenwoordiger_werd_verwijderd_uit_kbo'
   AND mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdVerwijderdUitKBO, AssociationRegistry';
 
--- Fix typo: VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens -> VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens
+-- VertegenwoordigerWerdGewijzigdInKBO -> VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens
 UPDATE public.mt_events
-SET type = 'vertegenwoordiger_werd_gewijzigd_zonder_persoonsgegevens',
-    mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens, AssociationRegistry'
-WHERE type = 'vertegenwoordiger_werd_gewijzigd_zonder_persoonsgegevens'
-  AND mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens, AssociationRegistry';
+SET type = 'vertegenwoordiger_werd_gewijzigd_in_kbo_zonder_persoonsgegevens',
+    mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens, AssociationRegistry'
+WHERE type = 'vertegenwoordiger_werd_gewijzigd_in_kbo'
+  AND mt_dotnet_type = 'AssociationRegistry.Events.VertegenwoordigerWerdGewijzigdInKBO, AssociationRegistry';
+-- VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd -> VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens
+-- Always rename ALL VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd events (regardless of whether they have vertegenwoordigers)
+UPDATE public.mt_events
+SET type = 'vereniging_zonder_eigen_rechtspersoonlijkheid_werd_geregistreerd_zonder_persoonsgegevens',
+    mt_dotnet_type = 'AssociationRegistry.Events.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens, AssociationRegistry'
+WHERE type = 'vereniging_zonder_eigen_rechtspersoonlijkheid_werd_geregistreerd'
+  AND mt_dotnet_type = 'AssociationRegistry.Events.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, AssociationRegistry';

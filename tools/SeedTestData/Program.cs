@@ -313,6 +313,145 @@ session.Events.Append(
     )
 );
 
+// Scenario 1b: Vzer with Vertegenwoordiger lifecycle (Toegevoegd -> Gewijzigd -> Verwijderd)
+Console.WriteLine("\n📝 Creating Vzer with vertegenwoordiger lifecycle...");
+
+session.Events.Append(
+    "V9000010",
+    new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+        VCode: "V9000010",
+        Naam: "The Shire Preservation Society 2",
+        KorteNaam: "",
+        KorteBeschrijving: "",
+        Startdatum: null,
+        Doelgroep: new Registratiedata.Doelgroep(0, 150),
+        IsUitgeschrevenUitPubliekeDatastroom: false,
+        Contactgegevens: [],
+        Locaties: [],
+        Vertegenwoordigers: [],
+        HoofdactiviteitenVerenigingsloket: [],
+        Registratiedata.DuplicatieInfo.GeenDuplicaten
+    )
+);
+
+
+session.Events.Append(
+    "V9000010",
+    new VertegenwoordigerWerdToegevoegd(
+        VertegenwoordigerId: 1,
+        Insz: "12345678901",
+        IsPrimair: true,
+        Roepnaam: "Frodo",
+        Rol: "Ring Bearer",
+        Voornaam: "Frodo",
+        Achternaam: "Baggins",
+        Email: "frodo.baggins@shire.example",
+        Telefoon: "0123456789",
+        Mobiel: "0412345678",
+        SocialMedia: "https://social.example/ringbearer"
+    )
+);
+
+session.Events.Append(
+    "V9000010",
+    new VertegenwoordigerWerdGewijzigd(
+        VertegenwoordigerId: 1,
+        IsPrimair: false,
+        Roepnaam: "Frodo",
+        Rol: "Secretary",
+        Voornaam: "Frodo",
+        Achternaam: "Baggins",
+        Email: "frodo@shire.example",
+        Telefoon: "0123456789",
+        Mobiel: "0498765432",
+        SocialMedia: "https://social.example/frodobaggins"
+    )
+);
+
+session.Events.Append(
+    "V9000010",
+    new VertegenwoordigerWerdVerwijderd(
+        VertegenwoordigerId: 1,
+        Insz: "12345678901",
+        Voornaam: "Frodo",
+        Achternaam: "Baggins"
+    )
+);
+
+// Scenario 2b: FeitelijkeVereniging registered WITH vertegenwoordigers in array
+Console.WriteLine("📝 Creating FeitelijkeVereniging with vertegenwoordigers in registration...");
+
+session.Events.Append(
+    "V9000011",
+    new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+        VCode: "V9000011",
+        Naam: "The Fellowship of the Ring 2",
+        KorteNaam: "",
+        KorteBeschrijving: "",
+        Startdatum: null,
+        Doelgroep: new Registratiedata.Doelgroep(0, 150),
+        IsUitgeschrevenUitPubliekeDatastroom: false,
+        Contactgegevens: [],
+        Locaties: [],
+        Vertegenwoordigers: [
+            new Registratiedata.Vertegenwoordiger(
+                VertegenwoordigerId: 1,
+                Insz: "98765432109",
+                IsPrimair: true,
+                Roepnaam: "Gandalf",
+                Rol: "Wizard",
+                Voornaam: "Gandalf",
+                Achternaam: "the Grey",
+                Email: "gandalf.grey@middleearth.example",
+                Telefoon: "0298765432",
+                Mobiel: "0487654321",
+                SocialMedia: "https://wizards.example/gandalf"
+            ),
+            new Registratiedata.Vertegenwoordiger(
+                VertegenwoordigerId: 2,
+                Insz: "11223344556",
+                IsPrimair: false,
+                Roepnaam: "Sam",
+                Rol: "Gardener",
+                Voornaam: "Samwise",
+                Achternaam: "Gamgee",
+                Email: "sam@shire.example",
+                Telefoon: "0211223344",
+                Mobiel: "0411223344",
+                SocialMedia: ""
+            )
+        ],
+        HoofdactiviteitenVerenigingsloket: [],
+        Registratiedata.DuplicatieInfo.GeenDuplicaten
+    )
+);
+
+session.Events.Append(
+    "V9000011",
+    new VertegenwoordigerWerdGewijzigd(
+        VertegenwoordigerId: 2,
+        IsPrimair: false,
+        Roepnaam: "Sam",
+        Rol: "True hero",
+        Voornaam: "Samwise",
+        Achternaam: "Gamgee",
+        Email: "sam@shire.example",
+        Telefoon: "0211223344",
+        Mobiel: "0411223344",
+        SocialMedia: ""
+    ));
+
+session.Events.Append(
+    "V9000011",
+    new VertegenwoordigerWerdVerwijderd(
+        VertegenwoordigerId: 2,
+        Insz: "11223344556",
+        Voornaam: "Samwise",
+        Achternaam: "Gamgee"
+    ));
+
+
+
 await session.SaveChangesAsync();
 
 Console.WriteLine("\n✅ Test data seeded successfully!");
