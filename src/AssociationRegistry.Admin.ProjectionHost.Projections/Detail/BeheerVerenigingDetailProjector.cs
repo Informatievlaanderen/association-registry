@@ -508,7 +508,6 @@ public class BeheerVerenigingDetailProjector
         IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
         BeheerVerenigingDetailDocument document)
     {
-        Console.WriteLine(JsonConvert.SerializeObject(vertegenwoordigerWerdOvergenomenUitKbo));
         var dataVertegenwoordigerId = vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId;
 
         var dataAchternaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam;
