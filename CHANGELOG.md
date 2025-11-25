@@ -1,3 +1,10 @@
+## [8.278.1](https://github.com/informatievlaanderen/association-registry/compare/v8.278.0...v8.278.1) (2025-11-25)
+
+
+### Bug Fixes
+
+* or-2949 register document type VertegenwoordigerPersoonsgegevensDocument ([2c551eb](https://github.com/informatievlaanderen/association-registry/commit/2c551ebf2c3bd27439b560e97a0533e87f19d8e2))
+
 # [8.278.0](https://github.com/informatievlaanderen/association-registry/compare/v8.277.2...v8.278.0) (2025-11-25)
 
 
