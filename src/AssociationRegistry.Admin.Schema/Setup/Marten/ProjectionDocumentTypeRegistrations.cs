@@ -7,6 +7,7 @@ using AssociationRegistry.Admin.Schema.PowerBiExport;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Grar.NutsLau;
 using global::Marten;
+using Persoonsgegevens;
 
 public static class ProjectionDocumentTypeRegistrations
 {
@@ -36,6 +37,7 @@ public static class ProjectionDocumentTypeRegistrations
             .UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
+        opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
 
         opts.RegisterDocumentType<PostalNutsLauInfo>();
 

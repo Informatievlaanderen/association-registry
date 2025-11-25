@@ -18,6 +18,7 @@ using MartenDb.Logging;
 using MartenDb.Transformers;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Newtonsoft.Json;
+using Persoonsgegevens;
 using Projections;
 using Projections.Detail;
 using Projections.Search;
@@ -112,6 +113,8 @@ public static class ConfigureMartenExtensions
 
         opts.RegisterAllEventTypes()
             .UpcastEvents(querySessionFunc);
+
+        opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
 
         opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);

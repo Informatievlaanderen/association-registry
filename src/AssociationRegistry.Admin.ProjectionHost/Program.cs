@@ -22,6 +22,7 @@ using Newtonsoft.Json.Linq;
 using Oakton;
 using OpenTelemetry.Extensions;
 using Projections.Rebuild;
+using Projections.Search.Zoeken;
 using Serilog;
 using Serilog.Debugging;
 using System.Net;
@@ -59,9 +60,9 @@ public class Program
         builder.Host.ApplyJasperFxExtensions();
 
         builder.Host.UseWolverine(
-            opts =>
+            options =>
             {
-                opts.ApplicationAssembly = typeof(Program).Assembly;
+                options.Discovery.IncludeType<BeheerZoekProjectionHandler>();
             });
 
         builder.Services.CritterStackDefaults(x =>

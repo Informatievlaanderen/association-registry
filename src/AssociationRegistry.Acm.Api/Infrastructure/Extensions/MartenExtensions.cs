@@ -9,6 +9,7 @@ using Marten;
 using MartenDb.Logging;
 using MartenDb.Setup;
 using MartenDb.Upcasters.Persoonsgegevens;
+using Persoonsgegevens;
 using Schema.VerenigingenPerInsz;
 
 public static class MartenExtensions
@@ -101,6 +102,7 @@ public static class MartenExtensions
 
         opts.RegisterDocumentType<VerenigingenPerInszDocument>();
         opts.RegisterDocumentType<VerenigingDocument>();
+        opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
         opts.UpcastEvents(querySessionFactory);
 
         return opts;
