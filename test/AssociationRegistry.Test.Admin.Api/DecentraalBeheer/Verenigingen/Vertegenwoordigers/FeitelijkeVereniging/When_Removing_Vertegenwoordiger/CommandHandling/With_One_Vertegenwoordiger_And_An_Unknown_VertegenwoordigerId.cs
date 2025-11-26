@@ -9,6 +9,8 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Moq;
+using Wolverine.Marten;
 using Xunit;
 
 public class With_One_Vertegenwoordiger_And_An_Unknown_VertegenwoordigerId
@@ -24,7 +26,7 @@ public class With_One_Vertegenwoordiger_And_An_Unknown_VertegenwoordigerId
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
-        _commandHandler = new VerwijderVertegenwoordigerCommandHandler(verenigingRepositoryMock);
+        _commandHandler = new VerwijderVertegenwoordigerCommandHandler(verenigingRepositoryMock, Mock.Of<IMartenOutbox>());
     }
 
     [Fact]

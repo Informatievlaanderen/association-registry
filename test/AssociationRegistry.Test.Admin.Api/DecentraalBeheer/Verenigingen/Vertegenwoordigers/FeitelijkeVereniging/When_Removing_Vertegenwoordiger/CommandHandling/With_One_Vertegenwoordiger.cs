@@ -8,6 +8,8 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Moq;
+using Wolverine.Marten;
 using Xunit;
 
 public class With_One_Vertegenwoordiger
@@ -28,7 +30,7 @@ public class With_One_Vertegenwoordiger
     {
         var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerId);
         var commandMetadata = _fixture.Create<CommandMetadata>();
-        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
+        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock, Mock.Of<IMartenOutbox>());
         await Assert.ThrowsAsync<LaatsteVertegenwoordigerKanNietVerwijderdWorden>(async () => await commandHandler.Handle(
                                                                                       new CommandEnvelope<VerwijderVertegenwoordigerCommand>(
                                                                                           command, commandMetadata),

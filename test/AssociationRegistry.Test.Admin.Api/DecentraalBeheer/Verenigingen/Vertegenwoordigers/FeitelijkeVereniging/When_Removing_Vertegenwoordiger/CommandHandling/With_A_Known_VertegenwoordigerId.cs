@@ -1,21 +1,24 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.When_Removing_Vertegenwoordiger.CommandHandling;
 
+using AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Start;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Moq;
+using Wolverine;
+using Wolverine.Marten;
 using Xunit;
 
 public class With_A_Known_VertegenwoordigerId
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
+    private Mock<IMartenOutbox> _outbox;
 
     public With_A_Known_VertegenwoordigerId()
     {
@@ -26,7 +29,8 @@ public class With_A_Known_VertegenwoordigerId
         var fixture = new Fixture().CustomizeAdminApi();
         var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
+        _outbox = new Mock<IMartenOutbox>();
+        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock, _outbox.Object);
 
         commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata))
                       .GetAwaiter().GetResult();
@@ -36,6 +40,12 @@ public class With_A_Known_VertegenwoordigerId
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
         _verenigingRepositoryMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
+    }
+
+    [Fact]
+    public void Then_It_Outboxes_An_StartBewaartermijn_Message()
+    {
+        _outbox.Verify(x => x.SendAsync(new StartBewaartermijn(), It.IsAny<DeliveryOptions>()), Times.Once);
     }
 
     [Fact]
