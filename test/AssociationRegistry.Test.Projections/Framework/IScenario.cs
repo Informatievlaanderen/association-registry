@@ -5,7 +5,7 @@ using Common.AutoFixture;
 
 public interface IScenario
 {
-    public string VCode { get; }
+    public string AggregateId { get; }
     public EventsPerVCode[] Events { get; }
 }
 
@@ -23,7 +23,7 @@ public abstract class InszScenarioBase : IInszScenario
         AutoFixture = new Fixture().CustomizeDomain();
     }
 
-    public abstract string VCode { get; }
+    public abstract string AggregateId { get; }
     public abstract string Insz { get; }
     public abstract EventsPerVCode[] Events { get; }
 }

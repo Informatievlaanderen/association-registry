@@ -16,10 +16,10 @@ public class MaatschappelijkeZetelWerdOvergenomenUitKboScenario: ScenarioBase
         MaatschappelijkeZetelWerdOvergenomenUitKbo = AutoFixture.Create<MaatschappelijkeZetelWerdOvergenomenUitKbo>();
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, MaatschappelijkeZetelWerdOvergenomenUitKbo)
+        new(AggregateId, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, MaatschappelijkeZetelWerdOvergenomenUitKbo)
     ];
 }

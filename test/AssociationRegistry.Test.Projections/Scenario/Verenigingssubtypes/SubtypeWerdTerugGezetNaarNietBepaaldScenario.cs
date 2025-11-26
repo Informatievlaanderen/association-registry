@@ -20,7 +20,7 @@ public class SubtypeWerdTerugGezetNaarNietBepaaldScenario : InszScenarioBase
         VerenigingssubtypeWerdTerugGezetNaarNietBepaald = new VerenigingssubtypeWerdTerugGezetNaarNietBepaald(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging.VCode);
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
     public override string Insz => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers.First().Insz;
 
     public override EventsPerVCode[] Events =>

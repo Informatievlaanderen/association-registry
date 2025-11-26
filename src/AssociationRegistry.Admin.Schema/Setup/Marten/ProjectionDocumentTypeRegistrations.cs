@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Schema.KboSync;
 using AssociationRegistry.Admin.Schema.PowerBiExport;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Grar.NutsLau;
+using Bewaartermijn;
 using global::Marten;
 using Persoonsgegevens;
 
@@ -20,6 +21,9 @@ public static class ProjectionDocumentTypeRegistrations
         opts.Schema.For<PowerBiExportDocument>()
             .UseNumericRevisions(true)
             .UseOptimisticConcurrency(false);
+
+        opts.RegisterDocumentType<BewaartermijnDocument>();
+        opts.Schema.For<BewaartermijnDocument>();
 
         opts.RegisterDocumentType<PowerBiExportDubbelDetectieDocument>();
         opts.Schema.For<PowerBiExportDubbelDetectieDocument>()

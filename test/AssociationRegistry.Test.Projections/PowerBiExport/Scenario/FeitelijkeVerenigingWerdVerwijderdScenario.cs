@@ -18,11 +18,11 @@ public class FeitelijkeVerenigingWerdVerwijderdScenario :  ScenarioBase
             new VerenigingWerdVerwijderd(FeitelijkeVerenigingWerdGeregistreerd1.VCode, Reden: "Verwijderd voor testen.");
     }
 
-    public override string VCode => FeitelijkeVerenigingWerdGeregistreerd1.VCode;
+    public override string AggregateId => FeitelijkeVerenigingWerdGeregistreerd1.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, FeitelijkeVerenigingWerdGeregistreerd1, VerenigingWerdVerwijderd),
+        new(AggregateId, FeitelijkeVerenigingWerdGeregistreerd1, VerenigingWerdVerwijderd),
         new(FeitelijkeVerenigingWerdGeregistreerd2.VCode, FeitelijkeVerenigingWerdGeregistreerd2),
     ];
 }

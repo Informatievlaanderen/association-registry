@@ -41,12 +41,12 @@ public class FeitelijkeVerenigingMetBooleanPropertiesWerdGemigreerdNaarVerenigin
                 VCode: FeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
-    public override string VCode => FeitelijkeVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => FeitelijkeVerenigingWerdGeregistreerd.VCode;
     public override string Insz => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.First().Insz;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode,
+        new(AggregateId,
             FeitelijkeVerenigingWerdGeregistreerd,
             VerenigingWerdUitgeschrevenUitPubliekeDatastroom,
             VerenigingWerdGemarkeerdAlsDubbelVan,

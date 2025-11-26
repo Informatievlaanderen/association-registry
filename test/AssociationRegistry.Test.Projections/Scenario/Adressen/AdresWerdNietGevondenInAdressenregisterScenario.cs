@@ -18,10 +18,10 @@ public class AdresWerdNietGevondenInAdressenregisterScenario : ScenarioBase
         };
     }
 
-    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingWerdGeregistreerd, AdresWerdNietGevondenInAdressenregister),
+        new(AggregateId, VerenigingWerdGeregistreerd, AdresWerdNietGevondenInAdressenregister),
     ];
 }

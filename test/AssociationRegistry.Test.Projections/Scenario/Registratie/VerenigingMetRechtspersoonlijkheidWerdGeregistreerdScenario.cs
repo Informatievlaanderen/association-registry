@@ -13,7 +13,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : Scena
             AutoFixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

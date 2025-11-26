@@ -25,7 +25,7 @@ public class PubliekZoekenScenarioFixture<TScenario>(ProjectionContext context)
     {
         var getResponse =
             await Context.PublicElasticClient
-                         .GetAsync<VerenigingZoekDocument>(scenario.VCode);
+                         .GetAsync<VerenigingZoekDocument>(scenario.AggregateId);
 
         return getResponse.Source;
     }

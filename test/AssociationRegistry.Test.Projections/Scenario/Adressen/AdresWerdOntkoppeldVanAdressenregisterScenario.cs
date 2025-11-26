@@ -13,16 +13,16 @@ public class AdresWerdOntkoppeldVanAdressenregisterScenario : ScenarioBase
     {
         AdresWerdOntkoppeldVanAdressenregister = AutoFixture.Create<AdresWerdOntkoppeldVanAdressenregister>() with
         {
-            VCode = _adresWerdOvergenomenUitAdressenregisterScenario.VCode,
+            VCode = _adresWerdOvergenomenUitAdressenregisterScenario.AggregateId,
             LocatieId = _adresWerdOvergenomenUitAdressenregisterScenario.AdresWerdOvergenomenUitAdressenregister.LocatieId,
         };
     }
 
-    public override string VCode => AdresWerdOntkoppeldVanAdressenregister.VCode;
+    public override string AggregateId => AdresWerdOntkoppeldVanAdressenregister.VCode;
 
     public override EventsPerVCode[] Events => _adresWerdOvergenomenUitAdressenregisterScenario.Events.Union(
     [
-        new EventsPerVCode(VCode, AdresWerdOntkoppeldVanAdressenregister),
+        new EventsPerVCode(AggregateId, AdresWerdOntkoppeldVanAdressenregister),
     ])
     .ToArray();
 }

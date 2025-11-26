@@ -16,7 +16,7 @@ public class Given_LidmaatschapWerdGewijzigd(
     public void Document_Is_Updated()
     {
         var lidmaatschap = fixture.Scenario.LidmaatschapWerdGewijzigd;
-        var vCode = fixture.Scenario.VCode;
+        var vCode = fixture.Scenario.AggregateId;
         var actual = fixture.Result.Lidmaatschappen.First(x => x.LidmaatschapId == lidmaatschap.Lidmaatschap.LidmaatschapId);
 
         actual.Beschrijving.Should().BeEquivalentTo(lidmaatschap.Lidmaatschap.Beschrijving);

@@ -21,10 +21,10 @@ public class SubverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario : Scenari
             AutoFixture.Create<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging>();
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarSubvereniging, VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging),
+        new(AggregateId, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarSubvereniging, VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging),
     ];
 }

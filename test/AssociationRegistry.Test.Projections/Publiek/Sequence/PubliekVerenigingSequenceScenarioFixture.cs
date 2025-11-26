@@ -22,7 +22,7 @@ public class PubliekVerenigingSequenceScenarioFixture<TScenario>(ProjectionConte
         TScenario scenario)
         => await session
                 .Query<PubliekVerenigingSequenceDocument>()
-                .SingleAsync(x => x.VCode == scenario.VCode);
+                .SingleAsync(x => x.VCode == scenario.AggregateId);
 }
 
 public class PubliekVerenigingSequenceScenarioClassFixture<TScenario>

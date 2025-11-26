@@ -16,7 +16,7 @@ public class StartdatumWerdGewijzigdInKboScenario : ScenarioBase
         StartdatumWerdGewijzigdInKbo = AutoFixture.Create<StartdatumWerdGewijzigdInKbo>();
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

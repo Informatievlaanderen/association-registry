@@ -16,7 +16,7 @@ public class VerenigingWerdGestoptInKBOScenario : ScenarioBase
         VerenigingWerdGestoptInKBO = AutoFixture.Create<VerenigingWerdGestoptInKBO>();
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

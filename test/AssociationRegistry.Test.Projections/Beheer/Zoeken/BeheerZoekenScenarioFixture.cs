@@ -14,14 +14,14 @@ public class BeheerZoekenScenarioFixture<TScenario> : ScenarioFixture<TScenario,
 {
     private readonly ElasticsearchDocumentRetriever<VerenigingZoekDocument> _documentRetriever;
     private readonly ProjectionRefresher _projectionRefresher;
-    
+
     public BeheerZoekenScenarioFixture(ProjectionContext context) : base(context)
     {
         _documentRetriever = new ElasticsearchDocumentRetriever<VerenigingZoekDocument>(
             context.AdminElasticClient);
         _projectionRefresher = new ProjectionRefresher(context.AdminElasticClient);
     }
-    
+
     protected override IDocumentStore DocumentStore => Context.AdminStore;
 
     protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
@@ -34,7 +34,7 @@ public class BeheerZoekenScenarioFixture<TScenario> : ScenarioFixture<TScenario,
         IDocumentSession _,
         TScenario scenario)
     {
-        return await _documentRetriever.GetDocumentAsync(scenario.VCode);
+        return await _documentRetriever.GetDocumentAsync(scenario.AggregateId);
     }
 }
 

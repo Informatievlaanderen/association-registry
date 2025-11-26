@@ -22,7 +22,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo(
     {
         var maatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId);
-        var vCode = fixture.Scenario.VCode;
+        var vCode = fixture.Scenario.AggregateId;
 
         actual.Should().BeEquivalentTo(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie);
         actual.Adresvoorstelling.Should().BeEquivalentTo(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString());

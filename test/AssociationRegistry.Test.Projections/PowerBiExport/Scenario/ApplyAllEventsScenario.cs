@@ -14,7 +14,7 @@ public class ApplyAllEventsScenario : ScenarioBase
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
     }
 
-    public override string VCode => FeitelijkeVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => FeitelijkeVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

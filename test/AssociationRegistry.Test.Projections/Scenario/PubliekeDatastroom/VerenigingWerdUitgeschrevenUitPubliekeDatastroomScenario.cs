@@ -18,7 +18,7 @@ public class VerenigingWerdUitgeschrevenUitPubliekeDatastroomScenario : Scenario
         VerenigingWerdUitgeschrevenUitPubliekeDatastroom = AutoFixture.Create<VerenigingWerdUitgeschrevenUitPubliekeDatastroom>();
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

@@ -15,10 +15,10 @@ public class HoofdactiviteitenWerdenGewijzigdScenario : ScenarioBase
         HoofdactiviteitenVerenigingsloketWerdenGewijzigd = AutoFixture.Create<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>();
     }
 
-    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingWerdGeregistreerd, HoofdactiviteitenVerenigingsloketWerdenGewijzigd),
+        new(AggregateId, VerenigingWerdGeregistreerd, HoofdactiviteitenVerenigingsloketWerdenGewijzigd),
     ];
 }

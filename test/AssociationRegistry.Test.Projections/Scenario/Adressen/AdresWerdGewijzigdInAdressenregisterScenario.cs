@@ -18,10 +18,10 @@ public class AdresWerdGewijzigdInAdressenregisterScenario : ScenarioBase
         };
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, AdresWerdGewijzigdInAdressenregister),
+        new(AggregateId, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, AdresWerdGewijzigdInAdressenregister),
     ];
 }

@@ -25,10 +25,10 @@ public class LidmaatschapWerdToegevoegdMetNullDatesScenario : ScenarioBase
         };
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, LidmaatschapWerdToegevoegdWithNullDates),
+        new(AggregateId, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, LidmaatschapWerdToegevoegdWithNullDates),
     ];
 }

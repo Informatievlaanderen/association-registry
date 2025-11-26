@@ -13,7 +13,7 @@ public class Given_LocatieWerdGewijzigd(
     {
         var locatieWerdGewijzigd = fixture.Scenario.LocatieWerdGewijzigd;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == locatieWerdGewijzigd.Locatie.LocatieId);
-        var vCode = fixture.Scenario.VCode;
+        var vCode = fixture.Scenario.AggregateId;
 
         actual.Locatietype.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.Locatietype);
         actual.Naam.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.Naam);

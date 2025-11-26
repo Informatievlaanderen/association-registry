@@ -26,10 +26,10 @@ public class MaatschappelijkeZetelWerdVerwijderdUitKboScenario: ScenarioBase
         };
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, MaatschappelijkeZetelWerdOvergenomenUitKboFirst, MaatschappelijkeZetelWerdOvergenomenUitKboSecond, MaatschappelijkeZetelWerdVerwijderdUitKboFirstLocation)
+        new(AggregateId, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, MaatschappelijkeZetelWerdOvergenomenUitKboFirst, MaatschappelijkeZetelWerdOvergenomenUitKboSecond, MaatschappelijkeZetelWerdVerwijderdUitKboFirstLocation)
     ];
 }

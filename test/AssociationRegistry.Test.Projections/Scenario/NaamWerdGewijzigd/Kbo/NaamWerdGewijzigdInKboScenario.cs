@@ -16,7 +16,7 @@ public class NaamWerdGewijzigdInKboScenario : ScenarioBase
         NaamWerdGewijzigdInKbo = AutoFixture.Create<NaamWerdGewijzigdInKbo>();
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

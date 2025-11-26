@@ -25,7 +25,7 @@ public class DuplicateDetectionScenarioFixture<TScenario>(ProjectionContext cont
     {
         var getResponse =
             await Context.AdminElasticClient
-                         .GetAsync<DuplicateDetectionDocument>(scenario.VCode);
+                         .GetAsync<DuplicateDetectionDocument>(scenario.AggregateId);
 
         return getResponse.Source;
     }

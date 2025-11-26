@@ -14,10 +14,10 @@ public class ContactgegevenWerdOvergenomenUitKBOScenario : ScenarioBase
         ContactgegevenWerdOvergenomenUitKbo = AutoFixture.Create<ContactgegevenWerdOvergenomenUitKBO>();
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, ContactgegevenWerdOvergenomenUitKbo),
+        new(AggregateId, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, ContactgegevenWerdOvergenomenUitKbo),
     ];
 }

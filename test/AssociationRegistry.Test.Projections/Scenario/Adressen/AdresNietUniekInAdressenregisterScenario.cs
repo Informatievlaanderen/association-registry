@@ -17,10 +17,10 @@ public class AdresNietUniekInAdressenregisterScenario : ScenarioBase
         };
     }
 
-    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingWerdGeregistreerd, AdresNietUniekInAdressenregister),
+        new(AggregateId, VerenigingWerdGeregistreerd, AdresNietUniekInAdressenregister),
     ];
 }

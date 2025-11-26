@@ -24,7 +24,7 @@ public class Given_VertegenwoordigerWerdToegevoegdVanuitKBO(
             new Vertegenwoordiger
             {
                 JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                    JsonLdType.Vertegenwoordiger, fixture.Scenario.VCode,
+                    JsonLdType.Vertegenwoordiger, fixture.Scenario.AggregateId,
                     fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO.VertegenwoordigerId.ToString()),
                 VertegenwoordigerId =
                     fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO.VertegenwoordigerId,
@@ -42,7 +42,7 @@ public class Given_VertegenwoordigerWerdToegevoegdVanuitKBO(
                 VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
                 {
                     JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                        JsonLdType.VertegenwoordigerContactgegeven, fixture.Scenario.VCode,
+                        JsonLdType.VertegenwoordigerContactgegeven, fixture.Scenario.AggregateId,
                         fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO.VertegenwoordigerId.ToString()),
                     IsPrimair = false,
                     Email = string.Empty,

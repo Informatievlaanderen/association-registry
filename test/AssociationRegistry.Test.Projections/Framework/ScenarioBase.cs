@@ -12,6 +12,6 @@ public abstract class ScenarioBase : IScenario
         AutoFixture = new Fixture().CustomizeDomain();
     }
 
-    public abstract string VCode { get; }
+    public abstract string AggregateId { get; }
     public abstract EventsPerVCode[] Events { get; }
 }

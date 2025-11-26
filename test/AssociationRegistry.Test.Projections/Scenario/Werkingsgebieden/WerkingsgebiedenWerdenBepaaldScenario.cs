@@ -18,10 +18,10 @@ public class WerkingsgebiedenWerdenBepaaldScenario : ScenarioBase
         ]);
     }
 
-    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingWerdGeregistreerd, WerkingsgebiedenWerdenBepaald),
+        new(AggregateId, VerenigingWerdGeregistreerd, WerkingsgebiedenWerdenBepaald),
     ];
 }

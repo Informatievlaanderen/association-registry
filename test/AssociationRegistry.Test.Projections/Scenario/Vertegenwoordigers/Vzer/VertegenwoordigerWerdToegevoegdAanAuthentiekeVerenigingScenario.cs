@@ -41,7 +41,7 @@ public class VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario : I
         _insz = VertegenwoordigerWerdToegevoegd.Insz;
     }
 
-    public override string VCode => AuthentiekeVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => AuthentiekeVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

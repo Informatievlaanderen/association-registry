@@ -13,10 +13,10 @@ public class WerkingsgebiedenWerdenNietVanToepassingScenario : ScenarioBase
             new WerkingsgebiedenWerdenNietVanToepassing(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode);
     }
 
-    public override string VCode => _werdBepaaldScenario.VCode;
+    public override string AggregateId => _werdBepaaldScenario.AggregateId;
 
     public override EventsPerVCode[] Events => _werdBepaaldScenario.Events.Union(
     [
-        new EventsPerVCode(VCode, WerkingsgebiedenWerdenNietVanToepassing),
+        new EventsPerVCode(AggregateId, WerkingsgebiedenWerdenNietVanToepassing),
     ]).ToArray();
 }

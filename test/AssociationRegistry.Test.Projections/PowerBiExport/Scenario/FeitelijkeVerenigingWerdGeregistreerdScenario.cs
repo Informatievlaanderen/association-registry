@@ -12,7 +12,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : ScenarioBase
         VerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
     }
 
-    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

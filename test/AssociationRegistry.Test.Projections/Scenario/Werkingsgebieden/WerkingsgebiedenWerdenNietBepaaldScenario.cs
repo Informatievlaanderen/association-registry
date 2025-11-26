@@ -12,10 +12,10 @@ public class WerkingsgebiedenWerdenNietBepaaldScenario : ScenarioBase
         WerkingsgebiedenWerdenNietBepaald = new WerkingsgebiedenWerdenNietBepaald(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode);
     }
 
-    public override string VCode => _werdBepaaldScenario.VCode;
+    public override string AggregateId => _werdBepaaldScenario.AggregateId;
 
     public override EventsPerVCode[] Events => _werdBepaaldScenario.Events.Union(
     [
-        new EventsPerVCode(VCode, WerkingsgebiedenWerdenNietBepaald),
+        new EventsPerVCode(AggregateId, WerkingsgebiedenWerdenNietBepaald),
     ]).ToArray();
 }

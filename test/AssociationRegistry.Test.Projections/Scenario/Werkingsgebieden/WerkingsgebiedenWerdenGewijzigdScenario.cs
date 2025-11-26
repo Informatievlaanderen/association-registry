@@ -16,10 +16,10 @@ public class WerkingsgebiedenWerdenGewijzigdScenario : ScenarioBase
         ]);
     }
 
-    public override string VCode => _werdBepaaldScenario.VCode;
+    public override string AggregateId => _werdBepaaldScenario.AggregateId;
 
     public override EventsPerVCode[] Events => _werdBepaaldScenario.Events.Union(
     [
-        new EventsPerVCode(VCode, WerkingsgebiedenWerdenGewijzigd),
+        new EventsPerVCode(AggregateId, WerkingsgebiedenWerdenGewijzigd),
     ]).ToArray();
 }

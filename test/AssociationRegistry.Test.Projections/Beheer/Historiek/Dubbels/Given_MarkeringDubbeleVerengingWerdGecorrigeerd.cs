@@ -22,7 +22,7 @@ public class Given_MarkeringDubbeleVerenigingWerdGecorrigeerd(BeheerHistoriekSce
                                                nameof(MarkeringDubbeleVerengingWerdGecorrigeerd),
                                                new
                                                {
-                                                   VCode = fixture.Scenario.VCode,
+                                                   VCode = fixture.Scenario.AggregateId,
                                                    VCodeAuthentiekeVereniging = fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode,
                                                },
                                                fixture.MetadataInitiator,

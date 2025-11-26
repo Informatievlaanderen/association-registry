@@ -16,7 +16,7 @@ public class RoepnaamWerdGewijzigdScenario : ScenarioBase
         RoepnaamWerdGewijzigd = AutoFixture.Create<RoepnaamWerdGewijzigd>();
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

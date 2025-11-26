@@ -18,11 +18,11 @@ public class FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspe
         FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid = new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode: FeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
-    public override string VCode => FeitelijkeVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => FeitelijkeVerenigingWerdGeregistreerd.VCode;
     public override string Insz => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.First().Insz;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, [FeitelijkeVerenigingWerdGeregistreerd, FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid])
+        new(AggregateId, [FeitelijkeVerenigingWerdGeregistreerd, FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid])
     ];
 }

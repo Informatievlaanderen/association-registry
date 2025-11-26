@@ -18,7 +18,7 @@ public class VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario : InszScena
                AutoFixture.Create<Registratiedata.SubverenigingVan>());
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
     public override string Insz => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers.First().Insz;
 
     public override EventsPerVCode[] Events =>

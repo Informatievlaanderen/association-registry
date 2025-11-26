@@ -13,7 +13,7 @@ public class MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario : Scenari
                                                      .ToArray();
     }
 
-    public override string VCode => VerenigingenwerdenGeregistreerd[0].VCode;
+    public override string AggregateId => VerenigingenwerdenGeregistreerd[0].VCode;
 
     public override EventsPerVCode[] Events
         => VerenigingenwerdenGeregistreerd

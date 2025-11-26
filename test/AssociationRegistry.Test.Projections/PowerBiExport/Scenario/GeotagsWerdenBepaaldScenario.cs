@@ -14,7 +14,7 @@ public class GeotagsWerdenBepaaldScenario : ScenarioBase
         GeotagsWerdenBepaald = AutoFixture.Create<GeotagsWerdenBepaald>() with{VCode = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode};
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

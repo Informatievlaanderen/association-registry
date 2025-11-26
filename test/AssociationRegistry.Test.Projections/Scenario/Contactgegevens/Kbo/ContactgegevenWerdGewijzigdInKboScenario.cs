@@ -16,10 +16,10 @@ public class ContactgegevenWerdGewijzigdInKboScenario : ScenarioBase
         };
     }
 
-    public override string VCode => _contactgegevenWerdOvergenomenUitKboScenario.VCode;
+    public override string AggregateId => _contactgegevenWerdOvergenomenUitKboScenario.AggregateId;
 
     public override EventsPerVCode[] Events => _contactgegevenWerdOvergenomenUitKboScenario.Events.Union(
     [
-        new EventsPerVCode(VCode, ContactgegevenWerdGewijzigdInKbo),
+        new EventsPerVCode(AggregateId, ContactgegevenWerdGewijzigdInKbo),
     ]).ToArray();
 }

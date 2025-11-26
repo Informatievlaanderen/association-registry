@@ -16,11 +16,11 @@ public class VertegenwoordigerWerdToegevoegdVanuitKBOScenario : InszScenarioBase
         _insz = VertegenwoordigerWerdToegevoegdVanuitKBO.Insz;
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, VertegenwoordigerWerdToegevoegdVanuitKBO),
+        new(AggregateId, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, VertegenwoordigerWerdToegevoegdVanuitKBO),
     ];
 
     public override string Insz => _insz;
