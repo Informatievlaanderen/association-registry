@@ -1,5 +1,3 @@
 namespace AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Start;
 
-public record StartBewaartermijnMessager
-{
-}
+public record StartBewaartermijnMessage(string VCode, int VertegenwoordigerId);

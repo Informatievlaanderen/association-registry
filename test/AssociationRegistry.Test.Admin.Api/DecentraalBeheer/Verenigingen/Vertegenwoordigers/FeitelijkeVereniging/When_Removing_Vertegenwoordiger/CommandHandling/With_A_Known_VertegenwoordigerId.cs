@@ -18,7 +18,8 @@ public class With_A_Known_VertegenwoordigerId
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
-    private Mock<IMartenOutbox> _outbox;
+    private readonly Mock<IMartenOutbox> _outbox;
+    private VerwijderVertegenwoordigerCommand _command;
 
     public With_A_Known_VertegenwoordigerId()
     {
@@ -27,12 +28,12 @@ public class With_A_Known_VertegenwoordigerId
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId);
+        _command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId);
         var commandMetadata = fixture.Create<CommandMetadata>();
         _outbox = new Mock<IMartenOutbox>();
         var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock, _outbox.Object);
 
-        commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata))
+        commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(_command, commandMetadata))
                       .GetAwaiter().GetResult();
     }
 
@@ -45,7 +46,11 @@ public class With_A_Known_VertegenwoordigerId
     [Fact]
     public void Then_It_Outboxes_An_StartBewaartermijn_Message()
     {
-        _outbox.Verify(x => x.SendAsync(new StartBewaartermijn(), It.IsAny<DeliveryOptions>()), Times.Once);
+        _outbox.Verify(x => x.SendAsync(
+                           new StartBewaartermijnMessage(
+                               _command.VCode,
+                               _command.VertegenwoordigerId),
+                           It.IsAny<DeliveryOptions>()), Times.Once);
     }
 
     [Fact]
@@ -60,3 +65,4 @@ public class With_A_Known_VertegenwoordigerId
         );
     }
 }
+
