@@ -24,7 +24,7 @@ public class Given_VertegenwoordigerWerdOvergenomenUitKBO(
             new Vertegenwoordiger
             {
                 JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                    JsonLdType.Vertegenwoordiger, fixture.Scenario.VCode,
+                    JsonLdType.Vertegenwoordiger, fixture.Scenario.AggregateId,
                     fixture.Scenario.VertegenwoordigerWerdOvergenomenUitKBO.VertegenwoordigerId.ToString()),
                 VertegenwoordigerId =
                     fixture.Scenario.VertegenwoordigerWerdOvergenomenUitKBO.VertegenwoordigerId,
@@ -42,7 +42,7 @@ public class Given_VertegenwoordigerWerdOvergenomenUitKBO(
                 VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
                 {
                     JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                        JsonLdType.VertegenwoordigerContactgegeven, fixture.Scenario.VCode,
+                        JsonLdType.VertegenwoordigerContactgegeven, fixture.Scenario.AggregateId,
                         fixture.Scenario.VertegenwoordigerWerdOvergenomenUitKBO.VertegenwoordigerId.ToString()),
                     IsPrimair = false,
                     Email = string.Empty,

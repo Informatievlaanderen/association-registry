@@ -30,7 +30,7 @@ public class VerenigingAanvaarddeDubbeleVerenigingScenario : ScenarioBase
         };
     }
 
-    public override string VCode => AuthentiekeVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => AuthentiekeVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

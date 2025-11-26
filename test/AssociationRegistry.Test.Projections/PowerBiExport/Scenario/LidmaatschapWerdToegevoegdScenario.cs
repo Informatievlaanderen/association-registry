@@ -29,11 +29,11 @@ public class LidmaatschapWerdToegevoegdScenario : ScenarioBase
         };
     }
 
-    public override string VCode => VerenigingenwerdenGeregistreerdDochter.VCode;
+    public override string AggregateId => VerenigingenwerdenGeregistreerdDochter.VCode;
 
     public override EventsPerVCode[] Events =>
     [
         new(VerenigingenwerdenGeregistreerdMoeder.VCode, VerenigingenwerdenGeregistreerdMoeder),
-        new(VCode, VerenigingenwerdenGeregistreerdDochter, LidmaatschapWerdToegevoegd),
+        new(AggregateId, VerenigingenwerdenGeregistreerdDochter, LidmaatschapWerdToegevoegd),
     ];
 }

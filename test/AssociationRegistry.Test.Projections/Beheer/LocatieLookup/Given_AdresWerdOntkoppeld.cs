@@ -13,7 +13,7 @@ public class AdresWerdOntkoppeldVanAdressenregister(
         fixture
                     .Result
                     .SingleOrDefault(x => x.Id ==
-                                          $"{fixture.Scenario.VCode}-{fixture.Scenario.AdresWerdOntkoppeldVanAdressenregister.LocatieId}")
+                                          $"{fixture.Scenario.AggregateId}-{fixture.Scenario.AdresWerdOntkoppeldVanAdressenregister.LocatieId}")
                     .Should()
                     .BeNull();
     }

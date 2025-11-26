@@ -22,7 +22,7 @@ public class Given_VerenigingAanvaarddeCorrectieDubbeleVereniging(BeheerHistorie
                                                nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging),
                                                new
                                                {
-                                                   VCode = fixture.Scenario.VCode,
+                                                   VCode = fixture.Scenario.AggregateId,
                                                    VCodeDubbeleVereniging = fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode,
                                                },
                                                fixture.MetadataInitiator,

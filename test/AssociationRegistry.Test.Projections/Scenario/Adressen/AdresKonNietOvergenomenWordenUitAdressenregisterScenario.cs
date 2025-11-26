@@ -17,10 +17,10 @@ public class AdresKonNietOvergenomenWordenUitAdressenregisterScenario : Scenario
         };
     }
 
-    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingWerdGeregistreerd, AdresKonNietOvergenomenWordenUitAdressenregister),
+        new(AggregateId, VerenigingWerdGeregistreerd, AdresKonNietOvergenomenWordenUitAdressenregister),
     ];
 }

@@ -16,10 +16,10 @@ public class LidmaatschapWerdVerwijderdScenario : ScenarioBase
             VCode: _werdToegevoegdScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
     }
 
-    public override string VCode => _werdToegevoegdScenario.VCode;
+    public override string AggregateId => _werdToegevoegdScenario.AggregateId;
 
     public override EventsPerVCode[] Events => _werdToegevoegdScenario.Events.Union(
     [
-        new EventsPerVCode(VCode, LidmaatschapWerdVerwijderd),
+        new EventsPerVCode(AggregateId, LidmaatschapWerdVerwijderd),
     ]).ToArray();
 }

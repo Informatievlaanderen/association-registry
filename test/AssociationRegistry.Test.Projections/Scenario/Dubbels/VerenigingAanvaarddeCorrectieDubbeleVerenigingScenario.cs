@@ -51,7 +51,7 @@ public class VerenigingAanvaarddeCorrectieDubbeleVerenigingScenario : InszScenar
         };
     }
 
-    public override string VCode => AuthentiekeVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => AuthentiekeVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

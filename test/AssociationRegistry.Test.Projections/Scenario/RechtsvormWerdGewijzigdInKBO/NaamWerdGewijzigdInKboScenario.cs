@@ -16,7 +16,7 @@ public class RechtsvormWerdGewijzigdInKBOScenario : ScenarioBase
         RechtsvormWerdGewijzigdInKBO = AutoFixture.Create<RechtsvormWerdGewijzigdInKBO>();
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

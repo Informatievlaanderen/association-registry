@@ -37,11 +37,11 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : InszScenarioBase
         };
     }
 
-    public override string VCode => DubbeleVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => DubbeleVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan),
+        new(AggregateId, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan),
         new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging),
     ];
 

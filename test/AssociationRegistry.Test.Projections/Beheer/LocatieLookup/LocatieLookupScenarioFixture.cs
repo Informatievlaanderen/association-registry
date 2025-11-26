@@ -20,7 +20,7 @@ public class LocatieLookupScenarioFixture<TScenario>(ProjectionContext context)
         TScenario scenario)
         => (await session
                 .Query<LocatieLookupDocument>()
-                .Where(x => x.VCode == scenario.VCode)
+                .Where(x => x.VCode == scenario.AggregateId)
                 .ToListAsync())
            .ToArray();
 }

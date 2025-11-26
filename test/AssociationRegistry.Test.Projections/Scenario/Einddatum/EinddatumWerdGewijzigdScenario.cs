@@ -16,7 +16,7 @@ public class EinddatumWerdGewijzigdScenario : ScenarioBase
         EinddatumWerdGewijzigd = AutoFixture.Create<EinddatumWerdGewijzigd>();
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

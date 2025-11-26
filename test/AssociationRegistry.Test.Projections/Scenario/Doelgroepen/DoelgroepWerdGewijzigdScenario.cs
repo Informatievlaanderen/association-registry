@@ -16,7 +16,7 @@ public class DoelgroepWerdGewijzigdScenario : ScenarioBase
         DoelgroepWerdGewijzigd = AutoFixture.Create<DoelgroepWerdGewijzigd>();
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

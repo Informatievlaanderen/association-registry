@@ -16,7 +16,7 @@ public class KorteNaamWerdGewijzigdInKboScenario : ScenarioBase
         KorteNaamWerdGewijzigdInKbo = AutoFixture.Create<KorteNaamWerdGewijzigdInKbo>();
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

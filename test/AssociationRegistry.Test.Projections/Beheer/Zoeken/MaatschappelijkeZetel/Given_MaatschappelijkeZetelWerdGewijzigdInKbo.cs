@@ -17,7 +17,7 @@ public class Given_MaatschappelijkeZetelWerdGewijzigdInKbo(
     {
         var scenarioMaatschappelijkeZetelWerdGewijzigdInKbo = fixture.Scenario.MaatschappelijkeZetelWerdGewijzigdInKbo;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == scenarioMaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.LocatieId);
-        var vCode = fixture.Scenario.VCode;
+        var vCode = fixture.Scenario.AggregateId;
 
         actual.Locatietype.Should().BeEquivalentTo(scenarioMaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Locatietype);
         actual.Naam.Should().BeEquivalentTo(scenarioMaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Naam);

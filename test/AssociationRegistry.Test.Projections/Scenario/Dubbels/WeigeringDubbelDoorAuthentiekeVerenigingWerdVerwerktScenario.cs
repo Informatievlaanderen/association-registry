@@ -48,11 +48,11 @@ public class WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario : Insz
             };
     }
 
-    public override string VCode => DubbeleVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => DubbeleVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan, WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt),
+        new(AggregateId, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan, WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt),
         new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging),
     ];
 

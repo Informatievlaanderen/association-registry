@@ -14,10 +14,10 @@ public class AdresHeeftGeenVerschillenMetAdressenregisterScenario : ScenarioBase
         AdresHeeftGeenVerschillenMetAdressenregister = AutoFixture.Create<AdresHeeftGeenVerschillenMetAdressenregister>();
     }
 
-    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingWerdGeregistreerd, AdresHeeftGeenVerschillenMetAdressenregister),
+        new(AggregateId, VerenigingWerdGeregistreerd, AdresHeeftGeenVerschillenMetAdressenregister),
     ];
 }

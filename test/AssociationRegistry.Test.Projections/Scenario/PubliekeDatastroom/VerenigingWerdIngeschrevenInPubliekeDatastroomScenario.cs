@@ -18,7 +18,7 @@ public class VerenigingWerdIngeschrevenInPubliekeDatastroomScenario : ScenarioBa
         VerenigingWerdIngeschrevenInPubliekeDatastroom = AutoFixture.Create<VerenigingWerdIngeschrevenInPubliekeDatastroom>();
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

@@ -65,7 +65,7 @@ public class VertegenwoordigerWerdToegevoegdNaVerenigingAanvaarddeCorrectieDubbe
         _insz = VertegenwoordigerWerdToegevoegd.Insz;
     }
 
-    public override string VCode => AuthentiekeVereniging.VCode;
+    public override string AggregateId => AuthentiekeVereniging.VCode;
 
     public override EventsPerVCode[] Events =>
     [

@@ -47,11 +47,11 @@ public class MarkeringDubbeleVerengingWerdGecorrigeerdMetVorigeStatusGestoptScen
         };
     }
 
-    public override string VCode => DubbeleVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => DubbeleVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan, VerenigingWerdGestopt, MarkeringDubbeleVerengingWerdGecorrigeerd),
+        new(AggregateId, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan, VerenigingWerdGestopt, MarkeringDubbeleVerengingWerdGecorrigeerd),
         new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging),
     ];
 

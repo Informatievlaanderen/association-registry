@@ -23,7 +23,7 @@ public class Given_ContactgegevenWerdToegevoegd(
         contactGegeven.Should().BeEquivalentTo(new Contactgegeven
         {
             JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                JsonLdType.Contactgegeven, fixture.Scenario.VCode,
+                JsonLdType.Contactgegeven, fixture.Scenario.AggregateId,
                 contactGegeven.ContactgegevenId.ToString()),
             ContactgegevenId = contactGegeven.ContactgegevenId,
             Contactgegeventype = contactGegeven.Contactgegeventype,

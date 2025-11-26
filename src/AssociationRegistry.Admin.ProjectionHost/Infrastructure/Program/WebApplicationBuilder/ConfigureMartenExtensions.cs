@@ -18,6 +18,7 @@ using Elastic.Clients.Elasticsearch;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Newtonsoft.Json;
 using Projections;
+using Projections.Bewaartermijn;
 using Projections.Detail;
 using Projections.Historiek;
 using Projections.KboSync;
@@ -212,6 +213,7 @@ public static class ConfigureMartenExtensions
 
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);

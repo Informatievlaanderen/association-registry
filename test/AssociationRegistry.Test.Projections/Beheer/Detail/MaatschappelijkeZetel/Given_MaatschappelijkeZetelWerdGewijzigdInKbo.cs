@@ -22,7 +22,7 @@ public class Given_MaatschappelijkeZetelWerdGewijzigdInKbo(
     {
         var scenarioMaatschappelijkeZetelWerdGewijzigdInKbo = fixture.Scenario.MaatschappelijkeZetelWerdGewijzigdInKbo;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == scenarioMaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.LocatieId);
-        var vCode = fixture.Scenario.VCode;
+        var vCode = fixture.Scenario.AggregateId;
 
         actual.Adres.Should().BeEquivalentTo(scenarioMaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres);
         actual.Adresvoorstelling.Should().BeEquivalentTo(scenarioMaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.ToAdresString());

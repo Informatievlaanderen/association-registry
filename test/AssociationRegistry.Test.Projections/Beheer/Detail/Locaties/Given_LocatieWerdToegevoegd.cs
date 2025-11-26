@@ -21,7 +21,7 @@ public class Given_LocatieWerdToegevoegd(
     public void Document_Is_Updated()
     {
         var locatieWerdToegevoegd = fixture.Scenario.LocatieWerdToegevoegd;
-        var vCode = fixture.Scenario.VCode;
+        var vCode = fixture.Scenario.AggregateId;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == locatieWerdToegevoegd.Locatie.LocatieId);
 
         actual.Should().BeEquivalentTo(locatieWerdToegevoegd.Locatie);

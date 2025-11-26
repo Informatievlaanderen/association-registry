@@ -27,7 +27,7 @@ public class Given_ContactgegevenWerdOvergenomenUitKbo(
                         JsonLdMetadata = new JsonLdMetadata
                         {
                             Id = JsonLdType.Contactgegeven.CreateWithIdValues(
-                                fixture.Scenario.VCode,
+                                fixture.Scenario.AggregateId,
                                 contactgegevenWerdOvergenomenUitKbo.ContactgegevenId.ToString()),
                             Type = JsonLdType.Contactgegeven.Type,
                         },

@@ -20,12 +20,12 @@ public class Migratie_Na_Verwijderde_Vereniging : InszScenarioBase
         FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid = new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode: FeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
-    public override string VCode => FeitelijkeVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => FeitelijkeVerenigingWerdGeregistreerd.VCode;
     public override string Insz => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.First().Insz;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, [FeitelijkeVerenigingWerdGeregistreerd,VerenigingWerdVerwijderd, FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid])
+        new(AggregateId, [FeitelijkeVerenigingWerdGeregistreerd,VerenigingWerdVerwijderd, FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid])
     ];
 }
 

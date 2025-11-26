@@ -26,7 +26,7 @@ public class LocatieWerdGewijzigdEventsScenario : ScenarioBase
         };
     }
 
-    public override string VCode => FeitelijkeVerenigingWerdGeregistreerd.VCode;
+    public override string AggregateId => FeitelijkeVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [

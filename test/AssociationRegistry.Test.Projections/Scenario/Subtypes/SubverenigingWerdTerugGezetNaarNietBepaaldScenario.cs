@@ -21,10 +21,10 @@ public class SubverenigingWerdTerugGezetNaarNietBepaaldScenario : ScenarioBase
             AutoFixture.Create<VerenigingssubtypeWerdTerugGezetNaarNietBepaald>();
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarSubvereniging, VerenigingssubtypeWerdTerugGezetNaarNietBepaald),
+        new(AggregateId, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarSubvereniging, VerenigingssubtypeWerdTerugGezetNaarNietBepaald),
     ];
 }

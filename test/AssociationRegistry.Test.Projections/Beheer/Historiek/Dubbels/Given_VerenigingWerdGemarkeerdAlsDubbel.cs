@@ -22,7 +22,7 @@ public class Given_VerenigingWerdGemarkeerdAlsDubbel(BeheerHistoriekScenarioFixt
                                                nameof(VerenigingWerdGemarkeerdAlsDubbelVan),
                                                new
                                                {
-                                                   VCode = fixture.Scenario.VCode,
+                                                   VCode = fixture.Scenario.AggregateId,
                                                    VCodeAuthentiekeVereniging = fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode,
                                                },
                                                fixture.MetadataInitiator,

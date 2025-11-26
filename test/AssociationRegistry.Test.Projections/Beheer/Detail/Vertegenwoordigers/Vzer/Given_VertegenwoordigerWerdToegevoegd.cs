@@ -23,7 +23,7 @@ public class Given_VertegenwoordigerWerdToegevoegd(
         vertegenwoordiger.Should().BeEquivalentTo(new Vertegenwoordiger
         {
             JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                JsonLdType.Vertegenwoordiger, fixture.Scenario.VCode,
+                JsonLdType.Vertegenwoordiger, fixture.Scenario.AggregateId,
                 fixture.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId.ToString()),
             VertegenwoordigerId = fixture.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
             Insz = fixture.Scenario.VertegenwoordigerWerdToegevoegd.Insz,
@@ -41,7 +41,7 @@ public class Given_VertegenwoordigerWerdToegevoegd(
             VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
             {
                 JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                    JsonLdType.VertegenwoordigerContactgegeven, fixture.Scenario.VCode,
+                    JsonLdType.VertegenwoordigerContactgegeven, fixture.Scenario.AggregateId,
                     fixture.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId.ToString()),
                 IsPrimair = fixture.Scenario.VertegenwoordigerWerdToegevoegd.IsPrimair,
                 Email = fixture.Scenario.VertegenwoordigerWerdToegevoegd.Email,

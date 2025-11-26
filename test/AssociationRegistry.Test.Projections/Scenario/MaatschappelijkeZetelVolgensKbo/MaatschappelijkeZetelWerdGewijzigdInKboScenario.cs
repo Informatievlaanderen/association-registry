@@ -19,10 +19,10 @@ public class MaatschappelijkeZetelWerdGewijzigdInKboScenario : ScenarioBase
         };
     }
 
-    public override string VCode => MaatschappelijkeZetelWerdOvergenomenUitKboScenario.VCode;
+    public override string AggregateId => MaatschappelijkeZetelWerdOvergenomenUitKboScenario.AggregateId;
 
     public override EventsPerVCode[] Events => MaatschappelijkeZetelWerdOvergenomenUitKboScenario.Events.Union(
     [
-        new EventsPerVCode(VCode, MaatschappelijkeZetelWerdGewijzigdInKbo)
+        new EventsPerVCode(AggregateId, MaatschappelijkeZetelWerdGewijzigdInKbo)
     ]).ToArray();
 }

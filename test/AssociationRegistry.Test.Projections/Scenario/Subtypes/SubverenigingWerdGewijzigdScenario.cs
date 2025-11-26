@@ -25,10 +25,10 @@ public class SubverenigingWerdGewijzigdScenario : ScenarioBase
             AutoFixture.Create<SubverenigingDetailsWerdenGewijzigd>();
     }
 
-    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarSubvereniging, SubverenigingRelatieWerdGewijzigd, SubverenigingDetailsWerdenGewijzigd),
+        new(AggregateId, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarSubvereniging, SubverenigingRelatieWerdGewijzigd, SubverenigingDetailsWerdenGewijzigd),
     ];
 }

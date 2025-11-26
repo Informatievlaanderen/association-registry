@@ -14,10 +14,10 @@ public class VertegenwoordigerWerdOvergenomenUitKBOScenario : ScenarioBase
         VertegenwoordigerWerdOvergenomenUitKBO = AutoFixture.Create<VertegenwoordigerWerdOvergenomenUitKBO>();
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, VertegenwoordigerWerdOvergenomenUitKBO),
+        new(AggregateId, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, VertegenwoordigerWerdOvergenomenUitKBO),
     ];
 }

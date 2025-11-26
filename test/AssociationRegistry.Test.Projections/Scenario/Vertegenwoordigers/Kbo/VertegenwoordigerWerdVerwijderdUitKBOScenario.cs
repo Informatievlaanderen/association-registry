@@ -25,11 +25,11 @@ public class VertegenwoordigerWerdVerwijderdUitKBOScenario : InszScenarioBase
             Achternaam: Vertegenwoordiger1WerdToegevoegdVanuitKBO.Achternaam);
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+        new(AggregateId, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             Vertegenwoordiger1WerdToegevoegdVanuitKBO,
             Vertegenwoordiger2WerdToegevoegdVanuitKBO,
             Vertegenwoordiger1WerdVerwijderdUitKBO),

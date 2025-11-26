@@ -23,11 +23,11 @@ public class VertegenwoordigerWerdGewijzigdInKBOScenario : InszScenarioBase
         };
     }
 
-    public override string VCode => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode,
+        new(AggregateId,
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             VertegenwoordigerWerdToegevoegdVanuitKBO,
             VertegenwoordigerWerdGewijzigdInKBO),

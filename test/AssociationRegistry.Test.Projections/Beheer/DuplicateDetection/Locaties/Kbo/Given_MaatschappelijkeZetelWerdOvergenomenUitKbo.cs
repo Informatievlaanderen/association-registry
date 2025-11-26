@@ -13,7 +13,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo(
     {
         var maatschappelijkeZetel = fixture.Scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == maatschappelijkeZetel.Locatie.LocatieId);
-        var vCode = fixture.Scenario.VCode;
+        var vCode = fixture.Scenario.AggregateId;
 
         actual.Locatietype.Should().BeEquivalentTo(maatschappelijkeZetel.Locatie.Locatietype);
         actual.Naam.Should().BeEquivalentTo(maatschappelijkeZetel.Locatie.Naam);

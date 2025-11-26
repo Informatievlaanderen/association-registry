@@ -20,7 +20,7 @@ public class BeheerHistoriekScenarioFixture<TScenario>(ProjectionContext context
         TScenario scenario)
         => await session
                 .Query<BeheerVerenigingHistoriekDocument>()
-                .SingleAsync(x => x.VCode == scenario.VCode);
+                .SingleAsync(x => x.VCode == scenario.AggregateId);
 }
 
 public class BeheerHistoriekScenarioClassFixture<TScenario>
