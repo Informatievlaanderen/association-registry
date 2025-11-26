@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using CommandHandling.Bewaartermijnen;
 using Events;
+using Integrations.Grar.Bewaartermijnen;
 using MartenDb.Store;
 using Moq;
 using Xunit;
@@ -16,7 +17,8 @@ public class With_Valid_Message
     private Mock<IEventStore> _eventStore;
     private readonly VCode _vCode;
     private readonly int _vertegenwoordigerId;
-    private CommandMetadata? _commandMetadata;
+    private CommandMetadata _commandMetadata;
+    private BewaartermijnOptions _bewaartermijnOptions;
 
     public With_Valid_Message()
     {
@@ -27,7 +29,11 @@ public class With_Valid_Message
         _commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new StartBewaartermijnMessageHandler();
         _eventStore = new Mock<IEventStore>();
-        commandHandler.Handle(new CommandEnvelope<StartBewaartermijnMessage>(command, _commandMetadata), _eventStore.Object, CancellationToken.None)
+        _bewaartermijnOptions = new BewaartermijnOptions(){
+            Duration = TimeSpan.FromDays(1),
+        };
+
+        commandHandler.Handle(new CommandEnvelope<StartBewaartermijnMessage>(command, _commandMetadata), _eventStore.Object, _bewaartermijnOptions, CancellationToken.None)
                       .GetAwaiter().GetResult();
     }
 
@@ -35,19 +41,15 @@ public class With_Valid_Message
     public void Then_The_Bewaartermijn_Is_Saved()
     {
         var expectedAggregateId = $"{_vCode}-{_vertegenwoordigerId}";
+        var expectedVervaldag = _commandMetadata.Tijdstip.PlusTicks(_bewaartermijnOptions.Duration.Ticks);
 
         _eventStore.Verify(x => x.Save(expectedAggregateId,
                                        0,
                                        _commandMetadata,
                                        It.IsAny<CancellationToken>(),
-                                       new BewaartermijnWerdGestart(expectedAggregateId, _vCode.ToString(), _vertegenwoordigerId)));
+                                       new BewaartermijnWerdGestart(expectedAggregateId, _vCode.ToString(), _vertegenwoordigerId, expectedVervaldag)));
     }
 
-    // [Fact]
-    // public void Then_It_Outboxes_An_StartBewaartermijn_Message()
-    // {
-    //     _outbox.Verify(x => x.SendAsync(new StartBewaartermijnMessage(), It.IsAny<DeliveryOptions>()), Times.Once);
-    // }
     //
     // [Fact]
     // public void Then_A_VertegenwoordigerWerdVerwijderd_Event_Is_Saved()

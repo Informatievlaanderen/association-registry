@@ -1,3 +1,5 @@
 namespace AssociationRegistry.Events;
 
-public record BewaartermijnWerdGestart(string BewaartermijnId, string VCode, int VertegenwoordigerId) : IEvent;
+using NodaTime;
+
+public record BewaartermijnWerdGestart(string BewaartermijnId, string VCode, int VertegenwoordigerId, Instant Vervaldag) : IEvent;
