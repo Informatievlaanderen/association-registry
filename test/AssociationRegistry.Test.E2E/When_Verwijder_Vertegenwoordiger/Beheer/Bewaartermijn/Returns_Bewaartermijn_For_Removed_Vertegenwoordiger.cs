@@ -5,6 +5,9 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using ImTools;
+using Integrations.Grar.Bewaartermijnen;
+using NodaTime;
 using Xunit;
 
 [Collection(nameof(VerwijderVertegenwoordigerCollection))]
@@ -19,11 +22,25 @@ public class Returns_Bewaartermijn_For_Removed_Vertegenwoordiger : End2EndTest<B
     }
 
     public override async Task<BewaartermijnResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBewaartermijn(setup.AdminHttpClient, _testContext.VCode, _testContext.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId, new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
+        => await setup.AdminApiHost.GetBewaartermijn(setup.SuperAdminHttpClient, _testContext.VCode, _testContext.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId, new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
 
     [Fact]
     public void JsonContentMatches()
     {
-        Response.Should().Be(new BewaartermijnResponse());
+        var expectedId = $"{_testContext.VCode}-{_testContext.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId}";
+        var options = new BewaartermijnOptions();
+        var tolerance = Duration.FromSeconds(5);
+
+        var now = SystemClock.Instance.GetCurrentInstant();
+        var expectedVervaldag = now.PlusTicks(options.Duration.Ticks);
+
+        Response.Should().BeEquivalentTo(new
+        {
+            Id = expectedId,
+            VCode = _testContext.VCode.ToString(),
+            VertegenwoordigerId = _testContext.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId
+        }, cfg => cfg.ExcludingMissingMembers());
+
+        Response.Vervaldag.Should().Match<Instant>(actual => (actual - expectedVervaldag) <= tolerance);
     }
 }

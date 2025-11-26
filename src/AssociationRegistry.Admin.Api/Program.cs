@@ -759,6 +759,7 @@ public class Program
         builder.Services.AddSingleton<ISequenceGuarder<BeheerVerenigingHistoriekDocument>, BeheerHistoriekSequenceGuarder>();
 
         builder.Services
+               .AddTransient<IBewaartermijnQuery, BewaartermijnQuery>()
                .AddTransient<IBeheerVerenigingDetailQuery, BeheerVerenigingDetailQuery>()
                .AddTransient<IBeheerVerenigingenZoekQuery, BeheerVerenigingenZoekQuery>()
                .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>();

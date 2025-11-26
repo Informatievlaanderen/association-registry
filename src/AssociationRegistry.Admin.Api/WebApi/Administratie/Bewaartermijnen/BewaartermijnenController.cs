@@ -4,6 +4,8 @@ using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NodaTime;
+using Queries;
 
 /// <summary>
 /// SuperAdmin endpoint to manually call.
@@ -20,12 +22,17 @@ public class BewaartermijnenController : ApiController
     public async Task<IActionResult> Get(
         [FromRoute] string vCode,
         [FromRoute] string vertegenwoordigerId,
-       // [FromServices] IBewaartermijnenQuery documentStore,
+        [FromServices] IBewaartermijnQuery query,
         [FromServices] ILogger<BewaartermijnenController> logger,
         CancellationToken cancellationToken)
     {
-        return NotFound();
+        var bewaartermijn = await query.ExecuteAsync(new BewaartermijnFilter($"{vCode}-{vertegenwoordigerId}"), cancellationToken);
+
+        if(bewaartermijn == null)
+            return NotFound();
+
+        return Ok(new BewaartermijnResponse(bewaartermijn.BewaartermijnId, bewaartermijn.VCode, bewaartermijn.VertegenwoordigerId, bewaartermijn.Vervaldag));
     }
 }
 
-public record BewaartermijnResponse();
+public record BewaartermijnResponse(string BewaartermijnId, string VCode, int VertegenwoordigerId, Instant Vervaldag);
