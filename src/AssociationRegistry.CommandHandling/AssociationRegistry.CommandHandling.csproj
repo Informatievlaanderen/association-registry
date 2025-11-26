@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.Integrations.Slack\AssociationRegistry.Integrations.Slack.csproj" />
+    <ProjectReference Include="..\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj" />
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj" />
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Grar\AssociationRegistry.Integrations.Grar.csproj" />
