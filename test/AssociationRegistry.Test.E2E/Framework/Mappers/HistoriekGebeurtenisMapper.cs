@@ -718,6 +718,17 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+    public static HistoriekGebeurtenisResponse VertegenwoordigerWerdVerwijderd(VertegenwoordigerWerdToegevoegd vertegenwoordigerWerdToegevoegd)
+        => new()
+        {
+            Beschrijving = $"Vertegenwoordiger '{vertegenwoordigerWerdToegevoegd.Voornaam} {vertegenwoordigerWerdToegevoegd.Achternaam}' werd verwijderd.",
+            Gebeurtenis = nameof(Events.VertegenwoordigerWerdVerwijderd),
+            Data = new VertegenwoordigerWerdVerwijderdData(vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+                                                           vertegenwoordigerWerdToegevoegd.Voornaam,
+                                                           vertegenwoordigerWerdToegevoegd.Achternaam),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 
     public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdGewijzigd(VertegenwoordigerWerdOvergenomenUitKBO vertegenwoordigerWerdOvergenomenUitKbo, WijzigVertegenwoordigerRequest request)
         => new()
