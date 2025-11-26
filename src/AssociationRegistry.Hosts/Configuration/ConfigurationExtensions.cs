@@ -38,7 +38,7 @@ public static class ConfigurationExtensions
                          .GetSection(nameof(BewaartermijnOptions))
                          .Get<BewaartermijnOptions>();
 
-        return bewaartermijnDuration!;
+        return bewaartermijnDuration is null ? new BewaartermijnOptions() : bewaartermijnDuration!;
     }
 
     public static AppSettings GetAppSettings(this IConfiguration configuration)

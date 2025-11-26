@@ -42,12 +42,19 @@ public class With_Valid_Message
     {
         var expectedAggregateId = $"{_vCode}-{_vertegenwoordigerId}";
         var expectedVervaldag = _commandMetadata.Tijdstip.PlusTicks(_bewaartermijnOptions.Duration.Ticks);
-
-        _eventStore.Verify(x => x.Save(expectedAggregateId,
-                                       0,
-                                       _commandMetadata,
-                                       It.IsAny<CancellationToken>(),
-                                       new BewaartermijnWerdGestart(expectedAggregateId, _vCode.ToString(), _vertegenwoordigerId, expectedVervaldag)));
+        var expectedEvent = new BewaartermijnWerdGestart(expectedAggregateId, _vCode.ToString(), _vertegenwoordigerId,
+                                                         expectedVervaldag);
+        _eventStore.Verify(x => x.SaveNew(
+                               expectedAggregateId,
+                               _commandMetadata,
+                               It.IsAny<CancellationToken>(),
+                               It.Is<IEvent[]>(events =>
+                                                                     events.Length == 1 &&
+                                                                     ((BewaartermijnWerdGestart)events[0]).BewaartermijnId == expectedAggregateId &&
+                                                                     ((BewaartermijnWerdGestart)events[0]).VCode == _vCode.ToString() &&
+                                                                     ((BewaartermijnWerdGestart)events[0]).VertegenwoordigerId == _vertegenwoordigerId &&
+                                                                     ((BewaartermijnWerdGestart)events[0]).Vervaldag == expectedVervaldag
+                               )));
     }
 
     //

@@ -20,6 +20,7 @@ public class With_A_Known_VertegenwoordigerId
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
     private readonly Mock<IMartenOutbox> _outbox;
     private VerwijderVertegenwoordigerCommand _command;
+    private CommandMetadata? _commandMetadata;
 
     public With_A_Known_VertegenwoordigerId()
     {
@@ -29,11 +30,11 @@ public class With_A_Known_VertegenwoordigerId
 
         var fixture = new Fixture().CustomizeAdminApi();
         _command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId);
-        var commandMetadata = fixture.Create<CommandMetadata>();
+        _commandMetadata = fixture.Create<CommandMetadata>();
         _outbox = new Mock<IMartenOutbox>();
         var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock, _outbox.Object);
 
-        commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(_command, commandMetadata))
+        commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(_command, _commandMetadata))
                       .GetAwaiter().GetResult();
     }
 
@@ -46,11 +47,14 @@ public class With_A_Known_VertegenwoordigerId
     [Fact]
     public void Then_It_Outboxes_An_StartBewaartermijn_Message()
     {
+        var expectedEnvelope = new CommandEnvelope<StartBewaartermijnMessage>(
+            new StartBewaartermijnMessage(_command.VCode, _command.VertegenwoordigerId),
+            _commandMetadata);
+
         _outbox.Verify(x => x.SendAsync(
-                           new StartBewaartermijnMessage(
-                               _command.VCode,
-                               _command.VertegenwoordigerId),
-                           It.IsAny<DeliveryOptions>()), Times.Once);
+                           It.Is<CommandEnvelope<StartBewaartermijnMessage>>(e => e == expectedEnvelope),
+                           It.IsAny<DeliveryOptions>()),
+                       Times.Once);
     }
 
     [Fact]

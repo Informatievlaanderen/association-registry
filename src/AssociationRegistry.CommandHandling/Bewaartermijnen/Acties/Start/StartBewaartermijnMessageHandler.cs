@@ -1,11 +1,9 @@
-namespace AssociationRegistry.CommandHandling.Bewaartermijnen;
+namespace AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Start;
 
-using Acties.Start;
-using Events;
-using Framework;
-using Integrations.Grar.Bewaartermijnen;
-using MartenDb.Store;
-using NodaTime;
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Integrations.Grar.Bewaartermijnen;
+using AssociationRegistry.MartenDb.Store;
 
 public class StartBewaartermijnMessageHandler
 {
@@ -19,15 +17,14 @@ public class StartBewaartermijnMessageHandler
 
         var vervaldag = message.Metadata.Tijdstip.PlusTicks(bewaartermijnOptions.Duration.Ticks);
 
-        await eventStore.Save(bewaartermijnId,
-                              0,
+        await eventStore.SaveNew(bewaartermijnId,
                               message.Metadata,
                               cancellationToken,
-                              new BewaartermijnWerdGestart(
+                              [new BewaartermijnWerdGestart(
                                   bewaartermijnId,
                                   bewaartermijnId.VCode,
                                   bewaartermijnId.VertegenwoordigerId,
-                                  vervaldag)
+                                  vervaldag)]
         );
     }
 }

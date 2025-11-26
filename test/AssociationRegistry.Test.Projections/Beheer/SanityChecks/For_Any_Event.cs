@@ -18,6 +18,7 @@ public class For_Any_Event
         typeof(KboNummerWerdGereserveerd),
         typeof(DubbeleVerenigingenWerdenGedetecteerd),
         ..new PersoonsgegevensEventTransformers().Select(x => x.PersistedEventType),
+        typeof(BewaartermijnWerdGestart), // TODO undo for powerbi
     ];
 
     // Because we want to update the metadata for each event!
