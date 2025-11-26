@@ -2,6 +2,7 @@ namespace AssociationRegistry.Hosts.Configuration;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using Integrations.Grar.Bewaartermijnen;
 using Integrations.Grar.Clients;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -29,6 +30,15 @@ public static class ConfigurationExtensions
         grarOptions.ThrowIfInValid();
 
         return grarOptions!;
+    }
+
+    public static BewaartermijnOptions GetBewaartermijnOptions(this IConfiguration configuration)
+    {
+        var bewaartermijnDuration = configuration
+                         .GetSection(nameof(BewaartermijnOptions))
+                         .Get<BewaartermijnOptions>();
+
+        return bewaartermijnDuration!;
     }
 
     public static AppSettings GetAppSettings(this IConfiguration configuration)

@@ -417,6 +417,7 @@ public class Program
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
         var grarOptions = builder.Configuration.GetGrarOptions();
+        var bewaartermijnOptions = builder.Configuration.GetBewaartermijnOptions();
 
         var appSettings = builder.Configuration.Get<AppSettings>();
 
@@ -449,6 +450,7 @@ public class Program
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(magdaOptionsSection)
                .AddSingleton(grarOptions)
+               .AddSingleton(bewaartermijnOptions)
                .AddSingleton(appSettings)
                .AddSingleton(builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
                                     .Get<OAuth2IntrospectionOptions>())
