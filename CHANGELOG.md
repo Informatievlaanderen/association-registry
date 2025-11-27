@@ -1,3 +1,18 @@
+# [8.279.0](https://github.com/informatievlaanderen/association-registry/compare/v8.278.1...v8.279.0) (2025-11-27)
+
+
+### Bug Fixes
+
+* or-2950 create handler for starting bewaartermijn ([cb46bf9](https://github.com/informatievlaanderen/association-registry/commit/cb46bf933a884a3339e79d5d9740a467e6e26ed6))
+
+
+### Features
+
+* or-2950 calculate vervaldag for bewaartermijn handler ([1528fcb](https://github.com/informatievlaanderen/association-registry/commit/1528fcbf26d8039c7ef3edc89957e59cfb86c0bf))
+* or-2950 finish bewaartermijnWerdGestart for verwijder vertegenwoordiger ([f64c6c8](https://github.com/informatievlaanderen/association-registry/commit/f64c6c89a2052ad5b84946bd1bc6cddbc9195412))
+* or-2950 implement projection for bewaartermijnen ([e917f71](https://github.com/informatievlaanderen/association-registry/commit/e917f711edd0f55bc1f17ca969be6a739348182a))
+* or-2950 send StartBewaartermijn command when verwijder vertegenwoordiger ([0eca0ca](https://github.com/informatievlaanderen/association-registry/commit/0eca0caf5affac1f06b847f221a06f8af74e2229))
+
 ## [8.278.1](https://github.com/informatievlaanderen/association-registry/compare/v8.278.0...v8.278.1) (2025-11-25)
 
 
