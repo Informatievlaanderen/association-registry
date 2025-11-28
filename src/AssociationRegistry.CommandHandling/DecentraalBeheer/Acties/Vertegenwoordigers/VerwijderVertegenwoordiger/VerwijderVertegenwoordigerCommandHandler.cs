@@ -29,7 +29,7 @@ public class VerwijderVertegenwoordigerCommandHandler
 
         vereniging.VerwijderVertegenwoordiger(message.Command.VertegenwoordigerId);
 
-        await _outbox.SendAsync(new CommandEnvelope<StartBewaartermijnMessage>(new StartBewaartermijnMessage(message.Command.VCode, message.Command.VertegenwoordigerId), message.Metadata));
+        await _outbox.SendAsync(new CommandEnvelope<StartBewaartermijnMessage>(new StartBewaartermijnMessage(message.Command.VCode, message.Command.VertegenwoordigerId, "VertegenwoordigerWerdVerwijderd"), message.Metadata));
 
         var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
 

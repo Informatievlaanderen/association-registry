@@ -20,6 +20,14 @@ public class EventStoreMock : IEventStore
 
     public readonly List<SaveInvocation> SaveInvocations = new();
 
+    public async Task SaveTransactional(
+        string aggregateId,
+        long? aggregateVersion,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        params IEvent[] events)
+        => throw new NotImplementedException();
+
     public async Task<StreamActionResult> Save(
         string aggregateId,
         long aggregateVersion,
