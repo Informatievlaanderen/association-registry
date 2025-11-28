@@ -63,6 +63,29 @@ public class EventStore : IEventStore
         return new StreamActionResult(maxSequence, processedEvents.Length);
     }
 
+    public async Task SaveTransactional(
+        string aggregateId,
+        long? aggregateVersion,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        params IEvent[] events)
+    {
+        SetHeaders(metadata, _session);
+
+        if (aggregateVersion is not null)
+            _session.Events.Append(aggregateId, aggregateVersion.Value + events.Length, events);
+
+        // SaveBewaartermijn & SaveVereningMethod?
+        // var bewaartermijn = await _session.Events.FetchForWriting<Bewaartermijn>(aggregateId, cancellationToken);
+        //
+        // if (bewaartermijn.Aggregate.BewaartermijnStatus != BewaartermijnStatus.Gepland)
+        // {
+        //     return;
+        // }
+
+        _session.Events.Append(aggregateId, events);
+    }
+
     public async Task<StreamActionResult> Save(
         string aggregateId,
         long aggregateVersion,
@@ -128,22 +151,22 @@ public class EventStore : IEventStore
     }
 
     private static StreamAction AppendEvents(
-        IDocumentSession _session,
+        IDocumentSession session,
         string aggregateId,
         IReadOnlyCollection<IEvent> events,
         long? expectedVersion)
     {
         if (expectedVersion is not null)
-            return _session.Events.Append(aggregateId, expectedVersion.Value + events.Count, events);
+            return session.Events.Append(aggregateId, expectedVersion.Value + events.Count, events);
 
-        return _session.Events.Append(aggregateId, events);
+        return session.Events.Append(aggregateId, events);
     }
 
-    private static void SetHeaders(CommandMetadata metadata, IDocumentSession _session)
+    private static void SetHeaders(CommandMetadata metadata, IDocumentSession session)
     {
-        _session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
-        _session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
-        _session.CorrelationId = metadata.CorrelationId.ToString();
+        session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
+        session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
+        session.CorrelationId = metadata.CorrelationId.ToString();
     }
 
     public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion, new()

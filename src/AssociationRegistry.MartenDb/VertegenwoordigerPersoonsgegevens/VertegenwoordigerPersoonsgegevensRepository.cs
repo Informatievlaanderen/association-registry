@@ -78,4 +78,9 @@ public class VertegenwoordigerPersoonsgegevensRepository : IVertegenwoordigerPer
                                                             v.SocialMedia
                                                         )).ToArray();
     }
+
+    public void Delete(VCode vCode, int vertegenwoordigerId)
+    {
+        _session.DeleteWhere<VertegenwoordigerPersoonsgegevensDocument>(x => x.VCode == vCode.ToString() && x.VertegenwoordigerId == vertegenwoordigerId);
+    }
 }
