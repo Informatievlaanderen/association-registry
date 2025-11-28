@@ -7,6 +7,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using Integrations.Magda.Models;
 using Marten;
 using Persoonsgegevens;
+using Schema.Bewaartermijn;
 using Schema.Detail;
 using Schema.Historiek;
 using Schema.KboSync;
@@ -43,6 +44,7 @@ public static class AdminDocumentTypeRegistrations
 
         opts.RegisterDocumentType<PostalNutsLauInfo>();
         opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
+        opts.RegisterDocumentType<BewaartermijnDocument>();
 
         opts.RegisterDocumentType<VerenigingState>();
 
