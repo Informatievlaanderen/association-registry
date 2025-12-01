@@ -8,10 +8,12 @@ using Microsoft.Extensions.Logging;
 using Models;
 using Models.GeefOndernemingVKBO;
 using Models.RegistreerInschrijving;
+using Models.RegistreerInschrijving0200;
 using Models.RegistreerUitschrijving;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml.Serialization;
+using RegistreerInschrijvingResponseBody = Models.RegistreerInschrijving.RegistreerInschrijvingResponseBody;
 
 public class MagdaClient : IMagdaClient
 {
@@ -110,6 +112,27 @@ public class MagdaClient : IMagdaClient
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
         return await PerformMagdaRequest<RegistreerInschrijvingResponseBody>(
+            _magdaOptions.RegistreerInschrijvingEndpoint!,
+            clientCertificate,
+            signedEnvelope);
+    }
+
+    public async Task<ResponseEnvelope<AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>?> RegistreerInschrijvingPersoon(
+        string insz,
+        MagdaCallReference reference)
+    {
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(_magdaOptions.RegistreerInschrijvingEndpoint,
+                               $"{nameof(MagdaOptionsSection.RegistreerInschrijvingEndpoint)}");
+
+        _logger.LogInformation(
+            $"MAGDA Call Reference - RegistreerInschrijving Persoon met referentie '{reference.Reference}'");
+
+        var unsignedEnvelope = MakeEnvelope(RegistreerInschrijvingPersoonBody.CreateRequest(insz, reference.Reference, _magdaOptions));
+        var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
+        var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
+
+        return await PerformMagdaRequest<AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>(
             _magdaOptions.RegistreerInschrijvingEndpoint!,
             clientCertificate,
             signedEnvelope);

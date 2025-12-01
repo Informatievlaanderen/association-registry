@@ -13,4 +13,8 @@ public interface IMagdaClient
     Task<ResponseEnvelope<GeefOndernemingResponseBody>?> GeefOnderneming(string kbonummer, CommandMetadata metadata, CancellationToken cancellationToken);
     Task<ResponseEnvelope<RegistreerInschrijvingResponseBody>?> RegistreerInschrijving(string kbonummer, MagdaCallReference reference);
     Task<ResponseEnvelope<RegistreerUitschrijvingResponseBody>?> RegistreerUitschrijving(string kbonummer, MagdaCallReference reference);
+
+    Task<ResponseEnvelope<AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>?> RegistreerInschrijvingPersoon(
+        string insz,
+        MagdaCallReference reference);
 }
