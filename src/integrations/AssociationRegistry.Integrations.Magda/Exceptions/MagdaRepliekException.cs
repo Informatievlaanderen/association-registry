@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Integrations.Magda.Exceptions;
 
-using Repertorium.RegistreerInschrijving;
+using Repertorium.RegistreerInschrijving0201;
 using System.Text;
 
 [Serializable]

@@ -19,9 +19,9 @@ public static class MagdaResponseExtensions
                   .Select(type => $"{type.Identificatie} - {type.Diagnose} - {type.Omstandigheid}"));
 
     public static string ConcatenateUitzonderingen(
-        this AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.UitzonderingType[] source,
+        this AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving0201.UitzonderingType[] source,
         string separator,
-        AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.UitzonderingTypeType uitzonderingTypeType)
+        AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving0201.UitzonderingTypeType uitzonderingTypeType)
         => string.Join(
             separator,
             source.Where(type => type.Type == uitzonderingTypeType)

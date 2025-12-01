@@ -1,6 +1,5 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <AssemblyName>AssociationRegistry.Integrations.Magda</AssemblyName>
     <RootNamespace>AssociationRegistry.Integrations.Magda</RootNamespace>
@@ -26,7 +25,6 @@
     <OutputType>Library</OutputType>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
-
   <PropertyGroup>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -36,28 +34,23 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
-
-
   <ItemGroup>
-    <ProjectReference Include="..\..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj"/>
-    <ProjectReference Include="..\..\AssociationRegistry\AssociationRegistry.csproj"/>
+    <ProjectReference Include="..\..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
+    <ProjectReference Include="..\..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="WSDL\Generiek-02.00\"/>
-    <Folder Include="WSDL\Onderneming-02.00\"/>
-    <Folder Include="WSDL\Repertorium-02.01\"/>
-    <Folder Include="WSDL\Repertorium.RegistreerInschrijvingDienst-02.01\Service\"/>
-    <Folder Include="WSDL\Repertorium.RegistreerInschrijvingDienst-02.01\WebService\"/>
-    <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\Service\"/>
-    <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\WebService\"/>
-    <Folder Include="WSDL\Sleutel-02.00\"/>
+    <Folder Include="WSDL\Generiek-02.00\" />
+    <Folder Include="WSDL\Onderneming-02.00\" />
+    <Folder Include="WSDL\Repertorium-02.01\" />
+    <Folder Include="WSDL\Repertorium.RegistreerInschrijvingDienst-02.01\Service\" />
+    <Folder Include="WSDL\Repertorium.RegistreerInschrijvingDienst-02.01\WebService\" />
+    <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\Service\" />
+    <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\WebService\" />
+    <Folder Include="WSDL\Sleutel-02.00\" />
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="Wsdl\"/>
+    <Folder Include="Wsdl\" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="System.ServiceModel.Duplex" />
     <PackageReference Include="System.ServiceModel.Http" />

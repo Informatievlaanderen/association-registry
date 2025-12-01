@@ -3,9 +3,9 @@
 using global::AutoFixture;
 using AssociationRegistry.Integrations.Magda.Constants;
 using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
-using AntwoordenType = AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.AntwoordenType;
-using ContextType = AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.ContextType;
-using RepliekType = AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RepliekType;
+using AntwoordenType = Integrations.Magda.Repertorium.RegistreerInschrijving0201.AntwoordenType;
+using ContextType = Integrations.Magda.Repertorium.RegistreerInschrijving0201.ContextType;
+using RepliekType = Integrations.Magda.Repertorium.RegistreerInschrijving0201.RepliekType;
 
 public static class MagdaAutoFixtureCustomizations
 {
@@ -130,7 +130,7 @@ public static class MagdaAutoFixtureCustomizations
 
     private static void DoNotAutoGenerateRepliekUitzonderingen(this IFixture fixture)
     {
-        fixture.Customize<AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RepliekType>(
+        fixture.Customize<AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving0201.RepliekType>(
             composer => composer.FromFactory(
                 () => new RepliekType()
                 {

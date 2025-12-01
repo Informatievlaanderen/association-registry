@@ -8,7 +8,7 @@ using Exceptions;
 using Extensions;
 using Microsoft.Extensions.Logging;
 using Models;
-using Repertorium.RegistreerInschrijving;
+using Repertorium.RegistreerInschrijving0201;
 using ResultNet;
 
 public class MagdaRegistreerInschrijvingService : IMagdaRegistreerInschrijvingService
