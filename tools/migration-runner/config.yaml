@@ -4,6 +4,11 @@ projects:
     csprojPath: src/AssociationRegistry.Admin.Api
     migrationDestination: migrations/production/admin.api/scripts/up
     connectionString: postgresql://127.0.0.1/verenigingsregister
+  Wolverine Schema:
+    name: Wolverine Schema
+    csprojPath: src/AssociationRegistry.Admin.Api
+    migrationDestination: migrations/production/admin.api/scripts/up
+    connectionString: wolverine://messages/main
   Admin Projections:
     name: Admin Projections
     csprojPath: src/AssociationRegistry.Admin.ProjectionHost

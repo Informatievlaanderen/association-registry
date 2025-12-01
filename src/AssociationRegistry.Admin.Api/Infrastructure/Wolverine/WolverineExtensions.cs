@@ -6,6 +6,7 @@ using AssociationRegistry.MartenDb.Setup;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
+using CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using CommandHandling.DecentraalBeheer.Middleware;
 using CommandHandling.Grar.GrarConsumer.Messaging;
 using Contracts.KboSync;
