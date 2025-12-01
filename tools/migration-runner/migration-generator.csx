@@ -31,7 +31,8 @@ public class CustomScript
 }
 
 // Main application
-var configPath = Path.Combine(Directory.GetCurrentDirectory(), "config.yaml");
+var rootPath = FindRepositoryRoot();
+var configPath = Path.Combine(rootPath, "tools/migration-runner/config.yaml");
 if (!File.Exists(configPath))
 {
     CreateDefaultConfig(configPath);
