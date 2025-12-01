@@ -11,6 +11,7 @@ using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Services;
+using MartenDb;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -18,6 +19,7 @@ using Npgsql;
 using Schema.Detail;
 using System.Reflection;
 using Weasel.Core;
+using Wolverine.Marten;
 
 public static class ServiceCollectionExtensions
 {
@@ -80,6 +82,7 @@ public static class ServiceCollectionExtensions
                                                {
                                                    var opts = new StoreOptions();
                                                    opts.Connection(postgreSqlOptions.GetConnectionString());
+
                                                    opts.UseNewtonsoftForSerialization(configure: settings =>
                                                    {
                                                        settings.DateParseHandling = DateParseHandling.None;
@@ -87,6 +90,7 @@ public static class ServiceCollectionExtensions
                                                        // settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                                                        // settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
                                                    });
+
                                                    opts.Events.StreamIdentity = StreamIdentity.AsString;
 
                                                    opts.Events.MetadataConfig.EnableAll();
@@ -108,7 +112,13 @@ public static class ServiceCollectionExtensions
                                                    }
 
                                                    return opts;
-                                               })
+                                               }).IntegrateWithWolverine(integration =>
+                                           {
+                                               integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
+                                               integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
+
+                                               integration.AutoCreate = AutoCreate.None;
+                                           })
                                           .UseLightweightSessions();
 
         return services;
