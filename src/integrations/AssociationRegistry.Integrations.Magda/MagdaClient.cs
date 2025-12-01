@@ -7,6 +7,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.GeefOndernemingVKBO;
+using Models.GeefPersoon;
 using Models.RegistreerInschrijving;
 using Models.RegistreerInschrijving0200;
 using Models.RegistreerUitschrijving;
@@ -248,4 +249,23 @@ public class MagdaClient : IMagdaClient
             Header = new Header(),
             Body = body,
         };
+
+    public async Task<ResponseEnvelope<GeefPersoonResponseBody>?> GeefPersoon(string insz, MagdaCallReference reference)
+    {
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(_magdaOptions.RegistreerInschrijvingEndpoint,
+                               $"{nameof(MagdaOptionsSection.RegistreerInschrijvingEndpoint)}");
+
+        _logger.LogInformation(
+            $"MAGDA Call Reference - RegistreerInschrijving Persoon met referentie '{reference.Reference}'");
+
+        var unsignedEnvelope = MakeEnvelope(GeefPersoonBody.CreateRequest(insz, reference.Reference, _magdaOptions));
+        var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
+        var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
+
+        return await PerformMagdaRequest<GeefPersoonResponseBody>(
+            _magdaOptions.RegistreerInschrijvingEndpoint!,
+            clientCertificate,
+            signedEnvelope);
+    }
 }

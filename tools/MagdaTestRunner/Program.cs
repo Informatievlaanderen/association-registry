@@ -6,6 +6,7 @@ using Marten;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Newtonsoft.Json;
 using Serilog;
 using System.CommandLine;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
@@ -42,6 +43,7 @@ rootCommand.SetHandler(async (insz) =>
     var config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+        .AddJsonFile($"appsettings.{Environment.MachineName}.json", optional: true, reloadOnChange: false)
         .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: false)
         .AddEnvironmentVariables()
         .AddUserSecrets<Program>()
@@ -81,7 +83,9 @@ rootCommand.SetHandler(async (insz) =>
         var magdaCallReference = new MagdaCallReference();
         var registreerInschrijvingPersoon = await client.RegistreerInschrijvingPersoon(insz, magdaCallReference);
 
-        // var persoon = await client.GeefPersoon(insz, magdaCallReference);
+        var persoon = await client.GeefPersoon(insz, magdaCallReference);
+
+        Log.Information(JsonConvert.SerializeObject(persoon));
         Log.Information("Successfully registered INSZ with Magda");
     }
     catch (Exception ex)

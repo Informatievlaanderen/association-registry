@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02"
+                  xmlns="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02"
+		            xmlns="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02"
+		            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		            elementFormDefault="unqualified"
+		            attributeFormDefault="unqualified">
+
+			<xsd:include schemaLocation="GeefPersoon.xsd"/>
+			<xsd:include schemaLocation="GeefPersoonResponse.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="GeefPersoonRequest">
+		<wsdl:part name="Verzoek" element="GeefPersoon"/>
+	</wsdl:message>
+	<wsdl:message name="GeefPersoonResponse">
+		<wsdl:part name="Repliek" element="GeefPersoonResponse"/>
+	</wsdl:message>
+
+	<wsdl:portType name="Persoon.GeefPersoonPortType">
+		<wsdl:operation name="GeefPersoon">
+			<wsdl:input name="GeefPersoonRequest" message="GeefPersoonRequest"/>
+			<wsdl:output name="GeefPersoonResponse" message="GeefPersoonResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="Persoon.GeefPersoonHttpBinding" type="Persoon.GeefPersoonPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GeefPersoon">
+			<soap:operation soapAction="GeefPersoonDienst-02.02"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="Persoon.GeefPersoon">
+		<wsdl:port name="Persoon.GeefPersoonHttpPort" binding="Persoon.GeefPersoonHttpBinding">
+			<soap:address location="https://magdapersoondienst.vlaanderen.be/GeefPersoonDienst-02.02/soap/WebService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -27,6 +27,10 @@
       <Content Update="appsettings.*.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="appsettings.kratos.json" />
+      <Content Include="appsettings.kratos.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>
