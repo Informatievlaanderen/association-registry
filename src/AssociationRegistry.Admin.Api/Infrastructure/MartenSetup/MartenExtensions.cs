@@ -13,6 +13,7 @@ using Marten;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Microsoft.Extensions.Logging.Abstractions;
 using ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
+using ProjectionHost.Projections.Bewaartermijn;
 using ProjectionHost.Projections.Detail;
 using ProjectionHost.Projections.Historiek;
 using ProjectionHost.Projections.KboSync;
@@ -58,6 +59,7 @@ public static class MartenExtensions
                                           opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
                                           opts.Projections.Add(new LocatieLookupProjection(NullLogger<LocatieLookupProjection>.Instance), ProjectionLifecycle.Async);
                                           opts.Projections.Add(new LocatieZonderAdresMatchProjection(NullLogger<LocatieZonderAdresMatchProjection>.Instance), ProjectionLifecycle.Async);
+                                          opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
 
                                           return opts;
                                       })
