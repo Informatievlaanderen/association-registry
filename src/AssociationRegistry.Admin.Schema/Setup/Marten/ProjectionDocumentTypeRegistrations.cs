@@ -23,7 +23,9 @@ public static class ProjectionDocumentTypeRegistrations
             .UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<BewaartermijnDocument>();
-        opts.Schema.For<BewaartermijnDocument>();
+        opts.Schema.For<BewaartermijnDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<PowerBiExportDubbelDetectieDocument>();
         opts.Schema.For<PowerBiExportDubbelDetectieDocument>()

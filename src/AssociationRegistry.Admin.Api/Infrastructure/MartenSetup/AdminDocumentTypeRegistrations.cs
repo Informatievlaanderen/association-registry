@@ -45,6 +45,9 @@ public static class AdminDocumentTypeRegistrations
         opts.RegisterDocumentType<PostalNutsLauInfo>();
         opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
         opts.RegisterDocumentType<BewaartermijnDocument>();
+        opts.Schema.For<BewaartermijnDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<VerenigingState>();
 
