@@ -132,6 +132,7 @@ public static class WolverineExtensions
 
         options.PublishMessage<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>()
                .ToPostgresqlQueue(DubbelWeigeringQueueName);
+
         options.ListenToPostgresqlQueue(DubbelWeigeringQueueName);
     }
 
