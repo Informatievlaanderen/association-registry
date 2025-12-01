@@ -15,6 +15,8 @@ using Infrastructure.Extensions;
 using Integrations.Slack;
 using JasperFx;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Http;
 using NodaTime;
+using Persoonsgegevens;
 using Serilog;
 using Serilog.Debugging;
 using Vereniging;
@@ -90,8 +93,12 @@ public static class Program
            .AddSingleton(new GrarOptions().GrarClient)
            .AddSingleton(new SlackWebhook(addressSyncOptions.SlackWebhook))
            .AddSingleton<IGrarClient, GrarClient>()
-           .AddSingleton<IEventStore, EventStore>()
-           .AddSingleton<IVerenigingsRepository, VerenigingsRepository>()
+           .AddTransient<IEventStore, EventStore>()
+           .AddScoped<IVerenigingsRepository, VerenigingsRepository>()
+           .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+           .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+           .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
+           .AddScoped<PersoonsgegevensEventTransformers>()
            .AddScoped<TeSynchroniserenLocatieAdresMessageHandler>()
            .AddScoped<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
            .AddTransient<INotifier, SlackNotifier>()
