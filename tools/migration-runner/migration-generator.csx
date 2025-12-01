@@ -124,6 +124,13 @@ void CreateDefaultConfig(string path)
                 MigrationDestination = "migrations/production/admin.api/scripts/up",
                 ConnectionString = "postgresql://127.0.0.1/verenigingsregister"
             },
+            ["Wolverine Schema"] = new ProjectConfig
+            {
+                Name = "Wolverine Schema",
+                CsprojPath = "src/AssociationRegistry.Admin.Api",
+                MigrationDestination = "migrations/production/admin.api/scripts/up",
+                ConnectionString = "wolverine://messages/main"
+            },
             ["Admin Projections"] = new ProjectConfig
             {
                 Name = "Admin Projections",
