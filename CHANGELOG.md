@@ -1,3 +1,12 @@
+## [8.279.1](https://github.com/informatievlaanderen/association-registry/compare/v8.279.0...v8.279.1) (2025-12-01)
+
+
+### Bug Fixes
+
+* or-2950 add missing projection in admin.api ([26c6e22](https://github.com/informatievlaanderen/association-registry/commit/26c6e22e1dfa694d58040715ae55005eb7fb7019))
+* or-2950 add necessary registrations on address sync ([2dece2c](https://github.com/informatievlaanderen/association-registry/commit/2dece2c9dbe483c81dfe1b966f396ce0a8c099a8))
+* or-2950 register BewaartermijnDocument for admin api ([26c7216](https://github.com/informatievlaanderen/association-registry/commit/26c721692909729b9e3b77728f895d5eacd5a19b))
+
 # [8.279.0](https://github.com/informatievlaanderen/association-registry/compare/v8.278.1...v8.279.0) (2025-11-27)
 
 
