@@ -13,8 +13,8 @@ namespace AssociationRegistry.Integrations.Magda.Onderneming.GeefOndernemingVKBO
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.ServiceContractAttribute(Name="Onderneming.GeefOndernemingVKBOPortType", Namespace="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaandere" +
-        "n.be", ConfigurationName="AssociationRegistry.Integrations.Magda.Onderneming.GeefOndernemingVKBO.OndernemingGeefOndernem" +
-        "ingVKBOPortType")]
+        "n.be", ConfigurationName="AssociationRegistry.Integrations.Magda.Onderneming.GeefOndernemingVKBO.Ondernemin" +
+        "gGeefOndernemingVKBOPortType")]
     internal interface OndernemingGeefOndernemingVKBOPortType
     {
         

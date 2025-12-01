@@ -5,7 +5,7 @@ using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Exceptions;
 using AssociationRegistry.Integrations.Magda.Models;
 using AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving;
-using AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving;
+using Integrations.Magda.Repertorium.RegistreerInschrijving0201;
 using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;

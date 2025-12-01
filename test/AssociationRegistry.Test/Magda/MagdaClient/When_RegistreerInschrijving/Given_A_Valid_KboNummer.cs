@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Models;
-using AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving;
+using Integrations.Magda.Repertorium.RegistreerInschrijving0201;
 using AutoFixture;
 using Common.Configuration;
 using FluentAssertions;

@@ -4,7 +4,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Models;
 using AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving;
-using AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving;
+using Integrations.Magda.Repertorium.RegistreerInschrijving0201;
 using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
@@ -14,7 +14,7 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
-using AntwoordInhoudType = AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.AntwoordInhoudType;
+using AntwoordInhoudType = Integrations.Magda.Repertorium.RegistreerInschrijving0201.AntwoordInhoudType;
 
 public class Given_Geslaagd
 {
