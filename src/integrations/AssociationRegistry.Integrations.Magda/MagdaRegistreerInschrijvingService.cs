@@ -13,38 +13,26 @@ using ResultNet;
 public class MagdaRegistreerInschrijvingService : IMagdaRegistreerInschrijvingService
 {
     private const ResultaatEnumType Geslaagd = ResultaatEnumType.Item1;
-    private readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
     private readonly IMagdaClient _magdaClient;
     private readonly ILogger<MagdaRegistreerInschrijvingService> _logger;
 
     public MagdaRegistreerInschrijvingService(
-        IMagdaCallReferenceRepository magdaCallReferenceRepository,
         IMagdaClient magdaClient,
         ILogger<MagdaRegistreerInschrijvingService> logger)
     {
-        _magdaCallReferenceRepository =
-            magdaCallReferenceRepository ?? throw new ArgumentNullException(nameof(magdaCallReferenceRepository));
-
         _magdaClient = magdaClient ?? throw new ArgumentNullException(nameof(magdaClient));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task<Result> RegistreerInschrijving(
         KboNummer kboNummer,
+        AanroependeFunctie aanroependeFunctie,
         CommandMetadata metadata,
         CancellationToken cancellationToken)
     {
         try
         {
-            var reference = await MagdaCallReferenceService.CreateReference(metadata.Initiator,
-                                                                            metadata.CorrelationId,
-                                                                            kboNummer,
-                                                                            cancellationToken, "RegistreerInschrijvingDienst-02.01", "Registreer inschrijving voor vereniging met rechtspersoonlijkheid", "Verenigingsregister Beheer Api");
-
-            _logger.LogInformation(
-                $"MAGDA Call Reference - RegistreerInschrijving Service - KBO nummer '{kboNummer}' met referentie '{reference.Reference}'");
-
-            var registreerInschrijvingResponse = await _magdaClient.RegistreerInschrijving(kboNummer, reference);
+            var registreerInschrijvingResponse = await _magdaClient.RegistreerInschrijvingOnderneming(kboNummer, aanroependeFunctie, metadata, cancellationToken);
             var responseBody = registreerInschrijvingResponse?.Body?.RegistreerInschrijvingResponse;
 
             if (responseBody is null)
@@ -124,10 +112,8 @@ public interface IMagdaCallReferenceService
         string initiator,
         Guid correlationId,
         string opgevraagdOnderwerp,
-        CancellationToken cancellationToken,
-        string opgevraagdeDienst,
-        string context,
-        string aanroependeDienst);
+        ReferenceContext context,
+        CancellationToken cancellationToken);
 };
 public class MagdaCallReferenceService : IMagdaCallReferenceService
 {
@@ -141,19 +127,17 @@ public class MagdaCallReferenceService : IMagdaCallReferenceService
         string initiator,
         Guid correlationId,
         string opgevraagdOnderwerp,
-        CancellationToken cancellationToken,
-        string opgevraagdeDienst,
-        string context,
-        string aanroependeDienst)
+        ReferenceContext context,
+        CancellationToken cancellationToken)
     {
         var magdaCallReference = new MagdaCallReference
         {
             Reference = Guid.NewGuid(),
             CalledAt = DateTimeOffset.UtcNow,
             Initiator = initiator,
-            OpgevraagdeDienst = opgevraagdeDienst,
-            Context = context,
-            AanroependeDienst = aanroependeDienst,
+            OpgevraagdeDienst = context.MagdaDienst,
+            Context = context.AanroependeFunctie.Naam,
+            AanroependeDienst = context.AanroependeFunctie.AanroependeDienst.Naam,
             CorrelationId = correlationId,
             OpgevraagdOnderwerp = opgevraagdOnderwerp,
         };

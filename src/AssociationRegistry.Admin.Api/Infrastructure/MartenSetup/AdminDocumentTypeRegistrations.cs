@@ -21,7 +21,6 @@ public static class AdminDocumentTypeRegistrations
         opts.RegisterDocumentType<SettingOverride>();
         opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
 
-
         opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
         opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
 

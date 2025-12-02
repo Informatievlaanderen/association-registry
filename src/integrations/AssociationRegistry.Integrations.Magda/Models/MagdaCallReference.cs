@@ -1,7 +1,10 @@
 namespace AssociationRegistry.Integrations.Magda.Models;
 
+using Marten.Schema;
+
 public class MagdaCallReference
 {
+    [Identity]
     public Guid Reference { get; set; }
     public string Initiator { get; set; } = null!;
     public string OpgevraagdeDienst { get; set; } = null!;

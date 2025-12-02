@@ -4,7 +4,9 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Constants;
 using AssociationRegistry.Integrations.Magda.Models;
+using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Configuration;
 using Common.Framework;
 using FluentAssertions;
@@ -25,9 +27,20 @@ public class Given_A_Valid_KboNummer
     [MemberData(nameof(GetData))]
     public async Task Then_It_Returns_GeefOndernemingResponseBody(MagdaOptionsSection magdaOptionsSection)
     {
-        var facade = new MagdaClient(magdaOptionsSection, Mock.Of<IMagdaCallReferenceRepository>(), new NullLogger<MagdaClient>());
+        var magdaCallReferenceService = new Mock<IMagdaCallReferenceService>();
+        var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        var response = await facade.GeefOnderneming(KboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
+        var aanroependeFunctie = AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid;
+
+        magdaCallReferenceService.Setup(x => x.CreateReference(commandMetadata.Initiator, commandMetadata.CorrelationId, KboNummer,
+                                                               ReferenceContext.GeefOndernemingDienst0200(
+                                                                   aanroependeFunctie),
+                                                               It.IsAny<CancellationToken>()))
+                                 .ReturnsAsync(_fixture.Create<MagdaCallReference>());
+
+        var facade = new MagdaClient(magdaOptionsSection, magdaCallReferenceService.Object, new NullLogger<MagdaClient>());
+
+        var response = await facade.GeefOnderneming(KboNummer, aanroependeFunctie, commandMetadata, CancellationToken.None);
 
         using (new AssertionScope())
         {

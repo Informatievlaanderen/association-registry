@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Models;
 using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
+using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
 using CommandHandling.Magda;
 using Common.AutoFixture;
@@ -46,7 +47,7 @@ public class Given_NietGeslaagd_Uitzondering_Fout
 
         _logger = new Mock<ILogger<MagdaGeefVerenigingService>>();
 
-        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
                    .ReturnsAsync(envelope);
 
         _service = new MagdaGeefVerenigingService(magdaFacade.Object, _logger.Object);
@@ -55,7 +56,7 @@ public class Given_NietGeslaagd_Uitzondering_Fout
     [Fact]
     public async ValueTask Then_It_Returns_A_FailureResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,_fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);
 
         result.IsFailure().Should().BeTrue();
@@ -65,7 +66,7 @@ public class Given_NietGeslaagd_Uitzondering_Fout
     public async ValueTask Then_It_LogsTheUitzondering()
     {
         var kboNummer = _fixture.Create<KboNummer>();
-        await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
+        await _service.GeefVereniging(kboNummer, AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,_fixture.Create<CommandMetadata>(), CancellationToken.None);
 
         _logger.Verify(
             expression: x => x.Log(

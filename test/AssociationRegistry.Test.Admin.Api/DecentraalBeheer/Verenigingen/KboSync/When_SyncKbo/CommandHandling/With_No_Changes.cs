@@ -62,6 +62,7 @@ public class With_No_Changes
            .Verify(
                 expression: service => service.RegistreerInschrijving(
                     _command.KboNummer,
+                                              It.IsAny<AanroependeFunctie>(),
                     It.IsAny<CommandMetadata>(),
                     It.IsAny<CancellationToken>()),
                 Times.Once);
@@ -112,7 +113,8 @@ public class With_FailureResultFromMagda
         _magdaGeefVerenigingService = new Mock<IMagdaSyncGeefVerenigingService>();
 
         _magdaGeefVerenigingService
-           .Setup(s => s.GeefVereniging(It.IsAny<KboNummer>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+           .Setup(s => s.GeefVereniging(It.IsAny<KboNummer>(), It.IsAny<AanroependeFunctie>(),
+                                        It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
            .ReturnsAsync(VerenigingVolgensKboResult.GeenGeldigeVereniging);
 
         var fixture = new Fixture().CustomizeAdminApi();

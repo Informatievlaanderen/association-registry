@@ -56,7 +56,7 @@ public class ServiceFactory
         var store = await SetUpDocumentStoreAsync(ssmClientWrapper, paramNamesConfiguration, logger);
         var repository = CreateRepository(store, loggerFactory);
         var referenceRepository = new MagdaCallReferenceRepository(store.LightweightSession());
-        var magdaClient = new MagdaClient(magdaOptions, referenceRepository,  loggerFactory.CreateLogger<MagdaClient>());
+        var magdaClient = new MagdaClient(magdaOptions, new MagdaCallReferenceService(referenceRepository),  loggerFactory.CreateLogger<MagdaClient>());
         var registreerInschrijvingService = CreateRegistreerInschrijvingService(magdaOptions, loggerFactory, referenceRepository);
         var notifier = await CreateNotifierAsync(ssmClientWrapper, paramNamesConfiguration);
 
@@ -195,8 +195,7 @@ public class ServiceFactory
     private static MagdaRegistreerInschrijvingService CreateRegistreerInschrijvingService(MagdaOptionsSection magdaOptions, ILoggerFactory loggerFactory, MagdaCallReferenceRepository referenceRepository)
     {
         return new MagdaRegistreerInschrijvingService(
-            referenceRepository,
-            new MagdaClient(magdaOptions, referenceRepository, loggerFactory.CreateLogger<MagdaClient>()),
+            new MagdaClient(magdaOptions, new MagdaCallReferenceService(referenceRepository), loggerFactory.CreateLogger<MagdaClient>()),
             loggerFactory.CreateLogger<MagdaRegistreerInschrijvingService>());
     }
 

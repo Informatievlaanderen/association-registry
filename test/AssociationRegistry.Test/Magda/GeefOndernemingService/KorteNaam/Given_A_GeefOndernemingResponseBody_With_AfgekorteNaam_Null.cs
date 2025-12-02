@@ -38,7 +38,7 @@ public class Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_Null
             },
         };
 
-        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
                    .ReturnsAsync(responseEnvelope);
 
         var service =
@@ -48,6 +48,7 @@ public class Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_Null
         _verenigingVolgensKbo =
             service.GeefVereniging(
                         fixture.Create<KboNummer>(),
+                        AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,
                         fixture.Create<CommandMetadata>(),
                         CancellationToken.None)
                    .GetAwaiter().GetResult();
