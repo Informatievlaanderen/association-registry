@@ -253,8 +253,8 @@ public class MagdaClient : IMagdaClient
     public async Task<ResponseEnvelope<GeefPersoonResponseBody>?> GeefPersoon(string insz, MagdaCallReference reference)
     {
         Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(_magdaOptions.RegistreerInschrijvingEndpoint,
-                               $"{nameof(MagdaOptionsSection.RegistreerInschrijvingEndpoint)}");
+           .IfNullOrWhiteSpace(_magdaOptions.GeefPersoonEndpoint,
+                               $"{nameof(MagdaOptionsSection.GeefPersoonEndpoint)}");
 
         _logger.LogInformation(
             $"MAGDA Call Reference - RegistreerInschrijving Persoon met referentie '{reference.Reference}'");
@@ -264,7 +264,7 @@ public class MagdaClient : IMagdaClient
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
         return await PerformMagdaRequest<GeefPersoonResponseBody>(
-            _magdaOptions.RegistreerInschrijvingEndpoint!,
+            _magdaOptions.GeefPersoonEndpoint!,
             clientCertificate,
             signedEnvelope);
     }
