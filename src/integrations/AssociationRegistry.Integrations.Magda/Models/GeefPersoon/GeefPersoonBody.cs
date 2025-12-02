@@ -61,6 +61,7 @@ public class GeefPersoonBody
                                     OpvragingenKSZ = new OpvragingenKSZType()
                                     {
                                         BasisPersoonsgegevens = VlagCodeType.Item1,
+                                        BasisPersoonsgegevensSpecified = true,
                                     }
                                 },
                             },

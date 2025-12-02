@@ -81,6 +81,7 @@ rootCommand.SetHandler(async (insz) =>
     try
     {
         var magdaCallReference = new MagdaCallReference();
+
         var registreerInschrijvingPersoon = await client.RegistreerInschrijvingPersoon(insz, magdaCallReference);
 
         var persoon = await client.GeefPersoon(insz, magdaCallReference);
