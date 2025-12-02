@@ -45,7 +45,7 @@ public class Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_Ending_In_The_F
             },
         };
 
-        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(),AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid, It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
                    .ReturnsAsync(responseEnvelope);
         _service = new MagdaGeefVerenigingService(magdaFacade.Object,
                                                   new NullLogger<MagdaGeefVerenigingService>());
@@ -54,7 +54,7 @@ public class Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_Ending_In_The_F
     [Fact]
     public async ValueTask Then_It_Returns_A_SuccessResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,_fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);
 
         result.IsSuccess().Should().BeTrue();
@@ -64,7 +64,7 @@ public class Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_Ending_In_The_F
     public async ValueTask Then_It_Returns_A_VerenigingVolgensKbo()
     {
         var kboNummer = _fixture.Create<KboNummer>();
-        var result = await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(kboNummer, AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,_fixture.Create<CommandMetadata>(), CancellationToken.None);
 
         using (new AssertionScope())
         {

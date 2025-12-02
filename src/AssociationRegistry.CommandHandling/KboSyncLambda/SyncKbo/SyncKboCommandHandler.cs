@@ -51,7 +51,7 @@ public class SyncKboCommandHandler
         }
 
         var verenigingVolgensMagda =
-            await _geefVerenigingService.GeefVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
+            await _geefVerenigingService.GeefVereniging(message.Command.KboNummer, AanroependeFunctie.SyncKbo, message.Metadata, cancellationToken);
 
         if (verenigingVolgensMagda.IsFailure())
         {
@@ -86,7 +86,7 @@ public class SyncKboCommandHandler
         try
         {
             var result = await _registreerInschrijvingService.RegistreerInschrijving(
-                kboNummer, messageMetadata, cancellationToken);
+                kboNummer, AanroependeFunctie.SyncKbo, messageMetadata, cancellationToken);
 
             if (result.IsFailure())
                 throw new RegistreerInschrijvingKonNietVoltooidWorden();

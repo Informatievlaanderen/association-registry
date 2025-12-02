@@ -2,6 +2,7 @@
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Models;
+using AssociationRegistry.Magda.Kbo;
 using JasperFx.Events;
 using Marten;
 using Microsoft.Extensions.Configuration;
@@ -84,9 +85,9 @@ rootCommand.SetHandler(async (insz) =>
             Reference = Guid.NewGuid(),
         };
 
-        var registreerInschrijvingPersoon = await client.RegistreerInschrijvingPersoon(insz, magdaCallReference);
+        var registreerInschrijvingPersoon = await client.RegistreerInschrijvingPersoon(insz, AanroependeFunctie.RegistreerVzer, CommandMetadata.ForDigitaalVlaanderenProcess, CancellationToken.None);
 
-        var persoon = await client.GeefPersoon(insz, CommandMetadata.ForDigitaalVlaanderenProcess, CancellationToken.None);
+        var persoon = await client.GeefPersoon(insz, AanroependeFunctie.RegistreerVzer, CommandMetadata.ForDigitaalVlaanderenProcess, CancellationToken.None);
 
         Log.Information(JsonConvert.SerializeObject(persoon));
         Log.Information("Successfully registered INSZ with Magda");

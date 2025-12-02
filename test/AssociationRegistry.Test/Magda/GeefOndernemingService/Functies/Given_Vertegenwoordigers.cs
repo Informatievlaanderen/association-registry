@@ -37,7 +37,7 @@ public class Given_Vertegenwoordigers
             _fixture.Create<FunctieType>(),
         ];
 
-        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
                    .ReturnsAsync(_envelope);
 
 
@@ -48,7 +48,7 @@ public class Given_Vertegenwoordigers
     [Fact]
     public async ValueTask Then_It_Returns_A_SuccessResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,_fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);
 
         result.IsSuccess().Should().BeTrue();
@@ -58,7 +58,7 @@ public class Given_Vertegenwoordigers
     public async ValueTask Then_It_Returns_Vertegenwoordigers()
     {
         var kboNummer = _fixture.Create<KboNummer>();
-        var result = await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(kboNummer, AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,_fixture.Create<CommandMetadata>(), CancellationToken.None);
 
         using (new AssertionScope())
         {

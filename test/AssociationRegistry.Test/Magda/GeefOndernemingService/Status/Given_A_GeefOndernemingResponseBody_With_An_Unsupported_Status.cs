@@ -38,7 +38,7 @@ public class Given_A_GeefOndernemingResponseBody_With_An_Unsupported_Status
             },
         };
 
-        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
                    .ReturnsAsync(envelope);
 
         _service = new MagdaGeefVerenigingService(magdaFacade.Object,
@@ -48,7 +48,7 @@ public class Given_A_GeefOndernemingResponseBody_With_An_Unsupported_Status
     [Fact]
     public async ValueTask Then_It_Returns_A_SuccessResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,_fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None) as Result<VerenigingVolgensKbo>;
 
         result.IsSuccess().Should().BeTrue();

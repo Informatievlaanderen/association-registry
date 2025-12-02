@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Middleware;
 
 using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.Magda.Kbo;
 using Framework;
 using Integrations.Magda;
 
@@ -15,13 +16,9 @@ public class ValidateInszMiddleware
     {
         foreach (var vertegenwoordiger in envelope.Command.Vertegenwoordigers)
         {
+            var registreerInschrijvingPersoon = await magdaClient.RegistreerInschrijvingPersoon(vertegenwoordiger.Insz,  AanroependeFunctie.RegistreerVzer, envelope.Metadata, cancellationToken);
 
-            var referenceContext = new ReferenceContext(AanroependeFunctie.RegistreerVZER,
-                                                         AanroependeDiensten.BeheerApi);
-
-            var registreerInschrijvingPersoon = await magdaClient.RegistreerInschrijvingPersoon(vertegenwoordiger.Insz,  referenceContext, envelope.Metadata, cancellationToken);
-
-            var persoon = await magdaClient.GeefPersoon(vertegenwoordiger.Insz, referenceContext, envelope.Metadata, cancellationToken);
+            var persoon = await magdaClient.GeefPersoon(vertegenwoordiger.Insz, AanroependeFunctie.RegistreerVzer, envelope.Metadata, cancellationToken);
         }
 
     }

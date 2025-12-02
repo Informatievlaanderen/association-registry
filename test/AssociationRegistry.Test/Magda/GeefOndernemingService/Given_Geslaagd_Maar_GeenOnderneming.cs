@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Models;
 using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
+using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
 using CommandHandling.Magda;
 using Common.AutoFixture;
@@ -38,7 +39,7 @@ public class Given_Geslaagd_Maar_GeenOnderneming
                 },
             };
 
-        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
                    .ReturnsAsync(envelope);
 
         _service = new MagdaGeefVerenigingService(magdaFacade.Object,
@@ -48,7 +49,7 @@ public class Given_Geslaagd_Maar_GeenOnderneming
     [Fact]
     public async ValueTask Then_It_Returns_A_FailureResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid, _fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);
 
         result.IsFailure().Should().BeTrue();

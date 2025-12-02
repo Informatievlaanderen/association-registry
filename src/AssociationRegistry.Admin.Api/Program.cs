@@ -472,6 +472,7 @@ public class Program
                .AddScoped<InitiatorProvider>()
                .AddScoped<ICommandMetadataProvider, CommandMetadataProvider>()
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
+               .AddScoped<IMagdaCallReferenceService, MagdaCallReferenceService>()
                .AddScoped<IMagdaClient, MagdaClient>()
                .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()

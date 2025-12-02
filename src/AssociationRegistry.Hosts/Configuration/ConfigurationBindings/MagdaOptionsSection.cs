@@ -12,6 +12,7 @@ public class MagdaOptionsSection
     public string? GeefOndernemingVkboEndpoint { get; set; } = null!;
     public string? GeefOndernemingEndpoint { get; set; } = null!;
     public string? RegistreerInschrijvingEndpoint { get; set; } = null!;
+    public string? RegistreerInschrijvingPersoonEndpoint { get; set; } = null!;
     public string? RegistreerUitschrijvingEndpoint { get; set; } = null!;
     public string? GeefPersoonEndpoint { get; set; } = null!;
 }

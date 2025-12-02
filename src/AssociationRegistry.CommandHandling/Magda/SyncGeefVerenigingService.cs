@@ -28,12 +28,13 @@ public class SyncGeefVerenigingService : IMagdaSyncGeefVerenigingService
 
     public async Task<Result> GeefVereniging(
         KboNummer kboNummer,
+        AanroependeFunctie aanroependeFunctie,
         CommandMetadata metadata,
         CancellationToken cancellationToken)
     {
         try
         {
-            var magdaResponse = await _magdaClient.GeefOnderneming(kboNummer, metadata, cancellationToken);
+            var magdaResponse = await _magdaClient.GeefOnderneming(kboNummer, aanroependeFunctie, metadata, cancellationToken);
 
             if (MagdaResponseValidator.HasBlokkerendeUitzonderingen(magdaResponse))
             {

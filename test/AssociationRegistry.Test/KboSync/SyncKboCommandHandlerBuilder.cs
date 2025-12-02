@@ -53,6 +53,7 @@ public class SyncKboCommandHandlerBuilder
     {
         _magdaGeefVerenigingService
            .Setup(x => x.GeefVereniging(KboNummer.Create(_kboNummer),
+                                        AanroependeFunctie.SyncKbo,
                                             It.IsAny<CommandMetadata>(),
                                             It.IsAny<CancellationToken>()))
            .ReturnsAsync(VerenigingVolgensKboResult.GeldigeVereniging(_fixture.Create<VerenigingVolgensKbo>() with
@@ -67,6 +68,7 @@ public class SyncKboCommandHandlerBuilder
     {
         _magdaGeefVerenigingService
            .Setup(x => x.GeefVereniging(KboNummer.Create(_kboNummer),
+                                        AanroependeFunctie.SyncKbo,
                                             It.IsAny<CommandMetadata>(),
                                             It.IsAny<CancellationToken>()))
            .ReturnsAsync(VerenigingVolgensKboResult.GeenGeldigeVereniging);
@@ -78,6 +80,7 @@ public class SyncKboCommandHandlerBuilder
     {
         _magdaGeefVerenigingService
            .Setup(x => x.GeefVereniging(KboNummer.Create(_kboNummer),
+                                        AanroependeFunctie.SyncKbo,
                                             It.IsAny<CommandMetadata>(),
                                             It.IsAny<CancellationToken>()))
            .ThrowsAsync(new Exception());
@@ -106,14 +109,14 @@ public class SyncKboCommandHandlerBuilder
 
     public SyncKboCommandHandlerBuilder MetFoutBijHetRegistrerenVanEenInschrijvingBijMagda()
     {
-        _magdaRegistreerInschrijvingService.Setup(x => x.RegistreerInschrijving(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+        _magdaRegistreerInschrijvingService.Setup(x => x.RegistreerInschrijving(KboNummer.Create(_kboNummer),  AanroependeFunctie.SyncKbo, It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
                                            .ReturnsAsync(Result.Failure());
         return this;
     }
 
     public SyncKboCommandHandlerBuilder MetSuccesBijHetRegistrerenVanEenInschrijvingBijMagda()
     {
-        _magdaRegistreerInschrijvingService.Setup(x => x.RegistreerInschrijving(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+        _magdaRegistreerInschrijvingService.Setup(x => x.RegistreerInschrijving(KboNummer.Create(_kboNummer), AanroependeFunctie.SyncKbo, It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
                                            .ReturnsAsync(Result.Success);
         return this;
     }

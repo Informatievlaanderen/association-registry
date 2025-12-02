@@ -54,7 +54,8 @@ public class RegistreerVerenigingUitKboCommandHandler
         if (duplicateResult.IsFailure())
             return duplicateResult;
 
-        var geefVerenigingResult = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata, cancellationToken);
+        var aanroependeFunctie = AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid;
+        var geefVerenigingResult = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, aanroependeFunctie, message.Metadata, cancellationToken);
 
         if(geefVerenigingResult.IsFailure())
             throw new GeenGeldigeVerenigingInKbo();
@@ -62,7 +63,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         switch (geefVerenigingResult)
         {
             case Result<VerenigingVolgensKbo> verenigingResult:
-                await RegistreerInschrijving(command.KboNummer, message.Metadata, cancellationToken);
+                await RegistreerInschrijving(command.KboNummer, aanroependeFunctie, message.Metadata, cancellationToken);
 
                 var result = await RegistreerVereniging(verenigingResult, message.Metadata, cancellationToken);
 
@@ -110,13 +111,14 @@ public class RegistreerVerenigingUitKboCommandHandler
 
     private async Task RegistreerInschrijving(
         KboNummer kboNummer,
+        AanroependeFunctie aanroependeFunctie,
         CommandMetadata messageMetadata,
         CancellationToken cancellationToken)
     {
         try
         {
             var result = await _magdaRegistreerInschrijvingService.RegistreerInschrijving(
-                kboNummer, messageMetadata, cancellationToken);
+                kboNummer, aanroependeFunctie, messageMetadata, cancellationToken);
 
             if (result.IsFailure())
                 throw new RegistreerInschrijvingKonNietVoltooidWorden();

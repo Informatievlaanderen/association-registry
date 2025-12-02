@@ -82,9 +82,9 @@ public abstract class With_KboNummer_For_Supported_Vereniging
                 new()
                 {
                     CorrelationId = correlationId,
-                    Context = "Registreer inschrijving voor vereniging met rechtspersoonlijkheid",
+                    Context = "Registreer vereniging met rechtspersoonlijkheid",
                     AanroependeDienst = "Verenigingsregister Beheer Api",
-                    OpgevraagdeDienst = "RegistreerInschrijvingDienst-02.01",
+                    OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
                     OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
                     Initiator = "OVO000001",
                 },
@@ -93,10 +93,11 @@ public abstract class With_KboNummer_For_Supported_Vereniging
                     CorrelationId = correlationId,
                     Context = "Registreer vereniging met rechtspersoonlijkheid",
                     AanroependeDienst = "Verenigingsregister Beheer Api",
-                    OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
+                    OpgevraagdeDienst = "RegistreerInschrijvingDienst-02.01",
                     OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
                     Initiator = "OVO000001",
                 },
+
             },
             config: options => options.Excluding(x => x.CalledAt).Excluding(x => x.Reference));
 
