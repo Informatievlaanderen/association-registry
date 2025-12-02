@@ -48,6 +48,7 @@ public static class WolverineExtensions
                 );
 
                 options.Policies.ForMessagesOfType<CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>>()
+                       .AddMiddleware(typeof(ValidateInszMiddleware))
                        .AddMiddleware(typeof(EnrichLocatiesMiddleware))
                        .AddMiddleware(typeof(DuplicateDetectionMiddleware));
 
