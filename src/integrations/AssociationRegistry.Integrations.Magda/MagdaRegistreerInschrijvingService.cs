@@ -1,11 +1,10 @@
 ﻿namespace AssociationRegistry.Integrations.Magda;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Kbo;
-using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Vereniging;
 using Exceptions;
 using Extensions;
+using Framework;
 using Microsoft.Extensions.Logging;
 using Models;
 using Repertorium.RegistreerInschrijving0201;
@@ -37,12 +36,10 @@ public class MagdaRegistreerInschrijvingService : IMagdaRegistreerInschrijvingSe
     {
         try
         {
-            var reference = await CreateReference(
-                _magdaCallReferenceRepository,
-                metadata.Initiator,
-                metadata.CorrelationId,
-                kboNummer,
-                cancellationToken);
+            var reference = await MagdaCallReferenceService.CreateReference(metadata.Initiator,
+                                                                            metadata.CorrelationId,
+                                                                            kboNummer,
+                                                                            cancellationToken, "RegistreerInschrijvingDienst-02.01", "Registreer inschrijving voor vereniging met rechtspersoonlijkheid", "Verenigingsregister Beheer Api");
 
             _logger.LogInformation(
                 $"MAGDA Call Reference - RegistreerInschrijving Service - KBO nummer '{kboNummer}' met referentie '{reference.Reference}'");
@@ -119,27 +116,49 @@ public class MagdaRegistreerInschrijvingService : IMagdaRegistreerInschrijvingSe
             uitzonderingen.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.WAARSCHUWING),
             uitzonderingen.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.INFORMATIE));
     }
+}
 
-    private static async Task<MagdaCallReference> CreateReference(
-        IMagdaCallReferenceRepository repository,
+public interface IMagdaCallReferenceService
+{
+    Task<MagdaCallReference> CreateReference(
         string initiator,
         Guid correlationId,
         string opgevraagdOnderwerp,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        string opgevraagdeDienst,
+        string context,
+        string aanroependeDienst);
+};
+public class MagdaCallReferenceService : IMagdaCallReferenceService
+{
+    private readonly IMagdaCallReferenceRepository _repository;
+
+    public MagdaCallReferenceService(IMagdaCallReferenceRepository repository)
+    {
+        _repository = repository;
+    }
+    public async Task<MagdaCallReference> CreateReference(
+        string initiator,
+        Guid correlationId,
+        string opgevraagdOnderwerp,
+        CancellationToken cancellationToken,
+        string opgevraagdeDienst,
+        string context,
+        string aanroependeDienst)
     {
         var magdaCallReference = new MagdaCallReference
         {
             Reference = Guid.NewGuid(),
             CalledAt = DateTimeOffset.UtcNow,
             Initiator = initiator,
-            OpgevraagdeDienst = "RegistreerInschrijvingDienst-02.01",
-            Context = "Registreer inschrijving voor vereniging met rechtspersoonlijkheid",
-            AanroependeDienst = "Verenigingsregister Beheer Api",
+            OpgevraagdeDienst = opgevraagdeDienst,
+            Context = context,
+            AanroependeDienst = aanroependeDienst,
             CorrelationId = correlationId,
             OpgevraagdOnderwerp = opgevraagdOnderwerp,
         };
 
-        await repository.Save(magdaCallReference, cancellationToken);
+        await _repository.Save(magdaCallReference, cancellationToken);
 
         return magdaCallReference;
     }

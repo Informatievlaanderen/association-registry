@@ -1,15 +1,14 @@
-﻿using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+﻿using AssociationRegistry.Framework;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.Models;
 using JasperFx.Events;
 using Marten;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using Serilog;
 using System.CommandLine;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 var inszOption = new Option<string>(
     name: "--insz",
@@ -74,17 +73,20 @@ rootCommand.SetHandler(async (insz) =>
 
     var client = new MagdaClient(
         mySettings,
-        new MagdaCallReferenceRepository(lightweightSession),
+        new MagdaCallReferenceService(new MagdaCallReferenceRepository(lightweightSession)),
         logger
     );
 
     try
     {
-        var magdaCallReference = new MagdaCallReference();
+        var magdaCallReference = new MagdaCallReference()
+        {
+            Reference = Guid.NewGuid(),
+        };
 
         var registreerInschrijvingPersoon = await client.RegistreerInschrijvingPersoon(insz, magdaCallReference);
 
-        var persoon = await client.GeefPersoon(insz, magdaCallReference);
+        var persoon = await client.GeefPersoon(insz, CommandMetadata.ForDigitaalVlaanderenProcess, CancellationToken.None);
 
         Log.Information(JsonConvert.SerializeObject(persoon));
         Log.Information("Successfully registered INSZ with Magda");
