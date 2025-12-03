@@ -32,10 +32,11 @@ public class Given_A_Valid_KboNummer
         var aanroependeFunctie = AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid;
 
         magdaCallReferenceService.Setup(x => x.CreateReference(commandMetadata.Initiator, commandMetadata.CorrelationId, KboNummer,
-                                                               ReferenceContext.RegistreerInschrijving0200(
+                                                               ReferenceContext.RegistreerInschrijving0201(
                                                                    aanroependeFunctie),
                                                                It.IsAny<CancellationToken>()))
                                  .ReturnsAsync(_fixture.Create<MagdaCallReference>());
+
         var facade = new MagdaClient(magdaOptionsSection, magdaCallReferenceService.Object, new NullLogger<MagdaClient>());
 
         var response = await facade.RegistreerInschrijvingOnderneming(KboNummer, aanroependeFunctie, commandMetadata, CancellationToken.None);

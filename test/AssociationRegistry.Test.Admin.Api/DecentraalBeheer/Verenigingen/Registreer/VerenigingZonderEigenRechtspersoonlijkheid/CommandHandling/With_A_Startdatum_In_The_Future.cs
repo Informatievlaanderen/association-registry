@@ -11,6 +11,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
+using Common.StubsMocksFakes;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
@@ -24,6 +25,7 @@ public class With_A_Startdatum_In_The_Future
 {
     private readonly CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> _commandEnvelope;
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler _commandHandler;
+    private RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
 
     public With_A_Startdatum_In_The_Future()
     {
@@ -31,7 +33,7 @@ public class With_A_Startdatum_In_The_Future
         var repositoryMock = new VerenigingRepositoryMock();
         var today = fixture.Create<DateOnly>();
 
-        var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
+        _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
             Startdatum = Datum.Create(today.AddDays(value: 1)),
         };
@@ -47,7 +49,7 @@ public class With_A_Startdatum_In_The_Future
             Mock.Of<IGeotagsService>(),
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
-        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata);
+        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata);
     }
 
     [Fact]
@@ -57,6 +59,7 @@ public class With_A_Startdatum_In_The_Future
             _commandEnvelope,
             VerrijkteAdressenUitGrar.Empty,
             PotentialDuplicatesFound.None,
+            new PersonenUitKszStub(_command),
             CancellationToken.None);
         await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();
     }

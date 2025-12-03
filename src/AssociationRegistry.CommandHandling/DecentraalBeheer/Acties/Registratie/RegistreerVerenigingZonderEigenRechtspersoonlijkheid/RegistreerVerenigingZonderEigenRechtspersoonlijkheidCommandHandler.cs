@@ -2,12 +2,14 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using DuplicateVerenigingDetection;
 using Locaties.ProbeerAdresTeMatchen;
 using Marten;
 using Microsoft.Extensions.Logging;
+using Middleware;
 using ResultNet;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,10 +45,12 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         _logger = logger;
     }
 
+
     public async Task<Result> Handle(
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> message,
         VerrijkteAdressenUitGrar verrijkteAdressenUitGrar,
         PotentialDuplicatesFound potentialDuplicates,
+        PersonenUitKsz personenUitKsz,
         CancellationToken cancellationToken = default)
     {
         // Because of the use of middleware on this handler, a SaveChanges() does not send an outbox message
@@ -55,6 +59,9 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         _outbox.Enroll(_session);
 
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} start");
+
+        if (personenUitKsz.HeeftOverledenPersonen)
+            throw new VerenigingKanNietGeregistreerdWordenMetOverledenVertegenwoordigers();
 
         if(potentialDuplicates.HasDuplicates)
             return new Result<PotentialDuplicatesFound>(potentialDuplicates, ResultStatus.Failed);
