@@ -1,0 +1,22 @@
+{
+  "priority": 2,
+  "request": {
+    "method": "POST",
+    "urlPath": "/GeefPersoon-02.02/soap/WebService",
+    "bodyPatterns": [
+    {
+      "matchesXPath": {
+        "expression": "//Insz/text()",
+        "matches": "01234567890"
+      }
+    }
+]
+
+  },
+  "response": {
+    "bodyFileName": "GeefPersoon/01234567890.xml",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}
