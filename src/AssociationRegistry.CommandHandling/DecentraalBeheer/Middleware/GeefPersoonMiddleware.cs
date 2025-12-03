@@ -17,15 +17,30 @@ public static class GeefPersoonMiddleware
         if (!envelope.Command.Vertegenwoordigers.Any())
             return PersonenUitKsz.Empty;
 
-        var personenUitKsz = new List<PersoonUitKsz>();
-        foreach (var vertegenwoordiger in envelope.Command.Vertegenwoordigers)
+        var tasks = envelope.Command.Vertegenwoordigers.Select(async vertegenwoordiger =>
         {
-            var registreerInschrijvingPersoon = await magdaClient.RegistreerInschrijvingPersoon(vertegenwoordiger.Insz,  AanroependeFunctie.RegistreerVzer, envelope.Metadata, cancellationToken);
+            // First: Register subscription (must succeed)
+            await magdaClient.RegistreerInschrijvingPersoon(
+                vertegenwoordiger.Insz,
+                AanroependeFunctie.RegistreerVzer,
+                envelope.Metadata,
+                cancellationToken);
 
-            var persoon = await magdaClient.GeefPersoon(vertegenwoordiger.Insz, AanroependeFunctie.RegistreerVzer, envelope.Metadata, cancellationToken);
+            // Second: Get person details (only runs if registration succeeded)
+            var persoon = await magdaClient.GeefPersoon(
+                vertegenwoordiger.Insz,
+                AanroependeFunctie.RegistreerVzer,
+                envelope.Metadata,
+                cancellationToken);
 
-            personenUitKsz.Add(new PersoonUitKsz(vertegenwoordiger.Insz, vertegenwoordiger.Voornaam, vertegenwoordiger.Achternaam, persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Inhoud.Persoon.Overlijden != null));
-        }
+            return new PersoonUitKsz(
+                vertegenwoordiger.Insz,
+                vertegenwoordiger.Voornaam,
+                vertegenwoordiger.Achternaam,
+                persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Inhoud.Persoon.Overlijden != null);
+        });
+
+        var personenUitKsz = await Task.WhenAll(tasks);
 
         return new PersonenUitKsz(personenUitKsz);
     }
