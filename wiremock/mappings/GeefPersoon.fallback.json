@@ -1,0 +1,13 @@
+{
+  "priority": 2,
+  "request": {
+    "method": "POST",
+    "urlPath": "/GeefPersoon-02.02/soap/WebService"
+  },
+  "response": {
+    "bodyFileName": "GeefPersoon/fallback.xml",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

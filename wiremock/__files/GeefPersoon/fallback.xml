@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><web:GeefPersoonResponse xmlns:web="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02">
+   <Repliek>
+      <Context xmlns:ns3="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02">
+         <Naam>GeefPersoon</Naam>
+         <Versie>02.02.0000</Versie>
+         <Bericht>
+            <Type>ANTWOORD</Type>
+            <Tijdstip>
+               <Datum>2025-12-02</Datum>
+               <Tijd>09:02:22.707</Tijd>
+            </Tijdstip>
+            <Afzender>
+               <Identificatie>vip.vlaanderen.be</Identificatie>
+               <Naam>MagdaGateway</Naam>
+               <Referte>46234d33-9c6a-403d-98e8-7b6497b83b17</Referte>
+            </Afzender>
+            <Ontvanger>
+               <Identificatie>kbbj.vlaanderen.be/dv/verenigingsregister-aip</Identificatie>
+               <Referte>{{randomValue type='UUID'}}</Referte>
+               <Hoedanigheid>6001</Hoedanigheid>
+            </Ontvanger>
+         </Bericht>
+      </Context>
+      <Antwoorden>
+         <Antwoord>
+            <Referte xmlns:ns3="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02">{{randomValue type='UUID'}}</Referte>
+            <Inhoud>
+               <Persoon>
+                  <INSZ xmlns:ns3="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02">{{regexExtract request.body '<INSZ>([0-9]+)</INSZ>' 'parts'}}{{parts.0}}</INSZ>
+                  <Naam DatumBegin="2000-11-02">
+                     <Achternamen>
+                        <Achternaam xmlns:ns3="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02">Achternaam</Achternaam>
+                     </Achternamen>
+                     <Voornamen>
+                        <Voornaam>Voornaam</Voornaam>
+                     </Voornamen>
+                  </Naam>
+               </Persoon>
+            </Inhoud>
+         </Antwoord>
+      </Antwoorden>
+   </Repliek>
+</web:GeefPersoonResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
