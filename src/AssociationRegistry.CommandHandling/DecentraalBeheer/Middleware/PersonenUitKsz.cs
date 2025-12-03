@@ -10,6 +10,10 @@ public class PersonenUitKsz : ReadOnlyCollection<PersoonUitKsz>
     {
     }
 
+#pragma warning disable CS0108, CS0114
+    public static readonly PersonenUitKsz Empty = new PersonenUitKsz([]);
+#pragma warning restore CS0108, CS0114
+
     public bool HeeftOverledenPersonen => this.Any(x => x.Overleden);
 }
 
