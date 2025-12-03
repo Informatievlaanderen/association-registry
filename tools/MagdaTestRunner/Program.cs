@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog;
 using System.CommandLine;
+using System.Diagnostics;
 
 var inszOption = new Option<string>(
     name: "--insz",
@@ -78,6 +79,8 @@ rootCommand.SetHandler(async (insz) =>
         logger
     );
 
+    var stopwatch = new Stopwatch();
+
     try
     {
         var magdaCallReference = new MagdaCallReference()
@@ -85,9 +88,17 @@ rootCommand.SetHandler(async (insz) =>
             Reference = Guid.NewGuid(),
         };
 
+        stopwatch.Start();
+        Console.WriteLine($"[{TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds)}] RegistreerInschrijving: Starting...");
         var registreerInschrijvingPersoon = await client.RegistreerInschrijvingPersoon(insz, AanroependeFunctie.RegistreerVzer, CommandMetadata.ForDigitaalVlaanderenProcess, CancellationToken.None);
 
+        Console.WriteLine($"[{TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds)}] RegistreerInschrijving: Complete");
+
+        Console.WriteLine($"[{TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds)}] GeefPersoon: Starting...");
+
         var persoon = await client.GeefPersoon(insz, AanroependeFunctie.RegistreerVzer, CommandMetadata.ForDigitaalVlaanderenProcess, CancellationToken.None);
+
+        Console.WriteLine($"[{TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds)}] GeefPersoon: Complete");
 
         Log.Information(JsonConvert.SerializeObject(persoon));
         Log.Information("Successfully registered INSZ with Magda");
@@ -99,6 +110,7 @@ rootCommand.SetHandler(async (insz) =>
     }
     finally
     {
+        stopwatch.Stop();
         await Log.CloseAndFlushAsync();
     }
 }, inszOption);
