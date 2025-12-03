@@ -5,7 +5,7 @@
     "urlPath": "/RegistreerInschrijvingDienst-02.00/soap/WebService"
   },
   "response": {
-    "bodyFileName": "RegistreerInschrijving0200Responses/RegistreerInschrijvingResponse.xml",
+    "bodyFileName": "RegistreerInschrijving0200Responses/fallback.xml",
     "transformers": [
       "response-template"
     ]
