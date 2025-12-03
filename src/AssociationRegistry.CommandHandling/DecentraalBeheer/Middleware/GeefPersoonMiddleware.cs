@@ -5,7 +5,7 @@ using AssociationRegistry.Magda.Kbo;
 using Framework;
 using Integrations.Magda;
 
-public class ValidateInszMiddleware
+public class GeefPersoonMiddleware
 {
     // The message *has* to be first in the parameter list
     // Before or BeforeAsync tells Wolverine this method should be called before the actual action

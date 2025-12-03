@@ -13,6 +13,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonder
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
+using Common.StubsMocksFakes;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
@@ -64,7 +65,8 @@ public class With_A_PotentialDuplicate
                                          command, commandMetadata),
                                      VerrijkteAdressenUitGrar.Empty,
                                      _potentialDuplicates,
-                                     CancellationToken.None)
+                                     new PersonenUitKszStub(command),
+                                     cancellationToken: CancellationToken.None)
                                 .GetAwaiter()
                                 .GetResult();
     }

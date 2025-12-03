@@ -11,6 +11,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
+using Common.StubsMocksFakes;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -71,7 +72,8 @@ public class With_NietVanToepassing_Werkingsgebieden
                        commandMetadata),
                    VerrijkteAdressenUitGrar.Empty,
                    PotentialDuplicatesFound.None,
-                   CancellationToken.None)
+                   new PersonenUitKszStub(command),
+                   cancellationToken: CancellationToken.None)
            .GetAwaiter()
            .GetResult();
     }
