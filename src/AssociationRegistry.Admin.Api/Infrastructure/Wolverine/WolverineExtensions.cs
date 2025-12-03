@@ -3,7 +3,9 @@
 using Amazon.Runtime;
 using Amazon.SQS;
 using AssociationRegistry.MartenDb.Setup;
+using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardCorrectieDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
+using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using CommandHandling.DecentraalBeheer.Middleware;
@@ -106,9 +108,15 @@ public static class WolverineExtensions
         ConfigurationManager configuration)
     {
         const string AanvaardDubbeleVerenigingQueueName = "aanvaard-dubbele-vereniging-queue";
+        const string DubbelCorrectieQueueName = "dubbel-correctie-queue";
+        const string DubbelWeigeringQueueName = "dubbel-weigering-queue";
 
         options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessage>();
         options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessageHandler>();
+        options.Discovery.IncludeType<AanvaardCorrectieDubbeleVerenigingMessage>();
+        options.Discovery.IncludeType<AanvaardCorrectieDubbeleVerenigingMessageHandler>();
+        options.Discovery.IncludeType<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>();
+        options.Discovery.IncludeType<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageHandler>();
 
         var connectionString = configuration.GetPostgreSqlOptionsSection().GetConnectionString();
 
@@ -117,6 +125,15 @@ public static class WolverineExtensions
         options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
                .ToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
         options.ListenToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
+
+        options.PublishMessage<AanvaardCorrectieDubbeleVerenigingMessage>()
+               .ToPostgresqlQueue(DubbelCorrectieQueueName);
+        options.ListenToPostgresqlQueue(DubbelCorrectieQueueName);
+
+        options.PublishMessage<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>()
+               .ToPostgresqlQueue(DubbelWeigeringQueueName);
+
+        options.ListenToPostgresqlQueue(DubbelWeigeringQueueName);
     }
 
     private static void ConfigureAddressMatchPublisher(WolverineOptions options, string sqsQueueName)
