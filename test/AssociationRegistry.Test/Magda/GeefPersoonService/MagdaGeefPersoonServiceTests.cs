@@ -5,15 +5,16 @@ using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common.AutoFixture;
-using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Integrations.Magda;
 using Integrations.Magda.Persoon;
-using Integrations.Magda.Shared.Exceptions;
+using Integrations.Magda.Persoon.Models;
+using Integrations.Magda.Persoon.Models.RegistreerInschrijving0200;
+using Integrations.Magda.Persoon.Validation;
+using Integrations.Magda.Shared.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Middleware;
 using Moq;
-using Resources;
 using Xunit;
 
 public class GeefPersoonServiceTests
@@ -37,7 +38,10 @@ public class GeefPersoonServiceTests
         SetUpInschrijvingen(command);
         SetUpFirstPersoonAsOverleden(command);
 
-        var sut = new MagdaGeefPersoonService(_magdaClient.Object, NullLogger<MagdaGeefPersoonService>.Instance);
+        var sut = new MagdaGeefPersoonService(_magdaClient.Object,
+                                              Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
+                                              Mock.Of<IMagdaGeefPersoonValidator>(),
+                                              NullLogger<MagdaGeefPersoonService>.Instance);
         var personenUitKsz = await sut.GeefPersonen(command.Vertegenwoordigers,
                                               _commandMetadata, CancellationToken.None);
 
@@ -52,7 +56,10 @@ public class GeefPersoonServiceTests
         SetUpInschrijvingen(command);
         SetUpNietOverleden(command);
 
-        var sut = new MagdaGeefPersoonService(_magdaClient.Object, NullLogger<MagdaGeefPersoonService>.Instance);
+        var sut = new MagdaGeefPersoonService(_magdaClient.Object,
+                                              Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
+                                              Mock.Of<IMagdaGeefPersoonValidator>(),
+                                              NullLogger<MagdaGeefPersoonService>.Instance);
         var personenUitKsz = await sut.GeefPersonen(command.Vertegenwoordigers,
                                                     _commandMetadata, CancellationToken.None);
 
@@ -67,7 +74,11 @@ public class GeefPersoonServiceTests
         SetUpInschrijvingen(command);
         SetUpNietOverleden(command);
 
-        var sut = new MagdaGeefPersoonService(_magdaClient.Object, NullLogger<MagdaGeefPersoonService>.Instance);
+        var sut = new MagdaGeefPersoonService(_magdaClient.Object,
+                                              Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
+                                              Mock.Of<IMagdaGeefPersoonValidator>(),
+                                              NullLogger<MagdaGeefPersoonService>.Instance);
+
         await sut.GeefPersonen(command.Vertegenwoordigers,
                                                     _commandMetadata, CancellationToken.None);
 
@@ -81,65 +92,99 @@ public class GeefPersoonServiceTests
                                                 Times.Once()));
     }
 
-    [Theory]
-    [InlineData("30002")]
-    [InlineData("30003")]
-    [InlineData("30004")]
-    public async ValueTask MagdaGeefPersoonService_RegistreerInschrijvingPersoon_ThrowsDomainExceptionWhenUitzonderingDoorGebruiekr(
-        string foutCode)
+    [Fact]
+    public async ValueTask ValidateRegistreerInschrijving_Foreach_Vertegenwoordiger()
     {
         var command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>();
-        foreach (var vertegenwoordiger in command.Vertegenwoordigers)
-        {
-            _magdaClient.Setup(x => x.RegistreerInschrijvingPersoon(vertegenwoordiger.Insz, AanroependeFunctie.RegistreerVzer,
-                                                                    _commandMetadata, It.IsAny<CancellationToken>()))
-                        .ReturnsAsync(MagdaTestResponseFactory.RegistreerInschrijvingPersoonResponses.NietGeslaagd(foutCode));
-        }
 
-        var sut = new MagdaGeefPersoonService(_magdaClient.Object, NullLogger<MagdaGeefPersoonService>.Instance);
+        var inschrijvingResponses = SetUpInschrijvingen(command);
+        SetUpNietOverleden(command);
 
-        var exception = await Assert.ThrowsAsync<EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz>(async () =>
-        {
-            await sut.GeefPersonen(command.Vertegenwoordigers,
-                                   _commandMetadata, CancellationToken.None);
-        });
+        var magdaRegistreerInschrijvingValidator = new Mock<IMagdaRegistreerInschrijvingValidator>();
 
-        exception.Message.Should().Be(ExceptionMessages.EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz);
+        var sut = new MagdaGeefPersoonService(_magdaClient.Object,
+                                              magdaRegistreerInschrijvingValidator.Object,
+                                              Mock.Of<IMagdaGeefPersoonValidator>(),
+                                              NullLogger<MagdaGeefPersoonService>.Instance);
+
+        await sut.GeefPersonen(command.Vertegenwoordigers,
+                                                    _commandMetadata, CancellationToken.None);
+
+        inschrijvingResponses
+               .ForEach(v =>
+                            magdaRegistreerInschrijvingValidator.Verify(x => x.ValidateOrThrow(v),
+                                                                        Times.Once()));
     }
 
     [Fact]
-    public async ValueTask MagdaGeefPersoonService_RegistreerInschrijvingPersoon_ThrowsExceptionWhenMagdaClientThrowsException()
+    public async ValueTask ValidateGeefPersoon_Foreach_Vertegenwoordiger()
     {
-        var foutCode = _fixture.Create<string>();
-
         var command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>();
+
+        SetUpInschrijvingen(command);
+        var personen = SetUpNietOverleden(command);
+
+        var registreerInschrijvingValidator = new Mock<IMagdaGeefPersoonValidator>();
+
+        var sut = new MagdaGeefPersoonService(_magdaClient.Object,
+                                              Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
+                                              registreerInschrijvingValidator.Object,
+                                              NullLogger<MagdaGeefPersoonService>.Instance);
+
+        await sut.GeefPersonen(command.Vertegenwoordigers,
+                                                    _commandMetadata, CancellationToken.None);
+
+        personen
+               .ForEach(p =>
+                            registreerInschrijvingValidator.Verify(x => x.ValidateOrThrow(p),
+                                                                        Times.Once()));
+    }
+
+    private List<ResponseEnvelope<RegistreerInschrijvingResponseBody>> SetUpInschrijvingen(
+        RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command)
+    {
+        var responses = new List<ResponseEnvelope<RegistreerInschrijvingResponseBody>>();
+
         foreach (var vertegenwoordiger in command.Vertegenwoordigers)
         {
-            _magdaClient.Setup(x => x.RegistreerInschrijvingPersoon(vertegenwoordiger.Insz, AanroependeFunctie.RegistreerVzer,
-                                                                    _commandMetadata, It.IsAny<CancellationToken>()))
-                        .ReturnsAsync(MagdaTestResponseFactory.RegistreerInschrijvingPersoonResponses.NietGeslaagd(foutCode));
+            var responseEnvelope = MagdaTestResponseFactory.RegistreerInschrijvingPersoon.WelGeslaagd;
+
+            _magdaClient
+               .Setup(x => x.RegistreerInschrijvingPersoon(
+                          vertegenwoordiger.Insz,
+                          AanroependeFunctie.RegistreerVzer,
+                          _commandMetadata,
+                          It.IsAny<CancellationToken>()))
+               .ReturnsAsync(responseEnvelope);
+
+            responses.Add(responseEnvelope);
         }
 
-        var sut = new MagdaGeefPersoonService(_magdaClient.Object, NullLogger<MagdaGeefPersoonService>.Instance);
-
-        var magdaException = await Assert.ThrowsAsync<MagdaException>(async () =>
-        {
-            await sut.GeefPersonen(command.Vertegenwoordigers,
-                                   _commandMetadata, CancellationToken.None);
-        });
-
-        magdaException.Message.Should().Be(ExceptionMessages.MagdaException);
+        return responses;
     }
 
 
-    private void SetUpInschrijvingen(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command)
+    private List<ResponseEnvelope<GeefPersoonResponseBody>> SetUpNietOverleden(
+        RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command)
     {
-        foreach (var vertegenwoordiger in command.Vertegenwoordigers)
+        var responses = new List<ResponseEnvelope<GeefPersoonResponseBody>>();
+
+        foreach (var v in command.Vertegenwoordigers)
         {
-            _magdaClient.Setup(x => x.RegistreerInschrijvingPersoon(vertegenwoordiger.Insz, AanroependeFunctie.RegistreerVzer,
-                                                                    _commandMetadata, It.IsAny<CancellationToken>()))
-                        .ReturnsAsync(MagdaTestResponseFactory.RegistreerInschrijvingPersoonResponses.WelGeslaagd);
+            var nietOverledenPersoon = MagdaTestResponseFactory.GeefPersoonResponses.NietOverledenPersoon;
+
+            _magdaClient
+               .Setup(s => s.GeefPersoon(
+                          v.Insz,
+                          AanroependeFunctie.RegistreerVzer,
+                          _commandMetadata,
+                          It.IsAny<CancellationToken>()))
+               .ReturnsAsync(nietOverledenPersoon);
+
+            responses.Add(nietOverledenPersoon);
         }
+
+        return responses;
     }
 
     private void SetUpFirstPersoonAsOverleden(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command)
@@ -160,16 +205,6 @@ public class GeefPersoonServiceTests
                             _magdaClient.Setup(s => s.GeefPersoon(v.Insz,
                                                                   AanroependeFunctie.RegistreerVzer,
                                                                   _commandMetadata,
-                                                                  It.IsAny<CancellationToken>()))
-                                        .ReturnsAsync(MagdaTestResponseFactory.GeefPersoonResponses.NietOverledenPersoon));
-    }
-
-    private void SetUpNietOverleden(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command)
-    {
-        command.Vertegenwoordigers
-               .ToList()
-               .ForEach(v =>
-                            _magdaClient.Setup(s => s.GeefPersoon(v.Insz, AanroependeFunctie.RegistreerVzer, _commandMetadata,
                                                                   It.IsAny<CancellationToken>()))
                                         .ReturnsAsync(MagdaTestResponseFactory.GeefPersoonResponses.NietOverledenPersoon));
     }

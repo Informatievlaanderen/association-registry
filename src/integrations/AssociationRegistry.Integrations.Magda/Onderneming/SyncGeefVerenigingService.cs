@@ -8,7 +8,6 @@ using AssociationRegistry.Integrations.Magda.Onderneming.Models.GeefOnderneming;
 using Persoon;
 using AssociationRegistry.Magda.Kbo;
 using Microsoft.Extensions.Logging;
-using Persoon.Validation;
 using ResultNet;
 using Shared.Constants;
 using Shared.Exceptions;

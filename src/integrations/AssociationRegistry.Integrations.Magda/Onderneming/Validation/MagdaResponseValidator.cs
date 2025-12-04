@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Integrations.Magda.Persoon.Validation;
+namespace AssociationRegistry.Integrations.Magda.Onderneming.Validation;
 
 using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
 using AssociationRegistry.Integrations.Magda.Onderneming.Models.GeefOnderneming;
