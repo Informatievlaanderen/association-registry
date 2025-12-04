@@ -11,6 +11,7 @@ using Onderneming.Models.RegistreerInschrijving;
 using Persoon.Models;
 using Persoon.Models.RegistreerInschrijving0200;
 using Persoon.Models.RegistreerUitschrijving;
+using Shared.Exceptions;
 using Shared.Extensions;
 using Shared.Models;
 using System.Security.Cryptography.X509Certificates;
@@ -216,7 +217,7 @@ public class MagdaClient : IMagdaClient
         return client;
     }
 
-    private async Task<ResponseEnvelope<T>?> SendEnvelopeToendpoint<T>(string endpoint, string signedEnvelope, HttpClient client)
+    private async Task<ResponseEnvelope<T>> SendEnvelopeToendpoint<T>(string endpoint, string signedEnvelope, HttpClient client)
     {
         var response = await client
            .PostAsync(
@@ -225,10 +226,11 @@ public class MagdaClient : IMagdaClient
 
         if (!response.IsSuccessStatusCode)
         {
-            _logger.LogWarning(message: "Magda call not successful: \n{@Result}\n{@Content}", response,
-                               await response.Content.ReadAsStringAsync());
+            var content = await response.Content.ReadAsStringAsync();
+            _logger.LogWarning(message: "Magda returned non success status code \n{@Result}\n{@Content}", response,
+                               content);
 
-            return null;
+            throw new MagdaException($"Magda returned non success status code \n{response}\n{content}");
         }
 
         _logger.LogTrace(message: "Magda call http response: {@Result}", response);
@@ -240,11 +242,11 @@ public class MagdaClient : IMagdaClient
         try
         {
             using var reader = new StringReader(xml);
-            return (ResponseEnvelope<T>?)serializer.Deserialize(reader);
+            return (ResponseEnvelope<T>?)serializer.Deserialize(reader) ?? throw new MagdaException($"Could not Serialize response");
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Could not Serialize response: {@Xml} to type: {@TypeOf}", xml, typeof(T));
+            _logger.LogError(e, e.Message);
 
             throw;
         }
