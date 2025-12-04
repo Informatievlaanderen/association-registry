@@ -2,7 +2,7 @@
   "priority": 2,
   "request": {
     "method": "POST",
-    "urlPath": "/GeefPersoon-02.02/soap/WebService"
+    "urlPath": "/GeefPersoonDienst-02.02/soap/WebService"
   },
   "response": {
     "bodyFileName": "GeefPersoon/fallback.xml",

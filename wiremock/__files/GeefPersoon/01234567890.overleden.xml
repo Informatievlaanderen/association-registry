@@ -1,35 +1,32 @@
-<?xml version="1.0" standalone="no"?>
-<soapenv:Envelope>
-   <SOAP-ENV:Header/>
-   <SOAP-ENV:Body>
-      <v02:GeefPersoonResponse>
-         <Repliek>
-            <Context>
-               <Naam>GeefPersoon</Naam>
-               <Versie>02.02.0000</Versie>
-               <Bericht>
-                  <Type>ANTWOORD</Type>
-                  <Tijdstip>
-                     <Datum>2020-12-04</Datum>
-                     <Tijd>14:35:11.369</Tijd>
-                  </Tijdstip>
-                  <Afzender>
-                     <Identificatie>vip.vlaanderen.be</Identificatie>
-                     <Naam>MagdaGateway</Naam>
-                     <Referte>{{randomValue type='UUID'}}</Referte>
-                  </Afzender>
-                  <Ontvanger>
-                     <Identificatie>xxxxxx</Identificatie>
-                     <Referte>XE_750426:2134:57095:35977</Referte>
-                     <Hoedanigheid>xxx</Hoedanigheid>
-                  </Ontvanger>
-               </Bericht>
-            </Context>
-            <Antwoorden>
-               <Antwoord>
-                  <Referte>{{randomValue type='UUID'}}</Referte>
-                  <Inhoud>
-                     <Persoon Bron="KSZ">
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><web:GeefPersoonResponse xmlns:web="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02">
+   <Repliek>
+      <Context xmlns:ns3="http://magda.vlaanderen.be/persoon/soap/geefpersoon/v02_02">
+         <Naam>GeefPersoon</Naam>
+         <Versie>02.02.0000</Versie>
+         <Bericht>
+            <Type>ANTWOORD</Type>
+            <Tijdstip>
+               <Datum>2025-12-02</Datum>
+               <Tijd>09:02:22.707</Tijd>
+            </Tijdstip>
+            <Afzender>
+               <Identificatie>vip.vlaanderen.be</Identificatie>
+               <Naam>MagdaGateway</Naam>
+               <Referte>{{randomValue type='UUID'}}</Referte>
+            </Afzender>
+            <Ontvanger>
+               <Identificatie>xxxxxx</Identificatie>
+               <Referte>{{randomValue type='UUID'}}</Referte>
+               <Hoedanigheid>6001</Hoedanigheid>
+            </Ontvanger>
+         </Bericht>
+      </Context>
+      <Antwoorden>
+         <Antwoord>
+            <Referte xmlns:ns3="http://127.0.0.1/persoon/soap/geefpersoon/v02_02">{{randomValue type='UUID'}}</Referte>
+            <Inhoud>
+               <Persoon Bron="KSZ">
                         <INSZ>01234567890</INSZ>
                         <Naam DatumBegin="1900-04-05">
                            <Achternamen>
@@ -55,10 +52,8 @@
                            </Plaats>
                         </Overlijden>
                      </Persoon>
-                  </Inhoud>
-               </Antwoord>
-            </Antwoorden>
-         </Repliek>
-      </v02:GeefPersoonResponse>
-   </SOAP-ENV:Body>
-</soapenv:Envelope>
+            </Inhoud>
+         </Antwoord>
+      </Antwoorden>
+   </Repliek>
+</web:GeefPersoonResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
