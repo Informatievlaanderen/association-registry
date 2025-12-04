@@ -295,6 +295,9 @@
   <data name="VerenigingKanNietGeregistreerdWordenMetOverledenVertegenwoordigers">
     <value>De vereniging kan niet geregistreerd worden met overleden vertegenwoordigers.</value>
   </data>
+  <data name="OverledenVertegenwoordigerKanNietToegevoegdWorden">
+    <value>Overleden vertegenwoordigers kunnen niet worden toegevoegd aan een vereniging.</value>
+  </data>
   <data name="EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz">
     <value>Een of meerdere insz waarden konden niet gevalideerd worden bij de Kruispuntbank van de Sociale Zekerheid. Controleer de gegevens en probeer het opnieuw.</value>
   </data>

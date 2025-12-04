@@ -6,6 +6,7 @@ using AssociationRegistry.MartenDb.Setup;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using CommandHandling.DecentraalBeheer.Middleware;
 using CommandHandling.Grar.GrarConsumer.Messaging;
 using Contracts.KboSync;
@@ -48,9 +49,12 @@ public static class WolverineExtensions
                 );
 
                 options.Policies.ForMessagesOfType<CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>>()
-                       .AddMiddleware(typeof(GeefPersoonMiddleware))
+                       .AddMiddleware(typeof(GeefPersonenMiddleware))
                        .AddMiddleware(typeof(EnrichLocatiesMiddleware))
                        .AddMiddleware(typeof(DuplicateDetectionMiddleware));
+
+                options.Policies.ForMessagesOfType<CommandEnvelope<VoegVertegenwoordigerToeCommand>>()
+                       .AddMiddleware(typeof(GeefPersoonMiddleware));
 
                 var grarOptions = builder.Configuration.GetGrarOptions();
 

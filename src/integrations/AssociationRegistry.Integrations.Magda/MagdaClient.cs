@@ -146,7 +146,7 @@ public class MagdaClient : IMagdaClient
             signedEnvelope);
     }
 
-    public async Task<ResponseEnvelope<GeefPersoonResponseBody>?> GeefPersoon(string insz, AanroependeFunctie functie, CommandMetadata metadata, CancellationToken cancellationToken)
+    public async Task<ResponseEnvelope<GeefPersoonResponseBody>> GeefPersoon(string insz, AanroependeFunctie functie, CommandMetadata metadata, CancellationToken cancellationToken)
     {
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(_magdaOptions.GeefPersoonEndpoint,
@@ -184,7 +184,7 @@ public class MagdaClient : IMagdaClient
         return clientCertificate;
     }
 
-    private async Task<ResponseEnvelope<T>?> PerformMagdaRequest<T>(
+    private async Task<ResponseEnvelope<T>> PerformMagdaRequest<T>(
         string endpoint,
         X509Certificate? magdaClientCertificate,
         string signedEnvelope)

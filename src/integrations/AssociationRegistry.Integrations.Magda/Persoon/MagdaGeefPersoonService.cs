@@ -75,37 +75,41 @@ public class MagdaGeefPersoonService : IGeefPersoonService
 
     public async Task<PersonenUitKsz> GeefPersonen(Vertegenwoordiger[] vertegenwoordigers, CommandMetadata metadata, CancellationToken cancellationToken)
     {
-        var tasks = vertegenwoordigers.Select(async vertegenwoordiger =>
-        {
-            // First: Register subscription (must succeed)
-            var registreerInschrijvingResponse = await MagdaClient.RegistreerInschrijvingPersoon(
-                vertegenwoordiger.Insz,
-                AanroependeFunctie.RegistreerVzer,
-                metadata,
-                cancellationToken);
-
-            _registreerInschrijvingValidator.ValidateOrThrow(registreerInschrijvingResponse);
-
-            // Second: Get person details (only runs if registration succeeded)
-            var persoon = await MagdaClient.GeefPersoon(
-                vertegenwoordiger.Insz,
-                AanroependeFunctie.RegistreerVzer,
-                metadata,
-                cancellationToken);
-
-            if(persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Uitzonderingen is not null)
-            {
-                throw new MagdaException("Er heeft zich een fout voorgedaan bij het aanroepen van de Magda GeefPersoonDienst.");
-            }
-
-            return new PersoonUitKsz(
-                vertegenwoordiger.Insz,
-                vertegenwoordiger.Voornaam,
-                vertegenwoordiger.Achternaam,
-                persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Inhoud.Persoon.Overlijden != null);
-        });
+        var tasks = vertegenwoordigers
+                   .Select(v => GeefPersoon(v, metadata, cancellationToken))
+                   .ToArray();
 
         return new PersonenUitKsz(await Task.WhenAll(tasks));
+    }
+
+    public async Task<PersoonUitKsz> GeefPersoon(Vertegenwoordiger vertegenwoordiger, CommandMetadata metadata, CancellationToken cancellationToken)
+    {
+        // First: Register subscription (must succeed)
+        var registreerInschrijvingResponse = await MagdaClient.RegistreerInschrijvingPersoon(
+            vertegenwoordiger.Insz,
+            AanroependeFunctie.RegistreerVzer,
+            metadata,
+            cancellationToken);
+
+        _registreerInschrijvingValidator.ValidateOrThrow(registreerInschrijvingResponse);
+
+        // Second: Get person details (only runs if registration succeeded)
+        var persoon = await MagdaClient.GeefPersoon(
+            vertegenwoordiger.Insz,
+            AanroependeFunctie.RegistreerVzer,
+            metadata,
+            cancellationToken);
+
+        if(persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Uitzonderingen is not null)
+        {
+            throw new MagdaException("Er heeft zich een fout voorgedaan bij het aanroepen van de Magda GeefPersoonDienst.");
+        }
+
+        return new PersoonUitKsz(
+            vertegenwoordiger.Insz,
+            vertegenwoordiger.Voornaam,
+            vertegenwoordiger.Achternaam,
+            persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Inhoud.Persoon.Overlijden != null);
     }
 
 }

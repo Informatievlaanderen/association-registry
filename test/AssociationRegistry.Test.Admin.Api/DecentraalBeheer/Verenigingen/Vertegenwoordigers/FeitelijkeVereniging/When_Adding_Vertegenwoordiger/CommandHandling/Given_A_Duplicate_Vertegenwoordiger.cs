@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Verte
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda.Persoon;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
@@ -34,8 +35,8 @@ public class Given_A_Duplicate_Vertegenwoordiger
 
         var commandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(command, _fixture.Create<CommandMetadata>());
 
-        await _commandHandler.Handle(commandEnvelope);
-        var handleCall = async () => await _commandHandler.Handle(commandEnvelope);
+        await _commandHandler.Handle(commandEnvelope, _fixture.Create<PersoonUitKsz>());
+        var handleCall = async () => await _commandHandler.Handle(commandEnvelope, _fixture.Create<PersoonUitKsz>());
 
         await handleCall.Should()
                         .ThrowAsync<InszMoetUniekZijn>()
