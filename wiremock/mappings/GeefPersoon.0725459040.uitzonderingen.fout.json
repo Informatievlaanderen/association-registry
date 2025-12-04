@@ -7,13 +7,13 @@
     {
       "matchesXPath": {
        "expression": "//INSZ/text()",
-        "matches": "01234567890"
+        "matches": "0725459040"
       }
     }
 ]
 
   },
   "response": {
-    "bodyFileName": "GeefPersoon/01234567890.overleden.xml"
+    "bodyFileName": "GeefPersoon/0725459040.uitzondering.fout.xml"
   }
 }
