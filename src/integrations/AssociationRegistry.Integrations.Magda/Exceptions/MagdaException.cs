@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class MagdaException : Exception
 {
-    public MagdaException()
+    public MagdaException(): base(ExceptionMessages.MagdaException)
     {
     }
 
