@@ -18,7 +18,7 @@ public record AanroependeDienst(string Naam)
 }
 public record AanroependeFunctie(AanroependeDienst AanroependeDienst, string Naam)
 {
-    public static readonly AanroependeFunctie RegistreerVzer = new(AanroependeDienst.BeheerApi, "Registreer inschrijving voor vereniging zonder rechtspersoonlijkheid");
+    public static readonly AanroependeFunctie RegistreerVzer = new(AanroependeDienst.BeheerApi, "Registreer vereniging zonder eigen rechtspersoonlijkheid");
     public static readonly AanroependeFunctie RegistreerVerenigingMetRechtspersoonlijkheid = new(AanroependeDienst.BeheerApi, "Registreer vereniging met rechtspersoonlijkheid");
     public static readonly AanroependeFunctie SyncKbo = new(AanroependeDienst.BeheerApi, "Sync vereniging met rechtspersoonlijkheid");
 }

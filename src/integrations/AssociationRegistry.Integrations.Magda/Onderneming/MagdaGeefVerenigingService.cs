@@ -9,7 +9,6 @@ using Persoon;
 using AssociationRegistry.Magda.Kbo;
 using Microsoft.Extensions.Logging;
 using Models.GeefOnderneming;
-using Persoon.Validation;
 using ResultNet;
 using Shared.Exceptions;
 using Shared.Extensions;

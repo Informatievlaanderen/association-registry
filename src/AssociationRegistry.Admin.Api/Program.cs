@@ -82,6 +82,7 @@ using Infrastructure.Metrics;
 using Integrations.Magda.CallReferences;
 using Integrations.Magda.Onderneming;
 using Integrations.Magda.Persoon;
+using Integrations.Magda.Persoon.Validation;
 using Magda.Persoon;
 using MartenDb.Transformers;
 using MartenDb.VCodeGeneration;
@@ -477,6 +478,8 @@ public class Program
                .AddScoped<IMagdaCallReferenceService, MagdaCallReferenceService>()
                .AddScoped<IMagdaClient, MagdaClient>()
                .AddScoped<IGeefPersoonService, MagdaGeefPersoonService>()
+               .AddScoped<IMagdaRegistreerInschrijvingValidator, MagdaRegistreerInschrijvingValidator>()
+               .AddScoped<IMagdaGeefPersoonValidator, MagdaGeefPersoonValidator>()
                .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
