@@ -585,6 +585,12 @@ namespace AssociationRegistry.Resources {
             }
         }
         
+        public static string OverledenVertegenwoordigerKanNietToegevoegdWorden {
+            get {
+                return ResourceManager.GetString("OverledenVertegenwoordigerKanNietToegevoegdWorden", resourceCulture);
+            }
+        }
+        
         public static string EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz {
             get {
                 return ResourceManager.GetString("EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz", resourceCulture);

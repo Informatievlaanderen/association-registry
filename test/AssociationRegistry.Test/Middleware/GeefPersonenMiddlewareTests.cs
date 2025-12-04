@@ -10,13 +10,13 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-public class GeefPersoonMiddlewareTests
+public class GeefPersonenMiddlewareTests
 {
     private readonly Fixture _fixture;
     private readonly CommandMetadata _commandMetadata;
     private readonly Mock<IGeefPersoonService> _geefPersoonsService;
 
-    public GeefPersoonMiddlewareTests()
+    public GeefPersonenMiddlewareTests()
     {
         _fixture = new Fixture().CustomizeDomain();
         _commandMetadata = _fixture.Create<CommandMetadata>();
@@ -31,7 +31,7 @@ public class GeefPersoonMiddlewareTests
             Vertegenwoordigers = [],
         };
 
-        var personenUitKsz = await GeefPersoonMiddleware.BeforeAsync(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+        var personenUitKsz = await GeefPersonenMiddleware.BeforeAsync(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
                                                                          command,
                                                                          _commandMetadata), _geefPersoonsService.Object, CancellationToken.None);
 
@@ -48,7 +48,7 @@ public class GeefPersoonMiddlewareTests
         _geefPersoonsService.Setup(x => x.GeefPersonen(command.Vertegenwoordigers, _commandMetadata, It.IsAny<CancellationToken>()))
                             .ReturnsAsync(new PersonenUitKsz(personenUitKsz));
 
-        var result = await GeefPersoonMiddleware.BeforeAsync(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+        var result = await GeefPersonenMiddleware.BeforeAsync(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
                                                                          command,
                                                                          _commandMetadata), _geefPersoonsService.Object, CancellationToken.None);
 

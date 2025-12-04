@@ -23,7 +23,7 @@ public interface IMagdaClient
         CommandMetadata metadata,
         CancellationToken cancellationToken);
 
-    Task<ResponseEnvelope<GeefPersoonResponseBody>?> GeefPersoon(
+    Task<ResponseEnvelope<GeefPersoonResponseBody>> GeefPersoon(
         string insz,
         AanroependeFunctie aanroependeFunctie,
         CommandMetadata metadata,
