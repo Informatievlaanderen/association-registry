@@ -2,17 +2,17 @@
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Magda;
-using AssociationRegistry.Integrations.Magda.Models;
 using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
 using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
-using CommandHandling.Magda;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
-using Integrations.Magda.Constants;
-using Integrations.Magda.GeefOnderneming;
-using Integrations.Magda.GeefOnderneming.Models;
+using Integrations.Magda.Onderneming;
+using Integrations.Magda.Onderneming.Models;
+using Integrations.Magda.Onderneming.Models.GeefOnderneming;
+using Integrations.Magda.Shared.Constants;
+using Integrations.Magda.Shared.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;

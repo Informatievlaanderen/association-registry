@@ -7,8 +7,6 @@ using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.Resources;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Integrations.Magda;
-using Integrations.Magda.GeefOnderneming;
-using Magda;
 using Marten;
 using Microsoft.Extensions.Logging;
 using RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;

@@ -2,8 +2,8 @@
 
 using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Magda.Persoon;
 using Framework;
-using Magda;
 
 public static class GeefPersoonMiddleware
 {

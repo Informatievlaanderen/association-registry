@@ -5,6 +5,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda.Persoon;
 using DuplicateVerenigingDetection;
 using Locaties.ProbeerAdresTeMatchen;
 using Marten;

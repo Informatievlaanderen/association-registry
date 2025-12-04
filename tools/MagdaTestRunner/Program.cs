@@ -1,7 +1,9 @@
 ﻿using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Integrations.Magda;
-using AssociationRegistry.Integrations.Magda.Models;
+using AssociationRegistry.Integrations.Magda.CallReferences;
+using AssociationRegistry.Integrations.Magda.Onderneming;
+using AssociationRegistry.Integrations.Magda.Shared.Models;
 using AssociationRegistry.Magda.Kbo;
 using JasperFx.Events;
 using Marten;

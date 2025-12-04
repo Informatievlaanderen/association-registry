@@ -1,21 +1,22 @@
 namespace AssociationRegistry.Integrations.Magda;
 
 using AssociationRegistry.Magda.Kbo;
-using Extensions;
 using Framework;
-using GeefOnderneming.Models;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging;
-using Models;
-using Models.GeefOndernemingVKBO;
-using Models.GeefPersoon;
-using Models.RegistreerInschrijving;
-using Models.RegistreerInschrijving0200;
-using Models.RegistreerUitschrijving;
+using Onderneming;
+using Onderneming.Models;
+using Onderneming.Models.GeefOnderneming;
+using Onderneming.Models.RegistreerInschrijving;
+using Persoon.Models;
+using Persoon.Models.RegistreerInschrijving0200;
+using Persoon.Models.RegistreerUitschrijving;
+using Shared.Extensions;
+using Shared.Models;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml.Serialization;
-using RegistreerInschrijvingResponseBody = Models.RegistreerInschrijving.RegistreerInschrijvingResponseBody;
+using RegistreerInschrijvingResponseBody = Onderneming.Models.RegistreerInschrijving.RegistreerInschrijvingResponseBody;
 
 public class MagdaClient : IMagdaClient
 {
@@ -115,7 +116,7 @@ public class MagdaClient : IMagdaClient
             signedEnvelope);
     }
 
-    public async Task<ResponseEnvelope<AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>?> RegistreerInschrijvingPersoon(
+    public async Task<ResponseEnvelope<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>?> RegistreerInschrijvingPersoon(
         string insz,
         AanroependeFunctie aanroependeFunctie,
         CommandMetadata metadata,
@@ -138,7 +139,7 @@ public class MagdaClient : IMagdaClient
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
-        return await PerformMagdaRequest<AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>(
+        return await PerformMagdaRequest<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>(
             _magdaOptions.RegistreerInschrijvingPersoonEndpoint!,
             clientCertificate,
             signedEnvelope);

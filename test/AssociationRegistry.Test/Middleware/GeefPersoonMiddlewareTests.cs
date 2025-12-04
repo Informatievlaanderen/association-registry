@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Middleware;
 
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda.Persoon;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using CommandHandling.DecentraalBeheer.Middleware;
-using CommandHandling.Magda;
 using Common.AutoFixture;
 using FluentAssertions;
 using Moq;

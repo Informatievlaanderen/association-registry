@@ -7,7 +7,6 @@ using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.Resources;
 using Integrations.Magda;
 using Integrations.Slack;
-using Magda;
 using Messages;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Metrics;

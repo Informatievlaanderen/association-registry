@@ -4,7 +4,7 @@ using DecentraalBeheer.Vereniging;
 using Grar.NutsLau;
 using HostedServices.GrarKafkaConsumer.Kafka;
 using Hosts.Configuration.ConfigurationBindings;
-using Integrations.Magda.Models;
+using Integrations.Magda.Shared.Models;
 using Marten;
 using Persoonsgegevens;
 using Schema.Bewaartermijn;

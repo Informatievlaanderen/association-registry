@@ -2,11 +2,12 @@
 
 using AssociationRegistry.Magda.Kbo;
 using Framework;
-using GeefOnderneming.Models;
-using Models;
-using Models.GeefPersoon;
-using Models.RegistreerInschrijving;
-using Models.RegistreerUitschrijving;
+using Onderneming.Models;
+using Onderneming.Models.GeefOnderneming;
+using Onderneming.Models.RegistreerInschrijving;
+using Persoon.Models;
+using Persoon.Models.RegistreerUitschrijving;
+using Shared.Models;
 
 public interface IMagdaClient
 {
@@ -34,7 +35,7 @@ public interface IMagdaClient
         CommandMetadata metadata,
         CancellationToken cancellationToken);
 
-    Task<ResponseEnvelope<Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>?>
+    Task<ResponseEnvelope<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>?>
         RegistreerInschrijvingPersoon(
             string insz,
             AanroependeFunctie aanroependeFunctie,

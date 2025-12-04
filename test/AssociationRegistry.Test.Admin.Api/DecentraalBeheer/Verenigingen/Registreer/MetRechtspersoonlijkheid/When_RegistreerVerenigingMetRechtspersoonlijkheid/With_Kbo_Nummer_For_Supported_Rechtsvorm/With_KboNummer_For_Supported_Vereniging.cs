@@ -4,9 +4,9 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Regis
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Integrations.Magda.Models;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using Integrations.Magda.Shared.Models;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;

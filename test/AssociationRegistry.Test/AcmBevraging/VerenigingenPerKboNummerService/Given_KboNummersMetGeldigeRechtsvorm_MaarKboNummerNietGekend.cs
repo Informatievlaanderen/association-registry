@@ -1,14 +1,14 @@
 namespace AssociationRegistry.Test.AcmBevraging.VerenigingenPerKboNummerService;
 
 using Acm.Api.Queries.VerenigingenPerKbo;
-using AssociationRegistry.Integrations.Magda.Constants;
-using AssociationRegistry.Integrations.Magda.Services;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using EventStore.ConflictResolution;
 using FluentAssertions;
+using Integrations.Magda.Onderneming;
+using Integrations.Magda.Shared.Constants;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using Microsoft.Extensions.Logging.Abstractions;
