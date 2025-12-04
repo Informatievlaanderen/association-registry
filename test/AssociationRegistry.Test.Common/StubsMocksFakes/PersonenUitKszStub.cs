@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.StubsMocksFakes;
 
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using CommandHandling.DecentraalBeheer.Middleware;
+using Magda.Persoon;
 
 public class PersonenUitKszStub: PersonenUitKsz
 {

@@ -2,24 +2,21 @@ namespace AssociationRegistry.KboMutations.SyncLambda.Services;
 
 using Amazon.Lambda.Core;
 using Amazon.SimpleSystemsManagement;
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.KboMutations.Configuration;
 using AssociationRegistry.KboMutations.Notifications;
 using AssociationRegistry.KboMutations.SyncLambda.JsonSerialization;
 using AssociationRegistry.Integrations.Magda;
-using AssociationRegistry.Integrations.Magda.Models;
-using CommandHandling.Magda;
 using Configuration;
 using EventStore.ConflictResolution;
-using Integrations.Magda.GeefOnderneming;
+using Integrations.Magda.CallReferences;
+using Integrations.Magda.Onderneming;
+using Integrations.Magda.Shared.Models;
 using Integrations.Slack;
 using JasperFx;
 using JasperFx.Events;
 using Logging;
 using Marten;
-using Marten.Events;
-using Marten.Services;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -28,7 +25,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Npgsql;
 using Telemetry;
-using Weasel.Core;
 using PostgreSqlOptionsSection = Configuration.PostgreSqlOptionsSection;
 
 public class ServiceFactory

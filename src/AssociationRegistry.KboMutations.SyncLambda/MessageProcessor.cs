@@ -11,7 +11,6 @@ using Contracts.KboSync;
 using Integrations.Slack;
 using Logging;
 using AssociationRegistry.Magda.Kbo;
-using AssociationRegistry.Integrations.Magda.Models;
 using Microsoft.Extensions.Logging;
 using Notifications;
 using System.Text.Json;

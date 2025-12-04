@@ -39,6 +39,7 @@
     <ProjectReference Include="..\..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Shared\" />
     <Folder Include="WSDL\Generiek-02.00\" />
     <Folder Include="WSDL\Onderneming-02.00\" />
     <Folder Include="WSDL\Repertorium-02.01\" />

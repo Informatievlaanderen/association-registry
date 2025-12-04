@@ -2,14 +2,15 @@ namespace AssociationRegistry.Test.Magda.RegistreerInschrijvingService;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Magda;
-using AssociationRegistry.Integrations.Magda.Models;
-using AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving;
 using AssociationRegistry.Magda.Kbo;
 using Integrations.Magda.Repertorium.RegistreerInschrijving0201;
 using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using Integrations.Magda.Onderneming;
+using Integrations.Magda.Onderneming.Models.RegistreerInschrijving;
+using Integrations.Magda.Shared.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;

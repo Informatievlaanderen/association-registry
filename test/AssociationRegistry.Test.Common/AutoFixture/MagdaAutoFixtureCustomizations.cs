@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using global::AutoFixture;
-using AssociationRegistry.Integrations.Magda.Constants;
 using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
+using Integrations.Magda.Shared.Constants;
 using AntwoordenType = Integrations.Magda.Repertorium.RegistreerInschrijving0201.AntwoordenType;
 using ContextType = Integrations.Magda.Repertorium.RegistreerInschrijving0201.ContextType;
 using RepliekType = Integrations.Magda.Repertorium.RegistreerInschrijving0201.RepliekType;

@@ -2,8 +2,6 @@
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Magda;
-using AssociationRegistry.Integrations.Magda.Constants;
-using AssociationRegistry.Integrations.Magda.Models;
 using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
 using Common.AutoFixture;
@@ -14,6 +12,9 @@ using FluentAssertions.Execution;
 using Framework;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
+using Integrations.Magda.Onderneming;
+using Integrations.Magda.Shared.Constants;
+using Integrations.Magda.Shared.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;

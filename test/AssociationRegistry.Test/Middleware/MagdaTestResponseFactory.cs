@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Middleware;
 
-using Integrations.Magda.Models;
-using Integrations.Magda.Models.GeefPersoon;
-using Integrations.Magda.Models.RegistreerInschrijving0200;
 using Integrations.Magda.Persoon.GeefPersoon;
+using Integrations.Magda.Persoon.Models;
+using Integrations.Magda.Persoon.Models.RegistreerInschrijving0200;
 using Integrations.Magda.Repertorium.RegistreerInschrijving0200;
+using Integrations.Magda.Shared.Models;
 using AntwoordenType = Integrations.Magda.Persoon.GeefPersoon.AntwoordenType;
 using AntwoordInhoudType = Integrations.Magda.Persoon.GeefPersoon.AntwoordInhoudType;
 using AntwoordType = Integrations.Magda.Persoon.GeefPersoon.AntwoordType;
@@ -72,7 +72,7 @@ public static class MagdaTestResponseFactory
 
     public static class RegistreerInschrijvingPersoonResponses
     {
-        public static readonly ResponseEnvelope<AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody> WelGeslaagd = new()
+        public static readonly ResponseEnvelope<RegistreerInschrijvingResponseBody> WelGeslaagd = new()
         {
             Body = new RegistreerInschrijvingResponseBody
             {
@@ -101,7 +101,7 @@ public static class MagdaTestResponseFactory
         };
 
 
-        public static ResponseEnvelope<AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody> NietGeslaagd(string foutCode) => new()
+        public static ResponseEnvelope<RegistreerInschrijvingResponseBody> NietGeslaagd(string foutCode) => new()
         {
             Body = new RegistreerInschrijvingResponseBody
             {
