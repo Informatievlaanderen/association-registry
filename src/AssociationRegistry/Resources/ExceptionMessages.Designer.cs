@@ -585,6 +585,12 @@ namespace AssociationRegistry.Resources {
             }
         }
         
+        public static string EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz {
+            get {
+                return ResourceManager.GetString("EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz", resourceCulture);
+            }
+        }
+        
         public static string MagdaException {
             get {
                 return ResourceManager.GetString("MagdaException", resourceCulture);

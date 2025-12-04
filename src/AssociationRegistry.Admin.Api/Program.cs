@@ -474,6 +474,7 @@ public class Program
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddScoped<IMagdaCallReferenceService, MagdaCallReferenceService>()
                .AddScoped<IMagdaClient, MagdaClient>()
+               .AddScoped<IGeefPersoonService, MagdaGeefPersoonService>()
                .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
