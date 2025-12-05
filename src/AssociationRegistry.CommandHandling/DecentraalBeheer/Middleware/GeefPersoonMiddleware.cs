@@ -12,7 +12,7 @@ public static class GeefPersoonMiddleware
     // Before or BeforeAsync tells Wolverine this method should be called before the actual action
     public static async Task<PersoonUitKsz> BeforeAsync(
         CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope,
-        IGeefPersoonService geefPersoonService,
+        IMagdaGeefPersoonService magdaGeefPersoonService,
         CancellationToken cancellationToken)
-        => await geefPersoonService.GeefPersoon(envelope.Command.Vertegenwoordiger, envelope.Metadata, cancellationToken);
+        => await magdaGeefPersoonService.GeefPersoon(envelope.Command.Vertegenwoordiger, envelope.Metadata, cancellationToken);
 }

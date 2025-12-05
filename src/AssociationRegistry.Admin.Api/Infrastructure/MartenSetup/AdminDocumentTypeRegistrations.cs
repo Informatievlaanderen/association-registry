@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 using DecentraalBeheer.Vereniging;
 using Grar.NutsLau;
 using HostedServices.GrarKafkaConsumer.Kafka;
+using HostedServices.InitialRegistreerInschrijvingVertegenwoordigers;
 using Hosts.Configuration.ConfigurationBindings;
 using Integrations.Magda.Shared.Models;
 using Marten;
@@ -47,6 +48,8 @@ public static class AdminDocumentTypeRegistrations
         opts.Schema.For<BewaartermijnDocument>()
             .UseNumericRevisions(true)
             .UseOptimisticConcurrency(false);
+
+        opts.RegisterDocumentType<InitialisatieInschrijvingenDocument>();
 
         opts.RegisterDocumentType<VerenigingState>();
 

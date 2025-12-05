@@ -14,13 +14,13 @@ public class GeefPersonenMiddlewareTests
 {
     private readonly Fixture _fixture;
     private readonly CommandMetadata _commandMetadata;
-    private readonly Mock<IGeefPersoonService> _geefPersoonsService;
+    private readonly Mock<IMagdaGeefPersoonService> _geefPersoonsService;
 
     public GeefPersonenMiddlewareTests()
     {
         _fixture = new Fixture().CustomizeDomain();
         _commandMetadata = _fixture.Create<CommandMetadata>();
-        _geefPersoonsService = new Mock<IGeefPersoonService>();
+        _geefPersoonsService = new Mock<IMagdaGeefPersoonService>();
     }
 
     [Fact]
