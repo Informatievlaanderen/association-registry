@@ -77,6 +77,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Elastic.Clients.Elasticsearch;
+using HostedServices.InitialRegistreerInschrijvingVertegenwoordigers;
 using Infrastructure.Extensions;
 using Infrastructure.Metrics;
 using Integrations.Magda.CallReferences;
@@ -477,7 +478,7 @@ public class Program
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddScoped<IMagdaCallReferenceService, MagdaCallReferenceService>()
                .AddScoped<IMagdaClient, MagdaClient>()
-               .AddScoped<IGeefPersoonService, MagdaGeefPersoonService>()
+               .AddScoped<IMagdaGeefPersoonService, MagdaGeefPersoonService>()
                .AddScoped<IMagdaRegistreerInschrijvingValidator, MagdaRegistreerInschrijvingValidator>()
                .AddScoped<IMagdaGeefPersoonValidator, MagdaGeefPersoonValidator>()
                .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
@@ -775,6 +776,22 @@ public class Program
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
     {
         ConfigureAddresskafkaConsumer(builder);
+        ConfigureRegistreerInschrijvingenVertegenwoordigers(builder);
+    }
+
+    private static void ConfigureRegistreerInschrijvingenVertegenwoordigers(WebApplicationBuilder builder)
+    {
+        builder.Services
+               .AddSingleton(new InitialiseerRegistreerInschrijvingOptions());
+
+        builder.Services.AddScoped<INietKboVerenigingenVCodesQuery, NietKboVerenigingenVCodesQuery>();
+
+        builder.Services.AddHostedService(sp =>
+            new InitialRegistreerInschrijvingVertegenwoordigersService(
+                sp.GetRequiredService<IServiceScopeFactory>(),
+                sp.GetRequiredService<IDocumentStore>(),
+                sp.GetRequiredService<InitialiseerRegistreerInschrijvingOptions>(),
+                sp.GetRequiredService<ILogger<InitialRegistreerInschrijvingVertegenwoordigersService>>()));
     }
 
     private static void ConfigureAddresskafkaConsumer(WebApplicationBuilder builder)

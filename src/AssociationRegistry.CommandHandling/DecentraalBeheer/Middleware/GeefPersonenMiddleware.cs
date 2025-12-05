@@ -10,12 +10,12 @@ public static class GeefPersonenMiddleware
     // Before or BeforeAsync tells Wolverine this method should be called before the actual action
     public static async Task<PersonenUitKsz> BeforeAsync(
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> envelope,
-        IGeefPersoonService geefPersoonService,
+        IMagdaGeefPersoonService magdaGeefPersoonService,
         CancellationToken cancellationToken)
     {
         if (!envelope.Command.Vertegenwoordigers.Any())
             return PersonenUitKsz.Empty;
 
-        return await geefPersoonService.GeefPersonen(envelope.Command.Vertegenwoordigers, envelope.Metadata, cancellationToken);
+        return await magdaGeefPersoonService.GeefPersonen(envelope.Command.Vertegenwoordigers, envelope.Metadata, cancellationToken);
     }
 }

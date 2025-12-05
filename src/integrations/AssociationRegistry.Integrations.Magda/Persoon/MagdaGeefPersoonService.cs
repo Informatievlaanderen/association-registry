@@ -7,7 +7,7 @@ using Framework;
 using Microsoft.Extensions.Logging;
 using Validation;
 
-public class MagdaGeefPersoonService : IGeefPersoonService
+public class MagdaGeefPersoonService : IMagdaGeefPersoonService
 {
     private readonly IMagdaRegistreerInschrijvingValidator _magdaRegistreerInschrijvingValidator;
     private readonly IMagdaGeefPersoonValidator _magdaGeefPersoonValidator;
