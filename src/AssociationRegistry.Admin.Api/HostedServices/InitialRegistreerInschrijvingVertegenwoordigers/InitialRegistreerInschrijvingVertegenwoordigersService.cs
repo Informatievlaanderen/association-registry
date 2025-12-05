@@ -77,6 +77,7 @@ public class InitialiseerRegistreerInschrijvingOptions
 }
 
 public class SchrijfVertegenwoordigersInMessage(string VCode);
+public class SchrijfVertegenwoordigersInMessageHandler;
 
 public record InitialisatieInschrijvingenDocument()
 {
