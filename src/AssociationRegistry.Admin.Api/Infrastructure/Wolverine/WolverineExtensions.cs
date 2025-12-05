@@ -3,7 +3,6 @@
 using Amazon.Runtime;
 using Amazon.SQS;
 using AssociationRegistry.MartenDb.Setup;
-using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
@@ -16,7 +15,6 @@ using Framework;
 using global::Wolverine;
 using global::Wolverine.AmazonSqs;
 using global::Wolverine.ErrorHandling;
-using global::Wolverine.Postgresql;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Integrations.Grar.Clients;
@@ -72,7 +70,7 @@ public static class WolverineExtensions
 
                 ConfigureSqsQueues(options, grarOptions, builder.Configuration.GetAppSettings());
 
-                ConfigurePostgresQueues(options, wolverineSchema, builder.Configuration);
+                PostgresQueueConfiguration.ConfigurePostgresQueues(options, wolverineSchema, builder.Configuration);
 
                 if (grarOptions.Wolverine.AutoProvision)
                     transportConfiguration.AutoProvision();
@@ -103,25 +101,6 @@ public static class WolverineExtensions
                .ToSqsQueue(appSettings.KboSyncQueueName)
                .SendRawJsonMessage()
                .MessageBatchSize(1);
-    }
-
-    private static void ConfigurePostgresQueues(
-        WolverineOptions options,
-        string wolverineSchema,
-        ConfigurationManager configuration)
-    {
-        const string AanvaardDubbeleVerenigingQueueName = "aanvaard-dubbele-vereniging-queue";
-
-        options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessage>();
-        options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessageHandler>();
-
-        var connectionString = configuration.GetPostgreSqlOptionsSection().GetConnectionString();
-
-        options.PersistMessagesWithPostgresql(connectionString, wolverineSchema).EnableMessageTransport();
-
-        options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
-               .ToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
-        options.ListenToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
     }
 
     private static void ConfigureAddressMatchPublisher(WolverineOptions options, string sqsQueueName)
