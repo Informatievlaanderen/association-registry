@@ -68,7 +68,8 @@ public class With_All_Fields
                 new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata),
                 VerrijkteAdressenUitGrar.Empty,
                 PotentialDuplicatesFound.None,
-                CancellationToken.None)
+                new PersonenUitKszStub(_command),
+                cancellationToken: CancellationToken.None)
                        .GetAwaiter()
                        .GetResult();
 

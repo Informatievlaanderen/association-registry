@@ -11,6 +11,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
+using Common.StubsMocksFakes;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
@@ -24,6 +25,7 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
 {
     private readonly CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> _commandEnvelope;
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler _commandHandler;
+    private RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
 
     public With_Two_Primair_Contactgegevens_Of_The_Same_Type()
     {
@@ -38,7 +40,7 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
             Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test2@example.org", fixture.Create<string>(),
                                                isPrimair: true);
 
-        var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
+        _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
             Contactgegevens = new[]
             {
@@ -54,11 +56,11 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
             new InMemorySequentialVCodeService(),
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),
-            new ClockStub(command.Startdatum.Value),
+            new ClockStub(_command.Startdatum.Value),
             Mock.Of<IGeotagsService>(),
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
-        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata);
+        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata);
     }
 
     [Fact]
@@ -68,7 +70,8 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
             _commandEnvelope,
             VerrijkteAdressenUitGrar.Empty,
             PotentialDuplicatesFound.None,
-            CancellationToken.None);
+            new PersonenUitKszStub(_command),
+            cancellationToken: CancellationToken.None);
 
         await method.Should().ThrowAsync<MeerderePrimaireContactgegevensZijnNietToegestaan>();
     }

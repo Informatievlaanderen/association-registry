@@ -4,6 +4,7 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordi
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda.Persoon;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
@@ -52,8 +53,8 @@ public class Given_A_Second_Primair_Vertegenwoordiger
 
         var secondCommandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(secondCommand, _fixture.Create<CommandMetadata>());
 
-        await _commandHandler.Handle(commandEnvelope);
-        var handleCall = async () => await _commandHandler.Handle(secondCommandEnvelope);
+        await _commandHandler.Handle(commandEnvelope, _fixture.Create<PersoonUitKsz>());
+        var handleCall = async () => await _commandHandler.Handle(secondCommandEnvelope, _fixture.Create<PersoonUitKsz>());
 
         await handleCall.Should()
                         .ThrowAsync<MeerderePrimaireVertegenwoordigers>()

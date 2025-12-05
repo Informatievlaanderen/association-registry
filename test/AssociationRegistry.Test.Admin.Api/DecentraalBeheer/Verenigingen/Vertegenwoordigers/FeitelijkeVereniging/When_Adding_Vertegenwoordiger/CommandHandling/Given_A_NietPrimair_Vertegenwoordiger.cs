@@ -4,6 +4,7 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordi
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda.Persoon;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
@@ -39,7 +40,8 @@ public class Given_A_NietPrimair_Vertegenwoordiger
     public async ValueTask Then_A_VertegenwoordigerWerdToegevoegd_Event_Is_Saved()
     {
         await _commandHandler
-           .Handle(new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()));
+           .Handle(new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()),
+                   _fixture.Create<PersoonUitKsz>());
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new VertegenwoordigerWerdToegevoegd(
@@ -61,7 +63,8 @@ public class Given_A_NietPrimair_Vertegenwoordiger
     public async ValueTask Then_A_EntityId_Is_Returned()
     {
         var result = await _commandHandler
-           .Handle(new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()));
+           .Handle(new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()),
+                   _fixture.Create<PersoonUitKsz>());
 
         var vertegenwoordigerId = _verenigingRepositoryMock.SaveInvocations[0].Vereniging.UncommittedEvents.ToArray()[0]
                                                            .As<VertegenwoordigerWerdToegevoegd>().VertegenwoordigerId;

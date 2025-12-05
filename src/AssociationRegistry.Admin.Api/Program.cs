@@ -61,7 +61,6 @@ using AssociationRegistry.MartenDb.Store;
 using CommandHandling.DecentraalBeheer.Acties.DubbelDetectie;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 using CommandHandling.KboSyncLambda.SyncKbo;
-using CommandHandling.Magda;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Marten;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -78,9 +77,14 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Elastic.Clients.Elasticsearch;
+using HostedServices.InitialRegistreerInschrijvingVertegenwoordigers;
 using Infrastructure.Extensions;
 using Infrastructure.Metrics;
-using Integrations.Magda.GeefOnderneming;
+using Integrations.Magda.CallReferences;
+using Integrations.Magda.Onderneming;
+using Integrations.Magda.Persoon;
+using Integrations.Magda.Persoon.Validation;
+using Magda.Persoon;
 using MartenDb.Transformers;
 using MartenDb.VCodeGeneration;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -472,7 +476,11 @@ public class Program
                .AddScoped<InitiatorProvider>()
                .AddScoped<ICommandMetadataProvider, CommandMetadataProvider>()
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
+               .AddScoped<IMagdaCallReferenceService, MagdaCallReferenceService>()
                .AddScoped<IMagdaClient, MagdaClient>()
+               .AddScoped<IMagdaGeefPersoonService, MagdaGeefPersoonService>()
+               .AddScoped<IMagdaRegistreerInschrijvingValidator, MagdaRegistreerInschrijvingValidator>()
+               .AddScoped<IMagdaGeefPersoonValidator, MagdaGeefPersoonValidator>()
                .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
@@ -768,6 +776,22 @@ public class Program
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
     {
         ConfigureAddresskafkaConsumer(builder);
+        ConfigureRegistreerInschrijvingenVertegenwoordigers(builder);
+    }
+
+    private static void ConfigureRegistreerInschrijvingenVertegenwoordigers(WebApplicationBuilder builder)
+    {
+        builder.Services
+               .AddSingleton(new InitialiseerRegistreerInschrijvingOptions());
+
+        builder.Services.AddScoped<INietKboVerenigingenVCodesQuery, NietKboVerenigingenVCodesQuery>();
+
+        builder.Services.AddHostedService(sp =>
+            new InitialRegistreerInschrijvingVertegenwoordigersService(
+                sp.GetRequiredService<IServiceScopeFactory>(),
+                sp.GetRequiredService<IDocumentStore>(),
+                sp.GetRequiredService<InitialiseerRegistreerInschrijvingOptions>(),
+                sp.GetRequiredService<ILogger<InitialRegistreerInschrijvingVertegenwoordigersService>>()));
     }
 
     private static void ConfigureAddresskafkaConsumer(WebApplicationBuilder builder)

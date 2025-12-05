@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns="http://webservice.geefmutatiesnotificatiesdienst-02_00.persoon-02_00.vip.vlaanderen.be" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://webservice.geefmutatiesnotificatiesdienst-02_00.persoon-02_00.vip.vlaanderen.be">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://webservice.geefmutatiesnotificatiesdienst-02_00.persoon-02_00.vip.vlaanderen.be" xmlns="http://webservice.geefmutatiesnotificatiesdienst-02_00.persoon-02_00.vip.vlaanderen.be" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="2.00">
+			<xsd:include schemaLocation="GeefMutatiesNotificaties.xsd"/>
+			<xsd:include schemaLocation="GeefMutatiesNotificatiesResponse.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="GeefMutatiesNotificatiesRequest">
+		<wsdl:part name="Verzoek" element="GeefMutatiesNotificaties"/>
+	</wsdl:message>
+	<wsdl:message name="GeefMutatiesNotificatiesResponse">
+		<wsdl:part name="Repliek" element="GeefMutatiesNotificatiesResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="Persoon.GeefMutatiesNotificatiesPortType">
+		<wsdl:operation name="GeefMutatiesNotificaties">
+			<wsdl:input name="GeefMutatiesNotificatiesRequest" message="GeefMutatiesNotificatiesRequest"/>
+			<wsdl:output name="GeefMutatiesNotificatiesResponse" message="GeefMutatiesNotificatiesResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="Persoon.GeefMutatiesNotificatiesHttpBinding" type="Persoon.GeefMutatiesNotificatiesPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GeefMutatiesNotificaties">
+			<soap:operation/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="Persoon.GeefMutatiesNotificaties">
+		<wsdl:port name="Persoon.GeefMutatiesNotificatiesHttpPort" binding="Persoon.GeefMutatiesNotificatiesHttpBinding">
+			<soap:address location="https://magdapersoondienst.vlaanderen.be/GeefMutatiesNotificatiesDienst-02.00/soap/WebService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

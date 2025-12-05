@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be"
+                  xmlns="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be"                  
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be"
+		            xmlns="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be"
+		            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		            elementFormDefault="unqualified" 
+		            attributeFormDefault="unqualified"
+		            version="2.00">
+		            
+			<xsd:include schemaLocation="RegistreerInschrijving.xsd"/>
+			<xsd:include schemaLocation="RegistreerInschrijvingResponse.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="RegistreerInschrijvingRequest">
+		<wsdl:part name="Verzoek" element="RegistreerInschrijving"/>
+	</wsdl:message>
+	<wsdl:message name="RegistreerInschrijvingResponse">
+		<wsdl:part name="Repliek" element="RegistreerInschrijvingResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="Repertorium.RegistreerInschrijvingPortType">
+		<wsdl:operation name="RegistreerInschrijving">
+			<wsdl:input name="RegistreerInschrijvingRequest" message="RegistreerInschrijvingRequest"/>
+			<wsdl:output name="RegistreerInschrijvingResponse" message="RegistreerInschrijvingResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="Repertorium.RegistreerInschrijvingHttpBinding" type="Repertorium.RegistreerInschrijvingPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="RegistreerInschrijving">
+			<soap:operation/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	
+	<wsdl:service name="Repertorium.RegistreerInschrijving">
+		<wsdl:port name="Repertorium.RegistreerInschrijvingHttpPort" binding="Repertorium.RegistreerInschrijvingHttpBinding">
+			<soap:address location="http://magdarepertoriumdienst-intern-aip.vonet.be/RegistreerInschrijvingDienst-02.00/soap/WebService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

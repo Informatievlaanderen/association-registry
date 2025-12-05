@@ -2,19 +2,21 @@ namespace AssociationRegistry.Test.Magda.RegistreerInschrijvingService;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Magda;
-using AssociationRegistry.Integrations.Magda.Models;
-using AssociationRegistry.Integrations.Magda.Models.RegistreerInschrijving;
-using AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving;
+using AssociationRegistry.Magda.Kbo;
+using Integrations.Magda.Repertorium.RegistreerInschrijving0201;
 using AutoFixture;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using Integrations.Magda.Onderneming;
+using Integrations.Magda.Onderneming.Models.RegistreerInschrijving;
+using Integrations.Magda.Shared.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
-using AntwoordInhoudType = AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.AntwoordInhoudType;
+using AntwoordInhoudType = Integrations.Magda.Repertorium.RegistreerInschrijving0201.AntwoordInhoudType;
 
 public class Given_NietGeslaagd_Uitzondering_Fout
 {
@@ -28,11 +30,10 @@ public class Given_NietGeslaagd_Uitzondering_Fout
         var magdaClient = new Mock<IMagdaClient>();
         var responseEnvelope = CreateResponseEnvelope();
 
-        magdaClient.Setup(facade => facade.RegistreerInschrijving(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
+        magdaClient.Setup(facade => facade.RegistreerInschrijvingOnderneming(It.IsAny<string>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid, It.IsAny<CommandMetadata>(), CancellationToken.None))
                    .ReturnsAsync(responseEnvelope);
 
-        _service = new MagdaRegistreerInschrijvingService(Mock.Of<IMagdaCallReferenceRepository>(),
-                                                          magdaClient.Object,
+        _service = new MagdaRegistreerInschrijvingService(magdaClient.Object,
                                                           new NullLogger<MagdaRegistreerInschrijvingService>());
     }
 
@@ -66,8 +67,9 @@ public class Given_NietGeslaagd_Uitzondering_Fout
     [Fact]
     public async ValueTask Then_It_Returns_A_FailedResult()
     {
-        var result = await _service.RegistreerInschrijving(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
-                                                           CancellationToken.None);
+        var result = await _service.RegistreerInschrijving(_fixture.Create<KboNummer>(),
+                                                           AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,
+                                                           _fixture.Create<CommandMetadata>(), CancellationToken.None);
 
         result.IsSuccess().Should().BeFalse();
     }

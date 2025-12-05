@@ -3,8 +3,9 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 using DecentraalBeheer.Vereniging;
 using Grar.NutsLau;
 using HostedServices.GrarKafkaConsumer.Kafka;
+using HostedServices.InitialRegistreerInschrijvingVertegenwoordigers;
 using Hosts.Configuration.ConfigurationBindings;
-using Integrations.Magda.Models;
+using Integrations.Magda.Shared.Models;
 using Marten;
 using Persoonsgegevens;
 using Schema.Bewaartermijn;
@@ -20,7 +21,6 @@ public static class AdminDocumentTypeRegistrations
         opts.RegisterDocumentType<AddressKafkaConsumerOffset>();
         opts.RegisterDocumentType<SettingOverride>();
         opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
-
 
         opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
         opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
@@ -48,6 +48,8 @@ public static class AdminDocumentTypeRegistrations
         opts.Schema.For<BewaartermijnDocument>()
             .UseNumericRevisions(true)
             .UseOptimisticConcurrency(false);
+
+        opts.RegisterDocumentType<InitialisatieInschrijvingenDocument>();
 
         opts.RegisterDocumentType<VerenigingState>();
 

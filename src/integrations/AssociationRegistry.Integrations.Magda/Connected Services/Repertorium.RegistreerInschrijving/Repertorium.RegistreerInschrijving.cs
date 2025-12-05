@@ -7,23 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving
+namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving0201
 {
-    
-    
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.ServiceContractAttribute(Name="Repertorium.RegistreerInschrijvingPortType", Namespace="http://webservice.registreerinschrijvingdienst-02_01.repertorium-02_01.vip.vlaand" +
-        "eren.be", ConfigurationName="AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RepertoriumRegistree" +
-        "rInschrijvingPortType")]
+        "eren.be", ConfigurationName="AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.Reperto" +
+        "riumRegistreerInschrijvingPortType")]
     internal interface RepertoriumRegistreerInschrijvingPortType
     {
-        
+
         [System.ServiceModel.OperationContractAttribute(Action="http://magdaInschrijvingsdienst.vonet.be/RegistreerInschrijvingDienst-02.01/soap/" +
             "WebService", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RegistreerInschrijvingResponse1> RegistreerInschrijvingAsync(AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RegistreerInschrijvingRequest request);
+        System.Threading.Tasks.Task<RegistreerInschrijvingResponse1> RegistreerInschrijvingAsync(RegistreerInschrijvingRequest request);
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -31,9 +31,9 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
         "eren.be")]
     public partial class RegistreerInschrijving
     {
-        
+
         private VerzoekType verzoekField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public VerzoekType Verzoek
@@ -48,7 +48,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -56,11 +56,11 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
         "eren.be")]
     public partial class VerzoekType
     {
-        
+
         private ContextType contextField;
-        
+
         private VragenType vragenField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public ContextType Context
@@ -74,7 +74,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.contextField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public VragenType Vragen
@@ -89,22 +89,22 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class ContextType
     {
-        
+
         private string naamField;
-        
+
         private string versieField;
-        
+
         private BerichtType berichtField;
-        
+
         private AnnotatieType[] annotatiesField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Naam
@@ -118,7 +118,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.naamField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Versie
@@ -132,7 +132,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.versieField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public BerichtType Bericht
@@ -146,7 +146,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.berichtField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         [System.Xml.Serialization.XmlArrayItemAttribute("Annotatie", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
@@ -162,22 +162,22 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class BerichtType
     {
-        
+
         private BerichtTypeType typeField;
-        
+
         private TijdstipType tijdstipField;
-        
+
         private AfzenderAdresType afzenderField;
-        
+
         private OntvangerAdresType ontvangerField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public BerichtTypeType Type
@@ -191,7 +191,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.typeField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public TijdstipType Tijdstip
@@ -205,7 +205,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.tijdstipField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public AfzenderAdresType Afzender
@@ -219,7 +219,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.afzenderField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public OntvangerAdresType Ontvanger
@@ -234,46 +234,46 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public enum BerichtTypeType
     {
-        
+
         /// <remarks/>
         VRAAG,
-        
+
         /// <remarks/>
         ANTWOORD,
-        
+
         /// <remarks/>
         VOORLOPIG_ANTWOORD,
-        
+
         /// <remarks/>
         DATAGRAM,
-        
+
         /// <remarks/>
         BEVESTIGING,
-        
+
         /// <remarks/>
         UITZONDERING,
-        
+
         /// <remarks/>
         PUBLICATIE,
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class TijdstipType
     {
-        
+
         private string datumField;
-        
+
         private string tijdField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Datum
@@ -287,7 +287,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.datumField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Tijd
@@ -302,30 +302,30 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class UitzonderingType
     {
-        
+
         private string identificatieField;
-        
+
         private string oorsprongField;
-        
+
         private UitzonderingTypeType typeField;
-        
+
         private TijdstipType tijdstipField;
-        
+
         private string diagnoseField;
-        
+
         private string omstandigheidField;
-        
+
         private AnnotatieType[] annotatiesField;
-        
+
         private string[] elementReferentiesField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Identificatie
@@ -339,7 +339,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.identificatieField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Oorsprong
@@ -353,7 +353,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.oorsprongField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public UitzonderingTypeType Type
@@ -367,7 +367,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.typeField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public TijdstipType Tijdstip
@@ -381,7 +381,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.tijdstipField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string Diagnose
@@ -395,7 +395,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.diagnoseField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public string Omstandigheid
@@ -409,7 +409,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.omstandigheidField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
         [System.Xml.Serialization.XmlArrayItemAttribute("Annotatie", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
@@ -424,7 +424,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.annotatiesField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
         [System.Xml.Serialization.XmlArrayItemAttribute("ElementReferentie", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
@@ -440,34 +440,34 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public enum UitzonderingTypeType
     {
-        
+
         /// <remarks/>
         FOUT,
-        
+
         /// <remarks/>
         WAARSCHUWING,
-        
+
         /// <remarks/>
         INFORMATIE,
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class AnnotatieType
     {
-        
+
         private string naamField;
-        
+
         private string waardeField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Naam
@@ -481,7 +481,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.naamField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Waarde
@@ -496,18 +496,18 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class ResultaatCodeType
     {
-        
+
         private string beschrijvingField;
-        
+
         private ResultaatEnumType valueField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
@@ -521,7 +521,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.beschrijvingField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlTextAttribute()]
         public ResultaatEnumType Value
@@ -536,22 +536,22 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public enum ResultaatEnumType
     {
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("0")]
         Item0,
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("1")]
         Item1,
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -559,9 +559,9 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
         "eren.be")]
     public partial class AntwoordInhoudType
     {
-        
+
         private ResultaatCodeType resultaatField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public ResultaatCodeType Resultaat
@@ -576,7 +576,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -584,13 +584,13 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
         "eren.be")]
     public partial class AntwoordType
     {
-        
+
         private string referteField;
-        
+
         private AntwoordInhoudType inhoudField;
-        
+
         private UitzonderingType[] uitzonderingenField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Referte
@@ -604,7 +604,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.referteField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public AntwoordInhoudType Inhoud
@@ -618,7 +618,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.inhoudField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         [System.Xml.Serialization.XmlArrayItemAttribute("Uitzondering", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
@@ -634,7 +634,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -642,9 +642,9 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
         "eren.be")]
     public partial class AntwoordenType
     {
-        
+
         private AntwoordType antwoordField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public AntwoordType Antwoord
@@ -659,7 +659,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -667,13 +667,13 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
         "eren.be")]
     public partial class RepliekType
     {
-        
+
         private ContextType contextField;
-        
+
         private AntwoordenType antwoordenField;
-        
+
         private UitzonderingType[] uitzonderingenField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public ContextType Context
@@ -687,7 +687,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.contextField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public AntwoordenType Antwoorden
@@ -701,7 +701,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.antwoordenField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         [System.Xml.Serialization.XmlArrayItemAttribute("Uitzondering", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
@@ -717,18 +717,18 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class PeriodeVerplichtBeginType
     {
-        
+
         private string beginField;
-        
+
         private string eindeField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Begin
@@ -742,7 +742,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.beginField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Einde
@@ -757,20 +757,20 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://repertorium-02_01.vip.vlaanderen.be")]
     public partial class SubjectType
     {
-        
+
         private string rolField;
-        
+
         private string typeField;
-        
+
         private string sleutelField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Rol
@@ -784,7 +784,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.rolField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Type
@@ -798,7 +798,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.typeField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Sleutel
@@ -813,18 +813,18 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://repertorium-02_01.vip.vlaanderen.be")]
     public partial class BetrokkenSubjectType
     {
-        
+
         private string typeField;
-        
+
         private SubjectType[] subjectenField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Type
@@ -838,7 +838,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.typeField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         [System.Xml.Serialization.XmlArrayItemAttribute("Subject", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
@@ -854,22 +854,22 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://repertorium-02_01.vip.vlaanderen.be")]
     public partial class InschrijvingType
     {
-        
+
         private string identificatieField;
-        
+
         private string hoedanigheidField;
-        
+
         private BetrokkenSubjectType betrokkenSubjectField;
-        
+
         private PeriodeVerplichtBeginType periodeField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Identificatie
@@ -883,7 +883,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.identificatieField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Hoedanigheid
@@ -897,7 +897,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.hoedanigheidField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public BetrokkenSubjectType BetrokkenSubject
@@ -911,7 +911,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.betrokkenSubjectField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public PeriodeVerplichtBeginType Periode
@@ -926,7 +926,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -934,9 +934,9 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
         "eren.be")]
     public partial class VraagInhoudType
     {
-        
+
         private InschrijvingType inschrijvingField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public InschrijvingType Inschrijving
@@ -951,7 +951,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -959,11 +959,11 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
         "eren.be")]
     public partial class VraagType
     {
-        
+
         private string referteField;
-        
+
         private VraagInhoudType inhoudField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Referte
@@ -977,7 +977,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.referteField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public VraagInhoudType Inhoud
@@ -992,7 +992,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1000,9 +1000,9 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
         "eren.be")]
     public partial class VragenType
     {
-        
+
         private VraagType vraagField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public VraagType Vraag
@@ -1017,26 +1017,26 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class OntvangerAdresType
     {
-        
+
         private string identificatieField;
-        
+
         private string naamField;
-        
+
         private string referteField;
-        
+
         private string organisatieEenheidField;
-        
+
         private string hoedanigheidField;
-        
+
         private string gebruikerField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Identificatie
@@ -1050,7 +1050,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.identificatieField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Naam
@@ -1064,7 +1064,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.naamField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Referte
@@ -1078,7 +1078,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.referteField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public string OrganisatieEenheid
@@ -1092,7 +1092,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.organisatieEenheidField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string Hoedanigheid
@@ -1106,7 +1106,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.hoedanigheidField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public string Gebruiker
@@ -1121,26 +1121,26 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class AfzenderAdresType
     {
-        
+
         private string identificatieField;
-        
+
         private string naamField;
-        
+
         private string referteField;
-        
+
         private string organisatieEenheidField;
-        
+
         private string hoedanigheidField;
-        
+
         private string gebruikerField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Identificatie
@@ -1154,7 +1154,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.identificatieField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Naam
@@ -1168,7 +1168,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.naamField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Referte
@@ -1182,7 +1182,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.referteField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public string OrganisatieEenheid
@@ -1196,7 +1196,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.organisatieEenheidField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string Hoedanigheid
@@ -1210,7 +1210,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
                 this.hoedanigheidField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public string Gebruiker
@@ -1225,7 +1225,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1233,9 +1233,9 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
         "eren.be")]
     public partial class RegistreerInschrijvingResponse
     {
-        
+
         private RepliekType repliekField;
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public RepliekType Repliek
@@ -1250,107 +1250,107 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
         }
     }
-    
+
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     internal partial class RegistreerInschrijvingRequest
     {
-        
+
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webservice.registreerinschrijvingdienst-02_01.repertorium-02_01.vip.vlaand" +
             "eren.be", Order=0)]
-        public AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RegistreerInschrijving RegistreerInschrijving;
-        
+        public RegistreerInschrijving RegistreerInschrijving;
+
         public RegistreerInschrijvingRequest()
         {
         }
-        
-        public RegistreerInschrijvingRequest(AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RegistreerInschrijving RegistreerInschrijving)
+
+        public RegistreerInschrijvingRequest(RegistreerInschrijving RegistreerInschrijving)
         {
             this.RegistreerInschrijving = RegistreerInschrijving;
         }
     }
-    
+
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     internal partial class RegistreerInschrijvingResponse1
     {
-        
+
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webservice.registreerinschrijvingdienst-02_01.repertorium-02_01.vip.vlaand" +
             "eren.be", Order=0)]
-        public AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RegistreerInschrijvingResponse RegistreerInschrijvingResponse;
-        
+        public RegistreerInschrijvingResponse RegistreerInschrijvingResponse;
+
         public RegistreerInschrijvingResponse1()
         {
         }
-        
-        public RegistreerInschrijvingResponse1(AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RegistreerInschrijvingResponse RegistreerInschrijvingResponse)
+
+        public RegistreerInschrijvingResponse1(RegistreerInschrijvingResponse RegistreerInschrijvingResponse)
         {
             this.RegistreerInschrijvingResponse = RegistreerInschrijvingResponse;
         }
     }
-    
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    internal interface RepertoriumRegistreerInschrijvingPortTypeChannel : AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RepertoriumRegistreerInschrijvingPortType, System.ServiceModel.IClientChannel
+    internal interface RepertoriumRegistreerInschrijvingPortTypeChannel : RepertoriumRegistreerInschrijvingPortType, System.ServiceModel.IClientChannel
     {
     }
-    
+
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    internal partial class RepertoriumRegistreerInschrijvingPortTypeClient : System.ServiceModel.ClientBase<AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RepertoriumRegistreerInschrijvingPortType>, AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RepertoriumRegistreerInschrijvingPortType
+    internal partial class RepertoriumRegistreerInschrijvingPortTypeClient : System.ServiceModel.ClientBase<RepertoriumRegistreerInschrijvingPortType>, RepertoriumRegistreerInschrijvingPortType
     {
-        
+
         /// <summary>
         /// Implement this partial method to configure the service endpoint.
         /// </summary>
         /// <param name="serviceEndpoint">The endpoint to configure</param>
         /// <param name="clientCredentials">The client credentials</param>
         static partial void ConfigureEndpoint(System.ServiceModel.Description.ServiceEndpoint serviceEndpoint, System.ServiceModel.Description.ClientCredentials clientCredentials);
-        
-        public RepertoriumRegistreerInschrijvingPortTypeClient() : 
+
+        public RepertoriumRegistreerInschrijvingPortTypeClient() :
                 base(RepertoriumRegistreerInschrijvingPortTypeClient.GetDefaultBinding(), RepertoriumRegistreerInschrijvingPortTypeClient.GetDefaultEndpointAddress())
         {
             this.Endpoint.Name = EndpointConfiguration.Repertorium_RegistreerInschrijvingHttpPort.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
-        
-        public RepertoriumRegistreerInschrijvingPortTypeClient(EndpointConfiguration endpointConfiguration) : 
+
+        public RepertoriumRegistreerInschrijvingPortTypeClient(EndpointConfiguration endpointConfiguration) :
                 base(RepertoriumRegistreerInschrijvingPortTypeClient.GetBindingForEndpoint(endpointConfiguration), RepertoriumRegistreerInschrijvingPortTypeClient.GetEndpointAddress(endpointConfiguration))
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
-        
-        public RepertoriumRegistreerInschrijvingPortTypeClient(EndpointConfiguration endpointConfiguration, string remoteAddress) : 
+
+        public RepertoriumRegistreerInschrijvingPortTypeClient(EndpointConfiguration endpointConfiguration, string remoteAddress) :
                 base(RepertoriumRegistreerInschrijvingPortTypeClient.GetBindingForEndpoint(endpointConfiguration), new System.ServiceModel.EndpointAddress(remoteAddress))
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
-        
-        public RepertoriumRegistreerInschrijvingPortTypeClient(EndpointConfiguration endpointConfiguration, System.ServiceModel.EndpointAddress remoteAddress) : 
+
+        public RepertoriumRegistreerInschrijvingPortTypeClient(EndpointConfiguration endpointConfiguration, System.ServiceModel.EndpointAddress remoteAddress) :
                 base(RepertoriumRegistreerInschrijvingPortTypeClient.GetBindingForEndpoint(endpointConfiguration), remoteAddress)
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
-        
-        public RepertoriumRegistreerInschrijvingPortTypeClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+
+        public RepertoriumRegistreerInschrijvingPortTypeClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) :
                 base(binding, remoteAddress)
         {
         }
-        
-        public System.Threading.Tasks.Task<AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RegistreerInschrijvingResponse1> RegistreerInschrijvingAsync(AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving.RegistreerInschrijvingRequest request)
+
+        public System.Threading.Tasks.Task<RegistreerInschrijvingResponse1> RegistreerInschrijvingAsync(RegistreerInschrijvingRequest request)
         {
             return base.Channel.RegistreerInschrijvingAsync(request);
         }
-        
+
         public virtual System.Threading.Tasks.Task OpenAsync()
         {
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
         }
-        
+
         private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
         {
             if ((endpointConfiguration == EndpointConfiguration.Repertorium_RegistreerInschrijvingHttpPort))
@@ -1365,7 +1365,7 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
-        
+
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
             if ((endpointConfiguration == EndpointConfiguration.Repertorium_RegistreerInschrijvingHttpPort))
@@ -1375,20 +1375,20 @@ namespace AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijv
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
-        
+
         private static System.ServiceModel.Channels.Binding GetDefaultBinding()
         {
             return RepertoriumRegistreerInschrijvingPortTypeClient.GetBindingForEndpoint(EndpointConfiguration.Repertorium_RegistreerInschrijvingHttpPort);
         }
-        
+
         private static System.ServiceModel.EndpointAddress GetDefaultEndpointAddress()
         {
             return RepertoriumRegistreerInschrijvingPortTypeClient.GetEndpointAddress(EndpointConfiguration.Repertorium_RegistreerInschrijvingHttpPort);
         }
-        
+
         public enum EndpointConfiguration
         {
-            
+
             Repertorium_RegistreerInschrijvingHttpPort,
         }
     }

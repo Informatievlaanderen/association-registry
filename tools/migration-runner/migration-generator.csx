@@ -31,7 +31,8 @@ public class CustomScript
 }
 
 // Main application
-var configPath = Path.Combine(Directory.GetCurrentDirectory(), "config.yaml");
+var rootPath = FindRepositoryRoot();
+var configPath = Path.Combine(rootPath, "tools/migration-runner/config.yaml");
 if (!File.Exists(configPath))
 {
     CreateDefaultConfig(configPath);
@@ -123,6 +124,13 @@ void CreateDefaultConfig(string path)
                 CsprojPath = "src/AssociationRegistry.Admin.Api",
                 MigrationDestination = "migrations/production/admin.api/scripts/up",
                 ConnectionString = "postgresql://127.0.0.1/verenigingsregister"
+            },
+            ["Wolverine Schema"] = new ProjectConfig
+            {
+                Name = "Wolverine Schema",
+                CsprojPath = "src/AssociationRegistry.Admin.Api",
+                MigrationDestination = "migrations/production/admin.api/scripts/up",
+                ConnectionString = "wolverine://messages/main"
             },
             ["Admin Projections"] = new ProjectConfig
             {

@@ -57,6 +57,7 @@ public class With_No_Changes_ReedsIngeschreven
            .Verify(
                 expression: service => service.RegistreerInschrijving(
                     _command.KboNummer,
+                    It.IsAny<AanroependeFunctie>(),
                     It.IsAny<CommandMetadata>(),
                     It.IsAny<CancellationToken>()),
                 Times.Once);

@@ -16,6 +16,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
+using Common.StubsMocksFakes;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events.Factories;
@@ -107,7 +108,8 @@ public class With_Locatie_With_AdresId
                 new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
                 verrijktAdresUitGrar,
                 PotentialDuplicatesFound.None,
-                CancellationToken.None)
+                new PersonenUitKszStub(command),
+                cancellationToken: CancellationToken.None)
            .GetAwaiter()
            .GetResult();
 

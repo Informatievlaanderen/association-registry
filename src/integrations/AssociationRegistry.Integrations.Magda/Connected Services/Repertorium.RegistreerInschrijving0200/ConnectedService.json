@@ -1,0 +1,23 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "2.1.0",
+  "ExtendedData": {
+    "inputs": [
+      "../../WSDL/Repertorium.RegistreerInschrijvingDienst-02.00/WebService/RegistreerInschrijving.wsdl"
+    ],
+    "internalTypeAccess": true,
+    "messageContract": true,
+    "namespaceMappings": [
+      "*, AssociationRegistry.Integrations.Magda.Repertorium.RegistreerInschrijving"
+    ],
+    "outputFile": "Repertorium.RegistreerInschrijving0200.cs",
+    "references": [
+      "/code/aiv/association-registry/src/integrations/AssociationRegistry.Integrations.Magda/bin/Debug/net9.0/AssociationRegistry.Contracts.dll",
+      "/code/aiv/association-registry/src/integrations/AssociationRegistry.Integrations.Magda/bin/Debug/net9.0/AssociationRegistry.dll",
+      "/code/aiv/association-registry/src/integrations/AssociationRegistry.Integrations.Magda/bin/Debug/net9.0/AssociationRegistry.Hosts.dll",
+      "/code/aiv/association-registry/src/integrations/AssociationRegistry.Integrations.Magda/bin/Debug/net9.0/AssociationRegistry.Integrations.Grar.dll"
+    ],
+    "targetFramework": "net9.0",
+    "typeReuseMode": "All"
+  }
+}

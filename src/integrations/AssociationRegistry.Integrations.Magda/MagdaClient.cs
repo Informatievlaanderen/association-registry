@@ -1,64 +1,51 @@
 namespace AssociationRegistry.Integrations.Magda;
 
-using Extensions;
+using AssociationRegistry.Magda.Kbo;
 using Framework;
-using GeefOnderneming.Models;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging;
-using Models;
-using Models.GeefOndernemingVKBO;
-using Models.RegistreerInschrijving;
-using Models.RegistreerUitschrijving;
+using Onderneming;
+using Onderneming.Models;
+using Onderneming.Models.GeefOnderneming;
+using Onderneming.Models.RegistreerInschrijving;
+using Persoon.Models;
+using Persoon.Models.RegistreerInschrijving0200;
+using Persoon.Models.RegistreerUitschrijving;
+using Shared.Exceptions;
+using Shared.Extensions;
+using Shared.Models;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml.Serialization;
+using RegistreerInschrijvingResponseBody = Onderneming.Models.RegistreerInschrijving.RegistreerInschrijvingResponseBody;
 
 public class MagdaClient : IMagdaClient
 {
     private readonly MagdaOptionsSection _magdaOptions;
-    private readonly IMagdaCallReferenceRepository _referenceRepository;
+    private readonly IMagdaCallReferenceService _magdaReferenceService;
     private readonly ILogger<MagdaClient> _logger;
 
     public MagdaClient(
         MagdaOptionsSection magdaOptions,
-        IMagdaCallReferenceRepository referenceRepository,
+        IMagdaCallReferenceService magdaReferenceService,
         ILogger<MagdaClient> logger)
     {
         _magdaOptions = magdaOptions;
-        _referenceRepository = referenceRepository;
+        _magdaReferenceService = magdaReferenceService;
         _logger = logger;
     }
 
-    public async Task<ResponseEnvelope<GeefOndernemingVKBOResponseBody>?> GeefOndernemingVKBO(
-        string kbonummer,
-        MagdaCallReference reference)
+
+    public async Task<ResponseEnvelope<GeefOndernemingResponseBody>?> GeefOnderneming(string kboNummer, AanroependeFunctie aanroependeFunctie, CommandMetadata metadata, CancellationToken cancellationToken)
     {
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
-
-        _logger.LogInformation(
-            $"MAGDA Call Reference - GeefOndernemingVKBO - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
-
-        var unsignedEnvelope = MakeEnvelope(GeefOndernemingVKBOBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
-        var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
-        var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
-
-        return await PerformMagdaRequest<GeefOndernemingVKBOResponseBody>(
-            _magdaOptions.GeefOndernemingVkboEndpoint!,
-            clientCertificate,
-            signedEnvelope);
-    }
-
-    public async Task<ResponseEnvelope<GeefOndernemingResponseBody>?> GeefOnderneming(string kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
-    {
-        var reference = await CreateReference(_referenceRepository, metadata.Initiator, metadata.CorrelationId, kboNummer,
-                                              cancellationToken);
-
-        _logger.LogInformation(
-            $"MAGDA Call Reference - GeefOnderneming Service - KBO nummer '{kboNummer}' met referentie '{reference.Reference}'");
-
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingEndpoint)}");
+
+        var reference = await _magdaReferenceService.CreateReference(metadata.Initiator,
+                                                                     metadata.CorrelationId,
+                                                                     kboNummer,
+                                                                     ReferenceContext.GeefOndernemingDienst0200(aanroependeFunctie),
+                                                                     cancellationToken);
 
         _logger.LogInformation($"MAGDA Call Reference - GeefOnderneming - KBO nummer '{kboNummer}' met referentie '{reference.Reference}'");
 
@@ -74,13 +61,21 @@ public class MagdaClient : IMagdaClient
         return envelope;
     }
 
+    // TODO: change to registreerUitschrijvingPersoon
     public async Task<ResponseEnvelope<RegistreerUitschrijvingResponseBody>?> RegistreerUitschrijving(
         string kbonummer,
-        MagdaCallReference reference)
+        AanroependeFunctie aanroependeFunctie,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken)
     {
         Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
+           .IfNullOrWhiteSpace(_magdaOptions.RegistreerUitschrijvingEndpoint, $"{nameof(MagdaOptionsSection.RegistreerUitschrijvingEndpoint)}");
 
+        var reference = await _magdaReferenceService.CreateReference(metadata.Initiator,
+                                                                     metadata.CorrelationId,
+                                                                     kbonummer,
+                                                                     ReferenceContext.RegistreerUitschrijving0201(aanroependeFunctie),
+                                                                     cancellationToken);
         _logger.LogInformation(
             $"MAGDA Call Reference - RegistreerUitschrijving - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
 
@@ -94,14 +89,21 @@ public class MagdaClient : IMagdaClient
             signedEnvelope);
     }
 
-    public async Task<ResponseEnvelope<RegistreerInschrijvingResponseBody>?> RegistreerInschrijving(
+    public async Task<ResponseEnvelope<RegistreerInschrijvingResponseBody>?> RegistreerInschrijvingOnderneming(
         string kbonummer,
-        MagdaCallReference reference)
+        AanroependeFunctie aanroependeFunctie,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken)
     {
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(_magdaOptions.RegistreerInschrijvingEndpoint,
                                $"{nameof(MagdaOptionsSection.RegistreerInschrijvingEndpoint)}");
 
+        var reference = await _magdaReferenceService.CreateReference(metadata.Initiator,
+                                                                     metadata.CorrelationId,
+                                                                     kbonummer,
+                                                                     ReferenceContext.RegistreerInschrijving0201(aanroependeFunctie),
+                                                                     cancellationToken);
         _logger.LogInformation(
             $"MAGDA Call Reference - RegistreerInschrijving - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
 
@@ -115,28 +117,58 @@ public class MagdaClient : IMagdaClient
             signedEnvelope);
     }
 
-    private async Task<MagdaCallReference> CreateReference(
-        IMagdaCallReferenceRepository repository,
-        string initiator,
-        Guid correlationId,
-        string opgevraagdOnderwerp,
+    public async Task<ResponseEnvelope<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>?> RegistreerInschrijvingPersoon(
+        string insz,
+        AanroependeFunctie aanroependeFunctie,
+        CommandMetadata metadata,
         CancellationToken cancellationToken)
     {
-        var magdaCallReference = new MagdaCallReference
-        {
-            Reference = Guid.NewGuid(),
-            CalledAt = DateTimeOffset.UtcNow,
-            Initiator = initiator,
-            OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
-            Context = "Registreer vereniging met rechtspersoonlijkheid",
-            AanroependeDienst = "Verenigingsregister Beheer Api",
-            CorrelationId = correlationId,
-            OpgevraagdOnderwerp = opgevraagdOnderwerp,
-        };
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(_magdaOptions.RegistreerInschrijvingPersoonEndpoint,
+                               $"{nameof(MagdaOptionsSection.RegistreerInschrijvingPersoonEndpoint)}");
 
-        await repository.Save(magdaCallReference, cancellationToken);
+        var reference = await _magdaReferenceService.CreateReference(metadata.Initiator,
+                                                                     metadata.CorrelationId,
+                                                                     insz,
+                                                                     ReferenceContext.RegistreerInschrijving0200(aanroependeFunctie),
+                                                                     cancellationToken);
 
-        return magdaCallReference;
+        _logger.LogInformation(
+            $"MAGDA Call Reference - RegistreerInschrijving Persoon met referentie '{reference.Reference}'");
+
+        var unsignedEnvelope = MakeEnvelope(RegistreerInschrijvingPersoonBody.CreateRequest(insz, reference.Reference, _magdaOptions));
+        var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
+        var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
+
+        return await PerformMagdaRequest<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>(
+            _magdaOptions.RegistreerInschrijvingPersoonEndpoint!,
+            clientCertificate,
+            signedEnvelope);
+    }
+
+    public async Task<ResponseEnvelope<GeefPersoonResponseBody>> GeefPersoon(string insz, AanroependeFunctie functie, CommandMetadata metadata, CancellationToken cancellationToken)
+    {
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(_magdaOptions.GeefPersoonEndpoint,
+                               $"{nameof(MagdaOptionsSection.GeefPersoonEndpoint)}");
+
+        var reference = await _magdaReferenceService.CreateReference(metadata.Initiator,
+                                                                     metadata.CorrelationId,
+                                                                     insz,
+                                                                     ReferenceContext.GeefPersoon0200(functie),
+                                                                     cancellationToken);
+
+        _logger.LogInformation(
+            $"MAGDA Call Reference - GeefPersoon met referentie '{reference.Reference}'");
+
+        var unsignedEnvelope = MakeEnvelope(GeefPersoonBody.CreateRequest(insz, reference.Reference, _magdaOptions));
+        var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
+        var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
+
+        return await PerformMagdaRequest<GeefPersoonResponseBody>(
+            _magdaOptions.GeefPersoonEndpoint!,
+            clientCertificate,
+            signedEnvelope);
     }
 
     private static MagdaClientCertificate? GetMagdaClientCertificate(MagdaOptionsSection magdaOptionsSection)
@@ -152,7 +184,7 @@ public class MagdaClient : IMagdaClient
         return clientCertificate;
     }
 
-    private async Task<ResponseEnvelope<T>?> PerformMagdaRequest<T>(
+    private async Task<ResponseEnvelope<T>> PerformMagdaRequest<T>(
         string endpoint,
         X509Certificate? magdaClientCertificate,
         string signedEnvelope)
@@ -185,7 +217,7 @@ public class MagdaClient : IMagdaClient
         return client;
     }
 
-    private async Task<ResponseEnvelope<T>?> SendEnvelopeToendpoint<T>(string endpoint, string signedEnvelope, HttpClient client)
+    private async Task<ResponseEnvelope<T>> SendEnvelopeToendpoint<T>(string endpoint, string signedEnvelope, HttpClient client)
     {
         var response = await client
            .PostAsync(
@@ -194,10 +226,11 @@ public class MagdaClient : IMagdaClient
 
         if (!response.IsSuccessStatusCode)
         {
-            _logger.LogWarning(message: "Magda call not successful: \n{@Result}\n{@Content}", response,
-                               await response.Content.ReadAsStringAsync());
+            var content = await response.Content.ReadAsStringAsync();
+            _logger.LogWarning(message: "Magda returned non success status code \n{@Result}\n{@Content}", response,
+                               content);
 
-            return null;
+            throw new MagdaException($"Magda returned non success status code \n{response}\n{content}");
         }
 
         _logger.LogTrace(message: "Magda call http response: {@Result}", response);
@@ -209,11 +242,11 @@ public class MagdaClient : IMagdaClient
         try
         {
             using var reader = new StringReader(xml);
-            return (ResponseEnvelope<T>?)serializer.Deserialize(reader);
+            return (ResponseEnvelope<T>?)serializer.Deserialize(reader) ?? throw new MagdaException($"Could not Serialize response");
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Could not Serialize response: {@Xml} to type: {@TypeOf}", xml, typeof(T));
+            _logger.LogError(e, e.Message);
 
             throw;
         }
@@ -226,3 +259,15 @@ public class MagdaClient : IMagdaClient
             Body = body,
         };
 }
+
+public record ReferenceContext(string MagdaDienst, AanroependeFunctie AanroependeFunctie)
+{
+    public static ReferenceContext GeefPersoon0200(AanroependeFunctie functie) => new("GeefPersoonDienst-02.00", functie);
+    public static ReferenceContext RegistreerInschrijving0200(AanroependeFunctie functie) => new("RegistreerInschrijvingDienst-02.00", functie);
+    public static ReferenceContext RegistreerUitschrijving0200(AanroependeFunctie functie) => new("RegistreerUitschrijvingDienst-02.00", functie);
+    public static ReferenceContext RegistreerInschrijving0201(AanroependeFunctie functie) => new("RegistreerInschrijvingDienst-02.01", functie);
+    public static ReferenceContext RegistreerUitschrijving0201(AanroependeFunctie functie) => new("RegistreerUitschrijvingDienst-02.01", functie);
+    public static ReferenceContext GeefOndernemingDienst0200(AanroependeFunctie functie) => new("GeefOndernemingDienst-02.00", functie);
+};
+
+

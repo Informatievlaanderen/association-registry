@@ -3,6 +3,7 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
+using Magda.Persoon;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,8 +18,12 @@ public class VoegVertegenwoordigerToeCommandHandler
 
     public async Task<EntityCommandResult> Handle(
         CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope,
+        PersoonUitKsz persoonUitKsz,
         CancellationToken cancellationToken = default)
     {
+        if (persoonUitKsz.Overleden)
+            throw new OverledenVertegenwoordigerKanNietToegevoegdWorden();
+
         var vereniging = await _repository.Load<Vereniging>(envelope.Command.VCode, envelope.Metadata)
                                           .OrWhenUnsupportedOperationForType()
                                           .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen>();

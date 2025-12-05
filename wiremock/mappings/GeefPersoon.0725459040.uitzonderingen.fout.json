@@ -1,0 +1,19 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/GeefPersoonDienst-02.02/soap/WebService",
+    "bodyPatterns": [
+    {
+      "matchesXPath": {
+       "expression": "//INSZ/text()",
+        "matches": "0725459040"
+      }
+    }
+]
+
+  },
+  "response": {
+    "bodyFileName": "GeefPersoon/0725459040.uitzondering.fout.xml"
+  }
+}

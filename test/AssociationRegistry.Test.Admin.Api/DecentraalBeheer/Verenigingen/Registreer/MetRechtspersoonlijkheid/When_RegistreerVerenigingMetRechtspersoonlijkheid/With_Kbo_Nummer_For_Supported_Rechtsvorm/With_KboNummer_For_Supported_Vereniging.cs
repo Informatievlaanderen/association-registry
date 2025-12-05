@@ -4,9 +4,9 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Regis
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Integrations.Magda.Models;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using Integrations.Magda.Shared.Models;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
@@ -82,9 +82,9 @@ public abstract class With_KboNummer_For_Supported_Vereniging
                 new()
                 {
                     CorrelationId = correlationId,
-                    Context = "Registreer inschrijving voor vereniging met rechtspersoonlijkheid",
+                    Context = "Registreer vereniging met rechtspersoonlijkheid",
                     AanroependeDienst = "Verenigingsregister Beheer Api",
-                    OpgevraagdeDienst = "RegistreerInschrijvingDienst-02.01",
+                    OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
                     OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
                     Initiator = "OVO000001",
                 },
@@ -93,10 +93,11 @@ public abstract class With_KboNummer_For_Supported_Vereniging
                     CorrelationId = correlationId,
                     Context = "Registreer vereniging met rechtspersoonlijkheid",
                     AanroependeDienst = "Verenigingsregister Beheer Api",
-                    OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
+                    OpgevraagdeDienst = "RegistreerInschrijvingDienst-02.01",
                     OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
                     Initiator = "OVO000001",
                 },
+
             },
             config: options => options.Excluding(x => x.CalledAt).Excluding(x => x.Reference));
 

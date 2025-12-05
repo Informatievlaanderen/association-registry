@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns:RegistreerInschrijvingResponse xmlns:ns="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be">
+   <Repliek>
+      <Context xmlns:ns3="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be">
+         <Naam>RegistreerInschrijving</Naam>
+         <Versie>02.00.0000</Versie>
+         <Bericht>
+            <Type>ANTWOORD</Type>
+            <Tijdstip>
+               <Datum>2025-12-03</Datum>
+               <Tijd>13:08:38.576</Tijd>
+            </Tijdstip>
+            <Afzender>
+               <Identificatie>vip.vlaanderen.be</Identificatie>
+               <Naam>MagdaGateway</Naam>
+               <Referte>4e5de864-801e-4845-a37d-2885e7f40893</Referte>
+            </Afzender>
+            <Ontvanger>
+               <Identificatie>kbbj.vlaanderen.be/dv/verenigingsregister-aip</Identificatie>
+               <Referte>d1238bb5-fb72-4a2c-a369-dd2b4ed361ad</Referte>
+               <Hoedanigheid>6001</Hoedanigheid>
+            </Ontvanger>
+         </Bericht>
+      </Context>
+      <Antwoorden>
+         <Antwoord>
+            <Referte xmlns:ns3="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be">d1238bb5-fb72-4a2c-a369-dd2b4ed361ad</Referte>
+            <Inhoud>
+               <Resultaat Beschrijving="Wel geslaagd" xmlns:ns3="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be">1</Resultaat>
+            </Inhoud>
+         </Antwoord>
+      </Antwoorden>
+   </Repliek>
+</ns:RegistreerInschrijvingResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>

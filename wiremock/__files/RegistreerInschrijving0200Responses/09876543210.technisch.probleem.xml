@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ns:RegistreerInschrijvingResponse xmlns:ns="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be">
+   <Repliek>
+      <Context xmlns:ns3="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be">
+         <Naam>RegistreerInschrijving</Naam>
+         <Versie>02.00.0000</Versie>
+         <Bericht>
+            <Type>ANTWOORD</Type>
+            <Tijdstip>
+               <Datum>2025-12-03</Datum>
+               <Tijd>13:11:45.183</Tijd>
+            </Tijdstip>
+            <Afzender>
+               <Identificatie>vip.vlaanderen.be</Identificatie>
+               <Naam>MagdaGateway</Naam>
+               <Referte>475721b3-19ef-446f-ac18-b315216c29b7</Referte>
+            </Afzender>
+            <Ontvanger>
+               <Identificatie>kbbj.vlaanderen.be/dv/verenigingsregister-aip</Identificatie>
+               <Referte>312b42df-4774-4da9-80d8-885d7f26d28c</Referte>
+               <Hoedanigheid>6001</Hoedanigheid>
+            </Ontvanger>
+         </Bericht>
+      </Context>
+      <Antwoorden>
+         <Antwoord>
+            <Referte xmlns:ns3="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be">312b42df-4774-4da9-80d8-885d7f26d28c</Referte>
+            <Uitzonderingen xmlns:ns3="http://webservice.registreerinschrijvingdienst-02_00.repertorium-02_00.vip.vlaanderen.be">
+               <Uitzondering>
+                  <Identificatie>60009</Identificatie>
+                  <Oorsprong>MAGDA</Oorsprong>
+                  <Type>FOUT</Type>
+                  <Tijdstip>
+                     <Datum>2025-12-03</Datum>
+                     <Tijd>13:11:45.185</Tijd>
+                  </Tijdstip>
+                  <Diagnose>Er heeft zich een technisch probleem voorgedaan</Diagnose>
+               </Uitzondering>
+            </Uitzonderingen>
+         </Antwoord>
+      </Antwoorden>
+   </Repliek>
+</ns:RegistreerInschrijvingResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>

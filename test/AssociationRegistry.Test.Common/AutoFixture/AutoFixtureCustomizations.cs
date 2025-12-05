@@ -10,6 +10,7 @@ using DecentraalBeheer.Vereniging.Websites;
 using Framework;
 using global::AutoFixture;
 using global::AutoFixture.Dsl;
+using Magda.Persoon;
 using NodaTime;
 using Vereniging;
 using HoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket;
@@ -42,6 +43,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeWerkingsgebied();
         fixture.CustomizeLidmaatschap();
         fixture.CustomizeGeldigheidsperiode();
+        fixture.CustomizePersoonUitKsz();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -339,6 +341,19 @@ public static class AutoFixtureCustomizations
                              ))
                         .OmitAutoProperties()
         );
+    }
+
+    private static void CustomizePersoonUitKsz(this IFixture fixture)
+    {
+        fixture.Customize<PersoonUitKsz>(
+            composerTransformation: composer => composer.FromFactory(
+                                                             factory: () => new PersoonUitKsz(
+                                                                 fixture.Create<Insz>(),
+                                                                 fixture.Create<Voornaam>(),
+                                                                 fixture.Create<Achternaam>(),
+                                                                 false
+                                                                 ))
+                                                        .OmitAutoProperties());
     }
 
     private static void CustomizeAdresId(this IFixture fixture)
