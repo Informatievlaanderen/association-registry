@@ -55,7 +55,10 @@ public class Given_Overleden_Vertegenwoordigers
             _scenario
                .VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
                .Vertegenwoordigers
-               .Select(v => new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(v.VertegenwoordigerId))
+               .Select(v => new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(v.VertegenwoordigerId,
+                                                                                   v.Insz,
+                                                                                   v.Voornaam,
+                                                                                   v.Achternaam))
                .Cast<IEvent>()
                .ToArray();
 

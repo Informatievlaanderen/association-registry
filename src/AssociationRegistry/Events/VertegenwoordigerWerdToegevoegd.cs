@@ -30,7 +30,5 @@ public record VertegenwoordigerWerdToegevoegdZonderPersoonsgegevens(
     [IgnoreDataMember]
     public Bron Bron
         => Bron.Initiator;
-
-
 }
 
