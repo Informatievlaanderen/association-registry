@@ -7,6 +7,8 @@ using Framework;
 using Microsoft.Extensions.Logging;
 using Validation;
 
+
+
 public class MagdaGeefPersoonService : IMagdaGeefPersoonService
 {
     private readonly IMagdaRegistreerInschrijvingValidator _magdaRegistreerInschrijvingValidator;
@@ -22,7 +24,7 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
         _logger = logger;
     }
 
-    public async Task<PersonenUitKsz> GeefPersonen(Vertegenwoordiger[] vertegenwoordigers, CommandMetadata metadata, CancellationToken cancellationToken)
+    public async Task<PersonenUitKsz> GeefPersonen(GeefPersoonRequest[] vertegenwoordigers, CommandMetadata metadata, CancellationToken cancellationToken)
     {
         var tasks = vertegenwoordigers
                    .Select(v => GeefPersoon(v, metadata, cancellationToken))
@@ -31,7 +33,7 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
         return new PersonenUitKsz(await Task.WhenAll(tasks));
     }
 
-    public async Task<PersoonUitKsz> GeefPersoon(Vertegenwoordiger vertegenwoordiger, CommandMetadata metadata, CancellationToken cancellationToken)
+    public async Task<PersoonUitKsz> GeefPersoon(GeefPersoonRequest vertegenwoordiger, CommandMetadata metadata, CancellationToken cancellationToken)
     {
         // First: Register subscription (must succeed)
         var registreerInschrijvingResponse = await MagdaClient.RegistreerInschrijvingPersoon(
@@ -40,7 +42,7 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
             metadata,
             cancellationToken);
 
-            _magdaRegistreerInschrijvingValidator.ValidateOrThrow(registreerInschrijvingResponse);
+        _magdaRegistreerInschrijvingValidator.ValidateOrThrow(registreerInschrijvingResponse);
 
         // Second: Get person details (only runs if registration succeeded)
         var persoon = await MagdaClient.GeefPersoon(
@@ -49,7 +51,7 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
             metadata,
             cancellationToken);
 
-            _magdaGeefPersoonValidator.ValidateOrThrow(persoon);
+        _magdaGeefPersoonValidator.ValidateOrThrow(persoon);
 
         return new PersoonUitKsz(
             vertegenwoordiger.Insz,

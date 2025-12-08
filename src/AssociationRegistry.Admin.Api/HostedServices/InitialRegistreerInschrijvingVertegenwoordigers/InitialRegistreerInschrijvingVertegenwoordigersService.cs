@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.HostedServices.InitialRegistreerInschrijvingVertegenwoordigers;
 
 using CommandHandling.DecentraalBeheer.Acties.Geotags.InitialiseerGeotags;
+using CommandHandling.InschrijvingenVertegenwoordigers;
 using DecentraalBeheer.Vereniging;
 using Framework;
 using Grar.NutsLau;
@@ -66,7 +67,7 @@ public class InitialRegistreerInschrijvingVertegenwoordigersService: BackgroundS
             migrationRanToCompletion = await repository.DidInitialisationAlreadyRunToCompletion(cancellationToken);
 
         }
-        _logger.LogInformation("Initialisation of geotags completed successfully.");
+        _logger.LogInformation("Initialisation of inschrijvingen completed successfully.");
 
     }
 }
@@ -75,9 +76,6 @@ public class InitialiseerRegistreerInschrijvingOptions
 {
     public string MigratieId { get; set; } = "initialisatie-202512";
 }
-
-public class SchrijfVertegenwoordigersInMessage(string VCode);
-public class SchrijfVertegenwoordigersInMessageHandler;
 
 public record InitialisatieInschrijvingenDocument()
 {

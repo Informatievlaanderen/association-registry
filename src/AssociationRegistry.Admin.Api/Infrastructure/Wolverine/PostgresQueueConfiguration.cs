@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Wolverine;
 
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
+using CommandHandling.InschrijvingenVertegenwoordigers;
+using Framework;
 using global::Wolverine;
 using global::Wolverine.Postgresql;
 using HostedServices.InitialRegistreerInschrijvingVertegenwoordigers;
@@ -34,11 +36,11 @@ public static class PostgresQueueConfiguration
 
     private static void ConfigureSchrijfVertegenwoordigersInMessageQueue(WolverineOptions options)
     {
-        options.Discovery.IncludeType<SchrijfVertegenwoordigersInMessage>();
+        options.Discovery.IncludeType<CommandEnvelope<SchrijfVertegenwoordigersInMessage>>();
         options.Discovery.IncludeType<SchrijfVertegenwoordigersInMessageHandler>();
 
         const string Naam = "schrijf-vertegenwoordiger-in-queue";
-        options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
+        options.PublishMessage<CommandEnvelope<AanvaardDubbeleVerenigingMessage>>()
                .ToPostgresqlQueue(Naam);
         options.ListenToPostgresqlQueue(Naam);
     }

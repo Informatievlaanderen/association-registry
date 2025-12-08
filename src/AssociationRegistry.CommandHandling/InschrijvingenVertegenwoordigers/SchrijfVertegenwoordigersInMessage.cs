@@ -1,0 +1,3 @@
+﻿namespace AssociationRegistry.CommandHandling.InschrijvingenVertegenwoordigers;
+
+public record SchrijfVertegenwoordigersInMessage(string VCode);

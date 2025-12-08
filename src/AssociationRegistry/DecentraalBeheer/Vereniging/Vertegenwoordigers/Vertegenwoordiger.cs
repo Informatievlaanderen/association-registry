@@ -1,6 +1,5 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Emails;
 using Magda.Kbo;
 using SocialMedias;

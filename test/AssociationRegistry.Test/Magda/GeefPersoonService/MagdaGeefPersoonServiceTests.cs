@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.Magda.Persoon;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common.AutoFixture;
@@ -42,8 +43,8 @@ public class GeefPersoonServiceTests
                                               Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
                                               Mock.Of<IMagdaGeefPersoonValidator>(),
                                               NullLogger<MagdaGeefPersoonService>.Instance);
-        var personenUitKsz = await sut.GeefPersonen(command.Vertegenwoordigers,
-                                              _commandMetadata, CancellationToken.None);
+        var personenUitKsz = await sut.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
+                                                    _commandMetadata, CancellationToken.None);
 
         personenUitKsz.HeeftOverledenPersonen.Should().BeTrue();
     }
@@ -60,7 +61,7 @@ public class GeefPersoonServiceTests
                                               Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
                                               Mock.Of<IMagdaGeefPersoonValidator>(),
                                               NullLogger<MagdaGeefPersoonService>.Instance);
-        var personenUitKsz = await sut.GeefPersonen(command.Vertegenwoordigers,
+        var personenUitKsz = await sut.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
                                                     _commandMetadata, CancellationToken.None);
 
         personenUitKsz.HeeftOverledenPersonen.Should().BeFalse();
@@ -79,7 +80,7 @@ public class GeefPersoonServiceTests
                                               Mock.Of<IMagdaGeefPersoonValidator>(),
                                               NullLogger<MagdaGeefPersoonService>.Instance);
 
-        await sut.GeefPersonen(command.Vertegenwoordigers,
+        await sut.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
                                                     _commandMetadata, CancellationToken.None);
 
         command.Vertegenwoordigers
@@ -107,8 +108,8 @@ public class GeefPersoonServiceTests
                                               Mock.Of<IMagdaGeefPersoonValidator>(),
                                               NullLogger<MagdaGeefPersoonService>.Instance);
 
-        await sut.GeefPersonen(command.Vertegenwoordigers,
-                                                    _commandMetadata, CancellationToken.None);
+        await sut.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
+                               _commandMetadata, CancellationToken.None);
 
         inschrijvingResponses
                .ForEach(v =>
@@ -131,8 +132,8 @@ public class GeefPersoonServiceTests
                                               registreerInschrijvingValidator.Object,
                                               NullLogger<MagdaGeefPersoonService>.Instance);
 
-        await sut.GeefPersonen(command.Vertegenwoordigers,
-                                                    _commandMetadata, CancellationToken.None);
+        await sut.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
+                               _commandMetadata, CancellationToken.None);
 
         personen
                .ForEach(p =>
