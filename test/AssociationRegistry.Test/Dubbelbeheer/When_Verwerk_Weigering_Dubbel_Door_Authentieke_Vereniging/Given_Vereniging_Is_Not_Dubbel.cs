@@ -20,7 +20,7 @@ public class Given_Vereniging_Is_Not_Dubbel
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), true, true);
 
         var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(VCode: scenario.VCode, fixture.Create<VCode>());
 

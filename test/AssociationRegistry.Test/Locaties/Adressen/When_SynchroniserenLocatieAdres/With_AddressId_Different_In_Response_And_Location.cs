@@ -71,7 +71,7 @@ public class With_AddressId_Different_In_Response_And_Location
         _verenigingRepositoryMock.ShouldHaveSavedExact(addedEvents);
 
         var stateWithAddedEvents = addedEvents.Aggregate(_state, (state, @event) => state.Apply((dynamic)@event));
-        var repositoryMockWithAddedEvents = Faktory.New().VerenigingsRepository.Mock(stateWithAddedEvents);
+        var repositoryMockWithAddedEvents = Faktory.New().VerenigingsRepository.Mock(stateWithAddedEvents, expectedLoadingDubbel: true);
         var commandHandlerWithAddedEvents = new SyncAdresLocatiesCommandHandler(repositoryMockWithAddedEvents, _grarClientMock.Object,
                                                                                 new NullLogger<SyncAdresLocatiesCommandHandler>(),
                                                                                 _geotagsService.Object);

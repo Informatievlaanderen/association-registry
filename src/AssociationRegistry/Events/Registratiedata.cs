@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Events;
 
+using DecentraalBeheer.Vereniging;
 using Marten.Linq.SqlGeneration.Filters;
 
 public static class Registratiedata

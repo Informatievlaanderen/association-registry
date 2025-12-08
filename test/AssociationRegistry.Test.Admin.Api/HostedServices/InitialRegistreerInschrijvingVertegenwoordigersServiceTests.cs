@@ -7,6 +7,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.NutsLau;
 using AssociationRegistry.Magda.Persoon;
 using AutoFixture;
+using CommandHandling.InschrijvingenVertegenwoordigers;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.StubsMocksFakes.Faktories;

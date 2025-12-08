@@ -9,6 +9,7 @@ using Events.Factories;
 using Exceptions;
 using Geotags;
 using ImTools;
+using Magda.Persoon;
 using SocialMedias;
 using TelefoonNummers;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
@@ -336,4 +337,22 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public (Locatie[] metAdresId, Locatie[] zonderAdresId) GeefLocatiesMetEnZonderAdresId()
         => State.Locaties.Partition(x => x.AdresId is not null);
+
+    public async Task SchrijfVertegenwoordigersIn(IMagdaGeefPersoonService magdaGeefPersoonService, CommandMetadata envelopeMetadata, CancellationToken cancellationToken)
+    {
+        foreach (var vertegenwoordiger in State.Vertegenwoordigers)
+        {
+            try
+            {
+                var persoonUitKsz = await magdaGeefPersoonService.GeefPersoon(GeefPersoonRequest.From(vertegenwoordiger), envelopeMetadata, cancellationToken);
+                if(persoonUitKsz.Overleden)
+                    AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(vertegenwoordiger.VertegenwoordigerId));
+
+            }
+            catch (EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz e)
+            {
+                AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(vertegenwoordiger.VertegenwoordigerId));
+            }
+        }
+    }
 }

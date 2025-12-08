@@ -20,7 +20,7 @@ public class Given_Weigering_Reeds_Verwerkt_Door_DubbeleVereniging
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario();
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), true, true);
         var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(VCode: scenario.VCode, fixture.Create<VCode>());
 
         var sut = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(

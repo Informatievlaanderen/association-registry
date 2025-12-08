@@ -12,6 +12,7 @@ using Events.Factories;
 using Exceptions;
 using Geotags;
 using Grar;
+using Magda.Persoon;
 using SocialMedias;
 using System.Diagnostics.Contracts;
 using TelefoonNummers;

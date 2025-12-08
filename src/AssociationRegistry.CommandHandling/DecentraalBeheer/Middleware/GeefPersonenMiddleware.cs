@@ -16,6 +16,6 @@ public static class GeefPersonenMiddleware
         if (!envelope.Command.Vertegenwoordigers.Any())
             return PersonenUitKsz.Empty;
 
-        return await magdaGeefPersoonService.GeefPersonen(envelope.Command.Vertegenwoordigers, envelope.Metadata, cancellationToken);
+        return await magdaGeefPersoonService.GeefPersonen(envelope.Command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(), envelope.Metadata, cancellationToken);
     }
 }

@@ -854,6 +854,20 @@ public record VerenigingState : IHasVersion
                                                            .Without(@event.VertegenwoordigerId)),
         };
 
+    public VerenigingState Apply(KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend @event)
+        => this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Hydrate(Vertegenwoordigers
+                                                           .Without(@event.VertegenwoordigerId)),
+        };
+
+    public VerenigingState Apply(KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden @event)
+        => this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Hydrate(Vertegenwoordigers
+                                                           .Without(@event.VertegenwoordigerId)),
+        };
+
     public void ThrowIfVerwijderd()
     {
         if (IsVerwijderd)

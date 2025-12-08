@@ -133,6 +133,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         events.Should().HaveCount(times);
 
         AssertLoadingDubbel();
+        AssertLoadingVerwijderd();
 
         return events.ToArray();
     }
@@ -144,6 +145,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         SaveInvocations[0].Vereniging.UncommittedEvents.OfType<T>().Should().HaveCount(0);
 
         AssertLoadingDubbel();
+        AssertLoadingVerwijderd();
     }
 
     public void AssertLoadingDubbel()
@@ -164,5 +166,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public void ShouldNotHaveAnySaves()
     {
         SaveInvocations[0].Vereniging.UncommittedEvents.Should().BeEmpty();
+        AssertLoadingDubbel();
+        AssertLoadingVerwijderd();
     }
 }

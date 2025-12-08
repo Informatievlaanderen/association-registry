@@ -14,5 +14,5 @@ public static class GeefPersoonMiddleware
         CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope,
         IMagdaGeefPersoonService magdaGeefPersoonService,
         CancellationToken cancellationToken)
-        => await magdaGeefPersoonService.GeefPersoon(envelope.Command.Vertegenwoordiger, envelope.Metadata, cancellationToken);
+        => await magdaGeefPersoonService.GeefPersoon(GeefPersoonRequest.From(envelope.Command.Vertegenwoordiger), envelope.Metadata, cancellationToken);
 }

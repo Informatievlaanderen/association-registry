@@ -45,7 +45,7 @@ public class GeefPersonenMiddlewareTests
 
         var personenUitKsz = _fixture.CreateMany<PersoonUitKsz>().ToArray();
 
-        _geefPersoonsService.Setup(x => x.GeefPersonen(command.Vertegenwoordigers, _commandMetadata, It.IsAny<CancellationToken>()))
+        _geefPersoonsService.Setup(x => x.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(), _commandMetadata, It.IsAny<CancellationToken>()))
                             .ReturnsAsync(new PersonenUitKsz(personenUitKsz));
 
         var result = await GeefPersonenMiddleware.BeforeAsync(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
