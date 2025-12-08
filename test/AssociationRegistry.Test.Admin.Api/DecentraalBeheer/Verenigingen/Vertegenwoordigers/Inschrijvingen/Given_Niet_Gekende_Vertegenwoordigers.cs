@@ -52,7 +52,11 @@ public class Given_Niet_Gekende_Vertegenwoordigers
             _scenario
                .VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
                .Vertegenwoordigers
-               .Select(v => new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(v.VertegenwoordigerId))
+               .Select(v => new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(
+                           v.VertegenwoordigerId,
+                           v.Insz,
+                           v.Voornaam,
+                           v.Achternaam))
                .Cast<IEvent>()
                .ToArray();
 

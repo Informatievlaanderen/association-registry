@@ -346,12 +346,19 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             {
                 var persoonUitKsz = await magdaGeefPersoonService.GeefPersoon(GeefPersoonRequest.From(vertegenwoordiger), envelopeMetadata, cancellationToken);
                 if(persoonUitKsz.Overleden)
-                    AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(vertegenwoordiger.VertegenwoordigerId));
+                    AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
+                                 vertegenwoordiger.VertegenwoordigerId,
+                                 vertegenwoordiger.Insz,
+                                 vertegenwoordiger.Voornaam,
+                                 vertegenwoordiger.Achternaam));
 
             }
             catch (EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz e)
             {
-                AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(vertegenwoordiger.VertegenwoordigerId));
+                AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(vertegenwoordiger.VertegenwoordigerId,
+                                                                                 vertegenwoordiger.Insz,
+                                                                                 vertegenwoordiger.Voornaam,
+                                                                                 vertegenwoordiger.Achternaam));
             }
         }
     }

@@ -43,6 +43,14 @@ public static class EventUpcaster
         opts.Events.Upcast<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>(
             verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster.UpcastAsync);
 
+        var kszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendUpcaster = new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendUpcaster(querySessionFunc);
+        opts.Events.Upcast<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendZonderPersoonsgegevens, KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend>(
+            kszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendUpcaster.UpcastAsync);
+
+        var kszSyncHeeftVertegenwoordigerAangeduidAlsOverledenUpcaster = new KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenUpcaster(querySessionFunc);
+        opts.Events.Upcast<KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenZonderPersoonsgegevens, KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>(
+            kszSyncHeeftVertegenwoordigerAangeduidAlsOverledenUpcaster.UpcastAsync);
+
         return opts;
     }
 }
