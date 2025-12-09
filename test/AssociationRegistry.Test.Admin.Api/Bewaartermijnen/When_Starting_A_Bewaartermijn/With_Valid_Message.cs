@@ -10,6 +10,7 @@ using Events;
 using Integrations.Grar.Bewaartermijnen;
 using MartenDb.Store;
 using Moq;
+using Wolverine;
 using Xunit;
 
 public class With_Valid_Message
@@ -33,7 +34,7 @@ public class With_Valid_Message
             Duration = TimeSpan.FromDays(1),
         };
 
-        commandHandler.Handle(new CommandEnvelope<StartBewaartermijnMessage>(command, _commandMetadata), _eventStore.Object, _bewaartermijnOptions, CancellationToken.None)
+        commandHandler.Handle(new CommandEnvelope<StartBewaartermijnMessage>(command, _commandMetadata), _eventStore.Object, Mock.Of<IMessageBus>(), _bewaartermijnOptions, CancellationToken.None)
                       .GetAwaiter().GetResult();
     }
 
@@ -56,17 +57,4 @@ public class With_Valid_Message
                                                                      ((BewaartermijnWerdGestart)events[0]).Vervaldag == expectedVervaldag
                                )));
     }
-
-    //
-    // [Fact]
-    // public void Then_A_VertegenwoordigerWerdVerwijderd_Event_Is_Saved()
-    // {
-    //     _verenigingRepositoryMock.ShouldHaveSavedExact(
-    //         new VertegenwoordigerWerdVerwijderd(
-    //             _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-    //             _scenario.VertegenwoordigerWerdToegevoegd.Insz,
-    //             _scenario.VertegenwoordigerWerdToegevoegd.Voornaam,
-    //             _scenario.VertegenwoordigerWerdToegevoegd.Achternaam)
-    //     );
-    // }
 }

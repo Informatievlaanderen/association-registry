@@ -1,13 +1,19 @@
 namespace AssociationRegistry.MartenDb.Store;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
+using Events;
+using Framework;
 
 public interface IEventStore
 {
+    Task SaveTransactional(
+        string aggregateId,
+        long? aggregateVersion,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        params IEvent[] events);
+
     Task<StreamActionResult> Save(
         string aggregateId,
         long aggregateVersion,

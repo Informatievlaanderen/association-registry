@@ -3,6 +3,7 @@
 using Amazon.Runtime;
 using Amazon.SQS;
 using AssociationRegistry.MartenDb.Setup;
+using CommandHandling.Bewaartermijnen.Reacties.VerwijderVertegenwoordigerPersoonsgegevens;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
@@ -19,11 +20,14 @@ using global::Wolverine.Postgresql;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Integrations.Grar.Clients;
+using JasperFx;
 using JasperFx.CodeGeneration;
 using Serilog;
 
 public static class WolverineExtensions
 {
+    const string VerwijderVertegenwoordigerPersoonsgegevensQueueName = "verwijder-vertegenwoordiger-persoonsgegevens-queue";
+
     public static void AddWolverine(this WebApplicationBuilder builder)
     {
         const string wolverineSchema = "public";
@@ -110,13 +114,22 @@ public static class WolverineExtensions
         options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessage>();
         options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessageHandler>();
 
+        options.Discovery.IncludeType<VerwijderVertegenwoordigerPersoonsgegevensMessage>();
+        options.Discovery.IncludeType<VerwijderVertegenwoordigerPersoonsgegevensMessageHandler>();
+
         var connectionString = configuration.GetPostgreSqlOptionsSection().GetConnectionString();
 
-        options.PersistMessagesWithPostgresql(connectionString, wolverineSchema).EnableMessageTransport();
+        options.PersistMessagesWithPostgresql(connectionString, wolverineSchema)
+               .EnableMessageTransport();
+
+        options.AutoBuildMessageStorageOnStartup = AutoCreate.All;
 
         options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
                .ToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
+
         options.ListenToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
+
+        options.ListenToPostgresqlQueue(VerwijderVertegenwoordigerPersoonsgegevensQueueName);
     }
 
     private static void ConfigureAddressMatchPublisher(WolverineOptions options, string sqsQueueName)
