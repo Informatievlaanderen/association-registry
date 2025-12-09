@@ -42,17 +42,17 @@ public class InitialRegistreerInschrijvingVertegenwoordigersService: BackgroundS
         var migrationRanToCompletion = await repository.DidInitialisationAlreadyRunToCompletion(cancellationToken);
         while (!migrationRanToCompletion)
         {
+            _logger.LogInformation("Start Initial RegistreerInschrijving Vertegenwoordigers");
             try
             {
                 repository.AddInitialisationRecord();
-                _logger.LogInformation("Start Initial RegistreerInschrijving Vertegenwoordigers");
                 var vertegenwoordigers = await query.ExecuteAsync(cancellationToken);
 
                 foreach (var vCode in vertegenwoordigers)
                 {
                     await outbox.SendAsync(new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(
-                                                new SchrijfVertegenwoordigersInMessage(vCode.Value),
-                                                CommandMetadata.ForDigitaalVlaanderenProcess));
+                                               new SchrijfVertegenwoordigersInMessage(vCode.Value),
+                                               CommandMetadata.ForDigitaalVlaanderenProcess));
                 }
 
                 await session.SaveChangesAsync(cancellationToken);
