@@ -235,6 +235,30 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
+        IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> @event,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            VertegenwoordigerWerdVerwijderdData.Create(@event.Data),
+            document,
+            $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' werd niet teruggevonden uit KSZ en werd verwijderd."
+        );
+    }
+
+    public static void Apply(
+        IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> @event,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            VertegenwoordigerWerdVerwijderdData.Create(@event.Data),
+            document,
+            $"Vertegenwoordiger '{@event.Data.Voornaam} {@event.Data.Achternaam}' is overleden volgens KSZ en werd verwijderd."
+        );
+    }
+
+    public static void Apply(
         IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> @event,
         BeheerVerenigingHistoriekDocument document)
     {

@@ -22,7 +22,7 @@ public class Given_KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
                                                Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend.Voornaam} {fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend.Achternaam}' werd niet teruggevonden uit KSZ en werd verwijderd.",
                                                nameof(KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend),
-                                               KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendData.Create(fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend),
+                                               VertegenwoordigerWerdVerwijderdData.Create(fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend),
                                                                             fixture.MetadataInitiator,
                                                                             fixture.MetadataTijdstip));
 }

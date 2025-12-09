@@ -370,6 +370,28 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static void Apply(
+        IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> vertegenwoordigerWerdVerwijderd,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Vertegenwoordigers = document.Vertegenwoordigers
+                                              .Where(
+                                                   c => c.VertegenwoordigerId != vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId)
+                                              .OrderBy(v => v.VertegenwoordigerId)
+                                              .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> vertegenwoordigerWerdVerwijderd,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Vertegenwoordigers = document.Vertegenwoordigers
+                                              .Where(
+                                                   c => c.VertegenwoordigerId != vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId)
+                                              .OrderBy(v => v.VertegenwoordigerId)
+                                              .ToArray();
+    }
+
+    public static void Apply(
         IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdVerwijderdUitPubliekeDatastroom,
         BeheerVerenigingDetailDocument document)
     {

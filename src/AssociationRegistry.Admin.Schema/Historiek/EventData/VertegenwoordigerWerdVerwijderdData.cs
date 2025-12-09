@@ -13,4 +13,16 @@ public record VertegenwoordigerWerdVerwijderdData
             e.VertegenwoordigerId,
             e.Voornaam,
             e.Achternaam);
+
+    public static VertegenwoordigerWerdVerwijderdData Create(KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend e)
+        => new(
+            e.VertegenwoordigerId,
+            e.Voornaam,
+            e.Achternaam);
+
+    public static VertegenwoordigerWerdVerwijderdData Create(KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden e)
+        => new(
+            e.VertegenwoordigerId,
+            e.Voornaam,
+            e.Achternaam);
 }

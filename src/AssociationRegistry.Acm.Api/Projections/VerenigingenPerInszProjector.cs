@@ -146,6 +146,30 @@ public static class VerenigingenPerInszProjector
     }
 
     public static async Task<VerenigingenPerInszDocument> Apply(
+        IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> vertegenwoordigerWerdVerwijderd,
+        IDocumentOperations ops)
+    {
+        var vCode = vertegenwoordigerWerdVerwijderd.StreamKey!;
+        var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdVerwijderd.Data.Insz);
+
+        document.Verenigingen = document.Verenigingen.Where(v => v.VCode != vCode).ToList();
+
+        return document;
+    }
+
+    public static async Task<VerenigingenPerInszDocument> Apply(
+        IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> vertegenwoordigerWerdVerwijderd,
+        IDocumentOperations ops)
+    {
+        var vCode = vertegenwoordigerWerdVerwijderd.StreamKey!;
+        var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdVerwijderd.Data.Insz);
+
+        document.Verenigingen = document.Verenigingen.Where(v => v.VCode != vCode).ToList();
+
+        return document;
+    }
+
+    public static async Task<VerenigingenPerInszDocument> Apply(
         IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
         IDocumentOperations ops)
     {
