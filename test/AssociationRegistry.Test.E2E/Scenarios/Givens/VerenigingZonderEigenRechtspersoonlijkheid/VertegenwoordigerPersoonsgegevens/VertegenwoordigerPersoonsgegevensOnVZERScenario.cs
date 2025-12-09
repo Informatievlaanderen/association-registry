@@ -15,6 +15,12 @@ public class VertegenwoordigerPersoonsgegevensOnVZERScenario : IScenario
     public VertegenwoordigerWerdGewijzigd VertegenwoordigerWerdGewijzigd { get; set; }
     public VertegenwoordigerWerdVerwijderd VertegenwoordigerWerdVerwijderd { get; set; }
 
+    public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegdVoorKszNietGekend { get; set; }
+    public KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend { get; set; }
+    public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegdVoorKszOverleden { get; set; }
+
+    public KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden { get; set; }
+
     private CommandMetadata Metadata;
 
     public VertegenwoordigerPersoonsgegevensOnVZERScenario()
@@ -44,6 +50,18 @@ public class VertegenwoordigerPersoonsgegevensOnVZERScenario : IScenario
             Achternaam = VertegenwoordigerWerdGewijzigd.Achternaam,
         };
 
+        VertegenwoordigerWerdToegevoegdVoorKszNietGekend = fixture.Create<VertegenwoordigerWerdToegevoegd>();
+        KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend = fixture.Create<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend>() with
+        {
+            VertegenwoordigerId = VertegenwoordigerWerdToegevoegdVoorKszNietGekend.VertegenwoordigerId,
+        };
+
+        VertegenwoordigerWerdToegevoegdVoorKszOverleden = fixture.Create<VertegenwoordigerWerdToegevoegd>();
+        KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden = fixture.Create<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>() with
+        {
+            VertegenwoordigerId = VertegenwoordigerWerdToegevoegdVoorKszNietGekend.VertegenwoordigerId,
+        };
+
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
@@ -55,6 +73,10 @@ public class VertegenwoordigerPersoonsgegevensOnVZERScenario : IScenario
                 VertegenwoordigerWerdToegevoegd,
                 VertegenwoordigerWerdGewijzigd,
                 VertegenwoordigerWerdVerwijderd,
+                VertegenwoordigerWerdToegevoegdVoorKszNietGekend,
+                KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend,
+                VertegenwoordigerWerdToegevoegdVoorKszOverleden,
+                KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden,
             ]),
         ];
     }

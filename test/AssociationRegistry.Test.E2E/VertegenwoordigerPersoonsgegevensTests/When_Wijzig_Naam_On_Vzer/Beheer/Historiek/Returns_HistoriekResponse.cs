@@ -42,5 +42,15 @@ public class Returns_Historiek : End2EndTest<HistoriekResponse>
 
         naamWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.NaamWerdGewijzigd(_testContext.VCode, _testContext.CommandRequest.Naam),
                                         compareConfig: HistoriekComparisonConfig.Instance);
+
+        var kszSyncHeeftVertegenwoordigerAangeduidAlsOverleden = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden));
+
+        kszSyncHeeftVertegenwoordigerAangeduidAlsOverleden.ShouldCompare(HistoriekGebeurtenisMapper.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(_testContext.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden),
+                                                                         compareConfig: HistoriekComparisonConfig.Instance);
+
+        var kszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend));
+
+        kszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend.ShouldCompare(HistoriekGebeurtenisMapper.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(_testContext.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend),
+                                                                          compareConfig: HistoriekComparisonConfig.Instance);
     }
 }
