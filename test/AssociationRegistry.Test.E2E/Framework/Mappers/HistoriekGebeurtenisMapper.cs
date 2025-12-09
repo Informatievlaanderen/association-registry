@@ -796,4 +796,28 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse? KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden @event)
+        => new()
+        {
+            Beschrijving = $"Vertegenwoordiger '{@event.Voornaam} {@event.Achternaam}' is overleden volgens KSZ en werd verwijderd.",
+            Gebeurtenis = nameof(Events.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden),
+            Data = new VertegenwoordigerWerdVerwijderdData(@event.VertegenwoordigerId,
+                                                           @event.Voornaam,
+                                                           @event.Achternaam),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend @event)
+        => new()
+        {
+            Beschrijving = $"Vertegenwoordiger '{@event.Voornaam} {@event.Achternaam}' werd niet teruggevonden uit KSZ en werd verwijderd.",
+            Gebeurtenis = nameof(Events.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend),
+            Data = new VertegenwoordigerWerdVerwijderdData(@event.VertegenwoordigerId,
+                                                           @event.Voornaam,
+                                                           @event.Achternaam),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }
