@@ -2,7 +2,11 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Framework;
+using Integrations.Magda.Shared.Exceptions;
+using JasperFx.Core;
 using Magda.Persoon;
+using Wolverine.ErrorHandling;
+using Wolverine.Runtime.Handlers;
 
 public class SchrijfVertegenwoordigersInMessageHandler
 {
@@ -14,6 +18,14 @@ public class SchrijfVertegenwoordigersInMessageHandler
         _verenigingRepository = verenigingRepository;
         _magdaGeefPersoonService = magdaGeefPersoonService;
     }
+
+    public static void Configure(HandlerChain chain)
+    {
+        chain.OnException<MagdaException>()
+             .ScheduleRetryIndefinitely(
+                  10.Seconds(), 1.Minutes(), 1.Hours(), 1.Days());
+    }
+
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<SchrijfVertegenwoordigersInMessage> envelope,

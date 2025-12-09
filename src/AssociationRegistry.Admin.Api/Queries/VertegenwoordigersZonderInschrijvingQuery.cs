@@ -21,12 +21,12 @@ public class NietKboVerenigingenVCodesQuery : INietKboVerenigingenVCodesQuery
     public async Task<VCode[]> ExecuteAsync(CancellationToken cancellationToken)
     {
         var feitelijkeVerenigingens =
-            await _session.Events.QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
+            await _session.Events.QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens>()
                           .Select(x => x.VCode)
                           .ToListAsync(token: cancellationToken);
 
         var vzers =
-            await _session.Events.QueryRawEventDataOnly<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
+            await _session.Events.QueryRawEventDataOnly<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens>()
                           .Select(x => x.VCode)
                           .ToListAsync(token: cancellationToken);
 

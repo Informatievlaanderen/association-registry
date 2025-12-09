@@ -4,6 +4,7 @@ namespace AssociationRegistry.Events;
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
+[Obsolete("These are the upcasted events, you might be looking for <EventName>+ZonderPersoonsgegevens")]
 public record VertegenwoordigerWerdToegevoegdVanuitKBO(
     int VertegenwoordigerId,
     string Insz,
