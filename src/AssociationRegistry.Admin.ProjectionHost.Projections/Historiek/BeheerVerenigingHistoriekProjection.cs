@@ -90,6 +90,12 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+    public async Task Project(IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(
         IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> @event,
         IDocumentOperations ops)

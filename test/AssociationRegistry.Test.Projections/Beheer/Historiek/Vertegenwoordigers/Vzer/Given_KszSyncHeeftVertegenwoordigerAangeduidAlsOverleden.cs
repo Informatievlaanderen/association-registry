@@ -22,7 +22,7 @@ public class Given_KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
                                                Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden.Voornaam} {fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden.Achternaam}' is overleden volgens KSZ en werd verwijderd.",
                                                nameof(KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden),
-                                               KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenData.Create(fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden),
+                                               VertegenwoordigerWerdVerwijderdData.Create(fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden),
                                                                             fixture.MetadataInitiator,
                                                                             fixture.MetadataTijdstip));
 }

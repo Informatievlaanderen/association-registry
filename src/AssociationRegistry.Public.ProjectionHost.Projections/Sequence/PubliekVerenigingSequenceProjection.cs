@@ -125,6 +125,12 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
     public PubliekVerenigingSequenceDocument Apply(IEvent<VertegenwoordigerWerdVerwijderd> e, PubliekVerenigingSequenceDocument doc)
         => UpdateVersion(e, doc);
 
+    public PubliekVerenigingSequenceDocument Apply(IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> e, PubliekVerenigingSequenceDocument doc)
+        => UpdateVersion(e, doc);
+
     public PubliekVerenigingSequenceDocument Apply(
         IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> e,
         PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);

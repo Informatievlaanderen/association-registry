@@ -348,6 +348,30 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     }
 
     public void Apply(
+        IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> vertegenwoordigerWerdVerwijderd,
+        PowerBiExportDocument document)
+    {
+        --document.AantalVertegenwoordigers;
+
+        document.DatumLaatsteAanpassing = vertegenwoordigerWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                         .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, vertegenwoordigerWerdVerwijderd);
+    }
+
+    public void Apply(
+        IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> vertegenwoordigerWerdVerwijderd,
+        PowerBiExportDocument document)
+    {
+        --document.AantalVertegenwoordigers;
+
+        document.DatumLaatsteAanpassing = vertegenwoordigerWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                         .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, vertegenwoordigerWerdVerwijderd);
+    }
+
+    public void Apply(
         IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekeDatastroom,
         PowerBiExportDocument document)
     {
