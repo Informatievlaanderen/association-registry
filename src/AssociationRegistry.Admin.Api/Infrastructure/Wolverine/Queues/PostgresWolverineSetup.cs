@@ -71,6 +71,7 @@ internal static class PostgresWolverineSetup
                .ToPostgresqlQueue(naam);
 
         options.ListenToPostgresqlQueue(naam)
+               .MaximumParallelMessages(5)
                .CircuitBreaker(breakerOptions =>
                 {
                     breakerOptions.TrackingPeriod = 1.Minutes();

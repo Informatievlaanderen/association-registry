@@ -113,7 +113,7 @@ public class GeefPersoonServiceTests
 
         inschrijvingResponses
                .ForEach(v =>
-                            magdaRegistreerInschrijvingValidator.Verify(x => x.ValidateOrThrow(v),
+                            magdaRegistreerInschrijvingValidator.Verify(x => x.ValidateOrThrow(v, It.IsAny<Guid>()),
                                                                         Times.Once()));
     }
 
@@ -137,7 +137,7 @@ public class GeefPersoonServiceTests
 
         personen
                .ForEach(p =>
-                            registreerInschrijvingValidator.Verify(x => x.ValidateOrThrow(p),
+                            registreerInschrijvingValidator.Verify(x => x.ValidateOrThrow(p, It.IsAny<Guid>()),
                                                                         Times.Once()));
     }
 

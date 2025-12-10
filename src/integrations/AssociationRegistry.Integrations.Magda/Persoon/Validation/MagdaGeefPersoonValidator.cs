@@ -10,7 +10,7 @@ using UitzonderingTypeType = GeefPersoon.UitzonderingTypeType;
 
 public interface IMagdaGeefPersoonValidator
 {
-    void ValidateOrThrow(ResponseEnvelope<GeefPersoonResponseBody>? responseEnvelope);
+    void ValidateOrThrow(ResponseEnvelope<GeefPersoonResponseBody>? responseEnvelope, Guid correlationId);
 }
 
 public class MagdaGeefPersoonValidator : IMagdaGeefPersoonValidator
@@ -22,14 +22,22 @@ public class MagdaGeefPersoonValidator : IMagdaGeefPersoonValidator
         _logger = logger;
     }
 
-    public void ValidateOrThrow(ResponseEnvelope<GeefPersoonResponseBody>? responseEnvelope)
+    public void ValidateOrThrow(ResponseEnvelope<GeefPersoonResponseBody>? responseEnvelope, Guid correlationId)
     {
+        var fault = responseEnvelope.Body.Fault;
+
+        if (fault != null)
+            throw new MagdaException();
+
+
         var antwoordUitzonderingen = responseEnvelope.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Uitzonderingen;
 
         if (antwoordUitzonderingen is not null)
         {
             var foutcodes = antwoordUitzonderingen.Select(x => x.Identificatie).ToArray();
-            LogFoutcodes(responseEnvelope, foutcodes);
+            var fouten = antwoordUitzonderingen
+               .Select(x => (Foutcode: x.Identificatie, Diagnose: x.Diagnose));
+            LogFoutcodes(responseEnvelope, fouten, correlationId);
 
             var gebruikersUitzonderingen = antwoordUitzonderingen.Where(IsGekendeGebruikersFout).ToArray();
             if (gebruikersUitzonderingen.Any())
@@ -47,11 +55,15 @@ public class MagdaGeefPersoonValidator : IMagdaGeefPersoonValidator
     private static bool IsGekendeGebruikersFout(UitzonderingType x)
         => PersoonUitzonderingType.FoutcodesVeroorzaaktDoorGebruikerIdentificaties.Contains(x.Identificatie);
 
-    private void LogFoutcodes(ResponseEnvelope<GeefPersoonResponseBody> GeefPersoonResponse, IEnumerable<string> foutCodes)
+    private void LogFoutcodes(
+        ResponseEnvelope<GeefPersoonResponseBody> GeefPersoonResponse,
+        IEnumerable<(string Foutcode, string Diagnose)> fouten,
+        Guid correlationId)
     {
         _logger.LogWarning(
-            "GeefPersoon voor magda call reference '{Reference}' is mislukt met foutcode(s) '{FoutCodes}'",
+            "GeefPersoon voor magda call reference '{Reference}' is mislukt met foutcode(s) '{FoutCodes}'. Met ID: {CorrelationId}",
             GeefPersoonResponse.Body.GeefPersoonResponse.Repliek.Context.Bericht.Ontvanger.Referte,
-            string.Join(',', foutCodes));
+            string.Join(", ", fouten.Select(f => $"{f.Foutcode}:{f.Diagnose}")),
+            correlationId);
     }
 }

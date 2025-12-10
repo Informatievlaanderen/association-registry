@@ -33,7 +33,7 @@ public class GeefPersoonValidatorTests
 
         var exception = Assert.Throws<EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz>(() =>
         {
-            sut.ValidateOrThrow(MagdaTestResponseFactory.GeefPersoonResponses.Fout(foutCode, UitzonderingTypeType.FOUT));
+            sut.ValidateOrThrow(MagdaTestResponseFactory.GeefPersoonResponses.Fout(foutCode, UitzonderingTypeType.FOUT), Guid.NewGuid());
         });
 
         exception.Message.Should().Be(ExceptionMessages.EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz);
@@ -48,7 +48,7 @@ public class GeefPersoonValidatorTests
 
         var exception = Assert.Throws<MagdaException>(() =>
         {
-            sut.ValidateOrThrow(MagdaTestResponseFactory.GeefPersoonResponses.Fout(foutCode, UitzonderingTypeType.FOUT));
+            sut.ValidateOrThrow(MagdaTestResponseFactory.GeefPersoonResponses.Fout(foutCode, UitzonderingTypeType.FOUT), Guid.NewGuid());
         });
 
         exception.Message.Should().Be(ExceptionMessages.MagdaException);
@@ -63,6 +63,6 @@ public class GeefPersoonValidatorTests
 
         var sut = new MagdaGeefPersoonValidator(NullLogger<MagdaGeefPersoonValidator>.Instance);
 
-        sut.ValidateOrThrow(MagdaTestResponseFactory.GeefPersoonResponses.Fout(foutCode, uitzonderingTypeType));
+        sut.ValidateOrThrow(MagdaTestResponseFactory.GeefPersoonResponses.Fout(foutCode, uitzonderingTypeType), Guid.NewGuid());
     }
 }

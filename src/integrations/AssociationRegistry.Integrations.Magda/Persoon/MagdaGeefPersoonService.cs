@@ -35,6 +35,7 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
 
     public async Task<PersoonUitKsz> GeefPersoon(GeefPersoonRequest vertegenwoordiger, CommandMetadata metadata, CancellationToken cancellationToken)
     {
+        var correlationId = Guid.NewGuid();
         // First: Register subscription (must succeed)
         var registreerInschrijvingResponse = await MagdaClient.RegistreerInschrijvingPersoon(
             vertegenwoordiger.Insz,
@@ -42,7 +43,7 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
             metadata,
             cancellationToken);
 
-        _magdaRegistreerInschrijvingValidator.ValidateOrThrow(registreerInschrijvingResponse);
+        _magdaRegistreerInschrijvingValidator.ValidateOrThrow(registreerInschrijvingResponse, correlationId);
 
         // Second: Get person details (only runs if registration succeeded)
         var persoon = await MagdaClient.GeefPersoon(
@@ -51,7 +52,11 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
             metadata,
             cancellationToken);
 
-        _magdaGeefPersoonValidator.ValidateOrThrow(persoon);
+        _logger.LogInformation($"Insz: {vertegenwoordiger.Insz}, correlationId: {correlationId}");
+        _magdaGeefPersoonValidator.ValidateOrThrow(persoon, correlationId);
+
+        if(persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Inhoud.Persoon.Overlijden == null)
+            _logger.LogInformation($"persoon ok: voor insz {vertegenwoordiger.Insz}");
 
         return new PersoonUitKsz(
             vertegenwoordiger.Insz,
