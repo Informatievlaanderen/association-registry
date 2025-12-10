@@ -23,22 +23,11 @@ public class Given_A_Valid_Insz
     public async Task Then_It_Returns_RegistreerInschrijvingResponseBody()
     {
         var insz = "01234567889";
-        var magdaOptionsSection = ConfigurationHelper.GetConfiguration().GetMagdaOptionsSection("WiremockMagdaOptions");
-
-        var magdaCallReferenceService = new Mock<IMagdaCallReferenceService>();
         var commandMetadata = _fixture.Create<CommandMetadata>();
-
         var aanroependeFunctie = AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid;
+        var magdaClient = MagdaClientTestSetup.CreateMagdaClient(_fixture, commandMetadata, insz);
 
-        magdaCallReferenceService.Setup(x => x.CreateReference(commandMetadata.Initiator, commandMetadata.CorrelationId, insz,
-                                                               ReferenceContext.RegistreerInschrijving0200(
-                                                                   aanroependeFunctie),
-                                                               It.IsAny<CancellationToken>()))
-                                 .ReturnsAsync(_fixture.Create<MagdaCallReference>());
-
-        var client = new MagdaClient(magdaOptionsSection, magdaCallReferenceService.Object, new NullLogger<MagdaClient>());
-
-        var response = await client.RegistreerInschrijvingPersoon(insz, aanroependeFunctie, commandMetadata, CancellationToken.None);
+        var response = await magdaClient.RegistreerInschrijvingPersoon(insz, aanroependeFunctie, commandMetadata, CancellationToken.None);
 
         using (new AssertionScope())
         {

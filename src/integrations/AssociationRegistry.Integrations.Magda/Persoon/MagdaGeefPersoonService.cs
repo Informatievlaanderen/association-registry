@@ -14,11 +14,11 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
     private readonly IMagdaRegistreerInschrijvingValidator _magdaRegistreerInschrijvingValidator;
     private readonly IMagdaGeefPersoonValidator _magdaGeefPersoonValidator;
     private readonly ILogger<MagdaGeefPersoonService> _logger;
-    private IMagdaClient MagdaClient { get; }
+    private readonly IMagdaClient _magdaClient;
 
     public MagdaGeefPersoonService(IMagdaClient magdaClient, IMagdaRegistreerInschrijvingValidator magdaRegistreerInschrijvingValidator, IMagdaGeefPersoonValidator magdaGeefPersoonValidator, ILogger<MagdaGeefPersoonService> logger)
     {
-        MagdaClient = magdaClient;
+        _magdaClient = magdaClient;
         _magdaRegistreerInschrijvingValidator = magdaRegistreerInschrijvingValidator;
         _magdaGeefPersoonValidator = magdaGeefPersoonValidator;
         _logger = logger;
@@ -35,28 +35,17 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
 
     public async Task<PersoonUitKsz> GeefPersoon(GeefPersoonRequest vertegenwoordiger, CommandMetadata metadata, CancellationToken cancellationToken)
     {
-        var correlationId = Guid.NewGuid();
-        // First: Register subscription (must succeed)
-        var registreerInschrijvingResponse = await MagdaClient.RegistreerInschrijvingPersoon(
+        await _magdaClient.RegistreerInschrijvingPersoon(
             vertegenwoordiger.Insz,
             AanroependeFunctie.RegistreerVzer,
             metadata,
             cancellationToken);
 
-        _magdaRegistreerInschrijvingValidator.ValidateOrThrow(registreerInschrijvingResponse, correlationId);
-
-        // Second: Get person details (only runs if registration succeeded)
-        var persoon = await MagdaClient.GeefPersoon(
+        var persoon = await _magdaClient.GeefPersoon(
             vertegenwoordiger.Insz,
             AanroependeFunctie.RegistreerVzer,
             metadata,
             cancellationToken);
-
-        _logger.LogInformation($"Insz: {vertegenwoordiger.Insz}, correlationId: {correlationId}");
-        _magdaGeefPersoonValidator.ValidateOrThrow(persoon, correlationId);
-
-        if(persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Inhoud.Persoon.Overlijden == null)
-            _logger.LogInformation($"persoon ok: voor insz {vertegenwoordiger.Insz}");
 
         return new PersoonUitKsz(
             vertegenwoordiger.Insz,

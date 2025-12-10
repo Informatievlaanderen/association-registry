@@ -302,7 +302,7 @@
     <value>Een of meerdere insz waarden konden niet gevalideerd worden bij de Kruispuntbank van de Sociale Zekerheid. Controleer de gegevens en probeer het opnieuw.</value>
   </data>
   <data name="MagdaException">
-    <value>Er heeft zich een fout voorgedaan bij het aanroepen van de Magda RegistreerInschrijvingDienst.</value>
+    <value>Er heeft zich een fout voorgedaan bij het aanroepen van de Magda {0}: {1}.</value>
   </data>
   <data name="ServiceReturnedNonSuccesfulStatusCode">
     <value>Service {0} responded with status code '{1}' with context description '{2}'.</value>

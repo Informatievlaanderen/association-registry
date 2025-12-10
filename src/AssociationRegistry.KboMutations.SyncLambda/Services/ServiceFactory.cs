@@ -11,6 +11,7 @@ using Configuration;
 using EventStore.ConflictResolution;
 using Integrations.Magda.CallReferences;
 using Integrations.Magda.Onderneming;
+using Integrations.Magda.Persoon.Validation;
 using Integrations.Magda.Shared.Models;
 using Integrations.Slack;
 using JasperFx;
@@ -22,6 +23,7 @@ using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using Npgsql;
 using Telemetry;
@@ -52,7 +54,11 @@ public class ServiceFactory
         var store = await SetUpDocumentStoreAsync(ssmClientWrapper, paramNamesConfiguration, logger);
         var repository = CreateRepository(store, loggerFactory);
         var referenceRepository = new MagdaCallReferenceRepository(store.LightweightSession());
-        var magdaClient = new MagdaClient(magdaOptions, new MagdaCallReferenceService(referenceRepository),  loggerFactory.CreateLogger<MagdaClient>());
+        var magdaClient = new MagdaClient(magdaOptions,
+                                          new MagdaCallReferenceService(referenceRepository),
+                                          new MagdaRegistreerInschrijvingValidator(loggerFactory.CreateLogger<MagdaRegistreerInschrijvingValidator>()),
+                                          new MagdaGeefPersoonValidator(loggerFactory.CreateLogger<MagdaGeefPersoonValidator>()),
+                                          loggerFactory.CreateLogger<MagdaClient>());
         var registreerInschrijvingService = CreateRegistreerInschrijvingService(magdaOptions, loggerFactory, referenceRepository);
         var notifier = await CreateNotifierAsync(ssmClientWrapper, paramNamesConfiguration);
 
@@ -191,7 +197,11 @@ public class ServiceFactory
     private static MagdaRegistreerInschrijvingService CreateRegistreerInschrijvingService(MagdaOptionsSection magdaOptions, ILoggerFactory loggerFactory, MagdaCallReferenceRepository referenceRepository)
     {
         return new MagdaRegistreerInschrijvingService(
-            new MagdaClient(magdaOptions, new MagdaCallReferenceService(referenceRepository), loggerFactory.CreateLogger<MagdaClient>()),
+            new MagdaClient(magdaOptions,
+                            new MagdaCallReferenceService(referenceRepository),
+                            new MagdaRegistreerInschrijvingValidator(NullLogger<MagdaRegistreerInschrijvingValidator>.Instance),
+                            new MagdaGeefPersoonValidator(NullLogger<MagdaGeefPersoonValidator>.Instance),
+                            loggerFactory.CreateLogger<MagdaClient>()),
             loggerFactory.CreateLogger<MagdaRegistreerInschrijvingService>());
     }
 
