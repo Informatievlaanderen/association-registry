@@ -8,9 +8,11 @@ using Common.Configuration;
 using AutoFixture;
 using FluentAssertions;
 using Integrations.Magda.Onderneming;
+using Integrations.Magda.Shared.Exceptions;
 using Integrations.Magda.Shared.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Resources;
 using Xunit;
 
 public class Given_A_Technische_Fout
@@ -21,27 +23,17 @@ public class Given_A_Technische_Fout
     public async Task Then_It_Returns_RegistreerInschrijvingResponseBody()
     {
         var insz = "09876543210"; // see wiremock folder
-
-        var magdaOptionsSection = ConfigurationHelper.GetConfiguration().GetMagdaOptionsSection("WiremockMagdaOptions");
-
-        var magdaCallReferenceService = new Mock<IMagdaCallReferenceService>();
         var commandMetadata = _fixture.Create<CommandMetadata>();
-
         var aanroependeFunctie = AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid;
+        var magdaClient = MagdaClientTestSetup.CreateMagdaClient(_fixture, commandMetadata, insz);
 
-        magdaCallReferenceService.Setup(x => x.CreateReference(commandMetadata.Initiator, commandMetadata.CorrelationId, insz,
-                                                               ReferenceContext.RegistreerInschrijving0200(
-                                                                   aanroependeFunctie),
-                                                               It.IsAny<CancellationToken>()))
-                                 .ReturnsAsync(_fixture.Create<MagdaCallReference>());
+        var magdaException = await Assert.ThrowsAsync<MagdaException>(() => magdaClient.RegistreerInschrijvingPersoon(insz,
+                                                                          aanroependeFunctie,
+                                                                          commandMetadata,
+                                                                          CancellationToken.None));
 
-        var client = new MagdaClient(magdaOptionsSection, magdaCallReferenceService.Object, new NullLogger<MagdaClient>());
 
-        var result = await client.RegistreerInschrijvingPersoon(insz,
-                                                          aanroependeFunctie,
-                                                          commandMetadata,
-                                                          CancellationToken.None);
 
-        result.Body.RegistreerInschrijvingResponse.Repliek.Antwoorden.Antwoord.Uitzonderingen.Should().NotBeEmpty();
+        magdaException.Message.Should().Be("Magda fouten: Er heeft zich een technisch probleem voorgedaan");
     }
 }

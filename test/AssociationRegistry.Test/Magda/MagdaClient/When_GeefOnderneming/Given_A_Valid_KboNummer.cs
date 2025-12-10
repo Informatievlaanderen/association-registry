@@ -13,6 +13,7 @@ using Framework;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Integrations.Magda.Onderneming;
+using Integrations.Magda.Persoon.Validation;
 using Integrations.Magda.Shared.Constants;
 using Integrations.Magda.Shared.Models;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -28,20 +29,11 @@ public class Given_A_Valid_KboNummer
     [MemberData(nameof(GetData))]
     public async Task Then_It_Returns_GeefOndernemingResponseBody(MagdaOptionsSection magdaOptionsSection)
     {
-        var magdaCallReferenceService = new Mock<IMagdaCallReferenceService>();
         var commandMetadata = _fixture.Create<CommandMetadata>();
-
         var aanroependeFunctie = AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid;
+        var magdaClient = MagdaClientTestSetup.CreateMagdaClient(_fixture, commandMetadata, KboNummer);
 
-        magdaCallReferenceService.Setup(x => x.CreateReference(commandMetadata.Initiator, commandMetadata.CorrelationId, KboNummer,
-                                                               ReferenceContext.GeefOndernemingDienst0200(
-                                                                   aanroependeFunctie),
-                                                               It.IsAny<CancellationToken>()))
-                                 .ReturnsAsync(_fixture.Create<MagdaCallReference>());
-
-        var facade = new MagdaClient(magdaOptionsSection, magdaCallReferenceService.Object, new NullLogger<MagdaClient>());
-
-        var response = await facade.GeefOnderneming(KboNummer, aanroependeFunctie, commandMetadata, CancellationToken.None);
+        var response = await magdaClient.GeefOnderneming(KboNummer, aanroependeFunctie, commandMetadata, CancellationToken.None);
 
         using (new AssertionScope())
         {

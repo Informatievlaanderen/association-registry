@@ -93,54 +93,6 @@ public class GeefPersoonServiceTests
                                                 Times.Once()));
     }
 
-    [Fact]
-    public async ValueTask ValidateRegistreerInschrijving_Foreach_Vertegenwoordiger()
-    {
-        var command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>();
-
-        var inschrijvingResponses = SetUpInschrijvingen(command);
-        SetUpNietOverleden(command);
-
-        var magdaRegistreerInschrijvingValidator = new Mock<IMagdaRegistreerInschrijvingValidator>();
-
-        var sut = new MagdaGeefPersoonService(_magdaClient.Object,
-                                              magdaRegistreerInschrijvingValidator.Object,
-                                              Mock.Of<IMagdaGeefPersoonValidator>(),
-                                              NullLogger<MagdaGeefPersoonService>.Instance);
-
-        await sut.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
-                               _commandMetadata, CancellationToken.None);
-
-        inschrijvingResponses
-               .ForEach(v =>
-                            magdaRegistreerInschrijvingValidator.Verify(x => x.ValidateOrThrow(v, It.IsAny<Guid>()),
-                                                                        Times.Once()));
-    }
-
-    [Fact]
-    public async ValueTask ValidateGeefPersoon_Foreach_Vertegenwoordiger()
-    {
-        var command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>();
-
-        SetUpInschrijvingen(command);
-        var personen = SetUpNietOverleden(command);
-
-        var registreerInschrijvingValidator = new Mock<IMagdaGeefPersoonValidator>();
-
-        var sut = new MagdaGeefPersoonService(_magdaClient.Object,
-                                              Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
-                                              registreerInschrijvingValidator.Object,
-                                              NullLogger<MagdaGeefPersoonService>.Instance);
-
-        await sut.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
-                               _commandMetadata, CancellationToken.None);
-
-        personen
-               .ForEach(p =>
-                            registreerInschrijvingValidator.Verify(x => x.ValidateOrThrow(p, It.IsAny<Guid>()),
-                                                                        Times.Once()));
-    }
-
     private List<ResponseEnvelope<RegistreerInschrijvingResponseBody>> SetUpInschrijvingen(
         RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command)
     {

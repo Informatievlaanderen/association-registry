@@ -11,6 +11,7 @@ using Onderneming.Models.RegistreerInschrijving;
 using Persoon.Models;
 using Persoon.Models.RegistreerInschrijving0200;
 using Persoon.Models.RegistreerUitschrijving;
+using Persoon.Validation;
 using Shared.Exceptions;
 using Shared.Extensions;
 using Shared.Models;
@@ -23,15 +24,21 @@ public class MagdaClient : IMagdaClient
 {
     private readonly MagdaOptionsSection _magdaOptions;
     private readonly IMagdaCallReferenceService _magdaReferenceService;
+    private readonly IMagdaRegistreerInschrijvingValidator _registreerInschrijvingValidator;
+    private readonly IMagdaGeefPersoonValidator _geefPersoonValidator;
     private readonly ILogger<MagdaClient> _logger;
 
     public MagdaClient(
         MagdaOptionsSection magdaOptions,
         IMagdaCallReferenceService magdaReferenceService,
+        IMagdaRegistreerInschrijvingValidator registreerInschrijvingValidator,
+        IMagdaGeefPersoonValidator geefPersoonValidator,
         ILogger<MagdaClient> logger)
     {
         _magdaOptions = magdaOptions;
         _magdaReferenceService = magdaReferenceService;
+        _registreerInschrijvingValidator = registreerInschrijvingValidator;
+        _geefPersoonValidator = geefPersoonValidator;
         _logger = logger;
     }
 
@@ -140,10 +147,14 @@ public class MagdaClient : IMagdaClient
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
-        return await PerformMagdaRequest<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>(
+        var response = await PerformMagdaRequest<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>(
             _magdaOptions.RegistreerInschrijvingPersoonEndpoint!,
             clientCertificate,
             signedEnvelope);
+
+        _registreerInschrijvingValidator.ValidateOrThrow(response, metadata.CorrelationId);
+
+        return response;
     }
 
     public async Task<ResponseEnvelope<GeefPersoonResponseBody>> GeefPersoon(string insz, AanroependeFunctie functie, CommandMetadata metadata, CancellationToken cancellationToken)
@@ -165,10 +176,14 @@ public class MagdaClient : IMagdaClient
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
-        return await PerformMagdaRequest<GeefPersoonResponseBody>(
+        var response = await PerformMagdaRequest<GeefPersoonResponseBody>(
             _magdaOptions.GeefPersoonEndpoint!,
             clientCertificate,
             signedEnvelope);
+
+        _geefPersoonValidator.ValidateOrThrow(response, metadata.CorrelationId);
+
+        return response;
     }
 
     private static MagdaClientCertificate? GetMagdaClientCertificate(MagdaOptionsSection magdaOptionsSection)
@@ -230,7 +245,7 @@ public class MagdaClient : IMagdaClient
             _logger.LogWarning(message: "Magda returned non success status code \n{@Result}\n{@Content}", response,
                                content);
 
-            throw new MagdaException($"Magda returned non success status code \n{response}\n{content}");
+            throw MagdaException.WithNonSuccessStatus(response, content);
         }
 
         _logger.LogTrace(message: "Magda call http response: {@Result}", response);

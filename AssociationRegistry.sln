@@ -227,6 +227,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeedTestData", "tools\SeedT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagdaTestRunner", "tools\MagdaTestRunner\MagdaTestRunner.csproj", "{28EA7D09-0EBF-4370-A351-34D695265E99}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeefPersoon", "GeefPersoon", "{970CCE4A-3C8D-4D16-A57E-FB42E0DE7E76}"
+	ProjectSection(SolutionItems) = preProject
+		wiremock\__files\GeefPersoon\0725459040.uitzondering.fout.xml = wiremock\__files\GeefPersoon\0725459040.uitzondering.fout.xml
+		wiremock\__files\GeefPersoon\01234567890.overleden.xml = wiremock\__files\GeefPersoon\01234567890.overleden.xml
+		wiremock\__files\GeefPersoon\fallback.xml = wiremock\__files\GeefPersoon\fallback.xml
+		wiremock\__files\GeefPersoon\toomanyrequests.xml = wiremock\__files\GeefPersoon\toomanyrequests.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RegistreerInschrijvingPersoon", "RegistreerInschrijvingPersoon", "{FD564694-7E3E-46E5-BD92-2DE15A9AE6AA}"
+	ProjectSection(SolutionItems) = preProject
+		wiremock\__files\RegistreerInschrijving0200Responses\09876543210.technisch.probleem.xml = wiremock\__files\RegistreerInschrijving0200Responses\09876543210.technisch.probleem.xml
+		wiremock\__files\RegistreerInschrijving0200Responses\fallback.xml = wiremock\__files\RegistreerInschrijving0200Responses\fallback.xml
+		wiremock\__files\RegistreerInschrijving0200Responses\toomanyrequests.xml = wiremock\__files\RegistreerInschrijving0200Responses\toomanyrequests.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -721,5 +736,7 @@ Global
 		{9EAC591A-A6EC-4026-9CEA-4882866DEB44} = {A1B2C3D4-E5F6-7890-1234-567890ABCDEF}
 		{461E086C-0636-4E4C-9A38-A88086E88517} = {38A1EE04-7B61-412B-AAF3-69F288FDF088}
 		{28EA7D09-0EBF-4370-A351-34D695265E99} = {38A1EE04-7B61-412B-AAF3-69F288FDF088}
+		{970CCE4A-3C8D-4D16-A57E-FB42E0DE7E76} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
+		{FD564694-7E3E-46E5-BD92-2DE15A9AE6AA} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 	EndGlobalSection
 EndGlobal

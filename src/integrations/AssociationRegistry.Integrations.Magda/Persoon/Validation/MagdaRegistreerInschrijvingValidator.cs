@@ -26,11 +26,11 @@ public class MagdaRegistreerInschrijvingValidator : IMagdaRegistreerInschrijving
         var fault = responseEnvelope.Body.Fault;
 
         if (fault != null)
-            throw new MagdaException();
+            throw MagdaException.WithMagdaFout(WellknownMagdaDiensten.RegistreerInschrijving0200Dienst, MagdaExceptionStringBuilder.Build(fault));
 
         _logger.LogInformation($"Registreer Inschrijving: Referte {responseEnvelope.Body.RegistreerInschrijvingResponse.Repliek.Context.Bericht.Ontvanger.Referte} ID: {correlationId}");
 
-        if (responseEnvelope.Body.RegistreerInschrijvingResponse.Repliek.Antwoorden.Antwoord.Inhoud.Resultaat.Value ==
+        if (responseEnvelope.Body.RegistreerInschrijvingResponse?.Repliek?.Antwoorden?.Antwoord?.Inhoud?.Resultaat?.Value ==
             ResultaatEnumType.Item1)
         {
             _logger.LogInformation($"Registreer Inschrijving: {responseEnvelope.Body.RegistreerInschrijvingResponse.Repliek.Antwoorden.Antwoord.Inhoud.Resultaat.Beschrijving} met ID {correlationId}");
@@ -47,13 +47,14 @@ public class MagdaRegistreerInschrijvingValidator : IMagdaRegistreerInschrijving
             if (foutcodes.Any(x => PersoonUitzonderingType.FoutcodesVeroorzaaktDoorGebruikerIdentificaties.Contains(x)))
                 throw new EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz();
 
-            var magdaFouten = antwoordUitzonderingen.Where(x => x.Type == UitzonderingTypeType.FOUT);
+            var magdaFouten = antwoordUitzonderingen.Where(x => x.Type == UitzonderingTypeType.FOUT)
+                                                    .ToArray();
 
-            if(!magdaFouten.Any())
-                return;
+            if(magdaFouten.Any())
+                throw MagdaException.WithUitzonderingen(antwoordUitzonderingen);
         }
 
-        throw new MagdaException();
+        throw MagdaException.WithMagdaFout(WellknownMagdaDiensten.RegistreerInschrijving0200Dienst, MagdaExceptionStringBuilder.NoErrorProvided);
     }
 
 

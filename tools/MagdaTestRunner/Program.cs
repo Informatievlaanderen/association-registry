@@ -3,12 +3,14 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.Integrations.Magda.CallReferences;
 using AssociationRegistry.Integrations.Magda.Onderneming;
+using AssociationRegistry.Integrations.Magda.Persoon.Validation;
 using AssociationRegistry.Integrations.Magda.Shared.Models;
 using AssociationRegistry.Magda.Kbo;
 using JasperFx.Events;
 using Marten;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using Serilog;
 using System.CommandLine;
@@ -78,6 +80,8 @@ rootCommand.SetHandler(async (insz) =>
     var client = new MagdaClient(
         mySettings,
         new MagdaCallReferenceService(new MagdaCallReferenceRepository(lightweightSession)),
+        new MagdaRegistreerInschrijvingValidator(NullLogger<MagdaRegistreerInschrijvingValidator>.Instance),
+        new MagdaGeefPersoonValidator(NullLogger<MagdaGeefPersoonValidator>.Instance),
         logger
     );
 
