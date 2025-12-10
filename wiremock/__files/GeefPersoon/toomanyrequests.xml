@@ -1,0 +1,14 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header />
+    <SOAP-ENV:Body>
+        <ns0:Fault xmlns:ns0="http://schemas.xmlsoap.org/soap/envelope/">
+            <faultcode>Server</faultcode>
+            <faultstring>99995 - Te veel gelijktijdige bevragingen</faultstring>
+            <detail>
+                <message>Exceeded the max throttle rate of 10 within 1000ms</message>
+            </detail>
+        </ns0:Fault>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -32,7 +32,7 @@ public class RegistreerInschrijvingValidatorTests
 
         var exception = Assert.Throws<EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz>(() =>
         {
-            sut.ValidateOrThrow(MagdaTestResponseFactory.RegistreerInschrijvingPersoon.NietGeslaagd(foutCode, UitzonderingTypeType.FOUT));
+            sut.ValidateOrThrow(MagdaTestResponseFactory.RegistreerInschrijvingPersoon.NietGeslaagd(foutCode, UitzonderingTypeType.FOUT), Guid.NewGuid());
         });
 
         exception.Message.Should().Be(ExceptionMessages.EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz);
@@ -47,7 +47,7 @@ public class RegistreerInschrijvingValidatorTests
 
         var exception = Assert.Throws<MagdaException>(() =>
         {
-            sut.ValidateOrThrow(MagdaTestResponseFactory.RegistreerInschrijvingPersoon.NietGeslaagd(foutCode, UitzonderingTypeType.FOUT));
+            sut.ValidateOrThrow(MagdaTestResponseFactory.RegistreerInschrijvingPersoon.NietGeslaagd(foutCode, UitzonderingTypeType.FOUT), Guid.NewGuid());
         });
 
         exception.Message.Should().Be(ExceptionMessages.MagdaException);
@@ -62,6 +62,6 @@ public class RegistreerInschrijvingValidatorTests
 
         var sut = new MagdaRegistreerInschrijvingValidator(NullLogger<MagdaRegistreerInschrijvingValidator>.Instance);
 
-        sut.ValidateOrThrow(MagdaTestResponseFactory.RegistreerInschrijvingPersoon.NietGeslaagd(foutCode, uitzonderingTypeType));
+        sut.ValidateOrThrow(MagdaTestResponseFactory.RegistreerInschrijvingPersoon.NietGeslaagd(foutCode, uitzonderingTypeType), Guid.NewGuid());
     }
 }
