@@ -22,10 +22,11 @@ public class SchrijfVertegenwoordigersInMessageHandler
     public static void Configure(HandlerChain chain)
     {
         chain.OnException<MagdaException>()
-             .ScheduleRetryIndefinitely(
-                  10.Seconds(), 1.Minutes(), 1.Hours(), 1.Days());
+             .ScheduleRetry(
+                  10.Seconds(), 1.Minutes(), 1.Hours(), 1.Days())
+             .Then
+             .MoveToErrorQueue();
     }
-
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<SchrijfVertegenwoordigersInMessage> envelope,
