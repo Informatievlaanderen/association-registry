@@ -1,13 +1,14 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Wolverine.Queues;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
-using AssociationRegistry.CommandHandling.InschrijvingenVertegenwoordigers;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration;
+using CommandHandling.InschrijvingenVertegenwoordigers;
+using Framework;
+using Hosts.Configuration;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardCorrectieDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using global::Wolverine;
 using global::Wolverine.Postgresql;
+using Hosts.Configuration.ConfigurationBindings;
 using Integrations.Magda.Shared.Exceptions;
 using JasperFx.Core;
 
@@ -22,11 +23,12 @@ internal static class PostgresWolverineSetup
         ConfigurationManager configuration)
     {
         var connectionString = configuration.GetPostgreSqlOptionsSection().GetConnectionString();
+        var initialRegistreerInschrijvingOptions = configuration.GetInitialRegistreerInschrijvingOptions();
 
         options.PersistMessagesWithPostgresql(connectionString, wolverineSchema).EnableMessageTransport();
 
         ConfigureAanvaardDubbeleVerenigingen(options);
-        ConfigureSchrijfVertegenwoordigersInMessageQueue(options);
+        ConfigureSchrijfVertegenwoordigersInMessageQueue(options, initialRegistreerInschrijvingOptions);
         ConfigureAanvaardCorrectieDubbeleVerenigingMessageQueue(options);
         ConfigureVerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageQueue(options);
     }
@@ -63,7 +65,7 @@ internal static class PostgresWolverineSetup
         options.ListenToPostgresqlQueue(naam);
     }
 
-    private static void ConfigureSchrijfVertegenwoordigersInMessageQueue(WolverineOptions options)
+    private static void ConfigureSchrijfVertegenwoordigersInMessageQueue(WolverineOptions options, InitialRegistreerInschrijvingOptions initialRegistreerInschrijvingOptions)
     {
         const string naam = "schrijf-vertegenwoordiger-in-queue";
 
@@ -71,14 +73,13 @@ internal static class PostgresWolverineSetup
                .ToPostgresqlQueue(naam);
 
         options.ListenToPostgresqlQueue(naam)
-               .MaximumParallelMessages(5)
+               .MaximumParallelMessages(initialRegistreerInschrijvingOptions.MaximumParallelMessages)
                .CircuitBreaker(breakerOptions =>
                 {
-                    breakerOptions.TrackingPeriod = 1.Minutes();
+                    breakerOptions.TrackingPeriod = initialRegistreerInschrijvingOptions.TrackingPeriodInSeconds.Seconds();
                     breakerOptions.SamplingPeriod = 10.Seconds();
-                    breakerOptions.FailurePercentageThreshold = 10;
-                    breakerOptions.MinimumThreshold = 10;
-                    breakerOptions.PauseTime = 30.Seconds();
+                    breakerOptions.FailurePercentageThreshold = initialRegistreerInschrijvingOptions.FailurePercentageThreshold;
+                    breakerOptions.PauseTime = initialRegistreerInschrijvingOptions.PauseTimeInSeconds.Seconds();
                     breakerOptions.Include<MagdaException>();
                 });
     }

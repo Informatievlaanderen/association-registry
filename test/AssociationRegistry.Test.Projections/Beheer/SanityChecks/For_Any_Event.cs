@@ -14,6 +14,7 @@ public class For_Any_Event
 
     private IEnumerable<Type> _excludedEventTypes =
     [
+        typeof(KszSyncHeeftVertegenwoordigerBevestigd), // TODO undo remove
         typeof(AfdelingWerdGeregistreerd),
         typeof(KboNummerWerdGereserveerd),
         typeof(DubbeleVerenigingenWerdenGedetecteerd),

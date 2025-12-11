@@ -9,6 +9,7 @@ using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
@@ -36,7 +37,7 @@ public class Given_Niet_Gekende_Vertegenwoordigers
                                    .ThrowsAsync(new EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz());
         }
 
-        _commandHandler = new SchrijfVertegenwoordigersInMessageHandler(_verenigingRepositoryMock, magdaGeefPersoonService.Object);
+        _commandHandler = new SchrijfVertegenwoordigersInMessageHandler(_verenigingRepositoryMock, magdaGeefPersoonService.Object, NullLogger<SchrijfVertegenwoordigersInMessageHandler>.Instance);
 
         _message = new SchrijfVertegenwoordigersInMessage(_scenario.VCode);
     }

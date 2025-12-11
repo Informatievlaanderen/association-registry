@@ -10,6 +10,16 @@ using Serilog;
 
 public static class ConfigurationExtensions
 {
+    public static InitialRegistreerInschrijvingOptions GetInitialRegistreerInschrijvingOptions(this IConfiguration configuration)
+    {
+        var initialInschrijvingenWolverineOptions = configuration
+                                      .GetSection(PostgreSqlOptionsSection.SectionName)
+                                      .Get<InitialRegistreerInschrijvingOptions>();
+
+
+        return initialInschrijvingenWolverineOptions ?? new InitialRegistreerInschrijvingOptions();
+    }
+
     public static PostgreSqlOptionsSection GetPostgreSqlOptionsSection(this IConfiguration configuration)
     {
         var postgreSqlOptionsSection = configuration

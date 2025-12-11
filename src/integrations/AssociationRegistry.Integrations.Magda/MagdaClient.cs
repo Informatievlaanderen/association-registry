@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Integrations.Magda;
 
 using AssociationRegistry.Magda.Kbo;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,7 @@ using Shared.Extensions;
 using Shared.Models;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using RegistreerInschrijvingResponseBody = Onderneming.Models.RegistreerInschrijving.RegistreerInschrijvingResponseBody;
 
@@ -60,12 +62,12 @@ public class MagdaClient : IMagdaClient
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
-        var envelope = await PerformMagdaRequest<GeefOndernemingResponseBody>(
+        var xml = await PerformMagdaRequest<GeefOndernemingResponseBody>(
             _magdaOptions.GeefOndernemingEndpoint!,
             clientCertificate,
             signedEnvelope);
 
-        return envelope;
+        return LogXmlForUnexpectedException(() => DeserializeResponse<GeefOndernemingResponseBody>(xml), xml);
     }
 
     // TODO: change to registreerUitschrijvingPersoon
@@ -90,10 +92,13 @@ public class MagdaClient : IMagdaClient
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
-        return await PerformMagdaRequest<RegistreerUitschrijvingResponseBody>(
+        var xml = await PerformMagdaRequest<RegistreerUitschrijvingResponseBody>(
             _magdaOptions.RegistreerUitschrijvingEndpoint!,
             clientCertificate,
             signedEnvelope);
+
+        return LogXmlForUnexpectedException(() => DeserializeResponse<RegistreerUitschrijvingResponseBody>(xml), xml);
+
     }
 
     public async Task<ResponseEnvelope<RegistreerInschrijvingResponseBody>?> RegistreerInschrijvingOnderneming(
@@ -118,10 +123,12 @@ public class MagdaClient : IMagdaClient
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
-        return await PerformMagdaRequest<RegistreerInschrijvingResponseBody>(
+        var xml = await PerformMagdaRequest<RegistreerInschrijvingResponseBody>(
             _magdaOptions.RegistreerInschrijvingEndpoint!,
             clientCertificate,
             signedEnvelope);
+
+        return LogXmlForUnexpectedException(() => DeserializeResponse<RegistreerInschrijvingResponseBody>(xml), xml);
     }
 
     public async Task<ResponseEnvelope<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>?> RegistreerInschrijvingPersoon(
@@ -147,14 +154,67 @@ public class MagdaClient : IMagdaClient
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
-        var response = await PerformMagdaRequest<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>(
+        var xml = await PerformMagdaRequest<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>(
             _magdaOptions.RegistreerInschrijvingPersoonEndpoint!,
             clientCertificate,
             signedEnvelope);
 
-        _registreerInschrijvingValidator.ValidateOrThrow(response, metadata.CorrelationId);
+        return LogXmlForUnexpectedException(() =>
+        {
+            var response = DeserializeResponse<Persoon.Models.RegistreerInschrijving0200.RegistreerInschrijvingResponseBody>(xml);
+            _registreerInschrijvingValidator.ValidateOrThrow(response, metadata.CorrelationId);
 
-        return response;
+            return response;
+        }, xml);
+    }
+
+    private ResponseEnvelope<TResponseBody> LogXmlForUnexpectedException<TResponseBody>(Func<ResponseEnvelope<TResponseBody>> action, string xml)
+    {
+        try
+        {
+            return action();
+        }
+        catch (DomainException e)
+        {
+            throw;
+        }
+        catch (MagdaException e)
+        {
+            throw;
+        }
+        catch (Exception e)
+        {
+
+            _logger.LogError("Onverwachte fout bij RegistreerInschrijving met xml structuur: \n" + GetStructure(XDocument.Parse(xml).Root));
+
+            throw;
+        }
+    }
+
+    private ResponseEnvelope<T> DeserializeResponse<T>(string response)
+    {
+        var serializer = new XmlSerializer(typeof(ResponseEnvelope<T>));
+
+        try
+        {
+            using var reader = new StringReader(response);
+
+            return (ResponseEnvelope<T>?)serializer.Deserialize(reader) ?? throw new MagdaException($"Could not Serialize response");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+
+            throw;
+        }
+    }
+
+    public static XElement GetStructure(XElement element)
+    {
+        return new XElement(element.Name,
+                            element.Attributes().Select(a => new XAttribute(a.Name, "•")),
+                            element.Elements().Select(GetStructure)
+        );
     }
 
     public async Task<ResponseEnvelope<GeefPersoonResponseBody>> GeefPersoon(string insz, AanroependeFunctie functie, CommandMetadata metadata, CancellationToken cancellationToken)
@@ -176,14 +236,18 @@ public class MagdaClient : IMagdaClient
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
-        var response = await PerformMagdaRequest<GeefPersoonResponseBody>(
+        var xml = await PerformMagdaRequest<GeefPersoonResponseBody>(
             _magdaOptions.GeefPersoonEndpoint!,
             clientCertificate,
             signedEnvelope);
 
-        _geefPersoonValidator.ValidateOrThrow(response, metadata.CorrelationId);
+        return LogXmlForUnexpectedException(() =>
+        {
+            var response = DeserializeResponse<GeefPersoonResponseBody>(xml);
+            _geefPersoonValidator.ValidateOrThrow(response, metadata.CorrelationId);
 
-        return response;
+            return response;
+        }, xml);
     }
 
     private static MagdaClientCertificate? GetMagdaClientCertificate(MagdaOptionsSection magdaOptionsSection)
@@ -199,7 +263,7 @@ public class MagdaClient : IMagdaClient
         return clientCertificate;
     }
 
-    private async Task<ResponseEnvelope<T>> PerformMagdaRequest<T>(
+    private async Task<string> PerformMagdaRequest<T>(
         string endpoint,
         X509Certificate? magdaClientCertificate,
         string signedEnvelope)
@@ -232,7 +296,7 @@ public class MagdaClient : IMagdaClient
         return client;
     }
 
-    private async Task<ResponseEnvelope<T>> SendEnvelopeToendpoint<T>(string endpoint, string signedEnvelope, HttpClient client)
+    private async Task<string> SendEnvelopeToendpoint<T>(string endpoint, string signedEnvelope, HttpClient client)
     {
         var response = await client
            .PostAsync(
@@ -250,21 +314,10 @@ public class MagdaClient : IMagdaClient
 
         _logger.LogTrace(message: "Magda call http response: {@Result}", response);
 
-        var serializer = new XmlSerializer(typeof(ResponseEnvelope<T>));
 
         var xml = await response.Content.ReadAsStringAsync();
 
-        try
-        {
-            using var reader = new StringReader(xml);
-            return (ResponseEnvelope<T>?)serializer.Deserialize(reader) ?? throw new MagdaException($"Could not Serialize response");
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, e.Message);
-
-            throw;
-        }
+        return xml;
     }
 
     private static Envelope<T> MakeEnvelope<T>(T body)

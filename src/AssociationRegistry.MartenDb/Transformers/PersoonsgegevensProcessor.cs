@@ -21,9 +21,6 @@ public class PersoonsgegevensProcessor : IPersoonsgegevensProcessor
         _logger = logger;
 
         _transformers = transformerses.ToDictionary(t => t.EventType, t => t);
-
-        _logger.LogInformation("Initialized PersoonsgegevensProcessor with {Count} transformers",
-            _transformers.Count);
     }
 
     public async Task<IEvent[]> ProcessEvents(string aggregateId, IEvent[] events)
@@ -59,8 +56,6 @@ public class PersoonsgegevensProcessor : IPersoonsgegevensProcessor
             foreach (var persoonsgegevens in extractedPersoonsgegevens)
             {
                 await _repository.Save(persoonsgegevens);
-                _logger.LogInformation("Saved persoonsgegevens with RefId {RefId} for VCode {VCode}",
-                    persoonsgegevens.RefId, aggregateId);
             }
         }
 

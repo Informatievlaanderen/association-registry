@@ -5,6 +5,7 @@ using Framework;
 using Integrations.Magda.Shared.Exceptions;
 using JasperFx.Core;
 using Magda.Persoon;
+using Microsoft.Extensions.Logging;
 using Wolverine.ErrorHandling;
 using Wolverine.Runtime.Handlers;
 
@@ -12,11 +13,13 @@ public class SchrijfVertegenwoordigersInMessageHandler
 {
     private readonly IVerenigingsRepository _verenigingRepository;
     private readonly IMagdaGeefPersoonService _magdaGeefPersoonService;
+    private readonly ILogger<SchrijfVertegenwoordigersInMessageHandler> _logger;
 
-    public SchrijfVertegenwoordigersInMessageHandler(IVerenigingsRepository verenigingRepository, IMagdaGeefPersoonService magdaGeefPersoonService)
+    public SchrijfVertegenwoordigersInMessageHandler(IVerenigingsRepository verenigingRepository, IMagdaGeefPersoonService magdaGeefPersoonService, ILogger<SchrijfVertegenwoordigersInMessageHandler> _logger)
     {
         _verenigingRepository = verenigingRepository;
         _magdaGeefPersoonService = magdaGeefPersoonService;
+        this._logger = _logger;
     }
 
     public static void Configure(HandlerChain chain)
@@ -39,9 +42,11 @@ public class SchrijfVertegenwoordigersInMessageHandler
                 allowDubbeleVereniging: true,
                 allowVerwijderdeVereniging: true);
 
-        await vereniging.SchrijfVertegenwoordigersIn(_magdaGeefPersoonService, envelope.Metadata, cancellationToken);
+        await vereniging.SchrijfVertegenwoordigersIn(_magdaGeefPersoonService, envelope.Metadata, cancellationToken, _logger);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
+
+        _logger.LogInformation($"SchrijfVertegenwoordigersInMessageHandler successful for VCode {envelope.Command.VCode}");
 
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }

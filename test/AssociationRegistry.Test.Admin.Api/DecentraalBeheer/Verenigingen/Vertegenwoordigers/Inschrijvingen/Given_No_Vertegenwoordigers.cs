@@ -7,6 +7,7 @@ using CommandHandling.InschrijvingenVertegenwoordigers;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
@@ -28,7 +29,7 @@ public class Given_No_Vertegenwoordigers
 
         var magdaGeefPersoonService = new Mock<IMagdaGeefPersoonService>();
 
-        _commandHandler = new SchrijfVertegenwoordigersInMessageHandler(_verenigingRepositoryMock, magdaGeefPersoonService.Object);
+        _commandHandler = new SchrijfVertegenwoordigersInMessageHandler(_verenigingRepositoryMock, magdaGeefPersoonService.Object, NullLogger<SchrijfVertegenwoordigersInMessageHandler>.Instance);
 
         _message = new SchrijfVertegenwoordigersInMessage(_scenario.VCode);
     }

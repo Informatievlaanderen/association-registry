@@ -385,7 +385,8 @@ public record VerenigingState : IHasVersion
                             Email.Hydrate(@event.Email),
                             TelefoonNummer.Hydrate(@event.Telefoon),
                             TelefoonNummer.Hydrate(@event.Mobiel),
-                            SocialMedia.Hydrate(@event.SocialMedia)
+                            SocialMedia.Hydrate(@event.SocialMedia),
+                            vertegenwoordiger.BevestigdDoorKsz
                         ))),
         };
     }
@@ -867,6 +868,28 @@ public record VerenigingState : IHasVersion
             Vertegenwoordigers = Vertegenwoordigers.Hydrate(Vertegenwoordigers
                                                            .Without(@event.VertegenwoordigerId)),
         };
+
+    public VerenigingState Apply(KszSyncHeeftVertegenwoordigerBevestigd @event)
+    {
+        var vertegenwoordiger = Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == @event.VertegenwoordigerId);
+
+        if (vertegenwoordiger is null)
+        {
+            return this;
+        }
+
+        return this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Hydrate(
+                Vertegenwoordigers
+                   .Without(@event.VertegenwoordigerId)
+                   .Append(vertegenwoordiger with
+                    {
+                        BevestigdDoorKsz = true,
+                    })
+            ),
+        };
+    }
 
     public void ThrowIfVerwijderd()
     {

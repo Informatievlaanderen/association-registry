@@ -6,6 +6,7 @@ using Repertorium.RegistreerInschrijving0200;
 using Shared.Exceptions;
 using AssociationRegistry.Integrations.Magda.Shared.Models;
 using Microsoft.Extensions.Logging;
+using System.Xml.Linq;
 
 public interface IMagdaRegistreerInschrijvingValidator
 {
@@ -56,7 +57,6 @@ public class MagdaRegistreerInschrijvingValidator : IMagdaRegistreerInschrijving
 
         throw MagdaException.WithMagdaFout(WellknownMagdaDiensten.RegistreerInschrijving0200Dienst, MagdaExceptionStringBuilder.NoErrorProvided);
     }
-
 
     private void LogFoutcodes(
         ResponseEnvelope<RegistreerInschrijvingResponseBody> registreerInschrijvingResponse,

@@ -10,6 +10,7 @@ using Exceptions;
 using Geotags;
 using ImTools;
 using Magda.Persoon;
+using Microsoft.Extensions.Logging;
 using SocialMedias;
 using TelefoonNummers;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
@@ -338,9 +339,18 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public (Locatie[] metAdresId, Locatie[] zonderAdresId) GeefLocatiesMetEnZonderAdresId()
         => State.Locaties.Partition(x => x.AdresId is not null);
 
-    public async Task SchrijfVertegenwoordigersIn(IMagdaGeefPersoonService magdaGeefPersoonService, CommandMetadata envelopeMetadata, CancellationToken cancellationToken)
+    public async Task SchrijfVertegenwoordigersIn(IMagdaGeefPersoonService magdaGeefPersoonService, CommandMetadata envelopeMetadata, CancellationToken cancellationToken, ILogger logger)
     {
-        foreach (var vertegenwoordiger in State.Vertegenwoordigers)
+        var vertegenwoordigers = State.Vertegenwoordigers.Where(x => !x.BevestigdDoorKsz)
+                                      .ToArray();
+
+        if(!vertegenwoordigers.Any())
+            return;
+
+        logger.LogInformation($"SchrijfVertegenwoordigersIn started for VCode {VCode} with {vertegenwoordigers.Length} vertegenwoordigers");
+
+
+        foreach (var vertegenwoordiger in vertegenwoordigers)
         {
             try
             {
@@ -351,6 +361,10 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                                  vertegenwoordiger.Insz,
                                  vertegenwoordiger.Voornaam,
                                  vertegenwoordiger.Achternaam));
+                else
+                {
+                    AddEvent(new KszSyncHeeftVertegenwoordigerBevestigd(vertegenwoordiger.VertegenwoordigerId));
+                }
 
             }
             catch (EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz e)

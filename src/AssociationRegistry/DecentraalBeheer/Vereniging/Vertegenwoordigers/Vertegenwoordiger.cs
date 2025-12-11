@@ -42,6 +42,7 @@ public record Vertegenwoordiger
     public TelefoonNummer Telefoon { get; }
     public TelefoonNummer Mobiel { get; }
     public SocialMedia SocialMedia { get; }
+    public bool BevestigdDoorKsz { get; set; }
 
     public static Vertegenwoordiger Create(
         Insz insz,
@@ -67,7 +68,8 @@ public record Vertegenwoordiger
         Email email,
         TelefoonNummer telefoon,
         TelefoonNummer mobiel,
-        SocialMedia socialMedia)
+        SocialMedia socialMedia,
+        bool bevestigdDoorKsz = false)
         => new(
             insz,
             isPrimair,
@@ -81,6 +83,7 @@ public record Vertegenwoordiger
             socialMedia)
         {
             VertegenwoordigerId = vertegenwoordigerId,
+            BevestigdDoorKsz = bevestigdDoorKsz,
         };
 
     public bool WouldBeEquivalent(
