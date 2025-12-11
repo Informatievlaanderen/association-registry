@@ -1,3 +1,10 @@
+# [8.281.0](https://github.com/informatievlaanderen/association-registry/compare/v8.280.2...v8.281.0) (2025-12-11)
+
+
+### Features
+
+* or-2938 rethrow task cancelled exception for magda calls and implement ksz sync vert bevestigd in projections ([92e92cb](https://github.com/informatievlaanderen/association-registry/commit/92e92cbc47b5a035ac5afb74813e7d4c778bfae1))
+
 ## [8.280.2](https://github.com/informatievlaanderen/association-registry/compare/v8.280.1...v8.280.2) (2025-12-11)
 
 
