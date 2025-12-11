@@ -1,3 +1,10 @@
+## [8.280.2](https://github.com/informatievlaanderen/association-registry/compare/v8.280.1...v8.280.2) (2025-12-11)
+
+
+### Bug Fixes
+
+* or-2938 add internal event for ksz sync vertegenwoordiger bevestigd ([b265162](https://github.com/informatievlaanderen/association-registry/commit/b265162d6528958508134ed355800c72523c9804))
+
 ## [8.280.1](https://github.com/informatievlaanderen/association-registry/compare/v8.280.0...v8.280.1) (2025-12-11)
 
 
