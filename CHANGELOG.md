@@ -1,3 +1,38 @@
+# [8.280.0](https://github.com/informatievlaanderen/association-registry/compare/v8.279.1...v8.280.0) (2025-12-11)
+
+
+### Bug Fixes
+
+* or-2938 implement fallbacks for magda responses ([dfeb742](https://github.com/informatievlaanderen/association-registry/commit/dfeb742716cc1881315626620eeed95af9a76246))
+
+
+### Features
+
+* add migration script for missing wolverine 5 tables ([f6cb0ec](https://github.com/informatievlaanderen/association-registry/commit/f6cb0eca14f71ae2af17d03f744d361c5e4ff1ad))
+* add wolverine schema to migrations ([3cfb572](https://github.com/informatievlaanderen/association-registry/commit/3cfb5729b2dbff4051207a6ae53915218a1fb506))
+* fix migration tool making config.yaml in root ([1c0d89a](https://github.com/informatievlaanderen/association-registry/commit/1c0d89af336c428a002c27b36ca3db73e36fe2f8))
+* or-2935 add hosted service for initialising registraties inschrijvingen ([90f9879](https://github.com/informatievlaanderen/association-registry/commit/90f9879138658cf9fa211b0956298bbe6684bdf3))
+* or-2935 add validate insz middleware ([d0ad44c](https://github.com/informatievlaanderen/association-registry/commit/d0ad44ce623e573fd688644d482d9c23f0efa8df))
+* or-2935 add wiremock for persoon endpoints ([e1ebd5c](https://github.com/informatievlaanderen/association-registry/commit/e1ebd5c2fbfe835d91c54634539932882874b27e))
+* or-2935 apply ksz vertegenwoordiger sync events in projections ([9a69a8c](https://github.com/informatievlaanderen/association-registry/commit/9a69a8c2d1ad826b20507026b5ddd27a51ea0b88))
+* or-2935 check if vertegenwoordiger is overleden when voegtoe ([7583b2b](https://github.com/informatievlaanderen/association-registry/commit/7583b2b6b754196372c3ca99dda44768263d521b))
+* or-2935 fix magda tools project for geef persoon ([334b9ac](https://github.com/informatievlaanderen/association-registry/commit/334b9ac6ef35ad223c7b8be9d3aed38d45777d65))
+* or-2935 implement geef persoon service ([d588e44](https://github.com/informatievlaanderen/association-registry/commit/d588e4421cdb960564e2aa7f4bd10807f6e69bc2))
+* or-2935 implement geefpersoon validator ([4ae4291](https://github.com/informatievlaanderen/association-registry/commit/4ae42911899cffc681811f89fc23ce26afb1b9da))
+* or-2935 magda reference refactor ([a6f6989](https://github.com/informatievlaanderen/association-registry/commit/a6f6989f01db13323990212b23a6e0b1123679bf))
+* or-2935 make geefpersoon middleware return mapped PersonenUitKsz ([e87b6a3](https://github.com/informatievlaanderen/association-registry/commit/e87b6a3777c3fbe00f0920197fbf1afff105915b))
+* or-2935 make geefpersoon middleware run calls concurrently ([22ff8de](https://github.com/informatievlaanderen/association-registry/commit/22ff8deaad3bd9369cd3712c852866c4bbc0b22a))
+* or-2935 make registreer inschrijvingen queueu durable ([6a34260](https://github.com/informatievlaanderen/association-registry/commit/6a34260fb4c7d8f0a62cbb63a3529488586090f6))
+* or-2935 set storage flags for magda client certificate os based ([d4f8ed8](https://github.com/informatievlaanderen/association-registry/commit/d4f8ed83f020960e655a000de2c535fc514ce98f))
+* or-2935 split persoonsgegevens on ksz events ([94e683d](https://github.com/informatievlaanderen/association-registry/commit/94e683da70d83934169628a8adf28c571725aafe))
+* or-2935 throw when overleden persoon when register vzer ([c74545c](https://github.com/informatievlaanderen/association-registry/commit/c74545c7924fa9db91b22ec23f0b1bd722466979))
+* or-2935 unify error messages, move validators to magda client ([af7e5d9](https://github.com/informatievlaanderen/association-registry/commit/af7e5d9cd137ae536c3107086f948fadcdc7c82b))
+* or-2938 implement schrijf vertegenwoordiger in handler ([1d10f3f](https://github.com/informatievlaanderen/association-registry/commit/1d10f3feb8163aba9bb80e9059c15f77420d88a9))
+* or-2938 set up wolverine for durable initial registratie ksz ([b063669](https://github.com/informatievlaanderen/association-registry/commit/b0636699fb557984883751135fe923123d74df80))
+* or-2946 add geefpersoon to magda test runner ([204e603](https://github.com/informatievlaanderen/association-registry/commit/204e603ad277b25e93f970cf83a203500a5e3ae8))
+* or-2946 add magda test runner ([630c239](https://github.com/informatievlaanderen/association-registry/commit/630c23971dd742d624194b05c7fd1bb3d99b764c))
+* or-2946 add registreerinschrijving 0200 ([1652eee](https://github.com/informatievlaanderen/association-registry/commit/1652eee23c8190c5188589c0f862face191868ec))
+
 ## [8.279.1](https://github.com/informatievlaanderen/association-registry/compare/v8.279.0...v8.279.1) (2025-12-01)
 
 
