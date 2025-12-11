@@ -1,3 +1,10 @@
+## [8.280.1](https://github.com/informatievlaanderen/association-registry/compare/v8.280.0...v8.280.1) (2025-12-11)
+
+
+### Bug Fixes
+
+* or-2938 move schrijf vert in message to error queue after x retries ([47b4cbc](https://github.com/informatievlaanderen/association-registry/commit/47b4cbceea6514b14dc3545c97ca03a4211df30d))
+
 # [8.280.0](https://github.com/informatievlaanderen/association-registry/compare/v8.279.1...v8.280.0) (2025-12-11)
 
 
