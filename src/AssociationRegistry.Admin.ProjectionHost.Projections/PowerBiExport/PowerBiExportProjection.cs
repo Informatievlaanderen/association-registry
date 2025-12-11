@@ -360,6 +360,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     }
 
     public void Apply(
+        IEvent<KszSyncHeeftVertegenwoordigerBevestigd> @event,
+        PowerBiExportDocument document)
+    {
+        document.DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                         .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(
         IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> vertegenwoordigerWerdVerwijderd,
         PowerBiExportDocument document)
     {

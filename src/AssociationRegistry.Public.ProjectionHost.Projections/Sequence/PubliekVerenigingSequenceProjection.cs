@@ -274,6 +274,10 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
         IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> e,
         PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
 
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<KszSyncHeeftVertegenwoordigerBevestigd> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
     public PubliekVerenigingSequenceDocument Apply(IEvent<SubverenigingRelatieWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
         => UpdateVersion(e, doc);
 

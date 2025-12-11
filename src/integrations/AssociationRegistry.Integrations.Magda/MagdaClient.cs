@@ -276,9 +276,9 @@ public class MagdaClient : IMagdaClient
         }
         catch (TaskCanceledException ex)
         {
-            _logger.LogError(ex, message: "{Message}", ex.Message);
+            _logger.LogError(ex, message: "A timeout occurred when calling the Magda services: \n {Message}", ex.Message);
 
-            throw new Exception(message: "A timeout occurred when calling the Magda services", ex);
+            throw;
         }
         catch (Exception ex)
         {

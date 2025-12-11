@@ -81,6 +81,7 @@ internal static class PostgresWolverineSetup
                     breakerOptions.FailurePercentageThreshold = initialRegistreerInschrijvingOptions.FailurePercentageThreshold;
                     breakerOptions.PauseTime = initialRegistreerInschrijvingOptions.PauseTimeInSeconds.Seconds();
                     breakerOptions.Include<MagdaException>();
+                    breakerOptions.Include<TaskCanceledException>();
                 });
     }
 }

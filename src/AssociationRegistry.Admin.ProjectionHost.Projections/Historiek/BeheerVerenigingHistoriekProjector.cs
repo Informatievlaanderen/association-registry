@@ -836,6 +836,16 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<KszSyncHeeftVertegenwoordigerBevestigd> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            new object(),
+            document,
+            $"Vertegenwoordiger met id: '{@event.Data.VertegenwoordigerId}' is bevestigd door KSZ."
+        );
+    }
+
 
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()

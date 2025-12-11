@@ -29,6 +29,12 @@ public class SchrijfVertegenwoordigersInMessageHandler
                   10.Seconds(), 1.Minutes(), 1.Hours(), 1.Days())
              .Then
              .MoveToErrorQueue();
+
+        chain.OnException<TaskCanceledException>()
+             .ScheduleRetry(
+                  10.Seconds(), 1.Minutes(), 1.Hours(), 1.Days())
+             .Then
+             .MoveToErrorQueue();
     }
 
     public async Task<CommandResult> Handle(
