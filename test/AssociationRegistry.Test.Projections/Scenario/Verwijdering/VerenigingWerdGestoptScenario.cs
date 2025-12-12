@@ -13,7 +13,10 @@ public class VerenigingWerdVerwijderdScenario : ScenarioBase
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
-        VerenigingWerdVerwijderd = AutoFixture.Create<VerenigingWerdVerwijderd>();
+        VerenigingWerdVerwijderd = AutoFixture.Create<VerenigingWerdVerwijderd>() with
+        {
+            VCode = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+        };
     }
 
     public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
