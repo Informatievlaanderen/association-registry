@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Events;
 
-[Obsolete("These are the upcasted events, you might be looking for <EventName>+ZonderPersoonsgegevens")]
+[Obsolete("These are the upcasted events, only use this in projections and State")]
 public record VertegenwoordigerWerdGewijzigd(
     int VertegenwoordigerId,
     bool IsPrimair,

@@ -19,7 +19,7 @@ public class VertegenwoordigerProjection : SingleStreamProjection<Vertegenwoordi
         return new VertegenwoordigersPerVCodeDocument()
         {
             VCode = @event.StreamKey,
-            VertegenwoordigersData = @event.Data.Vertegenwoordigers.Select(v => new VertegenwoordigerData(v.VertegenwoordigerId, VertegenwoordigerKszStatus.Created))
+            VertegenwoordigersData = @event.Data.Vertegenwoordigers.Select(v => new VertegenwoordigerData(v.VertegenwoordigerId, VertegenwoordigerKszStatus.NogNietGesynced))
                                            .ToArray(),
         };
     }
@@ -28,7 +28,7 @@ public class VertegenwoordigerProjection : SingleStreamProjection<Vertegenwoordi
         return new VertegenwoordigersPerVCodeDocument()
         {
             VCode = @event.StreamKey,
-            VertegenwoordigersData = @event.Data.Vertegenwoordigers.Select(v => new VertegenwoordigerData(v.VertegenwoordigerId, VertegenwoordigerKszStatus.Created))
+            VertegenwoordigersData = @event.Data.Vertegenwoordigers.Select(v => new VertegenwoordigerData(v.VertegenwoordigerId, VertegenwoordigerKszStatus.NogNietGesynced))
                                            .ToArray(),
         };
     }
@@ -36,7 +36,7 @@ public class VertegenwoordigerProjection : SingleStreamProjection<Vertegenwoordi
     public void Apply (IEvent<VertegenwoordigerWerdToegevoegd> @event, VertegenwoordigersPerVCodeDocument document)
     {
         document.VertegenwoordigersData =
-            document.VertegenwoordigersData.Append(new VertegenwoordigerData(@event.Data.VertegenwoordigerId, VertegenwoordigerKszStatus.Created)).ToArray();
+            document.VertegenwoordigersData.Append(new VertegenwoordigerData(@event.Data.VertegenwoordigerId, VertegenwoordigerKszStatus.NogNietGesynced)).ToArray();
 
     }
 

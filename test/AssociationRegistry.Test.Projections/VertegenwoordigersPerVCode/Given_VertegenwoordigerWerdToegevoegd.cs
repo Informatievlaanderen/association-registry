@@ -14,5 +14,5 @@ public class Given_VertegenwoordigerWerdToegevoegd(
                   .First(x => x.VertegenwoordigerId == fixture.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId)
                   .Should()
                   .BeEquivalentTo(new VertegenwoordigerData(fixture.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-                                                                     VertegenwoordigerKszStatus.Created));
+                                                                     VertegenwoordigerKszStatus.NogNietGesynced));
 }
