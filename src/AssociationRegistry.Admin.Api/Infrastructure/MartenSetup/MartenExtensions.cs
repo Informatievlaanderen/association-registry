@@ -19,6 +19,7 @@ using ProjectionHost.Projections.Historiek;
 using ProjectionHost.Projections.KboSync;
 using ProjectionHost.Projections.Locaties;
 using ProjectionHost.Projections.PowerBiExport;
+using ProjectionHost.Projections.Vertegenwoordiger;
 
 public static class MartenExtensions
 {
@@ -60,6 +61,7 @@ public static class MartenExtensions
                                           opts.Projections.Add(new LocatieLookupProjection(NullLogger<LocatieLookupProjection>.Instance), ProjectionLifecycle.Async);
                                           opts.Projections.Add(new LocatieZonderAdresMatchProjection(NullLogger<LocatieZonderAdresMatchProjection>.Instance), ProjectionLifecycle.Async);
                                           opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
+                                          opts.Projections.Add(new VertegenwoordigerProjection(), ProjectionLifecycle.Async);
 
                                           return opts;
                                       })
