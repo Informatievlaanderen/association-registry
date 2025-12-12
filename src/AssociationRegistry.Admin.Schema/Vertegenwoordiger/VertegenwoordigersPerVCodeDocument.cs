@@ -12,7 +12,7 @@ public record VertegenwoordigerData(int VertegenwoordigerId, string Status);
 
 public static class VertegenwoordigerKszStatus
 {
-    public const string Created = "Created";
+    public const string NogNietGesynced = "NogNietGesynced";
     public const string Bevestigd = "Bevestigd";
     public const string Overleden = "Overleden";
     public const string NietGekend = "NietGekend";

@@ -12,5 +12,5 @@ public class Given_FV_Geregistreerd(
     public void VertegenwoordigersPerVCode_Document_Is_Saved()
         => fixture.Result.VertegenwoordigersData.Should().BeEquivalentTo(
             fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(
-                x => new VertegenwoordigerData(x.VertegenwoordigerId, VertegenwoordigerKszStatus.Created)));
+                x => new VertegenwoordigerData(x.VertegenwoordigerId, VertegenwoordigerKszStatus.NogNietGesynced)));
 }

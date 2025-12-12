@@ -12,5 +12,5 @@ public class Given_Vzer_Geregistreerd(
     public void VertegenwoordigersPerVCode_Document_Is_Saved()
         => fixture.Result!.VertegenwoordigersData.Should().BeEquivalentTo(
             fixture.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers.Select(
-                x => new VertegenwoordigerData(x.VertegenwoordigerId, VertegenwoordigerKszStatus.Created)));
+                x => new VertegenwoordigerData(x.VertegenwoordigerId, VertegenwoordigerKszStatus.NogNietGesynced)));
 }
