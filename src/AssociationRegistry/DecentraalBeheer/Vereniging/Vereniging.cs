@@ -376,4 +376,25 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             }
         }
     }
+
+    public async Task SyncVertegenwoordiger(
+        IMagdaGeefPersoonService magdaGeefPersoonService,
+        int vertegenwoordigerId,
+        CommandMetadata envelopeMetadata,
+        CancellationToken cancellationToken)
+    {
+        var vertegenwoordiger = State.Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == vertegenwoordigerId);
+        if(vertegenwoordiger == null)
+            return;
+
+        var persoonUitKsz =
+            await magdaGeefPersoonService.GeefPersoon(GeefPersoonRequest.From(vertegenwoordiger), envelopeMetadata, cancellationToken);
+
+        if (persoonUitKsz.Overleden)
+            AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
+                         vertegenwoordiger.VertegenwoordigerId,
+                         vertegenwoordiger.Insz,
+                         vertegenwoordiger.Voornaam,
+                         vertegenwoordiger.Achternaam));
+    }
 }

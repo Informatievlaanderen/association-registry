@@ -242,6 +242,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RegistreerInschrijvingPerso
 		wiremock\__files\RegistreerInschrijving0200Responses\toomanyrequests.xml = wiremock\__files\RegistreerInschrijving0200Responses\toomanyrequests.xml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.KboMutations.SyncLambda", "test\AssociationRegistry.Test.KboMutations.SyncLambda\AssociationRegistry.Test.KboMutations.SyncLambda.csproj", "{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -672,6 +674,18 @@ Global
 		{28EA7D09-0EBF-4370-A351-34D695265E99}.Release|x64.Build.0 = Release|Any CPU
 		{28EA7D09-0EBF-4370-A351-34D695265E99}.Release|x86.ActiveCfg = Release|Any CPU
 		{28EA7D09-0EBF-4370-A351-34D695265E99}.Release|x86.Build.0 = Release|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Debug|x64.Build.0 = Debug|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Debug|x86.Build.0 = Debug|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Release|x64.ActiveCfg = Release|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Release|x64.Build.0 = Release|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Release|x86.ActiveCfg = Release|Any CPU
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -738,5 +752,6 @@ Global
 		{28EA7D09-0EBF-4370-A351-34D695265E99} = {38A1EE04-7B61-412B-AAF3-69F288FDF088}
 		{970CCE4A-3C8D-4D16-A57E-FB42E0DE7E76} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 		{FD564694-7E3E-46E5-BD92-2DE15A9AE6AA} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
+		{E6C03ADB-80CB-4F1E-81AE-3C11043FBF0A} = {C812C887-6495-405A-8B99-4F686D243126}
 	EndGlobalSection
 EndGlobal
