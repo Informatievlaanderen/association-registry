@@ -1,3 +1,11 @@
+# [8.282.0](https://github.com/informatievlaanderen/association-registry/compare/v8.281.0...v8.282.0) (2025-12-15)
+
+
+### Features
+
+* or-2938 add vertegenwoordigerPerVCodeDocument ([934c23e](https://github.com/informatievlaanderen/association-registry/commit/934c23e5a6cd02e013880a43ef564ccdead45bd4))
+* or-2938 write controller to query vertegenwoordigers ([323ed3a](https://github.com/informatievlaanderen/association-registry/commit/323ed3a519404002ff4350475b7f855615b0ac5b))
+
 # [8.281.0](https://github.com/informatievlaanderen/association-registry/compare/v8.280.2...v8.281.0) (2025-12-11)
 
 
