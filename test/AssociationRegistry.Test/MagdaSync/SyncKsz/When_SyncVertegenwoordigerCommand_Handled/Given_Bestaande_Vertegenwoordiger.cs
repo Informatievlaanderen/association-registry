@@ -44,15 +44,16 @@ public class Given_Bestaande_Vertegenwoordiger
                                                                  expectedLoadingDubbel: true,
                                                                  expectedLoadingVerwijderd: true);
 
-        _sut = new SyncVertegenwoordigerCommandHandler(
-            _verenigingRepositoryMock, mock.Object,
+        _sut = new SyncVertegenwoordigerCommandHandler(mock.Object,
             NullLogger<SyncVertegenwoordigerCommandHandler>.Instance);
     }
 
     [Fact]
     public async ValueTask Then_It_Saves_No_Event()
     {
-        var commandResult = await _sut.Handle(new CommandEnvelope<SyncVertegenwoordigerCommand>(new SyncVertegenwoordigerCommand(_scenario.VCode,
+        var commandResult = await _sut.Handle(
+            _verenigingRepositoryMock,
+            new CommandEnvelope<SyncVertegenwoordigerCommand>(new SyncVertegenwoordigerCommand(_scenario.VCode,
                                                       _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId),
                                                   CommandMetadata.ForDigitaalVlaanderenProcess));
 

@@ -4,6 +4,7 @@ using AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using Contracts.KboSync;
+using Contracts.MagdaSync.KboSync;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 using System;
@@ -14,18 +15,18 @@ public class RecordProcessor
 {
     private const string Initiator = "OVO002949";
 
-    public static async Task TryProcessRecord(
+    public static async Task TryProcessRecord<TCommand, THandler>(
         ILogger contextLogger,
         IVerenigingsRepository repository,
         CancellationToken cancellationToken,
-        TeSynchroniserenKboNummerMessage? message,
-        SyncKboCommandHandler handler)
+        TCommand command,
+        THandler handler)
     {
         contextLogger.LogInformation($"Processing record: {message.KboNummer}");
 
-        var syncKboCommand = new SyncKboCommand(KboNummer.Create(message.KboNummer));
+        //var syncKboCommand = new SyncKboCommand(KboNummer.Create(message.KboNummer));
         var commandMetadata = new CommandMetadata(Initiator, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(), null);
-        var commandEnvelope = new CommandEnvelope<SyncKboCommand>(syncKboCommand, commandMetadata);
+        var commandEnvelope = new CommandEnvelope<TCommand>(command, commandMetadata);
 
         var commandResult = await handler.Handle(commandEnvelope, repository, cancellationToken);
 

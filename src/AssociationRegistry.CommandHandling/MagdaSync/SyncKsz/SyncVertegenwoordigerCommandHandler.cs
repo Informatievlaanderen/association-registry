@@ -1,18 +1,21 @@
 ﻿namespace AssociationRegistry.CommandHandling.MagdaSync.SyncKsz;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Magda.Persoon;
+using Framework;
 using KboSyncLambda.SyncKsz;
+using Magda.Persoon;
 using Microsoft.Extensions.Logging;
 
-public class SyncVertegenwoordigerCommandHandler
+public class SyncVertegenwoordigerCommandHandler : IMagdaSyncHandler
 {
     private readonly IVerenigingsRepository _verenigingRepository;
     private readonly IMagdaGeefPersoonService _magdaGeefPersoonService;
     private readonly ILogger<SyncVertegenwoordigerCommandHandler> _logger;
 
-    public SyncVertegenwoordigerCommandHandler(IVerenigingsRepository verenigingRepository, IMagdaGeefPersoonService magdaGeefPersoonService, ILogger<SyncVertegenwoordigerCommandHandler> _logger)
+    public SyncVertegenwoordigerCommandHandler(
+        IVerenigingsRepository verenigingRepository,
+        IMagdaGeefPersoonService magdaGeefPersoonService,
+        ILogger<SyncVertegenwoordigerCommandHandler> _logger)
     {
         _verenigingRepository = verenigingRepository;
         _magdaGeefPersoonService = magdaGeefPersoonService;
@@ -30,7 +33,8 @@ public class SyncVertegenwoordigerCommandHandler
                 allowDubbeleVereniging: true,
                 allowVerwijderdeVereniging: true);
 
-        await vereniging.SyncVertegenwoordiger(_magdaGeefPersoonService, envelope.Command.VertegenwoordigerId, envelope.Metadata, cancellationToken);
+        await vereniging.SyncVertegenwoordiger(_magdaGeefPersoonService, envelope.Command.VertegenwoordigerId, envelope.Metadata,
+                                               cancellationToken);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
 
@@ -38,4 +42,10 @@ public class SyncVertegenwoordigerCommandHandler
 
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }
+
+    // private bool CanHandle(CommandEnvelope<SyncVertegenwoordigerCommand> envelope)
+    // {
+    //     return (envelope.Command.TryGetProperty("Insz", out var insz)
+    //          && insz.ValueKind == JsonValueKind.String)
+    // }
 }

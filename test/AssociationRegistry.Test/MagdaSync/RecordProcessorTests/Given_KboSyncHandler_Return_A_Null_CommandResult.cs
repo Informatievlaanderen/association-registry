@@ -7,6 +7,7 @@ using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using CommandHandling.KboSyncLambda;
 using Contracts.KboSync;
+using Contracts.MagdaSync.KboSync;
 using Integrations.Magda;
 using Integrations.Slack;
 using KboMutations.SyncLambda;

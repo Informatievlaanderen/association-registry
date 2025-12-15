@@ -1,3 +1,3 @@
-﻿namespace AssociationRegistry.Contracts.KboSync;
+﻿namespace AssociationRegistry.Contracts.MagdaSync.KboSync;
 
 public record TeSynchroniserenKboNummerMessage(string KboNummer);
