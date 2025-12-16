@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.MagdaSync.SyncKsz.When_SyncVertegenwoordigerC
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Persoon;
 using AutoFixture;
-using CommandHandling.KboSyncLambda.SyncKsz;
 using CommandHandling.MagdaSync.SyncKsz;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
@@ -17,7 +16,7 @@ public class Given_Already_Removed_Vertegenwoordiger
 {
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
-    private readonly SyncVertegenwoordigerCommandHandler _sut;
+    private readonly SyncKszMessageHandler _sut;
     private VerenigingRepositoryMock _verenigingRepositoryMock;
     private Mock<IMagdaGeefPersoonService> _mock;
 
@@ -39,15 +38,15 @@ public class Given_Already_Removed_Vertegenwoordiger
                                                                  expectedLoadingDubbel: true,
                                                                  expectedLoadingVerwijderd: true);
 
-        _sut = new SyncVertegenwoordigerCommandHandler(_verenigingRepositoryMock,
+        _sut = new SyncKszMessageHandler(_verenigingRepositoryMock,
                                                        _mock.Object,
-            NullLogger<SyncVertegenwoordigerCommandHandler>.Instance);
+            NullLogger<SyncKszMessageHandler>.Instance);
     }
 
     [Fact]
     public async ValueTask Then_It_Saves_No_Event()
     {
-        await _sut.Handle(new CommandEnvelope<SyncVertegenwoordigerCommand>(new SyncVertegenwoordigerCommand(_scenario.VCode,
+        await _sut.Handle(new CommandEnvelope<SyncKszMessage>(new SyncKszMessage(_scenario.VCode,
                                                                                 _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId),
                                                                             CommandMetadata.ForDigitaalVlaanderenProcess));
 

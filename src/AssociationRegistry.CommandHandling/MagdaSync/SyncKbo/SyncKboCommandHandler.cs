@@ -1,25 +1,21 @@
-﻿namespace AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
+﻿namespace AssociationRegistry.CommandHandling.MagdaSync.SyncKbo;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Integrations.Slack;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Resources;
-using Integrations.Magda;
-using Integrations.Slack;
-using MagdaSync.SyncKsz;
-using Messages;
 using Microsoft.Extensions.Logging;
-using OpenTelemetry.Metrics;
+using Notifications;
 using ResultNet;
-using SyncKsz;
 using System;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Vereniging;
 
-public class SyncKboCommandHandler : IMagdaSyncHandler<SyncKboCommand>
+public class SyncKboCommandHandler
 {
     private readonly IVerenigingsRepository _repository;
     private readonly IMagdaRegistreerInschrijvingService _registreerInschrijvingService;
@@ -41,40 +37,7 @@ public class SyncKboCommandHandler : IMagdaSyncHandler<SyncKboCommand>
         _logger = logger;
     }
 
-    public bool CanHandle(string body)
-    {
-        using var doc = JsonDocument.Parse(body);
-        var root = doc.RootElement;
-
-        return root.TryGetProperty("KboNummer", out var kboEl)
-            && kboEl.ValueKind == JsonValueKind.String;
-    }
-
-    public async Task<CommandResult> Handle(
-        string body,
-        CommandMetadata commandMetadata,
-        CancellationToken cancellationToken)
-    {
-        using var doc = JsonDocument.Parse(body);
-        var root = doc.RootElement;
-
-        if (!root.TryGetProperty("KboNummer", out var kboEl) || kboEl.ValueKind != JsonValueKind.String)
-            throw new JsonException("KboNummer property missing or invalid");
-
-        var kboNummerValue = kboEl.GetString();
-
-        if (string.IsNullOrWhiteSpace(kboNummerValue))
-            throw new JsonException("KboNummer is empty");
-
-        var command = new SyncKboCommand(KboNummer.Create(kboNummerValue));
-        var envelope = new CommandEnvelope<SyncKboCommand>(command, commandMetadata);
-
-        var result = await Handle(envelope, cancellationToken);
-
-        return result ?? throw new InvalidOperationException("Handler returned null");
-    }
-
-    public async Task<CommandResult?> Handle(
+    public async Task Handle(
         CommandEnvelope<SyncKboCommand> message,
         CancellationToken cancellationToken = default)
     {
@@ -85,7 +48,7 @@ public class SyncKboCommandHandler : IMagdaSyncHandler<SyncKboCommand>
         if (!await _repository.Exists(message.Command.KboNummer))
         {
             scope.Dropped();
-            return null;
+            throw new InvalidOperationException("KboNummer not found");
         }
 
         var verenigingVolgensMagda =
@@ -107,13 +70,11 @@ public class SyncKboCommandHandler : IMagdaSyncHandler<SyncKboCommand>
 
         vereniging.NeemGegevensOverUitKboSync(verenigingVolgensMagda);
 
-        var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
+        await _repository.Save(vereniging, message.Metadata, cancellationToken);
 
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} end");
 
         scope.Succeed();
-
-        return CommandResult.Create(VCode.Create(vereniging.VCode), result);
     }
 
     private async Task RegistreerInschrijving(

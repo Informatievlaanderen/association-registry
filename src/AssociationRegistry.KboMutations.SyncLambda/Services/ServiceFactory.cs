@@ -28,6 +28,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using Npgsql;
 using Telemetry;
+using Wolverine.Runtime;
 using PostgreSqlOptionsSection = Configuration.PostgreSqlOptionsSection;
 
 public class ServiceFactory
@@ -45,6 +46,25 @@ public class ServiceFactory
 
     public async Task<LambdaServices> CreateServicesAsync()
     {
+
+        using var host = await Host.CreateDefaultBuilder()
+                                   .UseWolverine(opts =>
+                                    {
+                                        opts.Services.AddMarten("some connection string")
+
+                                             // This adds quite a bit of middleware for
+                                             // Marten
+                                            .IntegrateWithWolverine();
+
+                                        // You want this maybe!
+                                        opts.Policies.AutoApplyTransactions();
+
+                                        // But wait! Optimize Wolverine for usage within Serverless
+                                        // and turn off the heavy duty, background processes
+                                        // for the transactional inbox/outbox
+                                        opts.Durability.Mode = DurabilityMode.Serverless;
+                                    }).StartAsync();
+
         var paramNamesConfiguration = GetParamNamesConfiguration();
         var ssmClientWrapper = new SsmClientWrapper(new AmazonSimpleSystemsManagementClient());
 
@@ -53,13 +73,15 @@ public class ServiceFactory
         var logger = loggerFactory.CreateLogger<ServiceFactory>();
         var magdaOptions = await GetMagdaOptionsAsync(ssmClientWrapper, paramNamesConfiguration, logger);
         var store = await SetUpDocumentStoreAsync(ssmClientWrapper, paramNamesConfiguration, logger);
-        var repository = CreateRepository(store, loggerFactory);
+        var session = store.LightweightSession();
+        var repository = CreateRepository(session, loggerFactory);
         var referenceRepository = new MagdaCallReferenceRepository(store.LightweightSession());
         var magdaClient = new MagdaClient(magdaOptions,
                                           new MagdaCallReferenceService(referenceRepository),
                                           new MagdaRegistreerInschrijvingValidator(loggerFactory.CreateLogger<MagdaRegistreerInschrijvingValidator>()),
                                           new MagdaGeefPersoonValidator(loggerFactory.CreateLogger<MagdaGeefPersoonValidator>()),
                                           loggerFactory.CreateLogger<MagdaClient>());
+
         var registreerInschrijvingService = CreateRegistreerInschrijvingService(magdaOptions, loggerFactory, referenceRepository);
         var notifier = await CreateNotifierAsync(ssmClientWrapper, paramNamesConfiguration);
 
@@ -73,6 +95,7 @@ public class ServiceFactory
                 new MagdaRegistreerInschrijvingValidator(loggerFactory.CreateLogger<MagdaRegistreerInschrijvingValidator>()),
                 new MagdaGeefPersoonValidator(loggerFactory.CreateLogger<MagdaGeefPersoonValidator>()),
                 loggerFactory.CreateLogger<MagdaGeefPersoonService>()),
+            new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
             repository,
             notifier
         );
@@ -162,6 +185,8 @@ public class ServiceFactory
         return connectionStringBuilder.ToString();
     }
 
+
+
     private static StoreOptions ConfigureStoreOptions(string connectionString)
     {
         var opts = new StoreOptions();
@@ -187,13 +212,11 @@ public class ServiceFactory
         return opts;
     }
 
-    private static VerenigingsRepository CreateRepository(DocumentStore store, ILoggerFactory loggerFactory)
+    private static VerenigingsRepository CreateRepository(IDocumentSession session, ILoggerFactory loggerFactory)
     {
         var eventConflictResolver = new EventConflictResolver(
             Array.Empty<IEventPreConflictResolutionStrategy>(),
             Array.Empty<IEventPostConflictResolutionStrategy>());
-
-        var session = store.LightweightSession();
 
         return new VerenigingsRepository(
             new EventStore(session, eventConflictResolver,

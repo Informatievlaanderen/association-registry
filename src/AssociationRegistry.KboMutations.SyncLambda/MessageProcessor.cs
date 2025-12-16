@@ -1,24 +1,17 @@
-
-
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using Amazon.Lambda.SQSEvents;
-using CommandHandling.KboSyncLambda.SyncKbo;
-using DecentraalBeheer.Vereniging;
-using KboMutations.Configuration;
-using CommandHandling.KboSyncLambda;
-using Integrations.Slack;
-using Logging;
-using AssociationRegistry.Magda.Kbo;
+using CommandHandling.MagdaSync.SyncKbo;
 using CommandHandling.MagdaSync.SyncKsz;
-using Contracts.MagdaSync.KboSync;
-using Contracts.MagdaSync.KszSync;
+using DecentraalBeheer.Vereniging;
 using Framework;
+using Integrations.Slack;
+using KboMutations.Configuration;
+using Magda.Kbo;
 using Magda.Persoon;
 using Microsoft.Extensions.Logging;
 using Notifications;
-using System.Text.Json;
-using Vereniging;
+using Persoonsgegevens;
 using Wolverine;
 
 public class MessageProcessor
@@ -35,7 +28,9 @@ public class MessageProcessor
         IMagdaRegistreerInschrijvingService registreerInschrijvingService,
         IMagdaSyncGeefVerenigingService geefOndernemingService,
         IMagdaGeefPersoonService geefPersoonService,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
         IVerenigingsRepository repository,
+        IMessageBus messageBus,
         INotifier notifier,
         CancellationToken cancellationToken)
     {
@@ -53,44 +48,39 @@ public class MessageProcessor
             notifier,
             logger);
 
-        var kszSyncHandler = new SyncVertegenwoordigerCommandHandler(
-            repository,
+        var kszSyncHandler = new SyncKszMessageHandler(
+            vertegenwoordigerPersoonsgegevensRepository,
             geefPersoonService,
-            loggerFactory.CreateLogger<SyncVertegenwoordigerCommandHandler>());
-
-        IMagdaSyncHandler[] handlers =
-        [
-            kszSyncHandler,
-            kboSyncHandler,
-        ];
+            messageBus,
+            loggerFactory.CreateLogger<SyncKszMessageHandler>());
 
         foreach (var record in sqsEvent.Records)
         {
             try
             {
                 contextLogger.LogInformation("Processing record {Id}", record.MessageId);
-                contextLogger.LogInformation("Message attributes for record {Id}", string.Join("\n", record.MessageAttributes.Select(k => $"{k.Key}:{k.Value.StringValue}")));
-                contextLogger.LogInformation("Record attributes for record {Id}", string.Join("\n", record.Attributes.Select(k => $"{k.Key}:{k.Value.ToString()}")));
 
                 var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
-                var handler = handlers.SingleOrDefault(x => x.CanHandle(record.Body));
+                var env = MagdaEnvelopeParser.Parse(record.Body);
 
-                if (handler == null)
+                switch (env.Type)
                 {
-                    contextLogger.LogWarning("No handler found for record {Id}", record.MessageId);
-                    throw new InvalidOperationException($"No handler found for message: {record.Body}");
+                    case MagdaMessageType.SyncKbo:
+                        await kboSyncHandler.Handle( new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(KboNummer.Create(env.KboNummer!)), commandMetadata), cancellationToken);
+                        break;
+
+                    case MagdaMessageType.SyncKsz:
+                        await kszSyncHandler.Handle(new SyncKszMessage(Insz.Create(env.Insz!)), cancellationToken);
+                        break;
+
+                    default:
+                        throw new InvalidOperationException($"Unknown message shape for record {record.MessageId}. Body={record.Body}: expected KboNummer OR Insz.");
                 }
-
-                contextLogger.LogInformation("Handler {Handler} will process record {Id}",
-                                             handler.GetType().Name, record.MessageId);
-
-                await handler.Handle(record.Body, commandMetadata, cancellationToken);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await notifier.Notify(new KboSyncLambdaGefaald(record.Body, ex));
-
                 throw;
             }
         }

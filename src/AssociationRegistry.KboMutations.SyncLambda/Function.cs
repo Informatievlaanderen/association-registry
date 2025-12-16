@@ -1,15 +1,13 @@
-using System.Text.Json.Serialization;
+namespace AssociationRegistry.KboMutations.SyncLambda;
+
 using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.SystemTextJson;
 using Amazon.Lambda.SQSEvents;
-
-namespace AssociationRegistry.KboMutations.SyncLambda;
-
 using Configuration;
-using OpenTelemetry;
 using Serilog;
 using Services;
+using System.Text.Json.Serialization;
 using Telemetry;
 
 public class Function
@@ -43,7 +41,9 @@ public class Function
                 services.RegistreerInschrijvingService,
                 services.GeefVerenigingService,
                 services.GeefPersoonService,
+                services.VertegenwoordigerPersoonsgegevensRepository,
                 services.Repository,
+                services.MessageBus,
                 services.Notifier,
                 CancellationToken.None);
 

@@ -3,7 +3,7 @@
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
-using CommandHandling.KboSyncLambda.SyncKbo;
+using CommandHandling.MagdaSync.SyncKbo;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using EventStore;
