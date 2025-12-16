@@ -42,14 +42,14 @@ public class With_A_Different_VerenigingsType
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler =
-            new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
+            new SyncKboCommandHandler(_verenigingRepositoryMock,
+Mock.Of<IMagdaRegistreerInschrijvingService>(),
                                       new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
                                       _notifierMock.Object,
                                       NullLogger<SyncKboCommandHandler>.Instance);
 
         commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
-            _verenigingRepositoryMock).GetAwaiter().GetResult();
+            new CommandEnvelope<SyncKboCommand>(command, commandMetadata)).GetAwaiter().GetResult();
     }
 
     [Fact]

@@ -5,7 +5,16 @@ using Framework;
 
 public interface IMagdaSyncHandler
 {
-    Task<CommandResult> Handle<TCommand>(
+    bool CanHandle(string body);
+    Task<CommandResult> Handle(
+        string body,
+        CommandMetadata commandMetadata,
+        CancellationToken cancellationToken);
+}
+
+public interface IMagdaSyncHandler<TCommand> : IMagdaSyncHandler
+{
+    Task<CommandResult> Handle(
         CommandEnvelope<TCommand> envelope,
         CancellationToken cancellationToken);
 }

@@ -46,7 +46,7 @@ public class MessageProcessor
 
         var logger = loggerFactory.CreateLogger<SyncKboCommandHandler>();
 
-        var handler = new SyncKboCommandHandler(
+        var kboSyncHandler = new SyncKboCommandHandler(
             repository,
             registreerInschrijvingService,
             geefOndernemingService,
@@ -58,6 +58,12 @@ public class MessageProcessor
             geefPersoonService,
             loggerFactory.CreateLogger<SyncVertegenwoordigerCommandHandler>());
 
+        IMagdaSyncHandler[] handlers =
+        [
+            kszSyncHandler,
+            kboSyncHandler,
+        ];
+
         foreach (var record in sqsEvent.Records)
         {
             try
@@ -68,43 +74,18 @@ public class MessageProcessor
 
                 var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
+                var handler = handlers.SingleOrDefault(x => x.CanHandle(record.Body));
 
-                using var doc = JsonDocument.Parse(record.Body);
-                var root = doc.RootElement;
-
-                IMagdaSyncHandler[] handlers =
-                [
-                    handler, kszSyncHandler,
-                ];
-
-                if(root.TryGetProperty("Insz", out var insz)
-                     && insz.ValueKind == JsonValueKind.String)
+                if (handler == null)
                 {
-                    var commandEnvelope = new CommandEnvelope<TCommand>(command, commandMetadata);
-
-
-                }
-                else if(root.TryGetProperty("KboNummer", out var kboEl)
-                     && kboEl.ValueKind == JsonValueKind.String)
-                {
-                    var kboNummerValue = kboEl.GetString();
-
-                    if (string.IsNullOrWhiteSpace(kboNummerValue))
-                        throw new JsonException("KboNummer is empty");
-
-                    var syncKboCommand = new SyncKboCommand(
-                        KboNummer.Create(kboNummerValue)
-                    );
-
-                    await RecordProcessor.TryProcessRecord(
-                        contextLogger,
-                        repository,
-                        cancellationToken,
-                        syncKboCommand,
-                        handler
-                    );
+                    contextLogger.LogWarning("No handler found for record {Id}", record.MessageId);
+                    throw new InvalidOperationException($"No handler found for message: {record.Body}");
                 }
 
+                contextLogger.LogInformation("Handler {Handler} will process record {Id}",
+                                             handler.GetType().Name, record.MessageId);
+
+                await handler.Handle(record.Body, commandMetadata, cancellationToken);
             }
             catch(Exception ex)
             {

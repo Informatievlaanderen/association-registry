@@ -45,7 +45,9 @@ public class Given_Overleden_Vertegenwoordiger
                                                                  expectedLoadingDubbel: true,
                                                                  expectedLoadingVerwijderd: true);
 
-        _sut = new SyncVertegenwoordigerCommandHandler(mock.Object,
+        _sut = new SyncVertegenwoordigerCommandHandler(
+            _verenigingRepositoryMock,
+            mock.Object,
             NullLogger<SyncVertegenwoordigerCommandHandler>.Instance);
     }
 
@@ -53,7 +55,6 @@ public class Given_Overleden_Vertegenwoordiger
     public async ValueTask Then_It_Saves_No_Event()
     {
         await _sut.Handle(
-            _verenigingRepositoryMock,
             new CommandEnvelope<SyncVertegenwoordigerCommand>(new SyncVertegenwoordigerCommand(_scenario.VCode,
                                                       _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId),
                                                   CommandMetadata.ForDigitaalVlaanderenProcess));

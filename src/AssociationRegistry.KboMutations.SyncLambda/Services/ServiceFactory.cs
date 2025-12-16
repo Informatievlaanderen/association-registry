@@ -11,6 +11,7 @@ using Configuration;
 using EventStore.ConflictResolution;
 using Integrations.Magda.CallReferences;
 using Integrations.Magda.Onderneming;
+using Integrations.Magda.Persoon;
 using Integrations.Magda.Persoon.Validation;
 using Integrations.Magda.Shared.Models;
 using Integrations.Slack;
@@ -67,6 +68,11 @@ public class ServiceFactory
             loggerFactory,
             registreerInschrijvingService,
             new SyncGeefVerenigingService(magdaClient, loggerFactory.CreateLogger<SyncGeefVerenigingService>()),
+            new MagdaGeefPersoonService(
+                magdaClient,
+                new MagdaRegistreerInschrijvingValidator(loggerFactory.CreateLogger<MagdaRegistreerInschrijvingValidator>()),
+                new MagdaGeefPersoonValidator(loggerFactory.CreateLogger<MagdaGeefPersoonValidator>()),
+                loggerFactory.CreateLogger<MagdaGeefPersoonService>()),
             repository,
             notifier
         );

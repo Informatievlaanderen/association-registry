@@ -1,12 +1,13 @@
 ﻿namespace AssociationRegistry.CommandHandling.MagdaSync.SyncKsz;
 
+using System.Text.Json;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Framework;
 using KboSyncLambda.SyncKsz;
 using Magda.Persoon;
 using Microsoft.Extensions.Logging;
 
-public class SyncVertegenwoordigerCommandHandler : IMagdaSyncHandler
+public class SyncVertegenwoordigerCommandHandler : IMagdaSyncHandler<SyncVertegenwoordigerCommand>
 {
     private readonly IVerenigingsRepository _verenigingRepository;
     private readonly IMagdaGeefPersoonService _magdaGeefPersoonService;
@@ -20,6 +21,28 @@ public class SyncVertegenwoordigerCommandHandler : IMagdaSyncHandler
         _verenigingRepository = verenigingRepository;
         _magdaGeefPersoonService = magdaGeefPersoonService;
         this._logger = _logger;
+    }
+
+    public bool CanHandle(string body)
+    {
+        using var doc = JsonDocument.Parse(body);
+        var root = doc.RootElement;
+
+        return root.TryGetProperty("Insz", out var insz)
+            && insz.ValueKind == JsonValueKind.String;
+    }
+
+    public async Task<CommandResult> Handle(
+        string body,
+        CommandMetadata commandMetadata,
+        CancellationToken cancellationToken)
+    {
+        using var doc = JsonDocument.Parse(body);
+        var root = doc.RootElement;
+
+        var envelope = new CommandEnvelope<SyncVertegenwoordigerCommand>(command, commandMetadata);
+
+        return await Handle(envelope, cancellationToken);
     }
 
     public async Task<CommandResult> Handle(
@@ -42,10 +65,4 @@ public class SyncVertegenwoordigerCommandHandler : IMagdaSyncHandler
 
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }
-
-    // private bool CanHandle(CommandEnvelope<SyncVertegenwoordigerCommand> envelope)
-    // {
-    //     return (envelope.Command.TryGetProperty("Insz", out var insz)
-    //          && insz.ValueKind == JsonValueKind.String)
-    // }
 }

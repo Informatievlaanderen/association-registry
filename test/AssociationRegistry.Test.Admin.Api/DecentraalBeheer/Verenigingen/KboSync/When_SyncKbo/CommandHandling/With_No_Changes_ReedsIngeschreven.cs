@@ -38,7 +38,9 @@ public class With_No_Changes_ReedsIngeschreven
 
         _magdaRegistreerInschrijvingServiceMock = new Mock<IMagdaRegistreerInschrijvingService>();
 
-        var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object,
+        var commandHandler = new SyncKboCommandHandler(
+            _verenigingRepositoryMock,
+            _magdaRegistreerInschrijvingServiceMock.Object,
                                                        new MagdaSyncGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
@@ -46,8 +48,7 @@ public class With_No_Changes_ReedsIngeschreven
                                                        NullLogger<SyncKboCommandHandler>.Instance);
 
         commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(_command, commandMetadata),
-            _verenigingRepositoryMock).GetAwaiter().GetResult();
+            new CommandEnvelope<SyncKboCommand>(_command, commandMetadata)).GetAwaiter().GetResult();
     }
 
     [Fact]

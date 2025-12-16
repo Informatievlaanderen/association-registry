@@ -42,6 +42,7 @@ public class Function
                 services.LoggerFactory,
                 services.RegistreerInschrijvingService,
                 services.GeefVerenigingService,
+                services.GeefPersoonService,
                 services.Repository,
                 services.Notifier,
                 CancellationToken.None);

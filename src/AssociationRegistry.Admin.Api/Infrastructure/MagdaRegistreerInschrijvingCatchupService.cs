@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
 using CommandHandling.KboSyncLambda;
-using Contracts.KboSync;
+using Contracts.MagdaSync.KboSync;
 using Events;
 using global::Marten;
 using global::Wolverine;

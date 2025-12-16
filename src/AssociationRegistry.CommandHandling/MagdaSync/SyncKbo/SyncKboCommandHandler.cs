@@ -14,8 +14,10 @@ using OpenTelemetry.Metrics;
 using ResultNet;
 using SyncKsz;
 using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Vereniging;
 
 public class SyncKboCommandHandler : IMagdaSyncHandler<SyncKboCommand>
 {
@@ -37,6 +39,39 @@ public class SyncKboCommandHandler : IMagdaSyncHandler<SyncKboCommand>
         _geefVerenigingService = geefVerenigingService;
         _notifier = notifier;
         _logger = logger;
+    }
+
+    public bool CanHandle(string body)
+    {
+        using var doc = JsonDocument.Parse(body);
+        var root = doc.RootElement;
+
+        return root.TryGetProperty("KboNummer", out var kboEl)
+            && kboEl.ValueKind == JsonValueKind.String;
+    }
+
+    public async Task<CommandResult> Handle(
+        string body,
+        CommandMetadata commandMetadata,
+        CancellationToken cancellationToken)
+    {
+        using var doc = JsonDocument.Parse(body);
+        var root = doc.RootElement;
+
+        if (!root.TryGetProperty("KboNummer", out var kboEl) || kboEl.ValueKind != JsonValueKind.String)
+            throw new JsonException("KboNummer property missing or invalid");
+
+        var kboNummerValue = kboEl.GetString();
+
+        if (string.IsNullOrWhiteSpace(kboNummerValue))
+            throw new JsonException("KboNummer is empty");
+
+        var command = new SyncKboCommand(KboNummer.Create(kboNummerValue));
+        var envelope = new CommandEnvelope<SyncKboCommand>(command, commandMetadata);
+
+        var result = await Handle(envelope, cancellationToken);
+
+        return result ?? throw new InvalidOperationException("Handler returned null");
     }
 
     public async Task<CommandResult?> Handle(

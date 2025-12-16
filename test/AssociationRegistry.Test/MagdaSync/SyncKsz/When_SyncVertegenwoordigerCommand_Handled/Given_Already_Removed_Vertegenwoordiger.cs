@@ -39,17 +39,17 @@ public class Given_Already_Removed_Vertegenwoordiger
                                                                  expectedLoadingDubbel: true,
                                                                  expectedLoadingVerwijderd: true);
 
-        _sut = new SyncVertegenwoordigerCommandHandler(_mock.Object,
+        _sut = new SyncVertegenwoordigerCommandHandler(_verenigingRepositoryMock,
+                                                       _mock.Object,
             NullLogger<SyncVertegenwoordigerCommandHandler>.Instance);
     }
 
     [Fact]
     public async ValueTask Then_It_Saves_No_Event()
     {
-        await _sut.Handle(_verenigingRepositoryMock,
-                          new CommandEnvelope<SyncVertegenwoordigerCommand>(new SyncVertegenwoordigerCommand(_scenario.VCode,
-                                  _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId),
-                              CommandMetadata.ForDigitaalVlaanderenProcess));
+        await _sut.Handle(new CommandEnvelope<SyncVertegenwoordigerCommand>(new SyncVertegenwoordigerCommand(_scenario.VCode,
+                                                                                _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId),
+                                                                            CommandMetadata.ForDigitaalVlaanderenProcess));
 
         _verenigingRepositoryMock.ShouldNotHaveAnySaves();
     }
