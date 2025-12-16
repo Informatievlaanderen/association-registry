@@ -2,14 +2,17 @@ namespace AssociationRegistry.Test.MagdaSync.SyncKsz.When_SyncVertegenwoordigerC
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Persoon;
+using AssociationRegistry.Persoonsgegevens;
 using AutoFixture;
 using CommandHandling.MagdaSync.SyncKsz;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using DecentraalBeheer.Vereniging;
 using Events;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Wolverine;
 using Xunit;
 
 public class Given_Already_Removed_Vertegenwoordiger
@@ -17,46 +20,51 @@ public class Given_Already_Removed_Vertegenwoordiger
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
     private readonly SyncKszMessageHandler _sut;
-    private VerenigingRepositoryMock _verenigingRepositoryMock;
-    private Mock<IMagdaGeefPersoonService> _mock;
+    private readonly Mock<IMagdaGeefPersoonService> _magdaMock;
+    private readonly Mock<IMessageBus> _messageBusMock;
 
     public Given_Already_Removed_Vertegenwoordiger()
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
 
-        var state = _scenario.GetVerenigingState();
+        _magdaMock = new Mock<IMagdaGeefPersoonService>();
 
-        state = state.Apply(new VertegenwoordigerWerdVerwijderd(_scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-                                                        _scenario.VertegenwoordigerWerdToegevoegd.Insz,
-                                                        _scenario.VertegenwoordigerWerdToegevoegd.Voornaam,
-                                                        _scenario.VertegenwoordigerWerdToegevoegd.Achternaam));
+        // Return empty array - vertegenwoordiger was already removed, so no persoonsgegevens exist
+        var persoonsgegevensRepoMock = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
+        persoonsgegevensRepoMock
+            .Setup(x => x.Get(Insz.Create(_scenario.VertegenwoordigerWerdToegevoegd.Insz), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Array.Empty<VertegenwoordigerPersoonsgegevens>());
 
-        _mock = new Mock<IMagdaGeefPersoonService>();
+        _messageBusMock = new Mock<IMessageBus>();
 
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(state,
-                                                                 expectedLoadingDubbel: true,
-                                                                 expectedLoadingVerwijderd: true);
-
-        _sut = new SyncKszMessageHandler(_verenigingRepositoryMock,
-                                                       _mock.Object,
+        _sut = new SyncKszMessageHandler(
+            persoonsgegevensRepoMock.Object,
+            _magdaMock.Object,
+            _messageBusMock.Object,
             NullLogger<SyncKszMessageHandler>.Instance);
     }
 
     [Fact]
-    public async ValueTask Then_It_Saves_No_Event()
+    public async ValueTask Then_It_Sends_No_Command()
     {
-        await _sut.Handle(new CommandEnvelope<SyncKszMessage>(new SyncKszMessage(_scenario.VCode,
-                                                                                _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId),
-                                                                            CommandMetadata.ForDigitaalVlaanderenProcess));
+        await _sut.Handle(
+            new SyncKszMessage(Insz.Create(_scenario.VertegenwoordigerWerdToegevoegd.Insz)),
+            CancellationToken.None);
 
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _messageBusMock.Verify(x => x.SendAsync(
+            It.IsAny<object>(),
+            It.IsAny<DeliveryOptions?>()), Times.Never);
     }
 
     [Fact]
     public async ValueTask Then_It_Does_Not_Sync_With_Ksz()
     {
-        _mock.Verify(x => x.GeefPersoon(It.IsAny<GeefPersoonRequest>(),
-                                       It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()), Times.Never());
+        await _sut.Handle(
+            new SyncKszMessage(Insz.Create(_scenario.VertegenwoordigerWerdToegevoegd.Insz)),
+            CancellationToken.None);
+
+        _magdaMock.Verify(x => x.GeefPersoon(It.IsAny<GeefPersoonRequest>(),
+                                       It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

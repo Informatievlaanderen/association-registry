@@ -49,8 +49,6 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
 
         return new PersoonUitKsz(
             vertegenwoordiger.Insz,
-            vertegenwoordiger.Voornaam,
-            vertegenwoordiger.Achternaam,
             persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Inhoud.Persoon.Overlijden != null);
     }
 }

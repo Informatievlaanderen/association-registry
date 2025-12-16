@@ -33,6 +33,8 @@
 
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.SQSEvents" />
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="WolverineFx.Marten" />
     <PackageReference Include="OpenTelemetry" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />

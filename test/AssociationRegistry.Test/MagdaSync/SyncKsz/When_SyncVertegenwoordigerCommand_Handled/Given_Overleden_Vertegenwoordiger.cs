@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.MagdaSync.SyncKsz.When_SyncVertegenwoordigerC
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Persoon;
+using AssociationRegistry.Persoonsgegevens;
 using AutoFixture;
 using CommandHandling.MagdaSync.SyncKsz;
 using Common.AutoFixture;
@@ -13,6 +14,7 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Wolverine;
 using Xunit;
 
 public class Given_Overleden_Vertegenwoordiger
@@ -20,48 +22,60 @@ public class Given_Overleden_Vertegenwoordiger
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
     private readonly SyncKszMessageHandler _sut;
-    private VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly Mock<IMessageBus> _messageBusMock;
 
     public Given_Overleden_Vertegenwoordiger()
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
 
-        var state = _scenario.GetVerenigingState();
+        var magdaMock = new Mock<IMagdaGeefPersoonService>();
 
-        var mock = new Mock<IMagdaGeefPersoonService>();
-
-        mock.Setup(x => x.GeefPersoon(new GeefPersoonRequest(_scenario.VertegenwoordigerWerdToegevoegd.Insz,
-                                                             _scenario.VertegenwoordigerWerdToegevoegd.Voornaam,
-                                                             _scenario.VertegenwoordigerWerdToegevoegd.Achternaam),
+        magdaMock.Setup(x => x.GeefPersoon(new GeefPersoonRequest(_scenario.VertegenwoordigerWerdToegevoegd.Insz),
                                       It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new PersoonUitKsz(_scenario.VertegenwoordigerWerdToegevoegd.Insz,
-                                                 _scenario.VertegenwoordigerWerdToegevoegd.Voornaam,
-                                                 _scenario.VertegenwoordigerWerdToegevoegd.Achternaam,
                                                  Overleden: true));
 
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(state,
-                                                                 expectedLoadingDubbel: true,
-                                                                 expectedLoadingVerwijderd: true);
+        var persoonsgegevensRepoMock = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
+        persoonsgegevensRepoMock
+            .Setup(x => x.Get(Insz.Create(_scenario.VertegenwoordigerWerdToegevoegd.Insz), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new[]
+            {
+                new VertegenwoordigerPersoonsgegevens(
+                    Guid.NewGuid(),
+                    _scenario.VCode,
+                    _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+                    _scenario.VertegenwoordigerWerdToegevoegd.Insz,
+                    _scenario.VertegenwoordigerWerdToegevoegd.Roepnaam,
+                    _scenario.VertegenwoordigerWerdToegevoegd.Rol,
+                    _scenario.VertegenwoordigerWerdToegevoegd.Voornaam,
+                    _scenario.VertegenwoordigerWerdToegevoegd.Achternaam,
+                    _scenario.VertegenwoordigerWerdToegevoegd.Email,
+                    _scenario.VertegenwoordigerWerdToegevoegd.Telefoon,
+                    _scenario.VertegenwoordigerWerdToegevoegd.Mobiel,
+                    _scenario.VertegenwoordigerWerdToegevoegd.SocialMedia)
+            });
+
+        _messageBusMock = new Mock<IMessageBus>();
 
         _sut = new SyncKszMessageHandler(
-            _verenigingRepositoryMock,
-            mock.Object,
+            persoonsgegevensRepoMock.Object,
+            magdaMock.Object,
+            _messageBusMock.Object,
             NullLogger<SyncKszMessageHandler>.Instance);
     }
 
     [Fact]
-    public async ValueTask Then_It_Saves_No_Event()
+    public async ValueTask Then_It_Sends_MarkeerVertegenwoordigerAlsOverleden_Command()
     {
         await _sut.Handle(
-            new CommandEnvelope<SyncKszMessage>(new SyncKszMessage(_scenario.VCode,
-                                                      _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId),
-                                                  CommandMetadata.ForDigitaalVlaanderenProcess));
+            new SyncKszMessage(Insz.Create(_scenario.VertegenwoordigerWerdToegevoegd.Insz)),
+            CancellationToken.None);
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
-                                                           _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-                                                           _scenario.VertegenwoordigerWerdToegevoegd.Insz,
-                                                           _scenario.VertegenwoordigerWerdToegevoegd.Voornaam,
-                                                           _scenario.VertegenwoordigerWerdToegevoegd.Achternaam));
+        _messageBusMock.Verify(x => x.SendAsync(
+            It.Is<CommandEnvelope<MarkeerVertegenwoordigerAlsOverledenCommand>>(
+                cmd => cmd.Command.VCode == _scenario.VCode &&
+                       cmd.Command.VertegenwoordigerId == _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId),
+            It.IsAny<DeliveryOptions?>()), Times.Once);
     }
 }

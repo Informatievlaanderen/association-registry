@@ -6,7 +6,6 @@ using AssociationRegistry.Admin.Schema.KboSync;
 using AssociationRegistry.Events;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using CommandHandling.KboSyncLambda;
 using Contracts.MagdaSync.KboSync;
 using Historiek.Examples;
 using Marten;

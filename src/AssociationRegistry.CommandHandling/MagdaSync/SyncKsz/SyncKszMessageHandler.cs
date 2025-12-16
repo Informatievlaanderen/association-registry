@@ -46,7 +46,12 @@ public class SyncKszMessageHandler
            return;
 
        var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
-       var magdaPersoon = await _magdaGeefPersoonService.GeefPersoon(new GeefPersoonRequest(message.Insz.Value, string.Empty, string.Empty), commandMetadata, cancellationToken);
+
+       var magdaPersoon = await _magdaGeefPersoonService.GeefPersoon(
+           new GeefPersoonRequest(
+               message.Insz.Value),
+           commandMetadata,
+           cancellationToken);
 
        if(!magdaPersoon.Overleden)
            return;

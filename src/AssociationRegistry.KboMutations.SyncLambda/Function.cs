@@ -5,13 +5,16 @@ using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.SystemTextJson;
 using Amazon.Lambda.SQSEvents;
 using Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
-using Services;
 using System.Text.Json.Serialization;
 using Telemetry;
 
 public class Function
 {
+    private static IHost? _host;
+
     private static async Task Main()
     {
         var handler = FunctionHandler;
@@ -23,29 +26,23 @@ public class Function
     private static async Task FunctionHandler(SQSEvent @event, ILambdaContext context)
     {
         context.Logger.LogInformation("Function started.");
-        var configurationManager = new ConfigurationManager();
-        var configuration = configurationManager.Build();
 
-        var telemetryManager = new TelemetryManager(context.Logger, configuration);
-        var serviceFactory = new ServiceFactory(configuration, context.Logger, telemetryManager);
+        // Initialize host on first invocation (Lambda warm start optimization)
+        if (_host == null)
+        {
+            var configurationManager = new ConfigurationManager();
+            var configuration = configurationManager.Build();
+            _host = await HostConfiguration.CreateHost(context, configuration);
+        }
+
+        var telemetryManager = _host.Services.GetRequiredService<TelemetryManager>();
 
         try
         {
             context.Logger.LogInformation($"{@event.Records.Count} RECORDS RECEIVED INSIDE SQS EVENT");
 
-            var services = await serviceFactory.CreateServicesAsync();
-
-            await services.MessageProcessor.ProcessMessage(
-                @event,
-                services.LoggerFactory,
-                services.RegistreerInschrijvingService,
-                services.GeefVerenigingService,
-                services.GeefPersoonService,
-                services.VertegenwoordigerPersoonsgegevensRepository,
-                services.Repository,
-                services.MessageBus,
-                services.Notifier,
-                CancellationToken.None);
+            var messageProcessor = _host.Services.GetRequiredService<MessageProcessor>();
+            await messageProcessor.ProcessMessage(@event, CancellationToken.None);
 
             context.Logger.LogInformation($"{@event.Records.Count} RECORDS PROCESSED BY THE MESSAGE PROCESSOR");
         }

@@ -134,7 +134,7 @@ public class SyncKboCommandHandlerBuilder
         => new(_verenigingsRepository.Object, _magdaRegistreerInschrijvingService.Object, _magdaGeefVerenigingService.Object,
                Mock.Of<INotifier>(), Mock.Of<ILogger<SyncKboCommandHandler>>());
 
-    public async Task<CommandResult?> Handle()
+    public async Task Handle()
         => await Build().Handle(
             new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(_kboNummer), _fixture.Create<CommandMetadata>()));
 }

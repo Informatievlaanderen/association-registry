@@ -6,9 +6,9 @@ using Xunit;
 public class Given_Vereniging_Werd_Gesynct_Met_Magda
 {
     [Fact]
-    public async ValueTask Then_Returns_CommandResult()
+    public async ValueTask Then_Completes_Successfully()
     {
-        var actual = await new SyncKboCommandHandlerBuilder()
+        var act = async () => await new SyncKboCommandHandlerBuilder()
                           .MetBestaandeVereniging()
                           .MetGeldigeVerenigingVolgensMagda()
                           .MetVerenigingUitVerenigingsregister()
@@ -16,6 +16,6 @@ public class Given_Vereniging_Werd_Gesynct_Met_Magda
                           .MetSuccesvolOpgeslagenVereniging()
                           .Handle();
 
-        actual.Should().NotBeNull();
+        await act.Should().NotThrowAsync();
     }
 }

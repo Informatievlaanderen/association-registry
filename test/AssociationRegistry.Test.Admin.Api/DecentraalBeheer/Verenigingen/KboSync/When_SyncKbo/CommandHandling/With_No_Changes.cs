@@ -103,7 +103,7 @@ public class With_FailureResultFromMagda
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly Mock<INotifier> _notifierMock;
     private readonly Mock<IMagdaSyncGeefVerenigingService> _magdaGeefVerenigingService;
-    private readonly Func<Task<CommandResult>> _action;
+    private readonly Func<Task> _action;
 
     public With_FailureResultFromMagda()
     {

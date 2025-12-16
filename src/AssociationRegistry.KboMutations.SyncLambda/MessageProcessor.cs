@@ -17,61 +17,51 @@ using Wolverine;
 public class MessageProcessor
 {
     private readonly KboSyncConfiguration _kboSyncConfiguration;
+    private readonly SyncKboCommandHandler _kboSyncHandler;
+    private readonly SyncKszMessageHandler _kszSyncHandler;
+    private readonly INotifier _notifier;
+    private readonly ILogger<MessageProcessor> _logger;
 
-    public MessageProcessor(KboSyncConfiguration kboSyncConfiguration)
+    public MessageProcessor(
+        KboSyncConfiguration kboSyncConfiguration,
+        SyncKboCommandHandler kboSyncHandler,
+        SyncKszMessageHandler kszSyncHandler,
+        INotifier notifier,
+        ILogger<MessageProcessor> logger)
     {
         _kboSyncConfiguration = kboSyncConfiguration;
+        _kboSyncHandler = kboSyncHandler;
+        _kszSyncHandler = kszSyncHandler;
+        _notifier = notifier;
+        _logger = logger;
     }
 
-    public async Task ProcessMessage(SQSEvent sqsEvent,
-        ILoggerFactory loggerFactory,
-        IMagdaRegistreerInschrijvingService registreerInschrijvingService,
-        IMagdaSyncGeefVerenigingService geefOndernemingService,
-        IMagdaGeefPersoonService geefPersoonService,
-        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
-        IVerenigingsRepository repository,
-        IMessageBus messageBus,
-        INotifier notifier,
+    public async Task ProcessMessage(
+        SQSEvent sqsEvent,
         CancellationToken cancellationToken)
     {
-        var contextLogger = loggerFactory.CreateLogger<MessageProcessor>();
-        contextLogger.LogInformation($"{nameof(_kboSyncConfiguration.MutationFileBucketName)}:{_kboSyncConfiguration.MutationFileBucketName}");
-        contextLogger.LogInformation($"{nameof(_kboSyncConfiguration.MutationFileQueueUrl)}:{_kboSyncConfiguration.MutationFileQueueUrl}");
-        contextLogger.LogInformation($"{nameof(_kboSyncConfiguration.SyncQueueUrl)}:{_kboSyncConfiguration.SyncQueueUrl}");
-
-        var logger = loggerFactory.CreateLogger<SyncKboCommandHandler>();
-
-        var kboSyncHandler = new SyncKboCommandHandler(
-            repository,
-            registreerInschrijvingService,
-            geefOndernemingService,
-            notifier,
-            logger);
-
-        var kszSyncHandler = new SyncKszMessageHandler(
-            vertegenwoordigerPersoonsgegevensRepository,
-            geefPersoonService,
-            messageBus,
-            loggerFactory.CreateLogger<SyncKszMessageHandler>());
+        _logger.LogInformation($"{nameof(_kboSyncConfiguration.MutationFileBucketName)}:{_kboSyncConfiguration.MutationFileBucketName}");
+        _logger.LogInformation($"{nameof(_kboSyncConfiguration.MutationFileQueueUrl)}:{_kboSyncConfiguration.MutationFileQueueUrl}");
+        _logger.LogInformation($"{nameof(_kboSyncConfiguration.SyncQueueUrl)}:{_kboSyncConfiguration.SyncQueueUrl}");
 
         foreach (var record in sqsEvent.Records)
         {
             try
             {
-                contextLogger.LogInformation("Processing record {Id}", record.MessageId);
+                _logger.LogInformation("Processing record {Id}", record.MessageId);
 
                 var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
-                var env = MagdaEnvelopeParser.Parse(record.Body);
+                var envelope = MagdaEnvelopeParser.Parse(record.Body);
 
-                switch (env.Type)
+                switch (envelope.Type)
                 {
                     case MagdaMessageType.SyncKbo:
-                        await kboSyncHandler.Handle( new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(KboNummer.Create(env.KboNummer!)), commandMetadata), cancellationToken);
+                        await _kboSyncHandler.Handle(new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(KboNummer.Create(envelope.KboNummer!)), commandMetadata), cancellationToken);
                         break;
 
                     case MagdaMessageType.SyncKsz:
-                        await kszSyncHandler.Handle(new SyncKszMessage(Insz.Create(env.Insz!)), cancellationToken);
+                        await _kszSyncHandler.Handle(new SyncKszMessage(Insz.Create(envelope.Insz!)), cancellationToken);
                         break;
 
                     default:
@@ -80,7 +70,7 @@ public class MessageProcessor
             }
             catch (Exception ex)
             {
-                await notifier.Notify(new KboSyncLambdaGefaald(record.Body, ex));
+                await _notifier.Notify(new KboSyncLambdaGefaald(record.Body, ex));
                 throw;
             }
         }
