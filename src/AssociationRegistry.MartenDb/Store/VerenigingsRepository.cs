@@ -4,8 +4,10 @@ using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
+using Events;
 using Marten;
 using OpenTelemetry.Metrics;
+using Persoonsgegevens;
 
 public class VerenigingsRepository : IVerenigingsRepository
 {
@@ -43,7 +45,11 @@ public class VerenigingsRepository : IVerenigingsRepository
         return await _eventStore.Save(vereniging.VCode, vereniging.Version, metadata, cancellationToken, events);
     }
 
-    public async Task<StreamActionResult> SaveNew(VerenigingsBase vereniging, IDocumentSession session, CommandMetadata metadata, CancellationToken cancellationToken)
+    public async Task<StreamActionResult> SaveNew(
+        VerenigingsBase vereniging,
+        IDocumentSession session,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken)
     {
         var events = vereniging.UncommittedEvents.ToArray();
 
@@ -51,6 +57,12 @@ public class VerenigingsRepository : IVerenigingsRepository
             return StreamActionResult.Empty;
 
         return await _eventStore.SaveNew(vereniging.VCode, metadata, cancellationToken, events);
+    }
+
+    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(
+        IEnumerable<VCode> vCodes)
+    {
+        return await _eventStore.FilterVzerOnly(vCodes);
     }
 
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, CommandMetadata metadata, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)

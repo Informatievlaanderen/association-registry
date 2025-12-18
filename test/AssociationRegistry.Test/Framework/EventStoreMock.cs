@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using DecentraalBeheer.Vereniging;
 using Events;
 using MartenDb.Store;
+using Persoonsgegevens;
 using Vereniging;
 
 public class EventStoreMock : IEventStore
@@ -58,5 +59,9 @@ public class EventStoreMock : IEventStore
         => throw new NotImplementedException();
 
     public async Task<VCode?> GetVCodeForKbo(string kboNummer)
+        => throw new NotImplementedException();
+
+    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(
+        IEnumerable<VCode> vertegenwoordigerPersoonsgegevensByVCode)
         => throw new NotImplementedException();
 }

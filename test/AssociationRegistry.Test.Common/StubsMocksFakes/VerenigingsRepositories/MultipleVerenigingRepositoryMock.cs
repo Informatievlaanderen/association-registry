@@ -10,6 +10,7 @@ using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using MartenDb.Store;
+using Persoonsgegevens;
 
 public class MultipleVerenigingRepositoryMock : IVerenigingsRepository
 {
@@ -108,6 +109,9 @@ public class MultipleVerenigingRepositoryMock : IVerenigingsRepository
 
     public async Task<StreamActionResult> SaveNew(VerenigingsBase vereniging, IDocumentSession session, CommandMetadata messageMetadata, CancellationToken cancellationToken)
         => await Save(vereniging, messageMetadata, cancellationToken);
+
+    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(IEnumerable<VCode> vCodes)
+        => throw new NotImplementedException();
 
     public void ShouldHaveLoaded<TVereniging>(params string[] keys) where TVereniging : IHydrate<VerenigingState>, new()
     {

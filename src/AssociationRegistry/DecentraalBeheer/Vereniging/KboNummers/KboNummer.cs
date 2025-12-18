@@ -24,7 +24,7 @@ public record KboNummer
         return new KboNummer(value);
     }
 
-    internal static KboNummer Hydrate(string? kboNummer)
+    public static KboNummer Hydrate(string? kboNummer)
         => new(kboNummer);
 
     public override string ToString()

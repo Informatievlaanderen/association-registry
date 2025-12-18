@@ -41,8 +41,14 @@ public class SyncKszMessageHandler
 
         var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
-        foreach (var vertegenwoordigerPersoonsgegeven in vertegenwoordigerPersoonsgegevens.DistinctBy(x => x.VCode))
+        var vertegenwoordigerPersoonsgegevensByVCode = vertegenwoordigerPersoonsgegevens.DistinctBy(x => x.VCode).ToList();
+        var vzerOnlyVcodes = await _verenigingsRepository.FilterVzerOnly(vertegenwoordigerPersoonsgegevensByVCode.Select(x => x.VCode));
+
+        foreach (var vertegenwoordigerPersoonsgegeven in vertegenwoordigerPersoonsgegevensByVCode)
         {
+            if (!vzerOnlyVcodes.Contains(vertegenwoordigerPersoonsgegeven.VCode))
+                return;
+
             var vereniging =
                 await _verenigingsRepository.Load<Vereniging>(VCode.Create(vertegenwoordigerPersoonsgegeven.VCode), commandMetadata, allowDubbeleVereniging: true, allowVerwijderdeVereniging: true);
 
