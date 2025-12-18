@@ -73,7 +73,7 @@ public class Given_Overleden_Vertegenwoordiger
             CancellationToken.None);
 
         _messageBusMock.Verify(x => x.SendAsync(
-            It.Is<CommandEnvelope<MarkeerVertegenwoordigerAlsOverledenCommand>>(
+            It.Is<CommandEnvelope<MarkeerVertegenwoordigerAlsOverledenMessage>>(
                 cmd => cmd.Command.VCode == _scenario.VCode &&
                        cmd.Command.VertegenwoordigerId == _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId),
             It.IsAny<DeliveryOptions?>()), Times.Once);

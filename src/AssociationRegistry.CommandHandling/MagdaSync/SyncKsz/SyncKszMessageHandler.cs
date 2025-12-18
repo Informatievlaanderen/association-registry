@@ -39,7 +39,10 @@ public class SyncKszMessageHandler
         // foreach distinc persoon record
         // send cmd foreach VCode vertegenwoordigerId
         // postgres queue + aantal retries
+        await _messageBus.SendAsync(new MarkeerVertegenwoordigerAlsOverledenMessage(VCode.Hydrate("V0001001"), 111));
 
+        _logger.LogInformation("done handling ---------------------------");
+        return;
        var vertegenwoordigerPersoonsgegevens = await _vertegenwoordigerPersoonsgegevensRepository.Get(message.Insz, cancellationToken);
 
        if(!vertegenwoordigerPersoonsgegevens.Any())
@@ -58,9 +61,9 @@ public class SyncKszMessageHandler
 
        foreach (var vertegenwoordigerPersoonsgegeven in vertegenwoordigerPersoonsgegevens.DistinctBy(x => x.VCode))
        {
-           await _messageBus.SendAsync(new CommandEnvelope<MarkeerVertegenwoordigerAlsOverledenCommand>(new MarkeerVertegenwoordigerAlsOverledenCommand(vertegenwoordigerPersoonsgegeven.VCode, vertegenwoordigerPersoonsgegeven.VertegenwoordigerId), commandMetadata));
+           await _messageBus.SendAsync(new CommandEnvelope<MarkeerVertegenwoordigerAlsOverledenMessage>(new MarkeerVertegenwoordigerAlsOverledenMessage(vertegenwoordigerPersoonsgegeven.VCode, vertegenwoordigerPersoonsgegeven.VertegenwoordigerId), commandMetadata));
        }
     }
 }
 
-public record MarkeerVertegenwoordigerAlsOverledenCommand(VCode VCode, int VertegenwoordigerId);
+public record MarkeerVertegenwoordigerAlsOverledenMessage(VCode VCode, int VertegenwoordigerId);

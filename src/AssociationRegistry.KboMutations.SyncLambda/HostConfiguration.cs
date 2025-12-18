@@ -37,6 +37,7 @@ using Newtonsoft.Json;
 using Npgsql;
 using Wolverine;
 using global::Wolverine.Marten;
+using Wolverine.Postgresql;
 using PostgreSqlOptionsSection = Configuration.PostgreSqlOptionsSection;
 using IEventStore = AssociationRegistry.MartenDb.Store.IEventStore;
 using EventStore = AssociationRegistry.MartenDb.Store.EventStore;
@@ -70,13 +71,17 @@ public static class HostConfiguration
 
                 // Add Magda services
                 services.AddSingleton<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>();
-                services.AddSingleton<MagdaCallReferenceService>();
-                services.AddSingleton<MagdaRegistreerInschrijvingValidator>();
-                services.AddSingleton<MagdaGeefPersoonValidator>();
-                services.AddSingleton<MagdaClient>();
+                services.AddSingleton<IMagdaCallReferenceService, MagdaCallReferenceService>();
+                services.AddSingleton<IMagdaRegistreerInschrijvingValidator, MagdaRegistreerInschrijvingValidator>();
+                services.AddSingleton<IMagdaGeefPersoonValidator, MagdaGeefPersoonValidator>();
+                services.AddSingleton<IMagdaClient, MagdaClient>();
+                services.AddSingleton<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>();
+                services.AddSingleton<PersoonsgegevensEventTransformers>();
+                services.AddSingleton<IEventPreConflictResolutionStrategy, EmptyConflictResolutionStrategy>();
+                services.AddSingleton<IEventPostConflictResolutionStrategy, EmptyConflictResolutionStrategy>();
                 services.AddSingleton<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>();
-                services.AddSingleton<IMagdaSyncGeefVerenigingService, SyncGeefVerenigingService>();
                 services.AddSingleton<IMagdaGeefPersoonService, MagdaGeefPersoonService>();
+                services.AddSingleton<IMagdaSyncGeefVerenigingService, SyncGeefVerenigingService>();
 
                 // Add repository
                 services.AddSingleton<IVerenigingsRepository, VerenigingsRepository>();
@@ -85,9 +90,8 @@ public static class HostConfiguration
                     new EventConflictResolver(
                         Array.Empty<IEventPreConflictResolutionStrategy>(),
                         Array.Empty<IEventPostConflictResolutionStrategy>()));
-                services.AddSingleton<PersoonsgegevensProcessor>();
+                services.AddSingleton<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>();
                 services.AddSingleton<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>();
-                services.AddSingleton<VertegenwoordigerPersoonsgegevensQuery>();
 
                 // Add handlers
                 services.AddSingleton<SyncKboCommandHandler>();
@@ -114,8 +118,17 @@ public static class HostConfiguration
                 })
                 .IntegrateWithWolverine();
 
-                // Optimize for Serverless
-                opts.Durability.Mode = DurabilityMode.Serverless;
+                opts.Discovery.IncludeType<MarkeerVertegenwoordigerAlsOverledenMessage>();
+
+                const string naam = "markeer-v-als-overleden-queue";
+                opts.PublishMessage<MarkeerVertegenwoordigerAlsOverledenMessage>()
+                    .ToPostgresqlQueue(naam);
+
+                opts.PersistMessagesWithPostgresql(connectionString, "public")
+                    .EnableMessageTransport();
+
+                opts.AutoBuildMessageStorageOnStartup = AutoCreate.All;
+
                 opts.Policies.AutoApplyTransactions();
             })
             .StartAsync();
@@ -140,11 +153,12 @@ public static class HostConfiguration
                                         .Get<MagdaOptionsSection>()
                         ?? throw new ArgumentException("Could not load MagdaOptions");
 
-        if (!string.IsNullOrEmpty(paramNamesConfiguration.MagdaCertificate))
-        {
-            magdaOptions.ClientCertificate = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificate);
-            magdaOptions.ClientCertificatePassword = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificatePassword);
-        }
+
+        // if (!string.IsNullOrEmpty(paramNamesConfiguration.MagdaCertificate))
+        // {
+        //     magdaOptions.ClientCertificate = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificate);
+        //     magdaOptions.ClientCertificatePassword = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificatePassword);
+        // }
 
         return magdaOptions;
     }
