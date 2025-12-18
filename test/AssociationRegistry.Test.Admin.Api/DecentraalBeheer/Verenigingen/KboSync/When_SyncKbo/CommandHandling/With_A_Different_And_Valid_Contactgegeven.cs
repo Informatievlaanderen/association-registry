@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.KboSync.When_SyncKbo.CommandHandling;
 
-using AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
+using AssociationRegistry.CommandHandling.MagdaSync.SyncKbo;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
@@ -50,14 +50,14 @@ public class With_A_Different_And_Valid_Contactgegeven
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler =
-            new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
+            new SyncKboCommandHandler(_verenigingRepositoryMock,
+Mock.Of<IMagdaRegistreerInschrijvingService>(),
                                       new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
                                       _notifierMock.Object,
                                       NullLogger<SyncKboCommandHandler>.Instance);
 
         commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
-            _verenigingRepositoryMock).GetAwaiter().GetResult();
+            new CommandEnvelope<SyncKboCommand>(command, commandMetadata)).GetAwaiter().GetResult();
     }
 
     [Fact]

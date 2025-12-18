@@ -9,6 +9,8 @@ public class ConfigurationManager
         return new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
               .AddJsonFile("appsettings.json", true, true)
+              .AddJsonFile($"appsettings.MSI.json", optional: true,
+                           reloadOnChange: false)
               .AddEnvironmentVariables()
               .Build();
     }

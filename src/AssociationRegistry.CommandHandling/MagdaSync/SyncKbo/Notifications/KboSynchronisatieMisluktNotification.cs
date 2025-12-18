@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo.Messages;
+﻿namespace AssociationRegistry.CommandHandling.MagdaSync.SyncKbo.Notifications;
 
 using AssociationRegistry.Integrations.Slack;
 

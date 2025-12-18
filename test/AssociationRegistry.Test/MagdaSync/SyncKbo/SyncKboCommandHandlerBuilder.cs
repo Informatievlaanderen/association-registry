@@ -3,7 +3,7 @@
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Kbo;
 using AutoFixture;
-using CommandHandling.KboSyncLambda.SyncKbo;
+using CommandHandling.MagdaSync.SyncKbo;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging;
 using EventStore;
@@ -131,11 +131,10 @@ public class SyncKboCommandHandlerBuilder
 
 
     public SyncKboCommandHandler Build()
-        => new(_magdaRegistreerInschrijvingService.Object, _magdaGeefVerenigingService.Object,
+        => new(_verenigingsRepository.Object, _magdaRegistreerInschrijvingService.Object, _magdaGeefVerenigingService.Object,
                Mock.Of<INotifier>(), Mock.Of<ILogger<SyncKboCommandHandler>>());
 
-    public async Task<CommandResult?> Handle()
+    public async Task Handle()
         => await Build().Handle(
-            new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(_kboNummer), _fixture.Create<CommandMetadata>()),
-            _verenigingsRepository.Object);
+            new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(_kboNummer), _fixture.Create<CommandMetadata>()));
 }

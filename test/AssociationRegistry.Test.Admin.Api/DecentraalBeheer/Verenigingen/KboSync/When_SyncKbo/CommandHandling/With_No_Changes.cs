@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.KboSync.When_SyncKbo.CommandHandling;
 
-using AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
-using AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo.Messages;
+using AssociationRegistry.CommandHandling.MagdaSync.SyncKbo;
+using AssociationRegistry.CommandHandling.MagdaSync.SyncKbo.Notifications;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Events;
@@ -43,7 +43,9 @@ public class With_No_Changes
 
         _magdaRegistreerInschrijvingServiceMock = new Mock<IMagdaRegistreerInschrijvingService>();
 
-        var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object,
+        var commandHandler = new SyncKboCommandHandler(
+            _verenigingRepositoryMock,
+            _magdaRegistreerInschrijvingServiceMock.Object,
                                                        new MagdaSyncGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
@@ -51,8 +53,7 @@ public class With_No_Changes
                                                        NullLogger<SyncKboCommandHandler>.Instance);
 
         commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(_command, commandMetadata),
-            _verenigingRepositoryMock).GetAwaiter().GetResult();
+            new CommandEnvelope<SyncKboCommand>(_command, commandMetadata)).GetAwaiter().GetResult();
     }
 
     [Fact]
@@ -102,7 +103,7 @@ public class With_FailureResultFromMagda
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly Mock<INotifier> _notifierMock;
     private readonly Mock<IMagdaSyncGeefVerenigingService> _magdaGeefVerenigingService;
-    private readonly Func<Task<CommandResult>> _action;
+    private readonly Func<Task> _action;
 
     public With_FailureResultFromMagda()
     {
@@ -121,14 +122,14 @@ public class With_FailureResultFromMagda
         var command = new SyncKboCommand(KboNummer.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        var commandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
+        var commandHandler = new SyncKboCommandHandler(_verenigingRepositoryMock,
+Mock.Of<IMagdaRegistreerInschrijvingService>(),
                                                        _magdaGeefVerenigingService.Object,
                                                        _notifierMock.Object,
                                                        NullLogger<SyncKboCommandHandler>.Instance);
 
         _action = async () => await commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
-            _verenigingRepositoryMock);
+            new CommandEnvelope<SyncKboCommand>(command, commandMetadata));
     }
 
     [Fact]

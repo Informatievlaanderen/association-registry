@@ -1,52 +1,54 @@
-﻿namespace AssociationRegistry.CommandHandling.KboSyncLambda.SyncKbo;
+﻿namespace AssociationRegistry.CommandHandling.MagdaSync.SyncKbo;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Integrations.Slack;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Resources;
-using Integrations.Magda;
-using Integrations.Slack;
-using Messages;
 using Microsoft.Extensions.Logging;
-using OpenTelemetry.Metrics;
+using Notifications;
 using ResultNet;
 using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
 public class SyncKboCommandHandler
 {
+    private readonly IVerenigingsRepository _repository;
     private readonly IMagdaRegistreerInschrijvingService _registreerInschrijvingService;
     private readonly INotifier _notifier;
     private readonly ILogger<SyncKboCommandHandler> _logger;
     private readonly IMagdaSyncGeefVerenigingService _geefVerenigingService;
 
     public SyncKboCommandHandler(
+        IVerenigingsRepository repository,
         IMagdaRegistreerInschrijvingService registreerInschrijvingService,
         IMagdaSyncGeefVerenigingService geefVerenigingService,
         INotifier notifier,
         ILogger<SyncKboCommandHandler> logger)
     {
+        _repository = repository;
         _registreerInschrijvingService = registreerInschrijvingService;
         _geefVerenigingService = geefVerenigingService;
         _notifier = notifier;
         _logger = logger;
     }
 
-    public async Task<CommandResult?> Handle(
+    public async Task Handle(
         CommandEnvelope<SyncKboCommand> message,
-        IVerenigingsRepository repository,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} start");
 
         using var scope = KboSyncMetrics.Start(message.Command.KboNummer);
 
-        if (!await repository.Exists(message.Command.KboNummer))
+        if (!await _repository.Exists(message.Command.KboNummer))
         {
             scope.Dropped();
-            return null;
+            throw new InvalidOperationException("KboNummer not found");
         }
 
         var verenigingVolgensMagda =
@@ -60,7 +62,7 @@ public class SyncKboCommandHandler
             throw new GeenGeldigeVerenigingInKbo();
         }
 
-        var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata);
+        var vereniging = await _repository.Load(message.Command.KboNummer, message.Metadata);
 
         scope.UseVCode(vereniging.VCode);
 
@@ -68,13 +70,11 @@ public class SyncKboCommandHandler
 
         vereniging.NeemGegevensOverUitKboSync(verenigingVolgensMagda);
 
-        var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
+        await _repository.Save(vereniging, message.Metadata, cancellationToken);
 
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} end");
 
         scope.Succeed();
-
-        return CommandResult.Create(VCode.Create(vereniging.VCode), result);
     }
 
     private async Task RegistreerInschrijving(

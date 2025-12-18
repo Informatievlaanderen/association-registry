@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoBogus" />
+    <PackageReference Include="AutoFixture" />
+    <PackageReference Include="FluentAssertions.Json" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.analyzers" />
+    <PackageReference Include="xunit.v3.assert" />
+    <PackageReference Include="xunit.v3.core" />
+    <PackageReference Include="xunit.v3.common" />
+    <PackageReference Include="xunit.v3.extensibility.core" />
+    <PackageReference Include="xunit.v3.runner.console" />
+    <PackageReference Include="xunit.v3.runner.msbuild" />
+    <PackageReference Include="xunit.v3.runner.utility" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="AWSSDK.Core" />
+    <PackageReference Remove="Marten" />
+    <PackageReference Remove="WolverineFx" />
+  </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="Xunit"/>
+    </ItemGroup>
+
+</Project>

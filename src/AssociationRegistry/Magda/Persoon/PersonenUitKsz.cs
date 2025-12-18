@@ -16,4 +16,4 @@ public class PersonenUitKsz : ReadOnlyCollection<PersoonUitKsz>
     public bool HeeftOverledenPersonen => this.Any(x => x.Overleden);
 }
 
-public record PersoonUitKsz(string Insz, string Voornaam, string Achternaam, bool Overleden);
+public record PersoonUitKsz(string Insz, bool Overleden);

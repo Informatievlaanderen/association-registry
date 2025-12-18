@@ -78,4 +78,26 @@ public class VertegenwoordigerPersoonsgegevensRepository : IVertegenwoordigerPer
                                                             v.SocialMedia
                                                         )).ToArray();
     }
+
+    public async Task<VertegenwoordigerPersoonsgegevens[]> Get(Insz insz, CancellationToken cancellationToken)
+    {
+        var vertegenwoordigerPersoonsgegevens =
+            await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(new VertegenwoordigerPersoonsgegevensByInszFilter(insz),
+                                                                       cancellationToken);
+
+        return vertegenwoordigerPersoonsgegevens.Select(v => new VertegenwoordigerPersoonsgegevens(
+                                                            v.RefId,
+                                                            VCode.Hydrate(v.VCode),
+                                                            v.VertegenwoordigerId,
+                                                            Insz.Hydrate(v.Insz),
+                                                            v.Roepnaam,
+                                                            v.Rol,
+                                                            v.Voornaam,
+                                                            v.Achternaam,
+                                                            v.Email,
+                                                            v.Telefoon,
+                                                            v.Mobiel,
+                                                            v.SocialMedia
+                                                        )).ToArray();
+    }
 }

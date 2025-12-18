@@ -33,4 +33,19 @@ public class VertegenwoordigerPersoonsgegevensQuery : IVertegenwoordigerPersoons
               .Concat(pending)
               .ToArray();
     }
+
+    public async Task<VertegenwoordigerPersoonsgegevensDocument[]> ExecuteAsync(VertegenwoordigerPersoonsgegevensByInszFilter filter, CancellationToken cancellationToken)
+    {
+        var fromDb = await _session.Query<VertegenwoordigerPersoonsgegevensDocument>()
+                                   .Where(x => filter.Insz == x.Insz)
+                                   .ToListAsync(cancellationToken);
+
+        var pending = _session.PendingChanges.Inserts()
+                              .OfType<VertegenwoordigerPersoonsgegevensDocument>()
+                              .Where(x => filter.Insz == x.Insz);
+
+        return fromDb
+              .Concat(pending)
+              .ToArray();
+    }
 }

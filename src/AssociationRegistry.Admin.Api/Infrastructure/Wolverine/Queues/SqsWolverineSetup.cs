@@ -3,7 +3,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Wolverine.Queues;
 using Amazon.Runtime;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using AssociationRegistry.CommandHandling.Grar.GrarConsumer.Messaging;
-using Contracts.KboSync;
+using Contracts.MagdaSync.KboSync;
 using Hosts.Configuration.ConfigurationBindings;
 using global::Wolverine;
 using global::Wolverine.AmazonSqs;

@@ -6,12 +6,13 @@ using Xunit;
 public class Given_Vereniging_Niet_Gekend_In_Verenigingsregister
 {
     [Fact]
-    public async ValueTask Then_Returns_Null()
+    public async ValueTask Then_Throws_Exception()
     {
-        var actual = await new SyncKboCommandHandlerBuilder()
+        var act = async () => await new SyncKboCommandHandlerBuilder()
                  .MetNietBestaandeVereniging()
                  .Handle();
 
-        actual.Should().BeNull();
+        await act.Should().ThrowAsync<InvalidOperationException>()
+            .WithMessage("KboNummer not found");
     }
 }
