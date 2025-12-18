@@ -10,7 +10,6 @@ using JasperFx.Events;
 using Marten;
 using Microsoft.Extensions.Logging;
 using NodaTime.Text;
-using Persoonsgegevens;
 using Transformers;
 using IEvent = Events.IEvent;
 
@@ -207,9 +206,6 @@ public class EventStore : IEventStore
 
         return VCode.Hydrate(id);
     }
-
-    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(IEnumerable<VertegenwoordigerPersoonsgegevens> vertegenwoordigerPersoonsgegevensByVCode)
-        => throw new NotImplementedException();
 
     public async Task<IReadOnlyList<VCode>> FilterVzerOnly(
         IEnumerable<VCode> vCodes)
