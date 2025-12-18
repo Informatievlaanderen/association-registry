@@ -10,6 +10,7 @@ using JasperFx.Events;
 using Marten;
 using Microsoft.Extensions.Logging;
 using NodaTime.Text;
+using Persoonsgegevens;
 using Transformers;
 using IEvent = Events.IEvent;
 
@@ -205,5 +206,18 @@ public class EventStore : IEventStore
             return null;
 
         return VCode.Hydrate(id);
+    }
+
+    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(IEnumerable<VertegenwoordigerPersoonsgegevens> vertegenwoordigerPersoonsgegevensByVCode)
+        => throw new NotImplementedException();
+
+    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(
+        IEnumerable<VCode> vCodes)
+    {
+        var vCodeValues = vCodes.Select(x => x.Value).ToList();
+        return await _session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+                                .Where(geregistreerd => vCodeValues.Contains(geregistreerd.VCode))
+                             .Select(x => VCode.Hydrate(x.VCode))
+                             .ToListAsync();
     }
 }

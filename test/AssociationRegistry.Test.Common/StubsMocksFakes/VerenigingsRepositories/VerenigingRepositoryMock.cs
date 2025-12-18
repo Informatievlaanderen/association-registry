@@ -11,6 +11,7 @@ using KellermanSoftware.CompareNetObjects;
 using Marten;
 using MartenDb.Store;
 using Microsoft.Extensions.DependencyInjection;
+using Persoonsgegevens;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
@@ -97,6 +98,9 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     public async Task<StreamActionResult> SaveNew(VerenigingsBase vereniging, IDocumentSession session, CommandMetadata messageMetadata, CancellationToken cancellationToken)
         => await Save(vereniging, messageMetadata, cancellationToken);
+
+    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(IEnumerable<VCode> vCodes)
+        => vCodes.ToList();
 
     public void ShouldHaveLoaded<TVereniging>(params string[] keys) where TVereniging : IHydrate<VerenigingState>, new()
     {

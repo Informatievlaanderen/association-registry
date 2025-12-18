@@ -5,6 +5,7 @@ using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
+using Persoonsgegevens;
 
 public interface IEventStore
 {
@@ -21,4 +22,5 @@ public interface IEventStore
     Task<bool> Exists(KboNummer kboNummer);
     Task<StreamActionResult> SaveNew(string aggregateId, CommandMetadata metadata, CancellationToken cancellationToken, IEvent[] events);
     Task<VCode?> GetVCodeForKbo(string kboNummer);
+    Task<IReadOnlyList<VCode>> FilterVzerOnly(IEnumerable<VCode> vCodes);
 }

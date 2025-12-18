@@ -127,7 +127,7 @@ public class MagdaEnvelopeParserTests
         var invalidJson = """{ "Insz": "06321184845" """;
 
         // Act + Assert
-        Assert.Throws<JsonException>(() => MagdaEnvelopeParser.Parse(invalidJson));
+        Assert.ThrowsAny<JsonException>(() => MagdaEnvelopeParser.Parse(invalidJson));
     }
 }
 
