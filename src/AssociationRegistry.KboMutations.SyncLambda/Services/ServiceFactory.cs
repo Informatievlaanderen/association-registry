@@ -52,7 +52,9 @@ public class ServiceFactory
         var logger = loggerFactory.CreateLogger<ServiceFactory>();
         var magdaOptions = await GetMagdaOptionsAsync(ssmClientWrapper, paramNamesConfiguration, logger);
         var store = await SetUpDocumentStoreAsync(ssmClientWrapper, paramNamesConfiguration, logger);
-        var repository = CreateRepository(store, loggerFactory);
+        var session = store.LightweightSession();
+
+        var repository = CreateRepository(session, loggerFactory);
         var referenceRepository = new MagdaCallReferenceRepository(store.LightweightSession());
         var magdaClient = new MagdaClient(magdaOptions,
                                           new MagdaCallReferenceService(referenceRepository),
@@ -60,6 +62,10 @@ public class ServiceFactory
                                           new MagdaGeefPersoonValidator(loggerFactory.CreateLogger<MagdaGeefPersoonValidator>()),
                                           loggerFactory.CreateLogger<MagdaClient>());
         var registreerInschrijvingService = CreateRegistreerInschrijvingService(magdaOptions, loggerFactory, referenceRepository);
+
+        var vertegenwoordigerPersoonsgegevensRepository =
+            new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session));
+
         var notifier = await CreateNotifierAsync(ssmClientWrapper, paramNamesConfiguration);
 
         return new LambdaServices(
@@ -68,6 +74,7 @@ public class ServiceFactory
             registreerInschrijvingService,
             new SyncGeefVerenigingService(magdaClient, loggerFactory.CreateLogger<SyncGeefVerenigingService>()),
             repository,
+            vertegenwoordigerPersoonsgegevensRepository,
             notifier
         );
     }
@@ -181,13 +188,11 @@ public class ServiceFactory
         return opts;
     }
 
-    private static VerenigingsRepository CreateRepository(DocumentStore store, ILoggerFactory loggerFactory)
+    private static VerenigingsRepository CreateRepository(IDocumentSession session, ILoggerFactory loggerFactory)
     {
         var eventConflictResolver = new EventConflictResolver(
             Array.Empty<IEventPreConflictResolutionStrategy>(),
             Array.Empty<IEventPostConflictResolutionStrategy>());
-
-        var session = store.LightweightSession();
 
         return new VerenigingsRepository(
             new EventStore(session, eventConflictResolver,

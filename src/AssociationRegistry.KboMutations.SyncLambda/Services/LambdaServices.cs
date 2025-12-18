@@ -4,6 +4,7 @@ using Integrations.Magda.Onderneming;
 using Integrations.Slack;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
+using Persoonsgegevens;
 
 public record LambdaServices(
     MessageProcessor MessageProcessor,
@@ -11,5 +12,6 @@ public record LambdaServices(
     MagdaRegistreerInschrijvingService RegistreerInschrijvingService,
     SyncGeefVerenigingService GeefVerenigingService,
     VerenigingsRepository Repository,
+    IVertegenwoordigerPersoonsgegevensRepository VertegenwoordigerPersoonsgegevensRepository,
     INotifier Notifier
 );

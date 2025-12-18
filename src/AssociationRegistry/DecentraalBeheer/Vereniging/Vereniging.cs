@@ -376,4 +376,17 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             }
         }
     }
+
+    public void MarkeerVertegenwoordigerAlsOverleden(int vertegenwoordigerId)
+    {
+        var vertegenwoordiger = State.Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == vertegenwoordigerId);
+        if(vertegenwoordiger == null)
+            return;
+
+        AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
+                     vertegenwoordiger.VertegenwoordigerId,
+                     vertegenwoordiger.Insz,
+                     vertegenwoordiger.Voornaam,
+                     vertegenwoordiger.Achternaam));
+    }
 }

@@ -1,18 +1,16 @@
-﻿namespace AssociationRegistry.Test.KboSync;
+﻿namespace AssociationRegistry.Test.MagdaSync.KboSync;
 
+using AssociationRegistry.CommandHandling.MagdaSync.SyncKbo;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Integrations.Slack;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using CommandHandling.KboSyncLambda.SyncKbo;
-using Common.AutoFixture;
-using DecentraalBeheer.Vereniging;
-using EventStore;
-using Integrations.Slack;
-using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
-using Vereniging;
 
 public class SyncKboCommandHandlerBuilder
 {

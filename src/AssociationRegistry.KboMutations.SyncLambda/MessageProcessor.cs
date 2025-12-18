@@ -3,19 +3,15 @@
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using Amazon.Lambda.SQSEvents;
-using CommandHandling.KboSyncLambda.SyncKbo;
+using CommandHandling.MagdaSync.SyncKbo;
+using CommandHandling.MagdaSync.SyncKsz;
 using DecentraalBeheer.Vereniging;
-using KboMutations.Configuration;
-using CommandHandling.KboSyncLambda;
-using Contracts.KboSync;
+using Framework;
 using Integrations.Slack;
-using Logging;
-using AssociationRegistry.Magda.Kbo;
+using KboMutations.Configuration;
+using Magda.Kbo;
 using Microsoft.Extensions.Logging;
-using Notifications;
-using System.Text.Json;
-using Vereniging;
-using Wolverine;
+using Persoonsgegevens;
 
 public class MessageProcessor
 {
@@ -30,7 +26,8 @@ public class MessageProcessor
         ILoggerFactory loggerFactory,
         IMagdaRegistreerInschrijvingService registreerInschrijvingService,
         IMagdaSyncGeefVerenigingService geefOndernemingService,
-        IVerenigingsRepository repository,
+        IVerenigingsRepository verenigingsRepository,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
         INotifier notifier,
         CancellationToken cancellationToken)
     {
@@ -41,29 +38,37 @@ public class MessageProcessor
 
         var logger = loggerFactory.CreateLogger<SyncKboCommandHandler>();
 
-        var handler = new SyncKboCommandHandler(
+        var kboSyncHandler = new SyncKboCommandHandler(
             registreerInschrijvingService,
             geefOndernemingService,
             notifier,
             logger
             );
 
+        var kszSyncHandler = new SyncKszMessageHandler(
+            vertegenwoordigerPersoonsgegevensRepository,
+            verenigingsRepository,
+            loggerFactory.CreateLogger<SyncKszMessageHandler>()
+            );
+
         foreach (var record in sqsEvent.Records)
         {
-            try
-            {
-                contextLogger.LogInformation("Processing record {Id}", record.MessageId);
-                contextLogger.LogInformation("Message attributes for record {Id}", string.Join("\n", record.MessageAttributes.Select(k => $"{k.Key}:{k.Value.StringValue}")));
-                contextLogger.LogInformation("Record attributes for record {Id}", string.Join("\n", record.Attributes.Select(k => $"{k.Key}:{k.Value.ToString()}")));
+            var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
-                var message = JsonSerializer.Deserialize<TeSynchroniserenKboNummerMessage>(record.Body);
-                await RecordProcessor.TryProcessRecord(contextLogger, repository, cancellationToken, message, handler);
-            }
-            catch(Exception ex)
-            {
-                await notifier.Notify(new KboSyncLambdaGefaald(record.Body, ex));
+            var envelope = MagdaEnvelopeParser.Parse(record.Body);
 
-                throw;
+            switch (envelope.Type)
+            {
+                case MagdaMessageType.SyncKbo:
+                    await kboSyncHandler.Handle(new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(KboNummer.Create(envelope.KboNummer!)), commandMetadata), verenigingsRepository, cancellationToken);
+                    break;
+
+                case MagdaMessageType.SyncKsz:
+                    await kszSyncHandler.Handle(new SyncKszMessage(Insz.Create(envelope.InszMessage!.Insz), envelope.InszMessage.Overleden), cancellationToken);
+                    break;
+
+                default:
+                    throw new InvalidOperationException($"Unknown message shape for record {record.MessageId}. Body={record.Body}: expected KboNummer OR Insz.");
             }
         }
     }

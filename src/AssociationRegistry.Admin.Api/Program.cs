@@ -60,7 +60,6 @@ using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.MartenDb.Store;
 using CommandHandling.DecentraalBeheer.Acties.DubbelDetectie;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
-using CommandHandling.KboSyncLambda.SyncKbo;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Marten;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

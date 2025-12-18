@@ -165,7 +165,8 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     public void ShouldNotHaveAnySaves()
     {
-        SaveInvocations[0].Vereniging.UncommittedEvents.Should().BeEmpty();
+        if(SaveInvocations.Count != 0)
+            SaveInvocations[0].Vereniging.UncommittedEvents.Should().BeEmpty();
         AssertLoadingDubbel();
         AssertLoadingVerwijderd();
     }

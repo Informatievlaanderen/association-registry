@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.KboSync;
+﻿namespace AssociationRegistry.Test.MagdaSync.KboSync;
 
-using DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using Xunit;
 
 public class Given_Geen_Geldige_Vereniging_Volgens_Magda
