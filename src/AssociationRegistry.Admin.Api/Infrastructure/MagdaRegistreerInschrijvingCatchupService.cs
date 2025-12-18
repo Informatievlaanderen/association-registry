@@ -1,14 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
-using CommandHandling.KboSyncLambda;
 using Contracts.KboSync;
 using Events;
-using global::Marten;
 using global::Wolverine;
 using Hosts.Configuration.ConfigurationBindings;
 using Magda.Kbo;
 using Marten;
-using Wolverine;
 
 public class MagdaRegistreerInschrijvingCatchupService : IMagdaRegistreerInschrijvingCatchupService
 {

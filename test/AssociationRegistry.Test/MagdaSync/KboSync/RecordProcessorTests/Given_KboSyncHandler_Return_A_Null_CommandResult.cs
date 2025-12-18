@@ -1,20 +1,16 @@
-﻿namespace AssociationRegistry.Test.KboSync.RecordProcessorTests;
+﻿namespace AssociationRegistry.Test.MagdaSync.KboSync.RecordProcessorTests;
 
+using AssociationRegistry.CommandHandling.MagdaSync.SyncKbo;
+using AssociationRegistry.Contracts.KboSync;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Integrations.Slack;
+using AssociationRegistry.KboMutations.SyncLambda;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using CommandHandling.KboSyncLambda.SyncKbo;
-using Common.AutoFixture;
-using DecentraalBeheer.Vereniging;
-using CommandHandling.KboSyncLambda;
-using Contracts.KboSync;
-using Integrations.Magda;
-using Integrations.Slack;
-using KboMutations.SyncLambda;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
-using Wolverine;
 using Xunit;
 
 public class Given_KboSyncHandler_Return_A_Null_CommandResult

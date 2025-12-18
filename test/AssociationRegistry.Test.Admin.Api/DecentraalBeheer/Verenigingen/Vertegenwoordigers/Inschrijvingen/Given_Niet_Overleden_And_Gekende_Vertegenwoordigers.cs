@@ -33,7 +33,7 @@ public class Given_Niet_Overleden_And_Gekende_Vertegenwoordigers
         foreach (var vertegenwoordiger in _scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers)
         {
             magdaGeefPersoonService.Setup(x => x.GeefPersoon(GeefPersoonRequest.From(vertegenwoordiger), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
-                                   .ReturnsAsync(new PersoonUitKsz(vertegenwoordiger.Insz, vertegenwoordiger.Voornaam, vertegenwoordiger.Achternaam, Overleden: false));
+                                   .ReturnsAsync(new PersoonUitKsz(vertegenwoordiger.Insz, Overleden: false));
         }
 
         _commandHandler = new SchrijfVertegenwoordigersInMessageHandler(_verenigingRepositoryMock, magdaGeefPersoonService.Object, NullLogger<SchrijfVertegenwoordigersInMessageHandler>.Instance);

@@ -39,4 +39,9 @@
     <PackageReference Include="xunit.v3.core" />
     <PackageReference Include="AWSSDK.Core" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="MagdaSync\KszSync\" />
+  </ItemGroup>
 </Project>

@@ -1,10 +1,9 @@
-﻿namespace AssociationRegistry.Test.KboSync.When_SyncCompleted;
+﻿namespace AssociationRegistry.Test.MagdaSync.KboSync.When_SyncCompleted;
 
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
-using DecentraalBeheer.Vereniging;
 using FluentAssertions;
 using Xunit;
 

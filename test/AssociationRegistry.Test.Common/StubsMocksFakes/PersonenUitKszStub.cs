@@ -20,7 +20,6 @@ public class PersonenUitKszStub: PersonenUitKsz
         bool anyOverleden)
     {
         return command.Vertegenwoordigers.Select(x =>
-                                                     new PersoonUitKsz(x.Insz,
-                                                                       x.Voornaam, x.Achternaam, anyOverleden));
+                                                     new PersoonUitKsz(x.Insz, anyOverleden));
     }
 }

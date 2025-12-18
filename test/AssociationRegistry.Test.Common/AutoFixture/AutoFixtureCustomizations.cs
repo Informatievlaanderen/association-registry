@@ -349,8 +349,6 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () => new PersoonUitKsz(
                                                                  fixture.Create<Insz>(),
-                                                                 fixture.Create<Voornaam>(),
-                                                                 fixture.Create<Achternaam>(),
                                                                  false
                                                                  ))
                                                         .OmitAutoProperties());

@@ -11,10 +11,10 @@ public interface IMagdaGeefPersoonService
 }
 
 
-public record GeefPersoonRequest(string Insz, string Voornaam, string Achternaam)
+public record GeefPersoonRequest(string Insz)
 {
     public static GeefPersoonRequest From(Registratiedata.Vertegenwoordiger vertegenwoordiger)
-        => new(vertegenwoordiger.Insz, vertegenwoordiger.Voornaam, vertegenwoordiger.Achternaam);
+        => new(vertegenwoordiger.Insz);
     public static GeefPersoonRequest From(Vertegenwoordiger vertegenwoordiger)
-        => new(vertegenwoordiger.Insz, vertegenwoordiger.Voornaam, vertegenwoordiger.Achternaam);
+        => new(vertegenwoordiger.Insz);
 };

@@ -1,18 +1,17 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.KboSync;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
-using AssociationRegistry.Admin.Schema.KboSync;
-using AssociationRegistry.Events;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using CommandHandling.KboSyncLambda;
 using Contracts.KboSync;
+using Events;
 using Historiek.Examples;
+using Infrastructure.WebApi.Swagger.Annotations;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
+using Schema.KboSync;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;

@@ -43,6 +43,7 @@ public class Function
                 services.RegistreerInschrijvingService,
                 services.GeefVerenigingService,
                 services.Repository,
+                services.VertegenwoordigerPersoonsgegevensRepository,
                 services.Notifier,
                 CancellationToken.None);
 

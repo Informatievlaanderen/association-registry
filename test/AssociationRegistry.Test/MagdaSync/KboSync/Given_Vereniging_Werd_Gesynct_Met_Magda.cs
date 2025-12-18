@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.KboSync;
+﻿namespace AssociationRegistry.Test.MagdaSync.KboSync;
 
 using FluentAssertions;
 using Xunit;

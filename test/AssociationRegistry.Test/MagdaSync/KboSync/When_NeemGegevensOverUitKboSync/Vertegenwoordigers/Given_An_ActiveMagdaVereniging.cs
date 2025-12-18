@@ -1,12 +1,12 @@
-﻿namespace AssociationRegistry.Test.KboSync.When_NeemGegevensOverUitKboSync.Vertegenwoordigers;
+﻿namespace AssociationRegistry.Test.MagdaSync.KboSync.When_NeemGegevensOverUitKboSync.Vertegenwoordigers;
 
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Events;
+using AssociationRegistry.Events.Factories;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using DecentraalBeheer.Vereniging;
-using Events;
-using Events.Factories;
 using FluentAssertions;
 using Xunit;
 
