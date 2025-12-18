@@ -1,3 +1,10 @@
+# [8.283.0](https://github.com/informatievlaanderen/association-registry/compare/v8.282.0...v8.283.0) (2025-12-18)
+
+
+### Features
+
+* or-2942 sync vertegenwoordiger met ksz ([c28b915](https://github.com/informatievlaanderen/association-registry/commit/c28b91566c77fccf816e9e0faf3505bb49a8be87))
+
 # [8.282.0](https://github.com/informatievlaanderen/association-registry/compare/v8.281.0...v8.282.0) (2025-12-15)
 
 
