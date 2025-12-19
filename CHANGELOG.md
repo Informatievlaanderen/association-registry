@@ -1,3 +1,10 @@
+# [8.284.0](https://github.com/informatievlaanderen/association-registry/compare/v8.283.0...v8.284.0) (2025-12-19)
+
+
+### Features
+
+* or-2942 only sync overleden personen for vzer verenigingen ([cb80886](https://github.com/informatievlaanderen/association-registry/commit/cb80886ac5a8c54b4a234ff2848b274d3c01da45))
+
 # [8.283.0](https://github.com/informatievlaanderen/association-registry/compare/v8.282.0...v8.283.0) (2025-12-18)
 
 
