@@ -1,3 +1,10 @@
+## [8.284.1](https://github.com/informatievlaanderen/association-registry/compare/v8.284.0...v8.284.1) (2025-12-19)
+
+
+### Bug Fixes
+
+* or-2942 hydrate to vcode after executing marten query ([0bc8d91](https://github.com/informatievlaanderen/association-registry/commit/0bc8d91722a4d8b14c37642b4bf29f9e0d49330e))
+
 # [8.284.0](https://github.com/informatievlaanderen/association-registry/compare/v8.283.0...v8.284.0) (2025-12-19)
 
 
