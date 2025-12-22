@@ -1,3 +1,10 @@
+## [8.284.3](https://github.com/informatievlaanderen/association-registry/compare/v8.284.2...v8.284.3) (2025-12-22)
+
+
+### Bug Fixes
+
+* or-2942 fix filter vzer only query ([7515504](https://github.com/informatievlaanderen/association-registry/commit/75155048ea39434b62284094bf7d9f5b0dc340a3))
+
 ## [8.284.2](https://github.com/informatievlaanderen/association-registry/compare/v8.284.1...v8.284.2) (2025-12-22)
 
 
