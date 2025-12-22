@@ -2,17 +2,14 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Integrations.Slack;
-using AssociationRegistry.Magda.Kbo;
-using AssociationRegistry.OpenTelemetry.Metrics;
-using AssociationRegistry.Resources;
+using Framework;
+using Integrations.Slack;
+using Magda.Kbo;
 using Microsoft.Extensions.Logging;
 using Notifications;
+using OpenTelemetry.Metrics;
+using Resources;
 using ResultNet;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class SyncKboCommandHandler
 {
