@@ -17,5 +17,4 @@ public interface IVerenigingsRepository
     Task<bool> Exists(VCode vCode);
     Task<bool> Exists(KboNummer kboNummer);
     Task<StreamActionResult> SaveNew(VerenigingsBase vereniging, IDocumentSession session, CommandMetadata messageMetadata, CancellationToken cancellationToken);
-    Task<IReadOnlyList<VCode>> FilterVzerOnly(IEnumerable<VCode> vCodes);
 }

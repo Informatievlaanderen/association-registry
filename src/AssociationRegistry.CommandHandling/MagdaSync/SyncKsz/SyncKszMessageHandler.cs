@@ -4,22 +4,26 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Framework;
 using Microsoft.Extensions.Logging;
 using Persoonsgegevens;
+using Queries;
 using Wolverine;
 
 public class SyncKszMessageHandler
 {
     private readonly IVertegenwoordigerPersoonsgegevensRepository _vertegenwoordigerPersoonsgegevensRepository;
     private readonly IVerenigingsRepository _verenigingsRepository;
+    private readonly IFilterVzerOnlyQuery _filterVzerOnlyQuery;
     private readonly IMessageBus _messageBus;
     private readonly ILogger<SyncKszMessageHandler> _logger;
 
     public SyncKszMessageHandler(
         IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
         IVerenigingsRepository verenigingsRepository,
+        IFilterVzerOnlyQuery filterVzerOnlyQuery,
         ILogger<SyncKszMessageHandler> logger)
     {
         _vertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository;
         _verenigingsRepository = verenigingsRepository;
+        _filterVzerOnlyQuery = filterVzerOnlyQuery;
         _logger = logger;
     }
 
@@ -47,7 +51,7 @@ public class SyncKszMessageHandler
 
         var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
-        var vzerOnly = await FilterOnlyVzer(vertegenwoordigerPersoonsgegevens);
+        var vzerOnly = await FilterOnlyVzer(vertegenwoordigerPersoonsgegevens, cancellationToken);
 
         if (!vzerOnly.Any())
         {
@@ -70,10 +74,10 @@ public class SyncKszMessageHandler
         _logger.LogInformation("SyncKszMessageHandler done");
     }
 
-    private async Task<List<VertegenwoordigerPersoonsgegevens>> FilterOnlyVzer(VertegenwoordigerPersoonsgegevens[] vertegenwoordigerPersoonsgegevens)
+    private async Task<List<VertegenwoordigerPersoonsgegevens>> FilterOnlyVzer(VertegenwoordigerPersoonsgegevens[] vertegenwoordigerPersoonsgegevens, CancellationToken cancellationToken)
     {
         var vertegenwoordigerPersoonsgegevensByVCode = vertegenwoordigerPersoonsgegevens.DistinctBy(x => x.VCode).ToList();
-        var vzerOnlyVcodes = await _verenigingsRepository.FilterVzerOnly(vertegenwoordigerPersoonsgegevensByVCode.Select(x => x.VCode));
+        var vzerOnlyVcodes = await _filterVzerOnlyQuery.ExecuteAsync(new FilterVzerOnlyQueryFilter(vertegenwoordigerPersoonsgegevensByVCode.Select(x => x.VCode).ToArray()), cancellationToken);
 
         var vzerOnly = vertegenwoordigerPersoonsgegevensByVCode.Where(x => vzerOnlyVcodes.Contains(x.VCode))
                                                                .ToList();

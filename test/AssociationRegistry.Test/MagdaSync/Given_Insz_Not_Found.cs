@@ -3,6 +3,7 @@
 using AssociationRegistry.Framework;
 using AutoFixture;
 using CommandHandling.MagdaSync.SyncKsz;
+using CommandHandling.MagdaSync.SyncKsz.Queries;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -34,7 +35,7 @@ public class Given_Insz_Not_Found
            .Setup(x => x.Get(It.IsAny<Insz>(), It.IsAny<CancellationToken>()))
            .ReturnsAsync([]);
 
-        _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsrepository.Object, NullLogger<SyncKszMessageHandler>.Instance);
+        _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsrepository.Object, Mock.Of<IFilterVzerOnlyQuery>(), NullLogger<SyncKszMessageHandler>.Instance);
         _sut.Handle(new SyncKszMessage(Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz), false), CancellationToken.None)
             .GetAwaiter().GetResult();
     }

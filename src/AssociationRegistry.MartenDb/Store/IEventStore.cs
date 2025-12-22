@@ -22,5 +22,4 @@ public interface IEventStore
     Task<bool> Exists(KboNummer kboNummer);
     Task<StreamActionResult> SaveNew(string aggregateId, CommandMetadata metadata, CancellationToken cancellationToken, IEvent[] events);
     Task<VCode?> GetVCodeForKbo(string kboNummer);
-    Task<IReadOnlyList<VCode>> FilterVzerOnly(IEnumerable<VCode> vCodes);
 }

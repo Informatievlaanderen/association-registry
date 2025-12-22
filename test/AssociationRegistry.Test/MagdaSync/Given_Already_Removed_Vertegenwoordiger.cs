@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Persoon;
 using AutoFixture;
 using CommandHandling.MagdaSync.SyncKsz;
+using CommandHandling.MagdaSync.SyncKsz.Queries;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -52,7 +53,7 @@ public class Given_Already_Removed_Vertegenwoordiger
 
 
 
-        _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, NullLogger<SyncKszMessageHandler>.Instance);
+        _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, Mock.Of<IFilterVzerOnlyQuery>(), NullLogger<SyncKszMessageHandler>.Instance);
         _sut.Handle(new SyncKszMessage(Insz.Hydrate(teVerwijderenVertegenwoordiger.Insz), true), CancellationToken.None)
             .GetAwaiter().GetResult();
     }

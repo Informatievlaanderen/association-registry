@@ -206,19 +206,4 @@ public class EventStore : IEventStore
 
         return VCode.Hydrate(id);
     }
-
-    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(
-        IEnumerable<VCode> vCodes)
-    {
-        var vCodeValues = vCodes.Select(x => x.Value).ToList();
-
-        var kboVerenigingen =
-            (await _session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-                                .Where(geregistreerd => vCodeValues.Contains(geregistreerd.VCode))
-                             .ToListAsync())
-                             .Select(x => x.VCode)
-              .ToList();
-
-        return vCodeValues.Except(kboVerenigingen).Select(VCode.Hydrate).ToList();
-    }
 }
