@@ -1,3 +1,11 @@
+## [8.284.2](https://github.com/informatievlaanderen/association-registry/compare/v8.284.1...v8.284.2) (2025-12-22)
+
+
+### Bug Fixes
+
+* or-2942 fix filter vcodes only ([d0d9755](https://github.com/informatievlaanderen/association-registry/commit/d0d975526042f47c195ef07a23285fd4567bc1a1))
+* trigger deploy ([b03b9a3](https://github.com/informatievlaanderen/association-registry/commit/b03b9a3918526571bb2bbb021ef7f12a7a4396f2))
+
 ## [8.284.1](https://github.com/informatievlaanderen/association-registry/compare/v8.284.0...v8.284.1) (2025-12-19)
 
 
