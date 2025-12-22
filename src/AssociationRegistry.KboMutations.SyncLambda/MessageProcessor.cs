@@ -5,6 +5,7 @@ namespace AssociationRegistry.KboMutations.SyncLambda;
 using Amazon.Lambda.SQSEvents;
 using CommandHandling.MagdaSync.SyncKbo;
 using CommandHandling.MagdaSync.SyncKsz;
+using CommandHandling.MagdaSync.SyncKsz.Queries;
 using DecentraalBeheer.Vereniging;
 using Framework;
 using Integrations.Slack;
@@ -27,6 +28,7 @@ public class MessageProcessor
         IMagdaRegistreerInschrijvingService registreerInschrijvingService,
         IMagdaSyncGeefVerenigingService geefOndernemingService,
         IVerenigingsRepository verenigingsRepository,
+        FilterVzerOnlyQuery filterVzerOnlyQuery,
         IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
         INotifier notifier,
         CancellationToken cancellationToken)
@@ -48,6 +50,7 @@ public class MessageProcessor
         var kszSyncHandler = new SyncKszMessageHandler(
             vertegenwoordigerPersoonsgegevensRepository,
             verenigingsRepository,
+            filterVzerOnlyQuery,
             loggerFactory.CreateLogger<SyncKszMessageHandler>()
             );
 

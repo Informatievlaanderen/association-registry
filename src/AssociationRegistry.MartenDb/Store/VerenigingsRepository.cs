@@ -59,12 +59,6 @@ public class VerenigingsRepository : IVerenigingsRepository
         return await _eventStore.SaveNew(vereniging.VCode, metadata, cancellationToken, events);
     }
 
-    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(
-        IEnumerable<VCode> vCodes)
-    {
-        return await _eventStore.FilterVzerOnly(vCodes);
-    }
-
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, CommandMetadata metadata, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)
         where TVereniging : IHydrate<VerenigingState>, new()
     {

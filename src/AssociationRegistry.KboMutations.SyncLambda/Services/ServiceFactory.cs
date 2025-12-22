@@ -7,6 +7,7 @@ using AssociationRegistry.KboMutations.Configuration;
 using AssociationRegistry.KboMutations.Notifications;
 using AssociationRegistry.KboMutations.SyncLambda.JsonSerialization;
 using AssociationRegistry.Integrations.Magda;
+using CommandHandling.MagdaSync.SyncKsz.Queries;
 using Configuration;
 using EventStore.ConflictResolution;
 using Integrations.Magda.CallReferences;
@@ -74,6 +75,7 @@ public class ServiceFactory
             registreerInschrijvingService,
             new SyncGeefVerenigingService(magdaClient, loggerFactory.CreateLogger<SyncGeefVerenigingService>()),
             repository,
+            new FilterVzerOnlyQuery(session),
             vertegenwoordigerPersoonsgegevensRepository,
             notifier
         );
