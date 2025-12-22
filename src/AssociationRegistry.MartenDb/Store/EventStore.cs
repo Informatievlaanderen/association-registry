@@ -211,10 +211,14 @@ public class EventStore : IEventStore
         IEnumerable<VCode> vCodes)
     {
         var vCodeValues = vCodes.Select(x => x.Value).ToList();
-        return (await _session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+
+        var kboVerenigingen =
+            (await _session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                                 .Where(geregistreerd => vCodeValues.Contains(geregistreerd.VCode))
                              .ToListAsync())
-                             .Select(x => VCode.Hydrate(x.VCode))
+                             .Select(x => x.VCode)
               .ToList();
+
+        return vCodeValues.Except(kboVerenigingen).Select(VCode.Hydrate).ToList();
     }
 }
