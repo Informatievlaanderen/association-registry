@@ -50,6 +50,8 @@ public class Given_Already_Removed_Vertegenwoordiger
                 }
             });
 
+
+
         _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, NullLogger<SyncKszMessageHandler>.Instance);
         _sut.Handle(new SyncKszMessage(Insz.Hydrate(teVerwijderenVertegenwoordiger.Insz), true), CancellationToken.None)
             .GetAwaiter().GetResult();

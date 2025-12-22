@@ -75,7 +75,7 @@ public class SyncKszMessageHandler
         var vertegenwoordigerPersoonsgegevensByVCode = vertegenwoordigerPersoonsgegevens.DistinctBy(x => x.VCode).ToList();
         var vzerOnlyVcodes = await _verenigingsRepository.FilterVzerOnly(vertegenwoordigerPersoonsgegevensByVCode.Select(x => x.VCode));
 
-        var vzerOnly = vertegenwoordigerPersoonsgegevensByVCode.Where(x => !vzerOnlyVcodes.Contains(x.VCode))
+        var vzerOnly = vertegenwoordigerPersoonsgegevensByVCode.Where(x => vzerOnlyVcodes.Contains(x.VCode))
                                                                .ToList();
 
         return vzerOnly;
