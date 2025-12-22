@@ -56,7 +56,7 @@ public class MessageProcessor
             var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
             var envelope = MagdaEnvelopeParser.Parse(record.Body);
-
+            contextLogger.LogInformation("{MessageProcessor} processing sqs message of type {Type}", nameof(MessageProcessor), envelope.Type);
             switch (envelope.Type)
             {
                 case MagdaMessageType.SyncKbo:

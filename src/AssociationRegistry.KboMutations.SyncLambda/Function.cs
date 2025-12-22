@@ -24,7 +24,7 @@ public class Function
 
     private static async Task FunctionHandler(SQSEvent @event, ILambdaContext context)
     {
-        context.Logger.LogInformation("Function started.");
+        context.Logger.LogInformation("Function started");
         var configurationManager = new ConfigurationManager();
         var configuration = configurationManager.Build();
 
@@ -57,6 +57,7 @@ public class Function
         }
         finally
         {
+            context.Logger.LogInformation("Kbo/ksz sync lambda finished");
             await Log.CloseAndFlushAsync();
             await telemetryManager.FlushAsync(context);
         }

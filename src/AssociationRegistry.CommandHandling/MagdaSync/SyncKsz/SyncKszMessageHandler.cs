@@ -27,28 +27,36 @@ public class SyncKszMessageHandler
         SyncKszMessage message,
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("SyncKszMessageHandler started");
-
         if (!message.Overleden) // only need to sync if overleden for now
+        {
+            _logger.LogInformation("Skipping message because this person is not deceased");
+
             return;
+        }
 
         var vertegenwoordigerPersoonsgegevens = await _vertegenwoordigerPersoonsgegevensRepository.Get(message.Insz, cancellationToken);
 
         if (!vertegenwoordigerPersoonsgegevens.Any())
-            return;
+        {
+            // TODO: uitschrijven or-2939
 
-        // TODO: uitschrijven or-2939
+            _logger.LogWarning("Skipping message because this person did not match any known VertegenwoordigerPersoonsgegevensDocument");
+
+            return;
+        }
 
         var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
-        var vertegenwoordigerPersoonsgegevensByVCode = vertegenwoordigerPersoonsgegevens.DistinctBy(x => x.VCode).ToList();
-        var vzerOnlyVcodes = await _verenigingsRepository.FilterVzerOnly(vertegenwoordigerPersoonsgegevensByVCode.Select(x => x.VCode));
+        var vzerOnly = await FilterOnlyVzer(vertegenwoordigerPersoonsgegevens);
 
-        foreach (var vertegenwoordigerPersoonsgegeven in vertegenwoordigerPersoonsgegevensByVCode)
+        if (!vzerOnly.Any())
         {
-            if (!vzerOnlyVcodes.Contains(vertegenwoordigerPersoonsgegeven.VCode))
-                return;
+            _logger.LogInformation("Only found kbo associations for this person");
+        }
 
+
+        foreach (var vertegenwoordigerPersoonsgegeven in vzerOnly)
+        {
             var vereniging =
                 await _verenigingsRepository.Load<Vereniging>(VCode.Create(vertegenwoordigerPersoonsgegeven.VCode), commandMetadata, allowDubbeleVereniging: true, allowVerwijderdeVereniging: true);
 
@@ -56,9 +64,20 @@ public class SyncKszMessageHandler
 
             await _verenigingsRepository.Save(vereniging, commandMetadata, cancellationToken);
 
-            _logger.LogInformation($"SyncKszMessageHandler synced with vCode: {vertegenwoordigerPersoonsgegeven.VCode} for verrtegenwoordiger: {vertegenwoordigerPersoonsgegeven.VertegenwoordigerId}");
+            _logger.LogInformation($"SyncKszMessageHandler marked vertegenwoordiger as deceased with vCode: {vertegenwoordigerPersoonsgegeven.VCode} for vertegenwoordiger: {vertegenwoordigerPersoonsgegeven.VertegenwoordigerId}");
         }
 
         _logger.LogInformation("SyncKszMessageHandler done");
+    }
+
+    private async Task<List<VertegenwoordigerPersoonsgegevens>> FilterOnlyVzer(VertegenwoordigerPersoonsgegevens[] vertegenwoordigerPersoonsgegevens)
+    {
+        var vertegenwoordigerPersoonsgegevensByVCode = vertegenwoordigerPersoonsgegevens.DistinctBy(x => x.VCode).ToList();
+        var vzerOnlyVcodes = await _verenigingsRepository.FilterVzerOnly(vertegenwoordigerPersoonsgegevensByVCode.Select(x => x.VCode));
+
+        var vzerOnly = vertegenwoordigerPersoonsgegevensByVCode.Where(x => !vzerOnlyVcodes.Contains(x.VCode))
+                                                               .ToList();
+
+        return vzerOnly;
     }
 }
