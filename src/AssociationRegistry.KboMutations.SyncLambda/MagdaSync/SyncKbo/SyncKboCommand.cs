@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.CommandHandling.MagdaSync.SyncKbo;
+﻿namespace AssociationRegistry.KboMutations.SyncLambda.MagdaSync.SyncKbo;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 

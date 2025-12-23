@@ -12,6 +12,7 @@ public class TeSynchroniserenLocatieAdresMessageHandler(IMessageBus messageBus)
             message.VCode,
             message.LocatiesWithAdres,
             message.IdempotenceKey);
+
         await messageBus.InvokeAsync(command, cancellationToken);
     }
 }

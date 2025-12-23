@@ -2,8 +2,8 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
-using CommandHandling.MagdaSync.SyncKbo;
 using Contracts.KboSync;
+using MagdaSync.SyncKbo;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 using System;

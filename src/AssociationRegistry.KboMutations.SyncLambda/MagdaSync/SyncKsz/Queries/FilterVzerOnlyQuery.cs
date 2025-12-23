@@ -1,8 +1,8 @@
-namespace AssociationRegistry.CommandHandling.MagdaSync.SyncKsz.Queries;
+namespace AssociationRegistry.KboMutations.SyncLambda.MagdaSync.SyncKsz.Queries;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using Events;
-using Framework;
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
 using Marten;
 
 public interface IFilterVzerOnlyQuery : IQuery<IReadOnlyCollection<VCode>, FilterVzerOnlyQueryFilter>;

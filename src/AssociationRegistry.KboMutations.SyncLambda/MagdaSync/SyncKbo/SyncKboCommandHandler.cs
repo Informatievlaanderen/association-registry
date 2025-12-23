@@ -1,14 +1,14 @@
-﻿namespace AssociationRegistry.CommandHandling.MagdaSync.SyncKbo;
+﻿namespace AssociationRegistry.KboMutations.SyncLambda.MagdaSync.SyncKbo;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
-using Framework;
-using Integrations.Slack;
-using Magda.Kbo;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Integrations.Slack;
+using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
+using AssociationRegistry.Resources;
 using Microsoft.Extensions.Logging;
 using Notifications;
-using OpenTelemetry.Metrics;
-using Resources;
 using ResultNet;
 
 public class SyncKboCommandHandler

@@ -2,12 +2,12 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using CommandHandling.MagdaSync.SyncKsz;
-using CommandHandling.MagdaSync.SyncKsz.Queries;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
+using KboMutations.SyncLambda.MagdaSync.SyncKsz;
+using KboMutations.SyncLambda.MagdaSync.SyncKsz.Queries;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Persoonsgegevens;

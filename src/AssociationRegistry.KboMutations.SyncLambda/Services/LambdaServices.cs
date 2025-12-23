@@ -1,8 +1,8 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Services;
 
-using CommandHandling.MagdaSync.SyncKsz.Queries;
 using Integrations.Magda.Onderneming;
 using Integrations.Slack;
+using MagdaSync.SyncKsz.Queries;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using Persoonsgegevens;

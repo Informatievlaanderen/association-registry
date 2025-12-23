@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.KboSync.When_SyncKbo.CommandHandling;
 
-using AssociationRegistry.CommandHandling.MagdaSync.SyncKbo;
-using AssociationRegistry.CommandHandling.MagdaSync.SyncKbo.Notifications;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Events;
@@ -16,6 +14,8 @@ using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Integrations.Slack;
+using KboMutations.SyncLambda.MagdaSync.SyncKbo;
+using KboMutations.SyncLambda.MagdaSync.SyncKbo.Notifications;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;

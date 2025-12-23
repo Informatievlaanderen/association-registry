@@ -5,9 +5,9 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
-using CommandHandling.MagdaSync.SyncKsz.Queries;
 using Events;
 using FluentAssertions;
+using KboMutations.SyncLambda.MagdaSync.SyncKsz.Queries;
 using Marten;
 using Xunit;
 

@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.MagdaSync;
 
 using AssociationRegistry.Framework;
-using CommandHandling.MagdaSync.SyncKsz;
-using CommandHandling.MagdaSync.SyncKsz.Queries;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
+using KboMutations.SyncLambda.MagdaSync.SyncKsz;
+using KboMutations.SyncLambda.MagdaSync.SyncKsz.Queries;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Persoonsgegevens;

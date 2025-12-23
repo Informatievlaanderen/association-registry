@@ -3,14 +3,14 @@
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using Amazon.Lambda.SQSEvents;
-using CommandHandling.MagdaSync.SyncKbo;
-using CommandHandling.MagdaSync.SyncKsz;
-using CommandHandling.MagdaSync.SyncKsz.Queries;
 using DecentraalBeheer.Vereniging;
 using Framework;
 using Integrations.Slack;
 using KboMutations.Configuration;
 using Magda.Kbo;
+using MagdaSync.SyncKbo;
+using MagdaSync.SyncKsz;
+using MagdaSync.SyncKsz.Queries;
 using Microsoft.Extensions.Logging;
 using Persoonsgegevens;
 

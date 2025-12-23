@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.CommandHandling.MagdaSync.SyncKsz;
+﻿namespace AssociationRegistry.KboMutations.SyncLambda.MagdaSync.SyncKsz;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using Framework;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Persoonsgegevens;
 using Microsoft.Extensions.Logging;
-using Persoonsgegevens;
 using Queries;
 using Wolverine;
 

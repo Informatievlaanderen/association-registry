@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.MagdaSync.KboSync;
 
-using AssociationRegistry.CommandHandling.MagdaSync.SyncKbo;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
@@ -8,6 +7,7 @@ using AssociationRegistry.Integrations.Slack;
 using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using KboMutations.SyncLambda.MagdaSync.SyncKbo;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
