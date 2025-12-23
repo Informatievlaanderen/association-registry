@@ -1,3 +1,10 @@
+## [8.284.7](https://github.com/informatievlaanderen/association-registry/compare/v8.284.6...v8.284.7) (2025-12-23)
+
+
+### Bug Fixes
+
+* or-2942 register Persoonsgegevenstransformers on kbo sync ([454e634](https://github.com/informatievlaanderen/association-registry/commit/454e634f2c5a40891f0e6263bf4f70491d61eca9))
+
 ## [8.284.6](https://github.com/informatievlaanderen/association-registry/compare/v8.284.5...v8.284.6) (2025-12-23)
 
 
