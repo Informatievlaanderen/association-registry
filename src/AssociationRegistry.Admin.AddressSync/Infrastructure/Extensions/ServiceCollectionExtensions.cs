@@ -12,6 +12,7 @@ using Marten;
 using Marten.Events;
 using Marten.Services;
 using MartenDb;
+using MartenDb.Upcasters.Persoonsgegevens;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -95,6 +96,7 @@ public static class ServiceCollectionExtensions
 
                                                    opts.Events.MetadataConfig.EnableAll();
                                                    opts.AutoCreateSchemaObjects = AutoCreate.None;
+                                                   opts.UpcastEvents(() => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession());
 
                                                    opts.RegisterDocumentType<LocatieLookupDocument>();
 
