@@ -1,3 +1,10 @@
+## [8.284.9](https://github.com/informatievlaanderen/association-registry/compare/v8.284.8...v8.284.9) (2025-12-23)
+
+
+### Bug Fixes
+
+* or-2942 move kbo sync handler to kbo sync project ([66e8e2f](https://github.com/informatievlaanderen/association-registry/commit/66e8e2fc339b0076814c70b207e3adcbab0999f9))
+
 ## [8.284.8](https://github.com/informatievlaanderen/association-registry/compare/v8.284.7...v8.284.8) (2025-12-23)
 
 
