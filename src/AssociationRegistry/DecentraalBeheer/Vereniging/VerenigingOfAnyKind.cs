@@ -201,6 +201,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 land: Adres.België);
 
             var verrijkteLocatie = locatie.VerrijkMet(adres);
+            // TODO: if locatie is duplicatie verwijder duplicate locatie event?
             State.Locaties.ThrowIfCannotAppendOrUpdate(verrijkteLocatie);
 
             if (locatie.Adres != verrijkteLocatie.Adres)
