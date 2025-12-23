@@ -21,6 +21,7 @@ using Logging;
 using Marten;
 using MartenDb.Store;
 using MartenDb.Transformers;
+using MartenDb.Upcasters.Persoonsgegevens;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -35,6 +36,7 @@ public class ServiceFactory
     private readonly IConfigurationRoot _configuration;
     private readonly ILambdaLogger _logger;
     private readonly TelemetryManager _telemetryManager;
+    private DocumentStore _store;
 
     public ServiceFactory(IConfigurationRoot configuration, ILambdaLogger logger, TelemetryManager telemetryManager)
     {
@@ -52,11 +54,12 @@ public class ServiceFactory
         var loggerFactory = CreateLoggerFactory();
         var logger = loggerFactory.CreateLogger<ServiceFactory>();
         var magdaOptions = await GetMagdaOptionsAsync(ssmClientWrapper, paramNamesConfiguration, logger);
-        var store = await SetUpDocumentStoreAsync(ssmClientWrapper, paramNamesConfiguration, logger);
-        var session = store.LightweightSession();
+
+        _store = await SetUpDocumentStoreAsync(ssmClientWrapper, paramNamesConfiguration, GetQuerySession, logger);
+        var session = _store.LightweightSession();
 
         var repository = CreateRepository(session, loggerFactory);
-        var referenceRepository = new MagdaCallReferenceRepository(store.LightweightSession());
+        var referenceRepository = new MagdaCallReferenceRepository(_store.LightweightSession());
         var magdaClient = new MagdaClient(magdaOptions,
                                           new MagdaCallReferenceService(referenceRepository),
                                           new MagdaRegistreerInschrijvingValidator(loggerFactory.CreateLogger<MagdaRegistreerInschrijvingValidator>()),
@@ -80,6 +83,9 @@ public class ServiceFactory
             notifier
         );
     }
+
+    private IQuerySession GetQuerySession()
+        => _store.QuerySession();
 
     private ParamNamesConfiguration GetParamNamesConfiguration()
     {
@@ -133,6 +139,7 @@ public class ServiceFactory
     private async Task<DocumentStore> SetUpDocumentStoreAsync(
         SsmClientWrapper ssmClientWrapper,
         ParamNamesConfiguration paramNames,
+        Func<IQuerySession> querySessionFunc,
         ILogger<ServiceFactory> logger)
     {
         var postgresSection = _configuration.GetSection(PostgreSqlOptionsSection.SectionName)
@@ -146,7 +153,7 @@ public class ServiceFactory
             postgresSection.Host, postgresSection.Database);
 
         var connectionString = await BuildConnectionStringAsync(postgresSection, ssmClientWrapper, paramNames);
-        var opts = ConfigureStoreOptions(connectionString);
+        var opts = ConfigureStoreOptions(connectionString, querySessionFunc);
 
         return new DocumentStore(opts);
     }
@@ -165,7 +172,7 @@ public class ServiceFactory
         return connectionStringBuilder.ToString();
     }
 
-    private static StoreOptions ConfigureStoreOptions(string connectionString)
+    private static StoreOptions ConfigureStoreOptions(string connectionString, Func<IQuerySession> querySessionFunc)
     {
         var opts = new StoreOptions();
         opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
@@ -179,6 +186,7 @@ public class ServiceFactory
         });
         opts.Events.MetadataConfig.EnableAll();
         opts.AutoCreateSchemaObjects = AutoCreate.None;
+        opts.UpcastEvents(querySessionFunc);
 
         var eventTypes = typeof(AssociationRegistry.Events.IEvent).Assembly
                                                                   .GetTypes()
@@ -198,7 +206,7 @@ public class ServiceFactory
 
         return new VerenigingsRepository(
             new EventStore(session, eventConflictResolver,
-                           new PersoonsgegevensProcessor([], new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), loggerFactory.CreateLogger<PersoonsgegevensProcessor>()), loggerFactory.CreateLogger<EventStore>()));
+                           new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), loggerFactory.CreateLogger<PersoonsgegevensProcessor>()), loggerFactory.CreateLogger<EventStore>()));
     }
 
     private static MagdaRegistreerInschrijvingService CreateRegistreerInschrijvingService(MagdaOptionsSection magdaOptions, ILoggerFactory loggerFactory, MagdaCallReferenceRepository referenceRepository)

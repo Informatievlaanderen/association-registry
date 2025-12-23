@@ -53,11 +53,6 @@ public class SyncKszMessageHandler
 
         var vzerOnly = await FilterOnlyVzer(vertegenwoordigerPersoonsgegevens, cancellationToken);
 
-        var vCodesFromPersoonsgegevens = string.Join("\n\t", vzerOnly.Select(x => x.VCode.Value).ToArray());
-        var vzerOnlyVCodes = string.Join("\n\t", vzerOnly.Select(x => x.VCode.Value).ToArray());
-
-        _logger.LogInformation($"vCodesFromPersoonsgegevens : {vCodesFromPersoonsgegevens} \n  VzerOnlyFilteredVCodes: {vzerOnlyVCodes}");
-
         if (!vzerOnly.Any())
         {
             _logger.LogInformation("Only found kbo associations for this person");
@@ -67,6 +62,7 @@ public class SyncKszMessageHandler
         foreach (var vertegenwoordigerPersoonsgegeven in vzerOnly)
         {
             _logger.LogInformation($"trying to load vcode: {vertegenwoordigerPersoonsgegeven.VCode}");
+
             var vereniging =
                 await _verenigingsRepository.Load<Vereniging>(VCode.Create(vertegenwoordigerPersoonsgegeven.VCode), commandMetadata, allowDubbeleVereniging: true, allowVerwijderdeVereniging: true);
 
