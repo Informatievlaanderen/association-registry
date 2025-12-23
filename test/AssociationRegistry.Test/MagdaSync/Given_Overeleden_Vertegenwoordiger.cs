@@ -42,13 +42,18 @@ public class Given_Overeleden_Vertegenwoordiger
                 }
             });
 
-        _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, Mock.Of<IFilterVzerOnlyQuery>(), NullLogger<SyncKszMessageHandler>.Instance);
+        var filterVzerOnylQueryMock = new Mock<IFilterVzerOnlyQuery>();
+
+        filterVzerOnylQueryMock.Setup(x => x.ExecuteAsync(It.IsAny<FilterVzerOnlyQueryFilter>(), It.IsAny<CancellationToken>()))
+                               .ReturnsAsync([_scenario.VCode]);
+
+        _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, filterVzerOnylQueryMock.Object, NullLogger<SyncKszMessageHandler>.Instance);
         _sut.Handle(new SyncKszMessage(Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz), true), CancellationToken.None)
             .GetAwaiter().GetResult();
     }
 
     [Fact]
-    public void Then_No_Event_Is_Saved()
+    public void Then_Event_Is_Saved()
     {
        _verenigingsRepository.ShouldHaveSavedExact(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
                                                        _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,

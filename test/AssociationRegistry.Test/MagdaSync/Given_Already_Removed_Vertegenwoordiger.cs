@@ -51,9 +51,12 @@ public class Given_Already_Removed_Vertegenwoordiger
                 }
             });
 
+        var filterVzerOnylQueryMock = new Mock<IFilterVzerOnlyQuery>();
 
+        filterVzerOnylQueryMock.Setup(x => x.ExecuteAsync(It.IsAny<FilterVzerOnlyQueryFilter>(), It.IsAny<CancellationToken>()))
+                               .ReturnsAsync([_scenario.VCode]);
 
-        _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, Mock.Of<IFilterVzerOnlyQuery>(), NullLogger<SyncKszMessageHandler>.Instance);
+        _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, filterVzerOnylQueryMock.Object, NullLogger<SyncKszMessageHandler>.Instance);
         _sut.Handle(new SyncKszMessage(Insz.Hydrate(teVerwijderenVertegenwoordiger.Insz), true), CancellationToken.None)
             .GetAwaiter().GetResult();
     }

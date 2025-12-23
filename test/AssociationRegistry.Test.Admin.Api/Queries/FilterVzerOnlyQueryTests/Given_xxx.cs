@@ -87,7 +87,7 @@ public class FilterVzerOnlyQueryTests : IClassFixture<FilterVzerOnlyQueryFixture
 
         var query = new FilterVzerOnlyQuery(_session);
 
-        var andereVCode = VCode.Hydrate("V0001003");
+        var andereVCode = VCode.Hydrate("V0001006");
         var actual = await query.ExecuteAsync(new FilterVzerOnlyQueryFilter([andereVCode]), CancellationToken.None);
 
         actual.Should().BeEmpty();
