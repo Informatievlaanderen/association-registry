@@ -1,3 +1,10 @@
+## [8.284.6](https://github.com/informatievlaanderen/association-registry/compare/v8.284.5...v8.284.6) (2025-12-23)
+
+
+### Bug Fixes
+
+* or-2942 also log loading vcode ([f00ef34](https://github.com/informatievlaanderen/association-registry/commit/f00ef34ea31b395c483ea89a74d1d868b57b7599))
+
 ## [8.284.5](https://github.com/informatievlaanderen/association-registry/compare/v8.284.4...v8.284.5) (2025-12-23)
 
 
