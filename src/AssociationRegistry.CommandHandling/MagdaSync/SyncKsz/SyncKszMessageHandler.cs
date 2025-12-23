@@ -66,6 +66,7 @@ public class SyncKszMessageHandler
 
         foreach (var vertegenwoordigerPersoonsgegeven in vzerOnly)
         {
+            _logger.LogInformation($"trying to load vcode: {vertegenwoordigerPersoonsgegeven.VCode}");
             var vereniging =
                 await _verenigingsRepository.Load<Vereniging>(VCode.Create(vertegenwoordigerPersoonsgegeven.VCode), commandMetadata, allowDubbeleVereniging: true, allowVerwijderdeVereniging: true);
 
