@@ -1,3 +1,11 @@
+## [8.284.8](https://github.com/informatievlaanderen/association-registry/compare/v8.284.7...v8.284.8) (2025-12-23)
+
+
+### Bug Fixes
+
+* or-2942 set flush time to totalmilliseconds ([3212f7d](https://github.com/informatievlaanderen/association-registry/commit/3212f7d57d05f205cd028b89c205e30597a142eb))
+* or-2985 register upcast events in adres sync ([044838f](https://github.com/informatievlaanderen/association-registry/commit/044838f3d6c439aaad8994a47953689d0b2ac987))
+
 ## [8.284.7](https://github.com/informatievlaanderen/association-registry/compare/v8.284.6...v8.284.7) (2025-12-23)
 
 
