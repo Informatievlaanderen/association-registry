@@ -1,3 +1,10 @@
+## [8.284.4](https://github.com/informatievlaanderen/association-registry/compare/v8.284.3...v8.284.4) (2025-12-23)
+
+
+### Bug Fixes
+
+* or-2942 extract query from event store ([1af4d08](https://github.com/informatievlaanderen/association-registry/commit/1af4d0858b91264151461c77265d926652a6570b))
+
 ## [8.284.3](https://github.com/informatievlaanderen/association-registry/compare/v8.284.2...v8.284.3) (2025-12-22)
 
 
