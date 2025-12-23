@@ -1,3 +1,10 @@
+## [8.284.5](https://github.com/informatievlaanderen/association-registry/compare/v8.284.4...v8.284.5) (2025-12-23)
+
+
+### Bug Fixes
+
+* or-2942 log vcodes from sync handler ([6264939](https://github.com/informatievlaanderen/association-registry/commit/6264939575cf725fb2e17efd08a8ae63e6a03521))
+
 ## [8.284.4](https://github.com/informatievlaanderen/association-registry/compare/v8.284.3...v8.284.4) (2025-12-23)
 
 
