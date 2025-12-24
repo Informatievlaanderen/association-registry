@@ -3,6 +3,7 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.SystemTextJson;
 using Amazon.Lambda.SQSEvents;
+using Microsoft.Extensions.Logging;
 
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
@@ -31,11 +32,17 @@ public class Function
         var telemetryManager = new TelemetryManager(context.Logger, configuration);
         var serviceFactory = new ServiceFactory(configuration, context.Logger, telemetryManager);
 
+        LambdaServices? services = null;
+        Exception? caughtException = null;
+
         try
         {
             context.Logger.LogInformation($"{@event.Records.Count} RECORDS RECEIVED INSIDE SQS EVENT");
 
-            var services = await serviceFactory.CreateServicesAsync();
+            services = await serviceFactory.CreateServicesAsync();
+            var logger = services.LoggerFactory.CreateLogger<Function>();
+
+            logger.LogInformation("Processing {RecordCount} SQS messages", @event.Records.Count);
 
             await services.MessageProcessor.ProcessMessage(
                 @event,
@@ -48,19 +55,56 @@ public class Function
                 services.Notifier,
                 CancellationToken.None);
 
-            context.Logger.LogInformation($"{@event.Records.Count} RECORDS PROCESSED BY THE MESSAGE PROCESSOR");
+            logger.LogInformation("Successfully processed {RecordCount} records", @event.Records.Count);
         }
         catch (Exception e)
         {
-            context.Logger.LogError(e, e.Message);
-            await telemetryManager.FlushAsync(context);
-            throw;
+            caughtException = e;
+
+            if (services != null)
+            {
+                var logger = services.LoggerFactory.CreateLogger<Function>();
+                logger.LogError(e, "KBO/KSZ sync lambda failed with error: {ErrorMessage}", e.Message);
+            }
+            else
+            {
+                context.Logger.LogError(e, e.Message);
+            }
         }
         finally
         {
-            context.Logger.LogInformation("Kbo/ksz sync lambda finished");
+            if (services != null)
+            {
+                var logger = services.LoggerFactory.CreateLogger<Function>();
+                logger.LogInformation("Kbo/ksz sync lambda finished");
+            }
+            else
+            {
+                context.Logger.LogInformation("Kbo/ksz sync lambda finished (no services created)");
+            }
+
+            // Flush Serilog logs first
             await Log.CloseAndFlushAsync();
+
+            // Dispose LoggerFactory to flush OpenTelemetry logs
+            if (services != null)
+            {
+                context.Logger.LogInformation("Disposing LoggerFactory to flush logs");
+                services.LoggerFactory.Dispose();
+                context.Logger.LogInformation("LoggerFactory disposed");
+            }
+
+            // Flush metrics and traces
             await telemetryManager.FlushAsync(context);
+
+            context.Logger.LogInformation("All telemetry flushed");
+        }
+
+        // Re-throw after all cleanup is complete
+        if (caughtException != null)
+        {
+            context.Logger.LogInformation("Re-throwing exception after flush");
+            throw caughtException;
         }
     }
 }

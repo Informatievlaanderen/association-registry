@@ -11,6 +11,8 @@ using Magda.Kbo;
 using MagdaSync.SyncKbo;
 using MagdaSync.SyncKsz;
 using MagdaSync.SyncKsz.Queries;
+using Messaging;
+using Messaging.Parsers;
 using Microsoft.Extensions.Logging;
 using Persoonsgegevens;
 
@@ -57,17 +59,31 @@ public class MessageProcessor
         foreach (var record in sqsEvent.Records)
         {
             var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
-
             var envelope = MagdaEnvelopeParser.Parse(record.Body);
+
             contextLogger.LogInformation("{MessageProcessor} processing sqs message of type {Type}", nameof(MessageProcessor), envelope.Type);
+
+            using var activity = Telemetry.SyncMessageActivity.Start(envelope);
+
             switch (envelope.Type)
             {
                 case MagdaMessageType.SyncKbo:
-                    await kboSyncHandler.Handle(new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(KboNummer.Create(envelope.KboNummer!)), commandMetadata), verenigingsRepository, cancellationToken);
+                    activity.TagAsKboSync(envelope.KboNummer!);
+                    await kboSyncHandler.Handle(
+                        new CommandEnvelope<SyncKboCommand>(
+                            new SyncKboCommand(KboNummer.Create(envelope.KboNummer!)),
+                            commandMetadata),
+                        verenigingsRepository,
+                        cancellationToken);
                     break;
 
                 case MagdaMessageType.SyncKsz:
-                    await kszSyncHandler.Handle(new SyncKszMessage(Insz.Create(envelope.InszMessage!.Insz), envelope.InszMessage.Overleden), cancellationToken);
+                    activity.TagAsKszSync(envelope.InszMessage!.Insz, envelope.InszMessage.Overleden);
+                    await kszSyncHandler.Handle(
+                        new SyncKszMessage(
+                            Insz.Create(envelope.InszMessage!.Insz),
+                            envelope.InszMessage.Overleden),
+                        cancellationToken);
                     break;
 
                 default:

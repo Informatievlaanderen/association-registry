@@ -16,6 +16,8 @@
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" />
     <PackageReference Include="AWSSDK.SimpleSystemsManagement" />
     <PackageReference Include="AWSSDK.SQS" />
+    <PackageReference Include="CloudNative.CloudEvents" />
+    <PackageReference Include="CloudNative.CloudEvents.SystemTextJson" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Slack.Webhooks" />
   </ItemGroup>

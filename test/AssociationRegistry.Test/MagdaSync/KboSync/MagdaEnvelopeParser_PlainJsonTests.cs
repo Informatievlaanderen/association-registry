@@ -1,9 +1,14 @@
-﻿namespace Association.Test.KboMutations.SyncLambda;
+namespace AssociationRegistry.Test.MagdaSync.KboSync;
 
-using AssociationRegistry.KboMutations.SyncLambda;
+using AssociationRegistry.KboMutations.SyncLambda.Messaging;
+using AssociationRegistry.KboMutations.SyncLambda.Messaging.Parsers;
 using System.Text.Json;
+using Xunit;
 
-public class MagdaEnvelopeParserTests
+/// <summary>
+/// Tests for parsing plain JSON messages (legacy format, backwards compatibility)
+/// </summary>
+public class MagdaEnvelopeParser_PlainJsonTests
 {
     [Fact]
     public void Parse_WhenOnlyKboNummerPresent_ReturnsSyncKbo()
@@ -129,5 +134,18 @@ public class MagdaEnvelopeParserTests
         // Act + Assert
         Assert.ThrowsAny<JsonException>(() => MagdaEnvelopeParser.Parse(invalidJson));
     }
-}
 
+    [Fact]
+    public void Parse_PlainJson_DoesNotHaveTraceContext()
+    {
+        // Arrange
+        var json = """{ "KboNummer": "0123456789" }""";
+
+        // Act
+        var result = MagdaEnvelopeParser.Parse(json);
+
+        // Assert
+        Assert.Null(result.ParentTraceContext);
+        Assert.Null(result.SourceFileName);
+    }
+}

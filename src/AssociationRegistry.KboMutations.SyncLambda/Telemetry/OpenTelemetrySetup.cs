@@ -71,6 +71,7 @@ public class OpenTelemetrySetup : IDisposable
     public TracerProvider SetUpTracing(string? tracesUri, string? orgId)
     {
         var builder = Sdk.CreateTracerProviderBuilder()
+                         .AddSource(KboSyncActivitySource.Source.Name)
                          .AddHttpClientInstrumentation()
                          .AddNpgsql()
                          .ConfigureResource(_resources.ConfigureResourceBuilder);

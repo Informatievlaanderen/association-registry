@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.MagdaSync.KboSync.RecordProcessorTests;
+namespace AssociationRegistry.Test.MagdaSync.KboSync.RecordProcessorTests;
 
 using AssociationRegistry.Contracts.KboSync;
 using AssociationRegistry.DecentraalBeheer.Vereniging;

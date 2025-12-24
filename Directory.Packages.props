@@ -20,6 +20,8 @@
     <PackageVersion Include="Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic" Version="5.0.0" />
     <PackageVersion Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" Version="22.0.0" />
     <PackageVersion Include="Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset" Version="5.0.0" />
+    <PackageVersion Include="CloudNative.CloudEvents" Version="2.8.0" />
+    <PackageVersion Include="CloudNative.CloudEvents.SystemTextJson" Version="2.8.0" />
     <PackageVersion Include="CompareNETObjects" Version="4.83.0" />
     <PackageVersion Include="CsvHelper" Version="33.1.0" />
     <PackageVersion Include="Destructurama.JsonNet" Version="4.0.2" />
