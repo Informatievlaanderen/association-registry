@@ -47,7 +47,7 @@ public class Given_Insz_Only_In_Kbo_Verenigngen
                                .ReturnsAsync([]);
 
         _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, filterVzerOnylQueryMock.Object, NullLogger<SyncKszMessageHandler>.Instance);
-        _sut.Handle(new SyncKszMessage(Insz.Hydrate(vertegenwoordiger.Insz), true), CancellationToken.None)
+        _sut.Handle(new SyncKszMessage(Insz.Hydrate(vertegenwoordiger.Insz), true, Guid.NewGuid()), CancellationToken.None)
             .GetAwaiter().GetResult();
     }
 

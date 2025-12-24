@@ -2,43 +2,47 @@ namespace AssociationRegistry.KboMutations.SyncLambda.Messaging;
 
 using System.Diagnostics;
 
-internal static class MagdaEnvelopeFactory
+internal static class SyncEnvelopeFactory
 {
-    public static MagdaEnvelope Create(
+    public static SyncEnvelope Create(
         string? kbo,
         string? insz,
         bool? overleden,
         ActivityContext? parentContext,
-        string? sourceFileName)
+        string? sourceFileName,
+        Guid correlationId)
     {
         if (!string.IsNullOrWhiteSpace(kbo) && string.IsNullOrWhiteSpace(insz))
         {
-            return new MagdaEnvelope(
-                MagdaMessageType.SyncKbo,
+            return new SyncEnvelope(
+                SyncMessageType.SyncKbo,
                 kbo,
                 null,
                 parentContext,
-                sourceFileName
+                sourceFileName,
+                correlationId
             );
         }
 
         if (!string.IsNullOrWhiteSpace(insz) && string.IsNullOrWhiteSpace(kbo))
         {
-            return new MagdaEnvelope(
-                MagdaMessageType.SyncKsz,
+            return new SyncEnvelope(
+                SyncMessageType.SyncKsz,
                 null,
                 new TeSynchroniserenInszMessage(insz, overleden ?? false),
                 parentContext,
-                sourceFileName
+                sourceFileName,
+                correlationId
             );
         }
 
-        return new MagdaEnvelope(
-            MagdaMessageType.Unknown,
+        return new SyncEnvelope(
+            SyncMessageType.Unknown,
             kbo,
             insz is null ? null : new TeSynchroniserenInszMessage(insz, overleden ?? false),
             parentContext,
-            sourceFileName
+            sourceFileName,
+            correlationId
         );
     }
 }

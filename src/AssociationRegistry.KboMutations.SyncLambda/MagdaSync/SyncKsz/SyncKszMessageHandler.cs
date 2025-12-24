@@ -4,6 +4,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Persoonsgegevens;
 using Microsoft.Extensions.Logging;
+using NodaTime;
 using Queries;
 using Wolverine;
 
@@ -49,7 +50,10 @@ public class SyncKszMessageHandler
             return;
         }
 
-        var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
+        var commandMetadata = new CommandMetadata(
+            WellknownOvoNumbers.DigitaalVlaanderenOvoNumber,
+            SystemClock.Instance.GetCurrentInstant(),
+            message.CorrelationId);  // ✅ Use from message instead of Guid.NewGuid()
 
         var vzerOnly = await FilterOnlyVzer(vertegenwoordigerPersoonsgegevens, cancellationToken);
 

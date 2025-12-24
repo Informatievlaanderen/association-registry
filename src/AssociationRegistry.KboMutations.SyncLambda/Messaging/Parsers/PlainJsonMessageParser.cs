@@ -11,13 +11,14 @@ internal class PlainJsonMessageParser : IMessageParser
         _document = document;
     }
 
-    public MagdaEnvelope ToEnvelope()
+    public SyncEnvelope ToEnvelope()
     {
         var kbo = GetString("KboNummer");
         var insz = GetString("Insz");
         var overleden = GetBool("Overleden");
+        var correlationId = GetGuid("CorrelationId") ?? Guid.NewGuid();
 
-        return MagdaEnvelopeFactory.Create(kbo, insz, overleden, null, null);
+        return SyncEnvelopeFactory.Create(kbo, insz, overleden, null, null, correlationId);
     }
 
     private string? GetString(string prop)
@@ -29,5 +30,10 @@ internal class PlainJsonMessageParser : IMessageParser
         => _document.RootElement.TryGetProperty(prop, out var el) &&
            (el.ValueKind == JsonValueKind.True || el.ValueKind == JsonValueKind.False)
             ? el.GetBoolean()
+            : null;
+
+    private Guid? GetGuid(string prop)
+        => _document.RootElement.TryGetProperty(prop, out var el) && el.ValueKind == JsonValueKind.String
+            ? Guid.TryParse(el.GetString(), out var guid) ? guid : null
             : null;
 }

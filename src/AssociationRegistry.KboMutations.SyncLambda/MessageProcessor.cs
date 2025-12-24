@@ -14,6 +14,7 @@ using MagdaSync.SyncKsz.Queries;
 using Messaging;
 using Messaging.Parsers;
 using Microsoft.Extensions.Logging;
+using NodaTime;
 using Persoonsgegevens;
 
 public class MessageProcessor
@@ -42,16 +43,19 @@ public class MessageProcessor
 
         foreach (var record in sqsEvent.Records)
         {
-            var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
-            var envelope = MagdaEnvelopeParser.Parse(record.Body);
+            var envelope = SyncEnvelopeParser.Parse(record.Body);
+            var commandMetadata = new CommandMetadata(
+                WellknownOvoNumbers.DigitaalVlaanderenOvoNumber,
+                SystemClock.Instance.GetCurrentInstant(),
+                envelope.CorrelationId);  // ✅ Use from envelope instead of Guid.NewGuid()
 
             _logger.LogInformation("{MessageProcessor} processing sqs message of type {Type}", nameof(MessageProcessor), envelope.Type);
 
-            using var activity = Telemetry.SyncMessageActivity.Start(envelope);
+            using var activity = Telemetry.SyncEnvelopeActivity.Start(envelope);
 
             switch (envelope.Type)
             {
-                case MagdaMessageType.SyncKbo:
+                case SyncMessageType.SyncKbo:
                     activity.TagAsKboSync(envelope.KboNummer!);
                     await kboSyncHandler.Handle(
                         new CommandEnvelope<SyncKboCommand>(
@@ -61,12 +65,13 @@ public class MessageProcessor
                         cancellationToken);
                     break;
 
-                case MagdaMessageType.SyncKsz:
-                    activity.TagAsKszSync(envelope.InszMessage!.Insz, envelope.InszMessage.Overleden);
+                case SyncMessageType.SyncKsz:
+                    activity.TagAsKszSync();
                     await kszSyncHandler.Handle(
                         new SyncKszMessage(
                             Insz.Create(envelope.InszMessage!.Insz),
-                            envelope.InszMessage.Overleden),
+                            envelope.InszMessage.Overleden,
+                            envelope.CorrelationId),
                         cancellationToken);
                     break;
 

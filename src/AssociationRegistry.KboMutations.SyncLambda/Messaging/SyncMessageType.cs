@@ -1,6 +1,6 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Messaging;
 
-public enum MagdaMessageType
+public enum SyncMessageType
 {
     SyncKbo,
     SyncKsz,

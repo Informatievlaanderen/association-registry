@@ -8,7 +8,7 @@ using Xunit;
 /// <summary>
 /// Tests for parsing plain JSON messages (legacy format, backwards compatibility)
 /// </summary>
-public class MagdaEnvelopeParser_PlainJsonTests
+public class SyncEnvelopeParser_PlainJsonTests
 {
     [Fact]
     public void Parse_WhenOnlyKboNummerPresent_ReturnsSyncKbo()
@@ -17,10 +17,10 @@ public class MagdaEnvelopeParser_PlainJsonTests
         var json = """{ "KboNummer": "0123456789" }""";
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(json);
+        var result = SyncEnvelopeParser.Parse(json);
 
         // Assert
-        Assert.Equal(MagdaMessageType.SyncKbo, result.Type);
+        Assert.Equal(SyncMessageType.SyncKbo, result.Type);
         Assert.Equal("0123456789", result.KboNummer);
         Assert.Null(result.InszMessage);
     }
@@ -32,10 +32,10 @@ public class MagdaEnvelopeParser_PlainJsonTests
         var json = """{ "Insz": "06321184845" }""";
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(json);
+        var result = SyncEnvelopeParser.Parse(json);
 
         // Assert
-        Assert.Equal(MagdaMessageType.SyncKsz, result.Type);
+        Assert.Equal(SyncMessageType.SyncKsz, result.Type);
         Assert.Null(result.KboNummer);
         Assert.NotNull(result.InszMessage);
         Assert.Equal("06321184845", result.InszMessage!.Insz);
@@ -51,10 +51,10 @@ public class MagdaEnvelopeParser_PlainJsonTests
         var json = $$"""{"Insz": "06321184845","Overleden": {{overleden.ToString().ToLowerInvariant()}} }""";
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(json);
+        var result = SyncEnvelopeParser.Parse(json);
 
         // Assert
-        Assert.Equal(MagdaMessageType.SyncKsz, result.Type);
+        Assert.Equal(SyncMessageType.SyncKsz, result.Type);
         Assert.Null(result.KboNummer);
         Assert.NotNull(result.InszMessage);
         Assert.Equal("06321184845", result.InszMessage!.Insz);
@@ -69,10 +69,10 @@ public class MagdaEnvelopeParser_PlainJsonTests
         var json = """{ "Insz": "06321184845", "Overleden": "false" }""";
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(json);
+        var result = SyncEnvelopeParser.Parse(json);
 
         // Assert
-        Assert.Equal(MagdaMessageType.SyncKsz, result.Type);
+        Assert.Equal(SyncMessageType.SyncKsz, result.Type);
         Assert.NotNull(result.InszMessage);
         Assert.False(result.InszMessage!.Overleden);
     }
@@ -84,10 +84,10 @@ public class MagdaEnvelopeParser_PlainJsonTests
         var json = """{ "KboNummer": "0123456789", "Insz": "06321184845", "Overleden": true}""";
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(json);
+        var result = SyncEnvelopeParser.Parse(json);
 
         // Assert
-        Assert.Equal(MagdaMessageType.Unknown, result.Type);
+        Assert.Equal(SyncMessageType.Unknown, result.Type);
         Assert.Equal("0123456789", result.KboNummer);
         Assert.NotNull(result.InszMessage);
         Assert.Equal("06321184845", result.InszMessage!.Insz);
@@ -101,10 +101,10 @@ public class MagdaEnvelopeParser_PlainJsonTests
         var json = """{ "SomethingElse": "x" }""";
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(json);
+        var result = SyncEnvelopeParser.Parse(json);
 
         // Assert
-        Assert.Equal(MagdaMessageType.Unknown, result.Type);
+        Assert.Equal(SyncMessageType.Unknown, result.Type);
         Assert.Null(result.KboNummer);
         Assert.Null(result.InszMessage);
     }
@@ -116,10 +116,10 @@ public class MagdaEnvelopeParser_PlainJsonTests
         var json = """{ "KboNummer": "   ", "Insz": "06321184845" }""";
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(json);
+        var result = SyncEnvelopeParser.Parse(json);
 
         // Assert
-        Assert.Equal(MagdaMessageType.SyncKsz, result.Type);
+        Assert.Equal(SyncMessageType.SyncKsz, result.Type);
         Assert.Null(result.KboNummer); // note: parser returns the raw string; this asserts intent
         Assert.NotNull(result.InszMessage);
         Assert.Equal("06321184845", result.InszMessage!.Insz);
@@ -132,7 +132,7 @@ public class MagdaEnvelopeParser_PlainJsonTests
         var invalidJson = """{ "Insz": "06321184845" """;
 
         // Act + Assert
-        Assert.ThrowsAny<JsonException>(() => MagdaEnvelopeParser.Parse(invalidJson));
+        Assert.ThrowsAny<JsonException>(() => SyncEnvelopeParser.Parse(invalidJson));
     }
 
     [Fact]
@@ -142,7 +142,7 @@ public class MagdaEnvelopeParser_PlainJsonTests
         var json = """{ "KboNummer": "0123456789" }""";
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(json);
+        var result = SyncEnvelopeParser.Parse(json);
 
         // Assert
         Assert.Null(result.ParentTraceContext);

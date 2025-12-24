@@ -16,15 +16,16 @@ internal class CloudEventMessageParser : IMessageParser
         _dataElement = JsonDocument.Parse(dataJson).RootElement;
     }
 
-    public MagdaEnvelope ToEnvelope()
+    public SyncEnvelope ToEnvelope()
     {
         var kbo = GetString("KboNummer");
         var insz = GetString("Insz");
         var overleden = GetBool("Overleden");
         var parentContext = _cloudEvent.ExtractTraceContext();
         var sourceFileName = _cloudEvent.GetSourceFileName();
+        var correlationId = GetGuid("CorrelationId") ?? Guid.NewGuid();
 
-        return MagdaEnvelopeFactory.Create(kbo, insz, overleden, parentContext, sourceFileName);
+        return SyncEnvelopeFactory.Create(kbo, insz, overleden, parentContext, sourceFileName, correlationId);
     }
 
     private string? GetString(string prop)
@@ -36,5 +37,10 @@ internal class CloudEventMessageParser : IMessageParser
         => _dataElement.TryGetProperty(prop, out var el) &&
            (el.ValueKind == JsonValueKind.True || el.ValueKind == JsonValueKind.False)
             ? el.GetBoolean()
+            : null;
+
+    private Guid? GetGuid(string prop)
+        => _dataElement.TryGetProperty(prop, out var el) && el.ValueKind == JsonValueKind.String
+            ? Guid.TryParse(el.GetString(), out var guid) ? guid : null
             : null;
 }

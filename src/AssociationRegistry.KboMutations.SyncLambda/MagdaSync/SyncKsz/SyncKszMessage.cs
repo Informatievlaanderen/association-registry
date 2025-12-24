@@ -2,4 +2,4 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 
-public record SyncKszMessage(Insz Insz, bool Overleden);
+public record SyncKszMessage(Insz Insz, bool Overleden, Guid CorrelationId);

@@ -28,7 +28,7 @@ public class Given_Sync_Message_With_Overleden_False
         _vertegenwoordigerPersoonsgegevensRepository = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
         _verenigingsrepository = new Mock<IVerenigingsRepository>();
         _sut = new SyncKszMessageHandler(_vertegenwoordigerPersoonsgegevensRepository.Object, _verenigingsrepository.Object, Mock.Of<IFilterVzerOnlyQuery>(), NullLogger<SyncKszMessageHandler>.Instance);
-        _sut.Handle(new SyncKszMessage(Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz), false), CancellationToken.None)
+        _sut.Handle(new SyncKszMessage(Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz), false, Guid.NewGuid()), CancellationToken.None)
             .GetAwaiter().GetResult();
     }
 

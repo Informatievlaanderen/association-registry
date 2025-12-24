@@ -3,9 +3,9 @@
 using AssociationRegistry.KboMutations.CloudEvents;
 using System.Text.Json;
 
-public static class MagdaEnvelopeParser
+public static class SyncEnvelopeParser
 {
-    public static MagdaEnvelope Parse(string body)
+    public static SyncEnvelope Parse(string body)
     {
         var parser = TryParseAsCloudEvent(body) ?? ParseAsPlainJson(body);
         return parser.ToEnvelope();

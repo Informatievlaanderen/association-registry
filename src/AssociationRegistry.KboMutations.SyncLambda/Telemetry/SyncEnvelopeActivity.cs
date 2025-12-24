@@ -3,38 +3,34 @@ namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 using Messaging;
 using System.Diagnostics;
 
-public class SyncMessageActivity : IDisposable
+public class SyncEnvelopeActivity : IDisposable
 {
     private readonly Activity? _activity;
 
-    private SyncMessageActivity(Activity? activity)
+    private SyncEnvelopeActivity(Activity? activity)
     {
         _activity = activity;
     }
 
-    public static SyncMessageActivity Start(MagdaEnvelope envelope)
+    public static SyncEnvelopeActivity Start(SyncEnvelope envelope)
     {
         var activity = CreateActivity(envelope.ParentTraceContext);
 
-        if (activity != null && !string.IsNullOrEmpty(envelope.SourceFileName))
-        {
-            activity.SetTag("source.file.name", envelope.SourceFileName);
-        }
+        // Note: SourceFileName is NOT tagged - it's high cardinality (unique per mutation file)
+        // and would explode the number of unique time series in the telemetry backend
 
-        return new SyncMessageActivity(activity);
+        return new SyncEnvelopeActivity(activity);
     }
 
     public void TagAsKboSync(string kboNummer)
     {
-        _activity?.SetTag("kbo.nummer", kboNummer);
-        _activity?.SetTag("message.type", "SyncKbo");
+        // Note: KBO nummer is NOT tagged - it's high cardinality and would explode the number of unique time series
+        _activity?.SetTag(SemanticConventions.MessageType, SemanticConventions.MessageTypes.SyncKbo);
     }
 
-    public void TagAsKszSync(string insz, bool overleden)
+    public void TagAsKszSync()
     {
-        _activity?.SetTag("insz", insz);
-        _activity?.SetTag("overleden", overleden);
-        _activity?.SetTag("message.type", "SyncKsz");
+        _activity?.SetTag(SemanticConventions.MessageType, SemanticConventions.MessageTypes.SyncKsz);
     }
 
     private static Activity? CreateActivity(ActivityContext? parentContext)

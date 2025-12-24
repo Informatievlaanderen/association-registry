@@ -9,7 +9,7 @@ using Xunit;
 /// <summary>
 /// Tests for parsing CloudEvents messages (new format with distributed tracing)
 /// </summary>
-public class MagdaEnvelopeParser_CloudEventTests
+public class SyncEnvelopeParser_CloudEventTests
 {
     [Fact]
     public void Parse_CloudEvent_WhenOnlyKboNummerPresent_ReturnsSyncKbo()
@@ -20,10 +20,10 @@ public class MagdaEnvelopeParser_CloudEventTests
                                               .BuildAsJson();
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(cloudEventJson);
+        var result = SyncEnvelopeParser.Parse(cloudEventJson);
 
         // Assert
-        Assert.Equal(MagdaMessageType.SyncKbo, result.Type);
+        Assert.Equal(SyncMessageType.SyncKbo, result.Type);
         Assert.Equal("0123456789", result.KboNummer);
         Assert.Null(result.InszMessage);
     }
@@ -37,10 +37,10 @@ public class MagdaEnvelopeParser_CloudEventTests
                                               .BuildAsJson();
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(cloudEventJson);
+        var result = SyncEnvelopeParser.Parse(cloudEventJson);
 
         // Assert
-        Assert.Equal(MagdaMessageType.SyncKsz, result.Type);
+        Assert.Equal(SyncMessageType.SyncKsz, result.Type);
         Assert.Null(result.KboNummer);
         Assert.NotNull(result.InszMessage);
         Assert.Equal("06321184845", result.InszMessage!.Insz);
@@ -58,10 +58,10 @@ public class MagdaEnvelopeParser_CloudEventTests
                                               .BuildAsJson();
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(cloudEventJson);
+        var result = SyncEnvelopeParser.Parse(cloudEventJson);
 
         // Assert
-        Assert.Equal(MagdaMessageType.SyncKsz, result.Type);
+        Assert.Equal(SyncMessageType.SyncKsz, result.Type);
         Assert.Null(result.KboNummer);
         Assert.NotNull(result.InszMessage);
         Assert.Equal("06321184845", result.InszMessage!.Insz);
@@ -78,7 +78,7 @@ public class MagdaEnvelopeParser_CloudEventTests
                                               .BuildAsJson();
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(cloudEventJson);
+        var result = SyncEnvelopeParser.Parse(cloudEventJson);
 
         // Assert
         Assert.Equal("pub_mut_klanten-ondernemingen.csv", result.SourceFileName);
@@ -103,7 +103,7 @@ public class MagdaEnvelopeParser_CloudEventTests
                                               .BuildAsJson();
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(cloudEventJson);
+        var result = SyncEnvelopeParser.Parse(cloudEventJson);
 
         // Assert
         Assert.NotNull(result.ParentTraceContext);
@@ -119,7 +119,7 @@ public class MagdaEnvelopeParser_CloudEventTests
                                               .BuildAsJson();
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(cloudEventJson);
+        var result = SyncEnvelopeParser.Parse(cloudEventJson);
 
         // Assert
         Assert.Null(result.ParentTraceContext);
@@ -134,10 +134,10 @@ public class MagdaEnvelopeParser_CloudEventTests
                                               .BuildAsJson();
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(cloudEventJson);
+        var result = SyncEnvelopeParser.Parse(cloudEventJson);
 
         // Assert
-        Assert.Equal(MagdaMessageType.Unknown, result.Type);
+        Assert.Equal(SyncMessageType.Unknown, result.Type);
         Assert.Equal("0123456789", result.KboNummer);
         Assert.NotNull(result.InszMessage);
         Assert.Equal("06321184845", result.InszMessage!.Insz);
@@ -153,10 +153,10 @@ public class MagdaEnvelopeParser_CloudEventTests
                                               .BuildAsJson();
 
         // Act
-        var result = MagdaEnvelopeParser.Parse(cloudEventJson);
+        var result = SyncEnvelopeParser.Parse(cloudEventJson);
 
         // Assert
-        Assert.Equal(MagdaMessageType.SyncKbo, result.Type);
+        Assert.Equal(SyncMessageType.SyncKbo, result.Type);
         Assert.Equal("9876543210", result.KboNummer);
     }
 }
