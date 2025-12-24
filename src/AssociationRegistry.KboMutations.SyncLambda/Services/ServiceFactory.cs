@@ -187,11 +187,26 @@ public class ServiceFactory
         return connectionStringBuilder.ToString();
     }
 
+    private static NpgsqlDataSource BuildDataSource(string connectionString)
+    {
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+
+        dataSourceBuilder.ConfigureTracing(options =>
+        {
+            // Disable the "time-to-first-read" event to reduce noise in traces
+            options.EnableFirstResponseEvent(false);
+        });
+
+        return dataSourceBuilder.Build();
+    }
+
     private static StoreOptions ConfigureStoreOptions(string connectionString, Func<IQuerySession> querySessionFunc)
     {
         var opts = new StoreOptions();
         opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
-        opts.Connection(connectionString);
+
+        var dataSource = BuildDataSource(connectionString);
+        opts.Connection(dataSource);
         opts.Events.StreamIdentity = StreamIdentity.AsString;
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {
