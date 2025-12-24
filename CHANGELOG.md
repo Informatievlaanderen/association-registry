@@ -1,3 +1,15 @@
+# [8.285.0](https://github.com/informatievlaanderen/association-registry/compare/v8.284.9...v8.285.0) (2025-12-24)
+
+
+### Bug Fixes
+
+* or-2942 make sure logs get sent to grafana when throwing ([d3a8116](https://github.com/informatievlaanderen/association-registry/commit/d3a8116193ef4ed70b27c375a74b8eeda8058076))
+
+
+### Features
+
+* or-2942 introduce cloud events in kbo sync messaging ([9c239e7](https://github.com/informatievlaanderen/association-registry/commit/9c239e7b82c526769da04e6fbe7144496251d230))
+
 ## [8.284.9](https://github.com/informatievlaanderen/association-registry/compare/v8.284.8...v8.284.9) (2025-12-23)
 
 
