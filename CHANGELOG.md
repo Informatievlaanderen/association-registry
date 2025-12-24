@@ -1,3 +1,10 @@
+## [8.285.1](https://github.com/informatievlaanderen/association-registry/compare/v8.285.0...v8.285.1) (2025-12-24)
+
+
+### Bug Fixes
+
+* or-2942 don't push first response events ([c7e093f](https://github.com/informatievlaanderen/association-registry/commit/c7e093fbfc597dd896436966488d7ef6e35f268b))
+
 # [8.285.0](https://github.com/informatievlaanderen/association-registry/compare/v8.284.9...v8.285.0) (2025-12-24)
 
 
