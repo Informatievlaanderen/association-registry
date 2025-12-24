@@ -17,6 +17,8 @@ using Integrations.Slack;
 using JasperFx;
 using JasperFx.Events;
 using Logging;
+using MagdaSync.SyncKbo;
+using MagdaSync.SyncKsz;
 using MagdaSync.SyncKsz.Queries;
 using Marten;
 using MartenDb.Store;
@@ -50,7 +52,6 @@ public class ServiceFactory
         var paramNamesConfiguration = GetParamNamesConfiguration();
         var ssmClientWrapper = new SsmClientWrapper(new AmazonSimpleSystemsManagementClient());
 
-        var messageProcessor = CreateMessageProcessor();
         var loggerFactory = CreateLoggerFactory();
         var logger = loggerFactory.CreateLogger<ServiceFactory>();
         var magdaOptions = await GetMagdaOptionsAsync(ssmClientWrapper, paramNamesConfiguration, logger);
@@ -70,16 +71,28 @@ public class ServiceFactory
         var vertegenwoordigerPersoonsgegevensRepository =
             new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session));
 
-        var notifier = await CreateNotifierAsync(ssmClientWrapper, paramNamesConfiguration);
+        var notifier = await CreateNotifierAsync(ssmClientWrapper, paramNamesConfiguration, loggerFactory);
+
+        var kboSyncHandler = new SyncKboCommandHandler(
+            registreerInschrijvingService,
+            new SyncGeefVerenigingService(magdaClient, loggerFactory.CreateLogger<SyncGeefVerenigingService>()),
+            notifier,
+            loggerFactory.CreateLogger<SyncKboCommandHandler>());
+
+        var kszSyncHandler = new SyncKszMessageHandler(
+            vertegenwoordigerPersoonsgegevensRepository,
+            repository,
+            new FilterVzerOnlyQuery(session),
+            loggerFactory.CreateLogger<SyncKszMessageHandler>());
+
+        var messageProcessor = CreateMessageProcessor(loggerFactory.CreateLogger<MessageProcessor>());
 
         return new LambdaServices(
             messageProcessor,
             loggerFactory,
-            registreerInschrijvingService,
-            new SyncGeefVerenigingService(magdaClient, loggerFactory.CreateLogger<SyncGeefVerenigingService>()),
+            kboSyncHandler,
+            kszSyncHandler,
             repository,
-            new FilterVzerOnlyQuery(session),
-            vertegenwoordigerPersoonsgegevensRepository,
             notifier
         );
     }
@@ -95,15 +108,17 @@ public class ServiceFactory
             ?? throw new InvalidOperationException("Could not load ParamNamesConfiguration");
     }
 
-    private MessageProcessor CreateMessageProcessor()
+    private MessageProcessor CreateMessageProcessor(ILogger<MessageProcessor> logger)
     {
         var awsConfigurationSection = _configuration.GetSection("KboSync");
 
-        return new MessageProcessor(new KboSyncConfiguration
-        {
-            MutationFileQueueUrl = awsConfigurationSection[nameof(WellKnownQueueNames.MutationFileQueueUrl)],
-            SyncQueueUrl = awsConfigurationSection[nameof(WellKnownQueueNames.SyncQueueUrl)]!
-        });
+        return new MessageProcessor(
+            new KboSyncConfiguration
+            {
+                MutationFileQueueUrl = awsConfigurationSection[nameof(WellKnownQueueNames.MutationFileQueueUrl)],
+                SyncQueueUrl = awsConfigurationSection[nameof(WellKnownQueueNames.SyncQueueUrl)]!
+            },
+            logger);
     }
 
     private ILoggerFactory CreateLoggerFactory()
@@ -220,8 +235,8 @@ public class ServiceFactory
             loggerFactory.CreateLogger<MagdaRegistreerInschrijvingService>());
     }
 
-    private async Task<INotifier> CreateNotifierAsync(SsmClientWrapper ssmClientWrapper, ParamNamesConfiguration paramNamesConfiguration)
+    private async Task<INotifier> CreateNotifierAsync(SsmClientWrapper ssmClientWrapper, ParamNamesConfiguration paramNamesConfiguration, ILoggerFactory loggerFactory)
     {
-        return await new NotifierFactory(ssmClientWrapper, paramNamesConfiguration, _logger).Create();
+        return await new NotifierFactory(ssmClientWrapper, paramNamesConfiguration, loggerFactory).Create();
     }
 }

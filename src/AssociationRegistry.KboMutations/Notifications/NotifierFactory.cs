@@ -1,31 +1,34 @@
 namespace AssociationRegistry.KboMutations.Notifications;
 
-using Amazon.Lambda.Core;
 using Configuration;
 using Integrations.Slack;
+using Microsoft.Extensions.Logging;
 
 public class NotifierFactory
 {
     private readonly SsmClientWrapper _ssmClientWrapper;
     private readonly ISlackConfiguration _paramNames;
-    private readonly ILambdaLogger _logger;
+    private readonly ILoggerFactory _loggerFactory;
+    private readonly ILogger<NotifierFactory> _logger;
 
-    public NotifierFactory(SsmClientWrapper ssmClientWrapper,
+    public NotifierFactory(
+        SsmClientWrapper ssmClientWrapper,
         ISlackConfiguration paramNames,
-        ILambdaLogger logger)
+        ILoggerFactory loggerFactory)
     {
         _ssmClientWrapper = ssmClientWrapper;
         _paramNames = paramNames;
-        _logger = logger;
+        _loggerFactory = loggerFactory;
+        _logger = loggerFactory.CreateLogger<NotifierFactory>();
     }
 
     public async Task<INotifier> Create()
     {
         if (string.IsNullOrEmpty(_paramNames.SlackWebhook))
         {
-            _logger.LogWarning($"ParamName '{nameof(_paramNames.SlackWebhook)}' was not provided, slack notifications will not be enabled");
+            _logger.LogWarning("ParamName '{ParamName}' was not provided, slack notifications will not be enabled", nameof(_paramNames.SlackWebhook));
 
-            return new NullNotifier(_logger);
+            return new NullNotifier(_loggerFactory.CreateLogger<NullNotifier>());
         }
 
         var webhook = await _ssmClientWrapper.GetParameterAsync(_paramNames.SlackWebhook);
@@ -34,7 +37,7 @@ public class NotifierFactory
 
         _logger.LogInformation("Slack notifications are enabled");
 
-        return new SlackNotifier(_logger, webhook);
+        return new SlackNotifier(_loggerFactory.CreateLogger<SlackNotifier>(), webhook);
     }
 
     public async Task<INotifier> TryCreate()
@@ -45,14 +48,14 @@ public class NotifierFactory
         }
         catch(Exception ex)
         {
-            _logger.LogError($"Could not create notifier: {ex.Message}");
-            return new NullNotifier(_logger);
+            _logger.LogError(ex, "Could not create notifier: {ErrorMessage}", ex.Message);
+            return new NullNotifier(_loggerFactory.CreateLogger<NullNotifier>());
         }
     }
 
     private void LogIfNotFound(string value, string parameterName)
     {
         if(string.IsNullOrEmpty(value))
-            _logger.LogWarning($"Could not fetch '{parameterName}' value from SSM, slack notifications will not be enabled");
+            _logger.LogWarning("Could not fetch '{ParameterName}' value from SSM, slack notifications will not be enabled", parameterName);
     }
 }

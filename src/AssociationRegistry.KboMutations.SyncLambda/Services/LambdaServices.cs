@@ -1,18 +1,15 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Services;
 
-using Integrations.Magda.Onderneming;
 using Integrations.Slack;
-using MagdaSync.SyncKsz.Queries;
+using MagdaSync.SyncKbo;
+using MagdaSync.SyncKsz;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
-using Persoonsgegevens;
 
 public record LambdaServices(
     MessageProcessor MessageProcessor,
     ILoggerFactory LoggerFactory,
-    MagdaRegistreerInschrijvingService RegistreerInschrijvingService,
-    SyncGeefVerenigingService GeefVerenigingService,
+    SyncKboCommandHandler KboSyncHandler,
+    SyncKszMessageHandler KszSyncHandler,
     VerenigingsRepository Repository,
-    FilterVzerOnlyQuery FilterVzerOnlyQuery,
-    IVertegenwoordigerPersoonsgegevensRepository VertegenwoordigerPersoonsgegevensRepository,
     INotifier Notifier);

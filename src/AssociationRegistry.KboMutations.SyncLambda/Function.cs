@@ -40,19 +40,15 @@ public class Function
             context.Logger.LogInformation($"{@event.Records.Count} RECORDS RECEIVED INSIDE SQS EVENT");
 
             services = await serviceFactory.CreateServicesAsync();
-            var logger = services.LoggerFactory.CreateLogger<Function>();
+            var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
 
             logger.LogInformation("Processing {RecordCount} SQS messages", @event.Records.Count);
 
             await services.MessageProcessor.ProcessMessage(
                 @event,
-                services.LoggerFactory,
-                services.RegistreerInschrijvingService,
-                services.GeefVerenigingService,
+                services.KboSyncHandler,
+                services.KszSyncHandler,
                 services.Repository,
-                services.FilterVzerOnlyQuery,
-                services.VertegenwoordigerPersoonsgegevensRepository,
-                services.Notifier,
                 CancellationToken.None);
 
             logger.LogInformation("Successfully processed {RecordCount} records", @event.Records.Count);
@@ -63,7 +59,7 @@ public class Function
 
             if (services != null)
             {
-                var logger = services.LoggerFactory.CreateLogger<Function>();
+                var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
                 logger.LogError(e, "KBO/KSZ sync lambda failed with error: {ErrorMessage}", e.Message);
             }
             else
@@ -75,7 +71,7 @@ public class Function
         {
             if (services != null)
             {
-                var logger = services.LoggerFactory.CreateLogger<Function>();
+                var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
                 logger.LogInformation("Kbo/ksz sync lambda finished");
             }
             else

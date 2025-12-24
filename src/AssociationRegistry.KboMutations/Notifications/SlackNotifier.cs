@@ -1,15 +1,15 @@
 namespace AssociationRegistry.KboMutations.Notifications;
 
-using Amazon.Lambda.Core;
 using Integrations.Slack;
+using Microsoft.Extensions.Logging;
 using Slack.Webhooks;
 
 public class SlackNotifier : INotifier
 {
-    private readonly ILambdaLogger _logger;
+    private readonly ILogger<SlackNotifier> _logger;
     private SlackClient _slackClient;
 
-    public SlackNotifier(ILambdaLogger logger, string webhookUrl)
+    public SlackNotifier(ILogger<SlackNotifier> logger, string webhookUrl)
     {
         if (webhookUrl == null) throw new ArgumentNullException(nameof(webhookUrl));
         _logger = logger;
@@ -35,11 +35,11 @@ public class SlackNotifier : INotifier
 
         if(!postAsync)
         {
-            _logger.LogWarning($"Slack bericht kon niet verstuurd worden: '{message.Value}' ({message.Type})");
+            _logger.LogWarning("Slack bericht kon niet verstuurd worden: '{Message}' ({Type})", message.Value, message.Type);
         }
         else
         {
-            _logger.LogInformation($"Slack bericht verstuurd: '{message.Value}' ({message.Type})");
+            _logger.LogInformation("Slack bericht verstuurd: '{Message}' ({Type})", message.Value, message.Type);
         }
     }
 }

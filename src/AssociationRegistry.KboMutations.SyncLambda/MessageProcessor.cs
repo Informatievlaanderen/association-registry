@@ -19,49 +19,33 @@ using Persoonsgegevens;
 public class MessageProcessor
 {
     private readonly KboSyncConfiguration _kboSyncConfiguration;
+    private readonly ILogger<MessageProcessor> _logger;
 
-    public MessageProcessor(KboSyncConfiguration kboSyncConfiguration)
+    public MessageProcessor(
+        KboSyncConfiguration kboSyncConfiguration,
+        ILogger<MessageProcessor> logger)
     {
         _kboSyncConfiguration = kboSyncConfiguration;
+        _logger = logger;
     }
 
-    public async Task ProcessMessage(SQSEvent sqsEvent,
-        ILoggerFactory loggerFactory,
-        IMagdaRegistreerInschrijvingService registreerInschrijvingService,
-        IMagdaSyncGeefVerenigingService geefOndernemingService,
+    public async Task ProcessMessage(
+        SQSEvent sqsEvent,
+        SyncKboCommandHandler kboSyncHandler,
+        SyncKszMessageHandler kszSyncHandler,
         IVerenigingsRepository verenigingsRepository,
-        FilterVzerOnlyQuery filterVzerOnlyQuery,
-        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
-        INotifier notifier,
         CancellationToken cancellationToken)
     {
-        var contextLogger = loggerFactory.CreateLogger<MessageProcessor>();
-        contextLogger.LogInformation($"{nameof(_kboSyncConfiguration.MutationFileBucketName)}:{_kboSyncConfiguration.MutationFileBucketName}");
-        contextLogger.LogInformation($"{nameof(_kboSyncConfiguration.MutationFileQueueUrl)}:{_kboSyncConfiguration.MutationFileQueueUrl}");
-        contextLogger.LogInformation($"{nameof(_kboSyncConfiguration.SyncQueueUrl)}:{_kboSyncConfiguration.SyncQueueUrl}");
-
-        var logger = loggerFactory.CreateLogger<SyncKboCommandHandler>();
-
-        var kboSyncHandler = new SyncKboCommandHandler(
-            registreerInschrijvingService,
-            geefOndernemingService,
-            notifier,
-            logger
-            );
-
-        var kszSyncHandler = new SyncKszMessageHandler(
-            vertegenwoordigerPersoonsgegevensRepository,
-            verenigingsRepository,
-            filterVzerOnlyQuery,
-            loggerFactory.CreateLogger<SyncKszMessageHandler>()
-            );
+        _logger.LogInformation("{ConfigKey}: {ConfigValue}", nameof(_kboSyncConfiguration.MutationFileBucketName), _kboSyncConfiguration.MutationFileBucketName);
+        _logger.LogInformation("{ConfigKey}: {ConfigValue}", nameof(_kboSyncConfiguration.MutationFileQueueUrl), _kboSyncConfiguration.MutationFileQueueUrl);
+        _logger.LogInformation("{ConfigKey}: {ConfigValue}", nameof(_kboSyncConfiguration.SyncQueueUrl), _kboSyncConfiguration.SyncQueueUrl);
 
         foreach (var record in sqsEvent.Records)
         {
             var commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
             var envelope = MagdaEnvelopeParser.Parse(record.Body);
 
-            contextLogger.LogInformation("{MessageProcessor} processing sqs message of type {Type}", nameof(MessageProcessor), envelope.Type);
+            _logger.LogInformation("{MessageProcessor} processing sqs message of type {Type}", nameof(MessageProcessor), envelope.Type);
 
             using var activity = Telemetry.SyncMessageActivity.Start(envelope);
 

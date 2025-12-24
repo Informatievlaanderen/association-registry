@@ -1,16 +1,16 @@
 namespace AssociationRegistry.KboMutations.Notifications;
 
-using Amazon.Lambda.Core;
 using Integrations.Slack;
+using Microsoft.Extensions.Logging;
 
 public class NullNotifier : INotifier
 {
-    private readonly ILambdaLogger _logger;
+    private readonly ILogger<NullNotifier> _logger;
 
-    public NullNotifier(ILambdaLogger logger)
+    public NullNotifier(ILogger<NullNotifier> logger)
     {
         _logger = logger;
     }
 
-    public async Task Notify(INotification message) => _logger.LogInformation($"Not notifying slack: {message.Value}");
+    public async Task Notify(INotification message) => _logger.LogInformation("Not notifying slack: {Message}", message.Value);
 }
