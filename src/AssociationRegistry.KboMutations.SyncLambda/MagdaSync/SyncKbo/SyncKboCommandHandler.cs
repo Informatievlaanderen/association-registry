@@ -17,17 +17,20 @@ public class SyncKboCommandHandler
     private readonly INotifier _notifier;
     private readonly ILogger<SyncKboCommandHandler> _logger;
     private readonly IMagdaSyncGeefVerenigingService _geefVerenigingService;
+    private readonly KboSyncMetrics _metrics;
 
     public SyncKboCommandHandler(
         IMagdaRegistreerInschrijvingService registreerInschrijvingService,
         IMagdaSyncGeefVerenigingService geefVerenigingService,
         INotifier notifier,
-        ILogger<SyncKboCommandHandler> logger)
+        ILogger<SyncKboCommandHandler> logger,
+        KboSyncMetrics metrics)
     {
         _registreerInschrijvingService = registreerInschrijvingService;
         _geefVerenigingService = geefVerenigingService;
         _notifier = notifier;
         _logger = logger;
+        _metrics = metrics;
     }
 
     public async Task<CommandResult?> Handle(
@@ -37,7 +40,7 @@ public class SyncKboCommandHandler
     {
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} start");
 
-        using var scope = KboSyncMetrics.Start(message.Command.KboNummer);
+        using var scope = _metrics.Start("kbo");
 
         if (!await repository.Exists(message.Command.KboNummer))
         {
@@ -58,9 +61,7 @@ public class SyncKboCommandHandler
 
         var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata);
 
-        scope.UseVCode(vereniging.VCode);
-
-       await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
+        await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
 
         vereniging.NeemGegevensOverUitKboSync(verenigingVolgensMagda);
 

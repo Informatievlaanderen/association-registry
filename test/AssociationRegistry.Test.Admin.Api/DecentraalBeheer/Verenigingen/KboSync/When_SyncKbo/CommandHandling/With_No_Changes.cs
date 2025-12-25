@@ -15,6 +15,7 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Integrations.Slack;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo.Notifications;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -48,7 +49,7 @@ public class With_No_Changes
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
                                                        _notifierMock.Object,
-                                                       NullLogger<SyncKboCommandHandler>.Instance);
+                                                       NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(_command, commandMetadata),
@@ -124,7 +125,7 @@ public class With_FailureResultFromMagda
         var commandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
                                                        _magdaGeefVerenigingService.Object,
                                                        _notifierMock.Object,
-                                                       NullLogger<SyncKboCommandHandler>.Instance);
+                                                       NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
 
         _action = async () => await commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),

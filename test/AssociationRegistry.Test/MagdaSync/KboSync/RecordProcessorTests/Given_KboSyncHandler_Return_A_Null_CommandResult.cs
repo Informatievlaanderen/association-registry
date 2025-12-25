@@ -5,6 +5,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Integrations.Slack;
 using AssociationRegistry.KboMutations.SyncLambda;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo;
@@ -24,7 +25,7 @@ public class Given_KboSyncHandler_Return_A_Null_CommandResult
         verenigingsRepository.Setup(x => x.Exists(It.IsAny<KboNummer>()))
                               .Returns(Task.FromResult(false));
 
-        var syncKboCommandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(), Mock.Of<IMagdaSyncGeefVerenigingService>(), Mock.Of<INotifier>(), NullLogger<SyncKboCommandHandler>.Instance);
+        var syncKboCommandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(), Mock.Of<IMagdaSyncGeefVerenigingService>(), Mock.Of<INotifier>(), NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
 
         RecordProcessor.TryProcessRecord(logger.Object, verenigingsRepository.Object, CancellationToken.None,
                                                    new TeSynchroniserenKboNummerMessage(fixture.Create<KboNummer>()),

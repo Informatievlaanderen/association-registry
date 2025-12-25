@@ -38,13 +38,15 @@ public class ServiceFactory
     private readonly IConfigurationRoot _configuration;
     private readonly ILambdaLogger _logger;
     private readonly TelemetryManager _telemetryManager;
+    private readonly AssociationRegistry.OpenTelemetry.Metrics.KboSyncMetrics _metrics;
     private DocumentStore _store;
 
-    public ServiceFactory(IConfigurationRoot configuration, ILambdaLogger logger, TelemetryManager telemetryManager)
+    public ServiceFactory(IConfigurationRoot configuration, ILambdaLogger logger, TelemetryManager telemetryManager, AssociationRegistry.OpenTelemetry.Metrics.KboSyncMetrics metrics)
     {
         _configuration = configuration;
         _logger = logger;
         _telemetryManager = telemetryManager;
+        _metrics = metrics;
     }
 
     public async Task<LambdaServices> CreateServicesAsync()
@@ -77,7 +79,8 @@ public class ServiceFactory
             registreerInschrijvingService,
             new SyncGeefVerenigingService(magdaClient, loggerFactory.CreateLogger<SyncGeefVerenigingService>()),
             notifier,
-            loggerFactory.CreateLogger<SyncKboCommandHandler>());
+            loggerFactory.CreateLogger<SyncKboCommandHandler>(),
+            _metrics);
 
         var kszSyncHandler = new SyncKszMessageHandler(
             vertegenwoordigerPersoonsgegevensRepository,

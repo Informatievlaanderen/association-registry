@@ -4,131 +4,83 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 
-public enum SyncResult
-{
-    Attempt,
-    Success,
-    Failure,
-    Dropped
-}
-
-public static class SyncLabels
-{
-    public const string KboNumber = "kbo_number";
-    public const string VCode = "vcode";
-    public const string Result = "result";
-}
-
-public static class KboSyncMetrics
+public class KboSyncMetrics
 {
     public const string MeterName = "VR.Kbo.Sync.Handler";
-    private const string MeterVersion = "1.0.0";
-    private static readonly Meter Meter;
 
-    public static readonly Counter<long> KboAttempts;
-    public static readonly Counter<long> KboDrops;
-    public static readonly UpDownCounter<long> KboInFlight;
+    private readonly Counter<long> _lambdaInvocations;
+    private readonly Counter<long> _syncOperations;
+    private readonly Histogram<double> _syncDuration;
+    private readonly string _environment;
 
-    public static readonly Counter<long> Successes;
-    public static readonly Counter<long> Failures;
-
-    public static readonly Histogram<double> Duration;
-
-    static KboSyncMetrics()
+    public KboSyncMetrics(Meter meter)
     {
-        Meter = new Meter(MeterName, MeterVersion);
+        _environment = Environment.GetEnvironmentVariable("ENVIRONMENT")?.ToLowerInvariant() ?? "unknown";
 
-        KboAttempts = Meter.CreateCounter<long>("kbo_sync_attempts_total", "Sync attempts by KBO number");
-        KboDrops = Meter.CreateCounter<long>("kbo_sync_drops_total", "Sync drops by KBO number");
-        KboInFlight = Meter.CreateUpDownCounter<long>("kbo_sync_inflight", "In-flight syncs by KBO number");
-
-        Successes = Meter.CreateCounter<long>("kbo_sync_vcode_success_total", "Sync successes by vCode");
-        Failures = Meter.CreateCounter<long>("kbo_sync_vcode_failures_total", "Sync failures by vCode");
-
-        Duration = Meter.CreateHistogram<double>("kbo_sync_duration_seconds", "s", "Sync duration");
+        _lambdaInvocations = meter.CreateCounter<long>("kbo_sync_lambda_invocations_total", "Number of lambda invocations");
+        _syncOperations = meter.CreateCounter<long>("kbo_sync_operations_total", "Number of sync operations");
+        _syncDuration = meter.CreateHistogram<double>("kbo_sync_duration_seconds", "s", "Sync operation duration");
     }
 
-    public static SyncScope Start(string kboNumber) => new SyncScope(kboNumber);
+    public void RecordLambdaInvocation(string lambdaName, bool coldStart)
+    {
+        var tags = new TagList
+        {
+            { "lambda_name", lambdaName },
+            { "cold_start", coldStart },
+            { "environment", _environment }
+        };
+        _lambdaInvocations.Add(1, tags);
+    }
+
+    public SyncScope Start(string syncType) => new SyncScope(this, syncType);
+
+    internal void RecordSyncOperation(string syncType, string result, double durationSeconds)
+    {
+        var tags = new TagList
+        {
+            { "sync_type", syncType },
+            { "result", result },
+            { "environment", _environment }
+        };
+        _syncOperations.Add(1, tags);
+        _syncDuration.Record(durationSeconds, tags);
+    }
 
     public struct SyncScope : IDisposable
     {
-        private readonly string _kboNumber;
-        private string? _vCode;
+        private readonly KboSyncMetrics _metrics;
+        private readonly string _syncType;
         private readonly long _startTimestamp;
-        private bool _completed;
+        private string _result;
 
-        public SyncScope(string kboNumber)
+        public SyncScope(KboSyncMetrics metrics, string syncType)
         {
-            _kboNumber = kboNumber;
-            _vCode = null;
+            _metrics = metrics;
+            _syncType = syncType;
             _startTimestamp = Stopwatch.GetTimestamp();
-            _completed = false;
-
-            var kboTags = new TagList([new(SyncLabels.KboNumber, _kboNumber)]);
-            KboAttempts.Add(1, kboTags);
-            KboInFlight.Add(1, kboTags);
+            _result = "failure"; // Default to failure unless explicitly marked as success/dropped
         }
 
         public void Dropped()
         {
-            _completed = true;
-
-            var kboTags = new TagList([new(SyncLabels.KboNumber, _kboNumber)]);
-            KboDrops.Add(1, kboTags);
+            _result = "dropped";
         }
 
         public void Failed()
         {
-            _completed = true;
-
-
-            var vcodeTags = new TagList([new(SyncLabels.VCode, _vCode)]);
-            Failures.Add(1, vcodeTags);
+            _result = "failure";
         }
 
         public void Succeed()
         {
-            _completed = true;
-
-            if (_vCode != null)
-            {
-                var vcodeTags = new TagList([new(SyncLabels.VCode, _vCode)]);
-                Successes.Add(1, vcodeTags);
-            }
-        }
-
-        public void UseVCode(string vCode)
-        {
-            _vCode = vCode;
+            _result = "success";
         }
 
         public void Dispose()
         {
-            try
-            {
-                var elapsedSec = (Stopwatch.GetTimestamp() - _startTimestamp) / (double)Stopwatch.Frequency;
-
-                if (_vCode != null)
-                {
-                    var vcodeTags = new TagList([new(SyncLabels.VCode, _vCode)]);
-                    Duration.Record(elapsedSec, vcodeTags);
-                }
-                else
-                {
-                    var kboTags = new TagList([new(SyncLabels.KboNumber, _kboNumber)]);
-                    Duration.Record(elapsedSec, kboTags);
-                }
-
-                if (!_completed)
-                {
-                    Failed();
-                }
-            }
-            finally
-            {
-                var kboTags = new TagList([new(SyncLabels.KboNumber, _kboNumber)]);
-                KboInFlight.Add(-1, kboTags);
-            }
+            var elapsedSec = (Stopwatch.GetTimestamp() - _startTimestamp) / (double)Stopwatch.Frequency;
+            _metrics.RecordSyncOperation(_syncType, _result, elapsedSec);
         }
     }
 }

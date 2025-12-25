@@ -14,6 +14,7 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Integrations.Slack;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -43,7 +44,7 @@ public class With_No_Changes_ReedsIngeschreven
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
                                                        _notifierMock.Object,
-                                                       NullLogger<SyncKboCommandHandler>.Instance);
+                                                       NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(_command, commandMetadata),

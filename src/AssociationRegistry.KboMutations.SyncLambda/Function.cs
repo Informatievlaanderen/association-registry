@@ -1,3 +1,4 @@
+using System.Diagnostics.Metrics;
 using System.Text.Json.Serialization;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
@@ -15,6 +16,8 @@ using Telemetry;
 
 public class Function
 {
+    private static readonly AssociationRegistry.OpenTelemetry.Metrics.ColdStartDetector ColdStartDetector = new();
+
     private static async Task Main()
     {
         var handler = FunctionHandler;
@@ -26,11 +29,20 @@ public class Function
     private static async Task FunctionHandler(SQSEvent @event, ILambdaContext context)
     {
         context.Logger.LogInformation("Function started");
+
+        var coldStart = ColdStartDetector.IsColdStart();
+
         var configurationManager = new ConfigurationManager();
         var configuration = configurationManager.Build();
 
         var telemetryManager = new TelemetryManager(context.Logger, configuration);
-        var serviceFactory = new ServiceFactory(configuration, context.Logger, telemetryManager);
+
+        using var meter = new Meter(AssociationRegistry.OpenTelemetry.Metrics.KboSyncMetrics.MeterName);
+        var metrics = new AssociationRegistry.OpenTelemetry.Metrics.KboSyncMetrics(meter);
+
+        metrics.RecordLambdaInvocation("kbo_sync", coldStart);
+
+        var serviceFactory = new ServiceFactory(configuration, context.Logger, telemetryManager, metrics);
 
         LambdaServices? services = null;
         Exception? caughtException = null;

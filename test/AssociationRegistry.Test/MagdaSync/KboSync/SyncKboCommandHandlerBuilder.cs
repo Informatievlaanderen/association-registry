@@ -5,6 +5,7 @@ using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Slack;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo;
@@ -130,7 +131,7 @@ public class SyncKboCommandHandlerBuilder
 
     public SyncKboCommandHandler Build()
         => new(_magdaRegistreerInschrijvingService.Object, _magdaGeefVerenigingService.Object,
-               Mock.Of<INotifier>(), Mock.Of<ILogger<SyncKboCommandHandler>>());
+               Mock.Of<INotifier>(), Mock.Of<ILogger<SyncKboCommandHandler>>(), Mock.Of<KboSyncMetrics>());
 
     public async Task<CommandResult?> Handle()
         => await Build().Handle(
