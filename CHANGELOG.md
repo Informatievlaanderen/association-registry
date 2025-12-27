@@ -1,3 +1,11 @@
+## [8.285.2](https://github.com/informatievlaanderen/association-registry/compare/v8.285.1...v8.285.2) (2025-12-27)
+
+
+### Bug Fixes
+
+* or-2942 fix lambda invocation and cold start detector metrics ([16bf980](https://github.com/informatievlaanderen/association-registry/commit/16bf980bc02bb23bd672ee82152e563394dc8ca8))
+* or-2942 use delta temporality ([146f856](https://github.com/informatievlaanderen/association-registry/commit/146f8564b3edc581e9e78c69345dcb7adc5bedb7))
+
 ## [8.285.1](https://github.com/informatievlaanderen/association-registry/compare/v8.285.0...v8.285.1) (2025-12-24)
 
 
