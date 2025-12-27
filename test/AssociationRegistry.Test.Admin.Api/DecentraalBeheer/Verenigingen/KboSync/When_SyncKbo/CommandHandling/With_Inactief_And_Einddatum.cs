@@ -47,7 +47,7 @@ public class With_Inactief_And_Einddatum
             new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
                                       new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
                                       _notifierMock.Object,
-                                      NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
+                                      NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),

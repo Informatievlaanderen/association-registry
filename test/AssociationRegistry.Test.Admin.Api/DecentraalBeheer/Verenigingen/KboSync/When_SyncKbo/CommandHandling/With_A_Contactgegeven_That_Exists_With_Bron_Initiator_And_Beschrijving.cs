@@ -61,7 +61,7 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator_And_Beschrijv
             new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
                                       new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
                                       _notifierMock.Object,
-                                      NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
+                                      NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),

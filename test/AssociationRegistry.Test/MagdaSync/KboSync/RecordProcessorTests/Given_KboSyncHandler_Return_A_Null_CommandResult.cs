@@ -25,7 +25,7 @@ public class Given_KboSyncHandler_Return_A_Null_CommandResult
         verenigingsRepository.Setup(x => x.Exists(It.IsAny<KboNummer>()))
                               .Returns(Task.FromResult(false));
 
-        var syncKboCommandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(), Mock.Of<IMagdaSyncGeefVerenigingService>(), Mock.Of<INotifier>(), NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
+        var syncKboCommandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(), Mock.Of<IMagdaSyncGeefVerenigingService>(), Mock.Of<INotifier>(), NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
 
         RecordProcessor.TryProcessRecord(logger.Object, verenigingsRepository.Object, CancellationToken.None,
                                                    new TeSynchroniserenKboNummerMessage(fixture.Create<KboNummer>()),

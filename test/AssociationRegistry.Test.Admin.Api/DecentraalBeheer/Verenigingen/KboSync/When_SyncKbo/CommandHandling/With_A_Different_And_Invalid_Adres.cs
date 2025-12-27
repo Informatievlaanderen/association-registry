@@ -46,7 +46,7 @@ public class With_A_Different_And_Invalid_Adres
             new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
                                       new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
                                       _notifierMock.Object,
-                                      NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
+                                      NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),

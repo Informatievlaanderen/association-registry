@@ -44,7 +44,7 @@ public class With_No_Changes_ReedsIngeschreven
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
                                                        _notifierMock.Object,
-                                                       NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
+                                                       NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(_command, commandMetadata),

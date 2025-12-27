@@ -46,16 +46,21 @@ public class OpenTelemetrySetup : IDisposable
         if (!string.IsNullOrEmpty(metricsUri))
         {
             _logger.LogInformation($"Adding OTLP metrics exporter: {metricsUri}");
-            builder.AddOtlpExporter(options =>
+            builder.AddOtlpExporter((exporterOptions, metricReaderOptions) =>
             {
-                options.Endpoint = new Uri(metricsUri);
-                options.Protocol = OtlpExportProtocol.HttpProtobuf;
+                exporterOptions.Endpoint = new Uri(metricsUri);
+                exporterOptions.Protocol = OtlpExportProtocol.HttpProtobuf;
 
-                AddHeaders(options, orgId);
+                AddHeaders(exporterOptions, orgId);
 
-                _logger.LogInformation($"Metrics - Endpoint: {options.Endpoint}");
-                _logger.LogInformation($"Metrics - Protocol: {options.Protocol}");
-                _logger.LogInformation($"Metrics - Headers: {options.Headers}");
+                // Use Delta temporality for Lambda - each invocation sends incremental changes
+                // This is critical for short-lived processes that reset state on each invocation
+                metricReaderOptions.TemporalityPreference = MetricReaderTemporalityPreference.Delta;
+
+                _logger.LogInformation($"Metrics - Endpoint: {exporterOptions.Endpoint}");
+                _logger.LogInformation($"Metrics - Protocol: {exporterOptions.Protocol}");
+                _logger.LogInformation($"Metrics - Headers: {exporterOptions.Headers}");
+                _logger.LogInformation($"Metrics - Temporality: Delta");
             });
         }
         else

@@ -131,7 +131,8 @@ public class SyncKboCommandHandlerBuilder
 
     public SyncKboCommandHandler Build()
         => new(_magdaRegistreerInschrijvingService.Object, _magdaGeefVerenigingService.Object,
-               Mock.Of<INotifier>(), Mock.Of<ILogger<SyncKboCommandHandler>>(), Mock.Of<KboSyncMetrics>());
+               Mock.Of<INotifier>(), Mock.Of<ILogger<SyncKboCommandHandler>>(),
+               new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
 
     public async Task<CommandResult?> Handle()
         => await Build().Handle(

@@ -49,7 +49,7 @@ public class With_No_Changes
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
                                                        _notifierMock.Object,
-                                                       NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
+                                                       NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(_command, commandMetadata),
@@ -125,7 +125,7 @@ public class With_FailureResultFromMagda
         var commandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
                                                        _magdaGeefVerenigingService.Object,
                                                        _notifierMock.Object,
-                                                       NullLogger<SyncKboCommandHandler>.Instance, Mock.Of<KboSyncMetrics>());
+                                                       NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
 
         _action = async () => await commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
