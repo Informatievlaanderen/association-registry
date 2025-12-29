@@ -35,41 +35,35 @@ public class OpenTelemetrySetup : IDisposable
 
     public MeterProvider SetupMeter(string? metricsUri, string? orgId)
     {
+        var resourceBuilder = ResourceBuilder.CreateEmpty();
+        _resources.ConfigureResourceBuilder(resourceBuilder);
+
         var builder = Sdk.CreateMeterProviderBuilder()
-                         .ConfigureResource(_resources.ConfigureResourceBuilder)
-                         .AddMeter(MeterName)
-                         .AddMeter(KboSyncMetrics.MeterName)
-                         .AddMeter("Marten")
-                         .AddRuntimeInstrumentation()
-                         .AddHttpClientInstrumentation();
+            .SetResourceBuilder(resourceBuilder)
+            .AddMeter(MeterName)
+            .AddMeter(KboSyncMetrics.MeterName)
+            .AddMeter("Marten")
+            .AddRuntimeInstrumentation()
+            .AddHttpClientInstrumentation();
 
         if (!string.IsNullOrEmpty(metricsUri))
         {
             _logger.LogInformation($"Adding OTLP metrics exporter: {metricsUri}");
-            builder.AddOtlpExporter((exporterOptions, metricReaderOptions) =>
+
+            builder.AddOtlpExporter((exporterOptions, readerOptions) =>
             {
                 exporterOptions.Endpoint = new Uri(metricsUri);
                 exporterOptions.Protocol = OtlpExportProtocol.HttpProtobuf;
+                exporterOptions.Headers = !string.IsNullOrEmpty(orgId)
+                    ? $"X-Scope-OrgID={orgId}"
+                    : null;
 
-                AddHeaders(exporterOptions, orgId);
-
-                // Use Delta temporality for Lambda - each invocation sends incremental changes
-                // This is critical for short-lived processes that reset state on each invocation
-                metricReaderOptions.TemporalityPreference = MetricReaderTemporalityPreference.Delta;
-
-                _logger.LogInformation($"Metrics - Endpoint: {exporterOptions.Endpoint}");
-                _logger.LogInformation($"Metrics - Protocol: {exporterOptions.Protocol}");
-                _logger.LogInformation($"Metrics - Headers: {exporterOptions.Headers}");
-                _logger.LogInformation($"Metrics - Temporality: Delta");
+                readerOptions.PeriodicExportingMetricReaderOptions.ExportIntervalMilliseconds = 60000;
             });
-        }
-        else
-        {
-            _logger.LogInformation("No metrics URI configured, skipping OTLP metrics exporter");
+            builder.AddConsoleExporter();
         }
 
         MeterProvider = builder.Build();
-
         return MeterProvider;
     }
 
@@ -145,8 +139,7 @@ public class OpenTelemetrySetup : IDisposable
 
         Action<ResourceBuilder> configureResource = r =>
         {
-            r
-               .AddService(
+            r.AddService(
                     serviceName,
                     serviceVersion: assemblyVersion,
                     serviceInstanceId: serviceInstanceId)

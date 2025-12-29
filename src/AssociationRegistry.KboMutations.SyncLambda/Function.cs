@@ -37,12 +37,9 @@ public class Function
 
         var telemetryManager = new TelemetryManager(context.Logger, configuration);
 
-        using var meter = new Meter(AssociationRegistry.OpenTelemetry.Metrics.KboSyncMetrics.MeterName);
-        var metrics = new AssociationRegistry.OpenTelemetry.Metrics.KboSyncMetrics(meter);
+        telemetryManager.Metrics.RecordLambdaInvocation("kbo_sync", coldStart);
 
-        metrics.RecordLambdaInvocation("kbo_sync", coldStart);
-
-        var serviceFactory = new ServiceFactory(configuration, context.Logger, telemetryManager, metrics);
+        var serviceFactory = new ServiceFactory(configuration, context.Logger, telemetryManager);
 
         LambdaServices? services = null;
         Exception? caughtException = null;
@@ -62,6 +59,8 @@ public class Function
                 services.KszSyncHandler,
                 services.Repository,
                 CancellationToken.None);
+
+            telemetryManager.Metrics.RecordFilesProcessed(@event.Records.Count);
 
             logger.LogInformation("Successfully processed {RecordCount} records", @event.Records.Count);
         }

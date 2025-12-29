@@ -7,19 +7,35 @@ using System.Diagnostics.Metrics;
 public class KboSyncMetrics
 {
     public const string MeterName = "VR.Kbo.Sync.Handler";
-
-    private readonly Counter<long> _lambdaInvocations;
-    private readonly Counter<long> _syncOperations;
-    private readonly Histogram<double> _syncDuration;
+    private readonly Meter _meter;
     private readonly string _environment;
+    private readonly ObservableGauge<long> _filesProcessed;
+    private readonly Histogram<long> _invocationTimestamp;
+    private readonly Histogram<double> _syncDuration;
+    private long _filesProcessedThisInvocation;
 
     public KboSyncMetrics(Meter meter)
     {
-        _environment = Environment.GetEnvironmentVariable("ENVIRONMENT")?.ToLowerInvariant() ?? "unknown";
+        _meter = meter;
+        _environment = System.Environment.GetEnvironmentVariable("ENVIRONMENT")?.ToLowerInvariant() ?? "unknown";
 
-        _lambdaInvocations = meter.CreateCounter<long>("kbo_sync_lambda_invocations_total", "Number of lambda invocations");
-        _syncOperations = meter.CreateCounter<long>("kbo_sync_operations_total", "Number of sync operations");
-        _syncDuration = meter.CreateHistogram<double>("kbo_sync_duration_seconds", "s", "Sync operation duration");
+        _filesProcessed = _meter.CreateObservableGauge(
+            name: "kbo_sync_files_processed",
+            observeValue: () => new Measurement<long>(_filesProcessedThisInvocation, new KeyValuePair<string, object?>("environment", _environment)),
+            description: "Number of files processed in current invocation"
+        );
+
+        _invocationTimestamp = _meter.CreateHistogram<long>(
+            name: "kbo_sync_lambda_invocation_timestamp",
+            unit: "ms",
+            description: "Lambda invocation timestamp"
+        );
+
+        _syncDuration = _meter.CreateHistogram<double>(
+            name: "kbo_sync_duration_seconds",
+            unit: "s",
+            description: "Sync operation duration"
+        );
     }
 
     public void RecordLambdaInvocation(string lambdaName, bool coldStart)
@@ -30,22 +46,15 @@ public class KboSyncMetrics
             { "cold_start", coldStart },
             { "environment", _environment }
         };
-        _lambdaInvocations.Add(1, tags);
+        _invocationTimestamp.Record(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), tags);
     }
 
-    public SyncScope Start(string syncType) => new SyncScope(this, syncType);
-
-    internal void RecordSyncOperation(string syncType, string result, double durationSeconds)
+    public void RecordFilesProcessed(long count)
     {
-        var tags = new TagList
-        {
-            { "sync_type", syncType },
-            { "result", result },
-            { "environment", _environment }
-        };
-        _syncOperations.Add(1, tags);
-        _syncDuration.Record(durationSeconds, tags);
+        _filesProcessedThisInvocation = count;
     }
+
+    public SyncScope Start(string syncType) => new(this, syncType);
 
     public struct SyncScope : IDisposable
     {
@@ -59,7 +68,7 @@ public class KboSyncMetrics
             _metrics = metrics;
             _syncType = syncType;
             _startTimestamp = Stopwatch.GetTimestamp();
-            _result = "failure"; // Default to failure unless explicitly marked as success/dropped
+            _result = "failure";
         }
 
         public void Dropped()
@@ -80,7 +89,13 @@ public class KboSyncMetrics
         public void Dispose()
         {
             var elapsedSec = (Stopwatch.GetTimestamp() - _startTimestamp) / (double)Stopwatch.Frequency;
-            _metrics.RecordSyncOperation(_syncType, _result, elapsedSec);
+            var tags = new TagList
+            {
+                { "sync_type", _syncType },
+                { "result", _result },
+                { "environment", _metrics._environment }
+            };
+            _metrics._syncDuration.Record(elapsedSec, tags);
         }
     }
 }

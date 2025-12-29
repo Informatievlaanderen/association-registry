@@ -1,22 +1,26 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 
 using Amazon.Lambda.Core;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using global::OpenTelemetry.Metrics;
 using global::OpenTelemetry.Trace;
 using JasperFx.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using OpenTelemetry.Metrics;
+using System.Diagnostics.Metrics;
 
 public class TelemetryManager : IDisposable
 {
     private OpenTelemetrySetup? _openTelemetrySetup;
     private readonly ILambdaLogger _logger;
+    private readonly Meter _meter;
 
     private readonly string? _logsUri;
     private readonly string? _orgId;
     private readonly string? _metricsUri;
     private readonly string? _tracesUri;
+
+    public KboSyncMetrics Metrics { get; }
 
     public TelemetryManager(ILambdaLogger logger, IConfigurationRoot configuration)
     {
@@ -31,6 +35,9 @@ public class TelemetryManager : IDisposable
         _logger.LogInformation($"OTLP config - Traces URI: {_tracesUri}");
         _logger.LogInformation($"OTLP config - Logs URI: {_logsUri}");
         _logger.LogInformation($"OTLP config - Org ID: {_orgId}");
+
+        _meter = new Meter(KboSyncMetrics.MeterName);
+        Metrics = new KboSyncMetrics(_meter);
 
         _openTelemetrySetup = new OpenTelemetrySetup(logger, configuration);
         _openTelemetrySetup.SetupMeter(_metricsUri, _orgId);
@@ -83,6 +90,7 @@ public class TelemetryManager : IDisposable
         {
             _openTelemetrySetup?.Dispose();
             _openTelemetrySetup = null;
+            _meter?.Dispose();
         }
         catch (Exception ex)
         {
