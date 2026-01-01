@@ -1,9 +1,15 @@
 namespace AssociationRegistry.Framework;
 
+using EventMetadata;
 using NodaTime;
 
-public record CommandMetadata(string Initiator, Instant Tijdstip, Guid CorrelationId, long? ExpectedVersion = null)
+public record CommandMetadata(
+    string Initiator,
+    Instant Tijdstip,
+    Guid CorrelationId,
+    long? ExpectedVersion = null,
+    EventMetadataCollection? AdditionalMetadata = null)
 {
     public static CommandMetadata ForDigitaalVlaanderenProcess =>
-        new CommandMetadata(WellknownOvoNumbers.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid());
+        new(WellknownOvoNumbers.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid());
 };

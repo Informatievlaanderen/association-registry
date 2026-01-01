@@ -144,6 +144,12 @@ public class EventStore : IEventStore
         _session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
         _session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
         _session.CorrelationId = metadata.CorrelationId.ToString();
+
+        if (metadata.AdditionalMetadata != null)
+        {
+            foreach (var item in metadata.AdditionalMetadata.Items)
+                item.ApplyTo(_session);
+        }
     }
 
     public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion, new()

@@ -29,9 +29,10 @@ public class SyncKszMessageHandler
     }
 
     public async Task Handle(
-        SyncKszMessage message,
+        CommandEnvelope<SyncKszMessage> messageEnvelope,
         CancellationToken cancellationToken = default)
     {
+        var message = messageEnvelope.Command;
         if (!message.Overleden) // only need to sync if overleden for now
         {
             _logger.LogInformation("Skipping message because this person is not deceased");
@@ -50,11 +51,6 @@ public class SyncKszMessageHandler
             return;
         }
 
-        var commandMetadata = new CommandMetadata(
-            WellknownOvoNumbers.DigitaalVlaanderenOvoNumber,
-            SystemClock.Instance.GetCurrentInstant(),
-            message.CorrelationId);  // ✅ Use from message instead of Guid.NewGuid()
-
         var vzerOnly = await FilterOnlyVzer(vertegenwoordigerPersoonsgegevens, cancellationToken);
 
         if (!vzerOnly.Any())
@@ -68,11 +64,11 @@ public class SyncKszMessageHandler
             _logger.LogInformation($"trying to load vcode: {vertegenwoordigerPersoonsgegeven.VCode}");
 
             var vereniging =
-                await _verenigingsRepository.Load<Vereniging>(VCode.Create(vertegenwoordigerPersoonsgegeven.VCode), commandMetadata, allowDubbeleVereniging: true, allowVerwijderdeVereniging: true);
+                await _verenigingsRepository.Load<Vereniging>(VCode.Create(vertegenwoordigerPersoonsgegeven.VCode), messageEnvelope.Metadata, allowDubbeleVereniging: true, allowVerwijderdeVereniging: true);
 
             vereniging.MarkeerVertegenwoordigerAlsOverleden(vertegenwoordigerPersoonsgegeven.VertegenwoordigerId);
 
-            await _verenigingsRepository.Save(vereniging, commandMetadata, cancellationToken);
+            await _verenigingsRepository.Save(vereniging, messageEnvelope.Metadata, cancellationToken);
 
             _logger.LogInformation($"SyncKszMessageHandler marked vertegenwoordiger as deceased with vCode: {vertegenwoordigerPersoonsgegeven.VCode} for vertegenwoordiger: {vertegenwoordigerPersoonsgegeven.VertegenwoordigerId}");
         }

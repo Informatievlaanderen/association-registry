@@ -3,6 +3,7 @@
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using Common.Framework;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
@@ -36,7 +37,10 @@ public class Given_Insz_Not_Found
            .ReturnsAsync([]);
 
         _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsrepository.Object, Mock.Of<IFilterVzerOnlyQuery>(), NullLogger<SyncKszMessageHandler>.Instance);
-        _sut.Handle(new SyncKszMessage(Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz), false, Guid.NewGuid()), CancellationToken.None)
+        _sut.Handle(
+                 new CommandEnvelope<SyncKszMessage>(
+                 new SyncKszMessage(Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz), false, Guid.NewGuid()),
+                 TestCommandMetadata.ForDigitaalVlaanderenProcess), CancellationToken.None)
             .GetAwaiter().GetResult();
     }
 

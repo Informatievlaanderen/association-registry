@@ -5,6 +5,7 @@ namespace AssociationRegistry.KboMutations.SyncLambda;
 using Amazon.Lambda.SQSEvents;
 using DecentraalBeheer.Vereniging;
 using Framework;
+using Framework.EventMetadata;
 using Integrations.Slack;
 using KboMutations.Configuration;
 using Magda.Kbo;
@@ -44,10 +45,6 @@ public class MessageProcessor
         foreach (var record in sqsEvent.Records)
         {
             var envelope = SyncEnvelopeParser.Parse(record.Body);
-            var commandMetadata = new CommandMetadata(
-                WellknownOvoNumbers.DigitaalVlaanderenOvoNumber,
-                SystemClock.Instance.GetCurrentInstant(),
-                envelope.CorrelationId);  // ✅ Use from envelope instead of Guid.NewGuid()
 
             _logger.LogInformation("{MessageProcessor} processing sqs message of type {Type}", nameof(MessageProcessor), envelope.Type);
 
@@ -56,6 +53,18 @@ public class MessageProcessor
             switch (envelope.Type)
             {
                 case SyncMessageType.SyncKbo:
+                {
+                    var additionalMetadata = new EventMetadataCollection()
+                        .WithTrace(envelope.ParentTraceContext?.TraceId.ToString())
+                        .WithSource(SourceFileMetadata.KboSync(envelope.SourceFileName));
+
+                    var commandMetadata = new CommandMetadata(
+                        WellknownOvoNumbers.DigitaalVlaanderenOvoNumber,
+                        SystemClock.Instance.GetCurrentInstant(),
+                        envelope.CorrelationId,
+                        null,
+                        additionalMetadata);
+
                     activity.TagAsKboSync(envelope.KboNummer!);
                     await kboSyncHandler.Handle(
                         new CommandEnvelope<SyncKboCommand>(
@@ -64,16 +73,33 @@ public class MessageProcessor
                         verenigingsRepository,
                         cancellationToken);
                     break;
+                }
 
                 case SyncMessageType.SyncKsz:
+                {
+                    var additionalMetadata = new EventMetadataCollection()
+                        .WithTrace(envelope.ParentTraceContext?.TraceId.ToString())
+                        .WithSource(SourceFileMetadata.KszSync(envelope.SourceFileName));
+
+                    var commandMetadata = new CommandMetadata(
+                        WellknownOvoNumbers.DigitaalVlaanderenOvoNumber,
+                        SystemClock.Instance.GetCurrentInstant(),
+                        envelope.CorrelationId,
+                        null,
+                        additionalMetadata);
+
                     activity.TagAsKszSync();
                     await kszSyncHandler.Handle(
+                        new CommandEnvelope<SyncKszMessage>(
                         new SyncKszMessage(
                             Insz.Create(envelope.InszMessage!.Insz),
                             envelope.InszMessage.Overleden,
                             envelope.CorrelationId),
+                        commandMetadata),
                         cancellationToken);
+
                     break;
+                }
 
                 default:
                     throw new InvalidOperationException($"Unknown message shape for record {record.MessageId}. Body={record.Body}: expected KboNummer OR Insz.");

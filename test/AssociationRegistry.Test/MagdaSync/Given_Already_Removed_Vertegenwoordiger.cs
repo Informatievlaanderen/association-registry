@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Persoon;
 using AutoFixture;
 using Common.AutoFixture;
+using Common.Framework;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
@@ -57,7 +58,10 @@ public class Given_Already_Removed_Vertegenwoordiger
                                .ReturnsAsync([_scenario.VCode]);
 
         _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, filterVzerOnylQueryMock.Object, NullLogger<SyncKszMessageHandler>.Instance);
-        _sut.Handle(new SyncKszMessage(Insz.Hydrate(teVerwijderenVertegenwoordiger.Insz), true, Guid.NewGuid()), CancellationToken.None)
+        _sut.Handle(
+                 new CommandEnvelope<SyncKszMessage>(
+                 new SyncKszMessage(Insz.Hydrate(teVerwijderenVertegenwoordiger.Insz), true, Guid.NewGuid()),
+                 TestCommandMetadata.ForDigitaalVlaanderenProcess), CancellationToken.None)
             .GetAwaiter().GetResult();
     }
 
