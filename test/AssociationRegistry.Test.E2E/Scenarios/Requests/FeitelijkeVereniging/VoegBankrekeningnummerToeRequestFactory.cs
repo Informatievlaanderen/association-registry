@@ -32,7 +32,7 @@ public class VoegBankrekeningnummerToeRequestFactory : ITestRequestFactory<VoegB
         {
             s.Post
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/Bankrekeningnummers");
+             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/bankrekeningnummers");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         })).Context.Response;
