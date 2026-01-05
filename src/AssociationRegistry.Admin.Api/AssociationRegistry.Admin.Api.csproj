@@ -113,6 +113,5 @@
 
   <ItemGroup>
     <Folder Include="WebApi\" />
-    <Folder Include="WebApi\DecentraalBeheer\Verenigingen\Bankrekeningnummers\VoegBankrekeningnummerToe\" />
   </ItemGroup>
 </Project>

@@ -11,6 +11,7 @@ using ResponseModels;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using AdresVerwijzing = ResponseModels.AdresVerwijzing;
+using Bankrekeningnummer = ResponseModels.Bankrekeningnummer;
 using Contactgegeven = ResponseModels.Contactgegeven;
 using GestructureerdeIdentificator = ResponseModels.GestructureerdeIdentificator;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
@@ -106,6 +107,7 @@ public class BeheerVerenigingDetailMapper
                                         .ToArray(),
             Bron = vereniging.Bron,
             IsDubbelVan = vereniging.IsDubbelVan,
+            Bankrekeningnummers = vereniging.Bankrekeningnummers.Select(Map).ToArray(),
         };
     }
 
@@ -193,6 +195,17 @@ public class BeheerVerenigingDetailMapper
             type = werkingsgebied.JsonLdMetadata.Type,
             Code = werkingsgebied.Code,
             Naam = werkingsgebied.Naam,
+        };
+
+    private static Bankrekeningnummer Map(
+        Schema.Detail.Bankrekeningnummer bankrekeningnummer)
+        => new()
+        {
+            id = bankrekeningnummer.JsonLdMetadata.Id,
+            type = bankrekeningnummer.JsonLdMetadata.Type,
+            IBAN = bankrekeningnummer.IBAN,
+            GebruiktVoor = bankrekeningnummer.GebruiktVoor,
+            Titularis = bankrekeningnummer.Titularis,
         };
 
     private static Vertegenwoordiger Map(Schema.Detail.Vertegenwoordiger ver)
