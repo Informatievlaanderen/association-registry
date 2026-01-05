@@ -38,6 +38,9 @@ public class JsonLdType
     public static readonly JsonLdType GestructureerdeSleutel = new(JsonLdContext.GuidNamespace.GestructureerdeIdentificator,
                                                                    type: "generiek:GestructureerdeIdentificator", prefix: "ges");
 
+    public static readonly JsonLdType Bankrekeningnummer =
+        new(JsonLdContext.GuidNamespace.Bankrekeningnummer, type: "schema:BankAccount", prefix: "bank");
+
     public Guid GuidNamespace { get; }
     public string Type { get; }
     public string Prefix { get; }

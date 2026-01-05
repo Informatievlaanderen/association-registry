@@ -41,4 +41,5 @@ public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
     public bool Deleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
     public string IsDubbelVan { get; set; } = string.Empty;
+    public Bankrekeningnummer[] Bankrekeningnummers { get; set; } = Array.Empty<Bankrekeningnummer>();
 }

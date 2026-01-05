@@ -61,6 +61,7 @@ public class BeheerVerenigingDetailProjector
             Werkingsgebieden = [],
 
             Sleutels = [BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode)],
+            Bankrekeningnummers = [],
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
@@ -105,6 +106,7 @@ public class BeheerVerenigingDetailProjector
             Werkingsgebieden = [],
 
             Sleutels = [BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode)],
+            Bankrekeningnummers = [],
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
@@ -150,6 +152,7 @@ public class BeheerVerenigingDetailProjector
                 BeheerVerenigingDetailMapper.MapKboSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                                                            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
             ],
+            Bankrekeningnummers = [],
             Bron = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Bron,
             Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence,
                                     verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
@@ -984,5 +987,18 @@ public class BeheerVerenigingDetailProjector
             Identificatie = @event.Data.Identificatie,
             Beschrijving = @event.Data.Beschrijving,
         };
+    }
+
+    public static void Apply(IEvent<BankrekeningnummerWerdToegevoegd> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Bankrekeningnummers = document.Bankrekeningnummers.Append(new Bankrekeningnummer()
+        {
+            JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                JsonLdType.Bankrekeningnummer, document.VCode,
+                @event.Data.IBAN),
+            IBAN = @event.Data.IBAN,
+            GebruiktVoor = @event.Data.GebruiktVoor,
+            Titularis = @event.Data.Titularis,
+        }).ToArray();
     }
 }
