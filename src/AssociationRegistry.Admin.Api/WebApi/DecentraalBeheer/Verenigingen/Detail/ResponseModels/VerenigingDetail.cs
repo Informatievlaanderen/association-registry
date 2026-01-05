@@ -29,7 +29,6 @@ public class VerenigingDetail
     [DataMember(Name = "SubverenigingVan", EmitDefaultValue = false)]
     public SubverenigingVan? SubverenigingVan { get; init; } = null!;
 
-
     /// <summary>Naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;
@@ -116,4 +115,8 @@ public class VerenigingDetail
     /// <summary>De VCode van de vereniging waarvan deze vereniging een dubbel is</summary>
     [DataMember(Name = "IsDubbelVan")]
     public string IsDubbelVan { get; set; }
+
+    /// <summary>De bankrekeningnummers van de vereniging</summary>
+    [DataMember(Name = "Bankrekeningnummers")]
+    public Bankrekeningnummer[] Bankrekeningnummers { get; init; } = null!;
 }

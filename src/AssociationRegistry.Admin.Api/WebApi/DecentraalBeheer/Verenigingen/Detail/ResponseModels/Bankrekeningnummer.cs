@@ -1,0 +1,33 @@
+﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+
+using System.Runtime.Serialization;
+
+[DataContract]
+public class Bankrekeningnummer
+{
+    /// <summary>De json-ld id</summary>
+    [DataMember(Name = "@id")]
+    public string id { get; init; }
+
+    /// <summary>Het json-ld type</summary>
+    [DataMember(Name = "@type")]
+    public string type { get; set; }
+
+    /// <summary>
+    /// De IBAN van de bankrekeningnummer
+    /// </summary>
+    [DataMember(Name = "IBAN")]
+    public string IBAN { get; set; }
+
+    /// <summary>
+    /// De info waarvoor deze rekening gebruikt wordt
+    /// </summary>
+    [DataMember(Name = "GebruiktVoor")]
+    public string GebruiktVoor { get; set; } = null!;
+
+    /// <summary>
+    /// De titularis van het bankrekeningnummer
+    /// </summary>
+    [DataMember(Name = "Titularis")]
+    public string Titularis { get; set; } = null!;
+}
