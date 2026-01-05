@@ -2,6 +2,7 @@ namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
 using Subtypes.Subvereniging;
 using Adressen;
+using Bankrekeningen;
 using Events;
 using Framework;
 using Emails;
@@ -388,5 +389,14 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                      vertegenwoordiger.Insz,
                      vertegenwoordiger.Voornaam,
                      vertegenwoordiger.Achternaam));
+    }
+
+    public int VoegBankrekeningToe(ToeTevoegenBankrekeningnummer bankrekeningnummer)
+    {
+        var toegevoegdBankrekeningnummer = State.Bankrekeningnummers.VoegToe(bankrekeningnummer);
+
+        AddEvent(new BankrekeningnummerWerdToegevoegd(toegevoegdBankrekeningnummer.Id, toegevoegdBankrekeningnummer.IBAN, toegevoegdBankrekeningnummer.GebruiktVoor, toegevoegdBankrekeningnummer.Titularis));
+
+        return toegevoegdBankrekeningnummer.Id;
     }
 }
