@@ -19,9 +19,4 @@ public class ToeTeVoegenBankrekeningnummer
     /// <summary>De titularis van het bankrekeningnummer</summary>
     [DataMember]
     public string Titularis { get; set; } = null!;
-
-    // public static Bankrekeningnummer Map(ToeTeVoegenBankrekeningnummer vert)
-    //     => Bankrekeningnummer.Create(
-    //
-    //     );
 }
