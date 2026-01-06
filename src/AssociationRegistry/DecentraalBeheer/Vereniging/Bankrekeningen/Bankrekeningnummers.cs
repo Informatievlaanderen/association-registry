@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
 
 using Events;
+using Exceptions;
+using Framework;
 using System.Collections.ObjectModel;
 
 public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
@@ -30,7 +32,20 @@ public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
 
     private void ThrowIfCannotAppendOrUpdate(Bankrekeningnummer toeTeVoegenBankrekeningnummer)
     {
-        // TODO: add validation
+        var bankrekeningnummers = this.Append(toeTeVoegenBankrekeningnummer).ToArray();
+
+        Throw<IbanMoetUniekZijn>.If(HasDuplicateIban(bankrekeningnummers));
+        Throw<GebruikVoorMoetUniekZijn>.If(HasDuplicateGebruiktVoor(bankrekeningnummers));
+    }
+
+    private bool HasDuplicateIban(Bankrekeningnummer[] bankrekeningnummers)
+    {
+        return bankrekeningnummers.DistinctBy(x => x.Iban).Count() != bankrekeningnummers.Count();
+    }
+
+    private bool HasDuplicateGebruiktVoor(Bankrekeningnummer[] bankrekeningnummers)
+    {
+        return bankrekeningnummers.DistinctBy(x => x.GebruiktVoor).Count() != bankrekeningnummers.Count();
     }
 
     public Bankrekeningnummers Hydrate(IEnumerable<Bankrekeningnummer> bankrekeningnummers)
