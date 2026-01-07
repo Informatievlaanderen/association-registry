@@ -40,7 +40,7 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Iban)
-              .WithErrorMessage("'IBAN' mag niet leeg zijn.");
+              .WithErrorMessage("'iban' mag niet leeg zijn.");
     }
 
     [Fact]
@@ -59,7 +59,7 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Iban)
-              .WithErrorMessage("'IBAN' is verplicht.");
+              .WithErrorMessage("'iban' is verplicht.");
     }
 
     [Theory]

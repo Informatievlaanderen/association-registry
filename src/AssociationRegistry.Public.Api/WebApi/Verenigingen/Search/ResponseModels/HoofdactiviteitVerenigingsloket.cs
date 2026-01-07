@@ -16,12 +16,12 @@ public class HoofdactiviteitVerenigingsloket
     /// <summary>
     /// De verkorte code van de hoofdactiviteit
     /// </summary>
-    [DataMember]
+    [DataMember (Name = "code")]
     public string Code { get; set; } = null!;
 
     /// <summary>
     /// De volledige beschrijving van de hoofdactiviteit
     /// </summary>
-    [DataMember]
+    [DataMember (Name = "naam")]
     public string Naam { get; set; } = null!;
 }

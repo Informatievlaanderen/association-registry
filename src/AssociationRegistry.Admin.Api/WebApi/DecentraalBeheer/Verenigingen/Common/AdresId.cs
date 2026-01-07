@@ -7,10 +7,10 @@ using System.Runtime.Serialization;
 public class AdresId
 {
     /// <summary>De code van de bron van het adres</summary>
-    [DataMember]
+    [DataMember (Name = "broncode")]
     public string Broncode { get; set; } = null!;
 
     /// <summary>De unieke identificator volgens de bron</summary>
-    [DataMember]
+    [DataMember (Name = "bronwaarde")]
     public string Bronwaarde { get; set; } = null!;
 }

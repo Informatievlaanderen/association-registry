@@ -16,12 +16,12 @@ public class Werkingsgebied
     /// <summary>
     /// De code van het werkingsgebied
     /// </summary>
-    [DataMember]
+    [DataMember (Name = "code")]
     public string Code { get; set; } = null!;
 
     /// <summary>
     /// De volledige beschrijving van het werkingsgebied
     /// </summary>
-    [DataMember]
+    [DataMember (Name = "naam")]
     public string Naam { get; set; } = null!;
 }

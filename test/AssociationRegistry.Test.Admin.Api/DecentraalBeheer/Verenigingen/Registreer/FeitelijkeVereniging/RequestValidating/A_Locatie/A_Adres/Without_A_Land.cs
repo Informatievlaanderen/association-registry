@@ -40,6 +40,6 @@ public class Without_A_Land : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Land)}")
-              .WithErrorMessage("'Land' is verplicht.");
+              .WithErrorMessage("'land' is verplicht.");
     }
 }

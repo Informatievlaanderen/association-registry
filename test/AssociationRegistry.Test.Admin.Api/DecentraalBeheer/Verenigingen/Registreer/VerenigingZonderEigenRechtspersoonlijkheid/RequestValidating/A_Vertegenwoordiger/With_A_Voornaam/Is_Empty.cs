@@ -29,6 +29,6 @@ public class Is_Empty
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Voornaam)}")
-              .WithErrorMessage("'Voornaam' mag niet leeg zijn.");
+              .WithErrorMessage("'voornaam' mag niet leeg zijn.");
     }
 }

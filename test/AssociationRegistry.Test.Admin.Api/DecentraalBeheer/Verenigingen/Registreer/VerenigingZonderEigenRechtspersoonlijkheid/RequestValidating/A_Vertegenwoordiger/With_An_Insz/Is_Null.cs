@@ -29,6 +29,6 @@ public class Is_Null
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
-              .WithErrorMessage("'Insz' is verplicht.");
+              .WithErrorMessage("'insz' is verplicht.");
     }
 }

@@ -37,6 +37,6 @@ public class With_An_Empty_Gemeente : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Gemeente)}")
-              .WithErrorMessage("'Gemeente' mag niet leeg zijn.");
+              .WithErrorMessage("'gemeente' mag niet leeg zijn.");
     }
 }

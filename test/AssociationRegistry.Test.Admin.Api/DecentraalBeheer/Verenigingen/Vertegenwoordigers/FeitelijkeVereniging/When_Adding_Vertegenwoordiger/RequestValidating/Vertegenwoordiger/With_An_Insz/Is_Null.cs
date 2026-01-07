@@ -26,6 +26,6 @@ public class Is_Null
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
-              .WithErrorMessage("'Insz' is verplicht.");
+              .WithErrorMessage("'insz' is verplicht.");
     }
 }

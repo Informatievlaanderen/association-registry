@@ -32,6 +32,6 @@ public class Without_A_Locatietype : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Locatietype)}")
-              .WithErrorMessage("'Locatietype' is verplicht.");
+              .WithErrorMessage("'locatietype' is verplicht.");
     }
 }

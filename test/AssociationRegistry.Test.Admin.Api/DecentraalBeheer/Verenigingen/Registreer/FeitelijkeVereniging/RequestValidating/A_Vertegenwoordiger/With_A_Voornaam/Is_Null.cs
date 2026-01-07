@@ -29,6 +29,6 @@ public class Is_Null
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerFeitelijkeVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Voornaam)}")
-              .WithErrorMessage("'Voornaam' is verplicht.");
+              .WithErrorMessage("'voornaam' is verplicht.");
     }
 }

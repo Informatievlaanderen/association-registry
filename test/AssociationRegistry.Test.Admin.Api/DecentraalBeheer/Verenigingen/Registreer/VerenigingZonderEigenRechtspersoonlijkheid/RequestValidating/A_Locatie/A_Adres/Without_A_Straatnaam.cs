@@ -40,6 +40,6 @@ public class Without_A_Straatnaam : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Straatnaam)}")
-              .WithErrorMessage("'Straatnaam' is verplicht.");
+              .WithErrorMessage("'straatnaam' is verplicht.");
     }
 }

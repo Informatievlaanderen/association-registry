@@ -37,6 +37,6 @@ public class Without_A_Gemeente : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Gemeente)}")
-              .WithErrorMessage("'Gemeente' is verplicht.");
+              .WithErrorMessage("'gemeente' is verplicht.");
     }
 }

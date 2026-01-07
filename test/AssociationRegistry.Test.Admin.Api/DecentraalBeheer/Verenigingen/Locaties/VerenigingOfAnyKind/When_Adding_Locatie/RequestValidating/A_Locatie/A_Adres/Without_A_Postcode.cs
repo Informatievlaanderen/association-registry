@@ -37,6 +37,6 @@ public class Without_A_Postcode : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Postcode)}")
-              .WithErrorMessage("'Postcode' is verplicht.");
+              .WithErrorMessage("'postcode' is verplicht.");
     }
 }
