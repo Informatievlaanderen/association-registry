@@ -11,7 +11,7 @@ using KellermanSoftware.CompareNetObjects;
 using When_Voeg_Contactgegeven_Toe;
 using Xunit;
 
-[Collection(nameof(VoegContactgegevenToeCollection))]
+[Collection(nameof(VoegBankrekeningnummerToeCollection))]
 public class Returns_Historiek_Met_Bankrekeningnummer : End2EndTest<HistoriekResponse>
 {
     private readonly VoegBankrekeningnummerToeContext _testContext;
@@ -31,7 +31,7 @@ public class Returns_Historiek_Met_Bankrekeningnummer : End2EndTest<HistoriekRes
     }
 
     [Fact]
-    public void With_LidmaatschapWerdToegevoegd_Gebeurtenissen()
+    public void With_BankrekeningnummerWerdToegevoegd_Gebeurtenissen()
     {
         // TODO: modify next id based on bankrekeningen from registreer vzer when implemented
         // var nextId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
