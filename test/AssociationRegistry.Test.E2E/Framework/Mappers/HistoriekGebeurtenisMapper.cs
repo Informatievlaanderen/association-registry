@@ -823,7 +823,7 @@ public static class HistoriekGebeurtenisMapper
         => new()
         {
             Beschrijving = $"Bankrekeningnummer met IBAN '{@request.Bankrekeningnummer.Iban}' werd toegevoegd.",
-            Gebeurtenis = nameof(Events.ContactgegevenWerdToegevoegd),
+            Gebeurtenis = nameof(Events.BankrekeningnummerWerdToegevoegd),
             Data = new BankrekeningnummerWerdToegevoegd(nextId, request.Bankrekeningnummer.Iban, request.Bankrekeningnummer.GebruiktVoor, request.Bankrekeningnummer.Titularis),
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
