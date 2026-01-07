@@ -1,3 +1,14 @@
+## [8.285.4](https://github.com/informatievlaanderen/association-registry/compare/v8.285.3...v8.285.4) (2026-01-07)
+
+
+### Bug Fixes
+
+* or-2989 fix invald appsettings file ([3efa9b4](https://github.com/informatievlaanderen/association-registry/commit/3efa9b41e7b92db633b6cd58f0427efc571807d3))
+* or-2989 move postgressql to correct place ([ee7ba2e](https://github.com/informatievlaanderen/association-registry/commit/ee7ba2eea2b6180f3a6fb83f485d723c968eac8e))
+* or-2989 reduce memory usage by pregen adres sync ([af82627](https://github.com/informatievlaanderen/association-registry/commit/af82627ba6c19394ef357587db805904dba36973))
+* or-2989 set addresssync options ([0f11f17](https://github.com/informatievlaanderen/association-registry/commit/0f11f17dbe6a8676cd6f362136797b240264c274))
+* or-2989 set default postgres appsetting in addresssync ([745b1d2](https://github.com/informatievlaanderen/association-registry/commit/745b1d28ba364c5f3c8e11b8368d302014d50fbf))
+
 ## [8.285.3](https://github.com/informatievlaanderen/association-registry/compare/v8.285.2...v8.285.3) (2025-12-29)
 
 ## [8.285.2](https://github.com/informatievlaanderen/association-registry/compare/v8.285.1...v8.285.2) (2025-12-27)
