@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
+using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.WebApi.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
@@ -15,9 +16,6 @@ using AlbaHost;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using Events;
-using EventStore;
-using MartenDb.Store;
-using Vereniging;
 
 public static class HistoriekGebeurtenisMapper
 {
@@ -28,7 +26,7 @@ public static class HistoriekGebeurtenisMapper
         return new HistoriekGebeurtenisResponse
         {
             Beschrijving = $"Vereniging zonder eigen rechtspersoonlijkheid werd geregistreerd met naam '{request.Naam}'.",
-            Gebeurtenis = nameof(Events.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd),
+            Gebeurtenis = nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd),
             Data = new VerenigingWerdGeregistreerdData(
                 vCode,
                 request.Naam,
@@ -163,7 +161,7 @@ public static class HistoriekGebeurtenisMapper
         return new HistoriekGebeurtenisResponse
         {
             Beschrijving = $"Naam werd gewijzigd naar '{@event.Naam}'.",
-            Gebeurtenis = nameof(Events.NaamWerdGewijzigdInKbo),
+            Gebeurtenis = nameof(NaamWerdGewijzigdInKbo),
             Data = @event,
             Initiator = AuthenticationSetup.Initiator,
         };
@@ -817,6 +815,16 @@ public static class HistoriekGebeurtenisMapper
             Data = new VertegenwoordigerWerdVerwijderdData(@event.VertegenwoordigerId,
                                                            @event.Voornaam,
                                                            @event.Achternaam),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? BankrekeningWerdToegevoegd(int nextId, VoegBankrekeningnummerToeRequest request)
+        => new()
+        {
+            Beschrijving = $"Bankrekeningnummer met IBAN '{@request.Bankrekeningnummer.IBAN}' werd toegevoegd.",
+            Gebeurtenis = nameof(Events.ContactgegevenWerdToegevoegd),
+            Data = new BankrekeningnummerWerdToegevoegd(nextId, request.Bankrekeningnummer.IBAN, request.Bankrekeningnummer.GebruiktVoor, request.Bankrekeningnummer.Titularis),
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
@@ -15,6 +16,7 @@ using Admin.Schema;
 using Admin.Schema.Search;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Emails;
 using DecentraalBeheer.Vereniging.SocialMedias;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
@@ -41,6 +43,8 @@ public static class AdminApiAutoFixtureCustomizations
         fixture.CustomizeWijzigBasisgegevensRequest();
 
         fixture.CustomizeVoegContactgegevenToeRequest();
+
+        fixture.CustomizeVoegBankrekeningnummerToeRequest();
 
         fixture.CustomizeDoelgroepRequest();
         fixture.CustomizeToeTeVoegenLocatie();
@@ -427,6 +431,23 @@ public static class AdminApiAutoFixtureCustomizations
                     Tot = date.AddDays(new Random().Next(1, 99)),
                     Identificatie = fixture.Create<string>(),
                     Beschrijving = fixture.Create<string>(),
+                }).OmitAutoProperties());
+    }
+
+    private static void CustomizeVoegBankrekeningnummerToeRequest(this IFixture fixture)
+    {
+        var date = fixture.Create<DateOnly>();
+
+        fixture.Customize<VoegBankrekeningnummerToeRequest>(
+            composer => composer.FromFactory(
+                () => new VoegBankrekeningnummerToeRequest
+                {
+                    Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
+                    {
+                        IBAN = fixture.Create<IBanNummer>().Value,
+                        GebruiktVoor = fixture.Create<string>(),
+                        Titularis = fixture.Create<string>(),
+                    }
                 }).OmitAutoProperties());
     }
 

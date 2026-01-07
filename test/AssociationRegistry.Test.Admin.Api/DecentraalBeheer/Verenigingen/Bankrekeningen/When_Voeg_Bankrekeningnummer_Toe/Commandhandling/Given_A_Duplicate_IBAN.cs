@@ -40,7 +40,7 @@ public class Given_A_Duplicate_IBAN
             VCode = _scenario.VCode,
             Bankrekeningnummer = _fixture.Create<ToeTevoegenBankrekeningnummer>() with
             {
-                IBAN = _scenario.BankrekeningnummerWerdToegevoegd.IBAN,
+                IBAN = IBanNummer.Create(_scenario.BankrekeningnummerWerdToegevoegd.IBAN),
             }
         };
 

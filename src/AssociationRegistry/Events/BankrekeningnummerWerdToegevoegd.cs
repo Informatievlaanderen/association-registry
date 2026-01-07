@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
 public record BankrekeningnummerWerdToegevoegd(
-    int Id,
+    int BankrekeningnummerId,
     string IBAN,
     string GebruiktVoor,
     string Titularis) : IEvent

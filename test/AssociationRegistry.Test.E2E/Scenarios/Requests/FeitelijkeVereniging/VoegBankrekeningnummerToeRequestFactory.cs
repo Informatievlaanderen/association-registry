@@ -23,10 +23,7 @@ public class VoegBankrekeningnummerToeRequestFactory : ITestRequestFactory<VoegB
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var request = new VoegBankrekeningnummerToeRequest
-        {
-            Bankrekeningnummer = fixture.Create<ToeTeVoegenBankrekeningnummer>(),
-        };
+        var request = fixture.Create<VoegBankrekeningnummerToeRequest>();
 
         var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
