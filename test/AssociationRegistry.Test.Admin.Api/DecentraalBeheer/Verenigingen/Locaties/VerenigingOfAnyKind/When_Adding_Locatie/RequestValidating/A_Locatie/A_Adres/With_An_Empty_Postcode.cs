@@ -38,6 +38,6 @@ public class With_An_Empty_Postcode : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Postcode)}")
-              .WithErrorMessage("'Postcode' mag niet leeg zijn.");
+              .WithErrorMessage("'postcode' mag niet leeg zijn.");
     }
 }

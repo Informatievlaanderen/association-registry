@@ -13,15 +13,15 @@ public class ToeTeVoegenVertegenwoordiger
     /// <summary>
     /// Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
     /// </summary>
-    [DataMember]
+    [DataMember (Name = "insz")]
     public string Insz { get; set; } = null!;
 
     /// <summary>De voornaam van de vertegenwoordiger</summary>
-    [DataMember]
+    [DataMember (Name = "voornaam")]
     public string Voornaam { get; set; } = null!;
 
     /// <summary>De achternaam van de vertegenwoordiger</summary>
-    [DataMember]
+    [DataMember (Name = "achternaam")]
     public string Achternaam { get; set; } = null!;
 
     /// <summary>Dit is de rol van de vertegenwoordiger binnen de vereniging</summary>

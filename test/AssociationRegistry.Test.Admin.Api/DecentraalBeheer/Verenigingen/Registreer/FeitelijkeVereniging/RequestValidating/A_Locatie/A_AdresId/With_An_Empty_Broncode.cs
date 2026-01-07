@@ -25,6 +25,6 @@ public class With_An_Empty_Broncode : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.AdresId)}.{nameof(ToeTeVoegenLocatie.AdresId.Broncode)}")
-              .WithErrorMessage("'Broncode' mag niet leeg zijn.");
+              .WithErrorMessage("'broncode' mag niet leeg zijn.");
     }
 }

@@ -37,6 +37,6 @@ public class Without_A_Land : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Land)}")
-              .WithErrorMessage("'Land' is verplicht.");
+              .WithErrorMessage("'land' is verplicht.");
     }
 }

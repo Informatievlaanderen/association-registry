@@ -26,6 +26,6 @@ public class Is_Null
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Achternaam)}")
-              .WithErrorMessage("'Achternaam' is verplicht.");
+              .WithErrorMessage("'achternaam' is verplicht.");
     }
 }

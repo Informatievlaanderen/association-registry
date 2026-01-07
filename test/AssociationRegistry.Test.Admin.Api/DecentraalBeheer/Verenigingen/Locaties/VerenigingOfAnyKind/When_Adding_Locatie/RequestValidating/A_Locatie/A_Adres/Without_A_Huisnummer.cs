@@ -37,6 +37,6 @@ public class Without_A_Huisnummer : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Huisnummer)}")
-              .WithErrorMessage("'Huisnummer' is verplicht.");
+              .WithErrorMessage("'huisnummer' is verplicht.");
     }
 }

@@ -40,6 +40,6 @@ public class Without_A_Postcode : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Postcode)}")
-              .WithErrorMessage("'Postcode' is verplicht.");
+              .WithErrorMessage("'postcode' is verplicht.");
     }
 }

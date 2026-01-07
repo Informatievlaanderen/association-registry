@@ -30,7 +30,7 @@ public class Is_Null : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerFeitelijkeVerenigingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Contactgegeventype)}")
-              .WithErrorMessage("'Contactgegeventype' is verplicht.");
+              .WithErrorMessage("'contactgegeventype' is verplicht.");
         // .Only();
     }
 }

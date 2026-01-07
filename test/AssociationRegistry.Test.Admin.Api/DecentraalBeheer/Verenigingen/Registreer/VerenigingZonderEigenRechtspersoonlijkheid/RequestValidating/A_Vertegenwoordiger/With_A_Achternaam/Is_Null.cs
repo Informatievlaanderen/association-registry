@@ -29,6 +29,6 @@ public class Is_Null
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Achternaam)}")
-              .WithErrorMessage("'Achternaam' is verplicht.");
+              .WithErrorMessage("'achternaam' is verplicht.");
     }
 }

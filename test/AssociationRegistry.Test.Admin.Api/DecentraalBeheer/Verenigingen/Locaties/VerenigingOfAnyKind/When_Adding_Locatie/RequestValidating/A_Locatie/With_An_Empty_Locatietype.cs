@@ -20,6 +20,6 @@ public class With_An_Empty_Locatietype : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(x => x.Locatie.Locatietype)
-              .WithErrorMessage("'Locatietype' mag niet leeg zijn.");
+              .WithErrorMessage("'locatietype' mag niet leeg zijn.");
     }
 }

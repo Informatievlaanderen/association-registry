@@ -10,13 +10,15 @@ public static class ValidatorHelpers
 {
     public static void RequireNotNullOrEmpty<T>(this AbstractValidator<T> validator, Expression<Func<T, string?>> expression)
     {
+        var fieldName = expression.GetSerializedName();
+
         validator.RuleFor(expression)
                  .NotNull()
-                 .WithVeldIsVerplichtMessage(expression.GetMember().Name);
+                 .WithVeldIsVerplichtMessage(fieldName);
 
         validator.RuleFor(expression)
                  .NotEmpty()
-                 .WithMessage($"'{expression.GetMember().Name}' mag niet leeg zijn.")
+                 .WithMessage($"'{fieldName}' mag niet leeg zijn.")
                  .When(request => expression.Compile().Invoke(request) is not null);
     }
 
