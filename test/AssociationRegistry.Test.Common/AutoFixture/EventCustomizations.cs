@@ -254,7 +254,7 @@ public static class EventCustomizations
             composer => composer.FromFactory(
                 () => new BankrekeningnummerWerdToegevoegd(
                     fixture.Create<int>(),
-                    fixture.Create<IBanNummer>().Value,
+                    fixture.Create<IbanNummer>().Value,
                     fixture.Create<string>(),
                     fixture.Create<string>()
                 )).OmitAutoProperties());

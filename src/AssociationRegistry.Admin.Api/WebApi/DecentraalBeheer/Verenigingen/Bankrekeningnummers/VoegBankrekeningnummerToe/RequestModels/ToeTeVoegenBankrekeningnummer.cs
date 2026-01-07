@@ -9,10 +9,10 @@ public class ToeTeVoegenBankrekeningnummer
     /// <summary>
     /// Dit is de unieke identificatie van een bankrekeningnummer
     /// </summary>
-    [DataMember]
-    public string IBAN { get; set; } = null!;
+    [DataMember (Name = "IBAN")]
+    public string Iban { get; set; } = null!;
 
-    /// <summary>De info waarvoor deze rekening gebruikt wordt</summary>
+    /// <summary>Waar deze rekening voor gebruikt wordt</summary>
     [DataMember]
     public string GebruiktVoor { get; set; } = null!;
 

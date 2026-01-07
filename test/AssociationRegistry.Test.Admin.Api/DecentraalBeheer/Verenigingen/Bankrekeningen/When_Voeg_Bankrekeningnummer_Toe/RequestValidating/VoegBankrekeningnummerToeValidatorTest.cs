@@ -33,13 +33,13 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
         {
             Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
             {
-                IBAN = string.Empty,
+                Iban = string.Empty,
             },
         };
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.IBAN)
+        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Iban)
               .WithErrorMessage("'IBAN' mag niet leeg zijn.");
     }
 
@@ -52,13 +52,13 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
         {
             Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
             {
-                IBAN = null,
+                Iban = null,
             },
         };
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.IBAN)
+        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Iban)
               .WithErrorMessage("'IBAN' is verplicht.");
     }
 
@@ -81,13 +81,13 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
         {
             Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
             {
-                IBAN = iban,
+                Iban = iban,
             },
         };
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.IBAN)
+        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Iban)
               .WithErrorMessage("Het opgegeven 'IBAN' is geen geldig Belgisch IBAN.");
     }
 
@@ -100,7 +100,7 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
         {
             Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
             {
-                IBAN = "BE68539007547034",
+                Iban = "BE68539007547034",
                 GebruiktVoor = "Lidgeld",
                 Titularis = "Frodo Baggins",
             },

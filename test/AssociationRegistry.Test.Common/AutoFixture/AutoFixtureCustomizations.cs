@@ -175,7 +175,7 @@ public static class AutoFixtureCustomizations
 
     private static void CustomizeIban(this IFixture fixture)
     {
-        fixture.Customize<IBanNummer>(
+        fixture.Customize<IbanNummer>(
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () =>
                                                              {
@@ -184,7 +184,7 @@ public static class AutoFixtureCustomizations
                                                                  var mod = Mod97(bban + "111400");
                                                                  var checkDigits = 98 - mod;
 
-                                                                 return IBanNummer.Create($"BE{checkDigits:00}{bban}");
+                                                                 return IbanNummer.Create($"BE{checkDigits:00}{bban}");
                                                              })
                                                         .OmitAutoProperties()
         );

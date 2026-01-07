@@ -444,7 +444,7 @@ public static class AdminApiAutoFixtureCustomizations
                 {
                     Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
                     {
-                        IBAN = fixture.Create<IBanNummer>().Value,
+                        Iban = fixture.Create<IbanNummer>().Value,
                         GebruiktVoor = fixture.Create<string>(),
                         Titularis = fixture.Create<string>(),
                     }

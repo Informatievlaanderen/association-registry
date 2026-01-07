@@ -996,7 +996,7 @@ public class BeheerVerenigingDetailProjector
             JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                 JsonLdType.Bankrekeningnummer, document.VCode,
                 @event.Data.IBAN),
-            IBAN = @event.Data.IBAN,
+            Iban = @event.Data.IBAN,
             GebruiktVoor = @event.Data.GebruiktVoor,
             Titularis = @event.Data.Titularis,
         }).ToArray();

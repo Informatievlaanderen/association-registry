@@ -29,8 +29,8 @@ public class Returns_Detail_With_Toegevoegde_Bankrekeningnummer : End2EndTest<De
             new Bankrekeningnummer()
             {
                 type = JsonLdType.Bankrekeningnummer.Type,
-                id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(_testContext.VCode, _testContext.CommandRequest.Bankrekeningnummer.IBAN),
-                IBAN = _testContext.CommandRequest.Bankrekeningnummer.IBAN,
+                id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(_testContext.VCode, _testContext.CommandRequest.Bankrekeningnummer.Iban),
+                Iban = _testContext.CommandRequest.Bankrekeningnummer.Iban,
                 GebruiktVoor = _testContext.CommandRequest.Bankrekeningnummer.GebruiktVoor,
                 Titularis = _testContext.CommandRequest.Bankrekeningnummer.Titularis,
             },

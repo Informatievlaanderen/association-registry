@@ -3,7 +3,7 @@
 public record Bankrekeningnummer
 {
     public int Id { get; set; }
-    public IBanNummer Iban { get; set; }
+    public IbanNummer Iban { get; set; }
     public string GebruiktVoor {get; set;}
     public string Titularis { get; set; }
 
@@ -11,7 +11,7 @@ public record Bankrekeningnummer
         => new()
         {
             Id = nextId,
-            Iban = bankrekeningnummer.IBAN,
+            Iban = bankrekeningnummer.Iban,
             GebruiktVoor = bankrekeningnummer.GebruiktVoor,
             Titularis = bankrekeningnummer.Titularis,
         };
@@ -20,7 +20,7 @@ public record Bankrekeningnummer
         => new()
         {
             Id = id,
-            Iban = IBanNummer.Hydrate(iban),
+            Iban = IbanNummer.Hydrate(iban),
             GebruiktVoor = gebruiktVoor,
             Titularis = titularis,
         };

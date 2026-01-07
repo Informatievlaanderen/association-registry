@@ -70,7 +70,7 @@ public static class CommandCustomizations
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () => new ToeTevoegenBankrekeningnummer()
                                                              {
-                                                                IBAN = fixture.Create<IBanNummer>(),
+                                                                Iban = fixture.Create<IbanNummer>(),
                                                                 GebruiktVoor = fixture.Create<string>(),
                                                                 Titularis = fixture.Create<string>(),
                                                              })

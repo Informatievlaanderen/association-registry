@@ -822,9 +822,9 @@ public static class HistoriekGebeurtenisMapper
     public static HistoriekGebeurtenisResponse? BankrekeningWerdToegevoegd(int nextId, VoegBankrekeningnummerToeRequest request)
         => new()
         {
-            Beschrijving = $"Bankrekeningnummer met IBAN '{@request.Bankrekeningnummer.IBAN}' werd toegevoegd.",
+            Beschrijving = $"Bankrekeningnummer met IBAN '{@request.Bankrekeningnummer.Iban}' werd toegevoegd.",
             Gebeurtenis = nameof(Events.ContactgegevenWerdToegevoegd),
-            Data = new BankrekeningnummerWerdToegevoegd(nextId, request.Bankrekeningnummer.IBAN, request.Bankrekeningnummer.GebruiktVoor, request.Bankrekeningnummer.Titularis),
+            Data = new BankrekeningnummerWerdToegevoegd(nextId, request.Bankrekeningnummer.Iban, request.Bankrekeningnummer.GebruiktVoor, request.Bankrekeningnummer.Titularis),
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };

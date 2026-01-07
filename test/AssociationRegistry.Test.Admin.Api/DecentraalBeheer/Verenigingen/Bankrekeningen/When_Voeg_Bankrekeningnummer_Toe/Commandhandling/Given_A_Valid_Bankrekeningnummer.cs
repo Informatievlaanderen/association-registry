@@ -39,7 +39,7 @@ public class Given_A_Valid_Bankrekeningnummer
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new BankrekeningnummerWerdToegevoegd(
                 1,
-                command.Bankrekeningnummer.IBAN.Value,
+                command.Bankrekeningnummer.Iban.Value,
                 command.Bankrekeningnummer.GebruiktVoor,
                 command.Bankrekeningnummer.Titularis
             )
