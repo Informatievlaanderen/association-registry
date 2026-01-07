@@ -11,7 +11,7 @@ public record Bankrekeningnummer
         => new()
         {
             Id = nextId,
-            Iban = IBanNummer.Create(bankrekeningnummer.IBAN),
+            Iban = bankrekeningnummer.IBAN,
             GebruiktVoor = bankrekeningnummer.GebruiktVoor,
             Titularis = bankrekeningnummer.Titularis,
         };

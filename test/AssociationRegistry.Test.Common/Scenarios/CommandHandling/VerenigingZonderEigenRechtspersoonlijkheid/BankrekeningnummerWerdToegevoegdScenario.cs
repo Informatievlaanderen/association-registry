@@ -17,7 +17,10 @@ public class BankrekeningnummerWerdToegevoegdScenario : CommandhandlerScenarioBa
         var fixture = new Fixture().CustomizeAdminApi();
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
 
-        BankrekeningnummerWerdToegevoegd = fixture.Create<BankrekeningnummerWerdToegevoegd>();
+        BankrekeningnummerWerdToegevoegd = fixture.Create<BankrekeningnummerWerdToegevoegd>() with
+        {
+            IBAN = "BE68539007547034",
+        };
     }
 
     public override IEnumerable<IEvent> Events()

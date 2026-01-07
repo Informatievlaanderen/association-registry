@@ -76,7 +76,7 @@ public static class BankrekeningnummersEnumerableExtensions
     public static IEnumerable<Bankrekeningnummer> AppendFromEventData(this IEnumerable<Bankrekeningnummer> bankrekeningnummers, BankrekeningnummerWerdToegevoegd eventData)
         => bankrekeningnummers.Append(
             Bankrekeningnummer.Hydrate(
-                eventData.Id,
+                eventData.BankrekeningnummerId,
                 eventData.IBAN,
                 eventData.GebruiktVoor,
                 eventData.Titularis));

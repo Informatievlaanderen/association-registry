@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Common.AutoFixture;
 using Admin.Schema.PowerBiExport;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Emails;
 using DecentraalBeheer.Vereniging.SocialMedias;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
@@ -44,6 +45,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeLidmaatschap();
         fixture.CustomizeGeldigheidsperiode();
         fixture.CustomizePersoonUitKsz();
+        fixture.CustomizeIban();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -169,6 +171,32 @@ public static class AutoFixtureCustomizations
                                                              })
                                                         .OmitAutoProperties()
         );
+    }
+
+    private static void CustomizeIban(this IFixture fixture)
+    {
+        fixture.Customize<IBanNummer>(
+            composerTransformation: composer => composer.FromFactory(
+                                                             factory: () =>
+                                                             {
+                                                                 var bban = Random.Shared.NextInt64(0, 1_000_000_000_000L).ToString("D12");
+
+                                                                 var mod = Mod97(bban + "111400");
+                                                                 var checkDigits = 98 - mod;
+
+                                                                 return IBanNummer.Create($"BE{checkDigits:00}{bban}");
+                                                             })
+                                                        .OmitAutoProperties()
+        );
+    }
+
+    private static int Mod97(string digits)
+    {
+        var remainder = 0;
+        foreach (var c in digits)
+            remainder = (remainder * 10 + (c - '0')) % 97;
+
+        return remainder;
     }
 
     private static void CustomizeWerkingsgebied(this IFixture fixture)

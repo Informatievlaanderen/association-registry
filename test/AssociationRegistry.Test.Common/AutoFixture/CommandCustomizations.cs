@@ -4,6 +4,7 @@ using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModel
 using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using Framework;
 using global::AutoFixture;
 using Vereniging;
@@ -14,6 +15,7 @@ public static class CommandCustomizations
     {
         fixture.CustomizeRegistreerFeitelijkeVerenigingCommand();
         fixture.CustomizeTewijzigenLidmaatschap();
+        fixture.CustomizeToeTevoegenBankrekeningnummer();
     }
 
     public static void CustomizeRegistreerFeitelijkeVerenigingCommand(this IFixture fixture, bool withoutWerkingsgebieden = false)
@@ -58,6 +60,19 @@ public static class CommandCustomizations
                                                                      fixture.Create<LidmaatschapIdentificatie>(),
                                                                      fixture.Create<LidmaatschapBeschrijving>()
                                                                  );
+                                                             })
+                                                        .OmitAutoProperties());
+    }
+
+    private static void CustomizeToeTevoegenBankrekeningnummer(this IFixture fixture)
+    {
+        fixture.Customize<ToeTevoegenBankrekeningnummer>(
+            composerTransformation: composer => composer.FromFactory(
+                                                             factory: () => new ToeTevoegenBankrekeningnummer()
+                                                             {
+                                                                IBAN = fixture.Create<IBanNummer>(),
+                                                                GebruiktVoor = fixture.Create<string>(),
+                                                                Titularis = fixture.Create<string>(),
                                                              })
                                                         .OmitAutoProperties());
     }

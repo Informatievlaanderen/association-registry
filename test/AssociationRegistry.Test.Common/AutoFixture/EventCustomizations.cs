@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Emails;
 using DecentraalBeheer.Vereniging.SocialMedias;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
@@ -27,6 +28,7 @@ public static class EventCustomizations
         fixture.CustomizeWeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt();
         fixture.CustomizeVerenigingAanvaarddeDubbeleVereniging();
         fixture.CustomizeVertegenwoordigerWerdToegevoegdVanuitKBO();
+        fixture.CustomizeBankrekeningnummerWerdToegevoegd();
     }
 
     private static void CustomizeLidmaatschapWerdToegevoegd(this IFixture fixture)
@@ -243,6 +245,18 @@ public static class EventCustomizations
                 () => new VerenigingAanvaarddeDubbeleVereniging(
                     fixture.Create<VCode>().ToString(),
                     fixture.Create<VCode>().ToString()
+                )).OmitAutoProperties());
+    }
+
+    private static void CustomizeBankrekeningnummerWerdToegevoegd(this IFixture fixture)
+    {
+        fixture.Customize<BankrekeningnummerWerdToegevoegd>(
+            composer => composer.FromFactory(
+                () => new BankrekeningnummerWerdToegevoegd(
+                    fixture.Create<int>(),
+                    fixture.Create<IBanNummer>().Value,
+                    fixture.Create<string>(),
+                    fixture.Create<string>()
                 )).OmitAutoProperties());
     }
 }
