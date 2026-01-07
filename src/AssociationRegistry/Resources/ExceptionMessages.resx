@@ -307,4 +307,13 @@
   <data name="ServiceReturnedNonSuccesfulStatusCode">
     <value>Service {0} responded with status code '{1}' with context description '{2}'.</value>
   </data>
+  <data name="IbanMoetUniekZijn">
+    <value>Het IBAN van een bankrekening moet uniek zijn binnen de vereniging.</value>
+  </data>
+  <data name="GebruiktVoorMoetUniekZijn">
+    <value>'Gebruikt voor' van een bankrekening moet uniek zijn binnen de vereniging.</value>
+  </data>
+  <data name="IbanFormaatIsOngeldig">
+    <value>Het formaat van het IBAN is ongeldig.</value>
+  </data>
 </root>

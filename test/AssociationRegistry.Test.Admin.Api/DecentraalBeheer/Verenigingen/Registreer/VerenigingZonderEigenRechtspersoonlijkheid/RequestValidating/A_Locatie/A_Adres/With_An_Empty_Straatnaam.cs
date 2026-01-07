@@ -41,6 +41,6 @@ public class With_An_Empty_Straatnaam : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Straatnaam)}")
-              .WithErrorMessage("'Straatnaam' mag niet leeg zijn.");
+              .WithErrorMessage("'straatnaam' mag niet leeg zijn.");
     }
 }

@@ -1,0 +1,6 @@
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VoegBankrekeningToe;
+
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
+
+public record VoegBankrekeningnummerToeCommand(VCode VCode, ToeTevoegenBankrekeningnummer Bankrekeningnummer);

@@ -25,6 +25,6 @@ public class With_A_Null_Bronwaarde : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.AdresId)}.{nameof(ToeTeVoegenLocatie.AdresId.Bronwaarde)}")
-              .WithErrorMessage("'Bronwaarde' is verplicht.");
+              .WithErrorMessage("'bronwaarde' is verplicht.");
     }
 }

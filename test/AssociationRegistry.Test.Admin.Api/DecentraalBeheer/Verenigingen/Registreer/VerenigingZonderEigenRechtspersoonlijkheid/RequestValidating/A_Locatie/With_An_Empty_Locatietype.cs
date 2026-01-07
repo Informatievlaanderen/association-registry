@@ -33,6 +33,6 @@ public class With_An_Empty_Locatietype : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Locatietype)}")
-              .WithErrorMessage("'Locatietype' mag niet leeg zijn.");
+              .WithErrorMessage("'locatietype' mag niet leeg zijn.");
     }
 }

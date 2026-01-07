@@ -38,6 +38,6 @@ public class With_An_Empty_Straatnaam : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Straatnaam)}")
-              .WithErrorMessage("'Straatnaam' mag niet leeg zijn.");
+              .WithErrorMessage("'straatnaam' mag niet leeg zijn.");
     }
 }

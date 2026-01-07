@@ -10,12 +10,12 @@ public class VerenigingsType : IVerenigingstype
     /// <summary>
     /// De code van het type vereniging
     /// </summary>
-    [DataMember]
+    [DataMember (Name = "code")]
     public string Code { get; init; } = null!;
 
     /// <summary>
     /// De beschrijving van het type vereniging
     /// </summary>
-    [DataMember]
+    [DataMember (Name = "naam")]
     public string Naam { get; init; } = null!;
 }

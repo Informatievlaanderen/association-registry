@@ -41,6 +41,6 @@ public class With_An_Empty_Land : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Land)}")
-              .WithErrorMessage("'Land' mag niet leeg zijn.");
+              .WithErrorMessage("'land' mag niet leeg zijn.");
     }
 }

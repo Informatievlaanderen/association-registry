@@ -27,6 +27,6 @@ public class Is_Empty
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Achternaam)}")
-              .WithErrorMessage("'Achternaam' mag niet leeg zijn.");
+              .WithErrorMessage("'achternaam' mag niet leeg zijn.");
     }
 }

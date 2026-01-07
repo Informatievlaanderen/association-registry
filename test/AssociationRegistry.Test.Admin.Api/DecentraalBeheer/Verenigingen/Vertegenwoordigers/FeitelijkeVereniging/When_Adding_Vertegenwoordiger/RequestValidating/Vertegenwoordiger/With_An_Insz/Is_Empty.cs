@@ -27,6 +27,6 @@ public class Is_Empty
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
-              .WithErrorMessage("'Insz' mag niet leeg zijn.");
+              .WithErrorMessage("'insz' mag niet leeg zijn.");
     }
 }

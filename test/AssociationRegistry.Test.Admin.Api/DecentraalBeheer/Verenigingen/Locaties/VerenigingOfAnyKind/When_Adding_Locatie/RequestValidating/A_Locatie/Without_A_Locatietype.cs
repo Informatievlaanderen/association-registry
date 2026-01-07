@@ -21,6 +21,6 @@ public class Without_A_Locatietype : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor($"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Locatietype)}")
-              .WithErrorMessage("'Locatietype' is verplicht.");
+              .WithErrorMessage("'locatietype' is verplicht.");
     }
 }

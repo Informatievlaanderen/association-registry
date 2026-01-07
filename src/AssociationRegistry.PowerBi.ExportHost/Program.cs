@@ -91,6 +91,10 @@ public static class Program
                     new LidmaatschappenRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
                     sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
 
+                new(WellKnownFileNames.Bankrekeningnummers, powerBiExportOptions.BucketName,
+                    new BankrekeningnummersRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
+                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
+
             })).AddSingleton(sp => new PowerBiDubbelDetectieExporters(new List<Exporter<PowerBiExportDubbelDetectieDocument>>()
             {
                 new(WellKnownFileNames.DubbelDetectie, powerBiExportOptions.BucketName,

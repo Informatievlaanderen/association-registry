@@ -79,5 +79,6 @@ public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
             Sleutels = BeheerDetailResponseMapper.MapSleutels(_testContext.VCode),
             Lidmaatschappen = [],
             IsDubbelVan = string.Empty,
+            Bankrekeningnummers = [],
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }

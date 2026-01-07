@@ -25,7 +25,7 @@ public class Is_Null : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." +
                                             nameof(ToeTeVoegenContactgegeven.Contactgegeventype))
-              .WithErrorMessage("'Contactgegeventype' is verplicht.");
+              .WithErrorMessage("'contactgegeventype' is verplicht.");
         // .Only();
     }
 }

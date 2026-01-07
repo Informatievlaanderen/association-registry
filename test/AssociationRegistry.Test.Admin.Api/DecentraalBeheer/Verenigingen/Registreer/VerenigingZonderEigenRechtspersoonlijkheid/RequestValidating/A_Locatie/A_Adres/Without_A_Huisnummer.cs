@@ -40,6 +40,6 @@ public class Without_A_Huisnummer : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Huisnummer)}")
-              .WithErrorMessage("'Huisnummer' is verplicht.");
+              .WithErrorMessage("'huisnummer' is verplicht.");
     }
 }

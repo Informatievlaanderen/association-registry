@@ -29,6 +29,6 @@ public class Is_Empty
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerFeitelijkeVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
-              .WithErrorMessage("'Insz' mag niet leeg zijn.");
+              .WithErrorMessage("'insz' mag niet leeg zijn.");
     }
 }

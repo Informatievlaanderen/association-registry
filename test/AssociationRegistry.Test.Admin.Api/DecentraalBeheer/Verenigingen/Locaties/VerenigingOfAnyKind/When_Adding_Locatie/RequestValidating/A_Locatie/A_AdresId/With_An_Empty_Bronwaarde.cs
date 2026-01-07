@@ -22,6 +22,6 @@ public class With_An_Empty_Bronwaarde : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.AdresId)}.{nameof(ToeTeVoegenLocatie.AdresId.Bronwaarde)}")
-              .WithErrorMessage("'Bronwaarde' mag niet leeg zijn.");
+              .WithErrorMessage("'bronwaarde' mag niet leeg zijn.");
     }
 }

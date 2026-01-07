@@ -16,7 +16,7 @@ public class ToeTeVoegenLocatie
     ///     - Activiteiten<br />
     ///     - Correspondentie - Slechts één maal mogelijk<br />
     /// </summary>
-    [DataMember]
+    [DataMember (Name = "locatietype")]
     public string Locatietype { get; set; } = null!;
 
     /// <summary>Duidt aan dat dit de primaire locatie is</summary>

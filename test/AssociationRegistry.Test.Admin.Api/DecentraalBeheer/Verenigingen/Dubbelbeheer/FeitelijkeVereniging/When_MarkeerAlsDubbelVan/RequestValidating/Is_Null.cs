@@ -20,6 +20,6 @@ public class Is_Null : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.IsDubbelVan)
-              .WithErrorMessage($"'{nameof(MarkeerAlsDubbelVanRequest.IsDubbelVan)}' is verplicht.");
+              .WithErrorMessage($"'isDubbelVan' is verplicht.");
     }
 }

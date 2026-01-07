@@ -11,15 +11,15 @@ public class VerenigingenPerInszResponse
     /// <summary>
     ///     De unieke identificatie van de bevraagde persoon
     /// </summary>
-    [DataMember]
+    [DataMember (Name = "insz")]
     public string Insz { get; init; } = null!;
 
     /// <summary>De lijst van verenigingen waarvoor deze persoon vertegenwoordiger is</summary>
-    [DataMember]
+    [DataMember (Name = "verenigingen")]
     public Vereniging[] Verenigingen { get; init; } = null!;
 
     /// <summary>De lijst van KBO-nummers waarvoor deze persoon vertegenwoordiger is</summary>
-    [DataMember]
+    [DataMember (Name = "kboNummers")]
     public VerenigingenPerKbo[] KboNummers { get; init; } = null!;
 
     [DataContract]
@@ -28,13 +28,13 @@ public class VerenigingenPerInszResponse
         /// <summary>
         /// De vCode van de vereniging
         /// </summary>
-        [DataMember]
+        [DataMember (Name = "vCode")]
         public string VCode { get; init; } = null!;
 
         /// <summary>
         /// Array of strings - vCodes die dezelfde vereniging weergeven (na correctie van dubbele registraties)
         /// </summary>
-        [DataMember]
+        [DataMember (Name = "corresponderendeVCodes")]
         public string[] CorresponderendeVCodes { get; set; } = null!;
 
         /// <summary>
@@ -46,13 +46,13 @@ public class VerenigingenPerInszResponse
         /// <summary>
         /// De naam van de vereniging
         /// </summary>
-        [DataMember]
+        [DataMember (Name = "naam")]
         public string Naam { get; init; } = null!;
 
         /// <summary>
         /// De status van de vereniging
         /// </summary>
-        [DataMember]
+        [DataMember (Name = "status")]
         public string Status { get; init; } = null!;
 
         /// <summary>
@@ -64,7 +64,7 @@ public class VerenigingenPerInszResponse
         /// <summary>
         /// Het type van de vereniging
         /// </summary>
-        [DataMember]
+        [DataMember (Name = "verenigingstype")]
         public Verenigingstype Verenigingstype { get; set; } = null!;
 
         /// <summary>

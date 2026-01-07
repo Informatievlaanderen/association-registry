@@ -63,6 +63,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                                                                       })
                                                                                      .ToArray(),
             Werkingsgebieden = [],
+            Bankrekeningnummers = [],
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                           .ConvertAndFormatToBelgianDate(),
@@ -107,6 +108,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                                                                       })
                                                                                      .ToArray(),
             Werkingsgebieden = [],
+            Bankrekeningnummers = [],
             Bron = @event.Data.Bron,
             DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                           .ConvertAndFormatToBelgianDate(),
@@ -148,10 +150,11 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
-            Contactgegevens = Array.Empty<Contactgegeven>(),
-            Locaties = Array.Empty<Locatie>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<HoofdactiviteitVerenigingsloket>(),
-            Werkingsgebieden = Array.Empty<Werkingsgebied>(),
+            Contactgegevens = [],
+            Locaties = [],
+            HoofdactiviteitenVerenigingsloket = [],
+            Werkingsgebieden = [],
+            Bankrekeningnummers = [],
             Bron = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Bron,
             KboNummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
@@ -1218,6 +1221,24 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<GeotagsWerdenBepaald> @event, PowerBiExportDocument document)
     {
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<BankrekeningnummerWerdToegevoegd> @event, PowerBiExportDocument document)
+    {
+        document.Bankrekeningnummers = Enumerable
+                                  .Append(document.Bankrekeningnummers, new Bankrekeningnummer(
+                                             @event.Data.BankrekeningnummerId,
+                                            @event.Data.IBAN,
+                                             @event.Data.GebruiktVoor,
+                                             @event.Data.Titularis
+                                          ))
+                                  .OrderBy(l => l.BankrekeningnummerId)
+                                  .ToArray();
+
         document.DatumLaatsteAanpassing =
             @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
 

@@ -846,6 +846,16 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+   public static void Apply(IEvent<BankrekeningnummerWerdToegevoegd> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Bankrekeningnummer met IBAN '{@event.Data.IBAN}' werd toegevoegd."
+        );
+    }
+
 
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()

@@ -22,6 +22,6 @@ public class With_A_Null_Broncode : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.AdresId)}.{nameof(ToeTeVoegenLocatie.AdresId.Broncode)}")
-              .WithErrorMessage("'Broncode' is verplicht.");
+              .WithErrorMessage("'broncode' is verplicht.");
     }
 }
