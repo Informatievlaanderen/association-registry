@@ -15,7 +15,7 @@ public record VoegBankrekeningnummerToeRequest
     public VoegBankrekeningnummerToeCommand ToCommand(string vCode)
     => new(VCode.Create(vCode), new ToeTevoegenBankrekeningnummer()
     {
-        IBAN = IBanNummer.Create(Bankrekeningnummer.IBAN),
+        Iban = IbanNummer.Create(Bankrekeningnummer.Iban),
         GebruiktVoor = Bankrekeningnummer.GebruiktVoor,
         Titularis = Bankrekeningnummer.Titularis,
     });

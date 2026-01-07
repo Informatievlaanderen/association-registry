@@ -26,15 +26,15 @@ public class VoegBankrekeningnummerToeValidator : AbstractValidator<VoegBankreke
     {
         public BankrekeningnummerValidator()
         {
-            this.RequireNotNullOrEmpty(Bankrekeningnummer => Bankrekeningnummer.IBAN);
+            this.RequireNotNullOrEmpty(Bankrekeningnummer => Bankrekeningnummer.Iban);
 
-            When(x => !string.IsNullOrWhiteSpace(x.IBAN), () =>
+            When(x => !string.IsNullOrWhiteSpace(x.Iban), () =>
             {
-                RuleFor(x => x.IBAN)
+                RuleFor(x => x.Iban)
                    .Matches(@"^BE\d{14}$")
                    .WithMessage("Het opgegeven 'IBAN' is geen geldig Belgisch IBAN.");
 
-                RuleFor(x => x.IBAN)
+                RuleFor(x => x.Iban)
                    .Must(x => IbanUtils.IsValid(x, out _))
                    .WithMessage("Het opgegeven 'IBAN' is geen geldig Belgisch IBAN.");
             });

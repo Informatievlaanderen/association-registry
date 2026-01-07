@@ -2,7 +2,7 @@
 
 public record ToeTevoegenBankrekeningnummer
 {
-    public IBanNummer IBAN { get; set; }
+    public IbanNummer Iban { get; set; }
     public string GebruiktVoor { get; set; }
     public string Titularis { get; set; }
 }

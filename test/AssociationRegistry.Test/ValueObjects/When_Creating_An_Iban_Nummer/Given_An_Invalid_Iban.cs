@@ -22,7 +22,7 @@ public class Given_An_Invalid_Iban
     [InlineData("XBE68539007547034")]
     public void With_Non_Numeric_Characters_Then_it_throws_an_IbanFormaatIsOngeldig(string iban)
     {
-        var factory = () => IBanNummer.Create(iban);
+        var factory = () => IbanNummer.Create(iban);
         factory.Should().Throw<IbanFormaatIsOngeldig>();
     }
 }

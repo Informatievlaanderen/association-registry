@@ -24,7 +24,7 @@ public class Given_BankrekeningnummerWerdToegevoegd(
                 JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                     JsonLdType.Bankrekeningnummer, fixture.Scenario.AggregateId,
                     fixture.Scenario.BankrekeningnummerWerdToegevoegd.IBAN),
-                IBAN = fixture.Scenario.BankrekeningnummerWerdToegevoegd.IBAN,
+                Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.IBAN,
                 GebruiktVoor = fixture.Scenario.BankrekeningnummerWerdToegevoegd.GebruiktVoor,
                 Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
             },

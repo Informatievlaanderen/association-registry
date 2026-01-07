@@ -3,26 +3,26 @@
 using Exceptions;
 using IbanBic;
 
-public record IBanNummer
+public record IbanNummer
 {
     public string Value { get; }
 
-    private IBanNummer(string value)
+    private IbanNummer(string value)
     {
         Value = value;
     }
 
-    public static IBanNummer Create(string iban)
+    public static IbanNummer Create(string iban)
     {
         var sanitezedIban = Sanitize(iban);
         if(!IbanUtils.IsValid(sanitezedIban, out _))
             throw new IbanFormaatIsOngeldig();
 
-        return new IBanNummer(sanitezedIban);
+        return new IbanNummer(sanitezedIban);
     }
 
-    public static IBanNummer Hydrate(string insz)
-        => new(insz);
+    public static IbanNummer Hydrate(string iban)
+        => new(iban);
 
     public override string ToString()
         => Value;

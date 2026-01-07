@@ -17,10 +17,10 @@ public class Bankrekeningnummer
     /// De IBAN van de bankrekeningnummer
     /// </summary>
     [DataMember(Name = "IBAN")]
-    public string IBAN { get; set; }
+    public string Iban { get; set; }
 
     /// <summary>
-    /// De info waarvoor deze rekening gebruikt wordt
+    /// Waar deze rekening voor gebruikt wordt
     /// </summary>
     [DataMember(Name = "GebruiktVoor")]
     public string GebruiktVoor { get; set; } = null!;
