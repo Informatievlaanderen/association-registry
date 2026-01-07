@@ -51,17 +51,12 @@ public static class Program
                             .AddEnvironmentVariables())
                 .ConfigureServices(ConfigureServices)
                 .ConfigureLogging(ConfigureLogger)
+                .ApplyJasperFxExtensions()
                 .Build();
-
-        if (ProgramArguments.IsCodeGen(args))
-        {
-            await host.RunJasperFxCommands(args);
-            return;
-        }
 
         ConfigureAppDomainExceptions();
 
-        await host.RunAsync();
+        await host.RunJasperFxCommands(args);
     }
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
