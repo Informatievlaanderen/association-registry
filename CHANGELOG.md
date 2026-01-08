@@ -1,3 +1,10 @@
+## [8.285.5](https://github.com/informatievlaanderen/association-registry/compare/v8.285.4...v8.285.5) (2026-01-08)
+
+
+### Bug Fixes
+
+* or-2989 set wolv TypeLoadMode to auto ([ee3fb10](https://github.com/informatievlaanderen/association-registry/commit/ee3fb107376e5674c6218e9a25a0634dfd693bc2))
+
 ## [8.285.4](https://github.com/informatievlaanderen/association-registry/compare/v8.285.3...v8.285.4) (2026-01-07)
 
 
