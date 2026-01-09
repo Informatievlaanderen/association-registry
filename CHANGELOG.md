@@ -1,3 +1,10 @@
+## [8.287.4](https://github.com/informatievlaanderen/association-registry/compare/v8.287.3...v8.287.4) (2026-01-09)
+
+
+### Bug Fixes
+
+* or-2942 use cloud events for kbo sync ([59ce967](https://github.com/informatievlaanderen/association-registry/commit/59ce9672734b0b557539da0bc893a2f0b8f3a6bf))
+
 ## [8.287.3](https://github.com/informatievlaanderen/association-registry/compare/v8.287.2...v8.287.3) (2026-01-09)
 
 
