@@ -48,6 +48,7 @@ internal static class SqsWolverineSetup
         options.PublishMessage<TeSynchroniserenKboNummerMessage>()
                .ToSqsQueue(appSettings.KboSyncQueueName)
                .SendRawJsonMessage()
+               .MessageBatchMaxDegreeOfParallelism(1)
                .MessageBatchSize(1);
     }
 
