@@ -1,3 +1,10 @@
+## [8.287.3](https://github.com/informatievlaanderen/association-registry/compare/v8.287.2...v8.287.3) (2026-01-09)
+
+
+### Bug Fixes
+
+* or-2942 upgrade wolv/marten ([095e5d2](https://github.com/informatievlaanderen/association-registry/commit/095e5d2faafa7ff2a278e67223411f6a60758ddd))
+
 ## [8.287.2](https://github.com/informatievlaanderen/association-registry/compare/v8.287.1...v8.287.2) (2026-01-09)
 
 
