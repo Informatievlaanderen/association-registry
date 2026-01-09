@@ -1,3 +1,10 @@
+## [8.287.6](https://github.com/informatievlaanderen/association-registry/compare/v8.287.5...v8.287.6) (2026-01-09)
+
+
+### Bug Fixes
+
+* or-2942 reuse cloud events way of working from lambdas ([d7b0e0a](https://github.com/informatievlaanderen/association-registry/commit/d7b0e0a009a21d2e1bf725eb771a7a1f4f6d2892))
+
 ## [8.287.5](https://github.com/informatievlaanderen/association-registry/compare/v8.287.4...v8.287.5) (2026-01-09)
 
 
