@@ -18,7 +18,7 @@ public static class SyncEnvelopeParser
             var cloudEvent = CloudEventExtensions.FromJson(body);
             return cloudEvent != null ? new CloudEventMessageParser(cloudEvent) : null;
         }
-        catch (ArgumentException)
+        catch
         {
             // Not a CloudEvent, fallback to plain JSON
             return null;
