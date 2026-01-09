@@ -23,6 +23,8 @@ internal static class SqsWolverineSetup
             config.ServiceURL = grarOptions.Wolverine.TransportServiceUrl;
         });
 
+        options.UseNewtonsoftForSerialization();
+
         if (grarOptions.Sqs.UseLocalStack)
             transportConfiguration.Credentials(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"));
 
@@ -49,7 +51,7 @@ internal static class SqsWolverineSetup
 
         options.PublishMessage<TeSynchroniserenKboNummerMessage>()
                .ToSqsQueue(appSettings.KboSyncQueueName)
-               .SendRawJsonMessage()
+               .InteropWithCloudEvents()
                .MessageBatchMaxDegreeOfParallelism(1)
                .UseDurableOutbox()
                .MessageBatchSize(1);
