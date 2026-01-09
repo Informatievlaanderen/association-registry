@@ -1,3 +1,10 @@
+# [8.287.0](https://github.com/informatievlaanderen/association-registry/compare/v8.286.0...v8.287.0) (2026-01-09)
+
+
+### Features
+
+* or-2942 decrease parallellism for kbo sync ([0e8cbdf](https://github.com/informatievlaanderen/association-registry/commit/0e8cbdfec6d55d749f7a1c5cecc623feaa6b4723))
+
 # [8.286.0](https://github.com/informatievlaanderen/association-registry/compare/v8.285.5...v8.286.0) (2026-01-09)
 
 
