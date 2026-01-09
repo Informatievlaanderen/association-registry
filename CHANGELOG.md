@@ -1,3 +1,10 @@
+## [8.287.1](https://github.com/informatievlaanderen/association-registry/compare/v8.287.0...v8.287.1) (2026-01-09)
+
+
+### Bug Fixes
+
+* or-2942 include TeSynchroniserenKboNummerMessage in wolverine discovery ([a47ad30](https://github.com/informatievlaanderen/association-registry/commit/a47ad307c4386bcffa482195bafaa12c1a9062ec))
+
 # [8.287.0](https://github.com/informatievlaanderen/association-registry/compare/v8.286.0...v8.287.0) (2026-01-09)
 
 
