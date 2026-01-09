@@ -26,8 +26,8 @@
     <PackageVersion Include="CsvHelper" Version="33.1.0" />
     <PackageVersion Include="Destructurama.JsonNet" Version="4.0.2" />
     <PackageVersion Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.2.0" />
-    <PackageVersion Include="JasperFx.Events" Version="1.10.2" />
-    <PackageVersion Include="Marten" Version="8.13.3" />
+    <PackageVersion Include="JasperFx.Events" Version="1.12.2" />
+    <PackageVersion Include="Marten" Version="8.17.0" />
     <PackageVersion Include="Marten.AspNetCore" Version="8.13.3" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.7" />
     <PackageVersion Include="Microsoft.AspNetCore.Hosting" Version="2.3.0" />
@@ -41,8 +41,8 @@
     <PackageVersion Include="Microsoft.OpenApi" Version="1.6.24" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="NodaTime.Serialization.JsonNet" Version="3.2.0" />
-    <PackageVersion Include="Npgsql" Version="9.0.3" />
-    <PackageVersion Include="Npgsql.OpenTelemetry" Version="9.0.3" />
+    <PackageVersion Include="Npgsql" Version="10.0.1" />
+    <PackageVersion Include="Npgsql.OpenTelemetry" Version="9.0.4" />
     <PackageVersion Include="OpenTelemetry" Version="1.12.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.12.0" />
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
@@ -73,27 +73,25 @@
     <PackageVersion Include="System.ServiceModel.Http" Version="8.1.2" />
     <PackageVersion Include="System.ServiceModel.NetTcp" Version="8.1.2" />
     <PackageVersion Include="System.ServiceModel.Security" Version="6.0.0" />
-    <PackageVersion Include="WolverineFx" Version="5.0.0" />
-    <PackageVersion Include="WolverineFx.AmazonSqs" Version="5.0.0" />
-    <PackageVersion Include="WolverineFx.Http" Version="5.0.0" />
-    <PackageVersion Include="WolverineFx.Marten" Version="5.0.0" />
+    <PackageVersion Include="WolverineFx" Version="5.9.2" />
+    <PackageVersion Include="WolverineFx.AmazonSqs" Version="5.9.2" />
+    <PackageVersion Include="WolverineFx.Http" Version="5.9.2" />
+    <PackageVersion Include="WolverineFx.Marten" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.Http" Version="5.0.0" />
     <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="8.19.9" />
     <PackageVersion Include="Amazon.Lambda.RuntimeSupport" Version="1.13.1" />
     <PackageVersion Include="Confluent.Kafka" Version="2.11.0" />
-
-
     <!-- Testing -->
-    <PackageVersion Include="Alba" Version="8.2.1" />
+    <PackageVersion Include="Alba" Version="8.4.0" />
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
     <PackageVersion Include="FluentAssertions" Version="6.12" />
     <PackageVersion Include="FluentAssertions.Json" Version="6.1.0" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.7" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageVersion Include="xunit.v3" Version="2.0.3"/>
-    <PackageVersion Include="xunit.analyzers" Version="1.22.0"/>
-    <PackageVersion Include="xunit.v3.assert" Version="2.0.3"/>
+    <PackageVersion Include="xunit.v3" Version="2.0.3" />
+    <PackageVersion Include="xunit.analyzers" Version="1.22.0" />
+    <PackageVersion Include="xunit.v3.assert" Version="2.0.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1" />
     <PackageVersion Include="xunit.v3.core" Version="2.0.3" />
     <PackageVersion Include="xunit.v3.common" Version="2.0.3" />
@@ -103,6 +101,5 @@
     <PackageVersion Include="xunit.v3.runner.utility" Version="2.0.3" />
     <PackageVersion Include="Scriban" Version="6.2.1" />
     <PackageVersion Include="AutoBogus" Version="2.13.1" />
-
   </ItemGroup>
 </Project>
