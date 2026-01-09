@@ -45,6 +45,8 @@ internal static class SqsWolverineSetup
 
     private static void ConfigureKboSyncPublisher(WolverineOptions options, AppSettings appSettings)
     {
+        options.Discovery.IncludeType<TeSynchroniserenKboNummerMessage>();
+
         options.PublishMessage<TeSynchroniserenKboNummerMessage>()
                .ToSqsQueue(appSettings.KboSyncQueueName)
                .SendRawJsonMessage()
