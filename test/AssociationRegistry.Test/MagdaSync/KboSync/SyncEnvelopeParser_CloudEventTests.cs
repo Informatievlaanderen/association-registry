@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.MagdaSync.KboSync;
 
-using AssociationRegistry.KboMutations.CloudEvents;
 using AssociationRegistry.KboMutations.SyncLambda.Messaging;
 using AssociationRegistry.KboMutations.SyncLambda.Messaging.Parsers;
+using Contracts.CloudEvents;
 using System.Diagnostics;
 using Xunit;
 

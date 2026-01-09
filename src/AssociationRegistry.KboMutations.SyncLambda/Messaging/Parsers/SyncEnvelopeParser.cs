@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.KboMutations.SyncLambda.Messaging.Parsers;
 
-using AssociationRegistry.KboMutations.CloudEvents;
+using Contracts.CloudEvents;
 using System.Text.Json;
 
 public static class SyncEnvelopeParser

@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.KboSync;
 
 using Asp.Versioning;
-using Azure.Messaging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Contracts.CloudEvents;
 using Contracts.KboSync;
 using Events;
 using Historiek.Examples;
@@ -88,8 +88,10 @@ public class KboSyncHistoriekController : ApiController
         foreach (var kboNummer in kboNummersToSync)
         {
             await messageBus.SendAsync(
-                new CloudEvent(nameof(KboSyncHistoriekController), nameof(TeSynchroniserenKboNummerMessage),
-                new TeSynchroniserenKboNummerMessage(kboNummer), typeof(TeSynchroniserenKboNummerMessage)), new DeliveryOptions()
+                CloudEventBuilder.ManualKboSyncQueued()
+                    .WithData(new TeSynchroniserenKboNummerMessage(kboNummer))
+                    .Build(),
+                new DeliveryOptions()
                 {
                     GroupId = kboNummer,
                 });
@@ -129,7 +131,10 @@ public class KboSyncHistoriekController : ApiController
         if (verenigingMetRechtspersoonlijkheidWerdGeregistreerd is null)
             return NotFound();
 
-        await messageBus.SendAsync(new TeSynchroniserenKboNummerMessage(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
+        await messageBus.SendAsync(
+            CloudEventBuilder.ManualKboSyncQueued()
+                .WithData(new TeSynchroniserenKboNummerMessage(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer))
+                .Build());
 
         return Accepted();
     }

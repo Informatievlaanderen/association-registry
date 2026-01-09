@@ -1,4 +1,4 @@
-namespace AssociationRegistry.KboMutations.CloudEvents;
+namespace AssociationRegistry.Contracts.CloudEvents;
 
 using System.Diagnostics;
 using CloudNative.CloudEvents;
@@ -42,6 +42,12 @@ public class CloudEventBuilder
     /// </summary>
     public static CloudEventBuilder KboSyncPersonQueued()
         => new(EventTypes.KboSyncPersonQueued, Sources.PersonProcessor);
+
+    /// <summary>
+    /// Creates a CloudEvent for manual KBO sync triggered from Admin API
+    /// </summary>
+    public static CloudEventBuilder ManualKboSyncQueued()
+        => new(EventTypes.ManualKboSyncQueued, Sources.AdminApi);
 
     /// <summary>
     /// Sets the data payload for the CloudEvent
@@ -110,6 +116,7 @@ public class CloudEventBuilder
         public const string KboSyncOrganisationQueued = "com.verenigingen.kbo.sync.organisation.queued";
         public const string KboSyncFunctionQueued = "com.verenigingen.kbo.sync.function.queued";
         public const string KboSyncPersonQueued = "com.verenigingen.kbo.sync.person.queued";
+        public const string ManualKboSyncQueued = "com.verenigingen.kbo.sync.manual.queued";
     }
 
     /// <summary>
@@ -121,5 +128,6 @@ public class CloudEventBuilder
         public static readonly Uri OrganisationProcessor = new("urn:kbo:mutations:organisation");
         public static readonly Uri FunctionProcessor = new("urn:kbo:mutations:function");
         public static readonly Uri PersonProcessor = new("urn:kbo:mutations:person");
+        public static readonly Uri AdminApi = new("urn:admin-api:kbo-sync");
     }
 }

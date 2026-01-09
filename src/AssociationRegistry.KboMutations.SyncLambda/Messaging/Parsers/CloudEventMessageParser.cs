@@ -1,7 +1,7 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Messaging.Parsers;
 
-using AssociationRegistry.KboMutations.CloudEvents;
 using CloudNative.CloudEvents;
+using Contracts.CloudEvents;
 using System.Text.Json;
 
 internal class CloudEventMessageParser : IMessageParser

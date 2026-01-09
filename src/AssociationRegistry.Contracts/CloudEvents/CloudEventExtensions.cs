@@ -1,4 +1,4 @@
-namespace AssociationRegistry.KboMutations.CloudEvents;
+namespace AssociationRegistry.Contracts.CloudEvents;
 
 using System.Diagnostics;
 using System.Text.Json;
