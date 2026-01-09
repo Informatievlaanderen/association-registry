@@ -1,3 +1,10 @@
+# [8.286.0](https://github.com/informatievlaanderen/association-registry/compare/v8.285.5...v8.286.0) (2026-01-09)
+
+
+### Features
+
+* or-2942 catch any exception while trying to parse cloudwatch ([e58c95e](https://github.com/informatievlaanderen/association-registry/commit/e58c95e9a50b00662a02588365d8effe4774f62c))
+
 ## [8.285.5](https://github.com/informatievlaanderen/association-registry/compare/v8.285.4...v8.285.5) (2026-01-08)
 
 
