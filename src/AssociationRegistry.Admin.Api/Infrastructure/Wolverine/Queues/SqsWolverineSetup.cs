@@ -51,6 +51,7 @@ internal static class SqsWolverineSetup
                .ToSqsQueue(appSettings.KboSyncQueueName)
                .SendRawJsonMessage()
                .MessageBatchMaxDegreeOfParallelism(1)
+               .UseDurableOutbox()
                .MessageBatchSize(1);
     }
 
@@ -61,6 +62,7 @@ internal static class SqsWolverineSetup
 
         options.PublishMessage<ProbeerAdresTeMatchenCommand>()
                .ToSqsQueue(sqsQueueName)
+               .UseDurableOutbox()
                .MessageBatchSize(1);
     }
 
@@ -72,6 +74,7 @@ internal static class SqsWolverineSetup
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
                .ConfigureDeadLetterQueue(sqsDeadLetterQueueName)
+               .UseDurableInbox()
                .MaximumParallelMessages(1);
     }
 
@@ -97,13 +100,15 @@ internal static class SqsWolverineSetup
         options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessageHandler>();
 
         options.PublishMessage<OverkoepelendeGrarConsumerMessage>()
-               .ToSqsQueue(sqsQueueName);
+               .ToSqsQueue(sqsQueueName)
+               .UseDurableOutbox();
 
         options.ListenToSqsQueue(sqsQueueName, configure: configure =>
                 {
                     configure.MaxNumberOfMessages = 1;
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
+               .UseDurableInbox()
                .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, configure: queue =>
                 {
                     queue.DeadLetterQueueName = sqsDeadLetterQueueName;
