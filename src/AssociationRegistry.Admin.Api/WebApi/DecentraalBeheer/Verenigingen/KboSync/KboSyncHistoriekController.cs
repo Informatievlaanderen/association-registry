@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.KboSync;
 
 using Asp.Versioning;
+using Azure.Messaging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Contracts.KboSync;
@@ -86,7 +87,12 @@ public class KboSyncHistoriekController : ApiController
 
         foreach (var kboNummer in kboNummersToSync)
         {
-            await messageBus.SendAsync(new TeSynchroniserenKboNummerMessage(kboNummer));
+            await messageBus.SendAsync(
+                new CloudEvent(nameof(KboSyncHistoriekController), nameof(TeSynchroniserenKboNummerMessage),
+                new TeSynchroniserenKboNummerMessage(kboNummer), typeof(TeSynchroniserenKboNummerMessage)), new DeliveryOptions()
+                {
+                    GroupId = kboNummer,
+                });
         }
 
         return Accepted();
