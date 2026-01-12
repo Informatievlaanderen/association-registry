@@ -1,3 +1,10 @@
+## [8.287.8](https://github.com/informatievlaanderen/association-registry/compare/v8.287.7...v8.287.8) (2026-01-12)
+
+
+### Bug Fixes
+
+* or-2942 dont wrap sync kbo message in cloud event ([069c348](https://github.com/informatievlaanderen/association-registry/commit/069c3482a672be6643559d739305e2c395e221ad))
+
 ## [8.287.7](https://github.com/informatievlaanderen/association-registry/compare/v8.287.6...v8.287.7) (2026-01-12)
 
 
