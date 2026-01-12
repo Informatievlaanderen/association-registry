@@ -18,12 +18,12 @@ internal class CloudEventMessageParser : IMessageParser
 
     public SyncEnvelope ToEnvelope()
     {
-        var kbo = GetString("KboNummer");
-        var insz = GetString("Insz");
-        var overleden = GetBool("Overleden");
+        var kbo = GetString("kboNummer");
+        var insz = GetString("insz");
+        var overleden = GetBool("overleden");
         var parentContext = _cloudEvent.ExtractTraceContext();
         var sourceFileName = _cloudEvent.GetSourceFileName();
-        var correlationId = GetGuid("CorrelationId") ?? Guid.NewGuid();
+        var correlationId = GetGuid("correlationId") ?? Guid.NewGuid();
 
         return SyncEnvelopeFactory.Create(kbo, insz, overleden, parentContext, sourceFileName, correlationId);
     }
