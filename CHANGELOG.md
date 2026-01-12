@@ -1,3 +1,10 @@
+## [8.287.7](https://github.com/informatievlaanderen/association-registry/compare/v8.287.6...v8.287.7) (2026-01-12)
+
+
+### Bug Fixes
+
+* or-2942 send to sqs inline ([5341413](https://github.com/informatievlaanderen/association-registry/commit/53414131a5f45e7b50b3a6ff20eae5dff4671a3f))
+
 ## [8.287.6](https://github.com/informatievlaanderen/association-registry/compare/v8.287.5...v8.287.6) (2026-01-09)
 
 
