@@ -52,7 +52,6 @@ internal static class SqsWolverineSetup
                .InteropWithCloudEvents()
                .MessageBatchMaxDegreeOfParallelism(1)
                .SendInline()
-               .UseDurableOutbox()
                .MessageBatchSize(1);
     }
 
