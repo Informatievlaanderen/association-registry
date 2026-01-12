@@ -1,3 +1,10 @@
+## [8.287.10](https://github.com/informatievlaanderen/association-registry/compare/v8.287.9...v8.287.10) (2026-01-12)
+
+
+### Bug Fixes
+
+* or-2991 set camel casing sync messages ([3a425e8](https://github.com/informatievlaanderen/association-registry/commit/3a425e8a3fb715b36964896180a50a764f37cd10))
+
 ## [8.287.9](https://github.com/informatievlaanderen/association-registry/compare/v8.287.8...v8.287.9) (2026-01-12)
 
 
