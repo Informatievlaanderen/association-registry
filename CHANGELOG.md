@@ -1,3 +1,10 @@
+## [8.287.9](https://github.com/informatievlaanderen/association-registry/compare/v8.287.8...v8.287.9) (2026-01-12)
+
+
+### Bug Fixes
+
+* or-2942 disable durable outbox so wolverine does not batch too much entries in 1 request ([1520d58](https://github.com/informatievlaanderen/association-registry/commit/1520d5813b43a98bcceb73ced5b3db73c577417c))
+
 ## [8.287.8](https://github.com/informatievlaanderen/association-registry/compare/v8.287.7...v8.287.8) (2026-01-12)
 
 
