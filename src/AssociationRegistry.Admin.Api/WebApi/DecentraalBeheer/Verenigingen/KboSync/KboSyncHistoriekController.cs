@@ -87,14 +87,7 @@ public class KboSyncHistoriekController : ApiController
 
         foreach (var kboNummer in kboNummersToSync)
         {
-            await messageBus.SendAsync(
-                CloudEventBuilder.ManualKboSyncQueued()
-                    .WithData(new TeSynchroniserenKboNummerMessage(kboNummer))
-                    .Build(),
-                new DeliveryOptions()
-                {
-                    GroupId = kboNummer,
-                });
+            await messageBus.SendAsync(new TeSynchroniserenKboNummerMessage(kboNummer));
         }
 
         return Accepted();
