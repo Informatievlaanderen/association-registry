@@ -13,10 +13,10 @@ internal class PlainJsonMessageParser : IMessageParser
 
     public SyncEnvelope ToEnvelope()
     {
-        var kbo = GetString("KboNummer");
-        var insz = GetString("Insz");
-        var overleden = GetBool("Overleden");
-        var correlationId = GetGuid("CorrelationId") ?? Guid.NewGuid();
+        var kbo = GetString("kboNummer");
+        var insz = GetString("insz");
+        var overleden = GetBool("overleden");
+        var correlationId = GetGuid("correlationId") ?? Guid.NewGuid();
 
         return SyncEnvelopeFactory.Create(kbo, insz, overleden, null, null, correlationId);
     }

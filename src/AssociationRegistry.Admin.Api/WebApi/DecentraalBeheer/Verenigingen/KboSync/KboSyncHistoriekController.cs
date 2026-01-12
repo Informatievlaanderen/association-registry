@@ -124,10 +124,7 @@ public class KboSyncHistoriekController : ApiController
         if (verenigingMetRechtspersoonlijkheidWerdGeregistreerd is null)
             return NotFound();
 
-        await messageBus.SendAsync(
-            CloudEventBuilder.ManualKboSyncQueued()
-                .WithData(new TeSynchroniserenKboNummerMessage(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer))
-                .Build());
+        await messageBus.SendAsync(new TeSynchroniserenKboNummerMessage(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
 
         return Accepted();
     }

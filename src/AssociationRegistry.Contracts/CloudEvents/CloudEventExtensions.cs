@@ -7,7 +7,10 @@ using CloudNative.CloudEvents.SystemTextJson;
 
 public static class CloudEventExtensions
 {
-    private static readonly JsonEventFormatter JsonFormatter = new();
+    private static readonly JsonEventFormatter JsonFormatter = new(new JsonSerializerOptions()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    }, new JsonDocumentOptions());
 
     /// <summary>
     /// Creates a CloudEvent with W3C distributed tracing context from the current Activity

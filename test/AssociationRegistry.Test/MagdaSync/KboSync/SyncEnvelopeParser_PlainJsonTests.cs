@@ -14,7 +14,7 @@ public class SyncEnvelopeParser_PlainJsonTests
     public void Parse_WhenOnlyKboNummerPresent_ReturnsSyncKbo()
     {
         // Arrange
-        var json = """{ "KboNummer": "0123456789" }""";
+        var json = """{ "kboNummer": "0123456789" }""";
 
         // Act
         var result = SyncEnvelopeParser.Parse(json);
@@ -29,7 +29,7 @@ public class SyncEnvelopeParser_PlainJsonTests
     public void Parse_WhenOnlyInszPresent_ReturnsSyncKsz_WithOverledenDefaultFalse()
     {
         // Arrange
-        var json = """{ "Insz": "06321184845" }""";
+        var json = """{ "insz": "06321184845" }""";
 
         // Act
         var result = SyncEnvelopeParser.Parse(json);
@@ -48,7 +48,7 @@ public class SyncEnvelopeParser_PlainJsonTests
     public void Parse_WhenInszAndOverledenPresent_ReturnsSyncKsz_WithOverledenValue(bool overleden)
     {
         // Arrange
-        var json = $$"""{"Insz": "06321184845","Overleden": {{overleden.ToString().ToLowerInvariant()}} }""";
+        var json = $$"""{"insz": "06321184845","overleden": {{overleden.ToString().ToLowerInvariant()}} }""";
 
         // Act
         var result = SyncEnvelopeParser.Parse(json);
@@ -66,7 +66,7 @@ public class SyncEnvelopeParser_PlainJsonTests
     {
         // Arrange
         // Overleden is a string -> GetBool should return null -> default false
-        var json = """{ "Insz": "06321184845", "Overleden": "false" }""";
+        var json = """{ "insz": "06321184845", "overleden": "false" }""";
 
         // Act
         var result = SyncEnvelopeParser.Parse(json);
@@ -81,7 +81,7 @@ public class SyncEnvelopeParser_PlainJsonTests
     public void Parse_WhenKboNummerAndInszPresent_ReturnsUnknown_WithBothValues()
     {
         // Arrange
-        var json = """{ "KboNummer": "0123456789", "Insz": "06321184845", "Overleden": true}""";
+        var json = """{ "kboNummer": "0123456789", "insz": "06321184845", "overleden": true}""";
 
         // Act
         var result = SyncEnvelopeParser.Parse(json);
@@ -113,7 +113,7 @@ public class SyncEnvelopeParser_PlainJsonTests
     public void Parse_WhenKboNummerIsWhitespaceAndInszPresent_TreatsKboAsMissing_AndReturnsSyncKsz()
     {
         // Arrange
-        var json = """{ "KboNummer": "   ", "Insz": "06321184845" }""";
+        var json = """{ "kboNummer": "   ", "insz": "06321184845" }""";
 
         // Act
         var result = SyncEnvelopeParser.Parse(json);
@@ -129,7 +129,7 @@ public class SyncEnvelopeParser_PlainJsonTests
     public void Parse_WhenBodyIsInvalidJson_ThrowsJsonException()
     {
         // Arrange
-        var invalidJson = """{ "Insz": "06321184845" """;
+        var invalidJson = """{ "insz": "06321184845" """;
 
         // Act + Assert
         Assert.ThrowsAny<JsonException>(() => SyncEnvelopeParser.Parse(invalidJson));
@@ -139,7 +139,7 @@ public class SyncEnvelopeParser_PlainJsonTests
     public void Parse_PlainJson_DoesNotHaveTraceContext()
     {
         // Arrange
-        var json = """{ "KboNummer": "0123456789" }""";
+        var json = """{ "kboNummer": "0123456789" }""";
 
         // Act
         var result = SyncEnvelopeParser.Parse(json);
