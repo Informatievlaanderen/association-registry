@@ -4,6 +4,7 @@ using Adressen;
 using Events;
 using Framework;
 using AssociationRegistry.Vereniging.Bronnen;
+using Bankrekeningen;
 using Events.Factories;
 using Exceptions;
 using Geotags;
@@ -373,6 +374,25 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         WijzigMaatschappelijkeZetelUitKbo(verenigingVolgensMagda.Adres);
         HandleContactgegevens(verenigingVolgensMagda);
         HandleVertegenwoordigers(verenigingVolgensMagda);
+        HandleBankrekeningnummers(verenigingVolgensMagda);
+    }
+
+    private void HandleBankrekeningnummers(VerenigingVolgensKbo verenigingVolgensKbo)
+    {
+        var bankrekeningnummersVolgensKbo = verenigingVolgensKbo
+                                          .Bankrekeningnummers
+                                          .Select(Bankrekeningnummer.CreateFromKbo)
+                                           .DistinctBy(x => x.Iban)
+                                          .ToArray();
+
+        var findToeTeVoegenBankrekeningnummers = State.Bankrekeningnummers.FindToeTeVoegenBankrekeningnummers(bankrekeningnummersVolgensKbo);
+        var findTeVerwijderdenBankrekeningnummers = State.Bankrekeningnummers.FindTeVerwijderdenBankrekeningnummers(bankrekeningnummersVolgensKbo);
+
+        foreach (var v in findToeTeVoegenBankrekeningnummers)
+            AddEvent(EventFactory.BankrekeningnummerWerdToegevoegdVanuitKBO(v));
+
+        foreach (var v in findTeVerwijderdenBankrekeningnummers)
+            AddEvent(EventFactory.BankrekeningnummerWerdVerwijderdUitKBO(v));
     }
 
     private void HandleVertegenwoordigers(VerenigingVolgensKbo verenigingVolgensKbo)
@@ -383,15 +403,17 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
                                           .DistinctBy(x => x.Insz)
                                           .ToArray();
 
-        var diff = VertegenwoordigersKboDiff.BerekenVerschillen(State.Vertegenwoordigers, vertegenwoordigersVolgensKbo);
+        var toeTeVoegenVertegenwoordigers = State.Vertegenwoordigers.FindToeTeVoegenVertegenwoordigersUitKbo(vertegenwoordigersVolgensKbo);
+        var teVerwijderenVertegenwoordigers = State.Vertegenwoordigers.FindTeVerwijderdenVertegenwoordigers(vertegenwoordigersVolgensKbo);
+        var teWijzigenVertegenwoordigers = State.Vertegenwoordigers.FindTeWijzigenVertegenwoordigers(vertegenwoordigersVolgensKbo);
 
-        foreach (var v in diff.Toegevoegd)
+        foreach (var v in toeTeVoegenVertegenwoordigers)
             AddEvent(EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(v));
 
-        foreach (var v in diff.Gewijzigd)
+        foreach (var v in teWijzigenVertegenwoordigers)
             AddEvent(EventFactory.VertegenwoordigerWerdGewijzigdInKBO(v));
 
-        foreach (var v in diff.Verwijderd)
+        foreach (var v in teVerwijderenVertegenwoordigers)
             AddEvent(EventFactory.VertegenwoordigerWerdVerwijderdUitKBO(v));
     }
 

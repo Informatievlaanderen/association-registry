@@ -878,6 +878,18 @@ public record VerenigingState : IHasVersion
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(Bankrekeningnummers.AppendFromEventData(@event)),
         };
 
+    public VerenigingState Apply(BankrekeningnummerWerdToegevoegdVanuitKBO @event)
+        => this with
+        {
+            Bankrekeningnummers = Bankrekeningnummers.Hydrate(Bankrekeningnummers.AppendFromEventData(@event)),
+        };
+
+    public VerenigingState Apply(BankrekeningnummerWerdVerwijderdUitKBO @event)
+        => this with
+        {
+            Bankrekeningnummers = Bankrekeningnummers.Hydrate(Bankrekeningnummers.Without(@event.BankrekeningnummerId)),
+        };
+
     public VerenigingState Apply(KszSyncHeeftVertegenwoordigerBevestigd @event)
     {
         var vertegenwoordiger = Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == @event.VertegenwoordigerId);

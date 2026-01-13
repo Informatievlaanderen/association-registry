@@ -1,13 +1,9 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
-using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.WijzigLidmaatschap;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
-using Framework;
 using global::AutoFixture;
-using Vereniging;
 
 public static class CommandCustomizations
 {

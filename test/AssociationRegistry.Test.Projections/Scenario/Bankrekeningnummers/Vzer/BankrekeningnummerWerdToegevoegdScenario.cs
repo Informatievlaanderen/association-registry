@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Projections.Scenario.Bankrekeningnummers;
+﻿namespace AssociationRegistry.Test.Projections.Scenario.Bankrekeningnummers.Vzer;
 
+using AssociationRegistry.Events;
 using AutoFixture;
-using Events;
 
 public class BankrekeningnummerWerdToegevoegdScenario : ScenarioBase
 {

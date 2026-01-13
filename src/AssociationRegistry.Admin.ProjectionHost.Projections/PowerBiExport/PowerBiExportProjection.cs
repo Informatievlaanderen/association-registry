@@ -1232,12 +1232,42 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Bankrekeningnummers = Enumerable
                                   .Append(document.Bankrekeningnummers, new Bankrekeningnummer(
                                              @event.Data.BankrekeningnummerId,
-                                            @event.Data.IBAN,
+                                            @event.Data.Iban,
                                              @event.Data.GebruiktVoor,
                                              @event.Data.Titularis
                                           ))
                                   .OrderBy(l => l.BankrekeningnummerId)
                                   .ToArray();
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<BankrekeningnummerWerdToegevoegdVanuitKBO> @event, PowerBiExportDocument document)
+    {
+        document.Bankrekeningnummers = Enumerable
+                                  .Append(document.Bankrekeningnummers, new Bankrekeningnummer(
+                                             @event.Data.BankrekeningnummerId,
+                                            @event.Data.Iban,
+                                             string.Empty,
+                                            string.Empty
+                                          ))
+                                  .OrderBy(l => l.BankrekeningnummerId)
+                                  .ToArray();
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<BankrekeningnummerWerdVerwijderdUitKBO> @event, PowerBiExportDocument document)
+    {
+        document.Bankrekeningnummers = document.Bankrekeningnummers
+                                               .Where(x => x.BankrekeningnummerId != @event.Data.BankrekeningnummerId)
+                                               .ToArray();
 
         document.DatumLaatsteAanpassing =
             @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();

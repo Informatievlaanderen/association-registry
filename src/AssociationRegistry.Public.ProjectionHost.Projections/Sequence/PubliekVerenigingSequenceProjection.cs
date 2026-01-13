@@ -282,11 +282,20 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
         IEvent<BankrekeningnummerWerdToegevoegd> e,
         PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
 
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<BankrekeningnummerWerdToegevoegdVanuitKBO> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<BankrekeningnummerWerdVerwijderdUitKBO> e,
+        PubliekVerenigingSequenceDocument doc) => UpdateVersion(e, doc);
+
     public PubliekVerenigingSequenceDocument Apply(IEvent<SubverenigingRelatieWerdGewijzigd> e, PubliekVerenigingSequenceDocument doc)
         => UpdateVersion(e, doc);
 
     public PubliekVerenigingSequenceDocument Apply(IEvent<SubverenigingDetailsWerdenGewijzigd> e, PubliekVerenigingSequenceDocument doc)
         => UpdateVersion(e, doc);
+
 
     private static PubliekVerenigingSequenceDocument UpdateVersion<T>(IEvent<T> e, PubliekVerenigingSequenceDocument doc)
     {

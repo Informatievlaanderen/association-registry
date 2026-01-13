@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Bankrekeningen;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Bankrekeningen.Vzer;
 
-using Admin.Schema.Historiek;
-using Events;
-using Scenario.Bankrekeningnummers;
+using AssociationRegistry.Admin.Schema.Historiek;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Projections.Scenario.Bankrekeningnummers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_BankrekeningWerdToegevoegd(
@@ -19,7 +19,7 @@ public class Given_BankrekeningWerdToegevoegd(
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Bankrekeningnummer met IBAN '{fixture.Scenario.BankrekeningnummerWerdToegevoegd.IBAN}' werd toegevoegd.",
+                                               Beschrijving: $"Bankrekeningnummer met IBAN '{fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban}' werd toegevoegd.",
                                                nameof(BankrekeningnummerWerdToegevoegd),
                                                fixture.Scenario.BankrekeningnummerWerdToegevoegd,
                                                fixture.MetadataInitiator,

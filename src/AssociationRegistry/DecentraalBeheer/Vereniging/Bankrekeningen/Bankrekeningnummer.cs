@@ -1,8 +1,10 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
 
+using Magda.Kbo;
+
 public record Bankrekeningnummer
 {
-    public int Id { get; set; }
+    public int BankrekeningnummerId { get; set; }
     public IbanNummer Iban { get; set; }
     public string GebruiktVoor {get; set;}
     public string Titularis { get; set; }
@@ -10,7 +12,7 @@ public record Bankrekeningnummer
     public static Bankrekeningnummer Create(int nextId, ToeTevoegenBankrekeningnummer bankrekeningnummer)
         => new()
         {
-            Id = nextId,
+            BankrekeningnummerId = nextId,
             Iban = bankrekeningnummer.Iban,
             GebruiktVoor = bankrekeningnummer.GebruiktVoor,
             Titularis = bankrekeningnummer.Titularis,
@@ -19,9 +21,22 @@ public record Bankrekeningnummer
     public static Bankrekeningnummer Hydrate(int id, string iban, string gebruiktVoor, string titularis)
         => new()
         {
-            Id = id,
+            BankrekeningnummerId = id,
             Iban = IbanNummer.Hydrate(iban),
             GebruiktVoor = gebruiktVoor,
             Titularis = titularis,
         };
+
+    public static Bankrekeningnummer CreateFromKbo(BankrekeningnummerVolgensKbo bankrekeningnummer, int id)
+        => new()
+        {
+            BankrekeningnummerId = id,
+            Iban = IbanNummer.Hydrate(bankrekeningnummer.Iban),
+            GebruiktVoor = string.Empty,
+            Titularis = string.Empty,
+        };
+
+    public bool WouldBeEquivalent(Bankrekeningnummer bankrekeningnummer)
+        => this == bankrekeningnummer with { BankrekeningnummerId = BankrekeningnummerId };
+
 }

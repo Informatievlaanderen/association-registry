@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Bankrekeningnummer_Toe.Beheer.Detail;
 
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Be.Vlaanderen.Basisregisters.Utilities;
 using Contracts.JsonLdContext;
 using FluentAssertions;
 using Framework.AlbaHost;
@@ -29,7 +30,7 @@ public class Returns_Detail_With_Toegevoegde_Bankrekeningnummer : End2EndTest<De
             new Bankrekeningnummer()
             {
                 type = JsonLdType.Bankrekeningnummer.Type,
-                id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(_testContext.VCode, _testContext.CommandRequest.Bankrekeningnummer.Iban),
+                id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(_testContext.VCode, 1.ToString()),
                 Iban = _testContext.CommandRequest.Bankrekeningnummer.Iban,
                 GebruiktVoor = _testContext.CommandRequest.Bankrekeningnummer.GebruiktVoor,
                 Titularis = _testContext.CommandRequest.Bankrekeningnummer.Titularis,

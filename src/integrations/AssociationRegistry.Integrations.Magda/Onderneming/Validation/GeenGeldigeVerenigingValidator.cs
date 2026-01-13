@@ -124,7 +124,7 @@ public static class MagdaOndernemingExtensions
         {
             Insz = x.Persoon.INSZ,
             Voornaam = x.Persoon.VoorNaam,
-            Achternaam = x.Persoon.AchterNaam
+            Achternaam = x.Persoon.AchterNaam,
         }).ToArray();
 
 

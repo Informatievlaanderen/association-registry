@@ -852,7 +852,27 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            $"Bankrekeningnummer met IBAN '{@event.Data.IBAN}' werd toegevoegd."
+            $"Bankrekeningnummer met IBAN '{@event.Data.Iban}' werd toegevoegd."
+        );
+    }
+
+   public static void Apply(IEvent<BankrekeningnummerWerdToegevoegdVanuitKBO> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Bankrekeningnummer met IBAN '{@event.Data.Iban}' werd toegevoegd vanuit KBO."
+        );
+    }
+
+   public static void Apply(IEvent<BankrekeningnummerWerdVerwijderdUitKBO> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Bankrekeningnummer met IBAN '{@event.Data.Iban}' werd verwijderd uit KBO."
         );
     }
 

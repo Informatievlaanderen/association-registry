@@ -26,7 +26,8 @@ public class BeheerVerenigingDetailProjector
         {
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging),
+            Verenigingstype =
+                BeheerVerenigingDetailMapper.MapVerenigingstype(DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging),
             Verenigingssubtype = null,
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
@@ -66,7 +67,8 @@ public class BeheerVerenigingDetailProjector
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
 
-    public static BeheerVerenigingDetailDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
+    public static BeheerVerenigingDetailDocument Create(
+        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
@@ -119,8 +121,10 @@ public class BeheerVerenigingDetailProjector
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
             Verenigingstype = new Verenigingstype
             {
-                Code = DecentraalBeheer.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
-                Naam = DecentraalBeheer.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype
+                                       .Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype
+                                       .Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
             },
             Verenigingssubtype = null,
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
@@ -137,7 +141,8 @@ public class BeheerVerenigingDetailProjector
                 Maximumleeftijd = DecentraalBeheer.Vereniging.Doelgroep.StandaardMaximumleeftijd,
             },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
-            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate(),
+            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                                        .FormatAsBelgianDate(),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
             IsDubbelVan = "",
@@ -265,7 +270,7 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenBepaald.Data.Werkingsgebieden
-                                                                   .Select(BeheerVerenigingDetailMapper.MapWerkingsgebied).ToArray();
+                                                                 .Select(BeheerVerenigingDetailMapper.MapWerkingsgebied).ToArray();
     }
 
     public static void Apply(
@@ -280,7 +285,8 @@ public class BeheerVerenigingDetailProjector
         IEvent<WerkingsgebiedenWerdenNietVanToepassing> werkingsgebiedenWerdenNietVanToepasssing,
         BeheerVerenigingDetailDocument document)
     {
-        document.Werkingsgebieden = [
+        document.Werkingsgebieden =
+        [
             new Werkingsgebied
             {
                 JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
@@ -292,7 +298,6 @@ public class BeheerVerenigingDetailProjector
             },
         ];
     }
-
 
     public static void Apply(
         IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
@@ -645,10 +650,10 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.Vertegenwoordigers = document.Vertegenwoordigers
-                                           .Where(
-                                                v => v.VertegenwoordigerId != @event.Data.VertegenwoordigerId)
-                                           .OrderBy(v => v.VertegenwoordigerId)
-                                           .ToArray();
+                                              .Where(
+                                                   v => v.VertegenwoordigerId != @event.Data.VertegenwoordigerId)
+                                              .OrderBy(v => v.VertegenwoordigerId)
+                                              .ToArray();
     }
 
     public static void UpdateMetadata(IEvent e, BeheerVerenigingDetailDocument document)
@@ -904,14 +909,17 @@ public class BeheerVerenigingDetailProjector
                                            .ToArray();
     }
 
-
-    public static void Apply(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbel, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbel,
+        BeheerVerenigingDetailDocument document)
     {
         document.Status = VerenigingStatus.Dubbel;
         document.IsDubbelVan = verenigingWerdGemarkeerdAlsDubbel.Data.VCodeAuthentiekeVereniging;
     }
 
-    public static void Apply(IEvent<VerenigingAanvaarddeDubbeleVereniging> verenigingAanvaardeDubbeleVereniging, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<VerenigingAanvaarddeDubbeleVereniging> verenigingAanvaardeDubbeleVereniging,
+        BeheerVerenigingDetailDocument document)
     {
         document.CorresponderendeVCodes =
             document.CorresponderendeVCodes
@@ -919,19 +927,25 @@ public class BeheerVerenigingDetailProjector
                     .ToArray();
     }
 
-    public static void Apply(IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt,
+        BeheerVerenigingDetailDocument document)
     {
         document.Status = weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.Data.VorigeStatus;
         document.IsDubbelVan = string.Empty;
     }
 
-    public static void Apply(IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> markeringDubbeleVerengingWerdGecorrigeerd, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> markeringDubbeleVerengingWerdGecorrigeerd,
+        BeheerVerenigingDetailDocument document)
     {
         document.Status = markeringDubbeleVerengingWerdGecorrigeerd.Data.VorigeStatus;
         document.IsDubbelVan = string.Empty;
     }
 
-    public static void Apply(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> verenigingAanvaarddeCorrectieDubbeleVereniging, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> verenigingAanvaarddeCorrectieDubbeleVereniging,
+        BeheerVerenigingDetailDocument document)
     {
         document.CorresponderendeVCodes =
             document.CorresponderendeVCodes
@@ -939,7 +953,9 @@ public class BeheerVerenigingDetailProjector
                     .ToArray();
     }
 
-    public static void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event,
+        BeheerVerenigingDetailDocument document)
     {
         document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(DecentraalBeheer.Vereniging.Verenigingstype.VZER);
 
@@ -948,19 +964,25 @@ public class BeheerVerenigingDetailProjector
 
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingDetailDocument document)
     {
-        document.Verenigingssubtype = VerenigingssubtypeCode.FeitelijkeVereniging.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
+        document.Verenigingssubtype =
+            VerenigingssubtypeCode.FeitelijkeVereniging.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
+
         document.SubverenigingVan = null;
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, BeheerVerenigingDetailDocument document)
     {
-        document.Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();;
+        document.Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
+        ;
         document.SubverenigingVan = null;
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, BeheerVerenigingDetailDocument document)
     {
-        document.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();;
+        document.Verenigingssubtype =
+            VerenigingssubtypeCode.Subvereniging.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
+
+        ;
 
         document.SubverenigingVan = new SubverenigingVan()
         {
@@ -992,13 +1014,38 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<BankrekeningnummerWerdToegevoegd> @event, BeheerVerenigingDetailDocument document)
     {
         document.Bankrekeningnummers = document.Bankrekeningnummers.Append(new Bankrekeningnummer()
-        {
-            JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                JsonLdType.Bankrekeningnummer, document.VCode,
-                @event.Data.IBAN),
-            Iban = @event.Data.IBAN,
-            GebruiktVoor = @event.Data.GebruiktVoor,
-            Titularis = @event.Data.Titularis,
-        }).ToArray();
+                                                {
+                                                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                        JsonLdType.Bankrekeningnummer, document.VCode,
+                                                        @event.Data.BankrekeningnummerId.ToString()),
+                                                    Iban = @event.Data.Iban,
+                                                    GebruiktVoor = @event.Data.GebruiktVoor,
+                                                    Titularis = @event.Data.Titularis,
+                                                })
+                                               .OrderBy(x => x.BankrekeningnummerId)
+                                               .ToArray();
+    }
+
+    public static void Apply(IEvent<BankrekeningnummerWerdToegevoegdVanuitKBO> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Bankrekeningnummers = document.Bankrekeningnummers.Append(new Bankrekeningnummer()
+                                                {
+                                                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                        JsonLdType.Bankrekeningnummer, document.VCode,
+                                                        @event.Data.BankrekeningnummerId.ToString()),
+                                                    BankrekeningnummerId = @event.Data.BankrekeningnummerId,
+                                                    Iban = @event.Data.Iban,
+                                                    GebruiktVoor = string.Empty,
+                                                    Titularis = string.Empty,
+                                                })
+                                               .OrderBy(x => x.BankrekeningnummerId)
+                                               .ToArray();
+    }
+
+    public static void Apply(IEvent<BankrekeningnummerWerdVerwijderdUitKBO> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Bankrekeningnummers = document.Bankrekeningnummers
+                                               .Where(x => x.BankrekeningnummerId != @event.Data.BankrekeningnummerId)
+                                               .ToArray();
     }
 }
