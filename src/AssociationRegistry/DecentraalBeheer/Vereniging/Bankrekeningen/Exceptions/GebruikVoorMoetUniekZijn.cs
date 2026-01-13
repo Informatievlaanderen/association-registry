@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class GebruikVoorMoetUniekZijn: DomainException
 {
-    public GebruikVoorMoetUniekZijn() : base(ExceptionMessages.GebruiktVoorMoetUniekZijn)
+    public GebruikVoorMoetUniekZijn() : base(ExceptionMessages.DoelMoetUniekZijn)
     {
     }
 

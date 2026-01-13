@@ -27,7 +27,7 @@ public class Given_BankrekeningnummerWerdToegevoegdVanuitKbo(
 
                 BankrekeningnummerId = fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.BankrekeningnummerId,
                 Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Iban,
-                GebruiktVoor = string.Empty,
+                Doel = string.Empty,
                 Titularis = string.Empty,
             },
         ]);

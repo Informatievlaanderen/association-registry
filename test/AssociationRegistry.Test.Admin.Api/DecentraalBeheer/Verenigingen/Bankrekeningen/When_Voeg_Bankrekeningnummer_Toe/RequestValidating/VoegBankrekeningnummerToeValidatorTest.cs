@@ -101,7 +101,7 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
             Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
             {
                 Iban = "BE68539007547034",
-                GebruiktVoor = "Lidgeld",
+                Doel = "Lidgeld",
                 Titularis = "Frodo Baggins",
             },
         };

@@ -1019,7 +1019,7 @@ public class BeheerVerenigingDetailProjector
                                                         JsonLdType.Bankrekeningnummer, document.VCode,
                                                         @event.Data.BankrekeningnummerId.ToString()),
                                                     Iban = @event.Data.Iban,
-                                                    GebruiktVoor = @event.Data.GebruiktVoor,
+                                                    Doel = @event.Data.Doel,
                                                     Titularis = @event.Data.Titularis,
                                                 })
                                                .OrderBy(x => x.BankrekeningnummerId)
@@ -1035,7 +1035,7 @@ public class BeheerVerenigingDetailProjector
                                                         @event.Data.BankrekeningnummerId.ToString()),
                                                     BankrekeningnummerId = @event.Data.BankrekeningnummerId,
                                                     Iban = @event.Data.Iban,
-                                                    GebruiktVoor = string.Empty,
+                                                    Doel = string.Empty,
                                                     Titularis = string.Empty,
                                                 })
                                                .OrderBy(x => x.BankrekeningnummerId)

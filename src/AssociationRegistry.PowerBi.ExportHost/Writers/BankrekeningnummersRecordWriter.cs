@@ -18,7 +18,7 @@ public class BankrekeningnummersRecordWriter: IRecordWriter<PowerBiExportDocumen
                 csvWriter.WriteRecord(new BankrekeningnummerRecord(
                                           bankrekeningnummer.BankrekeningnummerId,
                                           bankrekeningnummer.Iban,
-                                          bankrekeningnummer.GebruiktVoor,
+                                          bankrekeningnummer.Doel,
                                           bankrekeningnummer.Titularis,
                                           vereniging.VCode));
 

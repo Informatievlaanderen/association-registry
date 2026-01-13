@@ -7,7 +7,7 @@ using Vereniging.Bronnen;
 public record BankrekeningnummerWerdToegevoegd(
     int BankrekeningnummerId,
     string Iban,
-    string GebruiktVoor,
+    string Doel,
     string Titularis) : IEvent
 {
     [IgnoreDataMember]

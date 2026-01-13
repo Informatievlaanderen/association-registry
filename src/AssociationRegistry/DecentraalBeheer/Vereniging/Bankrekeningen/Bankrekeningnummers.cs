@@ -35,7 +35,7 @@ public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
         var bankrekeningnummers = this.Append(toeTeVoegenBankrekeningnummer).ToArray();
 
         Throw<IbanMoetUniekZijn>.If(HasDuplicateIban(bankrekeningnummers));
-        Throw<GebruikVoorMoetUniekZijn>.If(HasDuplicateGebruiktVoor(bankrekeningnummers));
+        Throw<GebruikVoorMoetUniekZijn>.If(HasDuplicateDoel(bankrekeningnummers));
     }
 
     private bool HasDuplicateIban(Bankrekeningnummer[] bankrekeningnummers)
@@ -43,9 +43,9 @@ public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
         return bankrekeningnummers.DistinctBy(x => x.Iban).Count() != bankrekeningnummers.Count();
     }
 
-    private bool HasDuplicateGebruiktVoor(Bankrekeningnummer[] bankrekeningnummers)
+    private bool HasDuplicateDoel(Bankrekeningnummer[] bankrekeningnummers)
     {
-        return bankrekeningnummers.DistinctBy(x => x.GebruiktVoor).Count() != bankrekeningnummers.Count();
+        return bankrekeningnummers.DistinctBy(x => x.Doel).Count() != bankrekeningnummers.Count();
     }
 
     public Bankrekeningnummers Hydrate(IEnumerable<Bankrekeningnummer> bankrekeningnummers)
@@ -105,7 +105,7 @@ public static class BankrekeningnummersEnumerableExtensions
             Bankrekeningnummer.Hydrate(
                 eventData.BankrekeningnummerId,
                 eventData.Iban,
-                eventData.GebruiktVoor,
+                eventData.Doel,
                 eventData.Titularis));
 
     public static IEnumerable<Bankrekeningnummer> AppendFromEventData(this IEnumerable<Bankrekeningnummer> bankrekeningnummers, BankrekeningnummerWerdToegevoegdVanuitKBO eventData)

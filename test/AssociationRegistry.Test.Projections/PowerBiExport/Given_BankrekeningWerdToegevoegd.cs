@@ -17,7 +17,7 @@ public class Given_BankrekeningWerdToegevoegd(PowerBiScenarioFixture<Bankrekenin
             new(
                 fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
                 fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
-                fixture.Scenario.BankrekeningnummerWerdToegevoegd.GebruiktVoor,
+                fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
                 fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis
             ),
         ];

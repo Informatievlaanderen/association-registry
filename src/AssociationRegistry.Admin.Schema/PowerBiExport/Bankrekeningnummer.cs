@@ -3,5 +3,5 @@
 public record Bankrekeningnummer(
     int BankrekeningnummerId,
     string Iban,
-    string GebruiktVoor,
+    string Doel,
     string Titularis);

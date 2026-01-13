@@ -67,7 +67,7 @@ public static class CommandCustomizations
                                                              factory: () => new ToeTevoegenBankrekeningnummer()
                                                              {
                                                                 Iban = fixture.Create<IbanNummer>(),
-                                                                GebruiktVoor = fixture.Create<string>(),
+                                                                Doel = fixture.Create<string>(),
                                                                 Titularis = fixture.Create<string>(),
                                                              })
                                                         .OmitAutoProperties());

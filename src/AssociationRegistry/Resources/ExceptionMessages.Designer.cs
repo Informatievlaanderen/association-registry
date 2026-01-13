@@ -186,6 +186,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;Gebruikt voor&apos; van een bankrekening moet uniek zijn binnen de vereniging..
+        /// </summary>
+        public static string DoelMoetUniekZijn {
+            get {
+                return ResourceManager.GetString("DoelMoetUniekZijn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen..
         /// </summary>
         public static string DuplicateHoofdactiviteit {
@@ -263,15 +272,6 @@ namespace AssociationRegistry.Resources {
         public static string FoutBijProjecteren {
             get {
                 return ResourceManager.GetString("FoutBijProjecteren", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;Gebruikt voor&apos; van een bankrekening moet uniek zijn binnen de vereniging..
-        /// </summary>
-        public static string GebruiktVoorMoetUniekZijn {
-            get {
-                return ResourceManager.GetString("GebruiktVoorMoetUniekZijn", resourceCulture);
             }
         }
         

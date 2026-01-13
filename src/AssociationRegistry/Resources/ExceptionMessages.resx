@@ -310,7 +310,7 @@
   <data name="IbanMoetUniekZijn">
     <value>Het IBAN van een bankrekening moet uniek zijn binnen de vereniging.</value>
   </data>
-  <data name="GebruiktVoorMoetUniekZijn">
+  <data name="DoelMoetUniekZijn">
     <value>'Gebruikt voor' van een bankrekening moet uniek zijn binnen de vereniging.</value>
   </data>
   <data name="IbanFormaatIsOngeldig">

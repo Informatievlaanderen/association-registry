@@ -26,7 +26,7 @@ public class Given_BankrekeningnummerWerdToegevoegd(
                     JsonLdType.Bankrekeningnummer, fixture.Scenario.AggregateId,
                     fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId.ToString()),
                 Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
-                GebruiktVoor = fixture.Scenario.BankrekeningnummerWerdToegevoegd.GebruiktVoor,
+                Doel = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
                 Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
             },
         ]);

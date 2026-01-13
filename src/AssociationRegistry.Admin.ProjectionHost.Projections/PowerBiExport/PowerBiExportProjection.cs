@@ -1233,7 +1233,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                   .Append(document.Bankrekeningnummers, new Bankrekeningnummer(
                                              @event.Data.BankrekeningnummerId,
                                             @event.Data.Iban,
-                                             @event.Data.GebruiktVoor,
+                                             @event.Data.Doel,
                                              @event.Data.Titularis
                                           ))
                                   .OrderBy(l => l.BankrekeningnummerId)
