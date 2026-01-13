@@ -828,4 +828,24 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse BankrekeningnummerWerdToegevoegdVanuitKBO(BankrekeningnummerWerdToegevoegdVanuitKBO @event)
+        => new()
+        {
+            Beschrijving = $"Bankrekeningnummer met IBAN '{@event.Iban}' werd toegevoegd vanuit KBO.",
+            Gebeurtenis = nameof(Events.BankrekeningnummerWerdToegevoegdVanuitKBO),
+            Data = new BankrekeningnummerWerdToegevoegdVanuitKBO(@event.BankrekeningnummerId, @event.Iban),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse BankrekeningnummerWerdVerwijderdUitKBO(BankrekeningnummerWerdVerwijderdUitKBO @event)
+        => new()
+        {
+            Beschrijving = $"Bankrekeningnummer met IBAN '{@event.Iban}' werd verwijderd uit KBO.",
+            Gebeurtenis = nameof(Events.BankrekeningnummerWerdVerwijderdUitKBO),
+            Data = new BankrekeningnummerWerdVerwijderdUitKBO(@event.BankrekeningnummerId, @event.Iban),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }

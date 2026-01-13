@@ -2,9 +2,8 @@
 
 using Admin.Schema.PowerBiExport;
 using Events;
-using Formats;
 using KellermanSoftware.CompareNetObjects;
-using Scenario.Bankrekeningnummers;
+using Scenario.Bankrekeningnummers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_BankrekeningWerdToegevoegd(PowerBiScenarioFixture<BankrekeningnummerWerdToegevoegdScenario> fixture)
@@ -17,7 +16,7 @@ public class Given_BankrekeningWerdToegevoegd(PowerBiScenarioFixture<Bankrekenin
         [
             new(
                 fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-                fixture.Scenario.BankrekeningnummerWerdToegevoegd.IBAN,
+                fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                 fixture.Scenario.BankrekeningnummerWerdToegevoegd.GebruiktVoor,
                 fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis
             ),

@@ -8,6 +8,7 @@ using AssociationRegistry.GemeentenaamVerrijking;
 using AssociationRegistry.Grar.Models;
 using Be.Vlaanderen.Basisregisters.Utilities;
 using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using Grar.AdresMatch;
 using Magda.Kbo;
@@ -405,6 +406,13 @@ public static class EventFactory
                naam,
                locaties.Select(Locatie).ToArray(),
                gedetecteerdeDubbels.Select(DuplicaatVereniging).ToArray());
+
+    public static BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO(Bankrekeningnummer bankrekeningnummer)
+        => new(bankrekeningnummer.BankrekeningnummerId, bankrekeningnummer.Iban.Value);
+
+    public static BankrekeningnummerWerdVerwijderdUitKBO BankrekeningnummerWerdVerwijderdUitKBO(Bankrekeningnummer bankrekeningnummer)
+        => new(bankrekeningnummer.BankrekeningnummerId, bankrekeningnummer.Iban.Value);
+
 
     private static Registratiedata.DuplicateVereniging DuplicaatVereniging(DuplicaatVereniging duplicaatVereniging)
         => new(

@@ -13,6 +13,9 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
+/// <summary>
+/// <see cref="wiremock/__files/GeefOndernemingResponses/fallback.xml"/>
+/// </summary>
 public class RegistreerVerenigingUitKboRequestFactory : ITestRequestFactory<RegistreerVerenigingUitKboRequest>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";

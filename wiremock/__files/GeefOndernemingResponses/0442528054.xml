@@ -123,6 +123,20 @@
                     <Code>017</Code>
                   </Rechtsvorm>
                 </Rechtsvormen>
+                <Bankrekeningen>
+                  <Bankrekeningnummer DatumBegin="1930-12-01">
+                    <Rekeningnummer xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">000 1111117 96</Rekeningnummer>
+                    <Doel xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">003</Doel>
+                    <IBAN xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">BE68539007547034</IBAN>
+                    <BIC xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">ABCABE99</BIC>
+                  </Bankrekeningnummer>
+                  <Bankrekeningnummer DatumBegin="1930-12-02" DatumEinde="2000-02-01">
+                    <Rekeningnummer xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">999 1111117 96</Rekeningnummer>
+                    <Doel xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">003</Doel>
+                    <IBAN xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">BE68539007547555</IBAN>
+                    <BIC xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">ABCABE11</BIC>
+                  </Bankrekeningnummer>
+                </Bankrekeningen>
                 <Functies>
                   <Functie DatumBegin="2009-03-20">
                     <FunctiehouderVan>0883632089</FunctiehouderVan>

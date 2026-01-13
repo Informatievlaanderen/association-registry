@@ -4,6 +4,7 @@ using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
 using Contracts.JsonLdContext;
 using Scenario.Bankrekeningnummers;
+using Scenario.Bankrekeningnummers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_BankrekeningnummerWerdToegevoegd(
@@ -23,8 +24,8 @@ public class Given_BankrekeningnummerWerdToegevoegd(
             {
                 JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                     JsonLdType.Bankrekeningnummer, fixture.Scenario.AggregateId,
-                    fixture.Scenario.BankrekeningnummerWerdToegevoegd.IBAN),
-                Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.IBAN,
+                    fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId.ToString()),
+                Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                 GebruiktVoor = fixture.Scenario.BankrekeningnummerWerdToegevoegd.GebruiktVoor,
                 Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
             },

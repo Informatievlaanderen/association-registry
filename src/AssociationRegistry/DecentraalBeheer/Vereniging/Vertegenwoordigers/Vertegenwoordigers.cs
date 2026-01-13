@@ -131,6 +131,47 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 
 public static class VertegenwoordigerEnumerableExtensions
 {
+    public static Vertegenwoordiger[] FindToeTeVoegenVertegenwoordigersUitKbo(
+        this Vertegenwoordigers source,
+        Vertegenwoordiger[] vertegenwoordigersUitKbo)
+    {
+        var nextId = source.NextId;
+
+        var toeTeVoegenVertegenwoordigers = new List<Vertegenwoordiger>();
+
+        foreach (var v in vertegenwoordigersUitKbo)
+        {
+            if (!source.Select(x => x.Insz).Contains(v.Insz))
+                toeTeVoegenVertegenwoordigers.Add(v with
+                {
+                    VertegenwoordigerId = nextId++,
+                });
+        }
+
+        return toeTeVoegenVertegenwoordigers.ToArray();
+    }
+
+    public static Vertegenwoordiger[] FindTeWijzigenVertegenwoordigers(
+        this Vertegenwoordigers source,
+        Vertegenwoordiger[] vertegenwoordigersUitKbo)
+    {
+        var teWijzigenVertegenwoordigers = vertegenwoordigersUitKbo
+                        .Where(kbo => source.Select(x => x.Insz).Contains(kbo.Insz))
+                        .Select(kbo => kbo with { VertegenwoordigerId = source.Single(x => x.Insz == kbo.Insz).VertegenwoordigerId })
+                        .ToList();
+
+        return teWijzigenVertegenwoordigers
+                                          .Where(nieuw => !nieuw.WouldBeEquivalent(source.Single(x => x.Insz == nieuw.Insz)))
+                                          .ToArray();
+    }
+
+    public static IEnumerable<Vertegenwoordiger> FindTeVerwijderdenVertegenwoordigers(
+        this Vertegenwoordigers source,
+        Vertegenwoordiger[] vertegenwoordigersUitKbo)
+    {
+        return source.Where(s => !vertegenwoordigersUitKbo.Select(x => x.Insz).Contains(s.Insz));
+    }
+
     public static IEnumerable<Vertegenwoordiger> Without(this IEnumerable<Vertegenwoordiger> source, Vertegenwoordiger vertegenwoordiger)
     {
         return source.Where(c => c.VertegenwoordigerId != vertegenwoordiger.VertegenwoordigerId);

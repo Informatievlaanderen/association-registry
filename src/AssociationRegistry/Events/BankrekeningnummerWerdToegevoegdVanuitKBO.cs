@@ -4,11 +4,9 @@
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
-public record BankrekeningnummerWerdToegevoegd(
+public record BankrekeningnummerWerdToegevoegdVanuitKBO(
     int BankrekeningnummerId,
-    string Iban,
-    string GebruiktVoor,
-    string Titularis) : IEvent
+    string Iban) : IEvent
 {
     [IgnoreDataMember]
     public Bron Bron
