@@ -1,3 +1,20 @@
+# [8.288.0](https://github.com/informatievlaanderen/association-registry/compare/v8.287.10...v8.288.0) (2026-01-13)
+
+
+### Bug Fixes
+
+* or-2978 make sure validation error messages properties have the correct casing ([58dabb8](https://github.com/informatievlaanderen/association-registry/commit/58dabb86a3dd962189b37a33ea14d7a8c66db7a7))
+
+
+### Features
+
+* or-2978 add domain validation for iban ([bd56c89](https://github.com/informatievlaanderen/association-registry/commit/bd56c89c42c93d8a1a0c5133d2cbd7fcf01a4412))
+* or-2978 add request validations for voeg bankrekening toe ([c2f0200](https://github.com/informatievlaanderen/association-registry/commit/c2f0200e752d1c9c49d5f0ad682442f931bb4274))
+* or-2978 finish flow voeg bankrekeningnummer toe ([6a83706](https://github.com/informatievlaanderen/association-registry/commit/6a8370656c6cab2145ee434e8eaec5581c8e88a9))
+* or-2978 implement bankrekeningwerdtoegevoegd in projections ([83c5e7b](https://github.com/informatievlaanderen/association-registry/commit/83c5e7b4e7d305d85dc9448b2fb4a4f2eebe9edd))
+* or-2978 implement voeg bankrekening toe in domain ([707e481](https://github.com/informatievlaanderen/association-registry/commit/707e481c0899b595cc436009e2e472ea20456bbe))
+* or-2979 implement bankrekeningnummers in beheer detail ([d4c0190](https://github.com/informatievlaanderen/association-registry/commit/d4c01907ece80ad8b2f7c55662a7f7787e68960a))
+
 ## [8.287.10](https://github.com/informatievlaanderen/association-registry/compare/v8.287.9...v8.287.10) (2026-01-12)
 
 
