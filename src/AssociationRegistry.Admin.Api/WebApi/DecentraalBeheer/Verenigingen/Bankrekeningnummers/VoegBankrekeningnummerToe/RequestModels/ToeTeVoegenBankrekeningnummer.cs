@@ -13,8 +13,8 @@ public class ToeTeVoegenBankrekeningnummer
     public string Iban { get; set; } = null!;
 
     /// <summary>Waar deze rekening voor gebruikt wordt</summary>
-    [DataMember (Name = "gebruiktVoor")]
-    public string GebruiktVoor { get; set; } = null!;
+    [DataMember (Name = "doel")]
+    public string Doel { get; set; } = null!;
 
     /// <summary>De titularis van het bankrekeningnummer</summary>
     [DataMember (Name = "titularis")]

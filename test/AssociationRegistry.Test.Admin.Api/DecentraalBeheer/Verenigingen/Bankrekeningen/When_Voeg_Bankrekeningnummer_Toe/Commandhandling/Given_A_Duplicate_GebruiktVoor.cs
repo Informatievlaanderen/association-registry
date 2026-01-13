@@ -15,14 +15,14 @@ using FluentAssertions;
 using Resources;
 using Xunit;
 
-public class Given_A_Duplicate_GebruiktVoor
+public class Given_A_Duplicate_Doel
 {
     private readonly VoegBankrekeningnummerToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly BankrekeningnummerWerdToegevoegdScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
-    public Given_A_Duplicate_GebruiktVoor()
+    public Given_A_Duplicate_Doel()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -40,12 +40,12 @@ public class Given_A_Duplicate_GebruiktVoor
             VCode = _scenario.VCode,
             Bankrekeningnummer = _fixture.Create<ToeTevoegenBankrekeningnummer>() with
             {
-                GebruiktVoor = _scenario.BankrekeningnummerWerdToegevoegd.GebruiktVoor,
+                Doel = _scenario.BankrekeningnummerWerdToegevoegd.Doel,
             }
         };
 
         var exception = await Assert.ThrowsAsync<GebruikVoorMoetUniekZijn>(async () =>  await _commandHandler.Handle(new CommandEnvelope<VoegBankrekeningnummerToeCommand>(command, _fixture.Create<CommandMetadata>())));
 
-        exception.Message.Should().Be(ExceptionMessages.GebruiktVoorMoetUniekZijn);
+        exception.Message.Should().Be(ExceptionMessages.DoelMoetUniekZijn);
     }
 }

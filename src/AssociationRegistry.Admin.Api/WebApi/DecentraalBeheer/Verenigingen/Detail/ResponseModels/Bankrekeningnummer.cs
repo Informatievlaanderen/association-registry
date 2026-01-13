@@ -22,8 +22,8 @@ public class Bankrekeningnummer
     /// <summary>
     /// Waar deze rekening voor gebruikt wordt
     /// </summary>
-    [DataMember(Name = "GebruiktVoor")]
-    public string GebruiktVoor { get; set; } = null!;
+    [DataMember(Name = "Doel")]
+    public string Doel { get; set; } = null!;
 
     /// <summary>
     /// De titularis van het bankrekeningnummer

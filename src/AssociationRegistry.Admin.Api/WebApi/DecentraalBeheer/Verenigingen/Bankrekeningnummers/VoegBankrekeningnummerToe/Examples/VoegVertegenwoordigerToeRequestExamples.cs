@@ -11,7 +11,7 @@ public class VoegBankrekeningnummerToeRequestExamples : IExamplesProvider<VoegBa
             Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer
             {
                Iban = "BE68539007547034",
-               GebruiktVoor = "Lidgeld",
+               Doel = "Lidgeld",
                Titularis = "Frodo Baggings",
             },
         };

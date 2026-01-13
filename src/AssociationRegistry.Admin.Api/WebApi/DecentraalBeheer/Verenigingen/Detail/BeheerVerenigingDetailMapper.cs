@@ -204,7 +204,7 @@ public class BeheerVerenigingDetailMapper
             id = bankrekeningnummer.JsonLdMetadata.Id,
             type = bankrekeningnummer.JsonLdMetadata.Type,
             Iban = bankrekeningnummer.Iban,
-            GebruiktVoor = bankrekeningnummer.GebruiktVoor,
+            Doel = bankrekeningnummer.Doel,
             Titularis = bankrekeningnummer.Titularis,
         };
 

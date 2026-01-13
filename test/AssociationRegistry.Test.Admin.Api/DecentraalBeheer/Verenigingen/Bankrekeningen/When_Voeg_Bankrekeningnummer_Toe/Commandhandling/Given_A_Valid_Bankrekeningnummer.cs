@@ -40,7 +40,7 @@ public class Given_A_Valid_Bankrekeningnummer
             new BankrekeningnummerWerdToegevoegd(
                 1,
                 command.Bankrekeningnummer.Iban.Value,
-                command.Bankrekeningnummer.GebruiktVoor,
+                command.Bankrekeningnummer.Doel,
                 command.Bankrekeningnummer.Titularis
             )
         );

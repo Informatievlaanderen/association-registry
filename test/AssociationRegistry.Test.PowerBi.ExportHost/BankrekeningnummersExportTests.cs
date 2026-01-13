@@ -51,14 +51,14 @@ public class BankrekeningnummersExportTests
     private static string GetExpectedResult(IEnumerable<PowerBiExportDocument> docs)
     {
         var stringBuilder = new StringBuilder();
-        stringBuilder.Append("bankrekeningnummerId,iban,gebruiktVoor,titularis,vCode\r\n");
+        stringBuilder.Append("bankrekeningnummerId,iban,doel,titularis,vCode\r\n");
 
         foreach (var doc in docs)
         {
             foreach (var bankrekeningnummer in doc.Bankrekeningnummers)
             {
                 stringBuilder.Append(
-                    $"{bankrekeningnummer.BankrekeningnummerId},{bankrekeningnummer.Iban},{bankrekeningnummer.GebruiktVoor},{bankrekeningnummer.Titularis},{doc.VCode}\r\n");
+                    $"{bankrekeningnummer.BankrekeningnummerId},{bankrekeningnummer.Iban},{bankrekeningnummer.Doel},{bankrekeningnummer.Titularis},{doc.VCode}\r\n");
             }
         }
 
