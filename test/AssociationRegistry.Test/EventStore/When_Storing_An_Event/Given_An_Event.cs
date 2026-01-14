@@ -3,6 +3,9 @@ namespace AssociationRegistry.Test.When_Storing_An_Event;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.Framework;
+using AutoFixture;
+using Common.AutoFixture;
+using Events;
 using EventStore.ConflictResolution;
 using FluentAssertions;
 using JasperFx.Events;
@@ -16,6 +19,7 @@ using NodaTime;
 using NodaTime.Text;
 using Persoonsgegevens;
 using Xunit;
+using IEvent = JasperFx.Events.IEvent;
 
 public class Given_An_Event
 {
