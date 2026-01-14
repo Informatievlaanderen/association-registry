@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe;
 
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Bankrekeningen.IbanBic;
 using FluentValidation;
 using Infrastructure.WebApi.Validation;
 using RequestModels;
-using System.Text.RegularExpressions;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class VoegBankrekeningnummerToeValidator : AbstractValidator<VoegBankrekeningnummerToeRequest>
@@ -39,6 +39,24 @@ public class VoegBankrekeningnummerToeValidator : AbstractValidator<VoegBankreke
                    .Must(x => IbanUtils.IsValid(x, out _))
                    .WithMessage("Het opgegeven 'IBAN' is geen geldig Belgisch IBAN.");
             });
+
+            When(x => !string.IsNullOrWhiteSpace(x.Titularis), () =>
+            {
+                RuleFor(x => x.Titularis)
+                   .MustNotBeMoreThanAllowedMaxLength(Bankrekeningnummer.MaxLengthTitularis,
+                                                      $"Titularis mag niet langer dan {Bankrekeningnummer.MaxLengthTitularis} karakters zijn.")
+                   .MustNotContainHtml();
+            });
+
+            When(x => !string.IsNullOrWhiteSpace(x.Doel), () =>
+            {
+                RuleFor(x => x.Doel)
+                   .MustNotBeMoreThanAllowedMaxLength(Bankrekeningnummer.MaxLengthDoel,
+                                                      $"Doel mag niet langer dan {Bankrekeningnummer.MaxLengthDoel} karakters zijn.")
+                   .MustNotContainHtml();
+            });
+
+
         }
     }
 }

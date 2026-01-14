@@ -2,8 +2,11 @@
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
 using FluentValidation.TestHelper;
 using Framework;
+using Microsoft.AspNetCore.Http;
+using Resources;
 using Xunit;
 
 public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
@@ -149,5 +152,87 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Titularis)
               .WithErrorMessage("'titularis' is verplicht.");
+    }
+
+    [Fact]
+    public void With_Titularis_Exceeds_Max_Lenth_Then_Has_validation_error()
+    {
+        var validator = new VoegBankrekeningnummerToeValidator();
+
+        var request = new VoegBankrekeningnummerToeRequest()
+        {
+            Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
+            {
+                Iban = "BE68539007547034",
+                Titularis = new string('A', Bankrekeningnummer.MaxLengthTitularis + 1),
+            },
+        };
+
+        var result = validator.TestValidate(request);
+
+        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Titularis)
+              .WithErrorMessage("Titularis mag niet langer dan 128 karakters zijn.");
+    }
+
+    [Fact]
+    public void With_Doel_Exceeds_Max_Lenth_Then_Has_validation_error()
+    {
+        var validator = new VoegBankrekeningnummerToeValidator();
+
+        var request = new VoegBankrekeningnummerToeRequest()
+        {
+            Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
+            {
+                Iban = "BE68539007547034",
+                Doel = new string('A', Bankrekeningnummer.MaxLengthDoel + 1),
+            },
+        };
+
+        var result = validator.TestValidate(request);
+
+        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Doel)
+              .WithErrorMessage("Doel mag niet langer dan 128 karakters zijn.");
+    }
+
+    [Fact]
+    public void Has_Validation_Errors_When_Html_Detected_In_Doel()
+    {
+        var validator = new VoegBankrekeningnummerToeValidator();
+
+        var request = new VoegBankrekeningnummerToeRequest()
+        {
+            Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
+            {
+                Iban = "BE68539007547034",
+                Doel = "<p>Something something</p>",
+            },
+        };
+
+        var result = validator.TestValidate(request);
+
+        result.ShouldHaveValidationErrorFor(r => r.Bankrekeningnummer.Doel)
+              .WithErrorCode(StatusCodes.Status400BadRequest.ToString())
+              .WithErrorMessage(ExceptionMessages.UnsupportedContent);
+    }
+
+    [Fact]
+    public void Has_Validation_Errors_When_Html_Detected_In_Titularis()
+    {
+        var validator = new VoegBankrekeningnummerToeValidator();
+
+        var request = new VoegBankrekeningnummerToeRequest()
+        {
+            Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
+            {
+                Iban = "BE68539007547034",
+                Titularis = "<p>Something something</p>",
+            },
+        };
+
+        var result = validator.TestValidate(request);
+
+        result.ShouldHaveValidationErrorFor(r => r.Bankrekeningnummer.Titularis)
+              .WithErrorCode(StatusCodes.Status400BadRequest.ToString())
+              .WithErrorMessage(ExceptionMessages.UnsupportedContent);
     }
 }

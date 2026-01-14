@@ -4,6 +4,9 @@ using Magda.Kbo;
 
 public record Bankrekeningnummer
 {
+    public const int MaxLengthDoel = 128;
+    public const int MaxLengthTitularis = 128;
+
     public int BankrekeningnummerId { get; set; }
     public IbanNummer Iban { get; set; }
     public string Doel {get; set;}
