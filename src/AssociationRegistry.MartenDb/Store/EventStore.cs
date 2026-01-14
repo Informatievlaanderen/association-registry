@@ -102,6 +102,10 @@ public class EventStore : IEventStore
             {
                 _session.EjectAllPendingChanges();
 
+                processedEvents = await _persoonsgegevensProcessor.ProcessEvents(
+                    aggregateId,
+                    events);
+
                 var streamAction = _session.Events.Append(aggregateId, aggregateVersion + processedEvents.Length + eventsDiff.Count,
                                                           processedEvents);
 
