@@ -14,7 +14,7 @@ public class ToeTeVoegenBankrekeningnummer
 
     /// <summary>Waar deze rekening voor gebruikt wordt</summary>
     [DataMember (Name = "doel")]
-    public string Doel { get; set; } = null!;
+    public string? Doel { get; set; } = null!;
 
     /// <summary>De titularis van het bankrekeningnummer</summary>
     [DataMember (Name = "titularis")]
