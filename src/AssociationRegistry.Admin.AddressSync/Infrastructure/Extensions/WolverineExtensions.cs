@@ -27,9 +27,6 @@ public static class WolverineExtensions
                 options.ApplicationAssembly = typeof(Program).Assembly;
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
 
-                //TODO: static
-                options.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
-
                 ConfigurePostgresQueues(options, wolverineSchema, postgreSqlOptions);
             });
     }

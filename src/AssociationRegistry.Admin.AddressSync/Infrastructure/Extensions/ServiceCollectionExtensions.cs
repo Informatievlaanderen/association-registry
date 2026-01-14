@@ -24,7 +24,8 @@ using Wolverine.Marten;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddOpenTelemetryServices(this IServiceCollection services)
+    public static IServiceCollection AddOpenTelemetryServices(
+        this IServiceCollection services)
     {
         var collectorUrl = CollectorUrl;
         var configureResource = ConfigureResource();
@@ -41,12 +42,11 @@ public static class ServiceCollectionExtensions
                         .SetSampler(new AlwaysOnSampler())
                         .AddHttpClientInstrumentation()
                         .AddNpgsql()
-                        .AddOtlpExporter(
-                             options =>
-                             {
-                                 options.Protocol = OtlpExportProtocol.Grpc;
-                                 options.Endpoint = new Uri(collectorUrl);
-                             });
+                        .AddOtlpExporter(options =>
+                         {
+                             options.Protocol = OtlpExportProtocol.Grpc;
+                             options.Endpoint = new Uri(collectorUrl);
+                         });
 
                      builder.AddOtlpExporter(otlpOptions =>
                      {
@@ -78,52 +78,55 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton(postgreSqlOptions);
 
-        var martenConfiguration = services.AddMarten(
-                                               serviceProvider =>
-                                               {
-                                                   var opts = new StoreOptions();
-                                                   opts.Connection(postgreSqlOptions.GetConnectionString());
+        var martenConfiguration = services
+                                 .CritterStackDefaults(options =>
+                                  {
+                                      options.Development.GeneratedCodeMode = TypeLoadMode.Static;
+                                      options.Production.GeneratedCodeMode = TypeLoadMode.Static;
+                                      options.Development.AssertAllPreGeneratedTypesExist = true;
+                                      options.Production.AssertAllPreGeneratedTypesExist = true;
+                                      options.ApplicationAssembly = typeof(Program).Assembly;
+                                      options.GeneratedCodeOutputPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Internal", "Generated");
+                                  })
+                                 .AddMarten(serviceProvider =>
+                                  {
+                                      var opts = new StoreOptions();
+                                      opts.Connection(postgreSqlOptions.GetConnectionString());
 
-                                                   opts.UseNewtonsoftForSerialization(configure: settings =>
-                                                   {
-                                                       settings.DateParseHandling = DateParseHandling.None;
-                                                       // TODO: use common marten project
-                                                       // settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                                                       // settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                                                   });
+                                      opts.UseNewtonsoftForSerialization(
+                                          configure: settings =>
+                                          {
+                                              settings.DateParseHandling = DateParseHandling.None;
+                                              // TODO: use common marten project
+                                              // settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                                              // settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                                          });
 
-                                                   opts.Events.StreamIdentity = StreamIdentity.AsString;
+                                      opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                                                   opts.Events.MetadataConfig.EnableAll();
-                                                   opts.AutoCreateSchemaObjects = AutoCreate.None;
-                                                   opts.UpcastEvents(() => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession());
+                                      opts.Events.MetadataConfig.EnableAll();
+                                      opts.AutoCreateSchemaObjects = AutoCreate.None;
 
-                                                   opts.RegisterDocumentType<LocatieLookupDocument>();
+                                      opts.UpcastEvents(() => serviceProvider
+                                                             .GetRequiredService<IDocumentStore>()
+                                                             .QuerySession());
 
-                                                   opts.Schema.For<LocatieLookupDocument>().UseNumericRevisions(true)
-                                                       .UseOptimisticConcurrency(false);
+                                      opts.RegisterDocumentType<LocatieLookupDocument>();
 
-                                                   if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
-                                                   {
-                                                       opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-                                                   }
-                                                   else
-                                                   {
-                                                       opts.GeneratedCodeMode = TypeLoadMode.Auto;
-                                                       opts.SourceCodeWritingEnabled = false;
-                                                   }
+                                      opts.Schema.For<LocatieLookupDocument>().UseNumericRevisions(true)
+                                          .UseOptimisticConcurrency(false);
 
-                                                   return opts;
-                                               }).IntegrateWithWolverine(integration =>
-                                           {
-                                               integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
-                                               integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
+                                      return opts;
+                                  }).IntegrateWithWolverine(integration =>
+                                  {
+                                      integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
+                                      integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
 
-                                               integration.AutoCreate = AutoCreate.None;
-                                           })
-                                          .UseLightweightSessions();
+                                      integration.AutoCreate = AutoCreate.None;
+                                  })
+                                 .UseLightweightSessions();
 
-        return services;
+        return martenConfiguration.Services;
     }
 
     public static string CollectorUrl
@@ -144,8 +147,9 @@ public static class ServiceCollectionExtensions
                                                              new Dictionary<string, object>
                                                              {
                                                                  ["deployment.environment"] =
-                                                                     Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
-                                                                               ?.ToLowerInvariant()
+                                                                     Environment.GetEnvironmentVariable(
+                                                                             "ASPNETCORE_ENVIRONMENT")
+                                                                       ?.ToLowerInvariant()
                                                                   ?? "unknown",
                                                              });
 

@@ -38,10 +38,10 @@ public static class Program
 
         var host =
             Host.CreateDefaultBuilder()
-                .UseContentRoot(AppContext.BaseDirectory)
                 .ConfigureAppConfiguration(
                      (context, builder) =>
                          builder
+                            .SetBasePath(AppContext.BaseDirectory)
                             .AddJsonFile("appsettings.json")
                             .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName.ToLowerInvariant()}.json",
                                          optional: true,
