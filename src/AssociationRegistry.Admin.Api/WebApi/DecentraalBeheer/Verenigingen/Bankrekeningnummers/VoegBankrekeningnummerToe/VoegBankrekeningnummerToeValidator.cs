@@ -32,11 +32,7 @@ public class VoegBankrekeningnummerToeValidator : AbstractValidator<VoegBankreke
             When(x => !string.IsNullOrWhiteSpace(x.Iban), () =>
             {
                 RuleFor(x => x.Iban)
-                   .Matches(@"^BE\d{14}$")
-                   .WithMessage("Het opgegeven 'IBAN' is geen geldig Belgisch IBAN.");
-
-                RuleFor(x => x.Iban)
-                   .Must(x => IbanUtils.IsValid(x, out _))
+                   .Must(IbanNummer.IsValid)
                    .WithMessage("Het opgegeven 'IBAN' is geen geldig Belgisch IBAN.");
             });
 

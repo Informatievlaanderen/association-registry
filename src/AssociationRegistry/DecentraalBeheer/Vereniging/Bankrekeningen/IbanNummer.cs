@@ -5,6 +5,7 @@ using IbanBic;
 
 public record IbanNummer
 {
+    private const string BelgianIbanPrefix = "BE";
     public string Value { get; }
 
     private IbanNummer(string value)
@@ -14,9 +15,10 @@ public record IbanNummer
 
     public static IbanNummer Create(string iban)
     {
-        var sanitezedIban = Sanitize(iban);
-        if(!IbanUtils.IsValid(sanitezedIban, out _))
+        if (!IsValid(iban))
             throw new IbanFormaatIsOngeldig();
+
+        var sanitezedIban = Sanitize(iban);
 
         return new IbanNummer(sanitezedIban);
     }
@@ -30,4 +32,11 @@ public record IbanNummer
     private static string Sanitize(string insz)
         => insz.Replace(oldValue: ".", string.Empty)
                .Replace(oldValue: " ", string.Empty);
+
+    public static bool IsValid(string iban)
+        => HasBelgianPrefix(iban)
+        && IbanUtils.IsValid(Sanitize(iban), out _);
+
+    private static bool HasBelgianPrefix(string sanitezedIban)
+        => sanitezedIban.StartsWith(BelgianIbanPrefix);
 }
