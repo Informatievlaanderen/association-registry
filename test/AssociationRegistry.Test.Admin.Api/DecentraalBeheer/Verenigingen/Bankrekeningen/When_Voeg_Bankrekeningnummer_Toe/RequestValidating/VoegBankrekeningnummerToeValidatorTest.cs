@@ -110,4 +110,44 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
 
         result.ShouldNotHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer);
     }
+
+    [Fact]
+    public void With_Titularis_Empty_Then_Has_ValidationError()
+    {
+        var validator = new VoegBankrekeningnummerToeValidator();
+
+        var request = new VoegBankrekeningnummerToeRequest()
+        {
+            Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
+            {
+                Iban = "BE68539007547034",
+                Titularis = string.Empty,
+            },
+        };
+
+        var result = validator.TestValidate(request);
+
+        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Titularis)
+              .WithErrorMessage("'titularis' mag niet leeg zijn.");
+    }
+
+    [Fact]
+    public void With_Titularis_Null_Then_Has_ValidationError()
+    {
+        var validator = new VoegBankrekeningnummerToeValidator();
+
+        var request = new VoegBankrekeningnummerToeRequest()
+        {
+            Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
+            {
+                Iban = "BE68539007547034",
+                Titularis = null,
+            },
+        };
+
+        var result = validator.TestValidate(request);
+
+        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Titularis)
+              .WithErrorMessage("'titularis' is verplicht.");
+    }
 }

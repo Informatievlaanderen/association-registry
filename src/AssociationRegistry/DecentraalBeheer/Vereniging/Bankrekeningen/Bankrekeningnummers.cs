@@ -35,7 +35,6 @@ public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
         var bankrekeningnummers = this.Append(toeTeVoegenBankrekeningnummer).ToArray();
 
         Throw<IbanMoetUniekZijn>.If(HasDuplicateIban(bankrekeningnummers));
-        Throw<GebruikVoorMoetUniekZijn>.If(HasDuplicateDoel(bankrekeningnummers));
     }
 
     private bool HasDuplicateIban(Bankrekeningnummer[] bankrekeningnummers)

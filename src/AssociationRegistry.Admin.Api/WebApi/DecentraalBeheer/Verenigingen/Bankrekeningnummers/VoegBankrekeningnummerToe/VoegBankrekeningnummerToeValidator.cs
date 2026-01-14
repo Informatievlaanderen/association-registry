@@ -27,6 +27,7 @@ public class VoegBankrekeningnummerToeValidator : AbstractValidator<VoegBankreke
         public BankrekeningnummerValidator()
         {
             this.RequireNotNullOrEmpty(Bankrekeningnummer => Bankrekeningnummer.Iban);
+            this.RequireNotNullOrEmpty(Bankrekeningnummer => Bankrekeningnummer.Titularis);
 
             When(x => !string.IsNullOrWhiteSpace(x.Iban), () =>
             {
