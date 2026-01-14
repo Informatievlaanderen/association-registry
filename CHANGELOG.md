@@ -1,3 +1,11 @@
+## [8.289.1](https://github.com/informatievlaanderen/association-registry/compare/v8.289.0...v8.289.1) (2026-01-14)
+
+
+### Bug Fixes
+
+* or-2978 fix validation for bankrekeningnr request ([da08f58](https://github.com/informatievlaanderen/association-registry/commit/da08f58ef12375cca16ee9ab5516f30f9cc3214f))
+* or-2978 set doel to string empty when null on request ([ffaf31b](https://github.com/informatievlaanderen/association-registry/commit/ffaf31b49deff52cdda1ff8755b77a7da66cb323))
+
 # [8.289.0](https://github.com/informatievlaanderen/association-registry/compare/v8.288.0...v8.289.0) (2026-01-14)
 
 
