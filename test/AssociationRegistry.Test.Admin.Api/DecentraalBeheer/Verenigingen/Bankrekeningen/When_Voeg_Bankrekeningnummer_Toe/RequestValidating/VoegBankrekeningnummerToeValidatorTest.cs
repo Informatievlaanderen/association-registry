@@ -75,7 +75,6 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
     [InlineData("BE12ABC456789012")]    // contains letters
     [InlineData("BE12-3456-7890-12")]   // invalid characters
     [InlineData("XBE68539007547034")]   // does not start with BE
-    [InlineData("BE 68539007547034")]   // contains space
     public void With_IBAN_Format_Incorrect_Then_Has_ValidationError(string iban)
     {
         var validator = new VoegBankrekeningnummerToeValidator();
@@ -94,8 +93,11 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
               .WithErrorMessage("Het opgegeven 'IBAN' is geen geldig Belgisch IBAN.");
     }
 
-    [Fact]
-    public void With_Valid_Bankrekeningnummer_Then_Has_No_ValidationError()
+    [Theory]
+    [InlineData("BE68539007547034")]
+    [InlineData("BE68 5390 0754 7034")]
+    [InlineData("BE68.5390.0754.7034")]
+    public void With_Valid_Bankrekeningnummer_Then_Has_No_ValidationError(string iban)
     {
         var validator = new VoegBankrekeningnummerToeValidator();
 
@@ -103,7 +105,7 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
         {
             Bankrekeningnummer = new ToeTeVoegenBankrekeningnummer()
             {
-                Iban = "BE68539007547034",
+                Iban = iban,
                 Doel = "Lidgeld",
                 Titularis = "Frodo Baggins",
             },
