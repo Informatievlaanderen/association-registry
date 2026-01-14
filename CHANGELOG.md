@@ -1,3 +1,15 @@
+# [8.289.0](https://github.com/informatievlaanderen/association-registry/compare/v8.288.0...v8.289.0) (2026-01-14)
+
+
+### Bug Fixes
+
+* or-2984 change validations for bankrekeningen ([6bd993b](https://github.com/informatievlaanderen/association-registry/commit/6bd993b5a396ad69f634eb6cd2dc55957dc4a201))
+
+
+### Features
+
+* or-2984 sync bankrekeningen met kbo ([1e321e3](https://github.com/informatievlaanderen/association-registry/commit/1e321e3aca05c5bd432ea58e00bfc3244523bd76))
+
 # [8.288.0](https://github.com/informatievlaanderen/association-registry/compare/v8.287.10...v8.288.0) (2026-01-13)
 
 
