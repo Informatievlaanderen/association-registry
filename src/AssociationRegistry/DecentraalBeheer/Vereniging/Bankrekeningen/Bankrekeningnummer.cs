@@ -10,7 +10,7 @@ public record Bankrekeningnummer
     public int BankrekeningnummerId { get; set; }
     public IbanNummer Iban { get; set; }
     public string Doel {get; set;}
-    public string Titularis { get; set; }
+    public Titularis Titularis { get; set; }
 
     public static Bankrekeningnummer Create(int nextId, ToeTevoegenBankrekeningnummer bankrekeningnummer)
         => new()
@@ -27,7 +27,7 @@ public record Bankrekeningnummer
             BankrekeningnummerId = id,
             Iban = IbanNummer.Hydrate(iban),
             Doel = doel,
-            Titularis = titularis,
+            Titularis = Titularis.Hydrate(titularis),
         };
 
     public static Bankrekeningnummer CreateFromKbo(BankrekeningnummerVolgensKbo bankrekeningnummer, int id)
@@ -36,7 +36,7 @@ public record Bankrekeningnummer
             BankrekeningnummerId = id,
             Iban = IbanNummer.Hydrate(bankrekeningnummer.Iban),
             Doel = string.Empty,
-            Titularis = string.Empty,
+            Titularis = Titularis.Hydrate(string.Empty),
         };
 
     public bool WouldBeEquivalent(Bankrekeningnummer bankrekeningnummer)

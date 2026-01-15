@@ -23,7 +23,7 @@ public class To_VoegBankrekeningnummerToeCommand
         command.VCode.Should().Be(vCode);
         command.Bankrekeningnummer.Iban.Should().Be(IbanNummer.Create(request.Bankrekeningnummer.Iban));
         command.Bankrekeningnummer.Doel.Should().Be(request.Bankrekeningnummer.Doel);
-        command.Bankrekeningnummer.Titularis.Should().Be(request.Bankrekeningnummer.Titularis);
+        command.Bankrekeningnummer.Titularis.Value.Should().Be(request.Bankrekeningnummer.Titularis);
     }
 
     [Fact]
@@ -33,7 +33,6 @@ public class To_VoegBankrekeningnummerToeCommand
 
         var request = fixture.Create<VoegBankrekeningnummerToeRequest>();
         request.Bankrekeningnummer.Doel = null;
-        request.Bankrekeningnummer.Titularis = null;
 
         var vCode = fixture.Create<VCode>();
         var command = request.ToCommand(vCode);
