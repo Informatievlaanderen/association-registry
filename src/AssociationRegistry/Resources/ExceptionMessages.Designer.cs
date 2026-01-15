@@ -674,6 +674,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Titularis mag niet null of leeg zijn..
+        /// </summary>
+        public static string TitularisMagNietNullOfLeegZijn {
+            get {
+                return ResourceManager.GetString("TitularisMagNietNullOfLeegZijn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string UnexpectedAggregateVersion {

@@ -313,4 +313,7 @@
   <data name="IbanFormaatIsOngeldig">
     <value>Het formaat van het IBAN is ongeldig.</value>
   </data>
+  <data name="TitularisMagNietNullOfLeegZijn">
+    <value>Titularis mag niet null of leeg zijn.</value>
+  </data>
 </root>

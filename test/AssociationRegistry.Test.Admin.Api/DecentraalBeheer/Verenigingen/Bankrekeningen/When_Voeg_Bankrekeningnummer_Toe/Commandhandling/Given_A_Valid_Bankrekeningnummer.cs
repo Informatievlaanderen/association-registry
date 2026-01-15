@@ -41,7 +41,7 @@ public class Given_A_Valid_Bankrekeningnummer
                 1,
                 command.Bankrekeningnummer.Iban.Value,
                 command.Bankrekeningnummer.Doel,
-                command.Bankrekeningnummer.Titularis
+                command.Bankrekeningnummer.Titularis.Value
             )
         );
     }

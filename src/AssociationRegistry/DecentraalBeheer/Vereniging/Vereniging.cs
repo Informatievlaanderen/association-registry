@@ -395,7 +395,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         var toegevoegdBankrekeningnummer = State.Bankrekeningnummers.VoegToe(bankrekeningnummer);
 
-        AddEvent(new BankrekeningnummerWerdToegevoegd(toegevoegdBankrekeningnummer.BankrekeningnummerId, toegevoegdBankrekeningnummer.Iban.Value, toegevoegdBankrekeningnummer.Doel, toegevoegdBankrekeningnummer.Titularis));
+        AddEvent(new BankrekeningnummerWerdToegevoegd(toegevoegdBankrekeningnummer.BankrekeningnummerId, toegevoegdBankrekeningnummer.Iban.Value, toegevoegdBankrekeningnummer.Doel, toegevoegdBankrekeningnummer.Titularis.Value));
 
         return toegevoegdBankrekeningnummer.BankrekeningnummerId;
     }
