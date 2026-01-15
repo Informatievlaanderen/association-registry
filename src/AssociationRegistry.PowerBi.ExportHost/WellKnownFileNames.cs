@@ -10,5 +10,4 @@ public class WellKnownFileNames
     public const string Werkingsgebieden = "Werkingsgebieden.csv";
     public const string Lidmaatschappen = "Lidmaatschappen.csv";
     public const string DubbelDetectie = "DubbelDetectie.csv";
-    public const string Bankrekeningnummers = "Bankrekeningnummers.csv";
 }

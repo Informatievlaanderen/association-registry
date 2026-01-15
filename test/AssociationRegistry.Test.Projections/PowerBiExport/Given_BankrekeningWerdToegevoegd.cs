@@ -10,19 +10,9 @@ public class Given_BankrekeningWerdToegevoegd(PowerBiScenarioFixture<Bankrekenin
     : PowerBiScenarioClassFixture<BankrekeningnummerWerdToegevoegdScenario>
 {
     [Fact]
-    public void ARecordIsStored_With_Bankrekeningen()
+    public void AantalBankrekeningnummers_Is_Increased_By_One()
     {
-        Bankrekeningnummer[] expectedLidmaatschap =
-        [
-            new(
-                fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-                fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
-                fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
-                fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis
-            ),
-        ];
-
-        fixture.Result.Bankrekeningnummers.ShouldCompare(expectedLidmaatschap);
+        fixture.Result.AantalBankrekeningnummers.Should().Be(1);
     }
 
     [Fact]

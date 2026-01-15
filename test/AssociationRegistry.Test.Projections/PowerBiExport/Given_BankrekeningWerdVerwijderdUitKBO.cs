@@ -8,9 +8,9 @@ public class Given_BankrekeningWerdVerwijderdUitKBO(PowerBiScenarioFixture<Bankr
     : PowerBiScenarioClassFixture<BankrekeningnummerWerdVerwijderdUitKBOScenario>
 {
     [Fact]
-    public void Bankrekeningnummers_Are_Empty()
+    public void AantalBankrekeningnummers_Is_Decreased_By_One()
     {
-        fixture.Result.Bankrekeningnummers.Should().BeEmpty();
+        fixture.Result.AantalBankrekeningnummers.Should().Be(0);
     }
 
     [Fact]

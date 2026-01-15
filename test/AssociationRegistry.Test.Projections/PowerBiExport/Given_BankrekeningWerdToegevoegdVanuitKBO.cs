@@ -10,19 +10,9 @@ public class Given_BankrekeningWerdToegevoegdVanuitKBO(PowerBiScenarioFixture<Ba
     : PowerBiScenarioClassFixture<BankrekeningnummerWerdToegevoegdVanuitKBOScenario>
 {
     [Fact]
-    public void ARecordIsStored_With_Bankrekeningen()
+    public void AantalBankrekeningnummers_Is_Increased_By_One()
     {
-        Bankrekeningnummer[] expectedBankrekeningnummers =
-        [
-            new(
-                fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.BankrekeningnummerId,
-                fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Iban,
-                string.Empty,
-                string.Empty
-            ),
-        ];
-
-        fixture.Result.Bankrekeningnummers.ShouldCompare(expectedBankrekeningnummers);
+        fixture.Result.AantalBankrekeningnummers.Should().Be(1);
     }
 
     [Fact]
