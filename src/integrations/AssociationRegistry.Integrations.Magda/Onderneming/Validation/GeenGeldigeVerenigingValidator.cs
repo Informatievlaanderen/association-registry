@@ -63,8 +63,15 @@ public static class MagdaOndernemingExtensions
             Adres = GetAdresFrom(maatschappelijkeZetel),
             Contactgegevens = GetContactgegevensFrom(maatschappelijkeZetel),
             Vertegenwoordigers = GetVertegenwoordigers(magdaOnderneming.Functies),
+            Bankrekeningnummers = GetBankrekeningnummers(magdaOnderneming.Bankrekeningen),
         };
     }
+
+    private static BankrekeningnummerVolgensKbo[] GetBankrekeningnummers(BankrekeningType[] magdaOndernemingBankrekeningen)
+        => magdaOndernemingBankrekeningen is null ? [] : magdaOndernemingBankrekeningen.Select(x => new BankrekeningnummerVolgensKbo()
+        {
+            Iban = x.IBAN,
+        }).ToArray();
 
     public static ContactgegevensVolgensKbo GetContactgegevensFrom(AdresOndernemingType? maatschappelijkeZetel)
     {

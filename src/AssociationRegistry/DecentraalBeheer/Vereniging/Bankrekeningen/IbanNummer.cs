@@ -37,6 +37,6 @@ public record IbanNummer
         => HasBelgianPrefix(iban)
         && IbanUtils.IsValid(Sanitize(iban), out _);
 
-    private static bool HasBelgianPrefix(string sanitezedIban)
-        => sanitezedIban.StartsWith(BelgianIbanPrefix);
+    private static bool HasBelgianPrefix(string iban)
+        => iban.StartsWith(BelgianIbanPrefix);
 }
