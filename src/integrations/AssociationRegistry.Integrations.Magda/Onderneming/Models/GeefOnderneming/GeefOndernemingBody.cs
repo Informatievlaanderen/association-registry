@@ -53,13 +53,14 @@ public class GeefOndernemingBody
                                     Ondernemingsnummer = kboNummer,
                                     Basisgegevens = VlagEnumType.Item1,
                                     // Activiteiten = VlagEnumType.Item1,
-                                    // Bankrekeningen = VlagEnumType.Item1,
                                     // Bijhuis = VlagEnumType.Item1,
                                     Functies = new CriteriaFunctiesType()
                                     {
                                         Aanduiding = VlagEnumType.Item1,
                                         Onderneming = VlagEnumType.Item1
-                                    }
+                                    },
+                                    Bankrekeningen = VlagEnumType.Item1,
+                                    BankrekeningenSpecified = true,
                                 },
                             },
                         },
