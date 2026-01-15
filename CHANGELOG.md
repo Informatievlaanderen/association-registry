@@ -1,3 +1,10 @@
+## [8.293.1](https://github.com/informatievlaanderen/association-registry/compare/v8.293.0...v8.293.1) (2026-01-15)
+
+
+### Bug Fixes
+
+* or-2993 register verenigingstate document ([5ae66b1](https://github.com/informatievlaanderen/association-registry/commit/5ae66b1da4d44b1e0869400cc8b36ec730b7d668))
+
 # [8.293.0](https://github.com/informatievlaanderen/association-registry/compare/v8.292.0...v8.293.0) (2026-01-15)
 
 
