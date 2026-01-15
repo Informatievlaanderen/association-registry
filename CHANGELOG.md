@@ -1,3 +1,10 @@
+## [8.293.2](https://github.com/informatievlaanderen/association-registry/compare/v8.293.1...v8.293.2) (2026-01-15)
+
+
+### Bug Fixes
+
+* or-2993 register postalnutslauinfo document ([dec6a06](https://github.com/informatievlaanderen/association-registry/commit/dec6a0626614ca7e0b28621cb700de55cc499b93))
+
 ## [8.293.1](https://github.com/informatievlaanderen/association-registry/compare/v8.293.0...v8.293.1) (2026-01-15)
 
 
