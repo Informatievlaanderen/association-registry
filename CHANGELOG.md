@@ -1,3 +1,10 @@
+# [8.290.0](https://github.com/informatievlaanderen/association-registry/compare/v8.289.1...v8.290.0) (2026-01-15)
+
+
+### Features
+
+* or-2993 fix code generation for address sync to reduce mem pressure ([bd2daf6](https://github.com/informatievlaanderen/association-registry/commit/bd2daf6de0b43c057b6625f03ff86b7f85b0248a))
+
 ## [8.289.1](https://github.com/informatievlaanderen/association-registry/compare/v8.289.0...v8.289.1) (2026-01-14)
 
 
