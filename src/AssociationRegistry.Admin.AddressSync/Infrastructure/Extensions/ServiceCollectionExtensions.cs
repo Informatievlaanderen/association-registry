@@ -113,7 +113,7 @@ public static class ServiceCollectionExtensions
                                                              .QuerySession());
 
                                       opts.RegisterAllEventTypes();
-                                      opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>()
+                                      opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
                                       opts.RegisterDocumentType<LocatieLookupDocument>();
 
                                       opts.Schema.For<LocatieLookupDocument>().UseNumericRevisions(true)
