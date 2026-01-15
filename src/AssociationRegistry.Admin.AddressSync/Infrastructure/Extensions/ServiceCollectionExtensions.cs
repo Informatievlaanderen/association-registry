@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.AddressSync.Infrastructure.Extensions;
+namespace AssociationRegistry.Admin.AddressSync.Infrastructure.Extensions;
 
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Metrics;
@@ -12,6 +12,7 @@ using Marten;
 using Marten.Events;
 using Marten.Services;
 using MartenDb;
+using MartenDb.Setup;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -111,6 +112,8 @@ public static class ServiceCollectionExtensions
                                                              .QuerySession());
 
                                       opts.RegisterDocumentType<LocatieLookupDocument>();
+
+                                      opts.RegisterAllEventTypes();
 
                                       opts.Schema.For<LocatieLookupDocument>().UseNumericRevisions(true)
                                           .UseOptimisticConcurrency(false);
