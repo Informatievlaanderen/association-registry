@@ -1,3 +1,15 @@
+# [8.291.0](https://github.com/informatievlaanderen/association-registry/compare/v8.290.1...v8.291.0) (2026-01-15)
+
+
+### Bug Fixes
+
+* or-2978 map bankrekeningnummers from magda vereniging ([fd239ae](https://github.com/informatievlaanderen/association-registry/commit/fd239aec16e47f65b0912cf652527ce8dd725a8a))
+
+
+### Features
+
+* or-2993 move address sync build to docker ([a534133](https://github.com/informatievlaanderen/association-registry/commit/a5341331ec29c002d2ddc729ce3eb52ea905ea8c))
+
 ## [8.290.1](https://github.com/informatievlaanderen/association-registry/compare/v8.290.0...v8.290.1) (2026-01-15)
 
 
