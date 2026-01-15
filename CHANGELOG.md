@@ -1,3 +1,15 @@
+# [8.292.0](https://github.com/informatievlaanderen/association-registry/compare/v8.291.0...v8.292.0) (2026-01-15)
+
+
+### Bug Fixes
+
+* or-2984 set flags for bankrekening request body ([f337342](https://github.com/informatievlaanderen/association-registry/commit/f337342ef80951cf751b6d920a7dc0fba90eebc3))
+
+
+### Features
+
+* or-2993 register all event types ([3ecc699](https://github.com/informatievlaanderen/association-registry/commit/3ecc699261652014115a98b7eb6ae61d9d9b17a0))
+
 # [8.291.0](https://github.com/informatievlaanderen/association-registry/compare/v8.290.1...v8.291.0) (2026-01-15)
 
 
