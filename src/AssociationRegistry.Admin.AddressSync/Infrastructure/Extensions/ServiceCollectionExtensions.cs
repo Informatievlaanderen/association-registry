@@ -86,7 +86,6 @@ public static class ServiceCollectionExtensions
                                       options.Development.AssertAllPreGeneratedTypesExist = true;
                                       options.Production.AssertAllPreGeneratedTypesExist = true;
                                       options.ApplicationAssembly = typeof(Program).Assembly;
-                                      options.GeneratedCodeOutputPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Internal", "Generated");
                                   })
                                  .AddMarten(serviceProvider =>
                                   {

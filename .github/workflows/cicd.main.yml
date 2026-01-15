@@ -352,23 +352,46 @@ jobs:
     secrets: inherit
 
   build-admin-address-sync:
-    name: Address Sync
-    uses: ./.github/workflows/shared.build-image.yml
+    name: Build Admin Address Sync
+    runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version, run-address-sync-tests ]
-    with:
-      image-file: ar-admin-address-sync-image.tar
-      image-name: verenigingsregister-adressensync
-      build-project: AssociationRegistry.Admin.AddressSync/
-      semver: ${{ needs.set-release-version.outputs.version }}
-      run-docker-acm: false
-      run-docker-wiremock: false
-      run-docker-db: true
-      run-docker-elasticsearch: false
-      run-docker-localstack: false
-      run-docker-otelcollector: false
-      pre-gen-marten: true
-    secrets: inherit
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.AddressSync/Dockerfile \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adressensync:$VERSION
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-adressensync:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-address-sync-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-adressensync
+          path: ~/ar-admin-address-sync-image.tar
 
   build-admin-api-migrations:
     name: Build Admin Api Migrations

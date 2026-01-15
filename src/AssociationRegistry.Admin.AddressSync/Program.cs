@@ -41,7 +41,6 @@ public static class Program
                 .ConfigureAppConfiguration(
                      (context, builder) =>
                          builder
-                            .SetBasePath(AppContext.BaseDirectory)
                             .AddJsonFile("appsettings.json")
                             .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName.ToLowerInvariant()}.json",
                                          optional: true,
