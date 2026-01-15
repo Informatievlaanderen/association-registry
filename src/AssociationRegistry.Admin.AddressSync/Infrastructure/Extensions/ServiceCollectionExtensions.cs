@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Npgsql;
+using Persoonsgegevens;
 using Schema.Detail;
 using System.Reflection;
 using Weasel.Core;
@@ -111,9 +112,9 @@ public static class ServiceCollectionExtensions
                                                              .GetRequiredService<IDocumentStore>()
                                                              .QuerySession());
 
-                                      opts.RegisterDocumentType<LocatieLookupDocument>();
-
                                       opts.RegisterAllEventTypes();
+                                      opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>()
+                                      opts.RegisterDocumentType<LocatieLookupDocument>();
 
                                       opts.Schema.For<LocatieLookupDocument>().UseNumericRevisions(true)
                                           .UseOptimisticConcurrency(false);
@@ -142,7 +143,7 @@ public static class ServiceCollectionExtensions
 
         Action<ResourceBuilder> configureResource = r => r
                                                         .AddService(
-                                                             serviceName,
+                                                             serviceName: serviceName,
                                                              serviceVersion: assemblyVersion,
                                                              serviceInstanceId: Environment.MachineName)
                                                         .AddAttributes(
@@ -150,8 +151,8 @@ public static class ServiceCollectionExtensions
                                                              {
                                                                  ["deployment.environment"] =
                                                                      Environment.GetEnvironmentVariable(
-                                                                             "ASPNETCORE_ENVIRONMENT")
-                                                                       ?.ToLowerInvariant()
+                                                                                     "ASPNETCORE_ENVIRONMENT")
+                                                                               ?.ToLowerInvariant()
                                                                   ?? "unknown",
                                                              });
 
