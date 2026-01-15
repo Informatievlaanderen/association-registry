@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.AddressSync.Infrastructure.Extensions;
 
+using DecentraalBeheer.Vereniging;
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Metrics;
 using global::OpenTelemetry.Resources;
@@ -115,6 +116,7 @@ public static class ServiceCollectionExtensions
                                       opts.RegisterAllEventTypes();
                                       opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
                                       opts.RegisterDocumentType<LocatieLookupDocument>();
+                                      opts.RegisterDocumentType<VerenigingState>();
 
                                       opts.Schema.For<LocatieLookupDocument>().UseNumericRevisions(true)
                                           .UseOptimisticConcurrency(false);
