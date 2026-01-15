@@ -1,3 +1,16 @@
+# [8.293.0](https://github.com/informatievlaanderen/association-registry/compare/v8.292.0...v8.293.0) (2026-01-15)
+
+
+### Bug Fixes
+
+* or-2993 typo ([0c5de3b](https://github.com/informatievlaanderen/association-registry/commit/0c5de3b4c81044390564daa211de47c6fc7a46a7))
+
+
+### Features
+
+* or-2993 increase timeout for test ([253373b](https://github.com/informatievlaanderen/association-registry/commit/253373bce9214464103a8ef3d7672be4b78b3419))
+* or-2993 register VertegenwoordigerPersoonsgegevensDocument in address sync ([bd83363](https://github.com/informatievlaanderen/association-registry/commit/bd833637a83380c6325633fffb2d2c095a210ee1))
+
 # [8.292.0](https://github.com/informatievlaanderen/association-registry/compare/v8.291.0...v8.292.0) (2026-01-15)
 
 
