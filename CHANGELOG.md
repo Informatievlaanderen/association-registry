@@ -1,3 +1,10 @@
+## [8.290.1](https://github.com/informatievlaanderen/association-registry/compare/v8.290.0...v8.290.1) (2026-01-15)
+
+
+### Bug Fixes
+
+* or-2992 save persoonsgegevens after EventStreamUnexpectedMaxEventIdException ([826fac8](https://github.com/informatievlaanderen/association-registry/commit/826fac8bf2e170cf0d1f1765f43c6b5fdb92ab3b))
+
 # [8.290.0](https://github.com/informatievlaanderen/association-registry/compare/v8.289.1...v8.290.0) (2026-01-15)
 
 
