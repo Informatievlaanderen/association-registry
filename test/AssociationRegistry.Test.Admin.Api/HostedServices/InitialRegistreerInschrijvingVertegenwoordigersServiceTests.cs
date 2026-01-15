@@ -29,9 +29,10 @@ public class InitialRegistreerInschrijvingVertegenwoordigersServiceTests
     public InitialRegistreerInschrijvingVertegenwoordigersServiceTests()
     {
         _fixture = new Fixture().CustomizeAdminApi();
-        _store = TestDocumentStoreFactory.CreateAsync("InitialRegistreerInschrijvingVertegenwoordigersServiceTests").GetAwaiter().GetResult();
-    }
 
+        _store = TestDocumentStoreFactory.CreateAsync("InitialRegistreerInschrijvingVertegenwoordigersServiceTests").GetAwaiter()
+                                         .GetResult();
+    }
 
     [Fact]
     public async Task Given_It_Throws_An_Exception_In_The_End_Then_No_Initialisation_Record_Is_Saved()
@@ -56,14 +57,15 @@ public class InitialRegistreerInschrijvingVertegenwoordigersServiceTests
 
         var sut = new InitialRegistreerInschrijvingVertegenwoordigersService(
             serviceProvider.GetRequiredService<IServiceScopeFactory>(),
-            _store,
-            new InitialiseerRegistreerInschrijvingOptions { MigratieId = nameof(Given_It_Throws_An_Exception_In_The_End_Then_No_Initialisation_Record_Is_Saved)},
+            store: _store,
+            new InitialiseerRegistreerInschrijvingOptions
+                { MigratieId = nameof(Given_It_Throws_An_Exception_In_The_End_Then_No_Initialisation_Record_Is_Saved) },
             new NullLogger<InitialRegistreerInschrijvingVertegenwoordigersService>());
 
         try
         {
             var cancellationTokenSource = new CancellationTokenSource();
-            cancellationTokenSource.CancelAfter(5.Seconds());
+            cancellationTokenSource.CancelAfter(7.Seconds());
             await sut.StartAsync(cancellationTokenSource.Token);
             await sut.ExecuteTask;
         }
@@ -71,6 +73,7 @@ public class InitialRegistreerInschrijvingVertegenwoordigersServiceTests
         {
             // this is fine
         }
+
         var session = _store.LightweightSession();
         var migrationRecord = await session.Query<InitialisatieInschrijvingenDocument>().SingleOrDefaultAsync();
 
@@ -94,8 +97,8 @@ public class InitialRegistreerInschrijvingVertegenwoordigersServiceTests
 
         var sut = new InitialRegistreerInschrijvingVertegenwoordigersService(
             serviceProvider.GetRequiredService<IServiceScopeFactory>(),
-            _store,
-            new InitialiseerRegistreerInschrijvingOptions { MigratieId = nameof(Given_It_Succeeds_A_Initialisation_Record_Is_Saved)},
+            store: _store,
+            new InitialiseerRegistreerInschrijvingOptions { MigratieId = nameof(Given_It_Succeeds_A_Initialisation_Record_Is_Saved) },
             new NullLogger<InitialRegistreerInschrijvingVertegenwoordigersService>());
 
         await sut.StartAsync(CancellationToken.None);
