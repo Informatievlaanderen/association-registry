@@ -5,6 +5,7 @@ using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Metrics;
 using global::OpenTelemetry.Resources;
 using global::OpenTelemetry.Trace;
+using Grar.NutsLau;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -117,6 +118,7 @@ public static class ServiceCollectionExtensions
                                       opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
                                       opts.RegisterDocumentType<LocatieLookupDocument>();
                                       opts.RegisterDocumentType<VerenigingState>();
+                                      opts.RegisterDocumentType<PostalNutsLauInfo>();
 
                                       opts.Schema.For<LocatieLookupDocument>().UseNumericRevisions(true)
                                           .UseOptimisticConcurrency(false);
