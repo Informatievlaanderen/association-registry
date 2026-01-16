@@ -1,0 +1,28 @@
+#!/bin/sh
+
+echo "🔍 Running pre-commit checks..."
+
+# Get staged C# files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM "*.cs")
+
+# Format with CSharpier (fast - no solution loading)
+if [ -n "$STAGED_FILES" ]; then
+  echo "📝 Formatting C# files..."
+  for file in $STAGED_FILES; do
+    csharpier format "$file"
+  done
+  git add $STAGED_FILES
+fi
+
+# Scan for secrets (only new ones, not in baseline)
+echo "🔐 Scanning for secrets..."
+STAGED_FILES=$(git diff --cached --name-only)
+if [ -n "$STAGED_FILES" ]; then
+  detect-secrets-hook --baseline .secrets.baseline $STAGED_FILES
+  if [ $? -ne 0 ]; then
+    echo "❌ Secret detected! Commit blocked."
+    exit 1
+  fi
+fi
+
+echo "✅ Pre-commit checks passed!"

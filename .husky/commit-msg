@@ -1,0 +1,33 @@
+#!/bin/sh
+
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# Conventional Commits pattern: type(scope)?: description
+# type: feat, fix, chore, docs, style, refactor, test, perf, ci, build, revert
+# Examples:
+#   feat: or-2993 add new feature
+#   fix(api): or-2993 fix bug
+#   chore(release): 8.293.0 [skip ci]
+
+PATTERN="^(feat|fix|chore|docs|style|refactor|test|perf|ci|build|revert)(\(.+\))?: .{1,}"
+
+if ! echo "$COMMIT_MSG" | grep -qE "$PATTERN"; then
+    echo ""
+    echo "❌ Invalid commit message format!"
+    echo ""
+    echo "Commit message must follow Conventional Commits:"
+    echo "  type(scope)?: description"
+    echo ""
+    echo "Valid types: feat, fix, chore, docs, style, refactor, test, perf, ci, build, revert"
+    echo ""
+    echo "Examples:"
+    echo "  feat: or-2993 add new feature"
+    echo "  fix(api): or-2993 fix bug"
+    echo "  chore(release): 8.293.0 [skip ci]"
+    echo ""
+    echo "Your message:"
+    echo "  $COMMIT_MSG"
+    echo ""
+    exit 1
+fi
