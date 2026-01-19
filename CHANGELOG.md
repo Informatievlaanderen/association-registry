@@ -1,3 +1,10 @@
+## [8.293.3](https://github.com/informatievlaanderen/association-registry/compare/v8.293.2...v8.293.3) (2026-01-19)
+
+
+### Bug Fixes
+
+* or-2993 set up pre-commit hooks, document code_quality_setup ([1c04927](https://github.com/informatievlaanderen/association-registry/commit/1c04927713e4ecb26ba0472efd91551e90a2fb07))
+
 ## [8.293.2](https://github.com/informatievlaanderen/association-registry/compare/v8.293.1...v8.293.2) (2026-01-15)
 
 
