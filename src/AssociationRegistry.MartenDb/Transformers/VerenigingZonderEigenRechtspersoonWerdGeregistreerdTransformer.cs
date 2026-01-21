@@ -5,7 +5,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Persoonsgegevens;
 using Store;
 
-public class VerenigingZonderEigenRechtspersoonWerdGeregistreerdTransformer : IPersoonsgegevensEventTransformer
+public class VerenigingZonderEigenRechtspersoonWerdGeregistreerdTransformer: IPersoonsgegevensEventTransformer
 {
     public Type EventType => typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd);
     public Type PersistedEventType => typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens);

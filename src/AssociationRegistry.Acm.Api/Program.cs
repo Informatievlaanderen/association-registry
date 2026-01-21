@@ -67,6 +67,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 
 public class Program
@@ -514,6 +515,8 @@ public class Program
                .AddScoped<IEventStore, EventStore>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+               .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
+               .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
                .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
                .AddScoped<PersoonsgegevensEventTransformers>()
                .AddSingleton<IEventPreConflictResolutionStrategy, EmptyConflictResolutionStrategy>()

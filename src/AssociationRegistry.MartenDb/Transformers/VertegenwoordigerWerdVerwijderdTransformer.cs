@@ -5,7 +5,7 @@ using Events;
 using Persoonsgegevens;
 using Store;
 
-public class VertegenwoordigerWerdVerwijderdTransformer : IPersoonsgegevensEventTransformer
+public class VertegenwoordigerWerdVerwijderdTransformer: IPersoonsgegevensEventTransformer
 {
     public Type EventType => typeof(VertegenwoordigerWerdVerwijderd);
     public Type PersistedEventType => typeof(VertegenwoordigerWerdVerwijderdZonderPersoonsgegevens);

@@ -10,6 +10,7 @@ using EventStore.ConflictResolution;
 using FluentAssertions;
 using JasperFx.Events;
 using Marten;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -31,7 +32,12 @@ public class Given_An_Event
         var streamId = Guid.NewGuid().ToString();
         var someEvent = new SomeEvent("some event");
         var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore.LightweightSession(), new EventConflictResolver([new EmptyConflictResolutionStrategy()], [new EmptyConflictResolutionStrategy()]), new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore.LightweightSession(), new EventConflictResolver([new EmptyConflictResolutionStrategy()], [new EmptyConflictResolutionStrategy()]),
+                                        new PersoonsgegevensProcessor(
+                                            new PersoonsgegevensEventTransformers(),
+                                            new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
+                                            NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
 
         // act
         var tijdstip = new Instant();

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_EventStreamUnexpectedMaxEventIdException_Occured;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
@@ -8,6 +9,7 @@ using Events;
 using EventStore.ConflictResolution;
 using FluentAssertions;
 using Marten;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -147,6 +149,7 @@ public class Given_Saving_After_AdresMatch_Event
                 new VertegenwoordigerPersoonsgegevensRepository(
                     session,
                     new VertegenwoordigerPersoonsgegevensQuery(session)),
+                new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
                 new NullLogger<PersoonsgegevensProcessor>()),
             NullLogger<EventStore>.Instance);
 }

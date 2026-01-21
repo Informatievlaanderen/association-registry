@@ -1,5 +1,6 @@
 namespace AssociationRegistry.MartenDb.VertegenwoordigerPersoonsgegevens;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Persoonsgegevens;
 

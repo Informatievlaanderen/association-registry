@@ -2,7 +2,7 @@ namespace AssociationRegistry.Persoonsgegevens;
 
 using DecentraalBeheer.Vereniging;
 
-public record VertegenwoordigerPersoonsgegevens
+public record VertegenwoordigerPersoonsgegevens : IPersoonsgegevens
 {
     public Guid RefId { get; init; }
     public VCode VCode { get; init; }

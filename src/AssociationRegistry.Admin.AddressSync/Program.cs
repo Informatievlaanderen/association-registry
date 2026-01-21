@@ -14,6 +14,7 @@ using Hosts;
 using Infrastructure.Extensions;
 using Integrations.Slack;
 using JasperFx;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -91,6 +92,8 @@ public static class Program
            .AddScoped<IVerenigingsRepository, VerenigingsRepository>()
            .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
            .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+           .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
+           .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
            .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
            .AddScoped<PersoonsgegevensEventTransformers>()
            .AddScoped<TeSynchroniserenLocatieAdresMessageHandler>()

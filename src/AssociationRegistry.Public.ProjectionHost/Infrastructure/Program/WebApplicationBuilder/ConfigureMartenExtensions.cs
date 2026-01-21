@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
+using Admin.Schema.Persoonsgegevens;
 using Constants;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;

@@ -32,6 +32,7 @@ using NodaTime;
 using Npgsql;
 using Oakton;
 using System.Net.Http.Headers;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using Vereniging;
 using Wolverine;
 using Xunit;
@@ -206,7 +207,12 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         await using var session = DocumentStore.LightweightSession();
-        var eventStore = new EventStore(session, EventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, EventConflictResolver,
+                                        new PersoonsgegevensProcessor(
+                                            new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
+                                            NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+
         var result = await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), metadata, CancellationToken.None, eventsToAdd);
 
         return result;

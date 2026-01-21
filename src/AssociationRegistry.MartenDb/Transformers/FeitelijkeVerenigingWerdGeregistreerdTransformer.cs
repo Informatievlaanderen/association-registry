@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.MartenDb.Transformers;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Events;
-using AssociationRegistry.Persoonsgegevens;
+using DecentraalBeheer.Vereniging;
+using Events;
+using Persoonsgegevens;
 using Store;
 
-public class FeitelijkeVerenigingWerdGeregistreerdTransformer : IPersoonsgegevensEventTransformer
+public class FeitelijkeVerenigingWerdGeregistreerdTransformer: IPersoonsgegevensEventTransformer
 {
     public Type EventType => typeof(FeitelijkeVerenigingWerdGeregistreerd);
     public Type PersistedEventType => typeof(FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens);

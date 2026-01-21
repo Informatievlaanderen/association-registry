@@ -8,6 +8,7 @@ using AssociationRegistry.MartenDb.Transformers;
 using AssociationRegistry.MartenDb.VertegenwoordigerPersoonsgegevens;
 using AssociationRegistry.Test.Common.Framework;
 using Marten;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Xunit;
@@ -44,6 +45,7 @@ public abstract class MetadataIntegrationTestBase : IAsyncLifetime
             new PersoonsgegevensProcessor(
                 new PersoonsgegevensEventTransformers(),
                 new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
+                new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
                 NullLogger<PersoonsgegevensProcessor>.Instance),
             NullLogger<EventStore>.Instance);
     }

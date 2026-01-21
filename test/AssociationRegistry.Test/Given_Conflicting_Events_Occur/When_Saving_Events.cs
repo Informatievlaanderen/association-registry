@@ -10,6 +10,7 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore.ConflictResolution;
 using FluentAssertions;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -46,7 +47,11 @@ public class When_Saving_Events
                                                               });
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(session, eventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, eventConflictResolver, new PersoonsgegevensProcessor(
+                                            new PersoonsgegevensEventTransformers(),
+                                            new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
+                                            NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 

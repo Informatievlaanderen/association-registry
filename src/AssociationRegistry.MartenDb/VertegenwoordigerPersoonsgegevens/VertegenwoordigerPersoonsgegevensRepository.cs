@@ -1,5 +1,6 @@
 namespace AssociationRegistry.MartenDb.VertegenwoordigerPersoonsgegevens;
 
+using Admin.Schema.Persoonsgegevens;
 using DecentraalBeheer.Vereniging;
 using Marten;
 using Persoonsgegevens;

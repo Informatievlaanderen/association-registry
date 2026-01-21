@@ -10,6 +10,7 @@ using Events;
 using EventStore;
 using EventStore.ConflictResolution;
 using Marten;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -77,7 +78,11 @@ public class Given_An_Higer_Version : IClassFixture<GivenAnHigerVersionFixture>
     {
         await using var session = _documentStore.LightweightSession();
 
-        var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(
+                                            new PersoonsgegevensEventTransformers(),
+                                            new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
+                                            NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 
         await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),

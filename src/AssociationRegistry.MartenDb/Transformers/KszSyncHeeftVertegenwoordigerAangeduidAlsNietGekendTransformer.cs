@@ -5,7 +5,7 @@ using Events;
 using Persoonsgegevens;
 using Store;
 
-public class KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendTransformer : IPersoonsgegevensEventTransformer
+public class KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendTransformer: IPersoonsgegevensEventTransformer
 {
     public Type EventType => typeof(KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend);
     public Type PersistedEventType => typeof(KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendZonderPersoonsgegevens);

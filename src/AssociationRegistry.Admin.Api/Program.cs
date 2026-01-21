@@ -104,6 +104,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using Vereniging;
 using Weasel.Core.Migrations;
 using WebApi.Verenigingen;
@@ -485,6 +486,8 @@ public class Program
                .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
                .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+               .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
+               .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
                .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
                .AddScoped<PersoonsgegevensEventTransformers>()
                .AddTransient<IEventStore, EventStore>()

@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Schema.KboSync;
 using AssociationRegistry.Admin.Schema.PowerBiExport;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Grar.NutsLau;
+using AssociationRegistry.Persoonsgegevens;
 using Bewaartermijn;
 using global::Marten;
 using Persoonsgegevens;
@@ -44,6 +45,7 @@ public static class ProjectionDocumentTypeRegistrations
 
         opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
         opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
+        opts.RegisterDocumentType<BankrekeningnummerPersoonsgegevensDocument>();
 
         opts.RegisterDocumentType<PostalNutsLauInfo>();
 

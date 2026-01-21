@@ -12,6 +12,7 @@ using Schema.Bewaartermijn;
 using Schema.Detail;
 using Schema.Historiek;
 using Schema.KboSync;
+using Schema.Persoonsgegevens;
 using Schema.PowerBiExport;
 
 public static class AdminDocumentTypeRegistrations
@@ -44,6 +45,7 @@ public static class AdminDocumentTypeRegistrations
 
         opts.RegisterDocumentType<PostalNutsLauInfo>();
         opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
+        opts.RegisterDocumentType<BankrekeningnummerPersoonsgegevensDocument>();
         opts.RegisterDocumentType<BewaartermijnDocument>();
         opts.Schema.For<BewaartermijnDocument>()
             .UseNumericRevisions(true)

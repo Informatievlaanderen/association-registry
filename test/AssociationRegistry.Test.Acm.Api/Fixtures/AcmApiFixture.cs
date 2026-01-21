@@ -28,6 +28,7 @@ using Oakton;
 using Persoonsgegevens;
 using Polly;
 using System.Reflection;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using Vereniging;
 using Xunit;
 using ConfigurationExtensions = AssociationRegistry.Acm.Api.Infrastructure.Extensions.ConfigurationExtensions;
@@ -164,7 +165,12 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
         await using var session = DocumentStore.LightweightSession();
 
-        var eventStore = new EventStore(session, EventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, EventConflictResolver,
+                                        new PersoonsgegevensProcessor(
+                                            new PersoonsgegevensEventTransformers(),
+                                            new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
+                                            NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var result = StreamActionResult.Empty;
 
 

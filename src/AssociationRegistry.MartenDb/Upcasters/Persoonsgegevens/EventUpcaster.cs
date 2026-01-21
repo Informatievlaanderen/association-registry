@@ -51,6 +51,10 @@ public static class EventUpcaster
         opts.Events.Upcast<KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenZonderPersoonsgegevens, KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>(
             kszSyncHeeftVertegenwoordigerAangeduidAlsOverledenUpcaster.UpcastAsync);
 
+        var bankrekeningnummerWerdToegevoegdUpcaster = new BankrekeningnummerWerdToegevoegdUpcaster(querySessionFunc);
+        opts.Events.Upcast<BankrekeningnummerWerdToegevoegdZonderPersoonsgegevens, BankrekeningnummerWerdToegevoegd>(
+            bankrekeningnummerWerdToegevoegdUpcaster.UpcastAsync);
+
         return opts;
     }
 }
