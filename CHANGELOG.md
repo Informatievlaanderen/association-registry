@@ -1,3 +1,10 @@
+## [8.293.4](https://github.com/informatievlaanderen/association-registry/compare/v8.293.3...v8.293.4) (2026-01-21)
+
+
+### Bug Fixes
+
+* or-2978 only add amount of bankrekeningen for powerbi instead of details ([4c21148](https://github.com/informatievlaanderen/association-registry/commit/4c2114820515254d5d3fc835d2a5490dc554f5c1))
+
 ## [8.293.3](https://github.com/informatievlaanderen/association-registry/compare/v8.293.2...v8.293.3) (2026-01-19)
 
 
