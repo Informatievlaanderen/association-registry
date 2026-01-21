@@ -1,3 +1,10 @@
+# [8.294.0](https://github.com/informatievlaanderen/association-registry/compare/v8.293.4...v8.294.0) (2026-01-21)
+
+
+### Features
+
+* or-2999 split persoonsgegevens from BankrekeningnummerWerdToegevoegd ([a3ba787](https://github.com/informatievlaanderen/association-registry/commit/a3ba787eccbcfdaedcddc53183ecfc32af7b4cad))
+
 ## [8.293.4](https://github.com/informatievlaanderen/association-registry/compare/v8.293.3...v8.293.4) (2026-01-21)
 
 
