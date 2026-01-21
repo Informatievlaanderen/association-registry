@@ -12,6 +12,7 @@ using DecentraalBeheer.Vereniging;
 using EventStore.ConflictResolution;
 using FluentAssertions;
 using Marten;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -68,7 +69,11 @@ public class Given_An_Lower_Version: IClassFixture<GivenAnLowerVersionFixture>
 
         await using var session = _documentStore.LightweightSession();
 
-        var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(
+                                            new PersoonsgegevensEventTransformers(),
+                                            new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
+                                            NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
         var vCode = VCode.Create(verenigingWerdGeregistreerd.VCode);
@@ -93,7 +98,11 @@ public class Given_An_Lower_Version: IClassFixture<GivenAnLowerVersionFixture>
     {
         await using var session = _documentStore.LightweightSession();
 
-        var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(
+                                            new PersoonsgegevensEventTransformers(),
+                                            new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
+                                            NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 
         var @event = (IEvent)new SpecimenContext(_fixture).Resolve(eventType);
@@ -121,7 +130,11 @@ public class Given_An_Lower_Version: IClassFixture<GivenAnLowerVersionFixture>
     {
         await using var session = _documentStore.LightweightSession();
 
-        var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, _conflictResolver, new PersoonsgegevensProcessor(
+                                            new PersoonsgegevensEventTransformers(),
+                                            new VertegenwoordigerPersoonsgegevensRepository(session,new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
+                                            NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
         var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = _fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
         var @event = (IEvent)new SpecimenContext(_fixture).Resolve(eventType);

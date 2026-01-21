@@ -6,7 +6,7 @@ using AssociationRegistry.Persoonsgegevens;
 using Store;
 using System.Collections.ObjectModel;
 
-public class VertegenwoordigerWerdGewijzigdTransformer : IPersoonsgegevensEventTransformer
+public class VertegenwoordigerWerdGewijzigdTransformer: IPersoonsgegevensEventTransformer
 {
     public Type EventType => typeof(VertegenwoordigerWerdGewijzigd);
     public Type PersistedEventType => typeof(VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens);

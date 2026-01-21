@@ -9,24 +9,26 @@ using Store;
 public class PersoonsgegevensProcessor : IPersoonsgegevensProcessor
 {
     private readonly Dictionary<Type, IPersoonsgegevensEventTransformer> _transformers;
-    private readonly IVertegenwoordigerPersoonsgegevensRepository _repository;
+    private readonly IVertegenwoordigerPersoonsgegevensRepository _vertegenwoordigerRepository;
+    private readonly IBankrekeningnummerPersoonsgegevensRepository _bankrekeningRepository;
     private readonly ILogger<PersoonsgegevensProcessor> _logger;
 
     public PersoonsgegevensProcessor(
         PersoonsgegevensEventTransformers transformerses,
-        IVertegenwoordigerPersoonsgegevensRepository repository,
+        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerRepository,
+        IBankrekeningnummerPersoonsgegevensRepository bankrekeningRepository,
         ILogger<PersoonsgegevensProcessor> logger)
     {
-        _repository = repository;
+        _vertegenwoordigerRepository = vertegenwoordigerRepository;
+        _bankrekeningRepository = bankrekeningRepository;
         _logger = logger;
-
         _transformers = transformerses.ToDictionary(t => t.EventType, t => t);
     }
 
     public async Task<IEvent[]> ProcessEvents(string aggregateId, IEvent[] events)
     {
         var processedEvents = new IEvent[events.Length];
-        var extractedPersoonsgegevens = new List<VertegenwoordigerPersoonsgegevens>();
+        var extracted = new List<IPersoonsgegevens>();
 
         for (int i = 0; i < events.Length; i++)
         {
@@ -41,9 +43,7 @@ public class PersoonsgegevensProcessor : IPersoonsgegevensProcessor
                 processedEvents[i] = result.TransformedEvent;
 
                 if (result.ExtractedPersoonsgegevens.Length != 0)
-                {
-                    extractedPersoonsgegevens.AddMany(result.ExtractedPersoonsgegevens);
-                }
+                    extracted.AddMany(result.ExtractedPersoonsgegevens);
             }
             else
             {
@@ -51,11 +51,24 @@ public class PersoonsgegevensProcessor : IPersoonsgegevensProcessor
             }
         }
 
-        if (extractedPersoonsgegevens.Any())
+        if (extracted.Any())
         {
-            foreach (var persoonsgegevens in extractedPersoonsgegevens)
+            foreach (var item in extracted)
             {
-                await _repository.Save(persoonsgegevens);
+                switch (item)
+                {
+                    case VertegenwoordigerPersoonsgegevens v:
+                        await _vertegenwoordigerRepository.Save(v);
+                        break;
+
+                    case BankrekeningnummerPersoonsgegevens b:
+                        await _bankrekeningRepository.Save(b);
+                        break;
+
+                    default:
+                        _logger.LogWarning("Unknown extracted persoonsgegevens type {Type}", item.GetType().FullName);
+                        break;
+                }
             }
         }
 

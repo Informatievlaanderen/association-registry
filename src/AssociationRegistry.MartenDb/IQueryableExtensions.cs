@@ -1,5 +1,6 @@
 namespace AssociationRegistry.MartenDb;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Persoonsgegevens;
 

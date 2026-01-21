@@ -5,7 +5,7 @@ using Events;
 using Persoonsgegevens;
 using Store;
 
-public class VertegenwoordigerWerdToegevoegdVanuitKBOTransformer : IPersoonsgegevensEventTransformer
+public class VertegenwoordigerWerdToegevoegdVanuitKBOTransformer: IPersoonsgegevensEventTransformer
 {
     public Type EventType => typeof(VertegenwoordigerWerdToegevoegdVanuitKBO);
     public Type PersistedEventType => typeof(VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens);

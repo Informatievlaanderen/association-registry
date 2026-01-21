@@ -23,6 +23,7 @@ using NodaTime;
 using Npgsql;
 using Oakton;
 using System.Reflection;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using Xunit;
 using IEvent = Events.IEvent;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
@@ -138,6 +139,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                                         new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(),
                                                                       new VertegenwoordigerPersoonsgegevensRepository(
                                                                           session, new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                                                      new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
                                                                       NullLogger<PersoonsgegevensProcessor>.Instance),
                                         NullLogger<EventStore>.Instance);
 

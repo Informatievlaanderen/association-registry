@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.MartenDb.Transformers;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Persoonsgegevens;
+using Events;
+using Persoonsgegevens;
 
 public record EventTransformationResult(
     IEvent TransformedEvent,
-    VertegenwoordigerPersoonsgegevens[] ExtractedPersoonsgegevens);
+    IPersoonsgegevens[] ExtractedPersoonsgegevens);

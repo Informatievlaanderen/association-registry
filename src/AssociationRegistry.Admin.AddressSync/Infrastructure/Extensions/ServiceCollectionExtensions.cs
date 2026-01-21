@@ -23,6 +23,7 @@ using Npgsql;
 using Persoonsgegevens;
 using Schema.Detail;
 using System.Reflection;
+using Schema.Persoonsgegevens;
 using Weasel.Core;
 using Wolverine.Marten;
 
@@ -116,6 +117,7 @@ public static class ServiceCollectionExtensions
 
                                       opts.RegisterAllEventTypes();
                                       opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
+                                      opts.RegisterDocumentType<BankrekeningnummerPersoonsgegevensDocument>();
                                       opts.RegisterDocumentType<LocatieLookupDocument>();
                                       opts.RegisterDocumentType<VerenigingState>();
                                       opts.RegisterDocumentType<PostalNutsLauInfo>();

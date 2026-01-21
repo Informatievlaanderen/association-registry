@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
+using Admin.Schema.Persoonsgegevens;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;

@@ -21,6 +21,7 @@ using MagdaSync.SyncKbo;
 using MagdaSync.SyncKsz;
 using MagdaSync.SyncKsz.Queries;
 using Marten;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.Upcasters.Persoonsgegevens;
@@ -237,7 +238,11 @@ public class ServiceFactory
 
         return new VerenigingsRepository(
             new EventStore(session, eventConflictResolver,
-                           new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), loggerFactory.CreateLogger<PersoonsgegevensProcessor>()), loggerFactory.CreateLogger<EventStore>()));
+                           new PersoonsgegevensProcessor(
+                               new PersoonsgegevensEventTransformers(),
+                               new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
+                               new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session))
+                             , loggerFactory.CreateLogger<PersoonsgegevensProcessor>()), loggerFactory.CreateLogger<EventStore>()));
     }
 
     private static MagdaRegistreerInschrijvingService CreateRegistreerInschrijvingService(MagdaOptionsSection magdaOptions, ILoggerFactory loggerFactory, MagdaCallReferenceRepository referenceRepository)

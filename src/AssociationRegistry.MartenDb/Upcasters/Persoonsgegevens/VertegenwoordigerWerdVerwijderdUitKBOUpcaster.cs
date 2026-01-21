@@ -1,5 +1,6 @@
 namespace AssociationRegistry.MartenDb.Upcasters.Persoonsgegevens;
 
+using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Events;
 using AssociationRegistry.Persoonsgegevens;
 using Marten;

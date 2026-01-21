@@ -30,6 +30,7 @@ using NodaTime;
 using Npgsql;
 using Oakton;
 using System.Net.Http.Headers;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using ProjectionHostProgram = Admin.ProjectionHost.Program;
 
 public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
@@ -178,7 +179,11 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         var session = ProjectionsDocumentStore.LightweightSession();
 
-        var eventStore = new EventStore(session, EventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance),NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session, EventConflictResolver,
+                                        new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(),
+                                                                      new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                                                      new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
+                                                                      NullLogger<PersoonsgegevensProcessor>.Instance),NullLogger<EventStore>.Instance);
         var result = await eventStore.Save(vCode.ToUpperInvariant(), EventStore.ExpectedVersion.NewStream, metadata, CancellationToken.None, eventsToAdd);
 
         return result;

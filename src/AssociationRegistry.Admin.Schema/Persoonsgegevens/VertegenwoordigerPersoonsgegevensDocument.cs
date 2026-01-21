@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Persoonsgegevens;
+﻿namespace AssociationRegistry.Admin.Schema.Persoonsgegevens;
 
 using Marten.Schema;
 

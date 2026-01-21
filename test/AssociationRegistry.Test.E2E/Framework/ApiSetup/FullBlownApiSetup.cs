@@ -35,6 +35,7 @@ using Npgsql;
 using Oakton;
 using Scenarios.Givens.FeitelijkeVereniging;
 using System.Diagnostics;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using TestClasses;
 using Vereniging;
 using Wolverine;
@@ -78,7 +79,9 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         await AdminApiHost.ResetAllMartenDataAsync();
 
-        var elasticSearchOptions = AdminApiHost.Server.Services.GetRequiredService<IConfiguration>().GetElasticSearchOptionsSection();
+        var elasticSearchOptions = AdminApiHost.Server.Services.GetRequiredService<IConfiguration>()
+                                               .GetElasticSearchOptionsSection();
+
         ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
         await ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.DuplicateDetection);
 
@@ -117,7 +120,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         await AdminProjectionHost.StartAsync();
         await PublicProjectionHost.StartAsync();
-
     }
 
     public IProjectionDaemon AcmProjectionDaemon { get; set; }
@@ -215,6 +217,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
                         configuration,
                         databaseName!,
                         NullLogger.Instance);
+
                     Console.WriteLine($"Database '{databaseName}' created successfully from template.");
                 }
                 else
@@ -234,6 +237,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         catch (Exception ex)
         {
             Console.WriteLine($"Error ensuring database exists: {ex.Message}");
+
             throw;
         }
     }
@@ -278,9 +282,17 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
             Array.Empty<IEventPreConflictResolutionStrategy>(),
             Array.Empty<IEventPostConflictResolutionStrategy>());
 
-        var eventStore = new EventStore(session, eventConflictResolver, new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(), new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)), NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(session,
+                                        eventConflictResolver,
+                                        new PersoonsgegevensProcessor(
+                                            new PersoonsgegevensEventTransformers(),
+                                            new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
+                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
+                                            NullLogger<PersoonsgegevensProcessor>.Instance),
+                                        NullLogger<EventStore>.Instance);
 
         long maxSequence = 0;
+
         foreach (var eventsPerStream in givenEvents)
         {
             var exists = await eventStore.Exists(VCode.Hydrate(eventsPerStream.Key));
@@ -288,14 +300,30 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
             if (exists)
             {
                 var vereniging = await eventStore.Load<VerenigingState>(VCode.Hydrate(eventsPerStream.Key), null);
-                var streamAction = await eventStore.Save(eventsPerStream.Key, vereniging.Version,
-                                                            new CommandMetadata("metadata.Initiator", new Instant(), Guid.NewGuid(), null), CancellationToken.None, eventsPerStream.Value);
+
+                var streamAction = await eventStore.Save(eventsPerStream.Key,
+                                                         vereniging.Version,
+                                                         new CommandMetadata(
+                                                             "metadata.Initiator",
+                                                             new Instant(),
+                                                             Guid.NewGuid(),
+                                                             null),
+                                                         CancellationToken.None,
+                                                         eventsPerStream.Value);
+
                 maxSequence = streamAction.Sequence.Value;
             }
             else
             {
                 var streamAction = await eventStore.SaveNew(eventsPerStream.Key,
-                                                            new CommandMetadata("metadata.Initiator", new Instant(), Guid.NewGuid(), null), CancellationToken.None, eventsPerStream.Value);
+                                                            new CommandMetadata(
+                                                                "metadata.Initiator",
+                                                                new Instant(),
+                                                                Guid.NewGuid(),
+                                                                null),
+                                                            CancellationToken.None,
+                                                            eventsPerStream.Value);
+
                 maxSequence = streamAction.Sequence.Value;
             }
         }
