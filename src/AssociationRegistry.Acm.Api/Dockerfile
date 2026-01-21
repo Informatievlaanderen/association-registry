@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/runtime-deps:9.0.7
+FROM mcr.microsoft.com/dotnet/runtime-deps:9.0.12
 
 LABEL maintainer="Digitaal Vlaanderen <digitaal.vlaanderen@vlaanderen.be>"
 LABEL registry="association-registry"
