@@ -1,3 +1,11 @@
+## [8.295.1](https://github.com/informatievlaanderen/association-registry/compare/v8.295.0...v8.295.1) (2026-01-22)
+
+
+### Bug Fixes
+
+* or-2978 fix test kbo bankrekeningnummer ([0096378](https://github.com/informatievlaanderen/association-registry/commit/0096378c5c1d8eef99e540847602a0758ba236bf))
+* or-2978 map bankrekeningnummerId in beheer detail ([1b324e2](https://github.com/informatievlaanderen/association-registry/commit/1b324e2dfbd338dbfb3eacc4cfee8f7b62037251))
+
 # [8.295.0](https://github.com/informatievlaanderen/association-registry/compare/v8.294.1...v8.295.0) (2026-01-22)
 
 
