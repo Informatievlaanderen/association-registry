@@ -30,5 +30,5 @@ public record BankrekeningnummerPersoonsgegevens : IPersoonsgegevens
                vCode,
                bankrekeningnummer.BankrekeningnummerId,
                bankrekeningnummer.Iban.Value,
-               bankrekeningnummer.Titularis);
+               bankrekeningnummer.Titularis.Value);
 }
