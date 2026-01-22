@@ -1,3 +1,10 @@
+## [8.294.1](https://github.com/informatievlaanderen/association-registry/compare/v8.294.0...v8.294.1) (2026-01-22)
+
+
+### Bug Fixes
+
+* or-2978 pass titularis value ([1097a83](https://github.com/informatievlaanderen/association-registry/commit/1097a836a825810bd186d71211d2b9d755d72fb8))
+
 # [8.294.0](https://github.com/informatievlaanderen/association-registry/compare/v8.293.4...v8.294.0) (2026-01-21)
 
 
