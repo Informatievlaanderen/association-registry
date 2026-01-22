@@ -6,9 +6,10 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using Moq;
+using Vereniging;
 using Xunit;
 
 public class Given_The_AndereVereniging_Is_Verwijderd
@@ -18,20 +19,25 @@ public class Given_The_AndereVereniging_Is_Verwijderd
     {
         var fixture = new Fixture().CustomizeDomain();
         var repositoryMock = new Mock<IVerenigingsRepository>();
+        var verenigingStateQueryService = new Mock<IVerenigingStateQueryService>();
 
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var command = fixture.Create<VoegLidmaatschapToeCommand>() with
-        {
-            VCode = scenario.VCode,
-        };
-        repositoryMock
-           .Setup(x => x.IsVerwijderd(command.Lidmaatschap.AndereVereniging))
-           .ReturnsAsync(true);
 
-        var commandHandler = new VoegLidmaatschapToeCommandHandler(repositoryMock.Object);
+        var command = fixture.Create<VoegLidmaatschapToeCommand>() with { VCode = scenario.VCode };
 
-        await Assert.ThrowsAsync<VerenigingKanGeenLidWordenVanVerwijderdeVereniging>(
-            async () => await commandHandler.Handle(
-                new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>())));
+        verenigingStateQueryService
+            .Setup(x => x.IsVerwijderd(command.Lidmaatschap.AndereVereniging))
+            .ReturnsAsync(true);
+
+        var commandHandler = new VoegLidmaatschapToeCommandHandler(
+            verenigingRepository: repositoryMock.Object,
+            queryService: verenigingStateQueryService.Object
+        );
+
+        await Assert.ThrowsAsync<VerenigingKanGeenLidWordenVanVerwijderdeVereniging>(async () =>
+            await commandHandler.Handle(
+                new CommandEnvelope<VoegLidmaatschapToeCommand>(Command: command, fixture.Create<CommandMetadata>())
+            )
+        );
     }
 }

@@ -9,6 +9,7 @@ using AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -33,10 +34,14 @@ public class Given_A_Vereniging
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var martenOutbox = new Mock<IMartenOutbox>();
-        martenOutbox.CaptureOutboxSendAsyncMessage<AanvaardDubbeleVerenigingMessage>(message => _outboxMessage = message);
+        martenOutbox.CaptureOutboxSendAsyncMessage<AanvaardDubbeleVerenigingMessage>(message =>
+            _outboxMessage = message
+        );
 
+        var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
             _verenigingRepositoryMock,
+            verenigingsStateQueriesMock,
             martenOutbox.Object,
             Mock.Of<IDocumentSession>()
         );
@@ -51,12 +56,13 @@ public class Given_A_Vereniging
             VCodeAuthentiekeVereniging = _fixture.Create<VCode>(),
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new VerenigingWerdGemarkeerdAlsDubbelVan(
-                _scenario.VCode,
-                command.VCodeAuthentiekeVereniging));
+            new VerenigingWerdGemarkeerdAlsDubbelVan(_scenario.VCode, command.VCodeAuthentiekeVereniging)
+        );
     }
 
     [Fact]
@@ -68,8 +74,12 @@ public class Given_A_Vereniging
             VCodeAuthentiekeVereniging = _fixture.Create<VCode>(),
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _outboxMessage.Should().BeEquivalentTo(new AanvaardDubbeleVerenigingMessage(command.VCodeAuthentiekeVereniging, command.VCode));
+        _outboxMessage
+            .Should()
+            .BeEquivalentTo(new AanvaardDubbeleVerenigingMessage(command.VCodeAuthentiekeVereniging, command.VCode));
     }
 }

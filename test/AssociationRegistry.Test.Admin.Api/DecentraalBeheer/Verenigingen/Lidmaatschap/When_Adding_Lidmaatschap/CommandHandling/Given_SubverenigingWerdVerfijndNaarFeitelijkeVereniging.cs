@@ -3,6 +3,7 @@
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
@@ -20,12 +21,16 @@ public class Given_SubverenigingWerdVerfijndNaarFeitelijkeVereniging
         var fixture = new Fixture().CustomizeDomain();
 
         var rechtspersoonlijkheidScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        var subverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario = new SubverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario(rechtspersoonlijkheidScenario.VCode);
+        var subverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario =
+            new SubverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario(rechtspersoonlijkheidScenario.VCode);
 
-        var verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(subverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario.GetVerenigingState());
+        var verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(
+            subverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario.GetVerenigingState()
+        );
         verenigingRepositoryMock.WithVereniging(rechtspersoonlijkheidScenario.GetVerenigingState());
 
-        var sut = new VoegLidmaatschapToeCommandHandler(verenigingRepositoryMock);
+        var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
+        var sut = new VoegLidmaatschapToeCommandHandler(verenigingRepositoryMock, verenigingsStateQueriesMock);
 
         var command = fixture.Create<VoegLidmaatschapToeCommand>() with
         {
@@ -49,6 +54,9 @@ public class Given_SubverenigingWerdVerfijndNaarFeitelijkeVereniging
                     command.Lidmaatschap.Geldigheidsperiode.Van.DateOnly,
                     command.Lidmaatschap.Geldigheidsperiode.Tot.DateOnly,
                     command.Lidmaatschap.Identificatie,
-                    command.Lidmaatschap.Beschrijving)));
+                    command.Lidmaatschap.Beschrijving
+                )
+            )
+        );
     }
 }

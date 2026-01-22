@@ -5,6 +5,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -21,25 +22,31 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var commandHandler = new VoegLidmaatschapToeCommandHandler(verenigingRepositoryMock);
+        var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
+        var commandHandler = new VoegLidmaatschapToeCommandHandler(
+            verenigingRepositoryMock,
+            verenigingsStateQueriesMock
+        );
 
-        var command = fixture.Create<VoegLidmaatschapToeCommand>() with
-        {
-            VCode = scenario.VCode,
-        };
+        var command = fixture.Create<VoegLidmaatschapToeCommand>() with { VCode = scenario.VCode };
 
-        await commandHandler.Handle(new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>()));
+        await commandHandler.Handle(
+            new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>())
+        );
 
         verenigingRepositoryMock.ShouldHaveSavedExact(
             new LidmaatschapWerdToegevoegd(
                 scenario.VCode,
                 new Registratiedata.Lidmaatschap(
-                1,
-                command.Lidmaatschap.AndereVereniging,
-                command.Lidmaatschap.AndereVerenigingNaam,
-                command.Lidmaatschap.Geldigheidsperiode.Van.DateOnly,
-                command.Lidmaatschap.Geldigheidsperiode.Tot.DateOnly,
-                command.Lidmaatschap.Identificatie,
-                command.Lidmaatschap.Beschrijving)));
+                    1,
+                    command.Lidmaatschap.AndereVereniging,
+                    command.Lidmaatschap.AndereVerenigingNaam,
+                    command.Lidmaatschap.Geldigheidsperiode.Van.DateOnly,
+                    command.Lidmaatschap.Geldigheidsperiode.Tot.DateOnly,
+                    command.Lidmaatschap.Identificatie,
+                    command.Lidmaatschap.Beschrijving
+                )
+            )
+        );
     }
 }
