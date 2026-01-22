@@ -14,7 +14,13 @@ public class Bankrekeningnummer
     public string type { get; set; }
 
     /// <summary>
-    /// De IBAN van de bankrekeningnummer
+    /// De unieke identificatie code van dit bankrekeningnummer binnen de vereniging
+    /// </summary>
+    [DataMember(Name = "BankrekeningnummerId")]
+    public int BankrekeningnummerId { get; set; }
+
+    /// <summary>
+    /// De IBAN van het bankrekeningnummer
     /// </summary>
     [DataMember(Name = "IBAN")]
     public string Iban { get; set; }

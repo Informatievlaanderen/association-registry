@@ -194,6 +194,17 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             AndereVereniging = "V0001111",
                         },
                     ],
+                    Bankrekeningnummers = [
+                        new Bankrekeningnummer()
+                        {
+                            id = JsonLdType.Bankrekeningnummer.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Bankrekeningnummer.Type,
+                            BankrekeningnummerId = 1,
+                            Iban = "BE68539007547034",
+                            Doel = "Lidgeld",
+                            Titularis = "John Doe",
+                        }
+                    ],
                     IsDubbelVan = "",
                     Bron = Bron.Initiator.Waarde,
                 },
@@ -365,6 +376,17 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Identificatie = "Een identificatie",
                             AndereVereniging = "V0001111",
                         },
+                    ],
+                    Bankrekeningnummers = [
+                        new Bankrekeningnummer()
+                        {
+                            id = JsonLdType.Bankrekeningnummer.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Bankrekeningnummer.Type,
+                            BankrekeningnummerId = 1,
+                            Iban = "BE68539007547034",
+                            Doel = "Lidgeld",
+                            Titularis = "John Doe",
+                        }
                     ],
                     IsDubbelVan = "",
                     Bron = Bron.Initiator.Waarde,
@@ -555,6 +577,17 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Identificatie = "L4321",
                         },
                     },
+                    Bankrekeningnummers = [
+                        new Bankrekeningnummer()
+                        {
+                            id = JsonLdType.Bankrekeningnummer.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Bankrekeningnummer.Type,
+                            BankrekeningnummerId = 1,
+                            Iban = "BE68539007547034",
+                            Doel = "Lidgeld",
+                            Titularis = "John Doe",
+                        }
+                    ],
                     IsDubbelVan = "",
                     Bron = Bron.KBO.Waarde,
                 },
