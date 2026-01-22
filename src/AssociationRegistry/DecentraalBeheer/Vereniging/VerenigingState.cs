@@ -890,6 +890,12 @@ public record VerenigingState : IHasVersion
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(Bankrekeningnummers.Without(@event.BankrekeningnummerId)),
         };
 
+    public VerenigingState Apply(BankrekeningnummerWerdVerwijderd @event)
+        => this with
+        {
+            Bankrekeningnummers = Bankrekeningnummers.Hydrate(Bankrekeningnummers.Without(@event.BankrekeningnummerId)),
+        };
+
     public VerenigingState Apply(KszSyncHeeftVertegenwoordigerBevestigd @event)
     {
         var vertegenwoordiger = Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == @event.VertegenwoordigerId);

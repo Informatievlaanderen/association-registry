@@ -1,10 +1,9 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Bankrekeningnummers;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Bankrekeningnummers.Vzer;
 
-using Admin.ProjectionHost.Projections.Detail;
-using Admin.Schema.Detail;
-using Contracts.JsonLdContext;
-using Scenario.Bankrekeningnummers;
-using Scenario.Bankrekeningnummers.Vzer;
+using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Contracts.JsonLdContext;
+using AssociationRegistry.Test.Projections.Scenario.Bankrekeningnummers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_BankrekeningnummerWerdToegevoegd(
@@ -25,6 +24,7 @@ public class Given_BankrekeningnummerWerdToegevoegd(
                 JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                     JsonLdType.Bankrekeningnummer, fixture.Scenario.AggregateId,
                     fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId.ToString()),
+                BankrekeningnummerId = fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
                 Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                 Doel = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
                 Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
