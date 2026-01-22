@@ -1,0 +1,5 @@
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VerwijderBankrekening;
+
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+
+public record VerwijderBankrekeningnummerCommand(VCode VCode, int BankrekeningnummerId);

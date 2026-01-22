@@ -1,9 +1,8 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
+using AutoFixture;
 using DecentraalBeheer.Vereniging;
+using Events;
 using global::AutoFixture;
 
 public class BankrekeningnummerWerdToegevoegdScenario : CommandhandlerScenarioBase

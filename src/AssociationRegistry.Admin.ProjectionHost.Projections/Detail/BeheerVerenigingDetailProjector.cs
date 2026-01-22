@@ -1018,6 +1018,7 @@ public class BeheerVerenigingDetailProjector
                                                     JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                                                         JsonLdType.Bankrekeningnummer, document.VCode,
                                                         @event.Data.BankrekeningnummerId.ToString()),
+                                                    BankrekeningnummerId = @event.Data.BankrekeningnummerId,
                                                     Iban = @event.Data.Iban,
                                                     Doel = @event.Data.Doel,
                                                     Titularis = @event.Data.Titularis,
@@ -1043,6 +1044,13 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static void Apply(IEvent<BankrekeningnummerWerdVerwijderdUitKBO> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Bankrekeningnummers = document.Bankrekeningnummers
+                                               .Where(x => x.BankrekeningnummerId != @event.Data.BankrekeningnummerId)
+                                               .ToArray();
+    }
+
+    public static void Apply(IEvent<BankrekeningnummerWerdVerwijderd> @event, BeheerVerenigingDetailDocument document)
     {
         document.Bankrekeningnummers = document.Bankrekeningnummers
                                                .Where(x => x.BankrekeningnummerId != @event.Data.BankrekeningnummerId)

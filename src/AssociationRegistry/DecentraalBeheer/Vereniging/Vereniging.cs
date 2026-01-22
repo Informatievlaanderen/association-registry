@@ -65,13 +65,13 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             var adres = verrijkteAdressenUitGrar[locatieMetAdresId.AdresId!.Bronwaarde];
 
             AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieMetAdresId.LocatieId,
-                                                                       new Registratiedata.AdresId(
-                                                                           locatieMetAdresId.AdresId!.Adresbron.Code,
-                                                                           locatieMetAdresId.AdresId.Bronwaarde),
-                                                                       new Registratiedata.AdresUitAdressenregister(
-                                                                           adres.Straatnaam, adres.Huisnummer,
-                                                                           adres.Busnummer, adres.Postcode,
-                                                                           adres.Gemeente.Naam)));
+                                                                 new Registratiedata.AdresId(
+                                                                     locatieMetAdresId.AdresId!.Adresbron.Code,
+                                                                     locatieMetAdresId.AdresId.Bronwaarde),
+                                                                 new Registratiedata.AdresUitAdressenregister(
+                                                                     adres.Straatnaam, adres.Huisnummer,
+                                                                     adres.Busnummer, adres.Postcode,
+                                                                     adres.Gemeente.Naam)));
         }
     }
 
@@ -340,23 +340,29 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public (Locatie[] metAdresId, Locatie[] zonderAdresId) GeefLocatiesMetEnZonderAdresId()
         => State.Locaties.Partition(x => x.AdresId is not null);
 
-    public async Task SchrijfVertegenwoordigersIn(IMagdaGeefPersoonService magdaGeefPersoonService, CommandMetadata envelopeMetadata, CancellationToken cancellationToken, ILogger logger)
+    public async Task SchrijfVertegenwoordigersIn(
+        IMagdaGeefPersoonService magdaGeefPersoonService,
+        CommandMetadata envelopeMetadata,
+        CancellationToken cancellationToken,
+        ILogger logger)
     {
         var vertegenwoordigers = State.Vertegenwoordigers.Where(x => !x.BevestigdDoorKsz)
                                       .ToArray();
 
-        if(!vertegenwoordigers.Any())
+        if (!vertegenwoordigers.Any())
             return;
 
         logger.LogInformation($"SchrijfVertegenwoordigersIn started for VCode {VCode} with {vertegenwoordigers.Length} vertegenwoordigers");
-
 
         foreach (var vertegenwoordiger in vertegenwoordigers)
         {
             try
             {
-                var persoonUitKsz = await magdaGeefPersoonService.GeefPersoon(GeefPersoonRequest.From(vertegenwoordiger), envelopeMetadata, cancellationToken);
-                if(persoonUitKsz.Overleden)
+                var persoonUitKsz =
+                    await magdaGeefPersoonService.GeefPersoon(GeefPersoonRequest.From(vertegenwoordiger), envelopeMetadata,
+                                                              cancellationToken);
+
+                if (persoonUitKsz.Overleden)
                     AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
                                  vertegenwoordiger.VertegenwoordigerId,
                                  vertegenwoordiger.Insz,
@@ -366,7 +372,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 {
                     AddEvent(new KszSyncHeeftVertegenwoordigerBevestigd(vertegenwoordiger.VertegenwoordigerId));
                 }
-
             }
             catch (EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz e)
             {
@@ -381,7 +386,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public void MarkeerVertegenwoordigerAlsOverleden(int vertegenwoordigerId)
     {
         var vertegenwoordiger = State.Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == vertegenwoordigerId);
-        if(vertegenwoordiger == null)
+
+        if (vertegenwoordiger == null)
             return;
 
         AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
@@ -395,8 +401,22 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         var toegevoegdBankrekeningnummer = State.Bankrekeningnummers.VoegToe(bankrekeningnummer);
 
-        AddEvent(new BankrekeningnummerWerdToegevoegd(toegevoegdBankrekeningnummer.BankrekeningnummerId, toegevoegdBankrekeningnummer.Iban.Value, toegevoegdBankrekeningnummer.Doel, toegevoegdBankrekeningnummer.Titularis.Value));
+        AddEvent(new BankrekeningnummerWerdToegevoegd(toegevoegdBankrekeningnummer.BankrekeningnummerId,
+                                                      toegevoegdBankrekeningnummer.Iban.Value, toegevoegdBankrekeningnummer.Doel,
+                                                      toegevoegdBankrekeningnummer.Titularis.Value));
 
         return toegevoegdBankrekeningnummer.BankrekeningnummerId;
+    }
+
+    public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
+    {
+        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x => x.BankrekeningnummerId == bankrekeningnummerId);
+
+        if (bankrekeningnummer == null)
+            return;
+
+        AddEvent(new BankrekeningnummerWerdVerwijderd(
+                     bankrekeningnummer.BankrekeningnummerId,
+                     bankrekeningnummer.Iban.Value));
     }
 }

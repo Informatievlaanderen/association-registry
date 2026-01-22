@@ -1256,4 +1256,14 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
         UpdateHistoriek(document, @event);
     }
+
+    public void Apply(IEvent<BankrekeningnummerWerdVerwijderd> @event, PowerBiExportDocument document)
+    {
+        document.AantalBankrekeningnummers = --document.AantalBankrekeningnummers;
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
 }

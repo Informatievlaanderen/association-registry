@@ -848,4 +848,14 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse BankrekeningnummerWerdVerwijderd(BankrekeningnummerWerdToegevoegd @event)
+        => new()
+        {
+            Beschrijving = $"Bankrekeningnummer met IBAN '{@event.Iban}' werd verwijderd.",
+            Gebeurtenis = nameof(Events.BankrekeningnummerWerdVerwijderd),
+            Data = new BankrekeningnummerWerdVerwijderd(@event.BankrekeningnummerId, @event.Iban),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }

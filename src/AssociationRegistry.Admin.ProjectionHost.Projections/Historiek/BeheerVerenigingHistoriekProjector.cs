@@ -876,6 +876,16 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<BankrekeningnummerWerdVerwijderd> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Bankrekeningnummer met IBAN '{@event.Data.Iban}' werd verwijderd."
+        );
+    }
+
 
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()
