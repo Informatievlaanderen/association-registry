@@ -1,3 +1,10 @@
+# [8.295.0](https://github.com/informatievlaanderen/association-registry/compare/v8.294.1...v8.295.0) (2026-01-22)
+
+
+### Features
+
+* or-2980 remove bankrekeningnummers ([d20a86e](https://github.com/informatievlaanderen/association-registry/commit/d20a86e80ccf0f6ca5589a08a05f04c0d849ac4f))
+
 ## [8.294.1](https://github.com/informatievlaanderen/association-registry/compare/v8.294.0...v8.294.1) (2026-01-22)
 
 
