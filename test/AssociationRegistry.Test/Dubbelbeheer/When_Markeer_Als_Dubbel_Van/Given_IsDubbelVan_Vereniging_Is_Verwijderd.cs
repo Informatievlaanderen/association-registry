@@ -1,16 +1,17 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.When_Markeer_Als_Dubbel_Van;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Marten;
 using Moq;
+using Resources;
+using Vereniging;
 using Wolverine.Marten;
 using Xunit;
 
@@ -21,23 +22,30 @@ public class Given_IsDubbelVan_Vereniging_Is_Verwijderd
     {
         var fixture = new Fixture().CustomizeDomain();
         var verenigingsRepositoryMock = new Mock<IVerenigingsRepository>();
+        var verenigingsStateQueriesMock = new Mock<IVerenigingStateQueryService>();
         var command = fixture.Create<MarkeerAlsDubbelVanCommand>();
-        var commandEnvelope = new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, fixture.Create<CommandMetadata>());
 
-        verenigingsRepositoryMock.Setup(s => s.Exists(command.VCodeAuthentiekeVereniging))
-                                 .ReturnsAsync(true);
-        verenigingsRepositoryMock.Setup(s => s.IsDubbel(command.VCodeAuthentiekeVereniging))
-                                 .ReturnsAsync(false);
-        verenigingsRepositoryMock.Setup(s => s.IsVerwijderd(command.VCodeAuthentiekeVereniging))
-                                 .ReturnsAsync(true);
-
-        var sut = new MarkeerAlsDubbelVanCommandHandler(verenigingsRepositoryMock.Object,
-                                                        Mock.Of<IMartenOutbox>(),
-                                                        Mock.Of<IDocumentSession>()
+        var commandEnvelope = new CommandEnvelope<MarkeerAlsDubbelVanCommand>(
+            Command: command,
+            fixture.Create<CommandMetadata>()
         );
 
-        var exception = await Assert.ThrowsAsync<VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging>
-            (async () => await sut.Handle(commandEnvelope, CancellationToken.None));
+        verenigingsStateQueriesMock.Setup(s => s.Exists(command.VCodeAuthentiekeVereniging)).ReturnsAsync(true);
+
+        verenigingsStateQueriesMock.Setup(s => s.IsDubbel(command.VCodeAuthentiekeVereniging)).ReturnsAsync(false);
+
+        verenigingsStateQueriesMock.Setup(s => s.IsVerwijderd(command.VCodeAuthentiekeVereniging)).ReturnsAsync(true);
+
+        var sut = new MarkeerAlsDubbelVanCommandHandler(
+            verenigingsRepository: verenigingsRepositoryMock.Object,
+            queryService: verenigingsStateQueriesMock.Object,
+            Mock.Of<IMartenOutbox>(),
+            Mock.Of<IDocumentSession>()
+        );
+
+        var exception = await Assert.ThrowsAsync<VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging>(async () =>
+            await sut.Handle(message: commandEnvelope, cancellationToken: CancellationToken.None)
+        );
 
         exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging);
     }

@@ -7,6 +7,7 @@ using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
@@ -28,8 +29,10 @@ public class Given_VCode_Equals_IsDubbelVan
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
+        var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
             _verenigingRepositoryMock,
+            verenigingsStateQueriesMock,
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>()
         );
@@ -44,10 +47,11 @@ public class Given_VCode_Equals_IsDubbelVan
             VCodeAuthentiekeVereniging = _scenario.VCode,
         };
 
-        var exception = await Assert
-           .ThrowsAsync<VerenigingKanGeenDubbelWordenVanZichzelf>
-            (async () => await _commandHandler.Handle(
-                 new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())));
+        var exception = await Assert.ThrowsAsync<VerenigingKanGeenDubbelWordenVanZichzelf>(async () =>
+            await _commandHandler.Handle(
+                new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())
+            )
+        );
         exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenDubbelWordenVanZichzelf);
     }
 }

@@ -4,6 +4,7 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappe
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
@@ -25,18 +26,28 @@ public class Given_AndereVereniging_Is_Already_Subvereniging
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var commandHandler = new VoegLidmaatschapToeCommandHandler(verenigingRepositoryMock);
+        var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
+        var commandHandler = new VoegLidmaatschapToeCommandHandler(
+            verenigingRepositoryMock,
+            verenigingsStateQueriesMock
+        );
 
         var command = fixture.Create<VoegLidmaatschapToeCommand>() with
         {
             VCode = scenario.VCode,
             Lidmaatschap = fixture.Create<ToeTeVoegenLidmaatschap>() with
             {
-                AndereVereniging = VCode.Create(scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.AndereVereniging),
+                AndereVereniging = VCode.Create(
+                    scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.AndereVereniging
+                ),
             },
         };
 
-        var exception = await Assert.ThrowsAnyAsync<VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs>(() => commandHandler.Handle(new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>())));
+        var exception = await Assert.ThrowsAnyAsync<VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs>(() =>
+            commandHandler.Handle(
+                new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>())
+            )
+        );
         exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs);
     }
 }

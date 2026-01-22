@@ -1,0 +1,52 @@
+namespace AssociationRegistry.MartenDb.Store;
+
+using AssociationRegistry.EventStore;
+using DecentraalBeheer.Vereniging;
+using Events;
+using Marten;
+using Vereniging;
+
+public class VerenigingStateQueryService : IVerenigingStateQueryService
+{
+    private readonly IEventStore _eventStore;
+    private readonly IDocumentSession _session;
+
+    public VerenigingStateQueryService(IEventStore eventStore, IDocumentSession session)
+    {
+        _eventStore = eventStore;
+        _session = session;
+    }
+
+    public async Task<bool> IsVerwijderd(VCode vCode)
+    {
+        var verenigingState = await _eventStore.Load<VerenigingState>(id: vCode, expectedVersion: null);
+
+        return verenigingState.IsVerwijderd;
+    }
+
+    public async Task<bool> IsDubbel(VCode vCode)
+    {
+        var verenigingState = await _eventStore.Load<VerenigingState>(id: vCode, expectedVersion: null);
+
+        return verenigingState.VerenigingStatus is VerenigingStatus.StatusDubbel;
+    }
+
+    public async Task<bool> Exists(VCode vCode)
+    {
+        var streamState = await _session.Events.FetchStreamStateAsync(vCode);
+
+        return streamState != null;
+    }
+
+    public async Task<bool> Exists(KboNummer kboNummer)
+    {
+        var streamState = await _session.Events.FetchStreamStateAsync(kboNummer);
+
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = await _session
+            .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+            .Where(x => x.KboNummer == kboNummer.Value)
+            .SingleOrDefaultAsync();
+
+        return streamState != null || verenigingMetRechtspersoonlijkheidWerdGeregistreerd != null;
+    }
+}
