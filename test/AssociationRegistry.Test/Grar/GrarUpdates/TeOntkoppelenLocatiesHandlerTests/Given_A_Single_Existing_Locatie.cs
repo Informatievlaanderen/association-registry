@@ -16,12 +16,12 @@ public class Given_A_Single_Existing_Locatie
     {
         var scenario = new AdresWerdOvergenomenUitAdressenregisterScenario();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), expectedLoadingDubbel: true);
+        var verenigingRepositoryMock = new AggregateSessionMock(
+            scenario.GetVerenigingState(),
+            expectedLoadingDubbel: true
+        );
 
-        var message = new OntkoppelLocatiesMessage(scenario.VCode,
-        [
-            scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
-        ]);
+        var message = new OntkoppelLocatiesMessage(scenario.VCode, [scenario.LocatieWerdToegevoegd.Locatie.LocatieId]);
 
         var sut = new OntkoppelLocatiesMessageHandler(verenigingRepositoryMock);
 
@@ -34,7 +34,15 @@ public class Given_A_Single_Existing_Locatie
                 scenario.VCode,
                 scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
                 scenario.AdresWerdOvergenomenUitAdressenregister.AdresId,
-                new Registratiedata.Adres(adres.Straatnaam, adres.Huisnummer, adres.Busnummer, adres.Postcode, adres.Gemeente,
-                                          Adres.België)));
+                new Registratiedata.Adres(
+                    adres.Straatnaam,
+                    adres.Huisnummer,
+                    adres.Busnummer,
+                    adres.Postcode,
+                    adres.Gemeente,
+                    Adres.België
+                )
+            )
+        );
     }
 }

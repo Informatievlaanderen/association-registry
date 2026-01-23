@@ -9,6 +9,7 @@ using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
@@ -18,7 +19,7 @@ public class SyncKboCommandHandlerBuilder
     private readonly Fixture _fixture;
     private Mock<IMagdaRegistreerInschrijvingService> _magdaRegistreerInschrijvingService;
     private Mock<IMagdaSyncGeefVerenigingService> _magdaGeefVerenigingService;
-    private Mock<IVerenigingsRepository> _verenigingsRepository;
+    private Mock<IAggregateSession> _aggregateSession;
     private Mock<IVerenigingStateQueryService> _verenigingsQueryService;
     private KboNummer? _kboNummer;
 
@@ -29,7 +30,7 @@ public class SyncKboCommandHandlerBuilder
         _fixture = new Fixture().CustomizeAdminApi();
         _magdaRegistreerInschrijvingService = new Mock<IMagdaRegistreerInschrijvingService>();
         _magdaGeefVerenigingService = new Mock<IMagdaSyncGeefVerenigingService>();
-        _verenigingsRepository = new Mock<IVerenigingsRepository>();
+        _aggregateSession = new Mock<IAggregateSession>();
         _verenigingsQueryService = new Mock<IVerenigingStateQueryService>();
         _kboNummer = _fixture.Create<KboNummer>();
     }
@@ -105,7 +106,7 @@ public class SyncKboCommandHandlerBuilder
 
     public SyncKboCommandHandlerBuilder MetFoutBijLadenVereniging()
     {
-        _verenigingsRepository
+        _aggregateSession
             .Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>()))
             .ThrowsAsync(new Exception());
         return this;
@@ -121,7 +122,7 @@ public class SyncKboCommandHandlerBuilder
             }
         );
 
-        _verenigingsRepository
+        _aggregateSession
             .Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>()))
             .ReturnsAsync(vereniging);
         return this;
@@ -159,7 +160,7 @@ public class SyncKboCommandHandlerBuilder
 
     public SyncKboCommandHandlerBuilder MetSuccesvolOpgeslagenVereniging()
     {
-        _verenigingsRepository
+        _aggregateSession
             .Setup(x =>
                 x.Save(
                     It.IsAny<VerenigingMetRechtspersoonlijkheid>(),
@@ -184,7 +185,7 @@ public class SyncKboCommandHandlerBuilder
         await Build()
             .Handle(
                 new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(_kboNummer), _fixture.Create<CommandMetadata>()),
-                _verenigingsRepository.Object,
+                _aggregateSession.Object,
                 _verenigingsQueryService.Object
             );
 }

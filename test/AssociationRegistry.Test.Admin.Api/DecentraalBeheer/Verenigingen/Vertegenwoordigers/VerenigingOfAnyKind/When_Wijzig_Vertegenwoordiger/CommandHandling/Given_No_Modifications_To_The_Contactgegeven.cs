@@ -20,17 +20,17 @@ public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private CommandResult _commandResult = null!;
 
     public Given_No_Modifications_To_The_Vertegenwoordiger()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new WijzigVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigVertegenwoordigerCommandHandler(_aggregateSessionMock);
     }
 
     public async ValueTask InitializeAsync()
@@ -45,16 +45,19 @@ public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
                 TelefoonNummer.Create(_scenario.VertegenwoordigerWerdToegevoegd.Telefoon),
                 TelefoonNummer.Create(_scenario.VertegenwoordigerWerdToegevoegd.Mobiel),
                 SocialMedia.Create(_scenario.VertegenwoordigerWerdToegevoegd.SocialMedia),
-                _scenario.VertegenwoordigerWerdToegevoegd.IsPrimair));
+                _scenario.VertegenwoordigerWerdToegevoegd.IsPrimair
+            )
+        );
 
-        _commandResult =
-            await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
+        _commandResult = await _commandHandler.Handle(
+            new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>())
+        );
     }
 
     [Fact]
     public void Then_No_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _aggregateSessionMock.ShouldNotHaveAnySaves();
     }
 
     [Fact]
@@ -63,6 +66,5 @@ public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
         _commandResult.HasChanges().Should().BeFalse();
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

@@ -20,7 +20,10 @@ public class Returns_StreamExists
     private readonly FullBlownApiSetup _apiSetup;
     private readonly RegistreerVerenigingMetRechtsperoonlijkheidContext _testContext;
 
-    public Returns_StreamExists(FullBlownApiSetup apiSetup, RegistreerVerenigingMetRechtsperoonlijkheidContext testContext)
+    public Returns_StreamExists(
+        FullBlownApiSetup apiSetup,
+        RegistreerVerenigingMetRechtsperoonlijkheidContext testContext
+    )
     {
         _apiSetup = apiSetup;
         _testContext = testContext;
@@ -30,21 +33,25 @@ public class Returns_StreamExists
     public async ValueTask ByVCode()
     {
         using var scope = _apiSetup.AdminApiHost.Services.CreateScope();
-        var eventStore = scope.ServiceProvider.GetRequiredService<IEventStore>();
+        var queryService = scope.ServiceProvider.GetRequiredService<IVerenigingStateQueryService>();
 
-        var streamExists = await eventStore.Exists(_testContext.VCode);
+        var streamExists = await queryService.Exists(_testContext.VCode);
 
-        streamExists.Should().BeTrue("because the vereniging was registered and the events were saved to the event store");
+        streamExists
+            .Should()
+            .BeTrue("because the vereniging was registered and the events were saved to the event store");
     }
 
     [Fact]
     public async ValueTask ByKboNumber()
     {
         using var scope = _apiSetup.AdminApiHost.Services.CreateScope();
-        var eventStore = scope.ServiceProvider.GetRequiredService<IEventStore>();
+        var queryService = scope.ServiceProvider.GetRequiredService<IVerenigingStateQueryService>();
 
-        var streamExists = await eventStore.Exists(KboNummer.Create(_testContext.CommandRequest.KboNummer));
+        var streamExists = await queryService.Exists(KboNummer.Create(_testContext.CommandRequest.KboNummer));
 
-        streamExists.Should().BeTrue("because the vereniging was registered and the events were saved to the event store");
+        streamExists
+            .Should()
+            .BeTrue("because the vereniging was registered and the events were saved to the event store");
     }
 }

@@ -20,7 +20,7 @@ public class Given_A_Duplicate_Contactgegeven
     public Given_A_Duplicate_Contactgegeven()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -36,10 +36,14 @@ public class Given_A_Duplicate_Contactgegeven
                 _scenario.ContactgegevenWerdToegevoegd2.ContactgegevenId,
                 _scenario.ContactgegevenWerdToegevoegd1.Waarde, // <== changed value
                 _scenario.ContactgegevenWerdToegevoegd2.Beschrijving,
-                _scenario.ContactgegevenWerdToegevoegd2.IsPrimair));
+                _scenario.ContactgegevenWerdToegevoegd2.IsPrimair
+            )
+        );
 
-        var handle = ()
-            => _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
+        var handle = () =>
+            _commandHandler.Handle(
+                new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>())
+            );
 
         await handle.Should().ThrowAsync<ContactgegevenIsDuplicaat>();
     }

@@ -10,37 +10,12 @@ using Persoonsgegevens;
 using Transformers;
 using Vereniging;
 
-public interface IAggregateSession
-{
-    Task<StreamActionResult> Save(
-        VerenigingsBase vereniging,
-        CommandMetadata metadata,
-        CancellationToken cancellationToken = default
-    );
+public class AggregateSession : IAggregateSession
 
-    Task<StreamActionResult> Save(
-        VerenigingsBase vereniging,
-        IDocumentSession session,
-        CommandMetadata metadata,
-        CancellationToken cancellationToken
-    );
-
-    Task<TVereniging> Load<TVereniging>(
-        VCode vCode,
-        CommandMetadata metadata,
-        bool allowVerwijderdeVereniging = false,
-        bool allowDubbeleVereniging = false
-    )
-        where TVereniging : IHydrate<VerenigingState>, new();
-
-    Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, CommandMetadata metadata);
-}
-
-public class VerenigingsRepository : IAggregateSession, IVerenigingsRepository
 {
     private readonly IEventStore _eventStore;
 
-    public VerenigingsRepository(IEventStore eventStore)
+    public AggregateSession(IEventStore eventStore)
     {
         _eventStore = eventStore;
     }

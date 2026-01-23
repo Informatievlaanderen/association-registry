@@ -24,7 +24,7 @@ public class Given_AndereVereniging_Is_Already_Subvereniging
 
         var scenario = new VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
         var commandHandler = new VoegLidmaatschapToeCommandHandler(

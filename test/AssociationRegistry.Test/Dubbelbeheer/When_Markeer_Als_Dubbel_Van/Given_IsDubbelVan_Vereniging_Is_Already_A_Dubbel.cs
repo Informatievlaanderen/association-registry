@@ -9,6 +9,7 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Marten;
+using MartenDb.Store;
 using Moq;
 using Resources;
 using Vereniging;
@@ -21,7 +22,7 @@ public class Given_IsDubbelVan_Vereniging_Is_Already_A_Dubbel
     public async ValueTask Then_Throws_VerenigingKanGeenDubbelWordenVanDubbelVereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var verenigingsRepositoryMock = new Mock<IVerenigingsRepository>();
+        var aggregateSession = new Mock<IAggregateSession>();
         var verenigingsStateQueriesMock = new Mock<IVerenigingStateQueryService>();
         var command = fixture.Create<MarkeerAlsDubbelVanCommand>();
 
@@ -35,7 +36,7 @@ public class Given_IsDubbelVan_Vereniging_Is_Already_A_Dubbel
         verenigingsStateQueriesMock.Setup(s => s.IsDubbel(command.VCodeAuthentiekeVereniging)).ReturnsAsync(true);
 
         var sut = new MarkeerAlsDubbelVanCommandHandler(
-            verenigingsRepository: verenigingsRepositoryMock.Object,
+            aggregateSession: aggregateSession.Object,
             queryService: verenigingsStateQueriesMock.Object,
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>()

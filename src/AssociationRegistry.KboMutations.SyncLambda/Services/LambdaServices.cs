@@ -12,7 +12,7 @@ public record LambdaServices(
     ILoggerFactory LoggerFactory,
     SyncKboCommandHandler KboSyncHandler,
     SyncKszMessageHandler KszSyncHandler,
-    VerenigingsRepository Repository,
+    AggregateSession Repository,
     VerenigingStateQueryService QueryService,
     INotifier Notifier
 ) { }

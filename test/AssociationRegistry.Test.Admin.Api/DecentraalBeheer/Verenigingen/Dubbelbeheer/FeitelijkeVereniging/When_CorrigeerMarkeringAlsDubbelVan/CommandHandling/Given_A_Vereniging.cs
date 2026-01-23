@@ -21,7 +21,7 @@ public class Given_A_Vereniging
 {
     private readonly Fixture _fixture;
     private readonly VerenigingWerdGemarkeerdAlsDubbelVanScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly CorrigeerMarkeringAlsDubbelVanCommandHandler _commandHandler;
     private AanvaardCorrectieDubbeleVerenigingMessage _outboxMessage;
 
@@ -29,14 +29,16 @@ public class Given_A_Vereniging
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new VerenigingWerdGemarkeerdAlsDubbelVanScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState(), expectedLoadingDubbel: true);
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState(), expectedLoadingDubbel: true);
 
         var martenOutbox = new Mock<IMartenOutbox>();
 
-        martenOutbox.CaptureOutboxSendAsyncMessage<AanvaardCorrectieDubbeleVerenigingMessage>(message => _outboxMessage = message);
+        martenOutbox.CaptureOutboxSendAsyncMessage<AanvaardCorrectieDubbeleVerenigingMessage>(message =>
+            _outboxMessage = message
+        );
 
         _commandHandler = new CorrigeerMarkeringAlsDubbelVanCommandHandler(
-            _verenigingRepositoryMock,
+            _aggregateSessionMock,
             martenOutbox.Object,
             Mock.Of<IDocumentSession>()
         );
@@ -45,34 +47,37 @@ public class Given_A_Vereniging
     [Fact]
     public async ValueTask Then_It_Saves_An_VerenigingWerdGermarkeerdAlsDubbel_Event()
     {
-        var command = _fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with
-        {
-            VCode = _scenario.VCode,
-        };
+        var command = _fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with { VCode = _scenario.VCode };
 
         await _commandHandler.Handle(
-            new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
+            new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSavedExact(
             new MarkeringDubbeleVerengingWerdGecorrigeerd(
                 _scenario.VCode,
                 _scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging,
                 VerenigingStatus.Actief
-            ));
+            )
+        );
     }
 
     [Fact]
     public async ValueTask Then_It_Sends_A_Message_To_The_Outbox()
     {
-        var command = _fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with
-        {
-            VCode = _scenario.VCode,
-        };
+        var command = _fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with { VCode = _scenario.VCode };
 
         await _commandHandler.Handle(
-            new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
+            new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _outboxMessage.Should()
-                      .BeEquivalentTo(new AanvaardCorrectieDubbeleVerenigingMessage(_scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging, command.VCode));
+        _outboxMessage
+            .Should()
+            .BeEquivalentTo(
+                new AanvaardCorrectieDubbeleVerenigingMessage(
+                    _scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging,
+                    command.VCode
+                )
+            );
     }
 }

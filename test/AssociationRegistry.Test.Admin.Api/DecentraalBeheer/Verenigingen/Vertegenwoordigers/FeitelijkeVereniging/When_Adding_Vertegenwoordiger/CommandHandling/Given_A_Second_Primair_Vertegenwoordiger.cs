@@ -23,7 +23,7 @@ public class Given_A_Second_Primair_Vertegenwoordiger
     public Given_A_Second_Primair_Vertegenwoordiger()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -35,29 +35,37 @@ public class Given_A_Second_Primair_Vertegenwoordiger
     {
         var command = new VoegVertegenwoordigerToeCommand(
             _scenario.VCode,
-            _fixture.Create<Vertegenwoordiger>()
-                with
-                {
-                    IsPrimair = true,
-                });
+            _fixture.Create<Vertegenwoordiger>() with
+            {
+                IsPrimair = true,
+            }
+        );
 
-        var commandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(command, _fixture.Create<CommandMetadata>());
+        var commandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(
+            command,
+            _fixture.Create<CommandMetadata>()
+        );
 
         var secondCommand = new VoegVertegenwoordigerToeCommand(
             _scenario.VCode,
-            _fixture.Create<Vertegenwoordiger>()
-                with
-                {
-                    IsPrimair = true,
-                });
+            _fixture.Create<Vertegenwoordiger>() with
+            {
+                IsPrimair = true,
+            }
+        );
 
-        var secondCommandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(secondCommand, _fixture.Create<CommandMetadata>());
+        var secondCommandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(
+            secondCommand,
+            _fixture.Create<CommandMetadata>()
+        );
 
         await _commandHandler.Handle(commandEnvelope, _fixture.Create<PersoonUitKsz>());
-        var handleCall = async () => await _commandHandler.Handle(secondCommandEnvelope, _fixture.Create<PersoonUitKsz>());
+        var handleCall = async () =>
+            await _commandHandler.Handle(secondCommandEnvelope, _fixture.Create<PersoonUitKsz>());
 
-        await handleCall.Should()
-                        .ThrowAsync<MeerderePrimaireVertegenwoordigers>()
-                        .WithMessage(new MeerderePrimaireVertegenwoordigers().Message);
+        await handleCall
+            .Should()
+            .ThrowAsync<MeerderePrimaireVertegenwoordigers>()
+            .WithMessage(new MeerderePrimaireVertegenwoordigers().Message);
     }
 }

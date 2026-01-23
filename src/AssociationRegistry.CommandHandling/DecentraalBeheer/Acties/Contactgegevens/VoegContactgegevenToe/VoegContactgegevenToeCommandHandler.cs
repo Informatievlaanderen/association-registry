@@ -1,30 +1,38 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
 using System.Threading;
 using System.Threading.Tasks;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
+using MartenDb.Store;
 
 public class VoegContactgegevenToeCommandHandler
 {
-    private readonly IVerenigingsRepository _verenigingRepository;
+    private readonly IAggregateSession _aggregateSession;
 
-    public VoegContactgegevenToeCommandHandler(IVerenigingsRepository verenigingRepository)
+    public VoegContactgegevenToeCommandHandler(IAggregateSession aggregateSession)
     {
-        _verenigingRepository = verenigingRepository;
+        _aggregateSession = aggregateSession;
     }
 
     public async Task<EntityCommandResult> Handle(
         CommandEnvelope<VoegContactgegevenToeCommand> envelope,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
-        var vereniging =
-            await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata);
+        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
+            VCode.Create(envelope.Command.VCode),
+            envelope.Metadata
+        );
 
-       var contactgegeven = vereniging.VoegContactgegevenToe(envelope.Command.Contactgegeven);
+        var contactgegeven = vereniging.VoegContactgegevenToe(envelope.Command.Contactgegeven);
 
-        var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
+        var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 
-        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), contactgegeven.ContactgegevenId, result);
+        return EntityCommandResult.Create(
+            VCode.Create(envelope.Command.VCode),
+            contactgegeven.ContactgegevenId,
+            result
+        );
     }
 }

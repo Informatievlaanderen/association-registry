@@ -8,6 +8,7 @@ using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
+using MartenDb.Store;
 using Moq;
 using Resources;
 using Wolverine;
@@ -22,15 +23,17 @@ public class Given_VCode_And_VCodeDubbeleVereniging_Are_The_Same
         var messageBus = new Mock<IMessageBus>();
 
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var aggregateSession = new AggregateSessionMock(scenario.GetVerenigingState());
         var command = fixture.Create<AanvaardDubbeleVerenigingCommand>() with
         {
             VCode = scenario.VCode,
             VCodeDubbeleVereniging = scenario.VCode,
         };
-        var sut = new AanvaardDubbeleVerenigingCommandHandler(repositoryMock, messageBus.Object);
+        var sut = new AanvaardDubbeleVerenigingCommandHandler(aggregateSession, messageBus.Object);
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>(async () => await sut.Handle(command, CancellationToken.None)) ;
+        var exception = await Assert.ThrowsAsync<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>(async () =>
+            await sut.Handle(command, CancellationToken.None)
+        );
 
         exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenDubbelWordenVanZichzelf);
     }

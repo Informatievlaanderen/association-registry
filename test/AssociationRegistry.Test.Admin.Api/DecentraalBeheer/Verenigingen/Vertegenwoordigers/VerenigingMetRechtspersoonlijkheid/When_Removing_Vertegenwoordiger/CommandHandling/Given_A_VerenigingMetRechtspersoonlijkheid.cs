@@ -21,13 +21,16 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid
     public Given_A_VerenigingMetRechtspersoonlijkheid()
     {
         var scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
         var command = fixture.Create<VerwijderVertegenwoordigerCommand>() with { VCode = scenario.VCode };
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        _commandHandler = new VerwijderVertegenwoordigerCommandHandler(verenigingRepositoryMock, Mock.Of<IMartenOutbox>());
+        _commandHandler = new VerwijderVertegenwoordigerCommandHandler(
+            verenigingRepositoryMock,
+            Mock.Of<IMartenOutbox>()
+        );
         _envelope = new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata);
     }
 

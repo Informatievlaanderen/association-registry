@@ -4,12 +4,13 @@ using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using Vereniging;
 
-public class VerenigingsRepositoryFactory
+public class AggregateSessionFactory
 {
-    public VerenigingRepositoryMock Mock()
-        => new();
+    public AggregateSessionMock Mock() => new();
 
-
-    public VerenigingRepositoryMock Mock(VerenigingState returns, bool expectedLoadingDubbel = false, bool expectedLoadingVerwijderd = false)
-        => new(returns, expectedLoadingDubbel, expectedLoadingVerwijderd);
+    public AggregateSessionMock Mock(
+        VerenigingState returns,
+        bool expectedLoadingDubbel = false,
+        bool expectedLoadingVerwijderd = false
+    ) => new(returns, expectedLoadingDubbel, expectedLoadingVerwijderd);
 }

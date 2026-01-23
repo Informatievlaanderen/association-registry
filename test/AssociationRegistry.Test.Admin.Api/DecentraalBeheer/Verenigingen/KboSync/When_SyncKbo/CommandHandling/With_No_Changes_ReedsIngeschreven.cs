@@ -21,7 +21,7 @@ using Xunit;
 
 public class With_No_Changes_ReedsIngeschreven
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly VerenigingsStateQueriesMock _verenigingStateQueryServiceMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdEnIngeschrevenScenario _scenario;
     private readonly Mock<INotifier> _notifierMock;
@@ -32,7 +32,7 @@ public class With_No_Changes_ReedsIngeschreven
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdEnIngeschrevenScenario();
         var verenigingState = _scenario.GetVerenigingState();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(verenigingState);
+        _aggregateSessionMock = new AggregateSessionMock(verenigingState);
         _verenigingStateQueryServiceMock = new VerenigingsStateQueriesMock(verenigingState);
         _notifierMock = new Mock<INotifier>();
 
@@ -55,7 +55,7 @@ public class With_No_Changes_ReedsIngeschreven
         commandHandler
             .Handle(
                 new CommandEnvelope<SyncKboCommand>(_command, commandMetadata),
-                _verenigingRepositoryMock,
+                _aggregateSessionMock,
                 _verenigingStateQueryServiceMock
             )
             .GetAwaiter()
@@ -80,7 +80,7 @@ public class With_No_Changes_ReedsIngeschreven
     [Fact]
     public void Then_No_VerenigingWerdIngeschrevenOpWijzigingenUitKbo_Event_Is_Saved()
     {
-        _verenigingRepositoryMock
+        _aggregateSessionMock
             .SaveInvocations[0]
             .Vereniging.UncommittedEvents.Should()
             .NotContain(e => e.GetType() == typeof(VerenigingWerdIngeschrevenOpWijzigingenUitKbo));

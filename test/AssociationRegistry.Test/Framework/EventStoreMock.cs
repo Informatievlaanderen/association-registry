@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Framework;
 
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using DecentraalBeheer.Vereniging;
 using Events;
+using EventStore;
 using MartenDb.Store;
 using Persoonsgegevens;
 using Vereniging;
@@ -11,7 +11,9 @@ using Vereniging;
 public class EventStoreMock : IEventStore
 {
     public record SaveInvocation(string AggregateId, IEvent[] Events);
+
     public record LoadInvocation(string AggregateId, Type Type);
+
     private readonly IEvent[] _events;
 
     public EventStoreMock(params IEvent[] events)
@@ -26,10 +28,18 @@ public class EventStoreMock : IEventStore
         long aggregateVersion,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
-        params IEvent[] events)
-        => await Save(aggregateId, aggregateVersion, metadata, cancellationToken, events);
+        params IEvent[] events
+    ) =>
+        await Save(
+            aggregateId: aggregateId,
+            aggregateVersion: aggregateVersion,
+            metadata: metadata,
+            cancellationToken: cancellationToken,
+            events: events
+        );
 
-    public Task<T> Load<T>(string aggregateId, long? expectedVersion) where T : class, IHasVersion, new()
+    public Task<T> Load<T>(string aggregateId, long? expectedVersion)
+        where T : class, IHasVersion, new()
     {
         var result = new T();
 
@@ -42,26 +52,30 @@ public class EventStoreMock : IEventStore
         return Task.FromResult(result);
     }
 
-    public Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new()
-        => Task.FromException<T?>(new NotImplementedException());
+    public Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion)
+        where T : class, IHasVersion, new() => Task.FromException<T?>(new NotImplementedException());
 
-    public async Task<bool> Exists(VCode vCode)
-        => true;
+    public async Task<bool> Exists(VCode vCode) => true;
 
-    public async Task<bool> Exists(KboNummer kboNummer)
-        => throw new NotImplementedException();
+    public async Task<bool> Exists(KboNummer kboNummer) => throw new NotImplementedException();
 
     public async Task<StreamActionResult> SaveNew(
         string aggregateId,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
-        IEvent[] events)
-        => throw new NotImplementedException();
+        IEvent[] events
+    ) => throw new NotImplementedException();
 
-    public async Task<VCode?> GetVCodeForKbo(string kboNummer)
-        => throw new NotImplementedException();
+    public async Task<VCode?> GetVCodeForKbo(string kboNummer) => throw new NotImplementedException();
+
+    public async Task<StreamActionResult> SaveNewKbo(
+        string aggregateId,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        IEvent[] events
+    ) => throw new NotImplementedException();
 
     public async Task<IReadOnlyList<VCode>> FilterVzerOnly(
-        IEnumerable<VCode> vertegenwoordigerPersoonsgegevensByVCode)
-        => throw new NotImplementedException();
+        IEnumerable<VCode> vertegenwoordigerPersoonsgegevensByVCode
+    ) => throw new NotImplementedException();
 }

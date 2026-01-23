@@ -14,14 +14,14 @@ using Xunit;
 
 public class With_One_Vertegenwoordiger
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithOneVertegenwoordigerScenario _scenario;
     private readonly Fixture _fixture;
 
     public With_One_Vertegenwoordiger()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithOneVertegenwoordigerScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
         _fixture = new Fixture().CustomizeAdminApi();
     }
 
@@ -30,10 +30,15 @@ public class With_One_Vertegenwoordiger
     {
         var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerId);
         var commandMetadata = _fixture.Create<CommandMetadata>();
-        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock, Mock.Of<IMartenOutbox>());
-        await Assert.ThrowsAsync<LaatsteVertegenwoordigerKanNietVerwijderdWorden>(async () => await commandHandler.Handle(
-                                                                                      new CommandEnvelope<VerwijderVertegenwoordigerCommand>(
-                                                                                          command, commandMetadata),
-                                                                                      CancellationToken.None));
+        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(
+            _aggregateSessionMock,
+            Mock.Of<IMartenOutbox>()
+        );
+        await Assert.ThrowsAsync<LaatsteVertegenwoordigerKanNietVerwijderdWorden>(async () =>
+            await commandHandler.Handle(
+                new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata),
+                CancellationToken.None
+            )
+        );
     }
 }

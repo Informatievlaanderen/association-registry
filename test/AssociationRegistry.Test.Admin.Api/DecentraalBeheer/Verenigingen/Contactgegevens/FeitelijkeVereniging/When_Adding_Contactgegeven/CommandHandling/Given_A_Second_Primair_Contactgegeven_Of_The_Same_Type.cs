@@ -22,7 +22,7 @@ public class Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type
     public Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -38,13 +38,20 @@ public class Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type
                 Contactgegeventype.Labels.Email,
                 waarde: "test2@example.org",
                 _fixture.Create<string?>(),
-                isPrimair: true));
+                isPrimair: true
+            )
+        );
 
-        var handleCall = async ()
-            => await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+        var handleCall = async () =>
+            await _commandHandler.Handle(
+                new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>())
+            );
 
-        await handleCall.Should()
-                        .ThrowAsync<MeerderePrimaireContactgegevensZijnNietToegestaan>()
-                        .WithMessage(new MeerderePrimaireContactgegevensZijnNietToegestaan(Contactgegeventype.Email.ToString()).Message);
+        await handleCall
+            .Should()
+            .ThrowAsync<MeerderePrimaireContactgegevensZijnNietToegestaan>()
+            .WithMessage(
+                new MeerderePrimaireContactgegevensZijnNietToegestaan(Contactgegeventype.Email.ToString()).Message
+            );
     }
 }

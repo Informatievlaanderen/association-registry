@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_Loading_A_Vereniging;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Test.Framework;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
+using Events;
+using EventStore;
 using FluentAssertions;
+using Framework;
 using MartenDb.Store;
+using Vereniging;
 using Xunit;
 
 public class Given_A_VCode
@@ -22,18 +22,19 @@ public class Given_A_VCode
     {
         var fixture = new Fixture().CustomizeDomain();
         var context = new SpecimenContext(fixture);
-        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
+
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)
+            context.Resolve(verenigingType);
 
         var eventStoreMock = new EventStoreMock((dynamic)verenigingWerdGeregistreerd);
 
-        var repo = new VerenigingsRepository(eventStoreMock);
+        var repo = new AggregateSession(eventStoreMock);
 
-        var feteitelijkeVerenging = await repo.Load<Vereniging>(VCode.Create(verenigingWerdGeregistreerd.VCode), TestCommandMetadata.Empty);
+        var feteitelijkeVerenging = await repo.Load<Vereniging>(
+            VCode.Create(verenigingWerdGeregistreerd.VCode),
+            metadata: TestCommandMetadata.Empty
+        );
 
-        feteitelijkeVerenging
-           .Should()
-           .NotBeNull()
-           .And
-           .BeOfType<Vereniging>();
+        feteitelijkeVerenging.Should().NotBeNull().And.BeOfType<Vereniging>();
     }
 }

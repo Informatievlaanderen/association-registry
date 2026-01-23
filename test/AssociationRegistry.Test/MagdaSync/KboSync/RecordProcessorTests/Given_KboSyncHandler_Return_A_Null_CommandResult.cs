@@ -9,6 +9,7 @@ using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -21,7 +22,7 @@ public class Given_KboSyncHandler_Return_A_Null_CommandResult
     {
         var fixture = new Fixture().CustomizeDomain();
         var logger = new Mock<ILogger>();
-        var verenigingsRepository = new Mock<IVerenigingsRepository>();
+        var aggregateSession = new Mock<IAggregateSession>();
         var verenigingStateQueryService = new Mock<IVerenigingStateQueryService>();
         verenigingStateQueryService.Setup(x => x.Exists(It.IsAny<KboNummer>())).Returns(Task.FromResult(false));
 
@@ -36,7 +37,7 @@ public class Given_KboSyncHandler_Return_A_Null_CommandResult
         RecordProcessor
             .TryProcessRecord(
                 logger.Object,
-                verenigingsRepository.Object,
+                aggregateSession.Object,
                 verenigingStateQueryService.Object,
                 CancellationToken.None,
                 new TeSynchroniserenKboNummerMessage(fixture.Create<KboNummer>()),

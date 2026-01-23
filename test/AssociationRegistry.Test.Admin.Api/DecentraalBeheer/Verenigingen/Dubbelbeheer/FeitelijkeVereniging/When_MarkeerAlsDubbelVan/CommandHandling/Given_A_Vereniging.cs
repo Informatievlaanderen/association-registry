@@ -23,7 +23,7 @@ public class Given_A_Vereniging
 {
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly MarkeerAlsDubbelVanCommandHandler _commandHandler;
     private AanvaardDubbeleVerenigingMessage _outboxMessage;
 
@@ -31,7 +31,7 @@ public class Given_A_Vereniging
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         var martenOutbox = new Mock<IMartenOutbox>();
         martenOutbox.CaptureOutboxSendAsyncMessage<AanvaardDubbeleVerenigingMessage>(message =>
@@ -40,7 +40,7 @@ public class Given_A_Vereniging
 
         var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
-            _verenigingRepositoryMock,
+            _aggregateSessionMock,
             verenigingsStateQueriesMock,
             martenOutbox.Object,
             Mock.Of<IDocumentSession>()
@@ -60,7 +60,7 @@ public class Given_A_Vereniging
             new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())
         );
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSavedExact(
             new VerenigingWerdGemarkeerdAlsDubbelVan(_scenario.VCode, command.VCodeAuthentiekeVereniging)
         );
     }

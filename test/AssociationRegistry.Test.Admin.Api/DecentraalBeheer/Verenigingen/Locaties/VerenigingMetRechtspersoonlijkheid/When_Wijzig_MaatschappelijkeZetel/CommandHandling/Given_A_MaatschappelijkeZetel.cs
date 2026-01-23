@@ -18,7 +18,7 @@ using Xunit;
 
 public class Given_A_MaatschappelijkeZetel
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario _scenario;
     private readonly WijzigMaatschappelijkeZetelCommand _command;
     private GeotagsCollection _geotags;
@@ -31,7 +31,7 @@ public class Given_A_MaatschappelijkeZetel
         var factory = new Faktory(fixture);
 
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario();
-        _verenigingRepositoryMock = factory.VerenigingsRepository.Mock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = factory.AggregateSession.Mock(_scenario.GetVerenigingState());
 
         (_geotagsService, _geotags) = factory.GeotagsService.ReturnsRandomGeotags();
 
@@ -39,41 +39,55 @@ public class Given_A_MaatschappelijkeZetel
             _scenario.VCode,
             new WijzigMaatschappelijkeZetelCommand.Locatie(
                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId,
-                fixture.Create<bool>(), fixture.Create<string>()));
+                fixture.Create<bool>(),
+                fixture.Create<string>()
+            )
+        );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigMaatschappelijkeZetelCommandHandler(_verenigingRepositoryMock, _geotagsService.Object);
+        var commandHandler = new WijzigMaatschappelijkeZetelCommandHandler(
+            _aggregateSessionMock,
+            _geotagsService.Object
+        );
 
-        commandHandler.Handle(
-            new CommandEnvelope<WijzigMaatschappelijkeZetelCommand>(_command, commandMetadata)).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(new CommandEnvelope<WijzigMaatschappelijkeZetelCommand>(_command, commandMetadata))
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
     public void Then_The_GeotagService_Is_Called_With_UpdatedLocations()
     {
-        _geotagsService.Verify(x => x.CalculateGeotags(It.Is<IEnumerable<Locatie>>(x => x.Count() == 1 &&
-                                                                             x.Single().LocatieId == _scenario
-                                                                                .MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie
-                                                                                .LocatieId),
-                                                       Array.Empty<Werkingsgebied>()),
-                               Times.Once
+        _geotagsService.Verify(
+            x =>
+                x.CalculateGeotags(
+                    It.Is<IEnumerable<Locatie>>(x =>
+                        x.Count() == 1
+                        && x.Single().LocatieId
+                            == _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId
+                    ),
+                    Array.Empty<Werkingsgebied>()
+                ),
+            Times.Once
         );
     }
 
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.VCode);
+        _aggregateSessionMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.VCode);
     }
 
     [Fact]
     public void Then_A_MaatschappelijkeZetelVolgensKBOWerdGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSavedExact(
             new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
                 _command.TeWijzigenLocatie.LocatieId,
                 _command.TeWijzigenLocatie.Naam!,
-                _command.TeWijzigenLocatie.IsPrimair!.Value),
+                _command.TeWijzigenLocatie.IsPrimair!.Value
+            ),
             EventFactory.GeotagsWerdenBepaald(_scenario.VCode, _geotags)
         );
     }

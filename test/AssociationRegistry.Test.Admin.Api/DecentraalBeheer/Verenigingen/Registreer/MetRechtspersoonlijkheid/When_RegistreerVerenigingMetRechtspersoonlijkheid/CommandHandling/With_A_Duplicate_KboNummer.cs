@@ -14,7 +14,6 @@ using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
 using FluentAssertions;
-using Marten;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
@@ -62,13 +61,11 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
         var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
 
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            Mock.Of<IVerenigingsRepository>(),
             _newAggregateSessionMock,
             _verenigingStateQueryServiceMock,
             new InMemorySequentialVCodeService(),
             _magdaGeefVerenigingService.Object,
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
     }

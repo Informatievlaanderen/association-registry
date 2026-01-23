@@ -9,6 +9,7 @@ using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeige
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using Integrations.Slack;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -20,16 +21,20 @@ public class Given_Weigering_Reeds_Verwerkt_Door_DubbeleVereniging
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario();
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), true, true);
-        var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(VCode: scenario.VCode, fixture.Create<VCode>());
+        var aggregateSession = new AggregateSessionMock(scenario.GetVerenigingState(), true, true);
+        var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(
+            VCode: scenario.VCode,
+            fixture.Create<VCode>()
+        );
 
         var sut = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(
-            repositoryMock,
+            aggregateSession,
             Mock.Of<INotifier>(),
-            new NullLogger<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler>());
+            new NullLogger<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler>()
+        );
 
         await sut.Handle(command, CancellationToken.None);
 
-        repositoryMock.ShouldNotHaveAnySaves();
+        aggregateSession.ShouldNotHaveAnySaves();
     }
 }

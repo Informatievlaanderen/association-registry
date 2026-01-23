@@ -24,7 +24,7 @@ public class Given_SubverenigingWerdVerfijndNaarFeitelijkeVereniging
         var subverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario =
             new SubverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario(rechtspersoonlijkheidScenario.VCode);
 
-        var verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(
+        var verenigingRepositoryMock = new MultipleVerenigingAggregateSessionMock(
             subverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario.GetVerenigingState()
         );
         verenigingRepositoryMock.WithVereniging(rechtspersoonlijkheidScenario.GetVerenigingState());

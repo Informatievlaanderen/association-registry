@@ -10,7 +10,6 @@ using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.Resources;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Integrations.Magda;
-using Marten;
 using Microsoft.Extensions.Logging;
 using RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using ResultNet;
@@ -20,30 +19,24 @@ public class RegistreerVerenigingUitKboCommandHandler
     private readonly IVCodeService _vCodeService;
     private readonly IMagdaGeefVerenigingService _magdaGeefVerenigingService;
     private readonly IMagdaRegistreerInschrijvingService _magdaRegistreerInschrijvingService;
-    private readonly IDocumentSession _session;
     private readonly ILogger<RegistreerVerenigingUitKboCommandHandler> _logger;
-    private readonly IVerenigingsRepository _verenigingsRepository;
     private readonly INewAggregateSession _aggregateSession;
     private readonly IVerenigingStateQueryService _verenigingStateQueryService;
 
     public RegistreerVerenigingUitKboCommandHandler(
-        IVerenigingsRepository verenigingsRepository,
         INewAggregateSession aggregateSession,
         IVerenigingStateQueryService verenigingStateQueryService,
         IVCodeService vCodeService,
         IMagdaGeefVerenigingService geefVerenigingService,
         IMagdaRegistreerInschrijvingService magdaRegistreerInschrijvingService,
-        IDocumentSession session,
         ILogger<RegistreerVerenigingUitKboCommandHandler> logger
     )
     {
-        _verenigingsRepository = verenigingsRepository;
         _aggregateSession = aggregateSession;
         _verenigingStateQueryService = verenigingStateQueryService;
         _vCodeService = vCodeService;
         _magdaGeefVerenigingService = geefVerenigingService;
         _magdaRegistreerInschrijvingService = magdaRegistreerInschrijvingService;
-        _session = session;
         _logger = logger;
     }
 
@@ -117,7 +110,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         if (duplicateResult.IsFailure())
             return duplicateResult;
 
-        var result = await _aggregateSession.SaveNew(vereniging, _session, messageMetadata, cancellationToken);
+        var result = await _aggregateSession.SaveNew(vereniging, messageMetadata, cancellationToken);
 
         return Result.Success(CommandResult.Create(vCode, result));
     }

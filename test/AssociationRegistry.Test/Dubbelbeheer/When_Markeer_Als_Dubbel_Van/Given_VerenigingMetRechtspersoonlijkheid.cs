@@ -13,6 +13,7 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
 using Marten;
+using MartenDb.Store;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
@@ -24,7 +25,7 @@ public class Given_VerenigingMetRechtspersoonlijkheid
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario();
-        var verenigingsRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var aggregateSession = new AggregateSessionMock(scenario.GetVerenigingState());
         var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
         var command = fixture.Create<MarkeerAlsDubbelVanCommand>() with
         {
@@ -36,7 +37,7 @@ public class Given_VerenigingMetRechtspersoonlijkheid
         );
 
         var sut = new MarkeerAlsDubbelVanCommandHandler(
-            verenigingsRepositoryMock,
+            aggregateSession,
             verenigingsStateQueriesMock,
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>()

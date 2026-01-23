@@ -22,7 +22,7 @@ using Xunit;
 
 public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly VerenigingsStateQueriesMock _verenigingStateQueryServiceMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly Contactgegeven _existingContactgegeven;
@@ -43,7 +43,7 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator
         var verenigingState = _scenario
             .GetVerenigingState()
             .Apply(EventFactory.ContactgegevenWerdToegevoegd(_existingContactgegeven));
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(verenigingState);
+        _aggregateSessionMock = new AggregateSessionMock(verenigingState);
         _verenigingStateQueryServiceMock = new VerenigingsStateQueriesMock(verenigingState);
 
         _notifierMock = new Mock<INotifier>();
@@ -72,7 +72,7 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator
         commandHandler
             .Handle(
                 new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
-                _verenigingRepositoryMock,
+                _aggregateSessionMock,
                 _verenigingStateQueryServiceMock
             )
             .GetAwaiter()
@@ -82,7 +82,7 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.KboNummer);
+        _aggregateSessionMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.KboNummer);
     }
 
     [Fact]
@@ -94,7 +94,7 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator
     [Fact]
     public void Then_A_ContactgegevenWerdInBeheerGenomenDoorKbo_Event_Is_Saved()
     {
-        _verenigingRepositoryMock
+        _aggregateSessionMock
             .SaveInvocations[0]
             .Vereniging.UncommittedEvents.Should()
             .ContainSingle(e =>

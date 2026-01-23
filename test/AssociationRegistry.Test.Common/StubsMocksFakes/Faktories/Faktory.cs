@@ -8,8 +8,8 @@ public class Faktory(IFixture fixture)
     public static Faktory New(IFixture? fixture = null) => new(fixture ?? new Fixture().CustomizeDomain());
 
     public VCodeServiceFactory VCodeService { get; } = new VCodeServiceFactory();
-    public VerenigingsRepositoryFactory VerenigingsRepository { get; } = new VerenigingsRepositoryFactory();
     public NewAggregateSessionFactory NewAggregateSession { get; } = new NewAggregateSessionFactory();
+    public AggregateSessionFactory AggregateSession { get; } = new AggregateSessionFactory();
     public ClockFactory Clock { get; } = new ClockFactory();
     public GeotagsServiceFactory GeotagsService { get; } = new GeotagsServiceFactory(fixture);
 

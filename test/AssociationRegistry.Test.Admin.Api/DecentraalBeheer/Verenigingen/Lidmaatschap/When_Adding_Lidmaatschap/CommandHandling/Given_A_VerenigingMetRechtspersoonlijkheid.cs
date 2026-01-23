@@ -20,7 +20,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid
 
         var scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
         var commandHandler = new VoegLidmaatschapToeCommandHandler(

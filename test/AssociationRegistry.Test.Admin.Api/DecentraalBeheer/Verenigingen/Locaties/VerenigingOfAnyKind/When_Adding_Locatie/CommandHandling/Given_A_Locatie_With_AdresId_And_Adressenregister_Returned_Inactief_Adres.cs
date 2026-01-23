@@ -9,6 +9,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Grar.Models;
+using AssociationRegistry.Integrations.Grar.Clients;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
@@ -17,7 +18,6 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRec
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using AssociationRegistry.Integrations.Grar.Clients;
 using Marten;
 using Moq;
 using Wolverine.Marten;
@@ -27,19 +27,23 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_Inactief
 {
     [Theory]
     [MemberData(nameof(Data))]
-    public async ValueTask Then_Throws_AdressenregisterReturnedInactiefAdres(CommandhandlerScenarioBase scenario, int expectedLocatieId)
+    public async ValueTask Then_Throws_AdressenregisterReturnedInactiefAdres(
+        CommandhandlerScenarioBase scenario,
+        int expectedLocatieId
+    )
     {
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
 
         var grarClient = new Mock<IGrarClient>();
 
-        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
-                                                              Mock.Of<IMartenOutbox>(),
-                                                              Mock.Of<IDocumentSession>(),
-                                                              grarClient.Object,
-                                                              Mock.Of<IGeotagsService>()
+        var commandHandler = new VoegLocatieToeCommandHandler(
+            verenigingRepositoryMock,
+            Mock.Of<IMartenOutbox>(),
+            Mock.Of<IDocumentSession>(),
+            grarClient.Object,
+            Mock.Of<IGeotagsService>()
         );
 
         var adresId = fixture.Create<AdresId>();
@@ -50,20 +54,19 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_Inactief
             IsActief = false,
         };
 
-        var locatie = fixture.Create<Locatie>() with
-        {
-            AdresId = adresId,
-            Adres = null,
-        };
+        var locatie = fixture.Create<Locatie>() with { AdresId = adresId, Adres = null };
 
         var command = new VoegLocatieToeCommand(scenario.VCode, locatie);
 
-        grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(adresDetailResponse);
+        grarClient
+            .Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(adresDetailResponse);
 
-        await Assert.ThrowsAsync<AdressenregisterReturnedInactiefAdres>(
-            async () => await commandHandler.Handle(
-                new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())));
+        await Assert.ThrowsAsync<AdressenregisterReturnedInactiefAdres>(async () =>
+            await commandHandler.Handle(
+                new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())
+            )
+        );
     }
 
     public static IEnumerable<object[]> Data
@@ -75,17 +78,15 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_Inactief
             yield return new object[]
             {
                 feitelijkeVerenigingWerdGeregistreerdScenario,
-                feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.Max(l => l.LocatieId) + 1,
+                feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.Max(l =>
+                    l.LocatieId
+                ) + 1,
             };
 
             var verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario =
                 new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
 
-            yield return new object[]
-            {
-                verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario,
-                1,
-            };
+            yield return new object[] { verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario, 1 };
         }
     }
 }

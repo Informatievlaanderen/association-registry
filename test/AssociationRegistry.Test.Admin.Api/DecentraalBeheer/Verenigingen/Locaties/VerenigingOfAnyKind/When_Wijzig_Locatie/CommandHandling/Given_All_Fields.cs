@@ -7,6 +7,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
+using AssociationRegistry.Integrations.Grar.Clients;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
@@ -15,7 +16,6 @@ using AutoFixture;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events.Factories;
-using AssociationRegistry.Integrations.Grar.Clients;
 using Marten;
 using Moq;
 using Wolverine.Marten;
@@ -26,25 +26,26 @@ public class Given_All_Fields
     private readonly WijzigLocatieCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly WijzigLocatieCommand.Locatie _locatie;
     private readonly GeotagsCollection _geotagsCollection;
 
     public Given_All_Fields()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
         var (geotagsService, geotags) = Faktory.New(_fixture).GeotagsService.ReturnsRandomGeotags();
         _geotagsCollection = geotags;
 
-        _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock,
-                                                          Mock.Of<IMartenOutbox>(),
-                                                          Mock.Of<IDocumentSession>(),
-                                                          Mock.Of<IGrarClient>(),
-                                                          geotagsService.Object
+        _commandHandler = new WijzigLocatieCommandHandler(
+            _aggregateSessionMock,
+            Mock.Of<IMartenOutbox>(),
+            Mock.Of<IDocumentSession>(),
+            Mock.Of<IGrarClient>(),
+            geotagsService.Object
         );
 
         _locatie = new WijzigLocatieCommand.Locatie(
@@ -53,19 +54,20 @@ public class Given_All_Fields
             !_scenario.LocatieWerdToegevoegd.Locatie.IsPrimair,
             _fixture.Create<string>(),
             _fixture.Create<Adres>(),
-            AdresId: null);
+            AdresId: null
+        );
     }
 
     [Fact]
     public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved_With_The_Next_Id()
     {
-        var command = new WijzigLocatieCommand(
-            _scenario.VCode,
-            _locatie);
+        var command = new WijzigLocatieCommand(_scenario.VCode, _locatie);
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigLocatieCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigLocatieCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSavedExact(
             new LocatieWerdGewijzigd(
                 new Registratiedata.Locatie(
                     _scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
@@ -73,8 +75,10 @@ public class Given_All_Fields
                     _locatie.IsPrimair!.Value,
                     _locatie.Naam!,
                     EventFactory.Adres(_locatie.Adres),
-                    EventFactory.AdresId(_locatie.AdresId))
+                    EventFactory.AdresId(_locatie.AdresId)
+                )
             ),
-            EventFactory.GeotagsWerdenBepaald(_scenario.VCode, _geotagsCollection));
+            EventFactory.GeotagsWerdenBepaald(_scenario.VCode, _geotagsCollection)
+        );
     }
 }

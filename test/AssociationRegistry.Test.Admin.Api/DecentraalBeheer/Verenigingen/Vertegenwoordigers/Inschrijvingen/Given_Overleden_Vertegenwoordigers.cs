@@ -15,7 +15,7 @@ using Xunit;
 
 public class Given_Overleden_Vertegenwoordigers
 {
-    private VerenigingRepositoryMock _verenigingRepositoryMock;
+    private AggregateSessionMock _aggregateSessionMock;
     private SchrijfVertegenwoordigersInMessage _message;
     private VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private SchrijfVertegenwoordigersInMessageHandler _commandHandler;
@@ -25,22 +25,34 @@ public class Given_Overleden_Vertegenwoordigers
     {
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario();
 
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState(), true, true);
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState(), true, true);
 
         _fixture = new Fixture().CustomizeAdminApi();
 
         var magdaGeefPersoonService = new Mock<IMagdaGeefPersoonService>();
 
-        foreach (var vertegenwoordiger in _scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers)
+        foreach (
+            var vertegenwoordiger in _scenario
+                .VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+                .Vertegenwoordigers
+        )
         {
-            magdaGeefPersoonService.Setup(x => x.GeefPersoon(GeefPersoonRequest.From(vertegenwoordiger), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
-                                   .ReturnsAsync(_fixture.Create<PersoonUitKsz>() with
-                                    {
-                                        Overleden = true,
-                                    });
+            magdaGeefPersoonService
+                .Setup(x =>
+                    x.GeefPersoon(
+                        GeefPersoonRequest.From(vertegenwoordiger),
+                        It.IsAny<CommandMetadata>(),
+                        It.IsAny<CancellationToken>()
+                    )
+                )
+                .ReturnsAsync(_fixture.Create<PersoonUitKsz>() with { Overleden = true });
         }
 
-        _commandHandler = new SchrijfVertegenwoordigersInMessageHandler(_verenigingRepositoryMock, magdaGeefPersoonService.Object, NullLogger<SchrijfVertegenwoordigersInMessageHandler>.Instance);
+        _commandHandler = new SchrijfVertegenwoordigersInMessageHandler(
+            _aggregateSessionMock,
+            magdaGeefPersoonService.Object,
+            NullLogger<SchrijfVertegenwoordigersInMessageHandler>.Instance
+        );
 
         _message = new SchrijfVertegenwoordigersInMessage(_scenario.VCode);
     }
@@ -48,21 +60,23 @@ public class Given_Overleden_Vertegenwoordigers
     [Fact]
     public async ValueTask Then_KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden_Events_Are_Saved()
     {
-        await _commandHandler
-           .Handle(new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(_message, _fixture.Create<CommandMetadata>()),
-                   CancellationToken.None);
+        await _commandHandler.Handle(
+            new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(_message, _fixture.Create<CommandMetadata>()),
+            CancellationToken.None
+        );
 
-        var events =
-            _scenario
-               .VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
-               .Vertegenwoordigers
-               .Select(v => new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(v.VertegenwoordigerId,
-                                                                                   v.Insz,
-                                                                                   v.Voornaam,
-                                                                                   v.Achternaam))
-               .Cast<IEvent>()
-               .ToArray();
+        var events = _scenario
+            .VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers.Select(
+                v => new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
+                    v.VertegenwoordigerId,
+                    v.Insz,
+                    v.Voornaam,
+                    v.Achternaam
+                )
+            )
+            .Cast<IEvent>()
+            .ToArray();
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(events);
+        _aggregateSessionMock.ShouldHaveSavedExact(events);
     }
 }

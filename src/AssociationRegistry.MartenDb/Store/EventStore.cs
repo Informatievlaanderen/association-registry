@@ -29,7 +29,8 @@ public class EventStore : IEventStore
         IDocumentSession session,
         EventConflictResolver conflictResolver,
         IPersoonsgegevensProcessor persoonsgegevensProcessor,
-        ILogger<EventStore> logger)
+        ILogger<EventStore> logger
+    )
     {
         _session = session;
         _conflictResolver = conflictResolver;
@@ -41,26 +42,52 @@ public class EventStore : IEventStore
         string aggregateId,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
-        IEvent[] events)
+        IEvent[] events
+    )
     {
-        var processedEvents = await _persoonsgegevensProcessor.ProcessEvents(
-            aggregateId,
-            events);
+        var processedEvents = await _persoonsgegevensProcessor.ProcessEvents(aggregateId: aggregateId, events: events);
 
-        SetHeaders(metadata, _session);
+        SetMetadata(metadata);
 
-        TryLockForKboNumber(aggregateId, _session, processedEvents.FirstOrDefault());
-
-        var streamAction = _session.Events.StartStream(aggregateId, processedEvents);
+        var streamAction = _session.Events.StartStream(streamKey: aggregateId, events: processedEvents);
 
         await _session.SaveChangesAsync(cancellationToken);
 
         var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
 
         if (maxSequence == 0)
-            maxSequence = (await _session.Events.FetchStreamAsync(aggregateId, token: cancellationToken)).Max(x => x.Sequence);
+            maxSequence = (
+                await _session.Events.FetchStreamAsync(streamKey: aggregateId, token: cancellationToken)
+            ).Max(x => x.Sequence);
 
-        return new StreamActionResult(maxSequence, processedEvents.Length);
+        return new StreamActionResult(Sequence: maxSequence, Version: processedEvents.Length);
+    }
+
+    public async Task<StreamActionResult> SaveNewKbo(
+        string aggregateId,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        IEvent[] events
+    )
+    {
+        var processedEvents = await _persoonsgegevensProcessor.ProcessEvents(aggregateId: aggregateId, events: events);
+
+        SetMetadata(metadata);
+
+        ClaimKboNummer(vCode: aggregateId, processedEvents.FirstOrDefault());
+
+        var streamAction = _session.Events.StartStream(streamKey: aggregateId, events: processedEvents);
+
+        await _session.SaveChangesAsync(cancellationToken);
+
+        var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
+
+        if (maxSequence == 0)
+            maxSequence = (
+                await _session.Events.FetchStreamAsync(streamKey: aggregateId, token: cancellationToken)
+            ).Max(x => x.Sequence);
+
+        return new StreamActionResult(Sequence: maxSequence, Version: processedEvents.Length);
     }
 
     public async Task<StreamActionResult> Save(
@@ -68,105 +95,123 @@ public class EventStore : IEventStore
         long aggregateVersion,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
-        params IEvent[] events)
+        params IEvent[] events
+    )
     {
-        var processedEvents = await _persoonsgegevensProcessor.ProcessEvents(
-            aggregateId,
-            events);
+        var processedEvents = await _persoonsgegevensProcessor.ProcessEvents(aggregateId: aggregateId, events: events);
 
         try
         {
-            SetHeaders(metadata, _session);
+            SetMetadata(metadata);
 
-            TryLockForKboNumber(aggregateId, _session, processedEvents.FirstOrDefault());
-
-            var streamAction = AppendEvents(_session, aggregateId, processedEvents, aggregateVersion);
+            var streamAction = AppendEvents(
+                aggregateId: aggregateId,
+                events: processedEvents,
+                expectedVersion: aggregateVersion
+            );
 
             await _session.SaveChangesAsync(cancellationToken);
 
-            var eventsAgain = await _session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
+            var eventsAgain = await _session.Events.FetchStreamAsync(streamKey: aggregateId, token: cancellationToken);
             var maxSequence = eventsAgain.Max(@event => @event.Sequence);
 
-            _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}",
-                                   string.Join(", ", processedEvents.Select(x => x.GetType().Name)), maxSequence);
+            _logger.LogInformation(
+                message: "SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}",
+                string.Join(separator: ", ", processedEvents.Select(x => x.GetType().Name)),
+                maxSequence
+            );
 
             return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
         }
         catch (EventStreamUnexpectedMaxEventIdException)
         {
-            var eventsDiff =
-                await _session.Events.FetchStreamAsync(aggregateId, fromVersion: aggregateVersion + 1,
-                                                       token: cancellationToken);
+            var eventsDiff = await _session.Events.FetchStreamAsync(
+                streamKey: aggregateId,
+                fromVersion: aggregateVersion + 1,
+                token: cancellationToken
+            );
 
-            if (_conflictResolver.IsAllowedPostConflict(processedEvents, eventsDiff))
+            if (_conflictResolver.IsAllowedPostConflict(intendedEvents: processedEvents, conflictingEvents: eventsDiff))
             {
                 _session.EjectAllPendingChanges();
 
                 processedEvents = await _persoonsgegevensProcessor.ProcessEvents(
-                    aggregateId,
-                    events);
+                    aggregateId: aggregateId,
+                    events: events
+                );
 
-                var streamAction = _session.Events.Append(aggregateId, aggregateVersion + processedEvents.Length + eventsDiff.Count,
-                                                          processedEvents);
+                var streamAction = _session.Events.Append(
+                    stream: aggregateId,
+                    aggregateVersion + processedEvents.Length + eventsDiff.Count,
+                    events: processedEvents
+                );
 
                 await _session.SaveChangesAsync(cancellationToken);
 
-                var eventsAgain = await _session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
+                var eventsAgain = await _session.Events.FetchStreamAsync(
+                    streamKey: aggregateId,
+                    token: cancellationToken
+                );
+
                 var maxSequence = eventsAgain.Max(@event => @event.Sequence);
 
-                _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}",
-                                       string.Join(", ", processedEvents.Select(x => x.GetType().Name)), maxSequence);
+                _logger.LogInformation(
+                    message: "SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}",
+                    string.Join(separator: ", ", processedEvents.Select(x => x.GetType().Name)),
+                    maxSequence
+                );
 
-                return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
-                //return new StreamActionResult(maxSequence, streamAction.Version);
+                return new StreamActionResult(
+                    eventsAgain.Max(@event => @event.Sequence),
+                    eventsAgain.Max(x => x.Version)
+                );
             }
 
             throw new UnexpectedAggregateVersionException();
         }
     }
 
-    private static void TryLockForKboNumber(string vCode, IDocumentSession _session, IEvent? registreerEvent)
+    public void ClaimKboNummer(string vCode, IEvent? registreerEvent)
     {
         if (registreerEvent is VerenigingMetRechtspersoonlijkheidWerdGeregistreerd evnt)
-            _session.Events.StartStream<KboNummer>(evnt.KboNummer, new KboNummerWerdGereserveerd(vCode));
+            _session.Events.StartStream<KboNummer>(streamKey: evnt.KboNummer, new KboNummerWerdGereserveerd(vCode));
     }
 
-    private static StreamAction AppendEvents(
-        IDocumentSession _session,
-        string aggregateId,
-        IReadOnlyCollection<IEvent> events,
-        long? expectedVersion)
+    private StreamAction AppendEvents(string aggregateId, IReadOnlyCollection<IEvent> events, long? expectedVersion)
     {
         if (expectedVersion is not null)
-            return _session.Events.Append(aggregateId, expectedVersion.Value + events.Count, events);
+            return _session.Events.Append(stream: aggregateId, expectedVersion.Value + events.Count, events: events);
 
-        return _session.Events.Append(aggregateId, events);
+        return _session.Events.Append(stream: aggregateId, events: events);
     }
 
-    private static void SetHeaders(CommandMetadata metadata, IDocumentSession _session)
+    public void SetMetadata(CommandMetadata metadata)
     {
-        _session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
-        _session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
+        _session.SetHeader(key: MetadataHeaderNames.Initiator, value: metadata.Initiator);
+        _session.SetHeader(key: MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
         _session.CorrelationId = metadata.CorrelationId.ToString();
 
         if (metadata.AdditionalMetadata != null)
-        {
             foreach (var item in metadata.AdditionalMetadata.Items)
+            {
                 item.ApplyTo(_session);
-        }
+            }
     }
 
-    public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion, new()
+    public async Task<T> Load<T>(string id, long? expectedVersion)
+        where T : class, IHasVersion, new()
     {
-        var aggregate = await _session.Events.AggregateStreamAsync<T>(id) ??
-                        throw new AggregateNotFoundException(id, typeof(T));
+        var aggregate =
+            await _session.Events.AggregateStreamAsync<T>(id)
+            ?? throw new AggregateNotFoundException(identifier: id, typeof(T));
 
         if (expectedVersion is not null && aggregate.Version != expectedVersion)
         {
             Throw<UnexpectedAggregateVersionException>.If(expectedVersion > aggregate.Version);
 
-            var eventsInNewVersion = (await _session.Events.FetchStreamAsync(id, aggregate.Version))
-               .Where(x => x.Version > expectedVersion);
+            var eventsInNewVersion = (
+                await _session.Events.FetchStreamAsync(streamKey: id, version: aggregate.Version)
+            ).Where(x => x.Version > expectedVersion);
 
             if (!_conflictResolver.IsAllowedPreConflict(eventsInNewVersion))
                 throw new UnexpectedAggregateVersionException();
@@ -175,14 +220,15 @@ public class EventStore : IEventStore
         return aggregate;
     }
 
-    public async Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new()
+    public async Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion)
+        where T : class, IHasVersion, new()
     {
         var vCode = await GetVCodeForKbo(kboNummer);
 
         if (vCode is null)
-            throw new AggregateNotFoundException(kboNummer, typeof(T));
+            throw new AggregateNotFoundException(identifier: kboNummer, typeof(T));
 
-        return await Load<T>(vCode!, expectedVersion);
+        return await Load<T>(vCode!, expectedVersion: expectedVersion);
     }
 
     public async Task<bool> Exists(VCode vCode)
@@ -192,24 +238,14 @@ public class EventStore : IEventStore
         return streamState != null;
     }
 
-    public async Task<bool> Exists(KboNummer kboNummer)
-    {
-        var streamState = await _session.Events.FetchStreamStateAsync(kboNummer);
-
-        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd =
-            await _session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-                          .Where(x => x.KboNummer == kboNummer.Value)
-                          .SingleOrDefaultAsync();
-
-        return streamState != null ||
-               verenigingMetRechtspersoonlijkheidWerdGeregistreerd != null;
-    }
-
     public async Task<VCode?> GetVCodeForKbo(string kboNummer)
     {
-        var id = (await _session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-                                .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)
-                                .SingleOrDefaultAsync())?.VCode;
+        var id = (
+            await _session
+                .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+                .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)
+                .SingleOrDefaultAsync()
+        )?.VCode;
 
         if (string.IsNullOrEmpty(id))
             return null;

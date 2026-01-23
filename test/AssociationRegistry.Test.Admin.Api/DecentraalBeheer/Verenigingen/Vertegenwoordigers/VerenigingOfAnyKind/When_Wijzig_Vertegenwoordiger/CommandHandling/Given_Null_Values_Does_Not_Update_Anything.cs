@@ -14,16 +14,16 @@ public class Given_Null_Values_Does_Not_Update_Anything
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_Null_Values_Does_Not_Update_Anything()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new WijzigVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigVertegenwoordigerCommandHandler(_aggregateSessionMock);
     }
 
     [Fact]
@@ -39,10 +39,14 @@ public class Given_Null_Values_Does_Not_Update_Anything
                 Telefoon: null,
                 Mobiel: null,
                 SocialMedia: null,
-                IsPrimair: null));
+                IsPrimair: null
+            )
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _aggregateSessionMock.ShouldNotHaveAnySaves();
     }
 }

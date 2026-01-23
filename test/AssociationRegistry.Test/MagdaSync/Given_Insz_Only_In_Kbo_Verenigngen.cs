@@ -21,44 +21,56 @@ public class Given_Insz_Only_In_Kbo_Verenigngen
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario _scenario;
     private readonly SyncKszMessageHandler _sut;
     private readonly Mock<IMessageBus> _messageBusMock;
-    private readonly VerenigingRepositoryMock _verenigingsRepository;
+    private readonly AggregateSessionMock _verenigingsRepository;
 
     public Given_Insz_Only_In_Kbo_Verenigngen()
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario();
         var vertegenwoordiger = _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1;
-        _verenigingsRepository = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _verenigingsRepository = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         var persoonsgegevensRepoMock = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
         persoonsgegevensRepoMock
-           .Setup(x => x.Get(Insz.Create(vertegenwoordiger.Insz), It.IsAny<CancellationToken>()))
-           .ReturnsAsync(new[]
-            {
-                _fixture.Create<VertegenwoordigerPersoonsgegevens>() with
+            .Setup(x => x.Get(Insz.Create(vertegenwoordiger.Insz), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(
+                new[]
                 {
-                    VCode = _scenario.VCode,
-                    Insz = vertegenwoordiger.Insz,
-                    VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
+                    _fixture.Create<VertegenwoordigerPersoonsgegevens>() with
+                    {
+                        VCode = _scenario.VCode,
+                        Insz = vertegenwoordiger.Insz,
+                        VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
+                    },
                 }
-            });
+            );
 
         var filterVzerOnylQueryMock = new Mock<IFilterVzerOnlyQuery>();
 
-        filterVzerOnylQueryMock.Setup(x => x.ExecuteAsync(It.IsAny<FilterVzerOnlyQueryFilter>(), It.IsAny<CancellationToken>()))
-                               .ReturnsAsync([]);
+        filterVzerOnylQueryMock
+            .Setup(x => x.ExecuteAsync(It.IsAny<FilterVzerOnlyQueryFilter>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
 
-        _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, filterVzerOnylQueryMock.Object, NullLogger<SyncKszMessageHandler>.Instance);
+        _sut = new SyncKszMessageHandler(
+            persoonsgegevensRepoMock.Object,
+            _verenigingsRepository,
+            filterVzerOnylQueryMock.Object,
+            NullLogger<SyncKszMessageHandler>.Instance
+        );
         _sut.Handle(
-                 new CommandEnvelope<SyncKszMessage>(
-                 new SyncKszMessage(Insz.Hydrate(vertegenwoordiger.Insz), true, Guid.NewGuid()),
-                 TestCommandMetadata.ForDigitaalVlaanderenProcess), CancellationToken.None)
-            .GetAwaiter().GetResult();
+                new CommandEnvelope<SyncKszMessage>(
+                    new SyncKszMessage(Insz.Hydrate(vertegenwoordiger.Insz), true, Guid.NewGuid()),
+                    TestCommandMetadata.ForDigitaalVlaanderenProcess
+                ),
+                CancellationToken.None
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
     public void Then_No_Event_Is_Saved()
     {
-       _verenigingsRepository.ShouldNotHaveAnySaves();
+        _verenigingsRepository.ShouldNotHaveAnySaves();
     }
 }

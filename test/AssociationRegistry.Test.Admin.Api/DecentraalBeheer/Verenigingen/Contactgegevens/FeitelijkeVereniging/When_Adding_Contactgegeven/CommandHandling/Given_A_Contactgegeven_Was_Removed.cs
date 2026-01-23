@@ -15,16 +15,16 @@ public class Given_A_Contactgegeven_Was_Removed
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_A_Contactgegeven_Was_Removed()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new VoegContactgegevenToeCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new VoegContactgegevenToeCommandHandler(_aggregateSessionMock);
     }
 
     [Fact]
@@ -32,11 +32,18 @@ public class Given_A_Contactgegeven_Was_Removed
     {
         var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
 
-        await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new ContactgegevenWerdToegevoegd(ContactgegevenId: 2, command.Contactgegeven.Contactgegeventype, command.Contactgegeven.Waarde,
-                                             command.Contactgegeven.Beschrijving, IsPrimair: false)
+        _aggregateSessionMock.ShouldHaveSavedExact(
+            new ContactgegevenWerdToegevoegd(
+                ContactgegevenId: 2,
+                command.Contactgegeven.Contactgegeventype,
+                command.Contactgegeven.Waarde,
+                command.Contactgegeven.Beschrijving,
+                IsPrimair: false
+            )
         );
     }
 }

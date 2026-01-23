@@ -9,6 +9,7 @@ using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeige
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using Integrations.Slack;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -20,18 +21,20 @@ public class Given_AuthentiekeVerenigingIsNotMyAuthentiekeVereniging
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new VerenigingWerdGemarkeerdAlsDubbelVanScenario();
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), true, true);
+        var aggregateSession = new AggregateSessionMock(scenario.GetVerenigingState(), true, true);
         var notifier = new Mock<INotifier>();
         var vCodeAuthentiekeVereniging = VCode.Create(fixture.Create<VCode>());
 
         var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(
             VCode: scenario.VCode,
-            VCodeAuthentiekeVereniging: vCodeAuthentiekeVereniging);
+            VCodeAuthentiekeVereniging: vCodeAuthentiekeVereniging
+        );
 
         var sut = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(
-            repositoryMock,
+            aggregateSession,
             notifier.Object,
-            new NullLogger<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler>());
+            new NullLogger<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler>()
+        );
 
         await Assert.ThrowsAsync<ApplicationException>(async () => await sut.Handle(command, CancellationToken.None));
     }

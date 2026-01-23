@@ -18,13 +18,13 @@ using Xunit;
 public class Given_Vereniging_With_Existing_HoofdActiviteiten
 {
     private FeitelijkeVerenigingWerdGeregistreerdWithHoofdActiviteitenScenario _scenario;
-    private VerenigingRepositoryMock _verenigingRepositoryMock;
+    private AggregateSessionMock _aggregateSessionMock;
     private Fixture _fixture;
 
     public Given_Vereniging_With_Existing_HoofdActiviteiten()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithHoofdActiviteitenScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
     }
@@ -32,16 +32,22 @@ public class Given_Vereniging_With_Existing_HoofdActiviteiten
     [Fact]
     public async ValueTask WithEmptyHoofdActiviteitenRequest_ThenThrowsNonSuccessStatusCode()
     {
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode,
-                                                     HoofdactiviteitenVerenigingsloket: Array.Empty<HoofdactiviteitVerenigingsloket>());
+        var command = new WijzigBasisgegevensCommand(
+            _scenario.VCode,
+            HoofdactiviteitenVerenigingsloket: Array.Empty<HoofdactiviteitVerenigingsloket>()
+        );
 
-        var commandHandler = new WijzigBasisgegevensCommandHandler(Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object);
+        var commandHandler = new WijzigBasisgegevensCommandHandler(
+            Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object
+        );
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        await Assert.ThrowsAsync<LaatsteHoofdActiviteitKanNietVerwijderdWorden>(async () => await commandHandler.Handle(
-                                                                                   new CommandEnvelope<WijzigBasisgegevensCommand>(
-                                                                                       command, commandMetadata),
-                                                                                   _verenigingRepositoryMock,
-                                                                                   new ClockStub(_fixture.Create<DateOnly>())));
+        await Assert.ThrowsAsync<LaatsteHoofdActiviteitKanNietVerwijderdWorden>(async () =>
+            await commandHandler.Handle(
+                new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
+                _aggregateSessionMock,
+                new ClockStub(_fixture.Create<DateOnly>())
+            )
+        );
     }
 }

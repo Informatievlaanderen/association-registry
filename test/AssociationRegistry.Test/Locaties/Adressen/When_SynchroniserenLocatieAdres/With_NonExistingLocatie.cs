@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_SynchroniserenLocatieAdres;
 
 using AssociationRegistry.Grar;
+using AssociationRegistry.Integrations.Grar.Clients;
 using AutoFixture;
 using CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
 using Common.AutoFixture;
@@ -9,7 +10,6 @@ using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events.Factories;
-using AssociationRegistry.Integrations.Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -25,19 +25,15 @@ public class With_NonExistingLocatie
 
         var fixture = new Fixture().CustomizeDomain();
 
-        var mockedAdresDetail = fixture.Create<AddressDetailResponse>() with
-        {
-            IsActief = false,
-        };
+        var mockedAdresDetail = fixture.Create<AddressDetailResponse>() with { IsActief = false };
 
         var factory = new Faktory(fixture);
-        var verenigingRepositoryMock = factory.VerenigingsRepository.Mock(state, expectedLoadingDubbel: true);
+        var verenigingRepositoryMock = factory.AggregateSession.Mock(state, expectedLoadingDubbel: true);
         (var geotagsService, var geotags) = factory.GeotagsService.ReturnsRandomGeotags();
 
         var grarClientMock = new Mock<IGrarClient>();
 
-        grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
-                      .ReturnsAsync(mockedAdresDetail);
+        grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None)).ReturnsAsync(mockedAdresDetail);
 
         var locatieId = state.Locaties.First().LocatieId;
 
@@ -45,19 +41,20 @@ public class With_NonExistingLocatie
 
         var command = fixture.Create<SyncAdresLocatiesCommand>() with
         {
-            LocatiesWithAdres = new List<LocatieWithAdres>
-                { new(nonExistingLocatieId, mockedAdresDetail) },
+            LocatiesWithAdres = new List<LocatieWithAdres> { new(nonExistingLocatieId, mockedAdresDetail) },
             VCode = "V001",
             IdempotenceKey = "123456789",
         };
 
-        var commandHandler = new SyncAdresLocatiesCommandHandler(verenigingRepositoryMock, grarClientMock.Object,
-                                                                 new NullLogger<SyncAdresLocatiesCommandHandler>(),
-                                                                 geotagsService.Object);
+        var commandHandler = new SyncAdresLocatiesCommandHandler(
+            verenigingRepositoryMock,
+            grarClientMock.Object,
+            new NullLogger<SyncAdresLocatiesCommandHandler>(),
+            geotagsService.Object
+        );
 
         await commandHandler.Handle(command, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSavedExact(
-            EventFactory.GeotagsWerdenBepaald(state.VCode, geotags));
+        verenigingRepositoryMock.ShouldHaveSavedExact(EventFactory.GeotagsWerdenBepaald(state.VCode, geotags));
     }
 }

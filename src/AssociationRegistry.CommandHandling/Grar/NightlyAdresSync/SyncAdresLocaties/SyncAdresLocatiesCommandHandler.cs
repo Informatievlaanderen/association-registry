@@ -1,21 +1,23 @@
 ﻿namespace AssociationRegistry.CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
 using Integrations.Grar.AdresMatch;
 using Integrations.Grar.Clients;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class SyncAdresLocatiesCommandHandler(
-    IVerenigingsRepository repository,
+    IAggregateSession aggregateSession,
     IGrarClient grarClient,
     ILogger<SyncAdresLocatiesCommandHandler> logger,
-    IGeotagsService geotagsService)
+    IGeotagsService geotagsService
+)
 {
     public async Task Handle(SyncAdresLocatiesCommand locatiesCommand, CancellationToken cancellationToken)
     {
@@ -25,16 +27,21 @@ public class SyncAdresLocatiesCommandHandler(
         {
             var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
-            var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(locatiesCommand.VCode), metadata, allowDubbeleVereniging: true);
+            var vereniging = await aggregateSession.Load<VerenigingOfAnyKind>(
+                VCode.Hydrate(locatiesCommand.VCode),
+                metadata,
+                allowDubbeleVereniging: true
+            );
 
-            await vereniging.SyncAdresLocaties(locatiesCommand.LocatiesWithAdres, locatiesCommand.IdempotenceKey, new GrarAddressVerrijkingsService(grarClient));
+            await vereniging.SyncAdresLocaties(
+                locatiesCommand.LocatiesWithAdres,
+                locatiesCommand.IdempotenceKey,
+                new GrarAddressVerrijkingsService(grarClient)
+            );
 
             await vereniging.HerberekenGeotags(geotagsService);
 
-            await repository.Save(
-                vereniging,
-                metadata,
-                cancellationToken);
+            await aggregateSession.Save(vereniging, metadata, cancellationToken);
         }
         catch (Exception ex)
         {

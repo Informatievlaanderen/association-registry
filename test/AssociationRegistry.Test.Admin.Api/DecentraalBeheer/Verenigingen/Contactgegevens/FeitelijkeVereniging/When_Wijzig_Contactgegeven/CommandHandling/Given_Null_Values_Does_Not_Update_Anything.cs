@@ -18,16 +18,16 @@ public class Given_Null_Values_Does_Not_Update_Anything
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_Null_Values_Does_Not_Update_Anything()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new WijzigContactgegevenCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigContactgegevenCommandHandler(_aggregateSessionMock);
     }
 
     [Fact]
@@ -39,11 +39,15 @@ public class Given_Null_Values_Does_Not_Update_Anything
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 Waarde: null,
                 Beschrijving: null,
-                IsPrimair: null));
+                IsPrimair: null
+            )
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _aggregateSessionMock.ShouldNotHaveAnySaves();
     }
 }
 
@@ -52,16 +56,16 @@ public class Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new WijzigContactgegevenCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigContactgegevenCommandHandler(_aggregateSessionMock);
     }
 
     [Fact]
@@ -73,17 +77,22 @@ public class Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 _fixture.Create<Email>().Waarde,
                 Beschrijving: null,
-                IsPrimair: true));
+                IsPrimair: true
+            )
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSavedExact(
             new ContactgegevenWerdGewijzigd(
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 Contactgegeventype.Email,
                 command.Contactgegeven.Waarde!,
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Beschrijving, // <== this must stay the same
-                IsPrimair: true)
+                IsPrimair: true
+            )
         );
     }
 }

@@ -24,7 +24,7 @@ public class With_An_Unknown_VertegenwoordigerId
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
         _commandHandler = new WijzigVertegenwoordigerCommandHandler(verenigingRepositoryMock);
@@ -43,11 +43,14 @@ public class With_An_Unknown_VertegenwoordigerId
                 _fixture.Create<TelefoonNummer>(),
                 _fixture.Create<TelefoonNummer>(),
                 _fixture.Create<SocialMedia>(),
-                IsPrimair: false));
+                IsPrimair: false
+            )
+        );
 
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        var handle = () => _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, commandMetadata));
+        var handle = () =>
+            _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, commandMetadata));
 
         await handle.Should().ThrowAsync<VertegenwoordigerIsNietGekend>();
     }

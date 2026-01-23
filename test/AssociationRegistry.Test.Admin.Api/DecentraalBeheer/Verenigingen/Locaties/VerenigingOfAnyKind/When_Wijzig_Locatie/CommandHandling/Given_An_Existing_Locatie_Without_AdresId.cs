@@ -8,13 +8,13 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Models;
+using AssociationRegistry.Integrations.Grar.Clients;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using AssociationRegistry.Integrations.Grar.Clients;
 using Marten;
 using Moq;
 using Wolverine.Marten;
@@ -26,18 +26,19 @@ public class Given_An_Existing_Locatie_Without_AdresId
     public async ValueTask Then_A_LocatieWerdToegevoegd_Event_And_AdresWerdOvergenomenUitAdressenregister_Is_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
 
         var grarClient = new Mock<IGrarClient>();
         var martenOutbox = new Mock<IMartenOutbox>();
 
-        var commandHandler = new WijzigLocatieCommandHandler(verenigingRepositoryMock,
-                                                             martenOutbox.Object,
-                                                             Mock.Of<IDocumentSession>(),
-                                                             grarClient.Object,
-                                                             Mock.Of<IGeotagsService>()
+        var commandHandler = new WijzigLocatieCommandHandler(
+            verenigingRepositoryMock,
+            martenOutbox.Object,
+            Mock.Of<IDocumentSession>(),
+            grarClient.Object,
+            Mock.Of<IGeotagsService>()
         );
 
         var adresId = fixture.Create<AdresId>();
@@ -68,11 +69,14 @@ public class Given_An_Existing_Locatie_Without_AdresId
 
         var command = new WijzigLocatieCommand(scenario.VCode, teWijzigenLocatieCommand);
 
-        grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(adresDetailResponse);
+        grarClient
+            .Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(adresDetailResponse);
 
-        await Assert.ThrowsAsync<LocatieIsNietUniek>(
-            async () =>
-                await commandHandler.Handle(new CommandEnvelope<WijzigLocatieCommand>(command, fixture.Create<CommandMetadata>())));
+        await Assert.ThrowsAsync<LocatieIsNietUniek>(async () =>
+            await commandHandler.Handle(
+                new CommandEnvelope<WijzigLocatieCommand>(command, fixture.Create<CommandMetadata>())
+            )
+        );
     }
 }

@@ -20,7 +20,7 @@ public class Given_Multiple_Primair_Vertegenwoordigers
     public Given_Multiple_Primair_Vertegenwoordigers()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -40,10 +40,14 @@ public class Given_Multiple_Primair_Vertegenwoordigers
                 Telefoon: null,
                 Mobiel: null,
                 SocialMedia: null,
-                IsPrimair: true)); // <== changed value
+                IsPrimair: true
+            )
+        ); // <== changed value
 
-        var handle = ()
-            => _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
+        var handle = () =>
+            _commandHandler.Handle(
+                new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>())
+            );
 
         await handle.Should().ThrowAsync<MeerderePrimaireVertegenwoordigers>();
     }

@@ -21,7 +21,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid
     public Given_A_VerenigingMetRechtspersoonlijkheid()
     {
         var scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
         var command = _fixture.Create<VoegVertegenwoordigerToeCommand>() with { VCode = scenario.VCode };

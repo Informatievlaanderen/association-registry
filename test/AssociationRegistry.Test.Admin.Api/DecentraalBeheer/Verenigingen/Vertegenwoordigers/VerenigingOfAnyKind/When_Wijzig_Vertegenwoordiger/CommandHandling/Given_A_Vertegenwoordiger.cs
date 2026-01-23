@@ -18,16 +18,16 @@ public class Given_A_Vertegenwoordiger
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_A_Vertegenwoordiger()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        _commandHandler = new WijzigVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigVertegenwoordigerCommandHandler(_aggregateSessionMock);
     }
 
     [Fact]
@@ -43,11 +43,15 @@ public class Given_A_Vertegenwoordiger
                 _fixture.Create<TelefoonNummer>(),
                 _fixture.Create<TelefoonNummer>(),
                 _fixture.Create<SocialMedia>(),
-                IsPrimair: false));
+                IsPrimair: false
+            )
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSavedExact(
             new VertegenwoordigerWerdGewijzigd(
                 _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                 command.Vertegenwoordiger.IsPrimair!.Value,
