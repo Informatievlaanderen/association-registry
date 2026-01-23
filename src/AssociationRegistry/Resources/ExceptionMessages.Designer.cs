@@ -150,6 +150,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bankrekeningnummer met bankrekeningnummer &apos;{0}&apos; is niet gekend.
+        /// </summary>
+        public static string BankrekeningnummerIsNietGekend {
+            get {
+                return ResourceManager.GetString("BankrekeningnummerIsNietGekend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contactgegevens die uit KBO werden overgenomen, kunnen niet verwijderd worden..
         /// </summary>
         public static string ContactgegevenFromKboCannotBeRemoved {
