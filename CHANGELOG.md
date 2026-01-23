@@ -1,3 +1,11 @@
+## [8.295.2](https://github.com/informatievlaanderen/association-registry/compare/v8.295.1...v8.295.2) (2026-01-23)
+
+
+### Bug Fixes
+
+* or-2980 fix exception message ([d390ba8](https://github.com/informatievlaanderen/association-registry/commit/d390ba8db9cd5d9106622ac3c9babf2852e36185))
+* or-2980 remove bankrekeningnr throw exception when banrekeningnr unknown ([d33045a](https://github.com/informatievlaanderen/association-registry/commit/d33045af3ea6eb434f2a4d1f03126cf7d52c9c18))
+
 ## [8.295.1](https://github.com/informatievlaanderen/association-registry/compare/v8.295.0...v8.295.1) (2026-01-22)
 
 
