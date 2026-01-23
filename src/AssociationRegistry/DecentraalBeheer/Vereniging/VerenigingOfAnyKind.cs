@@ -15,6 +15,7 @@ using Grar;
 using Magda.Persoon;
 using SocialMedias;
 using System.Diagnostics.Contracts;
+using Bankrekeningen;
 using TelefoonNummers;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
@@ -432,5 +433,18 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             return;
 
         AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
+    }
+
+    public void WijzigBankrekeningnummer(TeWijzigenBankrekeningnummer teWijzigenBankrekeningnummer)
+    {
+        var bankrekeningnummer = State.Bankrekeningnummers.Wijzig(teWijzigenBankrekeningnummer);
+
+        if(bankrekeningnummer is null)
+            return;
+
+        AddEvent(new BankrekeningnummerWerdGewijzigd(
+                     bankrekeningnummer.BankrekeningnummerId,
+                     bankrekeningnummer.Doel,
+                     bankrekeningnummer.Titularis.Value));
     }
 }

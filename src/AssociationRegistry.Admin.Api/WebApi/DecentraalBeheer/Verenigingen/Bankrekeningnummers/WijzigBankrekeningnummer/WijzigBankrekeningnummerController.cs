@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VerwijderBankrekeningnummer;
+﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.WijzigBankrekeningnummer;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
@@ -13,9 +13,11 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VerwijderBankrekening;
+using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.WijzigBankrekening;
+using Examples;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -28,16 +30,21 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class VoegBankrekeningnummerToeController : ApiController
 {
     private readonly IMessageBus _messageBus;
+    private readonly IValidator<WijzigBankrekeningnummerRequest> _validator;
     private readonly AppSettings _appSettings;
 
-    public VoegBankrekeningnummerToeController(IMessageBus messageBus, AppSettings appSettings)
+    public VoegBankrekeningnummerToeController(
+        IMessageBus messageBus,
+        IValidator<WijzigBankrekeningnummerRequest> validator,
+        AppSettings appSettings)
     {
         _messageBus = messageBus;
+        _validator = validator;
         _appSettings = appSettings;
     }
 
     /// <summary>
-    ///     Verwijder een Bankrekeningnummer.
+    ///     Wijzig een Bankrekeningnummer.
     /// </summary>
     /// <remarks>
     ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
@@ -45,16 +52,19 @@ public class VoegBankrekeningnummerToeController : ApiController
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="vCode">De vCode van de vereniging</param>
-    /// <param name="bankrekeningnummerId"></param>
+    /// <param name="request">De gegevens van het te wijzigen bankrekeningnummer</param>
     /// <param name="metadataProvider"></param>
+    /// <param name="appSettings"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
-    /// <response code="202">Het bankrekeningnummer werd verwijderd.</response>
+    /// <response code="200">Er waren geen wijzigingen.</response>
+    /// <response code="202">Het bankrekeningnummer werd gewijzigd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpDelete("{vCode}/bankrekeningnummers/{bankrekeningnummerId}")]
+    [HttpPatch("{vCode}/bankrekeningnummers/{bankrekeningnummerid}")]
     [ConsumesJson]
     [ProducesJson]
+    [SwaggerRequestExample(typeof(WijzigBankrekeningnummerRequest), typeof(WijzigBankrekeningnummerRequestExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted,
                            WellknownHeaderNames.Sequence,
                            type: "string",
@@ -70,18 +80,17 @@ public class VoegBankrekeningnummerToeController : ApiController
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Delete(
+    public async Task<IActionResult> Post(
         [FromRoute] string vCode,
-        [FromRoute] int bankrekeningnummerId,
+        [FromRoute] int bankrekeningnummerid,
+        [FromBody] WijzigBankrekeningnummerRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
+        await _validator.NullValidateAndThrowAsync(request);
+
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-
-        var envelope = new CommandEnvelope<VerwijderBankrekeningnummerCommand>(
-            new VerwijderBankrekeningnummerCommand(VCode.Create(vCode), bankrekeningnummerId),
-            metaData);
-
+        var envelope = new CommandEnvelope<WijzigBankrekeningnummerCommand>(request.ToCommand(vCode, bankrekeningnummerid), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
         Response.AddSequenceHeader(commandResult.Sequence);

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
 using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.WijzigBankrekeningnummer.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.WebApi.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
@@ -16,6 +17,7 @@ using AlbaHost;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using Events;
+using Scenarios.Requests;
 
 public static class HistoriekGebeurtenisMapper
 {
@@ -825,6 +827,16 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"Bankrekeningnummer met IBAN '{@request.Bankrekeningnummer.Iban}' werd toegevoegd.",
             Gebeurtenis = nameof(Events.BankrekeningnummerWerdToegevoegd),
             Data = new BankrekeningnummerWerdToegevoegd(nextId, request.Bankrekeningnummer.Iban, request.Bankrekeningnummer.Doel, request.Bankrekeningnummer.Titularis),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? BankrekeningWerdGewijzigd(int id, WijzigBankrekeningnummerRequest request)
+        => new()
+        {
+            Beschrijving = $"Bankrekeningnummer werd gewijzigd.",
+            Gebeurtenis = nameof(BankrekeningnummerWerdGewijzigd),
+            Data = new BankrekeningnummerWerdGewijzigd(id, request.Bankrekeningnummer.Doel, request.Bankrekeningnummer.Titularis),
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };

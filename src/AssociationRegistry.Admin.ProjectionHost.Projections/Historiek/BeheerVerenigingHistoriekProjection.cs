@@ -290,6 +290,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<BankrekeningnummerWerdToegevoegd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+    public async Task Project(IEvent<BankrekeningnummerWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(IEvent<BankrekeningnummerWerdVerwijderd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 

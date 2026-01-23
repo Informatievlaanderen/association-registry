@@ -19,6 +19,9 @@ public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
         NextId = nextId;
     }
 
+    private new Bankrekeningnummer this[int bankrekeningummerId]
+        => this.Single(x => x.BankrekeningnummerId == bankrekeningummerId);
+
     public Bankrekeningnummer VoegToe(ToeTevoegenBankrekeningnummer bankrekeningnummer)
     {
         var toeTeVoegenBankrekeningnummer = Bankrekeningnummer.Create(
@@ -29,6 +32,26 @@ public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
 
         return toeTeVoegenBankrekeningnummer;
     }
+
+    public Bankrekeningnummer? Wijzig(TeWijzigenBankrekeningnummer bankrekeningnummer)
+    {
+        MustContain(bankrekeningnummer.BankrekeningnummerId);
+
+        var teWijzigenBankrekeningnummer = this[bankrekeningnummer.BankrekeningnummerId];
+
+        if (teWijzigenBankrekeningnummer.WouldBeEquivalent(bankrekeningnummer, out var gewijzigdBankrekeningnummer))
+            return null;
+
+        return gewijzigdBankrekeningnummer;
+    }
+
+    private void MustContain(int bankrekeningnummerId)
+    {
+        Throw<BankrekeningnummerIsNietGekend>.If(!HasKey(bankrekeningnummerId), bankrekeningnummerId.ToString());
+    }
+
+    private bool HasKey(int bankrekeningnummerId)
+        => this.Any(bankrekeningnummer => bankrekeningnummer.BankrekeningnummerId == bankrekeningnummerId);
 
     private void ThrowIfCannotAppendOrUpdate(Bankrekeningnummer toeTeVoegenBankrekeningnummer)
     {

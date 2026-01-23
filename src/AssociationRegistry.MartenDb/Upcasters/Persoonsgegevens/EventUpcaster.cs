@@ -59,6 +59,10 @@ public static class EventUpcaster
         opts.Events.Upcast<BankrekeningnummerWerdVerwijderdZonderPersoonsgegevens, BankrekeningnummerWerdVerwijderd>(
             bankrekeningnummerWerdVerwijderdUpcaster.UpcastAsync);
 
+        var bankrekeningnummerWerdGewijzigd = new BankrekeningnummerWerdGewijzigdUpcaster(querySessionFunc);
+        opts.Events.Upcast<BankrekeningnummerWerdGewijzigdZonderPersoonsgegevens, BankrekeningnummerWerdGewijzigd>(
+            bankrekeningnummerWerdGewijzigd.UpcastAsync);
+
         return opts;
     }
 }

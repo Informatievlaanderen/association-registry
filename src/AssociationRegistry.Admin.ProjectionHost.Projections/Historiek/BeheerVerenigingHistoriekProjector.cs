@@ -856,6 +856,16 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<BankrekeningnummerWerdGewijzigd> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Bankrekeningnummer werd gewijzigd."
+        );
+    }
+
    public static void Apply(IEvent<BankrekeningnummerWerdToegevoegdVanuitKBO> @event, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(

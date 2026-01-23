@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Schema.Detail;
 
-public class Bankrekeningnummer
+public record Bankrekeningnummer
 {
     public JsonLdMetadata JsonLdMetadata { get; set; }
 

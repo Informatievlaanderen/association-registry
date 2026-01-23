@@ -1,0 +1,6 @@
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.WijzigBankrekening;
+
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
+
+public record WijzigBankrekeningnummerCommand(VCode VCode, TeWijzigenBankrekeningnummer Bankrekeningnummer);
