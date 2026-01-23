@@ -506,6 +506,7 @@ public class Program
             .AddTransient<IEventStore, EventStore>()
             .AddTransient<IVerenigingStateQueryService, VerenigingStateQueryService>()
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
+            .AddTransient<INewAggregateSession, NewAggregateSession>()
             .AddTransient<IDubbelDetectieRepository, DubbelDetectieRepository>()
             .AddTransient<IDuplicateVerenigingDetectionService, ZoekDuplicateVerenigingenQuery>()
             .AddTransient<IGrarClient, GrarClient>()

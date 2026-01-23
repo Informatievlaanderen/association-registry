@@ -30,8 +30,6 @@ using Xunit;
 
 public class With_Overleden_Persoon
 {
-
-
     [Fact]
     public async ValueTask Then_The_Result_Is_A_Failure()
     {
@@ -43,23 +41,31 @@ public class With_Overleden_Persoon
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
-            new VerenigingRepositoryMock(),
+            new NewAggregateSessionMock(),
             new InMemorySequentialVCodeService(),
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
             faktory.GeotagsService.ReturnsEmptyGeotags().Object,
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+        );
 
-        var exception = await Assert.ThrowsAsync<VerenigingKanNietGeregistreerdWordenMetOverledenVertegenwoordigers>(() =>
-            commandHandler.Handle(
-                                 new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-                                     command, commandMetadata),
-                                 VerrijkteAdressenUitGrar.Empty,
-                                 PotentialDuplicatesFound.None,
-                                 new PersonenUitKszStub(command, anyOverleden: true),
-                                 CancellationToken.None));
+        var exception = await Assert.ThrowsAsync<VerenigingKanNietGeregistreerdWordenMetOverledenVertegenwoordigers>(
+            () =>
+                commandHandler.Handle(
+                    new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+                        command,
+                        commandMetadata
+                    ),
+                    VerrijkteAdressenUitGrar.Empty,
+                    PotentialDuplicatesFound.None,
+                    new PersonenUitKszStub(command, anyOverleden: true),
+                    CancellationToken.None
+                )
+        );
 
-        exception.Message.Should().BeEquivalentTo(ExceptionMessages.VerenigingKanNietGeregistreerdWordenMetOverledenVertegenwoordigers);
+        exception
+            .Message.Should()
+            .BeEquivalentTo(ExceptionMessages.VerenigingKanNietGeregistreerdWordenMetOverledenVertegenwoordigers);
     }
 }

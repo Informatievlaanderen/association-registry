@@ -28,6 +28,8 @@ public interface IVerenigingStateQueryService
     /// Checks if a vereniging with the given KBO number exists.
     /// </summary>
     Task<bool> Exists(KboNummer kboNummer);
+
+    Task<VCode?> GetOptionalVCodeFor(KboNummer kboNummer);
 }
 
 public interface INewAggregateSession

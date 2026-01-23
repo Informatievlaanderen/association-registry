@@ -26,7 +26,7 @@ using Xunit;
 public class With_All_Fields
 {
     private readonly StubVCodeService _vCodeService;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly NewAggregateSessionMock _newAggregateSessionMock;
     private readonly ClockStub _clock;
     private readonly Fixture _fixture;
     private readonly Mock<IGeotagsService> _geotagsService;
@@ -39,103 +39,129 @@ public class With_All_Fields
         var faktory = Faktory.New(_fixture);
         var today = _fixture.Create<DateOnly>();
 
-        _command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>()
-            with { Startdatum = Datum.Hydrate(today.AddDays(-1))};
+        _command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
+        {
+            Startdatum = Datum.Hydrate(today.AddDays(-1)),
+        };
 
-        _verenigingRepositoryMock = faktory.VerenigingsRepository.Mock();
+        _newAggregateSessionMock = faktory.NewAggregateSession.Mock();
         _vCodeService = faktory.VCodeService.Stub(_fixture.Create<VCode>());
-        (_geotagsService, _geotags) = faktory.GeotagsService.ReturnsRandomGeotags(_command.Locaties, _command.Werkingsgebieden);
+        (_geotagsService, _geotags) = faktory.GeotagsService.ReturnsRandomGeotags(
+            _command.Locaties,
+            _command.Werkingsgebieden
+        );
         _clock = faktory.Clock.Stub(today);
     }
 
     [Fact]
     public void Then_it_saves_the_event()
     {
-
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        var commandHandler =
-            new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(_verenigingRepositoryMock,
-                                                                                   _vCodeService,
-                                                                                   Mock.Of<IMartenOutbox>(),
-                                                                                   Mock.Of<IDocumentSession>(),
-                                                                                   _clock,
-                                                                                   _geotagsService.Object,
-                                                                                   NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+        var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
+            _newAggregateSessionMock,
+            _vCodeService,
+            Mock.Of<IMartenOutbox>(),
+            Mock.Of<IDocumentSession>(),
+            _clock,
+            _geotagsService.Object,
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+        );
 
         commandHandler
-                       .Handle(
-                new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata),
+            .Handle(
+                new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+                    _command,
+                    commandMetadata
+                ),
                 VerrijkteAdressenUitGrar.Empty,
                 PotentialDuplicatesFound.None,
                 new PersonenUitKszStub(_command),
-                cancellationToken: CancellationToken.None)
-                       .GetAwaiter()
-                       .GetResult();
+                cancellationToken: CancellationToken.None
+            )
+            .GetAwaiter()
+            .GetResult();
 
-        var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-            _vCodeService.VCode,
-            _command.Naam,
-            _command.KorteNaam ?? string.Empty,
-            _command.KorteBeschrijving ?? string.Empty,
-            _command.Startdatum,
-            EventFactory.Doelgroep(_command.Doelgroep),
-            _command.IsUitgeschrevenUitPubliekeDatastroom,
-            _command.Contactgegevens.Select(
-                (c, i) =>
-                    new Registratiedata.Contactgegeven(
-                        i + 1,
-                        c.Contactgegeventype,
-                        c.Waarde,
-                        c.Beschrijving,
-                        c.IsPrimair
-                    )).ToArray(),
-            _command.Locaties.Select(
-                (l, i) =>
-                    new Registratiedata.Locatie(
-                        i + 1,
-                        l.Locatietype,
-                        l.IsPrimair,
-                        l.Naam ?? string.Empty,
-                        new Registratiedata.Adres(l.Adres!.Straatnaam,
-                                                  l.Adres.Huisnummer,
-                                                  l.Adres.Busnummer,
-                                                  l.Adres.Postcode,
-                                                  l.Adres.Gemeente.Naam,
-                                                  l.Adres.Land),
-                        AdresId: null)
-            ).ToArray(),
-            _command.Vertegenwoordigers.Select(
-                (v, i) =>
-                    new Registratiedata.Vertegenwoordiger(
-                        i + 1,
-                        v.Insz,
-                        v.IsPrimair,
-                        v.Roepnaam ?? string.Empty,
-                        v.Rol ?? string.Empty,
-                        v.Voornaam,
-                        v.Achternaam,
-                        v.Email.Waarde,
-                        v.Telefoon.Waarde,
-                        v.Mobiel.Waarde,
-                        v.SocialMedia.Waarde
-                    )).ToArray(),
-            _command.HoofdactiviteitenVerenigingsloket.Select(
-                h =>
-                    new Registratiedata.HoofdactiviteitVerenigingsloket(h.Code, h.Naam)
-            ).ToArray(),
-            Registratiedata.DuplicatieInfo.GeenDuplicaten
-        );
+        var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+                _vCodeService.VCode,
+                _command.Naam,
+                _command.KorteNaam ?? string.Empty,
+                _command.KorteBeschrijving ?? string.Empty,
+                _command.Startdatum,
+                EventFactory.Doelgroep(_command.Doelgroep),
+                _command.IsUitgeschrevenUitPubliekeDatastroom,
+                _command
+                    .Contactgegevens.Select(
+                        (c, i) =>
+                            new Registratiedata.Contactgegeven(
+                                i + 1,
+                                c.Contactgegeventype,
+                                c.Waarde,
+                                c.Beschrijving,
+                                c.IsPrimair
+                            )
+                    )
+                    .ToArray(),
+                _command
+                    .Locaties.Select(
+                        (l, i) =>
+                            new Registratiedata.Locatie(
+                                i + 1,
+                                l.Locatietype,
+                                l.IsPrimair,
+                                l.Naam ?? string.Empty,
+                                new Registratiedata.Adres(
+                                    l.Adres!.Straatnaam,
+                                    l.Adres.Huisnummer,
+                                    l.Adres.Busnummer,
+                                    l.Adres.Postcode,
+                                    l.Adres.Gemeente.Naam,
+                                    l.Adres.Land
+                                ),
+                                AdresId: null
+                            )
+                    )
+                    .ToArray(),
+                _command
+                    .Vertegenwoordigers.Select(
+                        (v, i) =>
+                            new Registratiedata.Vertegenwoordiger(
+                                i + 1,
+                                v.Insz,
+                                v.IsPrimair,
+                                v.Roepnaam ?? string.Empty,
+                                v.Rol ?? string.Empty,
+                                v.Voornaam,
+                                v.Achternaam,
+                                v.Email.Waarde,
+                                v.Telefoon.Waarde,
+                                v.Mobiel.Waarde,
+                                v.SocialMedia.Waarde
+                            )
+                    )
+                    .ToArray(),
+                _command
+                    .HoofdactiviteitenVerenigingsloket.Select(h => new Registratiedata.HoofdactiviteitVerenigingsloket(
+                        h.Code,
+                        h.Naam
+                    ))
+                    .ToArray(),
+                Registratiedata.DuplicatieInfo.GeenDuplicaten
+            );
 
         var werkingsgebiedenWerdenBepaald = new WerkingsgebiedenWerdenBepaald(
             _vCodeService.VCode,
-            _command.Werkingsgebieden.Select(h => new Registratiedata.Werkingsgebied(h.Code, h.Naam)).ToArray());
+            _command.Werkingsgebieden.Select(h => new Registratiedata.Werkingsgebied(h.Code, h.Naam)).ToArray()
+        );
 
-        var geotagsWerdenBepaald =
-            new GeotagsWerdenBepaald(_vCodeService.VCode, _geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray());
+        var geotagsWerdenBepaald = new GeotagsWerdenBepaald(
+            _vCodeService.VCode,
+            _geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray()
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
-             verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+        _newAggregateSessionMock.ShouldHaveSavedExact(
+            verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
             werkingsgebiedenWerdenBepaald,
             geotagsWerdenBepaald
         );

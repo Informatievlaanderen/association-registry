@@ -30,23 +30,25 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
     public With_Two_Primair_Contactgegevens_Of_The_Same_Type()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var repositoryMock = new VerenigingRepositoryMock();
+        var repositoryMock = new NewAggregateSessionMock();
 
-        var contactgegeven =
-            Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test@example.org", fixture.Create<string>(),
-                                               isPrimair: true);
+        var contactgegeven = Contactgegeven.CreateFromInitiator(
+            Contactgegeventype.Email,
+            waarde: "test@example.org",
+            fixture.Create<string>(),
+            isPrimair: true
+        );
 
-        var contactgegeven2 =
-            Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test2@example.org", fixture.Create<string>(),
-                                               isPrimair: true);
+        var contactgegeven2 = Contactgegeven.CreateFromInitiator(
+            Contactgegeventype.Email,
+            waarde: "test2@example.org",
+            fixture.Create<string>(),
+            isPrimair: true
+        );
 
         _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
-            Contactgegevens = new[]
-            {
-                contactgegeven,
-                contactgegeven2,
-            },
+            Contactgegevens = new[] { contactgegeven, contactgegeven2 },
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();
@@ -58,20 +60,26 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
             Mock.Of<IDocumentSession>(),
             new ClockStub(_command.Startdatum.Value),
             Mock.Of<IGeotagsService>(),
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+        );
 
-        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata);
+        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+            _command,
+            commandMetadata
+        );
     }
 
     [Fact]
     public async ValueTask Then_It_Throws()
     {
-        var method = () => _commandHandler.Handle(
-            _commandEnvelope,
-            VerrijkteAdressenUitGrar.Empty,
-            PotentialDuplicatesFound.None,
-            new PersonenUitKszStub(_command),
-            cancellationToken: CancellationToken.None);
+        var method = () =>
+            _commandHandler.Handle(
+                _commandEnvelope,
+                VerrijkteAdressenUitGrar.Empty,
+                PotentialDuplicatesFound.None,
+                new PersonenUitKszStub(_command),
+                cancellationToken: CancellationToken.None
+            );
 
         await method.Should().ThrowAsync<MeerderePrimaireContactgegevensZijnNietToegestaan>();
     }

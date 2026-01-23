@@ -26,17 +26,16 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler _commandHandler;
     private readonly IFixture _fixture;
-    private readonly VerenigingRepositoryMock _repositoryMock;
+    private readonly NewAggregateSessionMock _repositoryMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
 
     public With_Two_Primair_Contactgegevens_Of_Different_Type()
     {
-        _fixture = new Fixture().CustomizeAdminApi()
-                                .WithoutWerkingsgebieden();
+        _fixture = new Fixture().CustomizeAdminApi().WithoutWerkingsgebieden();
 
         var geotagService = Faktory.New(_fixture).GeotagsService.ReturnsEmptyGeotags();
 
-        _repositoryMock = new VerenigingRepositoryMock();
+        _repositoryMock = new NewAggregateSessionMock();
 
         _command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
@@ -46,13 +45,14 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                     Contactgegeventype.Email,
                     waarde: "test@example.org",
                     beschrijving: _fixture.Create<string>(),
-                    isPrimair: true),
-
+                    isPrimair: true
+                ),
                 Contactgegeven.CreateFromInitiator(
                     Contactgegeventype.Website,
                     waarde: "http://example.org",
                     beschrijving: _fixture.Create<string>(),
-                    isPrimair: true),
+                    isPrimair: true
+                ),
             },
         };
 
@@ -65,7 +65,8 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             Mock.Of<IDocumentSession>(),
             new ClockStub(_command.Startdatum.Value),
             geotagService.Object,
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+        );
     }
 
     public async ValueTask InitializeAsync()
@@ -73,17 +74,15 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         await _commandHandler.Handle(
-            new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-                _command,
-                commandMetadata),
+            new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata),
             VerrijkteAdressenUitGrar.Empty,
             PotentialDuplicatesFound.None,
             new PersonenUitKszStub(_command),
-            cancellationToken: CancellationToken.None);
+            cancellationToken: CancellationToken.None
+        );
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
     [Fact]
     public void Then_it_saves_the_event()
@@ -116,21 +115,23 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                         _command.Contactgegevens[1].IsPrimair
                     ),
                 },
-                Locaties: _command.Locaties.Select((l, index) => EventFactory.Locatie(l) with
-                {
-                    LocatieId = index + 1,
-                }).ToArray(),
-                Vertegenwoordigers: _command.Vertegenwoordigers.Select((v, index) => EventFactory.Vertegenwoordiger(v) with
-                {
-                    VertegenwoordigerId = index + 1,
-                }).ToArray(),
-                HoofdactiviteitenVerenigingsloket: _command.HoofdactiviteitenVerenigingsloket
-                                                           .Select(h => new Registratiedata.HoofdactiviteitVerenigingsloket(
-                                                                       h.Code,
-                                                                       h.Naam)).ToArray(),
+                Locaties: _command
+                    .Locaties.Select((l, index) => EventFactory.Locatie(l) with { LocatieId = index + 1 })
+                    .ToArray(),
+                Vertegenwoordigers: _command
+                    .Vertegenwoordigers.Select(
+                        (v, index) => EventFactory.Vertegenwoordiger(v) with { VertegenwoordigerId = index + 1 }
+                    )
+                    .ToArray(),
+                HoofdactiviteitenVerenigingsloket: _command
+                    .HoofdactiviteitenVerenigingsloket.Select(h => new Registratiedata.HoofdactiviteitVerenigingsloket(
+                        h.Code,
+                        h.Naam
+                    ))
+                    .ToArray(),
                 Registratiedata.DuplicatieInfo.GeenDuplicaten
-
             ),
-            new GeotagsWerdenBepaald(vCode, []));
+            new GeotagsWerdenBepaald(vCode, [])
+        );
     }
 }

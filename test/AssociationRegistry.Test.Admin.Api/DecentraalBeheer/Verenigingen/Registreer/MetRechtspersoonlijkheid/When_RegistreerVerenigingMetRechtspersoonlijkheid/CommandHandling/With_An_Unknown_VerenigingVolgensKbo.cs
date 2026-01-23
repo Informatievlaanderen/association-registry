@@ -1,5 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
-    CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
@@ -22,13 +21,15 @@ public class With_An_Unknown_VerenigingVolgensKbo
     private readonly RegistreerVerenigingUitKboCommandHandler _commandHandler;
     private readonly CommandEnvelope<RegistreerVerenigingUitKboCommand> _envelope;
     private readonly LoggerFactory _loggerFactory;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly NewAggregateSessionMock _newAggregateSessionMock;
+    private readonly VerenigingsStateQueriesMock _verenigingStateQueryServiceMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
 
     public With_An_Unknown_VerenigingVolgensKbo()
     {
         _loggerFactory = new LoggerFactory();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock();
+        _newAggregateSessionMock = new NewAggregateSessionMock();
+        _verenigingStateQueryServiceMock = new VerenigingsStateQueriesMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAdminApi();
@@ -36,7 +37,9 @@ public class With_An_Unknown_VerenigingVolgensKbo
         var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
 
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            _verenigingRepositoryMock,
+            new VerenigingRepositoryMock(),
+            _newAggregateSessionMock,
+            _verenigingStateQueryServiceMock,
             _vCodeService,
             new MagdaGeefVerenigingNumberNotFoundServiceMock(),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
@@ -44,15 +47,16 @@ public class With_An_Unknown_VerenigingVolgensKbo
             commandHandlerLogger
         );
 
-        _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(),
-                                                                           fixture.Create<CommandMetadata>());
+        _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(
+            fixture.Create<RegistreerVerenigingUitKboCommand>(),
+            fixture.Create<CommandMetadata>()
+        );
     }
 
     [Fact]
     public async ValueTask Then_It_Throws_GeenGeldigeVerenigingInKbo()
     {
-        var handle = () => _commandHandler
-           .Handle(_envelope, CancellationToken.None);
+        var handle = () => _commandHandler.Handle(_envelope, CancellationToken.None);
 
         await handle.Should().ThrowAsync<GeenGeldigeVerenigingInKbo>();
     }

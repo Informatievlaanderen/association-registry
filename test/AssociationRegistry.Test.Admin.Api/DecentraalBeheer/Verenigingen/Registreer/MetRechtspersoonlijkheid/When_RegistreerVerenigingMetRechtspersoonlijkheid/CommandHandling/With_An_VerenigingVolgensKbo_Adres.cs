@@ -1,5 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
-    CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
@@ -23,14 +22,16 @@ public class With_An_VerenigingVolgensKbo_Adres
 {
     private readonly RegistreerVerenigingUitKboCommand _command;
     private readonly InMemorySequentialVCodeService _vCodeService;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly NewAggregateSessionMock _newAggregateSessionMock;
+    private readonly VerenigingsStateQueriesMock _verenigingStateQueryServiceMock;
     private readonly VerenigingVolgensKbo _verenigingVolgensKbo;
     private readonly LoggerFactory _loggerFactory;
 
     public With_An_VerenigingVolgensKbo_Adres()
     {
         _loggerFactory = new LoggerFactory();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock();
+        _newAggregateSessionMock = new NewAggregateSessionMock();
+        _verenigingStateQueryServiceMock = new VerenigingsStateQueriesMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAdminApi();
@@ -45,7 +46,9 @@ public class With_An_VerenigingVolgensKbo_Adres
         var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
 
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            _verenigingRepositoryMock,
+            Mock.Of<IVerenigingsRepository>(),
+            _newAggregateSessionMock,
+            _verenigingStateQueryServiceMock,
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
@@ -54,22 +57,26 @@ public class With_An_VerenigingVolgensKbo_Adres
         );
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-           .GetAwaiter()
-           .GetResult();
+            .Handle(
+                new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata),
+                CancellationToken.None
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
     public void Then_it_saves_the_events()
     {
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _newAggregateSessionMock.ShouldHaveSavedExact(
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.KboNummer,
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.Startdatum),
+                _verenigingVolgensKbo.Startdatum
+            ),
             new MaatschappelijkeZetelWerdOvergenomenUitKbo(
                 new Registratiedata.Locatie(
                     LocatieId: 1,
@@ -84,7 +91,8 @@ public class With_An_VerenigingVolgensKbo_Adres
                         _verenigingVolgensKbo.Adres.Gemeente!,
                         _verenigingVolgensKbo.Adres.Land!
                     ),
-                    AdresId: null)
+                    AdresId: null
+                )
             ),
             new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_command.KboNummer)
         );

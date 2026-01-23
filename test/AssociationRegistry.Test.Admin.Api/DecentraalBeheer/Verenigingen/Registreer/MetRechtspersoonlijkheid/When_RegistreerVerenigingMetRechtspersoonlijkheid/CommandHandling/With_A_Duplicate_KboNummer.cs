@@ -1,5 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
-    CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
@@ -13,12 +12,12 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Events;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
-
 using Xunit;
 
 public class With_A_Duplicate_KboNummer : IAsyncLifetime
@@ -29,43 +28,54 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
     private readonly VerenigingState _moederVCodeAndNaam;
     private readonly Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
     private readonly LoggerFactory _loggerFactory;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly NewAggregateSessionMock _newAggregateSessionMock;
+    private readonly VerenigingsStateQueriesMock _verenigingStateQueryServiceMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
 
     public With_A_Duplicate_KboNummer()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        _moederVCodeAndNaam = new VerenigingState
-        {
-            Identity = fixture.Create<VCode>(),
-            Verenigingstype = Verenigingstype.VZW,
-        };
+        var command = fixture.Create<RegistreerVerenigingUitKboCommand>();
+
+        var vCode = fixture.Create<VCode>();
+        _moederVCodeAndNaam = new VerenigingState().Apply(
+            new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
+                vCode,
+                command.KboNummer,
+                Verenigingstype.VZW.Code,
+                fixture.Create<string>(),
+                fixture.Create<string>(),
+                fixture.Create<DateOnly>()
+            )
+        );
 
         _loggerFactory = new LoggerFactory();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_moederVCodeAndNaam);
         _vCodeService = new InMemorySequentialVCodeService();
+        _newAggregateSessionMock = new NewAggregateSessionMock(_moederVCodeAndNaam);
+        _verenigingStateQueryServiceMock = new VerenigingsStateQueriesMock(_moederVCodeAndNaam);
 
-        _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(),
-                                                                           fixture.Create<CommandMetadata>());
+        _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(command, fixture.Create<CommandMetadata>());
 
         _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
 
         var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
 
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            new VerenigingRepositoryMock(_moederVCodeAndNaam),
+            Mock.Of<IVerenigingsRepository>(),
+            _newAggregateSessionMock,
+            _verenigingStateQueryServiceMock,
             new InMemorySequentialVCodeService(),
             _magdaGeefVerenigingService.Object,
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
             Mock.Of<IDocumentSession>(),
-            commandHandlerLogger);
+            commandHandlerLogger
+        );
     }
 
     public async ValueTask InitializeAsync()
     {
-        _result = await _commandHandler
-           .Handle(_envelope, CancellationToken.None);
+        _result = await _commandHandler.Handle(_envelope, CancellationToken.None);
     }
 
     [Fact]
@@ -86,6 +96,5 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
         _magdaGeefVerenigingService.Invocations.Should().BeEmpty();
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

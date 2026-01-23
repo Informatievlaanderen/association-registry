@@ -1,5 +1,9 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
@@ -12,10 +16,6 @@ using Marten;
 using Microsoft.Extensions.Logging;
 using Middleware;
 using ResultNet;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
 using Wolverine.Marten;
 
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
@@ -26,18 +26,19 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
     private readonly IMartenOutbox _outbox;
     private readonly IDocumentSession _session;
     private readonly IVCodeService _vCodeService;
-    private readonly IVerenigingsRepository _verenigingsRepository;
+    private readonly INewAggregateSession _newAggregateSession;
 
     public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
-        IVerenigingsRepository verenigingsRepository,
+        INewAggregateSession newAggregateSession,
         IVCodeService vCodeService,
         IMartenOutbox outbox,
         IDocumentSession session,
         IClock clock,
         IGeotagsService geotagsService,
-        ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger)
+        ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger
+    )
     {
-        _verenigingsRepository = verenigingsRepository;
+        _newAggregateSession = newAggregateSession;
         _vCodeService = vCodeService;
         _outbox = outbox;
         _session = session;
@@ -46,25 +47,27 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
         _logger = logger;
     }
 
-
     public async Task<Result> Handle(
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> message,
         VerrijkteAdressenUitGrar verrijkteAdressenUitGrar,
         PotentialDuplicatesFound potentialDuplicates,
         PersonenUitKsz personenUitKsz,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         // Because of the use of middleware on this handler, a SaveChanges() does not send an outbox message
         // To fix this issue temporary, we will enroll the session into the outbox
         // A jira ticket is made to fix this issue: OR-2884
         _outbox.Enroll(_session);
 
-        _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} start");
+        _logger.LogInformation(
+            $"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} start"
+        );
 
         if (personenUitKsz.HeeftOverledenPersonen)
             throw new VerenigingKanNietGeregistreerdWordenMetOverledenVertegenwoordigers();
 
-        if(potentialDuplicates.HasDuplicates)
+        if (potentialDuplicates.HasDuplicates)
             return new Result<PotentialDuplicatesFound>(potentialDuplicates, ResultStatus.Failed);
 
         var command = message.Command;
@@ -80,14 +83,16 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
             command.Locaties,
             command.Vertegenwoordigers,
             command.HoofdactiviteitenVerenigingsloket,
-            command.Werkingsgebieden);
+            command.Werkingsgebieden
+        );
 
         var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
             registratieData,
             potentialDuplicates.PotentialDuplicatesSkipped,
             potentialDuplicates.Bevestigingstoken,
             _vCodeService,
-            _clock);
+            _clock
+        );
 
         var (metAdresId, zonderAdresId) = vereniging.GeefLocatiesMetEnZonderAdresId();
 
@@ -99,9 +104,11 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
             await _outbox.SendAsync(new ProbeerAdresTeMatchenCommand(vereniging.VCode, locatieZonderAdresId.LocatieId));
         }
 
-        var result = await _verenigingsRepository.SaveNew(vereniging, _session ,message.Metadata, cancellationToken);
+        var result = await _newAggregateSession.SaveNew(vereniging, _session, message.Metadata, cancellationToken);
 
-        _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} end");
+        _logger.LogInformation(
+            $"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} end"
+        );
 
         return Result.Success(CommandResult.Create(vereniging.VCode, result));
     }
@@ -109,9 +116,8 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 
 public class VerrijkteAdressenUitGrar : ReadOnlyDictionary<string, Adres>
 {
-    public VerrijkteAdressenUitGrar(IDictionary<string, Adres> adresWithBronwaarde) : base(adresWithBronwaarde)
-    {
-    }
+    public VerrijkteAdressenUitGrar(IDictionary<string, Adres> adresWithBronwaarde)
+        : base(adresWithBronwaarde) { }
 
     public static VerrijkteAdressenUitGrar Empty => new(new Dictionary<string, Adres>());
 

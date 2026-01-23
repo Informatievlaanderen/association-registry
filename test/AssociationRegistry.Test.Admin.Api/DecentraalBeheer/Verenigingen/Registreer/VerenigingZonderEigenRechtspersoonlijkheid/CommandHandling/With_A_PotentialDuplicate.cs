@@ -34,41 +34,48 @@ public class With_A_PotentialDuplicate
         var scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario();
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var locatie = fixture.Create<Locatie>() with
-        {
-            AdresId = null,
-        };
+        var locatie = fixture.Create<Locatie>() with { AdresId = null };
 
         locatie.Adres!.Postcode = scenario.Locatie.Adres!.Postcode;
 
         var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
-            Naam = VerenigingsNaam.Create(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario.Naam),
+            Naam = VerenigingsNaam.Create(
+                VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario.Naam
+            ),
             Locaties = new[] { locatie },
         };
 
-        _potentialDuplicates = PotentialDuplicatesFound.Some(fixture.Create<string>(), fixture.Create<DuplicaatVereniging>());
+        _potentialDuplicates = PotentialDuplicatesFound.Some(
+            fixture.Create<string>(),
+            fixture.Create<DuplicaatVereniging>()
+        );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
-            new VerenigingRepositoryMock(scenario.GetVerenigingState()),
+            new NewAggregateSessionMock(scenario.GetVerenigingState()),
             new InMemorySequentialVCodeService(),
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
             Mock.Of<IGeotagsService>(),
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+        );
 
-        _result = commandHandler.Handle(
-                                     new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-                                         command, commandMetadata),
-                                     VerrijkteAdressenUitGrar.Empty,
-                                     _potentialDuplicates,
-                                     new PersonenUitKszStub(command),
-                                     cancellationToken: CancellationToken.None)
-                                .GetAwaiter()
-                                .GetResult();
+        _result = commandHandler
+            .Handle(
+                new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+                    command,
+                    commandMetadata
+                ),
+                VerrijkteAdressenUitGrar.Empty,
+                _potentialDuplicates,
+                new PersonenUitKszStub(command),
+                cancellationToken: CancellationToken.None
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
@@ -80,8 +87,11 @@ public class With_A_PotentialDuplicate
     [Fact]
     public void Then_The_Result_Contains_The_Potential_Duplicates()
     {
-        ((Result<PotentialDuplicatesFound>)_result).Should().BeEquivalentTo(
-            new Result<PotentialDuplicatesFound>(_potentialDuplicates, ResultStatus.Failed),
-            options => options.Excluding(x => x.LogTraceCode));
+        ((Result<PotentialDuplicatesFound>)_result)
+            .Should()
+            .BeEquivalentTo(
+                new Result<PotentialDuplicatesFound>(_potentialDuplicates, ResultStatus.Failed),
+                options => options.Excluding(x => x.LogTraceCode)
+            );
     }
 }
