@@ -316,4 +316,7 @@
   <data name="TitularisMagNietNullOfLeegZijn">
     <value>Titularis mag niet null of leeg zijn.</value>
   </data>
+  <data name="BankrekeningnummerIsNietGekend">
+    <value>Bankrekeningnummer met bankrekeningnummer '{0}' is niet gekend</value>
+  </data>
 </root>

@@ -3,6 +3,7 @@ namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 using Subtypes.Subvereniging;
 using Adressen;
 using Bankrekeningen;
+using Bankrekeningen.Exceptions;
 using Events;
 using Framework;
 using Emails;
@@ -412,8 +413,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x => x.BankrekeningnummerId == bankrekeningnummerId);
 
-        if (bankrekeningnummer == null)
-            return;
+        Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
 
         AddEvent(new BankrekeningnummerWerdVerwijderd(
                      bankrekeningnummer.BankrekeningnummerId,
