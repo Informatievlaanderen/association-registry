@@ -36,7 +36,7 @@ public interface IAggregateSession
     Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, CommandMetadata metadata);
 }
 
-public class VerenigingsRepository : IAggregateSession, INewAggregateSession, IVerenigingsRepository
+public class VerenigingsRepository : IAggregateSession, IVerenigingsRepository
 {
     private readonly IEventStore _eventStore;
 
@@ -80,26 +80,6 @@ public class VerenigingsRepository : IAggregateSession, INewAggregateSession, IV
         return await _eventStore.Save(
             aggregateId: vereniging.VCode,
             aggregateVersion: vereniging.Version,
-            metadata: metadata,
-            cancellationToken: cancellationToken,
-            events: events
-        );
-    }
-
-    public async Task<StreamActionResult> SaveNew(
-        VerenigingsBase vereniging,
-        IDocumentSession session,
-        CommandMetadata metadata,
-        CancellationToken cancellationToken
-    )
-    {
-        var events = vereniging.UncommittedEvents.ToArray();
-
-        if (!events.Any())
-            return StreamActionResult.Empty;
-
-        return await _eventStore.SaveNew(
-            aggregateId: vereniging.VCode,
             metadata: metadata,
             cancellationToken: cancellationToken,
             events: events

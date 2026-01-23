@@ -52,4 +52,18 @@ public class VerenigingStateQueryService : IVerenigingStateQueryService
 
         return streamState != null || verenigingMetRechtspersoonlijkheidWerdGeregistreerd != null;
     }
+
+    public async Task<VCode?> GetOptionalVCodeFor(KboNummer kboNummer)
+    {
+        var streamState = await _session.Events.FetchStreamStateAsync(kboNummer);
+
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = await _session
+            .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+            .Where(x => x.KboNummer == kboNummer.Value)
+            .SingleOrDefaultAsync();
+
+        return verenigingMetRechtspersoonlijkheidWerdGeregistreerd != null
+            ? VCode.Hydrate(verenigingMetRechtspersoonlijkheidWerdGeregistreerd?.VCode)
+            : null;
+    }
 }

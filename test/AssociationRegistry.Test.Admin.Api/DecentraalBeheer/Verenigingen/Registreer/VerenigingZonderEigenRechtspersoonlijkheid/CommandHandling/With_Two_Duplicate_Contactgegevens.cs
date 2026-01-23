@@ -30,11 +30,14 @@ public class With_Two_Duplicate_Contactgegevens
     public With_Two_Duplicate_Contactgegevens()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var repositoryMock = new VerenigingRepositoryMock();
+        var repositoryMock = new NewAggregateSessionMock();
 
-        var contactgegeven =
-            Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test@example.org", fixture.Create<string>(),
-                                               isPrimair: true);
+        var contactgegeven = Contactgegeven.CreateFromInitiator(
+            Contactgegeventype.Email,
+            waarde: "test@example.org",
+            fixture.Create<string>(),
+            isPrimair: true
+        );
 
         _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
@@ -50,20 +53,26 @@ public class With_Two_Duplicate_Contactgegevens
             Mock.Of<IDocumentSession>(),
             new ClockStub(_command.Startdatum.Value),
             Mock.Of<IGeotagsService>(),
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+        );
 
-        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata);
+        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+            _command,
+            commandMetadata
+        );
     }
 
     [Fact]
     public async ValueTask Then_It_Throws()
     {
-        var method = () => _commandHandler.Handle(
-            _commandEnvelope,
-            VerrijkteAdressenUitGrar.Empty,
-            PotentialDuplicatesFound.None,
-            new PersonenUitKszStub(_command),
-            cancellationToken: CancellationToken.None);
+        var method = () =>
+            _commandHandler.Handle(
+                _commandEnvelope,
+                VerrijkteAdressenUitGrar.Empty,
+                PotentialDuplicatesFound.None,
+                new PersonenUitKszStub(_command),
+                cancellationToken: CancellationToken.None
+            );
         await method.Should().ThrowAsync<ContactgegevenIsDuplicaat>();
     }
 }

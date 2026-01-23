@@ -30,7 +30,7 @@ public class With_A_Startdatum_In_The_Future
     public With_A_Startdatum_In_The_Future()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var repositoryMock = new VerenigingRepositoryMock();
+        var repositoryMock = new NewAggregateSessionMock();
         var today = fixture.Create<DateOnly>();
 
         _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
@@ -47,20 +47,26 @@ public class With_A_Startdatum_In_The_Future
             Mock.Of<IDocumentSession>(),
             new ClockStub(today),
             Mock.Of<IGeotagsService>(),
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+        );
 
-        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata);
+        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+            _command,
+            commandMetadata
+        );
     }
 
     [Fact]
     public async ValueTask Then_it_throws_an_StartdatumIsInFutureException()
     {
-        var method = () => _commandHandler.Handle(
-            _commandEnvelope,
-            VerrijkteAdressenUitGrar.Empty,
-            PotentialDuplicatesFound.None,
-            new PersonenUitKszStub(_command),
-            CancellationToken.None);
+        var method = () =>
+            _commandHandler.Handle(
+                _commandEnvelope,
+                VerrijkteAdressenUitGrar.Empty,
+                PotentialDuplicatesFound.None,
+                new PersonenUitKszStub(_command),
+                CancellationToken.None
+            );
         await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();
     }
 }

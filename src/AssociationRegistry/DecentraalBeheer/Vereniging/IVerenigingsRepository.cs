@@ -30,11 +30,4 @@ public interface IVerenigingsRepository
         where TVereniging : IHydrate<VerenigingState>, new();
 
     public Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, CommandMetadata metadata);
-
-    public Task<StreamActionResult> SaveNew(
-        VerenigingsBase vereniging,
-        IDocumentSession session,
-        CommandMetadata messageMetadata,
-        CancellationToken cancellationToken
-    );
 }
