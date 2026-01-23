@@ -22,13 +22,13 @@ public class With_A_Startdatum_In_The_Future
 {
     private readonly CommandEnvelope<WijzigBasisgegevensCommand> _commandEnvelope;
     private readonly WijzigBasisgegevensCommandHandler _commandHandler;
-    private readonly VerenigingRepositoryMock _repositoryMock;
+    private readonly AggregateSessionMock _repositoryMock;
 
     public With_A_Startdatum_In_The_Future()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        _repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        _repositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var command = fixture.Create<WijzigBasisgegevensCommand>() with
         {
@@ -43,10 +43,12 @@ public class With_A_Startdatum_In_The_Future
     [Fact]
     public async ValueTask Then_it_throws_an_StartdatumIsInFutureException()
     {
-        var method = () => _commandHandler.Handle(
-            _commandEnvelope,
-            _repositoryMock,
-            new ClockStub(_commandEnvelope.Command.Startdatum.Value!.Value.AddDays(-1)));
+        var method = () =>
+            _commandHandler.Handle(
+                _commandEnvelope,
+                _repositoryMock,
+                new ClockStub(_commandEnvelope.Command.Startdatum.Value!.Value.AddDays(-1))
+            );
 
         await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();
     }

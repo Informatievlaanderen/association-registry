@@ -12,9 +12,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using Marten;
 using Microsoft.Extensions.Logging;
-using Moq;
 using ResultNet;
 using Xunit;
 
@@ -46,13 +44,11 @@ public class With_VerenigingVolgensKbo_Contactgegevens
         var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
 
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            Mock.Of<IVerenigingsRepository>(),
             _newAggregateSessionMock,
             _verenigingStateQueryServiceMock,
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 
@@ -141,13 +137,11 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
         var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
 
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            Mock.Of<IVerenigingsRepository>(),
             _newAggregateSessionMock,
             _verenigingStateQueryServiceMock,
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 

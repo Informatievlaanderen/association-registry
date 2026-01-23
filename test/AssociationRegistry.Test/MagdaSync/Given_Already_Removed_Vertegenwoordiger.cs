@@ -23,51 +23,70 @@ public class Given_Already_Removed_Vertegenwoordiger
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
     private readonly SyncKszMessageHandler _sut;
     private readonly Mock<IMessageBus> _messageBusMock;
-    private readonly VerenigingRepositoryMock _verenigingsRepository;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_Already_Removed_Vertegenwoordiger()
     {
         _fixture = new Fixture().CustomizeDomain();
-        _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
+        _scenario =
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
         var teVerwijderenVertegenwoordiger = _scenario.VertegenwoordigerWerdToegevoegd;
         var state = _scenario.GetVerenigingState();
 
-        state = state.Apply(new VertegenwoordigerWerdVerwijderd(teVerwijderenVertegenwoordiger.VertegenwoordigerId,
-                                                                teVerwijderenVertegenwoordiger.Insz,
-                                                                teVerwijderenVertegenwoordiger.Voornaam,
-                                                                teVerwijderenVertegenwoordiger.Achternaam));
+        state = state.Apply(
+            new VertegenwoordigerWerdVerwijderd(
+                teVerwijderenVertegenwoordiger.VertegenwoordigerId,
+                teVerwijderenVertegenwoordiger.Insz,
+                teVerwijderenVertegenwoordiger.Voornaam,
+                teVerwijderenVertegenwoordiger.Achternaam
+            )
+        );
 
-        _verenigingsRepository = new VerenigingRepositoryMock(state, true, true);
+        _aggregateSessionMock = new AggregateSessionMock(state, true, true);
 
         var persoonsgegevensRepoMock = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
         persoonsgegevensRepoMock
-           .Setup(x => x.Get(Insz.Create(_scenario.VertegenwoordigerWerdToegevoegd.Insz), It.IsAny<CancellationToken>()))
-           .ReturnsAsync(new[]
-            {
-                _fixture.Create<VertegenwoordigerPersoonsgegevens>() with
+            .Setup(x =>
+                x.Get(Insz.Create(_scenario.VertegenwoordigerWerdToegevoegd.Insz), It.IsAny<CancellationToken>())
+            )
+            .ReturnsAsync(
+                new[]
                 {
-                    VCode = _scenario.VCode,
-                    Insz = teVerwijderenVertegenwoordiger.Insz,
-                    VertegenwoordigerId = _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+                    _fixture.Create<VertegenwoordigerPersoonsgegevens>() with
+                    {
+                        VCode = _scenario.VCode,
+                        Insz = teVerwijderenVertegenwoordiger.Insz,
+                        VertegenwoordigerId = _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+                    },
                 }
-            });
+            );
 
         var filterVzerOnylQueryMock = new Mock<IFilterVzerOnlyQuery>();
 
-        filterVzerOnylQueryMock.Setup(x => x.ExecuteAsync(It.IsAny<FilterVzerOnlyQueryFilter>(), It.IsAny<CancellationToken>()))
-                               .ReturnsAsync([_scenario.VCode]);
+        filterVzerOnylQueryMock
+            .Setup(x => x.ExecuteAsync(It.IsAny<FilterVzerOnlyQueryFilter>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([_scenario.VCode]);
 
-        _sut = new SyncKszMessageHandler(persoonsgegevensRepoMock.Object, _verenigingsRepository, filterVzerOnylQueryMock.Object, NullLogger<SyncKszMessageHandler>.Instance);
+        _sut = new SyncKszMessageHandler(
+            persoonsgegevensRepoMock.Object,
+            _aggregateSessionMock,
+            filterVzerOnylQueryMock.Object,
+            NullLogger<SyncKszMessageHandler>.Instance
+        );
         _sut.Handle(
-                 new CommandEnvelope<SyncKszMessage>(
-                 new SyncKszMessage(Insz.Hydrate(teVerwijderenVertegenwoordiger.Insz), true, Guid.NewGuid()),
-                 TestCommandMetadata.ForDigitaalVlaanderenProcess), CancellationToken.None)
-            .GetAwaiter().GetResult();
+                new CommandEnvelope<SyncKszMessage>(
+                    new SyncKszMessage(Insz.Hydrate(teVerwijderenVertegenwoordiger.Insz), true, Guid.NewGuid()),
+                    TestCommandMetadata.ForDigitaalVlaanderenProcess
+                ),
+                CancellationToken.None
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
     public void Then_No_Event_Is_Saved()
     {
-       _verenigingsRepository.ShouldNotHaveAnySaves();
+        _aggregateSessionMock.ShouldNotHaveAnySaves();
     }
 }

@@ -10,9 +10,7 @@ using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
-using Marten;
 using Microsoft.Extensions.Logging;
-using Moq;
 using ResultNet;
 using Xunit;
 
@@ -37,13 +35,11 @@ public class With_An_Unknown_VerenigingVolgensKbo
         var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
 
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            new VerenigingRepositoryMock(),
             _newAggregateSessionMock,
             _verenigingStateQueryServiceMock,
             _vCodeService,
             new MagdaGeefVerenigingNumberNotFoundServiceMock(),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 

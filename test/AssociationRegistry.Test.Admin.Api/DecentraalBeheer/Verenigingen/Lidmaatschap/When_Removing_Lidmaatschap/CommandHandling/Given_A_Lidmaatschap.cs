@@ -21,19 +21,21 @@ public class Given_A_Lidmaatschap
 
         var scenario = new LidmaatschapWerdToegevoegdScenario();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var commandHandler = new VerwijderLidmaatschapCommandHandler(verenigingRepositoryMock);
 
+        var command = new VerwijderLidmaatschapCommand(
+            scenario.VCode,
+            new LidmaatschapId(scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId)
+        );
 
-        var command = new VerwijderLidmaatschapCommand(scenario.VCode,
-                                                       new LidmaatschapId(scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId));
-
-        await commandHandler.Handle(new CommandEnvelope<VerwijderLidmaatschapCommand>(command, fixture.Create<CommandMetadata>()));
+        await commandHandler.Handle(
+            new CommandEnvelope<VerwijderLidmaatschapCommand>(command, fixture.Create<CommandMetadata>())
+        );
 
         verenigingRepositoryMock.ShouldHaveSavedExact(
-            new LidmaatschapWerdVerwijderd(
-                scenario.VCode,
-                scenario.LidmaatschapWerdToegevoegd.Lidmaatschap));
+            new LidmaatschapWerdVerwijderd(scenario.VCode, scenario.LidmaatschapWerdToegevoegd.Lidmaatschap)
+        );
     }
 }

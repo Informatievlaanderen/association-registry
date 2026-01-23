@@ -12,19 +12,19 @@ using Wolverine.Marten;
 
 public class MarkeerAlsDubbelVanCommandHandler
 {
-    private readonly IVerenigingsRepository _verenigingsRepository;
+    private readonly IAggregateSession _aggregateSession;
     private readonly IVerenigingStateQueryService _queryService;
     private readonly IMartenOutbox _outbox;
     private readonly IDocumentSession _session;
 
     public MarkeerAlsDubbelVanCommandHandler(
-        IVerenigingsRepository verenigingsRepository,
+        IAggregateSession aggregateSession,
         IVerenigingStateQueryService queryService,
         IMartenOutbox outbox,
         IDocumentSession session
     )
     {
-        _verenigingsRepository = verenigingsRepository;
+        _aggregateSession = aggregateSession;
         _queryService = queryService;
         _outbox = outbox;
         _session = session;
@@ -35,9 +35,9 @@ public class MarkeerAlsDubbelVanCommandHandler
         CancellationToken cancellationToken = default
     )
     {
-        var vereniging = await _verenigingsRepository.Load<Vereniging>(
+        var vereniging = await _aggregateSession.Load<Vereniging>(
             vCode: message.Command.VCode,
-            commandMetadata: message.Metadata
+            metadata: message.Metadata
         );
 
         await ThrowIfInvalidAuthentiekeVereniging(message);
@@ -51,7 +51,7 @@ public class MarkeerAlsDubbelVanCommandHandler
             )
         );
 
-        var result = await _verenigingsRepository.Save(
+        var result = await _aggregateSession.Save(
             vereniging: vereniging,
             session: _session,
             metadata: message.Metadata,

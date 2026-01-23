@@ -7,6 +7,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using Contracts.KboSync;
 using MagdaSync.SyncKbo;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 
@@ -16,7 +17,7 @@ public class RecordProcessor
 
     public static async Task TryProcessRecord(
         ILogger contextLogger,
-        IVerenigingsRepository repository,
+        IAggregateSession aggregateSession,
         IVerenigingStateQueryService queryService,
         CancellationToken cancellationToken,
         TeSynchroniserenKboNummerMessage? message,
@@ -34,7 +35,7 @@ public class RecordProcessor
         );
         var commandEnvelope = new CommandEnvelope<SyncKboCommand>(syncKboCommand, commandMetadata);
 
-        var commandResult = await handler.Handle(commandEnvelope, repository, queryService, cancellationToken);
+        var commandResult = await handler.Handle(commandEnvelope, aggregateSession, queryService, cancellationToken);
 
         if (commandResult is null)
         {

@@ -21,7 +21,7 @@ public class Given_A_Duplicate_Vertegenwoordiger
     public Given_A_Duplicate_Vertegenwoordiger()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -33,13 +33,14 @@ public class Given_A_Duplicate_Vertegenwoordiger
     {
         var command = _fixture.Create<VoegVertegenwoordigerToeCommand>() with { VCode = _scenario.VCode };
 
-        var commandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(command, _fixture.Create<CommandMetadata>());
+        var commandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(
+            command,
+            _fixture.Create<CommandMetadata>()
+        );
 
         await _commandHandler.Handle(commandEnvelope, _fixture.Create<PersoonUitKsz>());
         var handleCall = async () => await _commandHandler.Handle(commandEnvelope, _fixture.Create<PersoonUitKsz>());
 
-        await handleCall.Should()
-                        .ThrowAsync<InszMoetUniekZijn>()
-                        .WithMessage(new InszMoetUniekZijn().Message);
+        await handleCall.Should().ThrowAsync<InszMoetUniekZijn>().WithMessage(new InszMoetUniekZijn().Message);
     }
 }

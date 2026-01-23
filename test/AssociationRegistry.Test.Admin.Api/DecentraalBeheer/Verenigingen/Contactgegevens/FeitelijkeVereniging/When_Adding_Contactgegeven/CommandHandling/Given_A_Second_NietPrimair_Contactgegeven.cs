@@ -18,16 +18,16 @@ public class Given_A_Second_NietPrimair_Contactgegeven
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_A_Second_NietPrimair_Contactgegeven()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new VoegContactgegevenToeCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new VoegContactgegevenToeCommandHandler(_aggregateSessionMock);
     }
 
     [Theory]
@@ -43,13 +43,22 @@ public class Given_A_Second_NietPrimair_Contactgegeven
                 Contactgegeventype.Parse(type),
                 waarde,
                 _fixture.Create<string?>(),
-                isPrimair: false));
+                isPrimair: false
+            )
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new ContactgegevenWerdToegevoegd(ContactgegevenId: 2, command.Contactgegeven.Contactgegeventype, command.Contactgegeven.Waarde,
-                                             command.Contactgegeven.Beschrijving, IsPrimair: false)
+        _aggregateSessionMock.ShouldHaveSavedExact(
+            new ContactgegevenWerdToegevoegd(
+                ContactgegevenId: 2,
+                command.Contactgegeven.Contactgegeventype,
+                command.Contactgegeven.Waarde,
+                command.Contactgegeven.Beschrijving,
+                IsPrimair: false
+            )
         );
     }
 
@@ -62,14 +71,19 @@ public class Given_A_Second_NietPrimair_Contactgegeven
                 Contactgegeventype.Parse("SocialMedia"),
                 "https://www.example.org",
                 _fixture.Create<string?>(),
-                isPrimair: false));
+                isPrimair: false
+            )
+        );
 
         var result = await _commandHandler.Handle(
-            new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+            new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        var contactgegevenId = _verenigingRepositoryMock.SaveInvocations[0].Vereniging.UncommittedEvents.ToArray()[0]
-                                                        .As<ContactgegevenWerdToegevoegd>()
-                                                        .ContactgegevenId;
+        var contactgegevenId = _aggregateSessionMock
+            .SaveInvocations[0]
+            .Vereniging.UncommittedEvents.ToArray()[0]
+            .As<ContactgegevenWerdToegevoegd>()
+            .ContactgegevenId;
 
         result.EntityId.Should().Be(contactgegevenId);
     }

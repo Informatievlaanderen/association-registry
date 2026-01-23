@@ -15,14 +15,21 @@ public class When_Handling_ProbeerAdresTeMatchenCommand : When_Loading_With_Dubb
     [Fact]
     public async ValueTask Then_It_Should_Have_Loaded_AllowDubbels()
     {
-        await VerifyVerenigingWasLoadedWithAllowDubbeleVereniging(async repositoryMock =>
+        await VerifyVerenigingWasLoadedWithAllowDubbeleVereniging(async aggregateSession =>
         {
-            var sut = new ProbeerAdresTeMatchenCommandHandler(repositoryMock, Mock.Of<IAdresMatchService>(), NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
+            var sut = new ProbeerAdresTeMatchenCommandHandler(
+                aggregateSession,
+                Mock.Of<IAdresMatchService>(),
+                NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance
+            );
 
-            await sut.Handle(_fixture.Create<ProbeerAdresTeMatchenCommand>() with
-            {
-                VCode = _fixture.Create<VCode>(),
-            }, CancellationToken.None);
+            await sut.Handle(
+                _fixture.Create<ProbeerAdresTeMatchenCommand>() with
+                {
+                    VCode = _fixture.Create<VCode>(),
+                },
+                CancellationToken.None
+            );
         });
     }
 }

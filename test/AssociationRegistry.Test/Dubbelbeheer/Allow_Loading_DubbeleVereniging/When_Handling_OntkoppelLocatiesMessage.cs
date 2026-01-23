@@ -11,14 +11,17 @@ public class When_Handling_OntkoppelLocatiesMessage : When_Loading_With_Dubbels_
     [Fact]
     public async ValueTask Then_It_Should_Have_Loaded_AllowDubbels()
     {
-        await VerifyVerenigingWasLoadedWithAllowDubbeleVereniging(async repositoryMock =>
+        await VerifyVerenigingWasLoadedWithAllowDubbeleVereniging(async aggregateSession =>
         {
-            var sut = new OntkoppelLocatiesMessageHandler(repositoryMock);
+            var sut = new OntkoppelLocatiesMessageHandler(aggregateSession);
 
-            await sut.Handle(_fixture.Create<OntkoppelLocatiesMessage>() with
-            {
-                VCode = _fixture.Create<VCode>(),
-            }, CancellationToken.None);
+            await sut.Handle(
+                _fixture.Create<OntkoppelLocatiesMessage>() with
+                {
+                    VCode = _fixture.Create<VCode>(),
+                },
+                CancellationToken.None
+            );
         });
     }
 }

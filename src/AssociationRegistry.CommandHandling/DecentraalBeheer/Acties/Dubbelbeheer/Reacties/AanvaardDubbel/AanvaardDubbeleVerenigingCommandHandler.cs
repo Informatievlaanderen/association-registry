@@ -1,16 +1,15 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 
+using System.Threading;
+using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
-using System.Threading;
-using System.Threading.Tasks;
+using MartenDb.Store;
 using VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using Wolverine;
 
-public class AanvaardDubbeleVerenigingCommandHandler(
-    IVerenigingsRepository repository,
-    IMessageBus bus)
+public class AanvaardDubbeleVerenigingCommandHandler(IAggregateSession aggregateSession, IMessageBus bus)
 {
     public async Task Handle(AanvaardDubbeleVerenigingCommand command, CancellationToken cancellationToken)
     {
@@ -18,22 +17,29 @@ public class AanvaardDubbeleVerenigingCommandHandler(
         {
             var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
-            var vereniging = await repository.Load<VerenigingOfAnyKind>(command.VCode, metadata);
+            var vereniging = await aggregateSession.Load<VerenigingOfAnyKind>(command.VCode, metadata);
 
             vereniging.AanvaardDubbeleVereniging(command.VCodeDubbeleVereniging);
 
-            await repository.Save(
-                vereniging,
-                metadata,
-                cancellationToken);
+            await aggregateSession.Save(vereniging, metadata, cancellationToken);
         }
         catch (AggregateNotFoundException)
         {
-            await bus.SendAsync(new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(command.VCodeDubbeleVereniging, command.VCode));
+            await bus.SendAsync(
+                new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(
+                    command.VCodeDubbeleVereniging,
+                    command.VCode
+                )
+            );
         }
         catch (DomainException)
         {
-            await bus.SendAsync(new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(command.VCodeDubbeleVereniging, command.VCode));
+            await bus.SendAsync(
+                new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(
+                    command.VCodeDubbeleVereniging,
+                    command.VCode
+                )
+            );
         }
     }
 }

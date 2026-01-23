@@ -11,7 +11,7 @@ using Xunit;
 
 public class With_NietVanToepassing_To_NietBepaald
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly WerkingsgebiedenWerdenNietVanToepassingScenario _scenario;
     private GeotagsCollection _geotags;
 
@@ -19,21 +19,24 @@ public class With_NietVanToepassing_To_NietBepaald
     {
         _scenario = new WerkingsgebiedenWerdenNietVanToepassingScenario();
 
-        (_verenigingRepositoryMock, _geotags) =
-            WerkingsgebiedenScenarioRunner.Run(_scenario, werkingsgebieden: fixture => Werkingsgebieden.NietBepaald);
+        (_aggregateSessionMock, _geotags) = WerkingsgebiedenScenarioRunner.Run(
+            _scenario,
+            werkingsgebieden: fixture => Werkingsgebieden.NietBepaald
+        );
     }
 
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
+        _aggregateSessionMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
     }
 
     [Fact]
     public void Then_A_WerkingsgebiedenWerdenNietVanBepaald_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSavedExact(
             EventFactory.WerkingsgebiedenWerdenNietBepaald(_scenario.VCode),
-            EventFactory.GeotagsWerdenBepaald(_scenario.VCode, _geotags));
+            EventFactory.GeotagsWerdenBepaald(_scenario.VCode, _geotags)
+        );
     }
 }

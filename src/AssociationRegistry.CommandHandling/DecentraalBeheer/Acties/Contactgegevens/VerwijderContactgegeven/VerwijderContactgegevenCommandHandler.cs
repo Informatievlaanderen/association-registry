@@ -1,28 +1,33 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VerwijderContactgegeven;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
 using System.Threading;
 using System.Threading.Tasks;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
+using MartenDb.Store;
 
 public class VerwijderContactgegevenCommandHandler
 {
-    private readonly IVerenigingsRepository _repository;
+    private readonly IAggregateSession _aggregateSession;
 
-    public VerwijderContactgegevenCommandHandler(IVerenigingsRepository repository)
+    public VerwijderContactgegevenCommandHandler(IAggregateSession aggregateSession)
     {
-        _repository = repository;
+        _aggregateSession = aggregateSession;
     }
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<VerwijderContactgegevenCommand> message,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
-        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Create(message.Command.VCode), message.Metadata);
+        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
+            VCode.Create(message.Command.VCode),
+            message.Metadata
+        );
 
         vereniging.VerwijderContactgegeven(message.Command.ContactgegevenId);
 
-        var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
+        var result = await _aggregateSession.Save(vereniging, message.Metadata, cancellationToken);
 
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }

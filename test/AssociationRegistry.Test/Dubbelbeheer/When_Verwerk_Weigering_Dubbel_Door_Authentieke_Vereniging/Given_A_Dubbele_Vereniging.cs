@@ -8,6 +8,7 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using Events.Factories;
 using Integrations.Slack;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -18,21 +19,29 @@ public class Given_A_Dubbele_Vereniging
     public async ValueTask Then_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt_Event_Is_Saved()
     {
         var scenario = new VerenigingWerdGemarkeerdAlsDubbelVanScenario();
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), true, true);
-        var vCodeAuthentiekeVereniging = VCode.Create(scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging);
+        var aggregateSession = new AggregateSessionMock(scenario.GetVerenigingState(), true, true);
+        var vCodeAuthentiekeVereniging = VCode.Create(
+            scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging
+        );
 
         var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(
             VCode: scenario.VCode,
-            VCodeAuthentiekeVereniging: vCodeAuthentiekeVereniging);
+            VCodeAuthentiekeVereniging: vCodeAuthentiekeVereniging
+        );
 
         var sut = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(
-            repositoryMock,
+            aggregateSession,
             Mock.Of<INotifier>(),
-            new NullLogger<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler>());
+            new NullLogger<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler>()
+        );
 
         await sut.Handle(command, CancellationToken.None);
 
-        repositoryMock.ShouldHaveSavedExact(
-            EventFactory.WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(scenario.VCode, new VerenigingStatus.StatusDubbel(vCodeAuthentiekeVereniging, VerenigingStatus.Actief)));
+        aggregateSession.ShouldHaveSavedExact(
+            EventFactory.WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
+                scenario.VCode,
+                new VerenigingStatus.StatusDubbel(vCodeAuthentiekeVereniging, VerenigingStatus.Actief)
+            )
+        );
     }
 }

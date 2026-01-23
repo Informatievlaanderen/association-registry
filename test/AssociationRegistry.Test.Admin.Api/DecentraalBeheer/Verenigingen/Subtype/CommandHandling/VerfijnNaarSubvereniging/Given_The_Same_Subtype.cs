@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.VerfijnNaarSubvereniging;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Subtype;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.Subvereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.Subvereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Subtypes.Subvereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
@@ -25,28 +25,38 @@ public class Given_The_Same_Subtype
     private readonly VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario _scenario;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _rechtspersoonScenario;
     private readonly VerfijnSubtypeNaarSubverenigingCommandHandler _commandHandler;
-    private readonly MultipleVerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly MultipleVerenigingAggregateSessionMock _verenigingAggregateSessionMock;
 
     public Given_The_Same_Subtype()
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario();
         _rechtspersoonScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        _verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(_scenario.GetVerenigingState());
-        _verenigingRepositoryMock.WithVereniging(_rechtspersoonScenario.GetVerenigingState());
-        _commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(_verenigingRepositoryMock);
+        _verenigingAggregateSessionMock = new MultipleVerenigingAggregateSessionMock(_scenario.GetVerenigingState());
+        _verenigingAggregateSessionMock.WithVereniging(_rechtspersoonScenario.GetVerenigingState());
+        _commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(_verenigingAggregateSessionMock);
     }
 
     [Fact]
     public async ValueTask With_Relatie_Changes_Then_SubverenigingRelatieWerdGewijzigd()
     {
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new SubverenigingVanDto(_rechtspersoonScenario.VCode, null, null));
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(
+            _scenario.VCode,
+            new SubverenigingVanDto(_rechtspersoonScenario.VCode, null, null)
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSaved(_scenario.VCode,
-                                                 new SubverenigingRelatieWerdGewijzigd(
-                                                     _scenario.VCode, _rechtspersoonScenario.VCode, _rechtspersoonScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam));
+        _verenigingAggregateSessionMock.ShouldHaveSaved(
+            _scenario.VCode,
+            new SubverenigingRelatieWerdGewijzigd(
+                _scenario.VCode,
+                _rechtspersoonScenario.VCode,
+                _rechtspersoonScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam
+            )
+        );
     }
 
     [Fact]
@@ -55,31 +65,55 @@ public class Given_The_Same_Subtype
         var subtypeIdentificatie = SubverenigingIdentificatie.Create(_fixture.Create<string>());
         var subtypeBeschrijving = SubverenigingBeschrijving.Create(_fixture.Create<string>());
 
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new SubverenigingVanDto(null, subtypeIdentificatie, subtypeBeschrijving));
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(
+            _scenario.VCode,
+            new SubverenigingVanDto(null, subtypeIdentificatie, subtypeBeschrijving)
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSaved(_scenario.VCode,
-                                                 new SubverenigingDetailsWerdenGewijzigd(
-                                                     _scenario.VCode, subtypeIdentificatie, subtypeBeschrijving));
+        _verenigingAggregateSessionMock.ShouldHaveSaved(
+            _scenario.VCode,
+            new SubverenigingDetailsWerdenGewijzigd(_scenario.VCode, subtypeIdentificatie, subtypeBeschrijving)
+        );
     }
 
     [Fact]
     public async ValueTask With_No_Changes_Then_Nothing()
     {
-       var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new SubverenigingVanDto(null, SubverenigingIdentificatie.Create(_scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.Identificatie), null));
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(
+            _scenario.VCode,
+            new SubverenigingVanDto(
+                null,
+                SubverenigingIdentificatie.Create(
+                    _scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.Identificatie
+                ),
+                null
+            )
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves(_scenario.VCode);
+        _verenigingAggregateSessionMock.ShouldNotHaveAnySaves(_scenario.VCode);
     }
 
     [Fact]
     public async ValueTask With_All_Null_Values_Then_Throw_WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben()
     {
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new SubverenigingVanDto(null, null, null));
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(
+            _scenario.VCode,
+            new SubverenigingVanDto(null, null, null)
+        );
 
-        var exception = await Assert.ThrowsAsync<WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben>(() => _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>())));
+        var exception = await Assert.ThrowsAsync<WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben>(() =>
+            _commandHandler.Handle(
+                new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>())
+            )
+        );
         exception.Message.Should().Be(ExceptionMessages.WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben);
     }
 }

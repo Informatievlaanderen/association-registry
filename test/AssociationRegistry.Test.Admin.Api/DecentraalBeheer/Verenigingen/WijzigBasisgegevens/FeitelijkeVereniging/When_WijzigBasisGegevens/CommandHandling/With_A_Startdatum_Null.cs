@@ -18,26 +18,33 @@ using Xunit;
 
 public class With_A_Startdatum_Null
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public With_A_Startdatum_Null()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(scenario.VCode, Startdatum: NullOrEmpty<Datum>.Null);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler(Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object);
+        var commandHandler = new WijzigBasisgegevensCommandHandler(
+            Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object
+        );
 
-        commandHandler.Handle(
-            new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
-            _verenigingRepositoryMock, new ClockStub(fixture.Create<DateOnly>())).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(
+                new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
+                _aggregateSessionMock,
+                new ClockStub(fixture.Create<DateOnly>())
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
     public void Then_A_StartdatumWerdGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _aggregateSessionMock.ShouldNotHaveAnySaves();
     }
 }

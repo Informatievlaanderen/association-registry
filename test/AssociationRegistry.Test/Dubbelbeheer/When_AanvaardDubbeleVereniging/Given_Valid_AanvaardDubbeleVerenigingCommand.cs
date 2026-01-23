@@ -9,6 +9,7 @@ using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeige
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using MartenDb.Store;
 using Moq;
 using Wolverine;
 using Xunit;
@@ -21,25 +22,29 @@ public class Given_Valid_AanvaardDubbeleVerenigingCommand
         var fixture = new Fixture().CustomizeDomain();
         var messageBus = new Mock<IMessageBus>();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var aggregateSession = new AggregateSessionMock(scenario.GetVerenigingState());
 
-        var command = fixture.Create<AanvaardDubbeleVerenigingCommand>()
-            with
-            {
-                VCode = scenario.VCode,
-            };
+        var command = fixture.Create<AanvaardDubbeleVerenigingCommand>() with { VCode = scenario.VCode };
 
-        var sut = new AanvaardDubbeleVerenigingCommandHandler(repositoryMock, messageBus.Object);
+        var sut = new AanvaardDubbeleVerenigingCommandHandler(aggregateSession, messageBus.Object);
 
         await sut.Handle(command, CancellationToken.None);
 
-        repositoryMock.ShouldHaveSavedExact(new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging));
+        aggregateSession.ShouldHaveSavedExact(
+            new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging)
+        );
 
-        messageBus.Verify(x => x.InvokeAsync(
-                          It.Is<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),
-                          It.IsAny<CancellationToken>(),
-                          It.IsAny<TimeSpan>()),
-                      Times.Never);
+        messageBus.Verify(
+            x =>
+                x.InvokeAsync(
+                    It.Is<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>(y =>
+                        y.VCode == command.VCodeDubbeleVereniging
+                    ),
+                    It.IsAny<CancellationToken>(),
+                    It.IsAny<TimeSpan>()
+                ),
+            Times.Never
+        );
     }
 
     [Fact]
@@ -48,24 +53,28 @@ public class Given_Valid_AanvaardDubbeleVerenigingCommand
         var fixture = new Fixture().CustomizeDomain();
         var messageBus = new Mock<IMessageBus>();
         var scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var aggregateSession = new AggregateSessionMock(scenario.GetVerenigingState());
 
-        var command = fixture.Create<AanvaardDubbeleVerenigingCommand>()
-            with
-            {
-                VCode = scenario.VCode,
-            };
+        var command = fixture.Create<AanvaardDubbeleVerenigingCommand>() with { VCode = scenario.VCode };
 
-        var sut = new AanvaardDubbeleVerenigingCommandHandler(repositoryMock, messageBus.Object);
+        var sut = new AanvaardDubbeleVerenigingCommandHandler(aggregateSession, messageBus.Object);
 
         await sut.Handle(command, CancellationToken.None);
 
-        repositoryMock.ShouldHaveSavedExact(new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging));
+        aggregateSession.ShouldHaveSavedExact(
+            new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging)
+        );
 
-        messageBus.Verify(x => x.InvokeAsync(
-                              It.Is<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),
-                              It.IsAny<CancellationToken>(),
-                              It.IsAny<TimeSpan>()),
-                          Times.Never);
+        messageBus.Verify(
+            x =>
+                x.InvokeAsync(
+                    It.Is<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>(y =>
+                        y.VCode == command.VCodeDubbeleVereniging
+                    ),
+                    It.IsAny<CancellationToken>(),
+                    It.IsAny<TimeSpan>()
+                ),
+            Times.Never
+        );
     }
 }

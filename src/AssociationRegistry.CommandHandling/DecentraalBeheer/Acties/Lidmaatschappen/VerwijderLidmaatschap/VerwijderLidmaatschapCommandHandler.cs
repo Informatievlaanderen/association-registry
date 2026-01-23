@@ -1,31 +1,33 @@
 namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VerwijderLidmaatschap;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
 using System.Threading;
 using System.Threading.Tasks;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
+using MartenDb.Store;
 
 public class VerwijderLidmaatschapCommandHandler
 {
-    private readonly IVerenigingsRepository _verenigingRepository;
+    private readonly IAggregateSession _aggregateSession;
 
-    public VerwijderLidmaatschapCommandHandler(IVerenigingsRepository verenigingRepository)
+    public VerwijderLidmaatschapCommandHandler(IAggregateSession aggregateSession)
     {
-        _verenigingRepository = verenigingRepository;
+        _aggregateSession = aggregateSession;
     }
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<VerwijderLidmaatschapCommand> envelope,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
-        var vereniging =
-            await _verenigingRepository.Load<VerenigingOfAnyKind>(
-                VCode.Create(envelope.Command.VCode),
-                envelope.Metadata);
+        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
+            VCode.Create(envelope.Command.VCode),
+            envelope.Metadata
+        );
 
         vereniging.VerwijderLidmaatschap(envelope.Command.LidmaatschapId);
 
-        var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
+        var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }

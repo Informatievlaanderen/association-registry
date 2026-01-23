@@ -3,12 +3,12 @@
 using AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Start;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Events;
 using Moq;
 using Wolverine;
 using Wolverine.Marten;
@@ -16,7 +16,7 @@ using Xunit;
 
 public class With_A_Known_VertegenwoordigerId
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
     private readonly Mock<IMartenOutbox> _outbox;
     private VerwijderVertegenwoordigerCommand _command;
@@ -26,22 +26,27 @@ public class With_A_Known_VertegenwoordigerId
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
 
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        _command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId);
+        _command = new VerwijderVertegenwoordigerCommand(
+            _scenario.VCode,
+            _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId
+        );
         _commandMetadata = fixture.Create<CommandMetadata>();
         _outbox = new Mock<IMartenOutbox>();
-        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock, _outbox.Object);
+        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_aggregateSessionMock, _outbox.Object);
 
-        commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(_command, _commandMetadata))
-                      .GetAwaiter().GetResult();
+        commandHandler
+            .Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(_command, _commandMetadata))
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
+        _aggregateSessionMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
     }
 
     [Fact]
@@ -49,24 +54,29 @@ public class With_A_Known_VertegenwoordigerId
     {
         var expectedEnvelope = new CommandEnvelope<StartBewaartermijnMessage>(
             new StartBewaartermijnMessage(_command.VCode, _command.VertegenwoordigerId),
-            _commandMetadata);
+            _commandMetadata
+        );
 
-        _outbox.Verify(x => x.SendAsync(
-                           It.Is<CommandEnvelope<StartBewaartermijnMessage>>(e => e == expectedEnvelope),
-                           It.IsAny<DeliveryOptions>()),
-                       Times.Once);
+        _outbox.Verify(
+            x =>
+                x.SendAsync(
+                    It.Is<CommandEnvelope<StartBewaartermijnMessage>>(e => e == expectedEnvelope),
+                    It.IsAny<DeliveryOptions>()
+                ),
+            Times.Once
+        );
     }
 
     [Fact]
     public void Then_A_VertegenwoordigerWerdVerwijderd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSavedExact(
             new VertegenwoordigerWerdVerwijderd(
                 _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                 _scenario.VertegenwoordigerWerdToegevoegd.Insz,
                 _scenario.VertegenwoordigerWerdToegevoegd.Voornaam,
-                _scenario.VertegenwoordigerWerdToegevoegd.Achternaam)
+                _scenario.VertegenwoordigerWerdToegevoegd.Achternaam
+            )
         );
     }
 }
-

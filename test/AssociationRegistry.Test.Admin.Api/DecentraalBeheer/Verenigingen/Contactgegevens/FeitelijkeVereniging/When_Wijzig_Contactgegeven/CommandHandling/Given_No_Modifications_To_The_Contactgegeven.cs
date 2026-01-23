@@ -17,17 +17,17 @@ public class Given_No_Modifications_To_The_Contactgegeven : IAsyncLifetime
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private CommandResult _commandResult = null!;
 
     public Given_No_Modifications_To_The_Contactgegeven()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new WijzigContactgegevenCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigContactgegevenCommandHandler(_aggregateSessionMock);
     }
 
     public async ValueTask InitializeAsync()
@@ -38,16 +38,19 @@ public class Given_No_Modifications_To_The_Contactgegeven : IAsyncLifetime
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Waarde,
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Beschrijving,
-                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.IsPrimair));
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.IsPrimair
+            )
+        );
 
-        _commandResult =
-            await _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
+        _commandResult = await _commandHandler.Handle(
+            new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>())
+        );
     }
 
     [Fact]
     public void Then_No_ContactgegevenWerdToegevoegd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _aggregateSessionMock.ShouldNotHaveAnySaves();
     }
 
     [Fact]
@@ -56,6 +59,5 @@ public class Given_No_Modifications_To_The_Contactgegeven : IAsyncLifetime
         _commandResult.HasChanges().Should().BeFalse();
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

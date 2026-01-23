@@ -24,7 +24,7 @@ public class Given_SubverenigingWerdTeruggezetNaarNietBepaald
         var subverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario =
             new SubverenigingWerdTerugGezetNaarNietBepaaldScenario(rechtspersoonlijkheidScenario.VCode);
 
-        var verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(
+        var verenigingRepositoryMock = new MultipleVerenigingAggregateSessionMock(
             subverenigingWerdVerfijndNaarFeitelijkeVerenigingScenario.GetVerenigingState()
         );
         verenigingRepositoryMock.WithVereniging(rechtspersoonlijkheidScenario.GetVerenigingState());

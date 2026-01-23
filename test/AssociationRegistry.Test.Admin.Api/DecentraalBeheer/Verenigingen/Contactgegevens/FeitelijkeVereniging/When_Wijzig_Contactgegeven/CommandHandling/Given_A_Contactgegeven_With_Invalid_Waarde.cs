@@ -21,7 +21,7 @@ public class Given_A_Contactgegeven_With_Invalid_Waarde
     public Given_A_Contactgegeven_With_Invalid_Waarde()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -37,10 +37,14 @@ public class Given_A_Contactgegeven_With_Invalid_Waarde
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 _fixture.Create<Website>().Waarde,
                 _fixture.Create<string?>(),
-                IsPrimair: false));
+                IsPrimair: false
+            )
+        );
 
-        var method = ()
-            => _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
+        var method = () =>
+            _commandHandler.Handle(
+                new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>())
+            );
 
         await method.Should().ThrowAsync<EmailHeeftEenOngeldigFormaat>();
     }

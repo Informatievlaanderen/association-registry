@@ -20,7 +20,7 @@ public class Given_A_Lidmaatschap
 
         var scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
         var commandHandler = new VoegLidmaatschapToeCommandHandler(

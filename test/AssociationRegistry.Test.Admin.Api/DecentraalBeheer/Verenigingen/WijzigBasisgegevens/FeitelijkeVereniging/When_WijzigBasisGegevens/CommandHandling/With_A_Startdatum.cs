@@ -19,7 +19,7 @@ using Xunit;
 
 public class With_A_Startdatum
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
     private readonly DateOnly _nieuweStartdatum;
 
@@ -27,35 +27,40 @@ public class With_A_Startdatum
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
 
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
         _nieuweStartdatum = new DateOnly(year: 2023, month: 3, day: 6).AddDays(-1);
 
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode,
-                                                     Startdatum: NullOrEmpty<Datum>.Create(Datum.Create(_nieuweStartdatum)));
+        var command = new WijzigBasisgegevensCommand(
+            _scenario.VCode,
+            Startdatum: NullOrEmpty<Datum>.Create(Datum.Create(_nieuweStartdatum))
+        );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler(Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object);
+        var commandHandler = new WijzigBasisgegevensCommandHandler(
+            Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object
+        );
 
-        commandHandler.Handle(
-            new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
-            _verenigingRepositoryMock,
-            new ClockStub(_nieuweStartdatum)).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(
+                new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
+                _aggregateSessionMock,
+                new ClockStub(_nieuweStartdatum)
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
+        _aggregateSessionMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
     }
 
     [Fact]
     public void Then_A_StartdatumWerdGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new StartdatumWerdGewijzigd(_scenario.VCode, _nieuweStartdatum));
-
-
+        _aggregateSessionMock.ShouldHaveSavedExact(new StartdatumWerdGewijzigd(_scenario.VCode, _nieuweStartdatum));
     }
 }

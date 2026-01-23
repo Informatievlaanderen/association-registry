@@ -16,12 +16,12 @@ public class Given_No_Existing_Locatie
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), expectedLoadingDubbel: true);
+        var verenigingRepositoryMock = new AggregateSessionMock(
+            scenario.GetVerenigingState(),
+            expectedLoadingDubbel: true
+        );
 
-        var message = fixture.Create<OntkoppelLocatiesMessage>() with
-        {
-            VCode = scenario.VCode,
-        };
+        var message = fixture.Create<OntkoppelLocatiesMessage>() with { VCode = scenario.VCode };
 
         var sut = new OntkoppelLocatiesMessageHandler(verenigingRepositoryMock);
 

@@ -19,17 +19,23 @@ public class With_Same_UitgeschrevenVoorPubliekeDatastroom
     public void True_Then_No_New_Event_Is_Saved()
     {
         var scenario = new VerborgenFeitelijkeVerenigingWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(scenario.VCode, IsUitgeschrevenUitPubliekeDatastroom: true);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler(Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object);
+        var commandHandler = new WijzigBasisgegevensCommandHandler(
+            Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object
+        );
 
-        commandHandler.Handle(
-            new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
-            verenigingRepositoryMock,
-            new ClockStub(fixture.Create<DateOnly>())).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(
+                new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
+                verenigingRepositoryMock,
+                new ClockStub(fixture.Create<DateOnly>())
+            )
+            .GetAwaiter()
+            .GetResult();
 
         verenigingRepositoryMock.ShouldNotHaveAnySaves();
     }
@@ -38,17 +44,23 @@ public class With_Same_UitgeschrevenVoorPubliekeDatastroom
     public void False_Then_No_New_Event_Is_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(scenario.VCode, IsUitgeschrevenUitPubliekeDatastroom: false);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler(Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object);
+        var commandHandler = new WijzigBasisgegevensCommandHandler(
+            Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object
+        );
 
-        commandHandler.Handle(
-            new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
-            verenigingRepositoryMock,
-            new ClockStub(fixture.Create<DateOnly>())).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(
+                new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
+                verenigingRepositoryMock,
+                new ClockStub(fixture.Create<DateOnly>())
+            )
+            .GetAwaiter()
+            .GetResult();
 
         verenigingRepositoryMock.ShouldNotHaveAnySaves();
     }

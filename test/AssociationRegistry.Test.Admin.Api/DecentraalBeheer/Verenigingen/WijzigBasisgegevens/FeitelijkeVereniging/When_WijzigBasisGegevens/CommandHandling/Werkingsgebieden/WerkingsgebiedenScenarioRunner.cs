@@ -17,20 +17,27 @@ using Moq;
 
 public static class WerkingsgebiedenScenarioRunner
 {
-    public static (VerenigingRepositoryMock verenigingRepositoryMock, GeotagsCollection geotags) Run(CommandhandlerScenarioBase scenario, Func<Fixture, Werkingsgebied[]> werkingsgebieden)
+    public static (AggregateSessionMock verenigingRepositoryMock, GeotagsCollection geotags) Run(
+        CommandhandlerScenarioBase scenario,
+        Func<Fixture, Werkingsgebied[]> werkingsgebieden
+    )
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
         var command = new WijzigBasisgegevensCommand(scenario.VCode, Werkingsgebieden: werkingsgebieden(fixture));
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var (geotagsService, geotags) = Faktory.New().GeotagsService.ReturnsRandomGeotags();
         var commandHandler = new WijzigBasisgegevensCommandHandler(geotagsService.Object);
 
-        commandHandler.Handle(
-            new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
-            verenigingRepositoryMock,
-            new ClockStub(fixture.Create<DateOnly>())).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(
+                new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
+                verenigingRepositoryMock,
+                new ClockStub(fixture.Create<DateOnly>())
+            )
+            .GetAwaiter()
+            .GetResult();
 
         return (verenigingRepositoryMock, geotags);
     }

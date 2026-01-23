@@ -20,16 +20,16 @@ public class Given_A_Duplicate_IBAN
     private readonly VoegBankrekeningnummerToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly BankrekeningnummerWerdToegevoegdScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_A_Duplicate_IBAN()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new BankrekeningnummerWerdToegevoegdScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        _commandHandler = new VoegBankrekeningnummerToeCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new VoegBankrekeningnummerToeCommandHandler(_aggregateSessionMock);
     }
 
     [Fact]
@@ -41,10 +41,14 @@ public class Given_A_Duplicate_IBAN
             Bankrekeningnummer = _fixture.Create<ToeTevoegenBankrekeningnummer>() with
             {
                 Iban = IbanNummer.Create(_scenario.BankrekeningnummerWerdToegevoegd.Iban),
-            }
+            },
         };
 
-        var exception = await Assert.ThrowsAsync<IbanMoetUniekZijn>(async () =>  await _commandHandler.Handle(new CommandEnvelope<VoegBankrekeningnummerToeCommand>(command, _fixture.Create<CommandMetadata>())));
+        var exception = await Assert.ThrowsAsync<IbanMoetUniekZijn>(async () =>
+            await _commandHandler.Handle(
+                new CommandEnvelope<VoegBankrekeningnummerToeCommand>(command, _fixture.Create<CommandMetadata>())
+            )
+        );
 
         exception.Message.Should().Be(ExceptionMessages.IbanMoetUniekZijn);
     }

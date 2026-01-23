@@ -13,7 +13,7 @@ using Xunit;
 
 public class Given_No_Vertegenwoordigers
 {
-    private VerenigingRepositoryMock _verenigingRepositoryMock;
+    private AggregateSessionMock _aggregateSessionMock;
     private SchrijfVertegenwoordigersInMessage _message;
     private VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithMinimalFields _scenario;
     private SchrijfVertegenwoordigersInMessageHandler _commandHandler;
@@ -23,13 +23,17 @@ public class Given_No_Vertegenwoordigers
     {
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithMinimalFields();
 
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState(), true, true);
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState(), true, true);
 
         _fixture = new Fixture().CustomizeAdminApi();
 
         var magdaGeefPersoonService = new Mock<IMagdaGeefPersoonService>();
 
-        _commandHandler = new SchrijfVertegenwoordigersInMessageHandler(_verenigingRepositoryMock, magdaGeefPersoonService.Object, NullLogger<SchrijfVertegenwoordigersInMessageHandler>.Instance);
+        _commandHandler = new SchrijfVertegenwoordigersInMessageHandler(
+            _aggregateSessionMock,
+            magdaGeefPersoonService.Object,
+            NullLogger<SchrijfVertegenwoordigersInMessageHandler>.Instance
+        );
 
         _message = new SchrijfVertegenwoordigersInMessage(_scenario.VCode);
     }
@@ -37,10 +41,11 @@ public class Given_No_Vertegenwoordigers
     [Fact]
     public async ValueTask Then_A_VertegenwoordigerWerdToegevoegd_Event_Is_Saved()
     {
-        await _commandHandler
-           .Handle(new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(_message, _fixture.Create<CommandMetadata>()),
-                   CancellationToken.None);
+        await _commandHandler.Handle(
+            new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(_message, _fixture.Create<CommandMetadata>()),
+            CancellationToken.None
+        );
 
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _aggregateSessionMock.ShouldNotHaveAnySaves();
     }
 }

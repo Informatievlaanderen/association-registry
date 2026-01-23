@@ -19,7 +19,7 @@ using Xunit;
 
 public class With_FailureResultFromMagda
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly VerenigingsStateQueriesMock _verenigingStateQueryServiceMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly Mock<INotifier> _notifierMock;
@@ -30,7 +30,7 @@ public class With_FailureResultFromMagda
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
         var verenigingState = _scenario.GetVerenigingState();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(verenigingState);
+        _aggregateSessionMock = new AggregateSessionMock(verenigingState);
         _verenigingStateQueryServiceMock = new VerenigingsStateQueriesMock(verenigingState);
         _notifierMock = new Mock<INotifier>();
 
@@ -64,7 +64,7 @@ public class With_FailureResultFromMagda
         _action = async () =>
             await commandHandler.Handle(
                 new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
-                _verenigingRepositoryMock,
+                _aggregateSessionMock,
                 _verenigingStateQueryServiceMock
             );
     }
@@ -102,7 +102,7 @@ public class With_FailureResultFromMagda
             // ignored
         }
 
-        _verenigingRepositoryMock.SaveInvocations.Should().BeEmpty();
+        _aggregateSessionMock.SaveInvocations.Should().BeEmpty();
     }
 
     [Fact]

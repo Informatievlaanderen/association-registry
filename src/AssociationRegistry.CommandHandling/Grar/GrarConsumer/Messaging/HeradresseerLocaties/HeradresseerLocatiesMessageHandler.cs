@@ -3,34 +3,56 @@ namespace AssociationRegistry.CommandHandling.Grar.GrarConsumer.Messaging.Heradr
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.Models;
-using GrarUpdates.Hernummering;
 using AssociationRegistry.Integrations.Grar.Clients;
+using GrarUpdates.Hernummering;
 using Integrations.Grar.AdresMatch;
+using MartenDb.Store;
 
 public class HeradresseerLocatiesMessageHandler
 {
-    private readonly IVerenigingsRepository _repository;
+    private readonly IAggregateSession _aggregateSession;
     private readonly IGrarClient _client;
 
-    public HeradresseerLocatiesMessageHandler(IVerenigingsRepository repository, IGrarClient client)
+    public HeradresseerLocatiesMessageHandler(IAggregateSession aggregateSession, IGrarClient client)
     {
-        _repository = repository;
+        _aggregateSession = aggregateSession;
         _client = client;
     }
 
     public async Task Handle(HeradresseerLocatiesMessage doorFusieMessage, CancellationToken cancellationToken)
     {
         var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
-        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(doorFusieMessage.VCode), metadata, allowDubbeleVereniging: true);
+        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
+            VCode.Hydrate(doorFusieMessage.VCode),
+            metadata,
+            allowDubbeleVereniging: true
+        );
 
-        var locatiesWithAddresses = await FetchAddressesForLocaties(doorFusieMessage.TeHeradresserenLocaties, cancellationToken);
+        var locatiesWithAddresses = await FetchAddressesForLocaties(
+            doorFusieMessage.TeHeradresserenLocaties,
+            cancellationToken
+        );
 
-        await vereniging.HeradresseerLocaties(locatiesWithAddresses, doorFusieMessage.idempotencyKey, new GrarAddressVerrijkingsService(_client));
+        await vereniging.HeradresseerLocaties(
+            locatiesWithAddresses,
+            doorFusieMessage.idempotencyKey,
+            new GrarAddressVerrijkingsService(_client)
+        );
 
-        await _repository.Save(vereniging, metadata with { ExpectedVersion = vereniging.Version }, cancellationToken);
+        await _aggregateSession.Save(
+            vereniging,
+            metadata with
+            {
+                ExpectedVersion = vereniging.Version,
+            },
+            cancellationToken
+        );
     }
 
-    private async Task<List<LocatieWithAdres>> FetchAddressesForLocaties(List<TeHeradresserenLocatie> locatiesMetAdres, CancellationToken cancellationToken)
+    private async Task<List<LocatieWithAdres>> FetchAddressesForLocaties(
+        List<TeHeradresserenLocatie> locatiesMetAdres,
+        CancellationToken cancellationToken
+    )
     {
         var locatiesWithAddresses = new List<LocatieWithAdres>();
 

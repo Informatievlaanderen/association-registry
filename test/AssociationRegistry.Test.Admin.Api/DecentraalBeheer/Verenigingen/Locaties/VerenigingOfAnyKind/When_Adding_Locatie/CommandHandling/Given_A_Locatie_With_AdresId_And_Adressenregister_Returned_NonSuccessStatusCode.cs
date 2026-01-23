@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
+using System.Net;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.VoegLocatieToe;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
@@ -7,6 +8,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Exceptions;
+using AssociationRegistry.Integrations.Grar.Clients;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
@@ -15,10 +17,8 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRec
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using AssociationRegistry.Integrations.Grar.Clients;
 using Marten;
 using Moq;
-using System.Net;
 using Wolverine.Marten;
 using Xunit;
 
@@ -26,37 +26,40 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_NonSucce
 {
     [Theory]
     [MemberData(nameof(Data))]
-    public async ValueTask Then_Throws_AdressenregisterReturnedNonSuccessStatusCode(CommandhandlerScenarioBase scenario, int expectedLocatieId)
+    public async ValueTask Then_Throws_AdressenregisterReturnedNonSuccessStatusCode(
+        CommandhandlerScenarioBase scenario,
+        int expectedLocatieId
+    )
     {
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
 
         var grarClient = new Mock<IGrarClient>();
 
-        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
-                                                              Mock.Of<IMartenOutbox>(),
-                                                              Mock.Of<IDocumentSession>(),
-                                                              grarClient.Object,
-                                                              Mock.Of<IGeotagsService>()
+        var commandHandler = new VoegLocatieToeCommandHandler(
+            verenigingRepositoryMock,
+            Mock.Of<IMartenOutbox>(),
+            Mock.Of<IDocumentSession>(),
+            grarClient.Object,
+            Mock.Of<IGeotagsService>()
         );
 
         var adresId = fixture.Create<AdresId>();
 
-        var locatie = fixture.Create<Locatie>() with
-        {
-            AdresId = adresId,
-            Adres = null,
-        };
+        var locatie = fixture.Create<Locatie>() with { AdresId = adresId, Adres = null };
 
         var command = new VoegLocatieToeCommand(scenario.VCode, locatie);
 
-        grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
-                  .ThrowsAsync(new AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode.InternalServerError));
+        grarClient
+            .Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode.InternalServerError));
 
-        await Assert.ThrowsAsync<AdressenregisterReturnedNonSuccessStatusCode>(
-            async () => await commandHandler.Handle(
-                new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())));
+        await Assert.ThrowsAsync<AdressenregisterReturnedNonSuccessStatusCode>(async () =>
+            await commandHandler.Handle(
+                new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())
+            )
+        );
     }
 
     public static IEnumerable<object[]> Data
@@ -68,17 +71,15 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_NonSucce
             yield return new object[]
             {
                 feitelijkeVerenigingWerdGeregistreerdScenario,
-                feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.Max(l => l.LocatieId) + 1,
+                feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.Max(l =>
+                    l.LocatieId
+                ) + 1,
             };
 
             var verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario =
                 new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
 
-            yield return new object[]
-            {
-                verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario,
-                1,
-            };
+            yield return new object[] { verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario, 1 };
         }
     }
 }

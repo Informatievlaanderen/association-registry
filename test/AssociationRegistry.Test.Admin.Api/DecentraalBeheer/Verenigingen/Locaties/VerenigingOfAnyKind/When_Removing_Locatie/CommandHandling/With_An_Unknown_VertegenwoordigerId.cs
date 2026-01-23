@@ -23,7 +23,7 @@ public class With_An_Unknown_LocatieId
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
         _commandHandler = new VerwijderLocatieCommandHandler(verenigingRepositoryMock, Mock.Of<IGeotagsService>());
@@ -36,7 +36,8 @@ public class With_An_Unknown_LocatieId
         var command = new VerwijderLocatieCommand(_scenario.VCode, nonExistingLocatieId);
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderLocatieCommand>(command, commandMetadata));
+        var handle = () =>
+            _commandHandler.Handle(new CommandEnvelope<VerwijderLocatieCommand>(command, commandMetadata));
 
         await handle.Should().ThrowAsync<LocatieIsNietGekend>();
     }

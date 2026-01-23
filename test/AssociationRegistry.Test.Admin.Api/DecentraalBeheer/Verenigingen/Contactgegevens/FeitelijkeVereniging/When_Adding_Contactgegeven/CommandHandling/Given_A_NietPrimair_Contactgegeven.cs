@@ -22,7 +22,7 @@ public class Given_A_NietPrimair_Contactgegeven
     public async ValueTask Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved(string type, string waarde)
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -30,13 +30,12 @@ public class Given_A_NietPrimair_Contactgegeven
 
         var command = new VoegContactgegevenToeCommand(
             scenario.VCode,
-            Contactgegeven.Create(
-                type,
-                waarde,
-                fixture.Create<string>(),
-                isPrimair: false));
+            Contactgegeven.Create(type, waarde, fixture.Create<string>(), isPrimair: false)
+        );
 
-        await commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, fixture.Create<CommandMetadata>()));
+        await commandHandler.Handle(
+            new CommandEnvelope<VoegContactgegevenToeCommand>(command, fixture.Create<CommandMetadata>())
+        );
 
         verenigingRepositoryMock.ShouldHaveSavedExact(
             new ContactgegevenWerdToegevoegd(
@@ -44,7 +43,8 @@ public class Given_A_NietPrimair_Contactgegeven
                 command.Contactgegeven.Contactgegeventype,
                 command.Contactgegeven.Waarde,
                 command.Contactgegeven.Beschrijving,
-                IsPrimair: false)
+                IsPrimair: false
+            )
         );
     }
 }

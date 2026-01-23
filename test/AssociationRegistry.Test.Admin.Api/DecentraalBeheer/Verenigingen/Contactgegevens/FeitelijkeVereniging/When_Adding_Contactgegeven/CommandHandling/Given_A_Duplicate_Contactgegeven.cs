@@ -20,7 +20,7 @@ public class Given_A_Duplicate_Contactgegeven
     public Given_A_Duplicate_Contactgegeven()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -32,13 +32,18 @@ public class Given_A_Duplicate_Contactgegeven
     {
         var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
 
-        await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        var handleCall = async ()
-            => await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+        var handleCall = async () =>
+            await _commandHandler.Handle(
+                new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>())
+            );
 
-        await handleCall.Should()
-                        .ThrowAsync<ContactgegevenIsDuplicaat>()
-                        .WithMessage(new ContactgegevenIsDuplicaat(command.Contactgegeven.Contactgegeventype).Message);
+        await handleCall
+            .Should()
+            .ThrowAsync<ContactgegevenIsDuplicaat>()
+            .WithMessage(new ContactgegevenIsDuplicaat(command.Contactgegeven.Contactgegeventype).Message);
     }
 }

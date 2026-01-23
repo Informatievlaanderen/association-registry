@@ -15,8 +15,7 @@ public class NewAggregateSession : INewAggregateSession
     }
 
     public async Task<StreamActionResult> SaveNew(
-        VerenigingsBase vereniging,
-        IDocumentSession session,
+        Vereniging vereniging,
         CommandMetadata metadata,
         CancellationToken cancellationToken
     )
@@ -27,6 +26,25 @@ public class NewAggregateSession : INewAggregateSession
             return StreamActionResult.Empty;
 
         return await _eventStore.SaveNew(
+            aggregateId: vereniging.VCode,
+            metadata: metadata,
+            cancellationToken: cancellationToken,
+            events: events
+        );
+    }
+
+    public async Task<StreamActionResult> SaveNew(
+        VerenigingMetRechtspersoonlijkheid vereniging,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken
+    )
+    {
+        var events = vereniging.UncommittedEvents.ToArray();
+
+        if (!events.Any())
+            return StreamActionResult.Empty;
+
+        return await _eventStore.SaveNewKbo(
             aggregateId: vereniging.VCode,
             metadata: metadata,
             cancellationToken: cancellationToken,

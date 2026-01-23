@@ -9,15 +9,15 @@ using MartenDb.Store;
 
 public class VoegLidmaatschapToeCommandHandler
 {
-    private readonly IVerenigingsRepository _verenigingRepository;
+    private readonly IAggregateSession _aggregateSession;
     private readonly IVerenigingStateQueryService _queryService;
 
     public VoegLidmaatschapToeCommandHandler(
-        IVerenigingsRepository verenigingRepository,
+        IAggregateSession aggregateSession,
         IVerenigingStateQueryService queryService
     )
     {
-        _verenigingRepository = verenigingRepository;
+        _aggregateSession = aggregateSession;
         _queryService = queryService;
     }
 
@@ -26,9 +26,9 @@ public class VoegLidmaatschapToeCommandHandler
         CancellationToken cancellationToken = default
     )
     {
-        var vereniging = await _verenigingRepository.Load<VerenigingOfAnyKind>(
+        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
             VCode.Create(envelope.Command.VCode),
-            commandMetadata: envelope.Metadata
+            metadata: envelope.Metadata
         );
 
         if (await _queryService.IsVerwijderd(envelope.Command.Lidmaatschap.AndereVereniging))
@@ -36,7 +36,7 @@ public class VoegLidmaatschapToeCommandHandler
 
         var toegevoegdLidmaatschap = vereniging.VoegLidmaatschapToe(envelope.Command.Lidmaatschap);
 
-        var result = await _verenigingRepository.Save(
+        var result = await _aggregateSession.Save(
             vereniging: vereniging,
             metadata: envelope.Metadata,
             cancellationToken: cancellationToken

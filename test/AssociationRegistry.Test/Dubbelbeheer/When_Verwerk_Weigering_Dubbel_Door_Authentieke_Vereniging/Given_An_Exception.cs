@@ -7,6 +7,7 @@ using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Notifications;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using DecentraalBeheer.Vereniging;
 using Integrations.Slack;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -17,23 +18,33 @@ public class Given_An_Exception
     public async ValueTask Then_It_Retries()
     {
         var scenario = new VerenigingWerdGemarkeerdAlsDubbelVanScenario();
-        var repositoryMock = new Mock<IVerenigingsRepository>();
+        var aggregateSession = new Mock<IAggregateSession>();
         var notifier = new Mock<INotifier>();
-        var vCodeAuthentiekeVereniging = VCode.Create(scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging);
+        var vCodeAuthentiekeVereniging = VCode.Create(
+            scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging
+        );
 
         var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(
             VCode: scenario.VCode,
-            VCodeAuthentiekeVereniging: vCodeAuthentiekeVereniging);
+            VCodeAuthentiekeVereniging: vCodeAuthentiekeVereniging
+        );
 
         var sut = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(
-            repositoryMock.Object,
+            aggregateSession.Object,
             notifier.Object,
-            new NullLogger<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler>());
+            new NullLogger<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler>()
+        );
 
         // ignore the assert throw, only interested in the veryfies
         await Assert.ThrowsAsync<NullReferenceException>(async () => await sut.Handle(command, CancellationToken.None));
 
-        repositoryMock.Verify(x => x.Load<Vereniging>(It.IsAny<VCode>(), It.IsAny<CommandMetadata>(), true, true), times: Times.Exactly(5));
-        notifier.Verify(x => x.Notify(It.IsAny<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingGefaald>()), times: Times.Exactly(4));
+        aggregateSession.Verify(
+            x => x.Load<Vereniging>(It.IsAny<VCode>(), It.IsAny<CommandMetadata>(), true, true),
+            times: Times.Exactly(5)
+        );
+        notifier.Verify(
+            x => x.Notify(It.IsAny<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingGefaald>()),
+            times: Times.Exactly(4)
+        );
     }
 }

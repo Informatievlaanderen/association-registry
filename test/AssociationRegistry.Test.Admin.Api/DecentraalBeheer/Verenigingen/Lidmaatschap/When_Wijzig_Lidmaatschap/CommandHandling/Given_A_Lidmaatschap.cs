@@ -21,7 +21,7 @@ public class Given_A_Lidmaatschap
 
         var scenario = new LidmaatschapWerdToegevoegdScenario();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var commandHandler = new WijzigLidmaatschapCommandHandler(verenigingRepositoryMock);
 
@@ -34,7 +34,9 @@ public class Given_A_Lidmaatschap
             },
         };
 
-        await commandHandler.Handle(new CommandEnvelope<WijzigLidmaatschapCommand>(command, fixture.Create<CommandMetadata>()));
+        await commandHandler.Handle(
+            new CommandEnvelope<WijzigLidmaatschapCommand>(command, fixture.Create<CommandMetadata>())
+        );
 
         verenigingRepositoryMock.ShouldHaveSavedExact(
             new LidmaatschapWerdGewijzigd(
@@ -46,6 +48,9 @@ public class Given_A_Lidmaatschap
                     command.Lidmaatschap.GeldigVan,
                     command.Lidmaatschap.GeldigTot,
                     command.Lidmaatschap.Identificatie,
-                    command.Lidmaatschap.Beschrijving)));
+                    command.Lidmaatschap.Beschrijving
+                )
+            )
+        );
     }
 }

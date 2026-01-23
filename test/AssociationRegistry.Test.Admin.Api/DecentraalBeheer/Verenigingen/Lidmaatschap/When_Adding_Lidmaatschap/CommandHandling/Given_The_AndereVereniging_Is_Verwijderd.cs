@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using MartenDb.Store;
 using Moq;
 using Vereniging;
 using Xunit;
@@ -18,7 +19,7 @@ public class Given_The_AndereVereniging_Is_Verwijderd
     public async ValueTask Then_It_Saves_A_Lidmaatschap()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var repositoryMock = new Mock<IVerenigingsRepository>();
+        var aggregateSession = new Mock<IAggregateSession>();
         var verenigingStateQueryService = new Mock<IVerenigingStateQueryService>();
 
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
@@ -30,7 +31,7 @@ public class Given_The_AndereVereniging_Is_Verwijderd
             .ReturnsAsync(true);
 
         var commandHandler = new VoegLidmaatschapToeCommandHandler(
-            verenigingRepository: repositoryMock.Object,
+            aggregateSession: aggregateSession.Object,
             queryService: verenigingStateQueryService.Object
         );
 

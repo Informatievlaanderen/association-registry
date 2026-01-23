@@ -17,32 +17,36 @@ using Xunit;
 public class Given_Vereniging_With_No_Existing_HoofdActiviteit
 {
     private VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
-    private VerenigingRepositoryMock _verenigingRepositoryMock;
+    private AggregateSessionMock _aggregateSessionMock;
     private Fixture _fixture;
 
     public Given_Vereniging_With_No_Existing_HoofdActiviteit()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
     }
 
-
     [Fact]
     public async ValueTask WithEmptyHoofdActiviteitenRequest_ThenNothing()
     {
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode,
-                                                     HoofdactiviteitenVerenigingsloket: Array.Empty<HoofdactiviteitVerenigingsloket>());
+        var command = new WijzigBasisgegevensCommand(
+            _scenario.VCode,
+            HoofdactiviteitenVerenigingsloket: Array.Empty<HoofdactiviteitVerenigingsloket>()
+        );
 
-        var commandHandler = new WijzigBasisgegevensCommandHandler(Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object);
+        var commandHandler = new WijzigBasisgegevensCommandHandler(
+            Faktory.New().GeotagsService.ReturnsEmptyGeotags().Object
+        );
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         await commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
-            _verenigingRepositoryMock,
-            CancellationToken.None);
+            _aggregateSessionMock,
+            CancellationToken.None
+        );
 
-        _verenigingRepositoryMock.ShouldNotHaveSaved<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>();
+        _aggregateSessionMock.ShouldNotHaveSaved<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>();
     }
 }

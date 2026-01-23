@@ -7,6 +7,7 @@ using AssociationRegistry.Integrations.Slack;
 using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Resources;
+using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using Notifications;
 using ResultNet;
@@ -36,7 +37,7 @@ public class SyncKboCommandHandler
 
     public async Task<CommandResult?> Handle(
         CommandEnvelope<SyncKboCommand> message,
-        IVerenigingsRepository verenigingsRepository,
+        IAggregateSession aggregateSession,
         IVerenigingStateQueryService verenigingStateQueryService,
         CancellationToken cancellationToken = default
     )
@@ -66,13 +67,13 @@ public class SyncKboCommandHandler
             throw new GeenGeldigeVerenigingInKbo();
         }
 
-        var vereniging = await verenigingsRepository.Load(message.Command.KboNummer, message.Metadata);
+        var vereniging = await aggregateSession.Load(message.Command.KboNummer, message.Metadata);
 
         await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
 
         vereniging.NeemGegevensOverUitKboSync(verenigingVolgensMagda);
 
-        var result = await verenigingsRepository.Save(vereniging, message.Metadata, cancellationToken);
+        var result = await aggregateSession.Save(vereniging, message.Metadata, cancellationToken);
 
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} end");
 

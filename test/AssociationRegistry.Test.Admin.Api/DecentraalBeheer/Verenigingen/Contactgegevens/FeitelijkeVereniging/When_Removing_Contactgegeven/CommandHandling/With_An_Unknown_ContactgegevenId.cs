@@ -21,7 +21,7 @@ public class With_An_Unknown_ContactgegevenId
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithoutContactgegevens();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
         _commandHandler = new VerwijderContactgegevenCommandHandler(verenigingRepositoryMock);
@@ -33,7 +33,8 @@ public class With_An_Unknown_ContactgegevenId
         var command = new VerwijderContactgegevenCommand(_scenario.VCode, _fixture.Create<int>());
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderContactgegevenCommand>(command, commandMetadata));
+        var handle = () =>
+            _commandHandler.Handle(new CommandEnvelope<VerwijderContactgegevenCommand>(command, commandMetadata));
 
         await handle.Should().ThrowAsync<ContactgegevenIsNietGekend>();
     }

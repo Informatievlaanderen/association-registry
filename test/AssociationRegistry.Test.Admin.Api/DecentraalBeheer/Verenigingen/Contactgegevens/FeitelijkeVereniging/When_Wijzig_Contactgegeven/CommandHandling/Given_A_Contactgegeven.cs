@@ -18,16 +18,16 @@ public class Given_A_Contactgegeven
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_A_Contactgegeven()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new WijzigContactgegevenCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigContactgegevenCommandHandler(_aggregateSessionMock);
     }
 
     [Fact]
@@ -39,17 +39,22 @@ public class Given_A_Contactgegeven
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 _fixture.Create<Email>().Waarde,
                 _fixture.Create<string?>(),
-                IsPrimair: false));
+                IsPrimair: false
+            )
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSavedExact(
             new ContactgegevenWerdGewijzigd(
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 Contactgegeventype.Email,
                 command.Contactgegeven.Waarde!,
                 command.Contactgegeven.Beschrijving ?? string.Empty,
-                IsPrimair: false)
+                IsPrimair: false
+            )
         );
     }
 }

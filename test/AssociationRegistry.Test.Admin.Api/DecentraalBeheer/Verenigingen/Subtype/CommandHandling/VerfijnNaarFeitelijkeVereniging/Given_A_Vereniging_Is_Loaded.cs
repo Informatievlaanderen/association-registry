@@ -6,6 +6,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using MartenDb.Store;
 using Moq;
 using Vereniging;
 using Xunit;
@@ -19,15 +20,25 @@ public class Given_A_Vereniging_Is_Loaded
 
         var scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario();
 
-        var verenigingRepositoryMock = new Mock<IVerenigingsRepository>();
+        var aggregateSessionMock = new Mock<IAggregateSession>();
 
-        var commandHandler = new VerfijnSubtypeNaarFeitelijkeVerenigingCommandHandler(verenigingRepositoryMock.Object);
+        var commandHandler = new VerfijnSubtypeNaarFeitelijkeVerenigingCommandHandler(aggregateSessionMock.Object);
 
         var command = new VerfijnSubtypeNaarFeitelijkeVerenigingCommand(scenario.VCode);
 
         // we don't care if it throws, we want to check if the vereniging is correctly loaded
-        await Assert.ThrowsAnyAsync<Exception>(() => commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarFeitelijkeVerenigingCommand>(command, fixture.Create<CommandMetadata>())));
+        await Assert.ThrowsAnyAsync<Exception>(() =>
+            commandHandler.Handle(
+                new CommandEnvelope<VerfijnSubtypeNaarFeitelijkeVerenigingCommand>(
+                    command,
+                    fixture.Create<CommandMetadata>()
+                )
+            )
+        );
 
-        verenigingRepositoryMock.Verify(x => x.Load<Vereniging>(scenario.VCode, It.IsAny<CommandMetadata>(), false, false), Times.Once);
+        aggregateSessionMock.Verify(
+            x => x.Load<Vereniging>(scenario.VCode, It.IsAny<CommandMetadata>(), false, false),
+            Times.Once
+        );
     }
 }

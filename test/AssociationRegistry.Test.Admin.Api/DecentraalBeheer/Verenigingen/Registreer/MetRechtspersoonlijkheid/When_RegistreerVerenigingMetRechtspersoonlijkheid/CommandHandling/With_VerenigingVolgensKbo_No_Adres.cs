@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingUitKbo;
-using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Kbo;
@@ -11,9 +10,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
-using Moq;
 using ResultNet;
 using Xunit;
 
@@ -50,13 +47,11 @@ public class With_VerenigingVolgensKbo_No_Adres
         _command = new RegistreerVerenigingUitKboCommand(KboNummer: _verenigingVolgensKbo.KboNummer);
 
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            Mock.Of<IVerenigingsRepository>(),
             _newAggregateSessionMock,
             _verenigingStateQueryServiceMock,
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IDocumentSession>(),
             NullLogger<RegistreerVerenigingUitKboCommandHandler>.Instance
         );
 

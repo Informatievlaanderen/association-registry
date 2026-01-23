@@ -20,7 +20,7 @@ public class Given_A_Reeds_Gewijzigd_Lidmaatschap
 
         var scenario = new LidmaatschapWerdGewijzigdScenario();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
         var commandHandler = new VoegLidmaatschapToeCommandHandler(

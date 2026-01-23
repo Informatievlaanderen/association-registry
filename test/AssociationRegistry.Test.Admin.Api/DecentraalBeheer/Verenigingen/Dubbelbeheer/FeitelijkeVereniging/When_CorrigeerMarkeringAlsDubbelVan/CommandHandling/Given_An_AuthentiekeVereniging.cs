@@ -21,7 +21,6 @@ public class Given_An_Authentieke_Vereniging
 {
     private readonly Fixture _fixture;
 
-
     public Given_An_Authentieke_Vereniging()
     {
         _fixture = new Fixture().CustomizeDomain();
@@ -32,7 +31,7 @@ public class Given_An_Authentieke_Vereniging
     public async ValueTask Then_It_Throws(VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype verenigingstype)
     {
         var scenario = new VerenigingAanvaarddeDubbeleVerenigingScenario(verenigingstype);
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var martenOutbox = new Mock<IMartenOutbox>();
 
@@ -42,15 +41,25 @@ public class Given_An_Authentieke_Vereniging
             Mock.Of<IDocumentSession>()
         );
 
-        var command = _fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with
-        {
-            VCode = scenario.VCode,
-        };
+        var command = _fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with { VCode = scenario.VCode };
 
-       var exception = await Assert.ThrowsAsync<VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden>(async () => await commandHandler.Handle(new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())));
+        var exception = await Assert.ThrowsAsync<VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden>(
+            async () =>
+                await commandHandler.Handle(
+                    new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(
+                        command,
+                        _fixture.Create<CommandMetadata>()
+                    )
+                )
+        );
 
-       exception.Message.Should().Be(ExceptionMessages.VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden);
+        exception
+            .Message.Should()
+            .Be(ExceptionMessages.VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden);
 
-       martenOutbox.Verify(x => x.SendAsync(It.IsAny<AanvaardDubbeleVerenigingMessage>(), It.IsAny<DeliveryOptions>()), Times.Never);
+        martenOutbox.Verify(
+            x => x.SendAsync(It.IsAny<AanvaardDubbeleVerenigingMessage>(), It.IsAny<DeliveryOptions>()),
+            Times.Never
+        );
     }
 }

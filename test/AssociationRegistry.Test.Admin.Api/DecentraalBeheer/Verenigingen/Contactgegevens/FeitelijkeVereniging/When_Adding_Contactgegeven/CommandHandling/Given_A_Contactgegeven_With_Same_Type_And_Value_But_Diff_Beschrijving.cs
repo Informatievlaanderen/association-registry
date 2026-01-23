@@ -20,7 +20,7 @@ public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijvi
     public Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijving()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -32,22 +32,20 @@ public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijvi
     {
         var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
 
-        await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
         var secondCommand = command with
         {
-            Contactgegeven = command.Contactgegeven with
-            {
-                Beschrijving = _fixture.Create<string>(),
-            },
+            Contactgegeven = command.Contactgegeven with { Beschrijving = _fixture.Create<string>() },
         };
 
-        var secondCall = () => _commandHandler.Handle(
-            new CommandEnvelope<VoegContactgegevenToeCommand>(
-                secondCommand,
-                _fixture.Create<CommandMetadata>()));
+        var secondCall = () =>
+            _commandHandler.Handle(
+                new CommandEnvelope<VoegContactgegevenToeCommand>(secondCommand, _fixture.Create<CommandMetadata>())
+            );
 
-        await secondCall.Should()
-                        .NotThrowAsync<ContactgegevenIsDuplicaat>();
+        await secondCall.Should().NotThrowAsync<ContactgegevenIsDuplicaat>();
     }
 }

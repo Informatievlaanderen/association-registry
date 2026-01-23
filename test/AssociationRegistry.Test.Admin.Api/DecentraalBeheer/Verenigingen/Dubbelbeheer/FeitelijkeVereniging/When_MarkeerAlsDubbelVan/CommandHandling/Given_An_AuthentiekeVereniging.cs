@@ -40,11 +40,11 @@ public class Given_An_Authentieke_Vereniging
             VCodeAuthentiekeVereniging = _fixture.Create<VCode>(),
         };
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
         var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock(scenario.GetVerenigingState());
 
         var commandHandler = new MarkeerAlsDubbelVanCommandHandler(
-            verenigingsRepository: verenigingRepositoryMock,
+            aggregateSession: verenigingRepositoryMock,
             queryService: verenigingsStateQueriesMock,
             outbox: new Mock<IMartenOutbox>().Object,
             Mock.Of<IDocumentSession>()

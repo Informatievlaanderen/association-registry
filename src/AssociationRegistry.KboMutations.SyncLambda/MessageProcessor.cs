@@ -10,6 +10,7 @@ using Magda.Kbo;
 using MagdaSync.SyncKbo;
 using MagdaSync.SyncKsz;
 using MagdaSync.SyncKsz.Queries;
+using MartenDb.Store;
 using Messaging;
 using Messaging.Parsers;
 using Microsoft.Extensions.Logging;
@@ -31,7 +32,7 @@ public class MessageProcessor
         SQSEvent sqsEvent,
         SyncKboCommandHandler kboSyncHandler,
         SyncKszMessageHandler kszSyncHandler,
-        IVerenigingsRepository verenigingsRepository,
+        IAggregateSession aggregateSession,
         IVerenigingStateQueryService verenigingStateQueryService,
         CancellationToken cancellationToken
     )
@@ -86,7 +87,7 @@ public class MessageProcessor
                             new SyncKboCommand(KboNummer.Create(envelope.KboNummer!)),
                             commandMetadata
                         ),
-                        verenigingsRepository,
+                        aggregateSession,
                         verenigingStateQueryService,
                         cancellationToken
                     );

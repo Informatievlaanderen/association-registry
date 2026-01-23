@@ -20,7 +20,7 @@ public class Given_Multiple_Primair_Contactgegeven
     public Given_Multiple_Primair_Contactgegeven()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -36,10 +36,14 @@ public class Given_Multiple_Primair_Contactgegeven
                 _scenario.ContactgegevenWerdToegevoegd2.ContactgegevenId,
                 _scenario.ContactgegevenWerdToegevoegd2.Waarde,
                 _scenario.ContactgegevenWerdToegevoegd2.Beschrijving,
-                IsPrimair: true)); // <== changed value
+                IsPrimair: true
+            )
+        ); // <== changed value
 
-        var handle = ()
-            => _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
+        var handle = () =>
+            _commandHandler.Handle(
+                new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>())
+            );
 
         await handle.Should().ThrowAsync<MeerderePrimaireContactgegevensZijnNietToegestaan>();
     }

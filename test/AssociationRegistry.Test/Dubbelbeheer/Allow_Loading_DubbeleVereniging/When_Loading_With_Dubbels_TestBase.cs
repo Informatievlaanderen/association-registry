@@ -5,6 +5,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
+using MartenDb.Store;
 using Moq;
 
 public class When_Loading_With_Dubbels_TestBase
@@ -16,20 +17,23 @@ public class When_Loading_With_Dubbels_TestBase
         _fixture = new Fixture().CustomizeDomain();
     }
 
-    protected static async Task VerifyVerenigingWasLoadedWithAllowDubbeleVereniging(Func<IVerenigingsRepository, Task> handleFunc)
+    protected static async Task VerifyVerenigingWasLoadedWithAllowDubbeleVereniging(
+        Func<IAggregateSession, Task> handleFunc
+    )
     {
-        var repositoryMock = new Mock<IVerenigingsRepository>();
+        var aggregateSession = new Mock<IAggregateSession>();
 
         try
         {
-            await handleFunc(repositoryMock.Object);
+            await handleFunc(aggregateSession.Object);
         }
-        catch
-        {
-        }
+        catch { }
         finally
         {
-            repositoryMock.Verify(x => x.Load<VerenigingOfAnyKind>(It.IsAny<VCode>(), It.IsAny<CommandMetadata>(), false, true), times: Times.Once);
+            aggregateSession.Verify(
+                x => x.Load<VerenigingOfAnyKind>(It.IsAny<VCode>(), It.IsAny<CommandMetadata>(), false, true),
+                times: Times.Once
+            );
         }
     }
 }

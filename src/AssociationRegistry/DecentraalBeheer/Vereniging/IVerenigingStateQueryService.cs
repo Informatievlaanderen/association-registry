@@ -1,7 +1,5 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using EventStore;
-using Framework;
 using Marten;
 
 /// <summary>
@@ -30,14 +28,4 @@ public interface IVerenigingStateQueryService
     Task<bool> Exists(KboNummer kboNummer);
 
     Task<VCode?> GetOptionalVCodeFor(KboNummer kboNummer);
-}
-
-public interface INewAggregateSession
-{
-    Task<StreamActionResult> SaveNew(
-        VerenigingsBase vereniging,
-        IDocumentSession session,
-        CommandMetadata metadata,
-        CancellationToken cancellationToken
-    );
 }

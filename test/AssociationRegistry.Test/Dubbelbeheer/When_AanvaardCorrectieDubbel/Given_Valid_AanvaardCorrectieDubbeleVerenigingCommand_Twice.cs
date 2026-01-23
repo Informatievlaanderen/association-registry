@@ -8,6 +8,7 @@ using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardCorrectieDubbel;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
+using MartenDb.Store;
 using Xunit;
 
 public class Given_Valid_AanvaardCorrectieDubbeleVerenigingCommand_Twice
@@ -15,20 +16,23 @@ public class Given_Valid_AanvaardCorrectieDubbeleVerenigingCommand_Twice
     [Theory]
     [InlineData(VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype.Feitelijke)]
     [InlineData(VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype.MetRechtspersoonlijkheid)]
-    public async Task Then_It_Saves_A_VerenigingAanvaarddeCorrectieDubbeleVereniging(VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype verenigingstype)
+    public async Task Then_It_Saves_A_VerenigingAanvaarddeCorrectieDubbeleVereniging(
+        VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype verenigingstype
+    )
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new VerenigingAanvaarddeDubbeleVerenigingScenario(verenigingstype);
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var aggregateSession = new AggregateSessionMock(scenario.GetVerenigingState());
 
-        var command = fixture.Create<AanvaardCorrectieDubbeleVerenigingCommand>()
-            with
-            {
-                VCode = scenario.VCode,
-                VCodeDubbeleVereniging = VCode.Create(scenario.VerenigingAanvaarddeDubbeleVereniging.VCodeDubbeleVereniging),
-            };
+        var command = fixture.Create<AanvaardCorrectieDubbeleVerenigingCommand>() with
+        {
+            VCode = scenario.VCode,
+            VCodeDubbeleVereniging = VCode.Create(
+                scenario.VerenigingAanvaarddeDubbeleVereniging.VCodeDubbeleVereniging
+            ),
+        };
 
-        var sut = new AanvaardCorrectieDubbeleVerenigingCommandHandler(repositoryMock);
+        var sut = new AanvaardCorrectieDubbeleVerenigingCommandHandler(aggregateSession);
 
         await sut.Handle(command, CancellationToken.None);
 

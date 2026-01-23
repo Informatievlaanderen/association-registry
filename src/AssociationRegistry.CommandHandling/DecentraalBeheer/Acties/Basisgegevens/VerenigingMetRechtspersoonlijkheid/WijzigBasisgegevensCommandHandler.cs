@@ -1,14 +1,16 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
 
+using System.Threading;
+using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using AssociationRegistry.Framework;
-using System.Threading;
-using System.Threading.Tasks;
+using MartenDb.Store;
 
 public class WijzigBasisgegevensCommandHandler
 {
-    private IGeotagsService _geotagsService;
+    private readonly IGeotagsService _geotagsService;
+
     public WijzigBasisgegevensCommandHandler(IGeotagsService geotagsService)
     {
         _geotagsService = geotagsService;
@@ -16,12 +18,14 @@ public class WijzigBasisgegevensCommandHandler
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<WijzigBasisgegevensCommand> message,
-        IVerenigingsRepository repository,
-        CancellationToken cancellationToken = default)
+        IAggregateSession aggregateSession,
+        CancellationToken cancellationToken = default
+    )
     {
-        var vereniging =
-            await repository.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(message.Command.VCode),
-                                                                      message.Metadata);
+        var vereniging = await aggregateSession.Load<VerenigingMetRechtspersoonlijkheid>(
+            VCode.Create(message.Command.VCode),
+            message.Metadata
+        );
 
         HandleRoepnaam(vereniging, message.Command.Roepnaam);
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
@@ -29,7 +33,7 @@ public class WijzigBasisgegevensCommandHandler
         HandleHoofdactiviteitenVerenigingsloket(vereniging, message.Command.HoofdactiviteitenVerenigingsloket);
         await HandleWerkingsgebieden(vereniging, message.Command.Werkingsgebieden);
 
-        var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
+        var result = await aggregateSession.Save(vereniging, message.Metadata, cancellationToken);
 
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
@@ -44,7 +48,8 @@ public class WijzigBasisgegevensCommandHandler
 
     private static void HandleHoofdactiviteitenVerenigingsloket(
         VerenigingMetRechtspersoonlijkheid vereniging,
-        HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)
+        HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket
+    )
     {
         if (hoofdactiviteitenVerenigingsloket is null)
             return;
@@ -54,7 +59,8 @@ public class WijzigBasisgegevensCommandHandler
 
     private async Task HandleWerkingsgebieden(
         VerenigingMetRechtspersoonlijkheid vereniging,
-        Werkingsgebied[]? werkingsgebieden)
+        Werkingsgebied[]? werkingsgebieden
+    )
     {
         if (werkingsgebieden is null)
             return;
@@ -63,15 +69,20 @@ public class WijzigBasisgegevensCommandHandler
             await vereniging.HerberekenGeotags(_geotagsService);
     }
 
-    private static void HandleKorteBeschrijving(VerenigingMetRechtspersoonlijkheid vereniging, string? korteBeschrijving)
+    private static void HandleKorteBeschrijving(
+        VerenigingMetRechtspersoonlijkheid vereniging,
+        string? korteBeschrijving
+    )
     {
-        if (korteBeschrijving is null) return;
+        if (korteBeschrijving is null)
+            return;
         vereniging.WijzigKorteBeschrijving(korteBeschrijving);
     }
 
     private static void HandleDoelgroep(VerenigingMetRechtspersoonlijkheid vereniging, Doelgroep? doelgroep)
     {
-        if (doelgroep is null) return;
+        if (doelgroep is null)
+            return;
         vereniging.WijzigDoelgroep(doelgroep);
     }
 }

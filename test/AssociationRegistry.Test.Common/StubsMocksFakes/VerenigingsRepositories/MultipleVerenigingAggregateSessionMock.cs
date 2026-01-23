@@ -12,7 +12,7 @@ using Marten;
 using MartenDb.Store;
 using Persoonsgegevens;
 
-public class MultipleVerenigingRepositoryMock : IVerenigingsRepository
+public class MultipleVerenigingAggregateSessionMock : IAggregateSession
 {
     private List<VerenigingState?> _verenigingenToLoad;
     private readonly bool _expectedLoadingDubbel;
@@ -28,7 +28,7 @@ public class MultipleVerenigingRepositoryMock : IVerenigingsRepository
     public Dictionary<VCode, SaveInvocation[]> SavedInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
-    public MultipleVerenigingRepositoryMock(VerenigingState? verenigingToLoad = null, bool expectedLoadingDubbel = false, bool expectedLoadingVerwijderd = false)
+    public MultipleVerenigingAggregateSessionMock(VerenigingState? verenigingToLoad = null, bool expectedLoadingDubbel = false, bool expectedLoadingVerwijderd = false)
     {
         _verenigingenToLoad = new List<VerenigingState>() { verenigingToLoad };
         _expectedLoadingDubbel = expectedLoadingDubbel;

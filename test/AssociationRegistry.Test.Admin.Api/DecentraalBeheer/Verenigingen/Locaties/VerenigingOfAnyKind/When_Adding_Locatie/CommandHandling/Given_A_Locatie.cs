@@ -5,6 +5,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
+using AssociationRegistry.Integrations.Grar.Clients;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
@@ -16,7 +17,6 @@ using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events.Factories;
 using FluentAssertions;
-using AssociationRegistry.Integrations.Grar.Clients;
 using Marten;
 using Moq;
 using Wolverine.Marten;
@@ -33,31 +33,30 @@ public class Given_A_Locatie
 
     [Theory]
     [MemberData(nameof(Data))]
-    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved(CommandhandlerScenarioBase scenario, int expectedLocatieId)
+    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved(
+        CommandhandlerScenarioBase scenario,
+        int expectedLocatieId
+    )
     {
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
         var (geotagsService, geotags) = Faktory.New(_fixture).GeotagsService.ReturnsRandomGeotags();
 
-        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
-                                                              Mock.Of<IMartenOutbox>(),
-                                                              Mock.Of<IDocumentSession>(),
-                                                              Mock.Of<IGrarClient>(),
-                                                              geotagsService.Object
+        var commandHandler = new VoegLocatieToeCommandHandler(
+            verenigingRepositoryMock,
+            Mock.Of<IMartenOutbox>(),
+            Mock.Of<IDocumentSession>(),
+            Mock.Of<IGrarClient>(),
+            geotagsService.Object
         );
 
-        var command = new VoegLocatieToeCommand(scenario.VCode, _fixture.Create<Locatie>() with
-        {
-            AdresId = null,
-        });
+        var command = new VoegLocatieToeCommand(scenario.VCode, _fixture.Create<Locatie>() with { AdresId = null });
 
-        await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, _fixture.Create<CommandMetadata>()));
+        await commandHandler.Handle(
+            new CommandEnvelope<VoegLocatieToeCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
         verenigingRepositoryMock.ShouldHaveSavedExact(
-            new LocatieWerdToegevoegd(
-                EventFactory.Locatie(command.Locatie) with
-                {
-                    LocatieId = expectedLocatieId,
-                }),
+            new LocatieWerdToegevoegd(EventFactory.Locatie(command.Locatie) with { LocatieId = expectedLocatieId }),
             EventFactory.GeotagsWerdenBepaald(command.VCode, geotags)
         );
     }
@@ -66,24 +65,23 @@ public class Given_A_Locatie
     [MemberData(nameof(Data))]
     public async ValueTask Then_An_EntityId_Is_Returned(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
 
         var (geotagsService, geotags) = Faktory.New(_fixture).GeotagsService.ReturnsRandomGeotags();
 
-        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
-                                                              Mock.Of<IMartenOutbox>(),
-                                                              Mock.Of<IDocumentSession>(),
-                                                              Mock.Of<IGrarClient>(),
-                                                              geotagsService.Object
-
+        var commandHandler = new VoegLocatieToeCommandHandler(
+            verenigingRepositoryMock,
+            Mock.Of<IMartenOutbox>(),
+            Mock.Of<IDocumentSession>(),
+            Mock.Of<IGrarClient>(),
+            geotagsService.Object
         );
 
-        var command = new VoegLocatieToeCommand(scenario.VCode, _fixture.Create<Locatie>() with
-        {
-            AdresId = null,
-        });
+        var command = new VoegLocatieToeCommand(scenario.VCode, _fixture.Create<Locatie>() with { AdresId = null });
 
-        var result = await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, _fixture.Create<CommandMetadata>()));
+        var result = await commandHandler.Handle(
+            new CommandEnvelope<VoegLocatieToeCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
         result.EntityId.Should().Be(expectedLocatieId);
     }
@@ -97,17 +95,15 @@ public class Given_A_Locatie
             yield return new object[]
             {
                 feitelijkeVerenigingWerdGeregistreerdScenario,
-                feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.Max(l => l.LocatieId) + 1,
+                feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.Max(l =>
+                    l.LocatieId
+                ) + 1,
             };
 
             var verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario =
                 new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
 
-            yield return new object[]
-            {
-                verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario,
-                1,
-            };
+            yield return new object[] { verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario, 1 };
         }
     }
 }

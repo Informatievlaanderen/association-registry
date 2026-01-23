@@ -14,7 +14,7 @@ using Xunit;
 
 public class VerenigingMetRechtsPersoonlijkheid_With_One_Locatie
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithALocatieScenario _scenario;
     private Fixture _fixture;
 
@@ -22,7 +22,7 @@ public class VerenigingMetRechtsPersoonlijkheid_With_One_Locatie
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithALocatieScenario();
 
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
     }
@@ -32,10 +32,12 @@ public class VerenigingMetRechtsPersoonlijkheid_With_One_Locatie
     {
         var command = new VerwijderLocatieCommand(_scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie.LocatieId);
         var commandMetadata = _fixture.Create<CommandMetadata>();
-        var commandHandler = new VerwijderLocatieCommandHandler(_verenigingRepositoryMock, Mock.Of<IGeotagsService>());
-        await Assert.ThrowsAsync<LaatsteLocatieKanNietVerwijderdWorden>(async () => await commandHandler.Handle(
-                                                                                    new CommandEnvelope<VerwijderLocatieCommand>(
-                                                                                        command, commandMetadata),
-                                                                                    CancellationToken.None));
+        var commandHandler = new VerwijderLocatieCommandHandler(_aggregateSessionMock, Mock.Of<IGeotagsService>());
+        await Assert.ThrowsAsync<LaatsteLocatieKanNietVerwijderdWorden>(async () =>
+            await commandHandler.Handle(
+                new CommandEnvelope<VerwijderLocatieCommand>(command, commandMetadata),
+                CancellationToken.None
+            )
+        );
     }
 }

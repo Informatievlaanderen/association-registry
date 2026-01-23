@@ -23,10 +23,13 @@ public class With_An_Unknown_VertegenwoordigerId
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
-        _commandHandler = new VerwijderVertegenwoordigerCommandHandler(verenigingRepositoryMock, Mock.Of<IMartenOutbox>());
+        _commandHandler = new VerwijderVertegenwoordigerCommandHandler(
+            verenigingRepositoryMock,
+            Mock.Of<IMartenOutbox>()
+        );
     }
 
     [Fact]
@@ -35,7 +38,8 @@ public class With_An_Unknown_VertegenwoordigerId
         var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _fixture.Create<int>());
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata));
+        var handle = () =>
+            _commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata));
 
         await handle.Should().ThrowAsync<VertegenwoordigerIsNietGekend>();
     }

@@ -25,8 +25,11 @@ public class With_A_VerenigingMetRechtspersoonlijkheid
         var fixture = new Fixture().CustomizeAdminApi();
 
         var scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
-        _commandHandler = new StopVerenigingCommandHandler(verenigingRepositoryMock, new ClockStub(fixture.Create<DateOnly>()));
+        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
+        _commandHandler = new StopVerenigingCommandHandler(
+            verenigingRepositoryMock,
+            new ClockStub(fixture.Create<DateOnly>())
+        );
 
         var command = new StopVerenigingCommand(scenario.VCode, fixture.Create<Datum>());
         var commandMetadata = fixture.Create<CommandMetadata>();
