@@ -150,7 +150,7 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bankrekeningnummer met bankrekeningnummer &apos;{0}&apos; is niet gekend.
+        ///   Looks up a localized string similar to Bankrekeningnummer met bankrekeningnummerId &apos;{0}&apos; is niet gekend.
         /// </summary>
         public static string BankrekeningnummerIsNietGekend {
             get {
