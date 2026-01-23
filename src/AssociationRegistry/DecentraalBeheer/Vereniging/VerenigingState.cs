@@ -896,6 +896,18 @@ public record VerenigingState : IHasVersion
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(Bankrekeningnummers.Without(@event.BankrekeningnummerId)),
         };
 
+    public VerenigingState Apply(BankrekeningnummerWerdGewijzigd @event)
+    {
+        var bankrekeningnummer = Bankrekeningnummers.Single(c => c.BankrekeningnummerId == @event.BankrekeningnummerId);
+
+        return this with
+        {
+            Bankrekeningnummers = Bankrekeningnummers.Hydrate(
+                Bankrekeningnummers.Without(@event.BankrekeningnummerId).Append(
+                    Bankrekeningnummer.Hydrate(@event.BankrekeningnummerId, bankrekeningnummer.Iban.Value, @event.Doel, @event.Titularis))),
+        };
+    }
+
     public VerenigingState Apply(KszSyncHeeftVertegenwoordigerBevestigd @event)
     {
         var vertegenwoordiger = Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == @event.VertegenwoordigerId);

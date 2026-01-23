@@ -8,6 +8,7 @@ using Events;
 using Framework;
 using Emails;
 using Events.Factories;
+using EventStore;
 using Exceptions;
 using Geotags;
 using ImTools;

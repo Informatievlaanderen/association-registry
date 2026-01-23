@@ -5,9 +5,10 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Resources;
 
 [Serializable]
-public class BankrekeningnummerIsNietGekend: DomainException
+public class BankrekeningnummerIsNietGekend : DomainException
 {
-    public BankrekeningnummerIsNietGekend(string bankrekeningnummerId) : base(string.Format(ExceptionMessages.BankrekeningnummerIsNietGekend, bankrekeningnummerId))
+    public BankrekeningnummerIsNietGekend(string bankrekeningnummerId)
+        : base(string.Format(ExceptionMessages.BankrekeningnummerIsNietGekend, bankrekeningnummerId))
     {
     }
 

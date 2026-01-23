@@ -39,7 +39,21 @@ public record Bankrekeningnummer
             Titularis = Titularis.Hydrate(string.Empty),
         };
 
+    private Bankrekeningnummer CreateForWijzigen(string? doel, string? titularis)
+        => this with
+        {
+            Doel = doel ?? Doel,
+            Titularis = Titularis.Replace(titularis),
+        };
+
     public bool WouldBeEquivalent(Bankrekeningnummer bankrekeningnummer)
         => this == bankrekeningnummer with { BankrekeningnummerId = BankrekeningnummerId };
 
+    public bool WouldBeEquivalent(TeWijzigenBankrekeningnummer teWijzigenBankrekeningnummer, out Bankrekeningnummer gewijzigdBankrekeningnummer)
+    {
+        gewijzigdBankrekeningnummer =
+            CreateForWijzigen(teWijzigenBankrekeningnummer.Doel, teWijzigenBankrekeningnummer.Titularis);
+
+        return this == gewijzigdBankrekeningnummer;
+    }
 }

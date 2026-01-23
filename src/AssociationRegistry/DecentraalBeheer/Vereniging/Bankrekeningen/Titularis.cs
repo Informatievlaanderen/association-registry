@@ -21,4 +21,7 @@ public record Titularis
 
     public static Titularis Hydrate(string titularis)
         => new(titularis);
+
+    public Titularis Replace(string? titularis)
+        => titularis == null ? this : Create(titularis);
 }
