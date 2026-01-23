@@ -24,7 +24,8 @@ public class SyncKboCommandHandler
         IMagdaSyncGeefVerenigingService geefVerenigingService,
         INotifier notifier,
         ILogger<SyncKboCommandHandler> logger,
-        KboSyncMetrics metrics)
+        KboSyncMetrics metrics
+    )
     {
         _registreerInschrijvingService = registreerInschrijvingService;
         _geefVerenigingService = geefVerenigingService;
@@ -35,21 +36,27 @@ public class SyncKboCommandHandler
 
     public async Task<CommandResult?> Handle(
         CommandEnvelope<SyncKboCommand> message,
-        IVerenigingsRepository repository,
-        CancellationToken cancellationToken = default)
+        IVerenigingsRepository verenigingsRepository,
+        IVerenigingStateQueryService verenigingStateQueryService,
+        CancellationToken cancellationToken = default
+    )
     {
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} start");
 
         using var scope = _metrics.Start("kbo");
 
-        if (!await repository.Exists(message.Command.KboNummer))
+        if (!await verenigingStateQueryService.Exists(message.Command.KboNummer))
         {
             scope.Dropped();
             return null;
         }
 
-        var verenigingVolgensMagda =
-            await _geefVerenigingService.GeefVereniging(message.Command.KboNummer, AanroependeFunctie.SyncKbo, message.Metadata, cancellationToken);
+        var verenigingVolgensMagda = await _geefVerenigingService.GeefVereniging(
+            message.Command.KboNummer,
+            AanroependeFunctie.SyncKbo,
+            message.Metadata,
+            cancellationToken
+        );
 
         if (verenigingVolgensMagda.IsFailure())
         {
@@ -59,13 +66,13 @@ public class SyncKboCommandHandler
             throw new GeenGeldigeVerenigingInKbo();
         }
 
-        var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata);
+        var vereniging = await verenigingsRepository.Load(message.Command.KboNummer, message.Metadata);
 
         await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
 
         vereniging.NeemGegevensOverUitKboSync(verenigingVolgensMagda);
 
-        var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
+        var result = await verenigingsRepository.Save(vereniging, message.Metadata, cancellationToken);
 
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} end");
 
@@ -77,12 +84,17 @@ public class SyncKboCommandHandler
     private async Task RegistreerInschrijving(
         KboNummer kboNummer,
         CommandMetadata messageMetadata,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         try
         {
             var result = await _registreerInschrijvingService.RegistreerInschrijving(
-                kboNummer, AanroependeFunctie.SyncKbo, messageMetadata, cancellationToken);
+                kboNummer,
+                AanroependeFunctie.SyncKbo,
+                messageMetadata,
+                cancellationToken
+            );
 
             if (result.IsFailure())
                 throw new RegistreerInschrijvingKonNietVoltooidWorden();

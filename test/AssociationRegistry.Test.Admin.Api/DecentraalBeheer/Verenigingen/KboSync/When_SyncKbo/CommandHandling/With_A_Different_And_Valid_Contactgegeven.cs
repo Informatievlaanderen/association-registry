@@ -4,6 +4,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
@@ -14,7 +15,6 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Integrations.Slack;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo;
-using AssociationRegistry.OpenTelemetry.Metrics;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -22,6 +22,7 @@ using Xunit;
 public class With_A_Different_And_Valid_Contactgegeven
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly VerenigingsStateQueriesMock _verenigingStateQueryServiceMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Contactgegeven_Scenario _scenario;
     private readonly string _newContactgegevenWaarde;
     private readonly Mock<INotifier> _notifierMock;
@@ -29,13 +30,16 @@ public class With_A_Different_And_Valid_Contactgegeven
     public With_A_Different_And_Valid_Contactgegeven()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Contactgegeven_Scenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingState = _scenario.GetVerenigingState();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(verenigingState);
+        _verenigingStateQueryServiceMock = new VerenigingsStateQueriesMock(verenigingState);
         _notifierMock = new Mock<INotifier>();
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-        _newContactgegevenWaarde = fixture.CreateContactgegevenVolgensType(_scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype)
-                                          .Waarde;
+        _newContactgegevenWaarde = fixture
+            .CreateContactgegevenVolgensType(_scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype)
+            .Waarde;
 
         var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
 
@@ -43,22 +47,31 @@ public class With_A_Different_And_Valid_Contactgegeven
         {
             Email = verenigingVolgensKbo.Contactgegevens.Email is null ? null : _newContactgegevenWaarde,
             Website = verenigingVolgensKbo.Contactgegevens.Website is null ? null : _newContactgegevenWaarde,
-            Telefoonnummer = verenigingVolgensKbo.Contactgegevens.Telefoonnummer is null ? null : _newContactgegevenWaarde,
+            Telefoonnummer = verenigingVolgensKbo.Contactgegevens.Telefoonnummer is null
+                ? null
+                : _newContactgegevenWaarde,
             GSM = verenigingVolgensKbo.Contactgegevens.GSM is null ? null : _newContactgegevenWaarde,
         };
 
         var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        var commandHandler =
-            new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
-                                      new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
-                                      _notifierMock.Object,
-                                      NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
+        var commandHandler = new SyncKboCommandHandler(
+            Mock.Of<IMagdaRegistreerInschrijvingService>(),
+            new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
+            _notifierMock.Object,
+            NullLogger<SyncKboCommandHandler>.Instance,
+            new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test"))
+        );
 
-        commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
-            _verenigingRepositoryMock).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(
+                new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
+                _verenigingRepositoryMock,
+                _verenigingStateQueryServiceMock
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
@@ -77,14 +90,17 @@ public class With_A_Different_And_Valid_Contactgegeven
     public void Then_A_NaamWerdGewijzigdInKbo_Event_Is_Saved()
     {
         _verenigingRepositoryMock
-           .SaveInvocations[0]
-           .Vereniging
-           .UncommittedEvents
-           .Should()
-           .ContainSingle(e => e.Equals(new ContactgegevenWerdGewijzigdInKbo(
-                                            _scenario.ContactgegevenWerdOvergenomenUitKBO.ContactgegevenId,
-                                            _scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype,
-                                            _scenario.ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo,
-                                            _newContactgegevenWaarde)));
+            .SaveInvocations[0]
+            .Vereniging.UncommittedEvents.Should()
+            .ContainSingle(e =>
+                e.Equals(
+                    new ContactgegevenWerdGewijzigdInKbo(
+                        _scenario.ContactgegevenWerdOvergenomenUitKBO.ContactgegevenId,
+                        _scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype,
+                        _scenario.ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo,
+                        _newContactgegevenWaarde
+                    )
+                )
+            );
     }
 }

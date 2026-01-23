@@ -7,6 +7,7 @@ using Framework;
 using Marten;
 using OpenTelemetry.Metrics;
 using Persoonsgegevens;
+using Transformers;
 using Vereniging;
 
 public interface IAggregateSession
@@ -33,16 +34,6 @@ public interface IAggregateSession
         where TVereniging : IHydrate<VerenigingState>, new();
 
     Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, CommandMetadata metadata);
-}
-
-public interface INewAggregateSession
-{
-    Task<StreamActionResult> SaveNew(
-        VerenigingsBase vereniging,
-        IDocumentSession session,
-        CommandMetadata metadata,
-        CancellationToken cancellationToken
-    );
 }
 
 public class VerenigingsRepository : IAggregateSession, INewAggregateSession, IVerenigingsRepository
@@ -162,22 +153,4 @@ public class VerenigingsRepository : IAggregateSession, INewAggregateSession, IV
 
         return verenigingMetRechtspersoonlijkheid;
     }
-
-    public async Task<bool> IsVerwijderd(VCode vCode)
-    {
-        var verenigingState = await _eventStore.Load<VerenigingState>(id: vCode, expectedVersion: null);
-
-        return verenigingState.IsVerwijderd;
-    }
-
-    public async Task<bool> IsDubbel(VCode vCode)
-    {
-        var verenigingState = await _eventStore.Load<VerenigingState>(id: vCode, expectedVersion: null);
-
-        return verenigingState.VerenigingStatus is VerenigingStatus.StatusDubbel;
-    }
-
-    public async Task<bool> Exists(VCode vCode) => await _eventStore.Exists(vCode);
-
-    public async Task<bool> Exists(KboNummer kboNummer) => await _eventStore.Exists(kboNummer);
 }

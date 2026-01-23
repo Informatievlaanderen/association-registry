@@ -3,7 +3,10 @@ namespace AssociationRegistry.Test.VerenigingsRepositoryTests;
 using AssociationRegistry.EventStore;
 using AutoFixture;
 using Common.AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
+using Events;
 using FluentAssertions;
 using MartenDb.Store;
 using Moq;
@@ -16,25 +19,32 @@ public class When_Checking_If_Vereniging_IsVerwijderd
 
     public When_Checking_If_Vereniging_IsVerwijderd()
     {
-    _fixture = new Fixture().CustomizeDomain();
+        _fixture = new Fixture().CustomizeDomain();
     }
 
     [Fact]
     public async ValueTask Given_A_Vereniging_IsVerwijderd()
     {
-        var eventStoreMock = new Mock<IEventStore>();
+        await using var store = await TestDocumentStoreFactory.CreateAsync("VerenigingIsVerwijderd");
+        await using var session = store.LightweightSession();
+        var vCode = _fixture.Create<VCode>();
 
-        var verenigingState = new VerenigingState
-        {
-            IsVerwijderd = true,
-        };
+        session.Events.Append(
+            vCode.ToString(),
+            _fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+            {
+                VCode = vCode,
+            },
+            _fixture.Create<VerenigingWerdVerwijderd>() with
+            {
+                VCode = vCode,
+            }
+        );
 
-        eventStoreMock.Setup(x => x.Load<VerenigingState>(It.IsAny<string>(), null))
-                      .ReturnsAsync(verenigingState);
+        await session.SaveChangesAsync();
 
-        var sut = new VerenigingsRepository(eventStoreMock.Object);
-
-        var actual = await sut.IsVerwijderd(VCode.Create(_fixture.Create<VCode>()));
+        var sut = new VerenigingStateQueryService(session);
+        var actual = await sut.IsVerwijderd(VCode.Create(vCode));
 
         actual.Should().BeTrue();
     }
@@ -42,14 +52,22 @@ public class When_Checking_If_Vereniging_IsVerwijderd
     [Fact]
     public async ValueTask Given_A_Vereniging_IsNietVerwijderd()
     {
-        var eventStoreMock = new Mock<IEventStore>();
+        await using var store = await TestDocumentStoreFactory.CreateAsync("VerenigingIsNietVerwijderd");
+        await using var session = store.LightweightSession();
+        var vCode = _fixture.Create<VCode>();
 
-        eventStoreMock.Setup(x => x.Load<VerenigingState>(It.IsAny<string>(), null))
-                      .ReturnsAsync(new VerenigingState());
+        session.Events.Append(
+            vCode.ToString(),
+            _fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+            {
+                VCode = vCode,
+            }
+        );
 
-        var sut = new VerenigingsRepository(eventStoreMock.Object);
+        await session.SaveChangesAsync();
 
-        var actual = await sut.IsVerwijderd(VCode.Create(_fixture.Create<VCode>()));
+        var sut = new VerenigingStateQueryService(session);
+        var actual = await sut.IsVerwijderd(VCode.Create(vCode));
 
         actual.Should().BeFalse();
     }

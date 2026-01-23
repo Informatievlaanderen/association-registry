@@ -6,7 +6,7 @@ using Framework;
 using Marten;
 using Persoonsgegevens;
 
-public interface IVerenigingsRepository : IVerenigingStateQueryService
+public interface IVerenigingsRepository
 {
     public Task<StreamActionResult> Save(
         VerenigingsBase vereniging,

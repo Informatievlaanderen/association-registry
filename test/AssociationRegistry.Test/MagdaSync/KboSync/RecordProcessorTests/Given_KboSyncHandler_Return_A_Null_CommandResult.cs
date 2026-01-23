@@ -22,22 +22,39 @@ public class Given_KboSyncHandler_Return_A_Null_CommandResult
         var fixture = new Fixture().CustomizeDomain();
         var logger = new Mock<ILogger>();
         var verenigingsRepository = new Mock<IVerenigingsRepository>();
-        verenigingsRepository.Setup(x => x.Exists(It.IsAny<KboNummer>()))
-                              .Returns(Task.FromResult(false));
+        var verenigingStateQueryService = new Mock<IVerenigingStateQueryService>();
+        verenigingStateQueryService.Setup(x => x.Exists(It.IsAny<KboNummer>())).Returns(Task.FromResult(false));
 
-        var syncKboCommandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(), Mock.Of<IMagdaSyncGeefVerenigingService>(), Mock.Of<INotifier>(), NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
+        var syncKboCommandHandler = new SyncKboCommandHandler(
+            Mock.Of<IMagdaRegistreerInschrijvingService>(),
+            Mock.Of<IMagdaSyncGeefVerenigingService>(),
+            Mock.Of<INotifier>(),
+            NullLogger<SyncKboCommandHandler>.Instance,
+            new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test"))
+        );
 
-        RecordProcessor.TryProcessRecord(logger.Object, verenigingsRepository.Object, CancellationToken.None,
-                                                   new TeSynchroniserenKboNummerMessage(fixture.Create<KboNummer>()),
-                                                   syncKboCommandHandler).GetAwaiter().GetResult();
+        RecordProcessor
+            .TryProcessRecord(
+                logger.Object,
+                verenigingsRepository.Object,
+                verenigingStateQueryService.Object,
+                CancellationToken.None,
+                new TeSynchroniserenKboNummerMessage(fixture.Create<KboNummer>()),
+                syncKboCommandHandler
+            )
+            .GetAwaiter()
+            .GetResult();
 
         logger.Verify(
-            x => x.Log(
-                LogLevel.Information,
-                It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString() == "No vereniging found for KBO number"),
-                It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
-            Times.Once);
+            x =>
+                x.Log(
+                    LogLevel.Information,
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((v, t) => v.ToString() == "No vereniging found for KBO number"),
+                    It.IsAny<Exception>(),
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()
+                ),
+            Times.Once
+        );
     }
 }

@@ -21,7 +21,8 @@ public class Function
     private static async Task Main()
     {
         var handler = FunctionHandler;
-        await LambdaBootstrapBuilder.Create(handler, new SourceGeneratorLambdaJsonSerializer<LambdaFunctionJsonSerializerContext>())
+        await LambdaBootstrapBuilder
+            .Create(handler, new SourceGeneratorLambdaJsonSerializer<LambdaFunctionJsonSerializerContext>())
             .Build()
             .RunAsync();
     }
@@ -58,7 +59,9 @@ public class Function
                 services.KboSyncHandler,
                 services.KszSyncHandler,
                 services.Repository,
-                CancellationToken.None);
+                services.QueryService,
+                CancellationToken.None
+            );
 
             telemetryManager.Metrics.RecordFilesProcessed(@event.Records.Count);
 
@@ -117,6 +120,4 @@ public class Function
 }
 
 [JsonSerializable(typeof(SQSEvent))]
-public partial class LambdaFunctionJsonSerializerContext : JsonSerializerContext
-{
-}
+public partial class LambdaFunctionJsonSerializerContext : JsonSerializerContext { }

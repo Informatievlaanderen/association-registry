@@ -19,6 +19,7 @@ public class SyncKboCommandHandlerBuilder
     private Mock<IMagdaRegistreerInschrijvingService> _magdaRegistreerInschrijvingService;
     private Mock<IMagdaSyncGeefVerenigingService> _magdaGeefVerenigingService;
     private Mock<IVerenigingsRepository> _verenigingsRepository;
+    private Mock<IVerenigingStateQueryService> _verenigingsQueryService;
     private KboNummer? _kboNummer;
 
     public SyncKboCommandHandler SyncKboCommandHandler;
@@ -29,21 +30,20 @@ public class SyncKboCommandHandlerBuilder
         _magdaRegistreerInschrijvingService = new Mock<IMagdaRegistreerInschrijvingService>();
         _magdaGeefVerenigingService = new Mock<IMagdaSyncGeefVerenigingService>();
         _verenigingsRepository = new Mock<IVerenigingsRepository>();
+        _verenigingsQueryService = new Mock<IVerenigingStateQueryService>();
         _kboNummer = _fixture.Create<KboNummer>();
     }
 
     public SyncKboCommandHandlerBuilder MetBestaandeVereniging()
     {
-        _verenigingsRepository.Setup(x => x.Exists(_kboNummer))
-                              .Returns(Task.FromResult(true));
+        _verenigingsQueryService.Setup(x => x.Exists(_kboNummer)).Returns(Task.FromResult(true));
 
         return this;
     }
 
     public SyncKboCommandHandlerBuilder MetNietBestaandeVereniging()
     {
-        _verenigingsRepository.Setup(x => x.Exists(_kboNummer))
-                              .Returns(Task.FromResult(false));
+        _verenigingsQueryService.Setup(x => x.Exists(_kboNummer)).Returns(Task.FromResult(false));
 
         return this;
     }
@@ -51,14 +51,22 @@ public class SyncKboCommandHandlerBuilder
     public SyncKboCommandHandlerBuilder MetGeldigeVerenigingVolgensMagda()
     {
         _magdaGeefVerenigingService
-           .Setup(x => x.GeefVereniging(KboNummer.Create(_kboNummer),
-                                        AanroependeFunctie.SyncKbo,
-                                            It.IsAny<CommandMetadata>(),
-                                            It.IsAny<CancellationToken>()))
-           .ReturnsAsync(VerenigingVolgensKboResult.GeldigeVereniging(_fixture.Create<VerenigingVolgensKbo>() with
-            {
-                KboNummer = _kboNummer,
-            }));
+            .Setup(x =>
+                x.GeefVereniging(
+                    KboNummer.Create(_kboNummer),
+                    AanroependeFunctie.SyncKbo,
+                    It.IsAny<CommandMetadata>(),
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ReturnsAsync(
+                VerenigingVolgensKboResult.GeldigeVereniging(
+                    _fixture.Create<VerenigingVolgensKbo>() with
+                    {
+                        KboNummer = _kboNummer,
+                    }
+                )
+            );
 
         return this;
     }
@@ -66,11 +74,15 @@ public class SyncKboCommandHandlerBuilder
     public SyncKboCommandHandlerBuilder MetGeenGeldigeVerenigingVolgensMagda()
     {
         _magdaGeefVerenigingService
-           .Setup(x => x.GeefVereniging(KboNummer.Create(_kboNummer),
-                                        AanroependeFunctie.SyncKbo,
-                                            It.IsAny<CommandMetadata>(),
-                                            It.IsAny<CancellationToken>()))
-           .ReturnsAsync(VerenigingVolgensKboResult.GeenGeldigeVereniging);
+            .Setup(x =>
+                x.GeefVereniging(
+                    KboNummer.Create(_kboNummer),
+                    AanroependeFunctie.SyncKbo,
+                    It.IsAny<CommandMetadata>(),
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ReturnsAsync(VerenigingVolgensKboResult.GeenGeldigeVereniging);
 
         return this;
     }
@@ -78,64 +90,101 @@ public class SyncKboCommandHandlerBuilder
     public SyncKboCommandHandlerBuilder MetFoutBijVerenigingOphalenBijMagda()
     {
         _magdaGeefVerenigingService
-           .Setup(x => x.GeefVereniging(KboNummer.Create(_kboNummer),
-                                        AanroependeFunctie.SyncKbo,
-                                            It.IsAny<CommandMetadata>(),
-                                            It.IsAny<CancellationToken>()))
-           .ThrowsAsync(new Exception());
+            .Setup(x =>
+                x.GeefVereniging(
+                    KboNummer.Create(_kboNummer),
+                    AanroependeFunctie.SyncKbo,
+                    It.IsAny<CommandMetadata>(),
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ThrowsAsync(new Exception());
 
         return this;
     }
 
     public SyncKboCommandHandlerBuilder MetFoutBijLadenVereniging()
     {
-        _verenigingsRepository.Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>()))
-                              .ThrowsAsync(new Exception());
+        _verenigingsRepository
+            .Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>()))
+            .ThrowsAsync(new Exception());
         return this;
     }
 
     public SyncKboCommandHandlerBuilder MetVerenigingUitVerenigingsregister()
     {
-        var vereniging = VerenigingMetRechtspersoonlijkheid.Registreer(_fixture.Create<VCode>(), _fixture.Create<VerenigingVolgensKbo>() with
-        {
-            KboNummer = _kboNummer,
-        });
+        var vereniging = VerenigingMetRechtspersoonlijkheid.Registreer(
+            _fixture.Create<VCode>(),
+            _fixture.Create<VerenigingVolgensKbo>() with
+            {
+                KboNummer = _kboNummer,
+            }
+        );
 
-        _verenigingsRepository.Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>()))
-                              .ReturnsAsync(vereniging);
+        _verenigingsRepository
+            .Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>()))
+            .ReturnsAsync(vereniging);
         return this;
     }
 
     public SyncKboCommandHandlerBuilder MetFoutBijHetRegistrerenVanEenInschrijvingBijMagda()
     {
-        _magdaRegistreerInschrijvingService.Setup(x => x.RegistreerInschrijving(KboNummer.Create(_kboNummer),  AanroependeFunctie.SyncKbo, It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
-                                           .ReturnsAsync(Result.Failure());
+        _magdaRegistreerInschrijvingService
+            .Setup(x =>
+                x.RegistreerInschrijving(
+                    KboNummer.Create(_kboNummer),
+                    AanroependeFunctie.SyncKbo,
+                    It.IsAny<CommandMetadata>(),
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ReturnsAsync(Result.Failure());
         return this;
     }
 
     public SyncKboCommandHandlerBuilder MetSuccesBijHetRegistrerenVanEenInschrijvingBijMagda()
     {
-        _magdaRegistreerInschrijvingService.Setup(x => x.RegistreerInschrijving(KboNummer.Create(_kboNummer), AanroependeFunctie.SyncKbo, It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
-                                           .ReturnsAsync(Result.Success);
+        _magdaRegistreerInschrijvingService
+            .Setup(x =>
+                x.RegistreerInschrijving(
+                    KboNummer.Create(_kboNummer),
+                    AanroependeFunctie.SyncKbo,
+                    It.IsAny<CommandMetadata>(),
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ReturnsAsync(Result.Success);
         return this;
     }
 
     public SyncKboCommandHandlerBuilder MetSuccesvolOpgeslagenVereniging()
     {
-        _verenigingsRepository.Setup(x => x.Save(It.IsAny<VerenigingMetRechtspersoonlijkheid>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
-                              .ReturnsAsync(_fixture.Create<StreamActionResult>());
+        _verenigingsRepository
+            .Setup(x =>
+                x.Save(
+                    It.IsAny<VerenigingMetRechtspersoonlijkheid>(),
+                    It.IsAny<CommandMetadata>(),
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ReturnsAsync(_fixture.Create<StreamActionResult>());
         return this;
     }
 
+    public SyncKboCommandHandler Build() =>
+        new(
+            _magdaRegistreerInschrijvingService.Object,
+            _magdaGeefVerenigingService.Object,
+            Mock.Of<INotifier>(),
+            Mock.Of<ILogger<SyncKboCommandHandler>>(),
+            new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test"))
+        );
 
-
-    public SyncKboCommandHandler Build()
-        => new(_magdaRegistreerInschrijvingService.Object, _magdaGeefVerenigingService.Object,
-               Mock.Of<INotifier>(), Mock.Of<ILogger<SyncKboCommandHandler>>(),
-               new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
-
-    public async Task<CommandResult?> Handle()
-        => await Build().Handle(
-            new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(_kboNummer), _fixture.Create<CommandMetadata>()),
-            _verenigingsRepository.Object);
+    public async Task<CommandResult?> Handle() =>
+        await Build()
+            .Handle(
+                new CommandEnvelope<SyncKboCommand>(new SyncKboCommand(_kboNummer), _fixture.Create<CommandMetadata>()),
+                _verenigingsRepository.Object,
+                _verenigingsQueryService.Object
+            );
 }

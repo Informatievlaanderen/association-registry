@@ -4,6 +4,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
@@ -14,7 +15,6 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Integrations.Slack;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo;
-using AssociationRegistry.OpenTelemetry.Metrics;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -22,6 +22,7 @@ using Xunit;
 public class With_A_Different_StartDatum
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly VerenigingsStateQueriesMock _verenigingStateQueryServiceMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private DateOnly _newStartdatum;
     private readonly Mock<INotifier> _notifierMock;
@@ -29,11 +30,15 @@ public class With_A_Different_StartDatum
     public With_A_Different_StartDatum()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingState = _scenario.GetVerenigingState();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(verenigingState);
+        _verenigingStateQueryServiceMock = new VerenigingsStateQueriesMock(verenigingState);
         _notifierMock = new Mock<INotifier>();
 
         var fixture = new Fixture().CustomizeAdminApi();
-        _newStartdatum = _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Value.AddDays(fixture.Create<int>());
+        _newStartdatum = _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Value.AddDays(
+            fixture.Create<int>()
+        );
 
         var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
         verenigingVolgensKbo.Startdatum = _newStartdatum;
@@ -41,15 +46,22 @@ public class With_A_Different_StartDatum
         var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        var commandHandler =
-            new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
-                                      new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
-                                      _notifierMock.Object,
-                                      NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
+        var commandHandler = new SyncKboCommandHandler(
+            Mock.Of<IMagdaRegistreerInschrijvingService>(),
+            new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
+            _notifierMock.Object,
+            NullLogger<SyncKboCommandHandler>.Instance,
+            new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test"))
+        );
 
-        commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
-            _verenigingRepositoryMock).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(
+                new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
+                _verenigingRepositoryMock,
+                _verenigingStateQueryServiceMock
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
@@ -68,10 +80,8 @@ public class With_A_Different_StartDatum
     public void Then_A_NaamWerdGewijzigdInKbo_Event_Is_Saved()
     {
         _verenigingRepositoryMock
-           .SaveInvocations[0]
-           .Vereniging
-           .UncommittedEvents
-           .Should()
-           .ContainSingle(e => e.Equals(new StartdatumWerdGewijzigdInKbo(_newStartdatum)));
+            .SaveInvocations[0]
+            .Vereniging.UncommittedEvents.Should()
+            .ContainSingle(e => e.Equals(new StartdatumWerdGewijzigdInKbo(_newStartdatum)));
     }
 }
