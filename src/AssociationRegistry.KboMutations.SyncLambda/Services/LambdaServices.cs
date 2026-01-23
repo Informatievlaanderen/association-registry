@@ -1,5 +1,6 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Services;
 
+using DecentraalBeheer.Vereniging;
 using Integrations.Slack;
 using MagdaSync.SyncKbo;
 using MagdaSync.SyncKsz;
@@ -12,4 +13,6 @@ public record LambdaServices(
     SyncKboCommandHandler KboSyncHandler,
     SyncKszMessageHandler KszSyncHandler,
     VerenigingsRepository Repository,
-    INotifier Notifier);
+    VerenigingStateQueryService QueryService,
+    INotifier Notifier
+) { }

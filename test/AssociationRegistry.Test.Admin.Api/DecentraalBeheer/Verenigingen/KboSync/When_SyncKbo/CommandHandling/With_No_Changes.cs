@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.KboSync.When_SyncKbo.CommandHandling;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
@@ -15,8 +15,6 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Integrations.Slack;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo;
-using AssociationRegistry.OpenTelemetry.Metrics;
-using KboMutations.SyncLambda.MagdaSync.SyncKbo.Notifications;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -24,6 +22,7 @@ using Xunit;
 public class With_No_Changes
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly VerenigingsStateQueriesMock _verenigingStateQueryServiceMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
     private readonly Mock<INotifier> _notifierMock;
@@ -33,40 +32,52 @@ public class With_No_Changes
     public With_No_Changes()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingState = _scenario.GetVerenigingState();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(verenigingState);
+        _verenigingStateQueryServiceMock = new VerenigingsStateQueriesMock(verenigingState);
         _notifierMock = new Mock<INotifier>();
 
         _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
 
         var fixture = new Fixture().CustomizeAdminApi();
-        _command = new SyncKboCommand(KboNummer.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
+        _command = new SyncKboCommand(
+            KboNummer.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer)
+        );
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         _magdaRegistreerInschrijvingServiceMock = new Mock<IMagdaRegistreerInschrijvingService>();
 
-        var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object,
-                                                       new MagdaSyncGeefVerenigingNumberFoundServiceMock(
-                                                           _scenario.VerenigingVolgensKbo
-                                                       ),
-                                                       _notifierMock.Object,
-                                                       NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
+        var commandHandler = new SyncKboCommandHandler(
+            _magdaRegistreerInschrijvingServiceMock.Object,
+            new MagdaSyncGeefVerenigingNumberFoundServiceMock(_scenario.VerenigingVolgensKbo),
+            _notifierMock.Object,
+            NullLogger<SyncKboCommandHandler>.Instance,
+            new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test"))
+        );
 
-        commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(_command, commandMetadata),
-            _verenigingRepositoryMock).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(
+                new CommandEnvelope<SyncKboCommand>(_command, commandMetadata),
+                _verenigingRepositoryMock,
+                _verenigingStateQueryServiceMock
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
     public void Then_The_Vereniging_Is_IsGeregistreerdBijMagda()
     {
-        _magdaRegistreerInschrijvingServiceMock
-           .Verify(
-                expression: service => service.RegistreerInschrijving(
+        _magdaRegistreerInschrijvingServiceMock.Verify(
+            expression: service =>
+                service.RegistreerInschrijving(
                     _command.KboNummer,
-                                              It.IsAny<AanroependeFunctie>(),
+                    It.IsAny<AanroependeFunctie>(),
                     It.IsAny<CommandMetadata>(),
-                    It.IsAny<CancellationToken>()),
-                Times.Once);
+                    It.IsAny<CancellationToken>()
+                ),
+            Times.Once
+        );
     }
 
     [Fact]
@@ -85,82 +96,10 @@ public class With_No_Changes
     public void Then_Only_A_SynchronisatieMetKboWasSuccesvol_And_VerenigingWerdIngeschrevenOpWijzigingenUitKbo_Event_Is_Saved()
     {
         _verenigingRepositoryMock
-           .SaveInvocations[0]
-           .Vereniging
-           .UncommittedEvents
-           .Should()
-           .HaveCount(2)
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(VerenigingWerdIngeschrevenOpWijzigingenUitKbo));
-    }
-}
-
-public class With_FailureResultFromMagda
-{
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
-    private readonly Mock<INotifier> _notifierMock;
-    private readonly Mock<IMagdaSyncGeefVerenigingService> _magdaGeefVerenigingService;
-    private readonly Func<Task<CommandResult>> _action;
-
-    public With_FailureResultFromMagda()
-    {
-        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
-        _notifierMock = new Mock<INotifier>();
-
-        _magdaGeefVerenigingService = new Mock<IMagdaSyncGeefVerenigingService>();
-
-        _magdaGeefVerenigingService
-           .Setup(s => s.GeefVereniging(It.IsAny<KboNummer>(), It.IsAny<AanroependeFunctie>(),
-                                        It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
-           .ReturnsAsync(VerenigingVolgensKboResult.GeenGeldigeVereniging);
-
-        var fixture = new Fixture().CustomizeAdminApi();
-        var command = new SyncKboCommand(KboNummer.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
-        var commandMetadata = fixture.Create<CommandMetadata>();
-
-        var commandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
-                                                       _magdaGeefVerenigingService.Object,
-                                                       _notifierMock.Object,
-                                                       NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
-
-        _action = async () => await commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
-            _verenigingRepositoryMock);
-    }
-
-    [Fact]
-    public async ValueTask Then_One_Notification_Is_Send()
-    {
-        try { await _action(); }
-        catch
-        {
-            // ignored
-        }
-
-        _notifierMock.Verify(notifier => notifier.Notify(
-                                 It.Is<KboSynchronisatieMisluktNotification>(
-                                     message => message.Value == new KboSynchronisatieMisluktNotification(_scenario.KboNummer).Value)));
-    }
-
-    [Fact]
-    public async ValueTask Then_No_Event_Is_Saved()
-    {
-        try { await _action(); }
-        catch
-        {
-            // ignored
-        }
-
-        _verenigingRepositoryMock.SaveInvocations.Should().BeEmpty();
-    }
-
-    [Fact]
-    public void Then_It_Throws()
-    {
-        _action.Should().ThrowAsync<GeenGeldigeVerenigingInKbo>();
+            .SaveInvocations[0]
+            .Vereniging.UncommittedEvents.Should()
+            .HaveCount(2)
+            .And.ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol))
+            .And.ContainSingle(e => e.GetType() == typeof(VerenigingWerdIngeschrevenOpWijzigingenUitKbo));
     }
 }

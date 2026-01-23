@@ -1,5 +1,3 @@
-
-
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using Amazon.Lambda.SQSEvents;
@@ -23,9 +21,7 @@ public class MessageProcessor
     private readonly KboSyncConfiguration _kboSyncConfiguration;
     private readonly ILogger<MessageProcessor> _logger;
 
-    public MessageProcessor(
-        KboSyncConfiguration kboSyncConfiguration,
-        ILogger<MessageProcessor> logger)
+    public MessageProcessor(KboSyncConfiguration kboSyncConfiguration, ILogger<MessageProcessor> logger)
     {
         _kboSyncConfiguration = kboSyncConfiguration;
         _logger = logger;
@@ -36,17 +32,35 @@ public class MessageProcessor
         SyncKboCommandHandler kboSyncHandler,
         SyncKszMessageHandler kszSyncHandler,
         IVerenigingsRepository verenigingsRepository,
-        CancellationToken cancellationToken)
+        IVerenigingStateQueryService verenigingStateQueryService,
+        CancellationToken cancellationToken
+    )
     {
-        _logger.LogInformation("{ConfigKey}: {ConfigValue}", nameof(_kboSyncConfiguration.MutationFileBucketName), _kboSyncConfiguration.MutationFileBucketName);
-        _logger.LogInformation("{ConfigKey}: {ConfigValue}", nameof(_kboSyncConfiguration.MutationFileQueueUrl), _kboSyncConfiguration.MutationFileQueueUrl);
-        _logger.LogInformation("{ConfigKey}: {ConfigValue}", nameof(_kboSyncConfiguration.SyncQueueUrl), _kboSyncConfiguration.SyncQueueUrl);
+        _logger.LogInformation(
+            "{ConfigKey}: {ConfigValue}",
+            nameof(_kboSyncConfiguration.MutationFileBucketName),
+            _kboSyncConfiguration.MutationFileBucketName
+        );
+        _logger.LogInformation(
+            "{ConfigKey}: {ConfigValue}",
+            nameof(_kboSyncConfiguration.MutationFileQueueUrl),
+            _kboSyncConfiguration.MutationFileQueueUrl
+        );
+        _logger.LogInformation(
+            "{ConfigKey}: {ConfigValue}",
+            nameof(_kboSyncConfiguration.SyncQueueUrl),
+            _kboSyncConfiguration.SyncQueueUrl
+        );
 
         foreach (var record in sqsEvent.Records)
         {
             var envelope = SyncEnvelopeParser.Parse(record.Body);
 
-            _logger.LogInformation("{MessageProcessor} processing sqs message of type {Type}", nameof(MessageProcessor), envelope.Type);
+            _logger.LogInformation(
+                "{MessageProcessor} processing sqs message of type {Type}",
+                nameof(MessageProcessor),
+                envelope.Type
+            );
 
             using var activity = Telemetry.SyncEnvelopeActivity.Start(envelope);
 
@@ -63,15 +77,19 @@ public class MessageProcessor
                         SystemClock.Instance.GetCurrentInstant(),
                         envelope.CorrelationId,
                         null,
-                        additionalMetadata);
+                        additionalMetadata
+                    );
 
                     activity.TagAsKboSync(envelope.KboNummer!);
                     await kboSyncHandler.Handle(
                         new CommandEnvelope<SyncKboCommand>(
                             new SyncKboCommand(KboNummer.Create(envelope.KboNummer!)),
-                            commandMetadata),
+                            commandMetadata
+                        ),
                         verenigingsRepository,
-                        cancellationToken);
+                        verenigingStateQueryService,
+                        cancellationToken
+                    );
                     break;
                 }
 
@@ -86,23 +104,29 @@ public class MessageProcessor
                         SystemClock.Instance.GetCurrentInstant(),
                         envelope.CorrelationId,
                         null,
-                        additionalMetadata);
+                        additionalMetadata
+                    );
 
                     activity.TagAsKszSync();
                     await kszSyncHandler.Handle(
                         new CommandEnvelope<SyncKszMessage>(
-                        new SyncKszMessage(
-                            Insz.Create(envelope.InszMessage!.Insz),
-                            envelope.InszMessage.Overleden,
-                            envelope.CorrelationId),
-                        commandMetadata),
-                        cancellationToken);
+                            new SyncKszMessage(
+                                Insz.Create(envelope.InszMessage!.Insz),
+                                envelope.InszMessage.Overleden,
+                                envelope.CorrelationId
+                            ),
+                            commandMetadata
+                        ),
+                        cancellationToken
+                    );
 
                     break;
                 }
 
                 default:
-                    throw new InvalidOperationException($"Unknown message shape for record {record.MessageId}. Body={record.Body}: expected KboNummer OR Insz.");
+                    throw new InvalidOperationException(
+                        $"Unknown message shape for record {record.MessageId}. Body={record.Body}: expected KboNummer OR Insz."
+                    );
             }
         }
     }

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.MartenDb.Store;
 
 using AssociationRegistry.EventStore;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Marten;
@@ -8,25 +9,27 @@ using Vereniging;
 
 public class VerenigingStateQueryService : IVerenigingStateQueryService
 {
-    private readonly IEventStore _eventStore;
     private readonly IDocumentSession _session;
 
-    public VerenigingStateQueryService(IEventStore eventStore, IDocumentSession session)
+    public VerenigingStateQueryService(IDocumentSession session)
     {
-        _eventStore = eventStore;
         _session = session;
     }
 
     public async Task<bool> IsVerwijderd(VCode vCode)
     {
-        var verenigingState = await _eventStore.Load<VerenigingState>(id: vCode, expectedVersion: null);
+        var verenigingState =
+            await _session.Events.AggregateStreamAsync<VerenigingState>(vCode)
+            ?? throw new AggregateNotFoundException(vCode, typeof(VerenigingState));
 
         return verenigingState.IsVerwijderd;
     }
 
     public async Task<bool> IsDubbel(VCode vCode)
     {
-        var verenigingState = await _eventStore.Load<VerenigingState>(id: vCode, expectedVersion: null);
+        var verenigingState =
+            await _session.Events.AggregateStreamAsync<VerenigingState>(vCode)
+            ?? throw new AggregateNotFoundException(vCode, typeof(VerenigingState));
 
         return verenigingState.VerenigingStatus is VerenigingStatus.StatusDubbel;
     }

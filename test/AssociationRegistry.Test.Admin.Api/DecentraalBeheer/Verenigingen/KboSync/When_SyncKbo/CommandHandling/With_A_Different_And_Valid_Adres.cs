@@ -4,6 +4,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Kbo;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
@@ -14,7 +15,6 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Integrations.Slack;
 using KboMutations.SyncLambda.MagdaSync.SyncKbo;
-using AssociationRegistry.OpenTelemetry.Metrics;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -22,6 +22,7 @@ using Xunit;
 public class With_A_Different_And_Valid_Adres
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly VerenigingsStateQueriesMock _verenigingStateQueryServiceMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAdresScenario _scenario;
     private readonly AdresVolgensKbo _newAdres;
     private readonly Mock<INotifier> _notifierMock;
@@ -29,7 +30,9 @@ public class With_A_Different_And_Valid_Adres
     public With_A_Different_And_Valid_Adres()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAdresScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        var verenigingState = _scenario.GetVerenigingState();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(verenigingState);
+        _verenigingStateQueryServiceMock = new VerenigingsStateQueriesMock(verenigingState);
         _notifierMock = new Mock<INotifier>();
 
         var fixture = new Fixture().CustomizeAdminApi();
@@ -41,15 +44,22 @@ public class With_A_Different_And_Valid_Adres
         var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        var commandHandler =
-            new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
-                                      new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
-                                      _notifierMock.Object,
-                                      NullLogger<SyncKboCommandHandler>.Instance, new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test")));
+        var commandHandler = new SyncKboCommandHandler(
+            Mock.Of<IMagdaRegistreerInschrijvingService>(),
+            new MagdaSyncGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
+            _notifierMock.Object,
+            NullLogger<SyncKboCommandHandler>.Instance,
+            new KboSyncMetrics(new System.Diagnostics.Metrics.Meter("test"))
+        );
 
-        commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
-            _verenigingRepositoryMock).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(
+                new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
+                _verenigingRepositoryMock,
+                _verenigingStateQueryServiceMock
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
@@ -68,24 +78,26 @@ public class With_A_Different_And_Valid_Adres
     public void Then_A_MaatschappelijkeZetelWerdGewijzigdInKbo_Event_Is_Saved()
     {
         _verenigingRepositoryMock
-           .SaveInvocations[0]
-           .Vereniging
-           .UncommittedEvents
-           .Should()
-           .ContainEquivalentOf(
+            .SaveInvocations[0]
+            .Vereniging.UncommittedEvents.Should()
+            .ContainEquivalentOf(
                 new MaatschappelijkeZetelWerdGewijzigdInKbo(
-                    new Registratiedata.Locatie(LocatieId: 1,
-                                                Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
-                                                IsPrimair: false,
-                                                string.Empty,
-                                                new Registratiedata.Adres(
-                                                    _newAdres.Straatnaam,
-                                                    _newAdres.Huisnummer,
-                                                    _newAdres.Busnummer,
-                                                    _newAdres.Postcode,
-                                                    _newAdres.Gemeente,
-                                                    _newAdres.Land),
-                                                AdresId: null)
-                ));
+                    new Registratiedata.Locatie(
+                        LocatieId: 1,
+                        Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                        IsPrimair: false,
+                        string.Empty,
+                        new Registratiedata.Adres(
+                            _newAdres.Straatnaam,
+                            _newAdres.Huisnummer,
+                            _newAdres.Busnummer,
+                            _newAdres.Postcode,
+                            _newAdres.Gemeente,
+                            _newAdres.Land
+                        ),
+                        AdresId: null
+                    )
+                )
+            );
     }
 }

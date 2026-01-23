@@ -3,10 +3,10 @@ namespace AssociationRegistry.KboMutations.SyncLambda.Services;
 using Amazon.Lambda.Core;
 using Amazon.SimpleSystemsManagement;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.KboMutations.Configuration;
 using AssociationRegistry.KboMutations.Notifications;
 using AssociationRegistry.KboMutations.SyncLambda.JsonSerialization;
-using AssociationRegistry.Integrations.Magda;
 using Configuration;
 using EventStore.ConflictResolution;
 using Integrations.Magda.CallReferences;
@@ -60,17 +60,51 @@ public class ServiceFactory
         _store = await SetUpDocumentStoreAsync(ssmClientWrapper, paramNamesConfiguration, GetQuerySession, logger);
         var session = _store.LightweightSession();
 
-        var repository = CreateRepository(session, loggerFactory);
-        var referenceRepository = new MagdaCallReferenceRepository(_store.LightweightSession());
-        var magdaClient = new MagdaClient(magdaOptions,
-                                          new MagdaCallReferenceService(referenceRepository),
-                                          new MagdaRegistreerInschrijvingValidator(loggerFactory.CreateLogger<MagdaRegistreerInschrijvingValidator>()),
-                                          new MagdaGeefPersoonValidator(loggerFactory.CreateLogger<MagdaGeefPersoonValidator>()),
-                                          loggerFactory.CreateLogger<MagdaClient>());
-        var registreerInschrijvingService = CreateRegistreerInschrijvingService(magdaOptions, loggerFactory, referenceRepository);
+        var eventConflictResolver = new EventConflictResolver(
+            Array.Empty<IEventPreConflictResolutionStrategy>(),
+            Array.Empty<IEventPostConflictResolutionStrategy>()
+        );
 
-        var vertegenwoordigerPersoonsgegevensRepository =
-            new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session));
+        var eventStore = new EventStore(
+            session,
+            eventConflictResolver,
+            new PersoonsgegevensProcessor(
+                new PersoonsgegevensEventTransformers(),
+                new VertegenwoordigerPersoonsgegevensRepository(
+                    session,
+                    new VertegenwoordigerPersoonsgegevensQuery(session)
+                ),
+                new BankrekeningnummerPersoonsgegevensRepository(
+                    session,
+                    new BankrekeningnummerPersoonsgegevensQuery(session)
+                ),
+                loggerFactory.CreateLogger<PersoonsgegevensProcessor>()
+            ),
+            loggerFactory.CreateLogger<EventStore>()
+        );
+
+        var repository = new VerenigingsRepository(eventStore);
+        var queryService = new VerenigingStateQueryService(session);
+        var referenceRepository = new MagdaCallReferenceRepository(_store.LightweightSession());
+        var magdaClient = new MagdaClient(
+            magdaOptions,
+            new MagdaCallReferenceService(referenceRepository),
+            new MagdaRegistreerInschrijvingValidator(
+                loggerFactory.CreateLogger<MagdaRegistreerInschrijvingValidator>()
+            ),
+            new MagdaGeefPersoonValidator(loggerFactory.CreateLogger<MagdaGeefPersoonValidator>()),
+            loggerFactory.CreateLogger<MagdaClient>()
+        );
+        var registreerInschrijvingService = CreateRegistreerInschrijvingService(
+            magdaOptions,
+            loggerFactory,
+            referenceRepository
+        );
+
+        var vertegenwoordigerPersoonsgegevensRepository = new VertegenwoordigerPersoonsgegevensRepository(
+            session,
+            new VertegenwoordigerPersoonsgegevensQuery(session)
+        );
 
         var notifier = await CreateNotifierAsync(ssmClientWrapper, paramNamesConfiguration, loggerFactory);
 
@@ -79,13 +113,15 @@ public class ServiceFactory
             new SyncGeefVerenigingService(magdaClient, loggerFactory.CreateLogger<SyncGeefVerenigingService>()),
             notifier,
             loggerFactory.CreateLogger<SyncKboCommandHandler>(),
-            _telemetryManager.Metrics);
+            _telemetryManager.Metrics
+        );
 
         var kszSyncHandler = new SyncKszMessageHandler(
             vertegenwoordigerPersoonsgegevensRepository,
             repository,
             new FilterVzerOnlyQuery(session),
-            loggerFactory.CreateLogger<SyncKszMessageHandler>());
+            loggerFactory.CreateLogger<SyncKszMessageHandler>()
+        );
 
         var messageProcessor = CreateMessageProcessor(loggerFactory.CreateLogger<MessageProcessor>());
 
@@ -95,18 +131,16 @@ public class ServiceFactory
             kboSyncHandler,
             kszSyncHandler,
             repository,
+            queryService,
             notifier
         );
     }
 
-    private IQuerySession GetQuerySession()
-        => _store.QuerySession();
+    private IQuerySession GetQuerySession() => _store.QuerySession();
 
     private ParamNamesConfiguration GetParamNamesConfiguration()
     {
-        return _configuration
-              .GetSection(ParamNamesConfiguration.Section)
-              .Get<ParamNamesConfiguration>()
+        return _configuration.GetSection(ParamNamesConfiguration.Section).Get<ParamNamesConfiguration>()
             ?? throw new InvalidOperationException("Could not load ParamNamesConfiguration");
     }
 
@@ -118,9 +152,10 @@ public class ServiceFactory
             new KboSyncConfiguration
             {
                 MutationFileQueueUrl = awsConfigurationSection[nameof(WellKnownQueueNames.MutationFileQueueUrl)],
-                SyncQueueUrl = awsConfigurationSection[nameof(WellKnownQueueNames.SyncQueueUrl)]!
+                SyncQueueUrl = awsConfigurationSection[nameof(WellKnownQueueNames.SyncQueueUrl)]!,
             },
-            logger);
+            logger
+        );
     }
 
     private ILoggerFactory CreateLoggerFactory()
@@ -135,11 +170,12 @@ public class ServiceFactory
     private async Task<MagdaOptionsSection> GetMagdaOptionsAsync(
         SsmClientWrapper ssmClient,
         ParamNamesConfiguration paramNamesConfiguration,
-        ILogger<ServiceFactory> logger)
+        ILogger<ServiceFactory> logger
+    )
     {
-        var magdaOptions = _configuration.GetSection(MagdaOptionsSection.SectionName)
-                                         .Get<MagdaOptionsSection>()
-                        ?? throw new ArgumentException("Could not load MagdaOptions");
+        var magdaOptions =
+            _configuration.GetSection(MagdaOptionsSection.SectionName).Get<MagdaOptionsSection>()
+            ?? throw new ArgumentException("Could not load MagdaOptions");
 
         if (string.IsNullOrEmpty(paramNamesConfiguration.MagdaCertificate))
         {
@@ -148,7 +184,9 @@ public class ServiceFactory
         }
 
         magdaOptions.ClientCertificate = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificate);
-        magdaOptions.ClientCertificatePassword = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificatePassword);
+        magdaOptions.ClientCertificatePassword = await ssmClient.GetParameterAsync(
+            paramNamesConfiguration.MagdaCertificatePassword
+        );
 
         return magdaOptions;
     }
@@ -157,17 +195,21 @@ public class ServiceFactory
         SsmClientWrapper ssmClientWrapper,
         ParamNamesConfiguration paramNames,
         Func<IQuerySession> querySessionFunc,
-        ILogger<ServiceFactory> logger)
+        ILogger<ServiceFactory> logger
+    )
     {
-        var postgresSection = _configuration.GetSection(PostgreSqlOptionsSection.SectionName)
-                                            .Get<PostgreSqlOptionsSection>()
-                           ?? throw new ApplicationException("PostgresSqlOptions section not found");
+        var postgresSection =
+            _configuration.GetSection(PostgreSqlOptionsSection.SectionName).Get<PostgreSqlOptionsSection>()
+            ?? throw new ApplicationException("PostgresSqlOptions section not found");
 
         if (!postgresSection.IsComplete)
             throw new ApplicationException("PostgresSqlOptions is missing some values");
 
-        logger.LogInformation("Using PostgreSQL options: {Host}, {Database}",
-            postgresSection.Host, postgresSection.Database);
+        logger.LogInformation(
+            "Using PostgreSQL options: {Host}, {Database}",
+            postgresSection.Host,
+            postgresSection.Database
+        );
 
         var connectionString = await BuildConnectionStringAsync(postgresSection, ssmClientWrapper, paramNames);
         var opts = ConfigureStoreOptions(connectionString, querySessionFunc);
@@ -175,7 +217,11 @@ public class ServiceFactory
         return new DocumentStore(opts);
     }
 
-    private async Task<string> BuildConnectionStringAsync(PostgreSqlOptionsSection postgresSection, SsmClientWrapper ssmClientWrapper, ParamNamesConfiguration paramNames)
+    private async Task<string> BuildConnectionStringAsync(
+        PostgreSqlOptionsSection postgresSection,
+        SsmClientWrapper ssmClientWrapper,
+        ParamNamesConfiguration paramNames
+    )
     {
         var connectionStringBuilder = new NpgsqlConnectionStringBuilder
         {
@@ -183,7 +229,7 @@ public class ServiceFactory
             Database = postgresSection.Database,
             Username = postgresSection.Username,
             Port = 5432,
-            Password = await ssmClientWrapper.GetParameterAsync(paramNames.PostgresPassword)
+            Password = await ssmClientWrapper.GetParameterAsync(paramNames.PostgresPassword),
         };
 
         return connectionStringBuilder.ToString();
@@ -220,43 +266,39 @@ public class ServiceFactory
         opts.AutoCreateSchemaObjects = AutoCreate.None;
         opts.UpcastEvents(querySessionFunc);
 
-        var eventTypes = typeof(AssociationRegistry.Events.IEvent).Assembly
-                                                                  .GetTypes()
-                                                                  .Where(t => typeof(AssociationRegistry.Events.IEvent).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
-                                                                  .ToList();
+        var eventTypes = typeof(AssociationRegistry.Events.IEvent)
+            .Assembly.GetTypes()
+            .Where(t => typeof(AssociationRegistry.Events.IEvent).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
+            .ToList();
 
         opts.Events.AddEventTypes(eventTypes);
 
         return opts;
     }
 
-    private static VerenigingsRepository CreateRepository(IDocumentSession session, ILoggerFactory loggerFactory)
-    {
-        var eventConflictResolver = new EventConflictResolver(
-            Array.Empty<IEventPreConflictResolutionStrategy>(),
-            Array.Empty<IEventPostConflictResolutionStrategy>());
-
-        return new VerenigingsRepository(
-            new EventStore(session, eventConflictResolver,
-                           new PersoonsgegevensProcessor(
-                               new PersoonsgegevensEventTransformers(),
-                               new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
-                               new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session))
-                             , loggerFactory.CreateLogger<PersoonsgegevensProcessor>()), loggerFactory.CreateLogger<EventStore>()));
-    }
-
-    private static MagdaRegistreerInschrijvingService CreateRegistreerInschrijvingService(MagdaOptionsSection magdaOptions, ILoggerFactory loggerFactory, MagdaCallReferenceRepository referenceRepository)
+    private static MagdaRegistreerInschrijvingService CreateRegistreerInschrijvingService(
+        MagdaOptionsSection magdaOptions,
+        ILoggerFactory loggerFactory,
+        MagdaCallReferenceRepository referenceRepository
+    )
     {
         return new MagdaRegistreerInschrijvingService(
-            new MagdaClient(magdaOptions,
-                            new MagdaCallReferenceService(referenceRepository),
-                            new MagdaRegistreerInschrijvingValidator(NullLogger<MagdaRegistreerInschrijvingValidator>.Instance),
-                            new MagdaGeefPersoonValidator(NullLogger<MagdaGeefPersoonValidator>.Instance),
-                            loggerFactory.CreateLogger<MagdaClient>()),
-            loggerFactory.CreateLogger<MagdaRegistreerInschrijvingService>());
+            new MagdaClient(
+                magdaOptions,
+                new MagdaCallReferenceService(referenceRepository),
+                new MagdaRegistreerInschrijvingValidator(NullLogger<MagdaRegistreerInschrijvingValidator>.Instance),
+                new MagdaGeefPersoonValidator(NullLogger<MagdaGeefPersoonValidator>.Instance),
+                loggerFactory.CreateLogger<MagdaClient>()
+            ),
+            loggerFactory.CreateLogger<MagdaRegistreerInschrijvingService>()
+        );
     }
 
-    private async Task<INotifier> CreateNotifierAsync(SsmClientWrapper ssmClientWrapper, ParamNamesConfiguration paramNamesConfiguration, ILoggerFactory loggerFactory)
+    private async Task<INotifier> CreateNotifierAsync(
+        SsmClientWrapper ssmClientWrapper,
+        ParamNamesConfiguration paramNamesConfiguration,
+        ILoggerFactory loggerFactory
+    )
     {
         return await new NotifierFactory(ssmClientWrapper, paramNamesConfiguration, loggerFactory).Create();
     }
