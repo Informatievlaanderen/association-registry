@@ -13,6 +13,8 @@ using Vereniging;
 
 public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaatschapToeRequest>
 {
+    private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+
     private readonly MultipleWerdGeregistreerdScenario _scenario;
 
     public VoegLidmaatschapToeRequestFactory(MultipleWerdGeregistreerdScenario scenario)
@@ -41,6 +43,8 @@ public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaat
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/lidmaatschappen");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());

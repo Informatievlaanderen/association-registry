@@ -14,6 +14,8 @@ using System.Net;
 
 public class WijzigVertegenwoordigerRequestFactory : ITestRequestFactory<WijzigVertegenwoordigerRequest>
 {
+    private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+
     private readonly VertegenwoordigerWerdToegevoegdScenario _scenario;
 
     public WijzigVertegenwoordigerRequestFactory(VertegenwoordigerWerdToegevoegdScenario scenario)
@@ -37,6 +39,8 @@ public class WijzigVertegenwoordigerRequestFactory : ITestRequestFactory<WijzigV
              .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/vertegenwoordigers/{_scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());

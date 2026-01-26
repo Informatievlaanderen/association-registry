@@ -11,6 +11,8 @@ using Vereniging;
 
 public class MarkeerAlsDubbelVanRequestFactory : ITestRequestFactory<MarkeerAlsDubbelVanRequest>
 {
+    private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+
     private readonly MultipleWerdGeregistreerdScenario _scenario;
 
     public MarkeerAlsDubbelVanRequestFactory(MultipleWerdGeregistreerdScenario scenario)
@@ -33,6 +35,8 @@ public class MarkeerAlsDubbelVanRequestFactory : ITestRequestFactory<MarkeerAlsD
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/dubbelVan");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());

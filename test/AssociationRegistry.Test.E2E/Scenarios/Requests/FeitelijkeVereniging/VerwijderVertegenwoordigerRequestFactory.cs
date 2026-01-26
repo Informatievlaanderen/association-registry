@@ -8,6 +8,8 @@ using System.Net;
 
 public class VerwijderVertegenwoordigerRequestFactory : ITestRequestFactory<NullRequest>
 {
+    private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+
     private readonly VertegenwoordigerWerdToegevoegdScenario _scenario;
 
     public VerwijderVertegenwoordigerRequestFactory(VertegenwoordigerWerdToegevoegdScenario scenario)
@@ -23,6 +25,8 @@ public class VerwijderVertegenwoordigerRequestFactory : ITestRequestFactory<Null
              .Url($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/vertegenwoordigers/{_scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
