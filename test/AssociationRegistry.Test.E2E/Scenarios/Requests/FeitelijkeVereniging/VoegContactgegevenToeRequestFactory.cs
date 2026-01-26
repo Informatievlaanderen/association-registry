@@ -13,6 +13,8 @@ using Vereniging;
 
 public class VoegContactgegevenToeRequestFactory : ITestRequestFactory<VoegContactgegevenToeRequest>
 {
+    private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
 
     public VoegContactgegevenToeRequestFactory(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
@@ -33,6 +35,8 @@ public class VoegContactgegevenToeRequestFactory : ITestRequestFactory<VoegConta
              .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/contactgegevens");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());

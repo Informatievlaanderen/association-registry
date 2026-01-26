@@ -9,6 +9,8 @@ using Vereniging;
 
 public class CorrigeerMarkeringAlsDubbelVanRequestFactory : ITestRequestFactory<NullRequest>
 {
+    private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+
     private readonly VerenigingWerdGemarkeerdAlsDubbelVanScenario _scenario;
 
     public CorrigeerMarkeringAlsDubbelVanRequestFactory(VerenigingWerdGemarkeerdAlsDubbelVanScenario scenario)
@@ -27,6 +29,9 @@ public class CorrigeerMarkeringAlsDubbelVanRequestFactory : ITestRequestFactory<
              .Url($"/v1/verenigingen/{vCode}/dubbelVan");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());

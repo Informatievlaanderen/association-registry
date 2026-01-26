@@ -35,6 +35,9 @@ public class WijzigBankrekeningnummerRequestFactory : ITestRequestFactory<Wijzig
              .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/bankrekeningnummers/{_scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());

@@ -9,6 +9,8 @@ using Vereniging;
 
 public class VerwijderLidmaatschapRequestFactory : ITestRequestFactory<NullRequest>
 {
+    private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+
     private readonly LidmaatschapWerdToegevoegdScenario _scenario;
 
     public VerwijderLidmaatschapRequestFactory(LidmaatschapWerdToegevoegdScenario scenario)
@@ -27,6 +29,8 @@ public class VerwijderLidmaatschapRequestFactory : ITestRequestFactory<NullReque
              .Url($"/v1/verenigingen/{vCode}/lidmaatschappen/{lidmaatschapLidmaatschapId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());

@@ -12,6 +12,8 @@ using System.Net;
 
 public class VerwijderBankrekeningnummerRequestFactory : ITestRequestFactory<NullRequest>
 {
+    private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+
     private readonly BankrekeningnummerWerdToegevoegdScenario _scenario;
 
     public VerwijderBankrekeningnummerRequestFactory(BankrekeningnummerWerdToegevoegdScenario scenario)
@@ -26,6 +28,8 @@ public class VerwijderBankrekeningnummerRequestFactory : ITestRequestFactory<Nul
             s.Delete.Url($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/bankrekeningnummers/{_scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
