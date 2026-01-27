@@ -1,3 +1,10 @@
+# [8.296.0](https://github.com/informatievlaanderen/association-registry/compare/v8.295.2...v8.296.0) (2026-01-27)
+
+
+### Features
+
+* or-2994 wijzig bankrekeningnummers ([ba10a1b](https://github.com/informatievlaanderen/association-registry/commit/ba10a1bef54dff356800b85569e19cc5f35e80ea))
+
 ## [8.295.2](https://github.com/informatievlaanderen/association-registry/compare/v8.295.1...v8.295.2) (2026-01-23)
 
 
