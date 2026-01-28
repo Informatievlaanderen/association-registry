@@ -14,14 +14,14 @@ public class Given_A_Valid_Bankrekeningnummer
     private readonly VerwijderBankrekeningnummerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly BankrekeningnummerWerdToegevoegdScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _verenigingRepositoryMock;
 
     public Given_A_Valid_Bankrekeningnummer()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new BankrekeningnummerWerdToegevoegdScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _commandHandler = new VerwijderBankrekeningnummerCommandHandler(_verenigingRepositoryMock);
     }
@@ -29,16 +29,20 @@ public class Given_A_Valid_Bankrekeningnummer
     [Fact]
     public async ValueTask Then_A_BankrekeningWerdToegevoegd_Event_Is_Saved_With_The_Next_Id()
     {
-        var command = new VerwijderBankrekeningnummerCommand(VCode: _scenario.VCode,
-                                                             BankrekeningnummerId: _scenario.BankrekeningnummerWerdToegevoegd
-                                                                .BankrekeningnummerId);
+        var command = new VerwijderBankrekeningnummerCommand(
+            VCode: _scenario.VCode,
+            BankrekeningnummerId: _scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<VerwijderBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<VerwijderBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new BankrekeningnummerWerdVerwijderd(
                 command.BankrekeningnummerId,
-                _scenario.BankrekeningnummerWerdToegevoegd.Iban)
+                _scenario.BankrekeningnummerWerdToegevoegd.Iban
+            )
         );
     }
 }

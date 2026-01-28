@@ -31,6 +31,8 @@ public class VoegLidmaatschapToeCommandHandler
             metadata: envelope.Metadata
         );
 
+        // todo: [technical debt] this is not safe.
+        // QueryService should only be used if compensating actions exist on the 'other' vereniging.
         if (await _queryService.IsVerwijderd(envelope.Command.Lidmaatschap.AndereVereniging))
             throw new VerenigingKanGeenLidWordenVanVerwijderdeVereniging();
 
