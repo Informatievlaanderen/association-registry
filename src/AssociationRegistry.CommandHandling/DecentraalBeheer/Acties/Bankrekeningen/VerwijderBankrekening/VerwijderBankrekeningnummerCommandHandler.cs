@@ -2,24 +2,23 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Framework;
+using MartenDb.Store;
 
 public class VerwijderBankrekeningnummerCommandHandler
 {
-    private readonly IVerenigingsRepository _repository;
+    private readonly IAggregateSession _repository;
 
-    public VerwijderBankrekeningnummerCommandHandler(IVerenigingsRepository verenigingRepository)
+    public VerwijderBankrekeningnummerCommandHandler(IAggregateSession verenigingRepository)
     {
         _repository = verenigingRepository;
     }
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<VerwijderBankrekeningnummerCommand> envelope,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
-        var vereniging =
-            await _repository.Load<Vereniging>(
-                VCode.Create(envelope.Command.VCode),
-                envelope.Metadata);
+        var vereniging = await _repository.Load<Vereniging>(VCode.Create(envelope.Command.VCode), envelope.Metadata);
 
         vereniging.VerwijderBankrekeningnummer(envelope.Command.BankrekeningnummerId);
 

@@ -15,14 +15,14 @@ public class Given_A_KBO_Vereniging
     private readonly WijzigBankrekeningnummerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithBankrekeningnummersScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _verenigingRepositoryMock;
 
     public Given_A_KBO_Vereniging()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithBankrekeningnummersScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _commandHandler = new WijzigBankrekeningnummerCommandHandler(_verenigingRepositoryMock);
     }
@@ -38,10 +38,12 @@ public class Given_A_KBO_Vereniging
             Bankrekeningnummer = _fixture.Create<TeWijzigenBankrekeningnummer>() with
             {
                 BankrekeningnummerId = teWijzigenBankrekeningnummerId,
-            }
+            },
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new BankrekeningnummerWerdGewijzigd(
@@ -64,10 +66,12 @@ public class Given_A_KBO_Vereniging
             {
                 BankrekeningnummerId = teWijzigenBankrekeningnummer.BankrekeningnummerId,
                 Titularis = null,
-            }
+            },
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new BankrekeningnummerWerdGewijzigd(
@@ -90,10 +94,12 @@ public class Given_A_KBO_Vereniging
             {
                 BankrekeningnummerId = teWijzigenBankrekeningnummerId,
                 Doel = null,
-            }
+            },
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new BankrekeningnummerWerdGewijzigd(
@@ -117,10 +123,12 @@ public class Given_A_KBO_Vereniging
                 BankrekeningnummerId = teWijzigenBankrekeningnummerId,
                 Doel = null,
                 Titularis = null,
-            }
+            },
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>()));
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())
+        );
 
         _verenigingRepositoryMock.ShouldNotHaveAnySaves();
     }

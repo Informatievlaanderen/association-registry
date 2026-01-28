@@ -1,14 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.templates;
 
+using System.Dynamic;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Vereniging.Bronnen;
 using Contracts.JsonLdContext;
 using Events;
 using Formats;
 using NodaTime;
-using System.Dynamic;
-using Vereniging;
-using Vereniging.Bronnen;
-
 using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate
@@ -48,31 +46,29 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
     {
         _vereniging.vcode = vCode;
 
-        _vereniging.sleutels.Add(new
-        {
-            jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
-            jsonldtype = JsonLdType.Sleutel.Type,
-            bron = Sleutelbron.VR.Waarde,
-            waarde = vCode,
-            codeersysteem = CodeerSysteem.VR.Waarde,
-            identificator = new
+        _vereniging.sleutels.Add(
+            new
             {
-                jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
-                jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
-                nummer = vCode,
-            },
-        });
+                jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
+                jsonldtype = JsonLdType.Sleutel.Type,
+                bron = Sleutelbron.VR.Waarde,
+                waarde = vCode,
+                codeersysteem = CodeerSysteem.VR.Waarde,
+                identificator = new
+                {
+                    jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
+                    jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
+                    nummer = vCode,
+                },
+            }
+        );
 
         return this;
     }
 
     public DetailVerenigingResponseTemplate WithType(Verenigingstype type)
     {
-        _vereniging.verenigingstype = new
-        {
-            code = type.Code,
-            naam = type.Naam,
-        };
+        _vereniging.verenigingstype = new { code = type.Code, naam = type.Naam };
 
         return this;
     }
@@ -142,38 +138,46 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
 
     public DetailVerenigingResponseTemplate WithHoofdactiviteit(string code, string beschrijving)
     {
-        _vereniging.hoofdactiviteiten.Add(new
-        {
-            jsonldid = JsonLdType.Hoofdactiviteit.CreateWithIdValues(code),
-            jsonldtype = JsonLdType.Hoofdactiviteit.Type,
-            code = code,
-            naam = beschrijving,
-        });
+        _vereniging.hoofdactiviteiten.Add(
+            new
+            {
+                jsonldid = JsonLdType.Hoofdactiviteit.CreateWithIdValues(code),
+                jsonldtype = JsonLdType.Hoofdactiviteit.Type,
+                code = code,
+                naam = beschrijving,
+            }
+        );
 
         return this;
     }
 
     public DetailVerenigingResponseTemplate WithKboNummer(string kboNummer, string vCode)
     {
-        _vereniging.sleutels.Add(new
-        {
-            jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
-            jsonldtype = JsonLdType.Sleutel.Type,
-            bron = Sleutelbron.KBO.Waarde,
-            waarde = kboNummer,
-            codeersysteem = CodeerSysteem.KBO.Waarde,
-            identificator = new
+        _vereniging.sleutels.Add(
+            new
             {
-                jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
-                jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
-                nummer = kboNummer,
-            },
-        });
+                jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
+                jsonldtype = JsonLdType.Sleutel.Type,
+                bron = Sleutelbron.KBO.Waarde,
+                waarde = kboNummer,
+                codeersysteem = CodeerSysteem.KBO.Waarde,
+                identificator = new
+                {
+                    jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
+                    jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
+                    nummer = kboNummer,
+                },
+            }
+        );
 
         return this;
     }
 
-    public DetailVerenigingResponseTemplate WithDoelgroep(string vCode, int minimumleeftijd = 0, int maximumleeftijd = 150)
+    public DetailVerenigingResponseTemplate WithDoelgroep(
+        string vCode,
+        int minimumleeftijd = 0,
+        int maximumleeftijd = 150
+    )
     {
         _vereniging.doelgroep = new
         {
@@ -199,30 +203,33 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
         string land,
         bool isPrimair,
         Bron bron,
-        string vCode)
+        string vCode
+    )
     {
-        _vereniging.locaties.Add(new
-        {
-            jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
-            jsonldtype = JsonLdType.Locatie.Type,
-            id = locatieId,
-            type = type,
-            naam = naam,
-            adresvoorstelling = adresVoorstelling,
-            adres = new
+        _vereniging.locaties.Add(
+            new
             {
-                jsonldid = JsonLdType.Adres.CreateWithIdValues(vCode, locatieId.ToString()),
-                jsonldtype = JsonLdType.Adres.Type,
-                straatnaam = straatnaam,
-                huisnummer = huisnummer,
-                busnummer = busnummer,
-                postcode = postcode,
-                gemeente = gemeente,
-                land = land,
-            },
-            isprimair = isPrimair,
-            bron = bron.Waarde,
-        });
+                jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
+                jsonldtype = JsonLdType.Locatie.Type,
+                id = locatieId,
+                type = type,
+                naam = naam,
+                adresvoorstelling = adresVoorstelling,
+                adres = new
+                {
+                    jsonldid = JsonLdType.Adres.CreateWithIdValues(vCode, locatieId.ToString()),
+                    jsonldtype = JsonLdType.Adres.Type,
+                    straatnaam = straatnaam,
+                    huisnummer = huisnummer,
+                    busnummer = busnummer,
+                    postcode = postcode,
+                    gemeente = gemeente,
+                    land = land,
+                },
+                isprimair = isPrimair,
+                bron = bron.Waarde,
+            }
+        );
 
         return this;
     }
@@ -235,28 +242,28 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
         string bronwaarde,
         bool isPrimair,
         Bron bron,
-        string vCode)
+        string vCode
+    )
     {
-        _vereniging.locaties.Add(new
-        {
-            jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
-            jsonldtype = JsonLdType.Locatie.Type, id = locatieId,
-            type = type,
-            naam = naam,
-            adresvoorstelling = string.Empty,
-            adresid = new
+        _vereniging.locaties.Add(
+            new
             {
-                broncode = broncode,
-                bronwaarde = bronwaarde,
-            },
-            verwijstnaar = new
-            {
-                jsonldid = JsonLdType.AdresVerwijzing.CreateWithIdValues(bronwaarde.Split('/').Last()),
-                jsonldtype = JsonLdType.AdresVerwijzing.Type,
-            },
-            isprimair = isPrimair,
-            bron = bron.Waarde,
-        });
+                jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
+                jsonldtype = JsonLdType.Locatie.Type,
+                id = locatieId,
+                type = type,
+                naam = naam,
+                adresvoorstelling = string.Empty,
+                adresid = new { broncode = broncode, bronwaarde = bronwaarde },
+                verwijstnaar = new
+                {
+                    jsonldid = JsonLdType.AdresVerwijzing.CreateWithIdValues(bronwaarde.Split('/').Last()),
+                    jsonldtype = JsonLdType.AdresVerwijzing.Type,
+                },
+                isprimair = isPrimair,
+                bron = bron.Waarde,
+            }
+        );
 
         return this;
     }
@@ -276,39 +283,39 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
         string bronwaarde,
         bool isPrimair,
         Bron bron,
-        string vCode)
+        string vCode
+    )
     {
-        _vereniging.locaties.Add(new
-        {
-            jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
-            jsonldtype = JsonLdType.Locatie.Type, id = locatieId,
-            type = type,
-            naam = naam,
-            adresvoorstelling = adresVoorstelling,
-            adres = new
+        _vereniging.locaties.Add(
+            new
             {
-                jsonldid = JsonLdType.Adres.CreateWithIdValues(vCode, locatieId.ToString()),
-                jsonldtype = JsonLdType.Adres.Type,
-                straatnaam = straatnaam,
-                huisnummer = huisnummer,
-                busnummer = busnummer,
-                postcode = postcode,
-                gemeente = gemeente,
-                land = land,
-            },
-            adresid = new
-            {
-                broncode = broncode,
-                bronwaarde = bronwaarde,
-            },
-            verwijstnaar = new
-            {
-                jsonldid = JsonLdType.AdresVerwijzing.CreateWithIdValues(bronwaarde.Split('/').Last()),
-                jsonldtype = JsonLdType.AdresVerwijzing.Type,
-            },
-            isprimair = isPrimair,
-            bron = bron.Waarde,
-        });
+                jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
+                jsonldtype = JsonLdType.Locatie.Type,
+                id = locatieId,
+                type = type,
+                naam = naam,
+                adresvoorstelling = adresVoorstelling,
+                adres = new
+                {
+                    jsonldid = JsonLdType.Adres.CreateWithIdValues(vCode, locatieId.ToString()),
+                    jsonldtype = JsonLdType.Adres.Type,
+                    straatnaam = straatnaam,
+                    huisnummer = huisnummer,
+                    busnummer = busnummer,
+                    postcode = postcode,
+                    gemeente = gemeente,
+                    land = land,
+                },
+                adresid = new { broncode = broncode, bronwaarde = bronwaarde },
+                verwijstnaar = new
+                {
+                    jsonldid = JsonLdType.AdresVerwijzing.CreateWithIdValues(bronwaarde.Split('/').Last()),
+                    jsonldtype = JsonLdType.AdresVerwijzing.Type,
+                },
+                isprimair = isPrimair,
+                bron = bron.Waarde,
+            }
+        );
 
         return this;
     }
@@ -316,14 +323,14 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
     public DetailVerenigingResponseTemplate FromEvent(FeitelijkeVerenigingWerdGeregistreerd e)
     {
         WithVCode(e.VCode)
-           .WithJsonLdType(JsonLdType.FeitelijkeVereniging)
-           .WithType(Verenigingstype.FeitelijkeVereniging)
-           .WithNaam(e.Naam)
-           .WithKorteNaam(e.KorteNaam)
-           .WithKorteBeschrijving(e.KorteBeschrijving)
-           .WithStartdatum(e.Startdatum)
-           .WithDoelgroep(e.VCode, e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd)
-           .WithBron(e.Bron);
+            .WithJsonLdType(JsonLdType.FeitelijkeVereniging)
+            .WithType(Verenigingstype.FeitelijkeVereniging)
+            .WithNaam(e.Naam)
+            .WithKorteNaam(e.KorteNaam)
+            .WithKorteBeschrijving(e.KorteBeschrijving)
+            .WithStartdatum(e.Startdatum)
+            .WithDoelgroep(e.VCode, e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd)
+            .WithBron(e.Bron);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
         {
@@ -332,7 +339,15 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
 
         foreach (var c in e.Contactgegevens)
         {
-            WithContactgegeven(c.ContactgegevenId, Bron.Initiator, c.Contactgegeventype, c.Waarde, e.VCode, c.Beschrijving, c.IsPrimair);
+            WithContactgegeven(
+                c.ContactgegevenId,
+                Bron.Initiator,
+                c.Contactgegeventype,
+                c.Waarde,
+                e.VCode,
+                c.Beschrijving,
+                c.IsPrimair
+            );
         }
 
         foreach (var l in e.Locaties)
@@ -342,8 +357,21 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
 
         foreach (var v in e.Vertegenwoordigers)
         {
-            WithVertegenwoordiger(v.VertegenwoordigerId, v.Voornaam, v.Achternaam, v.Roepnaam, v.Rol, v.Insz, v.Email, v.Telefoon, v.Mobiel,
-                                  v.SocialMedia, v.IsPrimair, e.Bron, e.VCode);
+            WithVertegenwoordiger(
+                v.VertegenwoordigerId,
+                v.Voornaam,
+                v.Achternaam,
+                v.Roepnaam,
+                v.Rol,
+                v.Insz,
+                v.Email,
+                v.Telefoon,
+                v.Mobiel,
+                v.SocialMedia,
+                v.IsPrimair,
+                e.Bron,
+                e.VCode
+            );
         }
 
         return this;
@@ -362,35 +390,38 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
         string socialMedia,
         bool isPrimair,
         Bron bron,
-        string vCode)
+        string vCode
+    )
     {
-        _vereniging.vertegenwoordigers.Add(new
-        {
-            jsonldid = JsonLdType.Vertegenwoordiger.CreateWithIdValues(vCode, id.ToString()),
-            jsonldtype = JsonLdType.Vertegenwoordiger.Type,
-            id = id,
-            voornaam = voornaam,
-            achternaam = achternaam,
-            roepnaam = roepnaam,
-            rol = rol,
-            insz = insz,
-            email = email,
-            telefoon = telefoon,
-            mobiel = mobiel,
-            socialmedia = socialMedia,
-            isprimair = isPrimair,
-            vertegenwoordigercontactgegevens = new
+        _vereniging.vertegenwoordigers.Add(
+            new
             {
-                jsonldid = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(vCode, id.ToString()),
-                jsonldtype = JsonLdType.VertegenwoordigerContactgegeven.Type,
+                jsonldid = JsonLdType.Vertegenwoordiger.CreateWithIdValues(vCode, id.ToString()),
+                jsonldtype = JsonLdType.Vertegenwoordiger.Type,
+                id = id,
+                voornaam = voornaam,
+                achternaam = achternaam,
+                roepnaam = roepnaam,
+                rol = rol,
+                insz = insz,
                 email = email,
                 telefoon = telefoon,
                 mobiel = mobiel,
                 socialmedia = socialMedia,
                 isprimair = isPrimair,
-            },
-            bron = bron.Waarde,
-        });
+                vertegenwoordigercontactgegevens = new
+                {
+                    jsonldid = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(vCode, id.ToString()),
+                    jsonldtype = JsonLdType.VertegenwoordigerContactgegeven.Type,
+                    email = email,
+                    telefoon = telefoon,
+                    mobiel = mobiel,
+                    socialmedia = socialMedia,
+                    isprimair = isPrimair,
+                },
+                bron = bron.Waarde,
+            }
+        );
 
         return this;
     }
@@ -398,15 +429,15 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
     public DetailVerenigingResponseTemplate FromEvent(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd e)
     {
         var template = WithVCode(e.VCode)
-                      .WithJsonLdType(JsonLdType.VerenigingMetRechtspersoonlijkheid)
-                      .WithType(Verenigingstype.Parse(e.Rechtsvorm))
-                      .WithNaam(e.Naam)
-                      .WithRoepnaam(string.Empty)
-                      .WithKorteNaam(e.KorteNaam)
-                      .WithStartdatum(e.Startdatum)
-                      .WithKboNummer(e.KboNummer, e.VCode)
-                      .WithDoelgroep(e.VCode)
-                      .WithBron(e.Bron);
+            .WithJsonLdType(JsonLdType.VerenigingMetRechtspersoonlijkheid)
+            .WithType(Verenigingstype.Parse(e.Rechtsvorm))
+            .WithNaam(e.Naam)
+            .WithRoepnaam(string.Empty)
+            .WithKorteNaam(e.KorteNaam)
+            .WithStartdatum(e.Startdatum)
+            .WithKboNummer(e.KboNummer, e.VCode)
+            .WithDoelgroep(e.VCode)
+            .WithBron(e.Bron);
 
         return template;
     }
@@ -418,25 +449,57 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
         return this;
     }
 
-    protected override dynamic BuildModel()
-        => new
-        {
-            vereniging = _vereniging,
-            datumlaatsteaanpassing = _datumLaatsteAanpassing,
-        };
+    protected override dynamic BuildModel() =>
+        new { vereniging = _vereniging, datumlaatsteaanpassing = _datumLaatsteAanpassing };
 
     private DetailVerenigingResponseTemplate WithLocatie(Registratiedata.Locatie l, Bron bron, string vCode)
     {
         if (l.Adres is not null && l.AdresId is null)
-            return WithLocatie(l.LocatieId, l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres.Straatnaam, l.Adres.Huisnummer,
-                               l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.IsPrimair, bron, vCode);
+            return WithLocatie(
+                l.LocatieId,
+                l.Locatietype,
+                l.Naam,
+                l.Adres.ToAdresString(),
+                l.Adres.Straatnaam,
+                l.Adres.Huisnummer,
+                l.Adres.Busnummer,
+                l.Adres.Postcode,
+                l.Adres.Gemeente,
+                l.Adres.Land,
+                l.IsPrimair,
+                bron,
+                vCode
+            );
 
         if (l.Adres is null && l.AdresId is not null)
-            return WithLocatie(l.LocatieId, l.Locatietype, l.Naam, l.AdresId.Broncode, l.AdresId.Bronwaarde, l.IsPrimair, bron, vCode);
+            return WithLocatie(
+                l.LocatieId,
+                l.Locatietype,
+                l.Naam,
+                l.AdresId.Broncode,
+                l.AdresId.Bronwaarde,
+                l.IsPrimair,
+                bron,
+                vCode
+            );
 
-        return WithLocatie(l.LocatieId, l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres.Straatnaam, l.Adres.Huisnummer,
-                           l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.AdresId.Broncode,
-                           l.AdresId.Bronwaarde, l.IsPrimair, bron, vCode);
+        return WithLocatie(
+            l.LocatieId,
+            l.Locatietype,
+            l.Naam,
+            l.Adres.ToAdresString(),
+            l.Adres.Straatnaam,
+            l.Adres.Huisnummer,
+            l.Adres.Busnummer,
+            l.Adres.Postcode,
+            l.Adres.Gemeente,
+            l.Adres.Land,
+            l.AdresId.Broncode,
+            l.AdresId.Bronwaarde,
+            l.IsPrimair,
+            bron,
+            vCode
+        );
     }
 
     public DetailVerenigingResponseTemplate WithContactgegeven(
@@ -446,19 +509,22 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
         string waarde,
         string vCode,
         string beschrijving = "",
-        bool isPrimair = false)
+        bool isPrimair = false
+    )
     {
-        _vereniging.contactgegevens.Add(new
-        {
-            jsonldid = JsonLdType.Contactgegeven.CreateWithIdValues(vCode, id.ToString()),
-            jsonldtype = JsonLdType.Contactgegeven.Type,
-            id = id,
-            contactgegeventype = contactgegeventype,
-            waarde = waarde,
-            beschrijving = beschrijving,
-            isprimair = isPrimair,
-            bron = bron.Waarde,
-        });
+        _vereniging.contactgegevens.Add(
+            new
+            {
+                jsonldid = JsonLdType.Contactgegeven.CreateWithIdValues(vCode, id.ToString()),
+                jsonldtype = JsonLdType.Contactgegeven.Type,
+                id = id,
+                contactgegeventype = contactgegeventype,
+                waarde = waarde,
+                beschrijving = beschrijving,
+                isprimair = isPrimair,
+                bron = bron.Waarde,
+            }
+        );
 
         _vereniging.contactgegevens = ((List<dynamic>)_vereniging.contactgegevens).OrderBy(c => c.id).ToList();
 
@@ -467,13 +533,15 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
 
     public DetailVerenigingResponseTemplate WithWerkingsgebied(string code, string naam)
     {
-        _vereniging.werkingsgebieden.Add(new
-        {
-            jsonldid = JsonLdType.Werkingsgebied.CreateWithIdValues(code),
-            jsonldtype = JsonLdType.Werkingsgebied.Type,
-            code = code,
-            naam = naam,
-        });
+        _vereniging.werkingsgebieden.Add(
+            new
+            {
+                jsonldid = JsonLdType.Werkingsgebied.CreateWithIdValues(code),
+                jsonldtype = JsonLdType.Werkingsgebied.Type,
+                code = code,
+                naam = naam,
+            }
+        );
 
         return this;
     }

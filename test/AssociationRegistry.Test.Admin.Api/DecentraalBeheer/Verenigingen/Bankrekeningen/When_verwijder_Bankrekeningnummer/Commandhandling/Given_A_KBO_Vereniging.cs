@@ -17,14 +17,14 @@ public class Given_A_KBO_Vereniging
     private readonly VerwijderBankrekeningnummerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly AggregateSessionMock _verenigingRepositoryMock;
 
     public Given_A_KBO_Vereniging()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _commandHandler = new VerwijderBankrekeningnummerCommandHandler(_verenigingRepositoryMock);
     }
@@ -32,14 +32,13 @@ public class Given_A_KBO_Vereniging
     [Fact]
     public async ValueTask Then_Throws()
     {
-        var command = _fixture.Create<VerwijderBankrekeningnummerCommand>() with
-        {
-            VCode = _scenario.VCode,
-        };
+        var command = _fixture.Create<VerwijderBankrekeningnummerCommand>() with { VCode = _scenario.VCode };
 
-        var exception = await Assert.ThrowsAsync<ActieIsNietToegestaanVoorVerenigingstype>(
-            async () => await _commandHandler.Handle(
-                new CommandEnvelope<VerwijderBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())));
+        var exception = await Assert.ThrowsAsync<ActieIsNietToegestaanVoorVerenigingstype>(async () =>
+            await _commandHandler.Handle(
+                new CommandEnvelope<VerwijderBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())
+            )
+        );
 
         exception.Message.Should().Be(ExceptionMessages.UnsupportedOperationForVerenigingstype);
     }
