@@ -5,6 +5,6 @@ dotnet run --project src/AssociationRegistry.Admin.ProjectionHost -- codegen wri
 dotnet run --project src/AssociationRegistry.Admin.Api -- codegen write
 dotnet run --project src/AssociationRegistry.Public.ProjectionHost -- codegen write
 dotnet run --project src/AssociationRegistry.Acm.Api -- codegen write
-cd src/AssociationRegistry.Admin.AddressSync
+pushd src/AssociationRegistry.Admin.AddressSync
 dotnet run -- codegen write
-cd ../..
+popd
