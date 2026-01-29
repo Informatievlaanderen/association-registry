@@ -1,3 +1,11 @@
+# [8.297.0](https://github.com/informatievlaanderen/association-registry/compare/v8.296.0...v8.297.0) (2026-01-29)
+
+
+### Features
+
+* or-2996 introduce new interfaces ([890e950](https://github.com/informatievlaanderen/association-registry/commit/890e950ebe405499b329922d142bd10ea426df00))
+* or-2996 move queries from repo to queryService ([ab593f8](https://github.com/informatievlaanderen/association-registry/commit/ab593f8490cfe454bea02eb6b311d9f840300c49))
+
 # [8.296.0](https://github.com/informatievlaanderen/association-registry/compare/v8.295.2...v8.296.0) (2026-01-27)
 
 
