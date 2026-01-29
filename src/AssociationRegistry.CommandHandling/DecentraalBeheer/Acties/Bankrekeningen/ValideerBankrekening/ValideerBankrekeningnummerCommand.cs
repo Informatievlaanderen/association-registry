@@ -1,0 +1,5 @@
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening;
+
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+
+public record ValideerBankrekeningnummerCommand(VCode VCode, int BankrekeningnummerId);

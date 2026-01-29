@@ -3,6 +3,8 @@ namespace AssociationRegistry.Admin.Schema.Detail;
 using Marten.Metadata;
 using Marten.Schema;
 
+// TODO: deleted property not set when deleted
+// Add property IsDeleted, deleted gets ignored
 public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
 {
     public string[] CorresponderendeVCodes { get; set; } = Array.Empty<string>();

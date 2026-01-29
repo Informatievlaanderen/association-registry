@@ -1241,4 +1241,18 @@ public class BeheerVerenigingDetailProjector
                                                .OrderBy(b => b.BankrekeningnummerId)
                                                .ToArray();
     }
+
+    public static void Apply(IEvent<BankrekeningnummerWerdGevalideerd> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Bankrekeningnummers = document.Bankrekeningnummers.UpdateSingle(
+                                                    identityFunc: b
+                                                        => b.BankrekeningnummerId ==
+                                                           @event.Data.BankrekeningnummerId,
+                                                    update: b => b with
+                                                    {
+                                                        IsGevalideerd = true,
+                                                    })
+                                               .OrderBy(b => b.BankrekeningnummerId)
+                                               .ToArray();
+    }
 }

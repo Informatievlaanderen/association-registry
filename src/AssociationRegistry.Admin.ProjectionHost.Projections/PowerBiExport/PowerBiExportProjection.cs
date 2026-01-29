@@ -1274,4 +1274,12 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
         UpdateHistoriek(document, @event);
     }
+
+    public void Apply(IEvent<BankrekeningnummerWerdGevalideerd> @event, PowerBiExportDocument document)
+    {
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
 }

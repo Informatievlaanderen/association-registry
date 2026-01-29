@@ -16,6 +16,7 @@ using Magda.Persoon;
 using SocialMedias;
 using System.Diagnostics.Contracts;
 using Bankrekeningen;
+using Bankrekeningen.Exceptions;
 using TelefoonNummers;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
@@ -446,5 +447,22 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                      bankrekeningnummer.BankrekeningnummerId,
                      bankrekeningnummer.Doel,
                      bankrekeningnummer.Titularis.Value));
+    }
+
+    public void Valideer(int bankrekeningnummerId, string initiator)
+    {
+        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x => x.BankrekeningnummerId == bankrekeningnummerId);
+
+        Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
+
+        if (bankrekeningnummer!.Gevalideerd)
+            return;
+
+        AddEvent(new BankrekeningnummerWerdGevalideerd(
+                     bankrekeningnummer.BankrekeningnummerId,
+                     bankrekeningnummer.Iban.Value,
+                     bankrekeningnummer.Titularis.Value,
+                     initiator
+                     ));
     }
 }

@@ -13,6 +13,7 @@ using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegV
 using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.WijzigVertegenwoordiger.RequestModels;
 using Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Admin.Schema;
+using Admin.Schema.Detail;
 using Admin.Schema.Search;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
@@ -28,6 +29,7 @@ using Vereniging;
 using Adres = Admin.Api.WebApi.Verenigingen.Common.Adres;
 using Contactgegeven = DecentraalBeheer.Vereniging.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 using Werkingsgebied = DecentraalBeheer.Vereniging.Werkingsgebied;
 
 public static class AdminApiAutoFixtureCustomizations

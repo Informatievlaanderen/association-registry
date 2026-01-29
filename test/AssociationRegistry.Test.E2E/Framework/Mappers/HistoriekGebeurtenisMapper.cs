@@ -449,7 +449,7 @@ public static class HistoriekGebeurtenisMapper
                         Score = 86.987355612507,
                     },
                 }),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:04Z",
         };
     }
@@ -469,7 +469,7 @@ public static class HistoriekGebeurtenisMapper
                 postcode = "4567",
                 gemeente = "Nothingham",
             },
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -506,7 +506,7 @@ public static class HistoriekGebeurtenisMapper
                 Identificatie = request.Identificatie,
                 Beschrijving = request.Beschrijving
             },
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -524,7 +524,7 @@ public static class HistoriekGebeurtenisMapper
                 Identificatie = request.Identificatie,
                 Beschrijving = request.Beschrijving
             },
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -542,7 +542,7 @@ public static class HistoriekGebeurtenisMapper
                 Identificatie = lidmaatschap.Lidmaatschap.Identificatie,
                 Beschrijving = lidmaatschap.Lidmaatschap.Beschrijving
             },
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -556,7 +556,7 @@ public static class HistoriekGebeurtenisMapper
                 VCode = vCode,
                 VCodeAuthentiekeVereniging = request.IsDubbelVan,
             },
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -570,7 +570,7 @@ public static class HistoriekGebeurtenisMapper
                 VCode = request.IsDubbelVan,
                 VCodeDubbeleVereniging = vCode,
             },
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -585,7 +585,7 @@ public static class HistoriekGebeurtenisMapper
                 VCode = verenigingWerdGemarkeerdAlsDubbelVan.VCode,
                 VCodeAuthentiekeVereniging = verenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging,
             },
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -599,7 +599,7 @@ public static class HistoriekGebeurtenisMapper
                 VCode = scenarioVerenigingAanvaarddeDubbeleVereniging.VCode,
                 VCodeDubbeleVereniging = scenarioVerenigingAanvaarddeDubbeleVereniging.VCodeDubbeleVereniging,
             },
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -612,7 +612,7 @@ public static class HistoriekGebeurtenisMapper
             {
                 VCode = vCode,
             },
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -625,7 +625,7 @@ public static class HistoriekGebeurtenisMapper
             {
                 VCode = vCode,
             },
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -635,7 +635,7 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"Subtype werd verfijnd naar subvereniging.",
             Gebeurtenis = nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging),
             Data = @event,
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -645,7 +645,7 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"De relatie van het subtype werd gewijzigd.",
             Gebeurtenis = nameof(SubverenigingRelatieWerdGewijzigd),
             Data = @event,
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -655,7 +655,7 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"De details van het subtype werden gewijzigd.",
             Gebeurtenis = nameof(SubverenigingDetailsWerdenGewijzigd),
             Data = @event,
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -665,7 +665,7 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"{request.Contactgegeven.Contactgegeventype} '{request.Contactgegeven.Waarde}' werd toegevoegd.",
             Gebeurtenis = nameof(Events.ContactgegevenWerdToegevoegd),
             Data = new ContactgegevenWerdToegevoegd(nextContactgegevenId, request.Contactgegeven.Contactgegeventype, request.Contactgegeven.Waarde, request.Contactgegeven.Beschrijving, request.Contactgegeven.IsPrimair),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -684,7 +684,7 @@ public static class HistoriekGebeurtenisMapper
                                              request.Vertegenwoordiger.Telefoon,
                                              request.Vertegenwoordiger.Mobiel,
                                              request.Vertegenwoordiger.SocialMedia),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -696,7 +696,7 @@ public static class HistoriekGebeurtenisMapper
             Data = new VerenigingWerdVerwijderdData(
                reden
             ),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -715,7 +715,7 @@ public static class HistoriekGebeurtenisMapper
                                              request.Vertegenwoordiger.Telefoon,
                                              request.Vertegenwoordiger.Mobiel,
                                              request.Vertegenwoordiger.SocialMedia),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
     public static HistoriekGebeurtenisResponse VertegenwoordigerWerdVerwijderd(VertegenwoordigerWerdToegevoegd vertegenwoordigerWerdToegevoegd)
@@ -726,7 +726,7 @@ public static class HistoriekGebeurtenisMapper
             Data = new VertegenwoordigerWerdVerwijderdData(vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                                                            vertegenwoordigerWerdToegevoegd.Voornaam,
                                                            vertegenwoordigerWerdToegevoegd.Achternaam),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -745,7 +745,7 @@ public static class HistoriekGebeurtenisMapper
                                              request.Vertegenwoordiger.Telefoon,
                                              request.Vertegenwoordiger.Mobiel,
                                              request.Vertegenwoordiger.SocialMedia),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -757,7 +757,7 @@ public static class HistoriekGebeurtenisMapper
             Data = new KBOVertegenwoordigerData(vertegenwoordigerWerdOvergenomenUitKbo.VertegenwoordigerId,
                                                 vertegenwoordigerWerdOvergenomenUitKbo.Voornaam,
                                                 vertegenwoordigerWerdOvergenomenUitKbo.Achternaam),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -769,7 +769,7 @@ public static class HistoriekGebeurtenisMapper
             Data = new KBOVertegenwoordigerData(vertegenwoordigerWerdToegevoegdVanuitKBO.VertegenwoordigerId,
                                                 vertegenwoordigerWerdToegevoegdVanuitKBO.Voornaam,
                                                 vertegenwoordigerWerdToegevoegdVanuitKBO.Achternaam),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -781,7 +781,7 @@ public static class HistoriekGebeurtenisMapper
             Data = new KBOVertegenwoordigerData(vertegenwoordigerWerdGewijzigdInKBO.VertegenwoordigerId,
                                                 vertegenwoordigerWerdGewijzigdInKBO.Voornaam,
                                                 vertegenwoordigerWerdGewijzigdInKBO.Achternaam),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -793,7 +793,7 @@ public static class HistoriekGebeurtenisMapper
             Data = new KBOVertegenwoordigerData(vertegenwoordigerWerdVerwijderdUitKbo.VertegenwoordigerId,
                                                 vertegenwoordigerWerdVerwijderdUitKbo.Voornaam,
                                                 vertegenwoordigerWerdVerwijderdUitKbo.Achternaam),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -805,7 +805,7 @@ public static class HistoriekGebeurtenisMapper
             Data = new VertegenwoordigerWerdVerwijderdData(@event.VertegenwoordigerId,
                                                            @event.Voornaam,
                                                            @event.Achternaam),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -817,7 +817,7 @@ public static class HistoriekGebeurtenisMapper
             Data = new VertegenwoordigerWerdVerwijderdData(@event.VertegenwoordigerId,
                                                            @event.Voornaam,
                                                            @event.Achternaam),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -827,7 +827,7 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"Bankrekeningnummer met IBAN '{@request.Bankrekeningnummer.Iban}' werd toegevoegd.",
             Gebeurtenis = nameof(Events.BankrekeningnummerWerdToegevoegd),
             Data = new BankrekeningnummerWerdToegevoegd(nextId, request.Bankrekeningnummer.Iban, request.Bankrekeningnummer.Doel, request.Bankrekeningnummer.Titularis),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -837,7 +837,7 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"Bankrekeningnummer werd gewijzigd.",
             Gebeurtenis = nameof(BankrekeningnummerWerdGewijzigd),
             Data = new BankrekeningnummerWerdGewijzigd(id, request.Bankrekeningnummer.Doel, request.Bankrekeningnummer.Titularis),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -847,7 +847,7 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"Bankrekeningnummer met IBAN '{@event.Iban}' werd toegevoegd vanuit KBO.",
             Gebeurtenis = nameof(Events.BankrekeningnummerWerdToegevoegdVanuitKBO),
             Data = new BankrekeningnummerWerdToegevoegdVanuitKBO(@event.BankrekeningnummerId, @event.Iban),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -857,7 +857,7 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"Bankrekeningnummer met IBAN '{@event.Iban}' werd verwijderd uit KBO.",
             Gebeurtenis = nameof(Events.BankrekeningnummerWerdVerwijderdUitKBO),
             Data = new BankrekeningnummerWerdVerwijderdUitKBO(@event.BankrekeningnummerId, @event.Iban),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
@@ -867,7 +867,17 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"Bankrekeningnummer met IBAN '{@event.Iban}' werd verwijderd.",
             Gebeurtenis = nameof(Events.BankrekeningnummerWerdVerwijderd),
             Data = new BankrekeningnummerWerdVerwijderd(@event.BankrekeningnummerId, @event.Iban),
-            Initiator = "OVO002949",
+            Initiator = "OVO000001",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? BankrekeningnummerWerdGevalideerd(BankrekeningnummerWerdToegevoegd @event)
+        => new()
+        {
+            Beschrijving = $"Bankrekeningnummer met IBAN '{@event.Iban}' werd gevalideerd.",
+            Gebeurtenis = nameof(Events.BankrekeningnummerWerdGevalideerd),
+            Data = new BankrekeningnummerWerdGevalideerd(@event.BankrekeningnummerId, @event.Iban, @event.Titularis, "OVO000001"),
+            Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 }

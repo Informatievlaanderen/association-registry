@@ -207,6 +207,7 @@ public class BeheerVerenigingDetailMapper
             Iban = bankrekeningnummer.Iban,
             Doel = bankrekeningnummer.Doel,
             Titularis = bankrekeningnummer.Titularis,
+            IsGevalideerd = bankrekeningnummer.IsGevalideerd,
         };
 
     private static Vertegenwoordiger Map(Schema.Detail.Vertegenwoordiger ver)
