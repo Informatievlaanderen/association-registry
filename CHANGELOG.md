@@ -1,3 +1,10 @@
+# [8.298.0](https://github.com/informatievlaanderen/association-registry/compare/v8.297.0...v8.298.0) (2026-01-29)
+
+
+### Features
+
+* or-2995 valideer bankrekeningnummers ([bcfce76](https://github.com/informatievlaanderen/association-registry/commit/bcfce76341d07fa0d8f2f9432c510764874e45e7))
+
 # [8.297.0](https://github.com/informatievlaanderen/association-registry/compare/v8.296.0...v8.297.0) (2026-01-29)
 
 
