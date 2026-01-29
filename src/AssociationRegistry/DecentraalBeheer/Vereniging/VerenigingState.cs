@@ -908,6 +908,18 @@ public record VerenigingState : IHasVersion
         };
     }
 
+    public VerenigingState Apply(BankrekeningnummerWerdGevalideerd @event)
+    {
+        var bankrekeningnummer = Bankrekeningnummers.Single(c => c.BankrekeningnummerId == @event.BankrekeningnummerId);
+
+        return this with
+        {
+            Bankrekeningnummers = Bankrekeningnummers.Hydrate(
+                Bankrekeningnummers.Without(@event.BankrekeningnummerId).Append(
+                    Bankrekeningnummer.Hydrate(@event.BankrekeningnummerId, bankrekeningnummer.Iban.Value, bankrekeningnummer.Doel, bankrekeningnummer.Titularis.Value, true))),
+        };
+    }
+
     public VerenigingState Apply(KszSyncHeeftVertegenwoordigerBevestigd @event)
     {
         var vertegenwoordiger = Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == @event.VertegenwoordigerId);

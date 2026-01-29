@@ -56,9 +56,10 @@ public class BeheerVerenigingDetailQueryTests : IClassFixture<BeheerVerenigingDe
     [Fact]
     public async ValueTask Returns_Detail_When_VCode_Matches()
     {
-        var fixture = new Fixture().CustomizeDomain();
+        var fixture = new Fixture().CustomizeDomain().CustomizeAdminApi();
 
         var verenigingen = fixture.CreateMany<BeheerVerenigingDetailDocument>()
+                                  .Select(x => x with { Deleted = false })
                                   .ToList();
 
         _session.StoreObjects(verenigingen);

@@ -6,14 +6,14 @@ using Contracts.JsonLdContext;
 using Scenario.Bankrekeningnummers.Kbo;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_BankrekeningnummerWerdToegevoegdVanuitKbo(
-    BeheerDetailScenarioFixture<BankrekeningnummerWerdToegevoegdVanuitKBOScenario> fixture)
-    : BeheerDetailScenarioClassFixture<BankrekeningnummerWerdToegevoegdVanuitKBOScenario>
+public class Given_BankrekeningnummerWerdGevalideerd(
+    BeheerDetailScenarioFixture<BankrekeningnummerWerdGevalideerdKBOScenario> fixture)
+    : BeheerDetailScenarioClassFixture<BankrekeningnummerWerdGevalideerdKBOScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()
         => fixture.Result
-                  .Metadata.Version.Should().Be(2);
+                  .Metadata.Version.Should().Be(3);
 
     [Fact]
     public void Bankrekeningnummer_Is_Toegevoegd()
@@ -29,7 +29,7 @@ public class Given_BankrekeningnummerWerdToegevoegdVanuitKbo(
                 Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Iban,
                 Doel = string.Empty,
                 Titularis = string.Empty,
-                IsGevalideerd = false,
+                IsGevalideerd = true,
             },
         ]);
     }

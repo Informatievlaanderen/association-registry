@@ -150,7 +150,7 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bankrekeningnummer met bankrekeningnummerId &apos;{0}&apos; is niet gekend.
+        ///   Looks up a localized string similar to Bankrekeningnummer met bankrekeningnummerId &apos;{0}&apos; is niet gekend..
         /// </summary>
         public static string BankrekeningnummerIsNietGekend {
             get {
@@ -634,6 +634,15 @@ namespace AssociationRegistry.Resources {
         public static string OverledenVertegenwoordigerKanNietToegevoegdWorden {
             get {
                 return ResourceManager.GetString("OverledenVertegenwoordigerKanNietToegevoegdWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OvoCode &apos;{0}&apos; is niet gemachtigd om deze actie uit te voeren..
+        /// </summary>
+        public static string OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren {
+            get {
+                return ResourceManager.GetString("OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren", resourceCulture);
             }
         }
         

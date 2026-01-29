@@ -6,9 +6,9 @@ using AssociationRegistry.Contracts.JsonLdContext;
 using AssociationRegistry.Test.Projections.Scenario.Bankrekeningnummers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_BankrekeningnummerWerdGewijzigd(
-    BeheerDetailScenarioFixture<BankrekeningnummerWerdGewijzigdScenario> fixture)
-    : BeheerDetailScenarioClassFixture<BankrekeningnummerWerdGewijzigdScenario>
+public class Given_BankrekeningnummerWerdGevalideerd(
+    BeheerDetailScenarioFixture<BankrekeningnummerWerdGevalideerdScenario> fixture)
+    : BeheerDetailScenarioClassFixture<BankrekeningnummerWerdGevalideerdScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()
@@ -26,9 +26,9 @@ public class Given_BankrekeningnummerWerdGewijzigd(
                     fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId.ToString()),
                 BankrekeningnummerId = fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
                 Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
-                Doel = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Doel,
-                Titularis = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Titularis,
-                IsGevalideerd = false,
+                Doel = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
+                Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
+                IsGevalideerd = true,
             },
         ]);
     }

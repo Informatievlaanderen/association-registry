@@ -11,6 +11,7 @@ public record Bankrekeningnummer
     public IbanNummer Iban { get; set; }
     public string Doel {get; set;}
     public Titularis Titularis { get; set; }
+    public bool Gevalideerd { get; set; }
 
     public static Bankrekeningnummer Create(int nextId, ToeTevoegenBankrekeningnummer bankrekeningnummer)
         => new()
@@ -21,13 +22,14 @@ public record Bankrekeningnummer
             Titularis = bankrekeningnummer.Titularis,
         };
 
-    public static Bankrekeningnummer Hydrate(int id, string iban, string doel, string titularis)
+    public static Bankrekeningnummer Hydrate(int id, string iban, string doel, string titularis, bool gevalideerd = false)
         => new()
         {
             BankrekeningnummerId = id,
             Iban = IbanNummer.Hydrate(iban),
             Doel = doel,
             Titularis = Titularis.Hydrate(titularis),
+            Gevalideerd = gevalideerd,
         };
 
     public static Bankrekeningnummer CreateFromKbo(BankrekeningnummerVolgensKbo bankrekeningnummer, int id)

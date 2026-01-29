@@ -278,6 +278,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<BankrekeningnummerWerdGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<BankrekeningnummerWerdGevalideerd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
     public async Task Project(IEvent<BankrekeningnummerWerdToegevoegdVanuitKBO> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 

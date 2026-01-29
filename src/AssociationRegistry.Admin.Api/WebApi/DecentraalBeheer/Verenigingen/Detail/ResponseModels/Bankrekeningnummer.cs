@@ -36,4 +36,10 @@ public class Bankrekeningnummer
     /// </summary>
     [DataMember(Name = "Titularis")]
     public string Titularis { get; set; } = null!;
+
+    /// <summary>
+    /// Of het bankrekeningnummer gevalideerd is
+    /// </summary>
+    [DataMember(Name = "IsGevalideerd")]
+    public bool IsGevalideerd { get; set; }
 }

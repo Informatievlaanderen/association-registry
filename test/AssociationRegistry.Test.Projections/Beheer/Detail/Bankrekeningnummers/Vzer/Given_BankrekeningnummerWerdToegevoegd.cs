@@ -28,6 +28,7 @@ public class Given_BankrekeningnummerWerdToegevoegd(
                 Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                 Doel = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
                 Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
+                IsGevalideerd = false,
             },
         ]);
     }

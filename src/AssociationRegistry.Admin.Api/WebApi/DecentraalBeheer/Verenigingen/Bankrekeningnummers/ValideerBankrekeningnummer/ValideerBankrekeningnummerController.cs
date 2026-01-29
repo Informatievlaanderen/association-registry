@@ -1,23 +1,18 @@
-﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.WijzigBankrekeningnummer;
+﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.ValideerBankrekeningnummer;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VoegBankrekeningToe;
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.WijzigBankrekening;
-using Examples;
-using FluentValidation;
+using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening;
+using DecentraalBeheer.Vereniging;
+using Framework;
+using Hosts.Configuration.ConfigurationBindings;
+using Infrastructure;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.WebApi;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
 using Microsoft.AspNetCore.Mvc;
-using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -30,21 +25,18 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class VoegBankrekeningnummerToeController : ApiController
 {
     private readonly IMessageBus _messageBus;
-    private readonly IValidator<WijzigBankrekeningnummerRequest> _validator;
     private readonly AppSettings _appSettings;
 
     public VoegBankrekeningnummerToeController(
         IMessageBus messageBus,
-        IValidator<WijzigBankrekeningnummerRequest> validator,
         AppSettings appSettings)
     {
         _messageBus = messageBus;
-        _validator = validator;
         _appSettings = appSettings;
     }
 
     /// <summary>
-    ///     Wijzig een Bankrekeningnummer.
+    ///     Valideer een Bankrekeningnummer.
     /// </summary>
     /// <remarks>
     ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
@@ -52,20 +44,19 @@ public class VoegBankrekeningnummerToeController : ApiController
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="vCode">De vCode van de vereniging</param>
+    /// <param name="request">De gegevens van het te valideren bankrekeningnummer</param>
     /// <param name="bankrekeningnummerId">De unieke identificatie code van dit bankrekeningnummer binnen de vereniging</param>
-    /// <param name="request">De gegevens van het te wijzigen bankrekeningnummer</param>
     /// <param name="metadataProvider"></param>
     /// <param name="appSettings"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
-    /// <response code="200">Er waren geen wijzigingen.</response>
-    /// <response code="202">Het bankrekeningnummer werd gewijzigd.</response>
+    /// <response code="200">Er waren geen validaties.</response>
+    /// <response code="202">Het bankrekeningnummer werd gevalideerd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPatch("{vCode}/bankrekeningnummers/{bankrekeningnummerId}")]
+    [HttpPost("{vCode}/bankrekeningnummers/{bankrekeningnummerId}/validaties")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerRequestExample(typeof(WijzigBankrekeningnummerRequest), typeof(WijzigBankrekeningnummerRequestExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted,
                            WellknownHeaderNames.Sequence,
                            type: "string",
@@ -85,14 +76,13 @@ public class VoegBankrekeningnummerToeController : ApiController
     public async Task<IActionResult> Post(
         [FromRoute] string vCode,
         [FromRoute] int bankrekeningnummerId,
-        [FromBody] WijzigBankrekeningnummerRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
-        await _validator.NullValidateAndThrowAsync(request);
-
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<WijzigBankrekeningnummerCommand>(request.ToCommand(vCode, bankrekeningnummerId), metaData);
+        var envelope = new CommandEnvelope<ValideerBankrekeningnummerCommand>(
+            new ValideerBankrekeningnummerCommand(VCode.Create(vCode), bankrekeningnummerId), metaData);
+
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
         Response.AddSequenceHeader(commandResult.Sequence);
