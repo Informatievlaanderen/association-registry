@@ -1,3 +1,10 @@
+## [8.298.1](https://github.com/informatievlaanderen/association-registry/compare/v8.298.0...v8.298.1) (2026-01-29)
+
+
+### Bug Fixes
+
+* or-2994 fix validation for wijzig bankrekeningnummers ([51d9851](https://github.com/informatievlaanderen/association-registry/commit/51d98513133956d3dde483fa7d5909835114c242))
+
 # [8.298.0](https://github.com/informatievlaanderen/association-registry/compare/v8.297.0...v8.298.0) (2026-01-29)
 
 
