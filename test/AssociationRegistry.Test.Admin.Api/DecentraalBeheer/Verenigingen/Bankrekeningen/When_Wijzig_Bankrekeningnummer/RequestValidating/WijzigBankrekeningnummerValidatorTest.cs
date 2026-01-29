@@ -64,12 +64,12 @@ public class WijzigBankrekeningnummerValidatorTest : ValidatorTest
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer)
-              .WithErrorMessage("Doel of Titularis moet ingevuld zijn.");
+        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Titularis)
+              .WithErrorMessage("Titularis mag niet leeg zijn.");
     }
 
     [Fact]
-    public void With_Doel_Empty_Then_Has_ValidationError()
+    public void With_Doel_Empty_Then_Has_No_ValidationError()
     {
         var validator = new WijzigBankrekeningnummerValidator();
 
@@ -83,12 +83,11 @@ public class WijzigBankrekeningnummerValidatorTest : ValidatorTest
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer)
-              .WithErrorMessage("Doel of Titularis moet ingevuld zijn.");
+        result.ShouldNotHaveAnyValidationErrors();
     }
 
     [Fact]
-    public void With_Titularis_Null_Then_No_ValidationError()
+    public void With_Titularis_Null_And_Doel_Not_Null_Then_No_ValidationError()
     {
         var validator = new WijzigBankrekeningnummerValidator();
 
@@ -103,7 +102,7 @@ public class WijzigBankrekeningnummerValidatorTest : ValidatorTest
 
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor(toeRequest => toeRequest.Bankrekeningnummer.Titularis);
+        result.ShouldNotHaveAnyValidationErrors();
     }
 
     [Fact]

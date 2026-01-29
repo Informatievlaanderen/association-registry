@@ -28,29 +28,30 @@ public class WijzigBankrekeningnummerValidator : AbstractValidator<WijzigBankrek
         {
             RuleFor(x => x)
                .Must(HaveDoelOrTitularis)
-               .WithMessage(
-                    $"{nameof(TeWijzigenBankrekeningnummer.Doel)} of {nameof(TeWijzigenBankrekeningnummer.Titularis)} moet ingevuld zijn.");
+               .WithMessage($"{nameof(TeWijzigenBankrekeningnummer.Doel)} of {nameof(TeWijzigenBankrekeningnummer.Titularis)} moet ingevuld zijn.");
 
-            When(x => !string.IsNullOrWhiteSpace(x.Titularis), () =>
+            When(x => x.Titularis is not null, () =>
             {
                 RuleFor(x => x.Titularis)
-                   .MustNotBeMoreThanAllowedMaxLength(Bankrekeningnummer.MaxLengthTitularis,
-                                                      $"Titularis mag niet langer dan {Bankrekeningnummer.MaxLengthTitularis} karakters zijn.")
+                   .Must(t => !string.IsNullOrWhiteSpace(t))
+                   .WithMessage($"{nameof(TeWijzigenBankrekeningnummer.Titularis)} mag niet leeg zijn.")
+                   .MustNotBeMoreThanAllowedMaxLength(
+                        Bankrekeningnummer.MaxLengthTitularis,
+                        $"Titularis mag niet langer dan {Bankrekeningnummer.MaxLengthTitularis} karakters zijn.")
                    .MustNotContainHtml();
             });
 
-            When(x => !string.IsNullOrWhiteSpace(x.Doel), () =>
+            When(x => x.Doel is not null, () =>
             {
                 RuleFor(x => x.Doel)
-                   .MustNotBeMoreThanAllowedMaxLength(Bankrekeningnummer.MaxLengthDoel,
-                                                      $"Doel mag niet langer dan {Bankrekeningnummer.MaxLengthDoel} karakters zijn.")
+                   .MustNotBeMoreThanAllowedMaxLength(
+                        Bankrekeningnummer.MaxLengthDoel,
+                        $"Doel mag niet langer dan {Bankrekeningnummer.MaxLengthDoel} karakters zijn.")
                    .MustNotContainHtml();
             });
-
-
         }
 
-        private bool HaveDoelOrTitularis(TeWijzigenBankrekeningnummer teWijzigenBankrekeningnummer)
-            => teWijzigenBankrekeningnummer.Doel is not null && teWijzigenBankrekeningnummer.Titularis is not null;
+        private static bool HaveDoelOrTitularis(TeWijzigenBankrekeningnummer x)
+            => !(x.Doel is null && x.Titularis is null);
     }
 }
