@@ -1,3 +1,10 @@
+## [8.298.2](https://github.com/informatievlaanderen/association-registry/compare/v8.298.1...v8.298.2) (2026-01-30)
+
+
+### Bug Fixes
+
+* or-3003 fix query for filtering include kbo verenigingen acm api ([d115df3](https://github.com/informatievlaanderen/association-registry/commit/d115df33c52801d89bd916956909fb21aa2e3044))
+
 ## [8.298.1](https://github.com/informatievlaanderen/association-registry/compare/v8.298.0...v8.298.1) (2026-01-29)
 
 
