@@ -12,12 +12,28 @@ public class VerenigingenPerInszQuery : IVerenigingenPerInszQuery
         _session = session;
     }
 
-    public async Task<VerenigingenPerInszDocument> ExecuteAsync(VerenigingenPerInszFilter filter, CancellationToken cancellationToken)
+    public async Task<VerenigingenPerInszDocument> ExecuteAsync(
+        VerenigingenPerInszFilter filter,
+        CancellationToken cancellationToken)
     {
-        return await _session.Query<VerenigingenPerInszDocument>()
-                            .Where(x => x.Insz.Equals(filter.Insz, StringComparison.CurrentCultureIgnoreCase))
-                             .WithKboFilter(filter.IncludeKboVerenigingen)
-                             .SingleOrDefaultAsync(token: cancellationToken)
-            ?? new VerenigingenPerInszDocument { Insz = filter.Insz };
+        var verenigingenPerInszDocument = await _session.Query<VerenigingenPerInszDocument>()
+                                                        .Where(x => x.Insz.Equals(filter.Insz,
+                                                                   StringComparison.CurrentCultureIgnoreCase))
+                                                        .SingleOrDefaultAsync(token: cancellationToken)
+                                       ?? new VerenigingenPerInszDocument { Insz = filter.Insz };
+
+        return verenigingenPerInszDocument
+            with
+            {
+                Verenigingen = FilterKboVerenigingen(verenigingenPerInszDocument, filter.IncludeKboVerenigingen),
+            };
+    }
+
+    private static List<Vereniging> FilterKboVerenigingen(VerenigingenPerInszDocument verenigingenPerInszDocument, bool includeKboVerenigingen)
+    {
+        return verenigingenPerInszDocument
+              .Verenigingen
+              .Where(v => includeKboVerenigingen || string.IsNullOrEmpty(v.KboNummer))
+              .ToList();
     }
 }
