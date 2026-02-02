@@ -90,6 +90,7 @@ py -m pip install --user pipx        # Windows
 
 # Install detect-secrets
 pipx install detect-secrets
+py -m pip install detect-secrets # Windows
 ```
 
 **3. Rider (optional):**
