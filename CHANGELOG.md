@@ -1,3 +1,11 @@
+## [8.298.3](https://github.com/informatievlaanderen/association-registry/compare/v8.298.2...v8.298.3) (2026-02-02)
+
+
+### Bug Fixes
+
+* or-3017 force integers in api urls ([60825d3](https://github.com/informatievlaanderen/association-registry/commit/60825d3d0f4e26bc3a46d43f30a60dcc1adc9849))
+* or-3018 introduce selective logging of commands ([19bf3ff](https://github.com/informatievlaanderen/association-registry/commit/19bf3ff31d90efc8cdbdd8f9c92a0b60badd27bc))
+
 ## [8.298.2](https://github.com/informatievlaanderen/association-registry/compare/v8.298.1...v8.298.2) (2026-01-30)
 
 
