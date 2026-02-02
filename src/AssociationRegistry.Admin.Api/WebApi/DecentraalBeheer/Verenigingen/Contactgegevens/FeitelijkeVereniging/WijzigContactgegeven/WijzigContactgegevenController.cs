@@ -55,7 +55,7 @@ public class WijzigContactgegevenController : ApiController
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPatch("{vCode}/contactgegevens/{contactgegevenId}")]
+    [HttpPatch("{vCode}/contactgegevens/{contactgegevenId:int}")]
     [ConsumesJson]
     [ProducesJson]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
