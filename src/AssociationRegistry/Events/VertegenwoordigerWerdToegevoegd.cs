@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Events;
 
-
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
@@ -16,20 +15,23 @@ public record VertegenwoordigerWerdToegevoegd(
     string Email,
     string Telefoon,
     string Mobiel,
-    string SocialMedia) : IEvent
+    string SocialMedia
+) : IEvent
 {
     [IgnoreDataMember]
-    public Bron Bron
-        => Bron.Initiator;
+    public Bron Bron => Bron.Initiator;
+
+    protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+    {
+        builder.Append($"VertegenwoordigerId = {VertegenwoordigerId}, ");
+        builder.Append($"IsPrimair = {IsPrimair}, ");
+        return true;
+    }
 }
 
-public record VertegenwoordigerWerdToegevoegdZonderPersoonsgegevens(
-    Guid RefId,
-    int VertegenwoordigerId,
-    bool IsPrimair) : IEvent
+public record VertegenwoordigerWerdToegevoegdZonderPersoonsgegevens(Guid RefId, int VertegenwoordigerId, bool IsPrimair)
+    : IEvent
 {
     [IgnoreDataMember]
-    public Bron Bron
-        => Bron.Initiator;
+    public Bron Bron => Bron.Initiator;
 }
-

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Events;
 
-
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
@@ -32,11 +31,27 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
     Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
-    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket
+) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
 {
     [IgnoreDataMember]
-    public Bron Bron
-        => Bron.Initiator;
+    public Bron Bron => Bron.Initiator;
+
+    protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+    {
+        builder.Append($"VCode = {VCode}, ");
+        builder.Append($"Naam = {Naam}, ");
+        builder.Append($"KorteNaam = {KorteNaam}, ");
+        builder.Append($"KorteBeschrijving = {KorteBeschrijving}, ");
+        builder.Append($"Startdatum = {Startdatum}, ");
+        builder.Append($"Doelgroep = {Doelgroep}, ");
+        builder.Append($"IsUitgeschrevenUitPubliekeDatastroom = {IsUitgeschrevenUitPubliekeDatastroom}, ");
+        builder.Append($"Contactgegevens = {Contactgegevens.Length} items, ");
+        builder.Append($"Locaties = {Locaties.Length} items, ");
+        builder.Append($"Vertegenwoordigers = {Vertegenwoordigers.Length} items, ");
+        builder.Append($"HoofdactiviteitenVerenigingsloket = {HoofdactiviteitenVerenigingsloket.Length} items");
+        return true;
+    }
 }
 
 public interface IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens
@@ -66,9 +81,9 @@ public record FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens(
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
     Registratiedata.VertegenwoordigerZonderPersoonsgegevens[] Vertegenwoordigers,
-    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket
+) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens
 {
     [IgnoreDataMember]
-    public Bron Bron
-        => Bron.Initiator;
+    public Bron Bron => Bron.Initiator;
 }

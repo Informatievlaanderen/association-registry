@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Events;
 
-
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
@@ -9,18 +8,22 @@ public record VertegenwoordigerWerdToegevoegdVanuitKBO(
     int VertegenwoordigerId,
     string Insz,
     string Voornaam,
-    string Achternaam) : IEvent
+    string Achternaam
+) : IEvent
 {
     [IgnoreDataMember]
-    public Bron Bron
-        => Bron.KBO;
+    public Bron Bron => Bron.KBO;
+
+    protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+    {
+        builder.Append($"VertegenwoordigerId = {VertegenwoordigerId}, ");
+        return true;
+    }
 }
 
-public record VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens(
-    Guid RefId,
-    int VertegenwoordigerId) : IEvent
+public record VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens(Guid RefId, int VertegenwoordigerId)
+    : IEvent
 {
     [IgnoreDataMember]
-    public Bron Bron
-        => Bron.KBO;
+    public Bron Bron => Bron.KBO;
 }

@@ -11,11 +11,16 @@ public record VertegenwoordigerWerdGewijzigd(
     string Email,
     string Telefoon,
     string Mobiel,
-    string SocialMedia) : IEvent
-{ }
+    string SocialMedia
+) : IEvent
+{
+    protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+    {
+        builder.Append($"VertegenwoordigerId = {VertegenwoordigerId}, ");
+        builder.Append($"IsPrimair = {IsPrimair}, ");
+        return true;
+    }
+}
 
-public record VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens(
-    Guid RefId,
-    int VertegenwoordigerId,
-    bool IsPrimair) : IEvent
-{ }
+public record VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens(Guid RefId, int VertegenwoordigerId, bool IsPrimair)
+    : IEvent { }
