@@ -14,6 +14,6 @@ public class Given_Valid_Iban
     {
         var ibanNummer = IbanNummer.Create(iban);
 
-        ibanNummer.Value.Should().Be("BE68539007547034");
+        ibanNummer.Value.Should().Be("BE68 5390 0754 7034");
     }
 }

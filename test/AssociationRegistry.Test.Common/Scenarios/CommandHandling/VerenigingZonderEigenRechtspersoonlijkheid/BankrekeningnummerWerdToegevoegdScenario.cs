@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
+using global::AutoFixture;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using Events;
-using global::AutoFixture;
 
 public class BankrekeningnummerWerdToegevoegdScenario : CommandhandlerScenarioBase
 {
@@ -14,18 +14,15 @@ public class BankrekeningnummerWerdToegevoegdScenario : CommandhandlerScenarioBa
     public BankrekeningnummerWerdToegevoegdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
+            fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+            {
+                VCode = VCode,
+            };
 
-        BankrekeningnummerWerdToegevoegd = fixture.Create<BankrekeningnummerWerdToegevoegd>() with
-        {
-            Iban = "BE68539007547034",
-        };
+        BankrekeningnummerWerdToegevoegd = fixture.Create<BankrekeningnummerWerdToegevoegd>();
     }
 
-    public override IEnumerable<IEvent> Events()
-        => new IEvent[]
-        {
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
-            BankrekeningnummerWerdToegevoegd
-        };
+    public override IEnumerable<IEvent> Events() =>
+        new IEvent[] { VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, BankrekeningnummerWerdToegevoegd };
 }
