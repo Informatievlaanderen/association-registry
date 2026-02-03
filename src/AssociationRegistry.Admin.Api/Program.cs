@@ -203,7 +203,10 @@ public class Program
             .UseEndpoints(routeBuilder =>
             {
                 routeBuilder.MapControllers().RequireAuthorization(AdminGlobalPolicyName);
-                routeBuilder.MapDeadLettersEndpoints().RequireAuthorization(SuperAdminPolicyName);
+                routeBuilder
+                    .MapDeadLettersEndpoints()
+                    .RequireAuthorization(SuperAdminPolicyName)
+                    .ExcludeFromDescription();
             });
 
         ConfigureLifetimeHooks(app);
