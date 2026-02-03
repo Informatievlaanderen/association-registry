@@ -1,3 +1,15 @@
+# [8.299.0](https://github.com/informatievlaanderen/association-registry/compare/v8.298.3...v8.299.0) (2026-02-03)
+
+
+### Bug Fixes
+
+* or-3028 hide internal wolverine api documentation ([a067d29](https://github.com/informatievlaanderen/association-registry/commit/a067d29e639f3743429ed786672c1427db3ea04e))
+
+
+### Features
+
+* or-2998 save iban with spaces ([2840e32](https://github.com/informatievlaanderen/association-registry/commit/2840e328662630d176286a6187c542889398f497))
+
 ## [8.298.3](https://github.com/informatievlaanderen/association-registry/compare/v8.298.2...v8.298.3) (2026-02-02)
 
 
