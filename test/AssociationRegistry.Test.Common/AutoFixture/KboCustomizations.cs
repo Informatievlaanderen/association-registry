@@ -1,11 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using global::AutoFixture;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Emails;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
 using DecentraalBeheer.Vereniging.Websites;
-using global::AutoFixture;
 using Magda.Kbo;
 using Vereniging;
 
@@ -17,86 +18,101 @@ public static class KboCustomizations
         fixture.CustomizeAdresVolgensKbo();
         fixture.CustomizeContactgegevensVolgensKbo();
         fixture.CustomizeVertegenwoordigerVolgensKbo();
+        fixture.CustomizeBankrekeningnummerVolgensKbo();
+    }
+
+    private static void CustomizeBankrekeningnummerVolgensKbo(this IFixture fixture)
+    {
+        fixture.Customize<BankrekeningnummerVolgensKbo>(composer =>
+            composer
+                .FromFactory(() => new BankrekeningnummerVolgensKbo() { Iban = fixture.Create<IbanNummer>().Value })
+                .OmitAutoProperties()
+        );
     }
 
     private static void CustomizeVerenigingVolgensKbo(this Fixture fixture)
     {
-        fixture.Customize<VerenigingVolgensKbo>(
-            composer =>
-                composer.FromFactory<int>(
-                             i =>
-                             {
-                                 return new VerenigingVolgensKbo
-                                 {
-                                     Naam = fixture.Create<string>(),
-                                     KorteNaam = fixture.Create<string>(),
-                                     Adres = new AdresVolgensKbo(),
-                                     Contactgegevens = new ContactgegevensVolgensKbo(),
-                                     Type = new[]
-                                     {
-                                         Verenigingstype.IVZW, Verenigingstype.VZW, Verenigingstype.PrivateStichting,
-                                         Verenigingstype.StichtingVanOpenbaarNut,
-                                     }[i % 4],
-                                     KboNummer = fixture.Create<KboNummer>(),
-                                     Startdatum = fixture.Create<DateOnly>(),
-                                     IsActief = true,
-                                     EindDatum = null,
-                                     Vertegenwoordigers = fixture.CreateMany<VertegenwoordigerVolgensKbo>().ToArray(),
-                                 };
-                             })
-                        .OmitAutoProperties());
+        fixture.Customize<VerenigingVolgensKbo>(composer =>
+            composer
+                .FromFactory<int>(i =>
+                {
+                    return new VerenigingVolgensKbo
+                    {
+                        Naam = fixture.Create<string>(),
+                        KorteNaam = fixture.Create<string>(),
+                        Adres = new AdresVolgensKbo(),
+                        Contactgegevens = new ContactgegevensVolgensKbo(),
+                        Type = new[]
+                        {
+                            Verenigingstype.IVZW,
+                            Verenigingstype.VZW,
+                            Verenigingstype.PrivateStichting,
+                            Verenigingstype.StichtingVanOpenbaarNut,
+                        }[i % 4],
+                        KboNummer = fixture.Create<KboNummer>(),
+                        Startdatum = fixture.Create<DateOnly>(),
+                        IsActief = true,
+                        EindDatum = null,
+                        Vertegenwoordigers = fixture.CreateMany<VertegenwoordigerVolgensKbo>().ToArray(),
+                    };
+                })
+                .OmitAutoProperties()
+        );
     }
 
     private static void CustomizeVertegenwoordigerVolgensKbo(this Fixture fixture)
     {
-        fixture.Customize<VertegenwoordigerVolgensKbo>(
-            composer =>
-                composer.FromFactory<int>(
-                             i =>
-                             {
-                                 return new VertegenwoordigerVolgensKbo
-                                 {
-                                     Insz = fixture.Create<Insz>(),
-                                     Voornaam = fixture.Create<string>(),
-                                     Achternaam = fixture.Create<string>(),
-                                 };
-                             })
-                        .OmitAutoProperties());
+        fixture.Customize<VertegenwoordigerVolgensKbo>(composer =>
+            composer
+                .FromFactory<int>(i =>
+                {
+                    return new VertegenwoordigerVolgensKbo
+                    {
+                        Insz = fixture.Create<Insz>(),
+                        Voornaam = fixture.Create<string>(),
+                        Achternaam = fixture.Create<string>(),
+                    };
+                })
+                .OmitAutoProperties()
+        );
     }
 
     private static void CustomizeAdresVolgensKbo(this Fixture fixture)
     {
-        fixture.Customize<AdresVolgensKbo>(
-            composer =>
-                composer.FromFactory(
-                             () =>
-                             {
-                                 var adres = fixture.Create<Adres>();
+        fixture.Customize<AdresVolgensKbo>(composer =>
+            composer
+                .FromFactory(() =>
+                {
+                    var adres = fixture.Create<Adres>();
 
-                                 return new AdresVolgensKbo
-                                 {
-                                     Straatnaam = adres.Straatnaam,
-                                     Huisnummer = adres.Huisnummer,
-                                     Busnummer = adres.Busnummer,
-                                     Postcode = adres.Postcode,
-                                     Gemeente = adres.Gemeente.Naam,
-                                     Land = adres.Land,
-                                 };
-                             })
-                        .OmitAutoProperties());
+                    return new AdresVolgensKbo
+                    {
+                        Straatnaam = adres.Straatnaam,
+                        Huisnummer = adres.Huisnummer,
+                        Busnummer = adres.Busnummer,
+                        Postcode = adres.Postcode,
+                        Gemeente = adres.Gemeente.Naam,
+                        Land = adres.Land,
+                    };
+                })
+                .OmitAutoProperties()
+        );
     }
 
     private static void CustomizeContactgegevensVolgensKbo(this Fixture fixture)
     {
-        fixture.Customize<ContactgegevensVolgensKbo>(
-            composer =>
-                composer.FromFactory(
-                    () => new ContactgegevensVolgensKbo
+        fixture.Customize<ContactgegevensVolgensKbo>(composer =>
+            composer
+                .FromFactory(() =>
+                    new ContactgegevensVolgensKbo
                     {
                         Email = fixture.Create<Email>().Waarde,
                         Website = fixture.Create<Website>().Waarde,
                         Telefoonnummer = fixture.Create<TelefoonNummer>().Waarde,
                         GSM = fixture.Create<TelefoonNummer>().Waarde,
-                    }).OmitAutoProperties());
+                    }
+                )
+                .OmitAutoProperties()
+        );
     }
 }

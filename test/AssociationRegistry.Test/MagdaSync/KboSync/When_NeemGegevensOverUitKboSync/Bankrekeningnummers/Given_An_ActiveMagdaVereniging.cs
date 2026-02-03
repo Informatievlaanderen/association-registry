@@ -29,37 +29,39 @@ public class Given_An_ActiveMagdaVereniging
     [Fact]
     public void With_No_Changes_Then_Nothing()
     {
-        var (verenigingVolgensKbo, _, _) =
-            CreateVerenigingVolgensKbo(
-                extraBankrekeningnummers: 0,
-                nietGewijzigdeBankrekeningnummers:
-                [
-                    _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1,
-                    _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO2,
-                    _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO3,
-                ],
-                ontbrekendeBankrekeningnummers: []);
+        var (verenigingVolgensKbo, _, _) = CreateVerenigingVolgensKbo(
+            extraBankrekeningnummers: 0,
+            nietGewijzigdeBankrekeningnummers:
+            [
+                _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1,
+                _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO2,
+                _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO3,
+            ],
+            ontbrekendeBankrekeningnummers: []
+        );
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
-        ShouldHaveNotSavedEvents(_sut,
-                                 typeof(BankrekeningnummerWerdToegevoegdVanuitKBO),
-                                 typeof(BankrekeningnummerWerdVerwijderdUitKBO));
+        ShouldHaveNotSavedEvents(
+            _sut,
+            typeof(BankrekeningnummerWerdToegevoegdVanuitKBO),
+            typeof(BankrekeningnummerWerdVerwijderdUitKBO)
+        );
     }
 
     [Fact]
     public void With_Extra_Bankrekeningnummers_Then_It_Creates_BankrekeningnummerWerdToegevoegdVanuitKBO_Events()
     {
-        var (verenigingVolgensKbo, extraBankrekeningnummers, _) =
-            CreateVerenigingVolgensKbo(
-                extraBankrekeningnummers: 3,
-                nietGewijzigdeBankrekeningnummers:
-                [
-                    _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1,
-                    _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO2,
-                    _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO3,
-                ],
-                ontbrekendeBankrekeningnummers: []);
+        var (verenigingVolgensKbo, extraBankrekeningnummers, _) = CreateVerenigingVolgensKbo(
+            extraBankrekeningnummers: 3,
+            nietGewijzigdeBankrekeningnummers:
+            [
+                _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1,
+                _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO2,
+                _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO3,
+            ],
+            ontbrekendeBankrekeningnummers: []
+        );
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
@@ -75,14 +77,17 @@ public class Given_An_ActiveMagdaVereniging
         var verenigingVolgensKbo = _fixture.Create<VerenigingVolgensKbo>() with
         {
             Bankrekeningnummers = _fixture
-                                .CreateMany<BankrekeningnummerVolgensKbo>()
-                                .Select(v => v with { Iban = dezelfdeIban.Value })
-                                .ToArray(),
+                .CreateMany<BankrekeningnummerVolgensKbo>()
+                .Select(v => v with { Iban = dezelfdeIban.Value })
+                .ToArray(),
         };
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
-        ShouldHaveEvents(_sut, CreateBankrekeningnummerWerdToegevoegdVanuitKBOEvents([verenigingVolgensKbo.Bankrekeningnummers.First()]));
+        ShouldHaveEvents(
+            _sut,
+            CreateBankrekeningnummerWerdToegevoegdVanuitKBOEvents([verenigingVolgensKbo.Bankrekeningnummers.First()])
+        );
     }
 
     [Fact]
@@ -90,38 +95,64 @@ public class Given_An_ActiveMagdaVereniging
     {
         var (verenigingVolgensKbo, _, teVerwijderenBankrekeningnummers) = CreateVerenigingVolgensKbo(
             extraBankrekeningnummers: 0,
-            nietGewijzigdeBankrekeningnummers: [
-                _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO3,
-            ],
-            ontbrekendeBankrekeningnummers: [
+            nietGewijzigdeBankrekeningnummers: [_scenario.BankrekeningnummerWerdToegevoegdVanuitKBO3],
+            ontbrekendeBankrekeningnummers:
+            [
                 _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1,
                 _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO2,
-            ]);
+            ]
+        );
 
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
-        var bankrekeningnummersVerwijderdUitKbo = CreateBankrekeningnummerWerdVerwijderdUitKBOEvents(teVerwijderenBankrekeningnummers);
+        var bankrekeningnummersVerwijderdUitKbo = CreateBankrekeningnummerWerdVerwijderdUitKBOEvents(
+            teVerwijderenBankrekeningnummers
+        );
 
         ShouldHaveEvents(_sut, bankrekeningnummersVerwijderdUitKbo);
         ShouldHaveNotSavedEvents(_sut, typeof(BankrekeningnummerWerdToegevoegdVanuitKBO));
     }
 
-    private (VerenigingVolgensKbo verenigingVolgensKbo, BankrekeningnummerVolgensKbo[] toeTeVoegenBankrekeningnummers, BankrekeningnummerVolgensKbo[] teVerwijderenBankrekeningnummers)
-        CreateVerenigingVolgensKbo(
-            int extraBankrekeningnummers,
-            IEnumerable<BankrekeningnummerWerdToegevoegdVanuitKBO> nietGewijzigdeBankrekeningnummers,
-            IEnumerable<BankrekeningnummerWerdToegevoegdVanuitKBO> ontbrekendeBankrekeningnummers)
+    [Fact]
+    public void With_Invalid_And_Valid_Ibans_Only_Take_Valid_Ibanks_From_Kbo()
     {
-        var toeTeVoegenBankrekeningnummers = _fixture.CreateMany<BankrekeningnummerVolgensKbo>(extraBankrekeningnummers)
-                                                    .ToArray();
+        var nextId = _scenario.GetVerenigingState().Bankrekeningnummers.NextId;
+
+        var validIban = _fixture.Create<BankrekeningnummerVolgensKbo>();
+
+        var invalidIban = _fixture.Create<BankrekeningnummerVolgensKbo>() with { Iban = "invalidIban" };
+
+        var verenigingVolgensKbo = _fixture.Create<VerenigingVolgensKbo>() with
+        {
+            Bankrekeningnummers = [invalidIban, validIban],
+        };
+
+        _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
+
+        ShouldHaveEvents(_sut, [new BankrekeningnummerWerdToegevoegdVanuitKBO(nextId, validIban.Iban)]);
+    }
+
+    private (
+        VerenigingVolgensKbo verenigingVolgensKbo,
+        BankrekeningnummerVolgensKbo[] toeTeVoegenBankrekeningnummers,
+        BankrekeningnummerVolgensKbo[] teVerwijderenBankrekeningnummers
+    ) CreateVerenigingVolgensKbo(
+        int extraBankrekeningnummers,
+        IEnumerable<BankrekeningnummerWerdToegevoegdVanuitKBO> nietGewijzigdeBankrekeningnummers,
+        IEnumerable<BankrekeningnummerWerdToegevoegdVanuitKBO> ontbrekendeBankrekeningnummers
+    )
+    {
+        var toeTeVoegenBankrekeningnummers = _fixture
+            .CreateMany<BankrekeningnummerVolgensKbo>(extraBankrekeningnummers)
+            .ToArray();
 
         var nietGewijzigdeKboBankrekeningnummers = nietGewijzigdeBankrekeningnummers
             .Select(CreateExistingBankrekeningnummersVolgensKboFromScenario)
             .ToArray();
 
         var teVerwijderenBankrekeningnummers = ontbrekendeBankrekeningnummers
-                                             .Select(CreateExistingBankrekeningnummersVolgensKboFromScenario)
-                                             .ToArray();
+            .Select(CreateExistingBankrekeningnummersVolgensKboFromScenario)
+            .ToArray();
 
         var alleBankrekeningnummersVolgensKbo = nietGewijzigdeKboBankrekeningnummers
             .Concat(toeTeVoegenBankrekeningnummers)
@@ -135,46 +166,51 @@ public class Given_An_ActiveMagdaVereniging
         return (verenigingVolgensKbo, toeTeVoegenBankrekeningnummers, teVerwijderenBankrekeningnummers);
     }
 
-    private BankrekeningnummerVolgensKbo CreateExistingBankrekeningnummersVolgensKboFromScenario(BankrekeningnummerWerdToegevoegdVanuitKBO bankrekeningnummerWerdToegevoegdVanuitKbo)
-        => new()
-        {
-            Iban = bankrekeningnummerWerdToegevoegdVanuitKbo.Iban,
-        };
+    private BankrekeningnummerVolgensKbo CreateExistingBankrekeningnummersVolgensKboFromScenario(
+        BankrekeningnummerWerdToegevoegdVanuitKBO bankrekeningnummerWerdToegevoegdVanuitKbo
+    ) => new() { Iban = bankrekeningnummerWerdToegevoegdVanuitKbo.Iban };
 
-    private IEnumerable<BankrekeningnummerWerdVerwijderdUitKBO> CreateBankrekeningnummerWerdVerwijderdUitKBOEvents(BankrekeningnummerVolgensKbo[] bankrekeningnummersVolgensKbo)
+    private IEnumerable<BankrekeningnummerWerdVerwijderdUitKBO> CreateBankrekeningnummerWerdVerwijderdUitKBOEvents(
+        BankrekeningnummerVolgensKbo[] bankrekeningnummersVolgensKbo
+    )
     {
-        return bankrekeningnummersVolgensKbo.Select((x, i) =>
-                                                       EventFactory.BankrekeningnummerWerdVerwijderdUitKBO(
-                                                           Bankrekeningnummer.CreateFromKbo(x, _scenario.GetVerenigingState().Bankrekeningnummers
-                                                                                               .Single(y => x.Iban == y.Iban.Value).BankrekeningnummerId)));
+        return bankrekeningnummersVolgensKbo.Select(
+            (x, i) =>
+                EventFactory.BankrekeningnummerWerdVerwijderdUitKBO(
+                    Bankrekeningnummer.CreateFromKbo(
+                        x,
+                        _scenario
+                            .GetVerenigingState()
+                            .Bankrekeningnummers.Single(y => x.Iban == y.Iban.Value)
+                            .BankrekeningnummerId
+                    )
+                )
+        );
     }
 
-    private IEnumerable<BankrekeningnummerWerdToegevoegdVanuitKBO> CreateBankrekeningnummerWerdToegevoegdVanuitKBOEvents(BankrekeningnummerVolgensKbo[] bankrekeningnummersVolgensKbo)
+    private IEnumerable<BankrekeningnummerWerdToegevoegdVanuitKBO> CreateBankrekeningnummerWerdToegevoegdVanuitKBOEvents(
+        BankrekeningnummerVolgensKbo[] bankrekeningnummersVolgensKbo
+    )
     {
         var nextId = _scenario.GetVerenigingState().Bankrekeningnummers.NextId;
 
         return bankrekeningnummersVolgensKbo.Select(x =>
-                                                       EventFactory.BankrekeningnummerWerdToegevoegdVanuitKBO(
-                                                           Bankrekeningnummer.CreateFromKbo(x, nextId++)));
+            EventFactory.BankrekeningnummerWerdToegevoegdVanuitKBO(Bankrekeningnummer.CreateFromKbo(x, nextId++))
+        );
     }
 
     private static void ShouldHaveEvents<T>(VerenigingMetRechtspersoonlijkheid sut, IEnumerable<T> events)
     {
-        sut.UncommittedEvents.OfType<T>()
-           .Should()
-           .AllBeOfType<T>()
-           .And
-           .BeEquivalentTo(events);
+        sut.UncommittedEvents.OfType<T>().Should().AllBeOfType<T>().And.BeEquivalentTo(events);
     }
 
     private static void ShouldHaveNotSavedEvents(VerenigingMetRechtspersoonlijkheid sut, params Type[] types)
     {
         foreach (var type in types)
         {
-            sut.UncommittedEvents
-               .Where(e => e.GetType() == type)
-               .Should()
-               .BeEmpty($"Expected no uncommitted events of type {type.Name}");
+            sut.UncommittedEvents.Where(e => e.GetType() == type)
+                .Should()
+                .BeEmpty($"Expected no uncommitted events of type {type.Name}");
         }
     }
 }

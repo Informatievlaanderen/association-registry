@@ -18,25 +18,25 @@ public record IbanNummer
         if (!IsValid(iban))
             throw new IbanFormaatIsOngeldig();
 
-        var sanitezedIban = Sanitize(iban);
+        var sanitized = Sanitize(iban);
+        var formatted = FormatWithSpaces(sanitized);
 
-        return new IbanNummer(sanitezedIban);
+        return new IbanNummer(formatted);
     }
 
-    public static IbanNummer Hydrate(string iban)
-        => new(iban);
+    private static string FormatWithSpaces(string iban)
+    {
+        return string.Join(" ", Enumerable.Range(0, iban.Length / 4).Select(i => iban.Substring(i * 4, 4)));
+    }
 
-    public override string ToString()
-        => Value;
+    public static IbanNummer Hydrate(string iban) => new(iban);
 
-    private static string Sanitize(string insz)
-        => insz.Replace(oldValue: ".", string.Empty)
-               .Replace(oldValue: " ", string.Empty);
+    public override string ToString() => Value;
 
-    public static bool IsValid(string iban)
-        => HasBelgianPrefix(iban)
-        && IbanUtils.IsValid(Sanitize(iban), out _);
+    private static string Sanitize(string insz) =>
+        insz.Replace(oldValue: ".", string.Empty).Replace(oldValue: " ", string.Empty);
 
-    private static bool HasBelgianPrefix(string iban)
-        => iban.StartsWith(BelgianIbanPrefix);
+    public static bool IsValid(string iban) => HasBelgianPrefix(iban) && IbanUtils.IsValid(Sanitize(iban), out _);
+
+    private static bool HasBelgianPrefix(string iban) => iban.StartsWith(BelgianIbanPrefix);
 }
