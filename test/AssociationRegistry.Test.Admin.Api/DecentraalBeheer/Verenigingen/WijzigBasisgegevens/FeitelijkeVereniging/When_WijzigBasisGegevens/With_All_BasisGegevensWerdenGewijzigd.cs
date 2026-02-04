@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.When_WijzigBasisGegevens;
 
+using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
@@ -19,7 +20,6 @@ using JasperFx.Core;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using System.Net;
 using Xunit;
 
 public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
@@ -37,7 +37,8 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
         var startdatumInHetVerleden = fixture.ServiceProvider.GetRequiredService<IClock>().Today.AddDays(-1);
         Request.Startdatum = NullOrEmpty<DateOnly>.Create(startdatumInHetVerleden);
 
-        var jsonBody = $@"{{
+        var jsonBody =
+            $@"{{
             ""naam"":""{Request.Naam}"",
             ""korteNaam"":""{Request.KorteNaam}"",
             ""korteBeschrijving"":""{Request.KorteBeschrijving}"",
@@ -56,7 +57,8 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
 }
 
 [Collection(nameof(AdminApiCollection))]
-public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup>
+public class With_All_BasisGegevensWerdenGewijzigd
+    : IClassFixture<When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup>
 {
     private readonly WijzigBasisgegevensRequest _request;
     private readonly HttpResponseMessage _response;
@@ -66,7 +68,8 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
 
     public With_All_BasisGegevensWerdenGewijzigd(
         When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup setup,
-        EventsInDbScenariosFixture fixture)
+        EventsInDbScenariosFixture fixture
+    )
     {
         _request = setup.Request;
         _response = setup.Response;
@@ -78,69 +81,63 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     [Fact]
     public async Task Then_it_saves_the_events()
     {
-        await using var session = _documentStore
-           .LightweightSession();
+        await using var session = _documentStore.LightweightSession();
 
-        var naamWerdGewijzigd = session.Events
-                                       .QueryRawEventDataOnly<NaamWerdGewijzigd>()
-                                       .Single(@event => @event.VCode == _vCode);
+        var naamWerdGewijzigd = session
+            .Events.QueryRawEventDataOnly<NaamWerdGewijzigd>()
+            .Single(@event => @event.VCode == _vCode);
 
-        var korteNaamWerdGewijzigd = session.Events
-                                            .QueryRawEventDataOnly<KorteNaamWerdGewijzigd>()
-                                            .Single(@event => @event.VCode == _vCode);
+        var korteNaamWerdGewijzigd = session
+            .Events.QueryRawEventDataOnly<KorteNaamWerdGewijzigd>()
+            .Single(@event => @event.VCode == _vCode);
 
-        var korteBeschrijvingWerdGewijzigd = session.Events
-                                                    .QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
-                                                    .Single(@event => @event.VCode == _vCode);
+        var korteBeschrijvingWerdGewijzigd = session
+            .Events.QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
+            .Single(@event => @event.VCode == _vCode);
 
-        var startdatumWerdGewijzigd = session.Events
-                                             .QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
-                                             .Single(@event => @event.VCode == _vCode);
+        var startdatumWerdGewijzigd = session
+            .Events.QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
+            .Single(@event => @event.VCode == _vCode);
 
-        var hoofactiviteitenVerenigingloketWerdenGewijzigd = (await session.Events
-                                                                    .FetchStreamAsync(_vCode))
-                                                                    .Single(@event => @event.Data.GetType() ==
-                                                                                      typeof(
-                                                                                          HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
+        var hoofactiviteitenVerenigingloketWerdenGewijzigd = (await session.Events.FetchStreamAsync(_vCode)).Single(
+            @event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd)
+        );
 
-        var doelgroepWerdGewijzigd = (await session.Events
-                                            .FetchStreamAsync(_vCode))
-                                            .Single(@event => @event.Data.GetType() == typeof(DoelgroepWerdGewijzigd));
+        var doelgroepWerdGewijzigd = (await session.Events.FetchStreamAsync(_vCode)).Single(@event =>
+            @event.Data.GetType() == typeof(DoelgroepWerdGewijzigd)
+        );
 
-        (await session.Events
-               .FetchStreamAsync(_vCode))
-               .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom))
-               .Should().NotBeNull();
+        (await session.Events.FetchStreamAsync(_vCode))
+            .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom))
+            .Should()
+            .NotBeNull();
 
         naamWerdGewijzigd.Naam.Should().Be(_request.Naam);
         korteNaamWerdGewijzigd.KorteNaam.Should().Be(_request.KorteNaam);
         korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(_request.KorteBeschrijving);
         startdatumWerdGewijzigd.Startdatum.Should().Be(_request.Startdatum!.Value);
 
-        hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
-            EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
-                _request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create)
-                        .ToArray()));
+        hoofactiviteitenVerenigingloketWerdenGewijzigd
+            .Data.Should()
+            .BeEquivalentTo(
+                EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
+                    _request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create).ToArray()
+                )
+            );
 
-        (doelgroepWerdGewijzigd.Data as DoelgroepWerdGewijzigd)!.Doelgroep.Should()
-                                                                .BeEquivalentTo(
-                                                                     new Registratiedata.Doelgroep(
-                                                                         _request.Doelgroep!.Minimumleeftijd!.Value,
-                                                                         _request.Doelgroep!.Maximumleeftijd!.Value));
+        (doelgroepWerdGewijzigd.Data as DoelgroepWerdGewijzigd)!
+            .Doelgroep.Should()
+            .BeEquivalentTo(
+                new Registratiedata.Doelgroep(
+                    _request.Doelgroep!.Minimumleeftijd!.Value,
+                    _request.Doelgroep!.Maximumleeftijd!.Value
+                )
+            );
     }
 
     [Fact]
-    public async ValueTask Then_it_returns_an_accepted_response()
-        => _response.StatusCode.Should().Be(HttpStatusCode.Accepted, await _response.Content.ReadAsStringAsync());
-
-    [Fact]
-    public void Then_it_returns_a_location_header()
-    {
-        _response.Headers.Should().ContainKey(HeaderNames.Location);
-
-        _response.Headers.Location!.OriginalString.Should()
-                 .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
-    }
+    public async ValueTask Then_it_returns_an_accepted_response() =>
+        _response.StatusCode.Should().Be(HttpStatusCode.Accepted, await _response.Content.ReadAsStringAsync());
 
     [Fact]
     public void Then_it_returns_a_sequence_header()

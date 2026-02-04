@@ -7,12 +7,12 @@ using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VerwijderLidmaatschap;
 using DecentraalBeheer.Vereniging;
+using Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
@@ -23,18 +23,13 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
-
-// TODO Remove visibility marker before actual deployment
-[ApiExplorerSettings(IgnoreApi = true)]
 public class VerwijderLidmaatschapController : ApiController
 {
     private readonly IMessageBus _messageBus;
-    private readonly AppSettings _appSettings;
 
-    public VerwijderLidmaatschapController(IMessageBus messageBus, AppSettings appSettings)
+    public VerwijderLidmaatschapController(IMessageBus messageBus)
     {
         _messageBus = messageBus;
-        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -57,12 +52,20 @@ public class VerwijderLidmaatschapController : ApiController
     [ConsumesJson]
     [ProducesJson]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(BadRequestProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de verwijderde vereniging.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de verwijderde vereniging."
+    )]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
@@ -72,17 +75,16 @@ public class VerwijderLidmaatschapController : ApiController
         [FromRoute] string vCode,
         [FromRoute] int lidmaatschapId,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VerwijderLidmaatschapCommand>(
             new VerwijderLidmaatschapCommand(VCode.Create(vCode), new LidmaatschapId(lidmaatschapId)),
-            metaData);
+            metaData
+        );
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        Response.AddSequenceHeader(commandResult.Sequence);
-        Response.AddETagHeader(commandResult.Version);
-
-        return Accepted();
+        return this.DeleteResponse(commandResult);
     }
 }

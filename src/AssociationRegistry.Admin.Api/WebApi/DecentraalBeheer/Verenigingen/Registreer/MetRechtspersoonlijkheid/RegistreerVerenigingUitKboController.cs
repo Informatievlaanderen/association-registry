@@ -38,7 +38,8 @@ public class RegistreerVerenigingUitKboController : ApiController
     public RegistreerVerenigingUitKboController(
         IValidator<RegistreerVerenigingUitKboRequest> validator,
         IMessageBus bus,
-        AppSettings appSettings)
+        AppSettings appSettings
+    )
     {
         _validator = validator;
         _bus = bus;
@@ -53,7 +54,7 @@ public class RegistreerVerenigingUitKboController : ApiController
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="request">De gegevens van de te registreren vereniging</param>
+    /// <param name="request">De gegevens van de te registreren vereniging.</param>
     /// <param name="commandMetadataProvider"></param>
     /// <param name="initiator">Initiator header met als waarde de instantie die de registratie uitvoert.</param>
     /// <response code="200">De vereniging was reeds geregistreerd in het register.</response>
@@ -63,17 +64,36 @@ public class RegistreerVerenigingUitKboController : ApiController
     [HttpPost("")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerRequestExample(typeof(RegistreerVerenigingUitKboRequest), typeof(RegistreerVerenigingUitKboRequestExamples))]
+    [SwaggerRequestExample(
+        typeof(RegistreerVerenigingUitKboRequest),
+        typeof(RegistreerVerenigingUitKboRequestExamples)
+    )]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status200OK, name: "Location", type: "string",
-                           description: "De locatie van de geregistreerde vereniging.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string",
-                           description: "De locatie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status200OK,
+        name: "Location",
+        type: "string",
+        description: "De locatie van de geregistreerde vereniging."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de geregistreerde vereniging."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "Location",
+        type: "string",
+        description: "De locatie van de geregistreerde vereniging."
+    )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -82,7 +102,8 @@ public class RegistreerVerenigingUitKboController : ApiController
     public async Task<IActionResult> Post(
         [FromBody] RegistreerVerenigingUitKboRequest? request,
         [FromServices] ICommandMetadataProvider commandMetadataProvider,
-        [FromServices] InitiatorProvider initiator)
+        [FromServices] InitiatorProvider initiator
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
@@ -96,7 +117,10 @@ public class RegistreerVerenigingUitKboController : ApiController
         return registratieResult switch
         {
             Result<CommandResult> commandResult => this.AcceptedCommand(_appSettings, commandResult.Data),
-            Result<DuplicateKboFound> duplicateKboFound => DuplicateKboFoundResponse(_appSettings, duplicateKboFound.Data),
+            Result<DuplicateKboFound> duplicateKboFound => DuplicateKboFoundResponse(
+                _appSettings,
+                duplicateKboFound.Data
+            ),
             _ => throw new ArgumentOutOfRangeException(),
         };
     }

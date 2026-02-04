@@ -10,11 +10,11 @@ using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VoegBankrekeningToe;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.WijzigBankrekening;
 using Examples;
+using Extensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -31,16 +31,14 @@ public class VoegBankrekeningnummerToeController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly IValidator<WijzigBankrekeningnummerRequest> _validator;
-    private readonly AppSettings _appSettings;
 
     public VoegBankrekeningnummerToeController(
         IMessageBus messageBus,
-        IValidator<WijzigBankrekeningnummerRequest> validator,
-        AppSettings appSettings)
+        IValidator<WijzigBankrekeningnummerRequest> validator
+    )
     {
         _messageBus = messageBus;
         _validator = validator;
-        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -51,11 +49,10 @@ public class VoegBankrekeningnummerToeController : ApiController
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vCode">De vCode van de vereniging</param>
-    /// <param name="bankrekeningnummerId">De unieke identificatie code van dit bankrekeningnummer binnen de vereniging</param>
-    /// <param name="request">De gegevens van het te wijzigen bankrekeningnummer</param>
+    /// <param name="vCode">De vCode van de vereniging.</param>
+    /// <param name="bankrekeningnummerId">De unieke identificatie code van dit bankrekeningnummer binnen de vereniging.</param>
+    /// <param name="request">De gegevens van het te wijzigen bankrekeningnummer.</param>
     /// <param name="metadataProvider"></param>
-    /// <param name="appSettings"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen.</response>
     /// <response code="202">Het bankrekeningnummer werd gewijzigd.</response>
@@ -66,14 +63,18 @@ public class VoegBankrekeningnummerToeController : ApiController
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(WijzigBankrekeningnummerRequest), typeof(WijzigBankrekeningnummerRequestExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted,
-                           WellknownHeaderNames.Sequence,
-                           type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted,
-                           name: "ETag",
-                           type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de geregistreerde vereniging."
+    )]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
@@ -82,22 +83,23 @@ public class VoegBankrekeningnummerToeController : ApiController
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Post(
+    public async Task<IActionResult> Patch(
         [FromRoute] string vCode,
         [FromRoute] int bankrekeningnummerId,
         [FromBody] WijzigBankrekeningnummerRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<WijzigBankrekeningnummerCommand>(request.ToCommand(vCode, bankrekeningnummerId), metaData);
+        var envelope = new CommandEnvelope<WijzigBankrekeningnummerCommand>(
+            request.ToCommand(vCode, bankrekeningnummerId),
+            metaData
+        );
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        Response.AddSequenceHeader(commandResult.Sequence);
-        Response.AddETagHeader(commandResult.Version);
-
-        return Accepted();
+        return this.PatchResponse(commandResult);
     }
 }

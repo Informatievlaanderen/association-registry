@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.When_WijzigBasisGegevens;
 
+using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Events;
@@ -9,7 +10,6 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using System.Net;
 using Xunit;
 
 public sealed class When_WijzigBasisGegevens_WithStartdatumNull
@@ -19,14 +19,12 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumNull
 
     private When_WijzigBasisGegevens_WithStartdatumNull(EventsInDbScenariosFixture fixture)
     {
-        Request = new WijzigBasisgegevensRequest
-        {
-            Startdatum = NullOrEmpty<DateOnly>.Empty,
-        };
+        Request = new WijzigBasisgegevensRequest { Startdatum = NullOrEmpty<DateOnly>.Empty };
 
         VCode = fixture.V010FeitelijkeVerenigingWerdGeregistreerdWithAllFields.VCode;
 
-        const string jsonBody = @"{
+        const string jsonBody =
+            @"{
             ""startdatum"": null,
             ""korteNaam"": ""iets"",
             ""Initiator"": ""OVO000001""}";
@@ -36,8 +34,8 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumNull
 
     private static When_WijzigBasisGegevens_WithStartdatumNull? called;
 
-    public static When_WijzigBasisGegevens_WithStartdatumNull Called(EventsInDbScenariosFixture fixture)
-        => called ??= new When_WijzigBasisGegevens_WithStartdatumNull(fixture);
+    public static When_WijzigBasisGegevens_WithStartdatumNull Called(EventsInDbScenariosFixture fixture) =>
+        called ??= new When_WijzigBasisGegevens_WithStartdatumNull(fixture);
 
     public HttpResponseMessage Response { get; }
 }
@@ -47,11 +45,9 @@ public class With_StartdatumWerdGewijzigd_Null
 {
     private readonly EventsInDbScenariosFixture _fixture;
 
-    private HttpResponseMessage Response
-        => When_WijzigBasisGegevens_WithStartdatumNull.Called(_fixture).Response;
+    private HttpResponseMessage Response => When_WijzigBasisGegevens_WithStartdatumNull.Called(_fixture).Response;
 
-    private string VCode
-        => When_WijzigBasisGegevens_WithStartdatumNull.Called(_fixture).VCode;
+    private string VCode => When_WijzigBasisGegevens_WithStartdatumNull.Called(_fixture).VCode;
 
     public With_StartdatumWerdGewijzigd_Null(EventsInDbScenariosFixture fixture)
     {
@@ -61,12 +57,11 @@ public class With_StartdatumWerdGewijzigd_Null
     [Fact]
     public void Then_it_saves_the_events()
     {
-        using var session = _fixture.DocumentStore
-                                    .LightweightSession();
+        using var session = _fixture.DocumentStore.LightweightSession();
 
-        var startdatumWerdGewijzigd = session.Events
-                                             .QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
-                                             .SingleOrDefault(@event => @event.VCode == VCode);
+        var startdatumWerdGewijzigd = session
+            .Events.QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
+            .SingleOrDefault(@event => @event.VCode == VCode);
 
         startdatumWerdGewijzigd.Should().BeNull();
     }
@@ -75,15 +70,6 @@ public class With_StartdatumWerdGewijzigd_Null
     public void Then_it_returns_an_accepted_response()
     {
         Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-    }
-
-    [Fact]
-    public void Then_it_returns_a_location_header()
-    {
-        Response.Headers.Should().ContainKey(HeaderNames.Location);
-
-        Response.Headers.Location!.OriginalString.Should()
-                .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

@@ -7,12 +7,12 @@ using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.CorrigeerMarkeringAlsDubbelVan;
 using DecentraalBeheer.Vereniging;
+using Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
@@ -28,12 +28,10 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class MarkeerAlsDubbelVanController : ApiController
 {
     private readonly IMessageBus _messageBus;
-    private readonly AppSettings _appSettings;
 
-    public MarkeerAlsDubbelVanController(IMessageBus messageBus, AppSettings appSettings)
+    public MarkeerAlsDubbelVanController(IMessageBus messageBus)
     {
         _messageBus = messageBus;
-        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -47,18 +45,26 @@ public class MarkeerAlsDubbelVanController : ApiController
     /// <param name="vCode">De vCode van de vereniging.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
-    /// <response code="202">De markering als dubbel werd gecorrigeerd.response>
+    /// <response code="202">De markering als dubbel werd gecorrigeerd.response</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpDelete("{vCode}/dubbelVan")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de vereniging die als dubbel werd gemarkeerd.")]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de vereniging die als dubbel werd gemarkeerd."
+    )]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(BadRequestProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
@@ -68,12 +74,16 @@ public class MarkeerAlsDubbelVanController : ApiController
     public async Task<IActionResult> Corrigeer(
         [FromRoute] string vCode,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(new CorrigeerMarkeringAlsDubbelVanCommand(VCode.Create(vCode)), metaData);
+        var envelope = new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(
+            new CorrigeerMarkeringAlsDubbelVanCommand(VCode.Create(vCode)),
+            metaData
+        );
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        return this.AcceptedCommand(_appSettings, commandResult);
+        return this.DeleteResponse(commandResult);
     }
 }

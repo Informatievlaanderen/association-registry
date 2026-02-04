@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Migrate_To_E2E.When_Wijzig_Anything_In_A_Vereniging;
 
+using System.ComponentModel;
+using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Events;
@@ -8,8 +10,6 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using System.ComponentModel;
-using System.Net;
 using Xunit;
 
 public sealed class When_WijzigBasisgegevens_With_A_Matching_ETag
@@ -20,40 +20,37 @@ public sealed class When_WijzigBasisgegevens_With_A_Matching_ETag
 
     private When_WijzigBasisgegevens_With_A_Matching_ETag(EventsInDbScenariosFixture fixture)
     {
-        Request = new WijzigBasisgegevensRequest
-        {
-            Naam = "De nieuwe vereniging",
-        };
+        Request = new WijzigBasisgegevensRequest { Naam = "De nieuwe vereniging" };
 
         VCode = fixture.V005FeitelijkeVerenigingWerdGeregistreerdForUseWithETagMatching.VCode;
 
         var jsonBody = $@"{{""naam"":""{Request.Naam}""}}";
 
         var saveVersionResult = fixture.V005FeitelijkeVerenigingWerdGeregistreerdForUseWithETagMatching.Result;
-        Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version).GetAwaiter().GetResult();
+        Response = fixture
+            .DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version)
+            .GetAwaiter()
+            .GetResult();
     }
 
     private static When_WijzigBasisgegevens_With_A_Matching_ETag? called;
 
-    public static When_WijzigBasisgegevens_With_A_Matching_ETag Called(EventsInDbScenariosFixture fixture)
-        => called ??= new When_WijzigBasisgegevens_With_A_Matching_ETag(fixture);
+    public static When_WijzigBasisgegevens_With_A_Matching_ETag Called(EventsInDbScenariosFixture fixture) =>
+        called ??= new When_WijzigBasisgegevens_With_A_Matching_ETag(fixture);
 }
 
 [Collection(nameof(AdminApiCollection))]
 [Category(Categories.MoveToBasicE2E)]
-
 public class With_A_Matching_ETag
 {
     private readonly EventsInDbScenariosFixture _fixture;
 
-    private WijzigBasisgegevensRequest Request
-        => When_WijzigBasisgegevens_With_A_Matching_ETag.Called(_fixture).Request;
+    private WijzigBasisgegevensRequest Request =>
+        When_WijzigBasisgegevens_With_A_Matching_ETag.Called(_fixture).Request;
 
-    private HttpResponseMessage Response
-        => When_WijzigBasisgegevens_With_A_Matching_ETag.Called(_fixture).Response;
+    private HttpResponseMessage Response => When_WijzigBasisgegevens_With_A_Matching_ETag.Called(_fixture).Response;
 
-    private string VCode
-        => When_WijzigBasisgegevens_With_A_Matching_ETag.Called(_fixture).VCode;
+    private string VCode => When_WijzigBasisgegevens_With_A_Matching_ETag.Called(_fixture).VCode;
 
     public With_A_Matching_ETag(EventsInDbScenariosFixture fixture)
     {
@@ -64,15 +61,6 @@ public class With_A_Matching_ETag
     public void Then_it_returns_an_accepted_response()
     {
         Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-    }
-
-    [Fact]
-    public void Then_it_returns_a_location_header()
-    {
-        Response.Headers.Should().ContainKey(HeaderNames.Location);
-
-        Response.Headers.Location!.OriginalString.Should()
-                .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]
@@ -88,12 +76,11 @@ public class With_A_Matching_ETag
     [Fact]
     public void Then_it_saves_the_events()
     {
-        using var session = _fixture.DocumentStore
-                                    .LightweightSession();
+        using var session = _fixture.DocumentStore.LightweightSession();
 
-        var savedEvents = session.Events
-                                 .QueryRawEventDataOnly<NaamWerdGewijzigd>()
-                                 .SingleOrDefault(@event => @event.VCode == VCode);
+        var savedEvents = session
+            .Events.QueryRawEventDataOnly<NaamWerdGewijzigd>()
+            .SingleOrDefault(@event => @event.VCode == VCode);
 
         savedEvents.Should().NotBeNull();
         savedEvents!.Naam.Should().Be(Request.Naam);

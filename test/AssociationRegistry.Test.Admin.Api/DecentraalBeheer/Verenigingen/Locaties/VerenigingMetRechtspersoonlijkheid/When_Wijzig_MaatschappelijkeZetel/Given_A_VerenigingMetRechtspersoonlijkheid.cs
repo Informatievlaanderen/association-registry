@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel;
 
+using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
 using AssociationRegistry.Events;
@@ -12,7 +13,6 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using System.Net;
 using Xunit;
 
 public sealed class When_WijzigMaatschappelijkeZetel_Setup
@@ -27,16 +27,22 @@ public sealed class When_WijzigMaatschappelijkeZetel_Setup
 
         Request = new Fixture().CustomizeAdminApi().Create<WijzigMaatschappelijkeZetelRequest>();
 
-        var jsonBody = $@"{{
+        var jsonBody =
+            $@"{{
             ""locatie"": {{
                 ""naam"":""{Request.Locatie.Naam}"",
                 ""isPrimair"":""{Request.Locatie.IsPrimair}"",
                 }}
             }}";
 
-        Response = fixture.DefaultClient
-                          .PatchMaatschappelijkeZetel(Scenario.VCode, Scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId,
-                                                      jsonBody).GetAwaiter().GetResult();
+        Response = fixture
+            .DefaultClient.PatchMaatschappelijkeZetel(
+                Scenario.VCode,
+                Scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId,
+                jsonBody
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 }
 
@@ -50,7 +56,10 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Wij
     private readonly AppSettings _appSettings;
     private readonly int _locatieId;
 
-    public Given_A_VerenigingMetRechtspersoonlijkheid(When_WijzigMaatschappelijkeZetel_Setup setup, EventsInDbScenariosFixture fixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid(
+        When_WijzigMaatschappelijkeZetel_Setup setup,
+        EventsInDbScenariosFixture fixture
+    )
     {
         _request = setup.Request;
         _response = setup.Response;
@@ -63,35 +72,29 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Wij
     [Fact]
     public async Task Then_it_saves_the_events()
     {
-        await using var session = _documentStore
-           .LightweightSession();
+        await using var session = _documentStore.LightweightSession();
 
-        var events = await session.Events
-                            .FetchStreamAsync(_vCode);
+        var events = await session.Events.FetchStreamAsync(_vCode);
 
-        var maatschappelijkeZetelVolgensKboWerdGewijzigd =
-            events.Single(e => e.Data.GetType() == typeof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd));
+        var maatschappelijkeZetelVolgensKboWerdGewijzigd = events.Single(e =>
+            e.Data.GetType() == typeof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd)
+        );
 
-        maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Should()
-                                                    .BeEquivalentTo(
-                                                         new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
-                                                             _locatieId, _request.Locatie.Naam!,
-                                                             _request.Locatie.IsPrimair!.Value));
+        maatschappelijkeZetelVolgensKboWerdGewijzigd
+            .Data.Should()
+            .BeEquivalentTo(
+                new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
+                    _locatieId,
+                    _request.Locatie.Naam!,
+                    _request.Locatie.IsPrimair!.Value
+                )
+            );
     }
 
     [Fact]
     public void Then_it_returns_an_accepted_response()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-    }
-
-    [Fact]
-    public void Then_it_returns_a_location_header()
-    {
-        _response.Headers.Should().ContainKey(HeaderNames.Location);
-
-        _response.Headers.Location!.OriginalString.Should()
-                 .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

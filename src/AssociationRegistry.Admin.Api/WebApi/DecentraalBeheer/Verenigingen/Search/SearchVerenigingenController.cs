@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Search;
 
+using System.Text.RegularExpressions;
 using Adapters.DuplicateVerenigingDetectionService;
 using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -9,15 +10,14 @@ using Examples;
 using Exceptions;
 using FluentValidation;
 using Hosts.Configuration.ConfigurationBindings;
-using Infrastructure.WebApi.Swagger.Annotations;
 using Infrastructure;
+using Infrastructure.WebApi.Swagger.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Queries;
 using RequestModels;
 using ResponseModels;
 using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
-using System.Text.RegularExpressions;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
 
@@ -98,9 +98,9 @@ public class SearchVerenigingenController : ApiController
     ///
     ///     Het gedrag van het sorteren op andere velden kan niet gegarandeerd worden.
     /// </remarks>
-    /// <param name="q">De querystring</param>
-    /// <param name="sort">De velden om op te sorteren</param>
-    /// <param name="paginationQueryParams">De paginatie parameters</param>
+    /// <param name="q">De querystring.</param>
+    /// <param name="sort">De velden om op te sorteren.</param>
+    /// <param name="paginationQueryParams">De paginatie parameters.</param>
     /// <param name="query"></param>
     /// <param name="validator"></param>
     /// <param name="logger"></param>
@@ -127,14 +127,18 @@ public class SearchVerenigingenController : ApiController
         [FromServices] ILogger<SearchVerenigingenController> logger,
         [FromServices] AppSettings appSettings,
         [FromHeader(Name = WellknownHeaderNames.Version)] string? version,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
         q ??= "*";
 
         try
         {
-            var searchResponse = await query.ExecuteAsync(new BeheerVerenigingenZoekFilter(q, sort, paginationQueryParams), cancellationToken);
+            var searchResponse = await query.ExecuteAsync(
+                new BeheerVerenigingenZoekFilter(q, sort, paginationQueryParams),
+                cancellationToken
+            );
 
             if (searchResponse.ApiCallDetails.HttpStatusCode == 400)
                 return MapBadRequest(logger, searchResponse);
@@ -161,9 +165,11 @@ public class SearchVerenigingenController : ApiController
     {
         var debugInfo = searchResponse.DebugInformation;
 
-        var match = Regex.Match(debugInfo,
-                                pattern: @"No mapping found for \[(.*?)(?:\.keyword)?\] in order to sort on",
-                                RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        var match = Regex.Match(
+            debugInfo,
+            pattern: @"No mapping found for \[(.*?)(?:\.keyword)?\] in order to sort on",
+            RegexOptions.IgnoreCase | RegexOptions.Multiline
+        );
 
         logger.LogError("Fout bij het aanroepen van ElasticSearch: {DebugInformation}", debugInfo);
 

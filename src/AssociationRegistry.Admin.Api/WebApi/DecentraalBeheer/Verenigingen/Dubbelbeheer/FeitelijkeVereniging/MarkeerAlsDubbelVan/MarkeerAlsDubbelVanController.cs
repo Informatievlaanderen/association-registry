@@ -1,21 +1,19 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
 using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
+using Framework;
+using Infrastructure;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
+using Infrastructure.WebApi.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -33,13 +31,11 @@ public class MarkeerAlsDubbelVanController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly IValidator<MarkeerAlsDubbelVanRequest> _validator;
-    private readonly AppSettings _appSettings;
 
-    public MarkeerAlsDubbelVanController(IMessageBus messageBus, IValidator<MarkeerAlsDubbelVanRequest> validator, AppSettings appSettings)
+    public MarkeerAlsDubbelVanController(IMessageBus messageBus, IValidator<MarkeerAlsDubbelVanRequest> validator)
     {
         _messageBus = messageBus;
         _validator = validator;
-        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -62,10 +58,18 @@ public class MarkeerAlsDubbelVanController : ApiController
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(MarkeerAlsDubbelVanRequest), typeof(MarkeerAlsDubbelVanRequestExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de vereniging die als dubbel werd gemarkeerd.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de vereniging die als dubbel werd gemarkeerd."
+    )]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
@@ -77,7 +81,8 @@ public class MarkeerAlsDubbelVanController : ApiController
         [FromRoute] string vCode,
         [FromBody] MarkeerAlsDubbelVanRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
@@ -85,6 +90,6 @@ public class MarkeerAlsDubbelVanController : ApiController
         var envelope = new CommandEnvelope<MarkeerAlsDubbelVanCommand>(request.ToCommand(vCode), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        return this.AcceptedCommand(_appSettings, commandResult);
+        return this.PostResponse(commandResult);
     }
 }

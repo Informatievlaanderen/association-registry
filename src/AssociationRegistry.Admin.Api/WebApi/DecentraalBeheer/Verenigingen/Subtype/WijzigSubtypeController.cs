@@ -1,21 +1,20 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Subtype;
 
+using System.Diagnostics;
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
-using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Subtype;
 using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
+using Framework;
+using Infrastructure;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
+using Infrastructure.WebApi.Validation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
@@ -51,10 +50,12 @@ public class WijzigSubtypeController : ApiController
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vCode">De VCode van de vereniging</param>
+    /// <param name="vCode">De VCode van de vereniging.</param>
     /// <param name="request"></param>
+    /// <param name="validator"></param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
+    /// <param name="cancellationToken"></param>
     /// <response code="200">Er waren geen wijzigingen.</response>
     /// <response code="202">Het subtype van de vereniging werd aangepast.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
@@ -67,10 +68,18 @@ public class WijzigSubtypeController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de aangepaste vereniging.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de aangepaste vereniging."
+    )]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -80,57 +89,51 @@ public class WijzigSubtypeController : ApiController
     public async Task<IActionResult> WijzigSubtype(
         [FromRoute] string vCode,
         [FromBody] WijzigSubtypeRequest request,
-        [FromServices] IGetNamesForVCodesQuery namesForVCodesQuery,
         [FromServices] IValidator<WijzigSubtypeRequest> validator,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         await validator.NullValidateAndThrowAsync(request, cancellationToken);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
 
         var gewenstSubtype = VerenigingssubtypeCode.Parse(request.Subtype);
-        CommandResult? commandResult = null;
+
         if (gewenstSubtype.IsFeitelijkeVereniging)
         {
-            var command = request.ToVerfijnSubtypeNaarFeitelijkeVerenigingCommand(vCode);
-            return await Handle(command, metaData, cancellationToken);
+            return await Handle(
+                request.ToVerfijnSubtypeNaarFeitelijkeVerenigingCommand(vCode),
+                metaData,
+                cancellationToken
+            );
         }
 
         if (gewenstSubtype.IsNietBepaald)
         {
-            var command = request.ToZetSubtypeTerugNaarNietBepaaldCommand(vCode);
-            return await Handle(command, metaData, cancellationToken);
+            return await Handle(request.ToZetSubtypeTerugNaarNietBepaaldCommand(vCode), metaData, cancellationToken);
         }
 
         if (gewenstSubtype.IsSubVereniging)
         {
-            var command = request.ToWijzigSubtypeCommand(vCode);
-            var envelope = new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, metaData);
-            commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope, cancellationToken);
+            return await Handle(request.ToWijzigSubtypeCommand(vCode), metaData, cancellationToken);
         }
 
-        if (!commandResult.HasChanges())
-            return Ok();
-
-        Response.AddSequenceHeader(commandResult.Sequence);
-        Response.AddETagHeader(commandResult.Version);
-
-        return Accepted();
+        throw new UnreachableException(
+            $"Unexpected verenigingssubtype '{request.Subtype}'. Validation should have prevented this."
+        );
     }
 
-    public async Task<IActionResult> Handle<TCommand>(TCommand command, CommandMetadata metaData, CancellationToken cancellationToken = default)
+    private async Task<IActionResult> Handle<TCommand>(
+        TCommand command,
+        CommandMetadata metaData,
+        CancellationToken cancellationToken = default
+    )
     {
         var envelope = new CommandEnvelope<TCommand>(command, metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope, cancellationToken);
 
-        if (!commandResult.HasChanges())
-            return Ok();
-
-        Response.AddSequenceHeader(commandResult.Sequence);
-        Response.AddETagHeader(commandResult.Version);
-
-        return Accepted();
+        return this.PatchResponse(commandResult);
     }
 }

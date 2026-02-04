@@ -1,5 +1,8 @@
 namespace AssociationRegistry.Acm.Api.WebApi.VerenigingenPerInsz;
 
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Asp.Versioning;
 using AssociationRegistry.Acm.Api.Queries.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Api.Queries.VerenigingenPerKbo;
@@ -12,9 +15,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
@@ -43,19 +43,25 @@ public class VerenigingenPerInszController : ApiController
         [FromServices] IVerenigingenPerKboNummerService kboNummerService,
         [FromBody] VerenigingenPerInszRequest request,
         CancellationToken cancellationToken,
-        [FromQuery] bool includeKboVerenigingen = false)
+        [FromQuery] bool includeKboVerenigingen = false
+    )
     {
         var validator = new VerenigingenPerInszRequestValidator();
         await validator.ValidateAndThrowAsync(request, cancellationToken: cancellationToken);
 
-        var verenigingenPerInsz =
-            await verenigingenPerInszQuery.ExecuteAsync(new VerenigingenPerInszFilter(request.Insz, includeKboVerenigingen), cancellationToken);
+        var verenigingenPerInsz = await verenigingenPerInszQuery.ExecuteAsync(
+            new VerenigingenPerInszFilter(request.Insz, includeKboVerenigingen),
+            cancellationToken
+        );
 
-        var kboNummersMetRechtsvorm = request.KboNummers
-                                             .Select(s => new KboNummerMetRechtsvorm(s.KboNummer, s.Rechtsvorm))
-                                             .ToArray();
+        var kboNummersMetRechtsvorm = request
+            .KboNummers.Select(s => new KboNummerMetRechtsvorm(s.KboNummer, s.Rechtsvorm))
+            .ToArray();
 
-        var verenigingenPerKbo = await kboNummerService.GetVerenigingenPerKbo(kboNummersMetRechtsvorm, cancellationToken);
+        var verenigingenPerKbo = await kboNummerService.GetVerenigingenPerKbo(
+            kboNummersMetRechtsvorm,
+            cancellationToken
+        );
 
         return Ok(VerenigingPerInszMapper.ToResponse(verenigingenPerInsz, verenigingenPerKbo));
     }
@@ -64,7 +70,7 @@ public class VerenigingenPerInszController : ApiController
     ///     Vraag de lijst van verenigingen voor een INSZ op.
     /// </summary>
     /// <param name="documentStore"></param>
-    /// <param name="insz">Dit is de unieke identificatie van een persoon, dit kan een rijksregisternummer of bisnummer zijn</param>
+    /// <param name="insz">Dit is de unieke identificatie van een persoon, dit kan een rijksregisternummer of bisnummer zijn.</param>
     /// <response code="200">Als het INSZ gevonden is.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet]
@@ -78,12 +84,15 @@ public class VerenigingenPerInszController : ApiController
         [FromServices] IDocumentStore documentStore,
         [FromQuery] string insz,
         CancellationToken cancellationToken,
-        [FromQuery] bool includeKboVerenigingen = false)
+        [FromQuery] bool includeKboVerenigingen = false
+    )
     {
         await using var session = documentStore.LightweightSession();
 
-        var verenigingenPerInsz =
-            await verenigingenPerInszQuery.ExecuteAsync(new VerenigingenPerInszFilter(insz, includeKboVerenigingen), cancellationToken);
+        var verenigingenPerInsz = await verenigingenPerInszQuery.ExecuteAsync(
+            new VerenigingenPerInszFilter(insz, includeKboVerenigingen),
+            cancellationToken
+        );
 
         return Ok(VerenigingPerInszMapper.ToResponse(verenigingenPerInsz, []));
     }

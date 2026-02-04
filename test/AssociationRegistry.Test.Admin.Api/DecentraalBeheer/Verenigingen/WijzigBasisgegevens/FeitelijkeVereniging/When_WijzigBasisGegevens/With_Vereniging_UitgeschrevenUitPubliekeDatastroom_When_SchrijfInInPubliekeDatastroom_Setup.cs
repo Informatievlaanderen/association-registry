@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.When_WijzigBasisGegevens;
 
+using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Events;
@@ -12,7 +13,6 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using System.Net;
 using Xunit;
 
 public sealed class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom_Setup
@@ -21,13 +21,16 @@ public sealed class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_Schr
     public V021_FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliekeDatastroomScenario Scenario { get; }
     public HttpResponseMessage Response { get; }
 
-    public With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom_Setup(EventsInDbScenariosFixture fixture)
+    public With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom_Setup(
+        EventsInDbScenariosFixture fixture
+    )
     {
         Scenario = fixture.V021FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliekeDatastroom;
 
         Request = new Fixture().CustomizeAdminApi().Create<WijzigBasisgegevensRequest>();
 
-        var jsonBody = @"{
+        var jsonBody =
+            @"{
             ""isUitgeschrevenUitPubliekeDatastroom"":false,
             ""initiator"": ""OVO000001""}";
 
@@ -36,8 +39,8 @@ public sealed class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_Schr
 }
 
 [Collection(nameof(AdminApiCollection))]
-public class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom :
-    IClassFixture<With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom_Setup>
+public class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom
+    : IClassFixture<With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom_Setup>
 {
     private readonly HttpResponseMessage _response;
     private readonly string _vCode;
@@ -46,7 +49,8 @@ public class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInIn
 
     public With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom(
         With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom_Setup setup,
-        EventsInDbScenariosFixture fixture)
+        EventsInDbScenariosFixture fixture
+    )
     {
         _response = setup.Response;
         _vCode = setup.Scenario.VCode;
@@ -57,28 +61,18 @@ public class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInIn
     [Fact]
     public async Task Then_it_saves_the_events()
     {
-        await using var session = _documentStore
-           .LightweightSession();
+        await using var session = _documentStore.LightweightSession();
 
-        (await session.Events
-               .FetchStreamAsync(_vCode))
-               .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdIngeschrevenInPubliekeDatastroom))
-               .Should().NotBeNull();
+        (await session.Events.FetchStreamAsync(_vCode))
+            .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdIngeschrevenInPubliekeDatastroom))
+            .Should()
+            .NotBeNull();
     }
 
     [Fact]
     public void Then_it_returns_an_accepted_response()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-    }
-
-    [Fact]
-    public void Then_it_returns_a_location_header()
-    {
-        _response.Headers.Should().ContainKey(HeaderNames.Location);
-
-        _response.Headers.Location!.OriginalString.Should()
-                 .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

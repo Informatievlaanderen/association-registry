@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens;
 
+using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
@@ -17,7 +18,6 @@ using JasperFx.Core;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using System.Net;
 using Xunit;
 
 public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
@@ -32,7 +32,8 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
 
         Request = new Fixture().CustomizeAdminApi().Create<WijzigBasisgegevensRequest>();
 
-        var jsonBody = $@"{{
+        var jsonBody =
+            $@"{{
             ""roepnaam"":""{Request.Roepnaam}"",
             ""korteBeschrijving"":""{Request.KorteBeschrijving}"",
             ""doelgroep"": {{
@@ -43,12 +44,16 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
             ""werkingsgebieden"":[{Request.Werkingsgebieden!.Select(h => $@"""{h}""").Join(",")}]
             }}";
 
-        Response = fixture.DefaultClient.PatchVerenigingMetRechtspersoonlijkheid(Scenario.VCode, jsonBody).GetAwaiter().GetResult();
+        Response = fixture
+            .DefaultClient.PatchVerenigingMetRechtspersoonlijkheid(Scenario.VCode, jsonBody)
+            .GetAwaiter()
+            .GetResult();
     }
 }
 
 [Collection(nameof(AdminApiCollection))]
-public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup>
+public class With_All_BasisGegevensWerdenGewijzigd
+    : IClassFixture<When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup>
 {
     private readonly WijzigBasisgegevensRequest _request;
     private readonly HttpResponseMessage _response;
@@ -58,7 +63,8 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
 
     public With_All_BasisGegevensWerdenGewijzigd(
         When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup setup,
-        EventsInDbScenariosFixture fixture)
+        EventsInDbScenariosFixture fixture
+    )
     {
         _request = setup.Request;
         _response = setup.Response;
@@ -72,57 +78,64 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     {
         var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
 
-        await using var session = _documentStore
-           .LightweightSession();
+        await using var session = _documentStore.LightweightSession();
 
-        var events = await session.Events
-                            .FetchStreamAsync(_vCode);
+        var events = await session.Events.FetchStreamAsync(_vCode);
 
         var roepnaamWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(RoepnaamWerdGewijzigd));
         roepnaamWerdGewijzigd.Data.Should().BeEquivalentTo(new RoepnaamWerdGewijzigd(_request.Roepnaam ?? ""));
 
-        var korteBeschrijvingWerdGewijzigd = events.Single(@event => @event.Data.GetType() == typeof(KorteBeschrijvingWerdGewijzigd));
+        var korteBeschrijvingWerdGewijzigd = events.Single(@event =>
+            @event.Data.GetType() == typeof(KorteBeschrijvingWerdGewijzigd)
+        );
 
-        korteBeschrijvingWerdGewijzigd.Data.Should()
-                                      .BeEquivalentTo(new KorteBeschrijvingWerdGewijzigd(_vCode, _request.KorteBeschrijving!));
+        korteBeschrijvingWerdGewijzigd
+            .Data.Should()
+            .BeEquivalentTo(new KorteBeschrijvingWerdGewijzigd(_vCode, _request.KorteBeschrijving!));
 
         var doelgroepWerdGewijzigd = events.Single(@event => @event.Data.GetType() == typeof(DoelgroepWerdGewijzigd));
 
-        doelgroepWerdGewijzigd.Data.Should()
-                              .BeEquivalentTo(new DoelgroepWerdGewijzigd(
-                                                  new Registratiedata.Doelgroep(_request.Doelgroep!.Minimumleeftijd!.Value,
-                                                                                _request.Doelgroep!.Maximumleeftijd!.Value)));
+        doelgroepWerdGewijzigd
+            .Data.Should()
+            .BeEquivalentTo(
+                new DoelgroepWerdGewijzigd(
+                    new Registratiedata.Doelgroep(
+                        _request.Doelgroep!.Minimumleeftijd!.Value,
+                        _request.Doelgroep!.Maximumleeftijd!.Value
+                    )
+                )
+            );
 
-        var hoofdactiviteitenVerenigingsloketWerdenGewijzigd = events
-           .Single(@event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
-
-        hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
-            EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(_request.HoofdactiviteitenVerenigingsloket!
-                                                                          .Select(HoofdactiviteitVerenigingsloket.Create).ToArray()));
-
-        var werkingsgebiedenWerdenGewijzigd = events
-           .Single(@event => @event.Data.GetType() == typeof(WerkingsgebiedenWerdenGewijzigd));
-
-        werkingsgebiedenWerdenGewijzigd.Data.Should().BeEquivalentTo(
-            EventFactory.WerkingsgebiedenWerdenGewijzigd(
-                VCode.Create(_vCode),
-                _request.Werkingsgebieden!.Select(werkingsgebiedenServiceMock.Create).ToArray())
+        var hoofdactiviteitenVerenigingsloketWerdenGewijzigd = events.Single(@event =>
+            @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd)
         );
+
+        hoofdactiviteitenVerenigingsloketWerdenGewijzigd
+            .Data.Should()
+            .BeEquivalentTo(
+                EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
+                    _request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create).ToArray()
+                )
+            );
+
+        var werkingsgebiedenWerdenGewijzigd = events.Single(@event =>
+            @event.Data.GetType() == typeof(WerkingsgebiedenWerdenGewijzigd)
+        );
+
+        werkingsgebiedenWerdenGewijzigd
+            .Data.Should()
+            .BeEquivalentTo(
+                EventFactory.WerkingsgebiedenWerdenGewijzigd(
+                    VCode.Create(_vCode),
+                    _request.Werkingsgebieden!.Select(werkingsgebiedenServiceMock.Create).ToArray()
+                )
+            );
     }
 
     [Fact]
     public void Then_it_returns_an_accepted_response()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-    }
-
-    [Fact]
-    public void Then_it_returns_a_location_header()
-    {
-        _response.Headers.Should().ContainKey(HeaderNames.Location);
-
-        _response.Headers.Location!.OriginalString.Should()
-                 .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

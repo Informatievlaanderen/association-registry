@@ -8,13 +8,13 @@ using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Contactgegevens.WijzigContactgegevenFromKbo;
 using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -31,16 +31,11 @@ public class WijzigContactgegevenController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly IValidator<WijzigContactgegevenRequest> _validator;
-    private readonly AppSettings _appSettings;
 
-    public WijzigContactgegevenController(
-        IMessageBus messageBus,
-        IValidator<WijzigContactgegevenRequest> validator,
-        AppSettings appSettings)
+    public WijzigContactgegevenController(IMessageBus messageBus, IValidator<WijzigContactgegevenRequest> validator)
     {
         _messageBus = messageBus;
         _validator = validator;
-        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -51,9 +46,9 @@ public class WijzigContactgegevenController : ApiController
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
-    /// <param name="contactgegevenId">De unieke identificatie code van dit contactgegeven binnen de vereniging</param>
-    /// <param name="request">Het te wijzigen contactgegeven</param>
+    /// <param name="vCode">De unieke identificatie code van deze vereniging.</param>
+    /// <param name="contactgegevenId">De unieke identificatie code van dit contactgegeven binnen de vereniging.</param>
+    /// <param name="request">Het te wijzigen contactgegeven.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen.</response>
@@ -64,10 +59,18 @@ public class WijzigContactgegevenController : ApiController
     [HttpPatch("{vCode}/kbo/contactgegevens/{contactgegevenId:int}")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de geregistreerde vereniging."
+    )]
     [SwaggerRequestExample(typeof(WijzigContactgegevenRequest), typeof(WijzigContactgegevenRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
@@ -82,16 +85,18 @@ public class WijzigContactgegevenController : ApiController
         [FromRoute] int contactgegevenId,
         [FromBody] WijzigContactgegevenRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<WijzigContactgegevenFromKboCommand>(request.ToCommand(vCode, contactgegevenId), metaData);
+        var envelope = new CommandEnvelope<WijzigContactgegevenFromKboCommand>(
+            request.ToCommand(vCode, contactgegevenId),
+            metaData
+        );
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        if (!commandResult.HasChanges()) return Ok();
-
-        return this.AcceptedCommand(_appSettings, commandResult);
+        return this.PatchResponse(commandResult);
     }
 }

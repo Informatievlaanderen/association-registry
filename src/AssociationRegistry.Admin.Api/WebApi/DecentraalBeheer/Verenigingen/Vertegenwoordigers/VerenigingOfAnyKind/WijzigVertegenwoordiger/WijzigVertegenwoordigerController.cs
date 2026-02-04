@@ -14,6 +14,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
 using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -31,7 +32,10 @@ public class WijzigVertegenwoordigerController : ApiController
     private readonly IMessageBus _messageBus;
     private readonly IValidator<WijzigVertegenwoordigerRequest> _validator;
 
-    public WijzigVertegenwoordigerController(IMessageBus messageBus, IValidator<WijzigVertegenwoordigerRequest> validator)
+    public WijzigVertegenwoordigerController(
+        IMessageBus messageBus,
+        IValidator<WijzigVertegenwoordigerRequest> validator
+    )
     {
         _messageBus = messageBus;
         _validator = validator;
@@ -45,9 +49,9 @@ public class WijzigVertegenwoordigerController : ApiController
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vertegenwoordigerId">De unieke identificatie code van deze vertegenwoordiger binnen de vereniging</param>
-    /// <param name="request">De gegevens van de vertegenwoordiger die gewijzigd moeten worden</param>
-    /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
+    /// <param name="vertegenwoordigerId">De unieke identificatie code van deze vertegenwoordiger binnen de vereniging.</param>
+    /// <param name="request">De gegevens van de vertegenwoordiger die gewijzigd moeten worden.</param>
+    /// <param name="vCode">De unieke identificatie code van deze vereniging.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen.</response>
@@ -59,10 +63,18 @@ public class WijzigVertegenwoordigerController : ApiController
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(WijzigVertegenwoordigerRequest), typeof(WijzigVertegenwoordigerRequestExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de geregistreerde vereniging."
+    )]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
@@ -76,19 +88,18 @@ public class WijzigVertegenwoordigerController : ApiController
         [FromRoute] int vertegenwoordigerId,
         [FromBody] WijzigVertegenwoordigerRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<WijzigVertegenwoordigerCommand>(request.ToCommand(vCode, vertegenwoordigerId), metaData);
+        var envelope = new CommandEnvelope<WijzigVertegenwoordigerCommand>(
+            request.ToCommand(vCode, vertegenwoordigerId),
+            metaData
+        );
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        if (!commandResult.HasChanges()) return Ok();
-
-        Response.AddSequenceHeader(commandResult.Sequence);
-        Response.AddETagHeader(commandResult.Version);
-
-        return Accepted();
+        return this.PatchResponse(commandResult);
     }
 }

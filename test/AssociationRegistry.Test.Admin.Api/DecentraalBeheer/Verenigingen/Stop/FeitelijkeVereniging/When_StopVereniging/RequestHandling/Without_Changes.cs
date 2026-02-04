@@ -7,7 +7,6 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.StopVereniging
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
@@ -29,21 +28,23 @@ public class Without_Changes : IAsyncLifetime
         var messageBusMock = new Mock<IMessageBus>();
 
         messageBusMock
-           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<StopVerenigingCommand>>(), default, null))
-           .ReturnsAsync(CommandResult.Create(VCode.Create("V0001001"), StreamActionResult.Empty));
+            .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<StopVerenigingCommand>>(), default, null))
+            .ReturnsAsync(CommandResult.Create(VCode.Create("V0001001"), StreamActionResult.Empty));
 
-        _controller = new StopVerenigingController(messageBusMock.Object, new AppSettings(), new StopVerenigingRequestValidator())
-            { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
+        _controller = new StopVerenigingController(messageBusMock.Object, new StopVerenigingRequestValidator())
+        {
+            ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() },
+        };
     }
 
     public async ValueTask InitializeAsync()
     {
         _result = await _controller.Post(
-            new StopVerenigingRequest
-                { Einddatum = new DateOnly() },
+            new StopVerenigingRequest { Einddatum = new DateOnly() },
             vCode: "V0001001",
             new CommandMetadataProviderStub { Initiator = "OVO0001001" },
-            ifMatch: "W/\"1\"");
+            ifMatch: "W/\"1\""
+        );
     }
 
     [Fact]
@@ -64,6 +65,5 @@ public class Without_Changes : IAsyncLifetime
         _controller.Response.Headers.Should().NotContainKey(HeaderNames.Location);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }
