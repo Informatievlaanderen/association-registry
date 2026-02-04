@@ -1,22 +1,22 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
+using System.Diagnostics.Contracts;
 using Adressen;
-using Events;
-using Framework;
-using GemeentenaamVerrijking;
 using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Exceptions;
-using Grar.Models;
-using Emails;
-using Events.Factories;
-using Exceptions;
-using Geotags;
-using Grar;
-using Magda.Persoon;
-using SocialMedias;
-using System.Diagnostics.Contracts;
 using Bankrekeningen;
 using Bankrekeningen.Exceptions;
+using Emails;
+using Events;
+using Events.Factories;
+using Exceptions;
+using Framework;
+using GemeentenaamVerrijking;
+using Geotags;
+using Grar;
+using Grar.Models;
+using Magda.Persoon;
+using SocialMedias;
 using TelefoonNummers;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
@@ -54,10 +54,19 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         TelefoonNummer? telefoonNummer,
         TelefoonNummer? mobiel,
         SocialMedia? socialMedia,
-        bool? isPrimair)
+        bool? isPrimair
+    )
     {
-        var gewijzigdeVertegenwoordiger =
-            State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
+        var gewijzigdeVertegenwoordiger = State.Vertegenwoordigers.Wijzig(
+            vertegenwoordigerId,
+            rol,
+            roepnaam,
+            email,
+            telefoonNummer,
+            mobiel,
+            socialMedia,
+            isPrimair
+        );
 
         if (gewijzigdeVertegenwoordiger is null)
             return;
@@ -73,7 +82,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public Locatie VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
-        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(
+            toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo
+        );
 
         var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
 
@@ -82,10 +93,18 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         return toegevoegdeLocatie;
     }
 
-    public void WijzigLocatie(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
+    public void WijzigLocatie(
+        int locatieId,
+        string? naam,
+        Locatietype? locatietype,
+        bool? isPrimair,
+        AdresId? adresId,
+        Adres? adres
+    )
     {
-        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(locatietype is not null &&
-                                                        locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(
+            locatietype is not null && locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo
+        );
 
         var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, locatietype, isPrimair, adresId, adres);
 
@@ -104,7 +123,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public Lidmaatschap VoegLidmaatschapToe(ToeTeVoegenLidmaatschap lidmaatschap)
     {
         Throw<LidmaatschapMagNietVerwijzenNaarEigenVereniging>.If(VCode == lidmaatschap.AndereVereniging);
-        Throw<VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs>.If(State.Verenigingssubtype.IsSubverenigingVan(lidmaatschap.AndereVereniging));
+        Throw<VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs>.If(
+            State.Verenigingssubtype.IsSubverenigingVan(lidmaatschap.AndereVereniging)
+        );
 
         var toegevoegdLidmaatschap = State.Lidmaatschappen.VoegToe(lidmaatschap);
 
@@ -129,7 +150,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.LidmaatschapWerdGewijzigd(VCode, toegevoegdLidmaatschap));
     }
 
-    public async Task HeradresseerLocaties(List<LocatieWithAdres> locatiesMetAdressen, string idempotenceKey, IAddressVerrijkingsService addressVerrijkingsService)
+    public async Task HeradresseerLocaties(
+        List<LocatieWithAdres> locatiesMetAdressen,
+        string idempotenceKey,
+        IAddressVerrijkingsService addressVerrijkingsService
+    )
     {
         if (State.HandledIdempotenceKeys.Contains(idempotenceKey))
             return;
@@ -141,7 +166,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
             var locatie = State.Locaties[locatieId];
 
-            var verrijktAdres = await addressVerrijkingsService.FromAdresAndGrarResponse(adresDetailResponse, locatie.Adres, CancellationToken.None);
+            var verrijktAdres = await addressVerrijkingsService.FromAdresAndGrarResponse(
+                adresDetailResponse,
+                locatie.Adres,
+                CancellationToken.None
+            );
 
             var adres = Adres.Hydrate(
                 straatnaam: verrijktAdres.AddressResponse.Straatnaam,
@@ -149,24 +178,32 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 busnummer: verrijktAdres.AddressResponse.Busnummer,
                 postcode: verrijktAdres.AddressResponse.Postcode,
                 gemeente: verrijktAdres.Gemeente.Naam,
-                land: Adres.België);
+                land: Adres.België
+            );
 
             var verrijkteLocatie = locatie.MetAdresUitGrar(adres);
 
             State.Locaties.ThrowIfCannotAppendOrUpdate(verrijkteLocatie);
 
-            var verrijktAdresUitAdressenRegister =
-                EventFactory.VerrijktAdresUitAdressenregister(verrijktAdres);
+            var verrijktAdresUitAdressenRegister = EventFactory.VerrijktAdresUitAdressenregister(verrijktAdres);
 
-            AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
-                                                              locatieId,
-                                                              adresDetailResponse.AdresId,
-                                                              verrijktAdresUitAdressenRegister.Adres,
-                                                              idempotenceKey));
+            AddEvent(
+                new AdresWerdGewijzigdInAdressenregister(
+                    VCode,
+                    locatieId,
+                    adresDetailResponse.AdresId,
+                    verrijktAdresUitAdressenRegister.Adres,
+                    idempotenceKey
+                )
+            );
         }
     }
 
-    public async Task SyncAdresLocaties(List<LocatieWithAdres> locatiesMetAdressen, string idempotenceKey, IAddressVerrijkingsService verrijkingService)
+    public async Task SyncAdresLocaties(
+        List<LocatieWithAdres> locatiesMetAdressen,
+        string idempotenceKey,
+        IAddressVerrijkingsService verrijkingService
+    )
     {
         if (State.HandledIdempotenceKeys.Contains(idempotenceKey))
             return;
@@ -182,17 +219,24 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             {
                 if (locatie.HeeftAdresId && locatie.AdresIdKomtOvereenMetGrarIndienBestaand(adresDetailResponse))
                 {
-                    AddEvent(new AdresWerdOntkoppeldVanAdressenregister(
-                                 VCode,
-                                 locatieId,
-                                 EventFactory.AdresId(locatie.AdresId),
-                                 EventFactory.Adres(locatie.Adres)));
+                    AddEvent(
+                        new AdresWerdOntkoppeldVanAdressenregister(
+                            VCode,
+                            locatieId,
+                            EventFactory.AdresId(locatie.AdresId),
+                            EventFactory.Adres(locatie.Adres)
+                        )
+                    );
                 }
 
                 continue;
             }
 
-            var verrijktAdres = await verrijkingService.FromAdresAndGrarResponse(adresDetailResponse, locatie.Adres, CancellationToken.None);
+            var verrijktAdres = await verrijkingService.FromAdresAndGrarResponse(
+                adresDetailResponse,
+                locatie.Adres,
+                CancellationToken.None
+            );
 
             var adres = Adres.Hydrate(
                 straatnaam: verrijktAdres.AddressResponse.Straatnaam,
@@ -200,7 +244,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 busnummer: verrijktAdres.AddressResponse.Busnummer,
                 postcode: verrijktAdres.AddressResponse.Postcode,
                 gemeente: verrijktAdres.Gemeente.Naam,
-                land: Adres.België);
+                land: Adres.België
+            );
 
             var verrijkteLocatie = locatie.VerrijkMet(adres);
             // TODO: if locatie is duplicatie verwijder duplicate locatie event?
@@ -208,12 +253,15 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
             if (locatie.Adres != verrijkteLocatie.Adres)
             {
-                AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
-                                                                  locatieId,
-                                                                  adresDetailResponse.AdresId,
-                                                                  EventFactory
-                                                                     .VerrijktAdresUitAdressenregister(verrijktAdres)!.Adres,
-                                                                  idempotenceKey));
+                AddEvent(
+                    new AdresWerdGewijzigdInAdressenregister(
+                        VCode,
+                        locatieId,
+                        adresDetailResponse.AdresId,
+                        EventFactory.VerrijktAdresUitAdressenregister(verrijktAdres)!.Adres,
+                        idempotenceKey
+                    )
+                );
             }
         }
     }
@@ -237,36 +285,42 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         if (!NieuweWaardenIndienWerdOvergenomen(adresWerdOvergenomen, locatie))
         {
-            AddEvent(new AdresHeeftGeenVerschillenMetAdressenregister(VCode,
-                                                                      locatieId,
-                                                                      adresWerdOvergenomen.AdresId,
-                                                                      adresWerdOvergenomen.Adres));
+            AddEvent(
+                new AdresHeeftGeenVerschillenMetAdressenregister(
+                    VCode,
+                    locatieId,
+                    adresWerdOvergenomen.AdresId,
+                    adresWerdOvergenomen.Adres
+                )
+            );
             return;
         }
 
-        var stateLocatie = State.Locaties.SingleOrDefault(
-            sod =>
-                sod.LocatieId != locatieId &&
-                sod.AdresId is not null &&
-                sod.AdresId == adresWerdOvergenomen.AdresId &&
-                sod.Naam == locatie.Naam &&
-                sod.Locatietype == locatie.Locatietype);
+        var stateLocatie = State.Locaties.SingleOrDefault(sod =>
+            sod.LocatieId != locatieId
+            && sod.AdresId is not null
+            && sod.AdresId == adresWerdOvergenomen.AdresId
+            && sod.Naam == locatie.Naam
+            && sod.Locatietype == locatie.Locatietype
+        );
 
         if (stateLocatie is not null)
         {
-            var verwijderdeLocatieId = !stateLocatie.IsPrimair && locatie.IsPrimair ? stateLocatie.LocatieId : locatieId;
+            var verwijderdeLocatieId =
+                !stateLocatie.IsPrimair && locatie.IsPrimair ? stateLocatie.LocatieId : locatieId;
             var behoudenLocatieId = verwijderdeLocatieId == locatieId ? stateLocatie.LocatieId : locatieId;
 
-            AddEvent(adresWerdOvergenomen with
-            {
-                VCode = VCode,
-                LocatieId = locatieId
-            });
+            AddEvent(adresWerdOvergenomen with { VCode = VCode, LocatieId = locatieId });
 
-            AddEvent(new LocatieDuplicaatWerdVerwijderdNaAdresMatch(VCode, verwijderdeLocatieId,
-                                                                    behoudenLocatieId,
-                                                                    locatie.Naam,
-                                                                    adresWerdOvergenomen.AdresId));
+            AddEvent(
+                new LocatieDuplicaatWerdVerwijderdNaAdresMatch(
+                    VCode,
+                    verwijderdeLocatieId,
+                    behoudenLocatieId,
+                    locatie.Naam,
+                    adresWerdOvergenomen.AdresId
+                )
+            );
             return;
         }
 
@@ -345,7 +399,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public async Task NeemAdresDetailOver(
         int locatieId,
         IAddressVerrijkingsService verrijkingService,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var locatie = State.Locaties[locatieId];
 
@@ -357,17 +412,22 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             busnummer: verrijktAdres.AddressResponse.Busnummer,
             postcode: verrijktAdres.AddressResponse.Postcode,
             gemeente: verrijktAdres.Gemeente.Naam,
-            land: Adres.België);
+            land: Adres.België
+        );
 
         var decoratedLocatie = locatie.MetAdresUitGrar(adres);
         State.Locaties.ThrowIfCannotAppendOrUpdate(decoratedLocatie);
 
-        var registratieData =
-            EventFactory.VerrijktAdresUitAdressenregister(verrijktAdres);
+        var registratieData = EventFactory.VerrijktAdresUitAdressenregister(verrijktAdres);
 
-        AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatie.LocatieId,
-                                                             verrijktAdres.AddressResponse.AdresId,
-                                                             registratieData.Adres));
+        AddEvent(
+            new AdresWerdOvergenomenUitAdressenregister(
+                VCode,
+                locatie.LocatieId,
+                verrijktAdres.AddressResponse.AdresId,
+                registratieData.Adres
+            )
+        );
     }
 
     public void OntkoppelLocatie(int locatieId)
@@ -380,13 +440,15 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (locatie.AdresId is null)
             return;
 
-        AddEvent(new AdresWerdOntkoppeldVanAdressenregister(
-                     VCode,
-                     locatieId,
-                     EventFactory.AdresId(locatie.AdresId),
-                     EventFactory.Adres(locatie.Adres)));
+        AddEvent(
+            new AdresWerdOntkoppeldVanAdressenregister(
+                VCode,
+                locatieId,
+                EventFactory.AdresId(locatie.AdresId),
+                EventFactory.Adres(locatie.Adres)
+            )
+        );
     }
-
 
     public void AanvaardDubbeleVereniging(VCode dubbeleVereniging)
     {
@@ -397,20 +459,24 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void AanvaardCorrectieDubbeleVereniging(VCode dubbeleVereniging)
     {
         if (!State.CorresponderendeVCodes.Contains(dubbeleVereniging))
-            throw new ApplicationException($"Vereniging kon correctie dubbele vereniging ({dubbeleVereniging}) niet aanvaarden omdat dubbele vereniging " +
-                                           $"niet voorkomt in de corresponderende VCodes: {string.Join(',', State.CorresponderendeVCodes)}.");
+            throw new ApplicationException(
+                $"Vereniging kon correctie dubbele vereniging ({dubbeleVereniging}) niet aanvaarden omdat dubbele vereniging "
+                    + $"niet voorkomt in de corresponderende VCodes: {string.Join(',', State.CorresponderendeVCodes)}."
+            );
 
         AddEvent(EventFactory.VerenigingAanvaarddeCorrectieDubbeleVereniging(VCode, dubbeleVereniging));
     }
 
     [Pure]
-    private static bool NieuweWaardenIndienWerdOvergenomen(AdresWerdOvergenomenUitAdressenregister @event, Locatie locatie)
+    private static bool NieuweWaardenIndienWerdOvergenomen(
+        AdresWerdOvergenomenUitAdressenregister @event,
+        Locatie locatie
+    )
     {
         var adres = Adres.Hydrate(@event.Adres);
         var adresId = AdresId.Hydrate(@event);
 
-        return locatie.Adres != adres ||
-               locatie.AdresId != adresId;
+        return locatie.Adres != adres || locatie.AdresId != adresId;
     }
 
     public void Hydrate(VerenigingState obj)
@@ -436,33 +502,57 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.GeotagsWerdenBepaald(VCode, geotags));
     }
 
-    public void WijzigBankrekeningnummer(TeWijzigenBankrekeningnummer teWijzigenBankrekeningnummer)
+    public void WijzigBankrekeningnummer(TeWijzigenBankrekeningnummer teWijzigenBankrekeningnummer, string intiator)
     {
-        var bankrekeningnummer = State.Bankrekeningnummers.Wijzig(teWijzigenBankrekeningnummer);
+        var vorigeTitularis = State
+            .Bankrekeningnummers.GetById(teWijzigenBankrekeningnummer.BankrekeningnummerId)
+            .Titularis;
 
-        if(bankrekeningnummer is null)
+        var gewijzigdBankrekeningnummer = State.Bankrekeningnummers.Wijzig(teWijzigenBankrekeningnummer);
+
+        if (gewijzigdBankrekeningnummer is null)
             return;
 
-        AddEvent(new BankrekeningnummerWerdGewijzigd(
-                     bankrekeningnummer.BankrekeningnummerId,
-                     bankrekeningnummer.Doel,
-                     bankrekeningnummer.Titularis.Value));
+        AddEvent(
+            new BankrekeningnummerWerdGewijzigd(
+                gewijzigdBankrekeningnummer.BankrekeningnummerId,
+                gewijzigdBankrekeningnummer.Doel,
+                gewijzigdBankrekeningnummer.Titularis.Value
+            )
+        );
+
+        if (BankrekeningnummerIsGevalideerdAndTitularisIsGewijzigd(gewijzigdBankrekeningnummer, vorigeTitularis))
+            AddEvent(
+                new BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis(
+                    gewijzigdBankrekeningnummer.BankrekeningnummerId,
+                    intiator
+                )
+            );
     }
+
+    private static bool BankrekeningnummerIsGevalideerdAndTitularisIsGewijzigd(
+        Bankrekeningnummer bankrekeningnummer,
+        Titularis previousTitularis
+    ) => bankrekeningnummer.Gevalideerd && bankrekeningnummer.Titularis.Value != previousTitularis.Value;
 
     public void Valideer(int bankrekeningnummerId, string initiator)
     {
-        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x => x.BankrekeningnummerId == bankrekeningnummerId);
+        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
+            x.BankrekeningnummerId == bankrekeningnummerId
+        );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
 
         if (bankrekeningnummer!.Gevalideerd)
             return;
 
-        AddEvent(new BankrekeningnummerWerdGevalideerd(
-                     bankrekeningnummer.BankrekeningnummerId,
-                     bankrekeningnummer.Iban.Value,
-                     bankrekeningnummer.Titularis.Value,
-                     initiator
-                     ));
+        AddEvent(
+            new BankrekeningnummerWerdGevalideerd(
+                bankrekeningnummer.BankrekeningnummerId,
+                bankrekeningnummer.Iban.Value,
+                bankrekeningnummer.Titularis.Value,
+                initiator
+            )
+        );
     }
 }
