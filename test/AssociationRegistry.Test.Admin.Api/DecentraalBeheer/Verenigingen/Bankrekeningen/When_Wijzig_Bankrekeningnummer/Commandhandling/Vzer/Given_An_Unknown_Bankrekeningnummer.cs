@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Wijzig_Bankrekeningnummer.Commandhandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Wijzig_Bankrekeningnummer.Commandhandling.Vzer;
 
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.WijzigBankrekening;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.WijzigBankrekening;
-using Common.AutoFixture;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using Events;
 using Xunit;
 
 public class Given_An_Unknown_Bankrekeningnummer

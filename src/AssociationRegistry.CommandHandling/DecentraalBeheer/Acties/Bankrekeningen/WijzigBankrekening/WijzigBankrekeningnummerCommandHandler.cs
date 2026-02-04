@@ -23,7 +23,7 @@ public class WijzigBankrekeningnummerCommandHandler
             envelope.Metadata
         );
 
-        vereniging.WijzigBankrekeningnummer(envelope.Command.Bankrekeningnummer);
+        vereniging.WijzigBankrekeningnummer(envelope.Command.Bankrekeningnummer, envelope.Metadata.Initiator);
 
         var result = await _repository.Save(vereniging, envelope.Metadata, cancellationToken);
 
