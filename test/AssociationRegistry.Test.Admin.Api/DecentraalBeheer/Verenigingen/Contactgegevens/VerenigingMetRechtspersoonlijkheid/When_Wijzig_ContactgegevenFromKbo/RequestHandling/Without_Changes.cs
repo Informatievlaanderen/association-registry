@@ -7,7 +7,6 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Contactgegeven
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
@@ -29,12 +28,19 @@ public class Without_Changes : IAsyncLifetime
         var messageBusMock = new Mock<IMessageBus>();
 
         messageBusMock
-           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigContactgegevenFromKboCommand>>(), default, null))
-           .ReturnsAsync(CommandResult.Create(VCode.Create("V0001001"), StreamActionResult.Empty));
+            .Setup(x =>
+                x.InvokeAsync<CommandResult>(
+                    It.IsAny<CommandEnvelope<WijzigContactgegevenFromKboCommand>>(),
+                    default,
+                    null
+                )
+            )
+            .ReturnsAsync(CommandResult.Create(VCode.Create("V0001001"), StreamActionResult.Empty));
 
-        _controller = new WijzigContactgegevenController(messageBusMock.Object, new WijzigContactgegevenValidator(),
-                                                         new AppSettings())
-            { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
+        _controller = new WijzigContactgegevenController(messageBusMock.Object, new WijzigContactgegevenValidator())
+        {
+            ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() },
+        };
     }
 
     public async ValueTask InitializeAsync()
@@ -44,13 +50,11 @@ public class Without_Changes : IAsyncLifetime
             contactgegevenId: 1,
             new WijzigContactgegevenRequest
             {
-                Contactgegeven = new TeWijzigenContactgegeven
-                {
-                    Beschrijving = "Beschrijving",
-                },
+                Contactgegeven = new TeWijzigenContactgegeven { Beschrijving = "Beschrijving" },
             },
             new CommandMetadataProviderStub { Initiator = "OVO000001" },
-            ifMatch: "W/\"1\"");
+            ifMatch: "W/\"1\""
+        );
     }
 
     [Fact]
@@ -71,6 +75,5 @@ public class Without_Changes : IAsyncLifetime
         _controller.Response.Headers.Should().NotContainKey(HeaderNames.Location);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

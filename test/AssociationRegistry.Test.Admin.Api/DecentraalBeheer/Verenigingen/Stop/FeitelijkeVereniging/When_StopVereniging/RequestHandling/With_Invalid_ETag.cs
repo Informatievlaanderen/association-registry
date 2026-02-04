@@ -3,7 +3,6 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Stop.RequestModels;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -20,8 +19,10 @@ public class With_Invalid_ETag
     {
         Mock<IMessageBus> messageBusMock = new();
 
-        _controller = new StopVerenigingController(messageBusMock.Object, new AppSettings(), new StopVerenigingRequestValidator())
-            { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
+        _controller = new StopVerenigingController(messageBusMock.Object, new StopVerenigingRequestValidator())
+        {
+            ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() },
+        };
     }
 
     [Theory]
@@ -34,7 +35,8 @@ public class With_Invalid_ETag
                 new StopVerenigingRequest(),
                 vCode: "V0001001",
                 new CommandMetadataProviderStub { Initiator = "OVO0001001" },
-                eTagValue);
+                eTagValue
+            );
         };
 
         method.Should().ThrowAsync<IfMatchParser.EtagHeaderIsInvalidException>();

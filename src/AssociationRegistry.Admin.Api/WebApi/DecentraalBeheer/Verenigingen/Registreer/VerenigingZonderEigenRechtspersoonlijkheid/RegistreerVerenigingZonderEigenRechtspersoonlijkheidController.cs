@@ -39,7 +39,8 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidController : Ap
     public RegistreerVerenigingZonderEigenRechtspersoonlijkheidController(
         IMessageBus bus,
         IValidator<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest> validator,
-        AppSettings appSettings)
+        AppSettings appSettings
+    )
     {
         _bus = bus;
         _validator = validator;
@@ -55,7 +56,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidController : Ap
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="request">De gegevens van de te registreren vereniging</param>
+    /// <param name="request">De gegevens van de te registreren vereniging.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="bevestigingsToken">Dit token wordt gebruikt als bevestiging dat de vereniging uniek is,
     /// ondanks de voorgestelde duplicaten.</param>
@@ -66,16 +67,31 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidController : Ap
     [HttpPost("vzer")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerRequestExample(typeof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest), typeof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequestExamples))]
+    [SwaggerRequestExample(
+        typeof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest),
+        typeof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequestExamples)
+    )]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status409Conflict, typeof(PotentialDuplicatesResponseExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string",
-                           description: "De locatie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de geregistreerde vereniging."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "Location",
+        type: "string",
+        description: "De locatie van de geregistreerde vereniging."
+    )]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(PotentialDuplicatesResponse), StatusCodes.Status409Conflict)]
@@ -84,19 +100,23 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidController : Ap
         [FromBody] RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest? request,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromServices] IWerkingsgebiedenService werkingsgebiedenService,
-        [FromHeader(Name = WellknownHeaderNames.BevestigingsToken)]
-        string? bevestigingsToken = null)
+        [FromHeader(Name = WellknownHeaderNames.BevestigingsToken)] string? bevestigingsToken = null
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
-        var command = request.ToCommand(request.Werkingsgebieden?.Select(s => werkingsgebiedenService.Create(s)).ToArray())
-            with
-            {
-                Bevestigingstoken = bevestigingsToken,
-            };
+        var command = request.ToCommand(
+            request.Werkingsgebieden?.Select(s => werkingsgebiedenService.Create(s)).ToArray()
+        ) with
+        {
+            Bevestigingstoken = bevestigingsToken,
+        };
 
         var metaData = metadataProvider.GetMetadata();
-        var envelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, metaData);
+        var envelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+            command,
+            metaData
+        );
         var registratieResult = await _bus.InvokeAsync<Result>(envelope);
 
         return registratieResult switch
@@ -108,7 +128,9 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidController : Ap
                     _bevestigingsTokenHelper.Calculate(request),
                     potentialDuplicates.Data,
                     _appSettings,
-                    new VerenigingstypeMapperV2())),
+                    new VerenigingstypeMapperV2()
+                )
+            ),
 
             _ => throw new ArgumentOutOfRangeException(),
         };

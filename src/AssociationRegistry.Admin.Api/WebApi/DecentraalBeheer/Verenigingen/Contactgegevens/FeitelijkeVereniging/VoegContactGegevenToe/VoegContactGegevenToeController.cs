@@ -1,21 +1,20 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Contactgegevens.VoegContactgegevenToe;
 using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
+using Framework;
+using Hosts.Configuration.ConfigurationBindings;
+using Infrastructure;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
+using Infrastructure.WebApi.Validation;
 using Microsoft.AspNetCore.Mvc;
 using RequestsModels;
 using Swashbuckle.AspNetCore.Filters;
@@ -33,7 +32,11 @@ public class VoegContactgegevenToeController : ApiController
     private readonly IValidator<VoegContactgegevenToeRequest> _validator;
     private readonly AppSettings _appSettings;
 
-    public VoegContactgegevenToeController(IMessageBus messageBus, IValidator<VoegContactgegevenToeRequest> validator, AppSettings appSettings)
+    public VoegContactgegevenToeController(
+        IMessageBus messageBus,
+        IValidator<VoegContactgegevenToeRequest> validator,
+        AppSettings appSettings
+    )
     {
         _messageBus = messageBus;
         _validator = validator;
@@ -48,8 +51,8 @@ public class VoegContactgegevenToeController : ApiController
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vCode">De VCode van de vereniging</param>
-    /// <param name="request">Het toe te voegen contactgegeven</param>
+    /// <param name="vCode">De VCode van de vereniging.</param>
+    /// <param name="request">Het toe te voegen contactgegeven.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">Het contactgegeven werd goedgekeurd.</response>
@@ -60,12 +63,24 @@ public class VoegContactgegevenToeController : ApiController
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(VoegContactgegevenToeRequest), typeof(VoegContactgegevenToeRequestExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string",
-                           description: "De locatie van het toegevoegde contactgegeven.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de geregistreerde vereniging."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "Location",
+        type: "string",
+        description: "De locatie van het toegevoegde contactgegeven."
+    )]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
@@ -77,7 +92,8 @@ public class VoegContactgegevenToeController : ApiController
         [FromRoute] string vCode,
         [FromBody] VoegContactgegevenToeRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
@@ -85,6 +101,6 @@ public class VoegContactgegevenToeController : ApiController
         var envelope = new CommandEnvelope<VoegContactgegevenToeCommand>(request.ToCommand(vCode), metaData);
         var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope);
 
-        return this.AcceptedEntityCommand(_appSettings, WellKnownHeaderEntityNames.Contactgegevens, commandResult);
+        return this.PostResponse(_appSettings, WellKnownHeaderEntityNames.Contactgegevens, commandResult);
     }
 }

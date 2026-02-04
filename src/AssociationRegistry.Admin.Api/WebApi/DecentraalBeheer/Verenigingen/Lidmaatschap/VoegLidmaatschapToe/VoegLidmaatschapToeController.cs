@@ -17,6 +17,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -67,12 +68,24 @@ public class VoegLidmaatschapToeController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string",
-                           description: "De locatie van het toegevoegde lidmaatschap.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de geregistreerde vereniging."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "Location",
+        type: "string",
+        description: "De locatie van het toegevoegde lidmaatschap."
+    )]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
@@ -86,17 +99,24 @@ public class VoegLidmaatschapToeController : ApiController
         [FromServices] IBeheerVerenigingDetailQuery detailQuery,
         [FromServices] IResponseWriter responseWriter,
         [FromHeader(Name = "If-Match")] string? ifMatch = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         await validator.NullValidateAndThrowAsync(request, cancellationToken: cancellationToken);
 
-        var naam = (await detailQuery.ExecuteAsync(new BeheerVerenigingDetailFilter(request.AndereVereniging), cancellationToken))
-            ?.Naam ?? string.Empty;
+        var naam =
+            (
+                await detailQuery.ExecuteAsync(
+                    new BeheerVerenigingDetailFilter(request.AndereVereniging),
+                    cancellationToken
+                )
+            )?.Naam
+            ?? string.Empty;
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VoegLidmaatschapToeCommand>(request.ToCommand(vCode, naam), metaData);
         var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope, cancellationToken);
 
-        return this.AcceptedEntityCommand(responseWriter, _appSettings, WellKnownHeaderEntityNames.Lidmaatschappen, commandResult);
+        return this.PostResponse(_appSettings, WellKnownHeaderEntityNames.Lidmaatschappen, commandResult);
     }
 }

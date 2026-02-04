@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using Xunit;
@@ -14,18 +13,20 @@ public class With_Null_Request
     public With_Null_Request()
     {
         var messageBusMock = new MessageBusMock();
-        _controller = new WijzigContactgegevenController(messageBusMock, new WijzigContactgegevenValidator(), new AppSettings());
+        _controller = new WijzigContactgegevenController(messageBusMock, new WijzigContactgegevenValidator());
     }
 
     [Fact]
     public async ValueTask Then_it_throws_a_CouldNotParseRequestException()
     {
-        await Assert.ThrowsAsync<CouldNotParseRequestException>(
-            async () => await _controller.Patch(
+        await Assert.ThrowsAsync<CouldNotParseRequestException>(async () =>
+            await _controller.Patch(
                 vCode: "V0001001",
                 contactgegevenId: 1,
                 request: null,
                 new CommandMetadataProviderStub { Initiator = "OVO000001" },
-                ifMatch: "M/\"1\""));
+                ifMatch: "M/\"1\""
+            )
+        );
     }
 }

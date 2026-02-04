@@ -15,6 +15,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.WijzigMaatschappelijkeZetel;
 using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,8 @@ public class WijzigMaatschappelijkeZetelController : ApiController
     public WijzigMaatschappelijkeZetelController(
         IMessageBus messageBus,
         IValidator<WijzigMaatschappelijkeZetelRequest> validator,
-        AppSettings appSettings)
+        AppSettings appSettings
+    )
     {
         _messageBus = messageBus;
         _validator = validator;
@@ -52,9 +54,9 @@ public class WijzigMaatschappelijkeZetelController : ApiController
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vCode">De VCode van de vereniging</param>
+    /// <param name="vCode">De VCode van de vereniging.</param>
     /// <param name="locatieId">De unieke identificatie code van de maatschappelijke zetel volgens KBO binnen de vereniging.</param>
-    /// <param name="request">De te wijzigen gegevens</param>
+    /// <param name="request">De te wijzigen gegevens.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen.</response>
@@ -65,10 +67,18 @@ public class WijzigMaatschappelijkeZetelController : ApiController
     [HttpPatch("{vCode}/kbo/locaties/{locatieId}")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de geregistreerde vereniging."
+    )]
     [SwaggerRequestExample(typeof(WijzigLocatieRequest), typeof(WijzigMaatschappelijkeZetelRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
@@ -83,16 +93,18 @@ public class WijzigMaatschappelijkeZetelController : ApiController
         [FromRoute] int locatieId,
         [FromBody] WijzigMaatschappelijkeZetelRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<WijzigMaatschappelijkeZetelCommand>(request.ToCommand(vCode, locatieId), metaData);
+        var envelope = new CommandEnvelope<WijzigMaatschappelijkeZetelCommand>(
+            request.ToCommand(vCode, locatieId),
+            metaData
+        );
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        if (!commandResult.HasChanges()) return Ok();
-
-        return this.AcceptedCommand(_appSettings, commandResult);
+        return this.PatchResponse(commandResult);
     }
 }

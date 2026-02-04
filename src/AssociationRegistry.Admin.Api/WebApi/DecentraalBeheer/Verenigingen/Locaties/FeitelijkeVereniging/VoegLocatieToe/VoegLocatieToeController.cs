@@ -15,6 +15,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.VoegLocatieToe;
 using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -33,7 +34,11 @@ public class VoegLocatieToeController : ApiController
     private readonly IValidator<VoegLocatieToeRequest> _validator;
     private readonly AppSettings _appSettings;
 
-    public VoegLocatieToeController(IMessageBus messageBus, IValidator<VoegLocatieToeRequest> validator, AppSettings appSettings)
+    public VoegLocatieToeController(
+        IMessageBus messageBus,
+        IValidator<VoegLocatieToeRequest> validator,
+        AppSettings appSettings
+    )
     {
         _messageBus = messageBus;
         _validator = validator;
@@ -48,8 +53,8 @@ public class VoegLocatieToeController : ApiController
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vCode">De VCode van de vereniging</param>
-    /// <param name="request">De toe te voegen locatie</param>
+    /// <param name="vCode">De VCode van de vereniging.</param>
+    /// <param name="request">De toe te voegen locatie.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De locatie werd goedgekeurd.</response>
@@ -63,12 +68,24 @@ public class VoegLocatieToeController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string",
-                           description: "De locatie van de toegevoegde locatie.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de geregistreerde vereniging."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "Location",
+        type: "string",
+        description: "De locatie van de toegevoegde locatie."
+    )]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
@@ -78,7 +95,8 @@ public class VoegLocatieToeController : ApiController
         [FromRoute] string vCode,
         [FromBody] VoegLocatieToeRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
@@ -86,6 +104,6 @@ public class VoegLocatieToeController : ApiController
         var envelope = new CommandEnvelope<VoegLocatieToeCommand>(request.ToCommand(vCode), metaData);
         var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope);
 
-        return this.AcceptedEntityCommand(_appSettings, WellKnownHeaderEntityNames.Locaties, commandResult);
+        return this.PostResponse(_appSettings, WellKnownHeaderEntityNames.Locaties, commandResult);
     }
 }

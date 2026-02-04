@@ -14,6 +14,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Locaties.WijzigLocatie;
 using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -45,9 +46,9 @@ public class WijzigLocatieController : ApiController
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vCode">De VCode van de vereniging</param>
+    /// <param name="vCode">De VCode van de vereniging.</param>
     /// <param name="locatieId">De unieke identificatie code van deze locatie binnen de vereniging.</param>
-    /// <param name="request">De te wijzigen locatie</param>
+    /// <param name="request">De te wijzigen locatie.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen.</response>
@@ -58,10 +59,18 @@ public class WijzigLocatieController : ApiController
     [HttpPatch("{vCode}/locaties/{locatieId:int}")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de geregistreerde vereniging."
+    )]
     [SwaggerRequestExample(typeof(WijzigLocatieRequest), typeof(WijzigLocatieRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
@@ -76,7 +85,8 @@ public class WijzigLocatieController : ApiController
         [FromRoute] int locatieId,
         [FromBody] WijzigLocatieRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
@@ -84,11 +94,6 @@ public class WijzigLocatieController : ApiController
         var envelope = new CommandEnvelope<WijzigLocatieCommand>(request.ToCommand(vCode, locatieId), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        if (!commandResult.HasChanges()) return Ok();
-
-        Response.AddSequenceHeader(commandResult.Sequence);
-        Response.AddETagHeader(commandResult.Version);
-
-        return Accepted();
+        return this.PatchResponse(commandResult);
     }
 }

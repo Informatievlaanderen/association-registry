@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Stop.FeitelijkeVereniging.When_StopVereniging;
 
+using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Events;
 using AssociationRegistry.Formats;
@@ -10,7 +11,6 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using System.Net;
 using Xunit;
 
 public sealed class With_ActieveVereniging_Setup
@@ -47,29 +47,20 @@ public class With_ActieveVereniging : IClassFixture<With_ActieveVereniging_Setup
     [Fact]
     public async ValueTask Then_it_saves_the_events()
     {
-        await using var session = _documentStore
-           .LightweightSession();
+        await using var session = _documentStore.LightweightSession();
 
-        var verenigingWerdGestopt = (await session.Events
-                                           .FetchStreamAsync(_vCode))
-                                           .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdGestopt));
+        var verenigingWerdGestopt = (await session.Events.FetchStreamAsync(_vCode)).Single(@event =>
+            @event.Data.GetType() == typeof(VerenigingWerdGestopt)
+        );
 
-        (verenigingWerdGestopt.Data as VerenigingWerdGestopt)!.Einddatum.Should()
-                                                              .Be(DateOnly.ParseExact(s: "2020-12-31", WellknownFormats.DateOnly));
+        (verenigingWerdGestopt.Data as VerenigingWerdGestopt)!
+            .Einddatum.Should()
+            .Be(DateOnly.ParseExact(s: "2020-12-31", WellknownFormats.DateOnly));
     }
 
     [Fact]
-    public async ValueTask Then_it_returns_an_accepted_response()
-        => _response.StatusCode.Should().Be(HttpStatusCode.Accepted, await _response.Content.ReadAsStringAsync());
-
-    [Fact]
-    public void Then_it_returns_a_location_header()
-    {
-        _response.Headers.Should().ContainKey(HeaderNames.Location);
-
-        _response.Headers.Location!.OriginalString.Should()
-                 .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
-    }
+    public async ValueTask Then_it_returns_an_accepted_response() =>
+        _response.StatusCode.Should().Be(HttpStatusCode.Accepted, await _response.Content.ReadAsStringAsync());
 
     [Fact]
     public void Then_it_returns_a_sequence_header()

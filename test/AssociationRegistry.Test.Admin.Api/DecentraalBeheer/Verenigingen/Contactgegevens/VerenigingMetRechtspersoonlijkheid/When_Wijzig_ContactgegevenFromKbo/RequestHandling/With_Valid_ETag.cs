@@ -5,7 +5,6 @@ using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.Verenigi
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Contactgegevens.WijzigContactgegevenFromKbo;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
@@ -27,11 +26,19 @@ public class With_Valid_ETag : IAsyncLifetime
         _messageBusMock = new Mock<IMessageBus>();
 
         _messageBusMock
-           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigContactgegevenFromKboCommand>>(), default, null))
-           .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
+            .Setup(x =>
+                x.InvokeAsync<CommandResult>(
+                    It.IsAny<CommandEnvelope<WijzigContactgegevenFromKboCommand>>(),
+                    default,
+                    null
+                )
+            )
+            .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
 
-        _controller = new WijzigContactgegevenController(_messageBusMock.Object, new WijzigContactgegevenValidator(), new AppSettings())
-            { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
+        _controller = new WijzigContactgegevenController(_messageBusMock.Object, new WijzigContactgegevenValidator())
+        {
+            ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() },
+        };
     }
 
     public async ValueTask InitializeAsync()
@@ -41,13 +48,11 @@ public class With_Valid_ETag : IAsyncLifetime
             contactgegevenId: 1,
             new WijzigContactgegevenRequest
             {
-                Contactgegeven = new TeWijzigenContactgegeven
-                {
-                    Beschrijving = "Beschrijving",
-                },
+                Contactgegeven = new TeWijzigenContactgegeven { Beschrijving = "Beschrijving" },
             },
             new CommandMetadataProviderStub { Initiator = "OVO0001000" },
-            $"W/\"{ETagNumber}\"");
+            $"W/\"{ETagNumber}\""
+        );
     }
 
     [Fact]
@@ -56,14 +61,15 @@ public class With_Valid_ETag : IAsyncLifetime
         _messageBusMock.Verify(
             expression: messageBus =>
                 messageBus.InvokeAsync<CommandResult>(
-                    It.Is<CommandEnvelope<WijzigContactgegevenFromKboCommand>>(
-                        env =>
-                            env.Metadata.ExpectedVersion == ETagNumber),
+                    It.Is<CommandEnvelope<WijzigContactgegevenFromKboCommand>>(env =>
+                        env.Metadata.ExpectedVersion == ETagNumber
+                    ),
                     default,
-                    null),
-            Times.Once);
+                    null
+                ),
+            Times.Once
+        );
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

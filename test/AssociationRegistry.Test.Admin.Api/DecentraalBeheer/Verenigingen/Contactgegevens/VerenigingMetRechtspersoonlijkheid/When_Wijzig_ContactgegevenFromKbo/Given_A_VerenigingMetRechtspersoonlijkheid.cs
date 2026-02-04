@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.When_Wijzig_ContactgegevenFromKbo;
 
+using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
 using AssociationRegistry.Events;
@@ -12,7 +13,6 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using System.Net;
 using Xunit;
 
 public sealed class When_ContactgegevenWerdOvergenomen_Setup
@@ -27,7 +27,8 @@ public sealed class When_ContactgegevenWerdOvergenomen_Setup
 
         Request = new Fixture().CustomizeAdminApi().Create<WijzigContactgegevenRequest>();
 
-        var jsonBody = $@"{{
+        var jsonBody =
+            $@"{{
             ""contactgegeven"":
                 {{
                     ""beschrijving"":""{Request.Contactgegeven.Beschrijving}"",
@@ -35,10 +36,14 @@ public sealed class When_ContactgegevenWerdOvergenomen_Setup
                 }}
             }}";
 
-        Response = fixture.DefaultClient
-                          .PatchContactgegevensFromKbo(Scenario.VCode,
-                                                       Scenario.ContactgegevenWerdOvergenomenUitKBO.ContactgegevenId,
-                                                       jsonBody).GetAwaiter().GetResult();
+        Response = fixture
+            .DefaultClient.PatchContactgegevensFromKbo(
+                Scenario.VCode,
+                Scenario.ContactgegevenWerdOvergenomenUitKBO.ContactgegevenId,
+                jsonBody
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 }
 
@@ -52,7 +57,10 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Con
     private readonly AppSettings _appSettings;
     private readonly int _contactgegevenId;
 
-    public Given_A_VerenigingMetRechtspersoonlijkheid(When_ContactgegevenWerdOvergenomen_Setup setup, EventsInDbScenariosFixture fixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid(
+        When_ContactgegevenWerdOvergenomen_Setup setup,
+        EventsInDbScenariosFixture fixture
+    )
     {
         _request = setup.Request;
         _response = setup.Response;
@@ -65,33 +73,27 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Con
     [Fact]
     public async Task Then_it_saves_the_events()
     {
-        await using var session = _documentStore
-           .LightweightSession();
+        await using var session = _documentStore.LightweightSession();
 
-        var events = await session.Events
-                            .FetchStreamAsync(_vCode);
+        var events = await session.Events.FetchStreamAsync(_vCode);
 
         var roepnaamWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(ContactgegevenUitKBOWerdGewijzigd));
 
-        roepnaamWerdGewijzigd.Data.Should()
-                             .BeEquivalentTo(
-                                  new ContactgegevenUitKBOWerdGewijzigd(_contactgegevenId, _request.Contactgegeven.Beschrijving!,
-                                                                        _request.Contactgegeven.IsPrimair!.Value));
+        roepnaamWerdGewijzigd
+            .Data.Should()
+            .BeEquivalentTo(
+                new ContactgegevenUitKBOWerdGewijzigd(
+                    _contactgegevenId,
+                    _request.Contactgegeven.Beschrijving!,
+                    _request.Contactgegeven.IsPrimair!.Value
+                )
+            );
     }
 
     [Fact]
     public void Then_it_returns_an_accepted_response()
     {
         _response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-    }
-
-    [Fact]
-    public void Then_it_returns_a_location_header()
-    {
-        _response.Headers.Should().ContainKey(HeaderNames.Location);
-
-        _response.Headers.Location!.OriginalString.Should()
-                 .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

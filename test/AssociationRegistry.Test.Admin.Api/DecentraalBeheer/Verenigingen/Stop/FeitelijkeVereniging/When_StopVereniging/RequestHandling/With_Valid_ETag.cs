@@ -5,7 +5,6 @@ using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.StopVereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
@@ -27,21 +26,23 @@ public class With_Valid_ETag : IAsyncLifetime
         _messageBusMock = new Mock<IMessageBus>();
 
         _messageBusMock
-           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<StopVerenigingCommand>>(), default, null))
-           .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
+            .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<StopVerenigingCommand>>(), default, null))
+            .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
 
-        _controller = new StopVerenigingController(_messageBusMock.Object, new AppSettings(), new StopVerenigingRequestValidator())
-            { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
+        _controller = new StopVerenigingController(_messageBusMock.Object, new StopVerenigingRequestValidator())
+        {
+            ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() },
+        };
     }
 
     public async ValueTask InitializeAsync()
     {
         await _controller.Post(
-            new StopVerenigingRequest
-                { Einddatum = new DateOnly() },
+            new StopVerenigingRequest { Einddatum = new DateOnly() },
             vCode: "V0001001",
             new CommandMetadataProviderStub { Initiator = "OVO0001000" },
-            $"W/\"{ETagNumber}\"");
+            $"W/\"{ETagNumber}\""
+        );
     }
 
     [Fact]
@@ -50,14 +51,13 @@ public class With_Valid_ETag : IAsyncLifetime
         _messageBusMock.Verify(
             expression: messageBus =>
                 messageBus.InvokeAsync<CommandResult>(
-                    It.Is<CommandEnvelope<StopVerenigingCommand>>(
-                        env =>
-                            env.Metadata.ExpectedVersion == ETagNumber),
+                    It.Is<CommandEnvelope<StopVerenigingCommand>>(env => env.Metadata.ExpectedVersion == ETagNumber),
                     default,
-                    null),
-            Times.Once);
+                    null
+                ),
+            Times.Once
+        );
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

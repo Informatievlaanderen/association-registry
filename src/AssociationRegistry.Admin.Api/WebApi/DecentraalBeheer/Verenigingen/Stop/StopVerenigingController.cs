@@ -8,13 +8,13 @@ using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.StopVereniging;
 using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -30,13 +30,11 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class StopVerenigingController : ApiController
 {
     private readonly IMessageBus _bus;
-    private readonly AppSettings _appsettings;
     private readonly IValidator<StopVerenigingRequest> _validator;
 
-    public StopVerenigingController(IMessageBus bus, AppSettings appsettings, IValidator<StopVerenigingRequest> validator)
+    public StopVerenigingController(IMessageBus bus, IValidator<StopVerenigingRequest> validator)
     {
         _bus = bus;
-        _appsettings = appsettings;
         _validator = validator;
     }
 
@@ -51,7 +49,7 @@ public class StopVerenigingController : ApiController
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="request"></param>
-    /// <param name="vCode">De vCode van de vereniging</param>
+    /// <param name="vCode">De vCode van de vereniging.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen</response>
@@ -63,12 +61,24 @@ public class StopVerenigingController : ApiController
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(StopVerenigingRequest), typeof(StopVerenigingRequestExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
-                           description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de aangepaste vereniging.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string",
-                           description: "De locatie van de aangepaste vereniging.")]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        WellknownHeaderNames.Sequence,
+        type: "string",
+        description: "Het sequence nummer van deze request."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "ETag",
+        type: "string",
+        description: "De versie van de aangepaste vereniging."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "Location",
+        type: "string",
+        description: "De locatie van de aangepaste vereniging."
+    )]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
@@ -81,7 +91,8 @@ public class StopVerenigingController : ApiController
         [FromBody] StopVerenigingRequest? request,
         [FromRoute] string vCode,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null
+    )
     {
         await _validator.NullValidateAndThrowAsync(request);
 
@@ -89,10 +100,8 @@ public class StopVerenigingController : ApiController
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<StopVerenigingCommand>(command, metaData);
-        var stopResult = await _bus.InvokeAsync<CommandResult>(envelope);
+        var commandResult = await _bus.InvokeAsync<CommandResult>(envelope);
 
-        if (!stopResult.HasChanges()) return Ok();
-
-        return this.AcceptedCommand(_appsettings, stopResult);
+        return this.PostResponse(commandResult);
     }
 }
