@@ -1,3 +1,10 @@
+# [8.300.0](https://github.com/informatievlaanderen/association-registry/compare/v8.299.0...v8.300.0) (2026-02-04)
+
+
+### Features
+
+* or-3019 wijziging titularis maakt validatie bankrek ongedaan ([5d7cb93](https://github.com/informatievlaanderen/association-registry/commit/5d7cb93f62e3c42d5fe242670abee87ff0fca3f3))
+
 # [8.299.0](https://github.com/informatievlaanderen/association-registry/compare/v8.298.3...v8.299.0) (2026-02-03)
 
 
