@@ -1,3 +1,10 @@
+## [8.300.1](https://github.com/informatievlaanderen/association-registry/compare/v8.300.0...v8.300.1) (2026-02-05)
+
+
+### Bug Fixes
+
+* or-3027 fix swagger doc of controller ([691b812](https://github.com/informatievlaanderen/association-registry/commit/691b812dd98966a93d3886384e80fbe310de4824))
+
 # [8.300.0](https://github.com/informatievlaanderen/association-registry/compare/v8.299.0...v8.300.0) (2026-02-04)
 
 
