@@ -51,12 +51,12 @@ public class WijzigBasisgegevensController : ApiController
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="request"></param>
-    /// <param name="vCode">De vCode van de vereniging</param>
+    /// <param name="vCode">De vCode van de vereniging.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <param name="validator"></param>
-    /// <response code="200">Er waren geen wijzigingen</response>
-    /// <response code="202">De basisgegevens van de vereniging werden gewijzigd</response>
+    /// <response code="200">Er waren geen wijzigingen.</response>
+    /// <response code="202">De basisgegevens van de vereniging werden gewijzigd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
