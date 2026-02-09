@@ -1,9 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Bankrekeningnummers.Kbo;
 
 using Admin.ProjectionHost.Projections.Detail;
-using Admin.Schema.Detail;
 using Contracts.JsonLdContext;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using Scenario.Bankrekeningnummers.Kbo;
+using Bankrekeningnummer = Admin.Schema.Detail.Bankrekeningnummer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis(
@@ -35,6 +36,7 @@ public class Given_BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTi
                     Doel = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Doel,
                     Titularis = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Titularis,
                     IsGevalideerd = false,
+                    Bron = BankrekeningnummerBron.Kbo.Value,
                 },
             ]);
     }

@@ -7,9 +7,9 @@ using Scenario.Bankrekeningnummers.Kbo;
 using Bankrekeningnummer = Admin.Schema.Detail.Bankrekeningnummer;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_BankrekeningnummerWerdGevalideerd(
-    BeheerDetailScenarioFixture<BankrekeningnummerWerdGevalideerdKBOScenario> fixture
-) : BeheerDetailScenarioClassFixture<BankrekeningnummerWerdGevalideerdKBOScenario>
+public class Given_BankrekeningnummerWerdOvergenomenVanuitKBO(
+    BeheerDetailScenarioFixture<BankrekeningnummerWerdOvergenomenVanuitKBOScenario> fixture
+) : BeheerDetailScenarioClassFixture<BankrekeningnummerWerdOvergenomenVanuitKBOScenario>
 {
     [Fact]
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(3);
@@ -25,17 +25,14 @@ public class Given_BankrekeningnummerWerdGevalideerd(
                     JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                         JsonLdType.Bankrekeningnummer,
                         fixture.Scenario.AggregateId,
-                        fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.BankrekeningnummerId.ToString()
+                        fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId.ToString()
                     ),
 
-                    BankrekeningnummerId = fixture
-                        .Scenario
-                        .BankrekeningnummerWerdToegevoegdVanuitKBO
-                        .BankrekeningnummerId,
-                    Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Iban,
-                    Doel = string.Empty,
-                    Titularis = string.Empty,
-                    IsGevalideerd = true,
+                    BankrekeningnummerId = fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
+                    Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
+                    Doel = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
+                    Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
+                    IsGevalideerd = false,
                     Bron = BankrekeningnummerBron.Kbo.Value,
                 },
             ]);

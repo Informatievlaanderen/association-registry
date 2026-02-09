@@ -3,11 +3,13 @@
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Be.Vlaanderen.Basisregisters.Utilities;
 using Contracts.JsonLdContext;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Xunit;
+using Bankrekeningnummer = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Bankrekeningnummer;
 
 [Collection(nameof(VoegBankrekeningnummerToeCollection))]
 public class Returns_Detail_With_Toegevoegde_Bankrekeningnummer : End2EndTest<DetailVerenigingResponse>
@@ -20,22 +22,29 @@ public class Returns_Detail_With_Toegevoegde_Bankrekeningnummer : End2EndTest<De
         _testContext = testContext;
     }
 
-    public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
+    public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup) =>
+        await setup.AdminApiHost.GetBeheerDetail(
+            setup.AdminHttpClient,
+            _testContext.VCode,
+            new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)
+        );
 
-  [Fact]
+    [Fact]
     public void JsonContentMatches()
     {
-        Response.Vereniging.Bankrekeningnummers.Should().BeEquivalentTo([
-            new Bankrekeningnummer()
-            {
-                type = JsonLdType.Bankrekeningnummer.Type,
-                id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(_testContext.VCode, 1.ToString()),
-                BankrekeningnummerId = 1,
-                Iban = _testContext.CommandRequest.Bankrekeningnummer.Iban,
-                Doel = _testContext.CommandRequest.Bankrekeningnummer.Doel,
-                Titularis = _testContext.CommandRequest.Bankrekeningnummer.Titularis,
-            },
-        ]);
+        Response
+            .Vereniging.Bankrekeningnummers.Should()
+            .BeEquivalentTo([
+                new Bankrekeningnummer()
+                {
+                    type = JsonLdType.Bankrekeningnummer.Type,
+                    id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(_testContext.VCode, 1.ToString()),
+                    BankrekeningnummerId = 1,
+                    Iban = _testContext.CommandRequest.Bankrekeningnummer.Iban,
+                    Doel = _testContext.CommandRequest.Bankrekeningnummer.Doel,
+                    Titularis = _testContext.CommandRequest.Bankrekeningnummer.Titularis,
+                    Bron = BankrekeningnummerBron.Gi.Value,
+                },
+            ]);
     }
 }

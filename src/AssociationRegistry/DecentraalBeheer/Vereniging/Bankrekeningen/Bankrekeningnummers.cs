@@ -82,20 +82,30 @@ public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
             Math.Max(bankrekeningnummers.Max(x => x.BankrekeningnummerId) + 1, NextId)
         );
     }
+
+    public Bankrekeningnummers KboBankrekeningnummers()
+    {
+        return Hydrate(this.Where(x => x.Bron == BankrekeningnummerBron.Kbo));
+    }
+
+    public Bankrekeningnummers GiBankrekeningnummers()
+    {
+        return Hydrate(this.Where(x => x.Bron == BankrekeningnummerBron.Gi));
+    }
 }
 
 public static class BankrekeningnummersEnumerableExtensions
 {
     public static Bankrekeningnummer[] FindToeTeVoegenBankrekeningnummers(
         this Bankrekeningnummers source,
-        Bankrekeningnummer[] vertegenwoordigersUitKbo
+        Bankrekeningnummer[] bankrekeningnummersUitKbo
     )
     {
         var nextId = source.NextId;
 
         var toeTeVoegenVertegenwoordigers = new List<Bankrekeningnummer>();
 
-        foreach (var v in vertegenwoordigersUitKbo)
+        foreach (var v in bankrekeningnummersUitKbo)
         {
             if (!source.Select(x => x.Iban).Contains(v.Iban))
                 toeTeVoegenVertegenwoordigers.Add(v with { BankrekeningnummerId = nextId++ });
@@ -104,12 +114,28 @@ public static class BankrekeningnummersEnumerableExtensions
         return toeTeVoegenVertegenwoordigers.ToArray();
     }
 
-    public static IEnumerable<Bankrekeningnummer> FindTeVerwijderdenBankrekeningnummers(
+    public static Bankrekeningnummer[] FindOverTeNemenBankrekeningnummers(
         this Bankrekeningnummers source,
-        Bankrekeningnummer[] vertegenwoordigersUitKbo
+        Bankrekeningnummer[] bankrekeningnummersUitKbo
     )
     {
-        return source.Where(s => !vertegenwoordigersUitKbo.Select(x => x.Iban).Contains(s.Iban));
+        var huidigeGiBankrekeningnummers = source.GiBankrekeningnummers();
+
+        return huidigeGiBankrekeningnummers
+            .Where(s => bankrekeningnummersUitKbo.Select(x => x.Iban).Contains(s.Iban))
+            .ToArray();
+    }
+
+    public static IEnumerable<Bankrekeningnummer> FindTeVerwijderdenBankrekeningnummers(
+        this Bankrekeningnummers source,
+        Bankrekeningnummer[] bankrekeningnummersUitKbo
+    )
+    {
+        var huidigeKboBankrekeningnummers = source.KboBankrekeningnummers();
+
+        return huidigeKboBankrekeningnummers.Where(s =>
+            !bankrekeningnummersUitKbo.Select(x => x.Iban).Contains(s.Iban)
+        );
     }
 
     public static IEnumerable<Bankrekeningnummer> Without(
@@ -134,7 +160,8 @@ public static class BankrekeningnummersEnumerableExtensions
                 eventData.BankrekeningnummerId,
                 eventData.Iban,
                 eventData.Doel,
-                eventData.Titularis
+                eventData.Titularis,
+                BankrekeningnummerBron.Gi
             )
         );
 
@@ -143,6 +170,12 @@ public static class BankrekeningnummersEnumerableExtensions
         BankrekeningnummerWerdToegevoegdVanuitKBO eventData
     ) =>
         bankrekeningnummers.Append(
-            Bankrekeningnummer.Hydrate(eventData.BankrekeningnummerId, eventData.Iban, string.Empty, string.Empty)
+            Bankrekeningnummer.Hydrate(
+                eventData.BankrekeningnummerId,
+                eventData.Iban,
+                string.Empty,
+                string.Empty,
+                BankrekeningnummerBron.Kbo
+            )
         );
 }

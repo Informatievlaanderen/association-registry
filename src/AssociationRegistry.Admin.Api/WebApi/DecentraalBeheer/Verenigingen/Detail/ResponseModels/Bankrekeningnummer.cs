@@ -42,4 +42,10 @@ public class Bankrekeningnummer
     /// </summary>
     [DataMember(Name = "IsGevalideerd")]
     public bool IsGevalideerd { get; set; }
+
+    /// <summary>
+    /// Wie beheerder is van het bankrekeningnummer
+    /// </summary>
+    [DataMember(Name = "Bron")]
+    public string Bron { get; set; }
 }

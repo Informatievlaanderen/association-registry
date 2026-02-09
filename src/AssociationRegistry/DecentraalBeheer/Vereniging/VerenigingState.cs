@@ -864,6 +864,28 @@ public record VerenigingState : IHasVersion
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(Bankrekeningnummers.AppendFromEventData(@event)),
         };
 
+    public VerenigingState Apply(BankrekeningnummerWerdOvergenomenVanuitKBO @event)
+    {
+        var bankrekeningnummer = Bankrekeningnummers.Single(c => c.BankrekeningnummerId == @event.BankrekeningnummerId);
+
+        return this with
+        {
+            Bankrekeningnummers = Bankrekeningnummers.Hydrate(
+                Bankrekeningnummers
+                    .Without(@event.BankrekeningnummerId)
+                    .Append(
+                        Bankrekeningnummer.Hydrate(
+                            @event.BankrekeningnummerId,
+                            bankrekeningnummer.Iban.Value,
+                            bankrekeningnummer.Doel,
+                            bankrekeningnummer.Titularis.Value,
+                            BankrekeningnummerBron.Kbo
+                        )
+                    )
+            ),
+        };
+    }
+
     public VerenigingState Apply(BankrekeningnummerWerdVerwijderdUitKBO @event) =>
         this with
         {
@@ -890,7 +912,8 @@ public record VerenigingState : IHasVersion
                             @event.BankrekeningnummerId,
                             bankrekeningnummer.Iban.Value,
                             @event.Doel,
-                            @event.Titularis
+                            @event.Titularis,
+                            bankrekeningnummer.Bron
                         )
                     )
             ),
@@ -912,6 +935,7 @@ public record VerenigingState : IHasVersion
                             bankrekeningnummer.Iban.Value,
                             bankrekeningnummer.Doel,
                             bankrekeningnummer.Titularis.Value,
+                            bankrekeningnummer.Bron,
                             true
                         )
                     )
@@ -934,6 +958,7 @@ public record VerenigingState : IHasVersion
                             bankrekeningnummer.Iban.Value,
                             bankrekeningnummer.Doel,
                             bankrekeningnummer.Titularis.Value,
+                            bankrekeningnummer.Bron,
                             false
                         )
                     )

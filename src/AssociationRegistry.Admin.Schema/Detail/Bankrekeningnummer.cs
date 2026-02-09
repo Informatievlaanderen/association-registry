@@ -9,4 +9,5 @@ public record Bankrekeningnummer
     public string Doel { get; set; } = null!;
     public string Titularis { get; set; } = null!;
     public bool IsGevalideerd { get; set; }
+    public string Bron { get; set; } = null!;
 }

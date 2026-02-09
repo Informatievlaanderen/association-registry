@@ -36,51 +36,57 @@ public class BeheerVerenigingDetailMapper
     public BeheerVerenigingDetailMapper(
         AppSettings appSettings,
         IVerplichteNamenVoorVCodesMapper verplichteNamenVoorVCodesMapper,
-        string? version)
+        string? version
+    )
     {
         _appSettings = appSettings;
         _verplichteNamenVoorVCodesMapper = verplichteNamenVoorVCodesMapper;
-        _verenigingstypeMapper = version == WellknownVersions.V2 ? new VerenigingstypeMapperV2() : new VerenigingstypeMapperV1();
+        _verenigingstypeMapper =
+            version == WellknownVersions.V2 ? new VerenigingstypeMapperV2() : new VerenigingstypeMapperV1();
         _version = version;
     }
 
-    public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging)
-        => new()
+    public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging) =>
+        new()
         {
             Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
             Vereniging = Map(vereniging, _verplichteNamenVoorVCodesMapper, _appSettings.BaseUrl),
             Metadata = MapMetadata(vereniging),
         };
 
-    private static Metadata MapMetadata(BeheerVerenigingDetailDocument vereniging)
-        => new()
-        {
-            DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing,
-        };
+    private static Metadata MapMetadata(BeheerVerenigingDetailDocument vereniging) =>
+        new() { DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing };
 
     private VerenigingDetail Map(
         BeheerVerenigingDetailDocument vereniging,
         IVerplichteNamenVoorVCodesMapper verplichteNamenVoorVCodesMapper,
-        string baseUrl)
+        string baseUrl
+    )
     {
         return new VerenigingDetail
         {
             type = vereniging.JsonLdMetadataType,
             VCode = vereniging.VCode,
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
-            Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.Detail.Verenigingstype>(vereniging.Verenigingstype),
-            Verenigingssubtype =
-                _verenigingstypeMapper.MapSubtype<Verenigingssubtype, IVerenigingssubtypeCode>(vereniging.Verenigingssubtype),
-            SubverenigingVan =
-                _verenigingstypeMapper.MapSubverenigingVan(
-                    vereniging.Verenigingssubtype,
-                    () => new SubverenigingVan
+            Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.Detail.Verenigingstype>(
+                vereniging.Verenigingstype
+            ),
+            Verenigingssubtype = _verenigingstypeMapper.MapSubtype<Verenigingssubtype, IVerenigingssubtypeCode>(
+                vereniging.Verenigingssubtype
+            ),
+            SubverenigingVan = _verenigingstypeMapper.MapSubverenigingVan(
+                vereniging.Verenigingssubtype,
+                () =>
+                    new SubverenigingVan
                     {
                         AndereVereniging = vereniging.SubverenigingVan.AndereVereniging,
-                        Naam = _verplichteNamenVoorVCodesMapper.MapNaamVoorVCode(vereniging.SubverenigingVan.AndereVereniging),
+                        Naam = _verplichteNamenVoorVCodesMapper.MapNaamVoorVCode(
+                            vereniging.SubverenigingVan.AndereVereniging
+                        ),
                         Identificatie = vereniging.SubverenigingVan.Identificatie,
                         Beschrijving = vereniging.SubverenigingVan.Beschrijving,
-                    }),
+                    }
+            ),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
@@ -103,26 +109,23 @@ public class BeheerVerenigingDetailMapper
             Werkingsgebieden = vereniging.Werkingsgebieden.Select(Map).ToArray(),
             Sleutels = vereniging.Sleutels.Select(Map).ToArray(),
             Relaties = vereniging.Relaties.Select(relatie => Map(relatie, baseUrl)).ToArray(),
-            Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap, verplichteNamenVoorVCodesMapper))
-                                        .ToArray(),
+            Lidmaatschappen = vereniging
+                .Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap, verplichteNamenVoorVCodesMapper))
+                .ToArray(),
             Bron = vereniging.Bron,
             IsDubbelVan = vereniging.IsDubbelVan,
             Bankrekeningnummers = vereniging.Bankrekeningnummers.Select(Map).ToArray(),
         };
     }
 
-    private static Relatie Map(Schema.Detail.Relatie relatie, string baseUrl)
-        => new()
-        {
-            Relatietype = relatie.Relatietype,
-            AndereVereniging = Map(relatie.AndereVereniging, baseUrl),
-        };
+    private static Relatie Map(Schema.Detail.Relatie relatie, string baseUrl) =>
+        new() { Relatietype = relatie.Relatietype, AndereVereniging = Map(relatie.AndereVereniging, baseUrl) };
 
     private static Lidmaatschap Map(
         Schema.Detail.Lidmaatschap lidmaatschap,
         IVerplichteNamenVoorVCodesMapper verplichteNamenVoorVCodesMapper
-    )
-        => new()
+    ) =>
+        new()
         {
             id = lidmaatschap.JsonLdMetadata.Id,
             type = lidmaatschap.JsonLdMetadata.Type,
@@ -137,8 +140,9 @@ public class BeheerVerenigingDetailMapper
 
     private static GerelateerdeVereniging Map(
         Schema.Detail.Relatie.GerelateerdeVereniging gerelateerdeVereniging,
-        string baseUrl)
-        => new()
+        string baseUrl
+    ) =>
+        new()
         {
             KboNummer = gerelateerdeVereniging.KboNummer,
             VCode = gerelateerdeVereniging.VCode,
@@ -148,8 +152,8 @@ public class BeheerVerenigingDetailMapper
                 : string.Empty,
         };
 
-    private static Sleutel Map(Schema.Detail.Sleutel sleutel)
-        => new()
+    private static Sleutel Map(Schema.Detail.Sleutel sleutel) =>
+        new()
         {
             id = sleutel.JsonLdMetadata.Id,
             type = sleutel.JsonLdMetadata.Type,
@@ -164,8 +168,8 @@ public class BeheerVerenigingDetailMapper
             },
         };
 
-    private static Contactgegeven Map(Schema.Detail.Contactgegeven contactgegeven)
-        => new()
+    private static Contactgegeven Map(Schema.Detail.Contactgegeven contactgegeven) =>
+        new()
         {
             id = contactgegeven.JsonLdMetadata.Id,
             type = contactgegeven.JsonLdMetadata.Type,
@@ -178,8 +182,9 @@ public class BeheerVerenigingDetailMapper
         };
 
     private static HoofdactiviteitVerenigingsloket Map(
-        Schema.Detail.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
-        => new()
+        Schema.Detail.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket
+    ) =>
+        new()
         {
             id = hoofdactiviteitVerenigingsloket.JsonLdMetadata.Id,
             type = hoofdactiviteitVerenigingsloket.JsonLdMetadata.Type,
@@ -187,9 +192,8 @@ public class BeheerVerenigingDetailMapper
             Naam = hoofdactiviteitVerenigingsloket.Naam,
         };
 
-    private static Werkingsgebied Map(
-        Schema.Detail.Werkingsgebied werkingsgebied)
-        => new()
+    private static Werkingsgebied Map(Schema.Detail.Werkingsgebied werkingsgebied) =>
+        new()
         {
             id = werkingsgebied.JsonLdMetadata.Id,
             type = werkingsgebied.JsonLdMetadata.Type,
@@ -197,9 +201,8 @@ public class BeheerVerenigingDetailMapper
             Naam = werkingsgebied.Naam,
         };
 
-    private static Bankrekeningnummer Map(
-        Schema.Detail.Bankrekeningnummer bankrekeningnummer)
-        => new()
+    private static Bankrekeningnummer Map(Schema.Detail.Bankrekeningnummer bankrekeningnummer) =>
+        new()
         {
             id = bankrekeningnummer.JsonLdMetadata.Id,
             type = bankrekeningnummer.JsonLdMetadata.Type,
@@ -208,10 +211,11 @@ public class BeheerVerenigingDetailMapper
             Doel = bankrekeningnummer.Doel,
             Titularis = bankrekeningnummer.Titularis,
             IsGevalideerd = bankrekeningnummer.IsGevalideerd,
+            Bron = bankrekeningnummer.Bron,
         };
 
-    private static Vertegenwoordiger Map(Schema.Detail.Vertegenwoordiger ver)
-        => new()
+    private static Vertegenwoordiger Map(Schema.Detail.Vertegenwoordiger ver) =>
+        new()
         {
             id = ver.JsonLdMetadata.Id,
             type = ver.JsonLdMetadata.Type,
@@ -230,8 +234,8 @@ public class BeheerVerenigingDetailMapper
             Bron = ver.Bron,
         };
 
-    private static VertegenwoordigerContactgegevens Map(Schema.Detail.VertegenwoordigerContactgegevens vc)
-        => new()
+    private static VertegenwoordigerContactgegevens Map(Schema.Detail.VertegenwoordigerContactgegevens vc) =>
+        new()
         {
             id = vc.JsonLdMetadata.Id,
             type = vc.JsonLdMetadata.Type,
@@ -242,8 +246,8 @@ public class BeheerVerenigingDetailMapper
             SocialMedia = vc.SocialMedia,
         };
 
-    private static Locatie Map(Schema.Detail.Locatie loc)
-        => new()
+    private static Locatie Map(Schema.Detail.Locatie loc) =>
+        new()
         {
             id = loc.JsonLdMetadata.Id,
             type = loc.JsonLdMetadata.Type,
@@ -260,26 +264,17 @@ public class BeheerVerenigingDetailMapper
 
     private static AdresVerwijzing? Map(Schema.Detail.AdresVerwijzing? verwijstNaar)
     {
-        if (verwijstNaar is null) return null;
+        if (verwijstNaar is null)
+            return null;
 
-        return new AdresVerwijzing
-        {
-            id = verwijstNaar.JsonLdMetadata.Id,
-            type = verwijstNaar.JsonLdMetadata.Type,
-        };
+        return new AdresVerwijzing { id = verwijstNaar.JsonLdMetadata.Id, type = verwijstNaar.JsonLdMetadata.Type };
     }
 
-    private static AdresId? Map(Schema.Detail.AdresId? adresId)
-        => adresId is not null
-            ? new AdresId
-            {
-                Broncode = adresId.Broncode,
-                Bronwaarde = adresId.Bronwaarde,
-            }
-            : null;
+    private static AdresId? Map(Schema.Detail.AdresId? adresId) =>
+        adresId is not null ? new AdresId { Broncode = adresId.Broncode, Bronwaarde = adresId.Bronwaarde } : null;
 
-    private static Adres? Map(Schema.Detail.Adres? adres)
-        => adres is not null
+    private static Adres? Map(Schema.Detail.Adres? adres) =>
+        adres is not null
             ? new Adres
             {
                 id = adres.JsonLdMetadata.Id,
@@ -308,6 +303,5 @@ public class VerplichteVerplichteNamenVoorVCodesMapper : IVerplichteNamenVoorVCo
         _namenVoorLidmaatschap = namenVoorLidmaatschap;
     }
 
-    public string MapNaamVoorVCode(string vCode)
-        => _namenVoorLidmaatschap[vCode];
+    public string MapNaamVoorVCode(string vCode) => _namenVoorLidmaatschap[vCode];
 }
