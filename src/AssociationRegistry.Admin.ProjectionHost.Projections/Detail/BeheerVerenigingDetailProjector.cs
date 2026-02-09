@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
 using Formats;
@@ -10,6 +11,7 @@ using JasperFx.Events;
 using Newtonsoft.Json;
 using Schema;
 using Schema.Detail;
+using Bankrekeningnummer = Schema.Detail.Bankrekeningnummer;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = JasperFx.Events.IEvent;
@@ -1264,6 +1266,7 @@ public class BeheerVerenigingDetailProjector
                     Iban = @event.Data.Iban,
                     Doel = @event.Data.Doel,
                     Titularis = @event.Data.Titularis,
+                    Bron = BankrekeningnummerBron.Gi.Value,
                 }
             )
             .OrderBy(x => x.BankrekeningnummerId)
@@ -1288,6 +1291,7 @@ public class BeheerVerenigingDetailProjector
                     Iban = @event.Data.Iban,
                     Doel = string.Empty,
                     Titularis = string.Empty,
+                    Bron = BankrekeningnummerBron.Kbo.Value,
                 }
             )
             .OrderBy(x => x.BankrekeningnummerId)
@@ -1342,6 +1346,20 @@ public class BeheerVerenigingDetailProjector
             .Bankrekeningnummers.UpdateSingle(
                 identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
                 update: b => b with { IsGevalideerd = false }
+            )
+            .OrderBy(b => b.BankrekeningnummerId)
+            .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<BankrekeningnummerWerdOvergenomenVanuitKBO> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        document.Bankrekeningnummers = document
+            .Bankrekeningnummers.UpdateSingle(
+                identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
+                update: b => b with { Bron = BankrekeningnummerBron.Kbo.Value }
             )
             .OrderBy(b => b.BankrekeningnummerId)
             .ToArray();

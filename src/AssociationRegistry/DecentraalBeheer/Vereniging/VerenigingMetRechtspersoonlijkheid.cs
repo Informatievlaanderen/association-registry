@@ -427,7 +427,12 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         var findToeTeVoegenBankrekeningnummers = State.Bankrekeningnummers.FindToeTeVoegenBankrekeningnummers(
             bankrekeningnummersVolgensKbo
         );
+
         var findTeVerwijderdenBankrekeningnummers = State.Bankrekeningnummers.FindTeVerwijderdenBankrekeningnummers(
+            bankrekeningnummersVolgensKbo
+        );
+
+        var overTeNemenBankrekeningnummers = State.Bankrekeningnummers.FindOverTeNemenBankrekeningnummers(
             bankrekeningnummersVolgensKbo
         );
 
@@ -436,6 +441,9 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         foreach (var v in findTeVerwijderdenBankrekeningnummers)
             AddEvent(EventFactory.BankrekeningnummerWerdVerwijderdUitKBO(v));
+
+        foreach (var v in overTeNemenBankrekeningnummers)
+            AddEvent(EventFactory.BankrekeningnummerWerdOvergenomenVanuitKBO(v));
     }
 
     private void HandleVertegenwoordigers(VerenigingVolgensKbo verenigingVolgensKbo)

@@ -860,6 +860,19 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
+        IEvent<BankrekeningnummerWerdOvergenomenVanuitKBO> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Bankrekeningnummer met IBAN '{@event.Data.Iban}' werd overgenomen vanuit KBO."
+        );
+    }
+
+    public static void Apply(
         IEvent<BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis> @event,
         BeheerVerenigingHistoriekDocument document
     )
