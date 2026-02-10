@@ -322,4 +322,7 @@
   <data name="OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren">
     <value>OvoCode '{0}' is niet gemachtigd om deze actie uit te voeren.</value>
   </data>
+  <data name="UnsupportedOperationForKboBankrekeningnummer">
+    <value>Deze actie kan niet uitgevoerd worden op een bankrekeningnummer die overgenomen is door kbo.</value>
+  </data>
 </root>

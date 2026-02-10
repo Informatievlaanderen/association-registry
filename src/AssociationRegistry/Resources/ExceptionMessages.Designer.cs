@@ -737,6 +737,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op een bankrekeningnummer die overgenomen is door kbo..
+        /// </summary>
+        public static string UnsupportedOperationForKboBankrekeningnummer {
+            get {
+                return ResourceManager.GetString("UnsupportedOperationForKboBankrekeningnummer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op deze locatie..
         /// </summary>
         public static string UnsupportedOperationForLocatietype {

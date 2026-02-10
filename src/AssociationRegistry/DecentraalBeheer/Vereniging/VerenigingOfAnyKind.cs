@@ -571,4 +571,21 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         return toegevoegdBankrekeningnummer.BankrekeningnummerId;
     }
+
+    public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
+    {
+        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
+            x.BankrekeningnummerId == bankrekeningnummerId
+        );
+
+        Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
+
+        Throw<ActieIsNietToegestaanVoorKboBankrekeningnummer>.If(
+            bankrekeningnummer!.Bron == BankrekeningnummerBron.Kbo
+        );
+
+        AddEvent(
+            new BankrekeningnummerWerdVerwijderd(bankrekeningnummer.BankrekeningnummerId, bankrekeningnummer.Iban.Value)
+        );
+    }
 }

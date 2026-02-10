@@ -448,17 +448,4 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             )
         );
     }
-
-    public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
-    {
-        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
-            x.BankrekeningnummerId == bankrekeningnummerId
-        );
-
-        Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
-
-        AddEvent(
-            new BankrekeningnummerWerdVerwijderd(bankrekeningnummer.BankrekeningnummerId, bankrekeningnummer.Iban.Value)
-        );
-    }
 }
