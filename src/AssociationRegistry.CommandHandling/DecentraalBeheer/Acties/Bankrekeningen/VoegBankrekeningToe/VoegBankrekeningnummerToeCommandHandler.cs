@@ -18,7 +18,7 @@ public class VoegBankrekeningnummerToeCommandHandler
         CancellationToken cancellationToken = default
     )
     {
-        var vereniging = await _aggregateSession.Load<Vereniging>(
+        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
             VCode.Create(envelope.Command.VCode),
             envelope.Metadata
         );

@@ -1,20 +1,20 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Subtypes.Subvereniging;
 using Adressen;
 using Bankrekeningen;
 using Bankrekeningen.Exceptions;
-using Events;
-using Framework;
 using Emails;
+using Events;
 using Events.Factories;
 using EventStore;
 using Exceptions;
+using Framework;
 using Geotags;
 using ImTools;
 using Magda.Persoon;
 using Microsoft.Extensions.Logging;
 using SocialMedias;
+using Subtypes.Subvereniging;
 using TelefoonNummers;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
@@ -25,7 +25,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         bool potentialDuplicatesSkipped,
         string bevestigingsToken,
         IVCodeService vCodeService,
-        IClock clock)
+        IClock clock
+    )
     {
         Throw<StartdatumMagNietInToekomstZijn>.If(registratieData.Startdatum?.IsInFutureOf(clock.Today) ?? false);
 
@@ -49,11 +50,14 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
-                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(registratieData.HoofdactiviteitenVerenigingsloket)),
+                ToHoofdactiviteitenLijst(
+                    HoofdactiviteitenVerenigingsloket.FromArray(registratieData.HoofdactiviteitenVerenigingsloket)
+                ),
                 potentialDuplicatesSkipped
                     ? Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(bevestigingsToken)
                     : Registratiedata.DuplicatieInfo.GeenDuplicaten
-            ));
+            )
+        );
 
         vereniging.RegistreerWerkingsgebieden(registratieData.Werkingsgebieden);
 
@@ -66,14 +70,23 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         {
             var adres = verrijkteAdressenUitGrar[locatieMetAdresId.AdresId!.Bronwaarde];
 
-            AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieMetAdresId.LocatieId,
-                                                                 new Registratiedata.AdresId(
-                                                                     locatieMetAdresId.AdresId!.Adresbron.Code,
-                                                                     locatieMetAdresId.AdresId.Bronwaarde),
-                                                                 new Registratiedata.AdresUitAdressenregister(
-                                                                     adres.Straatnaam, adres.Huisnummer,
-                                                                     adres.Busnummer, adres.Postcode,
-                                                                     adres.Gemeente.Naam)));
+            AddEvent(
+                new AdresWerdOvergenomenUitAdressenregister(
+                    VCode,
+                    locatieMetAdresId.LocatieId,
+                    new Registratiedata.AdresId(
+                        locatieMetAdresId.AdresId!.Adresbron.Code,
+                        locatieMetAdresId.AdresId.Bronwaarde
+                    ),
+                    new Registratiedata.AdresUitAdressenregister(
+                        adres.Straatnaam,
+                        adres.Huisnummer,
+                        adres.Busnummer,
+                        adres.Postcode,
+                        adres.Gemeente.Naam
+                    )
+                )
+            );
         }
     }
 
@@ -104,22 +117,22 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.WerkingsgebiedenWerdenBepaald(VCode, werkingsgebieden.ToArray()));
     }
 
-    private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
-        => contactgegevens.Select(EventFactory.Contactgegeven).ToArray();
+    private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens) =>
+        contactgegevens.Select(EventFactory.Contactgegeven).ToArray();
 
     private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(
-        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
-        => hoofdactiviteitenVerenigingsloketLijst.Select(EventFactory.HoofdactiviteitVerenigingsloket).ToArray();
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst
+    ) => hoofdactiviteitenVerenigingsloketLijst.Select(EventFactory.HoofdactiviteitVerenigingsloket).ToArray();
 
-    private static Registratiedata.Werkingsgebied[] ToWerkingsgebiedenLijst(
-        Werkingsgebied[] werkingsgebieden)
-        => werkingsgebieden.Select(EventFactory.Werkingsgebied).ToArray();
+    private static Registratiedata.Werkingsgebied[] ToWerkingsgebiedenLijst(Werkingsgebied[] werkingsgebieden) =>
+        werkingsgebieden.Select(EventFactory.Werkingsgebied).ToArray();
 
-    private static Registratiedata.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
-        => vertegenwoordigersLijst.Select(EventFactory.Vertegenwoordiger).ToArray();
+    private static Registratiedata.Vertegenwoordiger[] ToVertegenwoordigersLijst(
+        Vertegenwoordiger[] vertegenwoordigersLijst
+    ) => vertegenwoordigersLijst.Select(EventFactory.Vertegenwoordiger).ToArray();
 
-    private static Registratiedata.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
-        => locatieLijst.Select(EventFactory.Locatie).ToArray();
+    private static Registratiedata.Locatie[] ToLocatieLijst(Locatie[] locatieLijst) =>
+        locatieLijst.Select(EventFactory.Locatie).ToArray();
 
     public void WijzigNaam(VerenigingsNaam naam)
     {
@@ -158,7 +171,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void Stop(Datum einddatum, IClock clock)
     {
-        if (einddatum == State.Einddatum) return;
+        if (einddatum == State.Einddatum)
+            return;
 
         Throw<EinddatumMagNietInToekomstZijn>.If(einddatum.IsInFutureOf(clock.Today));
         Throw<EinddatumLigtVoorStartdatum>.If(einddatum.IsInPastOf(State.Startdatum));
@@ -177,18 +191,27 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void WijzigDoelgroep(Doelgroep doelgroep)
     {
-        if (Doelgroep.Equals(State.Doelgroep, doelgroep)) return;
+        if (Doelgroep.Equals(State.Doelgroep, doelgroep))
+            return;
 
         AddEvent(EventFactory.DoelgroepWerdGewijzigd(doelgroep));
     }
 
-    public void WijzigHoofdactiviteitenVerenigingsloket(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket)
+    public void WijzigHoofdactiviteitenVerenigingsloket(
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket
+    )
     {
-        if (HoofdactiviteitenVerenigingsloket.Equals(hoofdactiviteitenVerenigingsloket, State.HoofdactiviteitenVerenigingsloket))
+        if (
+            HoofdactiviteitenVerenigingsloket.Equals(
+                hoofdactiviteitenVerenigingsloket,
+                State.HoofdactiviteitenVerenigingsloket
+            )
+        )
             return;
 
-        Throw<LaatsteHoofdActiviteitKanNietVerwijderdWorden>.If(State.HoofdactiviteitenVerenigingsloket.Any() &&
-                                                                !hoofdactiviteitenVerenigingsloket.Any());
+        Throw<LaatsteHoofdActiviteitKanNietVerwijderdWorden>.If(
+            State.HoofdactiviteitenVerenigingsloket.Any() && !hoofdactiviteitenVerenigingsloket.Any()
+        );
 
         var hoofdactiviteiten = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloket);
         AddEvent(EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(hoofdactiviteiten.ToArray()));
@@ -215,10 +238,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         var werkingsgebiedenData = Werkingsgebieden.FromArray(werkingsgebieden);
 
-        AddEvent(State.Werkingsgebieden == Werkingsgebieden.NietBepaald ||
-                 State.Werkingsgebieden == Werkingsgebieden.NietVanToepassing
-                     ? EventFactory.WerkingsgebiedenWerdenBepaald(VCode, werkingsgebiedenData.ToArray())
-                     : EventFactory.WerkingsgebiedenWerdenGewijzigd(VCode, werkingsgebiedenData.ToArray()));
+        AddEvent(
+            State.Werkingsgebieden == Werkingsgebieden.NietBepaald
+            || State.Werkingsgebieden == Werkingsgebieden.NietVanToepassing
+                ? EventFactory.WerkingsgebiedenWerdenBepaald(VCode, werkingsgebiedenData.ToArray())
+                : EventFactory.WerkingsgebiedenWerdenGewijzigd(VCode, werkingsgebiedenData.ToArray())
+        );
 
         return true;
     }
@@ -240,10 +265,19 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         TelefoonNummer? telefoonNummer,
         TelefoonNummer? mobiel,
         SocialMedia? socialMedia,
-        bool? isPrimair)
+        bool? isPrimair
+    )
     {
-        var gewijzigdeVertegenwoordiger =
-            State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
+        var gewijzigdeVertegenwoordiger = State.Vertegenwoordigers.Wijzig(
+            vertegenwoordigerId,
+            rol,
+            roepnaam,
+            email,
+            telefoonNummer,
+            mobiel,
+            socialMedia,
+            isPrimair
+        );
 
         if (gewijzigdeVertegenwoordiger is null)
             return;
@@ -259,13 +293,15 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void SchrijfUitUitPubliekeDatastroom()
     {
-        if (State.IsUitgeschrevenUitPubliekeDatastroom) return;
+        if (State.IsUitgeschrevenUitPubliekeDatastroom)
+            return;
         AddEvent(new VerenigingWerdUitgeschrevenUitPubliekeDatastroom());
     }
 
     public void SchrijfInInPubliekeDatastroom()
     {
-        if (!State.IsUitgeschrevenUitPubliekeDatastroom) return;
+        if (!State.IsUitgeschrevenUitPubliekeDatastroom)
+            return;
         AddEvent(new VerenigingWerdIngeschrevenInPubliekeDatastroom());
     }
 
@@ -297,7 +333,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         switch (State.VerenigingStatus)
         {
             case VerenigingStatus.StatusDubbel statusDubbel:
-                Throw<ApplicationException>.If(!statusDubbel.VCodeAuthentiekeVereniging.Equals(vCodeAuthentiekeVereniging));
+                Throw<ApplicationException>.If(
+                    !statusDubbel.VCodeAuthentiekeVereniging.Equals(vCodeAuthentiekeVereniging)
+                );
                 AddEvent(EventFactory.WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(VCode, statusDubbel));
 
                 break;
@@ -306,70 +344,73 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerfijnSubtypeNaarFeitelijkeVereniging()
     {
-        State.Verenigingssubtype
-             .VerFijnNaarFeitelijkeVereniging(VCode)
-             .ForEach(AddEvent);
+        State.Verenigingssubtype.VerFijnNaarFeitelijkeVereniging(VCode).ForEach(AddEvent);
     }
 
     public void ZetSubtypeNaarNietBepaald()
     {
-        State.Verenigingssubtype
-             .ZetSubtypeNaarNietBepaald(VCode)
-             .ForEach(AddEvent);
+        State.Verenigingssubtype.ZetSubtypeNaarNietBepaald(VCode).ForEach(AddEvent);
     }
 
     public void VerfijnNaarSubvereniging(SubverenigingVanDto subverenigingVan)
     {
         Throw<VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs>.If(
-            AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging));
+            AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging)
+        );
 
-        State.Verenigingssubtype
-             .VerFijnNaarSubvereniging(VCode, subverenigingVan)
-             .ForEach(AddEvent);
+        State.Verenigingssubtype.VerFijnNaarSubvereniging(VCode, subverenigingVan).ForEach(AddEvent);
     }
 
     public void Hydrate(VerenigingState obj)
     {
         Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(
-            !Verenigingstype.TypeIsVerenigingZonderEigenRechtspersoonlijkheid(obj.Verenigingstype));
+            !Verenigingstype.TypeIsVerenigingZonderEigenRechtspersoonlijkheid(obj.Verenigingstype)
+        );
 
         State = obj;
     }
 
-    private bool AndereVerenigingIsReedsEenLid(VCode? andereVereniging)
-        => State.Lidmaatschappen.Any(x => x.AndereVereniging == andereVereniging);
+    private bool AndereVerenigingIsReedsEenLid(VCode? andereVereniging) =>
+        State.Lidmaatschappen.Any(x => x.AndereVereniging == andereVereniging);
 
-    public (Locatie[] metAdresId, Locatie[] zonderAdresId) GeefLocatiesMetEnZonderAdresId()
-        => State.Locaties.Partition(x => x.AdresId is not null);
+    public (Locatie[] metAdresId, Locatie[] zonderAdresId) GeefLocatiesMetEnZonderAdresId() =>
+        State.Locaties.Partition(x => x.AdresId is not null);
 
     public async Task SchrijfVertegenwoordigersIn(
         IMagdaGeefPersoonService magdaGeefPersoonService,
         CommandMetadata envelopeMetadata,
         CancellationToken cancellationToken,
-        ILogger logger)
+        ILogger logger
+    )
     {
-        var vertegenwoordigers = State.Vertegenwoordigers.Where(x => !x.BevestigdDoorKsz)
-                                      .ToArray();
+        var vertegenwoordigers = State.Vertegenwoordigers.Where(x => !x.BevestigdDoorKsz).ToArray();
 
         if (!vertegenwoordigers.Any())
             return;
 
-        logger.LogInformation($"SchrijfVertegenwoordigersIn started for VCode {VCode} with {vertegenwoordigers.Length} vertegenwoordigers");
+        logger.LogInformation(
+            $"SchrijfVertegenwoordigersIn started for VCode {VCode} with {vertegenwoordigers.Length} vertegenwoordigers"
+        );
 
         foreach (var vertegenwoordiger in vertegenwoordigers)
         {
             try
             {
-                var persoonUitKsz =
-                    await magdaGeefPersoonService.GeefPersoon(GeefPersoonRequest.From(vertegenwoordiger), envelopeMetadata,
-                                                              cancellationToken);
+                var persoonUitKsz = await magdaGeefPersoonService.GeefPersoon(
+                    GeefPersoonRequest.From(vertegenwoordiger),
+                    envelopeMetadata,
+                    cancellationToken
+                );
 
                 if (persoonUitKsz.Overleden)
-                    AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
-                                 vertegenwoordiger.VertegenwoordigerId,
-                                 vertegenwoordiger.Insz,
-                                 vertegenwoordiger.Voornaam,
-                                 vertegenwoordiger.Achternaam));
+                    AddEvent(
+                        new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
+                            vertegenwoordiger.VertegenwoordigerId,
+                            vertegenwoordiger.Insz,
+                            vertegenwoordiger.Voornaam,
+                            vertegenwoordiger.Achternaam
+                        )
+                    );
                 else
                 {
                     AddEvent(new KszSyncHeeftVertegenwoordigerBevestigd(vertegenwoordiger.VertegenwoordigerId));
@@ -377,47 +418,47 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             }
             catch (EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz e)
             {
-                AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(vertegenwoordiger.VertegenwoordigerId,
-                                                                                 vertegenwoordiger.Insz,
-                                                                                 vertegenwoordiger.Voornaam,
-                                                                                 vertegenwoordiger.Achternaam));
+                AddEvent(
+                    new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(
+                        vertegenwoordiger.VertegenwoordigerId,
+                        vertegenwoordiger.Insz,
+                        vertegenwoordiger.Voornaam,
+                        vertegenwoordiger.Achternaam
+                    )
+                );
             }
         }
     }
 
     public void MarkeerVertegenwoordigerAlsOverleden(int vertegenwoordigerId)
     {
-        var vertegenwoordiger = State.Vertegenwoordigers.SingleOrDefault(x => x.VertegenwoordigerId == vertegenwoordigerId);
+        var vertegenwoordiger = State.Vertegenwoordigers.SingleOrDefault(x =>
+            x.VertegenwoordigerId == vertegenwoordigerId
+        );
 
         if (vertegenwoordiger == null)
             return;
 
-        AddEvent(new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
-                     vertegenwoordiger.VertegenwoordigerId,
-                     vertegenwoordiger.Insz,
-                     vertegenwoordiger.Voornaam,
-                     vertegenwoordiger.Achternaam));
-    }
-
-    public int VoegBankrekeningToe(ToeTevoegenBankrekeningnummer bankrekeningnummer)
-    {
-        var toegevoegdBankrekeningnummer = State.Bankrekeningnummers.VoegToe(bankrekeningnummer);
-
-        AddEvent(new BankrekeningnummerWerdToegevoegd(toegevoegdBankrekeningnummer.BankrekeningnummerId,
-                                                      toegevoegdBankrekeningnummer.Iban.Value, toegevoegdBankrekeningnummer.Doel,
-                                                      toegevoegdBankrekeningnummer.Titularis.Value));
-
-        return toegevoegdBankrekeningnummer.BankrekeningnummerId;
+        AddEvent(
+            new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
+                vertegenwoordiger.VertegenwoordigerId,
+                vertegenwoordiger.Insz,
+                vertegenwoordiger.Voornaam,
+                vertegenwoordiger.Achternaam
+            )
+        );
     }
 
     public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
     {
-        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x => x.BankrekeningnummerId == bankrekeningnummerId);
+        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
+            x.BankrekeningnummerId == bankrekeningnummerId
+        );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
 
-        AddEvent(new BankrekeningnummerWerdVerwijderd(
-                     bankrekeningnummer.BankrekeningnummerId,
-                     bankrekeningnummer.Iban.Value));
+        AddEvent(
+            new BankrekeningnummerWerdVerwijderd(bankrekeningnummer.BankrekeningnummerId, bankrekeningnummer.Iban.Value)
+        );
     }
 }

@@ -1,14 +1,12 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Voeg_Bankrekeningnummer_Toe.Commandhandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Voeg_Bankrekeningnummer_Toe.Commandhandling.Kbo;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VoegBankrekeningToe;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VoegBankrekeningToe;
-using Common.AutoFixture;
-using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using FluentAssertions;
-using Resources;
 using Xunit;
 
 public class Given_A_KBO_Vereniging
@@ -33,12 +31,16 @@ public class Given_A_KBO_Vereniging
     {
         var command = _fixture.Create<VoegBankrekeningnummerToeCommand>() with { VCode = _scenario.VCode };
 
-        var exception = await Assert.ThrowsAsync<ActieIsNietToegestaanVoorVerenigingstype>(async () =>
-            await _commandHandler.Handle(
-                new CommandEnvelope<VoegBankrekeningnummerToeCommand>(command, _fixture.Create<CommandMetadata>())
+        await _commandHandler.Handle(
+            new CommandEnvelope<VoegBankrekeningnummerToeCommand>(command, _fixture.Create<CommandMetadata>()));
+
+        _aggregateSessionMock.ShouldHaveSavedExact(
+            new BankrekeningnummerWerdToegevoegd(
+                1,
+                command.Bankrekeningnummer.Iban.Value,
+                command.Bankrekeningnummer.Doel,
+                command.Bankrekeningnummer.Titularis.Value
             )
         );
-
-        exception.Message.Should().Be(ExceptionMessages.UnsupportedOperationForVerenigingstype);
     }
 }
