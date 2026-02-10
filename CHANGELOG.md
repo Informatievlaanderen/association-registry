@@ -1,3 +1,10 @@
+# [8.301.0](https://github.com/informatievlaanderen/association-registry/compare/v8.300.1...v8.301.0) (2026-02-10)
+
+
+### Features
+
+* or-3021 make kbo owner of bankreknr on kbo sync ([710c3f5](https://github.com/informatievlaanderen/association-registry/commit/710c3f51d3106114b4bf7e83521fcdc79dea4a3b))
+
 ## [8.300.1](https://github.com/informatievlaanderen/association-registry/compare/v8.300.0...v8.300.1) (2026-02-05)
 
 
