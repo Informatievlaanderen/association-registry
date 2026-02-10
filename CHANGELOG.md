@@ -1,3 +1,10 @@
+# [8.302.0](https://github.com/informatievlaanderen/association-registry/compare/v8.301.0...v8.302.0) (2026-02-10)
+
+
+### Features
+
+* or-3022 add bankreknr to a kbo vereniging ([e31aa3c](https://github.com/informatievlaanderen/association-registry/commit/e31aa3c3d22a448fe528666d4db3a5153125b528))
+
 # [8.301.0](https://github.com/informatievlaanderen/association-registry/compare/v8.300.1...v8.301.0) (2026-02-10)
 
 
