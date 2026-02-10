@@ -18,7 +18,10 @@ public class VerwijderBankrekeningnummerCommandHandler
         CancellationToken cancellationToken = default
     )
     {
-        var vereniging = await _repository.Load<Vereniging>(VCode.Create(envelope.Command.VCode), envelope.Metadata);
+        var vereniging = await _repository.Load<VerenigingOfAnyKind>(
+            VCode.Create(envelope.Command.VCode),
+            envelope.Metadata
+        );
 
         vereniging.VerwijderBankrekeningnummer(envelope.Command.BankrekeningnummerId);
 

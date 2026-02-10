@@ -1,15 +1,14 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_verwijder_Bankrekeningnummer.Commandhandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_verwijder_Bankrekeningnummer.Commandhandling.Vzer;
 
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VerwijderBankrekening;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Resources;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VerwijderBankrekening;
-using Common.AutoFixture;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using Events;
 using FluentAssertions;
-using Resources;
 using Xunit;
 
 public class Given_Already_Removed_Bankrekeningnummer
