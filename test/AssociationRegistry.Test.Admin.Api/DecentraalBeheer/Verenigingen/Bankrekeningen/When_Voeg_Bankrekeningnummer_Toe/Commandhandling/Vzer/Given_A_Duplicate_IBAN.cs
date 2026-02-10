@@ -1,18 +1,15 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Voeg_Bankrekeningnummer_Toe.Commandhandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Voeg_Bankrekeningnummer_Toe.Commandhandling.Vzer;
 
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VoegBankrekeningToe;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen.Exceptions;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Resources;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VoegBankrekeningToe;
-using Common.AutoFixture;
-using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using Events;
 using FluentAssertions;
-using Resources;
 using Xunit;
 
 public class Given_A_Duplicate_IBAN
