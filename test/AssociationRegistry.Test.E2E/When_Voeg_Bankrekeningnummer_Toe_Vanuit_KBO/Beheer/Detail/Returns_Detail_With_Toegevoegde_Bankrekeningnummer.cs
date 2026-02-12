@@ -7,6 +7,7 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using Vereniging.Bronnen;
 using Xunit;
 using Bankrekeningnummer = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Bankrekeningnummer;
 
@@ -47,7 +48,7 @@ public class Returns_Detail_With_Toegevoegde_Bankrekeningnummer : End2EndTest<De
                     Iban = bankrekeningnummer.Iban,
                     Doel = string.Empty,
                     Titularis = string.Empty,
-                    Bron = BankrekeningnummerBron.Kbo.Value,
+                    Bron = Bron.KBO,
                 }
             );
     }

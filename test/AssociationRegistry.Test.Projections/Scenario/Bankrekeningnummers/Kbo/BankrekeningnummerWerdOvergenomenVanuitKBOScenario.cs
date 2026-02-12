@@ -5,14 +5,14 @@ using AutoFixture;
 
 public class BankrekeningnummerWerdOvergenomenVanuitKBOScenario : ScenarioBase
 {
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
+    public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; set; }
     public BankrekeningnummerWerdToegevoegd BankrekeningnummerWerdToegevoegd { get; }
     public BankrekeningnummerWerdOvergenomenVanuitKBO BankrekeningnummerWerdOvergenomenVanuitKBO { get; }
 
     public BankrekeningnummerWerdOvergenomenVanuitKBOScenario()
     {
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
-            AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            AutoFixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
         BankrekeningnummerWerdToegevoegd = AutoFixture.Create<BankrekeningnummerWerdToegevoegd>();
 
         BankrekeningnummerWerdOvergenomenVanuitKBO =
@@ -23,13 +23,13 @@ public class BankrekeningnummerWerdOvergenomenVanuitKBOScenario : ScenarioBase
             };
     }
 
-    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
         [
             new(
                 AggregateId,
-                VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+                VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
                 BankrekeningnummerWerdToegevoegd,
                 BankrekeningnummerWerdOvergenomenVanuitKBO
             ),

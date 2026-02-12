@@ -40,7 +40,7 @@ public class With_Locatie_With_AdresId
         var fixture = new Fixture().CustomizeAdminApi();
         var today = fixture.Create<DateOnly>();
 
-        var clock = new ClockStub(today);
+        var clock = new ClockStub(now: today);
 
         var locatie = fixture.Create<Locatie>() with
         {
@@ -49,15 +49,18 @@ public class With_Locatie_With_AdresId
         };
 
         var verrijktAdresUitGrar = new VerrijkteAdressenUitGrar(
-            new Dictionary<string, Adres> { { locatie.AdresId.Bronwaarde, fixture.Create<Adres>() } }
+            adresWithBronwaarde: new Dictionary<string, Adres>
+            {
+                { locatie.AdresId.Bronwaarde, fixture.Create<Adres>() },
+            }
         );
 
-        var geotag = new Geotag("BE32");
+        var geotag = new Geotag(Identificatie: "BE32");
         var geotags = new[] { geotag };
 
         var geotagsService = new Mock<IGeotagsService>();
         geotagsService
-            .Setup(x =>
+            .Setup(expression: x =>
                 x.CalculateGeotags(
                     new[]
                     {
@@ -72,11 +75,11 @@ public class With_Locatie_With_AdresId
                     Array.Empty<Werkingsgebied>()
                 )
             )
-            .ReturnsAsync(GeotagsCollection.Hydrate(geotags));
+            .ReturnsAsync(value: GeotagsCollection.Hydrate(geotags: geotags));
 
         var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
-            fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(),
-            Naam: VerenigingsNaam.Create(naam),
+            OriginalRequest: fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(),
+            Naam: VerenigingsNaam.Create(naam: naam),
             KorteNaam: null,
             KorteBeschrijving: null,
             Startdatum: null,
@@ -86,30 +89,31 @@ public class With_Locatie_With_AdresId
             Locaties: [locatie],
             Vertegenwoordigers: [],
             HoofdactiviteitenVerenigingsloket: [],
-            Werkingsgebieden: []
+            Werkingsgebieden: [],
+            Bankrekeningnummers: []
         );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
-            verenigingRepositoryMock,
-            vCodeService,
-            martenOutbox.Object,
-            Mock.Of<IDocumentSession>(),
-            clock,
-            geotagsService.Object,
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+            newAggregateSession: verenigingRepositoryMock,
+            vCodeService: vCodeService,
+            outbox: martenOutbox.Object,
+            session: Mock.Of<IDocumentSession>(),
+            clock: clock,
+            geotagsService: geotagsService.Object,
+            logger: NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
         );
 
         commandHandler
             .Handle(
-                new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-                    command,
-                    commandMetadata
+                message: new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+                    Command: command,
+                    Metadata: commandMetadata
                 ),
-                verrijktAdresUitGrar,
-                PotentialDuplicatesFound.None,
-                new PersonenUitKszStub(command),
+                verrijkteAdressenUitGrar: verrijktAdresUitGrar,
+                potentialDuplicates: PotentialDuplicatesFound.None,
+                personenUitKsz: new PersonenUitKszStub(command: command),
                 cancellationToken: CancellationToken.None
             )
             .GetAwaiter()
@@ -118,32 +122,41 @@ public class With_Locatie_With_AdresId
         var vCode = vCodeService.GetLast();
 
         verenigingRepositoryMock.ShouldHaveSavedExact(
-            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                VCode: vCode,
-                Naam: naam,
-                KorteNaam: string.Empty,
-                KorteBeschrijving: string.Empty,
-                Startdatum: null,
-                Doelgroep: EventFactory.Doelgroep(Doelgroep.Null),
-                IsUitgeschrevenUitPubliekeDatastroom: false,
-                Contactgegevens: [],
-                Locaties: [EventFactory.Locatie(locatie) with { LocatieId = Locatie.IdNotSet + 1 }],
-                Vertegenwoordigers: [],
-                HoofdactiviteitenVerenigingsloket: [],
-                Registratiedata.DuplicatieInfo.GeenDuplicaten
-            ),
-            new AdresWerdOvergenomenUitAdressenregister(
-                vCode,
-                LocatieId: Locatie.IdNotSet + 1,
-                Registratiedata.AdresId.FromAdresId(locatie.AdresId),
-                Registratiedata.AdresUitAdressenregister.FromAdres(verrijktAdresUitGrar[locatie.AdresId.Bronwaarde])
-            ),
-            new GeotagsWerdenBepaald(vCode, [new Registratiedata.Geotag(geotag.Identificatie)])
+            events:
+            [
+                new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+                    VCode: vCode,
+                    Naam: naam,
+                    KorteNaam: string.Empty,
+                    KorteBeschrijving: string.Empty,
+                    Startdatum: null,
+                    Doelgroep: EventFactory.Doelgroep(doelgroep: Doelgroep.Null),
+                    IsUitgeschrevenUitPubliekeDatastroom: false,
+                    Contactgegevens: [],
+                    Locaties: [EventFactory.Locatie(locatie: locatie) with { LocatieId = Locatie.IdNotSet + 1 }],
+                    Vertegenwoordigers: [],
+                    HoofdactiviteitenVerenigingsloket: [],
+                    Bankrekeningnummers: [],
+                    DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
+                ),
+                new AdresWerdOvergenomenUitAdressenregister(
+                    VCode: vCode,
+                    LocatieId: Locatie.IdNotSet + 1,
+                    AdresId: Registratiedata.AdresId.FromAdresId(adres: locatie.AdresId),
+                    Adres: Registratiedata.AdresUitAdressenregister.FromAdres(
+                        adres: verrijktAdresUitGrar[key: locatie.AdresId.Bronwaarde]
+                    )
+                ),
+                new GeotagsWerdenBepaald(
+                    VCode: vCode,
+                    Geotags: [new Registratiedata.Geotag(Identificiatie: geotag.Identificatie)]
+                ),
+            ]
         );
 
         martenOutbox.Verify(
             expression: v => v.SendAsync(It.IsAny<ProbeerAdresTeMatchenCommand>(), It.IsAny<DeliveryOptions>()),
-            Times.Never
+            times: Times.Never
         );
     }
 }

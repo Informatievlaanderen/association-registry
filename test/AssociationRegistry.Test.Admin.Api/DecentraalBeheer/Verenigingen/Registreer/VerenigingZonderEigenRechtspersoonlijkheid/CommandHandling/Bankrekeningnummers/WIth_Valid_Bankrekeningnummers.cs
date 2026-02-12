@@ -1,48 +1,50 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.CommandHandling.Bankrekeningnummers;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Events;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Stubs.VCodeServices;
 using Common.StubsMocksFakes;
 using Common.StubsMocksFakes.Clocks;
 using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Events;
 using Events.Factories;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using ResultNet;
 using Wolverine.Marten;
 using Xunit;
 
-public class With_NietVanToepassing_Werkingsgebieden
+public class WIth_Valid_Bankrekeningnummers
 {
     private const string Naam = "naam1";
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly NewAggregateSessionMock _newAggregateSessionMock;
+    private RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
+    private RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler _commandHandler;
+    private Fixture _fixture;
 
-    public With_NietVanToepassing_Werkingsgebieden()
+    public WIth_Valid_Bankrekeningnummers()
     {
         _newAggregateSessionMock = new NewAggregateSessionMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
-        var fixture = new Fixture().CustomizeAdminApi();
-        var today = fixture.Create<DateOnly>();
+        _fixture = new Fixture().CustomizeAdminApi();
+        var iban = _fixture.Create<IbanNummer>();
+        var geotagService = Faktory.New(fixture: _fixture).GeotagsService.ReturnsEmptyGeotags();
 
-        var geotagService = Faktory.New(fixture: fixture).GeotagsService.ReturnsEmptyGeotags();
+        var today = _fixture.Create<DateOnly>();
 
         var clock = new ClockStub(now: today);
 
-        var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
-            OriginalRequest: fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(),
+        _command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
+            OriginalRequest: _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(),
             Naam: VerenigingsNaam.Create(naam: Naam),
             KorteNaam: null,
             KorteBeschrijving: null,
@@ -53,13 +55,11 @@ public class With_NietVanToepassing_Werkingsgebieden
             Locaties: [],
             Vertegenwoordigers: [],
             HoofdactiviteitenVerenigingsloket: [],
-            Werkingsgebieden: Werkingsgebieden.NietVanToepassing,
-            Bankrekeningnummers: []
+            Werkingsgebieden: [],
+            Bankrekeningnummers: _fixture.CreateMany<ToeTevoegenBankrekeningnummer>().ToArray()
         );
 
-        var commandMetadata = fixture.Create<CommandMetadata>();
-
-        var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
+        _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             newAggregateSession: _newAggregateSessionMock,
             vCodeService: _vCodeService,
             outbox: Mock.Of<IMartenOutbox>(),
@@ -68,25 +68,22 @@ public class With_NietVanToepassing_Werkingsgebieden
             geotagsService: geotagService.Object,
             logger: NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
         );
-
-        commandHandler
-            .Handle(
-                message: new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-                    Command: command,
-                    Metadata: commandMetadata
-                ),
-                verrijkteAdressenUitGrar: VerrijkteAdressenUitGrar.Empty,
-                potentialDuplicates: PotentialDuplicatesFound.None,
-                personenUitKsz: new PersonenUitKszStub(command: command),
-                cancellationToken: CancellationToken.None
-            )
-            .GetAwaiter()
-            .GetResult();
     }
 
     [Fact]
-    public void Then_it_saves_the_event()
+    public async Task Then_Throws_Iban_()
     {
+        await _commandHandler.Handle(
+            message: new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+                Command: _command,
+                Metadata: _fixture.Create<CommandMetadata>()
+            ),
+            verrijkteAdressenUitGrar: VerrijkteAdressenUitGrar.Empty,
+            potentialDuplicates: PotentialDuplicatesFound.None,
+            personenUitKsz: new PersonenUitKszStub(command: _command),
+            cancellationToken: CancellationToken.None
+        );
+
         var vCode = _vCodeService.GetLast();
 
         _newAggregateSessionMock.ShouldHaveSavedExact(
@@ -104,10 +101,14 @@ public class With_NietVanToepassing_Werkingsgebieden
                     Locaties: [],
                     Vertegenwoordigers: [],
                     HoofdactiviteitenVerenigingsloket: [],
-                    Bankrekeningnummers: [],
+                    Bankrekeningnummers: _command
+                        .Bankrekeningnummers.Select(
+                            (x, i) =>
+                                new Registratiedata.Bankrekeningnummer(++i, x.Iban.Value, x.Doel, x.Titularis.Value)
+                        )
+                        .ToArray(),
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
                 ),
-                new WerkingsgebiedenWerdenNietVanToepassing(VCode: vCode),
                 new GeotagsWerdenBepaald(VCode: vCode, Geotags: []),
             ]
         );

@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
 
+using System.Net;
 using Admin.Api.Infrastructure;
+using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using Alba;
@@ -10,21 +12,21 @@ using DecentraalBeheer.Vereniging;
 using Framework.ApiSetup;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net;
 using Vereniging;
 using Adres = Admin.Api.WebApi.Verenigingen.Common.Adres;
 using AdresId = Admin.Api.WebApi.Verenigingen.Common.AdresId;
 
-public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
+public class RegistreerVZERRequestFactory
+    : ITestRequestFactory<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
     private string _vCode;
 
-    public RegistreerVZERRequestFactory()
-    {
-    }
+    public RegistreerVZERRequestFactory() { }
 
-    public async Task<CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>> ExecuteRequest(
+        IApiSetup apiSetup
+    )
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -35,11 +37,7 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
             IsUitgeschrevenUitPubliekeDatastroom = false,
-            Doelgroep = new DoelgroepRequest
-            {
-                Minimumleeftijd = 1,
-                Maximumleeftijd = 149,
-            },
+            Doelgroep = new DoelgroepRequest { Minimumleeftijd = 1, Maximumleeftijd = 149 },
             Contactgegevens =
             [
                 new()
@@ -92,7 +90,7 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
                     },
                     IsPrimair = false,
                     Locatietype = Locatietype.Activiteiten,
-                }
+                },
             ],
             Vertegenwoordigers =
             [
@@ -124,30 +122,37 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
                 },
             ],
             HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
-            //Werkingsgebieden = ["BE25", "BE25535002"],
+            Werkingsgebieden = ["BE25", "BE25535002"],
+            Bankrekeningnummers = autoFixture.CreateMany<ToeTeVoegenBankrekeningnummer>().ToArray(),
         };
 
-        var response = (await apiSetup.AdminApiHost.Scenario(s =>
-        {
-            s.Post
-             .Json(request, JsonStyle.Mvc)
-             .ToUrl("/v1/verenigingen/vzer");
+        var response = (
+            await apiSetup.AdminApiHost.Scenario(s =>
+            {
+                s.Post.Json(request, JsonStyle.Mvc).ToUrl("/v1/verenigingen/vzer");
 
-            s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+                s.StatusCodeShouldBe(HttpStatusCode.Accepted);
 
-            s.Header("Location").ShouldHaveValues();
+                s.Header("Location").ShouldHaveValues();
 
-            s.Header("Location")
-             .SingleValueShouldMatch($"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+                s.Header("Location")
+                    .SingleValueShouldMatch(
+                        $"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V"
+                    );
 
-            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
-            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
-        })).Context.Response;
+                s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+                s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
+            })
+        ).Context.Response;
 
         _vCode = response.Headers.Location.First().Split('/').Last();
         //long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
         var newSequence = await apiSetup.WaitForAdresMatchEventForEachLocation(_vCode, request.Locaties.Length);
 
-        return new CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(VCode.Create(_vCode), request, newSequence);
+        return new CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(
+            VCode.Create(_vCode),
+            request,
+            newSequence
+        );
     }
 }

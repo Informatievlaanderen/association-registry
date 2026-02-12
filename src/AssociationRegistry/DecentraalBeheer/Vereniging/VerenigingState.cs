@@ -226,6 +226,21 @@ public record VerenigingState : IHasVersion
                     .HoofdactiviteitenVerenigingsloket.Select(h => HoofdactiviteitVerenigingsloket.Create(h.Code))
                     .ToArray()
             ),
+            Bankrekeningnummers = @event.Bankrekeningnummers.Aggregate(
+                Bankrekeningnummers.Empty,
+                func: (lijst, b) =>
+                    Bankrekeningnummers.Hydrate(
+                        lijst.Append(
+                            Bankrekeningnummer.Hydrate(
+                                b.BankrekeningnummerId,
+                                b.Iban,
+                                b.Doel,
+                                b.Titularis,
+                                Bron.Initiator
+                            )
+                        )
+                    )
+            ),
             Werkingsgebieden = Werkingsgebieden.NietBepaald,
             VerenigingStatus = new VerenigingStatus.StatusActief(),
         };
@@ -879,7 +894,7 @@ public record VerenigingState : IHasVersion
                             bankrekeningnummer.Iban.Value,
                             bankrekeningnummer.Doel,
                             bankrekeningnummer.Titularis.Value,
-                            BankrekeningnummerBron.Kbo
+                            @event.Bron
                         )
                     )
             ),

@@ -1,13 +1,16 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
+using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Common.Framework;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using Events;
 using Vereniging;
 using Vereniging.Bronnen;
+using Bankrekeningnummer = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Bankrekeningnummer;
 using Contactgegeven = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Locatie;
@@ -16,9 +19,7 @@ using Werkingsgebied = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Werki
 
 public class BeheerDetailResponseMapper
 {
-
-    public static Sleutel[] MapSleutels(string vCode)
-        =>
+    public static Sleutel[] MapSleutels(string vCode) =>
         [
             new()
             {
@@ -36,8 +37,7 @@ public class BeheerDetailResponseMapper
             },
         ];
 
-    public static Sleutel[] MapSleutels(string vCode, string kboNummer)
-        =>
+    public static Sleutel[] MapSleutels(string vCode, string kboNummer) =>
         [
             new()
             {
@@ -69,165 +69,228 @@ public class BeheerDetailResponseMapper
             },
         ];
 
-    public static Vertegenwoordiger[] MapVertegenwoordigers(ToeTeVoegenVertegenwoordiger[] vertegenwoordigers, string vCode)
+    public static Vertegenwoordiger[] MapVertegenwoordigers(
+        ToeTeVoegenVertegenwoordiger[] vertegenwoordigers,
+        string vCode
+    )
     {
-        return vertegenwoordigers.Select((x, i) => new Vertegenwoordiger
-        {
-            id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(
-                vCode, $"{i + 1}"),
-            type = JsonLdType.Vertegenwoordiger.Type,
-            VertegenwoordigerId = i + 1,
-            PrimairContactpersoon = x.IsPrimair,
-            Achternaam = x.Achternaam,
-            Email = x.Email,
-            Insz = x.Insz,
-            Voornaam = x.Voornaam,
-            Roepnaam = x.Roepnaam,
-            Rol = x.Rol,
-            Telefoon = x.Telefoon,
-            Mobiel = x.Mobiel,
-            SocialMedia = x.SocialMedia,
-            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
-            {
-                id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
-                    vCode, $"{i + 1}"),
-                type = JsonLdType.VertegenwoordigerContactgegeven.Type,
-                IsPrimair = x.IsPrimair,
-                Email = x.Email,
-                Telefoon = x.Telefoon,
-                Mobiel = x.Mobiel,
-                SocialMedia = x.SocialMedia,
-            },
-            Bron = Bron.Initiator,
-        }).ToArray();
+        return vertegenwoordigers
+            .Select(
+                (x, i) =>
+                    new Vertegenwoordiger
+                    {
+                        id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(vCode, $"{i + 1}"),
+                        type = JsonLdType.Vertegenwoordiger.Type,
+                        VertegenwoordigerId = i + 1,
+                        PrimairContactpersoon = x.IsPrimair,
+                        Achternaam = x.Achternaam,
+                        Email = x.Email,
+                        Insz = x.Insz,
+                        Voornaam = x.Voornaam,
+                        Roepnaam = x.Roepnaam,
+                        Rol = x.Rol,
+                        Telefoon = x.Telefoon,
+                        Mobiel = x.Mobiel,
+                        SocialMedia = x.SocialMedia,
+                        VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
+                        {
+                            id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(vCode, $"{i + 1}"),
+                            type = JsonLdType.VertegenwoordigerContactgegeven.Type,
+                            IsPrimair = x.IsPrimair,
+                            Email = x.Email,
+                            Telefoon = x.Telefoon,
+                            Mobiel = x.Mobiel,
+                            SocialMedia = x.SocialMedia,
+                        },
+                        Bron = Bron.Initiator,
+                    }
+            )
+            .ToArray();
     }
 
-    public static Vertegenwoordiger[] MapVertegenwoordigers(Registratiedata.Vertegenwoordiger[] vertegenwoordigers, string vCode)
+    public static Vertegenwoordiger[] MapVertegenwoordigers(
+        Registratiedata.Vertegenwoordiger[] vertegenwoordigers,
+        string vCode
+    )
     {
-        return vertegenwoordigers.Select((x, i) => new Vertegenwoordiger
-        {
-            id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(
-                vCode, $"{i + 1}"),
-            type = JsonLdType.Vertegenwoordiger.Type,
-            VertegenwoordigerId = i + 1,
-            PrimairContactpersoon = x.IsPrimair,
-            Achternaam = x.Achternaam,
-            Email = x.Email,
-            Insz = x.Insz,
-            Voornaam = x.Voornaam,
-            Roepnaam = x.Roepnaam,
-            Rol = x.Rol,
-            Telefoon = x.Telefoon,
-            Mobiel = x.Mobiel,
-            SocialMedia = x.SocialMedia,
-            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
-            {
-                id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
-                    vCode, $"{i + 1}"),
-                type = JsonLdType.VertegenwoordigerContactgegeven.Type,
-                IsPrimair = x.IsPrimair,
-                Email = x.Email,
-                Telefoon = x.Telefoon,
-                Mobiel = x.Mobiel,
-                SocialMedia = x.SocialMedia,
-            },
-            Bron = Bron.Initiator,
-        }).ToArray();
+        return vertegenwoordigers
+            .Select(
+                (x, i) =>
+                    new Vertegenwoordiger
+                    {
+                        id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(vCode, $"{i + 1}"),
+                        type = JsonLdType.Vertegenwoordiger.Type,
+                        VertegenwoordigerId = i + 1,
+                        PrimairContactpersoon = x.IsPrimair,
+                        Achternaam = x.Achternaam,
+                        Email = x.Email,
+                        Insz = x.Insz,
+                        Voornaam = x.Voornaam,
+                        Roepnaam = x.Roepnaam,
+                        Rol = x.Rol,
+                        Telefoon = x.Telefoon,
+                        Mobiel = x.Mobiel,
+                        SocialMedia = x.SocialMedia,
+                        VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
+                        {
+                            id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(vCode, $"{i + 1}"),
+                            type = JsonLdType.VertegenwoordigerContactgegeven.Type,
+                            IsPrimair = x.IsPrimair,
+                            Email = x.Email,
+                            Telefoon = x.Telefoon,
+                            Mobiel = x.Mobiel,
+                            SocialMedia = x.SocialMedia,
+                        },
+                        Bron = Bron.Initiator,
+                    }
+            )
+            .ToArray();
     }
 
-    public static Contactgegeven[] MapContactgegevens(Registratiedata.Contactgegeven[] toeTeVoegenContactgegevens, string vCode)
+    public static Contactgegeven[] MapContactgegevens(
+        Registratiedata.Contactgegeven[] toeTeVoegenContactgegevens,
+        string vCode
+    )
     {
-        return toeTeVoegenContactgegevens.Select((x, i) => new Contactgegeven
-        {
-            id = JsonLdType.Contactgegeven.CreateWithIdValues(
-                vCode, $"{i + 1}"),
-            type = JsonLdType.Contactgegeven.Type,
-            ContactgegevenId = i + 1,
-            Contactgegeventype = x.Contactgegeventype,
-            Waarde = x.Waarde,
-            Beschrijving = x.Beschrijving!,
-            IsPrimair = x.IsPrimair,
-            Bron = Bron.Initiator,
-        }).ToArray();
+        return toeTeVoegenContactgegevens
+            .Select(
+                (x, i) =>
+                    new Contactgegeven
+                    {
+                        id = JsonLdType.Contactgegeven.CreateWithIdValues(vCode, $"{i + 1}"),
+                        type = JsonLdType.Contactgegeven.Type,
+                        ContactgegevenId = i + 1,
+                        Contactgegeventype = x.Contactgegeventype,
+                        Waarde = x.Waarde,
+                        Beschrijving = x.Beschrijving!,
+                        IsPrimair = x.IsPrimair,
+                        Bron = Bron.Initiator,
+                    }
+            )
+            .ToArray();
     }
 
-    public static Contactgegeven[] MapContactgegevens(ToeTeVoegenContactgegeven[] toeTeVoegenContactgegevens, string vCode)
+    public static Contactgegeven[] MapContactgegevens(
+        ToeTeVoegenContactgegeven[] toeTeVoegenContactgegevens,
+        string vCode
+    )
     {
-        return toeTeVoegenContactgegevens.Select((x, i) => new Contactgegeven
-        {
-            id = JsonLdType.Contactgegeven.CreateWithIdValues(
-                vCode, $"{i + 1}"),
-            type = JsonLdType.Contactgegeven.Type,
-            ContactgegevenId = i + 1,
-            Contactgegeventype = x.Contactgegeventype,
-            Waarde = x.Waarde,
-            Beschrijving = x.Beschrijving!,
-            IsPrimair = x.IsPrimair,
-            Bron = Bron.Initiator,
-        }).ToArray();
+        return toeTeVoegenContactgegevens
+            .Select(
+                (x, i) =>
+                    new Contactgegeven
+                    {
+                        id = JsonLdType.Contactgegeven.CreateWithIdValues(vCode, $"{i + 1}"),
+                        type = JsonLdType.Contactgegeven.Type,
+                        ContactgegevenId = i + 1,
+                        Contactgegeventype = x.Contactgegeventype,
+                        Waarde = x.Waarde,
+                        Beschrijving = x.Beschrijving!,
+                        IsPrimair = x.IsPrimair,
+                        Bron = Bron.Initiator,
+                    }
+            )
+            .ToArray();
     }
 
     public static Locatie[] MapLocaties(ToeTeVoegenLocatie[] toeTeVoegenLocaties, string vCode)
     {
-        return toeTeVoegenLocaties.Select((x, i) => new Locatie
-        {
-            id = JsonLdType.Locatie.CreateWithIdValues(
-                vCode, $"{i + 1}"),
-            type = JsonLdType.Locatie.Type,
-            LocatieId = i + 1,
-            Locatietype = x.Locatietype,
-            Naam = x.Naam,
-            Bron = Bron.Initiator,
-            IsPrimair = x.IsPrimair,
-        }).ToArray();
+        return toeTeVoegenLocaties
+            .Select(
+                (x, i) =>
+                    new Locatie
+                    {
+                        id = JsonLdType.Locatie.CreateWithIdValues(vCode, $"{i + 1}"),
+                        type = JsonLdType.Locatie.Type,
+                        LocatieId = i + 1,
+                        Locatietype = x.Locatietype,
+                        Naam = x.Naam,
+                        Bron = Bron.Initiator,
+                        IsPrimair = x.IsPrimair,
+                    }
+            )
+            .ToArray();
     }
 
     public static Locatie[] MapLocaties(Registratiedata.Locatie[] toeTeVoegenLocaties, string vCode)
     {
-        return toeTeVoegenLocaties.Select((x, i) => new Locatie
-        {
-            id = JsonLdType.Locatie.CreateWithIdValues(
-                vCode, $"{i + 1}"),
-            type = JsonLdType.Locatie.Type,
-            LocatieId = i + 1,
-            Locatietype = x.Locatietype,
-            Naam = x.Naam,
-            Bron = Bron.Initiator,
-            IsPrimair = x.IsPrimair,
-        }).ToArray();
+        return toeTeVoegenLocaties
+            .Select(
+                (x, i) =>
+                    new Locatie
+                    {
+                        id = JsonLdType.Locatie.CreateWithIdValues(vCode, $"{i + 1}"),
+                        type = JsonLdType.Locatie.Type,
+                        LocatieId = i + 1,
+                        Locatietype = x.Locatietype,
+                        Naam = x.Naam,
+                        Bron = Bron.Initiator,
+                        IsPrimair = x.IsPrimair,
+                    }
+            )
+            .ToArray();
     }
 
     public static HoofdactiviteitVerenigingsloket[] MapHoofdactiviteitenVerenigingsloket(
-        string[] hoofdactiviteitenVerenigingsloket)
+        string[] hoofdactiviteitenVerenigingsloket
+    )
     {
-        return hoofdactiviteitenVerenigingsloket.Select(x =>
-        {
-            var hoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
-
-            return new HoofdactiviteitVerenigingsloket
+        return hoofdactiviteitenVerenigingsloket
+            .Select(x =>
             {
-                Code = hoofdactiviteitVerenigingsloket.Code,
-                Naam = hoofdactiviteitVerenigingsloket.Naam,
-                id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(hoofdactiviteitVerenigingsloket.Code),
-                type = JsonLdType.Hoofdactiviteit.Type,
-            };
-        }).ToArray();
+                var hoofdactiviteitVerenigingsloket =
+                    DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
+
+                return new HoofdactiviteitVerenigingsloket
+                {
+                    Code = hoofdactiviteitVerenigingsloket.Code,
+                    Naam = hoofdactiviteitVerenigingsloket.Naam,
+                    id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(hoofdactiviteitVerenigingsloket.Code),
+                    type = JsonLdType.Hoofdactiviteit.Type,
+                };
+            })
+            .ToArray();
     }
 
     public static Werkingsgebied[] MapWerkingsgebieden(string[] werkingsgebieden)
     {
         var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
-        return werkingsgebieden.Select(x =>
-        {
-            var werkingsgebied = werkingsgebiedenServiceMock.Create(x);
-
-            return new Werkingsgebied
+        return werkingsgebieden
+            .Select(x =>
             {
-                Code = werkingsgebied.Code,
-                Naam = werkingsgebied.Naam,
-                id = JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
-                type = JsonLdType.Werkingsgebied.Type,
-            };
-        }).ToArray();
+                var werkingsgebied = werkingsgebiedenServiceMock.Create(x);
+
+                return new Werkingsgebied
+                {
+                    Code = werkingsgebied.Code,
+                    Naam = werkingsgebied.Naam,
+                    id = JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
+                    type = JsonLdType.Werkingsgebied.Type,
+                };
+            })
+            .ToArray();
+    }
+
+    public static Bankrekeningnummer[] MapBankrekeningnummers(
+        ToeTeVoegenBankrekeningnummer[] bankrekeningnummers,
+        string vCode
+    )
+    {
+        return bankrekeningnummers
+            .Select(
+                (x, i) =>
+                    new Bankrekeningnummer()
+                    {
+                        id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(vCode, $"{i + 1}"),
+                        type = JsonLdType.Bankrekeningnummer.Type,
+                        BankrekeningnummerId = i + 1,
+                        Iban = x.Iban,
+                        Doel = x.Doel,
+                        Titularis = x.Titularis,
+                        IsGevalideerd = false,
+                        Bron = Bron.Initiator,
+                    }
+            )
+            .ToArray();
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Events;
 
-
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
@@ -9,11 +8,9 @@ public record ContactgegevenWerdToegevoegd(
     string Contactgegeventype,
     string Waarde,
     string Beschrijving,
-    bool IsPrimair) : IEvent
+    bool IsPrimair
+) : IEvent
 {
     [IgnoreDataMember]
-    public Bron Bron
-        => Bron.Initiator;
-
-
+    public Bron Bron => Bron.Initiator;
 }

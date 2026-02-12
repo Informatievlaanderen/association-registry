@@ -1,26 +1,25 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
-using Alba;
+using System.Net;
 using Admin.Api.Infrastructure;
+using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
-using Hosts.Configuration.ConfigurationBindings;
+using Alba;
 using AssociationRegistry.Test.Common.AutoFixture;
-using Framework.ApiSetup;
-using Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
+using Framework.ApiSetup;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net;
+using Vereniging;
 using Adres = Admin.Api.WebApi.Verenigingen.Common.Adres;
 
 public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<RegistreerFeitelijkeVerenigingRequest>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
 
-    public RegistreerFeitelijkeVerenigingRequestFactory()
-    {
-    }
+    public RegistreerFeitelijkeVerenigingRequestFactory() { }
 
     public async Task<CommandResult<RegistreerFeitelijkeVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
@@ -33,11 +32,7 @@ public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
             IsUitgeschrevenUitPubliekeDatastroom = false,
-            Doelgroep = new DoelgroepRequest
-            {
-                Minimumleeftijd = 1,
-                Maximumleeftijd = 149,
-            },
+            Doelgroep = new DoelgroepRequest { Minimumleeftijd = 1, Maximumleeftijd = 149 },
             Contactgegevens =
             [
                 new()
@@ -127,24 +122,27 @@ public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<
             ],
             HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
             Werkingsgebieden = ["BE25", "BE25535002"],
+            Bankrekeningnummers = autoFixture.CreateMany<ToeTeVoegenBankrekeningnummer>().ToArray(),
         };
 
-        var response = (await apiSetup.AdminApiHost.Scenario(s =>
-        {
-            s.Post
-             .Json(request, JsonStyle.Mvc)
-             .ToUrl("/v1/verenigingen/feitelijkeverenigingen");
+        var response = (
+            await apiSetup.AdminApiHost.Scenario(s =>
+            {
+                s.Post.Json(request, JsonStyle.Mvc).ToUrl("/v1/verenigingen/feitelijkeverenigingen");
 
-            s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+                s.StatusCodeShouldBe(HttpStatusCode.Accepted);
 
-            s.Header("Location").ShouldHaveValues();
+                s.Header("Location").ShouldHaveValues();
 
-            s.Header("Location")
-             .SingleValueShouldMatch($"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+                s.Header("Location")
+                    .SingleValueShouldMatch(
+                        $"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V"
+                    );
 
-            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
-            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
-        })).Context.Response;
+                s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+                s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
+            })
+        ).Context.Response;
 
         var vCode = response.Headers.Location.First().Split('/').Last();
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());

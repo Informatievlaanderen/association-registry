@@ -34,48 +34,49 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var geotagService = Faktory.New(fixture).GeotagsService.ReturnsEmptyGeotags();
+        var geotagService = Faktory.New(fixture: fixture).GeotagsService.ReturnsEmptyGeotags();
 
         var today = fixture.Create<DateOnly>();
 
-        var clock = new ClockStub(today);
+        var clock = new ClockStub(now: today);
 
         var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
-            fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(),
-            VerenigingsNaam.Create(Naam),
+            OriginalRequest: fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(),
+            Naam: VerenigingsNaam.Create(naam: Naam),
             KorteNaam: null,
             KorteBeschrijving: null,
             Startdatum: null,
-            Doelgroep.Null,
+            Doelgroep: Doelgroep.Null,
             IsUitgeschrevenUitPubliekeDatastroom: true,
-            Array.Empty<Contactgegeven>(),
-            Array.Empty<Locatie>(),
-            Array.Empty<Vertegenwoordiger>(),
-            Array.Empty<HoofdactiviteitVerenigingsloket>(),
-            Array.Empty<Werkingsgebied>()
+            Contactgegevens: [],
+            Locaties: [],
+            Vertegenwoordigers: [],
+            HoofdactiviteitenVerenigingsloket: [],
+            Werkingsgebieden: [],
+            Bankrekeningnummers: []
         );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
-            _newAggregateSessionMock,
-            _vCodeService,
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
-            clock,
-            geotagService.Object,
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+            newAggregateSession: _newAggregateSessionMock,
+            vCodeService: _vCodeService,
+            outbox: Mock.Of<IMartenOutbox>(),
+            session: Mock.Of<IDocumentSession>(),
+            clock: clock,
+            geotagsService: geotagService.Object,
+            logger: NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
         );
 
         commandHandler
             .Handle(
-                new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-                    command,
-                    commandMetadata
+                message: new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+                    Command: command,
+                    Metadata: commandMetadata
                 ),
-                VerrijkteAdressenUitGrar.Empty,
-                PotentialDuplicatesFound.None,
-                new PersonenUitKszStub(command),
+                verrijkteAdressenUitGrar: VerrijkteAdressenUitGrar.Empty,
+                potentialDuplicates: PotentialDuplicatesFound.None,
+                personenUitKsz: new PersonenUitKszStub(command: command),
                 cancellationToken: CancellationToken.None
             )
             .GetAwaiter()
@@ -88,21 +89,25 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
         var vCode = _vCodeService.GetLast();
 
         _newAggregateSessionMock.ShouldHaveSavedExact(
-            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                vCode,
-                Naam,
-                string.Empty,
-                string.Empty,
-                Startdatum: null,
-                EventFactory.Doelgroep(Doelgroep.Null),
-                IsUitgeschrevenUitPubliekeDatastroom: true,
-                Array.Empty<Registratiedata.Contactgegeven>(),
-                Array.Empty<Registratiedata.Locatie>(),
-                Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                Registratiedata.DuplicatieInfo.GeenDuplicaten
-            ),
-            new GeotagsWerdenBepaald(vCode, [])
+            events:
+            [
+                new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+                    VCode: vCode,
+                    Naam: Naam,
+                    KorteNaam: string.Empty,
+                    KorteBeschrijving: string.Empty,
+                    Startdatum: null,
+                    Doelgroep: EventFactory.Doelgroep(doelgroep: Doelgroep.Null),
+                    IsUitgeschrevenUitPubliekeDatastroom: true,
+                    Contactgegevens: [],
+                    Locaties: [],
+                    Vertegenwoordigers: [],
+                    HoofdactiviteitenVerenigingsloket: [],
+                    Bankrekeningnummers: [],
+                    DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
+                ),
+                new GeotagsWerdenBepaald(VCode: vCode, Geotags: []),
+            ]
         );
     }
 }

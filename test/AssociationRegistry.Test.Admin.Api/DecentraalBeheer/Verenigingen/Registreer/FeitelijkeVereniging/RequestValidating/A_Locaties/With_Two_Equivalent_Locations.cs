@@ -15,7 +15,9 @@ public class With_Two_Equivalent_Locations : ValidatorTest
     [Fact]
     public void Has_validation_error__equivalent_locaties_verboden()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(
+            clock: new ClockStub(now: DateOnly.MaxValue)
+        );
 
         var equivalentLocatie = new ToeTeVoegenLocatie
         {
@@ -41,19 +43,12 @@ public class With_Two_Equivalent_Locations : ValidatorTest
             },
         };
 
+        var request = new RegistreerFeitelijkeVerenigingRequest { Locaties = [equivalentLocatie, equivalentLocatie2] };
 
-        var request = new RegistreerFeitelijkeVerenigingRequest
-        {
-            Locaties = new[]
-            {
-                equivalentLocatie,
-                equivalentLocatie2,
-            },
-        };
+        var result = validator.TestValidate(objectToTest: request);
 
-        var result = validator.TestValidate(request);
-
-        result.ShouldHaveValidationErrorFor(vereniging => vereniging.Locaties)
-              .WithErrorMessage("Identieke locaties zijn niet toegelaten.");
+        result
+            .ShouldHaveValidationErrorFor(memberAccessor: vereniging => vereniging.Locaties)
+            .WithErrorMessage(expectedErrorMessage: "Identieke locaties zijn niet toegelaten.");
     }
 }
