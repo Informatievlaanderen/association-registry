@@ -23,7 +23,7 @@ public class Bankrekeningnummer
     /// De IBAN van het bankrekeningnummer
     /// </summary>
     [DataMember(Name = "IBAN")]
-    public string Iban { get; set; }
+    public string Iban { get; set; } = null!;
 
     /// <summary>
     /// Waar deze rekening voor gebruikt wordt
@@ -43,9 +43,12 @@ public class Bankrekeningnummer
     [DataMember(Name = "IsGevalideerd")]
     public bool IsGevalideerd { get; set; }
 
-    /// <summary>
-    /// Wie beheerder is van het bankrekeningnummer
+    /// <summary> De bron die dit bankrekeningnummer beheert.
+    /// <br />
+    ///     Mogelijke waarden:<br />
+    ///     - Initiator<br />
+    ///     - KBO
     /// </summary>
     [DataMember(Name = "Bron")]
-    public string Bron { get; set; }
+    public string Bron { get; set; } = null!;
 }

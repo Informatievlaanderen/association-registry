@@ -25,10 +25,11 @@ public class Given_Geotags_Returns_Empty_Collection
         var clock = Faktory.New().Clock.Stub(DateOnly.FromDateTime(DateTime.Today.AddDays(-5)));
 
         var vCode = fixture.Create<VCode>();
-        var registreerVerenigingZonderEigenRechtspersoonlijkheidCommand = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
-        {
-            Startdatum = Datum.Create(clock.Today)
-        };
+        var registreerVerenigingZonderEigenRechtspersoonlijkheidCommand =
+            fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
+            {
+                Startdatum = Datum.Create(clock.Today),
+            };
         var registratieData = new RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid(
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Naam,
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.KorteNaam,
@@ -40,16 +41,23 @@ public class Given_Geotags_Returns_Empty_Collection
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Locaties,
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Vertegenwoordigers,
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.HoofdactiviteitenVerenigingsloket,
-            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Werkingsgebieden);
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Werkingsgebieden,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Bankrekeningnummers
+        );
 
-        var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(registratieData,
+        var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
+            registratieData,
             false,
-            string.Empty, new StubVCodeService(vCode),
-            clock);
+            string.Empty,
+            new StubVCodeService(vCode),
+            clock
+        );
 
         await vereniging.BerekenGeotags(geotagsService.Object);
 
-        vereniging.UncommittedEvents.OfType<GeotagsWerdenBepaald>().Single()
-                  .ShouldCompare(EventFactory.GeotagsWerdenBepaald(vCode, GeotagsCollection.Empty));
+        vereniging
+            .UncommittedEvents.OfType<GeotagsWerdenBepaald>()
+            .Single()
+            .ShouldCompare(EventFactory.GeotagsWerdenBepaald(vCode, GeotagsCollection.Empty));
     }
 }

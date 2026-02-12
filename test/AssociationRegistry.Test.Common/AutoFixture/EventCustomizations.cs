@@ -249,6 +249,7 @@ public static class EventCustomizations
                             .OrderBy(x => x.VertegenwoordigerId)
                             .ToArray(),
                         fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray(),
+                        fixture.CreateMany<Registratiedata.Bankrekeningnummer>().ToArray(),
                         Registratiedata.DuplicatieInfo.GeenDuplicaten
                     )
                 )

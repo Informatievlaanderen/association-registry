@@ -15,7 +15,9 @@ public class With_Two_Different_Locations : ValidatorTest
     [Fact]
     public void Has_no_validation_error()
     {
-        var validator = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequestValidator(new ClockStub(DateOnly.MaxValue));
+        var validator = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequestValidator(
+            clock: new ClockStub(now: DateOnly.MaxValue)
+        );
 
         var eersteLocatie = new ToeTeVoegenLocatie
         {
@@ -45,15 +47,11 @@ public class With_Two_Different_Locations : ValidatorTest
 
         var request = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest
         {
-            Locaties = new[]
-            {
-                eersteLocatie,
-                andereLocatie,
-            },
+            Locaties = [eersteLocatie, andereLocatie],
         };
 
-        var result = validator.TestValidate(request);
+        var result = validator.TestValidate(objectToTest: request);
 
-        result.ShouldNotHaveValidationErrorFor(r => r.Locaties);
+        result.ShouldNotHaveValidationErrorFor(memberAccessor: r => r.Locaties);
     }
 }

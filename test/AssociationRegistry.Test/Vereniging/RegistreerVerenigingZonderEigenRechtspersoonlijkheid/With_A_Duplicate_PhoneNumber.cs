@@ -63,7 +63,9 @@ public class With_A_Duplicate_PhoneNumber
             Locaties: [],
             Vertegenwoordigers: [],
             HoofdactiviteitenVerenigingsloket: [],
-            Werkingsgebieden: []);
+            Werkingsgebieden: [],
+            Bankrekeningnummers: []
+        );
 
         var registratieData = new RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid(
             command.Naam,
@@ -76,13 +78,18 @@ public class With_A_Duplicate_PhoneNumber
             command.Locaties,
             command.Vertegenwoordigers,
             command.HoofdactiviteitenVerenigingsloket,
-            command.Werkingsgebieden);
-        await Assert.ThrowsAsync<ContactgegevenIsDuplicaat>(() => Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
-                                                                registratieData,
-                                                                false,
-                                                                string.Empty,
-                                                                vCodeService,
-                                                                clock: new ClockStub(DateTime.Today)));
+            command.Werkingsgebieden,
+            command.Bankrekeningnummers
+        );
+        await Assert.ThrowsAsync<ContactgegevenIsDuplicaat>(() =>
+            Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
+                registratieData,
+                false,
+                string.Empty,
+                vCodeService,
+                clock: new ClockStub(DateTime.Today)
+            )
+        );
     }
 
     private static Contactgegeven[] CreateDuplicateContactgegevens(string waarde, Fixture fixture)

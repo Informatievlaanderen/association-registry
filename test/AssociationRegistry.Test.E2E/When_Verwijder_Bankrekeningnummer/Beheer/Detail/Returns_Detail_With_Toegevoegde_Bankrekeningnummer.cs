@@ -5,8 +5,11 @@ using AssociationRegistry.Contracts.JsonLdContext;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using FluentAssertions;
+using Vereniging.Bronnen;
 using Xunit;
+using Bankrekeningnummer = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Bankrekeningnummer;
 
 [Collection(nameof(VerwijderBankrekeningnummerCollection))]
 public class Returns_Detail_Without_Verwijderd_Bankrekeningnummer : End2EndTest<DetailVerenigingResponse>
@@ -19,12 +22,36 @@ public class Returns_Detail_Without_Verwijderd_Bankrekeningnummer : End2EndTest<
         _testContext = testContext;
     }
 
-    public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
+    public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup) =>
+        await setup.AdminApiHost.GetBeheerDetail(
+            setup.AdminHttpClient,
+            _testContext.VCode,
+            new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)
+        );
 
-  [Fact]
+    [Fact]
     public void JsonContentMatches()
     {
-        Response.Vereniging.Bankrekeningnummers.Should().BeEmpty();
+        var bankrekeningnummersFromRegistreer = _testContext
+            .Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Bankrekeningnummers.Select(
+                x => new Bankrekeningnummer()
+                {
+                    type = JsonLdType.Bankrekeningnummer.Type,
+                    id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(
+                        _testContext.VCode,
+                        x.BankrekeningnummerId.ToString()
+                    ),
+                    BankrekeningnummerId = x.BankrekeningnummerId,
+                    Iban = x.Iban,
+                    Doel = x.Doel,
+                    Titularis = x.Titularis,
+                    IsGevalideerd = false,
+                    Bron = Bron.Initiator,
+                }
+            )
+            .OrderBy(x => x.BankrekeningnummerId);
+
+        // scenario.Toegevoegd one is deleted so only check if the bankreknrs from registreer are expected
+        Response.Vereniging.Bankrekeningnummers.Should().BeEquivalentTo(bankrekeningnummersFromRegistreer);
     }
 }

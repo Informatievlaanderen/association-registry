@@ -1,11 +1,12 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using AssociationRegistry.Vereniging;
+using Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common;
 using DecentraalBeheer.Vereniging;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 using VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 
 [DataContract]
@@ -60,8 +61,12 @@ public class RegistreerFeitelijkeVerenigingRequest : IRegistreerVereniging
     [DataMember]
     public string[]? Werkingsgebieden { get; set; } = [];
 
-    public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(Werkingsgebied[]? werkingsgebieden)
-        => new(
+    /// <summary>De bankrekeningnummers van een vereniging</summary>
+    [DataMember]
+    public ToeTeVoegenBankrekeningnummer[] Bankrekeningnummers { get; set; } = [];
+
+    public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(Werkingsgebied[]? werkingsgebieden) =>
+        new(
             this,
             VerenigingsNaam.Create(Naam),
             KorteNaam,
@@ -73,5 +78,7 @@ public class RegistreerFeitelijkeVerenigingRequest : IRegistreerVereniging
             Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
-            werkingsgebieden ?? DecentraalBeheer.Vereniging.Werkingsgebieden.NietBepaald);
+            werkingsgebieden ?? DecentraalBeheer.Vereniging.Werkingsgebieden.NietBepaald,
+            Bankrekeningnummers.Select(ToeTeVoegenBankrekeningnummer.Map).ToArray()
+        );
 }

@@ -6,8 +6,9 @@ using KellermanSoftware.CompareNetObjects;
 using Scenario.Bankrekeningnummers.Kbo;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_BankrekeningWerdToegevoegdVanuitKBO(PowerBiScenarioFixture<BankrekeningnummerWerdToegevoegdVanuitKBOScenario> fixture)
-    : PowerBiScenarioClassFixture<BankrekeningnummerWerdToegevoegdVanuitKBOScenario>
+public class Given_BankrekeningWerdToegevoegdVanuitKBO(
+    PowerBiScenarioFixture<BankrekeningnummerWerdToegevoegdVanuitKBOScenario> fixture
+) : PowerBiScenarioClassFixture<BankrekeningnummerWerdToegevoegdVanuitKBOScenario>
 {
     [Fact]
     public void AantalBankrekeningnummers_Is_Increased_By_One()
@@ -18,10 +19,11 @@ public class Given_BankrekeningWerdToegevoegdVanuitKBO(PowerBiScenarioFixture<Ba
     [Fact]
     public void ARecordIsStored_With_Historiek()
     {
-        fixture.Result.VCode.Should().Be(fixture.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
+        fixture.Result.VCode.Should().Be(fixture.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
         fixture.Result.Historiek.Should().NotBeEmpty();
 
-        fixture.Result.Historiek.Should()
-                             .ContainSingle(x => x.EventType == nameof(BankrekeningnummerWerdToegevoegdVanuitKBO));
+        fixture
+            .Result.Historiek.Should()
+            .ContainSingle(x => x.EventType == nameof(BankrekeningnummerWerdToegevoegdVanuitKBO));
     }
 }

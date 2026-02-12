@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Contracts.JsonLdContext;
 using AssociationRegistry.Test.Projections.Scenario.Bankrekeningnummers.Vzer;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
+using Vereniging.Bronnen;
 using Bankrekeningnummer = Admin.Schema.Detail.Bankrekeningnummer;
 
 [Collection(nameof(ProjectionContext))]
@@ -19,7 +20,7 @@ public class Given_BankrekeningnummerWerdToegevoegd(
     {
         fixture
             .Result.Bankrekeningnummers.Should()
-            .BeEquivalentTo([
+            .ContainEquivalentOf(
                 new Bankrekeningnummer()
                 {
                     JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
@@ -32,8 +33,8 @@ public class Given_BankrekeningnummerWerdToegevoegd(
                     Doel = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
                     Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
                     IsGevalideerd = false,
-                    Bron = BankrekeningnummerBron.Gi.Value,
-                },
-            ]);
+                    Bron = Bron.Initiator,
+                }
+            );
     }
 }

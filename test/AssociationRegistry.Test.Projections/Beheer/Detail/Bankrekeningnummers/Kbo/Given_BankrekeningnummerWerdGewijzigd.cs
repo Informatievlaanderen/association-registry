@@ -4,6 +4,7 @@ using Admin.ProjectionHost.Projections.Detail;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using Scenario.Bankrekeningnummers.Kbo;
+using Vereniging.Bronnen;
 using Bankrekeningnummer = Admin.Schema.Detail.Bankrekeningnummer;
 
 [Collection(nameof(ProjectionContext))]
@@ -36,7 +37,7 @@ public class Given_BankrekeningnummerWerdGewijzigd(
                     Doel = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Doel,
                     Titularis = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Titularis,
                     IsGevalideerd = false,
-                    Bron = BankrekeningnummerBron.Kbo.Value,
+                    Bron = Bron.KBO,
                 },
             ]);
     }

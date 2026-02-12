@@ -36,33 +36,41 @@ public class With_Valid_Request
         var messageBusMock = new Mock<IMessageBus>();
 
         _commandResult = _fixture.Create<CommandResult>();
-        var result = Result.Success(_commandResult);
+        var result = Result.Success(data: _commandResult);
 
         messageBusMock
-           .Setup(mb => mb.InvokeAsync<Result>(It.IsAny<CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>>(), default, null))
-           .ReturnsAsync(result);
+            .Setup(expression: mb =>
+                mb.InvokeAsync<Result>(
+                    It.IsAny<CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>>(),
+                    default,
+                    null
+                )
+            )
+            .ReturnsAsync(value: result);
 
         _controller = new RegistreerFeitelijkeVerenigingController(
-                messageBusMock.Object,
-                new RegistreerFeitelijkeVerenigingRequestValidator(new Clock()),
-                new AppSettings()
-                {
-                    BaseUrl = "https://beheer.verenigingen.vlaanderen.be",
-                })
-            { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
+            bus: messageBusMock.Object,
+            validator: new RegistreerFeitelijkeVerenigingRequestValidator(clock: new Clock()),
+            appSettings: new AppSettings() { BaseUrl = "https://beheer.verenigingen.vlaanderen.be" }
+        )
+        {
+            ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() },
+        };
     }
 
     [Fact]
     public async ValueTask Then_it_returns_an_acceptedResponse()
     {
         var response = await _controller.Post(
-            _fixture.Create<RegistreerFeitelijkeVerenigingRequest>(),
-            _fixture.Create<CommandMetadataProviderStub>(), Mock.Of<IWerkingsgebiedenService>());
+            request: _fixture.Create<RegistreerFeitelijkeVerenigingRequest>(),
+            metadataProvider: _fixture.Create<CommandMetadataProviderStub>(),
+            werkingsgebiedenService: Mock.Of<IWerkingsgebiedenService>()
+        );
 
         using (new AssertionScope())
         {
             response.Should().BeAssignableTo<IStatusCodeActionResult>();
-            (response as IStatusCodeActionResult)!.StatusCode.Should().Be(202);
+            (response as IStatusCodeActionResult)!.StatusCode.Should().Be(expected: 202);
         }
     }
 
@@ -70,12 +78,17 @@ public class With_Valid_Request
     public async ValueTask Then_it_returns_a_sequence_header()
     {
         await _controller.Post(
-            _fixture.Create<RegistreerFeitelijkeVerenigingRequest>(),
-            _fixture.Create<CommandMetadataProviderStub>(), Mock.Of<IWerkingsgebiedenService>());
+            request: _fixture.Create<RegistreerFeitelijkeVerenigingRequest>(),
+            metadataProvider: _fixture.Create<CommandMetadataProviderStub>(),
+            werkingsgebiedenService: Mock.Of<IWerkingsgebiedenService>()
+        );
 
         using (new AssertionScope())
         {
-            _controller.Response.Headers[WellknownHeaderNames.Sequence].Should().BeEquivalentTo(_commandResult.Sequence.ToString());
+            _controller
+                .Response.Headers[key: WellknownHeaderNames.Sequence]
+                .Should()
+                .BeEquivalentTo(expectation: _commandResult.Sequence.ToString());
         }
     }
 
@@ -83,13 +96,22 @@ public class With_Valid_Request
     public async ValueTask Then_it_returns_a_etag_header()
     {
         await _controller.Post(
-            _fixture.Create<RegistreerFeitelijkeVerenigingRequest>(),
-            _fixture.Create<CommandMetadataProviderStub>(), Mock.Of<IWerkingsgebiedenService>());
+            request: _fixture.Create<RegistreerFeitelijkeVerenigingRequest>(),
+            metadataProvider: _fixture.Create<CommandMetadataProviderStub>(),
+            werkingsgebiedenService: Mock.Of<IWerkingsgebiedenService>()
+        );
 
         using (new AssertionScope())
         {
-            _controller.Response.GetTypedHeaders().ETag.Should()
-                       .BeEquivalentTo(new EntityTagHeaderValue(new StringSegment($@"""{_commandResult.Version}"""), isWeak: true));
+            _controller
+                .Response.GetTypedHeaders()
+                .ETag.Should()
+                .BeEquivalentTo(
+                    expectation: new EntityTagHeaderValue(
+                        tag: new StringSegment(buffer: $@"""{_commandResult.Version}"""),
+                        isWeak: true
+                    )
+                );
         }
     }
 }

@@ -6,7 +6,8 @@ using NodaTime;
 
 Console.WriteLine("🌱 Seeding test data for verenigingsregister...");
 
-var connectionString = Environment.GetEnvironmentVariable("ConnectionString")
+var connectionString =
+    Environment.GetEnvironmentVariable("ConnectionString")
     ?? "Host=localhost;Port=5432;Database=golden_master_template;Username=root;Password=root";
 
 Console.WriteLine($"Connecting to: {connectionString.Replace("Password=root", "Password=***")}");
@@ -49,9 +50,7 @@ session.Events.Append(
 
 session.Events.Append(
     "V9000001",
-    new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(
-        VCode: "V9000001"
-    )
+    new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode: "V9000001")
 );
 
 session.Events.Append(
@@ -112,7 +111,8 @@ session.Events.Append(
         IsUitgeschrevenUitPubliekeDatastroom: false,
         Contactgegevens: [],
         Locaties: [],
-        Vertegenwoordigers: [
+        Vertegenwoordigers:
+        [
             new Registratiedata.Vertegenwoordiger(
                 VertegenwoordigerId: 1,
                 Insz: "98765432109",
@@ -138,7 +138,7 @@ session.Events.Append(
                 Telefoon: "0211223344",
                 Mobiel: "0411223344",
                 SocialMedia: ""
-            )
+            ),
         ],
         HoofdactiviteitenVerenigingsloket: []
     )
@@ -146,9 +146,7 @@ session.Events.Append(
 
 session.Events.Append(
     "V9000002",
-    new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(
-        VCode: "V9000002"
-    )
+    new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode: "V9000002")
 );
 
 // Scenario 3: VerenigingMetRechtspersoonlijkheid with KBO vertegenwoordigers
@@ -228,9 +226,7 @@ session.Events.Append(
 
 session.Events.Append(
     "V9000004",
-    new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(
-        VCode: "V9000004"
-    )
+    new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode: "V9000004")
 );
 
 var councilMembers = new[]
@@ -239,7 +235,7 @@ var councilMembers = new[]
     ("Gimli", "son of Gloin", "gimli@erebor.example"),
     ("Pippin", "Took", "pippin@shire.example"),
     ("Merry", "Brandybuck", "merry@shire.example"),
-    ("Elrond", "Half-elven", "elrond@rivendell.example")
+    ("Elrond", "Half-elven", "elrond@rivendell.example"),
 };
 
 for (int i = 1; i <= 5; i++)
@@ -281,35 +277,21 @@ session.Events.Append(
 // Add vertegenwoordigers separately to this one too
 session.Events.Append(
     "V9000005",
-    new VertegenwoordigerWerdToegevoegd(
+    new VertegenwoordigerWerdToegevoegdVanuitKBO(
         VertegenwoordigerId: 1,
         Insz: "77889900112",
-        IsPrimair: true,
-        Roepnaam: "Galadriel",
-        Rol: "Chairwoman",
         Voornaam: "Galadriel",
-        Achternaam: "of Lothlorien",
-        Email: "galadriel@lorien.example",
-        Telefoon: "0266778899",
-        Mobiel: "0466778899",
-        SocialMedia: ""
+        Achternaam: "of Lothlorien"
     )
 );
 
 session.Events.Append(
     "V9000005",
-    new VertegenwoordigerWerdToegevoegd(
+    new VertegenwoordigerWerdToegevoegdVanuitKBO(
         VertegenwoordigerId: 2,
         Insz: "88990011223",
-        IsPrimair: false,
-        Roepnaam: "Saruman",
-        Rol: "Chief Wizard",
         Voornaam: "Saruman",
-        Achternaam: "the White",
-        Email: "saruman@isengard.example",
-        Telefoon: "0277889900",
-        Mobiel: "0477889900",
-        SocialMedia: "https://wizards.example/saruman"
+        Achternaam: "the White"
     )
 );
 
@@ -330,10 +312,10 @@ session.Events.Append(
         Locaties: [],
         Vertegenwoordigers: [],
         HoofdactiviteitenVerenigingsloket: [],
+        Bankrekeningnummers: [],
         Registratiedata.DuplicatieInfo.GeenDuplicaten
     )
 );
-
 
 session.Events.Append(
     "V9000010",
@@ -393,7 +375,8 @@ session.Events.Append(
         IsUitgeschrevenUitPubliekeDatastroom: false,
         Contactgegevens: [],
         Locaties: [],
-        Vertegenwoordigers: [
+        Vertegenwoordigers:
+        [
             new Registratiedata.Vertegenwoordiger(
                 VertegenwoordigerId: 1,
                 Insz: "98765432109",
@@ -419,9 +402,10 @@ session.Events.Append(
                 Telefoon: "0211223344",
                 Mobiel: "0411223344",
                 SocialMedia: ""
-            )
+            ),
         ],
         HoofdactiviteitenVerenigingsloket: [],
+        Bankrekeningnummers: [],
         Registratiedata.DuplicatieInfo.GeenDuplicaten
     )
 );
@@ -439,7 +423,8 @@ session.Events.Append(
         Telefoon: "0211223344",
         Mobiel: "0411223344",
         SocialMedia: ""
-    ));
+    )
+);
 
 session.Events.Append(
     "V9000011",
@@ -448,16 +433,17 @@ session.Events.Append(
         Insz: "11223344556",
         Voornaam: "Samwise",
         Achternaam: "Gamgee"
-    ));
-
-
+    )
+);
 
 await session.SaveChangesAsync();
 
 Console.WriteLine("\n✅ Test data seeded successfully!");
 Console.WriteLine($"   - V9000001: The Shire Preservation Society (Frodo: toegevoegd → gewijzigd → verwijderd)");
 Console.WriteLine($"   - V9000002: The Fellowship of the Ring (Gandalf & Sam in registration array)");
-Console.WriteLine($"   - V9000003: Guardians of Minas Tirith (Aragorn: overgenomen, Boromir: toegevoegd → gewijzigd → verwijderd from KBO)");
+Console.WriteLine(
+    $"   - V9000003: Guardians of Minas Tirith (Aragorn: overgenomen, Boromir: toegevoegd → gewijzigd → verwijderd from KBO)"
+);
 Console.WriteLine($"   - V9000004: Council of Elrond (5 council members toegevoegd)");
 Console.WriteLine($"   - V9000005: White Council of the Istari (Galadriel & Saruman)");
 Console.WriteLine($"\n🎯 Total: 5 verenigingen with rich vertegenwoordiger event sequences");
