@@ -8,6 +8,7 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using Vereniging.Bronnen;
 using Xunit;
 using Bankrekeningnummer = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Bankrekeningnummer;
 
@@ -32,19 +33,50 @@ public class Returns_Detail_With_Toegevoegde_Bankrekeningnummer : End2EndTest<De
     [Fact]
     public void JsonContentMatches()
     {
-        Response
-            .Vereniging.Bankrekeningnummers.Should()
-            .BeEquivalentTo([
-                new Bankrekeningnummer()
+        var bankrekeningnummersFromRegistreer =
+            _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Bankrekeningnummers.Select(
+                x => new Bankrekeningnummer()
                 {
                     type = JsonLdType.Bankrekeningnummer.Type,
-                    id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(_testContext.VCode, 1.ToString()),
-                    BankrekeningnummerId = 1,
-                    Iban = _testContext.CommandRequest.Bankrekeningnummer.Iban,
-                    Doel = _testContext.CommandRequest.Bankrekeningnummer.Doel,
-                    Titularis = _testContext.CommandRequest.Bankrekeningnummer.Titularis,
-                    Bron = BankrekeningnummerBron.Gi.Value,
-                },
-            ]);
+                    id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(
+                        _testContext.VCode,
+                        x.BankrekeningnummerId.ToString()
+                    ),
+                    BankrekeningnummerId = x.BankrekeningnummerId,
+                    Iban = x.Iban,
+                    Doel = x.Doel,
+                    Titularis = x.Titularis,
+                    IsGevalideerd = false,
+                    Bron = Bron.Initiator,
+                }
+            );
+
+        var nextId =
+            _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Bankrekeningnummers.Max(
+                x => x.BankrekeningnummerId
+            ) + 1;
+
+        Response
+            .Vereniging.Bankrekeningnummers.Should()
+            .BeEquivalentTo(
+                bankrekeningnummersFromRegistreer
+                    .Append(
+                        new Bankrekeningnummer()
+                        {
+                            type = JsonLdType.Bankrekeningnummer.Type,
+                            id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(
+                                _testContext.VCode,
+                                nextId.ToString()
+                            ),
+                            BankrekeningnummerId = nextId,
+                            Iban = _testContext.CommandRequest.Bankrekeningnummer.Iban,
+                            Doel = _testContext.CommandRequest.Bankrekeningnummer.Doel,
+                            Titularis = _testContext.CommandRequest.Bankrekeningnummer.Titularis,
+                            Bron = Bron.Initiator,
+                        }
+                    )
+                    .OrderBy(x => x.BankrekeningnummerId)
+                    .ToArray()
+            );
     }
 }

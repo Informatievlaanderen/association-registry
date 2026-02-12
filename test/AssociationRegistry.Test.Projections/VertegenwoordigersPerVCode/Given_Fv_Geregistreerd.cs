@@ -4,7 +4,7 @@ using Admin.Schema.Vertegenwoordiger;
 using Scenario.Registratie;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_FV_Geregistreerd(
+public class Given_Fv_Geregistreerd(
     VertegenwoordigersPerVCodeScenarioFixture<FeitelijkeVerenigingWerdGeregistreerdScenario> fixture)
     : VertegenwoordigersPerVCodeScenarioClassFixture<FeitelijkeVerenigingWerdGeregistreerdScenario>
 {

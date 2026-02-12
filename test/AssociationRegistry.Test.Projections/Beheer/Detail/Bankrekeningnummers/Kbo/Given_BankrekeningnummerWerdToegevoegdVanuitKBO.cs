@@ -4,6 +4,7 @@ using Admin.ProjectionHost.Projections.Detail;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using Scenario.Bankrekeningnummers.Kbo;
+using Vereniging.Bronnen;
 using Bankrekeningnummer = Admin.Schema.Detail.Bankrekeningnummer;
 
 [Collection(nameof(ProjectionContext))]
@@ -36,7 +37,7 @@ public class Given_BankrekeningnummerWerdToegevoegdVanuitKbo(
                     Doel = string.Empty,
                     Titularis = string.Empty,
                     IsGevalideerd = false,
-                    Bron = BankrekeningnummerBron.Kbo.Value,
+                    Bron = Bron.KBO,
                 },
             ]);
     }

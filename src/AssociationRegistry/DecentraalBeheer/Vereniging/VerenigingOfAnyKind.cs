@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using Adressen;
 using AssociationRegistry.Grar.AdresMatch;
 using AssociationRegistry.Grar.Exceptions;
+using AssociationRegistry.Vereniging.Bronnen;
 using Bankrekeningen;
 using Bankrekeningen.Exceptions;
 using Emails;
@@ -580,9 +581,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
 
-        Throw<ActieIsNietToegestaanVoorKboBankrekeningnummer>.If(
-            bankrekeningnummer!.Bron == BankrekeningnummerBron.Kbo
-        );
+        Throw<ActieIsNietToegestaanVoorKboBankrekeningnummer>.If(bankrekeningnummer!.Bron == Bron.KBO);
 
         AddEvent(
             new BankrekeningnummerWerdVerwijderd(bankrekeningnummer.BankrekeningnummerId, bankrekeningnummer.Iban.Value)

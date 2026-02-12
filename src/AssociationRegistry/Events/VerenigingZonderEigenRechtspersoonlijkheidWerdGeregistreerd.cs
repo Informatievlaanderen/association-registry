@@ -15,6 +15,7 @@ public record VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderP
     Registratiedata.Locatie[] Locaties,
     Registratiedata.VertegenwoordigerZonderPersoonsgegevens[] Vertegenwoordigers,
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
+    Registratiedata.BankrekeningnummerZonderPersoonsgegevens[]? Bankrekeningnummers,
     Registratiedata.DuplicatieInfo? DuplicatieInfo
 ) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens
 {
@@ -35,6 +36,7 @@ public record VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
     Registratiedata.Locatie[] Locaties,
     Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
+    Registratiedata.Bankrekeningnummer[] Bankrekeningnummers,
     Registratiedata.DuplicatieInfo? DuplicatieInfo
 ) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
 {
@@ -54,6 +56,7 @@ public record VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
         builder.Append($"Locaties = {Locaties.Length} items, ");
         builder.Append($"Vertegenwoordigers = {Vertegenwoordigers.Length} items, ");
         builder.Append($"HoofdactiviteitenVerenigingsloket = {HoofdactiviteitenVerenigingsloket.Length} items, ");
+        builder.Append($"Bankrekeningnummers = {Bankrekeningnummers.Length} items, ");
         builder.Append($"DuplicatieInfo = {DuplicatieInfo}");
         return true;
     }

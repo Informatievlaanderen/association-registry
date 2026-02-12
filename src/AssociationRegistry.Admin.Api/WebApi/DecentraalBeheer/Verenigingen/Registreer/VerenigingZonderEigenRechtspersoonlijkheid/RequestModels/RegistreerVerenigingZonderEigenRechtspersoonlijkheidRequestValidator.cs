@@ -3,11 +3,14 @@ namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.Verenigin
 
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.Framework;
+using Bankrekeningnummers.VoegBankrekeningnummerToe;
+using Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using Common;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentValidation;
 
-public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequestValidator : AbstractValidator<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
+public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequestValidator
+    : AbstractValidator<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
 {
     private readonly IClock _clock;
 
@@ -22,46 +25,51 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequestValidato
         RuleForEach(request => request.HoofdactiviteitenVerenigingsloket).MustNotContainHtml();
 
         RuleFor(request => request.Locaties)
-           .Must(ToeTeVoegenLocatieValidator.NotHaveDuplicates)
-           .WithMessage("Identieke locaties zijn niet toegelaten.");
+            .Must(ToeTeVoegenLocatieValidator.NotHaveDuplicates)
+            .WithMessage("Identieke locaties zijn niet toegelaten.");
 
         RuleFor(request => request.Locaties)
-           .Must(ToeTeVoegenLocatieValidator.NotHaveMultipleCorrespondentieLocaties)
-           .WithMessage("Er mag maximum één correspondentie locatie opgegeven worden.");
+            .Must(ToeTeVoegenLocatieValidator.NotHaveMultipleCorrespondentieLocaties)
+            .WithMessage("Er mag maximum één correspondentie locatie opgegeven worden.");
 
         RuleFor(request => request.Locaties)
-           .Must(ToeTeVoegenLocatieValidator.NotHaveMultiplePrimairelocaties)
-           .WithMessage("Er mag maximum één primaire locatie opgegeven worden.");
+            .Must(ToeTeVoegenLocatieValidator.NotHaveMultiplePrimairelocaties)
+            .WithMessage("Er mag maximum één primaire locatie opgegeven worden.");
 
         RuleFor(request => request.HoofdactiviteitenVerenigingsloket)
-           .Must(NotHaveDuplicates)
-           .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
+            .Must(NotHaveDuplicates)
+            .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
 
-        RuleFor(request => request.Werkingsgebieden)
-           .SetValidator(new WerkingsgebiedenValidator());
+        RuleFor(request => request.Werkingsgebieden).SetValidator(new WerkingsgebiedenValidator());
 
         RuleFor(request => request.Startdatum)
-           .Must(BeTodayOrBefore)
-           .When(r => r.Startdatum is not null)
-           .WithMessage(new StartdatumMagNietInToekomstZijn().Message);
+            .Must(BeTodayOrBefore)
+            .When(r => r.Startdatum is not null)
+            .WithMessage(new StartdatumMagNietInToekomstZijn().Message);
 
         RuleFor(request => request.Doelgroep)
-           .SetValidator(new DoelgroepRequestValidator()!)
-           .When(r => r.Doelgroep is not null);
+            .SetValidator(new DoelgroepRequestValidator()!)
+            .When(r => r.Doelgroep is not null);
 
-        RuleForEach(request => request.Contactgegevens)
-           .SetValidator(new ToeTeVoegenContactgegevenValidator());
+        RuleForEach(request => request.Contactgegevens).SetValidator(new ToeTeVoegenContactgegevenValidator());
 
-        RuleForEach(request => request.Locaties)
-           .SetValidator(new ToeTeVoegenLocatieValidator());
+        RuleForEach(request => request.Locaties).SetValidator(new ToeTeVoegenLocatieValidator());
 
-        RuleForEach(request => request.Vertegenwoordigers)
-           .SetValidator(new ToeTeVoegenVertegenwoordigerValidator());
+        RuleForEach(request => request.Vertegenwoordigers).SetValidator(new ToeTeVoegenVertegenwoordigerValidator());
+
+        RuleFor(request => request.Bankrekeningnummers)
+            .Must(NotHaveDuplicates)
+            .WithMessage("Het IBAN van een bankrekening moet uniek zijn binnen de vereniging.");
+
+        RuleForEach(request => request.Bankrekeningnummers)
+            .SetValidator(new VoegBankrekeningnummerToeValidator.BankrekeningnummerValidator());
     }
 
-    private bool BeTodayOrBefore(DateOnly? date)
-        => _clock.Today >= date;
+    private bool BeTodayOrBefore(DateOnly? date) => _clock.Today >= date;
 
-    private static bool NotHaveDuplicates(string[] values)
-        => values.Length == values.DistinctBy(v => v.ToLower()).Count();
+    private static bool NotHaveDuplicates(string[] values) =>
+        values.Length == values.DistinctBy(v => v.ToLower()).Count();
+
+    private static bool NotHaveDuplicates(ToeTeVoegenBankrekeningnummer[] values) =>
+        values.Length == values.DistinctBy(v => v.Iban).Count();
 }

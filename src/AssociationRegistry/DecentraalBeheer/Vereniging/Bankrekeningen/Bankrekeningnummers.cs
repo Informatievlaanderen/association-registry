@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
 
 using System.Collections.ObjectModel;
+using AssociationRegistry.Vereniging.Bronnen;
 using Events;
 using Exceptions;
 using Framework;
@@ -9,7 +10,6 @@ public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
 {
     private const int InitialId = 1;
     public int NextId { get; }
-
     public static Bankrekeningnummers Empty => new(Array.Empty<Bankrekeningnummer>(), InitialId);
 
     private Bankrekeningnummers(IEnumerable<Bankrekeningnummer> bankrekeningnummers, int nextId)
@@ -85,12 +85,32 @@ public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
 
     public Bankrekeningnummers KboBankrekeningnummers()
     {
-        return Hydrate(this.Where(x => x.Bron == BankrekeningnummerBron.Kbo));
+        return Hydrate(this.Where(x => x.Bron == Bron.KBO));
     }
 
-    public Bankrekeningnummers GiBankrekeningnummers()
+    public Bankrekeningnummers InitiatorBankrekeningnummers()
     {
-        return Hydrate(this.Where(x => x.Bron == BankrekeningnummerBron.Gi));
+        return Hydrate(this.Where(x => x.Bron == Bron.Initiator));
+    }
+
+    public Bankrekeningnummer[] VoegToe(ToeTevoegenBankrekeningnummer[] toeTeVoegenBankrekeningnummers)
+    {
+        var bankrekeningnummers = this;
+        var toegevoegdeBankrekeningnummers = Array.Empty<Bankrekeningnummer>();
+
+        foreach (var toeTeVoegenBankrekeningnummer in toeTeVoegenBankrekeningnummers)
+        {
+            var bankrekeningnummerMetId = bankrekeningnummers.VoegToe(toeTeVoegenBankrekeningnummer);
+
+            bankrekeningnummers = new Bankrekeningnummers(
+                bankrekeningnummers.Append(bankrekeningnummerMetId),
+                bankrekeningnummers.NextId + 1
+            );
+
+            toegevoegdeBankrekeningnummers = toegevoegdeBankrekeningnummers.Append(bankrekeningnummerMetId).ToArray();
+        }
+
+        return toegevoegdeBankrekeningnummers;
     }
 }
 
@@ -119,7 +139,7 @@ public static class BankrekeningnummersEnumerableExtensions
         Bankrekeningnummer[] bankrekeningnummersUitKbo
     )
     {
-        var huidigeGiBankrekeningnummers = source.GiBankrekeningnummers();
+        var huidigeGiBankrekeningnummers = source.InitiatorBankrekeningnummers();
 
         return huidigeGiBankrekeningnummers
             .Where(s => bankrekeningnummersUitKbo.Select(x => x.Iban).Contains(s.Iban))
@@ -161,7 +181,7 @@ public static class BankrekeningnummersEnumerableExtensions
                 eventData.Iban,
                 eventData.Doel,
                 eventData.Titularis,
-                BankrekeningnummerBron.Gi
+                eventData.Bron
             )
         );
 
@@ -175,7 +195,7 @@ public static class BankrekeningnummersEnumerableExtensions
                 eventData.Iban,
                 string.Empty,
                 string.Empty,
-                BankrekeningnummerBron.Kbo
+                eventData.Bron
             )
         );
 }

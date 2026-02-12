@@ -5,13 +5,14 @@ using AutoFixture;
 
 public class BankrekeningnummerWerdVerwijderdUitKBOScenario : ScenarioBase
 {
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
+    public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; set; }
     public BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO { get; }
     public BankrekeningnummerWerdVerwijderdUitKBO BankrekeningnummerWerdVerwijderdUitKBO { get; }
 
     public BankrekeningnummerWerdVerwijderdUitKBOScenario()
     {
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            AutoFixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
         BankrekeningnummerWerdToegevoegdVanuitKBO = AutoFixture.Create<BankrekeningnummerWerdToegevoegdVanuitKBO>();
         BankrekeningnummerWerdVerwijderdUitKBO = AutoFixture.Create<BankrekeningnummerWerdVerwijderdUitKBO>() with
         {
@@ -20,10 +21,15 @@ public class BankrekeningnummerWerdVerwijderdUitKBOScenario : ScenarioBase
         };
     }
 
-    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
-    [
-        new(AggregateId, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, BankrekeningnummerWerdToegevoegdVanuitKBO, BankrekeningnummerWerdVerwijderdUitKBO),
-    ];
+        [
+            new(
+                AggregateId,
+                VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+                BankrekeningnummerWerdToegevoegdVanuitKBO,
+                BankrekeningnummerWerdVerwijderdUitKBO
+            ),
+        ];
 }

@@ -23,88 +23,135 @@ public class To_A_RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand
         var request = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>();
 
         IWerkingsgebiedenService werkingsgebiedenService = new WerkingsgebiedenServiceMock();
-        var actual = request.ToCommand(request.Werkingsgebieden?.Select(s => werkingsgebiedenService.Create(s)).ToArray());
+        var actual = request.ToCommand(
+            werkingsgebieden: request
+                .Werkingsgebieden?.Select(selector: s => werkingsgebiedenService.Create(code: s))
+                .ToArray()
+        );
 
         actual.Deconstruct(
-            out var originalRequest,
-            out var naam,
-            out var korteNaam,
-            out var korteBeschrijving,
-            out var startdatum,
-            out var doelgroep,
-            out var isUitgeschrevenUitPubliekeDatastroom,
-            out var contactgegevens,
-            out var locaties,
-            out var vertegenwoordigers,
-            out var hoofdactiviteiten,
-            out var werkingsgebieden,
-            out var bevestigingstoken);
+            OriginalRequest: out var originalRequest,
+            Naam: out var naam,
+            KorteNaam: out var korteNaam,
+            KorteBeschrijving: out var korteBeschrijving,
+            Startdatum: out var startdatum,
+            Doelgroep: out var doelgroep,
+            IsUitgeschrevenUitPubliekeDatastroom: out var isUitgeschrevenUitPubliekeDatastroom,
+            Contactgegevens: out var contactgegevens,
+            Locaties: out var locaties,
+            Vertegenwoordigers: out var vertegenwoordigers,
+            HoofdactiviteitenVerenigingsloket: out var hoofdactiviteiten,
+            Werkingsgebieden: out var werkingsgebieden,
+            Bankrekeningnummers: out var bankrekeningnummers,
+            Bevestigingstoken: out var bevestigingstoken
+        );
 
-        originalRequest.Should().Be(request);
-        naam.ToString().Should().Be(request.Naam);
-        korteNaam.Should().Be(request.KorteNaam);
-        korteBeschrijving.Should().Be(request.KorteBeschrijving);
-        ((DateOnly?)startdatum).Should().Be(request.Startdatum);
-        doelgroep.Should().BeEquivalentTo(Doelgroep.Create(request.Doelgroep!.Minimumleeftijd, request.Doelgroep.Maximumleeftijd));
-        isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
+        originalRequest.Should().Be(expected: request);
+        naam.ToString().Should().Be(expected: request.Naam);
+        korteNaam.Should().Be(expected: request.KorteNaam);
+        korteBeschrijving.Should().Be(expected: request.KorteBeschrijving);
+        ((DateOnly?)startdatum).Should().Be(expected: request.Startdatum);
+        doelgroep
+            .Should()
+            .BeEquivalentTo(
+                expectation: Doelgroep.Create(
+                    minimumleeftijd: request.Doelgroep!.Minimumleeftijd,
+                    maximumleeftijd: request.Doelgroep.Maximumleeftijd
+                )
+            );
+        isUitgeschrevenUitPubliekeDatastroom.Should().Be(expected: request.IsUitgeschrevenUitPubliekeDatastroom);
 
-        AssertContactgegevens(contactgegevens, request);
-        AssertLocaties(locaties, request);
-        AssertVertegenwoordigers(vertegenwoordigers, request);
+        AssertContactgegevens(contactgegevens: contactgegevens, request: request);
+        AssertLocaties(locaties: locaties, request: request);
+        AssertVertegenwoordigers(vertegenwoordigers: vertegenwoordigers, request: request);
 
-        hoofdactiviteiten.Select(x => x.Code).Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
-        werkingsgebieden.Select(x => x.Code).Should().BeEquivalentTo(request.Werkingsgebieden);
+        hoofdactiviteiten
+            .Select(selector: x => x.Code)
+            .Should()
+            .BeEquivalentTo(expectation: request.HoofdactiviteitenVerenigingsloket);
+        werkingsgebieden.Select(selector: x => x.Code).Should().BeEquivalentTo(expectation: request.Werkingsgebieden);
+        bankrekeningnummers
+            .Select(selector: x => new
+            {
+                Iban = x.Iban.Value,
+                Doel = x.Doel,
+                Titularis = x.Titularis.Value,
+            })
+            .Should()
+            .BeEquivalentTo(
+                expectation: request.Bankrekeningnummers.Select(selector: x => new
+                {
+                    Iban = x.Iban,
+                    Doel = x.Doel,
+                    Titularis = x.Titularis,
+                })
+            );
         bevestigingstoken.Should().BeEmpty();
     }
 
-    private static void AssertVertegenwoordigers(Vertegenwoordiger[] vertegenwoordigers, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest request)
+    private static void AssertVertegenwoordigers(
+        Vertegenwoordiger[] vertegenwoordigers,
+        RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest request
+    )
     {
-        vertegenwoordigers.Should().BeEquivalentTo(
-            request.Vertegenwoordigers
-                   .Select(
-                        v =>
-                            Vertegenwoordiger.Create(
-                                Insz.Create(v.Insz),
-                                v.IsPrimair,
-                                v.Roepnaam,
-                                v.Rol,
-                                Voornaam.Create(v.Voornaam),
-                                Achternaam.Create(v.Achternaam),
-                                Email.Create(v.Email),
-                                TelefoonNummer.Create(v.Telefoon),
-                                TelefoonNummer.Create(v.Mobiel),
-                                SocialMedia.Create(v.SocialMedia)
-                            )));
+        vertegenwoordigers
+            .Should()
+            .BeEquivalentTo(
+                expectation: request.Vertegenwoordigers.Select(selector: v =>
+                    Vertegenwoordiger.Create(
+                        insz: Insz.Create(insz: v.Insz),
+                        primairContactpersoon: v.IsPrimair,
+                        roepnaam: v.Roepnaam,
+                        rol: v.Rol,
+                        voornaam: Voornaam.Create(waarde: v.Voornaam),
+                        achternaam: Achternaam.Create(waarde: v.Achternaam),
+                        email: Email.Create(email: v.Email),
+                        telefoonNummer: TelefoonNummer.Create(telefoonNummer: v.Telefoon),
+                        mobiel: TelefoonNummer.Create(telefoonNummer: v.Mobiel),
+                        socialMedia: SocialMedia.Create(socialMedia: v.SocialMedia)
+                    )
+                )
+            );
     }
 
-    private static void AssertLocaties(Locatie[] locaties, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest request)
+    private static void AssertLocaties(
+        Locatie[] locaties,
+        RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest request
+    )
     {
-        foreach (var (locatie, i) in locaties.Select((l, i) => (l, i)))
+        foreach (var (locatie, i) in locaties.Select(selector: (l, i) => (l, i)))
         {
-            AssertLocatie(locatie, request.Locaties[i]);
+            AssertLocatie(locatie: locatie, requestLocatie: request.Locaties[i]);
         }
     }
 
     private static void AssertLocatie(Locatie locatie, ToeTeVoegenLocatie requestLocatie)
     {
-        locatie.Locatietype.Waarde.Should().Be(requestLocatie.Locatietype);
-        locatie.Naam.Should().Be(requestLocatie.Naam);
-        locatie.IsPrimair.Should().Be(requestLocatie.IsPrimair);
-        locatie.Adres!.Straatnaam.Should().Be(requestLocatie.Adres!.Straatnaam);
-        locatie.Adres!.Huisnummer.Should().Be(requestLocatie.Adres!.Huisnummer);
-        locatie.Adres!.Busnummer.Should().Be(requestLocatie.Adres!.Busnummer);
-        locatie.Adres!.Postcode.Should().Be(requestLocatie.Adres!.Postcode);
-        locatie.Adres!.Gemeente.Naam.Should().Be(requestLocatie.Adres!.Gemeente);
-        locatie.Adres!.Land.Should().Be(requestLocatie.Adres!.Land);
+        locatie.Locatietype.Waarde.Should().Be(expected: requestLocatie.Locatietype);
+        locatie.Naam.Should().Be(expected: requestLocatie.Naam);
+        locatie.IsPrimair.Should().Be(expected: requestLocatie.IsPrimair);
+        locatie.Adres!.Straatnaam.Should().Be(expected: requestLocatie.Adres!.Straatnaam);
+        locatie.Adres!.Huisnummer.Should().Be(expected: requestLocatie.Adres!.Huisnummer);
+        locatie.Adres!.Busnummer.Should().Be(expected: requestLocatie.Adres!.Busnummer);
+        locatie.Adres!.Postcode.Should().Be(expected: requestLocatie.Adres!.Postcode);
+        locatie.Adres!.Gemeente.Naam.Should().Be(expected: requestLocatie.Adres!.Gemeente);
+        locatie.Adres!.Land.Should().Be(expected: requestLocatie.Adres!.Land);
     }
 
-    private static void AssertContactgegevens(Contactgegeven[] contactgegevens, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest request)
+    private static void AssertContactgegevens(
+        Contactgegeven[] contactgegevens,
+        RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest request
+    )
     {
-        contactgegevens[0].Should().BeEquivalentTo(
-            Contactgegeven.CreateFromInitiator(
-                Contactgegeventype.Parse(request.Contactgegevens[0].Contactgegeventype),
-                request.Contactgegevens[0].Waarde,
-                request.Contactgegevens[0].Beschrijving,
-                request.Contactgegevens[0].IsPrimair));
+        contactgegevens[0]
+            .Should()
+            .BeEquivalentTo(
+                expectation: Contactgegeven.CreateFromInitiator(
+                    type: Contactgegeventype.Parse(value: request.Contactgegevens[0].Contactgegeventype),
+                    waarde: request.Contactgegevens[0].Waarde,
+                    beschrijving: request.Contactgegevens[0].Beschrijving,
+                    isPrimair: request.Contactgegevens[0].IsPrimair
+                )
+            );
     }
 }

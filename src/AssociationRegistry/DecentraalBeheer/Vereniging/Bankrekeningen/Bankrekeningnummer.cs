@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
 
+using AssociationRegistry.Vereniging.Bronnen;
 using Magda.Kbo;
 
 public record Bankrekeningnummer
@@ -12,7 +13,7 @@ public record Bankrekeningnummer
     public string Doel { get; set; }
     public Titularis Titularis { get; set; }
     public bool Gevalideerd { get; set; }
-    public BankrekeningnummerBron Bron { get; set; }
+    public Bron Bron { get; set; }
 
     public static Bankrekeningnummer Create(int nextId, ToeTevoegenBankrekeningnummer bankrekeningnummer) =>
         new()
@@ -21,7 +22,7 @@ public record Bankrekeningnummer
             Iban = bankrekeningnummer.Iban,
             Doel = bankrekeningnummer.Doel,
             Titularis = bankrekeningnummer.Titularis,
-            Bron = BankrekeningnummerBron.Gi,
+            Bron = Bron.Initiator,
         };
 
     public static Bankrekeningnummer Hydrate(
@@ -29,7 +30,7 @@ public record Bankrekeningnummer
         string iban,
         string doel,
         string titularis,
-        BankrekeningnummerBron bron,
+        Bron bankrekeningnummerBron,
         bool gevalideerd = false
     ) =>
         new()
@@ -38,7 +39,7 @@ public record Bankrekeningnummer
             Iban = IbanNummer.Hydrate(iban),
             Doel = doel,
             Titularis = Titularis.Hydrate(titularis),
-            Bron = bron,
+            Bron = bankrekeningnummerBron,
             Gevalideerd = gevalideerd,
         };
 
@@ -49,7 +50,7 @@ public record Bankrekeningnummer
             Iban = IbanNummer.Create(bankrekeningnummer.Iban),
             Doel = string.Empty,
             Titularis = Titularis.Hydrate(string.Empty),
-            Bron = BankrekeningnummerBron.Kbo,
+            Bron = Bron.KBO,
         };
 
     private Bankrekeningnummer CreateForWijzigen(string? doel, string? titularis) =>
@@ -74,19 +75,4 @@ public record Bankrekeningnummer
 
         return this == gewijzigdBankrekeningnummer;
     }
-}
-
-public sealed class BankrekeningnummerBron
-{
-    public string Value { get; }
-
-    private BankrekeningnummerBron(string value)
-    {
-        Value = value;
-    }
-
-    public static readonly BankrekeningnummerBron Kbo = new("Kbo");
-    public static readonly BankrekeningnummerBron Gi = new("Gi");
-
-    public override string ToString() => Value;
 }

@@ -5,25 +5,31 @@ using AutoFixture;
 
 public class BankrekeningnummerWerdGevalideerdKBOScenario : ScenarioBase
 {
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
+    public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; set; }
     public BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO { get; }
     public BankrekeningnummerWerdGevalideerd BankrekeningnummerWerdGevalideerd { get; }
 
     public BankrekeningnummerWerdGevalideerdKBOScenario()
     {
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            AutoFixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
         BankrekeningnummerWerdToegevoegdVanuitKBO = AutoFixture.Create<BankrekeningnummerWerdToegevoegdVanuitKBO>();
-        BankrekeningnummerWerdGevalideerd = AutoFixture.Create<BankrekeningnummerWerdGevalideerd>()with
+        BankrekeningnummerWerdGevalideerd = AutoFixture.Create<BankrekeningnummerWerdGevalideerd>() with
         {
             BankrekeningnummerId = BankrekeningnummerWerdToegevoegdVanuitKBO.BankrekeningnummerId,
             Iban = BankrekeningnummerWerdToegevoegdVanuitKBO.Iban,
         };
     }
 
-    public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+    public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
-    [
-        new(AggregateId, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, BankrekeningnummerWerdToegevoegdVanuitKBO, BankrekeningnummerWerdGevalideerd),
-    ];
+        [
+            new(
+                AggregateId,
+                VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+                BankrekeningnummerWerdToegevoegdVanuitKBO,
+                BankrekeningnummerWerdGevalideerd
+            ),
+        ];
 }

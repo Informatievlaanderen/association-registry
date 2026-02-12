@@ -33,32 +33,32 @@ public class With_Two_Duplicate_Contactgegevens
         var repositoryMock = new NewAggregateSessionMock();
 
         var contactgegeven = Contactgegeven.CreateFromInitiator(
-            Contactgegeventype.Email,
+            type: Contactgegeventype.Email,
             waarde: "test@example.org",
-            fixture.Create<string>(),
+            beschrijving: fixture.Create<string>(),
             isPrimair: true
         );
 
         _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
-            Contactgegevens = new[] { contactgegeven, contactgegeven },
+            Contactgegevens = [contactgegeven, contactgegeven],
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
-            repositoryMock,
-            new InMemorySequentialVCodeService(),
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
-            new ClockStub(_command.Startdatum.Value),
-            Mock.Of<IGeotagsService>(),
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+            newAggregateSession: repositoryMock,
+            vCodeService: new InMemorySequentialVCodeService(),
+            outbox: Mock.Of<IMartenOutbox>(),
+            session: Mock.Of<IDocumentSession>(),
+            clock: new ClockStub(now: _command.Startdatum.Value),
+            geotagsService: Mock.Of<IGeotagsService>(),
+            logger: NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
         );
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-            _command,
-            commandMetadata
+            Command: _command,
+            Metadata: commandMetadata
         );
     }
 
@@ -67,10 +67,10 @@ public class With_Two_Duplicate_Contactgegevens
     {
         var method = () =>
             _commandHandler.Handle(
-                _commandEnvelope,
-                VerrijkteAdressenUitGrar.Empty,
-                PotentialDuplicatesFound.None,
-                new PersonenUitKszStub(_command),
+                message: _commandEnvelope,
+                verrijkteAdressenUitGrar: VerrijkteAdressenUitGrar.Empty,
+                potentialDuplicates: PotentialDuplicatesFound.None,
+                personenUitKsz: new PersonenUitKszStub(command: _command),
                 cancellationToken: CancellationToken.None
             );
         await method.Should().ThrowAsync<ContactgegevenIsDuplicaat>();

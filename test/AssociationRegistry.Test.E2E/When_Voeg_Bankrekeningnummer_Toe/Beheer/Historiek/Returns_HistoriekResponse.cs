@@ -16,13 +16,18 @@ public class Returns_Historiek_Met_Bankrekeningnummer : End2EndTest<HistoriekRes
 {
     private readonly VoegBankrekeningnummerToeContext _testContext;
 
-    public Returns_Historiek_Met_Bankrekeningnummer(VoegBankrekeningnummerToeContext testContext) : base(testContext.ApiSetup)
+    public Returns_Historiek_Met_Bankrekeningnummer(VoegBankrekeningnummerToeContext testContext)
+        : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
 
-    public override async Task<HistoriekResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient, _testContext.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
+    public override async Task<HistoriekResponse> GetResponse(FullBlownApiSetup setup) =>
+        await setup.AdminApiHost.GetBeheerHistoriek(
+            setup.AdminHttpClient,
+            _testContext.VCode,
+            headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)
+        );
 
     [Fact]
     public void With_Context()
@@ -33,11 +38,17 @@ public class Returns_Historiek_Met_Bankrekeningnummer : End2EndTest<HistoriekRes
     [Fact]
     public void With_BankrekeningnummerWerdToegevoegd_Gebeurtenissen()
     {
-        // TODO: modify next id based on bankrekeningen from registreer vzer when implemented
-        // var nextId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
-        //                                    .Max(x => x.BankId) + 1;
-        var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(BankrekeningnummerWerdToegevoegd));
-        gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.BankrekeningWerdToegevoegd(1, _testContext.CommandRequest),
-                                        compareConfig: HistoriekComparisonConfig.Instance);
+        var nextId =
+            _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Bankrekeningnummers.Max(
+                x => x.BankrekeningnummerId
+            ) + 1;
+
+        var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x =>
+            x.Gebeurtenis == nameof(BankrekeningnummerWerdToegevoegd)
+        );
+        gebeurtenisResponse.ShouldCompare(
+            HistoriekGebeurtenisMapper.BankrekeningWerdToegevoegd(nextId, _testContext.CommandRequest),
+            compareConfig: HistoriekComparisonConfig.Instance
+        );
     }
 }

@@ -6,7 +6,7 @@ using Vereniging.Bronnen;
 public record BankrekeningnummerWerdOvergenomenVanuitKBO(int BankrekeningnummerId, string Iban) : IEvent
 {
     [IgnoreDataMember]
-    public Bron Bron => Bron.Initiator;
+    public Bron Bron => Bron.KBO;
 
     protected virtual bool PrintMembers(System.Text.StringBuilder builder)
     {

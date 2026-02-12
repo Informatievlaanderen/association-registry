@@ -10,7 +10,8 @@ public static class Registratiedata
         string Contactgegeventype,
         string Waarde,
         string Beschrijving,
-        bool IsPrimair);
+        bool IsPrimair
+    );
 
     public record Locatie(
         int LocatieId,
@@ -18,7 +19,8 @@ public static class Registratiedata
         bool IsPrimair,
         string Naam,
         Adres? Adres,
-        AdresId? AdresId);
+        AdresId? AdresId
+    );
 
     public record Adres(
         string Straatnaam,
@@ -26,27 +28,25 @@ public static class Registratiedata
         string Busnummer,
         string Postcode,
         string Gemeente,
-        string Land);
+        string Land
+    );
 
     public record AdresId(string Broncode, string Bronwaarde)
     {
-        public bool Equals(IAdresId adresId)
-            => this == adresId;
+        public bool Equals(IAdresId adresId) => this == adresId;
 
-        public static bool operator ==(AdresId first, IAdresId second)
-            => first.Broncode == second.Adresbron.Code && first.Bronwaarde == second.Bronwaarde;
+        public static bool operator ==(AdresId first, IAdresId second) =>
+            first.Broncode == second.Adresbron.Code && first.Bronwaarde == second.Bronwaarde;
 
-        public static bool operator !=(AdresId first, IAdresId second)
-            => first.Broncode != second.Adresbron.Code || first.Bronwaarde != second.Bronwaarde;
+        public static bool operator !=(AdresId first, IAdresId second) =>
+            first.Broncode != second.Adresbron.Code || first.Bronwaarde != second.Bronwaarde;
 
-        public override string ToString()
-            => new Uri(Bronwaarde).Segments.Last();
+        public override string ToString() => new Uri(Bronwaarde).Segments.Last();
 
-        public string ToId()
-            => new Uri(Bronwaarde).Segments.Last();
+        public string ToId() => new Uri(Bronwaarde).Segments.Last();
 
-        public static AdresId FromAdresId(DecentraalBeheer.Vereniging.Adressen.AdresId adres)
-            => new(adres.Adresbron.Code, adres.Bronwaarde);
+        public static AdresId FromAdresId(DecentraalBeheer.Vereniging.Adressen.AdresId adres) =>
+            new(adres.Adresbron.Code, adres.Bronwaarde);
     }
 
     public record AdresUitAdressenregister(
@@ -54,10 +54,11 @@ public static class Registratiedata
         string Huisnummer,
         string Busnummer,
         string Postcode,
-        string Gemeente)
+        string Gemeente
+    )
     {
-        public static AdresUitAdressenregister FromAdres(DecentraalBeheer.Vereniging.Adressen.Adres adres)
-            => new(adres.Straatnaam, adres.Huisnummer, adres.Busnummer, adres.Postcode, adres.Gemeente.Naam);
+        public static AdresUitAdressenregister FromAdres(DecentraalBeheer.Vereniging.Adressen.Adres adres) =>
+            new(adres.Straatnaam, adres.Huisnummer, adres.Busnummer, adres.Postcode, adres.Gemeente.Naam);
     };
 
     public record Doelgroep(int Minimumleeftijd, int Maximumleeftijd);
@@ -73,20 +74,14 @@ public static class Registratiedata
         string Email,
         string Telefoon,
         string Mobiel,
-        string SocialMedia);
+        string SocialMedia
+    );
 
-    public record VertegenwoordigerZonderPersoonsgegevens(
-        Guid RefId,
-        int VertegenwoordigerId,
-        bool IsPrimair);
+    public record VertegenwoordigerZonderPersoonsgegevens(Guid RefId, int VertegenwoordigerId, bool IsPrimair);
 
-    public record HoofdactiviteitVerenigingsloket(
-        string Code,
-        string Naam);
+    public record HoofdactiviteitVerenigingsloket(string Code, string Naam);
 
-    public record Werkingsgebied(
-        string Code,
-        string Naam);
+    public record Werkingsgebied(string Code, string Naam);
 
     public record Lidmaatschap(
         int LidmaatschapId,
@@ -95,20 +90,22 @@ public static class Registratiedata
         DateOnly? DatumVan,
         DateOnly? DatumTot,
         string Identificatie,
-        string Beschrijving);
+        string Beschrijving
+    );
 
     public record SubverenigingVan(
         string AndereVereniging,
         string AndereVerenigingNaam,
         string Identificatie,
-        string Beschrijving);
+        string Beschrijving
+    );
 
     public record DuplicatieInfo(bool? BevestigdNaDuplicatie, string Bevestigingstoken)
     {
         public static DuplicatieInfo Onbekend = new(null, string.Empty);
         public static DuplicatieInfo GeenDuplicaten = new(false, string.Empty);
-        public static DuplicatieInfo BevestigdGeenDuplicaat(string bevestigingstoken)
-            => new(true, bevestigingstoken);
+
+        public static DuplicatieInfo BevestigdGeenDuplicaat(string bevestigingstoken) => new(true, bevestigingstoken);
 
         public static implicit operator bool?(DuplicatieInfo info) => info?.BevestigdNaDuplicatie;
     }
@@ -122,7 +119,8 @@ public static class Registratiedata
         string Naam,
         string KorteNaam,
         HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
-        DuplicateVerenigingLocatie[] Locaties);
+        DuplicateVerenigingLocatie[] Locaties
+    );
 
     public record Verenigingstype(string Code, string Naam);
 
@@ -134,7 +132,12 @@ public static class Registratiedata
         string Adres,
         string? Naam,
         string Postcode,
-        string Gemeente);
+        string Gemeente
+    );
+
+    public record BankrekeningnummerZonderPersoonsgegevens(Guid RefId, int BankrekeningnummerId, string Doel);
+
+    public record Bankrekeningnummer(int BankrekeningnummerId, string Iban, string Doel, string Titularis);
 }
 
 public interface IAdresId

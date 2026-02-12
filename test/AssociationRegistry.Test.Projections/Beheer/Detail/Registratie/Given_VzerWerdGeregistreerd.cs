@@ -5,12 +5,15 @@ using Admin.Schema.Detail;
 using AssociationRegistry.Test.Projections.Scenario.Registratie;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Bankrekeningen;
 using Events;
 using Formats;
+using ImTools;
 using Vereniging;
 using Vereniging.Bronnen;
 using Adres = Admin.Schema.Detail.Adres;
 using AdresId = Admin.Schema.Detail.AdresId;
+using Bankrekeningnummer = Admin.Schema.Detail.Bankrekeningnummer;
 using Contactgegeven = Admin.Schema.Detail.Contactgegeven;
 using Doelgroep = Admin.Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Admin.Schema.Detail.HoofdactiviteitVerenigingsloket;
@@ -20,9 +23,9 @@ using Vertegenwoordiger = Admin.Schema.Detail.Vertegenwoordiger;
 using WellknownFormats = Admin.ProjectionHost.Constants.WellknownFormats;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_FeitelijkeVerenigingWerdGeregistreerd(
-    BeheerDetailScenarioFixture<FeitelijkeVerenigingWerdGeregistreerdScenario> fixture
-) : BeheerDetailScenarioClassFixture<FeitelijkeVerenigingWerdGeregistreerdScenario>
+public class Given_VzerWerdGeregistreerd(
+    BeheerDetailScenarioFixture<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario> fixture
+) : BeheerDetailScenarioClassFixture<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario>
 {
     [Fact]
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(1);
@@ -30,49 +33,47 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
     [Fact]
     public void Document_Is_Updated()
     {
-        var feitelijkeVerenigingWerdGeregistreerd = fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd;
-        var expected = MapVereniging(feitelijkeVerenigingWerdGeregistreerd);
+        var vzerWerdGeregistreerd = fixture.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
+        var expected = MapVereniging(vzerWerdGeregistreerd);
         fixture.Result.Should().BeEquivalentTo(expected);
     }
 
     private BeheerVerenigingDetailDocument MapVereniging(
-        FeitelijkeVerenigingWerdGeregistreerd feitelijkeVerenigingWerdGeregistreerd
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd vzer
     )
     {
         return new BeheerVerenigingDetailDocument
         {
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
-            VCode = feitelijkeVerenigingWerdGeregistreerd.VCode,
+            VCode = vzer.VCode,
             Verenigingstype = new Verenigingstype
             {
-                Code = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                Naam = DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam,
             },
-            Naam = feitelijkeVerenigingWerdGeregistreerd.Naam,
-            KorteNaam = feitelijkeVerenigingWerdGeregistreerd.KorteNaam,
-            KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.KorteBeschrijving,
-            Startdatum = feitelijkeVerenigingWerdGeregistreerd.Startdatum?.ToString(WellknownFormats.DateOnly),
+            Verenigingssubtype = new Verenigingssubtype() { Code = string.Empty, Naam = string.Empty },
+            Naam = vzer.Naam,
+            KorteNaam = vzer.KorteNaam,
+            KorteBeschrijving = vzer.KorteBeschrijving,
+            Startdatum = vzer.Startdatum?.ToString(WellknownFormats.DateOnly),
             Doelgroep = new Doelgroep
             {
                 JsonLdMetadata = new JsonLdMetadata
                 {
-                    Id = JsonLdType.Doelgroep.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.VCode),
+                    Id = JsonLdType.Doelgroep.CreateWithIdValues(vzer.VCode),
                     Type = JsonLdType.Doelgroep.Type,
                 },
-                Minimumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Minimumleeftijd,
-                Maximumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd,
+                Minimumleeftijd = vzer.Doelgroep.Minimumleeftijd,
+                Maximumleeftijd = vzer.Doelgroep.Maximumleeftijd,
             },
             DatumLaatsteAanpassing = "1970-01-01",
             Status = VerenigingStatus.Actief.StatusNaam,
-            Contactgegevens = feitelijkeVerenigingWerdGeregistreerd
+            Contactgegevens = vzer
                 .Contactgegevens.Select(c => new Contactgegeven
                 {
                     JsonLdMetadata = new JsonLdMetadata
                     {
-                        Id = JsonLdType.Contactgegeven.CreateWithIdValues(
-                            feitelijkeVerenigingWerdGeregistreerd.VCode,
-                            c.ContactgegevenId.ToString()
-                        ),
+                        Id = JsonLdType.Contactgegeven.CreateWithIdValues(vzer.VCode, c.ContactgegevenId.ToString()),
                         Type = JsonLdType.Contactgegeven.Type,
                     },
                     ContactgegevenId = c.ContactgegevenId,
@@ -83,15 +84,12 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
                     Bron = Bron.Initiator,
                 })
                 .ToArray(),
-            Locaties = feitelijkeVerenigingWerdGeregistreerd
+            Locaties = vzer
                 .Locaties.Select(loc => new Locatie
                 {
                     JsonLdMetadata = new JsonLdMetadata
                     {
-                        Id = JsonLdType.Locatie.CreateWithIdValues(
-                            feitelijkeVerenigingWerdGeregistreerd.VCode,
-                            loc.LocatieId.ToString()
-                        ),
+                        Id = JsonLdType.Locatie.CreateWithIdValues(vzer.VCode, loc.LocatieId.ToString()),
                         Type = JsonLdType.Locatie.Type,
                     },
                     LocatieId = loc.LocatieId,
@@ -104,10 +102,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
                         {
                             JsonLdMetadata = new JsonLdMetadata
                             {
-                                Id = JsonLdType.Adres.CreateWithIdValues(
-                                    feitelijkeVerenigingWerdGeregistreerd.VCode,
-                                    loc.LocatieId.ToString()
-                                ),
+                                Id = JsonLdType.Adres.CreateWithIdValues(vzer.VCode, loc.LocatieId.ToString()),
                                 Type = JsonLdType.Adres.Type,
                             },
                             Straatnaam = loc.Adres.Straatnaam,
@@ -136,13 +131,13 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
                     Bron = Bron.Initiator,
                 })
                 .ToArray(),
-            Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd
+            Vertegenwoordigers = vzer
                 .Vertegenwoordigers.Select(v => new Vertegenwoordiger
                 {
                     JsonLdMetadata = new JsonLdMetadata
                     {
                         Id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(
-                            feitelijkeVerenigingWerdGeregistreerd.VCode,
+                            vzer.VCode,
                             v.VertegenwoordigerId.ToString()
                         ),
                         Type = JsonLdType.Vertegenwoordiger.Type,
@@ -164,7 +159,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
                         JsonLdMetadata = new JsonLdMetadata
                         {
                             Id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
-                                feitelijkeVerenigingWerdGeregistreerd.VCode,
+                                vzer.VCode,
                                 v.VertegenwoordigerId.ToString()
                             ),
                             Type = JsonLdType.VertegenwoordigerContactgegeven.Type,
@@ -177,7 +172,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
                     },
                 })
                 .ToArray(),
-            HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd
+            HoofdactiviteitenVerenigingsloket = vzer
                 .HoofdactiviteitenVerenigingsloket.Select(h => new HoofdactiviteitVerenigingsloket
                 {
                     JsonLdMetadata = new JsonLdMetadata
@@ -196,31 +191,46 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
                 {
                     JsonLdMetadata = new JsonLdMetadata
                     {
-                        Id = JsonLdType.Sleutel.CreateWithIdValues(
-                            feitelijkeVerenigingWerdGeregistreerd.VCode,
-                            Sleutelbron.VR.Waarde
-                        ),
+                        Id = JsonLdType.Sleutel.CreateWithIdValues(vzer.VCode, Sleutelbron.VR.Waarde),
                         Type = JsonLdType.Sleutel.Type,
                     },
                     Bron = Sleutelbron.VR.Waarde,
-                    Waarde = feitelijkeVerenigingWerdGeregistreerd.VCode,
+                    Waarde = vzer.VCode,
                     CodeerSysteem = CodeerSysteem.VR,
                     GestructureerdeIdentificator = new GestructureerdeIdentificator
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {
                             Id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
-                                feitelijkeVerenigingWerdGeregistreerd.VCode,
+                                vzer.VCode,
                                 Sleutelbron.VR.Waarde
                             ),
                             Type = JsonLdType.GestructureerdeSleutel.Type,
                         },
-                        Nummer = feitelijkeVerenigingWerdGeregistreerd.VCode,
+                        Nummer = vzer.VCode,
                     },
                 },
             },
-            Bankrekeningnummers = [],
-            Relaties = Array.Empty<Relatie>(),
+            Bankrekeningnummers = vzer
+                .Bankrekeningnummers.Select(x => new Bankrekeningnummer()
+                {
+                    JsonLdMetadata = new JsonLdMetadata
+                    {
+                        Id = JsonLdType.Bankrekeningnummer.CreateWithIdValues(
+                            vzer.VCode,
+                            x.BankrekeningnummerId.ToString()
+                        ),
+                        Type = JsonLdType.Bankrekeningnummer.Type,
+                    },
+                    BankrekeningnummerId = x.BankrekeningnummerId,
+                    Iban = x.Iban,
+                    Doel = x.Doel,
+                    Titularis = x.Titularis,
+                    IsGevalideerd = false,
+                    Bron = Bron.Initiator,
+                })
+                .ToArray(),
+            Relaties = [],
             Bron = Bron.Initiator,
             Metadata = new Metadata(1, 1),
         };

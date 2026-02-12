@@ -37,31 +37,31 @@ public class With_A_Startdatum_On_Today
 
         var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
-            Naam = VerenigingsNaam.Create(Naam),
+            Naam = VerenigingsNaam.Create(naam: Naam),
         };
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        var (geotagService, geotagsCollection) = Faktory.New(fixture).GeotagsService.ReturnsRandomGeotags();
+        var (geotagService, geotagsCollection) = Faktory.New(fixture: fixture).GeotagsService.ReturnsRandomGeotags();
 
         var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
-            _newAggregateSessionMock,
-            vCodeService,
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
-            new ClockStub(command.Startdatum.Value),
-            geotagService.Object,
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+            newAggregateSession: _newAggregateSessionMock,
+            vCodeService: vCodeService,
+            outbox: Mock.Of<IMartenOutbox>(),
+            session: Mock.Of<IDocumentSession>(),
+            clock: new ClockStub(now: command.Startdatum.Value),
+            geotagsService: geotagService.Object,
+            logger: NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
         );
 
         commandHandler
             .Handle(
-                new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-                    command,
-                    commandMetadata
+                message: new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+                    Command: command,
+                    Metadata: commandMetadata
                 ),
-                VerrijkteAdressenUitGrar.Empty,
-                PotentialDuplicatesFound.None,
-                new PersonenUitKszStub(command),
+                verrijkteAdressenUitGrar: VerrijkteAdressenUitGrar.Empty,
+                potentialDuplicates: PotentialDuplicatesFound.None,
+                personenUitKsz: new PersonenUitKszStub(command: command),
                 cancellationToken: CancellationToken.None
             )
             .GetAwaiter()

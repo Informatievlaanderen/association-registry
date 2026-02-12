@@ -77,6 +77,14 @@ public static class EventFactory
             contactgegeven.IsPrimair
         );
 
+    public static Registratiedata.Bankrekeningnummer Bankrekeningnummer(Bankrekeningnummer bankrekeningnummer) =>
+        new(
+            bankrekeningnummer.BankrekeningnummerId,
+            bankrekeningnummer.Iban.Value,
+            bankrekeningnummer.Doel,
+            bankrekeningnummer.Titularis.Value
+        );
+
     public static VerenigingAanvaarddeDubbeleVereniging VerenigingAanvaarddeDubbeleVereniging(
         VCode vCode,
         VCode dubbeleVereniging

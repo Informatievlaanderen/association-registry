@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 
 using AssociationRegistry.Vereniging;
+using Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common;
 using DecentraalBeheer.Vereniging;
@@ -43,6 +44,9 @@ public interface IRegistreerVereniging
 
     /// <summary>De codes van de werkingsgebieden</summary>
     string[]? Werkingsgebieden { get; set; }
+
+    /// <summary>De bankrekeningnummers van een vereniging</summary>
+    public ToeTeVoegenBankrekeningnummer[] Bankrekeningnummers { get; set; }
 
     RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(Werkingsgebied[]? werkingsgebieden);
 }

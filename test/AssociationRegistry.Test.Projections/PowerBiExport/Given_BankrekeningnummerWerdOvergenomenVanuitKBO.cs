@@ -18,9 +18,7 @@ public class Given_BankrekeningnummerWerdOvergenomenVanuitKBO(
     [Fact]
     public void ARecordIsStored_With_Historiek()
     {
-        fixture
-            .Result.VCode.Should()
-            .Be(fixture.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
+        fixture.Result.VCode.Should().Be(fixture.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
         fixture.Result.Historiek.Should().NotBeEmpty();
 
         fixture

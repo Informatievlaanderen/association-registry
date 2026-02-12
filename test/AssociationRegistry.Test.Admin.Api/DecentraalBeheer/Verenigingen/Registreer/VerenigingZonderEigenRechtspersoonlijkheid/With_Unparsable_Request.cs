@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid;
 
+using System.Net;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Newtonsoft.Json;
-using System.Net;
 using Xunit;
 
 public sealed class RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Unparsable_Request
@@ -15,17 +15,21 @@ public sealed class RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Un
 
     private RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Unparsable_Request(AdminApiFixture fixture)
     {
-        Response ??= fixture.DefaultClient.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(GetJsonRequestBody()).GetAwaiter().GetResult();
+        Response ??= fixture
+            .DefaultClient.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(content: GetJsonRequestBody())
+            .GetAwaiter()
+            .GetResult();
     }
 
-    private string GetJsonRequestBody()
-        => GetType().GetAssociatedResourceJson("files.request.with_unparsable_request");
+    private string GetJsonRequestBody() =>
+        GetType().GetAssociatedResourceJson(resourceName: "files.request.with_unparsable_request");
 
-    public static RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Unparsable_Request Called(AdminApiFixture fixture)
-        => called ??= new RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Unparsable_Request(fixture);
+    public static RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Unparsable_Request Called(
+        AdminApiFixture fixture
+    ) => called ??= new RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Unparsable_Request(fixture: fixture);
 }
 
-[Collection(nameof(AdminApiCollection))]
+[Collection(name: nameof(AdminApiCollection))]
 public class With_Unparsable_Request
 {
     private readonly EventsInDbScenariosFixture _fixture;
@@ -35,17 +39,16 @@ public class With_Unparsable_Request
         _fixture = fixture;
     }
 
-    private HttpResponseMessage Response
-        => RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Unparsable_Request.Called(_fixture).Response;
+    private HttpResponseMessage Response =>
+        RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Unparsable_Request.Called(fixture: _fixture).Response;
 
-    private string GetJsonResponseBody()
-        => GetType()
-           .GetAssociatedResourceJson("files.response.unparsable");
+    private string GetJsonResponseBody() =>
+        GetType().GetAssociatedResourceJson(resourceName: "files.response.unparsable");
 
     [Fact]
     public void Then_it_returns_a_badrequest_response()
     {
-        Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        Response.StatusCode.Should().Be(expected: HttpStatusCode.BadRequest);
     }
 
     [Fact]
@@ -53,13 +56,17 @@ public class With_Unparsable_Request
     {
         var responseContent = await Response.Content.ReadAsStringAsync();
 
-        var responseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(responseContent);
-        var expectedResponseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(GetJsonResponseBody());
+        var responseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(value: responseContent);
+        var expectedResponseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(value: GetJsonResponseBody());
 
-        responseContentObject.Should().BeEquivalentTo(
-            expectedResponseContentObject,
-            config: options => options
-                              .Excluding(info => info!.ProblemInstanceUri)
-                              .Excluding(info => info!.ProblemTypeUri));
+        responseContentObject
+            .Should()
+            .BeEquivalentTo(
+                expectation: expectedResponseContentObject,
+                config: options =>
+                    options
+                        .Excluding(expression: info => info!.ProblemInstanceUri)
+                        .Excluding(expression: info => info!.ProblemTypeUri)
+            );
     }
 }

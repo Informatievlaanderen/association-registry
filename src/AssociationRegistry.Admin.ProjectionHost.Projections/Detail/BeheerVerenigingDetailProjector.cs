@@ -83,7 +83,6 @@ public class BeheerVerenigingDetailProjector
                 )
                 .ToArray(),
             Werkingsgebieden = [],
-
             Sleutels = [BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode)],
             Bankrekeningnummers = [],
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
@@ -94,74 +93,56 @@ public class BeheerVerenigingDetailProjector
         };
 
     public static BeheerVerenigingDetailDocument Create(
-        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd
+        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> vzer
     ) =>
         new()
         {
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
-            VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+            VCode = vzer.Data.VCode,
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(
                 DecentraalBeheer.Vereniging.Verenigingstype.VZER
             ),
             Verenigingssubtype =
                 VerenigingssubtypeCode.Default.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>(),
-            Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
-            KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
-            Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(
-                feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep,
-                feitelijkeVerenigingWerdGeregistreerd.Data.VCode
-            ),
-            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd
-                .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                .FormatAsBelgianDate(),
+            Naam = vzer.Data.Naam,
+            KorteNaam = vzer.Data.KorteNaam,
+            KorteBeschrijving = vzer.Data.KorteBeschrijving,
+            Startdatum = vzer.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(vzer.Data.Doelgroep, vzer.Data.VCode),
+            DatumLaatsteAanpassing = vzer.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate(),
             Status = VerenigingStatus.Actief,
-            IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd
-                .Data
-                .IsUitgeschrevenUitPubliekeDatastroom,
+            IsUitgeschrevenUitPubliekeDatastroom = vzer.Data.IsUitgeschrevenUitPubliekeDatastroom,
             IsDubbelVan = "",
-            Contactgegevens = feitelijkeVerenigingWerdGeregistreerd
+            Contactgegevens = vzer
                 .Data.Contactgegevens.Select(c =>
-                    BeheerVerenigingDetailMapper.MapContactgegeven(
-                        c,
-                        feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
-                        feitelijkeVerenigingWerdGeregistreerd.Data.VCode
-                    )
+                    BeheerVerenigingDetailMapper.MapContactgegeven(c, vzer.Data.Bron, vzer.Data.VCode)
                 )
                 .ToArray(),
-            Locaties = feitelijkeVerenigingWerdGeregistreerd
+            Locaties = vzer
                 .Data.Locaties.Select(loc =>
-                    BeheerVerenigingDetailMapper.MapLocatie(
-                        loc,
-                        feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
-                        feitelijkeVerenigingWerdGeregistreerd.Data.VCode
-                    )
+                    BeheerVerenigingDetailMapper.MapLocatie(loc, vzer.Data.Bron, vzer.Data.VCode)
                 )
                 .ToArray(),
-            Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd
+            Vertegenwoordigers = vzer
                 .Data.Vertegenwoordigers.Select(v =>
-                    BeheerVerenigingDetailMapper.MapVertegenwoordiger(
-                        v,
-                        feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
-                        feitelijkeVerenigingWerdGeregistreerd.Data.VCode
-                    )
+                    BeheerVerenigingDetailMapper.MapVertegenwoordiger(v, vzer.Data.Bron, vzer.Data.VCode)
                 )
                 .ToArray(),
-            HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd
+            HoofdactiviteitenVerenigingsloket = vzer
                 .Data.HoofdactiviteitenVerenigingsloket.Select(
                     BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket
                 )
                 .ToArray(),
             Werkingsgebieden = [],
 
-            Sleutels = [BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode)],
-            Bankrekeningnummers = [],
-            Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
-            Metadata = new Metadata(
-                feitelijkeVerenigingWerdGeregistreerd.Sequence,
-                feitelijkeVerenigingWerdGeregistreerd.Version
-            ),
+            Sleutels = [BeheerVerenigingDetailMapper.MapVrSleutel(vzer.Data.VCode)],
+            Bankrekeningnummers = vzer
+                .Data.Bankrekeningnummers.Select(b =>
+                    BeheerVerenigingDetailMapper.MapBankrekeningnummer(b, vzer.Data.VCode, vzer.Data.Bron)
+                )
+                .ToArray(),
+            Bron = vzer.Data.Bron,
+            Metadata = new Metadata(vzer.Sequence, vzer.Version),
         };
 
     public static BeheerVerenigingDetailDocument Create(
@@ -1266,7 +1247,7 @@ public class BeheerVerenigingDetailProjector
                     Iban = @event.Data.Iban,
                     Doel = @event.Data.Doel,
                     Titularis = @event.Data.Titularis,
-                    Bron = BankrekeningnummerBron.Gi.Value,
+                    Bron = @event.Data.Bron,
                 }
             )
             .OrderBy(x => x.BankrekeningnummerId)
@@ -1291,7 +1272,7 @@ public class BeheerVerenigingDetailProjector
                     Iban = @event.Data.Iban,
                     Doel = string.Empty,
                     Titularis = string.Empty,
-                    Bron = BankrekeningnummerBron.Kbo.Value,
+                    Bron = @event.Data.Bron,
                 }
             )
             .OrderBy(x => x.BankrekeningnummerId)
@@ -1359,7 +1340,7 @@ public class BeheerVerenigingDetailProjector
         document.Bankrekeningnummers = document
             .Bankrekeningnummers.UpdateSingle(
                 identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
-                update: b => b with { Bron = BankrekeningnummerBron.Kbo.Value }
+                update: b => b with { Bron = @event.Data.Bron }
             )
             .OrderBy(b => b.BankrekeningnummerId)
             .ToArray();

@@ -35,24 +35,24 @@ public class With_A_Startdatum_In_The_Future
 
         _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
-            Startdatum = Datum.Create(today.AddDays(value: 1)),
+            Startdatum = Datum.Create(startdatum: today.AddDays(value: 1)),
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
-            repositoryMock,
-            new InMemorySequentialVCodeService(),
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
-            new ClockStub(today),
-            Mock.Of<IGeotagsService>(),
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+            newAggregateSession: repositoryMock,
+            vCodeService: new InMemorySequentialVCodeService(),
+            outbox: Mock.Of<IMartenOutbox>(),
+            session: Mock.Of<IDocumentSession>(),
+            clock: new ClockStub(now: today),
+            geotagsService: Mock.Of<IGeotagsService>(),
+            logger: NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
         );
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-            _command,
-            commandMetadata
+            Command: _command,
+            Metadata: commandMetadata
         );
     }
 
@@ -61,11 +61,11 @@ public class With_A_Startdatum_In_The_Future
     {
         var method = () =>
             _commandHandler.Handle(
-                _commandEnvelope,
-                VerrijkteAdressenUitGrar.Empty,
-                PotentialDuplicatesFound.None,
-                new PersonenUitKszStub(_command),
-                CancellationToken.None
+                message: _commandEnvelope,
+                verrijkteAdressenUitGrar: VerrijkteAdressenUitGrar.Empty,
+                potentialDuplicates: PotentialDuplicatesFound.None,
+                personenUitKsz: new PersonenUitKszStub(command: _command),
+                cancellationToken: CancellationToken.None
             );
         await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();
     }

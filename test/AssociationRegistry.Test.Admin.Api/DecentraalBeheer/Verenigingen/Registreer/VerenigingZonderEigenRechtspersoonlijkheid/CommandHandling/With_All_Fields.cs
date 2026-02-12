@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.CommandHandling;
 
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
@@ -36,21 +37,21 @@ public class With_All_Fields
     public With_All_Fields()
     {
         _fixture = new Fixture().CustomizeAdminApi();
-        var faktory = Faktory.New(_fixture);
+        var faktory = Faktory.New(fixture: _fixture);
         var today = _fixture.Create<DateOnly>();
 
         _command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
-            Startdatum = Datum.Hydrate(today.AddDays(-1)),
+            Startdatum = Datum.Hydrate(dateOnly: today.AddDays(value: -1)),
         };
 
         _newAggregateSessionMock = faktory.NewAggregateSession.Mock();
-        _vCodeService = faktory.VCodeService.Stub(_fixture.Create<VCode>());
+        _vCodeService = faktory.VCodeService.Stub(vCode: _fixture.Create<VCode>());
         (_geotagsService, _geotags) = faktory.GeotagsService.ReturnsRandomGeotags(
-            _command.Locaties,
-            _command.Werkingsgebieden
+            givenLocaties: _command.Locaties,
+            givenWerkingsgebieden: _command.Werkingsgebieden
         );
-        _clock = faktory.Clock.Stub(today);
+        _clock = faktory.Clock.Stub(date: today);
     }
 
     [Fact]
@@ -59,24 +60,24 @@ public class With_All_Fields
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
-            _newAggregateSessionMock,
-            _vCodeService,
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
-            _clock,
-            _geotagsService.Object,
-            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
+            newAggregateSession: _newAggregateSessionMock,
+            vCodeService: _vCodeService,
+            outbox: Mock.Of<IMartenOutbox>(),
+            session: Mock.Of<IDocumentSession>(),
+            clock: _clock,
+            geotagsService: _geotagsService.Object,
+            logger: NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance
         );
 
         commandHandler
             .Handle(
-                new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
-                    _command,
-                    commandMetadata
+                message: new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
+                    Command: _command,
+                    Metadata: commandMetadata
                 ),
-                VerrijkteAdressenUitGrar.Empty,
-                PotentialDuplicatesFound.None,
-                new PersonenUitKszStub(_command),
+                verrijkteAdressenUitGrar: VerrijkteAdressenUitGrar.Empty,
+                potentialDuplicates: PotentialDuplicatesFound.None,
+                personenUitKsz: new PersonenUitKszStub(command: _command),
                 cancellationToken: CancellationToken.None
             )
             .GetAwaiter()
@@ -84,86 +85,103 @@ public class With_All_Fields
 
         var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
-                _vCodeService.VCode,
-                _command.Naam,
-                _command.KorteNaam ?? string.Empty,
-                _command.KorteBeschrijving ?? string.Empty,
-                _command.Startdatum,
-                EventFactory.Doelgroep(_command.Doelgroep),
-                _command.IsUitgeschrevenUitPubliekeDatastroom,
-                _command
+                VCode: _vCodeService.VCode,
+                Naam: _command.Naam,
+                KorteNaam: _command.KorteNaam ?? string.Empty,
+                KorteBeschrijving: _command.KorteBeschrijving ?? string.Empty,
+                Startdatum: _command.Startdatum,
+                Doelgroep: EventFactory.Doelgroep(doelgroep: _command.Doelgroep),
+                IsUitgeschrevenUitPubliekeDatastroom: _command.IsUitgeschrevenUitPubliekeDatastroom,
+                Contactgegevens: _command
                     .Contactgegevens.Select(
-                        (c, i) =>
+                        selector: (c, i) =>
                             new Registratiedata.Contactgegeven(
-                                i + 1,
-                                c.Contactgegeventype,
-                                c.Waarde,
-                                c.Beschrijving,
-                                c.IsPrimair
+                                ContactgegevenId: i + 1,
+                                Contactgegeventype: c.Contactgegeventype,
+                                Waarde: c.Waarde,
+                                Beschrijving: c.Beschrijving,
+                                IsPrimair: c.IsPrimair
                             )
                     )
                     .ToArray(),
-                _command
+                Locaties: _command
                     .Locaties.Select(
-                        (l, i) =>
+                        selector: (l, i) =>
                             new Registratiedata.Locatie(
-                                i + 1,
-                                l.Locatietype,
-                                l.IsPrimair,
-                                l.Naam ?? string.Empty,
-                                new Registratiedata.Adres(
-                                    l.Adres!.Straatnaam,
-                                    l.Adres.Huisnummer,
-                                    l.Adres.Busnummer,
-                                    l.Adres.Postcode,
-                                    l.Adres.Gemeente.Naam,
-                                    l.Adres.Land
+                                LocatieId: i + 1,
+                                Locatietype: l.Locatietype,
+                                IsPrimair: l.IsPrimair,
+                                Naam: l.Naam ?? string.Empty,
+                                Adres: new Registratiedata.Adres(
+                                    Straatnaam: l.Adres!.Straatnaam,
+                                    Huisnummer: l.Adres.Huisnummer,
+                                    Busnummer: l.Adres.Busnummer,
+                                    Postcode: l.Adres.Postcode,
+                                    Gemeente: l.Adres.Gemeente.Naam,
+                                    Land: l.Adres.Land
                                 ),
                                 AdresId: null
                             )
                     )
                     .ToArray(),
-                _command
+                Vertegenwoordigers: _command
                     .Vertegenwoordigers.Select(
-                        (v, i) =>
+                        selector: (v, i) =>
                             new Registratiedata.Vertegenwoordiger(
-                                i + 1,
-                                v.Insz,
-                                v.IsPrimair,
-                                v.Roepnaam ?? string.Empty,
-                                v.Rol ?? string.Empty,
-                                v.Voornaam,
-                                v.Achternaam,
-                                v.Email.Waarde,
-                                v.Telefoon.Waarde,
-                                v.Mobiel.Waarde,
-                                v.SocialMedia.Waarde
+                                VertegenwoordigerId: i + 1,
+                                Insz: v.Insz,
+                                IsPrimair: v.IsPrimair,
+                                Roepnaam: v.Roepnaam ?? string.Empty,
+                                Rol: v.Rol ?? string.Empty,
+                                Voornaam: v.Voornaam,
+                                Achternaam: v.Achternaam,
+                                Email: v.Email.Waarde,
+                                Telefoon: v.Telefoon.Waarde,
+                                Mobiel: v.Mobiel.Waarde,
+                                SocialMedia: v.SocialMedia.Waarde
                             )
                     )
                     .ToArray(),
-                _command
-                    .HoofdactiviteitenVerenigingsloket.Select(h => new Registratiedata.HoofdactiviteitVerenigingsloket(
-                        h.Code,
-                        h.Naam
-                    ))
+                HoofdactiviteitenVerenigingsloket: _command
+                    .HoofdactiviteitenVerenigingsloket.Select(
+                        selector: h => new Registratiedata.HoofdactiviteitVerenigingsloket(Code: h.Code, Naam: h.Naam)
+                    )
                     .ToArray(),
-                Registratiedata.DuplicatieInfo.GeenDuplicaten
+                Bankrekeningnummers: _command
+                    .Bankrekeningnummers.Select(
+                        selector: (x, i) =>
+                            new Registratiedata.Bankrekeningnummer(
+                                BankrekeningnummerId: ++i,
+                                Iban: x.Iban.Value,
+                                Doel: x.Doel,
+                                Titularis: x.Titularis.Value
+                            )
+                    )
+                    .ToArray(),
+                DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
             );
 
         var werkingsgebiedenWerdenBepaald = new WerkingsgebiedenWerdenBepaald(
-            _vCodeService.VCode,
-            _command.Werkingsgebieden.Select(h => new Registratiedata.Werkingsgebied(h.Code, h.Naam)).ToArray()
+            VCode: _vCodeService.VCode,
+            Werkingsgebieden: _command
+                .Werkingsgebieden.Select(selector: h => new Registratiedata.Werkingsgebied(Code: h.Code, Naam: h.Naam))
+                .ToArray()
         );
 
         var geotagsWerdenBepaald = new GeotagsWerdenBepaald(
-            _vCodeService.VCode,
-            _geotags.Select(x => new Registratiedata.Geotag(x.Identificatie)).ToArray()
+            VCode: _vCodeService.VCode,
+            Geotags: _geotags
+                .Select(selector: x => new Registratiedata.Geotag(Identificiatie: x.Identificatie))
+                .ToArray()
         );
 
         _newAggregateSessionMock.ShouldHaveSavedExact(
-            verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
-            werkingsgebiedenWerdenBepaald,
-            geotagsWerdenBepaald
+            events:
+            [
+                verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+                werkingsgebiedenWerdenBepaald,
+                geotagsWerdenBepaald,
+            ]
         );
     }
 }

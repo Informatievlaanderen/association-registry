@@ -35,6 +35,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         var toegevoegdeLocaties = Locaties.Empty.VoegToe(registratieData.Locaties);
         var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(registratieData.Contactgegevens);
         var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(registratieData.Vertegenwoordigers);
+        var toegevoegdeBankrekeningnummers = Bankrekeningnummers.Empty.VoegToe(registratieData.Bankrekeningnummers);
 
         var vereniging = new Vereniging();
 
@@ -53,6 +54,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 ToHoofdactiviteitenLijst(
                     HoofdactiviteitenVerenigingsloket.FromArray(registratieData.HoofdactiviteitenVerenigingsloket)
                 ),
+                ToEventBankrekeningnummers(toegevoegdeBankrekeningnummers),
                 potentialDuplicatesSkipped
                     ? Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(bevestigingsToken)
                     : Registratiedata.DuplicatieInfo.GeenDuplicaten
@@ -119,6 +121,10 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens) =>
         contactgegevens.Select(EventFactory.Contactgegeven).ToArray();
+
+    private static Registratiedata.Bankrekeningnummer[] ToEventBankrekeningnummers(
+        Bankrekeningnummer[] bankrekeningnummers
+    ) => bankrekeningnummers.Select(EventFactory.Bankrekeningnummer).ToArray();
 
     private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst
