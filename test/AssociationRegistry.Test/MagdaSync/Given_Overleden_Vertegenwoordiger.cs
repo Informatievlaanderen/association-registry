@@ -16,21 +16,21 @@ using Persoonsgegevens;
 using Wolverine;
 using Xunit;
 
-public class Given_Overeleden_Vertegenwoordiger
+public class Given_Overleden_Vertegenwoordiger
 {
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
     private readonly SyncKszMessageHandler _sut;
     private readonly Mock<IMessageBus> _messageBusMock;
-    private readonly AggregateSessionMock _verenigingsRepository;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
-    public Given_Overeleden_Vertegenwoordiger()
+    public Given_Overleden_Vertegenwoordiger()
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario =
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
 
-        _verenigingsRepository = new AggregateSessionMock(_scenario.GetVerenigingState(), true, true);
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState(), true, true);
 
         var persoonsgegevensRepoMock = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
         persoonsgegevensRepoMock
@@ -56,11 +56,11 @@ public class Given_Overeleden_Vertegenwoordiger
             .ReturnsAsync([_scenario.VCode]);
 
         _sut = new SyncKszMessageHandler(
-            persoonsgegevensRepoMock.Object,
-            _verenigingsRepository,
-            filterVzerOnylQueryMock.Object,
+            new VzerVertegenwoordigerForInszQuery(persoonsgegevensRepoMock.Object, filterVzerOnylQueryMock.Object, NullLogger<VzerVertegenwoordigerForInszQuery>.Instance),
+            _aggregateSessionMock,
             NullLogger<SyncKszMessageHandler>.Instance
         );
+
         _sut.Handle(
                 new CommandEnvelope<SyncKszMessage>(
                     new SyncKszMessage(
@@ -79,7 +79,7 @@ public class Given_Overeleden_Vertegenwoordiger
     [Fact]
     public void Then_Event_Is_Saved()
     {
-        _verenigingsRepository.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSavedExact(
             new KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
                 _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                 _scenario.VertegenwoordigerWerdToegevoegd.Insz,

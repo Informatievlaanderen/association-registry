@@ -21,14 +21,14 @@ public class Given_Insz_Only_In_Kbo_Verenigngen
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario _scenario;
     private readonly SyncKszMessageHandler _sut;
     private readonly Mock<IMessageBus> _messageBusMock;
-    private readonly AggregateSessionMock _verenigingsRepository;
+    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_Insz_Only_In_Kbo_Verenigngen()
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigersScenario();
         var vertegenwoordiger = _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1;
-        _verenigingsRepository = new AggregateSessionMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         var persoonsgegevensRepoMock = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
         persoonsgegevensRepoMock
@@ -52,11 +52,15 @@ public class Given_Insz_Only_In_Kbo_Verenigngen
             .ReturnsAsync([]);
 
         _sut = new SyncKszMessageHandler(
-            persoonsgegevensRepoMock.Object,
-            _verenigingsRepository,
-            filterVzerOnylQueryMock.Object,
+            new VzerVertegenwoordigerForInszQuery(
+                persoonsgegevensRepoMock.Object,
+                filterVzerOnylQueryMock.Object,
+                NullLogger<VzerVertegenwoordigerForInszQuery>.Instance
+            ),
+            _aggregateSessionMock,
             NullLogger<SyncKszMessageHandler>.Instance
         );
+
         _sut.Handle(
                 new CommandEnvelope<SyncKszMessage>(
                     new SyncKszMessage(Insz.Hydrate(vertegenwoordiger.Insz), true, Guid.NewGuid()),
@@ -71,6 +75,6 @@ public class Given_Insz_Only_In_Kbo_Verenigngen
     [Fact]
     public void Then_No_Event_Is_Saved()
     {
-        _verenigingsRepository.ShouldNotHaveAnySaves();
+        _aggregateSessionMock.ShouldNotHaveAnySaves();
     }
 }

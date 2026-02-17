@@ -68,11 +68,15 @@ public class Given_Already_Removed_Vertegenwoordiger
             .ReturnsAsync([_scenario.VCode]);
 
         _sut = new SyncKszMessageHandler(
-            persoonsgegevensRepoMock.Object,
+            new VzerVertegenwoordigerForInszQuery(
+                persoonsgegevensRepoMock.Object,
+                filterVzerOnylQueryMock.Object,
+                NullLogger<VzerVertegenwoordigerForInszQuery>.Instance
+            ),
             _aggregateSessionMock,
-            filterVzerOnylQueryMock.Object,
             NullLogger<SyncKszMessageHandler>.Instance
         );
+
         _sut.Handle(
                 new CommandEnvelope<SyncKszMessage>(
                     new SyncKszMessage(Insz.Hydrate(teVerwijderenVertegenwoordiger.Insz), true, Guid.NewGuid()),

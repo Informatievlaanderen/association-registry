@@ -1,31 +1,24 @@
 ﻿namespace AssociationRegistry.KboMutations.SyncLambda.MagdaSync.SyncKsz;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Persoonsgegevens;
+using DecentraalBeheer.Vereniging;
+using Framework;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
-using NodaTime;
-using Queries;
-using Wolverine;
 
 public class SyncKszMessageHandler
 {
-    private readonly IVertegenwoordigerPersoonsgegevensRepository _vertegenwoordigerPersoonsgegevensRepository;
     private readonly IAggregateSession _aggregateSession;
-    private readonly IFilterVzerOnlyQuery _filterVzerOnlyQuery;
     private readonly ILogger<SyncKszMessageHandler> _logger;
+    private readonly VzerVertegenwoordigerForInszQuery _vzerVertegenwoordigerForInszQuery;
 
     public SyncKszMessageHandler(
-        IVertegenwoordigerPersoonsgegevensRepository vertegenwoordigerPersoonsgegevensRepository,
+        VzerVertegenwoordigerForInszQuery vzerVertegenwoordigerForInszQuery,
         IAggregateSession aggregateSession,
-        IFilterVzerOnlyQuery filterVzerOnlyQuery,
         ILogger<SyncKszMessageHandler> logger
     )
     {
-        _vertegenwoordigerPersoonsgegevensRepository = vertegenwoordigerPersoonsgegevensRepository;
+        _vzerVertegenwoordigerForInszQuery = vzerVertegenwoordigerForInszQuery;
         _aggregateSession = aggregateSession;
-        _filterVzerOnlyQuery = filterVzerOnlyQuery;
         _logger = logger;
     }
 
@@ -42,30 +35,12 @@ public class SyncKszMessageHandler
             return;
         }
 
-        var vertegenwoordigerPersoonsgegevens = await _vertegenwoordigerPersoonsgegevensRepository.Get(
+        var vzerVertegenwoordigersForInsz = await _vzerVertegenwoordigerForInszQuery.ExecuteAsync(
             message.Insz,
             cancellationToken
         );
 
-        if (!vertegenwoordigerPersoonsgegevens.Any())
-        {
-            // TODO: uitschrijven or-2939
-
-            _logger.LogWarning(
-                "Skipping message because this person did not match any known VertegenwoordigerPersoonsgegevensDocument"
-            );
-
-            return;
-        }
-
-        var vzerOnly = await FilterOnlyVzer(vertegenwoordigerPersoonsgegevens, cancellationToken);
-
-        if (!vzerOnly.Any())
-        {
-            _logger.LogInformation("Only found kbo associations for this person");
-        }
-
-        foreach (var vertegenwoordigerPersoonsgegeven in vzerOnly)
+        foreach (var vertegenwoordigerPersoonsgegeven in vzerVertegenwoordigersForInsz)
         {
             _logger.LogInformation($"trying to load vcode: {vertegenwoordigerPersoonsgegeven.VCode}");
 
@@ -86,23 +61,5 @@ public class SyncKszMessageHandler
         }
 
         _logger.LogInformation("SyncKszMessageHandler done");
-    }
-
-    private async Task<List<VertegenwoordigerPersoonsgegevens>> FilterOnlyVzer(
-        VertegenwoordigerPersoonsgegevens[] vertegenwoordigerPersoonsgegevens,
-        CancellationToken cancellationToken
-    )
-    {
-        var vertegenwoordigerPersoonsgegevensByVCode = vertegenwoordigerPersoonsgegevens
-            .DistinctBy(x => x.VCode)
-            .ToList();
-        var vzerOnlyVcodes = await _filterVzerOnlyQuery.ExecuteAsync(
-            new FilterVzerOnlyQueryFilter(vertegenwoordigerPersoonsgegevensByVCode.Select(x => x.VCode).ToArray()),
-            cancellationToken
-        );
-
-        var vzerOnly = vertegenwoordigerPersoonsgegevensByVCode.Where(x => vzerOnlyVcodes.Contains(x.VCode)).ToList();
-
-        return vzerOnly;
     }
 }

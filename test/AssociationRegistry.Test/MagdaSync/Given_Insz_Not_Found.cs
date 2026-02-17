@@ -35,11 +35,15 @@ public class Given_Insz_Not_Found
         persoonsgegevensRepoMock.Setup(x => x.Get(It.IsAny<Insz>(), It.IsAny<CancellationToken>())).ReturnsAsync([]);
 
         _sut = new SyncKszMessageHandler(
-            persoonsgegevensRepoMock.Object,
+            new VzerVertegenwoordigerForInszQuery(
+                persoonsgegevensRepoMock.Object,
+                Mock.Of<IFilterVzerOnlyQuery>(),
+                NullLogger<VzerVertegenwoordigerForInszQuery>.Instance
+            ),
             _aggregateSessionMock.Object,
-            Mock.Of<IFilterVzerOnlyQuery>(),
             NullLogger<SyncKszMessageHandler>.Instance
         );
+
         _sut.Handle(
                 new CommandEnvelope<SyncKszMessage>(
                     new SyncKszMessage(
