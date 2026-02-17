@@ -1,3 +1,10 @@
+## [8.303.1](https://github.com/informatievlaanderen/association-registry/compare/v8.303.0...v8.303.1) (2026-02-17)
+
+
+### Bug Fixes
+
+* or-3032 only sync functies with persoon ([7448159](https://github.com/informatievlaanderen/association-registry/commit/74481596630192987f59e36749cbda929d52dc53))
+
 # [8.303.0](https://github.com/informatievlaanderen/association-registry/compare/v8.302.0...v8.303.0) (2026-02-17)
 
 
