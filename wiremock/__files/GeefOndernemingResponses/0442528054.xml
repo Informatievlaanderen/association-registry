@@ -145,8 +145,8 @@
                     </AardFunctie>
                     <Persoon>
                       <INSZ xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">1234567890</INSZ>
-                      <AchterNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Verdyck</AchterNaam>
-                      <VoorNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Raymonda</VoorNaam>
+                      <AchterNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Baggins</AchterNaam>
+                      <VoorNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Frodo</VoorNaam>
                     </Persoon>
                   </Functie>
                   <Functie DatumBegin="2006-09-13">
@@ -156,9 +156,15 @@
                     </AardFunctie>
                     <Persoon>
                       <INSZ xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">0987654321</INSZ>
-                      <AchterNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Christiaens</AchterNaam>
-                      <VoorNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Sofie</VoorNaam>
+                      <AchterNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Gamgee</AchterNaam>
+                      <VoorNaam xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">Sam</VoorNaam>
                     </Persoon>
+                  </Functie>
+                  <Functie DatumBegin="2006-10-13">
+                    <FunctiehouderVan>01131500149</FunctiehouderVan>
+                    <AardFunctie>
+                      <Code xmlns:ns3="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">10002</Code>
+                    </AardFunctie>
                   </Functie>
                 </Functies>
               </Onderneming>
