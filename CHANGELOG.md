@@ -1,3 +1,11 @@
+# [8.303.0](https://github.com/informatievlaanderen/association-registry/compare/v8.302.0...v8.303.0) (2026-02-17)
+
+
+### Features
+
+* or-2977 add bankreknr to registratie vzer ([6afea2d](https://github.com/informatievlaanderen/association-registry/commit/6afea2def929a9fdbd5faa4009b7826b45aabd4b))
+* or-3023 allow removing gi bankreknr on kbo verenigingen ([d8a3af2](https://github.com/informatievlaanderen/association-registry/commit/d8a3af27c7458541911ce172c20fa0afc5396a38))
+
 # [8.302.0](https://github.com/informatievlaanderen/association-registry/compare/v8.301.0...v8.302.0) (2026-02-10)
 
 
