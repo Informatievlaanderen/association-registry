@@ -119,6 +119,12 @@ public class ServiceFactory
             new VertegenwoordigerPersoonsgegevensQuery(session)
         );
 
+        var vzerVertegenwoordigerForInszQuery = new VzerVertegenwoordigerForInszQuery(
+            vertegenwoordigerPersoonsgegevensRepository,
+            new FilterVzerOnlyQuery(session),
+            loggerFactory.CreateLogger<VzerVertegenwoordigerForInszQuery>()
+        );
+
         var notifier = await CreateNotifierAsync(
             ssmClientWrapper: ssmClientWrapper,
             paramNamesConfiguration: paramNamesConfiguration,
@@ -137,9 +143,8 @@ public class ServiceFactory
         );
 
         var kszSyncHandler = new SyncKszMessageHandler(
-            vertegenwoordigerPersoonsgegevensRepository: vertegenwoordigerPersoonsgegevensRepository,
+            vzerVertegenwoordigerForInszQuery: vzerVertegenwoordigerForInszQuery,
             aggregateSession: aggregateSession,
-            new FilterVzerOnlyQuery(session),
             loggerFactory.CreateLogger<SyncKszMessageHandler>()
         );
 

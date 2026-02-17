@@ -29,12 +29,17 @@ public class Given_Sync_Message_With_Overleden_False
 
         _vertegenwoordigerPersoonsgegevensRepository = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
         _aggregateSessionMock = new Mock<IAggregateSession>();
+
         _sut = new SyncKszMessageHandler(
-            _vertegenwoordigerPersoonsgegevensRepository.Object,
+            new VzerVertegenwoordigerForInszQuery(
+                _vertegenwoordigerPersoonsgegevensRepository.Object,
+                Mock.Of<IFilterVzerOnlyQuery>(),
+                NullLogger<VzerVertegenwoordigerForInszQuery>.Instance
+            ),
             _aggregateSessionMock.Object,
-            Mock.Of<IFilterVzerOnlyQuery>(),
             NullLogger<SyncKszMessageHandler>.Instance
         );
+
         _sut.Handle(
                 new CommandEnvelope<SyncKszMessage>(
                     new SyncKszMessage(
