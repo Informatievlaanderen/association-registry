@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using Configuration;
+using Exceptions;
 using OpenTelemetry;
 using Serilog;
 using Services;
@@ -66,6 +67,46 @@ public class Function
             telemetryManager.Metrics.RecordFilesProcessed(@event.Records.Count);
 
             logger.LogInformation("Successfully processed {RecordCount} records", @event.Records.Count);
+        }
+        catch (KszSyncException e)
+        {
+            caughtException = e;
+
+            if (services != null)
+            {
+                var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
+                logger.LogError(
+                    e,
+                    "VCode: '{VCode}', VertegenwoordigerId: '{VertegenwoordigerId}' \n KSZ sync lambda failed with error: {ErrorMessage}",
+                    e.VCode,
+                    e.VertegenwoordigerId,
+                    e.Message
+                );
+            }
+            else
+            {
+                context.Logger.LogError(e, e.Message);
+            }
+        }
+        catch (KboSyncException e)
+        {
+            caughtException = e;
+
+            if (services != null)
+            {
+                var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
+                logger.LogError(
+                    e,
+                    "VCode: '{VCode}', KboNummer: '{KboNummer}' \n KBO sync lambda failed with error: {ErrorMessage}",
+                    e.VCode,
+                    e.KboNummer,
+                    e.Message
+                );
+            }
+            else
+            {
+                context.Logger.LogError(e, e.Message);
+            }
         }
         catch (Exception e)
         {
