@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.KboMutations.SyncLambda.MagdaSync.SyncKsz;
 
 using DecentraalBeheer.Vereniging;
+using Exceptions;
 using Framework;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
@@ -42,22 +43,31 @@ public class SyncKszMessageHandler
 
         foreach (var vertegenwoordigerPersoonsgegeven in vzerVertegenwoordigersForInsz)
         {
-            _logger.LogInformation($"trying to load vcode: {vertegenwoordigerPersoonsgegeven.VCode}");
+            try
+            {
+                var vereniging = await _aggregateSession.Load<Vereniging>(
+                    VCode.Create(vertegenwoordigerPersoonsgegeven.VCode!),
+                    messageEnvelope.Metadata,
+                    allowDubbeleVereniging: true,
+                    allowVerwijderdeVereniging: true
+                );
 
-            var vereniging = await _aggregateSession.Load<Vereniging>(
-                VCode.Create(vertegenwoordigerPersoonsgegeven.VCode),
-                messageEnvelope.Metadata,
-                allowDubbeleVereniging: true,
-                allowVerwijderdeVereniging: true
-            );
+                vereniging.MarkeerVertegenwoordigerAlsOverleden(vertegenwoordigerPersoonsgegeven.VertegenwoordigerId);
 
-            vereniging.MarkeerVertegenwoordigerAlsOverleden(vertegenwoordigerPersoonsgegeven.VertegenwoordigerId);
+                await _aggregateSession.Save(vereniging, messageEnvelope.Metadata, cancellationToken);
 
-            await _aggregateSession.Save(vereniging, messageEnvelope.Metadata, cancellationToken);
-
-            _logger.LogInformation(
-                $"SyncKszMessageHandler marked vertegenwoordiger as deceased with vCode: {vertegenwoordigerPersoonsgegeven.VCode} for vertegenwoordiger: {vertegenwoordigerPersoonsgegeven.VertegenwoordigerId}"
-            );
+                _logger.LogInformation(
+                    $"SyncKszMessageHandler marked vertegenwoordiger as deceased with vCode: {vertegenwoordigerPersoonsgegeven.VCode} for vertegenwoordiger: {vertegenwoordigerPersoonsgegeven.VertegenwoordigerId}"
+                );
+            }
+            catch (Exception e)
+            {
+                throw new KszSyncException(
+                    vertegenwoordigerPersoonsgegeven.VCode!,
+                    vertegenwoordigerPersoonsgegeven.VertegenwoordigerId,
+                    e
+                );
+            }
         }
 
         _logger.LogInformation("SyncKszMessageHandler done");

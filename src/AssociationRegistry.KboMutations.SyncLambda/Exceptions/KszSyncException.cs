@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.KboMutations.SyncLambda.Exceptions;
 
 [Serializable]
-public class KszSyncException : ApplicationException
+public class KszSyncException : Exception
 {
-    private readonly string _vCode;
-    private readonly int _vertegenwoordigerId;
+    public readonly string VCode;
+    public readonly int VertegenwoordigerId;
 
-    public KszSyncException(string vCode, int vertegenwoordigerId)
+    public KszSyncException(string vCode, int vertegenwoordigerId, Exception inner)
+        : base($"KSZ sync failed for VCode {vCode} and VertegenwoordigerId {vertegenwoordigerId}", inner)
     {
-        _vCode = vCode;
-        _vertegenwoordigerId = vertegenwoordigerId;
+        VCode = vCode;
+        VertegenwoordigerId = vertegenwoordigerId;
     }
 }

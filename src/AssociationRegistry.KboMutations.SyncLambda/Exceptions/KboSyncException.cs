@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.KboMutations.SyncLambda.Exceptions;
 
 [Serializable]
-public class KboSyncException : ApplicationException
+public class KboSyncException : Exception
 {
-    private readonly string _vCode;
-    private readonly string _kboNummer;
+    public readonly string VCode;
+    public readonly string KboNummer;
 
-    public KboSyncException(string vCode, string kboNummer)
+    public KboSyncException(string vCode, string kboNummer, Exception inner)
+        : base($"KBO sync failed for VCode {vCode} and KBO {kboNummer}", inner)
     {
-        _vCode = vCode;
-        _kboNummer = kboNummer;
+        VCode = vCode;
+        KboNummer = kboNummer;
     }
 }

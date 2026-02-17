@@ -7,6 +7,7 @@ using AssociationRegistry.Integrations.Slack;
 using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Resources;
+using Exceptions;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using Notifications;
@@ -44,42 +45,50 @@ public class SyncKboCommandHandler
     {
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} start");
 
-        using var scope = _metrics.Start("kbo");
-
-        if (!await verenigingStateQueryService.Exists(message.Command.KboNummer))
+        var vCode = "";
+        try
         {
-            scope.Dropped();
-            return null;
+            using var scope = _metrics.Start("kbo");
+
+            if (!await verenigingStateQueryService.Exists(message.Command.KboNummer))
+            {
+                scope.Dropped();
+                return null;
+            }
+
+            var verenigingVolgensMagda = await _geefVerenigingService.GeefVereniging(
+                message.Command.KboNummer,
+                AanroependeFunctie.SyncKbo,
+                message.Metadata,
+                cancellationToken
+            );
+
+            if (verenigingVolgensMagda.IsFailure())
+            {
+                scope.Failed();
+                await _notifier.Notify(new KboSynchronisatieMisluktNotification(message.Command.KboNummer));
+
+                throw new GeenGeldigeVerenigingInKbo();
+            }
+
+            var vereniging = await aggregateSession.Load(message.Command.KboNummer, message.Metadata);
+            vCode = vereniging.VCode;
+            await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
+
+            vereniging.NeemGegevensOverUitKboSync(verenigingVolgensMagda);
+
+            var result = await aggregateSession.Save(vereniging, message.Metadata, cancellationToken);
+
+            _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} end");
+
+            scope.Succeed();
+
+            return CommandResult.Create(VCode.Create(vereniging.VCode), result);
         }
-
-        var verenigingVolgensMagda = await _geefVerenigingService.GeefVereniging(
-            message.Command.KboNummer,
-            AanroependeFunctie.SyncKbo,
-            message.Metadata,
-            cancellationToken
-        );
-
-        if (verenigingVolgensMagda.IsFailure())
+        catch (Exception e)
         {
-            scope.Failed();
-            await _notifier.Notify(new KboSynchronisatieMisluktNotification(message.Command.KboNummer));
-
-            throw new GeenGeldigeVerenigingInKbo();
+            throw new KboSyncException(vCode, message.Command.KboNummer, e);
         }
-
-        var vereniging = await aggregateSession.Load(message.Command.KboNummer, message.Metadata);
-
-        await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
-
-        vereniging.NeemGegevensOverUitKboSync(verenigingVolgensMagda);
-
-        var result = await aggregateSession.Save(vereniging, message.Metadata, cancellationToken);
-
-        _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} end");
-
-        scope.Succeed();
-
-        return CommandResult.Create(VCode.Create(vereniging.VCode), result);
     }
 
     private async Task RegistreerInschrijving(
