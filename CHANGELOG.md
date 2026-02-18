@@ -1,3 +1,16 @@
+# [8.304.0](https://github.com/informatievlaanderen/association-registry/compare/v8.303.1...v8.304.0) (2026-02-18)
+
+
+### Bug Fixes
+
+* or-3035 distinct by vcode and vertegenwoordiger for syncing overleden ksz persoon ([1b365c5](https://github.com/informatievlaanderen/association-registry/commit/1b365c5e15daf2106d6558690f04ddfa8f07b67b))
+
+
+### Features
+
+* or-3035 add retry policy on handling kbo ksz sync ([70c0da7](https://github.com/informatievlaanderen/association-registry/commit/70c0da75dbaaac7593b83876472c6bfc44be5580))
+* or-3035 throw specific exceptions on kbo ksz sync for more information ([d772fd6](https://github.com/informatievlaanderen/association-registry/commit/d772fd69c96b50030d22a50af0aae705cf190148))
+
 ## [8.303.1](https://github.com/informatievlaanderen/association-registry/compare/v8.303.0...v8.303.1) (2026-02-17)
 
 
