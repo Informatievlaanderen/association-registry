@@ -7,7 +7,7 @@ public class KszSyncException : Exception
     public readonly int VertegenwoordigerId;
 
     public KszSyncException(string vCode, int vertegenwoordigerId, Exception inner)
-        : base($"KSZ sync failed for VCode {vCode} and VertegenwoordigerId {vertegenwoordigerId}", inner)
+        : base($"KSZ sync failed for VCode '{vCode}' and VertegenwoordigerId '{vertegenwoordigerId}'", inner)
     {
         VCode = vCode;
         VertegenwoordigerId = vertegenwoordigerId;

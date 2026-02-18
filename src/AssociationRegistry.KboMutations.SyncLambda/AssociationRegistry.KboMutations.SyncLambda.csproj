@@ -42,5 +42,6 @@
     <PackageReference Include="OpenTelemetry.Exporter.Console" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
     <PackageReference Include="Npgsql.OpenTelemetry" />
+    <PackageReference Include="Polly" />
   </ItemGroup>
 </Project>
