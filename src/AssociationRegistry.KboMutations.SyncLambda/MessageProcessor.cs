@@ -4,18 +4,16 @@ using Amazon.Lambda.SQSEvents;
 using DecentraalBeheer.Vereniging;
 using Framework;
 using Framework.EventMetadata;
-using Integrations.Slack;
 using KboMutations.Configuration;
-using Magda.Kbo;
 using MagdaSync.SyncKbo;
 using MagdaSync.SyncKsz;
-using MagdaSync.SyncKsz.Queries;
 using MartenDb.Store;
 using Messaging;
 using Messaging.Parsers;
 using Microsoft.Extensions.Logging;
 using NodaTime;
-using Persoonsgegevens;
+using Resilience;
+using Telemetry;
 
 public class MessageProcessor
 {
@@ -53,6 +51,8 @@ public class MessageProcessor
             _kboSyncConfiguration.SyncQueueUrl
         );
 
+        var retryPolicy = RetryPolicy.Create(_logger);
+
         foreach (var record in sqsEvent.Records)
         {
             var envelope = SyncEnvelopeParser.Parse(record.Body);
@@ -63,7 +63,7 @@ public class MessageProcessor
                 envelope.Type
             );
 
-            using var activity = Telemetry.SyncEnvelopeActivity.Start(envelope);
+            using var activity = SyncEnvelopeActivity.Start(envelope);
 
             switch (envelope.Type)
             {
@@ -82,15 +82,20 @@ public class MessageProcessor
                     );
 
                     activity.TagAsKboSync(envelope.KboNummer!);
-                    await kboSyncHandler.Handle(
-                        new CommandEnvelope<SyncKboCommand>(
-                            new SyncKboCommand(KboNummer.Create(envelope.KboNummer!)),
-                            commandMetadata
-                        ),
-                        aggregateSession,
-                        verenigingStateQueryService,
-                        cancellationToken
-                    );
+
+                    await retryPolicy.ExecuteAsync(async () =>
+                    {
+                        await kboSyncHandler.Handle(
+                            new CommandEnvelope<SyncKboCommand>(
+                                new SyncKboCommand(KboNummer.Create(envelope.KboNummer!)),
+                                commandMetadata
+                            ),
+                            aggregateSession,
+                            verenigingStateQueryService,
+                            cancellationToken
+                        );
+                    });
+
                     break;
                 }
 
@@ -109,17 +114,21 @@ public class MessageProcessor
                     );
 
                     activity.TagAsKszSync();
-                    await kszSyncHandler.Handle(
-                        new CommandEnvelope<SyncKszMessage>(
-                            new SyncKszMessage(
-                                Insz.Create(envelope.InszMessage!.Insz),
-                                envelope.InszMessage.Overleden,
-                                envelope.CorrelationId
+
+                    await retryPolicy.ExecuteAsync(async () =>
+                    {
+                        await kszSyncHandler.Handle(
+                            new CommandEnvelope<SyncKszMessage>(
+                                new SyncKszMessage(
+                                    Insz.Create(envelope.InszMessage!.Insz),
+                                    envelope.InszMessage.Overleden,
+                                    envelope.CorrelationId
+                                ),
+                                commandMetadata
                             ),
-                            commandMetadata
-                        ),
-                        cancellationToken
-                    );
+                            cancellationToken
+                        );
+                    });
 
                     break;
                 }

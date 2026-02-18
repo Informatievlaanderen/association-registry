@@ -45,7 +45,7 @@ public class SyncKboCommandHandler
     {
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} start");
 
-        var vCode = "";
+        var vCode = "Onbekend";
         try
         {
             using var scope = _metrics.Start("kbo");

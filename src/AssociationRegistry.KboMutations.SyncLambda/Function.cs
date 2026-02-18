@@ -10,6 +10,7 @@ namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using Configuration;
 using Exceptions;
+using Logging;
 using OpenTelemetry;
 using Serilog;
 using Services;
@@ -22,6 +23,7 @@ public class Function
     private static async Task Main()
     {
         var handler = FunctionHandler;
+
         await LambdaBootstrapBuilder
             .Create(handler, new SourceGeneratorLambdaJsonSerializer<LambdaFunctionJsonSerializerContext>())
             .Build()
@@ -46,12 +48,13 @@ public class Function
         LambdaServices? services = null;
         Exception? caughtException = null;
 
+        var logger = new SyncLogger(services, context);
+
         try
         {
             context.Logger.LogInformation($"{@event.Records.Count} RECORDS RECEIVED INSIDE SQS EVENT");
 
             services = await serviceFactory.CreateServicesAsync();
-            var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
 
             logger.LogInformation("Processing {RecordCount} SQS messages", @event.Records.Count);
 
@@ -72,67 +75,35 @@ public class Function
         {
             caughtException = e;
 
-            if (services != null)
-            {
-                var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
-                logger.LogError(
-                    e,
-                    "VCode: '{VCode}', VertegenwoordigerId: '{VertegenwoordigerId}' \n KSZ sync lambda failed with error: {ErrorMessage}",
-                    e.VCode,
-                    e.VertegenwoordigerId,
-                    e.Message
-                );
-            }
-            else
-            {
-                context.Logger.LogError(e, e.Message);
-            }
+            logger.LogException(
+                e,
+                "VCode: '{VCode}', VertegenwoordigerId: '{VertegenwoordigerId}' \n KSZ sync lambda failed with error: {ErrorMessage}",
+                e.VCode,
+                e.VertegenwoordigerId,
+                e.Message
+            );
         }
         catch (KboSyncException e)
         {
             caughtException = e;
 
-            if (services != null)
-            {
-                var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
-                logger.LogError(
-                    e,
-                    "VCode: '{VCode}', KboNummer: '{KboNummer}' \n KBO sync lambda failed with error: {ErrorMessage}",
-                    e.VCode,
-                    e.KboNummer,
-                    e.Message
-                );
-            }
-            else
-            {
-                context.Logger.LogError(e, e.Message);
-            }
+            logger.LogException(
+                e,
+                "VCode: '{VCode}', KboNummer: '{KboNummer}' \n KBO sync lambda failed with error: {ErrorMessage}",
+                e.VCode,
+                e.KboNummer,
+                e.Message
+            );
         }
         catch (Exception e)
         {
             caughtException = e;
 
-            if (services != null)
-            {
-                var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
-                logger.LogError(e, "KBO/KSZ sync lambda failed with error: {ErrorMessage}", e.Message);
-            }
-            else
-            {
-                context.Logger.LogError(e, e.Message);
-            }
+            logger.LogException(e, "KBO/KSZ sync lambda failed with error: {ErrorMessage}", e.Message);
         }
         finally
         {
-            if (services != null)
-            {
-                var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
-                logger.LogInformation("Kbo/ksz sync lambda finished");
-            }
-            else
-            {
-                context.Logger.LogInformation("Kbo/ksz sync lambda finished (no services created)");
-            }
+            logger.LogInformation("Kbo/ksz sync lambda finished");
 
             // Flush Serilog logs first
             await Log.CloseAndFlushAsync();
@@ -155,6 +126,7 @@ public class Function
         if (caughtException != null)
         {
             context.Logger.LogInformation("Re-throwing exception after flush");
+
             throw caughtException;
         }
     }
