@@ -1,3 +1,10 @@
+## [8.304.2](https://github.com/informatievlaanderen/association-registry/compare/v8.304.1...v8.304.2) (2026-02-19)
+
+
+### Bug Fixes
+
+* or-3035 make use of an early logger, and no more context.logger except for initialisation ([779b9ae](https://github.com/informatievlaanderen/association-registry/commit/779b9ae341c19162504b4d3f8eff3c1f8641f873))
+
 ## [8.304.1](https://github.com/informatievlaanderen/association-registry/compare/v8.304.0...v8.304.1) (2026-02-19)
 
 
