@@ -1,7 +1,8 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 
-using Amazon.Lambda.Core;
+using System.Reflection;
 using global::OpenTelemetry;
+using Amazon.Lambda.Core;
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Logs;
 using global::OpenTelemetry.Metrics;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.Logging;
 using Npgsql;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
-using System.Reflection;
 
 public class OpenTelemetrySetup : IDisposable
 {
@@ -29,8 +29,6 @@ public class OpenTelemetrySetup : IDisposable
         _logger.LogInformation("OpenTelemetrySetup: Starting setup");
 
         _resources = GetResources(contextLogger);
-
-
     }
 
     public MeterProvider SetupMeter(string? metricsUri, string? orgId)
@@ -50,17 +48,16 @@ public class OpenTelemetrySetup : IDisposable
         {
             _logger.LogInformation($"Adding OTLP metrics exporter: {metricsUri}");
 
-            builder.AddOtlpExporter((exporterOptions, readerOptions) =>
-            {
-                exporterOptions.Endpoint = new Uri(metricsUri);
-                exporterOptions.Protocol = OtlpExportProtocol.HttpProtobuf;
-                exporterOptions.Headers = !string.IsNullOrEmpty(orgId)
-                    ? $"X-Scope-OrgID={orgId}"
-                    : null;
+            builder.AddOtlpExporter(
+                (exporterOptions, readerOptions) =>
+                {
+                    exporterOptions.Endpoint = new Uri(metricsUri);
+                    exporterOptions.Protocol = OtlpExportProtocol.HttpProtobuf;
+                    exporterOptions.Headers = !string.IsNullOrEmpty(orgId) ? $"X-Scope-OrgID={orgId}" : null;
 
-                readerOptions.PeriodicExportingMetricReaderOptions.ExportIntervalMilliseconds = 60000;
-            });
-            builder.AddConsoleExporter();
+                    readerOptions.PeriodicExportingMetricReaderOptions.ExportIntervalMilliseconds = 60000;
+                }
+            );
         }
 
         MeterProvider = builder.Build();
@@ -70,10 +67,10 @@ public class OpenTelemetrySetup : IDisposable
     public TracerProvider SetUpTracing(string? tracesUri, string? orgId)
     {
         var builder = Sdk.CreateTracerProviderBuilder()
-                         .AddSource(KboSyncActivitySource.Source.Name)
-                         .AddHttpClientInstrumentation()
-                         .AddNpgsql()
-                         .ConfigureResource(_resources.ConfigureResourceBuilder);
+            .AddSource(KboSyncActivitySource.Source.Name)
+            .AddHttpClientInstrumentation()
+            .AddNpgsql()
+            .ConfigureResource(_resources.ConfigureResourceBuilder);
 
         if (!string.IsNullOrEmpty(tracesUri))
         {
@@ -134,28 +131,27 @@ public class OpenTelemetrySetup : IDisposable
     {
         var serviceName = "KboMutations.SyncLambda";
         var assemblyVersion = Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "unknown";
-        var serviceInstanceId = Environment.GetEnvironmentVariable("AWS_LAMBDA_FUNCTION_NAME") ?? Environment.MachineName;
+        var serviceInstanceId =
+            Environment.GetEnvironmentVariable("AWS_LAMBDA_FUNCTION_NAME") ?? Environment.MachineName;
         var environment = Environment.GetEnvironmentVariable("ENVIRONMENT")?.ToLowerInvariant() ?? "unknown";
 
         Action<ResourceBuilder> configureResource = r =>
         {
-            r.AddService(
-                    serviceName,
-                    serviceVersion: assemblyVersion,
-                    serviceInstanceId: serviceInstanceId)
-               .AddAttributes(
-                    new Dictionary<string, object>
-                    {
-                        ["deployment.environment"] = environment,
-                    });
+            r.AddService(serviceName, serviceVersion: assemblyVersion, serviceInstanceId: serviceInstanceId)
+                .AddAttributes(new Dictionary<string, object> { ["deployment.environment"] = environment });
         };
 
-        contextLogger.LogInformation("Resource configuration: " +
-                                     "Service name '{ServiceName}', " +
-                                     "ServiceVersion '{AssemblyVersion}', " +
-                                     "Service Instance Id '{ServiceInstanceId}', " +
-                                     "Env '{Env}'",
-                                     serviceName, assemblyVersion, serviceInstanceId, environment);
+        contextLogger.LogInformation(
+            "Resource configuration: "
+                + "Service name '{ServiceName}', "
+                + "ServiceVersion '{AssemblyVersion}', "
+                + "Service Instance Id '{ServiceInstanceId}', "
+                + "Env '{Env}'",
+            serviceName,
+            assemblyVersion,
+            serviceInstanceId,
+            environment
+        );
 
         return new OpenTelemetryResources(serviceName, configureResource);
     }

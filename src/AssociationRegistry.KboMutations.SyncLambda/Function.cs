@@ -48,13 +48,12 @@ public class Function
         LambdaServices? services = null;
         Exception? caughtException = null;
 
-        var logger = new SyncLogger(services, context);
+        services = await serviceFactory.CreateServicesAsync();
+        var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
 
         try
         {
-            context.Logger.LogInformation($"{@event.Records.Count} RECORDS RECEIVED INSIDE SQS EVENT");
-
-            services = await serviceFactory.CreateServicesAsync();
+            logger.LogInformation($"{@event.Records.Count} RECORDS RECEIVED INSIDE SQS EVENT");
 
             logger.LogInformation("Processing {RecordCount} SQS messages", @event.Records.Count);
 
@@ -75,7 +74,7 @@ public class Function
         {
             caughtException = e;
 
-            logger.LogException(
+            logger.LogError(
                 e,
                 "VCode: '{VCode}', VertegenwoordigerId: '{VertegenwoordigerId}' \n KSZ sync lambda failed with error: {ErrorMessage}",
                 e.VCode,
@@ -87,7 +86,7 @@ public class Function
         {
             caughtException = e;
 
-            logger.LogException(
+            logger.LogError(
                 e,
                 "VCode: '{VCode}', KboNummer: '{KboNummer}' \n KBO sync lambda failed with error: {ErrorMessage}",
                 e.VCode,
@@ -99,7 +98,7 @@ public class Function
         {
             caughtException = e;
 
-            logger.LogException(e, "KBO/KSZ sync lambda failed with error: {ErrorMessage}", e.Message);
+            logger.LogError(e, "KBO/KSZ sync lambda failed with error: {ErrorMessage}", e.Message);
         }
         finally
         {
@@ -111,15 +110,15 @@ public class Function
             // Dispose LoggerFactory to flush OpenTelemetry logs
             if (services != null)
             {
-                context.Logger.LogInformation("Disposing LoggerFactory to flush logs");
+                logger.LogInformation("Disposing LoggerFactory to flush logs");
                 services.LoggerFactory.Dispose();
-                context.Logger.LogInformation("LoggerFactory disposed");
+                logger.LogInformation("LoggerFactory disposed");
             }
 
             // Flush metrics and traces
             await telemetryManager.FlushAsync(context);
 
-            context.Logger.LogInformation("All telemetry flushed");
+            logger.LogInformation("All telemetry flushed");
         }
 
         // Re-throw after all cleanup is complete
