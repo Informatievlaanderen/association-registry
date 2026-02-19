@@ -32,24 +32,35 @@ public class Function
 
     private static async Task FunctionHandler(SQSEvent @event, ILambdaContext context)
     {
-        context.Logger.LogInformation("Function started");
-
         var coldStart = ColdStartDetector.IsColdStart();
 
         var configurationManager = new ConfigurationManager();
         var configuration = configurationManager.Build();
 
-        var telemetryManager = new TelemetryManager(context.Logger, configuration);
+        // Create initial logger as early as possible
+        var lambdaLoggerProvider = new LambdaLoggerProvider(context.Logger);
+        var earlyLogger = lambdaLoggerProvider.CreateLogger("KboMutations.SyncLambda.Startup");
+
+        earlyLogger.LogInformation("Function started (cold start: {ColdStart})", coldStart);
+
+        var telemetryLogger = lambdaLoggerProvider.CreateLogger("TelemetryManager");
+        var telemetryManager = new TelemetryManager(telemetryLogger, configuration);
+
+        var loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddProvider(lambdaLoggerProvider);
+            telemetryManager.ConfigureLogging(builder);
+        });
+        var logger = loggerFactory.CreateLogger("KboMutations.SyncLambda");
 
         telemetryManager.Metrics.RecordLambdaInvocation("kbo_sync", coldStart);
-
-        var serviceFactory = new ServiceFactory(configuration, context.Logger, telemetryManager);
+        var serviceFactory = new ServiceFactory(configuration, lambdaLoggerProvider, telemetryManager);
 
         LambdaServices? services = null;
         Exception? caughtException = null;
 
         services = await serviceFactory.CreateServicesAsync();
-        var logger = services.LoggerFactory.CreateLogger("KboMutations.SyncLambda");
+        logger.LogInformation("Services created successfully");
 
         try
         {
@@ -124,7 +135,7 @@ public class Function
         // Re-throw after all cleanup is complete
         if (caughtException != null)
         {
-            context.Logger.LogInformation("Re-throwing exception after flush");
+            logger.LogInformation("Re-throwing exception after flush");
 
             throw caughtException;
         }

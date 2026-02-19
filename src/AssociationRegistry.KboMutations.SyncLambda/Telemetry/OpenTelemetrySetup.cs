@@ -17,18 +17,18 @@ using OpenTelemetry.Metrics;
 public class OpenTelemetrySetup : IDisposable
 {
     private readonly OpenTelemetryResources _resources;
-    private readonly ILambdaLogger _logger;
+    private readonly ILogger _logger;
     public TracerProvider TracerProvider { get; private set; }
     public MeterProvider MeterProvider { get; private set; }
 
     public const string MeterName = "kbomutations.sync.lambda.metrics";
 
-    public OpenTelemetrySetup(ILambdaLogger contextLogger, IConfigurationRoot configuration)
+    public OpenTelemetrySetup(ILogger logger, IConfigurationRoot configuration)
     {
-        _logger = contextLogger;
+        _logger = logger;
         _logger.LogInformation("OpenTelemetrySetup: Starting setup");
 
-        _resources = GetResources(contextLogger);
+        _resources = GetResources(logger);
     }
 
     public MeterProvider SetupMeter(string? metricsUri, string? orgId)
@@ -127,7 +127,7 @@ public class OpenTelemetrySetup : IDisposable
         });
     }
 
-    public OpenTelemetryResources GetResources(ILambdaLogger contextLogger)
+    public OpenTelemetryResources GetResources(ILogger logger)
     {
         var serviceName = "KboMutations.SyncLambda";
         var assemblyVersion = Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "unknown";
@@ -141,12 +141,8 @@ public class OpenTelemetrySetup : IDisposable
                 .AddAttributes(new Dictionary<string, object> { ["deployment.environment"] = environment });
         };
 
-        contextLogger.LogInformation(
-            "Resource configuration: "
-                + "Service name '{ServiceName}', "
-                + "ServiceVersion '{AssemblyVersion}', "
-                + "Service Instance Id '{ServiceInstanceId}', "
-                + "Env '{Env}'",
+        logger.LogInformation(
+            "Resource configuration: Service name {ServiceName}, ServiceVersion {AssemblyVersion}, Service Instance Id {ServiceInstanceId}, Env {Env}",
             serviceName,
             assemblyVersion,
             serviceInstanceId,

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 
+using System.Diagnostics.Metrics;
 using Amazon.Lambda.Core;
 using AssociationRegistry.OpenTelemetry.Metrics;
 using global::OpenTelemetry.Metrics;
@@ -7,12 +8,11 @@ using global::OpenTelemetry.Trace;
 using JasperFx.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics.Metrics;
 
 public class TelemetryManager : IDisposable
 {
     private OpenTelemetrySetup? _openTelemetrySetup;
-    private readonly ILambdaLogger _logger;
+    private readonly ILogger _logger;
     private readonly Meter _meter;
 
     private readonly string? _logsUri;
@@ -22,7 +22,7 @@ public class TelemetryManager : IDisposable
 
     public KboSyncMetrics Metrics { get; }
 
-    public TelemetryManager(ILambdaLogger logger, IConfigurationRoot configuration)
+    public TelemetryManager(ILogger logger, IConfigurationRoot configuration)
     {
         _logger = logger;
 
@@ -51,26 +51,31 @@ public class TelemetryManager : IDisposable
 
     public async Task FlushAsync(ILambdaContext context)
     {
-        if (_openTelemetrySetup == null) return;
+        if (_openTelemetrySetup == null)
+            return;
 
         try
         {
             var remainingTime = context.RemainingTime.Subtract(5.Seconds());
-            var maxFlushTime = TimeSpan.FromMilliseconds(Math.Min(remainingTime.TotalMilliseconds, 5.Seconds().TotalMilliseconds));
+            var maxFlushTime = TimeSpan.FromMilliseconds(
+                Math.Min(remainingTime.TotalMilliseconds, 5.Seconds().TotalMilliseconds)
+            );
 
             _logger.LogInformation($"Flushing OpenTelemetry data with timeout: {maxFlushTime.TotalMilliseconds}ms");
 
             using var cts = new CancellationTokenSource(maxFlushTime);
 
-            await Task.Run(() =>
-            {
-                var metricsFlushResult = _openTelemetrySetup.MeterProvider.ForceFlush();
-                _logger.LogInformation($"Metrics flush result: {metricsFlushResult}");
+            await Task.Run(
+                () =>
+                {
+                    var metricsFlushResult = _openTelemetrySetup.MeterProvider.ForceFlush();
+                    _logger.LogInformation($"Metrics flush result: {metricsFlushResult}");
 
-                var tracesFlushResult = _openTelemetrySetup.TracerProvider.ForceFlush();
-                _logger.LogInformation($"Traces flush result: {tracesFlushResult}");
-
-            }, cts.Token);
+                    var tracesFlushResult = _openTelemetrySetup.TracerProvider.ForceFlush();
+                    _logger.LogInformation($"Traces flush result: {tracesFlushResult}");
+                },
+                cts.Token
+            );
 
             _logger.LogInformation("OpenTelemetry flush completed successfully");
         }

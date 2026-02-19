@@ -37,14 +37,18 @@ using PostgreSqlOptionsSection = Configuration.PostgreSqlOptionsSection;
 public class ServiceFactory
 {
     private readonly IConfigurationRoot _configuration;
-    private readonly ILambdaLogger _logger;
+    private readonly LambdaLoggerProvider _lambdaLoggerProvider;
     private readonly TelemetryManager _telemetryManager;
     private DocumentStore _store;
 
-    public ServiceFactory(IConfigurationRoot configuration, ILambdaLogger logger, TelemetryManager telemetryManager)
+    public ServiceFactory(
+        IConfigurationRoot configuration,
+        LambdaLoggerProvider lambdaLoggerProvider,
+        TelemetryManager telemetryManager
+    )
     {
         _configuration = configuration;
-        _logger = logger;
+        _lambdaLoggerProvider = lambdaLoggerProvider;
         _telemetryManager = telemetryManager;
     }
 
@@ -53,7 +57,7 @@ public class ServiceFactory
         var paramNamesConfiguration = GetParamNamesConfiguration();
         var ssmClientWrapper = new SsmClientWrapper(new AmazonSimpleSystemsManagementClient());
 
-        var loggerFactory = CreateLoggerFactory();
+        var loggerFactory = CreateLoggerFactory(_lambdaLoggerProvider);
         var logger = loggerFactory.CreateLogger<ServiceFactory>();
 
         var magdaOptions = await GetMagdaOptionsAsync(
@@ -181,11 +185,11 @@ public class ServiceFactory
         );
     }
 
-    private ILoggerFactory CreateLoggerFactory()
+    public ILoggerFactory CreateLoggerFactory(LambdaLoggerProvider lambdaLoggerProvider)
     {
         return LoggerFactory.Create(builder =>
         {
-            builder.AddProvider(new LambdaLoggerProvider(_logger));
+            builder.AddProvider(lambdaLoggerProvider);
             _telemetryManager.ConfigureLogging(builder);
         });
     }
