@@ -5,13 +5,13 @@ using Swashbuckle.AspNetCore.Filters;
 
 public class WijzigBankrekeningnummerRequestExamples : IExamplesProvider<WijzigBankrekeningnummerRequest>
 {
-    public WijzigBankrekeningnummerRequest GetExamples()
-        => new()
+    public WijzigBankrekeningnummerRequest GetExamples() =>
+        new()
         {
             Bankrekeningnummer = new TeWijzigenBankrekeningnummer()
             {
-               Doel = "Lidgeld",
-               Titularis = "Frodo Baggings",
+                Doel = "Lidgeld",
+                Titularis = "Voornaam Achternaam",
             },
         };
 }
