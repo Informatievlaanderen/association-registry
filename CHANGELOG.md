@@ -1,3 +1,10 @@
+## [8.304.1](https://github.com/informatievlaanderen/association-registry/compare/v8.304.0...v8.304.1) (2026-02-19)
+
+
+### Bug Fixes
+
+* or-3035 make use of correct logger ([67c86f0](https://github.com/informatievlaanderen/association-registry/commit/67c86f063830e0adb500df82db540112e700334a))
+
 # [8.304.0](https://github.com/informatievlaanderen/association-registry/compare/v8.303.1...v8.304.0) (2026-02-18)
 
 
