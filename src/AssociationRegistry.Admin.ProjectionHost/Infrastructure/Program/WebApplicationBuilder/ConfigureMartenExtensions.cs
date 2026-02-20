@@ -1,10 +1,12 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
+using System.Configuration;
 using AssociationRegistry.MartenDb.BeheerZoeken;
 using AssociationRegistry.MartenDb.Logging;
 using AssociationRegistry.MartenDb.Setup;
 using AssociationRegistry.MartenDb.Subscriptions;
 using Constants;
+using Elastic.Clients.Elasticsearch;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -14,7 +16,6 @@ using JasperFx.Events.Projections;
 using Json;
 using Marten;
 using Marten.Services;
-using Elastic.Clients.Elasticsearch;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Newtonsoft.Json;
 using Projections;
@@ -29,7 +30,6 @@ using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
 using Projections.Vertegenwoordiger;
 using Schema.Setup.Marten;
-using System.Configuration;
 using ConfigurationManager = ConfigurationManager;
 
 public static class ConfigureMartenExtensions
@@ -37,10 +37,10 @@ public static class ConfigureMartenExtensions
     public static IServiceCollection ConfigureProjectionsWithMarten(
         this IServiceCollection source,
         ConfigurationManager configurationManager,
-        bool isDevelopment)
+        bool isDevelopment
+    )
     {
         var martenConfiguration = AddMarten(source, configurationManager);
-
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(isDevelopment ? DaemonMode.Solo : DaemonMode.HotCold);
@@ -57,34 +57,35 @@ public static class ConfigureMartenExtensions
             options.Production.SourceCodeWritingEnabled = false;
         });
 
-
         return source;
     }
 
     private static MartenServiceCollectionExtensions.MartenConfigurationExpression AddMarten(
         IServiceCollection services,
-        ConfigurationManager configurationManager)
+        ConfigurationManager configurationManager
+    )
     {
-        var martenConfigurationExpression = services.AddMarten(
-            serviceProvider =>
-            {
-                var opts = new StoreOptions();
+        var martenConfigurationExpression = services.AddMarten(serviceProvider =>
+        {
+            var opts = new StoreOptions();
 
-                return ConfigureStoreOptions(opts, serviceProvider, serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(),
-                                             serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
-                                             serviceProvider.GetRequiredService<ElasticsearchClient>(),
-                                             serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
-                                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(),
-                                             serviceProvider.GetRequiredService<ILogger<DuplicateDetectionEventsConsumer>>(),
-                                             () => serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
-                                             serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
-                                             configurationManager
-                                                .GetSection(PostgreSqlOptionsSection.SectionName)
-                                                .Get<PostgreSqlOptionsSection>(),
-                                             configurationManager
-                                                .GetSection(ElasticSearchOptionsSection.SectionName)
-                                                .Get<ElasticSearchOptionsSection>());
-            });
+            return ConfigureStoreOptions(
+                opts,
+                serviceProvider,
+                serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(),
+                serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
+                serviceProvider.GetRequiredService<ElasticsearchClient>(),
+                serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
+                serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(),
+                serviceProvider.GetRequiredService<ILogger<DuplicateDetectionEventsConsumer>>(),
+                () => serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
+                serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
+                configurationManager.GetSection(PostgreSqlOptionsSection.SectionName).Get<PostgreSqlOptionsSection>(),
+                configurationManager
+                    .GetSection(ElasticSearchOptionsSection.SectionName)
+                    .Get<ElasticSearchOptionsSection>()
+            );
+        });
 
         return martenConfigurationExpression;
     }
@@ -101,7 +102,8 @@ public static class ConfigureMartenExtensions
         Func<ILogger<MartenSubscription>> subscriptionLogger,
         ILogger<SecureMartenLogger> secureMartenLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
-        ElasticSearchOptionsSection? elasticSearchOptionsSection)
+        ElasticSearchOptionsSection? elasticSearchOptionsSection
+    )
     {
         return ConfigureStoreOptionsCore(
             opts,
@@ -115,7 +117,8 @@ public static class ConfigureMartenExtensions
             subscriptionLogger,
             secureMartenLogger,
             postgreSqlOptionsSection,
-            elasticSearchOptionsSection);
+            elasticSearchOptionsSection
+        );
     }
 
     public static StoreOptions ConfigureStoreOptions(
@@ -129,7 +132,8 @@ public static class ConfigureMartenExtensions
         Func<ILogger<MartenSubscription>> subscriptionLogger,
         ILogger<SecureMartenLogger> secureMartenLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
-        ElasticSearchOptionsSection? elasticSearchOptionsSection)
+        ElasticSearchOptionsSection? elasticSearchOptionsSection
+    )
     {
         IDocumentStore? builtStore = null;
 
@@ -149,7 +153,8 @@ public static class ConfigureMartenExtensions
             subscriptionLogger,
             secureMartenLogger,
             postgreSqlOptionsSection,
-            elasticSearchOptionsSection);
+            elasticSearchOptionsSection
+        );
     }
 
     private static StoreOptions ConfigureStoreOptionsCore(
@@ -164,16 +169,18 @@ public static class ConfigureMartenExtensions
         Func<ILogger<MartenSubscription>> subscriptionLogger,
         ILogger<SecureMartenLogger> secureMartenLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
-        ElasticSearchOptionsSection? elasticSearchOptionsSection)
+        ElasticSearchOptionsSection? elasticSearchOptionsSection
+    )
     {
-        static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
-            => $"host={postgreSqlOptions.Host};" +
-               $"database={postgreSqlOptions.Database};" +
-               $"password={postgreSqlOptions.Password};" +
-               $"username={postgreSqlOptions.Username}";
+        static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions) =>
+            $"host={postgreSqlOptions.Host};"
+            + $"database={postgreSqlOptions.Database};"
+            + $"password={postgreSqlOptions.Password};"
+            + $"username={postgreSqlOptions.Username}";
 
-        var postgreSqlOptions = postgreSqlOptionsSection ??
-                                throw new ConfigurationErrorsException("Missing a valid postgres configuration");
+        var postgreSqlOptions =
+            postgreSqlOptionsSection
+            ?? throw new ConfigurationErrorsException("Missing a valid postgres configuration");
 
         var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 
@@ -196,7 +203,7 @@ public static class ConfigureMartenExtensions
         opts.OpenTelemetry.TrackEventCounters();
         opts.DisableNpgsqlLogging = !isDevelopment;
 
-        if(!postgreSqlOptions.IncludeErrorDetail)
+        if (!postgreSqlOptions.IncludeErrorDetail)
             opts.Logger(new SecureMartenLogger(secureMartenLogger));
 
         opts.Events.StreamIdentity = StreamIdentity.AsString;
@@ -215,12 +222,15 @@ public static class ConfigureMartenExtensions
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
-        opts.Projections.Add(new VertegenwoordigerProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add(new VertegenwoordigerProjection(querySessionFactory), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new LocatieLookupProjection(locatieLookupLogger), ProjectionLifecycle.Async);
-        opts.Projections.Add(new LocatieZonderAdresMatchProjection(locatieZonderAdresMatchProjectionLogger), ProjectionLifecycle.Async);
+        opts.Projections.Add(
+            new LocatieZonderAdresMatchProjection(locatieZonderAdresMatchProjectionLogger),
+            ProjectionLifecycle.Async
+        );
 
         opts.Projections.Add(
             new MartenSubscription(
@@ -228,12 +238,14 @@ public static class ConfigureMartenExtensions
                     elasticClient,
                     new BeheerZoekProjectionHandler(),
                     elasticSearchOptionsSection,
-                    beheerZoekenEventsConsumerLogger),
+                    beheerZoekenEventsConsumerLogger
+                ),
                 BeheerZoekenHandledEvents.Types,
                 subscriptionLogger()
             ),
             ProjectionLifecycle.Async,
-            ProjectionNames.BeheerZoek);
+            ProjectionNames.BeheerZoek
+        );
 
         opts.Projections.Add(
             new MartenSubscription(
@@ -247,8 +259,8 @@ public static class ConfigureMartenExtensions
                 subscriptionLogger()
             ),
             ProjectionLifecycle.Async,
-            ProjectionNames.DuplicateDetection);
-
+            ProjectionNames.DuplicateDetection
+        );
 
         return opts;
     }
