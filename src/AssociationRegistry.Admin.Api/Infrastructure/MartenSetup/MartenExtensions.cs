@@ -27,53 +27,61 @@ public static class MartenExtensions
         this IServiceCollection services,
         IConfigurationRoot configuration,
         PostgreSqlOptionsSection postgreSqlOptions,
-        bool isDevelopment)
+        bool isDevelopment
+    )
     {
         var martenConfiguration = services
-                                 .AddMarten(
-                                      serviceProvider =>
-                                      {
-                                          var opts = new StoreOptions();
+            .AddMarten(serviceProvider =>
+            {
+                var opts = new StoreOptions();
 
-                                          opts
-                                             .UsePostgreSqlOptions(postgreSqlOptions)
-                                             .AddVCodeSequence()
-                                             .ConfigureSerialization()
-                                             .SetUpOpenTelemetry(isDevelopment)
-                                             .RegisterAllEventTypes()
-                                             .RegisterAdminDocumentTypes()
-                                             .UpcastEvents((() => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession()));
+                var querySessionFunc = () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession();
 
-                                          if(!postgreSqlOptions.IncludeErrorDetail)
-                                            opts.Logger(new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>()));
+                opts.UsePostgreSqlOptions(postgreSqlOptions)
+                    .AddVCodeSequence()
+                    .ConfigureSerialization()
+                    .SetUpOpenTelemetry(isDevelopment)
+                    .RegisterAllEventTypes()
+                    .RegisterAdminDocumentTypes()
+                    .UpcastEvents(querySessionFunc);
 
-                                          opts.Events.StreamIdentity = StreamIdentity.AsString;
-                                          opts.Events.MetadataConfig.EnableAll();
-                                          opts.Events.AppendMode = EventAppendMode.Quick;
+                if (!postgreSqlOptions.IncludeErrorDetail)
+                    opts.Logger(
+                        new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>())
+                    );
 
-                                          opts.AutoCreateSchemaObjects = AutoCreate.None;
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+                opts.Events.MetadataConfig.EnableAll();
+                opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                          opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
-                                          opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
-                                          opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
-                                          opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
-                                          opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
-                                          opts.Projections.Add(new LocatieLookupProjection(NullLogger<LocatieLookupProjection>.Instance), ProjectionLifecycle.Async);
-                                          opts.Projections.Add(new LocatieZonderAdresMatchProjection(NullLogger<LocatieZonderAdresMatchProjection>.Instance), ProjectionLifecycle.Async);
-                                          opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
-                                          opts.Projections.Add(new VertegenwoordigerProjection(), ProjectionLifecycle.Async);
+                opts.AutoCreateSchemaObjects = AutoCreate.None;
 
-                                          return opts;
-                                      })
-                                 .IntegrateWithWolverine(integration =>
-                                  {
-                                      integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
-                                      integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
+                opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(
+                    new LocatieLookupProjection(NullLogger<LocatieLookupProjection>.Instance),
+                    ProjectionLifecycle.Async
+                );
+                opts.Projections.Add(
+                    new LocatieZonderAdresMatchProjection(NullLogger<LocatieZonderAdresMatchProjection>.Instance),
+                    ProjectionLifecycle.Async
+                );
+                opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new VertegenwoordigerProjection(querySessionFunc), ProjectionLifecycle.Async);
 
-                                      integration.AutoCreate = AutoCreate.None;
-                                  })
+                return opts;
+            })
+            .IntegrateWithWolverine(integration =>
+            {
+                integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
+                integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
 
-                                 .UseLightweightSessions();
+                integration.AutoCreate = AutoCreate.None;
+            })
+            .UseLightweightSessions();
 
         martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
@@ -90,9 +98,9 @@ public static class MartenExtensions
         return services;
     }
 
-    public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions)
-        => $"host={postgreSqlOptions.Host};" +
-           $"database={postgreSqlOptions.Database};" +
-           $"password={postgreSqlOptions.Password};" +
-           $"username={postgreSqlOptions.Username};";
+    public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions) =>
+        $"host={postgreSqlOptions.Host};"
+        + $"database={postgreSqlOptions.Database};"
+        + $"password={postgreSqlOptions.Password};"
+        + $"username={postgreSqlOptions.Username};";
 }
