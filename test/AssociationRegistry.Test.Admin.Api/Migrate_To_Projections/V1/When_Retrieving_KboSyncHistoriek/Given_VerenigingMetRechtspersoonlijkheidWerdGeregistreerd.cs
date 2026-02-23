@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Retrieving_KboSyncHistoriek;
 
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.KboSync.ResponseModels;
+using AssociationRegistry.Admin.Api.WebApi.Administratie.Sync.ResponseModels;
 using AssociationRegistry.Formats;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Admin.Api.Framework.templates.kboSyncHistoriek;
@@ -38,13 +38,15 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 Beschrijving = "Registreer inschrijving geslaagd",
                 Kbonummer = _inschrijvingZonderSync.KboNummer,
                 Tijdstip = _inschrijvingZonderSync.GetCommandMetadata().Tijdstip.FormatAsZuluTime(),
-            },new KboSyncHistoriekGebeurtenisResponse()
+            },
+            new KboSyncHistoriekGebeurtenisResponse()
             {
                 VCode = _inschrijvingMetSync.VCode,
                 Beschrijving = "Registreer inschrijving geslaagd",
                 Kbonummer = _inschrijvingMetSync.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer,
                 Tijdstip = _inschrijvingMetSync.GetCommandMetadata().Tijdstip.FormatAsZuluTime(),
-            },new KboSyncHistoriekGebeurtenisResponse()
+            },
+            new KboSyncHistoriekGebeurtenisResponse()
             {
                 VCode = _inschrijvingMetSync.VCode,
                 Beschrijving = "Vereniging succesvol up to date gebracht met data uit de KBO",

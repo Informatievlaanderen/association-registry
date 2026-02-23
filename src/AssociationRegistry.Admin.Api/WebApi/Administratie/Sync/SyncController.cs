@@ -1,32 +1,33 @@
-namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.KboSync;
+namespace AssociationRegistry.Admin.Api.WebApi.Administratie.Sync;
 
 using Asp.Versioning;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Historiek.Examples;
+using AssociationRegistry.Admin.Schema.KboSync;
+using AssociationRegistry.Contracts.KboSync;
+using AssociationRegistry.Events;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Contracts.CloudEvents;
-using Contracts.KboSync;
-using Events;
-using Historiek.Examples;
-using Infrastructure.WebApi.Swagger.Annotations;
+using CommandHandling.InschrijvingenVertegenwoordigers;
+using Framework;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
-using Schema.KboSync;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
-[ApiRoute("verenigingen/kbo")]
+[ApiRoute("admin/sync")]
 [ApiExplorerSettings(IgnoreApi = true)]
 [Authorize(Policy = Program.SuperAdminPolicyName)]
-public class KboSyncHistoriekController : ApiController
+public class SyncController : ApiController
 {
     private readonly KboSyncHistoriekResponseMapper _mapper;
 
-    public KboSyncHistoriekController(KboSyncHistoriekResponseMapper mapper)
+    public SyncController(KboSyncHistoriekResponseMapper mapper)
     {
         _mapper = mapper;
     }
@@ -38,7 +39,7 @@ public class KboSyncHistoriekController : ApiController
     /// <param name="problemDetailsHelper"></param>
     /// <response code="200">De historiek van de KBO sync</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpGet("historiek")]
+    [HttpGet("kbo/historiek")]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(typeof(KboSyncHistoriekResponse), StatusCodes.Status200OK)]
@@ -68,7 +69,7 @@ public class KboSyncHistoriekController : ApiController
     /// <param name="messageBus"></param>
     /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPost("sync")]
+    [HttpPost("kbo/all")]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -102,7 +103,7 @@ public class KboSyncHistoriekController : ApiController
     /// <param name="vCode">De VCode van de te synchroniseren vereniging.</param>
     /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPost("sync/{vCode}")]
+    [HttpPost("{vCode}")]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -125,6 +126,49 @@ public class KboSyncHistoriekController : ApiController
             return NotFound();
 
         await messageBus.SendAsync(new TeSynchroniserenKboNummerMessage(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
+
+        return Accepted();
+    }
+
+    /// <summary>
+    /// Trigger een initiële ksz sync voor een verenignig.
+    /// </summary>
+    /// <param name="documentStore"></param>
+    /// <param name="messageBus"></param>
+    /// <param name="vCode">De VCode van de te synchroniseren vereniging.</param>
+    /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
+    [HttpPost("initial/ksz/{vCode}")]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesJson]
+    public async Task<IActionResult> SyncInitialKszVereniging(
+        [FromServices] IDocumentStore documentStore,
+        [FromServices] IMessageBus messageBus,
+        [FromRoute] string vCode
+    )
+    {
+        await using var session = documentStore.LightweightSession();
+
+        var vzer =
+            await session
+                 .Events
+                 .QueryRawEventDataOnly<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens>()
+                 .SingleOrDefaultAsync(x => x.VCode == vCode);
+
+        var fv =
+            await session
+                 .Events
+                 .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens>()
+                 .SingleOrDefaultAsync(x => x.VCode == vCode);
+
+        if (vzer is null && fv is null)
+            return NotFound();
+
+        await messageBus.SendAsync(new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(
+                                       new SchrijfVertegenwoordigersInMessage(vzer?.VCode ?? fv!.VCode),
+                                       CommandMetadata.ForDigitaalVlaanderenProcess));
 
         return Accepted();
     }
