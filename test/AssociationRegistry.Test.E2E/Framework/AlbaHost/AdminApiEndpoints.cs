@@ -1,27 +1,27 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
+using System.Net;
+using System.Net.Http.Json;
+using System.Web;
 using Admin.Api;
 using Admin.Api.Infrastructure;
 using Admin.Api.WebApi.Administratie.Bewaartermijnen;
 using Admin.Api.WebApi.Administratie.Configuratie;
+using Admin.Api.WebApi.Administratie.VertegenwoordigersPerVCode;
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.KboSync.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Alba;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
+using Elastic.Clients.Elasticsearch;
 using FluentAssertions;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Testing.Platform.Logging;
-using Elastic.Clients.Elasticsearch;
 using Newtonsoft.Json;
-using System.Net;
-using System.Net.Http.Json;
-using System.Web;
-
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 public static class AdminApiEndpoints
@@ -30,69 +30,91 @@ public static class AdminApiEndpoints
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
-        RequestParameters? headers = null)
-        => await SmartHttpClient
-          .Create(source, authenticatedClient, headers)
-          .GetWithRetryAsync<HistoriekResponse>($"/v1/verenigingen/{vCode}/historiek");
+        RequestParameters? headers = null
+    ) =>
+        await SmartHttpClient
+            .Create(source, authenticatedClient, headers)
+            .GetWithRetryAsync<HistoriekResponse>($"/v1/verenigingen/{vCode}/historiek");
 
     public static async Task<KboSyncHistoriekResponse> GetKboSyncHistoriek(
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
         ITestOutputHelper? outputHelper = null,
-        RequestParameters? headers = null)
-        => await SmartHttpClient
-          .Create(source, authenticatedClient, headers)
-          .GetWithRetryUntilAsync<KboSyncHistoriekResponse>(
-               $"/v1/verenigingen/kbo/historiek",
-               deSerializedResponseMeetsCriteria: response => response.Any(x => x.VCode == vCode),
-               outputHelper: outputHelper);
+        RequestParameters? headers = null
+    ) =>
+        await SmartHttpClient
+            .Create(source, authenticatedClient, headers)
+            .GetWithRetryUntilAsync<KboSyncHistoriekResponse>(
+                $"/v1/verenigingen/kbo/historiek",
+                deSerializedResponseMeetsCriteria: response => response.Any(x => x.VCode == vCode),
+                outputHelper: outputHelper
+            );
 
     public static async Task<DetailVerenigingResponse> GetBeheerDetail(
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
-        RequestParameters? headers = null)
-        => await SmartHttpClient
-          .Create(source, authenticatedClient, headers)
-          .GetWithRetryAsync<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}");
+        RequestParameters? headers = null
+    ) =>
+        await SmartHttpClient
+            .Create(source, authenticatedClient, headers)
+            .GetWithRetryAsync<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}");
 
     public static async Task<BewaartermijnResponse> GetBewaartermijn(
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
         int vertegenwoordigerId,
-        RequestParameters? headers = null)
-        => await SmartHttpClient
-          .Create(source, authenticatedClient, headers)
-          .GetWithRetryAsync<BewaartermijnResponse>($"/v1/admin/bewaartermijnen/{vCode}/{vertegenwoordigerId}");
+        RequestParameters? headers = null
+    ) =>
+        await SmartHttpClient
+            .Create(source, authenticatedClient, headers)
+            .GetWithRetryAsync<BewaartermijnResponse>($"/v1/admin/bewaartermijnen/{vCode}/{vertegenwoordigerId}");
+
+    public static async Task<VertegenwoordigerResponse[]> GetVertegenwoordiger(
+        this IAlbaHost source,
+        HttpClient authenticatedClient,
+        string vCode,
+        RequestParameters? headers = null
+    ) =>
+        await SmartHttpClient
+            .Create(source, authenticatedClient, headers)
+            .GetWithRetryAsync<VertegenwoordigerResponse[]>($"/v1/admin/vertegenwoordigers?vCode={vCode}");
 
     public static async Task<ProblemDetails> GetProblemDetailsForBeheerDetailHttpResponse(
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
         long expectedSequence,
-        RequestParameters? headers = null)
-        => await SmartHttpClient
-          .Create(source, authenticatedClient, headers)
-          .GetWithRetryUntilAsync<ProblemDetails>($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}",
-                                                  responseMeetsCriteria: message => message.StatusCode != HttpStatusCode.PreconditionFailed);
+        RequestParameters? headers = null
+    ) =>
+        await SmartHttpClient
+            .Create(source, authenticatedClient, headers)
+            .GetWithRetryUntilAsync<ProblemDetails>(
+                $"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}",
+                responseMeetsCriteria: message => message.StatusCode != HttpStatusCode.PreconditionFailed
+            );
 
     public static async Task<MinimumScoreDuplicateDetectionOverrideResponse> GetMinimumScoreDuplicateDetectionOverride(
         this IAlbaHost source,
         HttpClient authenticatedClient,
-        RequestParameters? headers = null)
-        => await SmartHttpClient
-                .Create(source, authenticatedClient, headers)
-                .GetWithRetryAsync<MinimumScoreDuplicateDetectionOverrideResponse>("/v1/admin/config/minimumScoreDuplicateDetection");
+        RequestParameters? headers = null
+    ) =>
+        await SmartHttpClient
+            .Create(source, authenticatedClient, headers)
+            .GetWithRetryAsync<MinimumScoreDuplicateDetectionOverrideResponse>(
+                "/v1/admin/config/minimumScoreDuplicateDetection"
+            );
 
     public static async Task<HttpResponseMessage> PostMinimumScoreDuplicateDetectionOverride(
         this IAlbaHost source,
         OverrideMinimumScoreDuplicateDetectionRequest request,
-        HttpClient authenticatedClient)
-        => await SmartHttpClient
-                .Create(source, authenticatedClient)
-                .PostAsync("/v1/admin/config/minimumScoreDuplicateDetection", JsonContent.Create(request));
+        HttpClient authenticatedClient
+    ) =>
+        await SmartHttpClient
+            .Create(source, authenticatedClient)
+            .PostAsync("/v1/admin/config/minimumScoreDuplicateDetection", JsonContent.Create(request));
 
     public static async Task<SearchVerenigingenResponse> GetBeheerZoeken(
         this IAlbaHost source,
@@ -101,15 +123,16 @@ public static class AdminApiEndpoints
         IDocumentStore store,
         string? sort = "",
         RequestParameters? headers = null,
-        ITestOutputHelper? testOutputHelper = null)
+        ITestOutputHelper? testOutputHelper = null
+    )
     {
         var store2 = source.Services.GetRequiredService<IDocumentStore>();
         var logger = source.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Program>>();
         await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
 
-        var result = (await store2.Advanced
-                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")
-                                                          ?.Sequence;
+        var result = (await store2.Advanced.AllProjectionProgress())
+            .SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")
+            ?.Sequence;
 
         var expectedSequence = headers?.Build().ExpectedSequence;
 
@@ -118,7 +141,8 @@ public static class AdminApiEndpoints
 
         while ((!result.HasValue || !reachedSequence) && counter < 200)
         {
-            var message = $"<<<<<<<<<<<<<<Did not reach the expected sequence yet. Expected: {expectedSequence}, Actual: {result} >>>>>>>>>>>>>{query}";
+            var message =
+                $"<<<<<<<<<<<<<<Did not reach the expected sequence yet. Expected: {expectedSequence}, Actual: {result} >>>>>>>>>>>>>{query}";
             logger.LogCritical(message);
             testOutputHelper?.WriteLine(message);
 
@@ -126,18 +150,20 @@ public static class AdminApiEndpoints
             await Task.Delay(1000 + (500 * counter));
             await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
 
-            result = (await store2.Advanced
-                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")
-                                                          ?.Sequence;
+            result = (await store2.Advanced.AllProjectionProgress())
+                .SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")
+                ?.Sequence;
 
             reachedSequence = result >= expectedSequence;
         }
 
         reachedSequence.Should().BeTrue();
 
-        return await SmartHttpClient.Create(source, authenticatedClient, headers?.WithoutExpectedSequence())
-                                    .GetWithRetryAsync<SearchVerenigingenResponse>(
-                                         $"/v1/verenigingen/zoeken?q={HttpUtility.UrlEncode(query)}{AddOptionalSort(sort)}");
+        return await SmartHttpClient
+            .Create(source, authenticatedClient, headers?.WithoutExpectedSequence())
+            .GetWithRetryAsync<SearchVerenigingenResponse>(
+                $"/v1/verenigingen/zoeken?q={HttpUtility.UrlEncode(query)}{AddOptionalSort(sort)}"
+            );
     }
 
     private static string AddOptionalSort(string sort)
@@ -148,8 +174,8 @@ public static class AdminApiEndpoints
         return $"&sort={HttpUtility.UrlEncode(sort)}";
     }
 
-    public static HttpClient CreateClientWithHeaders(this IAlbaHost source, HttpClient baseClient)
-        => SmartHttpClient.Create(source, baseClient).HttpClient;
+    public static HttpClient CreateClientWithHeaders(this IAlbaHost source, HttpClient baseClient) =>
+        SmartHttpClient.Create(source, baseClient).HttpClient;
 }
 
 public class SmartHttpClient
@@ -158,15 +184,19 @@ public class SmartHttpClient
     private readonly RequestParameters.Result? _requestParameters;
     private readonly bool _shouldThrowOnCriteriaNotMet = true;
 
-    private SmartHttpClient(HttpClient client, RequestParameters.Result? requestParameters, bool shouldThrowOnCriteriaNotMet = true)
+    private SmartHttpClient(
+        HttpClient client,
+        RequestParameters.Result? requestParameters,
+        bool shouldThrowOnCriteriaNotMet = true
+    )
     {
         _client = client;
         _requestParameters = requestParameters;
         _shouldThrowOnCriteriaNotMet = shouldThrowOnCriteriaNotMet;
     }
 
-    public SmartHttpClient ShouldThrowOn412(bool shouldThrowOnCriteriaNotMet = true)
-        => new(_client, _requestParameters, shouldThrowOnCriteriaNotMet);
+    public SmartHttpClient ShouldThrowOn412(bool shouldThrowOnCriteriaNotMet = true) =>
+        new(_client, _requestParameters, shouldThrowOnCriteriaNotMet);
 
     public HttpClient HttpClient => _client;
 
@@ -174,7 +204,8 @@ public class SmartHttpClient
         string uri,
         Func<HttpResponseMessage, bool>? responseMeetsCriteria = null,
         ITestOutputHelper? outputHelper = null,
-        Func<TResponse?, bool>? deSerializedResponseMeetsCriteria = null)
+        Func<TResponse?, bool>? deSerializedResponseMeetsCriteria = null
+    )
     {
         if (_requestParameters is not null)
             uri = EmbellishUri(uri, _requestParameters);
@@ -196,8 +227,10 @@ public class SmartHttpClient
 
                 if (!deSerializedResponseMeetsCriteria(deserializeObject))
                 {
-                    if(outputHelper is not null)
-                        outputHelper.WriteLine($"Found a response that doesn't meet criteria. Attempt: {attempt}, Response: {json}");
+                    if (outputHelper is not null)
+                        outputHelper.WriteLine(
+                            $"Found a response that doesn't meet criteria. Attempt: {attempt}, Response: {json}"
+                        );
                     await Task.Delay(100 + (attempt * 500));
                     continue;
                 }
@@ -209,15 +242,18 @@ public class SmartHttpClient
         }
 
         if (_shouldThrowOnCriteriaNotMet)
-            throw new HttpRequestException($"Failed to retrieve {uri} after {maxRetries} retries due to criteria not met.");
+            throw new HttpRequestException(
+                $"Failed to retrieve {uri} after {maxRetries} retries due to criteria not met."
+            );
 
         return default;
     }
 
-    public async Task<TResponse?> GetWithRetryAsync<TResponse>(string uri)
-        => await GetWithRetryUntilAsync<TResponse>(
+    public async Task<TResponse?> GetWithRetryAsync<TResponse>(string uri) =>
+        await GetWithRetryUntilAsync<TResponse>(
             uri,
-            response => response.StatusCode is not HttpStatusCode.PreconditionFailed and not HttpStatusCode.NotFound);
+            response => response.StatusCode is not HttpStatusCode.PreconditionFailed and not HttpStatusCode.NotFound
+        );
 
     public async Task<TResponse> GetAsync<TResponse>(string uri)
     {
@@ -247,7 +283,11 @@ public class SmartHttpClient
         return uri;
     }
 
-    public static SmartHttpClient Create(IAlbaHost host, HttpClient? baseClient, RequestParameters? requestParametersBuilder = null)
+    public static SmartHttpClient Create(
+        IAlbaHost host,
+        HttpClient? baseClient,
+        RequestParameters? requestParametersBuilder = null
+    )
     {
         var requestParameters = requestParametersBuilder?.Build();
         var client = host.Server.CreateClient();
@@ -267,7 +307,8 @@ public class SmartHttpClient
 
     private static void AddHeaders(
         HttpClient client,
-        IEnumerable<KeyValuePair<string, IEnumerable<string>>> baseClientDefaultRequestHeaders)
+        IEnumerable<KeyValuePair<string, IEnumerable<string>>> baseClientDefaultRequestHeaders
+    )
     {
         foreach (var header in baseClientDefaultRequestHeaders)
         {
@@ -275,8 +316,8 @@ public class SmartHttpClient
         }
     }
 
-    public async Task<HttpResponseMessage> PostAsync(string uri, JsonContent create)
-        => await _client.PostAsync(uri, create);
+    public async Task<HttpResponseMessage> PostAsync(string uri, JsonContent create) =>
+        await _client.PostAsync(uri, create);
 }
 
 public class RequestParameters
@@ -292,8 +333,7 @@ public class RequestParameters
         return this;
     }
 
-    public RequestParameters V2()
-        => With(WellknownHeaderNames.Version, WellknownVersions.V2);
+    public RequestParameters V2() => With(WellknownHeaderNames.Version, WellknownVersions.V2);
 
     public RequestParameters WithExpectedSequence(long? expectedSequence)
     {
@@ -302,15 +342,13 @@ public class RequestParameters
         return this;
     }
 
-    public Result Build() => new(
-        _headers
-           .ToDictionary(
-                x => x.Key,
-                x => x.Value)
-           .Select(x => new KeyValuePair<string, IEnumerable<string>>(
-                       x.Key,
-                       x.Value)),
-        _expectedSequence);
+    public Result Build() =>
+        new(
+            _headers
+                .ToDictionary(x => x.Key, x => x.Value)
+                .Select(x => new KeyValuePair<string, IEnumerable<string>>(x.Key, x.Value)),
+            _expectedSequence
+        );
 
     public record Result(IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers, long? ExpectedSequence);
 
@@ -324,9 +362,7 @@ public class RequestParameters
 
 public static class Headers
 {
-    public static RequestParameters None()
-        => new();
+    public static RequestParameters None() => new();
 
-    public static RequestParameters V2()
-        => new RequestParameters().V2();
+    public static RequestParameters V2() => new RequestParameters().V2();
 }
