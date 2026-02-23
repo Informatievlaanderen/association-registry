@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.ProjectionHost.Queries;
+﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections;
 
 using Events;
 using Marten;
@@ -6,7 +6,7 @@ using NodaTime;
 
 public interface IGlobalKszPivotPointQuery
 {
-    Instant? Execute();
+    Task<Instant?> ExecuteAsync();
 }
 
 public class GlobalKszPivotPointQuery : IGlobalKszPivotPointQuery
@@ -18,22 +18,26 @@ public class GlobalKszPivotPointQuery : IGlobalKszPivotPointQuery
         _querySessionFactory = querySessionFactory;
     }
 
-    public Instant? Execute()
+    public async Task<Instant?> ExecuteAsync()
     {
         using var session = _querySessionFactory();
 
         var kszEventTypes = new[]
         {
-            typeof(KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenZonderPersoonsgegevens),
-            typeof(KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendZonderPersoonsgegevens),
-            typeof(KszSyncHeeftVertegenwoordigerBevestigd),
+            "ksz_sync_heeft_vertegenwoordiger_aangeduid_als_overleden_zonder_persoonsgegevens",
+            "ksz_sync_heeft_vertegenwoordiger_aangeduid_als_niet_gekend_zonder_persoonsgegevens",
+            "ksz_sync_heeft_vertegenwoordiger_bevestigd",
         };
 
-        var eersteKszEvent = session
-            .Events.QueryAllRawEvents()
-            .Where(e => kszEventTypes.Contains(e.EventType))
-            .OrderBy(e => e.Timestamp)
-            .FirstOrDefault();
+        var eersteKszEvent = (
+            await session
+                .Events.QueryAllRawEvents()
+                .Where(e => kszEventTypes.Contains(e.EventTypeName))
+                .OrderBy(e => e.Timestamp)
+                .ToListAsync()
+        ).FirstOrDefault();
+
+        var allEvents = await session.Events.QueryAllRawEvents().ToListAsync();
 
         return eersteKszEvent != null ? Instant.FromDateTimeOffset(eersteKszEvent.Timestamp) : null;
     }

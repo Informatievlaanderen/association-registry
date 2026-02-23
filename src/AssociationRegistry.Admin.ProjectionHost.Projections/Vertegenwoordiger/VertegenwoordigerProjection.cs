@@ -7,7 +7,6 @@ using JasperFx.Events;
 using Marten;
 using Marten.Events.Aggregation;
 using NodaTime;
-using Queries;
 using Schema.Vertegenwoordiger;
 
 public class VertegenwoordigerProjection : SingleStreamProjection<VertegenwoordigersPerVCodeDocument, string>
@@ -22,10 +21,10 @@ public class VertegenwoordigerProjection : SingleStreamProjection<Vertegenwoordi
         DeleteEvent<IEvent<VerenigingWerdVerwijderd>>((x, y) => x.VCode == y.StreamKey);
     }
 
-    public VertegenwoordigersPerVCodeDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event)
+    public async Task<VertegenwoordigersPerVCodeDocument> Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event)
     {
         var toegevoegdOp = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip);
-        var initialStatus = DetermineInitialStatus(toegevoegdOp);
+        var initialStatus = await DetermineInitialStatus(toegevoegdOp);
 
         return new VertegenwoordigersPerVCodeDocument()
         {
@@ -36,12 +35,12 @@ public class VertegenwoordigerProjection : SingleStreamProjection<Vertegenwoordi
         };
     }
 
-    public VertegenwoordigersPerVCodeDocument Create(
+    public async Task<VertegenwoordigersPerVCodeDocument> Create(
         IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event
     )
     {
         var toegevoegdOp = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip);
-        var initialStatus = DetermineInitialStatus(toegevoegdOp);
+        var initialStatus = await DetermineInitialStatus(toegevoegdOp);
 
         return new VertegenwoordigersPerVCodeDocument()
         {
@@ -52,10 +51,10 @@ public class VertegenwoordigerProjection : SingleStreamProjection<Vertegenwoordi
         };
     }
 
-    public void Apply(IEvent<VertegenwoordigerWerdToegevoegd> @event, VertegenwoordigersPerVCodeDocument document)
+    public async Task Apply(IEvent<VertegenwoordigerWerdToegevoegd> @event, VertegenwoordigersPerVCodeDocument document)
     {
         var toegevoegdOp = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip);
-        var initialStatus = DetermineInitialStatus(toegevoegdOp);
+        var initialStatus = await DetermineInitialStatus(toegevoegdOp);
 
         document.VertegenwoordigersData = document
             .VertegenwoordigersData.Append(new VertegenwoordigerData(@event.Data.VertegenwoordigerId, initialStatus))
@@ -108,9 +107,9 @@ public class VertegenwoordigerProjection : SingleStreamProjection<Vertegenwoordi
             .ToArray();
     }
 
-    private string DetermineInitialStatus(Instant toegevoegdOp)
+    private async Task<string> DetermineInitialStatus(Instant toegevoegdOp)
     {
-        _globalKszPivotPoint ??= _query.Execute();
+        _globalKszPivotPoint ??= await _query.ExecuteAsync();
 
         // Geen KSZ pivot point → nog nooit KSZ verificatie gebruikt
         if (_globalKszPivotPoint == null)
