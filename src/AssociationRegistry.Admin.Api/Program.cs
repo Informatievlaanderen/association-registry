@@ -498,6 +498,7 @@ public class Program
             .AddScoped<IMagdaRegistreerInschrijvingValidator, MagdaRegistreerInschrijvingValidator>()
             .AddScoped<IMagdaGeefPersoonValidator, MagdaGeefPersoonValidator>()
             .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
+            .AddScoped<IVzerOrFvExistsQuery, VzerOrFvExistsExistsQuery>()
             .AddScoped<IVertegenwoordigersPerVCodeQuery, VertegenwoordigersPerVCodeQuery>()
             .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()

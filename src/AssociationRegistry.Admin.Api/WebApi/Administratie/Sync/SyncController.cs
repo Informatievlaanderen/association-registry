@@ -13,6 +13,7 @@ using Framework;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Queries;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
@@ -52,9 +53,7 @@ public class SyncController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        var gebeurtenissen = await session
-                                  .Query<BeheerKboSyncHistoriekGebeurtenisDocument>()
-                                  .ToListAsync();
+        var gebeurtenissen = await session.Query<BeheerKboSyncHistoriekGebeurtenisDocument>().ToListAsync();
 
         var response = _mapper.Map(gebeurtenissen);
 
@@ -82,9 +81,9 @@ public class SyncController : ApiController
         await using var session = documentStore.LightweightSession();
 
         var kboNummersToSync = await session
-                                    .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-                                    .Select(x => x.KboNummer)
-                                    .ToListAsync();
+            .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+            .Select(x => x.KboNummer)
+            .ToListAsync();
 
         foreach (var kboNummer in kboNummersToSync)
         {
@@ -116,16 +115,16 @@ public class SyncController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd =
-            await session
-                 .Events
-                 .QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-                 .SingleOrDefaultAsync(x => x.VCode == vCode);
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = await session
+            .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+            .SingleOrDefaultAsync(x => x.VCode == vCode);
 
         if (verenigingMetRechtspersoonlijkheidWerdGeregistreerd is null)
             return NotFound();
 
-        await messageBus.SendAsync(new TeSynchroniserenKboNummerMessage(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
+        await messageBus.SendAsync(
+            new TeSynchroniserenKboNummerMessage(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer)
+        );
 
         return Accepted();
     }
@@ -135,6 +134,7 @@ public class SyncController : ApiController
     /// </summary>
     /// <param name="documentStore"></param>
     /// <param name="messageBus"></param>
+    /// <param name="vzerOrFvExistsVCodeQuery"></param>
     /// <param name="vCode">De VCode van de te synchroniseren vereniging.</param>
     /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
@@ -146,29 +146,26 @@ public class SyncController : ApiController
     public async Task<IActionResult> SyncInitialKszVereniging(
         [FromServices] IDocumentStore documentStore,
         [FromServices] IMessageBus messageBus,
+        [FromServices] IVzerOrFvExistsQuery vzerOrFvExistsVCodeQuery,
         [FromRoute] string vCode
     )
     {
         await using var session = documentStore.LightweightSession();
 
-        var vzer =
-            await session
-                 .Events
-                 .QueryRawEventDataOnly<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens>()
-                 .SingleOrDefaultAsync(x => x.VCode == vCode);
+        var exists = await vzerOrFvExistsVCodeQuery.ExecuteAsync(
+            new VzerOrFvExistsFilter(vCode),
+            CancellationToken.None
+        );
 
-        var fv =
-            await session
-                 .Events
-                 .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens>()
-                 .SingleOrDefaultAsync(x => x.VCode == vCode);
-
-        if (vzer is null && fv is null)
+        if (!exists)
             return NotFound();
 
-        await messageBus.SendAsync(new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(
-                                       new SchrijfVertegenwoordigersInMessage(vzer?.VCode ?? fv!.VCode),
-                                       CommandMetadata.ForDigitaalVlaanderenProcess));
+        await messageBus.SendAsync(
+            new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(
+                new SchrijfVertegenwoordigersInMessage(vCode),
+                CommandMetadata.ForDigitaalVlaanderenProcess
+            )
+        );
 
         return Accepted();
     }
