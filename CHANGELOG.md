@@ -1,3 +1,12 @@
+# [8.305.0](https://github.com/informatievlaanderen/association-registry/compare/v8.304.2...v8.305.0) (2026-02-24)
+
+
+### Features
+
+* or-3039 add GlobalKszPivotPointQuery for ksz vertegenwoordiger projection ([0fb5739](https://github.com/informatievlaanderen/association-registry/commit/0fb5739bfaf92fdc08b9b00d8a61ea111801ee2d))
+* or-3039 add initial ksz sync controller ([fc9159b](https://github.com/informatievlaanderen/association-registry/commit/fc9159b20a186ca343feccdeba2222e1f8fdd955))
+* or-3039 introduce a query to check if vcode exists ([7757f5e](https://github.com/informatievlaanderen/association-registry/commit/7757f5eee64bb514e879580b7798b3b216fe82e1))
+
 ## [8.304.2](https://github.com/informatievlaanderen/association-registry/compare/v8.304.1...v8.304.2) (2026-02-19)
 
 
