@@ -17,6 +17,7 @@ public interface IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
     Registratiedata.Locatie[] Locaties { get; init; }
     Registratiedata.Vertegenwoordiger[] Vertegenwoordigers { get; init; }
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; }
+    Registratiedata.Bankrekeningnummer[] Bankrekeningnummers { get; init; }
 }
 
 [Obsolete("These are the upcasted events, only use this in projections and State")]
@@ -37,6 +38,8 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
     [IgnoreDataMember]
     public Bron Bron => Bron.Initiator;
 
+    public Registratiedata.Bankrekeningnummer[] Bankrekeningnummers { get; init; } = [];
+
     protected virtual bool PrintMembers(System.Text.StringBuilder builder)
     {
         builder.Append($"VCode = {VCode}, ");
@@ -49,7 +52,7 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
         builder.Append($"Contactgegevens = {Contactgegevens.Length} items, ");
         builder.Append($"Locaties = {Locaties.Length} items, ");
         builder.Append($"Vertegenwoordigers = {Vertegenwoordigers.Length} items, ");
-        builder.Append($"HoofdactiviteitenVerenigingsloket = {HoofdactiviteitenVerenigingsloket.Length} items");
+        builder.Append($"Bankrekeningnummers = {Bankrekeningnummers.Length} items");
         return true;
     }
 }

@@ -13,7 +13,9 @@ public record VerenigingWerdGeregistreerdData(
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
     VertegenwoordigerData[] Vertegenwoordigers,
-    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket)
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
+    Registratiedata.Bankrekeningnummer[] Bankrekeningnummers
+    )
 {
     public static VerenigingWerdGeregistreerdData Create(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd e)
         => new(
@@ -27,6 +29,7 @@ public record VerenigingWerdGeregistreerdData(
             e.Contactgegevens,
             e.Locaties,
             e.Vertegenwoordigers.Select(VertegenwoordigerData.Create).ToArray(),
-            e.HoofdactiviteitenVerenigingsloket
+            e.HoofdactiviteitenVerenigingsloket,
+            e.Bankrekeningnummers
         );
 }
