@@ -16,37 +16,39 @@ public class AdminApiClient : IDisposable
         HttpClient.DefaultRequestHeaders.Add(WellknownHeaderNames.Initiator, value: "OVO000001");
     }
 
-    public async Task<HttpResponseMessage> GetRoot()
-        => await HttpClient.GetAsync("");
+    public async Task<HttpResponseMessage> GetRoot() => await HttpClient.GetAsync("");
 
-    public async Task<HttpResponseMessage> Search(string q)
-        => await HttpClient.GetAsync($"/v1/verenigingen/zoeken?q={q}");
+    public async Task<HttpResponseMessage> Search(string q) =>
+        await HttpClient.GetAsync($"/v1/verenigingen/zoeken?q={q}");
 
-    public async Task<HttpResponseMessage> Search(string q, string sort)
-        => await HttpClient.GetAsync($"/v1/verenigingen/zoeken?q={q}&sort={sort}");
+    public async Task<HttpResponseMessage> Search(string q, string sort) =>
+        await HttpClient.GetAsync($"/v1/verenigingen/zoeken?q={q}&sort={sort}");
 
-    public async Task<HttpResponseMessage> GetDetail(string vCode, long? expectedSequence = null)
-        => await GetWithPossibleSequence($"/v1/verenigingen/{vCode}", expectedSequence);
+    public async Task<HttpResponseMessage> GetDetail(string vCode, long? expectedSequence = null) =>
+        await GetWithPossibleSequence($"/v1/verenigingen/{vCode}", expectedSequence);
 
-    public async Task<HttpResponseMessage> GetLocatieLookup(string vCode, long? expectedSequence = null)
-        => await GetWithPossibleSequence($"/v1/projections/admin/locaties/lookup/vCode/{vCode}", expectedSequence);
+    public async Task<HttpResponseMessage> GetLocatieLookup(string vCode, long? expectedSequence = null) =>
+        await GetWithPossibleSequence($"/v1/projections/admin/locaties/lookup/vCode/{vCode}", expectedSequence);
 
-    public async Task<HttpResponseMessage> GetHistoriek(string vCode, long? expectedSequence = null)
-        => await GetWithPossibleSequence($"/v1/verenigingen/{vCode}/historiek", expectedSequence);
+    public async Task<HttpResponseMessage> GetHistoriek(string vCode, long? expectedSequence = null) =>
+        await GetWithPossibleSequence($"/v1/verenigingen/{vCode}/historiek", expectedSequence);
 
-    public async Task<HttpResponseMessage> GetKboSyncHistoriek()
-        => await HttpClient.GetAsync("/v1/verenigingen/kbo/historiek");
+    public async Task<HttpResponseMessage> GetKboSyncHistoriek() =>
+        await HttpClient.GetAsync("/v1/admin/sync/kbo/historiek");
 
     public async Task<HttpResponseMessage> RegistreerFeitelijkeVereniging(
         string content,
         string? bevestigingsToken = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken, bevestigingsToken);
         WithHeaders(version: null, initiator);
 
-        var httpResponseMessage =
-            await HttpClient.PostAsync(requestUri: "/v1/verenigingen/feitelijkeverenigingen", content.AsJsonContent());
+        var httpResponseMessage = await HttpClient.PostAsync(
+            requestUri: "/v1/verenigingen/feitelijkeverenigingen",
+            content.AsJsonContent()
+        );
 
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken);
 
@@ -56,13 +58,16 @@ public class AdminApiClient : IDisposable
     public async Task<HttpResponseMessage> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
         string content,
         string? bevestigingsToken = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken, bevestigingsToken);
         WithHeaders(version: null, initiator);
 
-        var httpResponseMessage =
-            await HttpClient.PostAsync(requestUri: "/v1/verenigingen/vzer", content.AsJsonContent());
+        var httpResponseMessage = await HttpClient.PostAsync(
+            requestUri: "/v1/verenigingen/vzer",
+            content.AsJsonContent()
+        );
 
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken);
 
@@ -72,13 +77,16 @@ public class AdminApiClient : IDisposable
     public async Task<HttpResponseMessage> RegistreerKboVereniging(string content, string? initiator = "OVO000001")
     {
         WithHeaders(version: null, initiator);
-        var httpResponseMessage = await HttpClient.PostAsync(requestUri: "/v1/verenigingen/kbo", content.AsJsonContent());
+        var httpResponseMessage = await HttpClient.PostAsync(
+            requestUri: "/v1/verenigingen/kbo",
+            content.AsJsonContent()
+        );
 
         return httpResponseMessage;
     }
 
-    private async Task<HttpResponseMessage> GetWithPossibleSequence(string? requestUri, long? expectedSequence)
-        => expectedSequence == null
+    private async Task<HttpResponseMessage> GetWithPossibleSequence(string? requestUri, long? expectedSequence) =>
+        expectedSequence == null
             ? await HttpClient.GetAsync(requestUri)
             : await HttpClient.GetAsync($"{requestUri}?{WellknownParameters.ExpectedSequence}={expectedSequence}");
 
@@ -86,7 +94,8 @@ public class AdminApiClient : IDisposable
         string vCode,
         string content,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
@@ -97,7 +106,8 @@ public class AdminApiClient : IDisposable
         string vCode,
         string content,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
@@ -108,7 +118,8 @@ public class AdminApiClient : IDisposable
         string vCode,
         string content,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
@@ -119,7 +130,8 @@ public class AdminApiClient : IDisposable
         string vCode,
         string content,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
@@ -130,7 +142,8 @@ public class AdminApiClient : IDisposable
         string vCode,
         string content,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
@@ -142,11 +155,15 @@ public class AdminApiClient : IDisposable
         int contactgegevenId,
         string jsonBody,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
-        return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", jsonBody.AsJsonContent());
+        return await HttpClient.PatchAsync(
+            $"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}",
+            jsonBody.AsJsonContent()
+        );
     }
 
     public async Task<HttpResponseMessage> PatchContactgegevensFromKbo(
@@ -154,11 +171,15 @@ public class AdminApiClient : IDisposable
         int contactgegevenId,
         string jsonBody,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
-        return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/kbo/contactgegevens/{contactgegevenId}", jsonBody.AsJsonContent());
+        return await HttpClient.PatchAsync(
+            $"/v1/verenigingen/{vCode}/kbo/contactgegevens/{contactgegevenId}",
+            jsonBody.AsJsonContent()
+        );
     }
 
     public async Task<HttpResponseMessage> PatchVertegenwoordiger(
@@ -166,18 +187,23 @@ public class AdminApiClient : IDisposable
         int vertegenwoordigerId,
         string jsonBody,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
-        return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}", jsonBody.AsJsonContent());
+        return await HttpClient.PatchAsync(
+            $"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}",
+            jsonBody.AsJsonContent()
+        );
     }
 
     public async Task<HttpResponseMessage> DeleteContactgegeven(
         string vCode,
         int contactgegevenId,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
@@ -195,21 +221,30 @@ public class AdminApiClient : IDisposable
         int vertegenwoordigerId,
         string jsonBody,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
         var request = new HttpRequestMessage
         {
             Method = HttpMethod.Delete,
-            RequestUri = new Uri($"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}", UriKind.Relative),
+            RequestUri = new Uri(
+                $"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}",
+                UriKind.Relative
+            ),
             Content = jsonBody.AsJsonContent(),
         };
 
         return await HttpClient.SendAsync(request);
     }
 
-    public async Task<HttpResponseMessage> PostLocatie(string vCode, string content, long? version = null, string? initiator = "OVO000001")
+    public async Task<HttpResponseMessage> PostLocatie(
+        string vCode,
+        string content,
+        long? version = null,
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
@@ -221,7 +256,8 @@ public class AdminApiClient : IDisposable
         int locatieId,
         string jsonBody,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
@@ -233,11 +269,15 @@ public class AdminApiClient : IDisposable
         int locatieId,
         string jsonBody,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
-        return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/kbo/locaties/{locatieId}", jsonBody.AsJsonContent());
+        return await HttpClient.PatchAsync(
+            $"/v1/verenigingen/{vCode}/kbo/locaties/{locatieId}",
+            jsonBody.AsJsonContent()
+        );
     }
 
     public async Task<HttpResponseMessage> DeleteLocatie(
@@ -245,7 +285,8 @@ public class AdminApiClient : IDisposable
         int locatieId,
         string jsonBody,
         long? version = null,
-        string? initiator = "OVO000001")
+        string? initiator = "OVO000001"
+    )
     {
         WithHeaders(version, initiator);
 
@@ -264,21 +305,22 @@ public class AdminApiClient : IDisposable
         UpdateHeaderIfNotNull(WellknownHeaderNames.Initiator, initiator);
     }
 
-    public async Task<HttpResponseMessage> GetDocsJson()
-        => await HttpClient.GetAsync("/docs/v1/docs.json?culture=en-GB");
+    public async Task<HttpResponseMessage> GetDocsJson() =>
+        await HttpClient.GetAsync("/docs/v1/docs.json?culture=en-GB");
 
-    private static string? GetIfMatchHeaderValue(long? version)
-        => version is not null ? $"W/\"{version}\"" : null;
+    private static string? GetIfMatchHeaderValue(long? version) => version is not null ? $"W/\"{version}\"" : null;
 
     private void AddOrRemoveHeader(string headerName, string? headerValue = null)
     {
         HttpClient.DefaultRequestHeaders.Remove(headerName);
-        if (headerValue is not null) HttpClient.DefaultRequestHeaders.Add(headerName, headerValue);
+        if (headerValue is not null)
+            HttpClient.DefaultRequestHeaders.Add(headerName, headerValue);
     }
 
     private void UpdateHeaderIfNotNull(string headerName, string? headerValue = null)
     {
-        if (headerValue is null) return;
+        if (headerValue is null)
+            return;
         HttpClient.DefaultRequestHeaders.Remove(headerName);
         HttpClient.DefaultRequestHeaders.Add(headerName, headerValue);
     }
@@ -288,35 +330,62 @@ public class AdminApiClient : IDisposable
         HttpClient.Dispose();
     }
 
-    public async Task<HttpResponseMessage> GetHoofdactiviteiten()
-        => await HttpClient.GetAsync("/v1/hoofdactiviteitenVerenigingsloket");
+    public async Task<HttpResponseMessage> GetHoofdactiviteiten() =>
+        await HttpClient.GetAsync("/v1/hoofdactiviteitenVerenigingsloket");
 
-    public async Task<HttpResponseMessage> RebuildAllAdminProjections(CancellationToken cancellationToken)
-        => await HttpClient.PostAsync(requestUri: "/v1/projections/admin/all/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildAllAdminProjections(CancellationToken cancellationToken) =>
+        await HttpClient.PostAsync(requestUri: "/v1/projections/admin/all/rebuild", content: null, cancellationToken);
 
-    public async Task<HttpResponseMessage> RebuildAdminDetailProjection(CancellationToken cancellationToken)
-        => await HttpClient.PostAsync(requestUri: "/v1/projections/admin/detail/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildAdminDetailProjection(CancellationToken cancellationToken) =>
+        await HttpClient.PostAsync(
+            requestUri: "/v1/projections/admin/detail/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildAdminHistoriekProjection(CancellationToken cancellationToken)
-        => await HttpClient.PostAsync(requestUri: "/v1/projections/admin/historiek/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildAdminHistoriekProjection(CancellationToken cancellationToken) =>
+        await HttpClient.PostAsync(
+            requestUri: "/v1/projections/admin/historiek/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildAdminZoekenProjection(CancellationToken cancellationToken)
-        => await HttpClient.PostAsync(requestUri: "/v1/projections/admin/search/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildAdminZoekenProjection(CancellationToken cancellationToken) =>
+        await HttpClient.PostAsync(
+            requestUri: "/v1/projections/admin/search/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildAdminDuplicateDetectionProjection(CancellationToken cancellationToken)
-        => await HttpClient.PostAsync(requestUri: "/v1/projections/admin/duplicatedetection/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildAdminDuplicateDetectionProjection(
+        CancellationToken cancellationToken
+    ) =>
+        await HttpClient.PostAsync(
+            requestUri: "/v1/projections/admin/duplicatedetection/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildPubliekDetailProjection(CancellationToken cancellationToken)
-        => await HttpClient.PostAsync(requestUri: "/v1/projections/public/detail/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildPubliekDetailProjection(CancellationToken cancellationToken) =>
+        await HttpClient.PostAsync(
+            requestUri: "/v1/projections/public/detail/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildPubliekZoekenProjection(CancellationToken cancellationToken)
-        => await HttpClient.PostAsync(requestUri: "/v1/projections/public/search/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildPubliekZoekenProjection(CancellationToken cancellationToken) =>
+        await HttpClient.PostAsync(
+            requestUri: "/v1/projections/public/search/rebuild",
+            content: null,
+            cancellationToken
+        );
 
     public async Task<HttpResponseMessage> DeleteVereniging(
         string vCode,
         string reason,
         long? version = null,
-        string initiator = "V0001001")
+        string initiator = "V0001001"
+    )
     {
         WithHeaders(version, initiator);
 
@@ -330,10 +399,8 @@ public class AdminApiClient : IDisposable
         return await HttpClient.SendAsync(request);
     }
 
-    public async Task<HttpResponseMessage> GetJsonLdContext(string contextName)
-        => await HttpClient.GetAsync($"/v1/contexten/beheer/{contextName}");
+    public async Task<HttpResponseMessage> GetJsonLdContext(string contextName) =>
+        await HttpClient.GetAsync($"/v1/contexten/beheer/{contextName}");
 
-    public async Task<HttpResponseMessage> GetDocs()
-        => await HttpClient.GetAsync("/docs/v1/docs.json?culture=en-GB");
-
+    public async Task<HttpResponseMessage> GetDocs() => await HttpClient.GetAsync("/docs/v1/docs.json?culture=en-GB");
 }
