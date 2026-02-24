@@ -7,5 +7,5 @@ public interface IQuery<T>
 
 public interface IQuery<T, TFilter>
 {
-    Task<T> ExecuteAsync(TFilter filter, CancellationToken cancellationToken);
+    public Task<T> ExecuteAsync(TFilter filter, CancellationToken cancellationToken);
 }
