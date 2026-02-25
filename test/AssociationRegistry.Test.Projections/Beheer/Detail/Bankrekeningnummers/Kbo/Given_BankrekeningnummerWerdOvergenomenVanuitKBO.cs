@@ -33,7 +33,7 @@ public class Given_BankrekeningnummerWerdOvergenomenVanuitKBO(
                     Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                     Doel = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
                     Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
-                    IsGevalideerd = false,
+                    BevestigdDoor = [],
                     Bron = Bron.KBO,
                 },
             ]);

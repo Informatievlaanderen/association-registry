@@ -45,7 +45,7 @@ public class Returns_Detail_Without_Verwijderd_Bankrekeningnummer : End2EndTest<
                     Iban = x.Iban,
                     Doel = x.Doel,
                     Titularis = x.Titularis,
-                    IsGevalideerd = false,
+                    BevestigdDoor = [],
                     Bron = Bron.Initiator,
                 }
             )

@@ -226,7 +226,7 @@ public class Given_VzerWerdGeregistreerd(
                     Iban = x.Iban,
                     Doel = x.Doel,
                     Titularis = x.Titularis,
-                    IsGevalideerd = false,
+                    BevestigdDoor = [],
                     Bron = Bron.Initiator,
                 })
                 .ToArray(),

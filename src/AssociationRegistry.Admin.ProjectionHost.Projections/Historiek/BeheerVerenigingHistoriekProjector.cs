@@ -855,7 +855,7 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            $"Bankrekeningnummer met IBAN 'TODO' werd gevalideerd." //TODO
+            $"Bankrekeningnummer validatie document werd bevestigd door '{@event.Data.BevestigdDoor}'."
         );
     }
 
@@ -869,19 +869,6 @@ public class BeheerVerenigingHistoriekProjector
             @event.Data,
             document,
             $"Bankrekeningnummer met IBAN '{@event.Data.Iban}' werd overgenomen vanuit KBO."
-        );
-    }
-
-    public static void Apply(
-        IEvent<BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis> @event,
-        BeheerVerenigingHistoriekDocument document
-    )
-    {
-        AddHistoriekEntry(
-            @event,
-            @event.Data,
-            document,
-            $"Bankrekeningnummer validatie werd ongedaan gemaakt door wijziging titularis."
         );
     }
 

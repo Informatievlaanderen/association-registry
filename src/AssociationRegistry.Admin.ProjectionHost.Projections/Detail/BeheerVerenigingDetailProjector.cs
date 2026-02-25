@@ -1312,21 +1312,7 @@ public class BeheerVerenigingDetailProjector
         document.Bankrekeningnummers = document
             .Bankrekeningnummers.UpdateSingle(
                 identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
-                update: b => b with { IsGevalideerd = true }
-            )
-            .OrderBy(b => b.BankrekeningnummerId)
-            .ToArray();
-    }
-
-    public static void Apply(
-        IEvent<BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis> @event,
-        BeheerVerenigingDetailDocument document
-    )
-    {
-        document.Bankrekeningnummers = document
-            .Bankrekeningnummers.UpdateSingle(
-                identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
-                update: b => b with { IsGevalideerd = false }
+                update: b => b with { BevestigdDoor = b.BevestigdDoor.Append(@event.Data.BevestigdDoor).ToArray() }
             )
             .OrderBy(b => b.BankrekeningnummerId)
             .ToArray();
