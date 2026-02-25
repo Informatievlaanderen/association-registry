@@ -7,18 +7,16 @@ public class BankrekeningnummerWerdGevalideerdScenario : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
     public BankrekeningnummerWerdToegevoegd BankrekeningnummerWerdToegevoegd { get; }
-    public BankrekeningnummerWerdGevalideerd BankrekeningnummerWerdGevalideerd { get; }
+    public AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd { get; }
 
     public BankrekeningnummerWerdGevalideerdScenario()
     {
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
         BankrekeningnummerWerdToegevoegd = AutoFixture.Create<BankrekeningnummerWerdToegevoegd>();
-        BankrekeningnummerWerdGevalideerd = AutoFixture.Create<BankrekeningnummerWerdGevalideerd>()
+        AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd = AutoFixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd>()
             with
             {
                 BankrekeningnummerId = BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-                Iban = BankrekeningnummerWerdToegevoegd.Iban,
-                Titularis = BankrekeningnummerWerdToegevoegd.Titularis,
             };
     }
 
@@ -26,6 +24,6 @@ public class BankrekeningnummerWerdGevalideerdScenario : ScenarioBase
 
     public override EventsPerVCode[] Events =>
     [
-        new(AggregateId, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, BankrekeningnummerWerdToegevoegd, BankrekeningnummerWerdGevalideerd),
+        new(AggregateId, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, BankrekeningnummerWerdToegevoegd, AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd),
     ];
 }

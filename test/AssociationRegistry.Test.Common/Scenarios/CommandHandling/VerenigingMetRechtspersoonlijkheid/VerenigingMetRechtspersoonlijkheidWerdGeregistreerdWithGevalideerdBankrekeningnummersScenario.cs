@@ -16,7 +16,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGevalideerdB
     public readonly BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO3;
     public readonly BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO4;
     public readonly BankrekeningnummerWerdVerwijderdUitKBO BankrekeningnummerWerdVerwijderdUitKBO;
-    public readonly BankrekeningnummerWerdGevalideerd BankrekeningnummerWerdGevalideerd;
+    public readonly AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd;
     private IEvent[] _events;
 
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGevalideerdBankrekeningnummersScenario()
@@ -56,7 +56,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGevalideerdB
             BankrekeningnummerWerdToegevoegdVanuitKBO4.Iban
         );
 
-        BankrekeningnummerWerdGevalideerd = fixture.Create<BankrekeningnummerWerdGevalideerd>() with
+        AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd = fixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd>() with
         {
             BankrekeningnummerId = BankrekeningnummerWerdToegevoegdVanuitKBO1EnWerdGevalideerd.BankrekeningnummerId,
         };
@@ -69,7 +69,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGevalideerdB
             BankrekeningnummerWerdToegevoegdVanuitKBO3,
             BankrekeningnummerWerdToegevoegdVanuitKBO4,
             BankrekeningnummerWerdVerwijderdUitKBO,
-            BankrekeningnummerWerdGevalideerd,
+            AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
         ];
     }
 

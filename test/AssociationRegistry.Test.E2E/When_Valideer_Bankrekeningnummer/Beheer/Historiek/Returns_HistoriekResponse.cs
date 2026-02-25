@@ -32,7 +32,7 @@ public class Returns_Historiek_Met_Bankrekeningnummer : End2EndTest<HistoriekRes
     [Fact]
     public void With_BankrekeningnummerWerdToegevoegd_Gebeurtenissen()
     {
-        var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(BankrekeningnummerWerdGevalideerd));
+        var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd));
         gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.BankrekeningnummerWerdGevalideerd(_testContext.Scenario.BankrekeningnummerWerdToegevoegd),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }

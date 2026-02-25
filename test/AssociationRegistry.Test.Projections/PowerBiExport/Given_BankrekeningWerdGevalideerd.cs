@@ -20,6 +20,6 @@ public class Given_BankrekeningWerdGevalideerd(PowerBiScenarioFixture<Bankrekeni
         fixture.Result.Historiek.Should().NotBeEmpty();
 
         fixture.Result.Historiek.Should()
-                             .ContainSingle(x => x.EventType == nameof(BankrekeningnummerWerdGevalideerd));
+                             .ContainSingle(x => x.EventType == nameof(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd));
     }
 }

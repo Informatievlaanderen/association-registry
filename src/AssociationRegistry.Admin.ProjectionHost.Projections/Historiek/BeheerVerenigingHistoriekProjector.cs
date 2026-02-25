@@ -834,7 +834,7 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
-        IEvent<BankrekeningnummerWerdGevalideerd> @event,
+        IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd> @event,
         BeheerVerenigingHistoriekDocument document
     )
     {
@@ -842,7 +842,7 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            $"Bankrekeningnummer met IBAN '{@event.Data.Iban}' werd gevalideerd."
+            $"Bankrekeningnummer met IBAN 'TODO' werd gevalideerd." //TODO
         );
     }
 
