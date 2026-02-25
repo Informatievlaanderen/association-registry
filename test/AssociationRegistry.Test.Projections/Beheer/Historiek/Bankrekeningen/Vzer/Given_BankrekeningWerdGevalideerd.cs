@@ -20,8 +20,8 @@ public class Given_BankrekeningWerdGevalideerd(
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
                                                Beschrijving: $"Bankrekeningnummer met IBAN '{fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban}' werd gevalideerd.",
-                                               nameof(BankrekeningnummerWerdGevalideerd),
-                                               fixture.Scenario.BankrekeningnummerWerdGevalideerd,
+                                               nameof(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd),
+                                               fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));
 }

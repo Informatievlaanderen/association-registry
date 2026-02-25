@@ -7,17 +7,16 @@ public class BankrekeningnummerWerdGevalideerdKBOScenario : ScenarioBase
 {
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; set; }
     public BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO { get; }
-    public BankrekeningnummerWerdGevalideerd BankrekeningnummerWerdGevalideerd { get; }
+    public AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd { get; }
 
     public BankrekeningnummerWerdGevalideerdKBOScenario()
     {
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
         BankrekeningnummerWerdToegevoegdVanuitKBO = AutoFixture.Create<BankrekeningnummerWerdToegevoegdVanuitKBO>();
-        BankrekeningnummerWerdGevalideerd = AutoFixture.Create<BankrekeningnummerWerdGevalideerd>() with
+        AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd = AutoFixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd>() with
         {
             BankrekeningnummerId = BankrekeningnummerWerdToegevoegdVanuitKBO.BankrekeningnummerId,
-            Iban = BankrekeningnummerWerdToegevoegdVanuitKBO.Iban,
         };
     }
 
@@ -29,7 +28,7 @@ public class BankrekeningnummerWerdGevalideerdKBOScenario : ScenarioBase
                 AggregateId,
                 VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
                 BankrekeningnummerWerdToegevoegdVanuitKBO,
-                BankrekeningnummerWerdGevalideerd
+                AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd
             ),
         ];
 }

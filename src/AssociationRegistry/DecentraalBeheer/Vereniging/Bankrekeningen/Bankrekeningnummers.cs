@@ -181,7 +181,8 @@ public static class BankrekeningnummersEnumerableExtensions
                 eventData.Iban,
                 eventData.Doel,
                 eventData.Titularis,
-                eventData.Bron
+                eventData.Bron,
+                []
             )
         );
 
@@ -195,7 +196,8 @@ public static class BankrekeningnummersEnumerableExtensions
                 eventData.Iban,
                 string.Empty,
                 string.Empty,
-                eventData.Bron
+                eventData.Bron,
+                []
             )
         );
 }

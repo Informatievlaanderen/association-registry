@@ -17,6 +17,7 @@ using Geotags;
 using Grar;
 using Grar.Models;
 using Magda.Persoon;
+using Marten;
 using SocialMedias;
 using TelefoonNummers;
 
@@ -521,20 +522,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 gewijzigdBankrekeningnummer.Titularis.Value
             )
         );
-
-        if (BankrekeningnummerIsGevalideerdAndTitularisIsGewijzigd(gewijzigdBankrekeningnummer, vorigeTitularis))
-            AddEvent(
-                new BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis(
-                    gewijzigdBankrekeningnummer.BankrekeningnummerId,
-                    intiator
-                )
-            );
     }
-
-    private static bool BankrekeningnummerIsGevalideerdAndTitularisIsGewijzigd(
-        Bankrekeningnummer bankrekeningnummer,
-        Titularis previousTitularis
-    ) => bankrekeningnummer.Gevalideerd && bankrekeningnummer.Titularis.Value != previousTitularis.Value;
 
     public void Valideer(int bankrekeningnummerId, string initiator)
     {
@@ -544,14 +532,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
 
-        if (bankrekeningnummer!.Gevalideerd)
+        if (bankrekeningnummer!.BevestigdDoor.Contains(initiator))
             return;
 
         AddEvent(
-            new BankrekeningnummerWerdGevalideerd(
+            new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 bankrekeningnummer.BankrekeningnummerId,
-                bankrekeningnummer.Iban.Value,
-                bankrekeningnummer.Titularis.Value,
                 initiator
             )
         );

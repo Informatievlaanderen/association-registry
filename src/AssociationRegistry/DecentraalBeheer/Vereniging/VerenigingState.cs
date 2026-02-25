@@ -236,7 +236,8 @@ public record VerenigingState : IHasVersion
                                 b.Iban,
                                 b.Doel,
                                 b.Titularis,
-                                Bron.Initiator
+                                Bron.Initiator,
+                                []
                             )
                         )
                     )
@@ -894,7 +895,8 @@ public record VerenigingState : IHasVersion
                             bankrekeningnummer.Iban.Value,
                             bankrekeningnummer.Doel,
                             bankrekeningnummer.Titularis.Value,
-                            @event.Bron
+                            @event.Bron,
+                            bankrekeningnummer.BevestigdDoor
                         )
                     )
             ),
@@ -928,14 +930,15 @@ public record VerenigingState : IHasVersion
                             bankrekeningnummer.Iban.Value,
                             @event.Doel,
                             @event.Titularis,
-                            bankrekeningnummer.Bron
+                            bankrekeningnummer.Bron,
+                            bankrekeningnummer.BevestigdDoor
                         )
                     )
             ),
         };
     }
 
-    public VerenigingState Apply(BankrekeningnummerWerdGevalideerd @event)
+    public VerenigingState Apply(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd @event)
     {
         var bankrekeningnummer = Bankrekeningnummers.Single(c => c.BankrekeningnummerId == @event.BankrekeningnummerId);
 
@@ -951,30 +954,7 @@ public record VerenigingState : IHasVersion
                             bankrekeningnummer.Doel,
                             bankrekeningnummer.Titularis.Value,
                             bankrekeningnummer.Bron,
-                            true
-                        )
-                    )
-            ),
-        };
-    }
-
-    public VerenigingState Apply(BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis @event)
-    {
-        var bankrekeningnummer = Bankrekeningnummers.Single(c => c.BankrekeningnummerId == @event.BankrekeningnummerId);
-
-        return this with
-        {
-            Bankrekeningnummers = Bankrekeningnummers.Hydrate(
-                Bankrekeningnummers
-                    .Without(@event.BankrekeningnummerId)
-                    .Append(
-                        Bankrekeningnummer.Hydrate(
-                            @event.BankrekeningnummerId,
-                            bankrekeningnummer.Iban.Value,
-                            bankrekeningnummer.Doel,
-                            bankrekeningnummer.Titularis.Value,
-                            bankrekeningnummer.Bron,
-                            false
+                            bankrekeningnummer.BevestigdDoor.Append(@event.BevestigdDoor).ToArray()
                         )
                     )
             ),

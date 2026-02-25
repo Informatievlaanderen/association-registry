@@ -12,7 +12,7 @@ public record Bankrekeningnummer
     public IbanNummer Iban { get; set; }
     public string Doel { get; set; }
     public Titularis Titularis { get; set; }
-    public bool Gevalideerd { get; set; }
+    public string[] BevestigdDoor { get; set; }
     public Bron Bron { get; set; }
 
     public static Bankrekeningnummer Create(int nextId, ToeTevoegenBankrekeningnummer bankrekeningnummer) =>
@@ -31,7 +31,7 @@ public record Bankrekeningnummer
         string doel,
         string titularis,
         Bron bankrekeningnummerBron,
-        bool gevalideerd = false
+        string[] bevestigdDoor
     ) =>
         new()
         {
@@ -40,7 +40,7 @@ public record Bankrekeningnummer
             Doel = doel,
             Titularis = Titularis.Hydrate(titularis),
             Bron = bankrekeningnummerBron,
-            Gevalideerd = gevalideerd,
+            BevestigdDoor = bevestigdDoor,
         };
 
     public static Bankrekeningnummer CreateFromKbo(BankrekeningnummerVolgensKbo bankrekeningnummer, int id) =>

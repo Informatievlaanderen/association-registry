@@ -11,6 +11,7 @@ using Framework.TestClasses;
 public class BankrekeningnummerWerdToegevoegdScenario : IScenario
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
+    public BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis { get; set; }
     public BankrekeningnummerWerdToegevoegd BankrekeningnummerWerdToegevoegd { get; set; }
 
     private CommandMetadata Metadata;
@@ -23,6 +24,13 @@ public class BankrekeningnummerWerdToegevoegdScenario : IScenario
         {
             VCode = await service.GetNext(),
         };
+
+        // To test if State works without applying this event
+        BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis =
+            fixture.Create<BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis>() with
+            {
+                BankrekeningnummerId = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Bankrekeningnummers.First().BankrekeningnummerId
+            };
 
         BankrekeningnummerWerdToegevoegd = fixture.Create<BankrekeningnummerWerdToegevoegd>();
 
