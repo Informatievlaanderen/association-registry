@@ -10,7 +10,7 @@ public class BankrekeningnummerWerdGevalideerdScenario : CommandhandlerScenarioB
     public override VCode VCode => VCode.Create("V0009002");
     public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
     public readonly BankrekeningnummerWerdToegevoegd BankrekeningnummerWerdToegevoegd;
-    public readonly BankrekeningnummerWerdGevalideerd BankrekeningnummerWerdGevalideerd;
+    public readonly AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd;
 
     public BankrekeningnummerWerdGevalideerdScenario()
     {
@@ -22,10 +22,9 @@ public class BankrekeningnummerWerdGevalideerdScenario : CommandhandlerScenarioB
             Iban = "BE68539007547034",
         };
 
-        BankrekeningnummerWerdGevalideerd = fixture.Create<BankrekeningnummerWerdGevalideerd>() with
+        AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd = fixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd>() with
         {
             BankrekeningnummerId = BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-            Iban = "BE68539007547034",
         };
     }
 
@@ -34,6 +33,6 @@ public class BankrekeningnummerWerdGevalideerdScenario : CommandhandlerScenarioB
         {
             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
             BankrekeningnummerWerdToegevoegd,
-            BankrekeningnummerWerdGevalideerd,
+            AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
         };
 }

@@ -34,7 +34,12 @@ public class Given_Already_Validated_Bankrekeningnummer
             BankrekeningnummerId = _scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>()));
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor,
+        };
+
+        await _commandHandler.Handle(new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata));
 
         _aggregateSessionMock.ShouldNotHaveAnySaves();
     }

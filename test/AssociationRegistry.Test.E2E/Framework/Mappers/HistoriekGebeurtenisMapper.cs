@@ -1029,11 +1029,9 @@ public static class HistoriekGebeurtenisMapper
         new()
         {
             Beschrijving = $"Bankrekeningnummer met IBAN '{@event.Iban}' werd gevalideerd.",
-            Gebeurtenis = nameof(Events.BankrekeningnummerWerdGevalideerd),
-            Data = new BankrekeningnummerWerdGevalideerd(
+            Gebeurtenis = nameof(Events.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd),
+            Data = new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 @event.BankrekeningnummerId,
-                @event.Iban,
-                @event.Titularis,
                 "OVO000001"
             ),
             Initiator = "OVO000001",

@@ -2,10 +2,10 @@
 
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
-[Obsolete("Feature werd gedeployed op testomgeving maar werd gedropped. Event behouden voor documentatie.")]
-public record BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis(
+
+public record AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
     int BankrekeningnummerId,
-    string OngedaanGemaaktDoor
+    string BevestigdDoor
 ) : IEvent
 {
     [IgnoreDataMember]
@@ -14,6 +14,7 @@ public record BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitular
     protected virtual bool PrintMembers(System.Text.StringBuilder builder)
     {
         builder.Append($"BankrekeningnummerId = {BankrekeningnummerId}, ");
+        builder.Append($"GevalideerdDoor = {BevestigdDoor}");
         return true;
     }
 }

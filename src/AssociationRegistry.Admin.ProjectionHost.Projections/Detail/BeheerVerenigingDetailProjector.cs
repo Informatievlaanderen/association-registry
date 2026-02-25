@@ -1307,7 +1307,7 @@ public class BeheerVerenigingDetailProjector
             .ToArray();
     }
 
-    public static void Apply(IEvent<BankrekeningnummerWerdGevalideerd> @event, BeheerVerenigingDetailDocument document)
+    public static void Apply(IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd> @event, BeheerVerenigingDetailDocument document)
     {
         document.Bankrekeningnummers = document
             .Bankrekeningnummers.UpdateSingle(
