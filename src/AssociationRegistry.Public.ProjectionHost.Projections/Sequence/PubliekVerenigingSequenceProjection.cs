@@ -428,11 +428,6 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
     ) => UpdateVersion(e, doc);
 
     public PubliekVerenigingSequenceDocument Apply(
-        IEvent<BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis> e,
-        PubliekVerenigingSequenceDocument doc
-    ) => UpdateVersion(e, doc);
-
-    public PubliekVerenigingSequenceDocument Apply(
         IEvent<SubverenigingRelatieWerdGewijzigd> e,
         PubliekVerenigingSequenceDocument doc
     ) => UpdateVersion(e, doc);

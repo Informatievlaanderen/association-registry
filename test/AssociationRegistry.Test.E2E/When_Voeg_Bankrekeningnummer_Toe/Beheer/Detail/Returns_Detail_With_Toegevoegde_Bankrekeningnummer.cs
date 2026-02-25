@@ -46,7 +46,7 @@ public class Returns_Detail_With_Toegevoegde_Bankrekeningnummer : End2EndTest<De
                     Iban = x.Iban,
                     Doel = x.Doel,
                     Titularis = x.Titularis,
-                    IsGevalideerd = false,
+                    BevestigdDoor = [],
                     Bron = Bron.Initiator,
                 }
             );

@@ -32,7 +32,7 @@ public class Given_BankrekeningnummerWerdGewijzigd(
                     Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                     Doel = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Doel,
                     Titularis = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Titularis,
-                    IsGevalideerd = false,
+                    BevestigdDoor = [],
                     Bron = Bron.Initiator,
                 }
             );
