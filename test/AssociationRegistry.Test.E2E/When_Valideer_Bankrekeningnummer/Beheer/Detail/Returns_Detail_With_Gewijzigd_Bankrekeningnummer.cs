@@ -45,7 +45,7 @@ public class Returns_Detail_With_GeValideerd_Bankrekeningnummer : End2EndTest<De
                     Iban = x.Iban,
                     Doel = x.Doel,
                     Titularis = x.Titularis,
-                    IsGevalideerd = false,
+                    BevestigdDoor = [],
                     Bron = Bron.Initiator,
                 }
             );
@@ -69,7 +69,7 @@ public class Returns_Detail_With_GeValideerd_Bankrekeningnummer : End2EndTest<De
                             Iban = _testContext.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                             Doel = _testContext.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
                             Titularis = _testContext.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
-                            IsGevalideerd = true,
+                            BevestigdDoor = [new Gegevensinitiator(AuthenticationSetup.Initiator)],
                             Bron = Bron.Initiator,
                         }
                     )

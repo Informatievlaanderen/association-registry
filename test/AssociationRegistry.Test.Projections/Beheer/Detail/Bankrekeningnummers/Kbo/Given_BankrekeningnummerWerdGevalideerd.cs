@@ -36,7 +36,7 @@ public class Given_BankrekeningnummerWerdGevalideerd(
                     Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Iban,
                     Doel = string.Empty,
                     Titularis = string.Empty,
-                    IsGevalideerd = true,
+                    BevestigdDoor = [fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor],
                     Bron = Bron.KBO,
                 },
             ]);

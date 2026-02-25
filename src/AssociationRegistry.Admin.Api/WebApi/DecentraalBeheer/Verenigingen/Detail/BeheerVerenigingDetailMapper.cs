@@ -210,7 +210,7 @@ public class BeheerVerenigingDetailMapper
             Iban = bankrekeningnummer.Iban,
             Doel = bankrekeningnummer.Doel,
             Titularis = bankrekeningnummer.Titularis,
-            IsGevalideerd = bankrekeningnummer.IsGevalideerd,
+            BevestigdDoor = bankrekeningnummer.BevestigdDoor.Select(x=> new Gegevensinitiator(x)).ToArray(),
             Bron = bankrekeningnummer.Bron,
         };
 

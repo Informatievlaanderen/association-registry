@@ -15,6 +15,7 @@ public class For_Any_Event
     private IEnumerable<Type> _excludedEventTypes =
     [
         typeof(AfdelingWerdGeregistreerd),
+        typeof(BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis),
         typeof(KboNummerWerdGereserveerd),
         typeof(DubbeleVerenigingenWerdenGedetecteerd),
         ..new PersoonsgegevensEventTransformers().Select(x => x.PersistedEventType),
