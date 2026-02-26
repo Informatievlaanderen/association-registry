@@ -14,26 +14,22 @@ using System.Net;
 using System.Text;
 using Xunit;
 
-public class BasisgegevensExportTestsWithNullValues
+public class BankrekeningnummersExportTests
 {
     private Stream _resultStream;
     private readonly Fixture _fixture;
     private readonly Mock<IAmazonS3> _s3ClientMock;
 
-    public BasisgegevensExportTestsWithNullValues()
+    public BankrekeningnummersExportTests()
     {
         _fixture = new Fixture().CustomizeDomain();
         _s3ClientMock = SetupS3Client();
     }
 
     [Fact]
-    public async ValueTask Then_Export_Empty_Strings()
+    public async ValueTask WithMultipleDocuments_ThenCsvExportShouldExport()
     {
-        PowerBiExportDocument[] docs = [_fixture.Create<PowerBiExportDocument>() with
-        {
-            SubverenigingVan = null,
-            Verenigingssubtype = null,
-        }];
+        var docs = _fixture.CreateMany<PowerBiExportDocument>();
 
         await Export(docs);
 
@@ -55,14 +51,15 @@ public class BasisgegevensExportTestsWithNullValues
     private static string GetExpectedResult(IEnumerable<PowerBiExportDocument> docs)
     {
         var stringBuilder = new StringBuilder();
-
-        stringBuilder.Append(
-            "bron,doelgroep.maximumleeftijd,doelgroep.minimumleeftijd,einddatum,isUitgeschrevenUitPubliekeDatastroom,korteBeschrijving,korteNaam,naam,roepnaam,startdatum,status,vCode,verenigingstype.code,verenigingstype.naam,kboNummer,corresponderendeVCodes,aantalVertegenwoordigers,datumLaatsteAanpassing,verenigingssubtype.code,verenigingssubtype.naam,subverenigingVan.andereVereniging,subverenigingVan.identificatie,subverenigingVan.beschrijving,duplicatieInfo.bevestigdNaDuplicatie,duplicatieInfo.bevestigingstoken\r\n");
+        stringBuilder.Append("bankrekeningnummerId,doel,vCode,bevestigdDoor,bron\r\n");
 
         foreach (var doc in docs)
         {
-            stringBuilder.Append(
-                $"{doc.Bron},{doc.Doelgroep.Maximumleeftijd},{doc.Doelgroep.Minimumleeftijd},{doc.Einddatum},{doc.IsUitgeschrevenUitPubliekeDatastroom},{doc.KorteBeschrijving},{doc.KorteNaam},{doc.Naam},{doc.Roepnaam},{doc.Startdatum},{doc.Status},{doc.VCode},{doc.Verenigingstype.Code},{doc.Verenigingstype.Naam},{doc.KboNummer},\"{string.Join(separator: ", ", doc.CorresponderendeVCodes)}\",{doc.AantalVertegenwoordigers},{doc.DatumLaatsteAanpassing},{string.Empty},{string.Empty},{string.Empty},{string.Empty},{string.Empty},{doc.DuplicatieInfo.BevestigdNaDuplicatie},{doc.DuplicatieInfo.Bevestigingstoken}\r\n");
+            foreach (var bankrek in doc.Bankrekeningnummers)
+            {
+                stringBuilder.Append(
+                    $"{bankrek.BankrekeningnummerId},{bankrek.Doel},{doc.VCode},\"{string.Join(separator: ", ", bankrek.BevestigdDoor)}\",{bankrek.Bron}\r\n");
+            }
         }
 
         return stringBuilder.ToString();
@@ -81,9 +78,9 @@ public class BasisgegevensExportTestsWithNullValues
 
     private async Task Export(IEnumerable<PowerBiExportDocument> docs)
     {
-        var exporter = new Exporter<PowerBiExportDocument>(WellKnownFileNames.Basisgegevens,
+        var exporter = new Exporter<PowerBiExportDocument>(WellKnownFileNames.Bankrekeningnummers,
                                                            bucketName: "something",
-                                                           new BasisgegevensRecordWriter(),
+                                                           new BankrekeningnummerRecordWriter(),
                                                            _s3ClientMock.Object,
                                                            new NullLogger<Exporter<PowerBiExportDocument>>());
 

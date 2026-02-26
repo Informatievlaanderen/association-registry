@@ -31,7 +31,7 @@ public record PowerBiExportDocument : IVCode
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = [];
     public Werkingsgebied[] Werkingsgebieden { get; set; } = [];
     public Lidmaatschap[] Lidmaatschappen { get; set; } = [];
-    public int AantalBankrekeningnummers { get; set; }
+    public Bankrekeningnummer[] Bankrekeningnummers { get; set; } = [];
 
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Bron { get; set; } = null!;

@@ -2,6 +2,6 @@
 
 public record Bankrekeningnummer(
     int BankrekeningnummerId,
-    string Iban,
     string Doel,
-    string Titularis);
+    string[] BevestigdDoor,
+    string Bron);
