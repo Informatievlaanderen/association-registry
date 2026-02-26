@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
 
 using System.Net;
 using Admin.Api.Infrastructure;
+using Admin.Api.WebApi.Verenigingen;
 using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
@@ -126,9 +127,15 @@ public class RegistreerVZERRequestFactory
             Bankrekeningnummers = autoFixture.CreateMany<ToeTeVoegenBankrekeningnummer>().ToArray(),
         };
 
+        var bevestigingsTokenHelper = new BevestigingsTokenHelper(apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>());
+
+        var hashForAllowingDuplicate = bevestigingsTokenHelper.Calculate(request);
+
         var response = (
             await apiSetup.AdminApiHost.Scenario(s =>
             {
+                s.WithRequestHeader(WellknownHeaderNames.BevestigingsToken, hashForAllowingDuplicate);
+
                 s.Post.Json(request, JsonStyle.Mvc).ToUrl("/v1/verenigingen/vzer");
 
                 s.StatusCodeShouldBe(HttpStatusCode.Accepted);
