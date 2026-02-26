@@ -6,11 +6,11 @@ using Marten;
 
 public interface IVzerOrFvExistsQuery : IQuery<bool, VzerOrFvExistsFilter> { }
 
-public class VzerOrFvExistsExistsQuery : IVzerOrFvExistsQuery
+public class VzerOrFvExistsQuery : IVzerOrFvExistsQuery
 {
     private readonly IDocumentSession _session;
 
-    public VzerOrFvExistsExistsQuery(IDocumentSession session)
+    public VzerOrFvExistsQuery(IDocumentSession session)
     {
         _session = session;
     }
@@ -25,7 +25,7 @@ public class VzerOrFvExistsExistsQuery : IVzerOrFvExistsQuery
             .Events.QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens>()
             .SingleOrDefaultAsync(x => x.VCode == existsFilter.VCode, token: cancellationToken);
 
-        return vzer?.VCode is not null && fv?.VCode is not null;
+        return vzer?.VCode is not null || fv?.VCode is not null;
     }
 }
 
