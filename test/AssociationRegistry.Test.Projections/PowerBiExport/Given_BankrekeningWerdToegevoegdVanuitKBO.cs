@@ -2,7 +2,6 @@
 
 using Admin.Schema.PowerBiExport;
 using Events;
-using KellermanSoftware.CompareNetObjects;
 using Scenario.Bankrekeningnummers.Kbo;
 
 [Collection(nameof(ProjectionContext))]
@@ -11,9 +10,14 @@ public class Given_BankrekeningWerdToegevoegdVanuitKBO(
 ) : PowerBiScenarioClassFixture<BankrekeningnummerWerdToegevoegdVanuitKBOScenario>
 {
     [Fact]
-    public void AantalBankrekeningnummers_Is_Increased_By_One()
+    public void Bankrekeningnummer_Should_Be_Added()
     {
-        fixture.Result.AantalBankrekeningnummers.Should().Be(1);
+        fixture.Result.Bankrekeningnummers.Should().ContainEquivalentOf(new Bankrekeningnummer(
+                                                                            fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.BankrekeningnummerId,
+                                                                            string.Empty,
+                                                                            [],
+                                                                            fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Bron
+                                                                        ));
     }
 
     [Fact]

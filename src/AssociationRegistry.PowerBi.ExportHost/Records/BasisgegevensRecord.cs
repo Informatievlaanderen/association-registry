@@ -27,6 +27,5 @@ record BasisgegevensRecord(
     [property: Name("subverenigingVan.identificatie"), Index(21)] string SubverenigingVanIdentificatie,
     [property: Name("subverenigingVan.beschrijving"), Index(22)] string SubverenigingVanBeschrijving,
     [property: Name("duplicatieInfo.bevestigdNaDuplicatie"), Index(23)] bool? DuplicatieInfoBevestigdNaDuplicatie,
-    [property: Name("duplicatieInfo.bevestigingstoken"), Index(24)] string DuplicatieInfoBevestigingstoken,
-    [property: Name("aantalBankrekeningnummers"), Index(25)] int AantalBankrekeningnummers
+    [property: Name("duplicatieInfo.bevestigingstoken"), Index(24)] string DuplicatieInfoBevestigingstoken
     );

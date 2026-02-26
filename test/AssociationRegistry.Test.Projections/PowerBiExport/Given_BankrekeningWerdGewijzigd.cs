@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
+using Admin.Schema.PowerBiExport;
 using Events;
 using Scenario.Bankrekeningnummers.Vzer;
 
@@ -8,9 +9,12 @@ public class Given_BankrekeningWerdGewijzigd(PowerBiScenarioFixture<Bankrekening
     : PowerBiScenarioClassFixture<BankrekeningnummerWerdGewijzigdScenario>
 {
     [Fact]
-    public void AantalBankrekeningnummers_Is_Increased_By_One()
+    public void Bankrekeningnummer_Is_Changed()
     {
-        fixture.Result.AantalBankrekeningnummers.Should().Be(1);
+        fixture.Result.Bankrekeningnummers.Should().ContainEquivalentOf(new Bankrekeningnummer(fixture.Scenario.BankrekeningnummerWerdGewijzigd.BankrekeningnummerId,
+                                                                fixture.Scenario.BankrekeningnummerWerdGewijzigd.Doel,
+                                                                [],
+                                                                fixture.Scenario.BankrekeningnummerWerdGewijzigd.Bron));
     }
 
     [Fact]
