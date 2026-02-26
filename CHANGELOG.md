@@ -1,3 +1,10 @@
+## [8.305.1](https://github.com/informatievlaanderen/association-registry/compare/v8.305.0...v8.305.1) (2026-02-26)
+
+
+### Bug Fixes
+
+* or-3039 fix VzerOrFvExistsQuery ([7a0c603](https://github.com/informatievlaanderen/association-registry/commit/7a0c6030b523698aeffe3fff39b6f76172454e13))
+
 # [8.305.0](https://github.com/informatievlaanderen/association-registry/compare/v8.304.2...v8.305.0) (2026-02-24)
 
 
