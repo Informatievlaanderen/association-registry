@@ -52,6 +52,7 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
         builder.Append($"Contactgegevens = {Contactgegevens.Length} items, ");
         builder.Append($"Locaties = {Locaties.Length} items, ");
         builder.Append($"Vertegenwoordigers = {Vertegenwoordigers.Length} items, ");
+        builder.Append($"HoofdactiviteitenVerenigingsloket = {HoofdactiviteitenVerenigingsloket.Length} items");
         builder.Append($"Bankrekeningnummers = {Bankrekeningnummers.Length} items");
         return true;
     }
