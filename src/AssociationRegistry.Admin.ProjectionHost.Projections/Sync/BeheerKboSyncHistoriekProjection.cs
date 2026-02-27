@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Admin.ProjectionHost.Projections.KboSync;
+namespace AssociationRegistry.Admin.ProjectionHost.Projections.Sync;
 
-using Events;
-using Framework;
+using AssociationRegistry.Admin.Schema.KboSync;
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
 using JasperFx.Events;
 using Marten.Events.Projections;
-using Schema.KboSync;
 
 public class BeheerKboSyncHistoriekProjection : EventProjection
 {

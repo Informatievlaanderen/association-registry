@@ -796,7 +796,8 @@ public class Program
             .Services.AddTransient<IBewaartermijnQuery, BewaartermijnQuery>()
             .AddTransient<IBeheerVerenigingDetailQuery, BeheerVerenigingDetailQuery>()
             .AddTransient<IBeheerVerenigingenZoekQuery, BeheerVerenigingenZoekQuery>()
-            .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>();
+            .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>()
+            .AddTransient<IKszSyncHistoriekQuery, KszSyncHistoriekQuery>();
     }
 
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
