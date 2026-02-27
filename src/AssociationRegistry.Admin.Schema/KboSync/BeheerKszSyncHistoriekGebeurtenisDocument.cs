@@ -10,9 +10,3 @@ public record BeheerKszSyncHistoriekGebeurtenisDocument(
     string Tijdstip
 );
 
-public enum BeheerKszSyncHistoriekGebeurtenisType
-{
-    Bevestigd,
-    Overleden,
-    NietGekend,
-}
