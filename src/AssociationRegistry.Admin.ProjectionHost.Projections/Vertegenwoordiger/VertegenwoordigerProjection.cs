@@ -17,6 +17,7 @@ public class VertegenwoordigerProjection : SingleStreamProjection<Vertegenwoordi
     public VertegenwoordigerProjection(Func<IQuerySession> querySessionFactory)
     {
         _query = new GlobalKszPivotPointQuery(querySessionFactory);
+        _globalKszPivotPoint ??= _query.ExecuteAsync().GetAwaiter().GetResult();
 
         DeleteEvent<IEvent<VerenigingWerdVerwijderd>>((x, y) => x.VCode == y.StreamKey);
     }
