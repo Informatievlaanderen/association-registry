@@ -14,7 +14,6 @@ using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Queries;
-using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -43,7 +42,6 @@ public class SyncController : ApiController
     [HttpGet("kbo/historiek")]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [ProducesResponseType(typeof(KboSyncHistoriekResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [ProducesJson]
     public async Task<IActionResult> GetKboSyncHistoriek(
@@ -58,6 +56,36 @@ public class SyncController : ApiController
         var response = _mapper.Map(gebeurtenissen);
 
         return Ok(response);
+    }
+
+    /// <summary>
+    ///     Vraag de historiek van de KSZ sync op.
+    /// </summary>
+    /// <param name="vCode"></param>
+    /// <param name="documentStore"></param>
+    /// <param name="problemDetailsHelper"></param>
+    /// <param name="kszSyncHistoriekQuery"></param>
+    /// <param name="cancellationToken"></param>
+    /// <response code="200">De historiek van de KBO sync</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
+    [HttpGet("ksz/historiek")]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesJson]
+    public async Task<IActionResult> GetKszSyncHistoriek(
+        [FromQuery] string? vCode,
+        [FromServices] IDocumentStore documentStore,
+        [FromServices] ProblemDetailsHelper problemDetailsHelper,
+        [FromServices] IKszSyncHistoriekQuery kszSyncHistoriekQuery,
+        CancellationToken cancellationToken
+    )
+    {
+        await using var session = documentStore.LightweightSession();
+
+        var gebeurtenissen = await kszSyncHistoriekQuery.ExecuteAsync(new KszSyncHistoriekFilter(vCode), cancellationToken);
+
+        return Ok(gebeurtenissen);
     }
 
     /// <summary>
