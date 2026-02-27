@@ -9,9 +9,13 @@ public class Given_BankrekeningWerdVerwijderdUitKBO(
 ) : PowerBiScenarioClassFixture<BankrekeningnummerWerdVerwijderdUitKBOScenario>
 {
     [Fact]
-    public void AantalBankrekeningnummers_Is_Decreased_By_One()
+    public void Bankrekeningnummer_Should_Be_Removed()
     {
-        fixture.Result.AantalBankrekeningnummers.Should().Be(0);
+        fixture.Result.Bankrekeningnummers
+               .FirstOrDefault(b => b.BankrekeningnummerId ==
+                                    fixture.Scenario.BankrekeningnummerWerdVerwijderdUitKBO.BankrekeningnummerId)
+               .Should().BeNull();
+
     }
 
     [Fact]

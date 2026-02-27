@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Events;
+namespace AssociationRegistry.Events;
 
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
-[Obsolete("These are the upcasted events, only use this in projections and State")]
+[Obsolete("Feature was gedeployed on test environment but was dropped. Kept event for documentation.")]
 public record BankrekeningnummerWerdGevalideerd(
     int BankrekeningnummerId,
     string Iban,
@@ -22,6 +22,7 @@ public record BankrekeningnummerWerdGevalideerd(
     }
 }
 
+[Obsolete("Feature was gedeployed on test environment but was dropped. Kept event for documentation.")]
 public record BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens(
     Guid RefId,
     int BankrekeningnummerId,

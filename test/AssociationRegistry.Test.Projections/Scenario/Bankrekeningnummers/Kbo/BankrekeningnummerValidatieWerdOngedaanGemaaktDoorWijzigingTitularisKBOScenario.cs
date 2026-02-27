@@ -8,7 +8,7 @@ public class BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitulari
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; set; }
 
     public BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO { get; }
-    public BankrekeningnummerWerdGevalideerd BankrekeningnummerWerdGevalideerd { get; }
+    public AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd { get; }
     public BankrekeningnummerWerdGewijzigd BankrekeningnummerWerdGewijzigd { get; }
 
     public BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis { get; }
@@ -20,7 +20,7 @@ public class BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitulari
 
         BankrekeningnummerWerdToegevoegdVanuitKBO = AutoFixture.Create<BankrekeningnummerWerdToegevoegdVanuitKBO>();
 
-        BankrekeningnummerWerdGevalideerd = AutoFixture.Create<BankrekeningnummerWerdGevalideerd>() with
+        AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd = AutoFixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd>() with
         {
             BankrekeningnummerId = BankrekeningnummerWerdToegevoegdVanuitKBO.BankrekeningnummerId,
         };
@@ -45,7 +45,7 @@ public class BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitulari
                 AggregateId,
                 VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
                 BankrekeningnummerWerdToegevoegdVanuitKBO,
-                BankrekeningnummerWerdGevalideerd,
+                AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
                 BankrekeningnummerWerdGewijzigd,
                 BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis
             ),

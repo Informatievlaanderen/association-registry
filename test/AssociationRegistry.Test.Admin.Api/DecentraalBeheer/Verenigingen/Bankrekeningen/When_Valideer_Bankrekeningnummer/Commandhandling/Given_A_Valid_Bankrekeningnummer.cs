@@ -39,10 +39,8 @@ public class Given_A_Valid_Bankrekeningnummer
         await _commandHandler.Handle(new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata));
 
         _aggregateSessionMock.ShouldHaveSavedExact(
-            new BankrekeningnummerWerdGevalideerd(
+            new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 _scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-                _scenario.BankrekeningnummerWerdToegevoegd.Iban,
-                _scenario.BankrekeningnummerWerdToegevoegd.Titularis,
                 commandMetadata.Initiator
             )
         );

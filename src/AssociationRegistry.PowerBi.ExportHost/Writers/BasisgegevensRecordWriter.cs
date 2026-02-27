@@ -38,8 +38,8 @@ public class BasisgegevensRecordWriter: IRecordWriter<PowerBiExportDocument>
                                        vereniging.SubverenigingVan?.Identificatie ?? string.Empty,
                                        vereniging.SubverenigingVan?.Beschrijving ?? string.Empty,
                                        vereniging.DuplicatieInfo?.BevestigdNaDuplicatie,
-                                       vereniging.DuplicatieInfo?.Bevestigingstoken ?? string.Empty,
-                                       vereniging.AantalBankrekeningnummers));
+                                       vereniging.DuplicatieInfo?.Bevestigingstoken ?? string.Empty
+                                       ));
 
             await csvWriter.NextRecordAsync();
         }

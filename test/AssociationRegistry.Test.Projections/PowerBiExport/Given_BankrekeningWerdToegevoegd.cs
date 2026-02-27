@@ -2,7 +2,6 @@
 
 using Admin.Schema.PowerBiExport;
 using Events;
-using KellermanSoftware.CompareNetObjects;
 using Scenario.Bankrekeningnummers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
@@ -10,9 +9,14 @@ public class Given_BankrekeningWerdToegevoegd(PowerBiScenarioFixture<Bankrekenin
     : PowerBiScenarioClassFixture<BankrekeningnummerWerdToegevoegdScenario>
 {
     [Fact]
-    public void AantalBankrekeningnummers_Is_Increased_By_One()
+    public void Bankrekeningnummer_Is_Added()
     {
-        fixture.Result.AantalBankrekeningnummers.Should().Be(1);
+        fixture.Result.Bankrekeningnummers.Should().ContainEquivalentOf(new Bankrekeningnummer(
+                                                        fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
+                                                        fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
+                                                        [],
+                                                        fixture.Scenario.BankrekeningnummerWerdToegevoegd.Bron
+                                                        ));
     }
 
     [Fact]

@@ -287,7 +287,7 @@ public class BeheerDetailResponseMapper
                         Iban = x.Iban,
                         Doel = x.Doel,
                         Titularis = x.Titularis,
-                        IsGevalideerd = false,
+                        BevestigdDoor = [],
                         Bron = Bron.Initiator,
                     }
             )

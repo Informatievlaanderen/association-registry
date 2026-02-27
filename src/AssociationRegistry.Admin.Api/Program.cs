@@ -226,7 +226,26 @@ public class Program
         await ArchiveAfdelingen(app);
         await RegistreerOntbrekendeInschrijvingen(app: app, logger: logger);
         await LogPendingDatabaseChanges(app: app, logger: logger);
+        await LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(app: app, logger: logger);
     }
+
+    private static async Task LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(WebApplication app, ILogger<Program> logger)
+    {
+        using var scope = app.Services.CreateScope();
+        await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
+
+        var @event = await session.Events.QueryRawEventDataOnly<BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens>().FirstOrDefaultAsync();
+
+        if (@event is null)
+        {
+            logger.LogInformation("✅ No events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
+        }
+        else
+        {
+            logger.LogWarning("⚠️ Events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
+        }
+    }
+
 
     private static async Task LogPendingDatabaseChanges(WebApplication app, ILogger<Program> logger)
     {

@@ -42,10 +42,8 @@ public class Given_A_KBO_Vereniging
         await _commandHandler.Handle(new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata));
 
         _aggregateSessionMock.ShouldHaveSavedExact(
-            new BankrekeningnummerWerdGevalideerd(
+            new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 bankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-                bankrekeningnummerWerdToegevoegd.Iban,
-                string.Empty,
                 commandMetadata.Initiator
             )
         );

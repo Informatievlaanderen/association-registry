@@ -352,6 +352,13 @@ session.Events.Append(
 
 session.Events.Append(
     "V9000010",
+    new BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens(
+        Guid.NewGuid(), 1, "OVO0001001"
+    )
+);
+
+session.Events.Append(
+    "V9000010",
     new VertegenwoordigerWerdVerwijderd(
         VertegenwoordigerId: 1,
         Insz: "12345678901",
