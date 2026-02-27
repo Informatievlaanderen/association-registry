@@ -22,12 +22,12 @@ using Projections;
 using Projections.Bewaartermijn;
 using Projections.Detail;
 using Projections.Historiek;
-using Projections.KboSync;
 using Projections.Locaties;
 using Projections.PowerBiExport;
 using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
+using Projections.Sync;
 using Projections.Vertegenwoordiger;
 using Schema.Setup.Marten;
 using ConfigurationManager = ConfigurationManager;
@@ -226,6 +226,7 @@ public static class ConfigureMartenExtensions
         opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add(new BeheerKszSyncHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new LocatieLookupProjection(locatieLookupLogger), ProjectionLifecycle.Async);
         opts.Projections.Add(
             new LocatieZonderAdresMatchProjection(locatieZonderAdresMatchProjectionLogger),
