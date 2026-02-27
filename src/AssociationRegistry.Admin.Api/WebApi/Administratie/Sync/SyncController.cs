@@ -102,7 +102,7 @@ public class SyncController : ApiController
     /// <param name="vCode">De VCode van de te synchroniseren vereniging.</param>
     /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPost("{vCode}")]
+    [HttpPost("kbo/{vCode}")]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
