@@ -19,7 +19,7 @@ public class BeheerKszSyncHistoriekProjection : EventProjection
             {
                 operations.Insert(
                     new BeheerKszSyncHistoriekGebeurtenisDocument(
-                        @event.Sequence.ToString(),
+                        @event.Sequence,
                         @event.StreamKey!,
                         @event.Data.VertegenwoordigerId,
                         Beschrijving: "Ksz sync heeft vertegenwoordiger bevestigd.",
@@ -34,7 +34,7 @@ public class BeheerKszSyncHistoriekProjection : EventProjection
             {
                 operations.Insert(
                     new BeheerKszSyncHistoriekGebeurtenisDocument(
-                        @event.Sequence.ToString(),
+                        @event.Sequence,
                         @event.StreamKey!,
                         @event.Data.VertegenwoordigerId,
                         Beschrijving: "Ksz sync heeft vertegenwoordiger aangeduid als overleden.",
@@ -49,7 +49,7 @@ public class BeheerKszSyncHistoriekProjection : EventProjection
             {
                 operations.Insert(
                     new BeheerKszSyncHistoriekGebeurtenisDocument(
-                        @event.Sequence.ToString(),
+                        @event.Sequence,
                         @event.StreamKey!,
                         @event.Data.VertegenwoordigerId,
                         Beschrijving: "Ksz sync heeft vertegenwoordiger aangeduid als niet gekend.",
