@@ -240,9 +240,6 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<SubverenigingDetailsWerdenGewijzigd> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<KszSyncHeeftVertegenwoordigerBevestigd> @event, IDocumentOperations ops) =>
-        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
-
     public async Task Project(IEvent<VertegenwoordigerWerdOvergenomenUitKBO> @event, IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(@event.StreamKey!))!;

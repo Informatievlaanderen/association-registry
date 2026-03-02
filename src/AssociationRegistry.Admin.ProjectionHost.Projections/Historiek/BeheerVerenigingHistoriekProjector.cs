@@ -777,19 +777,6 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
-        IEvent<KszSyncHeeftVertegenwoordigerBevestigd> @event,
-        BeheerVerenigingHistoriekDocument document
-    )
-    {
-        AddHistoriekEntry(
-            @event,
-            new object(),
-            document,
-            $"Vertegenwoordiger met id: '{@event.Data.VertegenwoordigerId}' is bevestigd door KSZ."
-        );
-    }
-
-    public static void Apply(
         IEvent<BankrekeningnummerWerdToegevoegd> @event,
         BeheerVerenigingHistoriekDocument document
     )
