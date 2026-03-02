@@ -1,3 +1,20 @@
+# [8.306.0](https://github.com/informatievlaanderen/association-registry/compare/v8.305.2...v8.306.0) (2026-03-02)
+
+
+### Bug Fixes
+
+* or-3039 make sequence id long ([69eac22](https://github.com/informatievlaanderen/association-registry/commit/69eac222aa684b5c5df7b231731233f2ecc7f394))
+* or-3039 remove KszSyncHeeftVertegenwoordigerBevestigd from beheer historiek projection ([a34ec42](https://github.com/informatievlaanderen/association-registry/commit/a34ec422015b9d8b0690c5f2fc25e6dda11e326f))
+
+
+### Features
+
+* or-3039 add BeheerKszSyncHistoriekProjection ([b8d2b0c](https://github.com/informatievlaanderen/association-registry/commit/b8d2b0c0c62e2ed3d28d7e78b16d0bf3bda13503))
+* or-3039 add ksz historiek controller ([3156181](https://github.com/informatievlaanderen/association-registry/commit/315618182820f6c1897604b5beceb3b043266aaa))
+* or-3039 add migration for BeheerKszSyncHistoriekProjection ([49b839e](https://github.com/informatievlaanderen/association-registry/commit/49b839eedbd768013151c0ebb035be4ece47f324))
+* or-3039 implement KszSyncHistoriekQuery ([c4f13a1](https://github.com/informatievlaanderen/association-registry/commit/c4f13a1f4c552d7f36cf8962d26d2a35c11c654c))
+* or-3039 rebuild BeheerKszSyncHistoriekProjection and VertegenwoordigersPerVCodeDocument ([fdd00fa](https://github.com/informatievlaanderen/association-registry/commit/fdd00fa0de07ee25390066dbe9c1cacf1ad82205))
+
 ## [8.305.2](https://github.com/informatievlaanderen/association-registry/compare/v8.305.1...v8.305.2) (2026-03-02)
 
 
