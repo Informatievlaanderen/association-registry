@@ -13,7 +13,7 @@ public class VertegenwoordigersPerVCodeScenarioFixture<TScenario>(ProjectionCont
     protected override IDocumentStore DocumentStore => Context.AdminStore;
 
     protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
-        => await daemon.RebuildProjectionAsync<VertegenwoordigerProjection>(CancellationToken.None);
+        => await daemon.RebuildProjectionAsync<VertegenwoordigersProjection>(CancellationToken.None);
 
     protected override async Task<VertegenwoordigersPerVCodeDocument?> GetResultAsync(
         IDocumentSession session,

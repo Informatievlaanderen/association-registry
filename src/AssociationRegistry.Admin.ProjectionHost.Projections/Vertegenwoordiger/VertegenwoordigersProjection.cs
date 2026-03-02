@@ -9,12 +9,12 @@ using Marten.Events.Aggregation;
 using NodaTime;
 using Schema.Vertegenwoordiger;
 
-public class VertegenwoordigerProjection : SingleStreamProjection<VertegenwoordigersPerVCodeDocument, string>
+public class VertegenwoordigersProjection : SingleStreamProjection<VertegenwoordigersPerVCodeDocument, string>
 {
     private Instant? _globalKszPivotPoint;
     private readonly GlobalKszPivotPointQuery _query;
 
-    public VertegenwoordigerProjection(Func<IQuerySession> querySessionFactory)
+    public VertegenwoordigersProjection(Func<IQuerySession> querySessionFactory)
     {
         _query = new GlobalKszPivotPointQuery(querySessionFactory);
 

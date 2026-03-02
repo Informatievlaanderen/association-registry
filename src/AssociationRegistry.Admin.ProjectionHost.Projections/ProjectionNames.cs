@@ -7,6 +7,8 @@ public class ProjectionNames
     public const string BeheerHistoriek = "AssociationRegistry.Admin.ProjectionHost.Projections.Historiek.BeheerVerenigingHistoriekProjection";
     public const string BeheerZoek = "BeheerVerenigingZoekenDocument";
     public const string BeheerKboSync = "AssociationRegistry.Admin.ProjectionHost.Projections.KboSync.BeheerKboSyncHistoriekProjection";
+    public const string BeheerKszSync = "AssociationRegistry.Admin.ProjectionHost.Projections.Sync.BeheerKszSyncHistoriekProjection";
+    public const string Vertegenwoordigers = "VertegenwoordigersPerVCodeDocument";
 
     public const string LocatieLookup = "LocatieLookupDocument";
     public const string LocatieZonderAdresMatch = "LocatieZonderAdresMatchDocument";
