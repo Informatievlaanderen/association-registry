@@ -103,10 +103,26 @@ public class ProjectionController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
-    [HttpPost("admin/historiek-kbosync/rebuild")]
+    [HttpPost("admin/kbo-sync-historiek/rebuild")]
     public async Task<IActionResult> RebuildAdminKboSyncProjection(CancellationToken cancellationToken)
     {
         var response = await _adminHttpClient.RebuildAdminKboSyncProjection(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
+
+    [HttpPost("admin/vertegenwoordigers/rebuild")]
+    public async Task<IActionResult> RebuildAdminVertegenwoordigersProjection(CancellationToken cancellationToken)
+    {
+        var response = await _adminHttpClient.RebuildVertegenwoordigersProjection(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
+
+    [HttpPost("admin/ksz-sync-historiek/rebuild")]
+    public async Task<IActionResult> RebuildAdminKszSyncHistorieProjection(CancellationToken cancellationToken)
+    {
+        var response = await _adminHttpClient.RebuildKszSyncHistoriekProjection(cancellationToken);
 
         return await OkOrForwardedResponse(cancellationToken, response);
     }

@@ -71,7 +71,7 @@ public static class MartenExtensions
                     ProjectionLifecycle.Async
                 );
                 opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
-                opts.Projections.Add(new VertegenwoordigerProjection(querySessionFunc), ProjectionLifecycle.Async);
+                opts.Projections.Add(new VertegenwoordigersProjection(querySessionFunc), ProjectionLifecycle.Async);
 
                 return opts;
             })

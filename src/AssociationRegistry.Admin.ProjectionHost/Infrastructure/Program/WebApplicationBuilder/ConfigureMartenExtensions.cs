@@ -222,7 +222,7 @@ public static class ConfigureMartenExtensions
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
-        opts.Projections.Add(new VertegenwoordigerProjection(querySessionFactory), ProjectionLifecycle.Async);
+        opts.Projections.Add(new VertegenwoordigersProjection(querySessionFactory), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);

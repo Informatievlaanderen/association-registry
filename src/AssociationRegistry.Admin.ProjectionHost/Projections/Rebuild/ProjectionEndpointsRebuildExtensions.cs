@@ -73,16 +73,28 @@ public static class ProjectionEndpointsExtensions
             await StartRebuild(ProjectionNames.PowerBi, store, shardTimeout, logger);
             return Results.Accepted();
         });
-        
+
         app.MapPost("v1/projections/powerbi-dubbeldetectie/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
         {
             await StartRebuild(ProjectionNames.PowerBiDubbelDetectie, store, shardTimeout, logger);
             return Results.Accepted();
         });
 
-        app.MapPost("v1/projections/historiek-kbosync/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
+        app.MapPost("v1/projections/kbo-sync-historiek/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
         {
             await StartRebuild(ProjectionNames.BeheerKboSync, store, shardTimeout, logger);
+            return Results.Accepted();
+        });
+
+        app.MapPost("v1/projections/ksz-sync-historiek/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
+        {
+            await StartRebuild(ProjectionNames.BeheerKszSync, store, shardTimeout, logger);
+            return Results.Accepted();
+        });
+
+        app.MapPost("v1/projections/vertegenwoordigers/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
+        {
+            await StartRebuild(ProjectionNames.Vertegenwoordigers, store, shardTimeout, logger);
             return Results.Accepted();
         });
 
