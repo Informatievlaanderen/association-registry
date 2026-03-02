@@ -3,7 +3,7 @@
 using Marten.Schema;
 
 public record BeheerKszSyncHistoriekGebeurtenisDocument(
-    [property: Identity] string Sequence,
+    [property: Identity] long Sequence,
     string VCode,
     int VertegenwooridgerId,
     string Beschrijving,

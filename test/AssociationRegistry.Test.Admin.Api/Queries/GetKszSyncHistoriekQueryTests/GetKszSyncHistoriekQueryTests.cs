@@ -14,7 +14,8 @@ public class KszSyncHistoriekQueryTestsFixture : IAsyncLifetime
 {
     public DocumentStore Store { get; set; }
     public Fixture _fixture;
-    public BeheerKszSyncHistoriekGebeurtenisDocument[] BeheerKszSyncHistoriekGebeurtenisDocuments;
+    public BeheerKszSyncHistoriekGebeurtenisDocument[] BeheerKszSyncHistoriekGebeurtenisAllDocuments;
+    public BeheerKszSyncHistoriekGebeurtenisDocument DocumentWithSameVCode;
 
     public async ValueTask InitializeAsync()
     {
@@ -23,8 +24,14 @@ public class KszSyncHistoriekQueryTestsFixture : IAsyncLifetime
         Store = await TestDocumentStoreFactory.CreateAsync(nameof(KszSyncHistoriekQueryTestsTests));
         var session = Store.LightweightSession();
 
-        BeheerKszSyncHistoriekGebeurtenisDocuments = _fixture.CreateMany<BeheerKszSyncHistoriekGebeurtenisDocument>().ToArray();
-        session.InsertObjects(BeheerKszSyncHistoriekGebeurtenisDocuments);
+        BeheerKszSyncHistoriekGebeurtenisAllDocuments = _fixture.CreateMany<BeheerKszSyncHistoriekGebeurtenisDocument>().ToArray();
+        DocumentWithSameVCode = _fixture.Create<BeheerKszSyncHistoriekGebeurtenisDocument>() with
+        {
+            VCode = BeheerKszSyncHistoriekGebeurtenisAllDocuments.First().VCode,
+        };
+        BeheerKszSyncHistoriekGebeurtenisAllDocuments = BeheerKszSyncHistoriekGebeurtenisAllDocuments.Append(DocumentWithSameVCode).ToArray();
+
+        session.InsertObjects(BeheerKszSyncHistoriekGebeurtenisAllDocuments);
 
         await session.SaveChangesAsync();
     }
@@ -43,12 +50,14 @@ public class KszSyncHistoriekQueryTestsTests
     private readonly IDocumentSession _session;
     private readonly Fixture _fixture;
     private readonly BeheerKszSyncHistoriekGebeurtenisDocument[] _insertedDocs;
+    private readonly BeheerKszSyncHistoriekGebeurtenisDocument _documentWithSameVCode;
 
     public KszSyncHistoriekQueryTestsTests(KszSyncHistoriekQueryTestsFixture setupFixture)
     {
         _session = setupFixture.Store.LightweightSession();
         _fixture = setupFixture._fixture;
-        _insertedDocs = setupFixture.BeheerKszSyncHistoriekGebeurtenisDocuments;
+        _insertedDocs = setupFixture.BeheerKszSyncHistoriekGebeurtenisAllDocuments;
+        _documentWithSameVCode = setupFixture.DocumentWithSameVCode;
     }
 
     [Fact]
@@ -78,49 +87,21 @@ public class KszSyncHistoriekQueryTestsTests
     }
 
     [Fact]
-    public async ValueTask With_Matching_VCode_Then_Return_Matching_Docs()
-    {
-        var query = new KszSyncHistoriekQuery(_session);
-
-        var expectedDoc = _insertedDocs.First();
-
-        var actual = await query.ExecuteAsync(
-            new KszSyncHistoriekFilter(expectedDoc.VCode),
-            CancellationToken.None
-        );
-
-        actual.Should().BeEquivalentTo([expectedDoc]);
-    }
-
-    [Fact]
     public async ValueTask With_Multiple_Matching_VCode_Then_Return_Multiple_Matching_Docs()
     {
         var query = new KszSyncHistoriekQuery(_session);
 
-        var expectedDoc = _insertedDocs.First();
-
-        var extraDocWithSameVCode = await InsertBeheerKszSyncHistoriekGebeurtenisDocument(expectedDoc);
+        var expectedVCode = _insertedDocs.First();
 
         var actual = await query.ExecuteAsync(
-            new KszSyncHistoriekFilter(expectedDoc.VCode),
+            new KszSyncHistoriekFilter(expectedVCode.VCode),
             CancellationToken.None
         );
 
-        actual.Should().BeEquivalentTo([expectedDoc, extraDocWithSameVCode]);
+        actual.Should().BeEquivalentTo([expectedVCode, _documentWithSameVCode]);
     }
 
-    private async ValueTask<BeheerKszSyncHistoriekGebeurtenisDocument> InsertBeheerKszSyncHistoriekGebeurtenisDocument(BeheerKszSyncHistoriekGebeurtenisDocument expectedDoc)
-    {
-        var extraDocWithSameVCode = _fixture.Create<BeheerKszSyncHistoriekGebeurtenisDocument>() with
-        {
-            VCode = expectedDoc.VCode,
-        };
 
-        _session.Insert(extraDocWithSameVCode);
-        await _session.SaveChangesAsync();
-
-        return extraDocWithSameVCode;
-    }
 
     public void Dispose()
     {
