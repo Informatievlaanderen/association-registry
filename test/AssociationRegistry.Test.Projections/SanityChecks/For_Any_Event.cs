@@ -16,6 +16,7 @@ public class For_Any_Event
     [
         typeof(AfdelingWerdGeregistreerd),
         typeof(BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis),
+        typeof(BankrekeningnummerWerdGevalideerd),
         typeof(KboNummerWerdGereserveerd),
         typeof(DubbeleVerenigingenWerdenGedetecteerd),
         ..new PersoonsgegevensEventTransformers().Select(x => x.PersistedEventType),
