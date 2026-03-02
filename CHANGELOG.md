@@ -1,3 +1,11 @@
+## [8.305.2](https://github.com/informatievlaanderen/association-registry/compare/v8.305.1...v8.305.2) (2026-03-02)
+
+
+### Bug Fixes
+
+* or-2997 log length hoofdactiviteiten for fv werd geregistreerd ([a6f076c](https://github.com/informatievlaanderen/association-registry/commit/a6f076c9a13e08a53650998de801db0374f2c568))
+* or-2997 map bankrekeningnummers in beheer historiek for vzer ([1548c37](https://github.com/informatievlaanderen/association-registry/commit/1548c37708654313a880ef69244e51ad572a9155))
+
 ## [8.305.1](https://github.com/informatievlaanderen/association-registry/compare/v8.305.0...v8.305.1) (2026-02-26)
 
 
