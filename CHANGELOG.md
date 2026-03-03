@@ -1,3 +1,10 @@
+## [8.306.1](https://github.com/informatievlaanderen/association-registry/compare/v8.306.0...v8.306.1) (2026-03-03)
+
+
+### Bug Fixes
+
+* or-3039 change projection name of kbo sync historiek ([c868988](https://github.com/informatievlaanderen/association-registry/commit/c868988d6ea45139cc8577c5e115226bb02fc3e2))
+
 # [8.306.0](https://github.com/informatievlaanderen/association-registry/compare/v8.305.2...v8.306.0) (2026-03-02)
 
 
