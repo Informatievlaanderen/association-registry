@@ -12,6 +12,7 @@ using Admin.Api.WebApi.Administratie.VertegenwoordigersPerVCode;
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
+using Admin.ProjectionHost.Projections.Search.Zoeken;
 using Alba;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Elastic.Clients.Elasticsearch;
@@ -130,8 +131,12 @@ public static class AdminApiEndpoints
         var logger = source.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Program>>();
         await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
 
-        var result = (await store2.Advanced.AllProjectionProgress())
-            .SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")
+        var allProjectionProgress = await store2.Advanced.AllProjectionProgress();
+        logger.LogInformation("all shards{0}", allProjectionProgress);
+        logger.LogInformation("beheer shard{0}", BeheerZoekProjectionHandler.ShardName.Identity);
+
+        var result = allProjectionProgress
+            .SingleOrDefault(x => x.ShardName == BeheerZoekProjectionHandler.ShardName.Identity)
             ?.Sequence;
 
         var expectedSequence = headers?.Build().ExpectedSequence;
@@ -151,7 +156,7 @@ public static class AdminApiEndpoints
             await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
 
             result = (await store2.Advanced.AllProjectionProgress())
-                .SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")
+                .SingleOrDefault(x => x.ShardName == BeheerZoekProjectionHandler.ShardName.Identity)
                 ?.Sequence;
 
             reachedSequence = result >= expectedSequence;

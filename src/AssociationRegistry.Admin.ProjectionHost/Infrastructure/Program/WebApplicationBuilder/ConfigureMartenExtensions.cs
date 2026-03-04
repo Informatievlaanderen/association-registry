@@ -15,6 +15,7 @@ using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Json;
 using Marten;
+using Marten.Events.Projections;
 using Marten.Services;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Newtonsoft.Json;
@@ -72,7 +73,7 @@ public static class ConfigureMartenExtensions
             return ConfigureStoreOptions(
                 opts,
                 serviceProvider,
-                serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(),
+                serviceProvider.GetRequiredService<ILogger<LocatiesGekoppeldMetGrarProjection>>(),
                 serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
                 serviceProvider.GetRequiredService<ElasticsearchClient>(),
                 serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
@@ -93,7 +94,7 @@ public static class ConfigureMartenExtensions
     public static StoreOptions ConfigureStoreOptions(
         StoreOptions opts,
         IServiceProvider serviceProvider,
-        ILogger<LocatieLookupProjection> locatieLookupLogger,
+        ILogger<LocatiesGekoppeldMetGrarProjection> locatieLookupLogger,
         ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
         ElasticsearchClient elasticClient,
         bool isDevelopment,
@@ -123,7 +124,7 @@ public static class ConfigureMartenExtensions
 
     public static StoreOptions ConfigureStoreOptions(
         StoreOptions opts,
-        ILogger<LocatieLookupProjection> locatieLookupLogger,
+        ILogger<LocatiesGekoppeldMetGrarProjection> locatieLookupLogger,
         ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
         ElasticsearchClient elasticClient,
         bool isDevelopment,
@@ -160,7 +161,7 @@ public static class ConfigureMartenExtensions
     private static StoreOptions ConfigureStoreOptionsCore(
         StoreOptions opts,
         Func<IQuerySession> querySessionFactory,
-        ILogger<LocatieLookupProjection> locatieLookupLogger,
+        ILogger<LocatiesGekoppeldMetGrarProjection> locatieLookupLogger,
         ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
         ElasticsearchClient elasticClient,
         bool isDevelopment,
@@ -222,12 +223,12 @@ public static class ConfigureMartenExtensions
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
-        opts.Projections.Add(new VertegenwoordigersProjection(querySessionFactory), ProjectionLifecycle.Async);
+        opts.Projections.Add(new VertegenwoordigersPerVCodeProjection(querySessionFactory), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerKszSyncHistoriekProjection(), ProjectionLifecycle.Async);
-        opts.Projections.Add(new LocatieLookupProjection(locatieLookupLogger), ProjectionLifecycle.Async);
+        opts.Projections.Add(new LocatiesGekoppeldMetGrarProjection(locatieLookupLogger), ProjectionLifecycle.Async);
         opts.Projections.Add(
             new LocatieZonderAdresMatchProjection(locatieZonderAdresMatchProjectionLogger),
             ProjectionLifecycle.Async
@@ -245,9 +246,8 @@ public static class ConfigureMartenExtensions
                 subscriptionLogger()
             ),
             ProjectionLifecycle.Async,
-            ProjectionNames.BeheerZoek
+            BeheerZoekProjectionHandler.ShardName.Name
         );
-
         opts.Projections.Add(
             new MartenSubscription(
                 new DuplicateDetectionEventsConsumer(
@@ -260,7 +260,7 @@ public static class ConfigureMartenExtensions
                 subscriptionLogger()
             ),
             ProjectionLifecycle.Async,
-            ProjectionNames.DuplicateDetection
+            DuplicateDetectionProjectionHandler.ShardName.Name
         );
 
         return opts;

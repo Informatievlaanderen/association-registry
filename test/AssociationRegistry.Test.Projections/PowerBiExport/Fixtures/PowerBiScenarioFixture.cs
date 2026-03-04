@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using Admin.ProjectionHost.Projections;
+using Admin.ProjectionHost.Projections.PowerBiExport;
 using Admin.Schema.PowerBiExport;
 using Framework.Fixtures;
 using JasperFx.Events.Daemon;
@@ -14,19 +15,12 @@ public class PowerBiScenarioFixture<TScenario>(ProjectionContext context)
 
     protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
     {
-        await daemon.RebuildProjectionAsync(ProjectionNames.PowerBi, CancellationToken.None);
+        await daemon.RebuildProjectionAsync(PowerBiExportProjection.ShardName.Name, CancellationToken.None);
     }
 
-    protected override async Task<PowerBiExportDocument> GetResultAsync(
-        IDocumentSession session,
-        TScenario scenario)
-        => await session
-                .Query<PowerBiExportDocument>()
-                .SingleAsync(x => x.VCode == scenario.AggregateId);
+    protected override async Task<PowerBiExportDocument> GetResultAsync(IDocumentSession session, TScenario scenario) =>
+        await session.Query<PowerBiExportDocument>().SingleAsync(x => x.VCode == scenario.AggregateId);
 }
 
-public class PowerBiScenarioClassFixture<TScenario>
-    : IClassFixture<PowerBiScenarioFixture<TScenario>>
-    where TScenario : IScenario, new()
-{
-}
+public class PowerBiScenarioClassFixture<TScenario> : IClassFixture<PowerBiScenarioFixture<TScenario>>
+    where TScenario : IScenario, new() { }

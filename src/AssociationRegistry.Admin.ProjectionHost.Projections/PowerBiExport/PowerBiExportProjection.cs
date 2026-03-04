@@ -8,6 +8,7 @@ using Events;
 using Formats;
 using Framework;
 using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
 using Schema.PowerBiExport;
 using Vereniging;
@@ -26,6 +27,12 @@ using Werkingsgebied = Schema.PowerBiExport.Werkingsgebied;
 public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocument, string>
 {
     public const string StatusVerwijderd = "Verwijderd";
+    public static readonly ShardName ShardName = new("beheer.postgres.powerbi.export");
+
+    public PowerBiExportProjection()
+    {
+        Name = ShardName.Name;
+    }
 
     private static void UpdateHistoriek(PowerBiExportDocument document, IEvent @event) =>
         document.Historiek = document.Historiek.Append(Gebeurtenis.FromEvent(@event)).ToArray();

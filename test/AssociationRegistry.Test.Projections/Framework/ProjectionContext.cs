@@ -4,15 +4,15 @@ using Admin.ProjectionHost.Infrastructure.Extensions;
 using Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 using Admin.ProjectionHost.Projections.Locaties;
 using Admin.ProjectionHost.Projections.Search;
+using Elastic.Clients.Elasticsearch;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Marten;
+using MartenDb.Logging;
 using MartenDb.Subscriptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
-using Elastic.Clients.Elasticsearch;
-using MartenDb.Logging;
 using Npgsql;
 using Public.ProjectionHost.Infrastructure.Program.WebApplication;
 using Public.ProjectionHost.Projections.Search;
@@ -39,91 +39,96 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         // DropDatabase(Configuration);
         EnsureDbExists(Configuration);
 
-        AdminElasticClient =
-            ElasticSearchExtensions.CreateElasticClient(
-                Configuration.GetElasticSearchOptionsSection(), NullLogger.Instance);
+        AdminElasticClient = ElasticSearchExtensions.CreateElasticClient(
+            Configuration.GetElasticSearchOptionsSection(),
+            NullLogger.Instance
+        );
 
         AdminProjectionElasticClient =
             Admin.ProjectionHost.Infrastructure.Extensions.ElasticSearchExtensions.CreateElasticClient(
-                Configuration.GetElasticSearchOptionsSection(), NullLogger.Instance);
+                Configuration.GetElasticSearchOptionsSection(),
+                NullLogger.Instance
+            );
 
-        var adminStore = DocumentStore.For(
-            opts =>
-            {
-                ConfigureMartenExtensions.ConfigureStoreOptions(opts,
-                                                                NullLogger<LocatieLookupProjection>.Instance,
-                                                                NullLogger<LocatieZonderAdresMatchProjection>.Instance,
-                                                                AdminProjectionElasticClient,
-                                                                true,
-                                                                NullLogger<BeheerZoekenEventsConsumer>.Instance,
-                                                                NullLogger<DuplicateDetectionEventsConsumer>.Instance,
-                                                                () => NullLogger<MartenSubscription>.Instance,
-                                                                NullLogger<SecureMartenLogger>.Instance,
-                                                                new PostgreSqlOptionsSection()
-                                                                {
-                                                                    Host = "localhost",
-                                                                    Database = RootDatabase,
-                                                                    Password = "root",
-                                                                    Username = "root",
-                                                                    Schema = "admin",
-                                                                }, Configuration.GetElasticSearchOptionsSection());
-            });
+        var adminStore = DocumentStore.For(opts =>
+        {
+            ConfigureMartenExtensions.ConfigureStoreOptions(
+                opts,
+                NullLogger<LocatiesGekoppeldMetGrarProjection>.Instance,
+                NullLogger<LocatieZonderAdresMatchProjection>.Instance,
+                AdminProjectionElasticClient,
+                true,
+                NullLogger<BeheerZoekenEventsConsumer>.Instance,
+                NullLogger<DuplicateDetectionEventsConsumer>.Instance,
+                () => NullLogger<MartenSubscription>.Instance,
+                NullLogger<SecureMartenLogger>.Instance,
+                new PostgreSqlOptionsSection()
+                {
+                    Host = "localhost",
+                    Database = RootDatabase,
+                    Password = "root",
+                    Username = "root",
+                    Schema = "admin",
+                },
+                Configuration.GetElasticSearchOptionsSection()
+            );
+        });
 
         await adminStore.Advanced.Clean.DeleteAllEventDataAsync();
 
         AdminStore = adminStore;
 
-        PublicElasticClient =
-            Public.Api.Infrastructure.Extensions.ElasticSearchExtensions.CreateElasticClient(
-                Configuration.GetElasticSearchOptionsSection(), NullLogger.Instance);
+        PublicElasticClient = Public.Api.Infrastructure.Extensions.ElasticSearchExtensions.CreateElasticClient(
+            Configuration.GetElasticSearchOptionsSection(),
+            NullLogger.Instance
+        );
 
         PublicProjectionElasticClient =
             Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder.ConfigureElasticSearchExtensions.CreateElasticClient(
-                Configuration.GetElasticSearchOptionsSection());
+                Configuration.GetElasticSearchOptionsSection()
+            );
 
-        var publicStore = DocumentStore.For(
-            opts =>
-            {
-                Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder.ConfigureMartenExtensions.ConfigureStoreOptions(
-                    opts,
-                   PublicProjectionElasticClient,
-                    NullLogger<PubliekZoekenEventsConsumer>.Instance,
-                    NullLogger<MartenSubscription>.Instance,
-                    NullLogger<SecureMartenLogger>.Instance,
-                    new PostgreSqlOptionsSection()
-                    {
-                        Host = "localhost",
-                        Database = RootDatabase,
-                        Password = "root",
-                        Username = "root",
-                        Schema = "admin",
-                    },
-
-                    true,
-                    Configuration.GetElasticSearchOptionsSection());
-            });
+        var publicStore = DocumentStore.For(opts =>
+        {
+            Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder.ConfigureMartenExtensions.ConfigureStoreOptions(
+                opts,
+                PublicProjectionElasticClient,
+                NullLogger<PubliekZoekenEventsConsumer>.Instance,
+                NullLogger<MartenSubscription>.Instance,
+                NullLogger<SecureMartenLogger>.Instance,
+                new PostgreSqlOptionsSection()
+                {
+                    Host = "localhost",
+                    Database = RootDatabase,
+                    Password = "root",
+                    Username = "root",
+                    Schema = "admin",
+                },
+                true,
+                Configuration.GetElasticSearchOptionsSection()
+            );
+        });
 
         await publicStore.Advanced.Clean.DeleteAllEventDataAsync();
 
         PublicStore = publicStore;
 
-
-        var acmStore = DocumentStore.For(
-            opts =>
-            {
-                AssociationRegistry.Acm.Api.Infrastructure.Extensions.MartenExtensions.ConfigureStoreOptions(
-                    opts,
-                    new PostgreSqlOptionsSection()
-                    {
-                        Host = "localhost",
-                        Database = RootDatabase,
-                        Password = "root",
-                        Username = "root",
-                        Schema = "admin",
-                    },
-                    NullLogger<SecureMartenLogger>.Instance,
-                    true);
-            });
+        var acmStore = DocumentStore.For(opts =>
+        {
+            AssociationRegistry.Acm.Api.Infrastructure.Extensions.MartenExtensions.ConfigureStoreOptions(
+                opts,
+                new PostgreSqlOptionsSection()
+                {
+                    Host = "localhost",
+                    Database = RootDatabase,
+                    Password = "root",
+                    Username = "root",
+                    Schema = "admin",
+                },
+                NullLogger<SecureMartenLogger>.Instance,
+                true
+            );
+        });
 
         await acmStore.Advanced.Clean.DeleteAllEventDataAsync();
 
@@ -133,12 +138,14 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         await ElasticSearchExtensions.EnsureIndicesExistsAsync(
             AdminProjectionElasticClient,
             Configuration.GetElasticSearchOptionsSection().Indices!.Verenigingen!,
-            Configuration.GetElasticSearchOptionsSection().Indices!.DuplicateDetection!);
+            Configuration.GetElasticSearchOptionsSection().Indices!.DuplicateDetection!
+        );
 
         await PrepareElasticSearch.EnsureElasticSearchIsInitialized(
             PublicProjectionElasticClient,
             Configuration.GetElasticSearchOptionsSection(),
-            NullLogger<ProjectionContext>.Instance);
+            NullLogger<ProjectionContext>.Instance
+        );
     }
 
     public async Task SaveAsync(EventsPerVCode[] events, IDocumentSession session)
@@ -179,7 +186,8 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         try
         {
             connection.Open();
-            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
+            cmd.CommandText +=
+                $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
             cmd.ExecuteNonQuery();
         }
         catch (PostgresException ex)
@@ -194,11 +202,11 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         }
     }
 
-    private static string GetConnectionString(IConfiguration configurationRoot, string database)
-        => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
-           $"database={database};" +
-           $"password={configurationRoot["PostgreSQLOptions:password"]};" +
-           $"username={configurationRoot["PostgreSQLOptions:username"]}";
+    private static string GetConnectionString(IConfiguration configurationRoot, string database) =>
+        $"host={configurationRoot["PostgreSQLOptions:host"]};"
+        + $"database={database};"
+        + $"password={configurationRoot["PostgreSQLOptions:password"]};"
+        + $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
     public ValueTask DisposeAsync()
     {

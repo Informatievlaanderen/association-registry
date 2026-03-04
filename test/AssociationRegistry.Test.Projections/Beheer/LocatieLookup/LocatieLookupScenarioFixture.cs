@@ -12,21 +12,17 @@ public class LocatieLookupScenarioFixture<TScenario>(ProjectionContext context)
 {
     protected override IDocumentStore DocumentStore => Context.AdminStore;
 
-    protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
-        => await daemon.RebuildProjectionAsync<LocatieLookupProjection>(CancellationToken.None);
+    protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon) =>
+        await daemon.RebuildProjectionAsync<LocatiesGekoppeldMetGrarProjection>(CancellationToken.None);
 
     protected override async Task<LocatieLookupDocument[]> GetResultAsync(
         IDocumentSession session,
-        TScenario scenario)
-        => (await session
-                .Query<LocatieLookupDocument>()
-                .Where(x => x.VCode == scenario.AggregateId)
-                .ToListAsync())
-           .ToArray();
+        TScenario scenario
+    ) =>
+        (
+            await session.Query<LocatieLookupDocument>().Where(x => x.VCode == scenario.AggregateId).ToListAsync()
+        ).ToArray();
 }
 
-public class LocatieLookupScenarioClassFixture<TScenario>
-    : IClassFixture<LocatieLookupScenarioFixture<TScenario>>
-    where TScenario : IScenario, new()
-{
-}
+public class LocatieLookupScenarioClassFixture<TScenario> : IClassFixture<LocatieLookupScenarioFixture<TScenario>>
+    where TScenario : IScenario, new() { }

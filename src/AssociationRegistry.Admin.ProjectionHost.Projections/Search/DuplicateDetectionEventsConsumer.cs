@@ -1,18 +1,17 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
 using DuplicateDetection;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Core.MGet;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
 using MartenDb.Subscriptions;
-using Elastic.Clients.Elasticsearch;
-using Elastic.Clients.Elasticsearch.Core.MGet;
 using Microsoft.Extensions.Logging;
 using Resources;
 using Schema.Search;
 
 public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
 {
-
     private readonly ElasticsearchClient _elasticClient;
     private readonly DuplicateDetectionProjectionHandler _duplicateDetectionProjectionHandler;
     private readonly ElasticSearchOptionsSection _options;
@@ -22,7 +21,8 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
         ElasticsearchClient elasticClient,
         DuplicateDetectionProjectionHandler duplicateDetectionProjectionHandler,
         ElasticSearchOptionsSection options,
-        ILogger<DuplicateDetectionEventsConsumer> logger)
+        ILogger<DuplicateDetectionEventsConsumer> logger
+    )
     {
         _elasticClient = elasticClient;
         _duplicateDetectionProjectionHandler = duplicateDetectionProjectionHandler;
@@ -40,10 +40,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
         var multiGetRequest = new MultiGetRequest
         {
             Index = _options.Indices.DuplicateDetection,
-            Docs = keys.Select(key => new MultiGetOperation
-            {
-                Id = key
-            }).ToList()
+            Docs = keys.Select(key => new MultiGetOperation { Id = key }).ToList(),
         };
 
         var multiGetResponse = await _elasticClient.MultiGetAsync<DuplicateDetectionDocument>(multiGetRequest);
@@ -66,8 +63,10 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
 
         foreach (var @event in eventList.Events)
         {
-            dynamic eventEnvelope =
-                Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;
+            dynamic eventEnvelope = Activator.CreateInstance(
+                typeof(EventEnvelope<>).MakeGenericType(@event.EventType),
+                @event
+            )!;
 
             var doc = documentsPerVCode[@event.StreamKey];
 
@@ -109,23 +108,27 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, string.Format(ExceptionMessages.FoutBijProjecteren, ProjectionNames.DuplicateDetection));
+                        _logger.LogError(
+                            ex,
+                            string.Format(
+                                ExceptionMessages.FoutBijProjecteren,
+                                DuplicateDetectionProjectionHandler.ShardName.Name
+                            )
+                        );
 
                         throw;
                     }
             }
         }
         var bulkAll = await IndexDocumentsAsync(documentsPerVCode.Values);
-
     }
 
     private async Task<bool> IndexDocumentsAsync<T>(IEnumerable<T> documents)
         where T : class
     {
-        var response = await _elasticClient.BulkAsync(b => b
-                                                          .Index(_options.Indices.DuplicateDetection)
-                                                          .IndexMany(documents)
-                                                          .Refresh(Refresh.WaitFor));
+        var response = await _elasticClient.BulkAsync(b =>
+            b.Index(_options.Indices.DuplicateDetection).IndexMany(documents).Refresh(Refresh.WaitFor)
+        );
 
         if (!response.IsValidResponse)
         {

@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
+using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.Core.MGet;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
 using MartenDb.Subscriptions;
-using Elastic.Clients.Elasticsearch;
-using Elastic.Clients.Elasticsearch.Core.MGet;
 using Microsoft.Extensions.Logging;
 using Resources;
 using Schema.Search;
@@ -21,7 +21,8 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
         ElasticsearchClient elasticClient,
         BeheerZoekProjectionHandler zoekProjectionHandler,
         ElasticSearchOptionsSection options,
-        ILogger<BeheerZoekenEventsConsumer> logger)
+        ILogger<BeheerZoekenEventsConsumer> logger
+    )
     {
         _elasticClient = elasticClient;
         _zoekProjectionHandler = zoekProjectionHandler;
@@ -39,10 +40,7 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
         var multiGetRequest = new MultiGetRequest
         {
             Index = _options.Indices.Verenigingen,
-            Docs = keys.Select(key => new MultiGetOperation
-            {
-                Id = key
-            }).ToList()
+            Docs = keys.Select(key => new MultiGetOperation { Id = key }).ToList(),
         };
 
         var multiGetResponse = await _elasticClient.MultiGetAsync<VerenigingZoekDocument>(multiGetRequest);
@@ -65,8 +63,10 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
 
         foreach (var @event in eventList.Events)
         {
-            dynamic eventEnvelope =
-                Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;
+            dynamic eventEnvelope = Activator.CreateInstance(
+                typeof(EventEnvelope<>).MakeGenericType(@event.EventType),
+                @event
+            )!;
 
             var doc = documentsPerVCode[@event.StreamKey];
 
@@ -128,7 +128,13 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, string.Format(ExceptionMessages.FoutBijProjecteren, ProjectionNames.BeheerZoek));
+                        _logger.LogError(
+                            ex,
+                            string.Format(
+                                ExceptionMessages.FoutBijProjecteren,
+                                BeheerZoekProjectionHandler.ShardName.Name
+                            )
+                        );
 
                         throw;
                     }
@@ -141,10 +147,8 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
     private async Task<bool> IndexDocumentsAsync<T>(IEnumerable<T> documents)
         where T : class
     {
-        var response = await _elasticClient.BulkAsync(b => b
-                                                          .Index(_options.Indices.Verenigingen)
-                                                          .IndexMany(documents)
-                                                          .Refresh(Refresh.WaitFor)
+        var response = await _elasticClient.BulkAsync(b =>
+            b.Index(_options.Indices.Verenigingen).IndexMany(documents).Refresh(Refresh.WaitFor)
         );
 
         if (!response.IsValidResponse)

@@ -15,41 +15,45 @@ using ResponseModels;
 [Authorize(Policy = Program.SuperAdminPolicyName)]
 public class LocatieLookupController : ApiController
 {
-    [HttpGet("admin/locaties/lookup/vCode/{vCode}")]
+    [HttpGet("admin/locaties/gekoppeldmetgrar/vCode/{vCode}")]
     public async Task<IActionResult> GetLocatiesMetAdresIdVolgensVCode(
         [FromServices] IDocumentStore documentStore,
         [FromRoute] string vCode,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         await using var session = documentStore.LightweightSession();
 
         var response = new LocatiesMetAdresIdVolgensVCode
         {
             VCode = vCode,
-            Data = session.Query<LocatieLookupDocument>()
-                          .Where(w => w.VCode == vCode)
-                          .Select(s => new LocatiesMetAdresIdVolgensVCode.LocatieLookup(s.LocatieId, s.AdresId))
-                          .ToArray(),
+            Data = session
+                .Query<LocatieLookupDocument>()
+                .Where(w => w.VCode == vCode)
+                .Select(s => new LocatiesMetAdresIdVolgensVCode.LocatieLookup(s.LocatieId, s.AdresId))
+                .ToArray(),
         };
 
         return Ok(response);
     }
 
-    [HttpGet("admin/locaties/lookup/adresId/{adresId}")]
+    [HttpGet("admin/locaties/gekoppeldmetgrar/adresId/{adresId}")]
     public async Task<IActionResult> GetLocatiesMetAdresIdVolgensAdresId(
         [FromServices] IDocumentStore documentStore,
         [FromRoute] string adresId,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         await using var session = documentStore.LightweightSession();
 
         var response = new LocatiesMetAdresIdVolgensAdresId
         {
             AdresId = adresId,
-            Data = session.Query<LocatieLookupDocument>()
-                          .Where(w => w.AdresId == adresId)
-                          .Select(s => new LocatiesMetAdresIdVolgensAdresId.LocatieLookup(s.LocatieId, s.VCode))
-                          .ToArray(),
+            Data = session
+                .Query<LocatieLookupDocument>()
+                .Where(w => w.AdresId == adresId)
+                .Select(s => new LocatiesMetAdresIdVolgensAdresId.LocatieLookup(s.LocatieId, s.VCode))
+                .ToArray(),
         };
 
         return Ok(response);

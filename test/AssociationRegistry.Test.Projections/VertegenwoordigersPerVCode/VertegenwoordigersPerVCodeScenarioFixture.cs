@@ -12,19 +12,18 @@ public class VertegenwoordigersPerVCodeScenarioFixture<TScenario>(ProjectionCont
 {
     protected override IDocumentStore DocumentStore => Context.AdminStore;
 
-    protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
-        => await daemon.RebuildProjectionAsync<VertegenwoordigersProjection>(CancellationToken.None);
+    protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon) =>
+        await daemon.RebuildProjectionAsync<VertegenwoordigersPerVCodeProjection>(CancellationToken.None);
 
     protected override async Task<VertegenwoordigersPerVCodeDocument?> GetResultAsync(
         IDocumentSession session,
-        TScenario scenario)
-        => await session
-                .Query<VertegenwoordigersPerVCodeDocument>()
-                .SingleOrDefaultAsync(x => x.VCode == scenario.AggregateId);
+        TScenario scenario
+    ) =>
+        await session
+            .Query<VertegenwoordigersPerVCodeDocument>()
+            .SingleOrDefaultAsync(x => x.VCode == scenario.AggregateId);
 }
 
 public class VertegenwoordigersPerVCodeScenarioClassFixture<TScenario>
     : IClassFixture<VertegenwoordigersPerVCodeScenarioFixture<TScenario>>
-    where TScenario : IScenario, new()
-{
-}
+    where TScenario : IScenario, new() { }

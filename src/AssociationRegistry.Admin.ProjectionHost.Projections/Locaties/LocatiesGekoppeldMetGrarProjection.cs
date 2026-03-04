@@ -3,6 +3,7 @@
 using Events;
 using JasperFx.Events;
 using JasperFx.Events.Grouping;
+using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Aggregation;
 using Marten.Events.Projections;
@@ -10,10 +11,14 @@ using Microsoft.Extensions.Logging;
 using Schema.Detail;
 using IEvent = JasperFx.Events.IEvent;
 
-public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocument, string>
+public class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieLookupDocument, string>
 {
-    public LocatieLookupProjection(ILogger<LocatieLookupProjection> logger)
+    public static readonly ShardName ShardName = new("beheer.postgres.locatiesgekoppeldmetgrar");
+
+    public LocatiesGekoppeldMetGrarProjection(ILogger<LocatiesGekoppeldMetGrarProjection> logger)
     {
+        Name = ShardName.Name;
+
         Options.BatchSize = 1;
         Options.EnableDocumentTrackingByIdentity = true;
         Options.MaximumHopperSize = 1;

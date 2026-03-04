@@ -2,18 +2,22 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
 using Events;
 using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Marten;
-using Marten.Events;
 using Marten.Events.Projections;
 using Schema.Historiek;
 
 public class BeheerVerenigingHistoriekProjection : EventProjection
 {
+    public static readonly ShardName ShardName = new("beheer.postgres.historiek");
+
     public BeheerVerenigingHistoriekProjection()
     {
+        Name = ShardName.Name;
+
         // Needs a batch size of 1, because otherwise if Registered and NameChanged arrive in 1 batch/slice,
         // the newly persisted document from xxxWerdGeregistreerd is not in the
-        // Query yet when we handle NaamWerdGewijzigd.
+        // Query yet when we. handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
         Options.EnableDocumentTrackingByIdentity = true;
         Options.DeleteViewTypeOnTeardown<BeheerVerenigingHistoriekDocument>();

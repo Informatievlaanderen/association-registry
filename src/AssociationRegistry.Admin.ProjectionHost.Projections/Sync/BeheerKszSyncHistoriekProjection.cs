@@ -4,12 +4,16 @@ using AssociationRegistry.Admin.Schema.KboSync;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Marten.Events.Projections;
 
 public class BeheerKszSyncHistoriekProjection : EventProjection
 {
+    public static readonly ShardName ShardName = new("beheer.postgres.ksz.synchistoriek");
+
     public BeheerKszSyncHistoriekProjection()
     {
+        Name = ShardName.Name;
         Options.TeardownDataOnRebuild = true;
         Options.EnableDocumentTrackingByIdentity = true;
         Options.DeleteViewTypeOnTeardown<BeheerKszSyncHistoriekGebeurtenisDocument>();
