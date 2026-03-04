@@ -21,6 +21,12 @@ public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZ
         Options.MaximumHopperSize = 1;
         Options.DeleteViewTypeOnTeardown<LocatieZonderAdresMatchDocument>();
 
+        CreateEvent<FeitelijkeVerenigingWerdGeregistreerd>(e => new LocatieZonderAdresMatchDocument()
+        {
+            VCode = e.VCode,
+            LocatieIds = e.Locaties.Select(x => x.LocatieId).ToArray(),
+        });
+
         CreateEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>(
             e => new LocatieZonderAdresMatchDocument()
             {

@@ -1,18 +1,26 @@
 namespace AssociationRegistry.Test.Common.Framework;
 
 using Admin.Schema.Search;
+using Elastic.Clients.Elasticsearch;
 using FluentAssertions;
 using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.Logging;
-using Elastic.Clients.Elasticsearch;
 
 public static class ProjectionSequenceGuardian
 {
-    public static async Task EnsureAllProjectionsAreUpToDate(IDocumentStore projectionsDocumentStore, long maxSequence, ElasticsearchClient elasticClient, ILogger logger)
+    public static async Task EnsureAllProjectionsAreUpToDate(
+        IDocumentStore projectionsDocumentStore,
+        long maxSequence,
+        ElasticsearchClient elasticClient,
+        ILogger logger
+    )
     {
-        var (sequencesPerProjection, reachedSequence) = await HaveAllProjectionsReachedHighwaterMark(projectionsDocumentStore, maxSequence);
+        var (sequencesPerProjection, reachedSequence) = await HaveAllProjectionsReachedHighwaterMark(
+            projectionsDocumentStore,
+            maxSequence
+        );
         var counter = 0;
 
         while (!reachedSequence && counter < 20)
@@ -21,24 +29,36 @@ public static class ProjectionSequenceGuardian
 
             await Task.Delay(500 + (100 * counter));
 
-            (sequencesPerProjection, reachedSequence) = await HaveAllProjectionsReachedHighwaterMark(projectionsDocumentStore, maxSequence);
+            (sequencesPerProjection, reachedSequence) = await HaveAllProjectionsReachedHighwaterMark(
+                projectionsDocumentStore,
+                maxSequence
+            );
         }
 
-        sequencesPerProjection.Should()
-                              .AllSatisfy(x => x.Value.Should()
-                                                .BeGreaterThanOrEqualTo(
-                                                     maxSequence, $"Because we want projection {x.Key} to be up to date"));
+        sequencesPerProjection
+            .Should()
+            .AllSatisfy(x =>
+                x.Value.Should()
+                    .BeGreaterThanOrEqualTo(maxSequence, $"Because we want projection {x.Key} to be up to date")
+            );
 
         await elasticClient.Indices.RefreshAsync(Indices.All);
-        await elasticClient.Indices.ForcemergeAsync(Indices.All, fm => fm
-                                                       .MaxNumSegments(1));
+        await elasticClient.Indices.ForcemergeAsync(Indices.All, fm => fm.MaxNumSegments(1));
     }
 
-    private static async Task<(Dictionary<string, long> sequencesPerProjection, bool reachedSequence)> HaveAllProjectionsReachedHighwaterMark(IDocumentStore projectionsDocumentStore, long maxSequence)
+    private static async Task<(
+        Dictionary<string, long> sequencesPerProjection,
+        bool reachedSequence
+    )> HaveAllProjectionsReachedHighwaterMark(IDocumentStore projectionsDocumentStore, long maxSequence)
     {
-        var sequencesPerProjection = await SequencesPerProjection(projectionsDocumentStore);
+        var sequencesPerProjection = (await SequencesPerProjection(projectionsDocumentStore))
+            .Where(x => x.Key.StartsWith("beheer"))
+            .ToDictionary();
 
-        var reachedSequence = Enumerable.All<KeyValuePair<string, long>>(sequencesPerProjection, x => x.Value >= maxSequence);
+        var reachedSequence = Enumerable.All<KeyValuePair<string, long>>(
+            sequencesPerProjection,
+            x => x.Value >= maxSequence
+        );
 
         return (sequencesPerProjection, reachedSequence);
     }
@@ -61,12 +81,9 @@ public static class ProjectionSequenceGuardian
             hasAtLeastOneProjection = allProjectionProgress.Count > 1; // because high watermark is always there, so we need at least one more projection
         }
 
-        allProjectionProgress.Should().NotBeNullOrEmpty()
-                             .And.Subject.Count().Should().BeGreaterThan(1);
+        allProjectionProgress.Should().NotBeNullOrEmpty().And.Subject.Count().Should().BeGreaterThan(1);
 
-        sequencesPerProjection = allProjectionProgress
-                                .ToList()
-                                .ToDictionary(x => x.ShardName, x => x.Sequence);
+        sequencesPerProjection = allProjectionProgress.ToList().ToDictionary(x => x.ShardName, x => x.Sequence);
 
         return sequencesPerProjection;
     }

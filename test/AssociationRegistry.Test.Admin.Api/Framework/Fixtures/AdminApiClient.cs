@@ -27,8 +27,11 @@ public class AdminApiClient : IDisposable
     public async Task<HttpResponseMessage> GetDetail(string vCode, long? expectedSequence = null) =>
         await GetWithPossibleSequence($"/v1/verenigingen/{vCode}", expectedSequence);
 
-    public async Task<HttpResponseMessage> GetLocatieLookup(string vCode, long? expectedSequence = null) =>
-        await GetWithPossibleSequence($"/v1/projections/admin/locaties/lookup/vCode/{vCode}", expectedSequence);
+    public async Task<HttpResponseMessage> GetLocatiesGekoppeldMetGrar(string vCode, long? expectedSequence = null) =>
+        await GetWithPossibleSequence(
+            $"/v1/projections/admin/locaties/gekoppeldmetgrar/vCode/{vCode}",
+            expectedSequence
+        );
 
     public async Task<HttpResponseMessage> GetHistoriek(string vCode, long? expectedSequence = null) =>
         await GetWithPossibleSequence($"/v1/verenigingen/{vCode}/historiek", expectedSequence);
