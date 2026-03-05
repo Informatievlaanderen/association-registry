@@ -16,21 +16,15 @@ public record MinimalProjectionStatusResponse
 
     public MinimalProjectionStatusResponse(ProjectionStatus[] projectionStatus)
     {
-        var highWaterMarkShard = projectionStatus.Single(s => s.ShardName.Equals("HighWaterMark"));
+        var highWaterMarkShard = projectionStatus.Single(s => s.ShardName.Equals(ProjectionStatus.HighWaterMarkKey));
 
         HighWaterMark = highWaterMarkShard.Sequence;
         Timestamp = highWaterMarkShard.Timestamp;
 
         var status = projectionStatus
-                    .Where(w => !w.ShardName.Equals("HighWaterMark"))
-                    .Select(s => new MinimalProjectionStatus(s.ShardName, s.Sequence))
+                    .Where(w => !w.ShardName.Equals(ProjectionStatus.HighWaterMarkKey))
                     .OrderBy(o => o.ShardName);
 
-        Status = status.ToDictionary(keySelector: k => k.ShardName, elementSelector: v => v.Sequence);
-    }
-
-    public record MinimalProjectionStatus(string FullShardName, long Sequence)
-    {
-        public string ShardName { get; init; } = FullShardName.Split('.').Last().Replace(oldValue: ":All", newValue: "");
+        Status = status.ToDictionary(k => k.ShardName.Replace(ProjectionStatus.AllSuffix, string.Empty), v => (long)v.Sequence);
     }
 }
