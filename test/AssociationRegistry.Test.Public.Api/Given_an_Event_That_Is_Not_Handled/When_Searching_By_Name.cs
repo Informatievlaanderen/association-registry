@@ -19,8 +19,11 @@ public class When_Searching_By_Name
     private readonly VCode _vCode;
     private readonly V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
 
-    public When_Searching_By_Name(GivenEventsFixture fixture)
+    private readonly ITestOutputHelper _output;
+
+    public When_Searching_By_Name(GivenEventsFixture fixture, ITestOutputHelper output)
     {
+        _output = output;
         _publicApiClient = fixture.PublicApiClient;
         _scenario = fixture.V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario;
         _vCode = _scenario.VCode;
@@ -107,27 +110,38 @@ public class When_Searching_By_Name
     [Fact]
     public async ValueTask When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
-        string? queryUrl = null;
-        string? lastBody = null;
+        var response = await _publicApiClient.Search("*dena*");
 
-        for (var attempt = 1; attempt <= 15 && string.IsNullOrWhiteSpace(queryUrl); attempt++)
-        {
-            var response = await _publicApiClient.Search("*dena*");
-            lastBody = await response.Content.ReadAsStringAsync();
+        _output.WriteLine($"Search status: {response.StatusCode}");
 
-            var json = JObject.Parse(lastBody);
-            queryUrl = json.SelectToken("$.facets.hoofdactiviteitenVerenigingsloket[0].query")?.Value<string>();
+        var content = await response.Content.ReadAsStringAsync();
 
-            if (string.IsNullOrWhiteSpace(queryUrl))
-                await Task.Delay(250 + attempt * 150);
-        }
+        _output.WriteLine("---- SEARCH RESPONSE ----");
+        _output.WriteLine(content);
+        _output.WriteLine("---- END SEARCH RESPONSE ----");
 
-        queryUrl.Should().NotBeNullOrWhiteSpace("facets should be available. Last response: {0}", lastBody);
+        var regex = new Regex(
+            @"""facets"":\s*{\s*""hoofdactiviteitenVerenigingsloket"":(.|\s)*?""query"":"".*?(\/v1\/.+?)"""
+        );
 
-        var relative = new Uri(queryUrl!, UriKind.Absolute).PathAndQuery;
+        var regexResult = regex.Match(content);
 
-        var responseFromFacetsUrl = await _publicApiClient.HttpClient.GetAsync(relative);
+        _output.WriteLine($"Regex success: {regexResult.Success}");
+        _output.WriteLine($"Extracted URL: {regexResult.Groups[2].Value ?? "NULL"}");
+
+        var urlFromFacets = regexResult.Groups[2].Value;
+
+        _output.WriteLine($"Calling URL: {urlFromFacets}");
+
+        var responseFromFacetsUrl = await _publicApiClient.HttpClient.GetAsync(urlFromFacets);
+
+        _output.WriteLine($"Facet request status: {responseFromFacetsUrl.StatusCode}");
+
         var contentFromFacetsUrl = await responseFromFacetsUrl.Content.ReadAsStringAsync();
+
+        _output.WriteLine("---- FACET RESPONSE ----");
+        _output.WriteLine(contentFromFacetsUrl);
+        _output.WriteLine("---- END FACET RESPONSE ----");
 
         const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteitenVerenigingsloket=BLA";
         contentFromFacetsUrl.Should().Contain(expectedUrl);
