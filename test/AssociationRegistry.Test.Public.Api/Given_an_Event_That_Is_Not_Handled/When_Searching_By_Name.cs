@@ -107,11 +107,22 @@ public class When_Searching_By_Name
     [Fact]
     public async ValueTask When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
-        var response = await _publicApiClient.Search("*dena*");
-        var content = await response.Content.ReadAsStringAsync();
-        var json = JObject.Parse(content);
-        var queryUrl = json.SelectToken("$.facets.hoofdactiviteitenVerenigingsloket[0].query")?.Value<string>();
-        queryUrl.Should().NotBeNullOrWhiteSpace();
+        string? queryUrl = null;
+        string? lastBody = null;
+
+        for (var attempt = 1; attempt <= 15 && string.IsNullOrWhiteSpace(queryUrl); attempt++)
+        {
+            var response = await _publicApiClient.Search("*dena*");
+            lastBody = await response.Content.ReadAsStringAsync();
+
+            var json = JObject.Parse(lastBody);
+            queryUrl = json.SelectToken("$.facets.hoofdactiviteitenVerenigingsloket[0].query")?.Value<string>();
+
+            if (string.IsNullOrWhiteSpace(queryUrl))
+                await Task.Delay(250 + attempt * 150);
+        }
+
+        queryUrl.Should().NotBeNullOrWhiteSpace("facets should be available. Last response: {0}", lastBody);
 
         var relative = new Uri(queryUrl!, UriKind.Absolute).PathAndQuery;
 
