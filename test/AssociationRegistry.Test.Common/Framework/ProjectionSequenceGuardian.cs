@@ -1,25 +1,24 @@
 namespace AssociationRegistry.Test.Common.Framework;
 
-using Admin.Schema.Search;
 using Elastic.Clients.Elasticsearch;
 using FluentAssertions;
 using JasperFx.Events.Projections;
 using Marten;
-using Marten.Events.Daemon;
 using Microsoft.Extensions.Logging;
 
 public static class ProjectionSequenceGuardian
 {
     public static async Task EnsureAllProjectionsAreUpToDate(
         IDocumentStore projectionsDocumentStore,
+        string serviceName,
         long maxSequence,
-        ElasticsearchClient elasticClient,
-        ILogger logger
-    )
+        ILogger logger,
+        ElasticsearchClient? elasticClient = null)
     {
         var (sequencesPerProjection, reachedSequence) = await HaveAllProjectionsReachedHighwaterMark(
             projectionsDocumentStore,
-            maxSequence
+            maxSequence,
+            serviceName
         );
         var counter = 0;
 
@@ -31,7 +30,8 @@ public static class ProjectionSequenceGuardian
 
             (sequencesPerProjection, reachedSequence) = await HaveAllProjectionsReachedHighwaterMark(
                 projectionsDocumentStore,
-                maxSequence
+                maxSequence,
+                serviceName
             );
         }
 
@@ -42,17 +42,21 @@ public static class ProjectionSequenceGuardian
                     .BeGreaterThanOrEqualTo(maxSequence, $"Because we want projection {x.Key} to be up to date")
             );
 
-        await elasticClient.Indices.RefreshAsync(Indices.All);
-        await elasticClient.Indices.ForcemergeAsync(Indices.All, fm => fm.MaxNumSegments(1));
+        if (elasticClient != null)
+        {
+            await elasticClient.Indices.RefreshAsync(Indices.All);
+            await elasticClient.Indices.ForcemergeAsync(Indices.All, fm => fm.MaxNumSegments(1));
+        }
     }
 
-    private static async Task<(
-        Dictionary<string, long> sequencesPerProjection,
-        bool reachedSequence
-    )> HaveAllProjectionsReachedHighwaterMark(IDocumentStore projectionsDocumentStore, long maxSequence)
+    private static async Task<(Dictionary<string, long> sequencesPerProjection, bool reachedSequence)>
+        HaveAllProjectionsReachedHighwaterMark(
+            IDocumentStore projectionsDocumentStore,
+            long maxSequence,
+            string serviceName)
     {
         var sequencesPerProjection = (await SequencesPerProjection(projectionsDocumentStore))
-            .Where(x => x.Key.StartsWith("beheer"))
+            .Where(x => x.Key.StartsWith(serviceName))
             .ToDictionary();
 
         var reachedSequence = Enumerable.All<KeyValuePair<string, long>>(

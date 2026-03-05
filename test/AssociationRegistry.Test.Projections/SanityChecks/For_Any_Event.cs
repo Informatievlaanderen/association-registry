@@ -1,12 +1,12 @@
-namespace AssociationRegistry.Test.Projections.Beheer.SanityChecks;
+namespace AssociationRegistry.Test.Projections.SanityChecks;
 
-using Admin.ProjectionHost.Projections.PowerBiExport;
-using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using Events;
-using JasperFx.Events;
-using MartenDb.Transformers;
-using Public.ProjectionHost.Projections.Sequence;
 using System.Reflection;
+using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Admin.ProjectionHost.Projections.PowerBiExport;
+using AssociationRegistry.Events;
+using AssociationRegistry.MartenDb.Transformers;
+using AssociationRegistry.Public.ProjectionHost.Projections.Sequence;
+using JasperFx.Events;
 using Xunit;
 
 public class For_Any_Event

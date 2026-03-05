@@ -6,6 +6,9 @@ using Infrastructure.Extensions;
 using Marten;
 using Elastic.Clients.Elasticsearch;
 using Projections;
+using Projections.Detail;
+using Projections.Search;
+using Projections.Sequence;
 
 public static class ProjectionEndpointsExtensions
 {
@@ -21,14 +24,14 @@ public static class ProjectionEndpointsExtensions
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger) =>
             {
-                await StartRebuild(ProjectionNames.PubliekDetail, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.PubliekZoek, store, shardTimeout, logger, async () =>
+                await StartRebuild(PubliekVerenigingDetailProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(PubliekZoekProjectionHandler.ShardName.Name, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, cancellationToken: CancellationToken.None);
                     await elasticClient.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
                 });
 
-                await StartRebuild(ProjectionNames.PubliekSequence, store, shardTimeout, logger);
+                await StartRebuild(PubliekVerenigingSequenceProjection.ShardName.Name, store, shardTimeout, logger);
 
                 return Results.Accepted();
             });
@@ -37,7 +40,7 @@ public static class ProjectionEndpointsExtensions
             pattern: "v1/projections/detail/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
-                await StartRebuild(ProjectionNames.PubliekDetail, store, shardTimeout, logger);
+                await StartRebuild(PubliekVerenigingDetailProjection.ShardName.Name, store, shardTimeout, logger);
 
                 return Results.Accepted();
             });
@@ -51,7 +54,7 @@ public static class ProjectionEndpointsExtensions
                 ILogger<Program> logger) =>
             {
 
-                await StartRebuild(ProjectionNames.PubliekZoek, store, shardTimeout, logger, async () =>
+                await StartRebuild(PubliekZoekProjectionHandler.ShardName.Name, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, cancellationToken: CancellationToken.None);
                     await elasticClient.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
@@ -64,7 +67,7 @@ public static class ProjectionEndpointsExtensions
             pattern: "v1/projections/sequence/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
-                await StartRebuild(ProjectionNames.PubliekSequence, store, shardTimeout, logger);
+                await StartRebuild(PubliekVerenigingSequenceProjection.ShardName.Name, store, shardTimeout, logger);
 
                 return Results.Accepted();
             });

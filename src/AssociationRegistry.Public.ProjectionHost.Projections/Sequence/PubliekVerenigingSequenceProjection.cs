@@ -4,14 +4,15 @@ using Events;
 using JasperFx.Events;
 using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
-using Marten.Internal.Sessions;
 using Schema.Sequence;
-using IEvent = Events.IEvent;
 
 public class PubliekVerenigingSequenceProjection : SingleStreamProjection<PubliekVerenigingSequenceDocument, string>
 {
+    public static readonly ShardName ShardName = new("publiek.postgres.sequence");
+
     public PubliekVerenigingSequenceProjection()
     {
+        Name = ShardName.Name;
         Options.DeleteViewTypeOnTeardown<PubliekVerenigingSequenceDocument>();
     }
 

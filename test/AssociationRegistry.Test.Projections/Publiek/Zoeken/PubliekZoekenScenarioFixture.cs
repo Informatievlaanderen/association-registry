@@ -5,6 +5,7 @@ using JasperFx.Events.Daemon;
 using Marten;
 using Elastic.Clients.Elasticsearch;
 using Public.ProjectionHost.Projections;
+using Public.ProjectionHost.Projections.Search;
 using Public.Schema.Search;
 
 public class PubliekZoekenScenarioFixture<TScenario>(ProjectionContext context)
@@ -15,7 +16,7 @@ public class PubliekZoekenScenarioFixture<TScenario>(ProjectionContext context)
 
     protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
     {
-        await daemon.RebuildProjectionAsync(ProjectionNames.PubliekZoek, CancellationToken.None);
+        await daemon.RebuildProjectionAsync(PubliekZoekProjectionHandler.ShardName.Name, CancellationToken.None);
         await Context.PublicElasticClient.Indices.RefreshAsync(Indices.All);
     }
 

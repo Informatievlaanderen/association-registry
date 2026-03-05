@@ -28,6 +28,7 @@ using Oakton;
 using Persoonsgegevens;
 using Polly;
 using System.Reflection;
+using Common.Framework;
 using MartenDb.BankrekeningnummerPersoonsgegevens;
 using Vereniging;
 using Xunit;
@@ -156,12 +157,6 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         if (DocumentStore is null)
             throw new NullReferenceException("DocumentStore cannot be null when adding an event");
 
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-        await daemon.StartAllAsync();
-
-        if (daemon is null)
-            throw new NullReferenceException("Projection daemon cannot be null when adding an event");
-
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
         await using var session = DocumentStore.LightweightSession();
 
@@ -171,19 +166,8 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
                                             new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
                                             new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
                                             NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
-        var result = StreamActionResult.Empty;
 
-
-        await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), metadata, CancellationToken.None, eventsToAdd);
-
-        var retry = Policy
-                   .Handle<Exception>()
-                   .WaitAndRetryAsync(retryCount: 3, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
-
-        await retry.ExecuteAsync(
-            async () => { await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 60)); });
-
-        return result;
+        return await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), metadata, CancellationToken.None, eventsToAdd);
     }
 
     private IConfigurationRoot GetConfiguration()

@@ -4,6 +4,7 @@ using Framework.Fixtures;
 using JasperFx.Events.Daemon;
 using Marten;
 using Public.ProjectionHost.Projections;
+using Public.ProjectionHost.Projections.Detail;
 using Public.Schema.Detail;
 
 public class PubliekDetailScenarioFixture<TScenario>(ProjectionContext context)
@@ -14,7 +15,7 @@ public class PubliekDetailScenarioFixture<TScenario>(ProjectionContext context)
 
     protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
     {
-        await daemon.RebuildProjectionAsync(ProjectionNames.PubliekDetail, CancellationToken.None);
+        await daemon.RebuildProjectionAsync(PubliekVerenigingDetailProjection.ShardName.Name, CancellationToken.None);
     }
 
     protected override async Task<PubliekVerenigingDetailDocument> GetResultAsync(

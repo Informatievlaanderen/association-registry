@@ -124,7 +124,7 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, string.Format(ExceptionMessages.FoutBijProjecteren, ProjectionNames.PubliekZoek));
+                        _logger.LogError(ex, string.Format(ExceptionMessages.FoutBijProjecteren, PubliekZoekProjectionHandler.ShardName.Name));
 
                         throw;
                     }
