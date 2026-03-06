@@ -1,11 +1,13 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
+using System.Net;
+using Admin.ProjectionHost.Projections.Search.Zoeken;
 using Alba;
+using Elastic.Clients.Elasticsearch;
+using FluentAssertions;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
-using Elastic.Clients.Elasticsearch;
-using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Public.Api.Infrastructure;
@@ -13,22 +15,32 @@ using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Public.Api.WebApi.Verenigingen.Mutaties;
 using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Public.Api.WebApi.Werkingsgebieden.ResponseModels;
-using System.Net;
+using Public.ProjectionHost.Projections.Detail;
+using Public.ProjectionHost.Projections.Search;
 
 public static class PublicApiEndpoints
 {
-    public static async Task<PubliekVerenigingDetailResponse> GetPubliekDetail(this IAlbaHost source, string vCode)
-        => await source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}");
+    public static async Task<PubliekVerenigingDetailResponse> GetPubliekDetail(this IAlbaHost source, string vCode) =>
+        await source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}");
 
     public static async Task<PubliekVerenigingDetailResponse> GetPubliekDetailWithHeader(
         this IAlbaHost source,
         HttpClient authenticatedClient,
-        string vCode)
-        => await GetResponseFromRequestWithHeader<PubliekVerenigingDetailResponse>(source, authenticatedClient, $"/v1/verenigingen/{vCode}");
+        string vCode
+    ) =>
+        await GetResponseFromRequestWithHeader<PubliekVerenigingDetailResponse>(
+            source,
+            authenticatedClient,
+            $"/v1/verenigingen/{vCode}"
+        );
 
-    public static async Task<HttpStatusCode> GetPubliekDetailStatusCode(this IAlbaHost source, string vCode, long? expectedSequence)
+    public static async Task<HttpStatusCode> GetPubliekDetailStatusCode(
+        this IAlbaHost source,
+        string vCode,
+        long? expectedSequence
+    )
     {
-        await WaitForExpectedSequence(source, expectedSequence, "AssociationRegistry.Public.ProjectionHost.Projections.Detail.PubliekVerenigingDetailProjection:All");
+        await WaitForExpectedSequence(source, expectedSequence, PubliekVerenigingDetailProjection.ShardName.Identity);
 
         var client = source.Server.CreateClient();
         var response = await client.GetAsync($"/v1/verenigingen/{vCode}");
@@ -41,9 +53,13 @@ public static class PublicApiEndpoints
         return await source.GetAsJson<PubliekVerenigingSequenceResponse[]>($"/v1/verenigingen/mutaties");
     }
 
-    public static async Task<SearchVerenigingenResponse> GetPubliekZoeken(this IAlbaHost source, string query, long? expectedSequence)
+    public static async Task<SearchVerenigingenResponse> GetPubliekZoeken(
+        this IAlbaHost source,
+        string query,
+        long? expectedSequence
+    )
     {
-        await WaitForExpectedSequence(source, expectedSequence, "PubliekVerenigingZoekenDocument:All");
+        await WaitForExpectedSequence(source, expectedSequence, PubliekZoekProjectionHandler.ShardName.Identity);
 
         return await source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}");
     }
@@ -52,33 +68,42 @@ public static class PublicApiEndpoints
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string query,
-        long? expectedSequence)
+        long? expectedSequence
+    )
     {
-        await WaitForExpectedSequence(source, expectedSequence, "PubliekVerenigingZoekenDocument:All");
-        return await GetResponseFromRequestWithHeader<SearchVerenigingenResponse>(source, authenticatedClient,
-                                                                                  $"/v1/verenigingen/zoeken?q={query}");
+        await WaitForExpectedSequence(source, expectedSequence, PubliekZoekProjectionHandler.ShardName.Identity);
+        return await GetResponseFromRequestWithHeader<SearchVerenigingenResponse>(
+            source,
+            authenticatedClient,
+            $"/v1/verenigingen/zoeken?q={query}"
+        );
     }
 
-    private static async Task WaitForExpectedSequence(IAlbaHost source, long? expectedSequence, string publiekverenigingzoekendocumentAll)
+    private static async Task WaitForExpectedSequence(
+        IAlbaHost source,
+        long? expectedSequence,
+        string publiekverenigingzoekendocumentAll
+    )
     {
-        if(expectedSequence is null)
+        if (expectedSequence is null)
             return;
 
         var store = source.Services.GetRequiredService<IDocumentStore>();
         await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
-        var result = (await store.Advanced
-                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == publiekverenigingzoekendocumentAll)?.Sequence;
-
+        var result = (await store.Advanced.AllProjectionProgress())
+            .SingleOrDefault(x => x.ShardName == publiekverenigingzoekendocumentAll)
+            ?.Sequence;
 
         bool reachedSequence = result >= expectedSequence;
         var counter = 0;
-        while (!reachedSequence && counter < 200)
+        while (!reachedSequence && counter < 300)
         {
             counter++;
             await Task.Delay(500);
             await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
-            result = (await store.Advanced
-                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == publiekverenigingzoekendocumentAll)?.Sequence;
+            result = (await store.Advanced.AllProjectionProgress())
+                .SingleOrDefault(x => x.ShardName == publiekverenigingzoekendocumentAll)
+                ?.Sequence;
 
             reachedSequence = result >= expectedSequence;
         }
@@ -89,7 +114,8 @@ public static class PublicApiEndpoints
     private static async Task<TResponse> GetResponseFromRequestWithHeader<TResponse>(
         IAlbaHost source,
         HttpClient authenticatedClient,
-        string requestUri)
+        string requestUri
+    )
     {
         var client = source.Server.CreateClient();
 
@@ -113,12 +139,12 @@ public static class PublicApiEndpoints
         return JsonConvert.DeserializeObject<TResponse>(readAsStringAsync);
     }
 
-    public static async Task<WerkingsgebiedenResponse> GetWerkingsgebieden(this IAlbaHost source)
-        => await source.GetAsJson<WerkingsgebiedenResponse>($"/v1/werkingsgebieden");
+    public static async Task<WerkingsgebiedenResponse> GetWerkingsgebieden(this IAlbaHost source) =>
+        await source.GetAsJson<WerkingsgebiedenResponse>($"/v1/werkingsgebieden");
 
     public static async Task<JObject[]> GetPubliekDetailAll(this IAlbaHost source, long? expectedSequence)
     {
-        await WaitForExpectedSequence(source, expectedSequence, "AssociationRegistry.Public.ProjectionHost.Projections.Detail.PubliekVerenigingDetailProjection:All");
+        await WaitForExpectedSequence(source, expectedSequence, PubliekVerenigingDetailProjection.ShardName.Identity);
 
         var locationHeader = await GetDetailAllLocationHeader(source);
 
