@@ -3,7 +3,7 @@ INSERT INTO public.mt_event_progression (name, last_seq_id, last_updated) VALUES
 INSERT INTO public.mt_event_progression (name, last_seq_id, last_updated) VALUES ('PubliekVerenigingSequenceDocument:All', 2, '2026-03-02 14:44:59.886395 +00:00');
 INSERT INTO public.mt_event_progression (name, last_seq_id, last_updated) VALUES ('LocatieZonderAdresMatchDocument:All', 2, '2026-03-02 14:44:54.860806 +00:00');
 INSERT INTO public.mt_event_progression (name, last_seq_id, last_updated) VALUES ('PowerBiExportDubbelDetectieDocument:All', 2, '2026-03-02 14:44:54.857065 +00:00');
-INSERT INTO public.mt_event_progression (name, last_seq_id, last_updated) VALUES ('AssociationRegistry.Admin.ProjectionHost.Projections.Sync.BeheerKboSyncHistoriekProjection:All', 2, '2026-03-02 14:44:56.187520 +00:00');
+INSERT INTO public.mt_event_progression (name, last_seq_id, last_updated) VALUES ('AssociationRegistry.Admin.ProjectionHost.Projections.KboSync.BeheerKboSyncHistoriekProjection:All', 2, '2026-03-02 14:44:56.187520 +00:00');
 INSERT INTO public.mt_event_progression (name, last_seq_id, last_updated) VALUES ('AssociationRegistry.Admin.ProjectionHost.Projections.Historiek.BeheerVerenigingHistoriekProjection:All', 2, '2026-03-02 14:44:57.266173 +00:00');
 INSERT INTO public.mt_event_progression (name, last_seq_id, last_updated) VALUES ('AssociationRegistry.Acm.Api.Projections.VerenigingenPerInszProjection:All', 2, '2026-03-02 14:44:57.122831 +00:00');
 INSERT INTO public.mt_event_progression (name, last_seq_id, last_updated) VALUES ('LocatieLookupDocument:All', 2, '2026-03-02 14:44:54.876003 +00:00');

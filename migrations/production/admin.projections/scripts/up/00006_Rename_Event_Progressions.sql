@@ -12,7 +12,7 @@ where name = 'BeheerVerenigingZoekenDocument:All';
 
 update public.mt_event_progression
 set name = 'beheer.postgres.kbo.synchistoriek:All'
-where name = 'AssociationRegistry.Admin.ProjectionHost.Projections.Sync.BeheerKboSyncHistoriekProjection:All';
+where name = 'AssociationRegistry.Admin.ProjectionHost.Projections.KboSync.BeheerKboSyncHistoriekProjection:All';
 
 update public.mt_event_progression
 set name = 'beheer.postgres.ksz.synchistoriek:All'
