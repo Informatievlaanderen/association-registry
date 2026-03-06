@@ -1,3 +1,10 @@
+## [8.307.1](https://github.com/informatievlaanderen/association-registry/compare/v8.307.0...v8.307.1) (2026-03-06)
+
+
+### Bug Fixes
+
+* or-3039 call right endpoint for rebuild powerbi dubbeldetectie ([278cf96](https://github.com/informatievlaanderen/association-registry/commit/278cf96d0416335bf8562f620991305410fc79f6))
+
 # [8.307.0](https://github.com/informatievlaanderen/association-registry/compare/v8.306.1...v8.307.0) (2026-03-06)
 
 
