@@ -76,7 +76,7 @@ public class ProjectionController : ApiController
         CancellationToken cancellationToken
     )
     {
-        var response = await _adminHttpClient.RebuildPowerBiExportProjection(cancellationToken);
+        var response = await _adminHttpClient.RebuildPowerBiDubbelDetectieExportProjection(cancellationToken);
 
         return await OkOrForwardedResponse(cancellationToken, response);
     }
