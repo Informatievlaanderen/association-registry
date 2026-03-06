@@ -16,4 +16,10 @@ public class Given_KszSyncHeeftVertegenwoordigerBevestigd(
                   .Should()
                   .BeEquivalentTo(new VertegenwoordigerData(fixture.Scenario.KszSyncHeeftVertegenwoordigerBevestigd.VertegenwoordigerId,
                                                                      VertegenwoordigerKszStatus.Bevestigd));
+
+    [Fact]
+    public void Vereniging_Is_Verwijderd()
+        => fixture.Result.VerenigingIsVerwijderd
+                  .Should()
+                  .BeFalse();
 }

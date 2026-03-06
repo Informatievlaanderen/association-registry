@@ -15,4 +15,9 @@ public class Given_VertegenwoordigerWerdToegevoegd(
                   .Should()
                   .BeEquivalentTo(new VertegenwoordigerData(fixture.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                                                                      VertegenwoordigerKszStatus.NogNietGesynced));
+    [Fact]
+    public void Vereniging_Is_Verwijderd()
+        => fixture.Result.VerenigingIsVerwijderd
+                  .Should()
+                  .BeFalse();
 }

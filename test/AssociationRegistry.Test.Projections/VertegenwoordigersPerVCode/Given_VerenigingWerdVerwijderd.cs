@@ -8,8 +8,16 @@ public class Given_VerenigingWerdVerwijderd(
     : VertegenwoordigersPerVCodeScenarioClassFixture<VerenigingWerdVerwijderdScenario>
 {
     [Fact]
-    public void VertegenwoordigersPerVCode_Document_Is_Saved()
+    public void VertegenwoordigersPerVCode_Document_Is_Not_Removed()
         => fixture.Result
                   .Should()
-                  .BeNull();
+                  .NotBeNull();
+
+    [Fact]
+    public void Vereniging_Is_Verwijderd()
+        => fixture.Result.VerenigingIsVerwijderd
+                  .Should()
+                  .BeTrue();
 }
+
+

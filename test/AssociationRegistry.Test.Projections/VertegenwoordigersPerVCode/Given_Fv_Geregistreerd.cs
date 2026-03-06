@@ -13,4 +13,10 @@ public class Given_Fv_Geregistreerd(
         => fixture.Result.VertegenwoordigersData.Should().BeEquivalentTo(
             fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(
                 x => new VertegenwoordigerData(x.VertegenwoordigerId, VertegenwoordigerKszStatus.NogNietGesynced)));
+
+    [Fact]
+    public void Vereniging_Is_Verwijderd()
+        => fixture.Result.VerenigingIsVerwijderd
+                  .Should()
+                  .BeFalse();
 }

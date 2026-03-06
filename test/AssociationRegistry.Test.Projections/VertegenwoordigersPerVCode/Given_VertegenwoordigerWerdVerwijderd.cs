@@ -15,4 +15,10 @@ public class Given_VertegenwoordigerWerdVerwijderd(
                   .FirstOrDefault(x => x.VertegenwoordigerId == fixture.Scenario.VertegenwoordigerWerdVerwijderd.VertegenwoordigerId)
                   .Should()
                   .BeNull();
+
+    [Fact]
+    public void Vereniging_Is_Verwijderd()
+        => fixture.Result.VerenigingIsVerwijderd
+                  .Should()
+                  .BeFalse();
 }

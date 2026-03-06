@@ -20,9 +20,7 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
     {
         Name = ShardName.Name;
         _query = new GlobalKszPivotPointQuery(querySessionFactory);
-
-        DeleteEvent<IEvent<VerenigingWerdVerwijderd>>((x, y) => x.VCode == y.StreamKey);
-    }
+   }
 
     public async Task<VertegenwoordigersPerVCodeDocument> Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event)
     {
@@ -66,6 +64,11 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
                                                      @event.Data.VertegenwoordigerId,
                                                      initialStatus))
                                          .ToArray();
+    }
+
+    public void Apply(IEvent<VerenigingWerdVerwijderd> @event, VertegenwoordigersPerVCodeDocument document)
+    {
+        document.VerenigingIsVerwijderd = true;
     }
 
     public void Apply(IEvent<VertegenwoordigerWerdVerwijderd> @event, VertegenwoordigersPerVCodeDocument document)
