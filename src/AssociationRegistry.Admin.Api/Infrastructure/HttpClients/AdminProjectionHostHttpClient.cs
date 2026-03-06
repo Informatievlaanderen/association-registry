@@ -9,42 +9,75 @@ public class AdminProjectionHostHttpClient : IDisposable
         _httpClient = httpClient;
     }
 
-    public async Task<HttpResponseMessage> RebuildAllProjections(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/all/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildAllProjections(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(requestUri: "/v1/projections/all/rebuild", content: null, cancellationToken);
 
-    public async Task<HttpResponseMessage> RebuildDetailProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/detail/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildDetailProjection(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(requestUri: "/v1/projections/detail/rebuild", content: null, cancellationToken);
 
-    public async Task<HttpResponseMessage> RebuildLocatieLookupProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/locaties/lookup/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildLocatieGekoppeldMetGrarProjection(
+        CancellationToken cancellationToken
+    ) =>
+        await _httpClient.PostAsync(
+            requestUri: "/v1/projections/locaties/gekoppeldmetgrar/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildLocatieZonderAdresMatchProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "v1/projections/locaties/zonderadresmatch/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildLocatieZonderAdresMatchProjection(
+        CancellationToken cancellationToken
+    ) =>
+        await _httpClient.PostAsync(
+            requestUri: "v1/projections/locaties/zonderadresmatch/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildPowerBiExportProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/powerbi/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildPowerBiExportProjection(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(requestUri: "/v1/projections/powerbi/rebuild", content: null, cancellationToken);
 
-    public async Task<HttpResponseMessage> RebuildPowerBiDubbelDetectieExportProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/powerbi-dubbeldetectie/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildPowerBiDubbelDetectieExportProjection(
+        CancellationToken cancellationToken
+    ) =>
+        await _httpClient.PostAsync(
+            requestUri: "/v1/projections/powerbi-dubbeldetectie/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildHistoriekProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/historiek/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildHistoriekProjection(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(requestUri: "/v1/projections/historiek/rebuild", content: null, cancellationToken);
 
-    public async Task<HttpResponseMessage> RebuildZoekenProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/search/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildZoekenProjection(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(requestUri: "/v1/projections/search/rebuild", content: null, cancellationToken);
 
-    public async Task<HttpResponseMessage> RebuildDuplicateDetectionProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/duplicatedetection/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildDuplicateDetectionProjection(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(
+            requestUri: "/v1/projections/duplicatedetection/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildAdminKboSyncProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/kbo-sync-historiek/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildAdminKboSyncProjection(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(
+            requestUri: "/v1/projections/kbo-sync-historiek/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildVertegenwoordigersProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/vertegenwoordigers/rebuild", content: null, cancellationToken);
+    public async Task<HttpResponseMessage> RebuildVertegenwoordigersProjection(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(
+            requestUri: "/v1/projections/vertegenwoordigers/rebuild",
+            content: null,
+            cancellationToken
+        );
 
-    public async Task<HttpResponseMessage> RebuildKszSyncHistoriekProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/v1/projections/ksz-sync-historiek/rebuild", content: null, cancellationToken);
-
+    public async Task<HttpResponseMessage> RebuildKszSyncHistoriekProjection(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(
+            requestUri: "/v1/projections/ksz-sync-historiek/rebuild",
+            content: null,
+            cancellationToken
+        );
 
     public async Task<HttpResponseMessage> GetStatus(CancellationToken cancellationToken)
     {

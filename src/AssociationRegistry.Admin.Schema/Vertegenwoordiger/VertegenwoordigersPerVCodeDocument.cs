@@ -6,6 +6,8 @@ public record VertegenwoordigersPerVCodeDocument()
 {
     [property: Identity] public string VCode { get; set; }
     public VertegenwoordigerData[] VertegenwoordigersData { get; set; }
+
+    public bool VerenigingIsVerwijderd { get; set; } = false;
 }
 
 public record VertegenwoordigerData(int VertegenwoordigerId, string Status);

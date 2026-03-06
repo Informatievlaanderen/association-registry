@@ -131,7 +131,7 @@ public static class ConfigureMartenExtensions
                 martenSubscriptionLogger
             ),
             ProjectionLifecycle.Async,
-            ProjectionNames.PubliekZoek);
+            PubliekZoekProjectionHandler.ShardName.Name);
 
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {

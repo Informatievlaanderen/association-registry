@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Administratie.ProjectieBeheer;
 
+using System.Text.Json;
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.HttpClients;
@@ -7,7 +8,6 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
-using System.Text.Json;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
@@ -20,15 +20,15 @@ public class ProjectionController : ApiController
     private readonly PublicProjectionHostHttpClient _publicHttpClient;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    public ProjectionController(AdminProjectionHostHttpClient adminHttpClient, PublicProjectionHostHttpClient publicHttpClient)
+    public ProjectionController(
+        AdminProjectionHostHttpClient adminHttpClient,
+        PublicProjectionHostHttpClient publicHttpClient
+    )
     {
         _adminHttpClient = adminHttpClient;
         _publicHttpClient = publicHttpClient;
 
-        _jsonSerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        };
+        _jsonSerializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
     }
 
     [HttpPost("admin/all/rebuild")]
@@ -47,10 +47,10 @@ public class ProjectionController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
-    [HttpPost("admin/locaties/lookup/rebuild")]
+    [HttpPost("admin/locaties/gekoppeldmetgrar/rebuild")]
     public async Task<IActionResult> RebuildAdminProjectionLocatieLookup(CancellationToken cancellationToken)
     {
-        var response = await _adminHttpClient.RebuildLocatieLookupProjection(cancellationToken);
+        var response = await _adminHttpClient.RebuildLocatieGekoppeldMetGrarProjection(cancellationToken);
 
         return await OkOrForwardedResponse(cancellationToken, response);
     }
@@ -72,7 +72,9 @@ public class ProjectionController : ApiController
     }
 
     [HttpPost("admin/powerbi-dubbeldetectie/rebuild")]
-    public async Task<IActionResult> RebuildAdminProjectionPowerBiDubbelDetectieExport(CancellationToken cancellationToken)
+    public async Task<IActionResult> RebuildAdminProjectionPowerBiDubbelDetectieExport(
+        CancellationToken cancellationToken
+    )
     {
         var response = await _adminHttpClient.RebuildPowerBiExportProjection(cancellationToken);
 
@@ -175,9 +177,13 @@ public class ProjectionController : ApiController
         return await OkObjectOrForwardedResponse(cancellationToken, response);
     }
 
-    private async Task<IActionResult> OkOrForwardedResponse(CancellationToken cancellationToken, HttpResponseMessage response)
+    private async Task<IActionResult> OkOrForwardedResponse(
+        CancellationToken cancellationToken,
+        HttpResponseMessage response
+    )
     {
-        if (response.IsSuccessStatusCode) return Ok();
+        if (response.IsSuccessStatusCode)
+            return Ok();
 
         return Problem(
             title: response.ReasonPhrase,
@@ -186,11 +192,17 @@ public class ProjectionController : ApiController
         );
     }
 
-    private async Task<IActionResult> OkObjectOrForwardedResponse(CancellationToken cancellationToken, HttpResponseMessage response)
+    private async Task<IActionResult> OkObjectOrForwardedResponse(
+        CancellationToken cancellationToken,
+        HttpResponseMessage response
+    )
     {
         if (response.IsSuccessStatusCode)
         {
-            var result = await response.Content.ReadFromJsonAsync<ProjectionStatus[]>(_jsonSerializerOptions, cancellationToken);
+            var result = await response.Content.ReadFromJsonAsync<ProjectionStatus[]>(
+                _jsonSerializerOptions,
+                cancellationToken
+            );
 
             return result is not null && result.Length > 0
                 ? new OkObjectResult(new MinimalProjectionStatusResponse(result))

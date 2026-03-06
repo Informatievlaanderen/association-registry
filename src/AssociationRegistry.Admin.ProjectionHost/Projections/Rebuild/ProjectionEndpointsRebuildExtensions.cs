@@ -1,11 +1,20 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Rebuild;
 
+using Bewaartermijn;
+using Detail;
 using Elastic.Clients.Elasticsearch;
+using Historiek;
 using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.ElasticSearch;
 using JasperFx.Events.Projections;
+using Locaties;
 using Marten;
+using PowerBiExport;
+using Search.DuplicateDetection;
+using Search.Zoeken;
+using Sync;
+using Vertegenwoordiger;
 
 public static class ProjectionEndpointsExtensions
 {
@@ -19,122 +28,198 @@ public static class ProjectionEndpointsExtensions
                 IDocumentStore store,
                 ElasticsearchClient elasticClient,
                 ElasticSearchOptionsSection options,
-                ILogger<Program> logger) =>
+                ILogger<Program> logger
+            ) =>
             {
-                await StartRebuild(ProjectionNames.BeheerDetail, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.BeheerHistoriek, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.LocatieLookup, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.LocatieZonderAdresMatch, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.PowerBi, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.PowerBiDubbelDetectie, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.BeheerKboSync, store, shardTimeout, logger);
+                await StartRebuild(BeheerVerenigingDetailProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(BeheerVerenigingHistoriekProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(LocatiesGekoppeldMetGrarProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(LocatieZonderAdresMatchProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(PowerBiExportProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(PowerBiExportDubbelDetectieProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(BeheerKboSyncHistoriekProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(BeheerKszSyncHistoriekProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(VertegenwoordigersPerVCodeProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(BewaartermijnProjection.ShardName.Name, store, shardTimeout, logger);
 
-                await StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
-                {
-                    await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, cancellationToken: CancellationToken.None);
-                    await elasticClient.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
-                });
+                await StartRebuild(
+                    BeheerZoekProjectionHandler.ShardName.Name,
+                    store,
+                    shardTimeout,
+                    logger,
+                    async () =>
+                    {
+                        await elasticClient.Indices.DeleteAsync(
+                            options.Indices.Verenigingen,
+                            cancellationToken: CancellationToken.None
+                        );
+                        await elasticClient.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
+                    }
+                );
 
-                await StartRebuild(ProjectionNames.DuplicateDetection, store, shardTimeout, logger, async () =>
-                {
-                    await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, cancellationToken: CancellationToken.None);
-                    await elasticClient.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection);
-                });
+                await StartRebuild(
+                    DuplicateDetectionProjectionHandler.ShardName.Name,
+                    store,
+                    shardTimeout,
+                    logger,
+                    async () =>
+                    {
+                        await elasticClient.Indices.DeleteAsync(
+                            options.Indices.DuplicateDetection,
+                            cancellationToken: CancellationToken.None
+                        );
+                        await elasticClient.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection);
+                    }
+                );
 
                 return Results.Accepted();
-            });
+            }
+        );
 
-        app.MapPost("v1/projections/detail/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.BeheerDetail, store, shardTimeout, logger);
-            return Results.Accepted();
-        });
-
-        app.MapPost("v1/projections/locaties/lookup/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.LocatieLookup, store, shardTimeout, logger);
-            return Results.Accepted();
-        });
-
-        app.MapPost("v1/projections/locaties/zonderadresmatch/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.LocatieZonderAdresMatch, store, shardTimeout, logger);
-            return Results.Accepted();
-        });
-
-        app.MapPost("v1/projections/historiek/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.BeheerHistoriek, store, shardTimeout, logger);
-            return Results.Accepted();
-        });
-
-        app.MapPost("v1/projections/powerbi/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.PowerBi, store, shardTimeout, logger);
-            return Results.Accepted();
-        });
-
-        app.MapPost("v1/projections/powerbi-dubbeldetectie/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.PowerBiDubbelDetectie, store, shardTimeout, logger);
-            return Results.Accepted();
-        });
-
-        app.MapPost("v1/projections/kbo-sync-historiek/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.BeheerKboSync, store, shardTimeout, logger);
-            return Results.Accepted();
-        });
-
-        app.MapPost("v1/projections/ksz-sync-historiek/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.BeheerKszSync, store, shardTimeout, logger);
-            return Results.Accepted();
-        });
-
-        app.MapPost("v1/projections/vertegenwoordigers/rebuild", async (IDocumentStore store, ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.Vertegenwoordigers, store, shardTimeout, logger);
-            return Results.Accepted();
-        });
-
-        app.MapPost("v1/projections/search/rebuild", async (
-            IDocumentStore store,
-            ElasticsearchClient elasticClient,
-            ElasticSearchOptionsSection options,
-            ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
+        app.MapPost(
+            "v1/projections/detail/rebuild",
+            async (IDocumentStore store, ILogger<Program> logger) =>
             {
-                await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, cancellationToken: CancellationToken.None);
-                await elasticClient.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
-            });
+                await StartRebuild(BeheerVerenigingDetailProjection.ShardName.Name, store, shardTimeout, logger);
+                return Results.Accepted();
+            }
+        );
 
-            return Results.Accepted();
-        });
-
-        app.MapPost("v1/projections/duplicatedetection/rebuild", async (
-            IDocumentStore store,
-            ElasticsearchClient elasticClient,
-            ElasticSearchOptionsSection options,
-            ILogger<Program> logger) =>
-        {
-            await StartRebuild(ProjectionNames.DuplicateDetection, store, shardTimeout, logger, async () =>
+        app.MapPost(
+            "v1/projections/locaties/gekoppeldmetgrar/rebuild",
+            async (IDocumentStore store, ILogger<Program> logger) =>
             {
-                await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, cancellationToken: CancellationToken.None);
-                await elasticClient.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection);
-            });
+                await StartRebuild(LocatiesGekoppeldMetGrarProjection.ShardName.Name, store, shardTimeout, logger);
+                return Results.Accepted();
+            }
+        );
 
-            return Results.Accepted();
-        });
+        app.MapPost(
+            "v1/projections/locaties/zonderadresmatch/rebuild",
+            async (IDocumentStore store, ILogger<Program> logger) =>
+            {
+                await StartRebuild(LocatieZonderAdresMatchProjection.ShardName.Name, store, shardTimeout, logger);
+                return Results.Accepted();
+            }
+        );
 
-        app.MapGet("v1/projections/status", async (
-            IDocumentStore store,
-            ILogger<Program> _,
-            CancellationToken cancellationToken) =>
-        {
-            return await store.Advanced.AllProjectionProgress(token: cancellationToken);
-        });
+        app.MapPost(
+            "v1/projections/historiek/rebuild",
+            async (IDocumentStore store, ILogger<Program> logger) =>
+            {
+                await StartRebuild(BeheerVerenigingHistoriekProjection.ShardName.Name, store, shardTimeout, logger);
+                return Results.Accepted();
+            }
+        );
+
+        app.MapPost(
+            "v1/projections/powerbi/rebuild",
+            async (IDocumentStore store, ILogger<Program> logger) =>
+            {
+                await StartRebuild(PowerBiExportProjection.ShardName.Name, store, shardTimeout, logger);
+                return Results.Accepted();
+            }
+        );
+
+        app.MapPost(
+            "v1/projections/powerbi-dubbeldetectie/rebuild",
+            async (IDocumentStore store, ILogger<Program> logger) =>
+            {
+                await StartRebuild(PowerBiExportDubbelDetectieProjection.ShardName.Name, store, shardTimeout, logger);
+                return Results.Accepted();
+            }
+        );
+
+        app.MapPost(
+            "v1/projections/kbo-sync-historiek/rebuild",
+            async (IDocumentStore store, ILogger<Program> logger) =>
+            {
+                await StartRebuild(BeheerKboSyncHistoriekProjection.ShardName.Name, store, shardTimeout, logger);
+                return Results.Accepted();
+            }
+        );
+
+        app.MapPost(
+            "v1/projections/ksz-sync-historiek/rebuild",
+            async (IDocumentStore store, ILogger<Program> logger) =>
+            {
+                await StartRebuild(BeheerKszSyncHistoriekProjection.ShardName.Name, store, shardTimeout, logger);
+                return Results.Accepted();
+            }
+        );
+
+        app.MapPost(
+            "v1/projections/vertegenwoordigers/rebuild",
+            async (IDocumentStore store, ILogger<Program> logger) =>
+            {
+                await StartRebuild(VertegenwoordigersPerVCodeProjection.ShardName.Name, store, shardTimeout, logger);
+                return Results.Accepted();
+            }
+        );
+
+        app.MapPost(
+            "v1/projections/search/rebuild",
+            async (
+                IDocumentStore store,
+                ElasticsearchClient elasticClient,
+                ElasticSearchOptionsSection options,
+                ILogger<Program> logger
+            ) =>
+            {
+                await StartRebuild(
+                    BeheerZoekProjectionHandler.ShardName.Name,
+                    store,
+                    shardTimeout,
+                    logger,
+                    async () =>
+                    {
+                        await elasticClient.Indices.DeleteAsync(
+                            options.Indices.Verenigingen,
+                            cancellationToken: CancellationToken.None
+                        );
+                        await elasticClient.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
+                    }
+                );
+
+                return Results.Accepted();
+            }
+        );
+
+        app.MapPost(
+            "v1/projections/duplicatedetection/rebuild",
+            async (
+                IDocumentStore store,
+                ElasticsearchClient elasticClient,
+                ElasticSearchOptionsSection options,
+                ILogger<Program> logger
+            ) =>
+            {
+                await StartRebuild(
+                    DuplicateDetectionProjectionHandler.ShardName.Name,
+                    store,
+                    shardTimeout,
+                    logger,
+                    async () =>
+                    {
+                        await elasticClient.Indices.DeleteAsync(
+                            options.Indices.DuplicateDetection,
+                            cancellationToken: CancellationToken.None
+                        );
+                        await elasticClient.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection);
+                    }
+                );
+
+                return Results.Accepted();
+            }
+        );
+
+        app.MapGet(
+            "v1/projections/status",
+            async (IDocumentStore store, ILogger<Program> _, CancellationToken cancellationToken) =>
+            {
+                return await store.Advanced.AllProjectionProgress(token: cancellationToken);
+            }
+        );
     }
 
     private static async Task StartRebuild(
@@ -142,7 +227,8 @@ public static class ProjectionEndpointsExtensions
         IDocumentStore store,
         TimeSpan shardTimeout,
         ILogger logger,
-        Func<Task>? beforeRebuild = null)
+        Func<Task>? beforeRebuild = null
+    )
     {
         _ = Task.Run(async () =>
         {
@@ -150,7 +236,8 @@ public static class ProjectionEndpointsExtensions
             {
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
 
-                if (beforeRebuild is not null) await beforeRebuild();
+                if (beforeRebuild is not null)
+                    await beforeRebuild();
                 await projectionDaemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
 
                 logger.LogInformation("Rebuild {ProjectionName} complete", projectionName);

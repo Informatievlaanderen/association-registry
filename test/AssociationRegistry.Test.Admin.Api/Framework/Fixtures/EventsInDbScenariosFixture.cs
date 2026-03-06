@@ -285,7 +285,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V083VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForDuplicateCheck,
         };
 
-        using var daemon = await PreAddEvents();
+        using var daemon = await StartDaemonBeforeAddingEvents();
 
         MaxSequence = 0;
         var logger = ServiceProvider.GetRequiredService<ILogger<Program>>();
@@ -323,10 +323,10 @@ public class EventsInDbScenariosFixture : AdminApiFixture
                 MaxSequence = Math.Max(MaxSequence, result.Sequence.Value);
         }
 
-        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient, logger);
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, "beheer", MaxSequence, logger, ElasticClient);
     }
 
-    private async Task<IProjectionDaemon?> PreAddEvents()
+    private async Task<IProjectionDaemon?> StartDaemonBeforeAddingEvents()
     {
         IProjectionDaemon? daemon = null;
 
@@ -350,7 +350,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
 
     public async Task Initialize(IEventsInDbScenario scenario)
     {
-        using var daemon = await PreAddEvents();
+        using var daemon = await StartDaemonBeforeAddingEvents();
 
         scenario.Result = await SaveEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
 
@@ -359,7 +359,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
 
         var logger = ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient, logger);
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, "beheer", MaxSequence, logger, ElasticClient);
     }
 }
 

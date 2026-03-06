@@ -20,4 +20,10 @@ public class Given_Vzer_Geregistreerd(
                     )
                 )
             );
+
+    [Fact]
+    public void Vereniging_Is_Verwijderd()
+        => fixture.Result.VerenigingIsVerwijderd
+                  .Should()
+                  .BeFalse();
 }

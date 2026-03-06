@@ -5,6 +5,7 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using Formats;
 using JasperFx.Core.Reflection;
+using JasperFx.Events.Projections;
 using Schema.Detail;
 using Schema.Search;
 using Vereniging;
@@ -13,6 +14,8 @@ using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public class PubliekZoekProjectionHandler
 {
+    public static readonly ShardName ShardName = new("publiek.elastic.zoeken");
+
     public PubliekZoekProjectionHandler()
     {
     }

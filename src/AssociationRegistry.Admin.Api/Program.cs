@@ -34,7 +34,6 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using DecentraalBeheer.Vereniging.Geotags;
 using Elastic.Clients.Elasticsearch;
-using Events;
 using EventStore;
 using EventStore.ConflictResolution;
 using FluentValidation;
@@ -223,7 +222,6 @@ public class Program
 
     private static async Task RunPreStartupTasks(WebApplication app, ILogger<Program> logger)
     {
-        await ArchiveAfdelingen(app);
         await RegistreerOntbrekendeInschrijvingen(app: app, logger: logger);
         await LogPendingDatabaseChanges(app: app, logger: logger);
     }
@@ -259,26 +257,6 @@ public class Program
         {
             logger.LogWarning($"MAGDA Catchup Service: Fout bij het opstarten! ({ex.Message})");
         }
-    }
-
-    private static async Task ArchiveAfdelingen(WebApplication app)
-    {
-        using var scope = app.Services.CreateScope();
-
-        await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
-
-        var queryAllRawEvents = session.Events.QueryRawEventDataOnly<AfdelingWerdGeregistreerd>();
-
-        queryAllRawEvents
-            .Select(x => x.VCode)
-            .ToList()
-            .ForEach(key =>
-            {
-                app.Services.GetRequiredService<ILogger<Program>>().LogInformation(message: "Archiving {Stream}", key);
-                session.Events.ArchiveStream(key);
-            });
-
-        await session.SaveChangesAsync();
     }
 
     private static void ConfigureRequestLocalization(WebApplication app)

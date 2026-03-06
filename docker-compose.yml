@@ -351,6 +351,12 @@ services:
     depends_on:
       acm-api-migrations-golden-master:
         condition: service_completed_successfully
+      admin-api-migrations-golden-master-production:
+        condition: service_completed_successfully
+      admin-projections-migrations-golden-master:
+        condition: service_completed_successfully
+      public-projections-migrations-golden-master:
+        condition: service_completed_successfully
     networks:
       - vr-net
 

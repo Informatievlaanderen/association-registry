@@ -3,6 +3,8 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 using Admin.ProjectionHost;
 using AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Common.Framework;
+using JasperFx.Events.Daemon;
+using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -86,6 +88,8 @@ public class GivenEventsFixture : PublicApiFixture
 
     public override async ValueTask InitializeAsync()
     {
+        using var daemon = await StartDaemonBeforeAddingEvents();
+
         foreach (var scenario in Scenarios)
         {
             await AddEvents(
@@ -96,7 +100,7 @@ public class GivenEventsFixture : PublicApiFixture
 
         var logger = ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, MaxSequence, ElasticClient, logger);
+        await ProjectionSequenceGuardian.EnsureAllProjectionsAreUpToDate(ProjectionsDocumentStore, "publiek", MaxSequence, logger, ElasticClient);
 
         var verengingenCount = 0;
         var counter = 0;
@@ -114,6 +118,29 @@ public class GivenEventsFixture : PublicApiFixture
 
             if(counter == 20 && verengingenCount <= 0)
                 throw new Exception("Not all scenarios projected after 20 attempts. Last response: " + responseContent);
+        }
+    }
+
+    private async Task<IProjectionDaemon?> StartDaemonBeforeAddingEvents()
+    {
+
+        IProjectionDaemon? daemon = null;
+
+        try
+        {
+            daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
+            await daemon.StartAllAsync();
+
+            if (daemon is null)
+                throw new NullReferenceException("Projection daemon cannot be null when adding an event");
+
+            return daemon;
+        }
+        catch
+        {
+            daemon?.Dispose();
+
+            throw;
         }
     }
 }

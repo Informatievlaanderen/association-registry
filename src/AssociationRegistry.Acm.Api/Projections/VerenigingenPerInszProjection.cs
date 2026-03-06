@@ -7,11 +7,15 @@ using Marten.Events.Projections;
 using Schema.VerenigingenPerInsz;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JasperFx.Events.Projections;
 
 public class VerenigingenPerInszProjection : EventProjection
 {
+    public static readonly ShardName ShardName = new("acm.postgres.verenigingenperinsz");
+
     public VerenigingenPerInszProjection()
     {
+        Name = ShardName.Name;
         // Needs a batch size of 1, because otherwise if Registered and NameChanged arrive in 1 batch/slice,
         // the newly persisted VerenigingenPerInszDocument from FeitelijkeVerenigingWerdGeregistreerd is not in the
         // Query yet when we handle NaamWerdGewijzigd

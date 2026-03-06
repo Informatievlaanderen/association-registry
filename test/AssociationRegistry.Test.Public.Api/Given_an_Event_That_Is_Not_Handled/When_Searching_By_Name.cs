@@ -1,12 +1,13 @@
 namespace AssociationRegistry.Test.Public.Api.Given_an_Event_That_Is_Not_Handled;
 
+using System.Text.RegularExpressions;
 using DecentraalBeheer.Vereniging;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Framework;
-using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
 using templates;
 using Vereniging;
 using Xunit;
@@ -18,27 +19,33 @@ public class When_Searching_By_Name
     private readonly VCode _vCode;
     private readonly V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
 
-    public When_Searching_By_Name(GivenEventsFixture fixture)
+    private readonly ITestOutputHelper _output;
+
+    public When_Searching_By_Name(GivenEventsFixture fixture, ITestOutputHelper output)
     {
+        _output = output;
         _publicApiClient = fixture.PublicApiClient;
         _scenario = fixture.V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario;
         _vCode = _scenario.VCode;
     }
 
     [Fact]
-    public async ValueTask Then_we_get_a_successful_response()
-        => (await _publicApiClient.Search(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam)).Should()
-           .BeSuccessful();
+    public async ValueTask Then_we_get_a_successful_response() =>
+        (await _publicApiClient.Search(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam))
+            .Should()
+            .BeSuccessful();
 
     [Fact]
     public async ValueTask Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var response = await _publicApiClient.Search(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam);
+        var response = await _publicApiClient.Search(
+            V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam
+        );
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
-                          .FromQuery(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam)
-                          .WithVereniging(v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
+            .FromQuery(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam)
+            .WithVereniging(v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -58,9 +65,9 @@ public class When_Searching_By_Name
         var response = await _publicApiClient.Search("*stende*");
         var content = await response.Content.ReadAsStringAsync();
 
-        var goldenMaster = new ZoekVerenigingenResponseTemplate().FromQuery("*stende*")
-                                                                 .WithVereniging(
-                                                                      v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
+        var goldenMaster = new ZoekVerenigingenResponseTemplate()
+            .FromQuery("*stende*")
+            .WithVereniging(v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -71,9 +78,9 @@ public class When_Searching_By_Name
         var response = await _publicApiClient.Search("oostende");
         var content = await response.Content.ReadAsStringAsync();
 
-        var goldenMaster = new ZoekVerenigingenResponseTemplate().FromQuery("oostende")
-                                                                 .WithVereniging(
-                                                                      v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
+        var goldenMaster = new ZoekVerenigingenResponseTemplate()
+            .FromQuery("oostende")
+            .WithVereniging(v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -84,9 +91,9 @@ public class When_Searching_By_Name
         var response = await _publicApiClient.Search(_vCode);
         var content = await response.Content.ReadAsStringAsync();
 
-        var goldenMaster = new ZoekVerenigingenResponseTemplate().FromQuery(_vCode)
-                                                                 .WithVereniging(
-                                                                      v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
+        var goldenMaster = new ZoekVerenigingenResponseTemplate()
+            .FromQuery(_vCode)
+            .WithVereniging(v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -103,17 +110,23 @@ public class When_Searching_By_Name
     [Fact]
     public async ValueTask When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
-        var response = await _publicApiClient.Search("*dena*");
+        var response = await _publicApiClient.Search(_vCode);
+
         var content = await response.Content.ReadAsStringAsync();
 
-        var regex = new Regex(@"""facets"":\s*{\s*""hoofdactiviteitenVerenigingsloket"":(.|\s)*?""query"":"".*?(\/v1\/.+?)""");
+        var regex = new Regex(
+            @"""facets"":\s*{\s*""hoofdactiviteitenVerenigingsloket"":(.|\s)*?""query"":"".*?(\/v1\/.+?)"""
+        );
+
         var regexResult = regex.Match(content);
+
         var urlFromFacets = regexResult.Groups[2].Value;
 
         var responseFromFacetsUrl = await _publicApiClient.HttpClient.GetAsync(urlFromFacets);
+
         var contentFromFacetsUrl = await responseFromFacetsUrl.Content.ReadAsStringAsync();
 
-        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteitenVerenigingsloket=BLA";
+        var expectedUrl = $"/v1/verenigingen/zoeken?q={_vCode}&facets.hoofdactiviteitenVerenigingsloket=BLA";
         contentFromFacetsUrl.Should().Contain(expectedUrl);
     }
 }

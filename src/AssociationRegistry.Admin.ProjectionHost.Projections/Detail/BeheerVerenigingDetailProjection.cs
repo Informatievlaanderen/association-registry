@@ -2,15 +2,19 @@
 
 using Events;
 using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Marten;
-using Marten.Events;
 using Marten.Events.Projections;
 using Schema.Detail;
 
 public class BeheerVerenigingDetailProjection : EventProjection
 {
+    public static readonly ShardName ShardName = new("beheer.postgres.detail");
+
     public BeheerVerenigingDetailProjection()
     {
+        Name = ShardName.Name;
+
         // Needs a batch size of 1, because otherwise if Registered and NameChanged arrive in 1 batch/slice,
         // the newly persisted document from xxxWerdGeregistreerd is not in the
         // Query yet when we handle NaamWerdGewijzigd.

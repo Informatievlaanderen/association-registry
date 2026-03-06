@@ -1,29 +1,29 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
+using System.Reflection;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
+using Common.Database;
+using Elastic.Clients.Elasticsearch;
 using EventStore;
 using EventStore.ConflictResolution;
 using FluentAssertions;
 using Framework.Helpers;
-using Common.Database;
+using Hosts.Configuration;
 using Marten;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Elastic.Clients.Elasticsearch;
-using Hosts.Configuration;
-using MartenDb.Transformers;
-using MartenDb.VertegenwoordigerPersoonsgegevens;
 using NodaTime;
 using Npgsql;
 using Oakton;
-using System.Reflection;
-using MartenDb.BankrekeningnummerPersoonsgegevens;
 using Xunit;
 using IEvent = Events.IEvent;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
@@ -36,17 +36,15 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private readonly WebApplicationFactory<PublicApiProgram> _publicApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
 
-    public ElasticsearchClient ElasticClient
-        => (ElasticsearchClient)_publicApiServer.Services.GetRequiredService(typeof(ElasticsearchClient));
+    public ElasticsearchClient ElasticClient =>
+        (ElasticsearchClient)_publicApiServer.Services.GetRequiredService(typeof(ElasticsearchClient));
 
-    protected IDocumentStore ProjectionsDocumentStore
-        => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
+    protected IDocumentStore ProjectionsDocumentStore =>
+        _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
 
-    public PublicApiClient PublicApiClient
-        => new(_publicApiServer.CreateClient());
+    public PublicApiClient PublicApiClient => new(_publicApiServer.CreateClient());
 
-    private string VerenigingenIndexName
-        => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
+    private string VerenigingenIndexName => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
 
     public IServiceProvider ServiceProvider
     {
@@ -62,32 +60,39 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     public PublicApiFixture()
     {
-        WaitFor.PostGreSQLToBecomeAvailable(
-                    new NullLogger<PublicApiFixture>(),
-                    GetConnectionString(GetConfiguration(), RootDatabase))
-               .GetAwaiter().GetResult();
+        OaktonEnvironment.AutoStartHost = true;
+
+        WaitFor
+            .PostGreSQLToBecomeAvailable(
+                new NullLogger<PublicApiFixture>(),
+                GetConnectionString(GetConfiguration(), RootDatabase)
+            )
+            .GetAwaiter()
+            .GetResult();
 
         DropDatabase();
         CreateDatabaseFromTemplate(GetConfiguration());
 
-        _publicApiServer = new WebApplicationFactory<PublicApiProgram>()
-           .WithWebHostBuilder(
-                builder => { builder.UseConfiguration(GetConfiguration()); });
+        _publicApiServer = new WebApplicationFactory<PublicApiProgram>().WithWebHostBuilder(builder =>
+        {
+            builder.UseConfiguration(GetConfiguration());
+        });
 
-        WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, ServiceProvider.GetRequiredService<ILogger<PublicApiFixture>>())
-               .GetAwaiter().GetResult();
+        WaitFor
+            .ElasticSearchToBecomeAvailable(
+                ElasticClient,
+                ServiceProvider.GetRequiredService<ILogger<PublicApiFixture>>()
+            )
+            .GetAwaiter()
+            .GetResult();
 
-        OaktonEnvironment.AutoStartHost = true;
-
-        _projectionHostServer = new WebApplicationFactory<ProjectionHostProgram>()
-           .WithWebHostBuilder(
-                builder =>
-                {
-                    builder.UseContentRoot(Directory.GetCurrentDirectory());
-                    builder.UseSetting(key: "PostgreSQLOptions:database", _identifier);
-                    builder.UseConfiguration(GetConfiguration());
-                    builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
-                });
+        _projectionHostServer = new WebApplicationFactory<ProjectionHostProgram>().WithWebHostBuilder(builder =>
+        {
+            builder.UseContentRoot(Directory.GetCurrentDirectory());
+            builder.UseSetting(key: "PostgreSQLOptions:database", _identifier);
+            builder.UseConfiguration(GetConfiguration());
+            builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
+        });
 
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName).GetAwaiter().GetResult();
     }
@@ -95,9 +100,9 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private IConfigurationRoot GetConfiguration()
     {
         var builder = new ConfigurationBuilder()
-                     .SetBasePath(GetRootDirectory())
-                     .AddJsonFile(path: "appsettings.json", optional: true)
-                     .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+            .SetBasePath(GetRootDirectory())
+            .AddJsonFile(path: "appsettings.json", optional: true)
+            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
 
         var tempConfiguration = builder.Build();
         tempConfiguration["PostgreSQLOptions:database"] = _identifier;
@@ -109,7 +114,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private static string GetRootDirectory()
     {
         var maybeRootDirectory = Directory
-                                .GetParent(typeof(PublicApiProgram).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+            .GetParent(typeof(PublicApiProgram).GetTypeInfo().Assembly.Location)
+            ?.Parent?.Parent?.Parent?.FullName;
 
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
@@ -135,13 +141,23 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         var session = ProjectionsDocumentStore.LightweightSession();
 
-        var eventStore = new EventStore(session, eventConflictResolver,
-                                        new PersoonsgegevensProcessor(new PersoonsgegevensEventTransformers(),
-                                                                      new VertegenwoordigerPersoonsgegevensRepository(
-                                                                          session, new VertegenwoordigerPersoonsgegevensQuery(session)),
-                                                                      new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
-                                                                      NullLogger<PersoonsgegevensProcessor>.Instance),
-                                        NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(
+            session,
+            eventConflictResolver,
+            new PersoonsgegevensProcessor(
+                new PersoonsgegevensEventTransformers(),
+                new VertegenwoordigerPersoonsgegevensRepository(
+                    session,
+                    new VertegenwoordigerPersoonsgegevensQuery(session)
+                ),
+                new BankrekeningnummerPersoonsgegevensRepository(
+                    session,
+                    new BankrekeningnummerPersoonsgegevensQuery(session)
+                ),
+                NullLogger<PersoonsgegevensProcessor>.Instance
+            ),
+            NullLogger<EventStore>.Instance
+        );
 
         foreach (var (@event, i) in eventsToAdd.Select((x, i) => (x, i)))
         {
@@ -154,10 +170,9 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     protected async Task PostAddEvents()
     {
-        var sequencesPerProjection = (await ProjectionsDocumentStore.Advanced
-                                                                    .AllProjectionProgress())
-                                    .ToList()
-                                    .ToDictionary(x => x.ShardName, x => x.Sequence);
+        var sequencesPerProjection = (await ProjectionsDocumentStore.Advanced.AllProjectionProgress())
+            .ToList()
+            .ToDictionary(x => x.ShardName, x => x.Sequence);
 
         var reachedSequence = sequencesPerProjection.All(x => x.Value >= MaxSequence);
         var counter = 0;
@@ -167,21 +182,21 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
             counter++;
             await Task.Delay(500 + (100 * counter));
 
-            sequencesPerProjection = (await ProjectionsDocumentStore.Advanced
-                                                                    .AllProjectionProgress())
-                                    .ToList()
-                                    .ToDictionary(x => x.ShardName, x => x.Sequence);
+            sequencesPerProjection = (await ProjectionsDocumentStore.Advanced.AllProjectionProgress())
+                .ToList()
+                .ToDictionary(x => x.ShardName, x => x.Sequence);
 
             reachedSequence = sequencesPerProjection.All(x => x.Value >= MaxSequence);
         }
 
-        sequencesPerProjection.Should()
-                              .AllSatisfy(x => x.Value.Should()
-                                                .BeGreaterThanOrEqualTo(
-                                                     MaxSequence, $"Because we want projection {x.Key} to be up to date"));
+        sequencesPerProjection
+            .Should()
+            .AllSatisfy(x =>
+                x.Value.Should()
+                    .BeGreaterThanOrEqualTo(MaxSequence, $"Because we want projection {x.Key} to be up to date")
+            );
 
-        await ElasticClient.Indices.ForcemergeAsync(Indices.All, fm => fm
-                                                       .MaxNumSegments(1));
+        await ElasticClient.Indices.ForcemergeAsync(Indices.All, fm => fm.MaxNumSegments(1));
     }
 
     private static async Task ConfigureElasticClient(ElasticsearchClient client, string verenigingenIndexName)
@@ -199,7 +214,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         DatabaseTemplateHelper.CreateDatabaseFromTemplate(
             configuration,
             configuration["PostgreSQLOptions:database"]!,
-            new NullLogger<PublicApiFixture>());
+            new NullLogger<PublicApiFixture>()
+        );
     }
 
     private void DropDatabase()
@@ -211,7 +227,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         {
             connection.Open();
             // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-            cmd.CommandText += $"DROP DATABASE IF EXISTS \"{GetConfiguration()["PostgreSQLOptions:database"]}\" WITH (FORCE);";
+            cmd.CommandText +=
+                $"DROP DATABASE IF EXISTS \"{GetConfiguration()["PostgreSQLOptions:database"]}\" WITH (FORCE);";
             cmd.ExecuteNonQuery();
         }
         finally
@@ -221,11 +238,11 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         }
     }
 
-    private static string GetConnectionString(IConfiguration configurationRoot, string database)
-        => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
-           $"database={database};" +
-           $"password={configurationRoot["PostgreSQLOptions:password"]};" +
-           $"username={configurationRoot["PostgreSQLOptions:username"]}";
+    private static string GetConnectionString(IConfiguration configurationRoot, string database) =>
+        $"host={configurationRoot["PostgreSQLOptions:host"]};"
+        + $"database={database};"
+        + $"password={configurationRoot["PostgreSQLOptions:password"]};"
+        + $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
     public void Dispose()
     {
@@ -241,9 +258,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         _projectionHostServer.Dispose();
     }
 
-    public virtual ValueTask InitializeAsync()
-        => ValueTask.CompletedTask;
+    public virtual ValueTask InitializeAsync() => ValueTask.CompletedTask;
 
-    public virtual ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public virtual ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

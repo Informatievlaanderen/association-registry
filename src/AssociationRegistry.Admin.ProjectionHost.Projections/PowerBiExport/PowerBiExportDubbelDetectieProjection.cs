@@ -4,12 +4,22 @@ using Events;
 using Formats;
 using Framework;
 using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
 using Schema.PowerBiExport;
 
 public class PowerBiExportDubbelDetectieProjection : SingleStreamProjection<PowerBiExportDubbelDetectieDocument, string>
 {
-    public PowerBiExportDubbelDetectieDocument Create(IEvent<DubbeleVerenigingenWerdenGedetecteerd> dubbeleVerenigingenWerdenGedetecteerd)
+    public static readonly ShardName ShardName = new("beheer.postgres.powerbi.dubbeldetectie");
+
+    public PowerBiExportDubbelDetectieProjection()
+    {
+        Name = ShardName.Name;
+    }
+
+    public PowerBiExportDubbelDetectieDocument Create(
+        IEvent<DubbeleVerenigingenWerdenGedetecteerd> dubbeleVerenigingenWerdenGedetecteerd
+    )
     {
         var document = new PowerBiExportDubbelDetectieDocument()
         {
@@ -17,7 +27,9 @@ public class PowerBiExportDubbelDetectieProjection : SingleStreamProjection<Powe
             Bevestigingstoken = dubbeleVerenigingenWerdenGedetecteerd.Data.Bevestigingstoken,
             Naam = dubbeleVerenigingenWerdenGedetecteerd.Data.Naam,
             Locaties = dubbeleVerenigingenWerdenGedetecteerd.Data.Locaties.Select(MapLocatie).ToArray(),
-            GedetecteerdeDubbels = dubbeleVerenigingenWerdenGedetecteerd.Data.GedetecteerdeDubbels.Select(MapDuplicate).ToArray(),
+            GedetecteerdeDubbels = dubbeleVerenigingenWerdenGedetecteerd
+                .Data.GedetecteerdeDubbels.Select(MapDuplicate)
+                .ToArray(),
             Tijdstip = dubbeleVerenigingenWerdenGedetecteerd.GetHeaderString(MetadataHeaderNames.Tijdstip),
             Initiator = dubbeleVerenigingenWerdenGedetecteerd.GetHeaderString(MetadataHeaderNames.Initiator),
             CorrelationId = dubbeleVerenigingenWerdenGedetecteerd.CorrelationId,
@@ -25,51 +37,48 @@ public class PowerBiExportDubbelDetectieProjection : SingleStreamProjection<Powe
         return document;
     }
 
-
     public static PowerBiExportDubbelDetectieDocument.Types.DuplicateVereniging MapDuplicate(
-        Registratiedata.DuplicateVereniging src)
+        Registratiedata.DuplicateVereniging src
+    )
     {
         return new PowerBiExportDubbelDetectieDocument.Types.DuplicateVereniging
         {
             VCode = src.VCode,
             Verenigingstype = new PowerBiExportDubbelDetectieDocument.Types.Verenigingstype(
-                src.Verenigingstype.Code, src.Verenigingstype.Naam),
+                src.Verenigingstype.Code,
+                src.Verenigingstype.Naam
+            ),
 
             Verenigingssubtype = src.Verenigingssubtype is null
                 ? new PowerBiExportDubbelDetectieDocument.Types.Verenigingssubtype(string.Empty, string.Empty)
                 : new PowerBiExportDubbelDetectieDocument.Types.Verenigingssubtype(
-                    src.Verenigingssubtype.Code, src.Verenigingssubtype.Naam),
+                    src.Verenigingssubtype.Code,
+                    src.Verenigingssubtype.Naam
+                ),
 
             Naam = src.Naam,
             KorteNaam = src.KorteNaam,
 
-            HoofdactiviteitenVerenigingsloket = src.HoofdactiviteitenVerenigingsloket
-                                               .Select(h => new PowerBiExportDubbelDetectieDocument.Types.HoofdactiviteitVerenigingsloket
-                                                {
-                                                    Code = h.Code,
-                                                    Naam = h.Naam
-                                                })
-                                               .ToArray(),
+            HoofdactiviteitenVerenigingsloket = src
+                .HoofdactiviteitenVerenigingsloket.Select(
+                    h => new PowerBiExportDubbelDetectieDocument.Types.HoofdactiviteitVerenigingsloket
+                    {
+                        Code = h.Code,
+                        Naam = h.Naam,
+                    }
+                )
+                .ToArray(),
 
-            Locaties = src.Locaties
-                      .Select(MapDuplicateLocatie)
-                      .ToArray()
+            Locaties = src.Locaties.Select(MapDuplicateLocatie).ToArray(),
         };
     }
 
     public static PowerBiExportDubbelDetectieDocument.Types.DuplicateVerenigingLocatie MapDuplicateLocatie(
-        Registratiedata.DuplicateVerenigingLocatie src)
-        => new(
-            src.Locatietype,
-            src.IsPrimair,
-            src.Adres,
-            src.Naam,
-            src.Postcode,
-            src.Gemeente
-        );
+        Registratiedata.DuplicateVerenigingLocatie src
+    ) => new(src.Locatietype, src.IsPrimair, src.Adres, src.Naam, src.Postcode, src.Gemeente);
 
-    public static PowerBiExportDubbelDetectieDocument.Types.Locatie MapLocatie(Registratiedata.Locatie loc)
-        => new()
+    public static PowerBiExportDubbelDetectieDocument.Types.Locatie MapLocatie(Registratiedata.Locatie loc) =>
+        new()
         {
             IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
@@ -79,8 +88,8 @@ public class PowerBiExportDubbelDetectieProjection : SingleStreamProjection<Powe
             AdresId = MapAdresId(loc.AdresId),
         };
 
-    public static PowerBiExportDubbelDetectieDocument.Types.Adres? MapAdres(Registratiedata.Adres? adres)
-        => adres is null
+    public static PowerBiExportDubbelDetectieDocument.Types.Adres? MapAdres(Registratiedata.Adres? adres) =>
+        adres is null
             ? null
             : new PowerBiExportDubbelDetectieDocument.Types.Adres
             {
@@ -92,8 +101,8 @@ public class PowerBiExportDubbelDetectieProjection : SingleStreamProjection<Powe
                 Land = adres.Land,
             };
 
-    public static PowerBiExportDubbelDetectieDocument.Types.AdresId? MapAdresId(Registratiedata.AdresId? locAdresId)
-        => locAdresId is null
+    public static PowerBiExportDubbelDetectieDocument.Types.AdresId? MapAdresId(Registratiedata.AdresId? locAdresId) =>
+        locAdresId is null
             ? null
             : new PowerBiExportDubbelDetectieDocument.Types.AdresId
             {

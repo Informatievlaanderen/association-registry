@@ -1,3 +1,4 @@
+using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Events;
 using AssociationRegistry.MartenDb.Setup;
 using JasperFx.Events;
@@ -30,6 +31,37 @@ session.CorrelationId = Guid.NewGuid().ToString();
 
 // Scenario 1: FeitelijkeVereniging with Vertegenwoordiger lifecycle (Toegevoegd -> Gewijzigd -> Verwijderd)
 Console.WriteLine("\n📝 Creating FeitelijkeVereniging with vertegenwoordiger lifecycle...");
+
+/* we add an event that does nothing to test that we keep our progression state in the database when migrating,
+    eg migrations/production/admin.projections/scripts/up/00006_Rename_Event_Progressions.sql
+    We expect, when the docker compose has run, that event progression is 1 (see migrations/local/scripts/runAfterCreateDatabase/00001_event_progression.sql).
+    We expect, when the projections start, they pick up from 1 without any fault.
+*/
+session.Events.Append(
+    Guid.NewGuid().ToString(),
+    new AfdelingWerdGeregistreerd(null, null, null, null, null, null, null, null, null, null, null)
+);
+
+session.Insert<BeheerVerenigingDetailDocument>(
+    new BeheerVerenigingDetailDocument() { VCode = "V8000001", Naam = "Deze naam mag niet gewijzigd worden" }
+);
+
+session.Events.Append(
+    "V8000001",
+    new FeitelijkeVerenigingWerdGeregistreerd(
+        VCode: "V8000001",
+        Naam: "Dit event zou er nog steeds moeten inzitten",
+        KorteNaam: "",
+        KorteBeschrijving: "",
+        Startdatum: null,
+        Doelgroep: new Registratiedata.Doelgroep(0, 150),
+        IsUitgeschrevenUitPubliekeDatastroom: false,
+        Contactgegevens: [],
+        Locaties: [],
+        Vertegenwoordigers: [],
+        HoofdactiviteitenVerenigingsloket: []
+    )
+);
 
 session.Events.Append(
     "V9000001",
@@ -458,3 +490,5 @@ Console.WriteLine($"   ✓ VertegenwoordigerWerdOvergenomenUitKBO");
 Console.WriteLine($"   ✓ VertegenwoordigerWerdToegevoegdVanuitKBO");
 Console.WriteLine($"   ✓ VertegenwoordigerWerdGewijzigdInKBO");
 Console.WriteLine($"   ✓ VertegenwoordigerWerdVerwijderdUitKBO");
+
+public record EventThatDoesNothing(string One, string Two);

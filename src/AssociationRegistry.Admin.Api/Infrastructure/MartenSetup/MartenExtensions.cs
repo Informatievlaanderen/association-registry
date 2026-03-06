@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
+namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 
 using AssociationRegistry.MartenDb;
 using AssociationRegistry.MartenDb.Logging;
@@ -13,6 +13,7 @@ using Marten;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Microsoft.Extensions.Logging.Abstractions;
 using ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
+using ProjectionHost.Projections;
 using ProjectionHost.Projections.Bewaartermijn;
 using ProjectionHost.Projections.Detail;
 using ProjectionHost.Projections.Historiek;
@@ -63,7 +64,7 @@ public static class MartenExtensions
                 opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(new BeheerKszSyncHistoriekProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(
-                    new LocatieLookupProjection(NullLogger<LocatieLookupProjection>.Instance),
+                    new LocatiesGekoppeldMetGrarProjection(NullLogger<LocatiesGekoppeldMetGrarProjection>.Instance),
                     ProjectionLifecycle.Async
                 );
                 opts.Projections.Add(
@@ -71,7 +72,10 @@ public static class MartenExtensions
                     ProjectionLifecycle.Async
                 );
                 opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
-                opts.Projections.Add(new VertegenwoordigersProjection(querySessionFunc), ProjectionLifecycle.Async);
+                opts.Projections.Add(
+                    new VertegenwoordigersPerVCodeProjection(querySessionFunc),
+                    ProjectionLifecycle.Async
+                );
 
                 return opts;
             })
