@@ -107,18 +107,24 @@ public class When_Searching_By_Name
         content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate().FromQuery("01004"));
     }
 
-    [Fact(Skip = "skip test to see if other test are green on ci")]
+    [Fact]
     public async ValueTask When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
         var response = await _publicApiClient.Search("*dena*");
+        var response2 = await _publicApiClient.Search("01004");
+        var content2 = await response2.Content.ReadAsStringAsync();
+
+        _output.WriteLine("---- SEARCH RESPONSE on 01004 ----");
+        _output.WriteLine(content2);
+        _output.WriteLine("---- END SEARCH RESPONSE 01004----");
 
         _output.WriteLine($"Search status: {response.StatusCode}");
 
         var content = await response.Content.ReadAsStringAsync();
 
-        _output.WriteLine("---- SEARCH RESPONSE ----");
+        _output.WriteLine("---- SEARCH RESPONSE on dena ----");
         _output.WriteLine(content);
-        _output.WriteLine("---- END SEARCH RESPONSE ----");
+        _output.WriteLine("---- END SEARCH RESPONSE on dena ----");
 
         var regex = new Regex(
             @"""facets"":\s*{\s*""hoofdactiviteitenVerenigingsloket"":(.|\s)*?""query"":"".*?(\/v1\/.+?)"""
