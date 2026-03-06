@@ -1,3 +1,10 @@
+# [8.307.0](https://github.com/informatievlaanderen/association-registry/compare/v8.306.1...v8.307.0) (2026-03-06)
+
+
+### Features
+
+* or-3039 add custom naming to beheer projections ([c394042](https://github.com/informatievlaanderen/association-registry/commit/c394042e289503d6d55c90c79797d5a3f699fcd6))
+
 ## [8.306.1](https://github.com/informatievlaanderen/association-registry/compare/v8.306.0...v8.306.1) (2026-03-03)
 
 
