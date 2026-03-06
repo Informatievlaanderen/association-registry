@@ -126,6 +126,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mappings", "mappings", "{9E
 		wiremock\mappings\AdresMatch.exact-match-hekelgem.json = wiremock\mappings\AdresMatch.exact-match-hekelgem.json
 		wiremock\mappings\AdresDetail.861019.json = wiremock\mappings\AdresDetail.861019.json
 		wiremock\mappings\Slack.json = wiremock\mappings\Slack.json
+		wiremock\mappings\GeefPersoonTooManyRequests.json = wiremock\mappings\GeefPersoonTooManyRequests.json
+		wiremock\mappings\GeefPersoon.fallback.json = wiremock\mappings\GeefPersoon.fallback.json
+		wiremock\mappings\GeefPersoon.0725459040.uitzonderingen.fout.json = wiremock\mappings\GeefPersoon.0725459040.uitzonderingen.fout.json
+		wiremock\mappings\GeefPersoon.01234567890.json = wiremock\mappings\GeefPersoon.01234567890.json
+		wiremock\mappings\RegistreerInschrijvingPersoon.0725459040.uitzonderingen.fout.json = wiremock\mappings\RegistreerInschrijvingPersoon.0725459040.uitzonderingen.fout.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Integrations.Magda", "src\integrations\AssociationRegistry.Integrations.Magda\AssociationRegistry.Integrations.Magda.csproj", "{85139412-485D-4B23-8423-A0C2021B60DE}"
@@ -235,6 +240,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeefPersoon", "GeefPersoon"
 		wiremock\__files\GeefPersoon\01234567890.overleden.xml = wiremock\__files\GeefPersoon\01234567890.overleden.xml
 		wiremock\__files\GeefPersoon\fallback.xml = wiremock\__files\GeefPersoon\fallback.xml
 		wiremock\__files\GeefPersoon\toomanyrequests.xml = wiremock\__files\GeefPersoon\toomanyrequests.xml
+		wiremock\__files\GeefPersoon\0725459041.uitzondering.fout.xml = wiremock\__files\GeefPersoon\0725459041.uitzondering.fout.xml
+		wiremock\__files\GeefPersoon\0725459042.uitzondering.fout.xml = wiremock\__files\GeefPersoon\0725459042.uitzondering.fout.xml
+		wiremock\__files\GeefPersoon\0725459043.uitzondering.fout.xml = wiremock\__files\GeefPersoon\0725459043.uitzondering.fout.xml
+		wiremock\__files\GeefPersoon\0725459044.uitzondering.fout.xml = wiremock\__files\GeefPersoon\0725459044.uitzondering.fout.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RegistreerInschrijvingPersoon", "RegistreerInschrijvingPersoon", "{FD564694-7E3E-46E5-BD92-2DE15A9AE6AA}"
@@ -242,6 +251,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RegistreerInschrijvingPerso
 		wiremock\__files\RegistreerInschrijving0200Responses\09876543210.technisch.probleem.xml = wiremock\__files\RegistreerInschrijving0200Responses\09876543210.technisch.probleem.xml
 		wiremock\__files\RegistreerInschrijving0200Responses\fallback.xml = wiremock\__files\RegistreerInschrijving0200Responses\fallback.xml
 		wiremock\__files\RegistreerInschrijving0200Responses\toomanyrequests.xml = wiremock\__files\RegistreerInschrijving0200Responses\toomanyrequests.xml
+		wiremock\__files\RegistreerInschrijving0200Responses\0725459040.uitzondering.fout.xml = wiremock\__files\RegistreerInschrijving0200Responses\0725459040.uitzondering.fout.xml
+		wiremock\__files\RegistreerInschrijving0200Responses\0725459041.uitzondering.fout.xml = wiremock\__files\RegistreerInschrijving0200Responses\0725459041.uitzondering.fout.xml
+		wiremock\__files\RegistreerInschrijving0200Responses\0725459042.uitzondering.fout.xml = wiremock\__files\RegistreerInschrijving0200Responses\0725459042.uitzondering.fout.xml
+		wiremock\__files\RegistreerInschrijving0200Responses\0725459043.uitzondering.fout.xml = wiremock\__files\RegistreerInschrijving0200Responses\0725459043.uitzondering.fout.xml
+		wiremock\__files\RegistreerInschrijving0200Responses\0725459044.uitzondering.fout.xml = wiremock\__files\RegistreerInschrijving0200Responses\0725459044.uitzondering.fout.xml
+		wiremock\__files\RegistreerInschrijving0200Responses\0725459045.uitzondering.fout.xml = wiremock\__files\RegistreerInschrijving0200Responses\0725459045.uitzondering.fout.xml
 	EndProjectSection
 EndProject
 Global

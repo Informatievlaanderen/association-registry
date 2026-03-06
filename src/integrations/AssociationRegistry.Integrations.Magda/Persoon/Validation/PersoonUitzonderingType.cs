@@ -7,7 +7,8 @@ public record PersoonUitzonderingType(string Identificatie, string Beschrijving)
     public static readonly PersoonUitzonderingType Fout30003 = new("30003", "Onbestaand INSZ");
     public static readonly PersoonUitzonderingType Fout30004 = new("30004", "Het INSZ-nummer is vervangen door een ander INSZ-nummer");
     public static readonly PersoonUitzonderingType Fout13202 = new("13202", "Gegevens niet opvraagbaar, geen persoonsdossier geregistreerd");
+    public static readonly PersoonUitzonderingType Fout60003 = new("60003", "Fout formaat in de vraag naar de bron toe");
 
-    public static readonly PersoonUitzonderingType[] FoutcodesVeroorzaaktDoorGebruiker = [Fout30001, Fout30002, Fout30003, Fout30004, Fout13202];
+    public static readonly PersoonUitzonderingType[] FoutcodesVeroorzaaktDoorGebruiker = [Fout30001, Fout30002, Fout30003, Fout30004, Fout13202, Fout60003];
     public static readonly string[] FoutcodesVeroorzaaktDoorGebruikerIdentificaties = FoutcodesVeroorzaaktDoorGebruiker.Select(x => x.Identificatie).ToArray();
 }
