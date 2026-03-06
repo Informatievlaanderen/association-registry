@@ -19,10 +19,14 @@ public class Given_A_Gebruikersfout
 {
     private readonly Fixture _fixture = new();
 
-    [Fact]
-    public async Task Then_It_Returns_RegistreerInschrijvingResponseBody()
+    [Theory]
+    [InlineData("0725459040")]
+    [InlineData("0725459041")]
+    [InlineData("0725459042")]
+    [InlineData("0725459043")]
+    [InlineData("0725459044")]
+    public async Task With_Gebruikersfout_Then_Throws_EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz(string insz)
     {
-        var insz = "0725459040"; // see wiremock folder
         var commandMetadata = _fixture.Create<CommandMetadata>();
         var aanroependeFunctie = AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid;
         var magdaClient = MagdaClientTestSetup.CreateMagdaClient(_fixture, commandMetadata, insz);

@@ -2,7 +2,7 @@
   "priority": 1,
   "request": {
     "method": "POST",
-    "urlPath": "/GeefPersoonDienst-02.02/soap/WebService",
+    "urlPath": "/RegistreerInschrijvingDienst-02.00/soap/WebService",
     "bodyPatterns": [
     {
       "matchesXPath": {
@@ -14,6 +14,6 @@
 
   },
   "response": {
-    "bodyFileName": "GeefPersoon/{{regexExtract request.body '<INSZ>([0-9]{10})</INSZ>' 'parts'}}{{parts.0}}.uitzondering.fout.xml"
+    "bodyFileName": "RegistreerInschrijving0200Responses/{{regexExtract request.body '<INSZ>([0-9]{10})</INSZ>' 'parts'}}{{parts.0}}.uitzondering.fout.xml"
   }
 }
