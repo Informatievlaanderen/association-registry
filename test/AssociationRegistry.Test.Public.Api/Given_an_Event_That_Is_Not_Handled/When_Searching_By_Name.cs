@@ -112,13 +112,7 @@ public class When_Searching_By_Name
     {
         var response = await _publicApiClient.Search(_vCode);
 
-        _output.WriteLine($"Search status: {response.StatusCode}");
-
         var content = await response.Content.ReadAsStringAsync();
-
-        _output.WriteLine("---- SEARCH RESPONSE on dena ----");
-        _output.WriteLine(content);
-        _output.WriteLine("---- END SEARCH RESPONSE on dena ----");
 
         var regex = new Regex(
             @"""facets"":\s*{\s*""hoofdactiviteitenVerenigingsloket"":(.|\s)*?""query"":"".*?(\/v1\/.+?)"""
@@ -126,22 +120,11 @@ public class When_Searching_By_Name
 
         var regexResult = regex.Match(content);
 
-        _output.WriteLine($"Regex success: {regexResult.Success}");
-        _output.WriteLine($"Extracted URL: {regexResult.Groups[2].Value ?? "NULL"}");
-
         var urlFromFacets = regexResult.Groups[2].Value;
-
-        _output.WriteLine($"Calling URL: {urlFromFacets}");
 
         var responseFromFacetsUrl = await _publicApiClient.HttpClient.GetAsync(urlFromFacets);
 
-        _output.WriteLine($"Facet request status: {responseFromFacetsUrl.StatusCode}");
-
         var contentFromFacetsUrl = await responseFromFacetsUrl.Content.ReadAsStringAsync();
-
-        _output.WriteLine("---- FACET RESPONSE ----");
-        _output.WriteLine(contentFromFacetsUrl);
-        _output.WriteLine("---- END FACET RESPONSE ----");
 
         var expectedUrl = $"/v1/verenigingen/zoeken?q={_vCode}&facets.hoofdactiviteitenVerenigingsloket=BLA";
         contentFromFacetsUrl.Should().Contain(expectedUrl);
