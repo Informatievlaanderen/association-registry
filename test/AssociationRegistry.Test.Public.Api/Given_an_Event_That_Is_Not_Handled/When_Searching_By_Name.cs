@@ -110,13 +110,7 @@ public class When_Searching_By_Name
     [Fact]
     public async ValueTask When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
-        var response = await _publicApiClient.Search("*dena*");
-        var response2 = await _publicApiClient.Search("01004");
-        var content2 = await response2.Content.ReadAsStringAsync();
-
-        _output.WriteLine("---- SEARCH RESPONSE on 01004 ----");
-        _output.WriteLine(content2);
-        _output.WriteLine("---- END SEARCH RESPONSE 01004----");
+        var response = await _publicApiClient.Search(_vCode);
 
         _output.WriteLine($"Search status: {response.StatusCode}");
 
@@ -149,7 +143,7 @@ public class When_Searching_By_Name
         _output.WriteLine(contentFromFacetsUrl);
         _output.WriteLine("---- END FACET RESPONSE ----");
 
-        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteitenVerenigingsloket=BLA";
+        var expectedUrl = $"/v1/verenigingen/zoeken?q={_vCode}&facets.hoofdactiviteitenVerenigingsloket=BLA";
         contentFromFacetsUrl.Should().Contain(expectedUrl);
     }
 }
