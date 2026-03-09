@@ -1,3 +1,10 @@
+# [8.308.0](https://github.com/informatievlaanderen/association-registry/compare/v8.307.2...v8.308.0) (2026-03-09)
+
+
+### Features
+
+* or-3039 add enpoint to sync several verenigingen with ksz ([45712da](https://github.com/informatievlaanderen/association-registry/commit/45712da3a037f72723737c2586a64f14aec1a19d))
+
 ## [8.307.2](https://github.com/informatievlaanderen/association-registry/compare/v8.307.1...v8.307.2) (2026-03-09)
 
 
