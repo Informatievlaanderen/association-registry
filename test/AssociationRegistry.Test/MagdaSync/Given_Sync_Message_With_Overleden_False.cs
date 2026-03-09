@@ -3,7 +3,6 @@
 using AssociationRegistry.Framework;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using KboMutations.SyncLambda.MagdaSync.SyncKsz;
 using KboMutations.SyncLambda.MagdaSync.SyncKsz.Queries;
