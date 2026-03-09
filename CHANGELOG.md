@@ -1,3 +1,10 @@
+## [8.307.2](https://github.com/informatievlaanderen/association-registry/compare/v8.307.1...v8.307.2) (2026-03-09)
+
+
+### Bug Fixes
+
+* cleanup usings to trigger release ([93605f9](https://github.com/informatievlaanderen/association-registry/commit/93605f92a361e57aaef38aaf880103f2625789a0))
+
 ## [8.307.1](https://github.com/informatievlaanderen/association-registry/compare/v8.307.0...v8.307.1) (2026-03-06)
 
 
