@@ -4,14 +4,21 @@ using Admin.Schema.Bewaartermijn;
 using Scenario.Bewaartermijnen;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_BewaartermijnWerdGestart(
-    BewaartermijnScenarioFixture<BewaartermijnWerdGestartScenario> fixture)
+public class Given_BewaartermijnWerdGestart(BewaartermijnScenarioFixture<BewaartermijnWerdGestartScenario> fixture)
     : BewaartermijnScenarioClassFixture<BewaartermijnWerdGestartScenario>
 {
     [Fact]
-    public void Bewaartermijn_Document_Is_Saved()
-        => fixture.Result.Should().BeEquivalentTo(new BewaartermijnDocument(fixture.Scenario.BewaartermijnWerdGestart.BewaartermijnId,
-                                                                            fixture.Scenario.BewaartermijnWerdGestart.VCode,
-                                                                            fixture.Scenario.BewaartermijnWerdGestart.VertegenwoordigerId,
-                                                                            fixture.Scenario.BewaartermijnWerdGestart.Vervaldag));
+    public void Bewaartermijn_Document_Is_Saved() =>
+        fixture
+            .Result.Should()
+            .BeEquivalentTo(
+                new BewaartermijnDocument(
+                    fixture.Scenario.BewaartermijnWerdGestartV2.BewaartermijnId,
+                    fixture.Scenario.BewaartermijnWerdGestartV2.VCode,
+                    fixture.Scenario.BewaartermijnWerdGestartV2.BewaartermijnType,
+                    fixture.Scenario.BewaartermijnWerdGestartV2.RecordId,
+                    fixture.Scenario.BewaartermijnWerdGestartV2.Vervaldag,
+                    fixture.Scenario.BewaartermijnWerdGestartV2.Reden
+                )
+            );
 }

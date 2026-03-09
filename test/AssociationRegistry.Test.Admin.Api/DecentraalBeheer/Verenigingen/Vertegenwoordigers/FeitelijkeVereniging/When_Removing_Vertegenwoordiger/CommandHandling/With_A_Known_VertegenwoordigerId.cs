@@ -3,12 +3,14 @@
 using AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Start;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
+using Integrations.Grar.Bewaartermijnen;
 using Moq;
 using Wolverine;
 using Wolverine.Marten;
@@ -53,7 +55,12 @@ public class With_A_Known_VertegenwoordigerId
     public void Then_It_Outboxes_An_StartBewaartermijn_Message()
     {
         var expectedEnvelope = new CommandEnvelope<StartBewaartermijnMessage>(
-            new StartBewaartermijnMessage(_command.VCode, _command.VertegenwoordigerId),
+            new StartBewaartermijnMessage(
+                _command.VCode,
+                BewaartermijnType.Vertegenwoordigers.Value,
+                _command.VertegenwoordigerId,
+                BewaartermijnReden.VertegenwoordigerWerdVerwijderd
+            ),
             _commandMetadata
         );
 

@@ -2,6 +2,8 @@
 
 using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
+using CommandHandling.Bewaartermijnen.Acties.Start;
+using DecentraalBeheer.Vereniging.Bewaartermijnen;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -24,15 +26,37 @@ public class BewaartermijnenController : ApiController
         [FromRoute] string vertegenwoordigerId,
         [FromServices] IBewaartermijnQuery query,
         [FromServices] ILogger<BewaartermijnenController> logger,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
-        var bewaartermijn = await query.ExecuteAsync(new BewaartermijnFilter($"{vCode}-{vertegenwoordigerId}"), cancellationToken);
+        var bewaartermijn = await query.ExecuteAsync(
+            new BewaartermijnFilter(
+                $"{BewaartermijnId.BewaartermijnAggregateName}-{vCode}-{BewaartermijnType.Vertegenwoordigers.Value}-{vertegenwoordigerId}"
+            ),
+            cancellationToken
+        );
 
-        if(bewaartermijn == null)
+        if (bewaartermijn == null)
             return NotFound();
 
-        return Ok(new BewaartermijnResponse(bewaartermijn.BewaartermijnId, bewaartermijn.VCode, bewaartermijn.VertegenwoordigerId, bewaartermijn.Vervaldag));
+        return Ok(
+            new BewaartermijnResponse(
+                bewaartermijn.BewaartermijnId,
+                bewaartermijn.VCode,
+                bewaartermijn.BewaartermijnType,
+                bewaartermijn.RecordId,
+                bewaartermijn.Vervaldag,
+                bewaartermijn.Reden
+            )
+        );
     }
 }
 
-public record BewaartermijnResponse(string BewaartermijnId, string VCode, int VertegenwoordigerId, Instant Vervaldag);
+public record BewaartermijnResponse(
+    string BewaartermijnId,
+    string VCode,
+    string BewaartermijnType,
+    int RecordId,
+    Instant Vervaldag,
+    string Reden
+);

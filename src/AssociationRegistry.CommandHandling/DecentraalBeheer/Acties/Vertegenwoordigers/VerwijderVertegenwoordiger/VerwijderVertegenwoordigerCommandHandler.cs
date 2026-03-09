@@ -3,6 +3,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using Bewaartermijnen.Acties.Start;
@@ -34,7 +35,12 @@ public class VerwijderVertegenwoordigerCommandHandler
 
         await _outbox.SendAsync(
             new CommandEnvelope<StartBewaartermijnMessage>(
-                new StartBewaartermijnMessage(message.Command.VCode, message.Command.VertegenwoordigerId),
+                new StartBewaartermijnMessage(
+                    message.Command.VCode,
+                    BewaartermijnType.Vertegenwoordigers.Value,
+                    message.Command.VertegenwoordigerId,
+                    BewaartermijnReden.VertegenwoordigerWerdVerwijderd
+                ),
                 message.Metadata
             )
         );

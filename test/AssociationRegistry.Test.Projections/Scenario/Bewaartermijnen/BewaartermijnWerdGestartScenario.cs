@@ -5,17 +5,14 @@ using Events;
 
 public class BewaartermijnWerdGestartScenario : ScenarioBase
 {
-    public BewaartermijnWerdGestart BewaartermijnWerdGestart { get; }
+    public BewaartermijnWerdGestartV2 BewaartermijnWerdGestartV2 { get; }
 
     public BewaartermijnWerdGestartScenario()
     {
-        BewaartermijnWerdGestart = AutoFixture.Create<BewaartermijnWerdGestart>();
+        BewaartermijnWerdGestartV2 = AutoFixture.Create<BewaartermijnWerdGestartV2>();
     }
 
-    public override string AggregateId => BewaartermijnWerdGestart.BewaartermijnId;
+    public override string AggregateId => BewaartermijnWerdGestartV2.BewaartermijnId;
 
-    public override EventsPerVCode[] Events =>
-    [
-        new(AggregateId, BewaartermijnWerdGestart),
-    ];
+    public override EventsPerVCode[] Events => [new(AggregateId, BewaartermijnWerdGestartV2)];
 }
