@@ -1,20 +1,20 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Administratie.Sync;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Historiek.Examples;
-using AssociationRegistry.Admin.Schema.KboSync;
-using AssociationRegistry.Contracts.KboSync;
-using AssociationRegistry.Events;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.InschrijvingenVertegenwoordigers;
+using Contracts.KboSync;
+using Events;
 using Framework;
+using Infrastructure.WebApi.Swagger.Annotations;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Queries;
+using Schema.KboSync;
 using Swashbuckle.AspNetCore.Filters;
+using Verenigingen.Historiek.Examples;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
@@ -26,10 +26,12 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 public class SyncController : ApiController
 {
     private readonly KboSyncHistoriekResponseMapper _mapper;
+    private readonly ILogger<SyncController> _logger;
 
-    public SyncController(KboSyncHistoriekResponseMapper mapper)
+    public SyncController(KboSyncHistoriekResponseMapper mapper, ILogger<SyncController> logger)
     {
         _mapper = mapper;
+        _logger = logger;
     }
 
     /// <summary>
@@ -83,7 +85,10 @@ public class SyncController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        var gebeurtenissen = await kszSyncHistoriekQuery.ExecuteAsync(new KszSyncHistoriekFilter(vCode), cancellationToken);
+        var gebeurtenissen = await kszSyncHistoriekQuery.ExecuteAsync(
+            new KszSyncHistoriekFilter(vCode),
+            cancellationToken
+        );
 
         return Ok(gebeurtenissen);
     }
@@ -194,6 +199,53 @@ public class SyncController : ApiController
                 CommandMetadata.ForDigitaalVlaanderenProcess
             )
         );
+
+        return Accepted();
+    }
+
+    /// <summary>
+    /// Trigger een initiële ksz sync voor meerdere verenignigen.
+    /// </summary>
+    /// <param name="documentStore"></param>
+    /// <param name="messageBus"></param>
+    /// <param name="vzerOrFvExistsVCodeQuery"></param>
+    /// <param name="vCode">De VCode van de te synchroniseren vereniging.</param>
+    /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
+    [HttpPost("initial/ksz")]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesJson]
+    public async Task<IActionResult> SyncInitialKszVerenigingen(
+        [FromServices] IDocumentStore documentStore,
+        [FromServices] IMessageBus messageBus,
+        [FromServices] IVzerOrFvExistsQuery vzerOrFvExistsVCodeQuery,
+        [FromBody] kszSyncRequest request
+    )
+    {
+        await using var session = documentStore.LightweightSession();
+
+        foreach (var vCode in request.VCodes)
+        {
+            _logger.LogInformation("start syncing vcode {vcode}", vCode);
+
+            var exists = await vzerOrFvExistsVCodeQuery.ExecuteAsync(
+                new VzerOrFvExistsFilter(vCode),
+                CancellationToken.None
+            );
+
+            if (!exists)
+                return NotFound();
+
+            await messageBus.SendAsync(
+                new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(
+                    new SchrijfVertegenwoordigersInMessage(vCode),
+                    CommandMetadata.ForDigitaalVlaanderenProcess
+                )
+            );
+            _logger.LogInformation("syncing vcode {vcode} done", vCode);
+        }
 
         return Accepted();
     }
