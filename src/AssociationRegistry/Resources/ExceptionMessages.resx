@@ -259,6 +259,9 @@
   <data name="RegistreerInschrijvingKonNietVoltooidWorden" xml:space="preserve">
     <value>Registreer inschrijving voor KBO-nummer kon niet voltooid worden</value>
   </data>
+  <data name="OngeldigBewaartermijnType" xml:space="preserve">
+    <value>Het opgegeven bewaartermijn is geen geldig bewaartermijn type.</value>
+  </data>
   <data name="UnexpectedAggregateVersion" xml:space="preserve">
     <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>

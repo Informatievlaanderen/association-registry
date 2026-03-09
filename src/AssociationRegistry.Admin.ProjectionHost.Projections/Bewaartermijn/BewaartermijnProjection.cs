@@ -13,11 +13,13 @@ public class BewaartermijnProjection : SingleStreamProjection<BewaartermijnDocum
     {
         Name = ShardName.Name;
 
-        CreateEvent<BewaartermijnWerdGestart>(@event => new BewaartermijnDocument(
+        CreateEvent<BewaartermijnWerdGestartV2>(@event => new BewaartermijnDocument(
             @event.BewaartermijnId,
             @event.VCode,
-            @event.VertegenwoordigerId,
-            @event.Vervaldag
+            @event.BewaartermijnType,
+            @event.RecordId,
+            @event.Vervaldag,
+            @event.Reden
         ));
     }
 }

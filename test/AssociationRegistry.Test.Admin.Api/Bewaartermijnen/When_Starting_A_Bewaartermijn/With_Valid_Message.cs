@@ -2,6 +2,7 @@
 
 using AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Start;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
@@ -10,63 +11,74 @@ using Events;
 using Integrations.Grar.Bewaartermijnen;
 using MartenDb.Store;
 using Moq;
+using NodaTime;
 using Xunit;
 
 public class With_Valid_Message
 {
     private Mock<IEventStore> _eventStore;
     private readonly VCode _vCode;
-    private readonly int _vertegenwoordigerId;
+    private readonly int _recordId;
     private CommandMetadata _commandMetadata;
     private BewaartermijnOptions _bewaartermijnOptions;
+    private Instant _expectedVervaldag;
 
     public With_Valid_Message()
     {
         var fixture = new Fixture().CustomizeAdminApi();
+
         _vCode = fixture.Create<VCode>();
-        _vertegenwoordigerId = fixture.Create<int>();
-        var command = new StartBewaartermijnMessage(_vCode, _vertegenwoordigerId);
+        _recordId = fixture.Create<int>();
         _commandMetadata = fixture.Create<CommandMetadata>();
+
+        _bewaartermijnOptions = new BewaartermijnOptions() { Duration = TimeSpan.FromDays(1) };
+
+        _expectedVervaldag = _commandMetadata.Tijdstip.PlusTicks(_bewaartermijnOptions.Duration.Ticks);
+
+        var command = new StartBewaartermijnMessage(
+            _vCode,
+            BewaartermijnType.Vertegenwoordigers.Value,
+            _recordId,
+            BewaartermijnReden.VertegenwoordigerWerdVerwijderd
+        );
+
         var commandHandler = new StartBewaartermijnMessageHandler();
         _eventStore = new Mock<IEventStore>();
-        _bewaartermijnOptions = new BewaartermijnOptions(){
-            Duration = TimeSpan.FromDays(1),
-        };
 
-        commandHandler.Handle(new CommandEnvelope<StartBewaartermijnMessage>(command, _commandMetadata), _eventStore.Object, _bewaartermijnOptions, CancellationToken.None)
-                      .GetAwaiter().GetResult();
+        commandHandler
+            .Handle(
+                new CommandEnvelope<StartBewaartermijnMessage>(command, _commandMetadata),
+                _eventStore.Object,
+                _bewaartermijnOptions,
+                CancellationToken.None
+            )
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
     public void Then_The_Bewaartermijn_Is_Saved()
     {
-        var expectedAggregateId = $"{_vCode}-{_vertegenwoordigerId}";
-        var expectedVervaldag = _commandMetadata.Tijdstip.PlusTicks(_bewaartermijnOptions.Duration.Ticks);
-        var expectedEvent = new BewaartermijnWerdGestart(expectedAggregateId, _vCode.ToString(), _vertegenwoordigerId,
-                                                         expectedVervaldag);
-        _eventStore.Verify(x => x.SaveNew(
-                               expectedAggregateId,
-                               _commandMetadata,
-                               It.IsAny<CancellationToken>(),
-                               It.Is<IEvent[]>(events =>
-                                                                     events.Length == 1 &&
-                                                                     ((BewaartermijnWerdGestart)events[0]).BewaartermijnId == expectedAggregateId &&
-                                                                     ((BewaartermijnWerdGestart)events[0]).VCode == _vCode.ToString() &&
-                                                                     ((BewaartermijnWerdGestart)events[0]).VertegenwoordigerId == _vertegenwoordigerId &&
-                                                                     ((BewaartermijnWerdGestart)events[0]).Vervaldag == expectedVervaldag
-                               )));
-    }
+        var expectedAggregateId =
+            $"{BewaartermijnId.BewaartermijnAggregateName}-{_vCode}-{BewaartermijnType.Vertegenwoordigers.Value}-{_recordId}";
 
-    //
-    // [Fact]
-    // public void Then_A_VertegenwoordigerWerdVerwijderd_Event_Is_Saved()
-    // {
-    //     _verenigingRepositoryMock.ShouldHaveSavedExact(
-    //         new VertegenwoordigerWerdVerwijderd(
-    //             _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-    //             _scenario.VertegenwoordigerWerdToegevoegd.Insz,
-    //             _scenario.VertegenwoordigerWerdToegevoegd.Voornaam,
-    //             _scenario.VertegenwoordigerWerdToegevoegd.Achternaam)
-    //     );
-    // }
+        _eventStore.Verify(x =>
+            x.SaveNew(
+                expectedAggregateId,
+                _commandMetadata,
+                It.IsAny<CancellationToken>(),
+                It.Is<IEvent[]>(events =>
+                    events.Length == 1
+                    && ((BewaartermijnWerdGestartV2)events[0]).BewaartermijnId == expectedAggregateId
+                    && ((BewaartermijnWerdGestartV2)events[0]).VCode == _vCode.ToString()
+                    && ((BewaartermijnWerdGestartV2)events[0]).BewaartermijnType
+                        == BewaartermijnType.Vertegenwoordigers.Value
+                    && ((BewaartermijnWerdGestartV2)events[0]).RecordId == _recordId
+                    && ((BewaartermijnWerdGestartV2)events[0]).Vervaldag == _expectedVervaldag
+                    && ((BewaartermijnWerdGestartV2)events[0]).Reden
+                        == BewaartermijnReden.VertegenwoordigerWerdVerwijderd
+                )
+            )
+        );
+    }
 }
