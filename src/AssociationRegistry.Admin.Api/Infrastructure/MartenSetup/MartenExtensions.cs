@@ -3,11 +3,13 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 using AssociationRegistry.MartenDb;
 using AssociationRegistry.MartenDb.Logging;
 using AssociationRegistry.MartenDb.Setup;
+using Events;
 using global::Wolverine.Marten;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
+using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Marten;
 using MartenDb.Upcasters.Persoonsgegevens;
@@ -86,6 +88,15 @@ public static class MartenExtensions
 
                 integration.AutoCreate = AutoCreate.None;
             })
+            .AddAsyncDaemon(DaemonMode.HotCold)
+            .ProcessEventsWithWolverineHandlersInStrictOrder(
+                "KszSync",
+                o =>
+                {
+                    o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
+                    o.Options.SubscribeFromPresent();
+                }
+            )
             .UseLightweightSessions();
 
         martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();

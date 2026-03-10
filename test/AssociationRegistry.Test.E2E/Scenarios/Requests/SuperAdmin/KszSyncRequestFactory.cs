@@ -19,6 +19,9 @@ public class KszSyncRequestFactory : ITestRequestFactory<NullRequest>
 
     public async Task<CommandResult<NullRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
+        var vCode = _scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+        var vertegenwoordigerId = _scenario.Vertegenwoordiger.VertegenwoordigerId;
+
         var response = (
             await apiSetup.AdminApiHost.Scenario(s =>
             {
@@ -37,11 +40,9 @@ public class KszSyncRequestFactory : ITestRequestFactory<NullRequest>
 
         // long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new CommandResult<NullRequest>(
-            VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode),
-            new NullRequest(),
-            1
-        );
-        //TODO change sequence & wait for outbox insert -> but need 2 different request factories then
+        await apiSetup.WaitForBewaartermijnEvent(vCode, vertegenwoordigerId);
+
+        return new CommandResult<NullRequest>(VCode.Create(vCode), new NullRequest(), 1);
+        //TODO change sequence? when implemting expected sequence?
     }
 }

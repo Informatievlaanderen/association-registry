@@ -15,10 +15,13 @@ public record BewaartermijnId
         RecordId = recordId;
     }
 
-    public static implicit operator string(BewaartermijnId bewaartermijnId)
-        => $"{BewaartermijnAggregateName}-{bewaartermijnId.VCode}-{bewaartermijnId.BewaartermijnType.Value}-{bewaartermijnId.RecordId}";
+    public static implicit operator string(BewaartermijnId bewaartermijnId) =>
+        $"{BewaartermijnAggregateName}-{bewaartermijnId.VCode}-{bewaartermijnId.BewaartermijnType.Value}-{bewaartermijnId.RecordId}";
 
     public VCode VCode { get; }
     public BewaartermijnType BewaartermijnType { get; }
     public int RecordId { get; }
+
+    public static string CreateId(VCode vCode, BewaartermijnType bewaartermijnType, int recordId) =>
+        $"{BewaartermijnAggregateName}-{vCode}-{bewaartermijnType.Value}-{recordId}";
 }
