@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Bewaartermijn;
 
 using Admin.Schema.Bewaartermijn;
+using Formats;
+using Framework.Fixtures;
 using Scenario.Bewaartermijnen;
 
 [Collection(nameof(ProjectionContext))]
@@ -17,8 +19,15 @@ public class Given_BewaartermijnWerdGestart(BewaartermijnScenarioFixture<Bewaart
                     fixture.Scenario.BewaartermijnWerdGestartV2.VCode,
                     fixture.Scenario.BewaartermijnWerdGestartV2.BewaartermijnType,
                     fixture.Scenario.BewaartermijnWerdGestartV2.RecordId,
+                    fixture.Scenario.BewaartermijnWerdGestartV2.Reden,
+                    BewaartermijnStatus.StatusGepland.Naam,
                     fixture.Scenario.BewaartermijnWerdGestartV2.Vervaldag,
-                    fixture.Scenario.BewaartermijnWerdGestartV2.Reden
+                    [
+                        new BewaartermijnGebeurtenis(
+                            BewaartermijnStatus.StatusGepland.Naam,
+                            fixture.MetadataTijdstip.ToInstant()
+                        ),
+                    ]
                 )
             );
 }

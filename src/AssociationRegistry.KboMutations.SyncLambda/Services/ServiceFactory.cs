@@ -6,10 +6,14 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.KboMutations.Configuration;
 using AssociationRegistry.KboMutations.Notifications;
+using CommandHandling.MagdaSync.SyncKbo;
+using CommandHandling.MagdaSync.SyncKsz;
+using CommandHandling.MagdaSync.SyncKsz.Queries;
 using Configuration;
 using EventStore.ConflictResolution;
 using Integrations.Magda.CallReferences;
 using Integrations.Magda.Onderneming;
+using Integrations.Magda.Persoon;
 using Integrations.Magda.Persoon.Validation;
 using Integrations.Magda.Shared.Models;
 using Integrations.Slack;
@@ -17,9 +21,6 @@ using JasperFx;
 using JasperFx.Events;
 using JsonSerialization;
 using Logging;
-using MagdaSync.SyncKbo;
-using MagdaSync.SyncKsz;
-using MagdaSync.SyncKsz.Queries;
 using Marten;
 using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
@@ -146,9 +147,19 @@ public class ServiceFactory
             metrics: _telemetryManager.Metrics
         );
 
+        var magdaGeefPersoonService = new MagdaGeefPersoonService(
+            magdaClient,
+            new MagdaRegistreerInschrijvingValidator(
+                loggerFactory.CreateLogger<MagdaRegistreerInschrijvingValidator>()
+            ),
+            new MagdaGeefPersoonValidator(loggerFactory.CreateLogger<MagdaGeefPersoonValidator>()),
+            loggerFactory.CreateLogger<MagdaGeefPersoonService>()
+        );
+
         var kszSyncHandler = new SyncKszMessageHandler(
             vzerVertegenwoordigerForInszQuery: vzerVertegenwoordigerForInszQuery,
             aggregateSession: aggregateSession,
+            magdaGeefPersoonService,
             loggerFactory.CreateLogger<SyncKszMessageHandler>()
         );
 

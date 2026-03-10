@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.MagdaSync.KboSync;
 
-using KboMutations.SyncLambda.Exceptions;
+using CommandHandling.MagdaSync.Exceptions;
 using Xunit;
 
 public class Given_Fout_Bij_Laden_Vereniging_In_Verenigingsregister

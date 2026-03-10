@@ -30,6 +30,8 @@ using CommandHandling.Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using CommandHandling.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using CommandHandling.Grar.GrarUpdates.Hernummering;
 using CommandHandling.Grar.GrarUpdates.LocatieFinder;
+using CommandHandling.MagdaSync.SyncKsz;
+using CommandHandling.MagdaSync.SyncKsz.Queries;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using DecentraalBeheer.Vereniging.Geotags;
@@ -507,6 +509,7 @@ public class Program
             .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
             .AddScoped<PersoonsgegevensEventTransformers>()
             .AddTransient<IEventStore, EventStore>()
+            .AddScoped<ISyncKszMessageHandler, SyncKszMessageHandler>()
             .AddTransient<IVerenigingStateQueryService, VerenigingStateQueryService>()
             .AddTransient<INewAggregateSession, NewAggregateSession>()
             .AddTransient<IAggregateSession, AggregateSession>()
@@ -535,6 +538,8 @@ public class Program
             .AddTransient<VerenigingHistoriekResponseMapper>()
             .AddScoped<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
             .AddScoped<IMagdaSyncGeefVerenigingService, SyncGeefVerenigingService>()
+            .AddScoped<IFilterVzerOnlyQuery, FilterVzerOnlyQuery>()
+            .AddScoped<VzerVertegenwoordigerForInszQuery>()
             .AddMarten(
                 configuration: builder.Configuration,
                 postgreSqlOptions: postgreSqlOptionsSection,

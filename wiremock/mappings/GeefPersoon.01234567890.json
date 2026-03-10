@@ -7,7 +7,7 @@
     {
       "matchesXPath": {
        "expression": "//INSZ/text()",
-        "matches": "01234567890"
+        "matches": "01234567890|03010112343|99010112390"
       }
     }
 ]

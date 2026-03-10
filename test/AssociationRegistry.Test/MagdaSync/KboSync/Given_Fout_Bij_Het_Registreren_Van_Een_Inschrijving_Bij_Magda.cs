@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.MagdaSync.KboSync;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using CommandHandling.MagdaSync.Exceptions;
 using FluentAssertions;
-using KboMutations.SyncLambda.Exceptions;
 using Xunit;
 
 public class Given_Fout_Bij_Het_Registreren_Van_Een_Inschrijving_Bij_Magda

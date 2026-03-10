@@ -1,9 +1,9 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Services;
 
+using CommandHandling.MagdaSync.SyncKbo;
+using CommandHandling.MagdaSync.SyncKsz;
 using DecentraalBeheer.Vereniging;
 using Integrations.Slack;
-using MagdaSync.SyncKbo;
-using MagdaSync.SyncKsz;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 

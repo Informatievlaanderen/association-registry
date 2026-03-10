@@ -8,7 +8,7 @@ using AssociationRegistry.Magda.Kbo;
 using AssociationRegistry.OpenTelemetry.Metrics;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using KboMutations.SyncLambda.MagdaSync.SyncKbo;
+using CommandHandling.MagdaSync.SyncKbo;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 using Moq;

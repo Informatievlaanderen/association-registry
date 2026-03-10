@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Vertegenwoordiger.Beheer.Bewaartermijn;
 
 using Admin.Api.WebApi.Administratie.Bewaartermijnen;
+using Admin.Schema.Bewaartermijn;
 using CommandHandling.Bewaartermijnen.Acties.Start;
 using DecentraalBeheer.Vereniging.Bewaartermijnen;
 using FluentAssertions;
@@ -52,10 +53,13 @@ public class Returns_Bewaartermijn_For_Removed_Vertegenwoordiger : End2EndTest<B
                     BewaartermijnType = BewaartermijnType.Vertegenwoordigers.Value,
                     RecordId = _testContext.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                     Reden = BewaartermijnReden.VertegenwoordigerWerdVerwijderd,
+                    Status = BewaartermijnStatus.StatusGepland.Naam,
+                    Gebeurtenissen = new object[] { new { Status = BewaartermijnStatus.StatusGepland.Naam } },
                 },
                 cfg => cfg.ExcludingMissingMembers()
             );
 
         Response.Vervaldag.Should().Match<Instant>(actual => (actual - expectedVervaldag) <= tolerance);
+        Response.Gebeurtenissen[0].Tijdstip.Should().Match<Instant>(actual => (actual - now) <= tolerance);
     }
 }

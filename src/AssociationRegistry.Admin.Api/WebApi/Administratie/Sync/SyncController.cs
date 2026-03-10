@@ -1,21 +1,30 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Administratie.Sync;
 
 using Asp.Versioning;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Historiek.Examples;
+using AssociationRegistry.Admin.Schema.KboSync;
+using AssociationRegistry.Events;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.InschrijvingenVertegenwoordigers;
-using Contracts.KboSync;
-using Events;
+using CommandHandling.MagdaSync.SyncKsz;
+using CommandHandling.MagdaSync.SyncKsz.Queries;
+using Contracts.Sync.Kbo;
+using Contracts.Sync.Ksz;
+using DecentraalBeheer.Vereniging;
 using Framework;
 using Infrastructure.WebApi.Swagger.Annotations;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Persoonsgegevens;
 using Queries;
 using Schema.KboSync;
 using Swashbuckle.AspNetCore.Filters;
 using Verenigingen.Historiek.Examples;
 using Wolverine;
+using Wolverine.Marten;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
@@ -246,6 +255,39 @@ public class SyncController : ApiController
             );
             _logger.LogInformation("syncing vcode {vcode} done", vCode);
         }
+
+        return Accepted();
+    }
+
+    /// <summary>
+    /// Sync insz met ksz
+    /// </summary>
+    /// <param name="messageBus"></param>
+    /// <param name="insz"></param>
+    /// <param name="kszMessageHandler"></param>
+    /// <param name="cancellationToken"></param>
+    /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
+    [HttpPost("ksz/{insz}")]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesJson]
+    public async Task<IActionResult> SyncKsz(
+        [FromRoute] string insz,
+        [FromServices] IMartenOutbox martenOutbox,
+        [FromServices] ISyncKszMessageHandler kszMessageHandler,
+        CancellationToken cancellationToken
+    )
+    {
+        await kszMessageHandler.Handle(
+            new CommandEnvelope<SyncKszMessage>(
+                new SyncKszMessage(Insz.Create(insz), Guid.NewGuid()),
+                CommandMetadata.ForDigitaalVlaanderenProcess
+            ),
+            martenOutbox,
+            cancellationToken
+        );
 
         return Accepted();
     }

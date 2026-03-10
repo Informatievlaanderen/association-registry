@@ -18,22 +18,24 @@ internal class PlainJsonMessageParser : IMessageParser
         var overleden = GetBool("overleden");
         var correlationId = GetGuid("correlationId") ?? Guid.NewGuid();
 
-        return SyncEnvelopeFactory.Create(kbo, insz, overleden, null, null, correlationId);
+        return SyncEnvelopeFactory.Create(kbo, insz, null, null, correlationId);
     }
 
-    private string? GetString(string prop)
-        => _document.RootElement.TryGetProperty(prop, out var el) && el.ValueKind == JsonValueKind.String
+    private string? GetString(string prop) =>
+        _document.RootElement.TryGetProperty(prop, out var el) && el.ValueKind == JsonValueKind.String
             ? el.GetString()
             : null;
 
-    private bool? GetBool(string prop)
-        => _document.RootElement.TryGetProperty(prop, out var el) &&
-           (el.ValueKind == JsonValueKind.True || el.ValueKind == JsonValueKind.False)
+    private bool? GetBool(string prop) =>
+        _document.RootElement.TryGetProperty(prop, out var el)
+        && (el.ValueKind == JsonValueKind.True || el.ValueKind == JsonValueKind.False)
             ? el.GetBoolean()
             : null;
 
-    private Guid? GetGuid(string prop)
-        => _document.RootElement.TryGetProperty(prop, out var el) && el.ValueKind == JsonValueKind.String
-            ? Guid.TryParse(el.GetString(), out var guid) ? guid : null
+    private Guid? GetGuid(string prop) =>
+        _document.RootElement.TryGetProperty(prop, out var el) && el.ValueKind == JsonValueKind.String
+            ? Guid.TryParse(el.GetString(), out var guid)
+                ? guid
+                : null
             : null;
 }

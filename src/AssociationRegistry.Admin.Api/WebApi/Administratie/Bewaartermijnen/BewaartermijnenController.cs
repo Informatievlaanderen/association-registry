@@ -45,8 +45,10 @@ public class BewaartermijnenController : ApiController
                 bewaartermijn.VCode,
                 bewaartermijn.BewaartermijnType,
                 bewaartermijn.RecordId,
+                bewaartermijn.Reden,
+                bewaartermijn.Status,
                 bewaartermijn.Vervaldag,
-                bewaartermijn.Reden
+                bewaartermijn.Gebeurtenissen.Select(x => new BewaartermijnGebeurtenis(x.Status, x.Tijdstip)).ToArray()
             )
         );
     }
@@ -57,6 +59,10 @@ public record BewaartermijnResponse(
     string VCode,
     string BewaartermijnType,
     int RecordId,
+    string Reden,
+    string Status,
     Instant Vervaldag,
-    string Reden
+    BewaartermijnGebeurtenis[] Gebeurtenissen
 );
+
+public record BewaartermijnGebeurtenis(string Status, Instant Tijdstip);

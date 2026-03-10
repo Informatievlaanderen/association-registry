@@ -8,8 +8,8 @@ using Microsoft.Extensions.Logging;
 
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
+using CommandHandling.MagdaSync.Exceptions;
 using Configuration;
-using Exceptions;
 using Logging;
 using OpenTelemetry;
 using Serilog;

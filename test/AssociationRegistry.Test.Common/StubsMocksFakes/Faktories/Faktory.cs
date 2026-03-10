@@ -21,5 +21,8 @@ public class Faktory(IFixture fixture)
         new postcodesFromGrarFetcherFactory(fixture);
     public NutsLauFromGrarFetcherFactory nutsLauFromGrarFetcher { get; } = new NutsLauFromGrarFetcherFactory(fixture);
 
+    public MagdaGeefPersoonServiceFactory MagdaGeefPersoonService { get; } =
+        new MagdaGeefPersoonServiceFactory(fixture);
+
     public GrarClientFactory GrarClientFactory { get; } = new GrarClientFactory(fixture);
 }
