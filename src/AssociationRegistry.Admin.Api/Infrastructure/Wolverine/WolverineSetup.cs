@@ -1,14 +1,19 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Wolverine;
 
-using MartenDb.Setup;
+using global::Wolverine;
+using CommandHandling.Bewaartermijnen.EventHandling;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
+using Events;
 using EventStore;
-using global::Wolverine;
 using global::Wolverine.ErrorHandling;
+using global::Wolverine.Marten;
 using Integrations.Magda.Shared.Exceptions;
 using JasperFx;
 using JasperFx.Core;
+using JasperFx.Events.Daemon;
+using Marten;
+using MartenDb.Setup;
 using Pipelines;
 using Queues;
 using Serilog;
@@ -25,14 +30,20 @@ public static class WolverineSetup
                 Log.Logger.Information("Setting up wolverine");
                 options.ApplicationAssembly = typeof(Program).Assembly;
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
-                options.Discovery.IncludeAssembly(typeof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler).Assembly);
-
-                options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
-                    TimeSpan.FromSeconds(1),
-                    TimeSpan.FromSeconds(2),
-                    TimeSpan.FromSeconds(3),
-                    TimeSpan.FromSeconds(5)
+                options.Discovery.IncludeAssembly(
+                    typeof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler).Assembly
                 );
+
+                options
+                    .OnException<UnexpectedAggregateVersionDuringSyncException>()
+                    .RetryWithCooldown(
+                        TimeSpan.FromSeconds(1),
+                        TimeSpan.FromSeconds(2),
+                        TimeSpan.FromSeconds(3),
+                        TimeSpan.FromSeconds(5)
+                    );
+
+                options.Discovery.IncludeAssembly(typeof(BewaartermijnEventHandler).Assembly); // TODO remove
 
                 RegistreerVzerPipeline.Setup(options);
                 VoegVertegenwoordigerToePipeline.Setup(options);
@@ -42,6 +53,7 @@ public static class WolverineSetup
 
                 options.AutoBuildMessageStorageOnStartup = AutoCreate.All;
                 options.UseNewtonsoftForSerialization(settings => settings.ConfigureForVerenigingsregister());
-            });
+            }
+        );
     }
 }
