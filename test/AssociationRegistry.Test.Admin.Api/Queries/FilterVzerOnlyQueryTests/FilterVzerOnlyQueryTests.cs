@@ -5,9 +5,9 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
+using CommandHandling.MagdaSync.SyncKsz.Queries;
 using Events;
 using FluentAssertions;
-using KboMutations.SyncLambda.MagdaSync.SyncKsz.Queries;
 using Marten;
 using Xunit;
 
@@ -48,40 +48,65 @@ public class FilterVzerOnlyQueryTests : IClassFixture<FilterVzerOnlyQueryFixture
     [Fact]
     public async ValueTask Returns_Only_VCodes_That_Are_Vzer_Or_GemigreerdeFVs()
     {
-
         var fixture = new Fixture().CustomizeDomain();
 
-        _session.Events.Append("V0001001", fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with {VCode = "V0001001"});
         _session.Events.Append(
-            "V0001002", fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens>() with { VCode = "V0001002"});
+            "V0001001",
+            fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
+            {
+                VCode = "V0001001",
+            }
+        );
         _session.Events.Append(
-            "V0001003", fixture.Create<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid>() with {VCode = "V0001003"});
+            "V0001002",
+            fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens>() with
+            {
+                VCode = "V0001002",
+            }
+        );
+        _session.Events.Append(
+            "V0001003",
+            fixture.Create<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid>() with
+            {
+                VCode = "V0001003",
+            }
+        );
 
         await _session.SaveChangesAsync();
 
         var query = new FilterVzerOnlyQuery(_session);
 
-        var actual = await query.ExecuteAsync(new FilterVzerOnlyQueryFilter([
-            VCode.Hydrate("V0001001"),
-            VCode.Hydrate("V0001002"),
-            VCode.Hydrate("V0001003"),
-        ]), CancellationToken.None);
+        var actual = await query.ExecuteAsync(
+            new FilterVzerOnlyQueryFilter([
+                VCode.Hydrate("V0001001"),
+                VCode.Hydrate("V0001002"),
+                VCode.Hydrate("V0001003"),
+            ]),
+            CancellationToken.None
+        );
 
-        actual.Should().BeEquivalentTo([
-            VCode.Hydrate("V0001002"),
-            VCode.Hydrate("V0001003")]);
+        actual.Should().BeEquivalentTo([VCode.Hydrate("V0001002"), VCode.Hydrate("V0001003")]);
     }
 
     [Fact]
     public async ValueTask Returns_Only_Existing_Verenigingen()
     {
-
         var fixture = new Fixture().CustomizeDomain();
 
         _session.Events.Append(
-            "V0001004", fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = "V0001004" });
+            "V0001004",
+            fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
+            {
+                VCode = "V0001004",
+            }
+        );
         _session.Events.Append(
-            "V0001005", fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens>() with {VCode = "V0001005"} );
+            "V0001005",
+            fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens>() with
+            {
+                VCode = "V0001005",
+            }
+        );
 
         await _session.SaveChangesAsync();
 

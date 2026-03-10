@@ -1,12 +1,12 @@
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using Amazon.Lambda.SQSEvents;
+using CommandHandling.MagdaSync.SyncKbo;
+using CommandHandling.MagdaSync.SyncKsz;
 using DecentraalBeheer.Vereniging;
 using Framework;
 using Framework.EventMetadata;
 using KboMutations.Configuration;
-using MagdaSync.SyncKbo;
-using MagdaSync.SyncKsz;
 using MartenDb.Store;
 using Messaging;
 using Messaging.Parsers;
@@ -119,13 +119,10 @@ public class MessageProcessor
                     {
                         await kszSyncHandler.Handle(
                             new CommandEnvelope<SyncKszMessage>(
-                                new SyncKszMessage(
-                                    Insz.Create(envelope.InszMessage!.Insz),
-                                    envelope.InszMessage.Overleden,
-                                    envelope.CorrelationId
-                                ),
+                                new SyncKszMessage(Insz.Create(envelope.InszMessage!.Insz), envelope.CorrelationId),
                                 commandMetadata
                             ),
+                            null, // TODO fix outbox
                             cancellationToken
                         );
                     });

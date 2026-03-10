@@ -43,6 +43,5 @@
 
   <ItemGroup>
     <Folder Include="MagdaSync\KboSync\RecordProcessorTests\" />
-    <Folder Include="MagdaSync\KszSync\" />
   </ItemGroup>
 </Project>

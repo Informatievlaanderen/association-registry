@@ -17,8 +17,6 @@ using AlbaHost;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using Events;
-using ImTools;
-using Scenarios.Requests;
 
 public static class HistoriekGebeurtenisMapper
 {
@@ -78,12 +76,13 @@ public static class HistoriekGebeurtenisMapper
                     .ToArray(),
                 Vertegenwoordigers: null,
                 HoofdactiviteitenVerenigingsloket: null,
-                Bankrekeningnummers: request.Bankrekeningnummers.Select(
-                    (x, i) =>
-                        new Registratiedata.Bankrekeningnummer(++i,x.Iban, x.Doel,x.Titularis))
-                                            .ToArray()
+                Bankrekeningnummers: request
+                    .Bankrekeningnummers.Select(
+                        (x, i) => new Registratiedata.Bankrekeningnummer(++i, x.Iban, x.Doel, x.Titularis)
+                    )
+                    .ToArray()
             ),
-            Initiator = AuthenticationSetup.Initiator
+            Initiator = AuthenticationSetup.Initiator,
         };
     }
 

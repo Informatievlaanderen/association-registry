@@ -1,8 +1,8 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Messaging.Parsers;
 
+using System.Text.Json;
 using CloudNative.CloudEvents;
 using Contracts.CloudEvents;
-using System.Text.Json;
 
 internal class CloudEventMessageParser : IMessageParser
 {
@@ -25,22 +25,22 @@ internal class CloudEventMessageParser : IMessageParser
         var sourceFileName = _cloudEvent.GetSourceFileName();
         var correlationId = GetGuid("correlationId") ?? Guid.NewGuid();
 
-        return SyncEnvelopeFactory.Create(kbo, insz, overleden, parentContext, sourceFileName, correlationId);
+        return SyncEnvelopeFactory.Create(kbo, insz, parentContext, sourceFileName, correlationId);
     }
 
-    private string? GetString(string prop)
-        => _dataElement.TryGetProperty(prop, out var el) && el.ValueKind == JsonValueKind.String
-            ? el.GetString()
-            : null;
+    private string? GetString(string prop) =>
+        _dataElement.TryGetProperty(prop, out var el) && el.ValueKind == JsonValueKind.String ? el.GetString() : null;
 
-    private bool? GetBool(string prop)
-        => _dataElement.TryGetProperty(prop, out var el) &&
-           (el.ValueKind == JsonValueKind.True || el.ValueKind == JsonValueKind.False)
+    private bool? GetBool(string prop) =>
+        _dataElement.TryGetProperty(prop, out var el)
+        && (el.ValueKind == JsonValueKind.True || el.ValueKind == JsonValueKind.False)
             ? el.GetBoolean()
             : null;
 
-    private Guid? GetGuid(string prop)
-        => _dataElement.TryGetProperty(prop, out var el) && el.ValueKind == JsonValueKind.String
-            ? Guid.TryParse(el.GetString(), out var guid) ? guid : null
+    private Guid? GetGuid(string prop) =>
+        _dataElement.TryGetProperty(prop, out var el) && el.ValueKind == JsonValueKind.String
+            ? Guid.TryParse(el.GetString(), out var guid)
+                ? guid
+                : null
             : null;
 }

@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
-using Contracts.KboSync;
-using Events;
 using global::Wolverine;
+using Contracts.Sync.Kbo;
+using Events;
 using Hosts.Configuration.ConfigurationBindings;
 using Magda.Kbo;
 using Marten;
@@ -17,7 +17,8 @@ public class MagdaRegistreerInschrijvingCatchupService : IMagdaRegistreerInschri
     public MagdaRegistreerInschrijvingCatchupService(
         IMessageBus messageBus,
         IDocumentStore documentStore,
-        ILogger<MagdaRegistreerInschrijvingCatchupService> logger)
+        ILogger<MagdaRegistreerInschrijvingCatchupService> logger
+    )
     {
         _messageBus = messageBus;
         _documentStore = documentStore;
@@ -30,14 +31,17 @@ public class MagdaRegistreerInschrijvingCatchupService : IMagdaRegistreerInschri
         {
             var kboNummers = await GetKboNummersZonderRegistreerInschrijving();
 
-            _logger.LogWarning($"MAGDA RegistreerInschrijving Catchup Service : {kboNummers.Count} KBO nummers gevonden");
+            _logger.LogWarning(
+                $"MAGDA RegistreerInschrijving Catchup Service : {kboNummers.Count} KBO nummers gevonden"
+            );
 
             foreach (var kboNummer in kboNummers)
             {
                 await _messageBus.SendAsync(new TeSynchroniserenKboNummerMessage(kboNummer));
 
                 _logger.LogInformation(
-                    $"MAGDA RegistreerInschrijving Catchup Service : KBO nummer {kboNummer} werd op de sync queue geplaatst");
+                    $"MAGDA RegistreerInschrijving Catchup Service : KBO nummer {kboNummer} werd op de sync queue geplaatst"
+                );
             }
         }
         catch (Exception ex)
@@ -50,15 +54,15 @@ public class MagdaRegistreerInschrijvingCatchupService : IMagdaRegistreerInschri
     {
         await using var session = _documentStore.LightweightSession();
 
-        var alleVerenigingenGeregistreerd = session.Events
-                                                   .QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-                                                   .Select(e => e.KboNummer)
-                                                   .ToArray();
+        var alleVerenigingenGeregistreerd = session
+            .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+            .Select(e => e.KboNummer)
+            .ToArray();
 
-        var alleVerenigingenInschrijvingGeregistreerd = session.Events
-                                                               .QueryRawEventDataOnly<VerenigingWerdIngeschrevenOpWijzigingenUitKbo>()
-                                                               .Select(e => e.KboNummer)
-                                                               .ToArray();
+        var alleVerenigingenInschrijvingGeregistreerd = session
+            .Events.QueryRawEventDataOnly<VerenigingWerdIngeschrevenOpWijzigingenUitKbo>()
+            .Select(e => e.KboNummer)
+            .ToArray();
 
         return alleVerenigingenGeregistreerd.Except(alleVerenigingenInschrijvingGeregistreerd).ToArray();
     }

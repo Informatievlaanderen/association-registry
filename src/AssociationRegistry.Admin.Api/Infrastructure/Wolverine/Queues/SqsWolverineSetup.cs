@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Wolverine.Queues;
 
+using global::Wolverine;
 using Amazon.Runtime;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using AssociationRegistry.CommandHandling.Grar.GrarConsumer.Messaging;
-using Contracts.KboSync;
-using Hosts.Configuration.ConfigurationBindings;
-using global::Wolverine;
+using Contracts.Sync.Kbo;
 using global::Wolverine.AmazonSqs;
 using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
 using Serilog;
 
@@ -34,11 +34,18 @@ internal static class SqsWolverineSetup
 
         ConfigureAddressMatchPublisher(options, grarOptions.Sqs.AddressMatchQueueName);
 
-        ConfigureAddressMatchListener(options, grarOptions.Sqs.AddressMatchQueueName,
-                                      grarOptions.Sqs.AddressMatchDeadLetterQueueName);
+        ConfigureAddressMatchListener(
+            options,
+            grarOptions.Sqs.AddressMatchQueueName,
+            grarOptions.Sqs.AddressMatchDeadLetterQueueName
+        );
 
-        ConfigureGrarSyncListener(options, grarOptions.Sqs.GrarSyncQueueName, grarOptions.Sqs.GrarSyncDeadLetterQueueName,
-                                  grarOptions.Sqs.GrarSyncQueueListenerEnabled);
+        ConfigureGrarSyncListener(
+            options,
+            grarOptions.Sqs.GrarSyncQueueName,
+            grarOptions.Sqs.GrarSyncDeadLetterQueueName,
+            grarOptions.Sqs.GrarSyncQueueListenerEnabled
+        );
 
         ConfigureKboSyncPublisher(options, configuration.GetAppSettings());
     }
@@ -47,12 +54,13 @@ internal static class SqsWolverineSetup
     {
         options.Discovery.IncludeType<TeSynchroniserenKboNummerMessage>();
 
-        options.PublishMessage<TeSynchroniserenKboNummerMessage>()
-               .ToSqsQueue(appSettings.KboSyncQueueName)
-               .InteropWithCloudEvents()
-               .MessageBatchMaxDegreeOfParallelism(1)
-               .SendInline()
-               .MessageBatchSize(1);
+        options
+            .PublishMessage<TeSynchroniserenKboNummerMessage>()
+            .ToSqsQueue(appSettings.KboSyncQueueName)
+            .InteropWithCloudEvents()
+            .MessageBatchMaxDegreeOfParallelism(1)
+            .SendInline()
+            .MessageBatchSize(1);
     }
 
     private static void ConfigureAddressMatchPublisher(WolverineOptions options, string sqsQueueName)
@@ -60,29 +68,39 @@ internal static class SqsWolverineSetup
         options.Discovery.IncludeType<ProbeerAdresTeMatchenCommand>();
         options.Discovery.IncludeType<ProbeerAdresTeMatchenCommandHandler>();
 
-        options.PublishMessage<ProbeerAdresTeMatchenCommand>()
-               .ToSqsQueue(sqsQueueName)
-               .UseDurableOutbox()
-               .MessageBatchSize(1);
+        options
+            .PublishMessage<ProbeerAdresTeMatchenCommand>()
+            .ToSqsQueue(sqsQueueName)
+            .UseDurableOutbox()
+            .MessageBatchSize(1);
     }
 
-    private static void ConfigureAddressMatchListener(WolverineOptions options, string sqsQueueName, string sqsDeadLetterQueueName)
+    private static void ConfigureAddressMatchListener(
+        WolverineOptions options,
+        string sqsQueueName,
+        string sqsDeadLetterQueueName
+    )
     {
-        options.ListenToSqsQueue(sqsQueueName, configure: configure =>
+        options
+            .ListenToSqsQueue(
+                sqsQueueName,
+                configure: configure =>
                 {
                     configure.MaxNumberOfMessages = 1;
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
-                })
-               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName)
-               .UseDurableInbox()
-               .MaximumParallelMessages(1);
+                }
+            )
+            .ConfigureDeadLetterQueue(sqsDeadLetterQueueName)
+            .UseDurableInbox()
+            .MaximumParallelMessages(1);
     }
 
     private static void ConfigureGrarSyncListener(
         WolverineOptions options,
         string sqsQueueName,
         string sqsDeadLetterQueueName,
-        bool enabled)
+        bool enabled
+    )
     {
         if (!enabled)
         {
@@ -91,28 +109,34 @@ internal static class SqsWolverineSetup
             return;
         }
 
-        Log.Logger.Information(messageTemplate: "Setting up GRAR Sync Listener for queue '{Queue}' with dlq '{Dlq}'.",
-                               sqsQueueName,
-                               sqsDeadLetterQueueName
+        Log.Logger.Information(
+            messageTemplate: "Setting up GRAR Sync Listener for queue '{Queue}' with dlq '{Dlq}'.",
+            sqsQueueName,
+            sqsDeadLetterQueueName
         );
 
         options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessage>();
         options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessageHandler>();
 
-        options.PublishMessage<OverkoepelendeGrarConsumerMessage>()
-               .ToSqsQueue(sqsQueueName)
-               .UseDurableOutbox();
+        options.PublishMessage<OverkoepelendeGrarConsumerMessage>().ToSqsQueue(sqsQueueName).UseDurableOutbox();
 
-        options.ListenToSqsQueue(sqsQueueName, configure: configure =>
+        options
+            .ListenToSqsQueue(
+                sqsQueueName,
+                configure: configure =>
                 {
                     configure.MaxNumberOfMessages = 1;
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
-                })
-               .UseDurableInbox()
-               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, configure: queue =>
+                }
+            )
+            .UseDurableInbox()
+            .ConfigureDeadLetterQueue(
+                sqsDeadLetterQueueName,
+                configure: queue =>
                 {
                     queue.DeadLetterQueueName = sqsDeadLetterQueueName;
-                })
-               .MaximumParallelMessages(1);
+                }
+            )
+            .MaximumParallelMessages(1);
     }
 }

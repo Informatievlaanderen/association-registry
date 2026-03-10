@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.MagdaSync.KboSync;
 
+using System.Text.Json;
 using AssociationRegistry.KboMutations.SyncLambda.Messaging;
 using AssociationRegistry.KboMutations.SyncLambda.Messaging.Parsers;
-using System.Text.Json;
 using Xunit;
 
 /// <summary>
@@ -39,7 +39,6 @@ public class SyncEnvelopeParser_PlainJsonTests
         Assert.Null(result.KboNummer);
         Assert.NotNull(result.InszMessage);
         Assert.Equal("06321184845", result.InszMessage!.Insz);
-        Assert.False(result.InszMessage.Overleden);
     }
 
     [Theory]
@@ -58,7 +57,6 @@ public class SyncEnvelopeParser_PlainJsonTests
         Assert.Null(result.KboNummer);
         Assert.NotNull(result.InszMessage);
         Assert.Equal("06321184845", result.InszMessage!.Insz);
-        Assert.Equal(overleden, result.InszMessage.Overleden);
     }
 
     [Fact]
@@ -74,7 +72,6 @@ public class SyncEnvelopeParser_PlainJsonTests
         // Assert
         Assert.Equal(SyncMessageType.SyncKsz, result.Type);
         Assert.NotNull(result.InszMessage);
-        Assert.False(result.InszMessage!.Overleden);
     }
 
     [Fact]
@@ -91,7 +88,6 @@ public class SyncEnvelopeParser_PlainJsonTests
         Assert.Equal("0123456789", result.KboNummer);
         Assert.NotNull(result.InszMessage);
         Assert.Equal("06321184845", result.InszMessage!.Insz);
-        Assert.True(result.InszMessage.Overleden);
     }
 
     [Fact]
