@@ -12,11 +12,7 @@ using Wolverine.Marten;
 
 public interface ISyncKszMessageHandler
 {
-    Task Handle(
-        CommandEnvelope<SyncKszMessage> messageEnvelope,
-        IMartenOutbox outbox,
-        CancellationToken cancellationToken = default
-    );
+    Task Handle(CommandEnvelope<SyncKszMessage> messageEnvelope, CancellationToken cancellationToken = default);
 }
 
 public class SyncKszMessageHandler : ISyncKszMessageHandler
@@ -41,7 +37,6 @@ public class SyncKszMessageHandler : ISyncKszMessageHandler
 
     public async Task Handle(
         CommandEnvelope<SyncKszMessage> messageEnvelope,
-        IMartenOutbox outbox,
         CancellationToken cancellationToken = default
     )
     {
@@ -82,18 +77,6 @@ public class SyncKszMessageHandler : ISyncKszMessageHandler
 
                 vereniging.MarkeerVertegenwoordigerAlsOverleden(vertegenwoordigerId);
 
-                await outbox.SendAsync(
-                    new CommandEnvelope<StartBewaartermijnMessage>(
-                        new StartBewaartermijnMessage(
-                            vCode,
-                            BewaartermijnType.Vertegenwoordigers.Value,
-                            vertegenwoordigerId,
-                            BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden
-                        ),
-                        messageEnvelope.Metadata
-                    )
-                );
-
                 await _aggregateSession.Save(vereniging, messageEnvelope.Metadata, cancellationToken);
 
                 _logger.LogInformation(
@@ -102,11 +85,7 @@ public class SyncKszMessageHandler : ISyncKszMessageHandler
             }
             catch (Exception e)
             {
-                throw new KszSyncException(
-                    vertegenwoordigerPersoonsgegeven.VCode!,
-                    vertegenwoordigerId,
-                    e
-                );
+                throw new KszSyncException(vertegenwoordigerPersoonsgegeven.VCode!, vertegenwoordigerId, e);
             }
         }
 

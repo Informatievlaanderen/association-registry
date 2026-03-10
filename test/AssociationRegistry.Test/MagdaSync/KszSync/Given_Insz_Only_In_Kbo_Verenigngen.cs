@@ -32,9 +32,7 @@ public class Given_Insz_Only_In_Kbo_Verenigngen
         var vertegenwoordiger = _scenario.VertegenwoordigerWerdToegevoegdVanuitKBO1;
         _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        var magdaGeefPersoonService = Faktory.New(_fixture)
-                                             .MagdaGeefPersoonService
-                                             .ReturnsOverledenPersoon();
+        var magdaGeefPersoonService = Faktory.New(_fixture).MagdaGeefPersoonService.ReturnsOverledenPersoon();
         var persoonsgegevensRepoMock = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
         persoonsgegevensRepoMock
             .Setup(x => x.Get(Insz.Create(vertegenwoordiger.Insz), It.IsAny<CancellationToken>()))
@@ -72,7 +70,6 @@ public class Given_Insz_Only_In_Kbo_Verenigngen
                     new SyncKszMessage(Insz.Hydrate(vertegenwoordiger.Insz), Guid.NewGuid()),
                     TestCommandMetadata.ForDigitaalVlaanderenProcess
                 ),
-                Mock.Of<IMartenOutbox>(),
                 CancellationToken.None
             )
             .GetAwaiter()

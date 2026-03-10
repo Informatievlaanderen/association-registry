@@ -122,7 +122,6 @@ public class MessageProcessor
                                 new SyncKszMessage(Insz.Create(envelope.InszMessage!.Insz), envelope.CorrelationId),
                                 commandMetadata
                             ),
-                            null, // TODO fix outbox
                             cancellationToken
                         );
                     });
