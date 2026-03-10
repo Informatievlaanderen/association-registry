@@ -43,9 +43,7 @@ public class Given_Already_Removed_Vertegenwoordiger
             )
         );
 
-        var magdaGeefPersoonService = Faktory.New(_fixture)
-                                             .MagdaGeefPersoonService
-                                             .ReturnsOverledenPersoon();
+        var magdaGeefPersoonService = Faktory.New(_fixture).MagdaGeefPersoonService.ReturnsOverledenPersoon();
 
         _aggregateSessionMock = new AggregateSessionMock(state, true, true);
 
@@ -88,9 +86,7 @@ public class Given_Already_Removed_Vertegenwoordiger
                     new SyncKszMessage(Insz.Hydrate(teVerwijderenVertegenwoordiger.Insz), Guid.NewGuid()),
                     TestCommandMetadata.ForDigitaalVlaanderenProcess
                 ),
-                Mock.Of<IMartenOutbox>(),
-
-        CancellationToken.None
+                CancellationToken.None
             )
             .GetAwaiter()
             .GetResult();

@@ -262,7 +262,6 @@ public class SyncController : ApiController
     /// <summary>
     /// Sync insz met ksz
     /// </summary>
-    /// <param name="messageBus"></param>
     /// <param name="insz"></param>
     /// <param name="kszMessageHandler"></param>
     /// <param name="cancellationToken"></param>
@@ -275,7 +274,6 @@ public class SyncController : ApiController
     [ProducesJson]
     public async Task<IActionResult> SyncKsz(
         [FromRoute] string insz,
-        [FromServices] IMartenOutbox martenOutbox,
         [FromServices] ISyncKszMessageHandler kszMessageHandler,
         CancellationToken cancellationToken
     )
@@ -285,7 +283,6 @@ public class SyncController : ApiController
                 new SyncKszMessage(Insz.Create(insz), Guid.NewGuid()),
                 CommandMetadata.ForDigitaalVlaanderenProcess
             ),
-            martenOutbox,
             cancellationToken
         );
 

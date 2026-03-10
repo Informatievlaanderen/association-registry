@@ -31,9 +31,7 @@ public class Given_Insz_Not_Found
         _scenario =
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
         _aggregateSessionMock = new Mock<IAggregateSession>();
-        var magdaGeefPersoonService = Faktory.New(_fixture)
-                                             .MagdaGeefPersoonService
-                                             .ReturnsOverledenPersoon();
+        var magdaGeefPersoonService = Faktory.New(_fixture).MagdaGeefPersoonService.ReturnsOverledenPersoon();
         var persoonsgegevensRepoMock = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
         persoonsgegevensRepoMock.Setup(x => x.Get(It.IsAny<Insz>(), It.IsAny<CancellationToken>())).ReturnsAsync([]);
 
@@ -50,13 +48,9 @@ public class Given_Insz_Not_Found
 
         _sut.Handle(
                 new CommandEnvelope<SyncKszMessage>(
-                    new SyncKszMessage(
-                        Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz),
-                        Guid.NewGuid()
-                    ),
+                    new SyncKszMessage(Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz), Guid.NewGuid()),
                     TestCommandMetadata.ForDigitaalVlaanderenProcess
                 ),
-                Mock.Of<IMartenOutbox>(),
                 CancellationToken.None
             )
             .GetAwaiter()

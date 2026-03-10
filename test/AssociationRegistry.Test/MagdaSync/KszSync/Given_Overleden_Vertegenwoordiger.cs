@@ -22,8 +22,7 @@ public class Given_Overleden_Vertegenwoordiger
 {
     private readonly Fixture _fixture;
 
-    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario
-        _scenario;
+    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
 
     private readonly SyncKszMessageHandler _sut;
     private readonly Mock<IMessageBus> _messageBusMock;
@@ -38,17 +37,15 @@ public class Given_Overleden_Vertegenwoordiger
 
         _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState(), true, true);
 
-        var magdaGeefPersoonService = Faktory.New(_fixture)
-                                             .MagdaGeefPersoonService
-                                             .ReturnsOverledenPersoon();
+        var magdaGeefPersoonService = Faktory.New(_fixture).MagdaGeefPersoonService.ReturnsOverledenPersoon();
 
         var persoonsgegevensRepoMock = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
 
         persoonsgegevensRepoMock
-           .Setup(x =>
-                      x.Get(Insz.Create(_scenario.VertegenwoordigerWerdToegevoegd.Insz), It.IsAny<CancellationToken>())
+            .Setup(x =>
+                x.Get(Insz.Create(_scenario.VertegenwoordigerWerdToegevoegd.Insz), It.IsAny<CancellationToken>())
             )
-           .ReturnsAsync(
+            .ReturnsAsync(
                 new[]
                 {
                     _fixture.Create<VertegenwoordigerPersoonsgegevens>() with
@@ -63,29 +60,27 @@ public class Given_Overleden_Vertegenwoordiger
         var filterVzerOnylQueryMock = new Mock<IFilterVzerOnlyQuery>();
 
         filterVzerOnylQueryMock
-           .Setup(x => x.ExecuteAsync(It.IsAny<FilterVzerOnlyQueryFilter>(), It.IsAny<CancellationToken>()))
-           .ReturnsAsync([_scenario.VCode]);
+            .Setup(x => x.ExecuteAsync(It.IsAny<FilterVzerOnlyQueryFilter>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([_scenario.VCode]);
 
         _sut = new SyncKszMessageHandler(
-            new VzerVertegenwoordigerForInszQuery(persoonsgegevensRepoMock.Object,
-                                                  filterVzerOnylQueryMock.Object,
-                                                  NullLogger<VzerVertegenwoordigerForInszQuery>.Instance),
+            new VzerVertegenwoordigerForInszQuery(
+                persoonsgegevensRepoMock.Object,
+                filterVzerOnylQueryMock.Object,
+                NullLogger<VzerVertegenwoordigerForInszQuery>.Instance
+            ),
             _aggregateSessionMock,
             magdaGeefPersoonService.Object,
             NullLogger<SyncKszMessageHandler>.Instance
         );
 
         _sut.Handle(
-                 new CommandEnvelope<SyncKszMessage>(
-                     new SyncKszMessage(
-                         Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz),
-                         Guid.NewGuid()
-                     ),
-                     TestCommandMetadata.ForDigitaalVlaanderenProcess
-                 ),
-                 Mock.Of<IMartenOutbox>(),
-                 CancellationToken.None
-             )
+                new CommandEnvelope<SyncKszMessage>(
+                    new SyncKszMessage(Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz), Guid.NewGuid()),
+                    TestCommandMetadata.ForDigitaalVlaanderenProcess
+                ),
+                CancellationToken.None
+            )
             .GetAwaiter()
             .GetResult();
     }

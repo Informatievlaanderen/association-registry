@@ -30,9 +30,9 @@ public class Given_Sync_Message_With_Overleden_False
         _scenario =
             new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
 
-        var magdaGeefPersoonService = Faktory.New(new Fixture().CustomizeDomain())
-                                                     .MagdaGeefPersoonService
-                                                     .ReturnsNietOverledenPersoon();
+        var magdaGeefPersoonService = Faktory
+            .New(new Fixture().CustomizeDomain())
+            .MagdaGeefPersoonService.ReturnsNietOverledenPersoon();
         _vertegenwoordigerPersoonsgegevensRepository = new Mock<IVertegenwoordigerPersoonsgegevensRepository>();
         _aggregateSessionMock = new Mock<IAggregateSession>();
 
@@ -49,13 +49,9 @@ public class Given_Sync_Message_With_Overleden_False
 
         _sut.Handle(
                 new CommandEnvelope<SyncKszMessage>(
-                    new SyncKszMessage(
-                        Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz),
-                        Guid.NewGuid()
-                    ),
+                    new SyncKszMessage(Insz.Hydrate(_scenario.VertegenwoordigerWerdToegevoegd.Insz), Guid.NewGuid()),
                     TestCommandMetadata.ForDigitaalVlaanderenProcess
                 ),
-                Mock.Of<IMartenOutbox>(),
                 CancellationToken.None
             )
             .GetAwaiter()
