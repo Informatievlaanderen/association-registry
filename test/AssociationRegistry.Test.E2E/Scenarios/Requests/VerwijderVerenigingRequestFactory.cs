@@ -25,8 +25,9 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
             Reden = "Foute vereniging",
         };
 
+        var vCode = _scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
-       var response = (await apiSetup.AdminApiHost.Scenario(s =>
+        var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
 
             foreach (var defaultRequestHeader in apiSetup.SuperAdminHttpClient.DefaultRequestHeaders)
@@ -38,14 +39,19 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
             }
             s.Delete
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}");
+             .ToUrl($"/v1/verenigingen/{vCode}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         })).Context.Response;
 
+        foreach (var vertegenwoordiger in _scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers)
+        {
+            await apiSetup.WaitForBewaartermijnEvent(vCode, vertegenwoordiger.VertegenwoordigerId);
+        }
+
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
         return new CommandResult<VerwijderVerenigingRequest>(
-            VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request, sequence);
+            VCode.Create(vCode), request, sequence);
     }
 }

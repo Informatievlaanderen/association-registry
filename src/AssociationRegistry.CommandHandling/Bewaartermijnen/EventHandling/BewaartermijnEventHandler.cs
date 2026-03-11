@@ -43,9 +43,30 @@ public static class BewaartermijnEventHandler
                                   BewaartermijnReden.VertegenwoordigerWerdVerwijderd);
     }
 
+    public static async Task Handle(
+        IEvent<VerenigingWerdVerwijderd> @event,
+        IEventStore eventStore,
+        BewaartermijnOptions bewaartermijnOptions,
+        CancellationToken cancellationToken
+    )
+    {
+        var state = await eventStore.Load<VerenigingState>(@event.StreamKey!, expectedVersion: null);
+
+        foreach (var vertegenwoordiger in state.Vertegenwoordigers)
+        {
+            await CreateBewaartermijn(@event.StreamKey!,
+                                      vertegenwoordiger.VertegenwoordigerId,
+                                      @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
+                                      eventStore,
+                                      bewaartermijnOptions,
+                                      cancellationToken,
+                                      BewaartermijnReden.VerenigingWerdVerwijderd);
+        }
+    }
+
     private static async Task CreateBewaartermijn(
         string streamKey,
-        int vertegenwoordigerId,
+        int recordId,
         Instant tijdstip,
         IEventStore eventStore,
         BewaartermijnOptions bewaartermijnOptions,
@@ -55,7 +76,7 @@ public static class BewaartermijnEventHandler
         var bewaartermijnId = new BewaartermijnId(
             VCode.Create(streamKey),
             BewaartermijnType.Vertegenwoordigers,
-            vertegenwoordigerId
+            recordId
         );
 
         var vervaldag = tijdstip.PlusTicks(bewaartermijnOptions.Duration.Ticks);
