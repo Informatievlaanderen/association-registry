@@ -1,3 +1,10 @@
+## [8.308.2](https://github.com/informatievlaanderen/association-registry/compare/v8.308.1...v8.308.2) (2026-03-11)
+
+
+### Bug Fixes
+
+* or-3067 set public projections rebuild same as admin ([ae3ef2b](https://github.com/informatievlaanderen/association-registry/commit/ae3ef2bfeeb0aca8cf5000e736aff064185c9217))
+
 ## [8.308.1](https://github.com/informatievlaanderen/association-registry/compare/v8.308.0...v8.308.1) (2026-03-11)
 
 
