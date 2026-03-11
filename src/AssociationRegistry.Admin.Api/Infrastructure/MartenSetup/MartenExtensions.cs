@@ -95,6 +95,7 @@ public static class MartenExtensions
                 {
                     o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
                     o.IncludeType<VertegenwoordigerWerdVerwijderd>();
+                    o.IncludeType<VerenigingWerdVerwijderd>();
                     o.Options.SubscribeFromPresent();
                 }
             )
