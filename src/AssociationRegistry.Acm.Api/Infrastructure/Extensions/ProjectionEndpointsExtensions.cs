@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Configuration;
+using JasperFx.Events.Projections;
 using Marten;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -20,18 +21,7 @@ public static class ProjectionEndpointsExtensions
                 pattern: "v1/projections/verenigingperinsz/rebuild",
                 handler: async (IDocumentStore store, ILogger<Program> logger) =>
                 {
-                    StartRebuild(
-                        logger,
-                        projectionName: VerenigingenPerInszProjection.ShardName.Name,
-                        rebuildFunc: async () =>
-                        {
-                            var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                            await projectionDaemon.RebuildProjectionAsync<VerenigingenPerInszProjection>(
-                                shardTimeout,
-                                CancellationToken.None
-                            );
-                        }
-                    );
+                    await StartRebuild(shardName: VerenigingenPerInszProjection.ShardName, store, shardTimeout, logger);
 
                     return Results.Accepted();
                 }
@@ -40,21 +30,48 @@ public static class ProjectionEndpointsExtensions
             .ExcludeFromDescription();
     }
 
-    private static void StartRebuild(ILogger logger, string projectionName, Func<Task> rebuildFunc)
+    private static async Task StartRebuild(
+        ShardName shardName,
+        IDocumentStore store,
+        TimeSpan shardTimeout,
+        ILogger logger,
+        Func<Task>? beforeRebuild = null
+    )
     {
+        var projectionName = shardName.Name;
+
         _ = Task.Run(async () =>
         {
+            var daemon = await store.BuildProjectionDaemonAsync();
+
             try
             {
-                await rebuildFunc();
-                logger.LogInformation(message: "Rebuild {ProjectionName} complete", projectionName);
+                await daemon.StopAgentAsync(shardName);
+
+                if (beforeRebuild is not null)
+                    await beforeRebuild();
+
+                await daemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
+
+                logger.LogInformation("Rebuild {ProjectionName} complete", projectionName);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, message: "Error during rebuild {ProjectionName}", projectionName);
+                logger.LogError(ex, "Error during rebuild {ProjectionName}", projectionName);
+            }
+            finally
+            {
+                try
+                {
+                    await daemon.StartAgentAsync(shardName, CancellationToken.None);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Failed to restart shard {ProjectionName}", projectionName);
+                }
             }
         });
 
-        logger.LogInformation(message: "Rebuild process {ProjectionName} started", projectionName);
+        logger.LogInformation("Rebuild process {ProjectionName} started", projectionName);
     }
 }

@@ -34,7 +34,8 @@ public static class MartenExtensions
                     serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment()
                 );
                 return opts;
-            });
+            })
+            .UseLightweightSessions();
 
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
