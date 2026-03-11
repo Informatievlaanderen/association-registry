@@ -20,7 +20,6 @@ public class With_A_Known_VertegenwoordigerId
 {
     private readonly AggregateSessionMock _aggregateSessionMock;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
-    private readonly Mock<IMartenOutbox> _outbox;
     private VerwijderVertegenwoordigerCommand _command;
     private CommandMetadata? _commandMetadata;
 
@@ -36,8 +35,7 @@ public class With_A_Known_VertegenwoordigerId
             _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId
         );
         _commandMetadata = fixture.Create<CommandMetadata>();
-        _outbox = new Mock<IMartenOutbox>();
-        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_aggregateSessionMock, _outbox.Object);
+        var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_aggregateSessionMock);
 
         commandHandler
             .Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(_command, _commandMetadata))
@@ -62,15 +60,6 @@ public class With_A_Known_VertegenwoordigerId
                 BewaartermijnReden.VertegenwoordigerWerdVerwijderd
             ),
             _commandMetadata
-        );
-
-        _outbox.Verify(
-            x =>
-                x.SendAsync(
-                    It.Is<CommandEnvelope<StartBewaartermijnMessage>>(e => e == expectedEnvelope),
-                    It.IsAny<DeliveryOptions>()
-                ),
-            Times.Once
         );
     }
 

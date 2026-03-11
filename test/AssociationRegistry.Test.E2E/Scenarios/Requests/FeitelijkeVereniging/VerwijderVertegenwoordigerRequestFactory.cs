@@ -19,18 +19,23 @@ public class VerwijderVertegenwoordigerRequestFactory : ITestRequestFactory<Null
 
     public async Task<CommandResult<NullRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
+        var vCode = _scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+        var vertegenwoordigerId = _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId;
+
         var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Delete
-             .Url($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/vertegenwoordigers/{_scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId}");
+             .Url($"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
             s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
             s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response;
 
+        await apiSetup.WaitForBewaartermijnEvent(vCode, vertegenwoordigerId);
+
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new CommandResult<NullRequest>(VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), new NullRequest(), sequence);
+        return new CommandResult<NullRequest>(VCode.Create(vCode), new NullRequest(), sequence);
     }
 }

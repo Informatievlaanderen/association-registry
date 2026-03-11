@@ -44,7 +44,7 @@ public static class ApiSetupExtensions
             await Task.Delay(200);
             events = await session.Events.QueryRawEventDataOnly<BewaartermijnWerdGestartV2>().ToListAsync();
 
-            if (++counter > 50)
+            if (++counter > 75)
                 throw new Exception($"Kept waiting for Bewaartermijn event ...");
         }
     }

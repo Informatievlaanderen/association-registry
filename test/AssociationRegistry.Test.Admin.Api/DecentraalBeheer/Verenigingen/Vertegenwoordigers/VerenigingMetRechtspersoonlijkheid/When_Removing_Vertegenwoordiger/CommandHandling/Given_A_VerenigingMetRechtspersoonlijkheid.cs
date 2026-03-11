@@ -28,8 +28,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         _commandHandler = new VerwijderVertegenwoordigerCommandHandler(
-            verenigingRepositoryMock,
-            Mock.Of<IMartenOutbox>()
+            verenigingRepositoryMock
         );
         _envelope = new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata);
     }

@@ -31,8 +31,7 @@ public class With_One_Vertegenwoordiger
         var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerId);
         var commandMetadata = _fixture.Create<CommandMetadata>();
         var commandHandler = new VerwijderVertegenwoordigerCommandHandler(
-            _aggregateSessionMock,
-            Mock.Of<IMartenOutbox>()
+            _aggregateSessionMock
         );
         await Assert.ThrowsAsync<LaatsteVertegenwoordigerKanNietVerwijderdWorden>(async () =>
             await commandHandler.Handle(
