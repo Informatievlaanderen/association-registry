@@ -1,3 +1,10 @@
+## [8.308.3](https://github.com/informatievlaanderen/association-registry/compare/v8.308.2...v8.308.3) (2026-03-11)
+
+
+### Bug Fixes
+
+* or-3067 stop agents before and start agents after rebuilding ([7dbe40d](https://github.com/informatievlaanderen/association-registry/commit/7dbe40d55add37f29137b9c5736933d2455edd9c))
+
 ## [8.308.2](https://github.com/informatievlaanderen/association-registry/compare/v8.308.1...v8.308.2) (2026-03-11)
 
 
