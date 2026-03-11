@@ -1,24 +1,17 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 
-using System.Threading;
-using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
-using AssociationRegistry.Framework;
-using Bewaartermijnen.Acties.Start;
+using Framework;
 using MartenDb.Store;
-using Wolverine.Marten;
 
 public class VerwijderVertegenwoordigerCommandHandler
 {
     private readonly IAggregateSession _aggregateSession;
-    private readonly IMartenOutbox _outbox;
 
-    public VerwijderVertegenwoordigerCommandHandler(IAggregateSession aggregateSession, IMartenOutbox outbox)
+    public VerwijderVertegenwoordigerCommandHandler(IAggregateSession aggregateSession)
     {
         _aggregateSession = aggregateSession;
-        _outbox = outbox;
     }
 
     public async Task<CommandResult> Handle(
@@ -27,23 +20,11 @@ public class VerwijderVertegenwoordigerCommandHandler
     )
     {
         var vereniging = await _aggregateSession
-            .Load<Vereniging>(message.Command.VCode, message.Metadata)
-            .OrWhenUnsupportedOperationForType()
-            .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersVerwijderen>();
+                              .Load<Vereniging>(message.Command.VCode, message.Metadata)
+                              .OrWhenUnsupportedOperationForType()
+                              .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersVerwijderen>();
 
         vereniging.VerwijderVertegenwoordiger(message.Command.VertegenwoordigerId);
-
-        await _outbox.SendAsync(
-            new CommandEnvelope<StartBewaartermijnMessage>(
-                new StartBewaartermijnMessage(
-                    message.Command.VCode,
-                    BewaartermijnType.Vertegenwoordigers.Value,
-                    message.Command.VertegenwoordigerId,
-                    BewaartermijnReden.VertegenwoordigerWerdVerwijderd
-                ),
-                message.Metadata
-            )
-        );
 
         var result = await _aggregateSession.Save(vereniging, message.Metadata, cancellationToken);
 

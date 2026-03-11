@@ -27,8 +27,7 @@ public class With_An_Unknown_VertegenwoordigerId
 
         _fixture = new Fixture().CustomizeAdminApi();
         _commandHandler = new VerwijderVertegenwoordigerCommandHandler(
-            verenigingRepositoryMock,
-            Mock.Of<IMartenOutbox>()
+            verenigingRepositoryMock
         );
     }
 

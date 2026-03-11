@@ -100,7 +100,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using OpenTelemetry.Extensions;
+using System.Diagnostics.Metrics;
 using Persoonsgegevens;
 using Queries;
 using Schema.Detail;
@@ -795,6 +797,8 @@ public class Program
             ISequenceGuarder<BeheerVerenigingHistoriekDocument>,
             BeheerHistoriekSequenceGuarder
         >();
+
+        builder.Services.AddSingleton(new KboSyncMetrics(new Meter(KboSyncMetrics.MeterName)));
 
         builder
             .Services.AddTransient<IBewaartermijnQuery, BewaartermijnQuery>()

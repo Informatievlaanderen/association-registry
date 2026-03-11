@@ -6,6 +6,7 @@ using Events;
 using Framework;
 using Integrations.Grar.Bewaartermijnen;
 using JasperFx.Events;
+using NodaTime;
 using IEventStore = MartenDb.Store.IEventStore;
 
 public static class BewaartermijnEventHandler
@@ -17,13 +18,45 @@ public static class BewaartermijnEventHandler
         CancellationToken cancellationToken
     )
     {
-        var bewaartermijnId = new BewaartermijnId(
-            VCode.Create(@event.StreamKey!),
-            BewaartermijnType.Vertegenwoordigers,
-            @event.Data.VertegenwoordigerId
-        );
+        await CreateBewaartermijn(@event.StreamKey!,
+                                  @event.Data.VertegenwoordigerId,
+                                  @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
+                                  eventStore,
+                                  bewaartermijnOptions,
+                                  cancellationToken,
+                                  BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden);
+    }
 
-        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip);
+    public static async Task Handle(
+        IEvent<VertegenwoordigerWerdVerwijderd> @event,
+        IEventStore eventStore,
+        BewaartermijnOptions bewaartermijnOptions,
+        CancellationToken cancellationToken
+    )
+    {
+        await CreateBewaartermijn(@event.StreamKey!,
+                                  @event.Data.VertegenwoordigerId,
+                                  @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
+                                  eventStore,
+                                  bewaartermijnOptions,
+                                  cancellationToken,
+                                  BewaartermijnReden.VertegenwoordigerWerdVerwijderd);
+    }
+
+    private static async Task CreateBewaartermijn(
+        string streamKey,
+        int vertegenwoordigerId,
+        Instant tijdstip,
+        IEventStore eventStore,
+        BewaartermijnOptions bewaartermijnOptions,
+        CancellationToken cancellationToken,
+        string reden)
+    {
+        var bewaartermijnId = new BewaartermijnId(
+            VCode.Create(streamKey),
+            BewaartermijnType.Vertegenwoordigers,
+            vertegenwoordigerId
+        );
 
         var vervaldag = tijdstip.PlusTicks(bewaartermijnOptions.Duration.Ticks);
 
@@ -38,7 +71,7 @@ public static class BewaartermijnEventHandler
                     bewaartermijnId.BewaartermijnType.Value,
                     bewaartermijnId.RecordId,
                     vervaldag,
-                    BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden
+                    reden
                 ),
             ]
         );
