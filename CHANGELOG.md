@@ -1,3 +1,10 @@
+## [8.308.1](https://github.com/informatievlaanderen/association-registry/compare/v8.308.0...v8.308.1) (2026-03-11)
+
+
+### Bug Fixes
+
+* or-3067 register event types and bankrekeningnummerpersoonsgegevens doc on acm api ([98f96e2](https://github.com/informatievlaanderen/association-registry/commit/98f96e29403ca2c9785aa1ddea76d5d0395186fc))
+
 # [8.308.0](https://github.com/informatievlaanderen/association-registry/compare/v8.307.2...v8.308.0) (2026-03-09)
 
 
