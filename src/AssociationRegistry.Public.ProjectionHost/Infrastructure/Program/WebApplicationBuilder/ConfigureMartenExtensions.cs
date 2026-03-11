@@ -2,6 +2,8 @@ namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebAp
 
 using Admin.Schema.Persoonsgegevens;
 using Constants;
+using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -10,12 +12,10 @@ using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Json;
 using Marten;
+using MartenDb.Logging;
 using MartenDb.PubliekZoeken;
 using MartenDb.Setup;
 using MartenDb.Subscriptions;
-using Elastic.Clients.Elasticsearch;
-using Hosts.Configuration;
-using MartenDb.Logging;
 using MartenDb.Transformers;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Newtonsoft.Json;
@@ -30,24 +30,26 @@ public static class ConfigureMartenExtensions
 {
     public static IServiceCollection ConfigureProjectionsWithMarten(
         this IServiceCollection services,
-        ConfigurationManager configurationManager)
+        ConfigurationManager configurationManager
+    )
     {
         var martenConfiguration = services.AddMarten(serviceProvider =>
         {
             var opts = new StoreOptions();
 
-            return ConfigureStoreOptionsCore(opts,
-                                         serviceProvider.GetRequiredService<ElasticsearchClient>(),
-                                         serviceProvider.GetRequiredService<ILogger<PubliekZoekenEventsConsumer>>(),
-                                         serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
-                                         serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
-                                         configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
-                                                             .Get<PostgreSqlOptionsSection>(),
-                                         () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession(),
-                                         serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
-                                         configurationManager
-                                            .GetSection(ElasticSearchOptionsSection.SectionName)
-                                            .Get<ElasticSearchOptionsSection>());
+            return ConfigureStoreOptionsCore(
+                opts,
+                serviceProvider.GetRequiredService<ElasticsearchClient>(),
+                serviceProvider.GetRequiredService<ILogger<PubliekZoekenEventsConsumer>>(),
+                serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
+                serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
+                configurationManager.GetSection(PostgreSqlOptionsSection.SectionName).Get<PostgreSqlOptionsSection>(),
+                () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession(),
+                serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
+                configurationManager
+                    .GetSection(ElasticSearchOptionsSection.SectionName)
+                    .Get<ElasticSearchOptionsSection>()
+            );
         });
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
@@ -61,7 +63,7 @@ public static class ConfigureMartenExtensions
             x.Development.ResourceAutoCreate = AutoCreate.None;
 
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.ResourceAutoCreate =AutoCreate.None;
+            x.Production.ResourceAutoCreate = AutoCreate.None;
             x.Production.SourceCodeWritingEnabled = false;
         });
 
@@ -77,13 +79,14 @@ public static class ConfigureMartenExtensions
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
         Func<IQuerySession> querySessionFunc,
         bool isDevelopment,
-        ElasticSearchOptionsSection? elasticSearchOptionsSection)
+        ElasticSearchOptionsSection? elasticSearchOptionsSection
+    )
     {
-        static string GetPostgresConnectionString(PostgreSqlOptionsSection? postgreSqlOptions)
-            => $"host={postgreSqlOptions.Host};" +
-               $"database={postgreSqlOptions.Database};" +
-               $"password={postgreSqlOptions.Password};" +
-               $"username={postgreSqlOptions.Username}";
+        static string GetPostgresConnectionString(PostgreSqlOptionsSection? postgreSqlOptions) =>
+            $"host={postgreSqlOptions.Host};"
+            + $"database={postgreSqlOptions.Database};"
+            + $"password={postgreSqlOptions.Password};"
+            + $"username={postgreSqlOptions.Username}";
 
         var postgreSqlOptions = postgreSqlOptionsSection;
 
@@ -99,7 +102,7 @@ public static class ConfigureMartenExtensions
 
         opts.SetUpOpenTelemetry(isDevelopment);
 
-        if(!postgreSqlOptions.IncludeErrorDetail)
+        if (!postgreSqlOptions.IncludeErrorDetail)
             opts.Logger(new SecureMartenLogger(secureMartenLogger));
 
         opts.Events.StreamIdentity = StreamIdentity.AsString;
@@ -108,12 +111,13 @@ public static class ConfigureMartenExtensions
 
         opts.Events.MetadataConfig.EnableAll();
 
+        opts.Events.UseOptimizedProjectionRebuilds = true;
+
         opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 
         opts.UpcastLegacyTombstoneEvents();
 
-        opts.RegisterAllEventTypes()
-            .UpcastEvents(querySessionFunc);
+        opts.RegisterAllEventTypes().UpcastEvents(querySessionFunc);
 
         opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
 
@@ -126,12 +130,14 @@ public static class ConfigureMartenExtensions
                     elasticClient,
                     new PubliekZoekProjectionHandler(),
                     elasticSearchOptionsSection,
-                    publiekZoekenEventsConsumerLogger),
+                    publiekZoekenEventsConsumerLogger
+                ),
                 PubliekZoekenHandledEvents.Types,
                 martenSubscriptionLogger
             ),
             ProjectionLifecycle.Async,
-            PubliekZoekProjectionHandler.ShardName.Name);
+            PubliekZoekProjectionHandler.ShardName.Name
+        );
 
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {
@@ -151,7 +157,8 @@ public static class ConfigureMartenExtensions
         ILogger<SecureMartenLogger> secureMartenLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
         bool isDevelopment,
-        ElasticSearchOptionsSection? elasticSearchOptionsSection)
+        ElasticSearchOptionsSection? elasticSearchOptionsSection
+    )
     {
         IDocumentStore? builtStore = null;
 

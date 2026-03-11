@@ -4,7 +4,9 @@ using Elastic.Clients.Elasticsearch;
 using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
+using JasperFx.Events.Projections;
 using Marten;
+using Marten.Events.Daemon.Coordination;
 using Projections;
 using Projections.Detail;
 using Projections.Search;
@@ -19,16 +21,16 @@ public static class ProjectionEndpointsExtensions
         app.MapPost(
             pattern: "v1/projections/all/rebuild",
             handler: async (
-                IDocumentStore store,
+                IProjectionCoordinator coordinator,
                 ElasticsearchClient elasticClient,
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger
             ) =>
             {
-                await StartRebuild(PubliekVerenigingDetailProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(PubliekVerenigingDetailProjection.ShardName, coordinator, shardTimeout, logger);
                 await StartRebuild(
-                    PubliekZoekProjectionHandler.ShardName.Name,
-                    store,
+                    PubliekZoekProjectionHandler.ShardName,
+                    coordinator,
                     shardTimeout,
                     logger,
                     async () =>
@@ -41,7 +43,7 @@ public static class ProjectionEndpointsExtensions
                     }
                 );
 
-                await StartRebuild(PubliekVerenigingSequenceProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(PubliekVerenigingSequenceProjection.ShardName, coordinator, shardTimeout, logger);
 
                 return Results.Accepted();
             }
@@ -49,9 +51,9 @@ public static class ProjectionEndpointsExtensions
 
         app.MapPost(
             pattern: "v1/projections/detail/rebuild",
-            handler: async (IDocumentStore store, ILogger<Program> logger) =>
+            handler: async (IProjectionCoordinator coordinator, ILogger<Program> logger) =>
             {
-                await StartRebuild(PubliekVerenigingDetailProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(PubliekVerenigingDetailProjection.ShardName, coordinator, shardTimeout, logger);
 
                 return Results.Accepted();
             }
@@ -60,15 +62,15 @@ public static class ProjectionEndpointsExtensions
         app.MapPost(
             pattern: "v1/projections/search/rebuild",
             handler: async (
-                IDocumentStore store,
+                IProjectionCoordinator coordinator,
                 ElasticsearchClient elasticClient,
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger
             ) =>
             {
                 await StartRebuild(
-                    PubliekZoekProjectionHandler.ShardName.Name,
-                    store,
+                    PubliekZoekProjectionHandler.ShardName,
+                    coordinator,
                     shardTimeout,
                     logger,
                     async () =>
@@ -87,9 +89,9 @@ public static class ProjectionEndpointsExtensions
 
         app.MapPost(
             pattern: "v1/projections/sequence/rebuild",
-            handler: async (IDocumentStore store, ILogger<Program> logger) =>
+            handler: async (IProjectionCoordinator coordinator, ILogger<Program> logger) =>
             {
-                await StartRebuild(PubliekVerenigingSequenceProjection.ShardName.Name, store, shardTimeout, logger);
+                await StartRebuild(PubliekVerenigingSequenceProjection.ShardName, coordinator, shardTimeout, logger);
 
                 return Results.Accepted();
             }
@@ -103,22 +105,28 @@ public static class ProjectionEndpointsExtensions
     }
 
     private static async Task StartRebuild(
-        string projectionName,
-        IDocumentStore store,
+        ShardName shardName,
+        IProjectionCoordinator coordinator,
         TimeSpan shardTimeout,
         ILogger logger,
         Func<Task>? beforeRebuild = null
     )
     {
+        var projectionName = shardName.Name;
+        var daemon = coordinator.DaemonForMainDatabase();
+        logger.LogInformation("Rebuild process {ProjectionName} started", projectionName);
+
         _ = Task.Run(async () =>
         {
             try
             {
-                var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                await daemon.StopAgentAsync(shardName);
+                logger.LogInformation("Rebuild {ProjectionName} agent stopped", projectionName);
 
                 if (beforeRebuild is not null)
                     await beforeRebuild();
-                await projectionDaemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
+
+                await daemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
 
                 logger.LogInformation("Rebuild {ProjectionName} complete", projectionName);
             }
@@ -126,8 +134,18 @@ public static class ProjectionEndpointsExtensions
             {
                 logger.LogError(ex, "Error during rebuild {ProjectionName}", projectionName);
             }
+            finally
+            {
+                try
+                {
+                    await daemon.StartAgentAsync(shardName, CancellationToken.None);
+                    logger.LogInformation("Rebuild {ProjectionName} agent started", projectionName);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Failed to restart shard {ProjectionName}", projectionName);
+                }
+            }
         });
-
-        logger.LogInformation("Rebuild process {ProjectionName} started", projectionName);
     }
 }
