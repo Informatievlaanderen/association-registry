@@ -7,7 +7,6 @@ using Historiek;
 using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.ElasticSearch;
-using JasperFx.Events.Projections;
 using Locaties;
 using Marten;
 using PowerBiExport;
@@ -245,7 +244,6 @@ public static class ProjectionEndpointsExtensions
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error during rebuild {ProjectionName}", projectionName);
-                throw;
             }
         });
 

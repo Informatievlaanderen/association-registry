@@ -100,6 +100,8 @@ public static class MartenExtensions
         opts.Events.MetadataConfig.EnableAll();
         opts.AddPostgresProjections();
 
+        opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
+
         opts.SetUpOpenTelemetry(isDevelopment);
 
         if (!postgreSqlOptions.IncludeErrorDetail)
