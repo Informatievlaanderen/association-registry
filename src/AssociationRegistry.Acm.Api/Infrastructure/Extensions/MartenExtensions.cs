@@ -18,20 +18,23 @@ public static class MartenExtensions
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
         PostgreSqlOptionsSection postgreSqlOptions,
-        IConfiguration configuration)
+        IConfiguration configuration
+    )
     {
         var martenConfiguration = services
-                                 .AddSingleton(postgreSqlOptions)
-                                 .AddMarten(
-                                      serviceProvider =>
-                                      {
-                                          var opts = new StoreOptions();
-                                          ConfigureStoreOptionsCore(opts, postgreSqlOptions,
-                                                                serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
-                                                                () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession(),
-                                                                serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment());
-                                          return opts;
-                                      });
+            .AddSingleton(postgreSqlOptions)
+            .AddMarten(serviceProvider =>
+            {
+                var opts = new StoreOptions();
+                ConfigureStoreOptionsCore(
+                    opts,
+                    postgreSqlOptions,
+                    serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
+                    () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession(),
+                    serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment()
+                );
+                return opts;
+            });
 
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
@@ -54,7 +57,8 @@ public static class MartenExtensions
         StoreOptions opts,
         PostgreSqlOptionsSection postgreSqlOptions,
         ILogger<SecureMartenLogger> secureMartenLogger,
-        bool isDevelopment)
+        bool isDevelopment
+    )
     {
         IDocumentStore? builtStore = null;
 
@@ -68,7 +72,8 @@ public static class MartenExtensions
 
                 return builtStore.QuerySession();
             },
-            true);
+            true
+        );
     }
 
     public static StoreOptions ConfigureStoreOptionsCore(
@@ -76,7 +81,8 @@ public static class MartenExtensions
         PostgreSqlOptionsSection postgreSqlOptions,
         ILogger<SecureMartenLogger> secureMartenLogger,
         Func<IQuerySession> querySessionFactory,
-        bool isDevelopment)
+        bool isDevelopment
+    )
     {
         opts.Connection(postgreSqlOptions.GetConnectionString());
 
@@ -96,7 +102,7 @@ public static class MartenExtensions
 
         opts.SetUpOpenTelemetry(isDevelopment);
 
-        if(!postgreSqlOptions.IncludeErrorDetail)
+        if (!postgreSqlOptions.IncludeErrorDetail)
             opts.Logger(new SecureMartenLogger(secureMartenLogger));
 
         opts.Projections.DaemonLockId = 2;
@@ -104,14 +110,16 @@ public static class MartenExtensions
         opts.RegisterDocumentType<VerenigingenPerInszDocument>();
         opts.RegisterDocumentType<VerenigingDocument>();
         opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
+        opts.RegisterDocumentType<BankrekeningnummerPersoonsgegevensDocument>();
+        opts.RegisterAllEventTypes();
         opts.UpcastEvents(querySessionFactory);
 
         return opts;
     }
 
-    public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions)
-        => $"host={postgreSqlOptions.Host};" +
-           $"database={postgreSqlOptions.Database};" +
-           $"password={postgreSqlOptions.Password};" +
-           $"username={postgreSqlOptions.Username}";
+    public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions) =>
+        $"host={postgreSqlOptions.Host};"
+        + $"database={postgreSqlOptions.Database};"
+        + $"password={postgreSqlOptions.Password};"
+        + $"username={postgreSqlOptions.Username}";
 }
