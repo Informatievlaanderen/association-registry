@@ -1,3 +1,11 @@
+## [8.308.4](https://github.com/informatievlaanderen/association-registry/compare/v8.308.3...v8.308.4) (2026-03-12)
+
+
+### Bug Fixes
+
+* or-3067 remove UseOptimizedProjectionRebuilds ([baeb117](https://github.com/informatievlaanderen/association-registry/commit/baeb117bdfd8115db0593388416a8a07fa8f4b4a))
+* or-3067 use coordinator for deamon rebuilds ([b8eed68](https://github.com/informatievlaanderen/association-registry/commit/b8eed68ec847084c8ffcb604fdb041f8d679660b))
+
 ## [8.308.3](https://github.com/informatievlaanderen/association-registry/compare/v8.308.2...v8.308.3) (2026-03-11)
 
 
