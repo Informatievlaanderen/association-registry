@@ -1,8 +1,14 @@
+using AssociationRegistry.Admin.Schema.Bewaartermijn;
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
+using AssociationRegistry.MartenDb.Serialization;
 using AssociationRegistry.MartenDb.Setup;
 using JasperFx.Events;
 using Marten;
+using Newtonsoft.Json;
 using NodaTime;
 
 Console.WriteLine("🌱 Seeding test data for verenigingsregister...");
@@ -20,6 +26,13 @@ var store = DocumentStore.For(options =>
     options.Events.MetadataConfig.EnableAll();
     options.Events.AppendMode = EventAppendMode.Quick;
     options.RegisterAllEventTypes();
+    options.RegisterDocumentType<BewaartermijnDocument>();
+    options.UseNewtonsoftForSerialization(configure: settings =>
+    {
+        settings.DateParseHandling = DateParseHandling.None;
+        settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+    });
 });
 
 await using var session = store.LightweightSession();
@@ -180,6 +193,9 @@ session.Events.Append(
     "V9000002",
     new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode: "V9000002")
 );
+
+// TODO verwijderen
+session.Events.Append(BewaartermijnId.CreateId(VCode.Create("V9000002"), BewaartermijnType.Vertegenwoordigers,1),new BewaartermijnWerdGestartV2(BewaartermijnId.CreateId(VCode.Create("V9000002"), BewaartermijnType.Vertegenwoordigers,1),"V9000002", BewaartermijnType.Vertegenwoordigers.Value, 1, Instant.MinValue, BewaartermijnReden.VertegenwoordigerWerdVerwijderd));
 
 // Scenario 3: VerenigingMetRechtspersoonlijkheid with KBO vertegenwoordigers
 Console.WriteLine("📝 Creating VerenigingMetRechtspersoonlijkheid with KBO vertegenwoordigers...");
