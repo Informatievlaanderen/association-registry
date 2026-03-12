@@ -33,7 +33,7 @@ public static class MartenExtensions
                     () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession(),
                     serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment()
                 );
-                opts.Events.UseOptimizedProjectionRebuilds = true;
+
                 return opts;
             })
             .UseLightweightSessions();

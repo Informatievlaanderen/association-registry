@@ -212,7 +212,7 @@ public static class ConfigureMartenExtensions
         opts.Events.MetadataConfig.EnableAll();
 
         opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
-        opts.Events.UseOptimizedProjectionRebuilds = true;
+
         opts.Projections.DaemonLockId = 1;
 
         opts.UpcastLegacyTombstoneEvents()
