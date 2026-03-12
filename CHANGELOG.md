@@ -1,3 +1,10 @@
+## [8.308.6](https://github.com/informatievlaanderen/association-registry/compare/v8.308.5...v8.308.6) (2026-03-12)
+
+
+### Bug Fixes
+
+* or-3067 dont use coordinator so rebuilds are parallel on acm and public ([117774d](https://github.com/informatievlaanderen/association-registry/commit/117774d1dd227e443f3da08a191f9499a1c37b25))
+
 ## [8.308.5](https://github.com/informatievlaanderen/association-registry/compare/v8.308.4...v8.308.5) (2026-03-12)
 
 
