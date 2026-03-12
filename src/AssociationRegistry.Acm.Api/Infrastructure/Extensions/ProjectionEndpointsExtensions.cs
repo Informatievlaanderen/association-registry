@@ -20,14 +20,9 @@ public static class ProjectionEndpointsExtensions
 
         app.MapPost(
                 pattern: "v1/projections/verenigingperinsz/rebuild",
-                handler: async (IProjectionCoordinator coordinator, ILogger<Program> logger) =>
+                handler: async (IDocumentStore store, ILogger<Program> logger) =>
                 {
-                    await StartRebuild(
-                        shardName: VerenigingenPerInszProjection.ShardName,
-                        coordinator,
-                        shardTimeout,
-                        logger
-                    );
+                    await StartRebuild(shardName: VerenigingenPerInszProjection.ShardName, store, shardTimeout, logger);
 
                     return Results.Accepted();
                 }
@@ -38,27 +33,26 @@ public static class ProjectionEndpointsExtensions
 
     private static async Task StartRebuild(
         ShardName shardName,
-        IProjectionCoordinator coordinator,
+        IDocumentStore store,
         TimeSpan shardTimeout,
         ILogger logger,
         Func<Task>? beforeRebuild = null
     )
     {
+        var projectionDaemon = await store.BuildProjectionDaemonAsync();
         var projectionName = shardName.Name;
-        var daemon = coordinator.DaemonForMainDatabase();
         logger.LogInformation("Rebuild process {ProjectionName} started", projectionName);
 
         _ = Task.Run(async () =>
         {
             try
             {
-                await daemon.StopAgentAsync(shardName);
-                logger.LogInformation("Rebuild {ProjectionName} agent stopped", projectionName);
+                await projectionDaemon.StopAgentAsync(shardName);
 
                 if (beforeRebuild is not null)
                     await beforeRebuild();
 
-                await daemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
+                await projectionDaemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
 
                 logger.LogInformation("Rebuild {ProjectionName} complete", projectionName);
             }
@@ -70,7 +64,7 @@ public static class ProjectionEndpointsExtensions
             {
                 try
                 {
-                    await daemon.StartAgentAsync(shardName, CancellationToken.None);
+                    await projectionDaemon.StartAgentAsync(shardName, CancellationToken.None);
                     logger.LogInformation("Rebuild {ProjectionName} agent started", projectionName);
                 }
                 catch (Exception ex)
