@@ -118,6 +118,7 @@ public static class ConfigureMartenExtensions
         opts.RegisterAllEventTypes().UpcastEvents(querySessionFunc);
 
         opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
+        opts.RegisterDocumentType<BankrekeningnummerPersoonsgegevensDocument>();
 
         opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
