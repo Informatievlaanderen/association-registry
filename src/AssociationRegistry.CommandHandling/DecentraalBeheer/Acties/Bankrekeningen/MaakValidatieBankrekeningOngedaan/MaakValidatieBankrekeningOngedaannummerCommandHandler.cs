@@ -18,7 +18,7 @@ public class MaakValidatieBankrekeningnummerOngedaanCommandHandler
         CommandEnvelope<MaakValidatieBankrekeningnummerOngedaanCommand> envelope,
         CancellationToken cancellationToken = default)
     {
-     if (envelope.Metadata.Initiator == CommandMetadata.VloOvoCode)
+     if (envelope.Metadata.Initiator == WellknownOvoNumbers.VloOvoCode)
             throw new OvoCodeIsNietToegelatenDezeActieUitTeVoeren(envelope.Metadata.Initiator);
 
      var vereniging =

@@ -12,6 +12,4 @@ public record CommandMetadata(
 {
     public static CommandMetadata ForDigitaalVlaanderenProcess =>
         new(WellknownOvoNumbers.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid());
-
-    public const string VloOvoCode = "OVO000067";
 };

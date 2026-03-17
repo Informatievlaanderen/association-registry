@@ -888,17 +888,8 @@ public record VerenigingState : IHasVersion
         {
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(
                 Bankrekeningnummers
-                    .Without(@event.BankrekeningnummerId)
-                    .Append(
-                        Bankrekeningnummer.Hydrate(
-                            @event.BankrekeningnummerId,
-                            bankrekeningnummer.Iban.Value,
-                            bankrekeningnummer.Doel,
-                            bankrekeningnummer.Titularis.Value,
-                            @event.Bron,
-                            bankrekeningnummer.BevestigdDoor
-                        )
-                    )
+                   .Without(@event.BankrekeningnummerId)
+                   .Append(bankrekeningnummer.WijzigBron(@event.Bron))
             ),
         };
     }
@@ -924,16 +915,7 @@ public record VerenigingState : IHasVersion
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(
                 Bankrekeningnummers
                     .Without(@event.BankrekeningnummerId)
-                    .Append(
-                        Bankrekeningnummer.Hydrate(
-                            @event.BankrekeningnummerId,
-                            bankrekeningnummer.Iban.Value,
-                            @event.Doel,
-                            @event.Titularis,
-                            bankrekeningnummer.Bron,
-                            bankrekeningnummer.BevestigdDoor
-                        )
-                    )
+                    .Append(bankrekeningnummer.WijzigBankrekeningnummer(@event.Doel, @event.Titularis))
             ),
         };
     }
@@ -947,17 +929,7 @@ public record VerenigingState : IHasVersion
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(
                 Bankrekeningnummers
                     .Without(@event.BankrekeningnummerId)
-                    .Append(
-                        Bankrekeningnummer.Hydrate(
-                            @event.BankrekeningnummerId,
-                            bankrekeningnummer.Iban.Value,
-                            bankrekeningnummer.Doel,
-                            bankrekeningnummer.Titularis.Value,
-                            bankrekeningnummer.Bron,
-                            bankrekeningnummer.BevestigdDoor.Append(@event.BevestigdDoor).ToArray()
-                        )
-                    )
-            ),
+                    .Append(bankrekeningnummer.VoegValidatieBankrekeningnummerToe(@event.BevestigdDoor))),
         };
     }
 

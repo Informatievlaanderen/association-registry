@@ -41,7 +41,7 @@ public class Bankrekeningnummer
     /// Gegevens initiatoren die dit bankrekeningnummer bevestigd hebben
     /// </summary>
     [DataMember(Name = "BevestigdDoor")]
-    public Gegevensinitiator[] BevestigdDoor { get; set; } = [];
+    public GegevensInitiator[] BevestigdDoor { get; set; } = [];
 
     /// <summary> De bron die dit bankrekeningnummer beheert.
     /// <br />
@@ -53,4 +53,3 @@ public class Bankrekeningnummer
     public string Bron { get; set; } = null!;
 }
 
-public record Gegevensinitiator(string OvoCode);

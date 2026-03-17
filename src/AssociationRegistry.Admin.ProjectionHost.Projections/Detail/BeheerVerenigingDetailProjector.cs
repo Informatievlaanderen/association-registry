@@ -1325,9 +1325,7 @@ public class BeheerVerenigingDetailProjector
                                            identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
                                            update: b => b with
                                            {
-                                               BevestigdDoor = b.BevestigdDoor
-                                                                .Where(x => x != @event.Data.GeannuleerdDoor)
-                                                                .ToArray(),
+                                               BevestigdDoor = b.BevestigdDoor.Without(@event.Data.GeannuleerdDoor).ToArray(),
                                            }
                                        )
                                       .OrderBy(b => b.BankrekeningnummerId)

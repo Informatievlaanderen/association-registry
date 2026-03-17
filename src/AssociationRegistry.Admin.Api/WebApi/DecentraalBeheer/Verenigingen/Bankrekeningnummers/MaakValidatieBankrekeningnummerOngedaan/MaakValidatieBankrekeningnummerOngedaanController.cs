@@ -32,15 +32,15 @@ public class MaakValidatieBankrekeningnummerOngedaanController : ApiController
     }
 
     /// <summary>
-    ///     Maak de validatie van een Bankrekeningnummer ongedaan.
+    ///     Maak de validatie van een bankrekeningnummer ongedaan.
     /// </summary>
 
     /// <param name="vCode">De vCode van de vereniging.</param>
     /// <param name="bankrekeningnummerId">De unieke identificatie code van dit bankrekeningnummer binnen de vereniging.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
-    /// <response code="200">Er waren geen validaties.</response>
-    /// <response code="202">Het bankrekeningnummer werd gevalideerd.</response>
+    /// <response code="200">De gevraagde validatie bestaat niet.</response>
+    /// <response code="202">De validatie van het bankrekeningnummer werd ongedaan gemaakt.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>

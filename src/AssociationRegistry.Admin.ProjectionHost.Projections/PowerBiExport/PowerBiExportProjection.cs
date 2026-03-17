@@ -133,7 +133,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                 })
                 .ToArray(),
             Werkingsgebieden = [],
-            Bankrekeningnummers = @event.Data.Bankrekeningnummers.Select(b=> new Bankrekeningnummer(b.BankrekeningnummerId, b.Doel, [], @event.Data.Bron)).ToArray(),
+            Bankrekeningnummers = @event.Data.Bankrekeningnummers.Select(b=> Bankrekeningnummer.Create(b.BankrekeningnummerId, b.Doel, @event.Data.Bron)).ToArray(),
             Bron = @event.Data.Bron,
             DatumLaatsteAanpassing = @event
                 .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
@@ -1413,7 +1413,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<BankrekeningnummerWerdToegevoegd> @event, PowerBiExportDocument document)
     {
-        document.Bankrekeningnummers = document.Bankrekeningnummers.Append(new Bankrekeningnummer(@event.Data.BankrekeningnummerId, @event.Data.Doel, [], @event.Data.Bron)).ToArray();
+        document.Bankrekeningnummers = document.Bankrekeningnummers.Append(Bankrekeningnummer.Create(@event.Data.BankrekeningnummerId, @event.Data.Doel, @event.Data.Bron)).ToArray();
 
         document.DatumLaatsteAanpassing = @event
             .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
@@ -1447,7 +1447,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<BankrekeningnummerWerdToegevoegdVanuitKBO> @event, PowerBiExportDocument document)
     {
-        document.Bankrekeningnummers = document.Bankrekeningnummers.Append(new Bankrekeningnummer(@event.Data.BankrekeningnummerId, string.Empty, [], @event.Data.Bron)).ToArray();
+        document.Bankrekeningnummers = document.Bankrekeningnummers.Append(Bankrekeningnummer.Create(@event.Data.BankrekeningnummerId, string.Empty, @event.Data.Bron)).ToArray();
 
         document.DatumLaatsteAanpassing = @event
             .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
