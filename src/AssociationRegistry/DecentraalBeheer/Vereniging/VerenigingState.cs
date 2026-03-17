@@ -961,6 +961,31 @@ public record VerenigingState : IHasVersion
         };
     }
 
+    public VerenigingState Apply(AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt @event)
+    {
+        var bankrekeningnummer = Bankrekeningnummers.Single(c => c.BankrekeningnummerId == @event.BankrekeningnummerId);
+        var bevestigdDoorZonderGeannuleerde = bankrekeningnummer.BevestigdDoor
+                                                                .Where(x => x != @event.GeannuleerdDoor)
+                                                                .ToArray();
+        return this with
+        {
+            Bankrekeningnummers = Bankrekeningnummers.Hydrate(
+                Bankrekeningnummers
+                   .Without(@event.BankrekeningnummerId)
+                   .Append(
+                        Bankrekeningnummer.Hydrate(
+                            @event.BankrekeningnummerId,
+                            bankrekeningnummer.Iban.Value,
+                            bankrekeningnummer.Doel,
+                            bankrekeningnummer.Titularis.Value,
+                            bankrekeningnummer.Bron,
+                            bevestigdDoorZonderGeannuleerde
+                        )
+                    )
+            ),
+        };
+    }
+
     public VerenigingState Apply(KszSyncHeeftVertegenwoordigerBevestigd @event)
     {
         var vertegenwoordiger = Vertegenwoordigers.SingleOrDefault(x =>

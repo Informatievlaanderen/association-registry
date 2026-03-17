@@ -11,11 +11,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGevalideerdB
 {
     public override VCode VCode => VCode.Create("V0009011");
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
-    public readonly BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO1EnWerdGevalideerd;
-    public readonly BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO2;
-    public readonly BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO3;
-    public readonly BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO4;
-    public readonly BankrekeningnummerWerdVerwijderdUitKBO BankrekeningnummerWerdVerwijderdUitKBO;
+    public readonly BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO;
     public readonly AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd;
     private IEvent[] _events;
 
@@ -29,46 +25,21 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGevalideerdB
                 VCode = VCode,
             };
 
-        BankrekeningnummerWerdToegevoegdVanuitKBO1EnWerdGevalideerd =
+        BankrekeningnummerWerdToegevoegdVanuitKBO =
             fixture.Create<BankrekeningnummerWerdToegevoegdVanuitKBO>() with
             {
                 BankrekeningnummerId = 1,
             };
 
-        BankrekeningnummerWerdToegevoegdVanuitKBO2 = fixture.Create<BankrekeningnummerWerdToegevoegdVanuitKBO>() with
-        {
-            BankrekeningnummerId = 2,
-        };
-
-        BankrekeningnummerWerdToegevoegdVanuitKBO3 = fixture.Create<BankrekeningnummerWerdToegevoegdVanuitKBO>() with
-        {
-            BankrekeningnummerId = 3,
-        };
-
-        // add this one, so we can test nextId
-        BankrekeningnummerWerdToegevoegdVanuitKBO4 = fixture.Create<BankrekeningnummerWerdToegevoegdVanuitKBO>() with
-        {
-            BankrekeningnummerId = 4,
-        };
-
-        BankrekeningnummerWerdVerwijderdUitKBO = new BankrekeningnummerWerdVerwijderdUitKBO(
-            4,
-            BankrekeningnummerWerdToegevoegdVanuitKBO4.Iban
-        );
-
         AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd = fixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd>() with
         {
-            BankrekeningnummerId = BankrekeningnummerWerdToegevoegdVanuitKBO1EnWerdGevalideerd.BankrekeningnummerId,
+            BankrekeningnummerId = BankrekeningnummerWerdToegevoegdVanuitKBO.BankrekeningnummerId,
         };
 
         _events =
         [
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            BankrekeningnummerWerdToegevoegdVanuitKBO1EnWerdGevalideerd,
-            BankrekeningnummerWerdToegevoegdVanuitKBO2,
-            BankrekeningnummerWerdToegevoegdVanuitKBO3,
-            BankrekeningnummerWerdToegevoegdVanuitKBO4,
-            BankrekeningnummerWerdVerwijderdUitKBO,
+            BankrekeningnummerWerdToegevoegdVanuitKBO,
             AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
         ];
     }

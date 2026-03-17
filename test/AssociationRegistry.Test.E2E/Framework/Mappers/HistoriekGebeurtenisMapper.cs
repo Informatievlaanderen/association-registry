@@ -1031,4 +1031,18 @@ public static class HistoriekGebeurtenisMapper
             Initiator = AuthenticationSetup.Initiator,
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+    public static HistoriekGebeurtenisResponse? ValidatieBankrekeningnummerWerdOngedaanGemaakt(
+        BankrekeningnummerWerdToegevoegd @event
+    ) =>
+        new()
+        {
+            Beschrijving = $"Bankrekeningnummer validatie document werd ongedaan gemaakt door '{AuthenticationSetup.Initiator}'.",
+            Gebeurtenis = nameof(Events.AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt),
+            Data = new AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt(
+                @event.BankrekeningnummerId,
+                AuthenticationSetup.Initiator
+            ),
+            Initiator = AuthenticationSetup.Initiator,
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }
