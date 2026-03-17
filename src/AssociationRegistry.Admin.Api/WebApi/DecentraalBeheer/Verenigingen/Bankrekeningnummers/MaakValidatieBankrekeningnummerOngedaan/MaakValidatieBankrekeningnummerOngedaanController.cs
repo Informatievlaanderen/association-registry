@@ -1,16 +1,17 @@
-﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.ValideerBankrekeningnummer;
+﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.MaakValidatieBankrekeningnummerOngedaan;
 
 using Asp.Versioning;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening;
-using DecentraalBeheer.Vereniging;
-using Extensions;
-using Framework;
-using Infrastructure;
-using Infrastructure.CommandMiddleware;
-using Infrastructure.WebApi.Swagger.Annotations;
-using Infrastructure.WebApi.Swagger.Examples;
+using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.MaakValidatieBankrekeningOngedaan;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
@@ -21,23 +22,19 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
-public class ValideerBankrekeningnummerController : ApiController
+public class MaakValidatieBankrekeningnummerOngedaanController : ApiController
 {
     private readonly IMessageBus _messageBus;
 
-    public ValideerBankrekeningnummerController(IMessageBus messageBus)
+    public MaakValidatieBankrekeningnummerOngedaanController(IMessageBus messageBus)
     {
         _messageBus = messageBus;
     }
 
     /// <summary>
-    ///     Valideer een Bankrekeningnummer.
+    ///     Maak de validatie van een Bankrekeningnummer ongedaan.
     /// </summary>
-    /// <remarks>
-    ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
-    ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
-    ///     al is doorgestroomd naar deze endpoints.
-    /// </remarks>
+
     /// <param name="vCode">De vCode van de vereniging.</param>
     /// <param name="bankrekeningnummerId">De unieke identificatie code van dit bankrekeningnummer binnen de vereniging.</param>
     /// <param name="metadataProvider"></param>
@@ -47,7 +44,7 @@ public class ValideerBankrekeningnummerController : ApiController
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPost("{vCode}/bankrekeningnummers/{bankrekeningnummerId:int}/validaties")]
+    [HttpDelete("{vCode}/bankrekeningnummers/{bankrekeningnummerId:int}/validaties")]
     [ConsumesJson]
     [ProducesJson]
     [SwaggerResponseHeader(
@@ -78,8 +75,8 @@ public class ValideerBankrekeningnummerController : ApiController
     )
     {
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<ValideerBankrekeningnummerCommand>(
-            new ValideerBankrekeningnummerCommand(VCode.Create(vCode), bankrekeningnummerId),
+        var envelope = new CommandEnvelope<MaakValidatieBankrekeningnummerOngedaanCommand>(
+            new MaakValidatieBankrekeningnummerOngedaanCommand(VCode.Create(vCode), bankrekeningnummerId),
             metaData
         );
 

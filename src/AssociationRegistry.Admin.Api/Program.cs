@@ -34,6 +34,7 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using DecentraalBeheer.Vereniging.Geotags;
 using Elastic.Clients.Elasticsearch;
+using Events;
 using EventStore;
 using EventStore.ConflictResolution;
 using FluentValidation;

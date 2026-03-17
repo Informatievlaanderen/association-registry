@@ -543,6 +543,24 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         );
     }
 
+    public void MaakValidatieOngedaan(int bankrekeningnummerId, string initiator)
+    {
+        var bankrekeningnummer =
+            State.Bankrekeningnummers.SingleOrDefault(x => x.BankrekeningnummerId == bankrekeningnummerId);
+
+        Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
+
+        if (!bankrekeningnummer!.BevestigdDoor.Contains(initiator))
+            return;
+
+        AddEvent(
+            new AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt(
+                bankrekeningnummer.BankrekeningnummerId,
+                initiator
+            )
+        );
+    }
+
     public int VoegBankrekeningToe(ToeTevoegenBankrekeningnummer bankrekeningnummer)
     {
         var toegevoegdBankrekeningnummer = State.Bankrekeningnummers.VoegToe(bankrekeningnummer);

@@ -1318,6 +1318,22 @@ public class BeheerVerenigingDetailProjector
             .ToArray();
     }
 
+    public static void Apply(IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Bankrekeningnummers = document
+                                      .Bankrekeningnummers.UpdateSingle(
+                                           identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
+                                           update: b => b with
+                                           {
+                                               BevestigdDoor = b.BevestigdDoor
+                                                                .Where(x => x != @event.Data.GeannuleerdDoor)
+                                                                .ToArray(),
+                                           }
+                                       )
+                                      .OrderBy(b => b.BankrekeningnummerId)
+                                      .ToArray();
+    }
+
     public static void Apply(
         IEvent<BankrekeningnummerWerdOvergenomenVanuitKBO> @event,
         BeheerVerenigingDetailDocument document
