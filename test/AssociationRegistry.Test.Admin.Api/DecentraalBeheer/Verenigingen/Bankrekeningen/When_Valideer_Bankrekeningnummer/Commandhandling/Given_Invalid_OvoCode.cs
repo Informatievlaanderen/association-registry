@@ -40,13 +40,13 @@ public class Given_Invalid_OvoCode
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with
         {
-            Initiator = CommandMetadata.VloOvoCode,
+            Initiator = WellknownOvoNumbers.VloOvoCode,
         };
 
         var exception = await Assert.ThrowsAsync<OvoCodeIsNietToegelatenDezeActieUitTeVoeren>(
             async () => await _commandHandler.Handle(
                 new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata)));
 
-        exception.Message.Should().Be(string.Format(ExceptionMessages.OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren, CommandMetadata.VloOvoCode));
+        exception.Message.Should().Be(string.Format(ExceptionMessages.OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren, WellknownOvoNumbers.VloOvoCode));
     }
 }

@@ -75,4 +75,16 @@ public record Bankrekeningnummer
 
         return this == gewijzigdBankrekeningnummer;
     }
+
+    public Bankrekeningnummer WijzigBron(Bron eventBron)
+        => this with { Bron = eventBron };
+
+    public Bankrekeningnummer WijzigBankrekeningnummer(string doel, string titularis)
+        => this with { Doel = doel,  Titularis = Titularis.Hydrate(titularis)};
+
+    public Bankrekeningnummer VoegValidatieBankrekeningnummerToe(string bevestigdDoor)
+        => this with
+        {
+            BevestigdDoor = BevestigdDoor.Append(bevestigdDoor).ToArray()
+        };
 }

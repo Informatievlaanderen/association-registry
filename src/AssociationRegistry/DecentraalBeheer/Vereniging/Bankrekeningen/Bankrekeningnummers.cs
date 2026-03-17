@@ -171,6 +171,11 @@ public static class BankrekeningnummersEnumerableExtensions
         return source.Where(c => c.BankrekeningnummerId != id);
     }
 
+    public static IEnumerable<string> Without(this IEnumerable<string> source, string id)
+    {
+        return source.Where(c => c != id);
+    }
+
     public static IEnumerable<Bankrekeningnummer> AppendFromEventData(
         this IEnumerable<Bankrekeningnummer> bankrekeningnummers,
         BankrekeningnummerWerdToegevoegd eventData

@@ -230,6 +230,7 @@ public class Program
 
     private static async Task LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(WebApplication app, ILogger<Program> logger)
     {
+        // TODO This method may be removed in the future once we know that this event does not occur in the test environment
         using var scope = app.Services.CreateScope();
         await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
@@ -237,11 +238,11 @@ public class Program
 
         if (@event is null)
         {
-            logger.LogInformation("✅ No events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
+            logger.LogInformation("✅ No obsolete events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
         }
         else
         {
-            logger.LogWarning("⚠️ Events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
+            logger.LogWarning("⚠️ Obsolete events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
         }
     }
 

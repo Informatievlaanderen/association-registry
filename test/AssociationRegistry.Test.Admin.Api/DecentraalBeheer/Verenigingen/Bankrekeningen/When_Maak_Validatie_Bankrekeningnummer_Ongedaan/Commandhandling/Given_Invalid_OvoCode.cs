@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Maak_Validatie_Bankrekeningnummer_Ongedaan.Commandhandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.
+    When_Maak_Validatie_Bankrekeningnummer_Ongedaan.Commandhandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen.Exceptions;
@@ -35,18 +36,24 @@ public class Given_Invalid_OvoCode
         var command = _fixture.Create<MaakValidatieBankrekeningnummerOngedaanCommand>() with
         {
             VCode = _scenario.VCode,
-            BankrekeningnummerId = _scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId + _fixture.Create<int>(),
+            BankrekeningnummerId =
+            _scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId + _fixture.Create<int>(),
         };
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with
         {
-            Initiator = CommandMetadata.VloOvoCode,
+            Initiator = WellknownOvoNumbers.VloOvoCode,
         };
 
-        var exception = await Assert.ThrowsAsync<OvoCodeIsNietToegelatenDezeActieUitTeVoeren>(
-            async () => await _commandHandler.Handle(
-                new CommandEnvelope<MaakValidatieBankrekeningnummerOngedaanCommand>(command, commandMetadata)));
+        var commandEnvelope =
+            new CommandEnvelope<MaakValidatieBankrekeningnummerOngedaanCommand>(command, commandMetadata);
 
-        exception.Message.Should().Be(string.Format(ExceptionMessages.OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren, CommandMetadata.VloOvoCode));
+        var exception = await Assert.ThrowsAsync<OvoCodeIsNietToegelatenDezeActieUitTeVoeren>(async () =>
+        {
+            await _commandHandler.Handle(commandEnvelope);
+        });
+
+        exception.Message.Should().Be(string.Format(ExceptionMessages.OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren,
+                                                    WellknownOvoNumbers.VloOvoCode));
     }
 }
