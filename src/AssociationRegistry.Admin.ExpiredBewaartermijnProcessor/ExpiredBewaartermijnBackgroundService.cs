@@ -22,7 +22,7 @@ public class ExpiredBewaartermijnBackgroundService(
 
         try
         {
-            logger.LogInformation($"Vervallen bewaartermijnen verwijderen werd gestart.");
+            logger.LogInformation("{ServiceName} started", typeof(ExpiredBewaartermijnBackgroundService));
 
             await processor.SendVerlopenBewaartermijnen(cancellationToken);
 

@@ -36,7 +36,7 @@ public static class WolverineExtensions
         string wolverineSchema,
         PostgreSqlOptionsSection postgreSqlOptions)
     {
-        const string NightlyExpiredBewaartermijnenProcessorQueueName = "Nachtelijke-ExpiredBewaartermijnen-queue";
+        const string NightlyExpiredBewaartermijnenProcessorQueueName = "nachtelijke-expiredbewaartermijnen-queue";
 
         options.Discovery.IncludeType<VerwijderVertegenwoordigerPersoonsgegevensCommand>();
         options.Discovery.IncludeType<VerwijderVertegenwoordigerPersoonsgegevensCommandHandler>();

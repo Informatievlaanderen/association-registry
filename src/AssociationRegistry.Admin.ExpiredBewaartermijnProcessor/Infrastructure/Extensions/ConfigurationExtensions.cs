@@ -47,14 +47,14 @@ public static class ConfigurationExtensions
 
     public static BewaartermijnOptions GetBewaartermijnenOptions(this IConfiguration configuration)
     {
-        var addressSyncOptions = configuration.GetSection(nameof(BewaartermijnOptions)).Get<BewaartermijnOptions>();
+        var bewaartermijnOptions = configuration.GetSection(nameof(BewaartermijnOptions)).Get<BewaartermijnOptions>();
 
-        if (addressSyncOptions == null)
-            throw new ArgumentNullException(nameof(addressSyncOptions));
+        if (bewaartermijnOptions == null)
+            throw new ArgumentNullException(nameof(bewaartermijnOptions));
 
-        addressSyncOptions.ThrowIfInValid();
+        bewaartermijnOptions.ThrowIfInValid();
 
-        return addressSyncOptions;
+        return bewaartermijnOptions;
     }
 
     private static void ThrowIfInValid(this BewaartermijnOptions opt)
