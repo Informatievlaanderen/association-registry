@@ -25,9 +25,6 @@ public class VerlopenBewaartermijnenProcessorTests
            .ReturnsAsync(Array.Empty<BewaartermijnDocument>());
 
         var messageBus = new Mock<IMessageBus>();
-        messageBus
-           .Setup(x => x.SendAsync(It.IsAny<CommandEnvelope<VerwijderVertegenwoordigerPersoonsgegevensCommand>>(), It.IsAny<DeliveryOptions?>()))
-           .Returns(ValueTask.CompletedTask);
 
         var sut = new VerlopenBewaartermijnenProcessor(
             query.Object,
@@ -44,7 +41,7 @@ public class VerlopenBewaartermijnenProcessorTests
     [Fact]
     public async Task Given_2_Verlopen_Bewaartermijnen_Then_MessageBus_Is_Invoked_Twice_With_Correct_Commands()
     {
-        var expiredBewaartermijnen = await VerlopenBewaartermijnen();
+        var expiredBewaartermijnen = VerlopenBewaartermijnen();
 
         var query = new Mock<IVerlopenBewaartermijnQuery>();
         query
@@ -52,11 +49,6 @@ public class VerlopenBewaartermijnenProcessorTests
            .ReturnsAsync(expiredBewaartermijnen);
 
         var messageBus = new Mock<IMessageBus>();
-
-        messageBus
-           .Setup(x => x.SendAsync(It.IsAny<CommandEnvelope<VerwijderVertegenwoordigerPersoonsgegevensCommand>>(),
-                                   It.IsAny<DeliveryOptions?>()))
-           .Returns(ValueTask.CompletedTask);
 
         var sut = new VerlopenBewaartermijnenProcessor(
             query.Object,
@@ -70,11 +62,11 @@ public class VerlopenBewaartermijnenProcessorTests
             Times.Exactly(2));
     }
 
-     private Task<BewaartermijnDocument[]> VerlopenBewaartermijnen()
+     private BewaartermijnDocument[] VerlopenBewaartermijnen()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        return Task.FromResult<BewaartermijnDocument[]>([
+        return [
             fixture.Create<BewaartermijnDocument>() with
             {
                 Status = BewaartermijnStatus.Gepland.StatusNaam,
@@ -85,7 +77,7 @@ public class VerlopenBewaartermijnenProcessorTests
                 Status = BewaartermijnStatus.Gepland.StatusNaam,
                 Vervaldag = VerlopenVervaldag(fixture),
             },
-        ]);
+        ];
     }
 
     private static Instant VerlopenVervaldag(Fixture fixture)
