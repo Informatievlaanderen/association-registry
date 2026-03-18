@@ -14,8 +14,15 @@ using global::AutoFixture.Dsl;
 using Magda.Persoon;
 using NodaTime;
 using Vereniging;
+using Adres = DecentraalBeheer.Vereniging.Adressen.Adres;
+using AdresId = DecentraalBeheer.Vereniging.Adressen.AdresId;
+using Contactgegeven = DecentraalBeheer.Vereniging.Contactgegeven;
+using Doelgroep = DecentraalBeheer.Vereniging.Doelgroep;
 using HoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = DecentraalBeheer.Vereniging.Lidmaatschap;
+using Locatie = DecentraalBeheer.Vereniging.Locatie;
+using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
+using Vertegenwoordiger = DecentraalBeheer.Vereniging.Vertegenwoordiger;
 using Werkingsgebied = DecentraalBeheer.Vereniging.Werkingsgebied;
 
 public static class AutoFixtureCustomizations

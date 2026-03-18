@@ -32,8 +32,8 @@ public class Returns_Historiek_Met_Bankrekeningnummer : End2EndTest<HistoriekRes
     [Fact]
     public void With_BankrekeningnummerWerdToegevoegd_Gebeurtenissen()
     {
-        var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd));
-        gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.BankrekeningnummerWerdGevalideerd(_testOngedaanContext.Scenario.BankrekeningnummerWerdToegevoegdVoorValidatie),
+        var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt));
+        gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.ValidatieBankrekeningnummerWerdOngedaanGemaakt(_testOngedaanContext.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BankrekeningnummerId),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

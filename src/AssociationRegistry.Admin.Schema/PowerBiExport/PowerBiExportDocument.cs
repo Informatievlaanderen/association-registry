@@ -1,12 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.PowerBiExport;
 
 using Marten.Schema;
-using Contactgegeven = Detail.Contactgegeven;
-using Doelgroep = Detail.Doelgroep;
-using Locatie = Detail.Locatie;
-using SubverenigingVan = Detail.SubverenigingVan;
-using Verenigingstype = Detail.Verenigingstype;
-using Verenigingssubtype = Detail.Verenigingssubtype;
 
 public record PowerBiExportDocument : IVCode
 {

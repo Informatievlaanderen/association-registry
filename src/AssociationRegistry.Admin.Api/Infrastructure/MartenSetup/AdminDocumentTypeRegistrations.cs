@@ -14,6 +14,9 @@ using Schema.Historiek;
 using Schema.KboSync;
 using Schema.Persoonsgegevens;
 using Schema.PowerBiExport;
+using BeheerVerenigingDetailDocument = Schema.Detail.BeheerVerenigingDetailDocument;
+using LocatieLookupDocument = Schema.Locaties.LocatieLookupDocument;
+using LocatieZonderAdresMatchDocument = Schema.Locaties.LocatieZonderAdresMatchDocument;
 
 public static class AdminDocumentTypeRegistrations
 {

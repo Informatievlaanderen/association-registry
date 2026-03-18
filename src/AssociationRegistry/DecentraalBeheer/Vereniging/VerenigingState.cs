@@ -937,7 +937,7 @@ public record VerenigingState : IHasVersion
     {
         var bankrekeningnummer = Bankrekeningnummers.Single(c => c.BankrekeningnummerId == @event.BankrekeningnummerId);
         var bevestigdDoorZonderGeannuleerde = bankrekeningnummer.BevestigdDoor
-                                                                .Where(x => x != @event.GeannuleerdDoor)
+                                                                .Where(x => x != @event.OngedaanGemaaktDoor)
                                                                 .ToArray();
         return this with
         {

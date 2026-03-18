@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.AddressSync;
 
 using AssociationRegistry.Admin.AddressSync;
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Admin.Schema.Locaties;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Grar.Models;

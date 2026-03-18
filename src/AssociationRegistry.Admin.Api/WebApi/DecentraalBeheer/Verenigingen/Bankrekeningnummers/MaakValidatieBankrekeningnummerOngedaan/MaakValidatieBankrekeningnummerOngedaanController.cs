@@ -6,7 +6,6 @@ using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -66,7 +65,7 @@ public class MaakValidatieBankrekeningnummerOngedaanController : ApiController
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Post(
+    public async Task<IActionResult> Delete(
         [FromRoute] string vCode,
         [FromRoute] int bankrekeningnummerId,
         [FromServices] ICommandMetadataProvider metadataProvider,
@@ -81,6 +80,6 @@ public class MaakValidatieBankrekeningnummerOngedaanController : ApiController
 
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        return this.PostResponse(commandResult);
+        return this.DeleteResponse(commandResult);
     }
 }

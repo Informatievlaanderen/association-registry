@@ -842,7 +842,19 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            $"Bankrekeningnummervalidatiedocument bevestigd door '{@event.Data.BevestigdDoor}'."
+            $"Bankrekeningnummervalidatiedocument werd bevestigd door '{@event.Data.BevestigdDoor}'."
+        );
+    }
+    public static void Apply(
+        IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Bankrekeningnummervalidatiedocument werd ongedaan gemaakt door '{@event.Data.OngedaanGemaaktDoor}'."
         );
     }
 

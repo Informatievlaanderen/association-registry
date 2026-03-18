@@ -9,6 +9,7 @@ using Marten.Events.Aggregation;
 using Marten.Events.Projections;
 using Microsoft.Extensions.Logging;
 using Schema.Detail;
+using Schema.Locaties;
 using IEvent = JasperFx.Events.IEvent;
 
 public class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieLookupDocument, string>
