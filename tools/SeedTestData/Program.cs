@@ -385,7 +385,9 @@ session.Events.Append(
 session.Events.Append(
     "V9000010",
     new BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens(
-        Guid.NewGuid(), 1, "OVO0001001"
+        RefId: Guid.NewGuid(),
+        BankrekeningnummerId: 1,
+        GevalideerdDoor: "OVO0001001"
     )
 );
 

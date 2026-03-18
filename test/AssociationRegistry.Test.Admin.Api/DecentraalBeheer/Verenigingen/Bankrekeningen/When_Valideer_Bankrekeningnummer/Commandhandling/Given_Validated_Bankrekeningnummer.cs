@@ -8,14 +8,14 @@ using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkhei
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Xunit;
 
-public class Given_Already_Validated_Bankrekeningnummer
+public class Given_Validated_Bankrekeningnummer
 {
     private readonly ValideerBankrekeningnummerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly BankrekeningnummerWerdGevalideerdScenario _scenario;
     private readonly AggregateSessionMock _aggregateSessionMock;
 
-    public Given_Already_Validated_Bankrekeningnummer()
+    public Given_Validated_Bankrekeningnummer()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -39,7 +39,9 @@ public class Given_Already_Validated_Bankrekeningnummer
             Initiator = _scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor,
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata));
+        var commandEnvelope = new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata);
+
+        await _commandHandler.Handle(commandEnvelope);
 
         _aggregateSessionMock.ShouldNotHaveAnySaves();
     }

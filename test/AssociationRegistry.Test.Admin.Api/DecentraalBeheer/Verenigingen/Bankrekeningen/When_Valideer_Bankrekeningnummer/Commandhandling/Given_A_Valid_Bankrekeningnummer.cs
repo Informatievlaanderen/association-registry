@@ -36,7 +36,10 @@ public class Given_A_Valid_Bankrekeningnummer
         };
 
         var commandMetadata = _fixture.Create<CommandMetadata>();
-        await _commandHandler.Handle(new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata));
+
+        var commandEnvelope = new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata);
+
+        await _commandHandler.Handle(commandEnvelope);
 
         _aggregateSessionMock.ShouldHaveSavedExact(
             new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(

@@ -842,7 +842,7 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            $"Bankrekeningnummervalidatiedocument door '{@event.Data.BevestigdDoor}'."
+            $"Bankrekeningnummervalidatiedocument bevestigd door '{@event.Data.BevestigdDoor}'."
         );
     }
 

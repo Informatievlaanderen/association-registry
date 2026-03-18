@@ -37,10 +37,15 @@ public class Given_Unknown_Bankrekeningnummer
             VCode = _scenario.VCode,
             BankrekeningnummerId = _scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId + _fixture.Create<int>(),
         };
+        var commandEnvelope = new CommandEnvelope<MaakValidatieBankrekeningnummerOngedaanCommand>(
+            command,
+            _fixture.Create<CommandMetadata>());
 
         var exception = await Assert.ThrowsAsync<BankrekeningnummerIsNietGekend>(
-            async () => await _commandHandler.Handle(
-                new CommandEnvelope<MaakValidatieBankrekeningnummerOngedaanCommand>(command, _fixture.Create<CommandMetadata>())));
+            async () =>
+            {
+                await _commandHandler.Handle(commandEnvelope);
+            });
 
         exception.Message.Should().Be(string.Format(ExceptionMessages.BankrekeningnummerIsNietGekend, command.BankrekeningnummerId));
     }

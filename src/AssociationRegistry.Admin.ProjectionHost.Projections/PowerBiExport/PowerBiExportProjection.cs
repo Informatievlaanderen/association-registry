@@ -26,6 +26,8 @@ using Werkingsgebied = Schema.PowerBiExport.Werkingsgebied;
 
 public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocument, string>
 {
+    // TODO gebruik van PowerBIExportMapper ipv BeheerVerenigingDetailMapper
+
     public const string StatusVerwijderd = "Verwijderd";
     public static readonly ShardName ShardName = new("beheer.postgres.powerbi.export");
 
@@ -133,7 +135,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                 })
                 .ToArray(),
             Werkingsgebieden = [],
-            Bankrekeningnummers = @event.Data.Bankrekeningnummers.Select(b=> Bankrekeningnummer.Create(b.BankrekeningnummerId, b.Doel, @event.Data.Bron)).ToArray(),
+            Bankrekeningnummers = @event.Data.Bankrekeningnummers.Select(b=> PowerBiExportMapper.MapBankrekeningnummer(b.BankrekeningnummerId, b.Doel, [], @event.Data.Bron)).ToArray(),
             Bron = @event.Data.Bron,
             DatumLaatsteAanpassing = @event
                 .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
@@ -180,7 +182,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             ),
             Doelgroep = new Doelgroep
             {
-                JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                JsonLdMetadata = PowerBiExportMapper.CreateJsonLdMetadata(
                     JsonLdType.Doelgroep,
                     verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode
                 ),
@@ -282,7 +284,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     {
         document.Doelgroep = new Doelgroep
         {
-            JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+            JsonLdMetadata = PowerBiExportMapper.CreateJsonLdMetadata(
                 JsonLdType.Doelgroep,
                 doelgroepWerdGewijzigd.StreamKey!
             ),
@@ -304,7 +306,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                 document.Contactgegevens,
                 new Contactgegeven
                 {
-                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                    JsonLdMetadata = PowerBiExportMapper.CreateJsonLdMetadata(
                         JsonLdType.Contactgegeven,
                         document.VCode,
                         contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()
@@ -613,7 +615,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                 document.Contactgegevens,
                 new Contactgegeven
                 {
-                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                    JsonLdMetadata = PowerBiExportMapper.CreateJsonLdMetadata(
                         JsonLdType.Contactgegeven,
                         document.VCode,
                         contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()
@@ -1413,7 +1415,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<BankrekeningnummerWerdToegevoegd> @event, PowerBiExportDocument document)
     {
-        document.Bankrekeningnummers = document.Bankrekeningnummers.Append(Bankrekeningnummer.Create(@event.Data.BankrekeningnummerId, @event.Data.Doel, @event.Data.Bron)).ToArray();
+        document.Bankrekeningnummers = document.Bankrekeningnummers.Append(PowerBiExportMapper.MapBankrekeningnummer(@event.Data.BankrekeningnummerId, @event.Data.Doel, [], @event.Data.Bron)).ToArray();
 
         document.DatumLaatsteAanpassing = @event
             .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
@@ -1447,7 +1449,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<BankrekeningnummerWerdToegevoegdVanuitKBO> @event, PowerBiExportDocument document)
     {
-        document.Bankrekeningnummers = document.Bankrekeningnummers.Append(Bankrekeningnummer.Create(@event.Data.BankrekeningnummerId, string.Empty, @event.Data.Bron)).ToArray();
+        document.Bankrekeningnummers = document.Bankrekeningnummers.Append(PowerBiExportMapper.MapBankrekeningnummer(@event.Data.BankrekeningnummerId, string.Empty, [], @event.Data.Bron)).ToArray();
 
         document.DatumLaatsteAanpassing = @event
             .GetHeaderInstant(MetadataHeaderNames.Tijdstip)

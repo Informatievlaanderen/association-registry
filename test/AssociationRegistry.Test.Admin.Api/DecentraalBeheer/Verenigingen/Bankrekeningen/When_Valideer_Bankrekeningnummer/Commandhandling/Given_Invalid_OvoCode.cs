@@ -43,9 +43,14 @@ public class Given_Invalid_OvoCode
             Initiator = WellknownOvoNumbers.VloOvoCode,
         };
 
+        var commandEnvelope = new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata);
+
         var exception = await Assert.ThrowsAsync<OvoCodeIsNietToegelatenDezeActieUitTeVoeren>(
-            async () => await _commandHandler.Handle(
-                new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata)));
+            async () =>
+            {
+           await _commandHandler.Handle(
+                    commandEnvelope);
+            });
 
         exception.Message.Should().Be(string.Format(ExceptionMessages.OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren, WellknownOvoNumbers.VloOvoCode));
     }

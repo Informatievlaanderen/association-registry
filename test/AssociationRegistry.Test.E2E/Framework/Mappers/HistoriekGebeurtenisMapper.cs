@@ -1022,7 +1022,7 @@ public static class HistoriekGebeurtenisMapper
     ) =>
         new()
         {
-            Beschrijving = $"Bankrekeningnummervalidatiedocument door '{AuthenticationSetup.Initiator}'.",
+            Beschrijving = $"Bankrekeningnummervalidatiedocument bevestigd door '{AuthenticationSetup.Initiator}'.",
             Gebeurtenis = nameof(Events.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd),
             Data = new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 @event.BankrekeningnummerId,

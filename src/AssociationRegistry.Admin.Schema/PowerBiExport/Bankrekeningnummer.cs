@@ -18,15 +18,4 @@ public record Bankrekeningnummer
         BevestigdDoor = bevestigdDoor;
         Bron = bron;
     }
-
-    public static Bankrekeningnummer Create(
-        int bankrekeningnummerId,
-        string doel,
-        string bron
-        )
-        => new(
-            bankrekeningnummerId,
-            doel,
-            [],
-            bron);
 }
