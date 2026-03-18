@@ -393,6 +393,63 @@ jobs:
           name: verenigingsregister-adressensync
           path: ~/ar-admin-address-sync-image.tar
 
+  run-expired-bewaartermijn-tests:
+    name: Expired Bewaartermijn
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    with:
+      test-project: AssociationRegistry.Test.Admin.ExpiredBewaartermijn
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-localstack: false
+      run-docker-otelcollector: true
+      pre-gen-marten: false
+    secrets: inherit
+
+  build-admin-expired-bewaartermijn:
+    name: Build Admin Expired Bewaartermijn
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version, run-expired-bewaartermijn-tests ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.ExpiredBewaartermijnProcessor/Dockerfile \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-bewaartermijn:$VERSION
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-bewaartermijn:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-expired-bewaartermijn-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-bewaartermijn
+          path: ~/ar-admin-expired-bewaartermijn-image.tar
+
   build-admin-api-migrations:
     name: Build Admin Api Migrations
     runs-on: ubuntu-latest
@@ -707,6 +764,7 @@ jobs:
       build-admin-projections,
       build-admin-api-migrations,
       build-admin-address-sync,
+      build-admin-expired-bewaartermijn,
       build-powerbi-exporthost,
 #      pack-association-registry,
       build-sync-lambda,
@@ -1041,6 +1099,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-admin-address-sync-image.tar
 
+      - name: Download Admin Expired Bewaartermijn artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-bewaartermijn
+          path: ~/
+
+      - name: Load Admin Expired Bewaartermijn image
+        shell: bash
+        run: docker image load -i ~/ar-admin-expired-bewaartermijn-image.tar
+
       - name: Download PowerBI Export Scheduled Task artifact
         uses: actions/download-artifact@v4
         with:
@@ -1102,6 +1170,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adressensync:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-bewaartermijn:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-powerbiexport:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi-migrations:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections-migrations:$SEMVER
@@ -1172,6 +1241,7 @@ jobs:
         services:
           [
             'adressensync',
+            'bewaartermijn',
             'powerbiexport'
           ]
     steps:
