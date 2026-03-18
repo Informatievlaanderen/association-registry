@@ -23,6 +23,7 @@ using Npgsql;
 using Persoonsgegevens;
 using Schema.Detail;
 using System.Reflection;
+using Schema.Locaties;
 using Schema.Persoonsgegevens;
 using Weasel.Core;
 using Wolverine.Marten;

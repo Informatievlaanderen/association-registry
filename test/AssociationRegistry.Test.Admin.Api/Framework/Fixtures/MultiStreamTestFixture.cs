@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Locaties;
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Admin.Schema.Locaties;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AutoFixture;
 using Common.AutoFixture;

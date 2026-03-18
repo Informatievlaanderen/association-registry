@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Administratie.ProjectieBeheer;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Schema.Detail;
 using Be.Vlaanderen.Basisregisters.Api;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
+using Schema.Locaties;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]

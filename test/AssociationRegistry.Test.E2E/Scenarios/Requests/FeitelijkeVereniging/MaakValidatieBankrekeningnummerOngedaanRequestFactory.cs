@@ -14,9 +14,9 @@ public class MaakValidatieBankrekeningnummerOngedaanRequestFactory : ITestReques
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
 
-    private readonly AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigdScenario _scenario;
+    private readonly AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaaktScenario _scenario;
 
-    public MaakValidatieBankrekeningnummerOngedaanRequestFactory(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigdScenario scenario)
+    public MaakValidatieBankrekeningnummerOngedaanRequestFactory(AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaaktScenario scenario)
     {
         _scenario = scenario;
     }

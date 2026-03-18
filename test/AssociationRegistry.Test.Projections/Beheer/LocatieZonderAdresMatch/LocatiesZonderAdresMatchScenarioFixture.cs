@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.LocatieZonderAdresMatch;
 
+using Admin.Schema.Locaties;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Locaties;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Test.Projections.Framework.Fixtures;

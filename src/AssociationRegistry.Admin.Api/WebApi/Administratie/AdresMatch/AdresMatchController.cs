@@ -7,6 +7,7 @@ using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Schema.Locaties;
 
 /// <summary>
 /// SuperAdmin endpoint to manually call.

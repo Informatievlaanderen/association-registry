@@ -5,7 +5,7 @@ using Vereniging.Bronnen;
 
 public record AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt(
     int BankrekeningnummerId,
-    string GeannuleerdDoor
+    string OngedaanGemaaktDoor
 ) : IEvent
 {
     [IgnoreDataMember]
@@ -14,7 +14,7 @@ public record AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt
     protected virtual bool PrintMembers(System.Text.StringBuilder builder)
     {
         builder.Append($"BankrekeningnummerId = {BankrekeningnummerId}, ");
-        builder.Append($"GeannuleerdDoor = {GeannuleerdDoor}");
+        builder.Append($"OngedaanGemaaktDoor = {OngedaanGemaaktDoor}");
         return true;
     }
 }

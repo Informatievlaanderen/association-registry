@@ -6,6 +6,7 @@ using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
+using AssociationRegistry.Admin.Schema.Locaties;
 using Wolverine.Http;
 using Wolverine.Persistence.Durability.DeadLetterManagement;
 using Xunit;

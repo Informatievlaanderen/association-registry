@@ -29,7 +29,7 @@ public record PowerBiExportDubbelDetectieDocument
 
         public class Adres
         {
-            public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
+
             public string Straatnaam { get; init; } = null!;
             public string Huisnummer { get; init; } = null!;
             public string? Busnummer { get; init; }

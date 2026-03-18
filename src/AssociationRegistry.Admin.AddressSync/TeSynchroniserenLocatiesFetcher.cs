@@ -10,6 +10,7 @@ using Marten;
 using Microsoft.Extensions.Logging;
 using Schema.Detail;
 using System.Diagnostics.Contracts;
+using Schema.Locaties;
 
 public class TeSynchroniserenLocatiesFetcher(
     IGrarClient grarClient,

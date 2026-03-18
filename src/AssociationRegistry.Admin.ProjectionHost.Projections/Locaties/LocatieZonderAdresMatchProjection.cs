@@ -7,6 +7,7 @@ using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
 using Microsoft.Extensions.Logging;
 using Schema.Detail;
+using Schema.Locaties;
 using Vereniging;
 
 public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZonderAdresMatchDocument, string>

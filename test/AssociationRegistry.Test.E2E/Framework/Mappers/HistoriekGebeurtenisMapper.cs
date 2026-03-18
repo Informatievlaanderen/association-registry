@@ -1022,7 +1022,7 @@ public static class HistoriekGebeurtenisMapper
     ) =>
         new()
         {
-            Beschrijving = $"Bankrekeningnummervalidatiedocument bevestigd door '{AuthenticationSetup.Initiator}'.",
+            Beschrijving = $"Bankrekeningnummervalidatiedocument werd bevestigd door '{AuthenticationSetup.Initiator}'.",
             Gebeurtenis = nameof(Events.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd),
             Data = new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 @event.BankrekeningnummerId,
@@ -1032,14 +1032,14 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
     public static HistoriekGebeurtenisResponse? ValidatieBankrekeningnummerWerdOngedaanGemaakt(
-        BankrekeningnummerWerdToegevoegd @event
+        int bankrekeningnummerId
     ) =>
         new()
         {
-            Beschrijving = $"Bankrekeningnummer validatie document werd ongedaan gemaakt door '{AuthenticationSetup.Initiator}'.",
+            Beschrijving = $"Bankrekeningnummervalidatiedocument werd ongedaan gemaakt door '{AuthenticationSetup.Initiator}'.",
             Gebeurtenis = nameof(Events.AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt),
             Data = new AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt(
-                @event.BankrekeningnummerId,
+                bankrekeningnummerId,
                 AuthenticationSetup.Initiator
             ),
             Initiator = AuthenticationSetup.Initiator,

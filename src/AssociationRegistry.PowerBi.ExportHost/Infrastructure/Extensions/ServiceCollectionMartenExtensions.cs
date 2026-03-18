@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.PowerBi.ExportHost.Infrastructure.Extensions;
 
 using Admin.Schema.Detail;
+using Admin.Schema.Locaties;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.Events;

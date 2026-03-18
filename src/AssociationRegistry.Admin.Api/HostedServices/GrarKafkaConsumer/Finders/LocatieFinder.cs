@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Schema.Detail;
 using CommandHandling.Grar.GrarUpdates.LocatieFinder;
 using Marten;
+using Schema.Locaties;
 
 public class LocatieFinder : ILocatieFinder
 {

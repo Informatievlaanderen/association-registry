@@ -7,17 +7,17 @@ using Scenarios.Requests;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Xunit;
 
-public class MaakValidatieBankrekeningnummerOngedaanContext : TestContextBase<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigdScenario, NullRequest>
+public class MaakValidatieBankrekeningnummerOngedaanContext : TestContextBase<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaaktScenario, NullRequest>
 {
 
-    protected override AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigdScenario InitializeScenario()
+    protected override AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaaktScenario InitializeScenario()
         => new();
 
     public MaakValidatieBankrekeningnummerOngedaanContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
     }
 
-    protected override async ValueTask ExecuteScenario(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigdScenario scenario)
+    protected override async ValueTask ExecuteScenario(AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaaktScenario scenario)
     {
         CommandResult = await new MaakValidatieBankrekeningnummerOngedaanRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
