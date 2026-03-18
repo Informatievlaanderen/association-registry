@@ -7,12 +7,21 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore;
 using Framework.TestClasses;
+/// <summary>
+/// Include two obsolete events that are already present in the test environment database.
+/// This validates that the scenario handles existing data gracefully without crashing.
+/// <see
+/// cref="BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis"
+/// cref="BankrekeningnummerWerdGevalideerd" />
+/// </summary>
+
 
 public class BankrekeningnummerWerdToegevoegdScenario : IScenario
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
     public BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis { get; set; }
     public BankrekeningnummerWerdToegevoegd BankrekeningnummerWerdToegevoegd { get; set; }
+    public BankrekeningnummerWerdGevalideerd BankrekeningnummerWerdGevalideerd { get; set; }
 
     private CommandMetadata Metadata;
 
@@ -32,13 +41,18 @@ public class BankrekeningnummerWerdToegevoegdScenario : IScenario
                 BankrekeningnummerId = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Bankrekeningnummers.First().BankrekeningnummerId
             };
 
+        BankrekeningnummerWerdGevalideerd = fixture.Create<BankrekeningnummerWerdGevalideerd>() with
+        {
+            BankrekeningnummerId = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Bankrekeningnummers.First().BankrekeningnummerId
+        };
+
         BankrekeningnummerWerdToegevoegd = fixture.Create<BankrekeningnummerWerdToegevoegd>();
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
         return
         [
-            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, BankrekeningnummerWerdToegevoegd]),
+            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, BankrekeningnummerWerdGevalideerd, BankrekeningnummerWerdToegevoegd]),
         ];
     }
 

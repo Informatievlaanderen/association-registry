@@ -43,7 +43,9 @@ public class Given_A_KBO_Vereniging_With_Gevalideerde_Bankerekeningnummer
             Initiator = validatieBankrekeningnummerWerdBevestigd.BevestigdDoor,
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<MaakValidatieBankrekeningnummerOngedaanCommand>(command, commandMetadata));
+        var commandEnvelope = new CommandEnvelope<MaakValidatieBankrekeningnummerOngedaanCommand>(command, commandMetadata);
+
+        await _commandHandler.Handle(commandEnvelope);
 
         _aggregateSessionMock.ShouldHaveSavedExact(
             new AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt(

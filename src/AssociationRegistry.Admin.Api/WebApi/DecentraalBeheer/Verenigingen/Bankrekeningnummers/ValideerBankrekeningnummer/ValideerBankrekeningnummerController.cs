@@ -31,7 +31,7 @@ public class ValideerBankrekeningnummerController : ApiController
     }
 
     /// <summary>
-    ///     Valideer een Bankrekeningnummer.
+    ///     Bevestigt dat er een validatiedocument aanwezig is voor een bankrekeningnummer en markeert dit als gevalideerd.
     /// </summary>
     /// <remarks>
     ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
