@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.ExpiredBewaartermijnProcessor;
 
+using CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using Destructurama;
 using EventStore.ConflictResolution;
 using global::OpenTelemetry.Exporter;
@@ -7,16 +8,18 @@ using global::OpenTelemetry.Logs;
 using global::OpenTelemetry.Resources;
 using Infrastructure.Extensions;
 using Infrastructure.MartenSetup;
-using Integrations.Grar.Clients;
 using Integrations.Slack;
 using JasperFx;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NodaTime;
-using Queries;
+using Persoonsgegevens;
 using Serilog;
 using Serilog.Debugging;
 
@@ -26,30 +29,35 @@ public static class Program
     {
         SelfLog.Enable(Console.WriteLine);
 
-        var host = Host.CreateDefaultBuilder()
-                       .ConfigureAppConfiguration((context, builder) =>
-                                                      builder
-                                                         .AddJsonFile("appsettings.json")
-                                                         .AddJsonFile(
-                                                              $"appsettings.{context.HostingEnvironment.EnvironmentName.ToLowerInvariant()}.json",
-                                                              optional: true,
-                                                              reloadOnChange: false
-                                                          )
-                                                         .AddJsonFile(
-                                                              $"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
-                                                              optional: true,
-                                                              reloadOnChange: false
-                                                          )
-                                                         .AddEnvironmentVariables()
-                        )
-                       .ConfigureServices(ConfigureServices)
-                       .ConfigureLogging(ConfigureLogger)
-                       .ApplyJasperFxExtensions()
-                       .Build();
+        var host = BuildHost();
 
         ConfigureAppDomainExceptions();
 
         await host.RunJasperFxCommands(args);
+    }
+
+    public static IHost BuildHost()
+    {
+        return Host.CreateDefaultBuilder()
+                   .ConfigureAppConfiguration((context, builder) =>
+                                                  builder
+                                                     .AddJsonFile("appsettings.json")
+                                                     .AddJsonFile(
+                                                          $"appsettings.{context.HostingEnvironment.EnvironmentName.ToLowerInvariant()}.json",
+                                                          optional: true,
+                                                          reloadOnChange: false
+                                                      )
+                                                     .AddJsonFile(
+                                                          $"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
+                                                          optional: true,
+                                                          reloadOnChange: false
+                                                      )
+                                                     .AddEnvironmentVariables()
+                    )
+                   .ConfigureServices(ConfigureServices)
+                   .ConfigureLogging(ConfigureLogger)
+                   .ApplyJasperFxExtensions()
+                   .Build();
     }
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
@@ -57,19 +65,28 @@ public static class Program
         var postgreSqlOptions = context.Configuration.GetPostgreSqlOptions();
         var bewaartermijnOptions = context.Configuration.GetBewaartermijnenOptions();
 
-        services.AddOpenTelemetryServices().AddMarten(postgreSqlOptions).AddWolverine(postgreSqlOptions);
+        var autoCreate = context.Configuration.GetValue<bool>("IsTesting") ? AutoCreate.All : AutoCreate.None;
+
+        services.AddOpenTelemetryServices().AddMarten(postgreSqlOptions, autoCreate).AddWolverine(postgreSqlOptions);
+
         services
            .AddSingleton(postgreSqlOptions)
            .AddSingleton<IClock>(SystemClock.Instance)
-           .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
+           .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
+           .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
            .AddSingleton<EventConflictResolver>()
-           .AddTransient<IEventStore, EventStore>()
+           .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
+           .AddScoped<IEventStore, EventStore>()
            .AddScoped<IAggregateSession, AggregateSession>()
-           .AddScoped<IVerlopenBewaartermijnenProcessor, VerlopenBewaartermijnenProcessor>()
-           .AddScoped<IVerlopenBewaartermijnQuery, VerlopenBewaartermijnQuery>()
-           .AddTransient<INotifier, SlackNotifier>()
-           .AddTransient<IAggregateSession, AggregateSession>()
-           .AddHostedService<ExpiredBewaartermijnBackgroundService>();
+           .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+           .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+           .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
+           .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
+           .AddScoped<PersoonsgegevensEventTransformers>()
+           .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
+           .AddScoped<VerwijderVertegenwoordigerPersoonsgegevensCommandHandler>()
+           .AddScoped<INotifier, SlackNotifier>();
+        //.AddHostedService<ExpiredBewaartermijnBackgroundService>();
     }
 
     private static void ConfigureLogger(HostBuilderContext context, ILoggingBuilder builder)

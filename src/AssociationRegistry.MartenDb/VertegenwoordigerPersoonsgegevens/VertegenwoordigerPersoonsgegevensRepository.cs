@@ -40,8 +40,9 @@ public class VertegenwoordigerPersoonsgegevensRepository : IVertegenwoordigerPer
     public async Task<VertegenwoordigerPersoonsgegevens> Get(Guid refId, CancellationToken cancellationToken)
     {
         var vertegenwoordigerPersoonsgegevens =
-            await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(new VertegenwoordigerPersoonsgegevensByRefIdFilter(refId),
-                                                                       cancellationToken);
+            await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(
+                new VertegenwoordigerPersoonsgegevensByRefIdFilter(refId),
+                cancellationToken);
 
         return new VertegenwoordigerPersoonsgegevens(vertegenwoordigerPersoonsgegevens.RefId,
                                                      VCode.Hydrate(vertegenwoordigerPersoonsgegevens.VCode),
@@ -61,8 +62,9 @@ public class VertegenwoordigerPersoonsgegevensRepository : IVertegenwoordigerPer
     public async Task<VertegenwoordigerPersoonsgegevens[]> Get(Guid[] refIds, CancellationToken cancellationToken)
     {
         var vertegenwoordigerPersoonsgegevens =
-            await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(new VertegenwoordigerPersoonsgegevensByRefIdsFilter(refIds),
-                                                                       cancellationToken);
+            await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(
+                new VertegenwoordigerPersoonsgegevensByRefIdsFilter(refIds),
+                cancellationToken);
 
         return vertegenwoordigerPersoonsgegevens.Select(v => new VertegenwoordigerPersoonsgegevens(
                                                             v.RefId,
@@ -83,8 +85,9 @@ public class VertegenwoordigerPersoonsgegevensRepository : IVertegenwoordigerPer
     public async Task<VertegenwoordigerPersoonsgegevens[]> Get(Insz insz, CancellationToken cancellationToken)
     {
         var vertegenwoordigerPersoonsgegevens =
-            await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(new VertegenwoordigerPersoonsgegevensByInszFilter(insz),
-                                                                       cancellationToken);
+            await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(
+                new VertegenwoordigerPersoonsgegevensByInszFilter(insz),
+                cancellationToken);
 
         return vertegenwoordigerPersoonsgegevens.Select(v => new VertegenwoordigerPersoonsgegevens(
                                                             v.RefId,
@@ -100,5 +103,12 @@ public class VertegenwoordigerPersoonsgegevensRepository : IVertegenwoordigerPer
                                                             v.Mobiel,
                                                             v.SocialMedia
                                                         )).ToArray();
+    }
+
+    public void Delete(string vCode, int vertegenwoordigerId)
+    {
+        _session.DeleteWhere<VertegenwoordigerPersoonsgegevensDocument>(x => x.VCode == vCode &&
+                                                                             x.VertegenwoordigerId ==
+                                                                             vertegenwoordigerId);
     }
 }

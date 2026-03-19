@@ -10,7 +10,7 @@ public record BewaartermijnWerdGestartV2(
     string BewaartermijnId,
     string VCode,
     string BewaartermijnType,
-    int RecordId,
+    int EntityId,
     Instant Vervaldag,
     string Reden
 ) : IEvent;

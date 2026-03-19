@@ -1,38 +1,48 @@
 namespace AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Verlopen;
 
-using Admin.Schema.Bewaartermijn;
-using Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using Events;
 using Framework;
-using Integrations.Grar.Bewaartermijnen;
-using Start;
-using AssociationRegistry.MartenDb.Store;
-using Marten;
+using Grpc.Core;
+using Marten.Events;
+using MartenDb.Store;
+using Persoonsgegevens;
 
 public class VerwijderVertegenwoordigerPersoonsgegevensCommandHandler
 {
+    private readonly IVertegenwoordigerPersoonsgegevensRepository _persoonsgegevensRepository;
+    private readonly IEventStore _store;
 
-    public VerwijderVertegenwoordigerPersoonsgegevensCommandHandler()
+    public VerwijderVertegenwoordigerPersoonsgegevensCommandHandler(
+        IVertegenwoordigerPersoonsgegevensRepository persoonsgegevensRepository,
+        IEventStore store)
     {
+        _persoonsgegevensRepository = persoonsgegevensRepository;
+        _store = store;
     }
 
-   public async Task Handle(CommandEnvelope<VerwijderVertegenwoordigerPersoonsgegevensCommand> envelope, IDocumentSession session, BewaartermijnOptions bewaartermijnOptions, CancellationToken cancellationToken)
-   {
-        // var vertegenwoordigers = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-                                // .Where(x => x.VCode == envelope.Command.VCode && x.VertegenwoordigerId == envelope.Command.VertegenwoordigerId)
-                                // .ToListAsync(cancellationToken);
-
-
-        // vereniging.WijzigBankrekeningnummer(envelope.Command.Bankrekeningnummer, envelope.Metadata.Initiator);
-        //
-        // var result = await _repository.Save(vereniging, envelope.Metadata, cancellationToken);
-        //
-        // return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
-   }
-
-    public async Task Handle(CommandEnvelope<VerwijderVertegenwoordigerPersoonsgegevensCommand> command, CancellationToken cancellationToken)
+    public async Task Handle(
+        CommandEnvelope<VerwijderVertegenwoordigerPersoonsgegevensCommand> enveloppe)
     {
-        throw new NotImplementedException();
+        var vCode = enveloppe.Command.VCode;
+        var vertegenwoordigerId = enveloppe.Command.VertegenwoordigerId;
+
+        _persoonsgegevensRepository.Delete(vCode, vertegenwoordigerId);
+
+        var bewaartermijnWerdVerlopen = new BewaartermijnWerdVerlopen(
+            BewaartermijnId.CreateId(
+                VCode.Create(vCode),
+                BewaartermijnType.Vertegenwoordigers,
+                vertegenwoordigerId),
+            vCode,
+            BewaartermijnType.Vertegenwoordigers.Value,
+            vertegenwoordigerId);
+
+        await _store.Save(bewaartermijnWerdVerlopen.BewaartermijnId,
+                    1,
+                    CommandMetadata.ForDigitaalVlaanderenProcess,
+                    CancellationToken.None,
+                    [bewaartermijnWerdVerlopen]);
     }
 }
