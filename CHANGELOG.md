@@ -1,3 +1,21 @@
+# [8.309.0](https://github.com/informatievlaanderen/association-registry/compare/v8.308.6...v8.309.0) (2026-03-19)
+
+
+### Bug Fixes
+
+* or-3015 refactor after code review ([041af0d](https://github.com/informatievlaanderen/association-registry/commit/041af0d52d7137c967a3f0d8cdc6b53afa202136))
+
+
+### Features
+
+* or-3015 change way of working valideer bankrek document ([23fcbef](https://github.com/informatievlaanderen/association-registry/commit/23fcbef79de1c6996f6d68852b064586d1d0514a))
+* or-3015 implement bankrekeningnummer in PowerBi ([9d2d475](https://github.com/informatievlaanderen/association-registry/commit/9d2d4758cf73fbfcd129f73d7f8cd38ea1163a2b))
+* or-3015 implement MaakValidatieBankrekingnummerOngedaan ([301debb](https://github.com/informatievlaanderen/association-registry/commit/301debb45ffd05c89763dc46fd9efa43b12bb681))
+* or-3015 implement valideer bankrek document in projections ([bfea5ec](https://github.com/informatievlaanderen/association-registry/commit/bfea5ec4a9683d8c6902337f442bc82baf43f550))
+* or-3015 log if event BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens exists ([0a2770b](https://github.com/informatievlaanderen/association-registry/commit/0a2770bb1085ec47e5d94a3d4b237d325e5fe979))
+* or-3015 maakvalidatiebankrekeningnummerongedaan in projections ([e980a6c](https://github.com/informatievlaanderen/association-registry/commit/e980a6cb08a158d4cb9857bf440ce00c360a5e69))
+* or-3015 refactor validatie bankrekeningnummer ongedaan ([5db0e54](https://github.com/informatievlaanderen/association-registry/commit/5db0e54ebb658a7a4e0830bf747275862220d9a0))
+
 ## [8.308.6](https://github.com/informatievlaanderen/association-registry/compare/v8.308.5...v8.308.6) (2026-03-12)
 
 
