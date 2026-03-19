@@ -73,7 +73,7 @@ public class With_Valid_Message
                     && ((BewaartermijnWerdGestartV2)events[0]).VCode == _vCode.ToString()
                     && ((BewaartermijnWerdGestartV2)events[0]).BewaartermijnType
                         == BewaartermijnType.Vertegenwoordigers.Value
-                    && ((BewaartermijnWerdGestartV2)events[0]).RecordId == _recordId
+                    && ((BewaartermijnWerdGestartV2)events[0]).EntityId == _recordId
                     && ((BewaartermijnWerdGestartV2)events[0]).Vervaldag == _expectedVervaldag
                     && ((BewaartermijnWerdGestartV2)events[0]).Reden
                         == BewaartermijnReden.VertegenwoordigerWerdVerwijderd

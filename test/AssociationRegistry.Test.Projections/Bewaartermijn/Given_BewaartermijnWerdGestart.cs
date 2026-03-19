@@ -18,7 +18,7 @@ public class Given_BewaartermijnWerdGestart(BewaartermijnScenarioFixture<Bewaart
                     fixture.Scenario.BewaartermijnWerdGestartV2.BewaartermijnId,
                     fixture.Scenario.BewaartermijnWerdGestartV2.VCode,
                     fixture.Scenario.BewaartermijnWerdGestartV2.BewaartermijnType,
-                    fixture.Scenario.BewaartermijnWerdGestartV2.RecordId,
+                    fixture.Scenario.BewaartermijnWerdGestartV2.EntityId,
                     fixture.Scenario.BewaartermijnWerdGestartV2.Reden,
                     BewaartermijnStatus.StatusGepland.Naam,
                     fixture.Scenario.BewaartermijnWerdGestartV2.Vervaldag,

@@ -20,7 +20,8 @@ public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
-        PostgreSqlOptionsSection postgreSqlOptions
+        PostgreSqlOptionsSection postgreSqlOptions,
+        AutoCreate autoCreate = AutoCreate.None
     )
     {
         var martenConfiguration = services
@@ -49,7 +50,7 @@ public static class MartenExtensions
                                       opts.Events.MetadataConfig.EnableAll();
                                       opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                      opts.AutoCreateSchemaObjects = AutoCreate.None;
+                                      opts.AutoCreateSchemaObjects = autoCreate;
 
                                       opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
 

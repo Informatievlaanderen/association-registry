@@ -25,7 +25,7 @@ public class BewaartermijnProjection : SingleStreamProjection<BewaartermijnDocum
             @event.Data.BewaartermijnId,
             @event.Data.VCode,
             @event.Data.BewaartermijnType,
-            @event.Data.RecordId,
+            @event.Data.EntityId,
             @event.Data.Reden,
             BewaartermijnStatus.StatusGepland.Naam,
             @event.Data.Vervaldag,

@@ -8,4 +8,5 @@ public interface IVertegenwoordigerPersoonsgegevensRepository
     Task<VertegenwoordigerPersoonsgegevens> Get(Guid refId, CancellationToken cancellationToken);
     Task<VertegenwoordigerPersoonsgegevens[]> Get(Guid[] refId, CancellationToken cancellationToken);
     Task<VertegenwoordigerPersoonsgegevens[]> Get(Insz insz, CancellationToken cancellationToken);
+    void Delete(string vCode, int vertegenwoordigerId);
 }
