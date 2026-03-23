@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.AddressSync\AssociationRegistry.Admin.AddressSync.csproj"/>
-    <ProjectReference Include="..\..\src\AssociationRegistry.Admin.ExpiredBewaartermijnProcessor\AssociationRegistry.Admin.ExpiredBewaartermijnProcessor.csproj" />
+    <ProjectReference Include="..\..\src\AssociationRegistry.Bewaartermijnen.PurgeRunner\AssociationRegistry.Bewaartermijnen.PurgeRunner.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Test\AssociationRegistry.Test.csproj"/>
   </ItemGroup>
 

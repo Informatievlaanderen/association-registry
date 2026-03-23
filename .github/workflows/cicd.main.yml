@@ -428,7 +428,7 @@ jobs:
           if [ "$VERSION" == "none" ]; then
             VERSION="0.0.0"
           fi
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.ExpiredBewaartermijnProcessor/Dockerfile \
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Bewaartermijnen.PurgeRunner/Dockerfile \
           --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-bewaartermijn:$VERSION
 
       - name: Show images

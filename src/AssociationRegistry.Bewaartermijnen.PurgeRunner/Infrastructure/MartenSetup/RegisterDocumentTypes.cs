@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Admin.ExpiredBewaartermijnProcessor.Infrastructure.MartenSetup;
+namespace AssociationRegistry.Bewaartermijnen.PurgeRunner.Infrastructure.MartenSetup;
 
+using Admin.Schema.Bewaartermijn;
+using Admin.Schema.Persoonsgegevens;
 using DecentraalBeheer.Vereniging;
 using Marten;
-using Schema.Bewaartermijn;
-using Schema.Persoonsgegevens;
 
 public static class RegisterDocumentTypes
 {

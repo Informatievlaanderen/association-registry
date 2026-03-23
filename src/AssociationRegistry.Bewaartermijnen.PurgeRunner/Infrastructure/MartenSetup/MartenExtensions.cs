@@ -1,5 +1,6 @@
-namespace AssociationRegistry.Admin.ExpiredBewaartermijnProcessor.Infrastructure.MartenSetup;
+namespace AssociationRegistry.Bewaartermijnen.PurgeRunner.Infrastructure.MartenSetup;
 
+using Admin.ProjectionHost.Projections.Bewaartermijn;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -13,7 +14,6 @@ using MartenDb.Setup;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ProjectionHost.Projections.Bewaartermijn;
 using Wolverine.Marten;
 
 public static class MartenExtensions
