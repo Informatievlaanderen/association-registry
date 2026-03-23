@@ -8,6 +8,6 @@ dotnet run --project src/AssociationRegistry.Acm.Api -- codegen write
 pushd src/AssociationRegistry.Admin.AddressSync
 dotnet run -- codegen write
 popd
-pushd src/AssociationRegistry.Admin.ExpiredBewaartermijnProcessor
+pushd src/AssociationRegistry.Bewaartermijnen.PurgeRunner
 dotnet run -- codegen write
 popd

@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Admin.ExpiredBewaartermijnProcessor.Queries;
+namespace AssociationRegistry.Bewaartermijnen.PurgeRunner.Queries;
 
+using Admin.Schema.Bewaartermijn;
 using Framework;
 using Marten;
 using NodaTime;
-using Schema.Bewaartermijn;
 
 public interface IVerlopenBewaartermijnQuery : IQuery<IReadOnlyList<BewaartermijnDocument>>;
 

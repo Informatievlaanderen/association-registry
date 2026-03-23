@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.ExpiredBewaartermijnProcessor.Infrastructure.Notifications;
+﻿namespace AssociationRegistry.Bewaartermijnen.PurgeRunner.Infrastructure.Notifications;
 
 using AssociationRegistry.Integrations.Slack;
 

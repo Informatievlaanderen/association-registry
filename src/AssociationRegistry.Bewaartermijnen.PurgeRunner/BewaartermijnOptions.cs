@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.ExpiredBewaartermijnProcessor;
+﻿namespace AssociationRegistry.Bewaartermijnen.PurgeRunner;
 
 public class BewaartermijnOptions
 {

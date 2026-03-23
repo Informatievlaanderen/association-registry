@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.ExpiredBewaartermijn;
 
-using AssociationRegistry.Admin.ExpiredBewaartermijnProcessor.Queries;
+using AssociationRegistry.Bewaartermijnen.PurgeRunner.Queries;
 using AssociationRegistry.Admin.Schema.Bewaartermijn;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;

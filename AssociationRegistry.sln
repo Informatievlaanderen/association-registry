@@ -259,9 +259,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RegistreerInschrijvingPerso
 		wiremock\__files\RegistreerInschrijving0200Responses\0725459045.uitzondering.fout.xml = wiremock\__files\RegistreerInschrijving0200Responses\0725459045.uitzondering.fout.xml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "admin-expired-bewaartermijn-processor", "admin-expired-bewaartermijn-processor", "{044D78A0-1E64-4890-A1C2-BBC52F09D507}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bewaartermijnen-purge-runner", "bewaartermijnen-purge-runner", "{044D78A0-1E64-4890-A1C2-BBC52F09D507}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Admin.ExpiredBewaartermijnProcessor", "src\AssociationRegistry.Admin.ExpiredBewaartermijnProcessor\AssociationRegistry.Admin.ExpiredBewaartermijnProcessor.csproj", "{63BC5D1C-3907-453F-A4A8-C10965DB15F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Bewaartermijnen.PurgeRunner", "src\AssociationRegistry.Bewaartermijnen.PurgeRunner\AssociationRegistry.Bewaartermijnen.PurgeRunner.csproj", "{63BC5D1C-3907-453F-A4A8-C10965DB15F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Admin.ExpiredBewaartermijn", "test\AssociationRegistry.Test.Admin.ExpiredBewaartermijn\AssociationRegistry.Test.Admin.ExpiredBewaartermijn.csproj", "{DA91F981-61BF-436E-AA33-3983ACA86E4D}"
 EndProject

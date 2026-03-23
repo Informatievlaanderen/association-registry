@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.ExpiredBewaartermijnProcessor.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Bewaartermijnen.PurgeRunner.Infrastructure.Extensions;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Hosts.Configuration.ConfigurationBindings;
