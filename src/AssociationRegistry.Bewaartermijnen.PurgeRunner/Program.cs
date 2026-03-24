@@ -84,9 +84,9 @@ public static class Program
            .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
            .AddScoped<PersoonsgegevensEventTransformers>()
            .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
-           .AddScoped<VerwijderVertegenwoordigerPersoonsgegevensCommandHandler>()
-           .AddScoped<INotifier, SlackNotifier>();
-        //.AddHostedService<ExpiredBewaartermijnBackgroundService>();
+           .AddScoped<VerloopBewaartermijnCommandHandler>()
+           .AddScoped<INotifier, SlackNotifier>()
+           .AddHostedService<ExpiredBewaartermijnBackgroundService>();
     }
 
     private static void ConfigureLogger(HostBuilderContext context, ILoggingBuilder builder)

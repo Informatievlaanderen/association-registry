@@ -36,7 +36,7 @@ public class Returns_Bewaartermijn_For_Removed_Vertegenwoordiger : End2EndTest<B
     public void JsonContentMatches()
     {
         var expectedId =
-            $"{BewaartermijnId.BewaartermijnAggregateName}-{_testContext.VCode}-{BewaartermijnType.Vertegenwoordigers.Value}-{_testContext.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId}";
+            $"{BewaartermijnId.BewaartermijnAggregateName}-{_testContext.VCode}-{PersoonsgegevensType.Vertegenwoordigers.Value}-{_testContext.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId}";
         var options = new BewaartermijnOptions();
         var tolerance = Duration.FromSeconds(5);
 
@@ -50,7 +50,7 @@ public class Returns_Bewaartermijn_For_Removed_Vertegenwoordiger : End2EndTest<B
                 {
                     BewaartermijnId = expectedId,
                     VCode = _testContext.VCode.ToString(),
-                    BewaartermijnType = BewaartermijnType.Vertegenwoordigers.Value,
+                    BewaartermijnType = PersoonsgegevensType.Vertegenwoordigers.Value,
                     RecordId = _testContext.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                     Reden = BewaartermijnReden.VertegenwoordigerWerdVerwijderd,
                     Status = BewaartermijnStatus.StatusGepland.Naam,

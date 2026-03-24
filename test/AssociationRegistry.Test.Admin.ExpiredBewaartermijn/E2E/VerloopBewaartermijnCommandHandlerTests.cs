@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.Admin.ExpiredBewaartermijn;
+namespace AssociationRegistry.Test.Admin.ExpiredBewaartermijn.E2E;
 
-using AssociationRegistry.Bewaartermijnen.PurgeRunner;
 using AssociationRegistry.Admin.Schema.Persoonsgegevens;
+using AssociationRegistry.Bewaartermijnen.PurgeRunner;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
@@ -23,6 +23,8 @@ public class VerwijderVertegenwoordigerPersoonsgegevensCommandFixture : IAsyncLi
     public IDocumentSession Session { get; set; }
     public string VCode { get; set; }
     public int VertegenwoordigerId { get; set; }
+    public string Reden { get; set; }
+    public Instant Vervaldag { get; set; }
 
     public async ValueTask InitializeAsync()
     {
@@ -39,13 +41,13 @@ public class VerwijderVertegenwoordigerPersoonsgegevensCommandFixture : IAsyncLi
         _store = sp.GetRequiredService<IEventStore>();
         Session = sp.GetRequiredService<IDocumentSession>();
 
-        var handler = sp.GetRequiredService<VerwijderVertegenwoordigerPersoonsgegevensCommandHandler>();
+        var handler = sp.GetRequiredService<VerloopBewaartermijnCommandHandler>();
 
         await InsertScenario(fixture);
 
-        var commandEnvelope = fixture.Create<CommandEnvelope<VerwijderVertegenwoordigerPersoonsgegevensCommand>>() with
+        var commandEnvelope = fixture.Create<CommandEnvelope<VerloopBewaartermijnCommand>>() with
         {
-            Command = new VerwijderVertegenwoordigerPersoonsgegevensCommand(VCode, VertegenwoordigerId)
+            Command = new VerloopBewaartermijnCommand(VCode, VertegenwoordigerId, Reden, Vervaldag),
         };
 
         await handler.Handle(commandEnvelope);
@@ -59,6 +61,9 @@ public class VerwijderVertegenwoordigerPersoonsgegevensCommandFixture : IAsyncLi
 
     private async Task InsertScenario(Fixture fixture)
     {
+        Reden = BewaartermijnReden.VertegenwoordigerWerdVerwijderd;
+        Vervaldag = Instant.MinValue;
+
         var verenigingWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
         var vertergenwoordigerWerdGewijzigd = fixture.Create<VertegenwoordigerWerdGewijzigd>() with
@@ -74,10 +79,11 @@ public class VerwijderVertegenwoordigerPersoonsgegevensCommandFixture : IAsyncLi
         var bewaartermijnWerdGestartV2 = fixture.Create<BewaartermijnWerdGestartV2>() with
         {
             EntityId = vertegenwoordigerWerdVerwijderd.VertegenwoordigerId,
-            Vervaldag = Instant.MinValue,
+            Vervaldag = Vervaldag,
+            Reden = Reden,
             BewaartermijnId =
             BewaartermijnId.CreateId(DecentraalBeheer.Vereniging.VCode.Create(verenigingWerdGeregistreerd.VCode),
-                                     BewaartermijnType.Vertegenwoordigers,
+                                     PersoonsgegevensType.Vertegenwoordigers,
                                      vertegenwoordigerWerdVerwijderd.VertegenwoordigerId),
         };
 
@@ -100,19 +106,23 @@ public class VerwijderVertegenwoordigerPersoonsgegevensCommandFixture : IAsyncLi
 }
 
 public class
-    VerwijderVertegenwoordigerPersoonsgegevensCommandHandlerTests : IClassFixture<
+    VerloopBewaartermijnCommandHandlerTests : IClassFixture<
     VerwijderVertegenwoordigerPersoonsgegevensCommandFixture>
 {
     private readonly IDocumentSession _session;
     private readonly string _vCode;
     private readonly int _vertegenwoordigerId;
+    private readonly Instant _vervaldag;
+    private readonly string _reden;
 
-    public VerwijderVertegenwoordigerPersoonsgegevensCommandHandlerTests(
+    public VerloopBewaartermijnCommandHandlerTests(
         VerwijderVertegenwoordigerPersoonsgegevensCommandFixture fixture)
     {
         _session = fixture.Session;
         _vCode = fixture.VCode;
         _vertegenwoordigerId = fixture.VertegenwoordigerId;
+        _reden = fixture.Reden;
+        _vervaldag = fixture.Vervaldag;
     }
 
     [Fact]
@@ -126,7 +136,7 @@ public class
     }
 
     [Fact]
-    public async Task Then_It_Saves_BewaartermijnWerdVerlopen_Event()
+    public async Task Then_It_Saves_BewaartermijnWerdVerlopen_Event_On_Bewaartermijn()
     {
         var bewaartermijnWerdVerlopen =
             await _session.Events.QueryRawEventDataOnly<BewaartermijnWerdVerlopen>().FirstAsync();
@@ -135,10 +145,29 @@ public class
                                  .BeEquivalentTo(new BewaartermijnWerdVerlopen(
                                                      BewaartermijnId.CreateId(
                                                          VCode.Create(_vCode),
-                                                         BewaartermijnType.Vertegenwoordigers,
+                                                         PersoonsgegevensType.Vertegenwoordigers,
                                                          _vertegenwoordigerId),
                                                      _vCode,
-                                                     BewaartermijnType.Vertegenwoordigers.Value,
-                                                     _vertegenwoordigerId));
+                                                     PersoonsgegevensType.Vertegenwoordigers.Value,
+                                                     _vertegenwoordigerId,
+                                                     _reden,
+                                                     _vervaldag));
+    }
+
+    [Fact]
+    public async Task Then_It_Saves_VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd_Event_On_Vereniging()
+    {
+        var vertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd =
+            await _session.Events.QueryRawEventDataOnly<VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd>()
+                          .FirstAsync();
+
+        vertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd.Should()
+                                                             .BeEquivalentTo(
+                                                                  new
+                                                                      VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd(
+                                                                          _vCode,
+                                                                          _vertegenwoordigerId,
+                                                                          _reden,
+                                                                          _vervaldag));
     }
 }

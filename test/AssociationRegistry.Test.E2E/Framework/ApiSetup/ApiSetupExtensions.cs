@@ -57,7 +57,7 @@ public static class ApiSetupExtensions
     {
         var bewaartermijnEvent = events.FirstOrDefault(x =>
             x.BewaartermijnId
-            == BewaartermijnId.CreateId(VCode.Create(vCode), BewaartermijnType.Vertegenwoordigers, recordId)
+            == BewaartermijnId.CreateId(VCode.Create(vCode), PersoonsgegevensType.Vertegenwoordigers, recordId)
         );
 
         return bewaartermijnEvent != null;

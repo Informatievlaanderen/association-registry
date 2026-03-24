@@ -30,9 +30,9 @@ public class VerlopenBewaartermijnenProcessor : IVerlopenBewaartermijnenProcesso
 
         foreach (var doc in documents)
         {
-            var command = new CommandEnvelope<VerwijderVertegenwoordigerPersoonsgegevensCommand>(
-                new VerwijderVertegenwoordigerPersoonsgegevensCommand(doc.VCode, doc.RecordId),
-                CommandMetadata.ForDigitaalVlaanderenProcess);
+            var command = new CommandEnvelope<VerloopBewaartermijnCommand>(
+                new VerloopBewaartermijnCommand(doc.VCode, doc.RecordId, doc.Reden, doc.Vervaldag),
+                 CommandMetadata.ForDigitaalVlaanderenProcess);
 
             await _messageBus.SendAsync(command);
         }

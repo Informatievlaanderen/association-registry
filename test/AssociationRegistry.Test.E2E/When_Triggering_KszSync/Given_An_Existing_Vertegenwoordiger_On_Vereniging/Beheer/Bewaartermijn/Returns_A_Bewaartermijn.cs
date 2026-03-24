@@ -33,7 +33,7 @@ public class Returns_A_Bewaartermijn : End2EndTest<BewaartermijnResponse>
     public void JsonContentMatches()
     {
         var expectedId =
-            $"{BewaartermijnId.BewaartermijnAggregateName}-{_context.VCode}-{BewaartermijnType.Vertegenwoordigers.Value}-{_context.Scenario.Vertegenwoordiger.VertegenwoordigerId}";
+            $"{BewaartermijnId.BewaartermijnAggregateName}-{_context.VCode}-{PersoonsgegevensType.Vertegenwoordigers.Value}-{_context.Scenario.Vertegenwoordiger.VertegenwoordigerId}";
         var options = new BewaartermijnOptions();
         var tolerance = Duration.FromSeconds(5);
 
@@ -47,7 +47,7 @@ public class Returns_A_Bewaartermijn : End2EndTest<BewaartermijnResponse>
                 {
                     BewaartermijnId = expectedId,
                     VCode = _context.VCode.ToString(),
-                    BewaartermijnType = BewaartermijnType.Vertegenwoordigers.Value,
+                    BewaartermijnType = PersoonsgegevensType.Vertegenwoordigers.Value,
                     RecordId = _context.Scenario.Vertegenwoordiger.VertegenwoordigerId,
                     Reden = BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden,
                     Status = BewaartermijnStatus.StatusGepland.Naam,

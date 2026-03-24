@@ -55,7 +55,7 @@ public class With_A_Known_VertegenwoordigerId
         var expectedEnvelope = new CommandEnvelope<StartBewaartermijnMessage>(
             new StartBewaartermijnMessage(
                 _command.VCode,
-                BewaartermijnType.Vertegenwoordigers.Value,
+                PersoonsgegevensType.Vertegenwoordigers.Value,
                 _command.VertegenwoordigerId,
                 BewaartermijnReden.VertegenwoordigerWerdVerwijderd
             ),

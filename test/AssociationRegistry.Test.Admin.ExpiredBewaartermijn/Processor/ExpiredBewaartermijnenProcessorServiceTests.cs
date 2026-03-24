@@ -1,12 +1,12 @@
-﻿namespace AssociationRegistry.Test.Admin.ExpiredBewaartermijn;
+﻿namespace AssociationRegistry.Test.Admin.ExpiredBewaartermijn.Processor;
 
+using AssociationRegistry.Admin.Schema.Bewaartermijn;
 using AssociationRegistry.Bewaartermijnen.PurgeRunner;
 using AssociationRegistry.Bewaartermijnen.PurgeRunner.Queries;
-using AssociationRegistry.Admin.Schema.Bewaartermijn;
+using AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using CommandHandling.Bewaartermijnen.Acties.Verlopen;
-using Common.AutoFixture;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NodaTime;
@@ -34,7 +34,7 @@ public class VerlopenBewaartermijnenProcessorTests
         await sut.SendVerlopenBewaartermijnen(CancellationToken.None);
 
         messageBus.Verify(
-            x => x.SendAsync(It.IsAny<CommandEnvelope<VerwijderVertegenwoordigerPersoonsgegevensCommand>>(),It.IsAny<DeliveryOptions?>()),
+            x => x.SendAsync(It.IsAny<CommandEnvelope<VerloopBewaartermijnCommand>>(),It.IsAny<DeliveryOptions?>()),
             Times.Never);
     }
 
@@ -58,7 +58,7 @@ public class VerlopenBewaartermijnenProcessorTests
         await sut.SendVerlopenBewaartermijnen(CancellationToken.None);
 
         messageBus.Verify(
-            x => x.SendAsync(It.IsAny<CommandEnvelope<VerwijderVertegenwoordigerPersoonsgegevensCommand>>(), It.IsAny<DeliveryOptions?>()),
+            x => x.SendAsync(It.IsAny<CommandEnvelope<VerloopBewaartermijnCommand>>(), It.IsAny<DeliveryOptions?>()),
             Times.Exactly(2));
     }
 

@@ -9,7 +9,7 @@ public record BewaartermijnWerdGestart(string BewaartermijnId, string VCode, int
 public record BewaartermijnWerdGestartV2(
     string BewaartermijnId,
     string VCode,
-    string BewaartermijnType,
+    string PersoonsgegevensType,
     int EntityId,
     Instant Vervaldag,
     string Reden

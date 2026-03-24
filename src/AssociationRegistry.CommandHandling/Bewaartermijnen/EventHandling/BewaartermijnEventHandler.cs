@@ -75,7 +75,7 @@ public static class BewaartermijnEventHandler
     {
         var bewaartermijnId = new BewaartermijnId(
             VCode.Create(streamKey),
-            BewaartermijnType.Vertegenwoordigers,
+            PersoonsgegevensType.Vertegenwoordigers,
             recordId
         );
 
@@ -89,7 +89,7 @@ public static class BewaartermijnEventHandler
                 new BewaartermijnWerdGestartV2(
                     bewaartermijnId,
                     bewaartermijnId.VCode!,
-                    bewaartermijnId.BewaartermijnType.Value,
+                    bewaartermijnId.PersoonsgegevensType.Value,
                     bewaartermijnId.RecordId,
                     vervaldag,
                     reden

@@ -31,7 +31,7 @@ public class BewaartermijnenController : ApiController
     {
         var bewaartermijn = await query.ExecuteAsync(
             new BewaartermijnFilter(
-                $"{BewaartermijnId.BewaartermijnAggregateName}-{vCode}-{BewaartermijnType.Vertegenwoordigers.Value}-{vertegenwoordigerId}"
+                $"{BewaartermijnId.BewaartermijnAggregateName}-{vCode}-{PersoonsgegevensType.Vertegenwoordigers.Value}-{vertegenwoordigerId}"
             ),
             cancellationToken
         );
@@ -43,7 +43,7 @@ public class BewaartermijnenController : ApiController
             new BewaartermijnResponse(
                 bewaartermijn.BewaartermijnId,
                 bewaartermijn.VCode,
-                bewaartermijn.BewaartermijnType,
+                bewaartermijn.PersoonsgegevensType,
                 bewaartermijn.RecordId,
                 bewaartermijn.Reden,
                 bewaartermijn.Status,
@@ -57,7 +57,7 @@ public class BewaartermijnenController : ApiController
 public record BewaartermijnResponse(
     string BewaartermijnId,
     string VCode,
-    string BewaartermijnType,
+    string PersoonsgegevensType,
     int RecordId,
     string Reden,
     string Status,

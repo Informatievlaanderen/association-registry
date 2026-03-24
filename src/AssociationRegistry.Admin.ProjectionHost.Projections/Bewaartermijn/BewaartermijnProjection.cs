@@ -24,7 +24,7 @@ public class BewaartermijnProjection : SingleStreamProjection<BewaartermijnDocum
         return new BewaartermijnDocument(
             @event.Data.BewaartermijnId,
             @event.Data.VCode,
-            @event.Data.BewaartermijnType,
+            @event.Data.PersoonsgegevensType,
             @event.Data.EntityId,
             @event.Data.Reden,
             BewaartermijnStatus.StatusGepland.Naam,
