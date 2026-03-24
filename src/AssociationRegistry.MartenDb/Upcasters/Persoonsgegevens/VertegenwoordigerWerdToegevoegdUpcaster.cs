@@ -26,16 +26,16 @@ public class VertegenwoordigerWerdToegevoegdUpcaster
 
         return new VertegenwoordigerWerdToegevoegd(
             VertegenwoordigerId: vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-            vertegenwoordigerPersoonsgegevens.Insz,
+            vertegenwoordigerPersoonsgegevens?.Insz ?? WellKnownAnonymousFields.Geanonimiseerd,
             vertegenwoordigerWerdToegevoegd.IsPrimair,
-            vertegenwoordigerPersoonsgegevens.Roepnaam,
-            vertegenwoordigerPersoonsgegevens.Rol,
-            vertegenwoordigerPersoonsgegevens.Voornaam,
-            vertegenwoordigerPersoonsgegevens.Achternaam,
-            vertegenwoordigerPersoonsgegevens.Email,
-            vertegenwoordigerPersoonsgegevens.Telefoon,
-            vertegenwoordigerPersoonsgegevens.Mobiel,
-            vertegenwoordigerPersoonsgegevens.SocialMedia
+            vertegenwoordigerPersoonsgegevens?.Roepnaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Rol ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Voornaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Achternaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Email ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Telefoon ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Mobiel ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.SocialMedia ?? WellKnownAnonymousFields.Geanonimiseerd
         );
 
     }

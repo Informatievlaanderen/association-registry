@@ -119,20 +119,18 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster
             {
                 persoonsgegevensByRefId.TryGetValue(v.RefId, out var doc);
 
-                var vertegenwoordiger = doc is null
-                    ? null // RegistratieData.VertegenwoordigerZonderPersoonsgegevens();
-                    : new Registratiedata.Vertegenwoordiger(
-                        doc.VertegenwoordigerId,
-                        doc.Insz,
+                var vertegenwoordiger = new Registratiedata.Vertegenwoordiger(
+                        v.VertegenwoordigerId,
+                        doc?.Insz ?? WellKnownAnonymousFields.Geanonimiseerd,
                         v.IsPrimair,
-                        doc.Roepnaam,
-                        doc.Rol,
-                        doc.Voornaam,
-                        doc.Achternaam,
-                        doc.Email,
-                        doc.Telefoon,
-                        doc.Mobiel,
-                        doc.SocialMedia
+                        doc?.Roepnaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+                        doc?.Rol ?? WellKnownAnonymousFields.Geanonimiseerd,
+                        doc?.Voornaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+                        doc?.Achternaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+                        doc?.Email ?? WellKnownAnonymousFields.Geanonimiseerd,
+                        doc?.Telefoon ?? WellKnownAnonymousFields.Geanonimiseerd,
+                        doc?.Mobiel ?? WellKnownAnonymousFields.Geanonimiseerd,
+                        doc?.SocialMedia ?? WellKnownAnonymousFields.Geanonimiseerd
                     );
 
                 return vertegenwoordiger;
