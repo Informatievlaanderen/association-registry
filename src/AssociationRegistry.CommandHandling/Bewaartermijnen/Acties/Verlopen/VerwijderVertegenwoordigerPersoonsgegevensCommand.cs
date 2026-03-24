@@ -1,3 +1,0 @@
-namespace AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Verlopen;
-
-public record VerwijderVertegenwoordigerPersoonsgegevensCommand(string VCode, int VertegenwoordigerId);

@@ -37,7 +37,7 @@ public class With_Valid_Message
 
         var command = new StartBewaartermijnMessage(
             _vCode,
-            BewaartermijnType.Vertegenwoordigers.Value,
+            PersoonsgegevensType.Vertegenwoordigers.Value,
             _recordId,
             BewaartermijnReden.VertegenwoordigerWerdVerwijderd
         );
@@ -60,7 +60,7 @@ public class With_Valid_Message
     public void Then_The_Bewaartermijn_Is_Saved()
     {
         var expectedAggregateId =
-            $"{BewaartermijnId.BewaartermijnAggregateName}-{_vCode}-{BewaartermijnType.Vertegenwoordigers.Value}-{_recordId}";
+            $"{BewaartermijnId.BewaartermijnAggregateName}-{_vCode}-{PersoonsgegevensType.Vertegenwoordigers.Value}-{_recordId}";
 
         _eventStore.Verify(x =>
             x.SaveNew(
@@ -71,8 +71,8 @@ public class With_Valid_Message
                     events.Length == 1
                     && ((BewaartermijnWerdGestartV2)events[0]).BewaartermijnId == expectedAggregateId
                     && ((BewaartermijnWerdGestartV2)events[0]).VCode == _vCode.ToString()
-                    && ((BewaartermijnWerdGestartV2)events[0]).BewaartermijnType
-                        == BewaartermijnType.Vertegenwoordigers.Value
+                    && ((BewaartermijnWerdGestartV2)events[0]).PersoonsgegevensType
+                        == PersoonsgegevensType.Vertegenwoordigers.Value
                     && ((BewaartermijnWerdGestartV2)events[0]).EntityId == _recordId
                     && ((BewaartermijnWerdGestartV2)events[0]).Vervaldag == _expectedVervaldag
                     && ((BewaartermijnWerdGestartV2)events[0]).Reden

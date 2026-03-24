@@ -17,7 +17,7 @@ public class Given_BewaartermijnWerdGestart(BewaartermijnScenarioFixture<Bewaart
                 new BewaartermijnDocument(
                     fixture.Scenario.BewaartermijnWerdGestartV2.BewaartermijnId,
                     fixture.Scenario.BewaartermijnWerdGestartV2.VCode,
-                    fixture.Scenario.BewaartermijnWerdGestartV2.BewaartermijnType,
+                    fixture.Scenario.BewaartermijnWerdGestartV2.PersoonsgegevensType,
                     fixture.Scenario.BewaartermijnWerdGestartV2.EntityId,
                     fixture.Scenario.BewaartermijnWerdGestartV2.Reden,
                     BewaartermijnStatus.StatusGepland.Naam,

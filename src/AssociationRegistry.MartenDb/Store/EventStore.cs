@@ -92,7 +92,7 @@ public class EventStore : IEventStore
 
     public async Task<StreamActionResult> Save(
         string aggregateId,
-        long aggregateVersion,
+        long? aggregateVersion,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
         params IEvent[] events
@@ -123,11 +123,11 @@ public class EventStore : IEventStore
 
             return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
         }
-        catch (EventStreamUnexpectedMaxEventIdException)
+        catch (EventStreamUnexpectedMaxEventIdException) when (aggregateVersion is not null)
         {
             var eventsDiff = await _session.Events.FetchStreamAsync(
                 streamKey: aggregateId,
-                fromVersion: aggregateVersion + 1,
+                fromVersion: aggregateVersion.Value + 1,
                 token: cancellationToken
             );
 
@@ -142,7 +142,7 @@ public class EventStore : IEventStore
 
                 var streamAction = _session.Events.Append(
                     stream: aggregateId,
-                    aggregateVersion + processedEvents.Length + eventsDiff.Count,
+                    aggregateVersion.Value + processedEvents.Length + eventsDiff.Count,
                     events: processedEvents
                 );
 
@@ -169,6 +169,7 @@ public class EventStore : IEventStore
 
             throw new UnexpectedAggregateVersionException();
         }
+
     }
 
     public void ClaimKboNummer(string vCode, IEvent? registreerEvent)

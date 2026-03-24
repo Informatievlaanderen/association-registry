@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Test.Admin.ExpiredBewaartermijn;
+namespace AssociationRegistry.Test.Admin.ExpiredBewaartermijn.Queries;
 
-using AssociationRegistry.Bewaartermijnen.PurgeRunner.Queries;
 using AssociationRegistry.Admin.Schema.Bewaartermijn;
+using AssociationRegistry.Bewaartermijnen.PurgeRunner.Queries;
 using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
-using Common.Framework;
 using FluentAssertions;
 using Marten;
 using NodaTime;

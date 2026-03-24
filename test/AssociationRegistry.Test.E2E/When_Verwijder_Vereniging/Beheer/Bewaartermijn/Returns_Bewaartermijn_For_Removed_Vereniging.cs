@@ -59,11 +59,11 @@ public class Returns_Bewaartermijn_For_Removed_Vereniging : End2EndTest<Bewaarte
         foreach (var bewaartermijn in Response)
         {
             var expectedId =
-                $"{BewaartermijnId.BewaartermijnAggregateName}-{_testContext.VCode}-{BewaartermijnType.Vertegenwoordigers.Value}-{bewaartermijn.RecordId}";
+                $"{BewaartermijnId.BewaartermijnAggregateName}-{_testContext.VCode}-{PersoonsgegevensType.Vertegenwoordigers.Value}-{bewaartermijn.RecordId}";
 
             bewaartermijn.BewaartermijnId.Should().Be(expectedId);
             bewaartermijn.VCode.Should().Be(_testContext.VCode.ToString());
-            bewaartermijn.BewaartermijnType.Should().Be(BewaartermijnType.Vertegenwoordigers.Value);
+            bewaartermijn.PersoonsgegevensType.Should().Be(PersoonsgegevensType.Vertegenwoordigers.Value);
             bewaartermijn.Reden.Should().Be(BewaartermijnReden.VerenigingWerdVerwijderd);
             bewaartermijn.Status.Should().Be(BewaartermijnStatus.StatusGepland.Naam);
             bewaartermijn.Vervaldag.Should().Match<Instant>(actual => (actual - expectedVervaldag) <= tolerance);

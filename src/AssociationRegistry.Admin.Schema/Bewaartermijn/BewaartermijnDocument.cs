@@ -6,7 +6,7 @@ using NodaTime;
 public record BewaartermijnDocument(
     [property: Identity] string BewaartermijnId,
     string VCode,
-    string BewaartermijnType,
+    string PersoonsgegevensType,
     int RecordId,
     string Reden,
     string Status,

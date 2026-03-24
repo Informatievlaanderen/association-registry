@@ -4,14 +4,12 @@ using AssociationRegistry.EventStore;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Framework;
-using Persoonsgegevens;
-using Vereniging;
 
 public interface IEventStore
 {
     Task<StreamActionResult> Save(
         string aggregateId,
-        long aggregateVersion,
+        long? aggregateVersion,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
         params IEvent[] events

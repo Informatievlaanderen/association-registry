@@ -38,13 +38,13 @@ public static class WolverineExtensions
     {
         const string NightlyExpiredBewaartermijnenProcessorQueueName = "nachtelijke-expiredbewaartermijnen-queue";
 
-        options.Discovery.IncludeType<VerwijderVertegenwoordigerPersoonsgegevensCommand>();
-        options.Discovery.IncludeType<VerwijderVertegenwoordigerPersoonsgegevensCommandHandler>();
+        options.Discovery.IncludeType<VerloopBewaartermijnCommand>();
+        options.Discovery.IncludeType<VerloopBewaartermijnCommandHandler>();
 
         options.PersistMessagesWithPostgresql(postgreSqlOptions.GetConnectionString(), wolverineSchema)
                .EnableMessageTransport();
 
-        options.PublishMessage<VerwijderVertegenwoordigerPersoonsgegevensCommand>()
+        options.PublishMessage<VerloopBewaartermijnCommand>()
                .ToPostgresqlQueue(NightlyExpiredBewaartermijnenProcessorQueueName);
 
         options.ListenToPostgresqlQueue(NightlyExpiredBewaartermijnenProcessorQueueName);

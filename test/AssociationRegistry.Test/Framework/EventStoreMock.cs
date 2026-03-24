@@ -25,7 +25,7 @@ public class EventStoreMock : IEventStore
 
     public async Task<StreamActionResult> Save(
         string aggregateId,
-        long aggregateVersion,
+        long? aggregateVersion,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
         params IEvent[] events

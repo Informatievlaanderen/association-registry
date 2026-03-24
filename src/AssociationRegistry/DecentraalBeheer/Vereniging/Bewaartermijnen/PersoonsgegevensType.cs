@@ -3,24 +3,24 @@ namespace AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using AssociationRegistry.Framework;
 using Exceptions;
 
-public record BewaartermijnType
+public record PersoonsgegevensType
 {
     public string Value { get; }
 
-    public static BewaartermijnType Vertegenwoordigers = new("Vertegenwoordigers");
+    public static PersoonsgegevensType Vertegenwoordigers = new("Vertegenwoordigers");
 
-    public static BewaartermijnType[] All =
+    public static PersoonsgegevensType[] All =
     [
         Vertegenwoordigers,
     ];
 
-    private BewaartermijnType(string bewaartermijnType)
+    private PersoonsgegevensType(string persoonsgegevensType)
     {
-        Value = bewaartermijnType;
+        Value = persoonsgegevensType;
     }
 
 
-    public static BewaartermijnType Create(string value)
+    public static PersoonsgegevensType Create(string value)
     {
         var bewaartermijnType = All.SingleOrDefault(x => x.Value == value);
         Throw<OngeldigBewaartermijnType>.If(bewaartermijnType == null);

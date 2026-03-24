@@ -2,11 +2,9 @@ namespace AssociationRegistry.Events;
 
 using NodaTime;
 
-public record BewaartermijnWerdVerlopen(
-    string BewaartermijnId,
+public record VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd(
     string VCode,
-    string PersoonsgegevensType,
-    int EntityId,
+    int VertegenwoordigerId,
     string Reden,
     Instant Vervaldag
 ) : IEvent;
