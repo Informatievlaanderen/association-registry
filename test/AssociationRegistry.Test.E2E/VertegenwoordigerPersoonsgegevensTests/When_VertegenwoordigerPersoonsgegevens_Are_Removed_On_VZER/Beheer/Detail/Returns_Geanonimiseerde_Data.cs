@@ -1,16 +1,16 @@
-﻿namespace AssociationRegistry.Test.E2E.VertegenwoordigerPersoonsgegevensTests.When_VertegenwoordigerPersoonsgegevens_Are_Removed.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.E2E.VertegenwoordigerPersoonsgegevensTests.When_VertegenwoordigerPersoonsgegevens_Are_Removed_On_VZER.Beheer.Detail;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Contracts.JsonLdContext;
 using AssociationRegistry.Formats;
+using AssociationRegistry.Persoonsgegevens;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using Contracts.JsonLdContext;
+using AssociationRegistry.Vereniging.Bronnen;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using Persoonsgegevens;
-using Vereniging.Bronnen;
 using Xunit;
 
 [Collection(nameof(VertegenwoordigerZonderPersoonsgegevensTestCollection))]

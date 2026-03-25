@@ -27,9 +27,9 @@ public class VertegenwoordigerWerdOvergenomenUitKBOUpcaster
 
         return new VertegenwoordigerWerdOvergenomenUitKBO(
             VertegenwoordigerId: vertegenwoordigerWerdOvergenomenUitKboZonderPersoonsgegevens.VertegenwoordigerId,
-            vertegenwoordigerPersoonsgegevens.Insz,
-            vertegenwoordigerPersoonsgegevens.Voornaam,
-            vertegenwoordigerPersoonsgegevens.Achternaam
+            vertegenwoordigerPersoonsgegevens?.Insz ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Voornaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Achternaam ?? WellKnownAnonymousFields.Geanonimiseerd
         );
     }
 }

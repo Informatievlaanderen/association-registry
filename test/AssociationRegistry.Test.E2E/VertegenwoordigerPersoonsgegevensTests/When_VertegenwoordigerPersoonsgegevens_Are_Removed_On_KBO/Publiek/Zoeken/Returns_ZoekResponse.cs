@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.E2E.VertegenwoordigerPersoonsgegevensTests.When_VertegenwoordigerPersoonsgegevens_Are_Removed.Publiek.Zoeken;
+﻿namespace AssociationRegistry.Test.E2E.VertegenwoordigerPersoonsgegevensTests.When_VertegenwoordigerPersoonsgegevens_Are_Removed_On_KBO.Publiek.Zoeken;
 
 using AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
@@ -8,13 +8,13 @@ using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(VertegenwoordigerZonderPersoonsgegevensTestCollection))]
+[Collection(nameof(VertegenwoordigerZonderPersoonsgegevensOnKBOTestCollection))]
 public class Returns_SearchVerenigingenResponse
     : End2EndTest<SearchVerenigingenResponse>
 {
-    private readonly VertegenwoordigerZonderPersoonsgegevensOnVZERScenarioTestContext _testContext;
+    private readonly VertegenwoordigerZonderPersoonsgegevensOnKBOTestContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(VertegenwoordigerZonderPersoonsgegevensOnVZERScenarioTestContext testContext) : base(testContext.ApiSetup)
+    public Returns_SearchVerenigingenResponse(VertegenwoordigerZonderPersoonsgegevensOnKBOTestContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
@@ -30,5 +30,5 @@ public class Returns_SearchVerenigingenResponse
 
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
-        => Response.Verenigingen.Single().Naam.Should().Be(_testContext.CommandRequest.Naam);
+        => Response.Verenigingen.Single().Roepnaam.Should().Be(_testContext.CommandRequest.Roepnaam);
 }
