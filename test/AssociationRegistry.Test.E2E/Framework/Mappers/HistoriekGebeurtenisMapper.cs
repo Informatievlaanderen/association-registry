@@ -195,6 +195,34 @@ public static class HistoriekGebeurtenisMapper
         };
     }
 
+    public static HistoriekGebeurtenisResponse? FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens(FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens @event)
+    {
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving =
+                $"Feitelijke vereniging werd geregistreerd met naam '{@event.Naam}'.",
+            Gebeurtenis = nameof(Events.FeitelijkeVerenigingWerdGeregistreerd),
+            Data = new VerenigingWerdGeregistreerdData(
+                @event.VCode,
+                @event.Naam,
+                @event.KorteNaam!,
+                @event.KorteBeschrijving!,
+                Startdatum: @event.Startdatum,
+                Doelgroep: new Registratiedata.Doelgroep(
+                    @event.Doelgroep!.Minimumleeftijd,
+                    @event.Doelgroep.Maximumleeftijd
+                ),
+                IsUitgeschrevenUitPubliekeDatastroom: @event.IsUitgeschrevenUitPubliekeDatastroom,
+                Contactgegevens: @event.Contactgegevens.ToArray(),
+                Locaties: @event.Locaties.ToArray(),
+                Vertegenwoordigers: null,
+                HoofdactiviteitenVerenigingsloket: null,
+                Bankrekeningnummers: []
+            ),
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
     public static HistoriekGebeurtenisResponse VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd verenigingMetRechtspersoonlijkheidWerdGeregistreerd
     )
