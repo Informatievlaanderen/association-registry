@@ -26,9 +26,9 @@ public class VertegenwoordigerWerdGewijzigdInKBOUpcaster
 
         return new VertegenwoordigerWerdGewijzigdInKBO(
             VertegenwoordigerId: vertegenwoordigerWerdGewijzigdInKboZonderPersoonsgegevens.VertegenwoordigerId,
-            vertegenwoordigerPersoonsgegevens.Insz,
-            vertegenwoordigerPersoonsgegevens.Voornaam,
-            vertegenwoordigerPersoonsgegevens.Achternaam
+            vertegenwoordigerPersoonsgegevens?.Insz ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Voornaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Achternaam ?? WellKnownAnonymousFields.Geanonimiseerd
         );
     }
 }

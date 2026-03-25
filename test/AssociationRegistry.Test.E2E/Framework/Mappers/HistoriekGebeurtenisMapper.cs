@@ -235,6 +235,7 @@ public static class HistoriekGebeurtenisMapper
         };
     }
 
+
     public static HistoriekGebeurtenisResponse KorteNaamWerdGewijzigd(string vCode, string naam)
     {
         var @event = new KorteNaamWerdGewijzigd(vCode, naam);
@@ -929,6 +930,23 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
+    public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdOvergenomenUitKBOZonderPersoonsgegevens(
+        VertegenwoordigerWerdOvergenomenUitKBOZonderPersoonsgegevens @event)
+        =>
+            new()
+            {
+                Beschrijving =
+                    $"Vertegenwoordiger '{@WellKnownAnonymousFields.Geanonimiseerd} {WellKnownAnonymousFields.Geanonimiseerd}' werd overgenomen uit KBO.",
+                Gebeurtenis = nameof(Events.VertegenwoordigerWerdOvergenomenUitKBO),
+                Data = new KBOVertegenwoordigerData(
+                    @event.VertegenwoordigerId,
+                    WellKnownAnonymousFields.Geanonimiseerd,
+                    WellKnownAnonymousFields.Geanonimiseerd
+                ),
+                Initiator = "OVO000001",
+                Tijdstip = "2024-07-30T11:08:05Z",
+            };
+
     public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdOvergenomenUitKBO(
         VertegenwoordigerWerdOvergenomenUitKBO vertegenwoordigerWerdOvergenomenUitKbo
     ) =>
@@ -979,7 +997,21 @@ public static class HistoriekGebeurtenisMapper
             Initiator = AuthenticationSetup.Initiator,
             Tijdstip = "2024-07-30T11:08:05Z",
         };
-
+    public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens(
+        VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens @event)
+        =>
+            new()
+            {
+                Beschrijving = $"Vertegenwoordiger '{WellKnownAnonymousFields.Geanonimiseerd} {WellKnownAnonymousFields.Geanonimiseerd}' werd gewijzigd in KBO.",
+                Gebeurtenis = nameof(Events.VertegenwoordigerWerdGewijzigdInKBO),
+                Data = new KBOVertegenwoordigerData(
+                    @event.VertegenwoordigerId,
+                    WellKnownAnonymousFields.Geanonimiseerd,
+                    WellKnownAnonymousFields.Geanonimiseerd
+                ),
+                Initiator = "OVO000001",
+                Tijdstip = "2024-07-30T11:08:05Z",
+            };
     public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdVerwijderdUitKBO(
         VertegenwoordigerWerdVerwijderdUitKBO vertegenwoordigerWerdVerwijderdUitKbo
     ) =>
@@ -997,6 +1029,21 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
+    public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens(VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens @event)
+        =>
+            new()
+            {
+                Beschrijving =
+                    $"Vertegenwoordiger '{WellKnownAnonymousFields.Geanonimiseerd} {WellKnownAnonymousFields.Geanonimiseerd}' werd verwijderd uit KBO.",
+                Gebeurtenis = nameof(Events.VertegenwoordigerWerdVerwijderdUitKBO),
+                Data = new KBOVertegenwoordigerData(
+                    @event.VertegenwoordigerId,
+                    WellKnownAnonymousFields.Geanonimiseerd,
+                    WellKnownAnonymousFields.Geanonimiseerd
+                ),
+                Initiator = "OVO000001",
+                Tijdstip = "2024-07-30T11:08:05Z",
+            };
     public static HistoriekGebeurtenisResponse? KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
         KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden @event
     ) =>
@@ -1184,6 +1231,23 @@ public static class HistoriekGebeurtenisMapper
                 WellKnownAnonymousFields.Geanonimiseerd,
                 WellKnownAnonymousFields.Geanonimiseerd,
                 WellKnownAnonymousFields.Geanonimiseerd,
+                WellKnownAnonymousFields.Geanonimiseerd,
+                WellKnownAnonymousFields.Geanonimiseerd
+            ),
+            Initiator = "OVO000001",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdToegevoegdZonderPersoonsgegevens(
+        VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens @event
+    ) =>
+        new()
+        {
+            Beschrijving =
+                $"Vertegenwoordiger '{WellKnownAnonymousFields.Geanonimiseerd} {WellKnownAnonymousFields.Geanonimiseerd}' werd toegevoegd vanuit KBO.",
+            Gebeurtenis = nameof(Events.VertegenwoordigerWerdToegevoegdVanuitKBO),
+            Data = new KBOVertegenwoordigerData(
+                @event.VertegenwoordigerId,
                 WellKnownAnonymousFields.Geanonimiseerd,
                 WellKnownAnonymousFields.Geanonimiseerd
             ),

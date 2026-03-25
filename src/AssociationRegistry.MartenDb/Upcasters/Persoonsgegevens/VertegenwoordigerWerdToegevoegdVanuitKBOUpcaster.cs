@@ -27,9 +27,9 @@ public class VertegenwoordigerWerdToegevoegdVanuitKBOUpcaster
 
         return new VertegenwoordigerWerdToegevoegdVanuitKBO(
             VertegenwoordigerId: vertegenwoordigerWerdToegevoegdVanuitKboZonderPersoonsgegevens.VertegenwoordigerId,
-            vertegenwoordigerPersoonsgegevens.Insz,
-            vertegenwoordigerPersoonsgegevens.Voornaam,
-            vertegenwoordigerPersoonsgegevens.Achternaam
+            vertegenwoordigerPersoonsgegevens?.Insz ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Voornaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+            vertegenwoordigerPersoonsgegevens?.Achternaam ?? WellKnownAnonymousFields.Geanonimiseerd
         );
     }
 }

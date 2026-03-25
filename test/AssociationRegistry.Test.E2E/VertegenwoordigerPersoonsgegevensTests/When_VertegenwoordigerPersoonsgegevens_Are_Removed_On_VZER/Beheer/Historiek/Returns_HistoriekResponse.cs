@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.E2E.VertegenwoordigerPersoonsgegevensTests.When_VertegenwoordigerPersoonsgegevens_Are_Removed.Beheer.Historiek;
+﻿namespace AssociationRegistry.Test.E2E.VertegenwoordigerPersoonsgegevensTests.When_VertegenwoordigerPersoonsgegevens_Are_Removed_On_VZER.Beheer.Historiek;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using AssociationRegistry.Events;

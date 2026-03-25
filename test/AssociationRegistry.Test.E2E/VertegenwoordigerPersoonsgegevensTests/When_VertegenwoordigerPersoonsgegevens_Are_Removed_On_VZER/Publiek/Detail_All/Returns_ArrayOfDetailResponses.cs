@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.E2E.VertegenwoordigerPersoonsgegevensTests.When_VertegenwoordigerPersoonsgegevens_Are_Removed.Publiek.Detail_All;
+﻿namespace AssociationRegistry.Test.E2E.VertegenwoordigerPersoonsgegevensTests.When_VertegenwoordigerPersoonsgegevens_Are_Removed_On_VZER.Publiek.Detail_All;
 
 using AssociationRegistry.Formats;
 using AssociationRegistry.Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
