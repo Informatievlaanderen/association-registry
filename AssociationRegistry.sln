@@ -263,7 +263,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bewaartermijnen-purge-runne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Bewaartermijnen.PurgeRunner", "src\AssociationRegistry.Bewaartermijnen.PurgeRunner\AssociationRegistry.Bewaartermijnen.PurgeRunner.csproj", "{63BC5D1C-3907-453F-A4A8-C10965DB15F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Admin.ExpiredBewaartermijn", "test\AssociationRegistry.Test.Admin.ExpiredBewaartermijn\AssociationRegistry.Test.Admin.ExpiredBewaartermijn.csproj", "{DA91F981-61BF-436E-AA33-3983ACA86E4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Bewaartermijnen.PurgeRunner", "test\AssociationRegistry.Test.Bewaartermijnen.PurgeRunner\AssociationRegistry.Test.Bewaartermijnen.PurgeRunner.csproj", "{DA91F981-61BF-436E-AA33-3983ACA86E4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

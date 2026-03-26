@@ -9,7 +9,7 @@ COPY .config .
 
 RUN dotnet tool restore
 
-ARG BUILD_PROJECT=AssociationRegistry.Admin.ExpiredBewaartermijnProcessor
+ARG BUILD_PROJECT=AssociationRegistry.Bewaartermijnen.PurgeRunner
 ARG ELASTIC_HOST
 ARG CI_BUILD_NUMBER
 ARG GIT_HASH
@@ -43,4 +43,4 @@ WORKDIR /app
 
 COPY --from=src-build /app/publish .
 
-ENTRYPOINT ["/app/AssociationRegistry.Admin.ExpiredBewaartermijnProcessor"]
+ENTRYPOINT ["/app/AssociationRegistry.Bewaartermijnen.PurgeRunner"]

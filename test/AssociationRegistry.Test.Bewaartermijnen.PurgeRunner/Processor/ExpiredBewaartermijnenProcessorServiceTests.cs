@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.ExpiredBewaartermijn.Processor;
+﻿namespace AssociationRegistry.Test.Bewaartermijnen.PurgeRunner.Processor;
 
 using AssociationRegistry.Admin.Schema.Bewaartermijn;
 using AssociationRegistry.Bewaartermijnen.PurgeRunner;
