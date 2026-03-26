@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.ExpiredBewaartermijn.E2E;
+namespace AssociationRegistry.Test.Bewaartermijnen.PurgeRunner.E2E;
 
 using AssociationRegistry.Admin.Schema.Persoonsgegevens;
 using AssociationRegistry.Bewaartermijnen.PurgeRunner;

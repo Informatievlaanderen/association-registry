@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.ExpiredBewaartermijn.Queries;
+namespace AssociationRegistry.Test.Bewaartermijnen.PurgeRunner.Queries;
 
 using AssociationRegistry.Admin.Schema.Bewaartermijn;
 using AssociationRegistry.Bewaartermijnen.PurgeRunner.Queries;
