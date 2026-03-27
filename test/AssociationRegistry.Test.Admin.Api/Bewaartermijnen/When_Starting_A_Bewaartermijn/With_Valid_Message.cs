@@ -18,7 +18,7 @@ public class With_Valid_Message
 {
     private Mock<IEventStore> _eventStore;
     private readonly VCode _vCode;
-    private readonly int _recordId;
+    private readonly int _entityId;
     private CommandMetadata _commandMetadata;
     private BewaartermijnOptions _bewaartermijnOptions;
     private Instant _expectedVervaldag;
@@ -28,7 +28,7 @@ public class With_Valid_Message
         var fixture = new Fixture().CustomizeAdminApi();
 
         _vCode = fixture.Create<VCode>();
-        _recordId = fixture.Create<int>();
+        _entityId = fixture.Create<int>();
         _commandMetadata = fixture.Create<CommandMetadata>();
 
         _bewaartermijnOptions = new BewaartermijnOptions() { Duration = TimeSpan.FromDays(1) };
@@ -38,7 +38,7 @@ public class With_Valid_Message
         var command = new StartBewaartermijnMessage(
             _vCode,
             PersoonsgegevensType.Vertegenwoordigers.Value,
-            _recordId,
+            _entityId,
             BewaartermijnReden.VertegenwoordigerWerdVerwijderd
         );
 
@@ -60,7 +60,7 @@ public class With_Valid_Message
     public void Then_The_Bewaartermijn_Is_Saved()
     {
         var expectedAggregateId =
-            $"{BewaartermijnId.BewaartermijnAggregateName}-{_vCode}-{PersoonsgegevensType.Vertegenwoordigers.Value}-{_recordId}";
+            $"{BewaartermijnId.BewaartermijnAggregateName}-{_vCode}-{PersoonsgegevensType.Vertegenwoordigers.Value}-{_entityId}";
 
         _eventStore.Verify(x =>
             x.SaveNew(
@@ -73,7 +73,7 @@ public class With_Valid_Message
                     && ((BewaartermijnWerdGestartV2)events[0]).VCode == _vCode.ToString()
                     && ((BewaartermijnWerdGestartV2)events[0]).PersoonsgegevensType
                         == PersoonsgegevensType.Vertegenwoordigers.Value
-                    && ((BewaartermijnWerdGestartV2)events[0]).EntityId == _recordId
+                    && ((BewaartermijnWerdGestartV2)events[0]).EntityId == _entityId
                     && ((BewaartermijnWerdGestartV2)events[0]).Vervaldag == _expectedVervaldag
                     && ((BewaartermijnWerdGestartV2)events[0]).Reden
                         == BewaartermijnReden.VertegenwoordigerWerdVerwijderd

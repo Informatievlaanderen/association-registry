@@ -329,6 +329,11 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<KszSyncHeeftVertegenwoordigerBevestigd> @event, IDocumentOperations ops) =>
         await UpdateMetadataOnly(@event, ops);
 
+    public async Task Project(
+        IEvent<VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd> @event,
+        IDocumentOperations ops
+    ) => await UpdateMetadataOnly(@event, ops);
+
     private async Task SoftDelete(string? streamKey, IDocumentOperations ops) =>
         ops.Delete<BeheerVerenigingDetailDocument>(streamKey);
 

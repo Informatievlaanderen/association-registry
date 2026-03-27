@@ -13,6 +13,7 @@ public class For_Any_Event
 {
     private IEnumerable<Type> _excludedEventTypes =
     [
+        typeof(BewaartermijnWerdVerlopen),
         typeof(BewaartermijnWerdGestart),
         typeof(AfdelingWerdGeregistreerd),
         typeof(BankrekeningnummerValidatieWerdOngedaanGemaaktDoorWijzigingTitularis),

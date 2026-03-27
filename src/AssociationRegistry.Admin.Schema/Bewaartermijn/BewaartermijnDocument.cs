@@ -7,7 +7,7 @@ public record BewaartermijnDocument(
     [property: Identity] string BewaartermijnId,
     string VCode,
     string PersoonsgegevensType,
-    int RecordId,
+    int EntityId,
     string Reden,
     string Status,
     Instant Vervaldag,

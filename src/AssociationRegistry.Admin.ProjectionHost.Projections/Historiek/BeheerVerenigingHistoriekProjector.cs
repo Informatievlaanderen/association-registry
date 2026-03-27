@@ -8,11 +8,22 @@ using JasperFx.Events;
 using Schema;
 using Schema.Historiek;
 using Schema.Historiek.EventData;
-using Vereniging;
 using IEvent = JasperFx.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjector
 {
+    public static void Apply(
+        IEvent<VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd> @event,
+        BeheerVerenigingHistoriekDocument doc
+    )
+    {
+        doc.Gebeurtenissen = doc
+            .Gebeurtenissen.Select(g =>
+                VertegenwoordigerGebeurtenissenAnonymizer.Anonymize(g, @event.Data.VertegenwoordigerId)
+            )
+            .ToList();
+    }
+
     public static BeheerVerenigingHistoriekDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event)
     {
         var beheerVerenigingHistoriekDocument = CreateNewDocument(@event.Data.VCode);

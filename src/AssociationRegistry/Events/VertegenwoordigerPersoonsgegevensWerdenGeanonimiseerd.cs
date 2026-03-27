@@ -2,7 +2,7 @@ namespace AssociationRegistry.Events;
 
 using NodaTime;
 
-public record VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd(
+public record VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd(
     string VCode,
     int VertegenwoordigerId,
     string Reden,

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
+using AssociationRegistry.Persoonsgegevens;
 using Events;
 
 public record VerenigingWerdGeregistreerdData(
@@ -15,10 +16,12 @@ public record VerenigingWerdGeregistreerdData(
     VertegenwoordigerData[] Vertegenwoordigers,
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
     Registratiedata.Bankrekeningnummer[] Bankrekeningnummers
-    )
+) : IHasVertegenwoordigers
 {
-    public static VerenigingWerdGeregistreerdData Create(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd e)
-        => new(
+    public static VerenigingWerdGeregistreerdData Create(
+        IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd e
+    ) =>
+        new(
             e.VCode,
             e.Naam,
             e.KorteNaam,
@@ -32,4 +35,12 @@ public record VerenigingWerdGeregistreerdData(
             e.HoofdactiviteitenVerenigingsloket,
             e.Bankrekeningnummers
         );
+
+    public VerenigingWerdGeregistreerdData MakeAnonymous(int vertegenwoordigerId) =>
+        this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers
+                .Select(v => v.VertegenwoordigerId == vertegenwoordigerId ? v.MakeAnonymous() : v)
+                .ToArray(),
+        };
 }

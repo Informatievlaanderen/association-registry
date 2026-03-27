@@ -26,8 +26,10 @@ public class Returns_Bewaartermijn_For_Removed_Vereniging : End2EndTest<Bewaarte
     {
         var vCode = _testContext.VCode;
 
-        var vertegenwoordigers = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
-                                             .Vertegenwoordigers;
+        var vertegenwoordigers = _testContext
+            .Scenario
+            .VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+            .Vertegenwoordigers;
 
         var headers = new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence);
 
@@ -39,7 +41,8 @@ public class Returns_Bewaartermijn_For_Removed_Vereniging : End2EndTest<Bewaarte
                 setup.SuperAdminHttpClient,
                 vCode,
                 v.VertegenwoordigerId,
-                headers);
+                headers
+            );
 
             responses.Add(response);
         }
@@ -59,7 +62,7 @@ public class Returns_Bewaartermijn_For_Removed_Vereniging : End2EndTest<Bewaarte
         foreach (var bewaartermijn in Response)
         {
             var expectedId =
-                $"{BewaartermijnId.BewaartermijnAggregateName}-{_testContext.VCode}-{PersoonsgegevensType.Vertegenwoordigers.Value}-{bewaartermijn.RecordId}";
+                $"{BewaartermijnId.BewaartermijnAggregateName}-{_testContext.VCode}-{PersoonsgegevensType.Vertegenwoordigers.Value}-{bewaartermijn.EntityId}";
 
             bewaartermijn.BewaartermijnId.Should().Be(expectedId);
             bewaartermijn.VCode.Should().Be(_testContext.VCode.ToString());
@@ -68,8 +71,11 @@ public class Returns_Bewaartermijn_For_Removed_Vereniging : End2EndTest<Bewaarte
             bewaartermijn.Status.Should().Be(BewaartermijnStatus.StatusGepland.Naam);
             bewaartermijn.Vervaldag.Should().Match<Instant>(actual => (actual - expectedVervaldag) <= tolerance);
 
-            bewaartermijn.Gebeurtenissen.Should().ContainSingle().Which.Status.Should()
-                         .Be(BewaartermijnStatus.StatusGepland.Naam);
+            bewaartermijn
+                .Gebeurtenissen.Should()
+                .ContainSingle()
+                .Which.Status.Should()
+                .Be(BewaartermijnStatus.StatusGepland.Naam);
         }
     }
 }

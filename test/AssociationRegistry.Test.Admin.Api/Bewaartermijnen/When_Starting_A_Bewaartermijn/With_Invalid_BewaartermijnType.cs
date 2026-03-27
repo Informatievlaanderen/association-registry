@@ -24,7 +24,7 @@ public class With_Invalid_BewaartermijnType
         var fixture = new Fixture().CustomizeAdminApi();
 
         var vCode = fixture.Create<VCode>();
-        var recordId = fixture.Create<int>();
+        var entityId = fixture.Create<int>();
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var bewaartermijnOptions = new BewaartermijnOptions() { Duration = TimeSpan.FromDays(1) };
@@ -32,7 +32,7 @@ public class With_Invalid_BewaartermijnType
         var command = new StartBewaartermijnMessage(
             vCode,
             fixture.Create<string>(),
-            recordId,
+            entityId,
             BewaartermijnReden.VertegenwoordigerWerdVerwijderd
         );
 

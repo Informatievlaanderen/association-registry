@@ -36,13 +36,13 @@ public class VerenigingenHistoriekController : ApiController
     /// <remarks>
     /// De historiek van een vereniging geeft zicht op de wijzigingen op de verenigingsdata zoals terug te vinden in het register.
     ///
-    /// De gebeurtenissen met naam “WerdGewijzigd” betekenen voor de basisgegevens het volgende:
+    /// De gebeurtenissen met naam “VertegenwoordigerWerdGewijzigd” betekenen voor de basisgegevens het volgende:
     /// - data werd toegevoegd (een waarde werd toegevoegd na registratie van de vereniging)
     /// - data werd gewijzigd (de bestaande waarde werd gewijzigd)
     /// - data werd verwijderd (de waarde werd verwijderd)
     ///
     /// Contactgegevens, locaties en vertegenwoordigers maken geen onderdeel uit van de basisgegevens.
-    /// Wijzigingen op deze data genereren gebeurtenissen met de namen “WerdToegevoegd”, “WerdGewijzigd” en “WerdVerwijderd”.
+    /// Wijzigingen op deze data genereren gebeurtenissen met de namen “VertegenwoordigerWerdToegevoegd”, “VertegenwoordigerWerdGewijzigd” en “VertegenwoordigerWerdVerwijderd”.
     /// </remarks>
     /// <param name="documentStore"></param>
     /// <param name="problemDetailsHelper"></param>
@@ -57,7 +57,10 @@ public class VerenigingenHistoriekController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(BadRequestProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(NotFoundProblemDetailsExamples))]
-    [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(HistoriekPreconditionFailedProblemDetailsExamples))]
+    [SwaggerResponseExample(
+        StatusCodes.Status412PreconditionFailed,
+        typeof(HistoriekPreconditionFailedProblemDetailsExamples)
+    )]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(typeof(HistoriekResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -70,20 +73,21 @@ public class VerenigingenHistoriekController : ApiController
         [FromServices] IDocumentStore documentStore,
         [FromServices] ProblemDetailsHelper problemDetailsHelper,
         [FromRoute] string vCode,
-        [FromQuery] long? expectedSequence)
+        [FromQuery] long? expectedSequence
+    )
     {
         await using var session = documentStore.LightweightSession();
 
         await sequenceGuarder.ThrowIfSequenceNotReached(expectedSequence);
 
-        var maybeHistoriekVereniging = await session.Query<BeheerVerenigingHistoriekDocument>()
-                                                    .WithVCode(vCode)
-                                                    .SingleOrDefaultAsync();
+        var maybeHistoriekVereniging = await session
+            .Query<BeheerVerenigingHistoriekDocument>()
+            .WithVCode(vCode)
+            .SingleOrDefaultAsync();
 
         if (maybeHistoriekVereniging is not { } historiek)
             return await Response.WriteNotFoundProblemDetailsAsync(problemDetailsHelper);
 
-        return Ok(
-            _mapper.Map(vCode, historiek));
+        return Ok(_mapper.Map(vCode, historiek));
     }
 }
