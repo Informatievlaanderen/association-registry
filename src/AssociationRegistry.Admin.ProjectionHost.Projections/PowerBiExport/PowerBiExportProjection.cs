@@ -1527,4 +1527,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
         UpdateHistoriek(document, @event);
     }
+
+    public void Apply(
+        IEvent<VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd> @event,
+        PowerBiExportDocument document
+    )
+    {
+        document.DatumLaatsteAanpassing = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
 }

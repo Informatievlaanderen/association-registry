@@ -6,22 +6,22 @@ public record BewaartermijnId
 {
     public const string BewaartermijnAggregateName = "Bewaartermijn";
 
-    public BewaartermijnId(VCode vCode, PersoonsgegevensType persoonsgegevensType, int recordId)
+    public BewaartermijnId(VCode vCode, PersoonsgegevensType persoonsgegevensType, int entityId)
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(recordId);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(entityId);
 
         VCode = vCode;
         PersoonsgegevensType = persoonsgegevensType;
-        RecordId = recordId;
+        EntityId = entityId;
     }
 
     public static implicit operator string(BewaartermijnId bewaartermijnId) =>
-        $"{BewaartermijnAggregateName}-{bewaartermijnId.VCode}-{bewaartermijnId.PersoonsgegevensType.Value}-{bewaartermijnId.RecordId}";
+        $"{BewaartermijnAggregateName}-{bewaartermijnId.VCode}-{bewaartermijnId.PersoonsgegevensType.Value}-{bewaartermijnId.EntityId}";
 
     public VCode VCode { get; }
     public PersoonsgegevensType PersoonsgegevensType { get; }
-    public int RecordId { get; }
+    public int EntityId { get; }
 
-    public static string CreateId(VCode vCode, PersoonsgegevensType persoonsgegevensType, int recordId) =>
-        $"{BewaartermijnAggregateName}-{vCode}-{persoonsgegevensType.Value}-{recordId}";
+    public static string CreateId(VCode vCode, PersoonsgegevensType persoonsgegevensType, int entityId) =>
+        $"{BewaartermijnAggregateName}-{vCode}-{persoonsgegevensType.Value}-{entityId}";
 }

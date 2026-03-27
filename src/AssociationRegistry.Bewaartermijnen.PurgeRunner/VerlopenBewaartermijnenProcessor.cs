@@ -15,7 +15,8 @@ public class VerlopenBewaartermijnenProcessor : IVerlopenBewaartermijnenProcesso
     public VerlopenBewaartermijnenProcessor(
         IVerlopenBewaartermijnQuery query,
         IMessageBus messageBus,
-        ILogger<VerlopenBewaartermijnenProcessor> logger)
+        ILogger<VerlopenBewaartermijnenProcessor> logger
+    )
     {
         _query = query;
         _messageBus = messageBus;
@@ -31,10 +32,11 @@ public class VerlopenBewaartermijnenProcessor : IVerlopenBewaartermijnenProcesso
         foreach (var doc in documents)
         {
             var command = new CommandEnvelope<VerloopBewaartermijnCommand>(
-                new VerloopBewaartermijnCommand(doc.VCode, doc.RecordId, doc.Reden, doc.Vervaldag),
-                 CommandMetadata.ForDigitaalVlaanderenProcess);
+                new VerloopBewaartermijnCommand(doc.VCode, doc.EntityId, doc.Reden, doc.Vervaldag),
+                CommandMetadata.ForDigitaalVlaanderenProcess
+            );
 
-            await _messageBus.SendAsync(command);
+            await _messageBus.InvokeAsync(command, cancellationToken);
         }
     }
 }

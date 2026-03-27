@@ -48,7 +48,7 @@ public class Returns_A_Bewaartermijn : End2EndTest<BewaartermijnResponse>
                     BewaartermijnId = expectedId,
                     VCode = _context.VCode.ToString(),
                     BewaartermijnType = PersoonsgegevensType.Vertegenwoordigers.Value,
-                    RecordId = _context.Scenario.Vertegenwoordiger.VertegenwoordigerId,
+                    EntityId = _context.Scenario.Vertegenwoordiger.VertegenwoordigerId,
                     Reden = BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden,
                     Status = BewaartermijnStatus.StatusGepland.Naam,
                     Gebeurtenissen = new object[] { new { Status = BewaartermijnStatus.StatusGepland.Naam } },

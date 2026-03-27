@@ -18,13 +18,15 @@ public static class BewaartermijnEventHandler
         CancellationToken cancellationToken
     )
     {
-        await CreateBewaartermijn(@event.StreamKey!,
-                                  @event.Data.VertegenwoordigerId,
-                                  @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
-                                  eventStore,
-                                  bewaartermijnOptions,
-                                  cancellationToken,
-                                  BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden);
+        await CreateBewaartermijn(
+            @event.StreamKey!,
+            @event.Data.VertegenwoordigerId,
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
+            eventStore,
+            bewaartermijnOptions,
+            cancellationToken,
+            BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden
+        );
     }
 
     public static async Task Handle(
@@ -34,13 +36,15 @@ public static class BewaartermijnEventHandler
         CancellationToken cancellationToken
     )
     {
-        await CreateBewaartermijn(@event.StreamKey!,
-                                  @event.Data.VertegenwoordigerId,
-                                  @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
-                                  eventStore,
-                                  bewaartermijnOptions,
-                                  cancellationToken,
-                                  BewaartermijnReden.VertegenwoordigerWerdVerwijderd);
+        await CreateBewaartermijn(
+            @event.StreamKey!,
+            @event.Data.VertegenwoordigerId,
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
+            eventStore,
+            bewaartermijnOptions,
+            cancellationToken,
+            BewaartermijnReden.VertegenwoordigerWerdVerwijderd
+        );
     }
 
     public static async Task Handle(
@@ -54,29 +58,32 @@ public static class BewaartermijnEventHandler
 
         foreach (var vertegenwoordiger in state.Vertegenwoordigers)
         {
-            await CreateBewaartermijn(@event.StreamKey!,
-                                      vertegenwoordiger.VertegenwoordigerId,
-                                      @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
-                                      eventStore,
-                                      bewaartermijnOptions,
-                                      cancellationToken,
-                                      BewaartermijnReden.VerenigingWerdVerwijderd);
+            await CreateBewaartermijn(
+                @event.StreamKey!,
+                vertegenwoordiger.VertegenwoordigerId,
+                @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
+                eventStore,
+                bewaartermijnOptions,
+                cancellationToken,
+                BewaartermijnReden.VerenigingWerdVerwijderd
+            );
         }
     }
 
     private static async Task CreateBewaartermijn(
         string streamKey,
-        int recordId,
+        int entityId,
         Instant tijdstip,
         IEventStore eventStore,
         BewaartermijnOptions bewaartermijnOptions,
         CancellationToken cancellationToken,
-        string reden)
+        string reden
+    )
     {
         var bewaartermijnId = new BewaartermijnId(
             VCode.Create(streamKey),
             PersoonsgegevensType.Vertegenwoordigers,
-            recordId
+            entityId
         );
 
         var vervaldag = tijdstip.PlusTicks(bewaartermijnOptions.Duration.Ticks);
@@ -90,7 +97,7 @@ public static class BewaartermijnEventHandler
                     bewaartermijnId,
                     bewaartermijnId.VCode!,
                     bewaartermijnId.PersoonsgegevensType.Value,
-                    bewaartermijnId.RecordId,
+                    bewaartermijnId.EntityId,
                     vervaldag,
                     reden
                 ),

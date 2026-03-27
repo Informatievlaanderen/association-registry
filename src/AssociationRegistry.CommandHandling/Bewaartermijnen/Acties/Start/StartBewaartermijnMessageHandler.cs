@@ -21,7 +21,7 @@ public class StartBewaartermijnMessageHandler
         var bewaartermijnId = new BewaartermijnId(
             VCode.Create(message.Command.VCode),
             PersoonsgegevensType.Create(message.Command.PersoonsgegevensType),
-            message.Command.RecordId
+            message.Command.EntityId
         );
         var vervaldag = message.Metadata.Tijdstip.PlusTicks(bewaartermijnOptions.Duration.Ticks);
 
@@ -34,7 +34,7 @@ public class StartBewaartermijnMessageHandler
                     bewaartermijnId,
                     bewaartermijnId.VCode!,
                     bewaartermijnId.PersoonsgegevensType.Value,
-                    bewaartermijnId.RecordId,
+                    bewaartermijnId.EntityId,
                     vervaldag,
                     message.Command.Reden
                 ),

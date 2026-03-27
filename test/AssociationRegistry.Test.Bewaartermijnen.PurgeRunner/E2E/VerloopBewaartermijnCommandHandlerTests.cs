@@ -81,33 +81,34 @@ public class VerwijderVertegenwoordigerPersoonsgegevensCommandFixture : IAsyncLi
             EntityId = vertegenwoordigerWerdVerwijderd.VertegenwoordigerId,
             Vervaldag = Vervaldag,
             Reden = Reden,
-            BewaartermijnId =
-            BewaartermijnId.CreateId(DecentraalBeheer.Vereniging.VCode.Create(verenigingWerdGeregistreerd.VCode),
-                                     PersoonsgegevensType.Vertegenwoordigers,
-                                     vertegenwoordigerWerdVerwijderd.VertegenwoordigerId),
+            BewaartermijnId = BewaartermijnId.CreateId(
+                DecentraalBeheer.Vereniging.VCode.Create(verenigingWerdGeregistreerd.VCode),
+                PersoonsgegevensType.Vertegenwoordigers,
+                vertegenwoordigerWerdVerwijderd.VertegenwoordigerId
+            ),
         };
 
-        await _store.SaveNew(verenigingWerdGeregistreerd.VCode,
-                             CommandMetadata.ForDigitaalVlaanderenProcess,
-                             CancellationToken.None,
-                             [
-                                 verenigingWerdGeregistreerd, vertergenwoordigerWerdGewijzigd,
-                                 vertegenwoordigerWerdVerwijderd,
-                             ]);
+        await _store.SaveNew(
+            verenigingWerdGeregistreerd.VCode,
+            CommandMetadata.ForDigitaalVlaanderenProcess,
+            CancellationToken.None,
+            [verenigingWerdGeregistreerd, vertergenwoordigerWerdGewijzigd, vertegenwoordigerWerdVerwijderd]
+        );
 
-        await _store.SaveNew(bewaartermijnWerdGestartV2.BewaartermijnId,
-                             CommandMetadata.ForDigitaalVlaanderenProcess,
-                             CancellationToken.None,
-                             [bewaartermijnWerdGestartV2]);
+        await _store.SaveNew(
+            bewaartermijnWerdGestartV2.BewaartermijnId,
+            CommandMetadata.ForDigitaalVlaanderenProcess,
+            CancellationToken.None,
+            [bewaartermijnWerdGestartV2]
+        );
 
         VCode = verenigingWerdGeregistreerd.VCode;
         VertegenwoordigerId = vertergenwoordigerWerdGewijzigd.VertegenwoordigerId;
     }
 }
 
-public class
-    VerloopBewaartermijnCommandHandlerTests : IClassFixture<
-    VerwijderVertegenwoordigerPersoonsgegevensCommandFixture>
+public class VerloopBewaartermijnCommandHandlerTests
+    : IClassFixture<VerwijderVertegenwoordigerPersoonsgegevensCommandFixture>
 {
     private readonly IDocumentSession _session;
     private readonly string _vCode;
@@ -115,8 +116,7 @@ public class
     private readonly Instant _vervaldag;
     private readonly string _reden;
 
-    public VerloopBewaartermijnCommandHandlerTests(
-        VerwijderVertegenwoordigerPersoonsgegevensCommandFixture fixture)
+    public VerloopBewaartermijnCommandHandlerTests(VerwijderVertegenwoordigerPersoonsgegevensCommandFixture fixture)
     {
         _session = fixture.Session;
         _vCode = fixture.VCode;
@@ -138,36 +138,44 @@ public class
     [Fact]
     public async Task Then_It_Saves_BewaartermijnWerdVerlopen_Event_On_Bewaartermijn()
     {
-        var bewaartermijnWerdVerlopen =
-            await _session.Events.QueryRawEventDataOnly<BewaartermijnWerdVerlopen>().FirstAsync();
+        var bewaartermijnWerdVerlopen = await _session
+            .Events.QueryRawEventDataOnly<BewaartermijnWerdVerlopen>()
+            .SingleAsync();
 
-        bewaartermijnWerdVerlopen.Should()
-                                 .BeEquivalentTo(new BewaartermijnWerdVerlopen(
-                                                     BewaartermijnId.CreateId(
-                                                         VCode.Create(_vCode),
-                                                         PersoonsgegevensType.Vertegenwoordigers,
-                                                         _vertegenwoordigerId),
-                                                     _vCode,
-                                                     PersoonsgegevensType.Vertegenwoordigers.Value,
-                                                     _vertegenwoordigerId,
-                                                     _reden,
-                                                     _vervaldag));
+        bewaartermijnWerdVerlopen
+            .Should()
+            .BeEquivalentTo(
+                new BewaartermijnWerdVerlopen(
+                    BewaartermijnId.CreateId(
+                        VCode.Create(_vCode),
+                        PersoonsgegevensType.Vertegenwoordigers,
+                        _vertegenwoordigerId
+                    ),
+                    _vCode,
+                    PersoonsgegevensType.Vertegenwoordigers.Value,
+                    _vertegenwoordigerId,
+                    _reden,
+                    _vervaldag
+                )
+            );
     }
 
     [Fact]
     public async Task Then_It_Saves_VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd_Event_On_Vereniging()
     {
-        var vertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd =
-            await _session.Events.QueryRawEventDataOnly<VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd>()
-                          .FirstAsync();
+        var vertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd = await _session
+            .Events.QueryRawEventDataOnly<VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd>()
+            .SingleAsync();
 
-        vertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd.Should()
-                                                             .BeEquivalentTo(
-                                                                  new
-                                                                      VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd(
-                                                                          _vCode,
-                                                                          _vertegenwoordigerId,
-                                                                          _reden,
-                                                                          _vervaldag));
+        vertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd
+            .Should()
+            .BeEquivalentTo(
+                new VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd(
+                    _vCode,
+                    _vertegenwoordigerId,
+                    _reden,
+                    _vervaldag
+                )
+            );
     }
 }

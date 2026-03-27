@@ -33,13 +33,13 @@ public static class ApiSetupExtensions
         return events.Max(a => a.Sequence);
     }
 
-    public static async Task WaitForBewaartermijnEvent(this IApiSetup apiSetup, string vCode, int recordId)
+    public static async Task WaitForBewaartermijnEvent(this IApiSetup apiSetup, string vCode, int entityId)
     {
         await using var session = apiSetup.AdminApiHost.DocumentStore().LightweightSession();
         var events = await session.Events.QueryRawEventDataOnly<BewaartermijnWerdGestartV2>().ToListAsync();
         var counter = 0;
 
-        while (!HasBewaartermijnEvent(events, vCode, recordId))
+        while (!HasBewaartermijnEvent(events, vCode, entityId))
         {
             await Task.Delay(200);
             events = await session.Events.QueryRawEventDataOnly<BewaartermijnWerdGestartV2>().ToListAsync();
@@ -52,12 +52,12 @@ public static class ApiSetupExtensions
     private static bool HasBewaartermijnEvent(
         IReadOnlyList<BewaartermijnWerdGestartV2> events,
         string vCode,
-        int recordId
+        int entityId
     )
     {
         var bewaartermijnEvent = events.FirstOrDefault(x =>
             x.BewaartermijnId
-            == BewaartermijnId.CreateId(VCode.Create(vCode), PersoonsgegevensType.Vertegenwoordigers, recordId)
+            == BewaartermijnId.CreateId(VCode.Create(vCode), PersoonsgegevensType.Vertegenwoordigers, entityId)
         );
 
         return bewaartermijnEvent != null;

@@ -51,7 +51,7 @@ public class Returns_Bewaartermijn_For_Removed_Vertegenwoordiger : End2EndTest<B
                     BewaartermijnId = expectedId,
                     VCode = _testContext.VCode.ToString(),
                     BewaartermijnType = PersoonsgegevensType.Vertegenwoordigers.Value,
-                    RecordId = _testContext.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+                    EntityId = _testContext.Scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                     Reden = BewaartermijnReden.VertegenwoordigerWerdVerwijderd,
                     Status = BewaartermijnStatus.StatusGepland.Naam,
                     Gebeurtenissen = new object[] { new { Status = BewaartermijnStatus.StatusGepland.Naam } },
