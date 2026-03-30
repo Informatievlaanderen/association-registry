@@ -20,6 +20,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 using Persoonsgegevens;
+using Queries;
 using Serilog;
 using Serilog.Debugging;
 
@@ -39,25 +40,26 @@ public static class Program
     public static IHost BuildHost()
     {
         return Host.CreateDefaultBuilder()
-                   .ConfigureAppConfiguration((context, builder) =>
-                                                  builder
-                                                     .AddJsonFile("appsettings.json")
-                                                     .AddJsonFile(
-                                                          $"appsettings.{context.HostingEnvironment.EnvironmentName.ToLowerInvariant()}.json",
-                                                          optional: true,
-                                                          reloadOnChange: false
-                                                      )
-                                                     .AddJsonFile(
-                                                          $"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
-                                                          optional: true,
-                                                          reloadOnChange: false
-                                                      )
-                                                     .AddEnvironmentVariables()
-                    )
-                   .ConfigureServices(ConfigureServices)
-                   .ConfigureLogging(ConfigureLogger)
-                   .ApplyJasperFxExtensions()
-                   .Build();
+            .ConfigureAppConfiguration(
+                (context, builder) =>
+                    builder
+                        .AddJsonFile("appsettings.json")
+                        .AddJsonFile(
+                            $"appsettings.{context.HostingEnvironment.EnvironmentName.ToLowerInvariant()}.json",
+                            optional: true,
+                            reloadOnChange: false
+                        )
+                        .AddJsonFile(
+                            $"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
+                            optional: true,
+                            reloadOnChange: false
+                        )
+                        .AddEnvironmentVariables()
+            )
+            .ConfigureServices(ConfigureServices)
+            .ConfigureLogging(ConfigureLogger)
+            .ApplyJasperFxExtensions()
+            .Build();
     }
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
@@ -70,34 +72,36 @@ public static class Program
         services.AddOpenTelemetryServices().AddMarten(postgreSqlOptions, autoCreate).AddWolverine(postgreSqlOptions);
 
         services
-           .AddSingleton(postgreSqlOptions)
-           .AddSingleton<IClock>(SystemClock.Instance)
-           .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
-           .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
-           .AddSingleton<EventConflictResolver>()
-           .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
-           .AddScoped<IEventStore, EventStore>()
-           .AddScoped<IAggregateSession, AggregateSession>()
-           .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
-           .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
-           .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
-           .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
-           .AddScoped<PersoonsgegevensEventTransformers>()
-           .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
-           .AddScoped<VerloopBewaartermijnCommandHandler>()
-           .AddScoped<INotifier, SlackNotifier>()
-           .AddHostedService<ExpiredBewaartermijnBackgroundService>();
+            .AddSingleton(postgreSqlOptions)
+            .AddSingleton<IClock>(SystemClock.Instance)
+            .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
+            .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
+            .AddSingleton<EventConflictResolver>()
+            .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
+            .AddScoped<IEventStore, EventStore>()
+            .AddScoped<IAggregateSession, AggregateSession>()
+            .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+            .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+            .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
+            .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
+            .AddScoped<PersoonsgegevensEventTransformers>()
+            .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
+            .AddScoped<VerloopBewaartermijnCommandHandler>()
+            .AddScoped<IVerlopenBewaartermijnenProcessor, VerlopenBewaartermijnenProcessor>()
+            .AddScoped<IVerlopenBewaartermijnQuery, VerlopenBewaartermijnQuery>()
+            .AddScoped<INotifier, SlackNotifier>()
+            .AddHostedService<ExpiredBewaartermijnBackgroundService>();
     }
 
     private static void ConfigureLogger(HostBuilderContext context, ILoggingBuilder builder)
     {
         var loggerConfig = new LoggerConfiguration()
-                          .ReadFrom.Configuration(context.Configuration)
-                          .Enrich.FromLogContext()
-                          .Enrich.WithMachineName()
-                          .Enrich.WithThreadId()
-                          .Enrich.WithEnvironmentUserName()
-                          .Destructure.JsonNetTypes();
+            .ReadFrom.Configuration(context.Configuration)
+            .Enrich.FromLogContext()
+            .Enrich.WithMachineName()
+            .Enrich.WithThreadId()
+            .Enrich.WithEnvironmentUserName()
+            .Destructure.JsonNetTypes();
 
         var logger = loggerConfig.CreateLogger();
 
@@ -112,7 +116,8 @@ public static class Program
             options.IncludeFormattedMessage = true;
             options.ParseStateValues = true;
 
-            options.AddOtlpExporter((exporterOptions, _) =>
+            options.AddOtlpExporter(
+                (exporterOptions, _) =>
                 {
                     exporterOptions.Protocol = OtlpExportProtocol.Grpc;
                     exporterOptions.Endpoint = new Uri(ServiceCollectionExtensions.CollectorUrl);
