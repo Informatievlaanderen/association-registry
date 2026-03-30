@@ -230,6 +230,7 @@ jobs:
 
       - name: Wait for LocalStack
         shell: bash
+        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E'
         run: |
           timeout 120s bash -c 'until curl -fsS http://127.0.0.1:4566/_localstack/health > /dev/null; do
           echo "Waiting for LocalStack..."
