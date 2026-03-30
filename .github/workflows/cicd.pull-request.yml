@@ -228,6 +228,15 @@ jobs:
         shell: bash
         run: dotnet build --no-restore
 
+      - name: Wait for LocalStack
+        shell: bash
+        if: ${{ inputs.run-docker-localstack }}
+        run: |
+          timeout 120s bash -c 'until curl -fsS http://127.0.0.1:4566/_localstack/health > /dev/null; do
+          echo "Waiting for LocalStack..."
+          sleep 3
+          done'
+
       - name: Wait for db container
         shell: bash
         run: |
