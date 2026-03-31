@@ -12,6 +12,7 @@ using Events;
 using FluentAssertions;
 using Marten;
 using MartenDb.Store;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NodaTime;
@@ -30,7 +31,7 @@ public class VerwijderVertegenwoordigerPersoonsgegevensCommandFixture : IAsyncLi
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        _host = Program.BuildHost();
+        _host = Program.BuildHost(ConfigureForTesting());
 
         await using var scope = _host.Services.CreateAsyncScope();
         var sp = scope.ServiceProvider;
@@ -51,6 +52,28 @@ public class VerwijderVertegenwoordigerPersoonsgegevensCommandFixture : IAsyncLi
         };
 
         await handler.Handle(commandEnvelope);
+    }
+
+    private Action<IHostBuilder> ConfigureForTesting()
+    {
+        return hostBuilder =>
+        {
+            hostBuilder
+                .UseEnvironment("Development")
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureAppConfiguration(
+                    (context, config) =>
+                    {
+                        config.AddInMemoryCollection(
+                            new Dictionary<string, string?>
+                            {
+                                ["IsTesting"] = "true",
+                                ["ApplyAllDatabaseChangesDisabled"] = "true",
+                            }
+                        );
+                    }
+                );
+        };
     }
 
     public async ValueTask DisposeAsync()

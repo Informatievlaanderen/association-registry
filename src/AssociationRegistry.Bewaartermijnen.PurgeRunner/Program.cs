@@ -37,12 +37,12 @@ public static class Program
         await host.RunJasperFxCommands(args);
     }
 
-    public static IHost BuildHost()
+    public static IHost BuildHost(Action<IHostBuilder>? configureHost = null)
     {
-        return Host.CreateDefaultBuilder()
+        var builder = Host.CreateDefaultBuilder()
             .ConfigureAppConfiguration(
-                (context, builder) =>
-                    builder
+                (context, configBuilder) =>
+                    configBuilder
                         .AddJsonFile("appsettings.json")
                         .AddJsonFile(
                             $"appsettings.{context.HostingEnvironment.EnvironmentName.ToLowerInvariant()}.json",
@@ -58,8 +58,11 @@ public static class Program
             )
             .ConfigureServices(ConfigureServices)
             .ConfigureLogging(ConfigureLogger)
-            .ApplyJasperFxExtensions()
-            .Build();
+            .ApplyJasperFxExtensions();
+
+        configureHost?.Invoke(builder);
+
+        return builder.Build();
     }
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
