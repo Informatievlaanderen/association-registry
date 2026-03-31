@@ -43,7 +43,7 @@ public static class WolverineSetup
                         TimeSpan.FromSeconds(5)
                     );
 
-                options.Discovery.IncludeAssembly(typeof(BewaartermijnEventHandler).Assembly); // TODO remove
+                options.Discovery.IncludeAssembly(typeof(BewaartermijnVertegenwoordigersEventHandler).Assembly); // TODO remove
 
                 RegistreerVzerPipeline.Setup(options);
                 VoegVertegenwoordigerToePipeline.Setup(options);
