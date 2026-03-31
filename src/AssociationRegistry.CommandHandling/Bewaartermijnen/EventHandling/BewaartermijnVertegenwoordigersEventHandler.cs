@@ -6,11 +6,14 @@ using Events;
 using Framework;
 using Integrations.Grar.Bewaartermijnen;
 using JasperFx.Events;
+using JasperFx.Events.Projections;
 using NodaTime;
 using IEventStore = MartenDb.Store.IEventStore;
 
-public static class BewaartermijnEventHandler
+public static class BewaartermijnVertegenwoordigersEventHandler
 {
+    public static ShardName ShardName = new("beheer.eventsubscription.bewaartermijn.vertegenwoordigers");
+
     public static async Task Handle(
         IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> @event,
         IEventStore eventStore,

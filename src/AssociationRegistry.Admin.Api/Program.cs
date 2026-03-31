@@ -542,10 +542,8 @@ public class Program
             .AddScoped<IMagdaSyncGeefVerenigingService, SyncGeefVerenigingService>()
             .AddScoped<IFilterVzerOnlyQuery, FilterVzerOnlyQuery>()
             .AddScoped<VzerVertegenwoordigerForInszQuery>()
-            .AddMarten(
-                configuration: builder.Configuration,
-                postgreSqlOptions: postgreSqlOptionsSection,
-                builder.Environment.IsDevelopment()
+            .AddMarten(postgreSqlOptions: postgreSqlOptionsSection,
+                       builder.Environment.IsDevelopment()
             )
             .AddElasticSearch(elasticSearchOptionsSection)
             .AddHttpContextAccessor()
