@@ -1,3 +1,33 @@
+# [8.310.0](https://github.com/informatievlaanderen/association-registry/compare/v8.309.0...v8.310.0) (2026-03-31)
+
+
+### Bug Fixes
+
+* or-3063 refactor redundant code bewaartermijn ([8c80ab5](https://github.com/informatievlaanderen/association-registry/commit/8c80ab51839b7940063964f71a5c2ab09291b708))
+* or-3065 register services on bewaartermijn purgerunner ([1acadc0](https://github.com/informatievlaanderen/association-registry/commit/1acadc0adba476f8d78777c0ddfe61e3bc3a9ddf))
+
+
+### Features
+
+* or-3063 scheduled task bewaartermijnen ([e8b7206](https://github.com/informatievlaanderen/association-registry/commit/e8b720619388784400184c4fe135098282592855))
+* or-3063 use a V2 for BewaartermijnWerdGestart ([93d20db](https://github.com/informatievlaanderen/association-registry/commit/93d20dbcfef89fa15b01188673f50f8a2cf916af))
+* or-3065 create Bewaartermijn for VerenigingWerdVerwijderd ([9d5606e](https://github.com/informatievlaanderen/association-registry/commit/9d5606e86fd57b415547084cf6e3b1ceb39ec911))
+* or-3065 create Bewaartermijn for VertegenwoordigerWerdVerwijderd ([68c12df](https://github.com/informatievlaanderen/association-registry/commit/68c12df38e358da4b0b2c6104b59e708d2d4027f))
+* or-3065 Rebuild event subscription bewaartermijn ([761f1a9](https://github.com/informatievlaanderen/association-registry/commit/761f1a959a701dc6e644f8399fef9b612900cda9))
+* or-3065 remove outbox from ksz handler ([e547520](https://github.com/informatievlaanderen/association-registry/commit/e547520b29e2b5bcc7a8f34c5371624564bc820f))
+* or-3065 rename project and fix naming ci bewaartermijn purgerunner ([362631e](https://github.com/informatievlaanderen/association-registry/commit/362631eeb1b265f7506352926a29044fb638d20f))
+* or-3065 set persoonsgegevens anonymous in upcasters for vertegenwoordigers ([76ae2ad](https://github.com/informatievlaanderen/association-registry/commit/76ae2ad0818ae7b1076164df1e9d816e8dbaec16))
+* or-3065 set persoonsgegevens anonymous in upcasters for vertegenwoordigers on FV ([abbc3f4](https://github.com/informatievlaanderen/association-registry/commit/abbc3f4961f3746c477c7a7bb1a9522713c24ada))
+* or-3065 set persoonsgegevens anonymous in upcasters for vertegenwoordigers on KBO ([0269c90](https://github.com/informatievlaanderen/association-registry/commit/0269c9006e45b96e98f76b2ca735587234413972))
+* or-3065 set persoonsgegevens fields anonymous on beheer historiek ([707f476](https://github.com/informatievlaanderen/association-registry/commit/707f476289e5db72579671c43b96818e2948c6ca))
+* or-3065 use an event handler for starting bewaartermijn ([490a5d7](https://github.com/informatievlaanderen/association-registry/commit/490a5d7d8ef71306dffb09656da709994efcccfc))
+* or-3065 wolv SubscribeFromSequence on event subscription ([47e68f5](https://github.com/informatievlaanderen/association-registry/commit/47e68f5885e934e14cfbafe2382a567f96a24f4d))
+* or-3066 start bewaartermijn for ksz sync overleden persoon ([c85df54](https://github.com/informatievlaanderen/association-registry/commit/c85df54dfa435090f97fbf37599b5c4584391b02))
+* or-3068 add VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd when bewaartermijn verlopen ([98a317f](https://github.com/informatievlaanderen/association-registry/commit/98a317ff2098593344fc629e88a1fee072a59191))
+* or-3068 delete VertegenwoordigerPersoonsgegevens and create BewaartermijnWerdVerlopen for VerlopenBewaartermijn ([23a4b2b](https://github.com/informatievlaanderen/association-registry/commit/23a4b2babd9fb482aa84933af67e3fc88171ac7e))
+* or-3068 introduce scheduled task for verlopen bewaartermijnen ([28ab45c](https://github.com/informatievlaanderen/association-registry/commit/28ab45cafd6a3b49ea2cd324a87341abe8866ef0))
+* or-3068 rename bewaartermijnprocessor to Bewaartermijnen.PurgeRunner ([d75d282](https://github.com/informatievlaanderen/association-registry/commit/d75d2821e520d5d4ec54d9ff9fcf7417fb214331))
+
 # [8.309.0](https://github.com/informatievlaanderen/association-registry/compare/v8.308.6...v8.309.0) (2026-03-19)
 
 
