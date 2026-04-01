@@ -106,17 +106,20 @@ public static class Program
             .AddScoped<PersoonsgegevensEventTransformers>()
             .AddScoped<TeSynchroniserenLocatieAdresMessageHandler>()
             .AddScoped<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
-            .AddScoped<ITeSynchroniserenLocatiesZonderAdresMatchFetcher, TeSynchroniserenLocatiesZonderAdresMatchFetcher>()
-            .AddScoped<ISyncLocatieAdresHandler, SyncLocatieAdresHandler>()
+            .AddScoped<
+                ITeSynchroniserenLocatiesZonderAdresMatchFetcher,
+                TeSynchroniserenLocatiesZonderAdresMatchFetcher
+            >()
+            .AddScoped<ISyncLocatieAdresHandler, SyncLocatiesMetAdresIdProcessor>()
             .AddScoped<ISyncLocatieZonderAdresMatchHandler, Handlers.SyncLocatieZonderAdresMatchHandler>()
             .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
             .AddTransient<INotifier, SlackNotifier>()
             .AddTransient<IGeotagsService, GeotagsService>()
             .AddTransient<IAggregateSession, AggregateSession>()
-           .AddTransient<IAdresMatchService, AdresMatchService>()
-           .AddTransient<IAdresMatchStrategy, PerfectScoreMatchStrategy>()
-           .AddTransient<IAddressVerrijkingsService, GrarAddressVerrijkingsService>()
-           .AddHostedService<AddressSyncService>();
+            .AddTransient<IAdresMatchService, AdresMatchService>()
+            .AddTransient<IAdresMatchStrategy, PerfectScoreMatchStrategy>()
+            .AddTransient<IAddressVerrijkingsService, GrarAddressVerrijkingsService>()
+            .AddHostedService<AddressSyncService>();
     }
 
     private static void ConfigureLogger(HostBuilderContext context, ILoggingBuilder builder)

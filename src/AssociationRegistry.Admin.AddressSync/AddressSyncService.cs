@@ -10,7 +10,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 public record NachtelijkeAdresSyncVolgensAdresId(string AdresId, List<LocatieIdWithVCode> LocatieIdWithVCodes);
+
 public record NachtelijkeAdresSyncVolgensVCode(string VCode, List<LocatieWithAdres> LocatieWithAdres);
+
 public record LocatieIdWithVCode(int LocatieId, string VCode);
 
 public class AddressSyncService(
@@ -20,8 +22,7 @@ public class AddressSyncService(
     IServiceProvider serviceProvider,
     ISyncLocatieAdresHandler syncLocatieAdresHandler,
     ISyncLocatieZonderAdresMatchHandler syncLocatieZonderAdresMatchHandler
-)
-    : BackgroundService
+) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
@@ -31,10 +32,13 @@ public class AddressSyncService(
         AdressSyncError[] errors = [];
         try
         {
-            var locatieAdresSyncErrors = await syncLocatieAdresHandler.Handle(session, cancellationToken);
+            var locatieAdresSyncErrors = await syncLocatieAdresHandler.Handle(cancellationToken);
             errors = errors.Union(locatieAdresSyncErrors).ToArray();
 
-            var locatieZonderAdresMatchSyncErrors = await syncLocatieZonderAdresMatchHandler.Handle(session, cancellationToken);
+            var locatieZonderAdresMatchSyncErrors = await syncLocatieZonderAdresMatchHandler.Handle(
+                session,
+                cancellationToken
+            );
             errors = errors.Union(locatieZonderAdresMatchSyncErrors).ToArray();
 
             if (errors.Any())
@@ -55,4 +59,5 @@ public class AddressSyncService(
         }
     }
 }
-public record AdressSyncError(string VCode, List<int> LocatieIds);
+
+public record AdressSyncError(string VCode, List<int> LocatieIds, Exception Exception);
