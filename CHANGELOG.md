@@ -1,3 +1,10 @@
+# [8.311.0](https://github.com/informatievlaanderen/association-registry/compare/v8.310.0...v8.311.0) (2026-04-01)
+
+
+### Features
+
+* or-3065 implement rebuild for bewaartermijn projection ([fa7144e](https://github.com/informatievlaanderen/association-registry/commit/fa7144e481a36cf89134293fbf0d8578292584d7))
+
 # [8.310.0](https://github.com/informatievlaanderen/association-registry/compare/v8.309.0...v8.310.0) (2026-03-31)
 
 
