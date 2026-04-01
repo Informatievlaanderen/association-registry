@@ -1,16 +1,21 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
+using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;
 using Destructurama;
 using EventStore;
 using EventStore.ConflictResolution;
+using Fetchers;
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Logs;
 using global::OpenTelemetry.Resources;
+using Grar.AdresMatch;
+using Handlers;
 using Hosts;
 using Infrastructure.Extensions;
 using Integrations.Grar;
+using Integrations.Grar.AdresMatch;
 using Integrations.Grar.Clients;
 using Integrations.Slack;
 using JasperFx;
@@ -93,6 +98,7 @@ public static class Program
             .AddTransient<IEventStore, EventStore>()
             .AddScoped<IAggregateSession, AggregateSession>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+            .AddScoped<ITeSynchroniserenLocatieAdresMessageHandler, TeSynchroniserenLocatieAdresMessageHandler>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
             .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
             .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
@@ -100,10 +106,17 @@ public static class Program
             .AddScoped<PersoonsgegevensEventTransformers>()
             .AddScoped<TeSynchroniserenLocatieAdresMessageHandler>()
             .AddScoped<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
+            .AddScoped<ITeSynchroniserenLocatiesZonderAdresMatchFetcher, TeSynchroniserenLocatiesZonderAdresMatchFetcher>()
+            .AddScoped<ISyncLocatieAdresHandler, SyncLocatieAdresHandler>()
+            .AddScoped<ISyncLocatieZonderAdresMatchHandler, Handlers.SyncLocatieZonderAdresMatchHandler>()
+            .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
             .AddTransient<INotifier, SlackNotifier>()
             .AddTransient<IGeotagsService, GeotagsService>()
             .AddTransient<IAggregateSession, AggregateSession>()
-            .AddHostedService<AddressSyncService>();
+           .AddTransient<IAdresMatchService, AdresMatchService>()
+           .AddTransient<IAdresMatchStrategy, PerfectScoreMatchStrategy>()
+           .AddTransient<IAddressVerrijkingsService, GrarAddressVerrijkingsService>()
+           .AddHostedService<AddressSyncService>();
     }
 
     private static void ConfigureLogger(HostBuilderContext context, ILoggingBuilder builder)

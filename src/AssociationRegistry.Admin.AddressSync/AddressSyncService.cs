@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
 using Grar.Models;
+using Handlers;
 using Infrastructure.Notifications;
 using Integrations.Slack;
 using Marten;
-using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,44 +14,38 @@ public record NachtelijkeAdresSyncVolgensVCode(string VCode, List<LocatieWithAdr
 public record LocatieIdWithVCode(int LocatieId, string VCode);
 
 public class AddressSyncService(
-    IServiceProvider serviceProvider,
+    IHostApplicationLifetime hostApplicationLifetime,
     ILogger<AddressSyncService> logger,
-    IHostApplicationLifetime hostApplicationLifetime
-    )
+    INotifier notifier,
+    IServiceProvider serviceProvider,
+    ISyncLocatieAdresHandler syncLocatieAdresHandler,
+    ISyncLocatieZonderAdresMatchHandler syncLocatieZonderAdresMatchHandler
+)
     : BackgroundService
 {
-
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         using var scope = serviceProvider.CreateScope();
-
         var store = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
-        var handler = scope.ServiceProvider.GetRequiredService<TeSynchroniserenLocatieAdresMessageHandler>();
-        var teSynchroniserenLocatiesFetcher = scope.ServiceProvider.GetRequiredService<ITeSynchroniserenLocatiesFetcher>();
-        var notifier = scope.ServiceProvider.GetRequiredService<INotifier>();
-
         await using var session = store.LightweightSession();
-
+        AdressSyncError[] errors = [];
         try
         {
-            logger.LogInformation($"Adressen synchroniseren werd gestart.");
+            var locatieAdresSyncErrors = await syncLocatieAdresHandler.Handle(session, cancellationToken);
+            errors = errors.Union(locatieAdresSyncErrors).ToArray();
 
-            var messages = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, cancellationToken);
+            var locatieZonderAdresMatchSyncErrors = await syncLocatieZonderAdresMatchHandler.Handle(session, cancellationToken);
+            errors = errors.Union(locatieZonderAdresMatchSyncErrors).ToArray();
 
-            logger.LogInformation($"Er werden {messages.Count()} synchroniseer berichten gevonden.");
-
-            foreach (var synchroniseerLocatieMessage in messages)
+            if (errors.Any())
             {
-                await handler.Handle(synchroniseerLocatieMessage, cancellationToken);
+                throw new Exception();
             }
-
-            logger.LogInformation($"Adressen synchroniseren werd voltooid.");
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"Adressen synchroniseren kon niet voltooid worden. {ex.Message}");
-            await notifier.Notify(new AdresSynchronisatieGefaald(ex));
-
+            logger.LogError($"AddressSyncService kon niet voltooid worden. {ex.Message}");
+            await notifier.Notify(new AdresMatchSynchronisatieGefaald(errors));
             throw;
         }
         finally
@@ -61,3 +55,4 @@ public class AddressSyncService(
         }
     }
 }
+public record AdressSyncError(string VCode, List<int> LocatieIds);

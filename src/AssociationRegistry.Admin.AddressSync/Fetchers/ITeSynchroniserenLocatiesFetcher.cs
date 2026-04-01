@@ -1,6 +1,6 @@
-namespace AssociationRegistry.Admin.AddressSync;
+namespace AssociationRegistry.Admin.AddressSync.Fetchers;
 
-using Integrations.Grar.Integration.Messages;
+using AssociationRegistry.Integrations.Grar.Integration.Messages;
 using Marten;
 
 public interface ITeSynchroniserenLocatiesFetcher

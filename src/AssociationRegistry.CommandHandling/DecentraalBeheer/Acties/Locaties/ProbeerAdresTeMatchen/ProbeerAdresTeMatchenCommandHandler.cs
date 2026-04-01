@@ -11,7 +11,7 @@ using AssociationRegistry.Grar.AdresMatch;
 using MartenDb.Store;
 using Microsoft.Extensions.Logging;
 
-public class ProbeerAdresTeMatchenCommandHandler
+public class ProbeerAdresTeMatchenCommandHandler: IProbeerAdresTeMatchenCommandHandler
 {
     private readonly ILogger<ProbeerAdresTeMatchenCommandHandler> _logger;
     private readonly IAdresMatchService _adresMatchService;
