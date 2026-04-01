@@ -15,6 +15,13 @@ public class AdminProjectionHostHttpClient : IDisposable
     public async Task<HttpResponseMessage> RebuildDetailProjection(CancellationToken cancellationToken) =>
         await _httpClient.PostAsync(requestUri: "/v1/projections/detail/rebuild", content: null, cancellationToken);
 
+    public async Task<HttpResponseMessage> RebuildBewaartermijnProjection(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(
+            requestUri: "/v1/projections/bewaartermijn/rebuild",
+            content: null,
+            cancellationToken
+        );
+
     public async Task<HttpResponseMessage> RebuildLocatieGekoppeldMetGrarProjection(
         CancellationToken cancellationToken
     ) =>

@@ -30,7 +30,8 @@ public class ProjectionController : ApiController
         AdminProjectionHostHttpClient adminHttpClient,
         PublicProjectionHostHttpClient publicHttpClient,
         IProjectionCoordinator projectionCoordinator,
-        ILogger<ProjectionController> logger)
+        ILogger<ProjectionController> logger
+    )
     {
         _adminHttpClient = adminHttpClient;
         _publicHttpClient = publicHttpClient;
@@ -59,14 +60,27 @@ public class ProjectionController : ApiController
     [HttpPost("admin/eventsubscription/bewaartermijn/vertegenwoordigers/rebuild")]
     public async Task<IActionResult> RebuildEventSubscriptionBewaartermijnVertegenwoordigers(
         CancellationToken cancellationToken,
-        [FromQuery] long sequence = 0)
+        [FromQuery] long sequence = 0
+    )
     {
         await EventSubscriptionRebuildExtensions.StartRebuildSubscription(
             BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
             _projectionCoordinator,
-            sequence);
+            sequence
+        );
 
         return Ok();
+    }
+
+    [HttpPost("admin/bewaartermijn/rebuild")]
+    public async Task<IActionResult> RebuildBewaartermijnen(
+        CancellationToken cancellationToken,
+        [FromQuery] long sequence = 0
+    )
+    {
+        var response = await _adminHttpClient.RebuildBewaartermijnProjection(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
     }
 
     [HttpPost("admin/locaties/gekoppeldmetgrar/rebuild")]

@@ -86,6 +86,15 @@ public static class ProjectionEndpointsExtensions
         );
 
         app.MapPost(
+            "v1/projections/bewaartermijn/rebuild",
+            async (IDocumentStore store, ILogger<Program> logger) =>
+            {
+                await StartRebuild(BewaartermijnProjection.ShardName, store, shardTimeout, logger);
+                return Results.Accepted();
+            }
+        );
+
+        app.MapPost(
             "v1/projections/locaties/gekoppeldmetgrar/rebuild",
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
