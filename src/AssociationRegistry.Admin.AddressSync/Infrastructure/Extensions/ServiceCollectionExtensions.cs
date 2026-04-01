@@ -120,6 +120,7 @@ public static class ServiceCollectionExtensions
                                       opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
                                       opts.RegisterDocumentType<BankrekeningnummerPersoonsgegevensDocument>();
                                       opts.RegisterDocumentType<LocatieLookupDocument>();
+                                      opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
                                       opts.RegisterDocumentType<VerenigingState>();
                                       opts.RegisterDocumentType<PostalNutsLauInfo>();
 

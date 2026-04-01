@@ -4,11 +4,9 @@ using CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
 using Integrations.Grar.Integration.Messages;
 using DecentraalBeheer.Vereniging;
 using Hosts.Configuration.ConfigurationBindings;
-using JasperFx.CodeGeneration;
 using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Vereniging;
 using Wolverine;
 using Wolverine.Postgresql;
 

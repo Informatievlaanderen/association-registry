@@ -1,23 +1,19 @@
-namespace AssociationRegistry.Test.Admin.AddressSync;
+namespace AssociationRegistry.Test.Admin.AddressSync.Fetchers;
 
-using AssociationRegistry.Admin.AddressSync;
-using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Admin.AddressSync.Fetchers;
 using AssociationRegistry.Admin.Schema.Locaties;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
+using AssociationRegistry.Events;
 using AssociationRegistry.Grar.Models;
-using AutoFixture;
-using Common.AutoFixture;
-using DecentraalBeheer.Vereniging.Adressen;
-using Events;
-using FluentAssertions;
 using AssociationRegistry.Integrations.Grar.Clients;
-using Integrations.Grar.Exceptions;
-using Integrations.Grar.Integration.Messages;
+using AssociationRegistry.Integrations.Grar.Exceptions;
+using AssociationRegistry.Integrations.Grar.Integration.Messages;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AutoFixture;
+using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
 
 public class TeSynchroniserenLocatiesFetcherTests
 {
@@ -25,7 +21,6 @@ public class TeSynchroniserenLocatiesFetcherTests
     public async ValueTask Given_No_LocatieLookupDocumenten_Returns_Empty()
     {
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(TeSynchroniserenLocatiesFetcherTests));
-
         await using var session = store.LightweightSession();
 
         var teSynchroniserenLocatiesFetcher =
@@ -40,8 +35,8 @@ public class TeSynchroniserenLocatiesFetcherTests
     public async ValueTask Given_1_LocatieLookupDocumenten_Returns_1_Locatie()
     {
         var fixture = new Fixture().CustomizeDomain();
-        await using var store = await TestDocumentStoreFactory.CreateAsync(nameof(TeSynchroniserenLocatiesFetcherTests));
 
+        await using var store = await TestDocumentStoreFactory.CreateAsync(nameof(TeSynchroniserenLocatiesFetcherTests));
         await using var session = store.LightweightSession();
 
         var document = new LocatieLookupDocument

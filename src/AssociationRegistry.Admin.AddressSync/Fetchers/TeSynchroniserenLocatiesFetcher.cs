@@ -1,16 +1,14 @@
-namespace AssociationRegistry.Admin.AddressSync;
+namespace AssociationRegistry.Admin.AddressSync.Fetchers;
 
-using Grar.Exceptions;
-using Grar.Models;
-using Integrations.Grar.Integration.Messages;
-using Integrations.Grar;
-using Integrations.Grar.Clients;
-using Integrations.Grar.Exceptions;
+using System.Diagnostics.Contracts;
+using AssociationRegistry.Admin.Schema.Locaties;
+using AssociationRegistry.Grar.Exceptions;
+using AssociationRegistry.Grar.Models;
+using AssociationRegistry.Integrations.Grar.Clients;
+using AssociationRegistry.Integrations.Grar.Exceptions;
+using AssociationRegistry.Integrations.Grar.Integration.Messages;
 using Marten;
 using Microsoft.Extensions.Logging;
-using Schema.Detail;
-using System.Diagnostics.Contracts;
-using Schema.Locaties;
 
 public class TeSynchroniserenLocatiesFetcher(
     IGrarClient grarClient,

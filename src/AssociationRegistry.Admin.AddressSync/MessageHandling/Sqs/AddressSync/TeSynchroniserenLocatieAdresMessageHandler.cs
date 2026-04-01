@@ -4,7 +4,7 @@ using CommandHandling.Grar.NightlyAdresSync.SyncAdresLocaties;
 using Integrations.Grar.Integration.Messages;
 using Wolverine;
 
-public class TeSynchroniserenLocatieAdresMessageHandler(IMessageBus messageBus)
+public class TeSynchroniserenLocatieAdresMessageHandler(IMessageBus messageBus): ITeSynchroniserenLocatieAdresMessageHandler
 {
     public async Task Handle(TeSynchroniserenLocatieAdresMessage message, CancellationToken cancellationToken)
     {
@@ -15,4 +15,9 @@ public class TeSynchroniserenLocatieAdresMessageHandler(IMessageBus messageBus)
 
         await messageBus.InvokeAsync(command, cancellationToken);
     }
+}
+
+public interface ITeSynchroniserenLocatieAdresMessageHandler
+{
+    Task Handle(TeSynchroniserenLocatieAdresMessage message, CancellationToken cancellationToken);
 }
