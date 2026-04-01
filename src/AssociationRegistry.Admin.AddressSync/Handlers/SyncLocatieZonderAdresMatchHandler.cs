@@ -13,22 +13,21 @@ public class SyncLocatieZonderAdresMatchHandler(
     IProbeerAdresTeMatchenCommandHandler probeerAdresTeMatchenCommandHandler
 ) : ISyncLocatieZonderAdresMatchHandler
 {
-    public async Task<AdressSyncError[]> Handle(
-        IDocumentSession session,
-        CancellationToken cancellationToken)
+    public async Task<AdressSyncError[]> Handle(IDocumentSession session, CancellationToken cancellationToken)
     {
         AdressSyncError[] errors = [];
 
         logger.LogInformation("Locatie zonder adresmatch synchroniseren werd gestart.");
 
-        var locatieZonderAdresMatchDocuments =
-            await fetcher.GetTeSynchroniserenLocatiesZonderAdresMatch(
-                session,
-                cancellationToken);
+        var locatieZonderAdresMatchDocuments = await fetcher.GetTeSynchroniserenLocatiesZonderAdresMatch(
+            session,
+            cancellationToken
+        );
 
         logger.LogInformation(
             "Er werden {MessageCount} synchroniseer berichten voor locaties zonder adresmatch gevonden.",
-            locatieZonderAdresMatchDocuments.Count());
+            locatieZonderAdresMatchDocuments.Count()
+        );
 
         foreach (var doc in locatieZonderAdresMatchDocuments)
         {
@@ -38,17 +37,17 @@ public class SyncLocatieZonderAdresMatchHandler(
                 {
                     await probeerAdresTeMatchenCommandHandler.Handle(
                         new ProbeerAdresTeMatchenCommand(doc.VCode, locatieId),
-                        cancellationToken);
+                        cancellationToken
+                    );
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex,
-                                    $"Locatie zonder adresmatch synchroniseren kon niet voltooid worden. {ex.Message}");
+                    logger.LogError(
+                        ex,
+                        $"Locatie zonder adresmatch synchroniseren kon niet voltooid worden. {ex.Message}"
+                    );
 
-                    errors = errors
-                            .Append(new AdressSyncError(doc.VCode,
-                                                        [locatieId]))
-                            .ToArray();
+                    errors = errors.Append(new AdressSyncError(doc.VCode, [locatieId], ex)).ToArray();
                 }
             }
         }
