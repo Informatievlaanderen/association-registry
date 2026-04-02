@@ -1,3 +1,10 @@
+## [8.311.1](https://github.com/informatievlaanderen/association-registry/compare/v8.311.0...v8.311.1) (2026-04-02)
+
+
+### Bug Fixes
+
+* or-3065 apply event VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd ([b89c448](https://github.com/informatievlaanderen/association-registry/commit/b89c4481569fc6dc308a7c0f622d35eba0d27854))
+
 # [8.311.0](https://github.com/informatievlaanderen/association-registry/compare/v8.310.0...v8.311.0) (2026-04-01)
 
 
