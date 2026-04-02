@@ -38,6 +38,11 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         IDocumentOperations ops
     ) => DoCreate(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 
+    public async Task Project(
+        IEvent<VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd> @event,
+        IDocumentOperations ops
+    ) => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
@@ -286,11 +291,15 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<BankrekeningnummerWerdGewijzigd> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd> @event, IDocumentOperations ops) =>
-        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+    public async Task Project(
+        IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd> @event,
+        IDocumentOperations ops
+    ) => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt> @event, IDocumentOperations ops) =>
-        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+    public async Task Project(
+        IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt> @event,
+        IDocumentOperations ops
+    ) => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(IEvent<BankrekeningnummerWerdOvergenomenVanuitKBO> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
