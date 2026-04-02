@@ -44,7 +44,7 @@ public class Given_Errors_Between_Handling_Messages
             NullLogger<SyncLocatiesMetAdresIdProcessor>.Instance
         );
 
-        sut.Handle(CancellationToken.None).GetAwaiter().GetResult();
+        sut.Process(CancellationToken.None).GetAwaiter().GetResult();
     }
 
     [Fact]

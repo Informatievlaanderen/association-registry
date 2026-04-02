@@ -1,20 +1,11 @@
 namespace AssociationRegistry.Admin.AddressSync.Handlers;
 
 using Fetchers;
-using Grar.Models;
-using Infrastructure.Notifications;
-using Integrations.Slack;
 using Marten;
 using MessageHandling.Sqs.AddressSync;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-public interface ISyncLocatieAdresHandler
-{
-    Task<AdressSyncError[]> Handle(CancellationToken cancellationToken);
-}
-
-public class SyncLocatiesMetAdresIdProcessor : ISyncLocatieAdresHandler
+public class SyncLocatiesMetAdresIdProcessor : ISyncLocatieAdresProcessor
 {
     private readonly ITeSynchroniserenLocatiesFetcher _fetcher;
     private readonly ITeSynchroniserenLocatieAdresMessageHandler _handler;
@@ -34,7 +25,7 @@ public class SyncLocatiesMetAdresIdProcessor : ISyncLocatieAdresHandler
         _logger = logger;
     }
 
-    public async Task<AdressSyncError[]> Handle(CancellationToken cancellationToken)
+    public async Task<AdressSyncError[]> Process(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Adressen synchroniseren werd gestart.");
 
@@ -55,14 +46,14 @@ public class SyncLocatiesMetAdresIdProcessor : ISyncLocatieAdresHandler
                 _logger.LogError($"Adressen synchroniseren kon niet voltooid worden. {ex.Message}");
 
                 errors = errors
-                    .Append(
-                        new AdressSyncError(
-                            message.VCode,
-                            message.LocatiesWithAdres.Select(x => x.LocatieId).ToList(),
-                            ex
-                        )
-                    )
-                    .ToArray();
+                        .Append(
+                             new AdressSyncError(
+                                 message.VCode,
+                                 message.LocatiesWithAdres.Select(x => x.LocatieId).ToList(),
+                                 ex
+                             )
+                         )
+                        .ToArray();
             }
         }
 
@@ -70,4 +61,9 @@ public class SyncLocatiesMetAdresIdProcessor : ISyncLocatieAdresHandler
 
         return errors;
     }
+}
+
+public interface ISyncLocatieAdresProcessor
+{
+    Task<AdressSyncError[]> Process(CancellationToken cancellationToken);
 }

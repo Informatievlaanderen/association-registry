@@ -16,13 +16,6 @@ public class TeSynchroniserenLocatiesZonderAdresMatchFetcher(
 
         var zonderMatchDocs = await session.Query<LocatieZonderAdresMatchDocument>().ToListAsync(cancellationToken);
 
-        if (zonderMatchDocs.Count == 0)
-        {
-            logger.LogInformation("Fetcher (zonder adresmatch) found no documents.");
-
-            return [];
-        }
-
         return zonderMatchDocs.ToArray();
     }
 }

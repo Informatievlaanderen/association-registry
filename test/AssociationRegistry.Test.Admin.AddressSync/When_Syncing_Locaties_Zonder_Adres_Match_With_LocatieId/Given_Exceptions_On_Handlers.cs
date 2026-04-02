@@ -1,12 +1,14 @@
-namespace AssociationRegistry.Test.Admin.AddressSync.When_Syncing_Locaties_With_AdresId;
+namespace AssociationRegistry.Test.Admin.AddressSync.When_Syncing_Locaties_Zonder_Adres_Match_With_LocatieId;
 
 using AssociationRegistry.Admin.AddressSync;
 using AssociationRegistry.Admin.AddressSync.Fetchers;
 using AssociationRegistry.Admin.AddressSync.Handlers;
 using AssociationRegistry.Admin.AddressSync.MessageHandling.Sqs.AddressSync;
+using AssociationRegistry.Admin.Schema.Locaties;
 using AssociationRegistry.Integrations.Grar.Integration.Messages;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -20,20 +22,20 @@ public class Given_Exceptions_On_Handlers
     public Given_Exceptions_On_Handlers()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var fetcher = new Mock<ITeSynchroniserenLocatiesFetcher>();
-        var syncLocatieAdresHandler = new Mock<ITeSynchroniserenLocatieAdresMessageHandler>();
+        var fetcher = new Mock<ITeSynchroniserenLocatiesZonderAdresMatchFetcher>();
+        var handler = new Mock<IProbeerAdresTeMatchenCommandHandler>();
 
         fetcher
-            .Setup(x => x.GetTeSynchroniserenLocaties(It.IsAny<IDocumentSession>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(fixture.CreateMany<TeSynchroniserenLocatieAdresMessage>(5));
+           .Setup(x => x.GetTeSynchroniserenLocatiesZonderAdresMatch(It.IsAny<IDocumentSession>(),
+                                                                     It.IsAny<CancellationToken>()))
+           .ReturnsAsync(fixture.CreateMany<LocatieZonderAdresMatchDocument>(5).ToArray());
 
         _capturedErrors = new List<AdressSyncError>();
         var callCount = 0;
 
-        syncLocatieAdresHandler
-            .Setup(x => x.Handle(It.IsAny<TeSynchroniserenLocatieAdresMessage>(), It.IsAny<CancellationToken>()))
-            .Returns(
-                (TeSynchroniserenLocatieAdresMessage msg, CancellationToken _) =>
+        handler
+           .Setup(x => x.Handle(It.IsAny<ProbeerAdresTeMatchenCommand>(), It.IsAny<CancellationToken>()))
+           .Returns((ProbeerAdresTeMatchenCommand msg, CancellationToken _) =>
                 {
                     callCount++;
 
@@ -43,18 +45,18 @@ public class Given_Exceptions_On_Handlers
                     var ex = new Exception(fixture.Create<string>());
 
                     _capturedErrors.Add(
-                        new AdressSyncError(msg.VCode, msg.LocatiesWithAdres.Select(x => x.LocatieId).ToList(), ex)
+                        new AdressSyncError(msg.VCode, [msg.LocatieId], ex)
                     );
 
                     return Task.FromException(ex);
                 }
             );
 
-        var sut = new SyncLocatiesMetAdresIdProcessor(
+        var sut = new SyncLocatieZonderAdresMatchProcessor(
             fetcher.Object,
-            syncLocatieAdresHandler.Object,
+            handler.Object,
             Mock.Of<IDocumentSession>(),
-            NullLogger<SyncLocatiesMetAdresIdProcessor>.Instance
+            NullLogger<SyncLocatieZonderAdresMatchProcessor>.Instance
         );
 
         _errors = sut.Process(CancellationToken.None).GetAwaiter().GetResult();

@@ -17,18 +17,18 @@ public class TeSynchroniserenLocatiesFetcher(
 {
     public async Task<IEnumerable<TeSynchroniserenLocatieAdresMessage>> GetTeSynchroniserenLocaties(
         IDocumentSession session,
-        CancellationToken stoppingToken)
+        CancellationToken cancellationToken)
     {
         logger.LogInformation("Fetcher started.");
 
-        var locatieLookupDocuments = await session.Query<LocatieLookupDocument>().ToListAsync(stoppingToken);
+        var locatieLookupDocuments = await session.Query<LocatieLookupDocument>().ToListAsync(cancellationToken);
 
         logger.LogInformation("Fetcher found {DocumentCount}.", locatieLookupDocuments.Count);
 
         var idempotenceKey = Guid.NewGuid().ToString("N");
 
         var messages = GroupByVCode(locatieLookupDocuments,
-                                    await GetDetailsFromAdressenregister(GroupByAddressId(locatieLookupDocuments), stoppingToken))
+                                    await GetDetailsFromAdressenregister(GroupByAddressId(locatieLookupDocuments), cancellationToken))
            .Select(x => new TeSynchroniserenLocatieAdresMessage(x.VCode, x.LocatieWithAdres, idempotenceKey));
 
         return messages;
