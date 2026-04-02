@@ -36,9 +36,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Hosting"/>
     <PackageReference Include="AWSSDK.Core" />
   </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="When_Adresmatching_Locaties\" />
-  </ItemGroup>
 </Project>

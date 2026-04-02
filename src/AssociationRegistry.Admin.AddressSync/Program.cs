@@ -103,6 +103,7 @@ public static class Program
             .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
             .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
             .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
+            .AddScoped<IProbeerAdresTeMatchenCommandHandler, ProbeerAdresTeMatchenCommandHandler>()
             .AddScoped<PersoonsgegevensEventTransformers>()
             .AddScoped<TeSynchroniserenLocatieAdresMessageHandler>()
             .AddScoped<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
@@ -110,8 +111,8 @@ public static class Program
                 ITeSynchroniserenLocatiesZonderAdresMatchFetcher,
                 TeSynchroniserenLocatiesZonderAdresMatchFetcher
             >()
-            .AddScoped<ISyncLocatieAdresHandler, SyncLocatiesMetAdresIdProcessor>()
-            .AddScoped<ISyncLocatieZonderAdresMatchHandler, Handlers.SyncLocatieZonderAdresMatchHandler>()
+            .AddScoped<ISyncLocatieAdresProcessor, SyncLocatiesMetAdresIdProcessor>()
+            .AddScoped<ISyncLocatieZonderAdresMatchProcessor, Handlers.SyncLocatieZonderAdresMatchProcessor>()
             .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
             .AddTransient<INotifier, SlackNotifier>()
             .AddTransient<IGeotagsService, GeotagsService>()

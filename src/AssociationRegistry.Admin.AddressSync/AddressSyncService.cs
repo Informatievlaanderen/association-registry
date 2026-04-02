@@ -5,57 +5,73 @@ using Handlers;
 using Infrastructure.Notifications;
 using Integrations.Slack;
 using Marten;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 public record NachtelijkeAdresSyncVolgensAdresId(string AdresId, List<LocatieIdWithVCode> LocatieIdWithVCodes);
-
 public record NachtelijkeAdresSyncVolgensVCode(string VCode, List<LocatieWithAdres> LocatieWithAdres);
-
 public record LocatieIdWithVCode(int LocatieId, string VCode);
 
-public class AddressSyncService(
-    IHostApplicationLifetime hostApplicationLifetime,
-    ILogger<AddressSyncService> logger,
-    INotifier notifier,
-    IServiceProvider serviceProvider,
-    ISyncLocatieAdresHandler syncLocatieAdresHandler,
-    ISyncLocatieZonderAdresMatchHandler syncLocatieZonderAdresMatchHandler
-) : BackgroundService
+public class AddressSyncService : BackgroundService
 {
-    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+    private readonly IHostApplicationLifetime _hostApplicationLifetime;
+    private readonly ILogger<AddressSyncService> _logger;
+    private readonly INotifier _notifier;
+    private readonly IDocumentSession _session;
+    private readonly ISyncLocatieAdresProcessor _syncLocatieAdresProcessor;
+    private readonly ISyncLocatieZonderAdresMatchProcessor _syncLocatieZonderAdresMatchProcessor;
+
+    public AddressSyncService(
+        ISyncLocatieAdresProcessor syncLocatieAdresProcessor,
+        ISyncLocatieZonderAdresMatchProcessor syncLocatieZonderAdresMatchProcessor,
+        IDocumentSession session,
+        IHostApplicationLifetime hostApplicationLifetime,
+        INotifier notifier,
+        ILogger<AddressSyncService> logger)
     {
-        using var scope = serviceProvider.CreateScope();
-        var store = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
-        await using var session = store.LightweightSession();
+        _hostApplicationLifetime = hostApplicationLifetime;
+        _logger = logger;
+        _notifier = notifier;
+        _syncLocatieAdresProcessor = syncLocatieAdresProcessor;
+        _syncLocatieZonderAdresMatchProcessor = syncLocatieZonderAdresMatchProcessor;
+        _session = session;
+    }
+
+    protected override Task ExecuteAsync(CancellationToken cancellationToken)
+        => SyncAdressen(cancellationToken);
+
+    public async Task SyncAdressen(CancellationToken cancellationToken)
+    {
         AdressSyncError[] errors = [];
+
         try
         {
-            var locatieAdresSyncErrors = await syncLocatieAdresHandler.Handle(cancellationToken);
+            var locatieAdresSyncErrors = await _syncLocatieAdresProcessor.Process(cancellationToken);
             errors = errors.Union(locatieAdresSyncErrors).ToArray();
 
-            var locatieZonderAdresMatchSyncErrors = await syncLocatieZonderAdresMatchHandler.Handle(
-                session,
+            var locatieZonderAdresMatchSyncErrors = await _syncLocatieZonderAdresMatchProcessor.Process(
                 cancellationToken
             );
+
             errors = errors.Union(locatieZonderAdresMatchSyncErrors).ToArray();
 
             if (errors.Any())
             {
-                throw new Exception();
+                _logger.LogError($"Het synchroniseren van enkele locaties met het adressenregister is niet gelukt.");
+                await _notifier.Notify(new AdresSynchronisatieProcessorGefaald(errors));
             }
         }
         catch (Exception ex)
         {
-            logger.LogError($"AddressSyncService kon niet voltooid worden. {ex.Message}");
-            await notifier.Notify(new AdresMatchSynchronisatieGefaald(errors));
+            _logger.LogError($"AddressSyncService kon niet voltooid worden. {ex.Message}");
+            await _notifier.Notify(new AdresSynchronisatieGefaald(ex));
+
             throw;
         }
         finally
         {
-            await session.DisposeAsync();
-            hostApplicationLifetime.StopApplication();
+            await _session.DisposeAsync();
+            _hostApplicationLifetime.StopApplication();
         }
     }
 }
