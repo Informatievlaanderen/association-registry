@@ -58,6 +58,7 @@ jobs:
         services:
           [
             'adressensync',
+            'bewaartermijn-purgerunner',
             'powerbiexport'
           ]
     steps:
