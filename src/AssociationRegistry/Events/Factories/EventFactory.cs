@@ -10,6 +10,7 @@ using Be.Vlaanderen.Basisregisters.Utilities;
 using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using Grar.AdresMatch;
 using Magda.Kbo;
 
@@ -85,13 +86,22 @@ public static class EventFactory
             bankrekeningnummer.Titularis.Value
         );
 
+    public static Registratiedata.Erkenning Erkenning(Erkenning erkenning) =>
+        new(
+            erkenning.ErkenningId,
+            erkenning.IpdcProduct.Nummer,
+            erkenning.Startdatum,
+            erkenning.Einddatum,
+            erkenning.Hernieuwingsdatum,
+            erkenning.HernieuwingsUrl
+        );
+
     public static VerenigingAanvaarddeDubbeleVereniging VerenigingAanvaarddeDubbeleVereniging(
         VCode vCode,
         VCode dubbeleVereniging
     ) => new(vCode, dubbeleVereniging);
 
     public static VerenigingWerdGestoptInKBO VerenigingWerdGestoptInKBO(Datum einddatum) => new(einddatum.Value);
-
     public static VerenigingWerdGestopt VerenigingWerdGestopt(Datum einddatum) => new(einddatum.Value);
 
     public static VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan(
@@ -169,10 +179,13 @@ public static class EventFactory
             vertegenwoordiger.Achternaam
         );
 
-    public static WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
-        VCode vCode,
-        VerenigingStatus.StatusDubbel verenigingStatus
-    ) => new(vCode, verenigingStatus.VCodeAuthentiekeVereniging, verenigingStatus.VorigeVerenigingStatus.StatusNaam);
+    public static WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt
+        WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
+            VCode vCode,
+            VerenigingStatus.StatusDubbel verenigingStatus
+        ) => new(vCode,
+                 verenigingStatus.VCodeAuthentiekeVereniging,
+                 verenigingStatus.VorigeVerenigingStatus.StatusNaam);
 
     public static WerkingsgebiedenWerdenBepaald WerkingsgebiedenWerdenBepaald(
         VCode vCode,
@@ -290,9 +303,10 @@ public static class EventFactory
         Locatie locatie
     ) => new(locatie.LocatieId, locatie.Naam ?? string.Empty, locatie.IsPrimair);
 
-    public static MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
-        AdresVolgensKbo adres
-    ) =>
+    public static MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo
+        MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
+            AdresVolgensKbo adres
+        ) =>
         new(
             adres.Straatnaam ?? string.Empty,
             adres.Huisnummer ?? string.Empty,
@@ -306,7 +320,6 @@ public static class EventFactory
         new(vCode, Locatie(locatie));
 
     public static LocatieWerdToegevoegd LocatieWerdToegevoegd(Locatie locatie) => new(Locatie(locatie));
-
     public static LocatieWerdGewijzigd LocatieWerdGewijzigd(Locatie locatie) => new(Locatie(locatie));
 
     public static LidmaatschapWerdVerwijderd LidmaatschapWerdVerwijderd(VCode vCode, Lidmaatschap lidmaatschap) =>

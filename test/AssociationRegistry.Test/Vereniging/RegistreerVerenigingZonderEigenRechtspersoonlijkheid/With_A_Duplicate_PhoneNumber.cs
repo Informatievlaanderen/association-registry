@@ -64,7 +64,8 @@ public class With_A_Duplicate_PhoneNumber
             Vertegenwoordigers: [],
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: [],
-            Bankrekeningnummers: []
+            Bankrekeningnummers: [],
+            Erkenningen: []
         );
 
         var registratieData = new RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid(
@@ -79,7 +80,8 @@ public class With_A_Duplicate_PhoneNumber
             command.Vertegenwoordigers,
             command.HoofdactiviteitenVerenigingsloket,
             command.Werkingsgebieden,
-            command.Bankrekeningnummers
+            command.Bankrekeningnummers,
+            command.Erkenningen
         );
         await Assert.ThrowsAsync<ContactgegevenIsDuplicaat>(() =>
             Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(

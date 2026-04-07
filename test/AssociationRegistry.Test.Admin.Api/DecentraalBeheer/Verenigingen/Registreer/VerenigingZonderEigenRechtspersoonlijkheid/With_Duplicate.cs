@@ -79,6 +79,7 @@ public class With_Duplicate : IClassFixture<With_Duplicate.Setup>
                     Vertegenwoordigers: [],
                     HoofdactiviteitenVerenigingsloket: [],
                     Bankrekeningnummers: [],
+                    Erkenningen: [],
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
                 ),
                 config: options => options.Excluding(expression: e => e.VCode)
