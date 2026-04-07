@@ -5,15 +5,27 @@ using System.Text;
 
 public class JsonLdType
 {
-    public static readonly JsonLdType Doelgroep = new(JsonLdContext.GuidNamespace.Doelgroep, type: "verenigingen_ext:Doelgroep",
+    public static readonly JsonLdType Doelgroep = new(JsonLdContext.GuidNamespace.Doelgroep,
+                                                      type: "verenigingen_ext:Doelgroep",
                                                       prefix: "doel");
 
-    public static readonly JsonLdType FeitelijkeVereniging = new(JsonLdContext.GuidNamespace.Vereniging, type: "fei:FeitelijkeVerenigingen");
-    public static readonly JsonLdType VerenigingMetRechtspersoonlijkheid = new(JsonLdContext.GuidNamespace.Vereniging, type: "regorg:RegisteredOrganization");
-    public static readonly JsonLdType Hoofdactiviteit = new(JsonLdContext.GuidNamespace.Hoofdactiviteit, type: "skos:Concept", prefix:"act");
-    public static readonly JsonLdType Werkingsgebied = new(JsonLdContext.GuidNamespace.Werkingsgebied, type: "skos:Concept", prefix:"wg");
-    public static readonly JsonLdType Lidmaatschap = new(JsonLdContext.GuidNamespace.Lidmaatschap, type: "org:Membership", prefix:"lidmaatschap");
-    public static readonly JsonLdType Subtype = new(JsonLdContext.GuidNamespace.Subtype, type: "skos:Concept", prefix:"sub");
+    public static readonly JsonLdType FeitelijkeVereniging =
+        new(JsonLdContext.GuidNamespace.Vereniging, type: "fei:FeitelijkeVerenigingen");
+
+    public static readonly JsonLdType VerenigingMetRechtspersoonlijkheid =
+        new(JsonLdContext.GuidNamespace.Vereniging, type: "regorg:RegisteredOrganization");
+
+    public static readonly JsonLdType Hoofdactiviteit =
+        new(JsonLdContext.GuidNamespace.Hoofdactiviteit, type: "skos:Concept", prefix: "act");
+
+    public static readonly JsonLdType Werkingsgebied =
+        new(JsonLdContext.GuidNamespace.Werkingsgebied, type: "skos:Concept", prefix: "wg");
+
+    public static readonly JsonLdType Lidmaatschap =
+        new(JsonLdContext.GuidNamespace.Lidmaatschap, type: "org:Membership", prefix: "lidmaatschap");
+
+    public static readonly JsonLdType Subtype =
+        new(JsonLdContext.GuidNamespace.Subtype, type: "skos:Concept", prefix: "sub");
 
     public static readonly JsonLdType Vertegenwoordiger =
         new(JsonLdContext.GuidNamespace.Vertegenwoordiger, type: "person:Person", prefix: "person");
@@ -24,22 +36,35 @@ public class JsonLdType
     public static readonly JsonLdType Contactgegeven =
         new(JsonLdContext.GuidNamespace.Contactgegeven, type: "schema:ContactPoint", prefix: "cont");
 
-    public static readonly JsonLdType Locatie = new(JsonLdContext.GuidNamespace.Locatie, type: "org:Site", prefix: "loc");
+    public static readonly JsonLdType Locatie =
+        new(JsonLdContext.GuidNamespace.Locatie, type: "org:Site", prefix: "loc");
 
-    public static readonly JsonLdType LocatieType = new(JsonLdContext.GuidNamespace.LocatieType, type: "skos:Concept", prefix: "con");
-    public static readonly JsonLdType Adres = new(JsonLdContext.GuidNamespace.Adres, type: "locn:Address", prefix: "adressen");
+    public static readonly JsonLdType LocatieType =
+        new(JsonLdContext.GuidNamespace.LocatieType, type: "skos:Concept", prefix: "con");
+
+    public static readonly JsonLdType Adres = new(JsonLdContext.GuidNamespace.Adres,
+                                                  type: "locn:Address",
+                                                  prefix: "adressen");
 
     public static readonly JsonLdType AdresVerwijzing =
-        new JsonLdAdressenRegister(JsonLdContext.GuidNamespace.AdresVerwijzing, type: "geregistreerdAdres", prefix: "adressenregister");
+        new JsonLdAdressenRegister(JsonLdContext.GuidNamespace.AdresVerwijzing,
+                                   type: "geregistreerdAdres",
+                                   prefix: "adressenregister");
 
-    public static readonly JsonLdType Sleutel = new(JsonLdContext.GuidNamespace.Sleutel, type: "adms:Identifier",
+    public static readonly JsonLdType Sleutel = new(JsonLdContext.GuidNamespace.Sleutel,
+                                                    type: "adms:Identifier",
                                                     prefix: "identificatoren");
 
-    public static readonly JsonLdType GestructureerdeSleutel = new(JsonLdContext.GuidNamespace.GestructureerdeIdentificator,
-                                                                   type: "generiek:GestructureerdeIdentificator", prefix: "ges");
+    public static readonly JsonLdType GestructureerdeSleutel = new(
+        JsonLdContext.GuidNamespace.GestructureerdeIdentificator,
+        type: "generiek:GestructureerdeIdentificator",
+        prefix: "ges");
 
     public static readonly JsonLdType Bankrekeningnummer =
         new(JsonLdContext.GuidNamespace.Bankrekeningnummer, type: "schema:BankAccount", prefix: "bank");
+
+    public static readonly JsonLdType Erkenning =
+        new(JsonLdContext.GuidNamespace.Erkenning, type: "schema:Certification", prefix: "erk");
 
     public Guid GuidNamespace { get; }
     public string Type { get; }
@@ -66,7 +91,10 @@ public class JsonLdType
 
     private class JsonLdAdressenRegister : JsonLdType
     {
-        public JsonLdAdressenRegister(Guid guidNamespace, string type, string prefix = "") : base(guidNamespace, type, prefix)
+        public JsonLdAdressenRegister(Guid guidNamespace, string type, string prefix = "") : base(
+            guidNamespace,
+            type,
+            prefix)
         {
         }
 

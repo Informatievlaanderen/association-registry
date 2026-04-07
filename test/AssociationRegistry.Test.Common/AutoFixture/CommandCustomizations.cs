@@ -4,6 +4,7 @@ using global::AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
+using DecentraalBeheer.Vereniging.Erkenningen;
 
 public static class CommandCustomizations
 {
@@ -36,7 +37,8 @@ public static class CommandCustomizations
                             fixture.CreateMany<Vertegenwoordiger>().ToArray(),
                             fixture.CreateMany<HoofdactiviteitVerenigingsloket>().DistinctBy(x => x.Code).ToArray(),
                             withoutWerkingsgebieden ? [] : fixture.CreateMany<Werkingsgebied>().Distinct().ToArray(),
-                            Bankrekeningnummers: fixture.CreateMany<ToeTevoegenBankrekeningnummer>().ToArray()
+                            Bankrekeningnummers: fixture.CreateMany<ToeTevoegenBankrekeningnummer>().ToArray(),
+                            Erkenningen: fixture.CreateMany<TeRegistrerenErkenning>().ToArray()
                         )
                     )
                     .OmitAutoProperties()

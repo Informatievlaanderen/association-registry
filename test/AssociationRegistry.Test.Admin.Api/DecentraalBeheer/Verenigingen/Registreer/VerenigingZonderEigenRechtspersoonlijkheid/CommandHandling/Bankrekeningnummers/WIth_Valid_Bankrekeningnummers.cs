@@ -56,7 +56,8 @@ public class WIth_Valid_Bankrekeningnummers
             Vertegenwoordigers: [],
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: [],
-            Bankrekeningnummers: _fixture.CreateMany<ToeTevoegenBankrekeningnummer>().ToArray()
+            Bankrekeningnummers: _fixture.CreateMany<ToeTevoegenBankrekeningnummer>().ToArray(),
+            Erkenningen: []
         );
 
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
@@ -107,6 +108,7 @@ public class WIth_Valid_Bankrekeningnummers
                                 new Registratiedata.Bankrekeningnummer(++i, x.Iban.Value, x.Doel, x.Titularis.Value)
                         )
                         .ToArray(),
+                    Erkenningen: [],
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
                 ),
                 new GeotagsWerdenBepaald(VCode: vCode, Geotags: []),

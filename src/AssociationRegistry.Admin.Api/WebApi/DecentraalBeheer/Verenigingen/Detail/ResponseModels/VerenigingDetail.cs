@@ -119,4 +119,8 @@ public class VerenigingDetail
     /// <summary>De bankrekeningnummers van de vereniging</summary>
     [DataMember(Name = "Bankrekeningnummers")]
     public Bankrekeningnummer[] Bankrekeningnummers { get; init; } = null!;
+
+    /// <summary>De erkenningen van de vereniging</summary>
+    [DataMember(Name = "Erkenningen")]
+    public Erkenning[] Erkenningen { get; init; } = null!;
 }
