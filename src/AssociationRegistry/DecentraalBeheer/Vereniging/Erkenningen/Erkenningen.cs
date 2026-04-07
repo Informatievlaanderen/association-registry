@@ -6,6 +6,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging.Bronnen;
 using Bankrekeningen;
+using Exceptions;
 
 public class Erkenningen : ReadOnlyCollection<Erkenning>
 {
@@ -56,15 +57,12 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
     private void ThrowIfCannotAppendOrUpdate(Erkenning teRegisterenErkenning)
     {
-        var erkenningen = this.Append(teRegisterenErkenning).ToArray();
+        Throw<EinddatumLigtVoorStartdatum>.If(
+            teRegisterenErkenning.Einddatum < teRegisterenErkenning.Startdatum);
 
-        // Throw<IbanMoetUniekZijn>.If(HasDuplicateIban(bankrekeningnummers));
+        var erkenningen = this.Append(teRegisterenErkenning);
     }
 
-    // private bool HasDuplicateIban(Erkenning[] erkenningen)
-    // {
-    //     return erkenningen.DistinctBy(x => x.Iban).Count() != bankrekeningnummers.Count();
-    // }
 
     public Erkenningen Hydrate(IEnumerable<Erkenning> erkenningen)
     {

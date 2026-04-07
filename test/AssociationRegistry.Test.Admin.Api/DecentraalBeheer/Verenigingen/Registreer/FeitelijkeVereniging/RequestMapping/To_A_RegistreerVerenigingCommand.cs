@@ -43,6 +43,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
             HoofdactiviteitenVerenigingsloket: out var hoofdactiviteiten,
             Werkingsgebieden: out var werkingsgebieden,
             Bankrekeningnummers: out var bankrekeningnummers,
+            Erkenningen: out var erkenningen,
             Bevestigingstoken: out var bevestigingstoken
         );
 
@@ -84,6 +85,26 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
                     Iban = x.Iban,
                     Doel = x.Doel,
                     Titularis = x.Titularis,
+                })
+            );
+        erkenningen
+           .Select(selector: x => new
+            {
+                IpdcProductNummer = x.IpdcProductNummer,
+                Startdatum = x.Startdatum,
+                Einddatum = x.Einddatum,
+                Hernieuwingsdatum = x.Hernieuwingsdatum,
+                HernieuwingsUrl = x.HernieuwingsUrl
+            })
+           .Should()
+           .BeEquivalentTo(
+                expectation: request.Erkenningen.Select(selector: x => new
+                {
+                    IpdcProductNummer = x.IpdcProductNummer,
+                    Startdatum = x.Startdatum,
+                    Einddatum = x.Einddatum,
+                    Hernieuwingsdatum = x.Hernieuwingsdatum,
+                    HernieuwingsUrl = x.HernieuwingsUrl
                 })
             );
         bevestigingstoken.Should().BeEmpty();
