@@ -3,16 +3,16 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
-public record RegistreerErkenningCommand(VCode VCode, TeRegistrerenErkenning erkenning)
+public record RegistreerErkenningCommand(VCode VCode, TeRegistrerenErkenning Erkenning)
 {
     protected virtual bool PrintMembers(System.Text.StringBuilder builder)
     {
         builder.Append($"VCode = {VCode}, ");
-        builder.Append($"StartDatum = {erkenning.Startdatum}, ");
-        builder.Append($"Einddatum = {erkenning.Einddatum}, ");
-        builder.Append($"Hernieuwingsdatum = {erkenning.Hernieuwingsdatum}, ");
-        builder.Append($"HernieuwingsUrl = {erkenning.HernieuwingsUrl}, ");
-        builder.Append($"IpdcProductNummer = {erkenning.IpdcProductNummer}, ");
+        builder.Append($"StartDatum = {Erkenning.Startdatum}, ");
+        builder.Append($"Einddatum = {Erkenning.Einddatum}, ");
+        builder.Append($"Hernieuwingsdatum = {Erkenning.Hernieuwingsdatum}, ");
+        builder.Append($"HernieuwingsUrl = {Erkenning.HernieuwingsUrl}, ");
+        builder.Append($"IpdcProductNummer = {Erkenning.IpdcProductNummer}, ");
         return true;
     }
 }
