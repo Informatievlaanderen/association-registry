@@ -5,13 +5,13 @@ using AssociationRegistry.Admin.Schema.Locaties;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 
-public class Given_No_LocatieLookupDocumenten
+public class Given_No_LocatieZonderAdresMatchDocumenten
 {
     private LocatieZonderAdresMatchDocument[] _locaties;
 
-    public Given_No_LocatieLookupDocumenten()
+    public Given_No_LocatieZonderAdresMatchDocumenten()
     {
-        var store = TestDocumentStoreFactory.CreateAsync(nameof(Given_No_LocatieLookupDocumenten)).GetAwaiter()
+        var store = TestDocumentStoreFactory.CreateAsync(nameof(Given_No_LocatieZonderAdresMatchDocumenten)).GetAwaiter()
                                             .GetResult();
 
         using var session = store.LightweightSession();
