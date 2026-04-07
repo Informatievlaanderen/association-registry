@@ -53,7 +53,8 @@ public class With_WerkingsgebiedenWerdenNietBepaald
             Vertegenwoordigers: [],
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: Werkingsgebieden.NietBepaald,
-            Bankrekeningnummers: []
+            Bankrekeningnummers: [],
+            Erkenningen: []
         );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
@@ -104,6 +105,7 @@ public class With_WerkingsgebiedenWerdenNietBepaald
                     Vertegenwoordigers: [],
                     HoofdactiviteitenVerenigingsloket: [],
                     Bankrekeningnummers: [],
+                    Erkenningen: [],
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
                 ),
                 new GeotagsWerdenBepaald(VCode: vCode, Geotags: []),

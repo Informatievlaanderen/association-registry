@@ -54,7 +54,8 @@ public class With_NietVanToepassing_Werkingsgebieden
             Vertegenwoordigers: [],
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: Werkingsgebieden.NietVanToepassing,
-            Bankrekeningnummers: []
+            Bankrekeningnummers: [],
+            Erkenningen: []
         );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
@@ -105,6 +106,7 @@ public class With_NietVanToepassing_Werkingsgebieden
                     Vertegenwoordigers: [],
                     HoofdactiviteitenVerenigingsloket: [],
                     Bankrekeningnummers: [],
+                    Erkenningen: [],
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
                 ),
                 new WerkingsgebiedenWerdenNietVanToepassing(VCode: vCode),

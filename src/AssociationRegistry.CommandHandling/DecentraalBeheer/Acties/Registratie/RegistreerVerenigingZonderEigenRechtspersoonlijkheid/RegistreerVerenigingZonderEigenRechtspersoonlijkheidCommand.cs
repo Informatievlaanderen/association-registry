@@ -3,6 +3,7 @@
 using System.Text;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
 public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
     object OriginalRequest,
@@ -18,6 +19,7 @@ public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
     HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
     Werkingsgebied[] Werkingsgebieden,
     ToeTevoegenBankrekeningnummer[] Bankrekeningnummers,
+    TeRegistrerenErkenning[] Erkenningen,
     string Bevestigingstoken = ""
 )
 {
@@ -37,6 +39,7 @@ public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
         builder.Append($"HoofdactiviteitenVerenigingsloket = {HoofdactiviteitenVerenigingsloket.Length} items, ");
         builder.Append($"Werkingsgebieden = {Werkingsgebieden.Length} items, ");
         builder.Append($"Bankrekeningnummers = {Bankrekeningnummers.Length} items, ");
+        builder.Append($"Erkenningen = {Erkenningen.Length} items, ");
         builder.Append($"Bevestigingstoken = {(HeeftBevestigingstoken ? "[PRESENT]" : "[EMPTY]")}");
         return true;
     }
