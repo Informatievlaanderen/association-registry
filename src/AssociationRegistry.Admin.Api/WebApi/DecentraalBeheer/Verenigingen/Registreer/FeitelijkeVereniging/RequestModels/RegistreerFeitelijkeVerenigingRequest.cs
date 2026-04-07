@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.Feitelijk
 
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using AssociationRegistry.Vereniging;
 using Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common;
@@ -65,6 +64,10 @@ public class RegistreerFeitelijkeVerenigingRequest : IRegistreerVereniging
     [DataMember]
     public ToeTeVoegenBankrekeningnummer[] Bankrekeningnummers { get; set; } = [];
 
+    /// <summary>De erkenningen van een vereniging</summary>
+    [DataMember]
+    public Verenigingen.Erkenningen.RegistreerErkenning.RequestModels.TeRegistrerenErkenning[] Erkenningen { get; set; } = [];
+
     public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(Werkingsgebied[]? werkingsgebieden) =>
         new(
             this,
@@ -79,6 +82,7 @@ public class RegistreerFeitelijkeVerenigingRequest : IRegistreerVereniging
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
             werkingsgebieden ?? DecentraalBeheer.Vereniging.Werkingsgebieden.NietBepaald,
-            Bankrekeningnummers.Select(ToeTeVoegenBankrekeningnummer.Map).ToArray()
+            Bankrekeningnummers.Select(ToeTeVoegenBankrekeningnummer.Map).ToArray(),
+            Erkenningen.Select(Verenigingen.Erkenningen.RegistreerErkenning.RequestModels.TeRegistrerenErkenning.Map).ToArray()
         );
 }

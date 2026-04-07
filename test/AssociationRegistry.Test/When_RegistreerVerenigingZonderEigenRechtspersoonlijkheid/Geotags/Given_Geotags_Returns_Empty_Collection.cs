@@ -42,7 +42,8 @@ public class Given_Geotags_Returns_Empty_Collection
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Vertegenwoordigers,
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.HoofdactiviteitenVerenigingsloket,
             registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Werkingsgebieden,
-            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Bankrekeningnummers
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Bankrekeningnummers,
+            registreerVerenigingZonderEigenRechtspersoonlijkheidCommand.Erkenningen
         );
 
         var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(

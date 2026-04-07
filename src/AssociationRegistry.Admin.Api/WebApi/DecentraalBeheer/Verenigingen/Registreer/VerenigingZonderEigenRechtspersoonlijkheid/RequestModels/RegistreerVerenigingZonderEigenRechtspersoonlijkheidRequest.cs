@@ -64,6 +64,10 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest : IRegi
     [DataMember]
     public ToeTeVoegenBankrekeningnummer[] Bankrekeningnummers { get; set; } = [];
 
+    /// <summary>De erkenningen van een vereniging</summary>
+    [DataMember]
+    public Verenigingen.Erkenningen.RegistreerErkenning.RequestModels.TeRegistrerenErkenning[] Erkenningen { get; set; } = [];
+
     public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(Werkingsgebied[]? werkingsgebieden) =>
         new(
             this,
@@ -78,6 +82,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest : IRegi
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
             werkingsgebieden ?? DecentraalBeheer.Vereniging.Werkingsgebieden.NietBepaald,
-            Bankrekeningnummers.Select(ToeTeVoegenBankrekeningnummer.Map).ToArray()
+            Bankrekeningnummers.Select(ToeTeVoegenBankrekeningnummer.Map).ToArray(),
+            Erkenningen.Select(Verenigingen.Erkenningen.RegistreerErkenning.RequestModels.TeRegistrerenErkenning.Map).ToArray()
         );
 }

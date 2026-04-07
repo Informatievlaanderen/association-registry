@@ -7,4 +7,5 @@ public class WellKnownHeaderEntityNames
     public const string Contactgegevens = "contactgegevens";
     public const string Lidmaatschappen = "lidmaatschappen";
     public const string Bankrekeningnummers = "bankrekeningnummers";
+    public const string Erkenningen = "erkenningen";
 }

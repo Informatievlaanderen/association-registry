@@ -250,6 +250,7 @@ public static class EventCustomizations
                             .ToArray(),
                         fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray(),
                         fixture.CreateMany<Registratiedata.Bankrekeningnummer>().ToArray(),
+                        fixture.CreateMany<Registratiedata.Erkenning>().ToArray(),
                         Registratiedata.DuplicatieInfo.GeenDuplicaten
                     )
                 )
