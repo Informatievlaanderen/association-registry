@@ -1,3 +1,11 @@
+# [8.312.0](https://github.com/informatievlaanderen/association-registry/compare/v8.311.1...v8.312.0) (2026-04-07)
+
+
+### Features
+
+* or-3061 catching and notifying in address sync ([d088be9](https://github.com/informatievlaanderen/association-registry/commit/d088be9af130ebdcc18b3b50c39c12b6e01224e1))
+* or-3061 sync LocatieZonderAdresMatch with AdressenSync ([b826a80](https://github.com/informatievlaanderen/association-registry/commit/b826a80d2c57494ec0f00f9afcf4d2af891ee962))
+
 ## [8.311.1](https://github.com/informatievlaanderen/association-registry/compare/v8.311.0...v8.311.1) (2026-04-02)
 
 
