@@ -4,11 +4,11 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.MartenDb.Store;
 
-public class RegsitreerErkenningCommandHandler
+public class RegistreerErkenningCommandHandler
 {
     private readonly IAggregateSession _aggregateSession;
 
-    public RegsitreerErkenningCommandHandler(IAggregateSession aggregateSession)
+    public RegistreerErkenningCommandHandler(IAggregateSession aggregateSession)
     {
         _aggregateSession = aggregateSession;
     }

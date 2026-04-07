@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
-public class TeRegistrerenErkenning()
+public record TeRegistrerenErkenning
 {
     public string IpdcProductNummer { get; set; } = null!;
     public DateOnly Startdatum { get; set; }
