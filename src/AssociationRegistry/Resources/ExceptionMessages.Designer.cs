@@ -639,6 +639,12 @@ namespace AssociationRegistry.Resources {
             }
         }
         
+        public static string ValidatieBankrekeningnummerIsNietGekend {
+            get {
+                return ResourceManager.GetString("ValidatieBankrekeningnummerIsNietGekend", resourceCulture);
+            }
+        }
+        
         public static string OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren {
             get {
                 return ResourceManager.GetString("OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren", resourceCulture);
