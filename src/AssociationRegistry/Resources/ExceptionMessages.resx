@@ -322,6 +322,9 @@
   <data name="BankrekeningnummerIsNietGekend">
     <value>Bankrekeningnummer met bankrekeningnummerId '{0}' is niet gekend.</value>
   </data>
+  <data name="ValidatieBankrekeningnummerIsNietGekend">
+    <value>Validatie kan niet ongedaan gemaakt worden omdat er geen validatie is met OvoCode '{0}'.</value>
+  </data>
   <data name="OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren">
     <value>OvoCode '{0}' is niet gemachtigd om deze actie uit te voeren.</value>
   </data>
