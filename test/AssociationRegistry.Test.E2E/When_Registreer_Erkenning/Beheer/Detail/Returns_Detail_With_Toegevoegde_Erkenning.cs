@@ -29,63 +29,29 @@ public class Returns_Detail_With_Toegevoegde_Erkenning : End2EndTest<DetailVeren
     [Fact]
     public void JsonContentMatches()
     {
-        var erkenningFromRegistreer =
-            _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Erkenningen.Select(
-                x => new Erkenning
-                {
-                    id = JsonLdType.Erkenning.CreateWithIdValues(
-                        _testContext.VCode,
-                        x.ErkenningId.ToString()
-                    ),
-                    type = JsonLdType.Erkenning.Type,
-                    ErkenningId = 0,
-                    VCode = _testContext.VCode.Value,
-                    GeregistreerdDoor = [],
-                    IpdcProduct = new IpdcProduct
-                    {
-                        Nummer = x.IpdcProductNummer,
-                    },
-                    Startdatum = x.Startdatum,
-                    Einddatum = x.Startdatum,
-                    Hernieuwingsdatum = x.Hernieuwingsdatum,
-                    HernieuwingsUrl = x.HernieuwingsUrl,
-
-                }
-            );
-
-        var nextId =
-            _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Erkenningen.Max(
-                x => x.ErkenningId
-            ) + 1;
-
         Response
             .Vereniging.Erkenningen.Should()
             .BeEquivalentTo(
-                erkenningFromRegistreer
-                    .Append(
-                        new Erkenning
+                [
+                    new Erkenning
+                    {
+                        type = JsonLdType.Erkenning.Type,
+                        id = JsonLdType.Erkenning.CreateWithIdValues(
+                            _testContext.VCode, "1"
+                        ),
+                        ErkenningId = 1,
+                        VCode = _testContext.VCode.Value,
+                        GeregistreerdDoor = [],
+                        IpdcProduct = new IpdcProduct
                         {
-                            type = JsonLdType.Erkenning.Type,
-                            id = JsonLdType.Erkenning.CreateWithIdValues(
-                                _testContext.VCode,
-                                nextId.ToString()
-                            ),
-                            ErkenningId = nextId,
-                            VCode = _testContext.VCode.Value,
-                            GeregistreerdDoor = [],
-                            IpdcProduct = new IpdcProduct
-                            {
-                                Nummer = _testContext.CommandRequest.Erkenning.IpdcProductNummer,
-                            },
-                            Startdatum = _testContext.CommandRequest.Erkenning.Startdatum,
-                            Einddatum = _testContext.CommandRequest.Erkenning.Einddatum,
-                            Hernieuwingsdatum = _testContext.CommandRequest.Erkenning.Hernieuwingsdatum,
-                            HernieuwingsUrl = _testContext.CommandRequest.Erkenning.HernieuwingsUrl,
-
-                        }
-                    )
-                    .OrderBy(x => x.ErkenningId)
-                    .ToArray()
+                            Nummer = _testContext.CommandRequest.Erkenning.IpdcProductNummer,
+                        },
+                        Startdatum = _testContext.CommandRequest.Erkenning.Startdatum,
+                        Einddatum = _testContext.CommandRequest.Erkenning.Einddatum,
+                        Hernieuwingsdatum = _testContext.CommandRequest.Erkenning.Hernieuwingsdatum,
+                        HernieuwingsUrl = _testContext.CommandRequest.Erkenning.HernieuwingsUrl,
+                    },
+                ]
             );
     }
 }

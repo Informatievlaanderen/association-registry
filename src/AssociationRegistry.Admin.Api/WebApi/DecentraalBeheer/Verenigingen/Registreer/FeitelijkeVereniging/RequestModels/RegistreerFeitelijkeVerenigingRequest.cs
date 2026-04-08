@@ -82,7 +82,5 @@ public class RegistreerFeitelijkeVerenigingRequest : IRegistreerVereniging
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
             werkingsgebieden ?? DecentraalBeheer.Vereniging.Werkingsgebieden.NietBepaald,
-            Bankrekeningnummers.Select(ToeTeVoegenBankrekeningnummer.Map).ToArray(),
-            Erkenningen.Select(Verenigingen.Erkenningen.RegistreerErkenning.RequestModels.TeRegistrerenErkenning.Map).ToArray()
-        );
+            Bankrekeningnummers.Select(ToeTeVoegenBankrekeningnummer.Map).ToArray());
 }

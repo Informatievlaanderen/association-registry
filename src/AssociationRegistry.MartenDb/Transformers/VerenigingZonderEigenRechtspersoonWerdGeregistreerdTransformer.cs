@@ -52,7 +52,6 @@ public class VerenigingZonderEigenRechtspersoonWerdGeregistreerdTransformer : IP
             vertegenwoordigersZonderPersoonsgegevens.ToArray(),
             originalEvent.HoofdactiviteitenVerenigingsloket,
             bankrekeningnummerZonderPersoonsgegevens.ToArray(),
-            originalEvent.Erkenningen,
             originalEvent.DuplicatieInfo
         );
 
