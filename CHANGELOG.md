@@ -1,3 +1,10 @@
+# [8.313.0](https://github.com/informatievlaanderen/association-registry/compare/v8.312.0...v8.313.0) (2026-04-08)
+
+
+### Features
+
+* or-3015 return domain exception for ValidatieBankrekeningnummerIsNietGekend ([20d8ce3](https://github.com/informatievlaanderen/association-registry/commit/20d8ce357ff2042725f3bf00f009ef0a8d583a68))
+
 # [8.312.0](https://github.com/informatievlaanderen/association-registry/compare/v8.311.1...v8.312.0) (2026-04-07)
 
 
