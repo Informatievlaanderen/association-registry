@@ -144,7 +144,6 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                         )
                         .ToArray(),
                     Bankrekeningnummers: [],
-                    Erkenningen: [],
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
                 ),
                 new GeotagsWerdenBepaald(VCode: vCode, Geotags: []),

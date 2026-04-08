@@ -19,7 +19,6 @@ public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
     HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
     Werkingsgebied[] Werkingsgebieden,
     ToeTevoegenBankrekeningnummer[] Bankrekeningnummers,
-    TeRegistrerenErkenning[] Erkenningen,
     string Bevestigingstoken = ""
 )
 {
@@ -39,7 +38,6 @@ public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
         builder.Append($"HoofdactiviteitenVerenigingsloket = {HoofdactiviteitenVerenigingsloket.Length} items, ");
         builder.Append($"Werkingsgebieden = {Werkingsgebieden.Length} items, ");
         builder.Append($"Bankrekeningnummers = {Bankrekeningnummers.Length} items, ");
-        builder.Append($"Erkenningen = {Erkenningen.Length} items, ");
         builder.Append($"Bevestigingstoken = {(HeeftBevestigingstoken ? "[PRESENT]" : "[EMPTY]")}");
         return true;
     }

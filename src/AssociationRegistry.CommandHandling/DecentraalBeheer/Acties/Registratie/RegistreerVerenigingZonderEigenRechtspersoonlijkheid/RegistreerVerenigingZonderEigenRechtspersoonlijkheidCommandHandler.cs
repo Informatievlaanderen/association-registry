@@ -84,8 +84,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
             command.Vertegenwoordigers,
             command.HoofdactiviteitenVerenigingsloket,
             command.Werkingsgebieden,
-            command.Bankrekeningnummers,
-            command.Erkenningen
+            command.Bankrekeningnummers
         );
 
         var vereniging = await Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(

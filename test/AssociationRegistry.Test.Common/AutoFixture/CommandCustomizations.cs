@@ -37,9 +37,8 @@ public static class CommandCustomizations
                             fixture.CreateMany<Vertegenwoordiger>().ToArray(),
                             fixture.CreateMany<HoofdactiviteitVerenigingsloket>().DistinctBy(x => x.Code).ToArray(),
                             withoutWerkingsgebieden ? [] : fixture.CreateMany<Werkingsgebied>().Distinct().ToArray(),
-                            Bankrekeningnummers: fixture.CreateMany<ToeTevoegenBankrekeningnummer>().ToArray(),
-                            Erkenningen: fixture.CreateMany<TeRegistrerenErkenning>().ToArray()
-                        )
+                            Bankrekeningnummers: fixture.CreateMany<ToeTevoegenBankrekeningnummer>().ToArray()
+                            )
                     )
                     .OmitAutoProperties()
         );

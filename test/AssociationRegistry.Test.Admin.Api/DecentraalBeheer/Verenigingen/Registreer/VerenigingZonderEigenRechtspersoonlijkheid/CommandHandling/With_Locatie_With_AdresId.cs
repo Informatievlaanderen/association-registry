@@ -90,9 +90,8 @@ public class With_Locatie_With_AdresId
             Vertegenwoordigers: [],
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: [],
-            Bankrekeningnummers: [],
-            Erkenningen: []
-        );
+            Bankrekeningnummers: []
+            );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
@@ -138,7 +137,6 @@ public class With_Locatie_With_AdresId
                     Vertegenwoordigers: [],
                     HoofdactiviteitenVerenigingsloket: [],
                     Bankrekeningnummers: [],
-                    Erkenningen: [],
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
                 ),
                 new AdresWerdOvergenomenUitAdressenregister(
