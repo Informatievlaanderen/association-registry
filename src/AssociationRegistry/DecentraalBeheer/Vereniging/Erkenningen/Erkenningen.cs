@@ -1,12 +1,10 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
 using System.Collections.ObjectModel;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen.Exceptions;
-using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging.Bronnen;
-using Bankrekeningen;
+using DecentraalBeheer.Vereniging.Exceptions;
+using Events;
 using Exceptions;
+using Framework;
 
 public class Erkenningen : ReadOnlyCollection<Erkenning>
 {
@@ -26,22 +24,22 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
     private new Erkenning this[int erkenningId] =>
         this.Single(x => x.ErkenningId == erkenningId);
 
-    public Erkenning VoegToe(TeRegistrerenErkenning erkenning)
+    public Erkenning VoegToe(TeRegistrerenErkenning erkenning, string vCode)
     {
         var teRegistrerenErkenning = Erkenning.Create(NextId, erkenning);
-
+        teRegistrerenErkenning.VCode = vCode;
         ThrowIfCannotAppendOrUpdate(teRegistrerenErkenning);
 
         return teRegistrerenErkenning;
     }
-    public Erkenning[] VoegToe(TeRegistrerenErkenning[] teRegistrerenErkenningen)
+    public Erkenning[] VoegToe(TeRegistrerenErkenning[] teRegistrerenErkenningen, string vCode)
     {
         var erkenningen = this;
         var toegevoegdeErkenningen = Array.Empty<Erkenning>();
 
         foreach (var teRegistrerenErkenning in teRegistrerenErkenningen)
         {
-            var erkenningenMetId = erkenningen.VoegToe(teRegistrerenErkenning);
+            var erkenningenMetId = erkenningen.VoegToe(teRegistrerenErkenning, vCode);
 
             erkenningen = new Erkenningen(
                 erkenningen.Append(erkenningenMetId),
@@ -57,12 +55,28 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
     private void ThrowIfCannotAppendOrUpdate(Erkenning teRegisterenErkenning)
     {
-        Throw<EinddatumLigtVoorStartdatum>.If(
-            teRegisterenErkenning.Einddatum < teRegisterenErkenning.Startdatum);
+        Throw<StartdatumLigtNaEinddatum>.If(
+            teRegisterenErkenning.Einddatum <= teRegisterenErkenning.Startdatum);
+
+        Throw<IpdcProductNummerOntbreekt>.If(teRegisterenErkenning.IpdcProduct == null ||
+            string.IsNullOrEmpty(teRegisterenErkenning.IpdcProduct.Nummer));
+
+        Throw<URLStartNietMetHttpOfHttps>.If(
+            !teRegisterenErkenning.HernieuwingsUrl.StartsWith("http://")
+            && !teRegisterenErkenning.HernieuwingsUrl.StartsWith("https://")
+            );
 
         var erkenningen = this.Append(teRegisterenErkenning);
+        Throw<ErkenningBestaatAl>.If(HasDuplicateErkenning(erkenningen));
+
     }
 
+    private bool HasDuplicateErkenning(IEnumerable<Erkenning> erkenningen)
+    {
+        return erkenningen
+              .DistinctBy(x => (x.VCode, x.IpdcProduct.Nummer, x.IpdcProduct.Naam))
+              .Count() != erkenningen.Count();
+    }
 
     public Erkenningen Hydrate(IEnumerable<Erkenning> erkenningen)
     {
@@ -76,4 +90,25 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
             Math.Max(erkenningen.Max(x => x.ErkenningId) + 1, NextId)
         );
     }
+}
+
+public static class ErkenningenEnumerableExtensions
+{
+    public static IEnumerable<Erkenning> AppendFromEventData(
+        this IEnumerable<Erkenning> erkenningen,
+        ErkenningWerdGeregistreerd eventData
+    ) =>
+        erkenningen.Append(
+            Erkenning.Hydrate(
+                eventData.ErkenningId,
+                eventData.VCode,
+                eventData.GeregistreerdDoor,
+                eventData.IpdcProduct,
+                eventData.Startdatum,
+                eventData.Einddatum,
+                eventData.Hernieuwingsdatum,
+                eventData.HernieuwingsUrl,
+                string.Empty
+            )
+        );
 }
