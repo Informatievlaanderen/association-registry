@@ -4,8 +4,8 @@ public record Erkenning
 {
     public int ErkenningId { get; set; }
     public string VCode { get; set; } = null!;
-    public GegevensInitiator[] GeregistreerdDoor { get; set; } = [];
-    public IpdcProduct IpdcProduct { get; set; } = null!;
+    public GegevensInitiator GeregistreerdDoor { get; set; }
+    public IpdcProduct? IpdcProduct { get; set; }
     public DateOnly Startdatum { get; set; }
     public DateOnly Einddatum { get; set; }
     public DateOnly Hernieuwingsdatum { get; set; }
@@ -20,12 +20,14 @@ public record Erkenning
             Einddatum = erkenning.Einddatum,
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
+            IpdcProduct = erkenning.IpdcProduct,
+            GeregistreerdDoor = erkenning.GeregistreerdDoor,
         };
 
     public static Erkenning Hydrate(
         int id,
         string vCode,
-        GegevensInitiator[] geregistreerdDoor,
+        GegevensInitiator geregistreerdDoor,
         IpdcProduct ipdcProduct,
         DateOnly startdatum,
         DateOnly einddatum,
@@ -48,8 +50,8 @@ public record Erkenning
 
 public class IpdcProduct
 {
-    public string Nummer { get; set; }
-    public string Naam { get; set; }
+    public string Nummer { get; set; } = null!;
+    public string Naam { get; set; } = null!;
 }
 
 public class GegevensInitiator

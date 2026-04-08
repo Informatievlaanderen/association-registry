@@ -48,7 +48,6 @@
   <ItemGroup>
     <Folder Include="CommandMetadata\"/>
     <Folder Include="DecentraalBeheer\Verenigingen\Dubbelbeheer\FeitelijkeVereniging\"/>
-    <Folder Include="DecentraalBeheer\Verenigingen\KboSync\"/>
     <Folder Include="DecentraalBeheer\Verenigingen\Lidmaatschap\"/>
     <Folder Include="DecentraalBeheer\Verenigingen\Locaties\VerenigingOfAnyKind\"/>
     <Folder Include="DecentraalBeheer\Verenigingen\Registreer\MetRechtspersoonlijkheid\"/>

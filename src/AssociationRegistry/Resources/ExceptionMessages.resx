@@ -328,4 +328,13 @@
   <data name="UnsupportedOperationForKboBankrekeningnummer">
     <value>Deze actie kan niet uitgevoerd worden op een bankrekeningnummer die overgenomen is door kbo.</value>
   </data>
+  <data name="IpdcProductNummerRequired">
+    <value>IpdcProductNummer is verplicht.</value>
+  </data>
+  <data name="UrlDoesNotStartWithHttpOrHttps">
+    <value>Url moet starten met 'http://' of 'https://.'</value>
+  </data>
+  <data name="ErkenningAlreadyExists">
+    <value>Er bestaat reeds een erkenning voor deze combinatie van vCode, IPDC-product en geregistreerd door.</value>
+  </data>
 </root>

@@ -650,5 +650,23 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("UnsupportedOperationForKboBankrekeningnummer", resourceCulture);
             }
         }
+        
+        public static string IpdcProductNummerRequired {
+            get {
+                return ResourceManager.GetString("IpdcProductNummerRequired", resourceCulture);
+            }
+        }
+        
+        public static string UrlDoesNotStartWithHttpOrHttps {
+            get {
+                return ResourceManager.GetString("UrlDoesNotStartWithHttpOrHttps", resourceCulture);
+            }
+        }
+        
+        public static string ErkenningAlreadyExists {
+            get {
+                return ResourceManager.GetString("ErkenningAlreadyExists", resourceCulture);
+            }
+        }
     }
 }

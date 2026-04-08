@@ -2,22 +2,18 @@ namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
 using System.Diagnostics.Contracts;
 using Adressen;
-using AssociationRegistry.Grar.AdresMatch;
-using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Vereniging.Bronnen;
 using Bankrekeningen;
 using Bankrekeningen.Exceptions;
 using Emails;
+using Erkenningen;
 using Events;
 using Events.Factories;
 using Exceptions;
 using Framework;
-using GemeentenaamVerrijking;
 using Geotags;
-using Grar;
+using Grar.AdresMatch;
 using Grar.Models;
-using Magda.Persoon;
-using Marten;
 using SocialMedias;
 using TelefoonNummers;
 
@@ -577,10 +573,36 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         return toegevoegdBankrekeningnummer.BankrekeningnummerId;
     }
 
+    public int RegistreerErkenning(TeRegistrerenErkenning erkenning, VCode vCode, string initiator)
+    {
+        erkenning.GeregistreerdDoor = new GegevensInitiator
+        {
+            OvoCode = initiator,
+        };
+
+        var toegevoegdeErkenning = State.Erkenningen.VoegToe(erkenning, vCode.Value);
+
+        AddEvent(
+            new ErkenningWerdGeregistreerd(
+                toegevoegdeErkenning.ErkenningId,
+                vCode.Value,
+                toegevoegdeErkenning.IpdcProduct,
+                toegevoegdeErkenning.Startdatum,
+                toegevoegdeErkenning.Einddatum,
+                toegevoegdeErkenning.Hernieuwingsdatum,
+                toegevoegdeErkenning.HernieuwingsUrl,
+                toegevoegdeErkenning.GeregistreerdDoor
+            )
+        );
+
+        return toegevoegdeErkenning.ErkenningId;
+    }
+
     public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
-            x.BankrekeningnummerId == bankrekeningnummerId
+                                                                               x.BankrekeningnummerId ==
+                                                                               bankrekeningnummerId
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());

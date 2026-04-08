@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
-using AssociationRegistry.MartenDb.Store;
+using Framework;
+using MartenDb.Store;
 
 public class RegistreerErkenningCommandHandler
 {
@@ -18,16 +18,17 @@ public class RegistreerErkenningCommandHandler
         CancellationToken cancellationToken = default
     )
     {
-        throw new NotImplementedException();
-        // var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
-        //     VCode.Create(envelope.Command.VCode),
-        //     envelope.Metadata
-        // );
-        //
-        // var id = vereniging.VoegBankrekeningToe(envelope.Command.Bankrekeningnummer);
-        //
-        // var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
-        //
-        // return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), id, result);
+        var vCode = VCode.Create(envelope.Command.VCode);
+
+        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
+           vCode,
+            envelope.Metadata
+        );
+
+        var id = vereniging.RegistreerErkenning(envelope.Command.Erkenning, vCode, envelope.Metadata.Initiator);
+
+        var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
+
+        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), id, result);
     }
 }
