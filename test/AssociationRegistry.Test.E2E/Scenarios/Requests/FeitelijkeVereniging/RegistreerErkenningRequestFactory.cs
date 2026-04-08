@@ -26,7 +26,18 @@ public class RegistreerErkenningRequestFactory : ITestRequestFactory<RegistreerE
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var request = fixture.Create<RegistreerErkenningRequest>();
+        var request = fixture.Create<RegistreerErkenningRequest>()
+            with
+            {
+                Erkenning = new TeRegistrerenErkenning
+                {
+                    IpdcProductNummer = fixture.Create<string>(),
+                    Startdatum = new DateOnly(2026,1,1),
+                    Einddatum = new DateOnly(2026,12,31),
+                    Hernieuwingsdatum = new DateOnly(2026,10,1),
+                    HernieuwingsUrl = "https://www.website.com/renew",
+                }
+            };
 
         var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
