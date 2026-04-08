@@ -6,9 +6,7 @@ using Integrations.Grar.Clients;
 using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
 using Microsoft.Extensions.Logging;
-using Schema.Detail;
 using Schema.Locaties;
-using Vereniging;
 
 public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZonderAdresMatchDocument, string>
 {
@@ -88,7 +86,8 @@ public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZ
                 e.Reden switch
                 {
                     GrarClient.BadRequestSuccessStatusCodeMessage
-                    or AdresKonNietOvergenomenWordenUitAdressenregister.RedenLocatieWerdVerwijderd =>
+                    or AdresKonNietOvergenomenWordenUitAdressenregister.RedenLocatieWerdVerwijderd
+                    or AdresKonNietOvergenomenWordenUitAdressenregister.RedenAdresKonNietGevalideerdWordenBijAdressenregister =>
                         LocatieZonderAdresId(doc, e.LocatieId),
                     _ => doc,
                 }
