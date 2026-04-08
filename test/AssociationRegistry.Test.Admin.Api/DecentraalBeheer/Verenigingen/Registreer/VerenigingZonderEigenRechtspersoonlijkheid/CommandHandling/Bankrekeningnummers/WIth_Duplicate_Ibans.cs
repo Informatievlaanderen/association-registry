@@ -69,9 +69,8 @@ public class WIth_Duplicate_Ibans
                 {
                     Iban = iban,
                 },
-            ],
-            Erkenningen: []
-        );
+            ]
+            );
 
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             newAggregateSession: _newAggregateSessionMock,

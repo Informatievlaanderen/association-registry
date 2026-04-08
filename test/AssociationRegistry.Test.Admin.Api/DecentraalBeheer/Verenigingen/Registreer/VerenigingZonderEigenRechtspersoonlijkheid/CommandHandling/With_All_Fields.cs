@@ -166,19 +166,6 @@ public class With_All_Fields
                                              )
                                      )
                                     .ToArray(),
-                Erkenningen: _command
-                            .Erkenningen.Select(
-                                 selector: (x, i) =>
-                                     new Registratiedata.Erkenning(
-                                         ErkenningId: ++i,
-                                         x.IpdcProductNummer,
-                                         x.Startdatum,
-                                         x.Einddatum,
-                                         x.Hernieuwingsdatum,
-                                         x.HernieuwingsUrl
-                                     )
-                             )
-                            .ToArray(),
                 DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
             );
 
