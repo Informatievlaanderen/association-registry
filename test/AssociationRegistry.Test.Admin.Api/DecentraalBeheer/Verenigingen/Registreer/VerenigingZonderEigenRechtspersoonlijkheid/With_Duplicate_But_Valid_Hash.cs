@@ -78,7 +78,6 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                     Vertegenwoordigers: [],
                     HoofdactiviteitenVerenigingsloket: [],
                     Bankrekeningnummers: [],
-                    Erkenningen: [],
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.BevestigdGeenDuplicaat(
                         bevestigingstoken: _setup.BevestigingsToken
                     )

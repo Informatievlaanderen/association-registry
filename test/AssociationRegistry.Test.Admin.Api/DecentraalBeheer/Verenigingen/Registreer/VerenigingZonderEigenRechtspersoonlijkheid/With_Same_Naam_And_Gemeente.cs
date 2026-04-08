@@ -221,7 +221,6 @@ public class With_Same_Naam_And_Gemeente
                     Vertegenwoordigers: [],
                     HoofdactiviteitenVerenigingsloket: [],
                     Bankrekeningnummers: [],
-                    Erkenningen: [],
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
                 ),
                 config: options => options.Excluding(expression: e => e.VCode)

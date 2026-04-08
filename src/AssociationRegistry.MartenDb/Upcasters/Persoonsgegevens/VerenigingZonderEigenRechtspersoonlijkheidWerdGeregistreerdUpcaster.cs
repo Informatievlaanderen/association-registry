@@ -45,7 +45,6 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster
             Vertegenwoordigers: vertegenwoordigers,
             HoofdactiviteitenVerenigingsloket: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.HoofdactiviteitenVerenigingsloket,
             Bankrekeningnummers: bankrekeningnummers,
-            Erkenningen: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.Erkenningen,
             DuplicatieInfo: verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens.DuplicatieInfo
         );
     }

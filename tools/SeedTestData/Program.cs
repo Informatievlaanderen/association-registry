@@ -361,7 +361,6 @@ session.Events.Append(
         Vertegenwoordigers: [],
         HoofdactiviteitenVerenigingsloket: [],
         Bankrekeningnummers: [],
-        Erkenningen: [],
         Registratiedata.DuplicatieInfo.GeenDuplicaten
     )
 );
@@ -464,7 +463,6 @@ session.Events.Append(
         ],
         HoofdactiviteitenVerenigingsloket: [],
         Bankrekeningnummers: [],
-        Erkenningen: [],
         Registratiedata.DuplicatieInfo.GeenDuplicaten
     )
 );

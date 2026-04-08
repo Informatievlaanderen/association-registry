@@ -54,9 +54,8 @@ public class With_Required_Fields
             Vertegenwoordigers: [],
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: [],
-            Bankrekeningnummers: [],
-            Erkenningen: []
-        );
+            Bankrekeningnummers: []
+            );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
@@ -106,7 +105,6 @@ public class With_Required_Fields
                     Vertegenwoordigers: [],
                     HoofdactiviteitenVerenigingsloket: [],
                     Bankrekeningnummers: [],
-                    Erkenningen: [],
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten
                 ),
                 new GeotagsWerdenBepaald(VCode: vCode, Geotags: []),

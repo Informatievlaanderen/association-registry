@@ -15,6 +15,5 @@ public record RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid(
     Vertegenwoordiger[] Vertegenwoordigers,
     HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
     Werkingsgebied[] Werkingsgebieden,
-    ToeTevoegenBankrekeningnummer[] Bankrekeningnummers,
-    TeRegistrerenErkenning[] Erkenningen
-);
+    ToeTevoegenBankrekeningnummer[] Bankrekeningnummers
+    );
