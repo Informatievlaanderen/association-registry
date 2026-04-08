@@ -4,6 +4,7 @@ using Adressen;
 using AssociationRegistry.Vereniging.Bronnen;
 using Bankrekeningen;
 using Emails;
+using Erkenningen;
 using Events;
 using Exceptions;
 using Framework;
@@ -60,6 +61,7 @@ public record VerenigingState : IHasVersion
     public GeotagsCollection Geotags { get; set; } = GeotagsCollection.Null;
 
     public Bankrekeningnummers Bankrekeningnummers { get; init; } = Bankrekeningnummers.Empty;
+    public Erkenningen.Erkenningen Erkenningen { get; init; } = DecentraalBeheer.Vereniging.Erkenningen.Erkenningen.Empty;
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event) =>
         new()
@@ -872,6 +874,12 @@ public record VerenigingState : IHasVersion
         this with
         {
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(Bankrekeningnummers.AppendFromEventData(@event)),
+        };
+
+    public VerenigingState Apply(ErkenningWerdGeregistreerd @event) =>
+        this with
+        {
+            Erkenningen = Erkenningen.Hydrate(Erkenningen.AppendFromEventData(@event)),
         };
 
     public VerenigingState Apply(BankrekeningnummerWerdToegevoegdVanuitKBO @event) =>
