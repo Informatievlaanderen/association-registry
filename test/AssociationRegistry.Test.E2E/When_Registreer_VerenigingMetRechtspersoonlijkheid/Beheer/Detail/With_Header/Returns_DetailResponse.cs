@@ -205,6 +205,7 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
             Lidmaatschappen = [],
             IsDubbelVan = string.Empty,
             Bankrekeningnummers = [],
+            Erkenningen = [],
         });
     }
 }

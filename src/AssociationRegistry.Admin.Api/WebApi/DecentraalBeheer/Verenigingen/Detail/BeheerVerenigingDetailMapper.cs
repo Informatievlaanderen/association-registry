@@ -13,8 +13,11 @@ using AdresId = ResponseModels.AdresId;
 using AdresVerwijzing = ResponseModels.AdresVerwijzing;
 using Bankrekeningnummer = ResponseModels.Bankrekeningnummer;
 using Contactgegeven = ResponseModels.Contactgegeven;
+using Erkenning = ResponseModels.Erkenning;
+using GegevensInitiator = ResponseModels.GegevensInitiator;
 using GestructureerdeIdentificator = ResponseModels.GestructureerdeIdentificator;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using IpdcProduct = ResponseModels.IpdcProduct;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Relatie = ResponseModels.Relatie;
@@ -115,6 +118,7 @@ public class BeheerVerenigingDetailMapper
             Bron = vereniging.Bron,
             IsDubbelVan = vereniging.IsDubbelVan,
             Bankrekeningnummers = vereniging.Bankrekeningnummers.Select(Map).ToArray(),
+            Erkenningen = vereniging.Erkenningen.Select(Map).ToArray(),
         };
     }
 
@@ -215,6 +219,30 @@ public class BeheerVerenigingDetailMapper
                 OvoCode = x
             }).ToArray(),
             Bron = bankrekeningnummer.Bron,
+        };
+    private static Erkenning Map(Schema.Detail.Erkenning erkenning) =>
+        new()
+        {
+            id = erkenning.JsonLdMetadata.Id,
+            type = erkenning.JsonLdMetadata.Type,
+            ErkenningId = erkenning.ErkenningId,
+            VCode = erkenning.VCode,
+            GeregistreerdDoor = new ()
+            {
+                OvoCode = erkenning.GeregistreerdDoor.OvoCode,
+                Naam = erkenning.GeregistreerdDoor.Naam,
+            },
+            IpdcProduct = new IpdcProduct
+            {
+                Nummer = erkenning.IpdcProduct?.Nummer ?? string.Empty,
+                Naam = erkenning.IpdcProduct?.Naam ?? string.Empty,
+            },
+            Startdatum = erkenning.Startdatum,
+            Einddatum = erkenning.Einddatum,
+            Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
+            HernieuwingsUrl = erkenning.HernieuwingsUrl,
+            RedenSchorsing = erkenning.Motivering,
+
         };
 
     private static Vertegenwoordiger Map(Schema.Detail.Vertegenwoordiger ver) =>

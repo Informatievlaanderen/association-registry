@@ -104,6 +104,7 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
                     _testContext.CommandRequest.Bankrekeningnummers,
                     _testContext.VCode
                 ),
+                Erkenningen = [],
             },
             compareConfig: AdminDetailComparisonConfig.Instance
         );

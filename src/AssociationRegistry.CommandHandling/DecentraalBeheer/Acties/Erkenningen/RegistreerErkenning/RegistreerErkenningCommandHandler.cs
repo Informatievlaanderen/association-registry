@@ -25,6 +25,8 @@ public class RegistreerErkenningCommandHandler
             envelope.Metadata
         );
 
+        // TODO geregistreerd door naam opzoeke via call naar OR
+
         var id = vereniging.RegistreerErkenning(envelope.Command.Erkenning, vCode, envelope.Metadata.Initiator);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
