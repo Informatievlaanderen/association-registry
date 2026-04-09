@@ -80,5 +80,6 @@ public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
             Lidmaatschappen = [],
             IsDubbelVan = string.Empty,
             Bankrekeningnummers = [],
+            Erkenningen = [],
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }
