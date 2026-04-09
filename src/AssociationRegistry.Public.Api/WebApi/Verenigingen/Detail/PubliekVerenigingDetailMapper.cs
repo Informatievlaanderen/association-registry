@@ -1,15 +1,18 @@
 ﻿namespace AssociationRegistry.Public.Api.WebApi.Verenigingen.Detail;
 
-using AssociationRegistry.Formats;
-using AssociationRegistry.Public.Api.Infrastructure;
-using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Public.Schema.Detail;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.Mappers;
+using Formats;
+using Infrastructure;
+using Infrastructure.ConfigurationBindings;
 using ResponseModels;
+using Schema.Detail;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;
+using Erkenning = ResponseModels.Erkenning;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using IpdcProduct = ResponseModels.IpdcProduct;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using SubverenigingVan = ResponseModels.SubverenigingVan;
@@ -72,11 +75,12 @@ public class PubliekVerenigingDetailMapper
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
                 Relaties = document.Relaties.Select(r => Map(_appSettings, r)).ToArray(),
                 Lidmaatschappen = document.Lidmaatschappen.Select(l => Map(l, verplichteNamenMapper)).ToArray(),
+                Erkenningen = document.Erkenningen.Select(Map).ToArray(),
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
         };
 
-    private static ResponseModels.Verenigingssubtype Map(PubliekVerenigingDetailDocument.Types.Verenigingssubtype subtype)
+    private static Verenigingssubtype Map(PubliekVerenigingDetailDocument.Types.Verenigingssubtype subtype)
         => new()
         {
             Code = subtype.Code,
@@ -145,6 +149,31 @@ public class PubliekVerenigingDetailMapper
             CodeerSysteem = s.CodeerSysteem,
             Bron = s.Bron,
             Waarde = s.Waarde,
+        };
+
+    private static Erkenning Map(PubliekVerenigingDetailDocument.Types.Erkenning erkenning)
+        => new()
+        {
+            id = erkenning.JsonLdMetadata.Id,
+            type = erkenning.JsonLdMetadata.Type,
+            ErkenningId = erkenning.ErkenningId,
+            VCode = erkenning.VCode,
+            GeregistreerdDoor = new GegevensInitiatorErkenning
+            {
+                OvoCode = erkenning.GeregistreerdDoor.OvoCode,
+                Naam = erkenning.GeregistreerdDoor.Naam,
+            },
+            IpdcProduct = new IpdcProduct
+            {
+                Nummer = erkenning.IpdcProduct.Nummer,
+                Naam = erkenning.IpdcProduct.Naam,
+            },
+            Startdatum = erkenning.Startdatum,
+            Einddatum = erkenning.Einddatum,
+            Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
+            HernieuwingsUrl = erkenning.HernieuwingsUrl,
+            RedenSchorsing = erkenning.Motivering,
+            Status = ErkenningStatus.Create(erkenning.Startdatum, erkenning.Einddatum).Value,
         };
 
     private static HoofdactiviteitVerenigingsloket Map(PubliekVerenigingDetailDocument.Types.HoofdactiviteitVerenigingsloket ha)
