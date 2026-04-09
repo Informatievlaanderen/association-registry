@@ -26,7 +26,7 @@ public record ErkenningWerdGeregistreerd(
         builder.Append($"Einddatum = {Einddatum}, ");
         builder.Append($"Hernieuwingsdatum = {Hernieuwingsdatum}, ");
         builder.Append($"HernieuwingsUrl = {HernieuwingsUrl}, ");
-        builder.Append($" GeregistreerdDoor = {GeregistreerdDoor}, ");
+        builder.Append($"GeregistreerdDoor = {GeregistreerdDoor}, ");
 
         return true;
     }
