@@ -7,12 +7,15 @@ using Common.Framework;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 using Vereniging;
 using Vereniging.Bronnen;
 using Bankrekeningnummer = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Bankrekeningnummer;
 using Contactgegeven = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Contactgegeven;
+using Erkenning = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
 using HoofdactiviteitVerenigingsloket = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;
+using IpdcProduct = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
 using Locatie = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Locatie;
 using Vertegenwoordiger = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
 using Werkingsgebied = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Werkingsgebied;
@@ -318,5 +321,6 @@ public class BeheerDetailResponseMapper
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
             RedenSchorsing = erkenning.Motivering ?? string.Empty,
+            Status = ErkenningStatus.Create(erkenning.Startdatum, erkenning.Einddatum).Value,
         };
 }
