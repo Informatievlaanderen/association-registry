@@ -79,6 +79,7 @@ public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
             Sleutels = BeheerDetailResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
             IsDubbelVan = string.Empty,
             Bankrekeningnummers = [],
+            Erkenningen = [],
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup)

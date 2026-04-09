@@ -293,4 +293,30 @@ public class BeheerDetailResponseMapper
             )
             .ToArray();
     }
+
+    public static Erkenning MapErkenningen(Admin.Schema.Detail.Erkenning erkenning, string vCode) =>
+        new()
+        {
+            id = erkenning.JsonLdMetadata.Id,
+            type = erkenning.JsonLdMetadata.Type,
+            ErkenningId = erkenning.ErkenningId,
+            VCode = erkenning.VCode,
+            GeregistreerdDoor = erkenning.GeregistreerdDoor is null
+                ? new GegevensInitiatorErkenning()
+                : new GegevensInitiatorErkenning
+                {
+                    OvoCode = erkenning.GeregistreerdDoor.OvoCode,
+                    Naam = erkenning.GeregistreerdDoor.Naam ?? string.Empty,
+                },
+            IpdcProduct = new IpdcProduct
+            {
+                Nummer = erkenning.IpdcProduct?.Nummer ?? string.Empty,
+                Naam = erkenning.IpdcProduct?.Naam ?? string.Empty,
+            },
+            Startdatum = erkenning.Startdatum,
+            Einddatum = erkenning.Einddatum,
+            Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
+            HernieuwingsUrl = erkenning.HernieuwingsUrl,
+            RedenSchorsing = erkenning.Motivering ?? string.Empty,
+        };
 }

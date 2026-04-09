@@ -23,7 +23,7 @@ public class Erkenning
     public string VCode { get; set; } = null!;
 
     [DataMember(Name = "GeregistreerdDoor")]
-    public GegevensInitiator[] GeregistreerdDoor { get; set; } = [];
+    public GegevensInitiatorErkenning GeregistreerdDoor { get; set; }
 
     [DataMember(Name = "IpdcProduct")]
     public IpdcProduct IpdcProduct { get; set; } = null!;
@@ -40,8 +40,8 @@ public class Erkenning
     [DataMember(Name = "HernieuwingsUrl")]
     public string HernieuwingsUrl { get; set; } = null!;
 
-    [DataMember(Name = "Motivering")]
-    public string Motivering { get; set; } = null!;
+    [DataMember(Name = "redenSchorsing")]
+    public string RedenSchorsing { get; set; } = null!;
 
 }
 

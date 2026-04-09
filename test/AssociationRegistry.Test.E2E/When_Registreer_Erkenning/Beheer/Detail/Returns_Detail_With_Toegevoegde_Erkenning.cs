@@ -30,8 +30,8 @@ public class Returns_Detail_With_Toegevoegde_Erkenning : End2EndTest<DetailVeren
     public void JsonContentMatches()
     {
         Response
-            .Vereniging.Erkenningen.Should()
-            .BeEquivalentTo(
+           .Vereniging.Erkenningen.Should()
+           .BeEquivalentTo(
                 [
                     new Erkenning
                     {
@@ -41,15 +41,21 @@ public class Returns_Detail_With_Toegevoegde_Erkenning : End2EndTest<DetailVeren
                         ),
                         ErkenningId = 1,
                         VCode = _testContext.VCode.Value,
-                        GeregistreerdDoor = [],
+                        GeregistreerdDoor = new GegevensInitiatorErkenning
+                        {
+                            OvoCode = "OVO000001",
+                            Naam = string.Empty,
+                        },
                         IpdcProduct = new IpdcProduct
                         {
                             Nummer = _testContext.CommandRequest.Erkenning.IpdcProductNummer,
+                            Naam = string.Empty,
                         },
                         Startdatum = _testContext.CommandRequest.Erkenning.Startdatum,
                         Einddatum = _testContext.CommandRequest.Erkenning.Einddatum,
                         Hernieuwingsdatum = _testContext.CommandRequest.Erkenning.Hernieuwingsdatum,
                         HernieuwingsUrl = _testContext.CommandRequest.Erkenning.HernieuwingsUrl,
+                        RedenSchorsing = string.Empty,
                     },
                 ]
             );
