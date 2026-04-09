@@ -1,3 +1,10 @@
+## [8.313.1](https://github.com/informatievlaanderen/association-registry/compare/v8.313.0...v8.313.1) (2026-04-09)
+
+
+### Bug Fixes
+
+* or-3061 filter out AdresKonNietOvergenomenWordenUitAdressenregister with specific reason on LocatieZonderAdresMatchProjection projection ([4641152](https://github.com/informatievlaanderen/association-registry/commit/46411522fcff708fa7c061abb43c8393f0d20d47))
+
 # [8.313.0](https://github.com/informatievlaanderen/association-registry/compare/v8.312.0...v8.313.0) (2026-04-08)
 
 
