@@ -1345,4 +1345,40 @@ public class BeheerVerenigingDetailProjector
             .OrderBy(b => b.BankrekeningnummerId)
             .ToArray();
     }
+
+    public static void Apply(IEvent<ErkenningWerdGeregistreerd> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Erkenningen = document
+                              .Erkenningen.Append(
+                                   new Erkenning
+                                   {
+                                       JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                           JsonLdType.Erkenning,
+                                           document.VCode,
+                                           @event.Data.ErkenningId.ToString()
+                                       ),
+                                       ErkenningId = @event.Data.ErkenningId,
+                                       VCode = @event.Data.VCode,
+                                       GeregistreerdDoor = new GegevensInitiator
+                                       {
+                                           OvoCode = @event.Data.GeregistreerdDoor.OvoCode,
+                                           Naam = @event.Data.GeregistreerdDoor.Naam ?? string.Empty,
+                                       },
+                                       IpdcProduct = @event.Data.IpdcProduct is null
+                                           ? null
+                                           : new IpdcProduct
+                                           {
+                                               Nummer = @event.Data.IpdcProduct.Nummer,
+                                               Naam = @event.Data.IpdcProduct.Naam ?? string.Empty,
+                                           },
+                                       Startdatum = @event.Data.Startdatum,
+                                       Einddatum = @event.Data.Einddatum,
+                                       Hernieuwingsdatum = @event.Data.Hernieuwingsdatum,
+                                       HernieuwingsUrl = @event.Data.HernieuwingsUrl,
+                                       Motivering = string.Empty,
+                                   }
+                               )
+                              .OrderBy(x => x.ErkenningId)
+                              .ToArray();
+    }
 }
