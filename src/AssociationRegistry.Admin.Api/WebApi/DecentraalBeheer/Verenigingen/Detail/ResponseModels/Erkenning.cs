@@ -43,5 +43,8 @@ public class Erkenning
     [DataMember(Name = "redenSchorsing")]
     public string RedenSchorsing { get; set; } = null!;
 
+    [DataMember(Name = "status")]
+    public string Status { get; set; } = null!;
+
 }
 

@@ -2,11 +2,14 @@
 
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Contracts.JsonLdContext;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Xunit;
+using Erkenning = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
+using IpdcProduct = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
 
 [Collection(nameof(RegistreerErkenningCollection))]
 public class Returns_Detail_With_Toegevoegde_Erkenning : End2EndTest<DetailVerenigingResponse>
@@ -56,6 +59,10 @@ public class Returns_Detail_With_Toegevoegde_Erkenning : End2EndTest<DetailVeren
                         Hernieuwingsdatum = _testContext.CommandRequest.Erkenning.Hernieuwingsdatum,
                         HernieuwingsUrl = _testContext.CommandRequest.Erkenning.HernieuwingsUrl,
                         RedenSchorsing = string.Empty,
+                        Status = ErkenningStatus.Create(
+                            _testContext.CommandRequest.Erkenning.Startdatum,
+                            _testContext.CommandRequest.Erkenning.Einddatum).Value,
+
                     },
                 ]
             );
