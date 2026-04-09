@@ -1,3 +1,10 @@
+# [8.314.0](https://github.com/informatievlaanderen/association-registry/compare/v8.313.1...v8.314.0) (2026-04-09)
+
+
+### Features
+
+* or-3095 add bewaartermijn when VerenigingWerdGestopt ([7332ab6](https://github.com/informatievlaanderen/association-registry/commit/7332ab605aa6d399fd807c6749d7d4ba989eff0d))
+
 ## [8.313.1](https://github.com/informatievlaanderen/association-registry/compare/v8.313.0...v8.313.1) (2026-04-09)
 
 
