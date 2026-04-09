@@ -73,6 +73,29 @@ public static class BewaartermijnVertegenwoordigersEventHandler
         }
     }
 
+    public static async Task Handle(
+        IEvent<VerenigingWerdGestopt> @event,
+        IEventStore eventStore,
+        BewaartermijnOptions bewaartermijnOptions,
+        CancellationToken cancellationToken
+    )
+    {
+        var state = await eventStore.Load<VerenigingState>(@event.StreamKey!, expectedVersion: null);
+
+        foreach (var vertegenwoordiger in state.Vertegenwoordigers)
+        {
+            await CreateBewaartermijn(
+                @event.StreamKey!,
+                vertegenwoordiger.VertegenwoordigerId,
+                @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
+                eventStore,
+                bewaartermijnOptions,
+                cancellationToken,
+                BewaartermijnReden.VerenigingWerdGestopt
+            );
+        }
+    }
+
     private static async Task CreateBewaartermijn(
         string streamKey,
         int entityId,

@@ -32,93 +32,85 @@ public static class MartenExtensions
     )
     {
         var martenConfiguration = services
-                                 .AddMarten(serviceProvider =>
-                                  {
-                                      var opts = new StoreOptions();
+            .AddMarten(serviceProvider =>
+            {
+                var opts = new StoreOptions();
 
-                                      var querySessionFunc = ()
-                                          => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession();
+                var querySessionFunc = () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession();
 
-                                      opts.UsePostgreSqlOptions(postgreSqlOptions)
-                                          .AddVCodeSequence()
-                                          .ConfigureSerialization()
-                                          .SetUpOpenTelemetry(isDevelopment)
-                                          .RegisterAllEventTypes()
-                                          .RegisterAdminDocumentTypes()
-                                          .UpcastEvents(querySessionFunc);
+                opts.UsePostgreSqlOptions(postgreSqlOptions)
+                    .AddVCodeSequence()
+                    .ConfigureSerialization()
+                    .SetUpOpenTelemetry(isDevelopment)
+                    .RegisterAllEventTypes()
+                    .RegisterAdminDocumentTypes()
+                    .UpcastEvents(querySessionFunc);
 
-                                      if (!postgreSqlOptions.IncludeErrorDetail)
-                                          opts.Logger(
-                                              new SecureMartenLogger(
-                                                  serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>())
-                                          );
+                if (!postgreSqlOptions.IncludeErrorDetail)
+                    opts.Logger(
+                        new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>())
+                    );
 
-                                      opts.Events.StreamIdentity = StreamIdentity.AsString;
-                                      opts.Events.MetadataConfig.EnableAll();
-                                      opts.Events.AppendMode = EventAppendMode.Quick;
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+                opts.Events.MetadataConfig.EnableAll();
+                opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                      opts.AutoCreateSchemaObjects = AutoCreate.None;
+                opts.AutoCreateSchemaObjects = AutoCreate.None;
 
-                                      opts.Projections.Add(new BeheerVerenigingHistoriekProjection(),
-                                                           ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
 
-                                      opts.Projections.Add(new BeheerVerenigingDetailProjection(),
-                                                           ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
 
-                                      opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
 
-                                      opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(),
-                                                           ProjectionLifecycle.Async);
+                opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
 
-                                      opts.Projections.Add(new BeheerKboSyncHistoriekProjection(),
-                                                           ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
 
-                                      opts.Projections.Add(new BeheerKszSyncHistoriekProjection(),
-                                                           ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerKszSyncHistoriekProjection(), ProjectionLifecycle.Async);
 
-                                      opts.Projections.Add(
-                                          new LocatiesGekoppeldMetGrarProjection(
-                                              NullLogger<LocatiesGekoppeldMetGrarProjection>.Instance),
-                                          ProjectionLifecycle.Async
-                                      );
+                opts.Projections.Add(
+                    new LocatiesGekoppeldMetGrarProjection(NullLogger<LocatiesGekoppeldMetGrarProjection>.Instance),
+                    ProjectionLifecycle.Async
+                );
 
-                                      opts.Projections.Add(
-                                          new LocatieZonderAdresMatchProjection(
-                                              NullLogger<LocatieZonderAdresMatchProjection>.Instance),
-                                          ProjectionLifecycle.Async
-                                      );
+                opts.Projections.Add(
+                    new LocatieZonderAdresMatchProjection(NullLogger<LocatieZonderAdresMatchProjection>.Instance),
+                    ProjectionLifecycle.Async
+                );
 
-                                      opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
 
-                                      opts.Projections.Add(
-                                          new VertegenwoordigersPerVCodeProjection(querySessionFunc),
-                                          ProjectionLifecycle.Async);
+                opts.Projections.Add(
+                    new VertegenwoordigersPerVCodeProjection(querySessionFunc),
+                    ProjectionLifecycle.Async
+                );
 
-                                      opts.Projections.Errors.SkipApplyErrors = false;
-                                      opts.Projections.RebuildErrors.SkipApplyErrors = false;
+                opts.Projections.Errors.SkipApplyErrors = false;
+                opts.Projections.RebuildErrors.SkipApplyErrors = false;
 
-                                      return opts;
-                                  })
-                                 .IntegrateWithWolverine(integration =>
-                                  {
-                                      integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
-                                      integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
+                return opts;
+            })
+            .IntegrateWithWolverine(integration =>
+            {
+                integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
+                integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
 
-                                      integration.AutoCreate = AutoCreate.None;
-                                  })
-
-                                 .AddAsyncDaemon(DaemonMode.HotCold)
-                                 .ProcessEventsWithWolverineHandlersInStrictOrder(
-                                      BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
-                                      o =>
-                                      {
-                                          o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
-                                          o.IncludeType<VertegenwoordigerWerdVerwijderd>();
-                                          o.IncludeType<VerenigingWerdVerwijderd>();
-                                          o.Options.SubscribeFromSequence(0);
-                                      }
-                                  )
-                                 .UseLightweightSessions();
+                integration.AutoCreate = AutoCreate.None;
+            })
+            .AddAsyncDaemon(DaemonMode.HotCold)
+            .ProcessEventsWithWolverineHandlersInStrictOrder(
+                BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
+                o =>
+                {
+                    o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
+                    o.IncludeType<VertegenwoordigerWerdVerwijderd>();
+                    o.IncludeType<VerenigingWerdVerwijderd>();
+                    o.IncludeType<VerenigingWerdGestopt>();
+                    o.Options.SubscribeFromSequence(0);
+                }
+            )
+            .UseLightweightSessions();
 
         martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
@@ -137,7 +129,7 @@ public static class MartenExtensions
 
     public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions) =>
         $"host={postgreSqlOptions.Host};"
-      + $"database={postgreSqlOptions.Database};"
-      + $"password={postgreSqlOptions.Password};"
-      + $"username={postgreSqlOptions.Username};";
+        + $"database={postgreSqlOptions.Database};"
+        + $"password={postgreSqlOptions.Password};"
+        + $"username={postgreSqlOptions.Username};";
 }
