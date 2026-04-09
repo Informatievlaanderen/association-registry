@@ -73,6 +73,6 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
             Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
             Locaties = PubliekDetailResponseMapper.MapLocaties(_testContext.CommandRequest.Locaties, _testContext.VCode),
             Relaties = [],
-            Sleutels = PubliekDetailResponseMapper .MapSleutels(_testContext.VCode),
+            Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }

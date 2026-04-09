@@ -3,6 +3,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 using Formats;
 using Framework;
@@ -284,6 +285,38 @@ public static class PubliekVerenigingDetailProjector
                                                   IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
                                               })
                                              .OrderBy(c => c.ContactgegevenId)
+                                             .ToArray();
+    }
+
+    public static void Apply(IEvent<ErkenningWerdGeregistreerd> erkenningWerdGeregistreerd, PubliekVerenigingDetailDocument document)
+    {
+        document.Erkenningen = Enumerable.Append(document.Erkenningen, new PubliekVerenigingDetailDocument.Types.Erkenning
+                                          {
+                                              JsonLdMetadata = new JsonLdMetadata(
+                                                  JsonLdType.Erkenning.CreateWithIdValues(
+                                                      erkenningWerdGeregistreerd.StreamKey!,
+                                                      erkenningWerdGeregistreerd.Data.ErkenningId.ToString()),
+                                                  JsonLdType.Erkenning.Type),
+                                              ErkenningId = erkenningWerdGeregistreerd.Data.ErkenningId,
+                                              VCode = erkenningWerdGeregistreerd.Data.VCode,
+                                              GeregistreerdDoor = new PubliekVerenigingDetailDocument.Types.GegevensInitiator
+                                              {
+                                                  OvoCode = erkenningWerdGeregistreerd.Data.GeregistreerdDoor.OvoCode,
+                                                  Naam = erkenningWerdGeregistreerd.Data.GeregistreerdDoor.Naam,
+                                              },
+                                              IpdcProduct = new PubliekVerenigingDetailDocument.Types.IpdcProduct
+                                              {
+                                                  Nummer = erkenningWerdGeregistreerd.Data.IpdcProduct.Nummer,
+                                                  Naam = erkenningWerdGeregistreerd.Data.IpdcProduct.Naam,
+                                              },
+                                              Startdatum = erkenningWerdGeregistreerd.Data.Startdatum,
+                                              Einddatum = erkenningWerdGeregistreerd.Data.Einddatum,
+                                              Hernieuwingsdatum = erkenningWerdGeregistreerd.Data.Hernieuwingsdatum,
+                                              HernieuwingsUrl = erkenningWerdGeregistreerd.Data.HernieuwingsUrl,
+                                              Motivering = string.Empty,
+                                              Status = ErkenningStatus.Create(erkenningWerdGeregistreerd.Data.Startdatum, erkenningWerdGeregistreerd.Data.Einddatum).Value,
+                                          })
+                                             .OrderBy(c => c.ErkenningId)
                                              .ToArray();
     }
 
