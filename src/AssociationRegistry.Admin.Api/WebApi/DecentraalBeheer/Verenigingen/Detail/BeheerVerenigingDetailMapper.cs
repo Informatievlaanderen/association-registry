@@ -6,6 +6,7 @@ using AssociationRegistry.Formats;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.Mappers;
 using ResponseModels;
 using Adres = ResponseModels.Adres;
@@ -242,7 +243,7 @@ public class BeheerVerenigingDetailMapper
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
             RedenSchorsing = erkenning.Motivering,
-
+            Status = ErkenningStatus.Create(erkenning.Startdatum, erkenning.Einddatum).Value,
         };
 
     private static Vertegenwoordiger Map(Schema.Detail.Vertegenwoordiger ver) =>
