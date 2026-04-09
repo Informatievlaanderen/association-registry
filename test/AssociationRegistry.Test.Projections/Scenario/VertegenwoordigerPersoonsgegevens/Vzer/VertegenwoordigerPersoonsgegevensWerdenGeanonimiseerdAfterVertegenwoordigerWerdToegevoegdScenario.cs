@@ -1,19 +1,23 @@
-﻿namespace AssociationRegistry.Test.Projections.Scenario.VertegenwoordigerPersoonsgegevens;
+﻿namespace AssociationRegistry.Test.Projections.Scenario.VertegenwoordigerPersoonsgegevens.Vzer;
 
 using AssociationRegistry.Events;
 using AutoFixture;
 
-public class VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdScenario : ScenarioBase
+public class VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdAfterVertegenwoordigerWerdToegevoegdScenario
+    : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
-    public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd { get; }
     public VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd { get; }
 
-    public VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdScenario()
+    public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd { get; set; }
+
+    public VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdAfterVertegenwoordigerWerdToegevoegdScenario()
     {
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
+
         VertegenwoordigerWerdToegevoegd = AutoFixture.Create<VertegenwoordigerWerdToegevoegd>();
+
         VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd =
             AutoFixture.Create<VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd>() with
             {

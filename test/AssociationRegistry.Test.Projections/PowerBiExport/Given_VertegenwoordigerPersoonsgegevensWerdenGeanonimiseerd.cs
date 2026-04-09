@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using Events;
+using Scenario.VertegenwoordigerPersoonsgegevens;
 using Scenario.Vertegenwoordigers.Kbo;
 using Scenario.Vertegenwoordigers.Vzer;
 

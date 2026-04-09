@@ -1,23 +1,28 @@
-﻿namespace AssociationRegistry.Test.Projections.Scenario.VertegenwoordigerPersoonsgegevens;
+﻿namespace AssociationRegistry.Test.Projections.Scenario.VertegenwoordigerPersoonsgegevens.Vzer;
 
 using AssociationRegistry.Events;
 using AutoFixture;
 
-public class VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdScenario : ScenarioBase
+public class VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdAfterVzerWerdGeregistreerdScenario : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
-    public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd { get; }
     public VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd { get; }
 
-    public VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdScenario()
+    public int VertegenwoordigerIdDieGeanonimiseerdWerd { get; set; }
+
+    public VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdAfterVzerWerdGeregistreerdScenario()
     {
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
-        VertegenwoordigerWerdToegevoegd = AutoFixture.Create<VertegenwoordigerWerdToegevoegd>();
+
+        VertegenwoordigerIdDieGeanonimiseerdWerd = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+            .Vertegenwoordigers.First()
+            .VertegenwoordigerId;
+
         VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd =
             AutoFixture.Create<VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd>() with
             {
-                VertegenwoordigerId = VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+                VertegenwoordigerId = VertegenwoordigerIdDieGeanonimiseerdWerd,
             };
     }
 
@@ -28,7 +33,6 @@ public class VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdScenario : Sce
             new(
                 AggregateId,
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
-                VertegenwoordigerWerdToegevoegd,
                 VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd
             ),
         ];
