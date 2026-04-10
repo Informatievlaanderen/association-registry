@@ -6,7 +6,6 @@ using Vereniging.Bronnen;
 
 public record ErkenningWerdGeregistreerd(
     int ErkenningId,
-    string VCode,
     IpdcProduct IpdcProduct,
     DateOnly Startdatum,
     DateOnly Einddatum,

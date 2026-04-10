@@ -1,5 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Registreer_Erkenning.
-    Commandhandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Registreer_Erkenning.Commandhandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
@@ -18,40 +17,37 @@ public class Given_StartDatum_After_EindDatum
     private readonly RegistreerErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
-    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_StartDatum_After_EindDatum()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario();
-        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
+        var aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        _commandHandler = new RegistreerErkenningCommandHandler(_aggregateSessionMock);
+        _commandHandler = new RegistreerErkenningCommandHandler(aggregateSessionMock);
     }
 
     [Fact]
     public async ValueTask Then_An_StartdatumMustBeBeforeEinddatum_Exception_Is_Thrown()
     {
+        var startDatum = _fixture.Create<DateOnly>();
+        var days = _fixture.Create<int>();
+
         var command = _fixture.Create<RegistreerErkenningCommand>() with
         {
             VCode = _scenario.VCode,
             Erkenning = _fixture.Create<TeRegistrerenErkenning>() with
             {
-                Startdatum = new DateOnly(2026, 1, 1),
-                Einddatum = new DateOnly(2026, 1, 1),
-                HernieuwingsUrl = "https://hernieuwingen.vlaanderen.be",
+                Startdatum = startDatum,
+                Einddatum = startDatum.AddYears(-days),
             },
         };
 
         var exception = await Assert.ThrowsAsync<StartdatumLigtNaEinddatum>(async () =>
-                                                                                await _commandHandler.Handle(
-                                                                                    new CommandEnvelope<
-                                                                                        RegistreerErkenningCommand>(
-                                                                                        command,
-                                                                                        _fixture
-                                                                                           .Create<CommandMetadata>())
-                                                                                )
+            await _commandHandler.Handle(
+                new CommandEnvelope<RegistreerErkenningCommand>(command, _fixture.Create<CommandMetadata>())
+            )
         );
 
         exception.Message.Should().Be(ExceptionMessages.StartdatumIsAfterEinddatum);

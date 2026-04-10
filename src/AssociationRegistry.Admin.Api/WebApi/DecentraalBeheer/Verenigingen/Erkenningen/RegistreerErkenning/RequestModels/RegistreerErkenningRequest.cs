@@ -17,10 +17,7 @@ public record RegistreerErkenningRequest
             VCode.Create(vCode),
             new DecentraalBeheer.Vereniging.Erkenningen.TeRegistrerenErkenning()
             {
-                IpdcProduct = new IpdcProduct()
-                {
-                    Nummer = Erkenning.IpdcProductNummer,
-                },
+                IpdcProduct = new IpdcProduct() { Nummer = Erkenning.IpdcProductNummer },
                 Startdatum = Erkenning.Startdatum,
                 Einddatum = Erkenning.Einddatum,
                 Hernieuwingsdatum = Erkenning.Hernieuwingsdatum,
