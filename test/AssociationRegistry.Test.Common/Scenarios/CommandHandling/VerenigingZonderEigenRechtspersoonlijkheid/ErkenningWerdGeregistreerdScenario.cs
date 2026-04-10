@@ -20,10 +20,7 @@ public class ErkenningWerdGeregistreerdScenario : CommandhandlerScenarioBase
                 VCode = VCode,
             };
 
-        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>() with
-        {
-            VCode = VCode,
-        };
+        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>();
     }
 
     public override IEnumerable<IEvent> Events() =>

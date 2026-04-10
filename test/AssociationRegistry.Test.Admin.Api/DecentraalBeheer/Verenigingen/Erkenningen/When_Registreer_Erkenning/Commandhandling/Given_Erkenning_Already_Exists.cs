@@ -1,17 +1,15 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Registreer_Erkenning.
-    Commandhandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Registreer_Erkenning.Commandhandling;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Resources;
 using Xunit;
 
 public class Given_Erkenning_Already_Exists
@@ -19,16 +17,15 @@ public class Given_Erkenning_Already_Exists
     private readonly RegistreerErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly ErkenningWerdGeregistreerdScenario _scenario;
-    private readonly AggregateSessionMock _aggregateSessionMock;
 
     public Given_Erkenning_Already_Exists()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new ErkenningWerdGeregistreerdScenario();
-        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
+        var aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        _commandHandler = new RegistreerErkenningCommandHandler(_aggregateSessionMock);
+        _commandHandler = new RegistreerErkenningCommandHandler(aggregateSessionMock);
     }
 
     [Fact]
@@ -40,21 +37,18 @@ public class Given_Erkenning_Already_Exists
             Erkenning = _fixture.Create<TeRegistrerenErkenning>() with
             {
                 IpdcProduct = _scenario.ErkenningWerdGeregistreerd.IpdcProduct,
-                Startdatum = new DateOnly(2026, 1, 1),
-                Einddatum = new DateOnly(2026, 1, 2),
-                HernieuwingsUrl = "https://hernieuwingen.vlaanderen.be",
             },
         };
 
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
+
         var exception = await Assert.ThrowsAsync<ErkenningBestaatAl>(async () =>
-                                                                             await _commandHandler.Handle(
-                                                                                 new CommandEnvelope<
-                                                                                     RegistreerErkenningCommand>(
-                                                                                     command,
-                                                                                     _fixture
-                                                                                        .Create<CommandMetadata>())
-                                                                             )
-        );
+        {
+            await _commandHandler.Handle(new CommandEnvelope<RegistreerErkenningCommand>(command, commandMetadata));
+        });
 
         exception.Message.Should().Be(ExceptionMessages.ErkenningAlreadyExists);
     }
