@@ -7,5 +7,4 @@ public record TeRegistrerenErkenning
     public DateOnly Einddatum { get; set; }
     public DateOnly Hernieuwingsdatum { get; set; }
     public string HernieuwingsUrl { get; set; } = null!;
-    public GegevensInitiator GeregistreerdDoor { get; set; } = null!;
 }

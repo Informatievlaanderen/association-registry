@@ -541,8 +541,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void MaakValidatieOngedaan(int bankrekeningnummerId, string initiator)
     {
-        var bankrekeningnummer =
-            State.Bankrekeningnummers.SingleOrDefault(x => x.BankrekeningnummerId == bankrekeningnummerId);
+        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
+            x.BankrekeningnummerId == bankrekeningnummerId
+        );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
         Throw<ValidatieBankrekeningnummerIsNietGekend>.If(!bankrekeningnummer!.BevestigdDoor.Contains(initiator), initiator);
@@ -571,19 +572,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         return toegevoegdBankrekeningnummer.BankrekeningnummerId;
     }
 
-    public int RegistreerErkenning(TeRegistrerenErkenning erkenning, VCode vCode, string initiator)
+    public int RegistreerErkenning(TeRegistrerenErkenning erkenning, string initiator)
     {
-        erkenning.GeregistreerdDoor = new GegevensInitiator
-        {
-            OvoCode = initiator,
-        };
-
-        var toegevoegdeErkenning = State.Erkenningen.VoegToe(erkenning, vCode.Value);
+        var toegevoegdeErkenning = State.Erkenningen.VoegToe(erkenning, initiator);
 
         AddEvent(
             new ErkenningWerdGeregistreerd(
                 toegevoegdeErkenning.ErkenningId,
-                vCode.Value,
                 toegevoegdeErkenning.IpdcProduct,
                 toegevoegdeErkenning.Startdatum,
                 toegevoegdeErkenning.Einddatum,
@@ -599,8 +594,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
-                                                                               x.BankrekeningnummerId ==
-                                                                               bankrekeningnummerId
+            x.BankrekeningnummerId == bankrekeningnummerId
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
