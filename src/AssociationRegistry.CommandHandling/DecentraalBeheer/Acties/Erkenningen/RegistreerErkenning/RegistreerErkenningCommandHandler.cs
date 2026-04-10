@@ -20,14 +20,9 @@ public class RegistreerErkenningCommandHandler
     {
         var vCode = VCode.Create(envelope.Command.VCode);
 
-        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
-           vCode,
-            envelope.Metadata
-        );
+        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
 
-        // TODO geregistreerd door naam opzoeke via call naar OR
-
-        var id = vereniging.RegistreerErkenning(envelope.Command.Erkenning, vCode, envelope.Metadata.Initiator);
+        var id = vereniging.RegistreerErkenning(envelope.Command.Erkenning, envelope.Metadata.Initiator);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 
