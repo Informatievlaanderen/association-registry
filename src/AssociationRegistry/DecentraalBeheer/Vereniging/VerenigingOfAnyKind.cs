@@ -2,22 +2,18 @@ namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
 using System.Diagnostics.Contracts;
 using Adressen;
-using AssociationRegistry.Grar.AdresMatch;
-using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Vereniging.Bronnen;
 using Bankrekeningen;
 using Bankrekeningen.Exceptions;
 using Emails;
+using Erkenningen;
 using Events;
 using Events.Factories;
 using Exceptions;
 using Framework;
-using GemeentenaamVerrijking;
 using Geotags;
-using Grar;
+using Grar.AdresMatch;
 using Grar.Models;
-using Magda.Persoon;
-using Marten;
 using SocialMedias;
 using TelefoonNummers;
 
@@ -545,8 +541,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void MaakValidatieOngedaan(int bankrekeningnummerId, string initiator)
     {
-        var bankrekeningnummer =
-            State.Bankrekeningnummers.SingleOrDefault(x => x.BankrekeningnummerId == bankrekeningnummerId);
+        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
+            x.BankrekeningnummerId == bankrekeningnummerId
+        );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
         Throw<ValidatieBankrekeningnummerIsNietGekend>.If(!bankrekeningnummer!.BevestigdDoor.Contains(initiator), initiator);
@@ -573,6 +570,25 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         );
 
         return toegevoegdBankrekeningnummer.BankrekeningnummerId;
+    }
+
+    public int RegistreerErkenning(TeRegistrerenErkenning erkenning, string initiator)
+    {
+        var toegevoegdeErkenning = State.Erkenningen.VoegToe(erkenning, initiator);
+
+        AddEvent(
+            new ErkenningWerdGeregistreerd(
+                toegevoegdeErkenning.ErkenningId,
+                toegevoegdeErkenning.IpdcProduct,
+                toegevoegdeErkenning.Startdatum,
+                toegevoegdeErkenning.Einddatum,
+                toegevoegdeErkenning.Hernieuwingsdatum,
+                toegevoegdeErkenning.HernieuwingsUrl,
+                toegevoegdeErkenning.GeregistreerdDoor
+            )
+        );
+
+        return toegevoegdeErkenning.ErkenningId;
     }
 
     public void VerwijderBankrekeningnummer(int bankrekeningnummerId)

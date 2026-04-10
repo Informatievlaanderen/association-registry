@@ -3,18 +3,21 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
 using Formats;
 using Framework;
 using JasperFx.Events;
-using Newtonsoft.Json;
 using Schema;
 using Schema.Detail;
 using Bankrekeningnummer = Schema.Detail.Bankrekeningnummer;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
+using Erkenning = Schema.Detail.Erkenning;
+using GegevensInitiator = Schema.Detail.GegevensInitiator;
 using IEvent = JasperFx.Events.IEvent;
+using IpdcProduct = Schema.Detail.IpdcProduct;
 using SubverenigingVan = Schema.Detail.SubverenigingVan;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Verenigingstype = Schema.Detail.Verenigingstype;
@@ -1344,5 +1347,42 @@ public class BeheerVerenigingDetailProjector
             )
             .OrderBy(b => b.BankrekeningnummerId)
             .ToArray();
+    }
+
+    public static void Apply(IEvent<ErkenningWerdGeregistreerd> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Erkenningen = document
+                              .Erkenningen.Append(
+                                   new Erkenning
+                                   {
+                                       JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                           JsonLdType.Erkenning,
+                                           document.VCode,
+                                           @event.Data.ErkenningId.ToString()
+                                       ),
+                                       ErkenningId = @event.Data.ErkenningId,
+                                       VCode = @event.Data.VCode,
+                                       GeregistreerdDoor = new GegevensInitiator
+                                       {
+                                           OvoCode = @event.Data.GeregistreerdDoor.OvoCode,
+                                           Naam = @event.Data.GeregistreerdDoor.Naam ?? string.Empty,
+                                       },
+                                       IpdcProduct = @event.Data.IpdcProduct is null
+                                           ? null
+                                           : new IpdcProduct
+                                           {
+                                               Nummer = @event.Data.IpdcProduct.Nummer,
+                                               Naam = @event.Data.IpdcProduct.Naam ?? string.Empty,
+                                           },
+                                       Startdatum = @event.Data.Startdatum,
+                                       Einddatum = @event.Data.Einddatum,
+                                       Hernieuwingsdatum = @event.Data.Hernieuwingsdatum,
+                                       HernieuwingsUrl = @event.Data.HernieuwingsUrl,
+                                       Motivering = string.Empty,
+                                       Status = ErkenningStatus.Create(@event.Data.Startdatum, @event.Data.Einddatum).Value,
+                                   }
+                               )
+                              .OrderBy(x => x.ErkenningId)
+                              .ToArray();
     }
 }

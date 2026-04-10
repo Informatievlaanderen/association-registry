@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
 using Admin.Api.WebApi.Verenigingen.Common;
+using Admin.Api.WebApi.Verenigingen.Erkenningen.RegistreerErkenning.RequestModels;
 using Common.Framework;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;

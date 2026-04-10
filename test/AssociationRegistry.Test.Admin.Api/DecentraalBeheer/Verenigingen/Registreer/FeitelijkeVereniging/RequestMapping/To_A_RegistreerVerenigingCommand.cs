@@ -86,6 +86,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
                     Titularis = x.Titularis,
                 })
             );
+
         bevestigingstoken.Should().BeEmpty();
     }
 

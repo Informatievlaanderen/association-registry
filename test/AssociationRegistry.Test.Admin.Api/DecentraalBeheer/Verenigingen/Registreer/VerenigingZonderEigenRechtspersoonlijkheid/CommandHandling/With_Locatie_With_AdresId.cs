@@ -91,7 +91,7 @@ public class With_Locatie_With_AdresId
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: [],
             Bankrekeningnummers: []
-        );
+            );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 

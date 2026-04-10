@@ -1,0 +1,18 @@
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
+
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
+
+public record RegistreerErkenningCommand(VCode VCode, TeRegistrerenErkenning Erkenning)
+{
+    protected virtual bool PrintMembers(System.Text.StringBuilder builder)
+    {
+        builder.Append($"VCode = {VCode}, ");
+        builder.Append($"StartDatum = {Erkenning.Startdatum}, ");
+        builder.Append($"Einddatum = {Erkenning.Einddatum}, ");
+        builder.Append($"Hernieuwingsdatum = {Erkenning.Hernieuwingsdatum}, ");
+        builder.Append($"HernieuwingsUrl = {Erkenning.HernieuwingsUrl}, ");
+        builder.Append($"IpdcProduct = {Erkenning.IpdcProduct}, ");
+        return true;
+    }
+}

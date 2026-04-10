@@ -1,9 +1,11 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using global::AutoFixture;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
+using DecentraalBeheer.Vereniging.Erkenningen;
 
 public static class CommandCustomizations
 {
@@ -12,6 +14,8 @@ public static class CommandCustomizations
         fixture.CustomizeRegistreerFeitelijkeVerenigingCommand();
         fixture.CustomizeTewijzigenLidmaatschap();
         fixture.CustomizeToeTevoegenBankrekeningnummer();
+        fixture.CustomizeTeRegistrerenErkenning();
+        fixture.CustomizeRegistreerErkenningCommand();
     }
 
     public static void CustomizeRegistreerFeitelijkeVerenigingCommand(
@@ -77,6 +81,43 @@ public static class CommandCustomizations
                         Titularis = fixture.Create<Titularis>(),
                     }
                 )
+                .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeRegistreerErkenningCommand(this IFixture fixture)
+    {
+        fixture.Customize<RegistreerErkenningCommand>(composer =>
+            composer
+                .FromFactory(() =>
+                    new RegistreerErkenningCommand(fixture.Create<VCode>(), fixture.Create<TeRegistrerenErkenning>())
+                )
+                .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeTeRegistrerenErkenning(this IFixture fixture)
+    {
+        fixture.Customize<TeRegistrerenErkenning>(composer =>
+            composer
+                .FromFactory(() =>
+                {
+                    var start = fixture.Create<DateOnly>();
+                    var addDays = fixture.Create<int>();
+                    var renew = start.AddDays(addDays);
+                    var end = start.AddDays(addDays + fixture.Create<int>());
+
+                    var protocol = fixture.Create<bool>() ? "http" : "https";
+
+                    return new TeRegistrerenErkenning
+                    {
+                        Startdatum = start,
+                        Hernieuwingsdatum = renew,
+                        Einddatum = end,
+                        HernieuwingsUrl = $"{protocol}://www.example.com/{fixture.Create<Guid>()}",
+                        IpdcProduct = fixture.Create<IpdcProduct>(),
+                    };
+                })
                 .OmitAutoProperties()
         );
     }

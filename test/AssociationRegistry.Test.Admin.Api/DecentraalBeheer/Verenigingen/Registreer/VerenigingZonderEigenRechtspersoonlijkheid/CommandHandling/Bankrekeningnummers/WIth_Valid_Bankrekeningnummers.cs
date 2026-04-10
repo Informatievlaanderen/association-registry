@@ -57,7 +57,7 @@ public class WIth_Valid_Bankrekeningnummers
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: [],
             Bankrekeningnummers: _fixture.CreateMany<ToeTevoegenBankrekeningnummer>().ToArray()
-        );
+            );
 
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             newAggregateSession: _newAggregateSessionMock,

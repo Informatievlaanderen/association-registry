@@ -2,11 +2,9 @@ namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
 using Adressen;
 using Bankrekeningen;
-using Bankrekeningen.Exceptions;
 using Emails;
 using Events;
 using Events.Factories;
-using EventStore;
 using Exceptions;
 using Framework;
 using Geotags;

@@ -82,4 +82,8 @@ public class Vereniging
     /// <summary>De lidmaatschappen van deze vereniging</summary>
     [DataMember(Name = "Lidmaatschappen")]
     public Lidmaatschap[] Lidmaatschappen { get; init; } = [];
+
+    /// <summary>De erkenningen van deze vereniging</summary>
+    [DataMember(Name = "Erkenningen")]
+    public Erkenning[] Erkenningen { get; init; } = [];
 }

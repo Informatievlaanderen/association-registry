@@ -78,9 +78,7 @@ public static class Registratiedata
     );
 
     public record VertegenwoordigerZonderPersoonsgegevens(Guid RefId, int VertegenwoordigerId, bool IsPrimair);
-
     public record HoofdactiviteitVerenigingsloket(string Code, string Naam);
-
     public record Werkingsgebied(string Code, string Naam);
 
     public record Lidmaatschap(
@@ -104,9 +102,7 @@ public static class Registratiedata
     {
         public static DuplicatieInfo Onbekend = new(null, string.Empty);
         public static DuplicatieInfo GeenDuplicaten = new(false, string.Empty);
-
         public static DuplicatieInfo BevestigdGeenDuplicaat(string bevestigingstoken) => new(true, bevestigingstoken);
-
         public static implicit operator bool?(DuplicatieInfo info) => info?.BevestigdNaDuplicatie;
     }
 
@@ -123,7 +119,6 @@ public static class Registratiedata
     );
 
     public record Verenigingstype(string Code, string Naam);
-
     public record Verenigingssubtype(string Code, string Naam);
 
     public record DuplicateVerenigingLocatie(
@@ -136,14 +131,20 @@ public static class Registratiedata
     );
 
     public record BankrekeningnummerZonderPersoonsgegevens(Guid RefId, int BankrekeningnummerId, string Doel);
-
     public record Bankrekeningnummer(int BankrekeningnummerId, string Iban, string Doel, string Titularis);
+
+    public record Erkenning(
+        int ErkenningId,
+        string IpdcProductNummer,
+        DateOnly Startdatum,
+        DateOnly Einddatum,
+        DateOnly Hernieuwingsdatum,
+        string HernieuwingsUrl);
 }
 
 public interface IAdresId
 {
     IAdresbron Adresbron { get; }
-
     string Bronwaarde { get; }
 }
 

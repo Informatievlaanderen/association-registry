@@ -18,4 +18,5 @@ public static class GuidNamespace
     public static Guid GestructureerdeIdentificator => Guid.Parse("2832F142-9D7D-47AF-AC8B-FDE9AE077D24");
     public static Guid Subtype => Guid.Parse("D21E76F1-1FA2-4076-80FA-A727E4A3CD70");
     public static Guid Bankrekeningnummer => Guid.Parse("14AEDC62-AB68-4B6E-A9E0-7AF3B815A51C");
+    public static Guid Erkenning => Guid.Parse("6068F54E-5A31-4AB3-A6A3-8322C5603C07");
 }

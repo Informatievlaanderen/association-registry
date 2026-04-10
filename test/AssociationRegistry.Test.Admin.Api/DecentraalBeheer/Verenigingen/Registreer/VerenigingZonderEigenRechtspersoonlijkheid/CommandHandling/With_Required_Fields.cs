@@ -55,7 +55,7 @@ public class With_Required_Fields
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: [],
             Bankrekeningnummers: []
-        );
+            );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 

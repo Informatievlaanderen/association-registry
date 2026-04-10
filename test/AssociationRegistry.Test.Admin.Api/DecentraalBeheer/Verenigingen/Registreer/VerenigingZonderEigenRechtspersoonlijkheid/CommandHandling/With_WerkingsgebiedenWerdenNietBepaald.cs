@@ -54,7 +54,7 @@ public class With_WerkingsgebiedenWerdenNietBepaald
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: Werkingsgebieden.NietBepaald,
             Bankrekeningnummers: []
-        );
+            );
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 

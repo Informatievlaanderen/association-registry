@@ -70,7 +70,7 @@ public class WIth_Duplicate_Ibans
                     Iban = iban,
                 },
             ]
-        );
+            );
 
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             newAggregateSession: _newAggregateSessionMock,

@@ -3,6 +3,7 @@
 using System.Text;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
 public record RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
     object OriginalRequest,

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
 using Bankrekeningen;
+using Erkenningen;
 
 public record RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid(
     VerenigingsNaam Naam,
@@ -15,4 +16,4 @@ public record RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid(
     HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
     Werkingsgebied[] Werkingsgebieden,
     ToeTevoegenBankrekeningnummer[] Bankrekeningnummers
-);
+    );
