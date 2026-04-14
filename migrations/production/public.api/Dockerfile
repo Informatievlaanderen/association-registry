@@ -1,4 +1,5 @@
-FROM erikbra/grate:1.8.0
+ARG GRATE_IMAGE_PLATFORM=linux/amd64
+FROM --platform=${GRATE_IMAGE_PLATFORM} erikbra/grate:1.9.8
 
 ARG CI_BUILD_NUMBER
 ARG GIT_HASH
