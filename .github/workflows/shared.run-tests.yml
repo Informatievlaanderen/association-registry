@@ -134,7 +134,8 @@ jobs:
             -e AWS_DEFAULT_REGION=us-east-1 \
             -e AWS_ENDPOINT_URL=http://127.0.0.1:4566 \
             -v ${{ github.workspace }}/.localstack/init/ready.d:/init-scripts:ro \
-            amazon/aws-cli:latest sh -c "sh /init-scripts/01_sqs-init.sh && sh /init-scripts/02_s3-init.sh"
+            --entrypoint /bin/sh \
+            amazon/aws-cli:latest -c "sh /init-scripts/01_sqs-init.sh && sh /init-scripts/02_s3-init.sh"
 
       - name: Wait for db container
         shell: bash
