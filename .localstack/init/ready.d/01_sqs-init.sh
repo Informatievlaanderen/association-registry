@@ -12,10 +12,11 @@ with_dlq()
   DLQ_NAME="$QUEUE_NAME-dlq"
   DLQ_ARN="arn:aws:sqs:$REGION:$ACCOUNT_ID:$DLQ_NAME"
 
-  awslocal sqs create-queue --region $REGION --queue-name $QUEUE_NAME
-  awslocal sqs create-queue --region $REGION --queue-name $DLQ_NAME
-  awslocal sqs set-queue-attributes \
-    --queue-url http://sqs.$REGION.localhost.localstack.cloud:4566/000000000000/$QUEUE_NAME \
+  aws --endpoint-url=http://127.0.0.1:4566 sqs create-queue --region $REGION --queue-name $QUEUE_NAME
+  aws --endpoint-url=http://127.0.0.1:4566 sqs create-queue --region $REGION --queue-name $DLQ_NAME
+  QUEUE_URL=$(aws --endpoint-url=http://127.0.0.1:4566 sqs get-queue-url --region $REGION --queue-name $QUEUE_NAME --query QueueUrl --output text)
+  aws --endpoint-url=http://127.0.0.1:4566 sqs set-queue-attributes \
+    --queue-url "$QUEUE_URL" \
     --attributes "{
       \"RedrivePolicy\": \"{ \\\"maxReceiveCount\\\": \\\"3\\\", \\\"deadLetterTargetArn\\\": \\\"$DLQ_ARN\\\" }\"
     }"

@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Public.Api.WebApi.Verenigingen.DetailAll;
 
+using System.Net.Mime;
 using Amazon.S3;
 using Amazon.S3.Model;
-using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
-using System.Net.Mime;
+using Infrastructure.ConfigurationBindings;
 
 public class DetailAllS3Client : IDetailAllS3Client
 {
@@ -18,14 +18,16 @@ public class DetailAllS3Client : IDetailAllS3Client
         _key = appSettings.Publiq.Key;
     }
 
-    public async Task<string> GetPreSignedUrlAsync(CancellationToken cancellationToken)
-        => await _s3Client.GetPreSignedURLAsync(new GetPreSignedUrlRequest
-        {
-            BucketName = _bucketName,
-            Key = _key,
-            Expires = DateTime.Now.AddMinutes(5),
-            Verb = HttpVerb.GET,
-        });
+    public async Task<string> GetPreSignedUrlAsync(CancellationToken cancellationToken) =>
+        await _s3Client.GetPreSignedURLAsync(
+            new GetPreSignedUrlRequest
+            {
+                BucketName = _bucketName,
+                Key = _key,
+                Expires = DateTime.Now.AddMinutes(5),
+                Verb = HttpVerb.GET,
+            }
+        );
 
     public async Task PutAsync(Stream stream, CancellationToken cancellationToken)
     {
@@ -39,6 +41,6 @@ public class DetailAllS3Client : IDetailAllS3Client
             ContentType = MediaTypeNames.Text.Plain,
         };
 
-        await _s3Client.PutObjectAsync(request, cancellationToken);
+        var putObjectResponse = await _s3Client.PutObjectAsync(request: request, cancellationToken: cancellationToken);
     }
 }

@@ -10,102 +10,42 @@ services:
     networks:
       - vr-net
 
-  localstack:
-    image: localstack/localstack:latest
+  ministack:
+    image: ministackorg/ministack:latest
+    container_name: vr_ministack
     environment:
-      - SERVICES=lambda,sqs,s3,ssm,iam,events,logs
-      - LAMBDA_EXECUTOR=docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-
+      MINISTACK_REGION: eu-west-1
+      MINISTACK_ACCOUNT_ID: 123456789012
+      MINISTACK_HOST: 127.0.0.1
     ports:
-      - "4566:4566"
+      - 4566:4566
     healthcheck:
-      test: [ "CMD", "awslocal", "ssm", "describe-parameters" ]
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4566/_ministack/health').read()" ]
       interval: 5s
       retries: 12
-    networks:
-      - vr-net
-
-  # Build the Lambda first
-  lambda-builder:
-    image: mcr.microsoft.com/dotnet/sdk:9.0.203
-    profiles:
-      - kbo-sync-lambdas
     volumes:
-      - .:/app
-      - lambda-artifacts:/artifacts
-      - ./scripts:/scripts
-    working_dir: /app
-    command: [ "/scripts/build-lambda.sh" ]
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - vr-net
 
-  localstack-setup:
-    image: python:3.11-slim
+  ministack-init:
+    image: amazon/aws-cli:latest
+    container_name: vr_ministack_init
     depends_on:
-      localstack:
+      ministack:
         condition: service_healthy
-    volumes:
-      - ./scripts:/scripts
-      - lambda-artifacts:/artifacts
-    working_dir: /scripts
     environment:
-      - AWS_ACCESS_KEY_ID=test
-      - AWS_SECRET_ACCESS_KEY=test
-      - AWS_DEFAULT_REGION=us-east-1
-      - AWS_ENDPOINT_URL=http://localstack:4566
-      - DEBIAN_FRONTEND=noninteractive
-    command: |
-      sh -c "
-        echo '📦 Installing dependencies...' &&
-        apt-get update -qq &&
-        apt-get install -y -qq curl unzip &&
-        echo '📦 Installing AWS CLI and awslocal...' &&
-        pip3 install --quiet awscli awscli-local &&
-        echo '🏗️  Setting up infrastructure...' &&
-        ./setup-queues.sh &&
-        ./setup-s3.sh &&
-        ./setup-ssm-parameters.sh &&
-        echo '🎉 All done! Your Lambda is ready to go!' &&
-        echo '   LocalStack: http://localhost:4566'
-      "
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test # pragma: allowlist secret
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_ENDPOINT_URL: http://ministack:4566
+    volumes:
+      - ./.localstack/init/ready.d:/init-scripts:ro
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: "sh /init-scripts/01_sqs-init.sh && sh /init-scripts/02_s3-init.sh"
     networks:
       - vr-net
-
-  localstack-lambda-setup:
-    image: python:3.11-slim
-    profiles:
-      - kbo-sync-lambdas
-    depends_on:
-      localstack:
-        condition: service_healthy
-      lambda-builder:
-        condition: service_completed_successfully
-    volumes:
-      - ./scripts:/scripts
-      - lambda-artifacts:/artifacts
-    working_dir: /scripts
-    environment:
-      - AWS_ACCESS_KEY_ID=test
-      - AWS_SECRET_ACCESS_KEY=test
-      - AWS_DEFAULT_REGION=us-east-1
-      - AWS_ENDPOINT_URL=http://localstack:4566
-      - DEBIAN_FRONTEND=noninteractive
-    command: |
-      sh -c "
-        echo '📦 Installing dependencies...' &&
-        apt-get update -qq &&
-        apt-get install -y -qq curl unzip &&
-        echo '📦 Installing AWS CLI and awslocal...' &&
-        pip3 install --quiet awscli awscli-local &&
-        echo '🏗️  Setting up infrastructure...' &&
-        ./deploy-kbo-lambda.sh &&
-        echo '🎉 All done! Your Lambda is ready to go!' &&
-        echo '   LocalStack: http://localhost:4566'
-      "
-    networks:
-      - vr-net
+    restart: "no"
 
   seq:
     image: datalust/seq:2025.2
@@ -272,26 +212,26 @@ services:
     networks:
       - vr-net
 
-#  public-api-migrations-golden-master:
-#    build:
-#      context: migrations/production/public.api/
-#      dockerfile: Dockerfile
-#      args:
-#        CI_BUILD_NUMBER: "8.2.3"
-#        GIT_HASH: "local-dev"
-#    container_name: vr_public_api_migrations-golden-master
-#    environment:
-#      - APP_CONNSTRING_HOST=db
-#      - APP_CONNSTRING_DB=golden_master_template
-#      - APP_CONNSTRING_PORT=5432
-#      - APP_CONNSTRING_USERNAME=root
-#      - APP_CONNSTRING_PASSWORD=root
-#      - DATABASE_TYPE=postgresql
-#    depends_on:
-#      admin-api-migrations-golden-master:
-#        condition: service_completed_successfully
-#    networks:
-#      - vr-net
+  #  public-api-migrations-golden-master:
+  #    build:
+  #      context: migrations/production/public.api/
+  #      dockerfile: Dockerfile
+  #      args:
+  #        CI_BUILD_NUMBER: "8.2.3"
+  #        GIT_HASH: "local-dev"
+  #    container_name: vr_public_api_migrations-golden-master
+  #    environment:
+  #      - APP_CONNSTRING_HOST=db
+  #      - APP_CONNSTRING_DB=golden_master_template
+  #      - APP_CONNSTRING_PORT=5432
+  #      - APP_CONNSTRING_USERNAME=root
+  #      - APP_CONNSTRING_PASSWORD=root
+  #      - DATABASE_TYPE=postgresql
+  #    depends_on:
+  #      admin-api-migrations-golden-master:
+  #        condition: service_completed_successfully
+  #    networks:
+  #      - vr-net
 
   public-projections-migrations-golden-master:
     build:

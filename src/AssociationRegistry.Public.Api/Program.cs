@@ -1,5 +1,11 @@
 namespace AssociationRegistry.Public.Api;
 
+using System.Globalization;
+using System.IO.Compression;
+using System.Net;
+using System.Net.Mime;
+using System.Reflection;
+using System.Text;
 using Amazon.Runtime;
 using Amazon.S3;
 using Asp.Versioning.ApplicationModels;
@@ -42,12 +48,6 @@ using OpenTelemetry.Extensions;
 using Queries;
 using Serilog;
 using Serilog.Debugging;
-using System.Globalization;
-using System.IO.Compression;
-using System.Net;
-using System.Net.Mime;
-using System.Reflection;
-using System.Text;
 using WebApi.Verenigingen.DetailAll;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 
@@ -61,9 +61,10 @@ public class Program
                 Args = args,
                 ContentRootPath = Directory.GetCurrentDirectory(),
                 WebRootPath = "wwwroot",
-            });
+            }
+        );
 
-        LoadConfiguration(builder, args);
+        LoadConfiguration(builder: builder, args: args);
 
         SelfLog.Enable(Console.WriteLine);
 
@@ -76,36 +77,36 @@ public class Program
         ConfigureWebHost(builder);
         ConfigureServices(builder);
 
-        builder.Services
-               .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
-               .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
-               .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
-               .Configure<RequestLocalizationOptions>(opts =>
-                {
-                    const string fallbackCulture = "en-GB";
-                    var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
-                    var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
+        builder
+            .Services.AddLocalization(cfg => cfg.ResourcesPath = "Resources")
+            .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
+            .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+            .Configure<RequestLocalizationOptions>(opts =>
+            {
+                const string fallbackCulture = "en-GB";
+                var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
 
-                    opts.DefaultRequestCulture = defaultRequestCulture;
-                    opts.SupportedCultures = supportedCulturesOrDefault;
-                    opts.SupportedUICultures = supportedCulturesOrDefault;
+                opts.DefaultRequestCulture = defaultRequestCulture;
+                opts.SupportedCultures = supportedCulturesOrDefault;
+                opts.SupportedUICultures = supportedCulturesOrDefault;
 
-                    opts.FallBackToParentCultures = true;
-                    opts.FallBackToParentUICultures = true;
-                })
-               .Configure<RequestLocalizationOptions>(opts =>
-                {
-                    const string fallbackCulture = "en-GB";
-                    var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
-                    var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
+                opts.FallBackToParentCultures = true;
+                opts.FallBackToParentUICultures = true;
+            })
+            .Configure<RequestLocalizationOptions>(opts =>
+            {
+                const string fallbackCulture = "en-GB";
+                var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+                var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
 
-                    opts.DefaultRequestCulture = defaultRequestCulture;
-                    opts.SupportedCultures = supportedCulturesOrDefault;
-                    opts.SupportedUICultures = supportedCulturesOrDefault;
+                opts.DefaultRequestCulture = defaultRequestCulture;
+                opts.SupportedCultures = supportedCulturesOrDefault;
+                opts.SupportedUICultures = supportedCulturesOrDefault;
 
-                    opts.FallBackToParentCultures = true;
-                    opts.FallBackToParentUICultures = true;
-                });
+                opts.FallBackToParentCultures = true;
+                opts.FallBackToParentUICultures = true;
+            });
 
         builder.Services.AddEndpointsApiExplorer();
 
@@ -124,9 +125,7 @@ public class Program
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 
-        app
-           .ConfigureDevelopmentEnvironment()
-           .UseCors(StartupConstants.AllowSpecificOrigin);
+        app.ConfigureDevelopmentEnvironment().UseCors(StartupConstants.AllowSpecificOrigin);
 
         // Deze volgorde is belangrijk ! DKW
         app.UseMiddleware<ProblemDetailsMiddleware>();
@@ -141,8 +140,7 @@ public class Program
         app.ConfigurePublicApiSwagger();
 
         // Deze volgorde is belangrijk ! DKW
-        app.UseRouting()
-           .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
+        app.UseRouting().UseEndpoints(routeBuilder => routeBuilder.MapControllers());
 
         ConfigureLifetimeHooks(app);
 
@@ -151,9 +149,7 @@ public class Program
 
     private static void ConfigureRequestLocalization(WebApplication app)
     {
-        var requestLocalizationOptions = app.Services
-                                            .GetRequiredService<IOptions<RequestLocalizationOptions>>()
-                                            .Value;
+        var requestLocalizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
 
         app.UseRequestLocalization(requestLocalizationOptions);
     }
@@ -181,26 +177,30 @@ public class Program
                     new JProperty(
                         name: "results",
                         new JObject(
-                            healthReport.Entries.Select(
-                                pair =>
+                            healthReport.Entries.Select(pair => new JProperty(
+                                name: pair.Key,
+                                new JObject(
+                                    new JProperty(name: "status", pair.Value.Status.ToString()),
+                                    new JProperty(name: "duration", content: pair.Value.Duration),
+                                    new JProperty(name: "description", content: pair.Value.Description),
+                                    new JProperty(name: "exception", content: pair.Value.Exception?.Message),
                                     new JProperty(
-                                        pair.Key,
+                                        name: "data",
                                         new JObject(
-                                            new JProperty(name: "status", pair.Value.Status.ToString()),
-                                            new JProperty(name: "duration", pair.Value.Duration),
-                                            new JProperty(name: "description", pair.Value.Description),
-                                            new JProperty(name: "exception", pair.Value.Exception?.Message),
-                                            new JProperty(
-                                                name: "data",
-                                                new JObject(
-                                                    pair.Value.Data.Select(
-                                                        p => new JProperty(p.Key, p.Value))))))))));
+                                            pair.Value.Data.Select(p => new JProperty(name: p.Key, content: p.Value))
+                                        )
+                                    )
+                                )
+                            ))
+                        )
+                    )
+                );
 
                 return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
             },
         };
 
-        app.UseHealthChecks(path: "/health", healthCheckOptions);
+        app.UseHealthChecks(path: "/health", options: healthCheckOptions);
     }
 
     private static void ConfigureExceptionHandler(WebApplication app)
@@ -209,76 +209,77 @@ public class Program
         var logger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger<ApiExceptionHandler>();
 
         var exceptionHandler = new ExceptionHandler(
-            logger,
+            logger: logger,
             Array.Empty<ApiProblemDetailsExceptionMapping>(),
             Array.Empty<IExceptionHandler>(),
-            problemDetailsHelper);
+            problemDetailsHelper: problemDetailsHelper
+        );
 
-        app.UseExceptionHandler404Allowed(
-            b =>
+        app.UseExceptionHandler404Allowed(b =>
+        {
+            b.UseCors(StartupConstants.AllowSpecificOrigin);
+
+            b.UseMiddleware<ProblemDetailsMiddleware>();
+
+            ConfigureMiddleware(b);
+
+            var requestLocalizationOptions = app
+                .Services.GetRequiredService<IOptions<RequestLocalizationOptions>>()
+                .Value;
+
+            b.UseRequestLocalization(requestLocalizationOptions);
+
+            b.Run(async context =>
             {
-                b.UseCors(StartupConstants.AllowSpecificOrigin);
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                context.Response.ContentType = MediaTypeNames.Application.Json;
 
-                b.UseMiddleware<ProblemDetailsMiddleware>();
+                var error = context.Features.Get<IExceptionHandlerFeature>();
+                var exception = error?.Error;
 
-                ConfigureMiddleware(b);
+                // Errors happening in the Apply() stuff result in an InvocationException due to the dynamic stuff.
+                if (exception is TargetInvocationException && exception.InnerException != null)
+                    exception = exception.InnerException;
 
-                var requestLocalizationOptions = app.Services
-                                                    .GetRequiredService<IOptions<RequestLocalizationOptions>>()
-                                                    .Value;
-
-                b.UseRequestLocalization(requestLocalizationOptions);
-
-                b
-                   .Run(
-                        async context =>
-                        {
-                            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                            context.Response.ContentType = MediaTypeNames.Application.Json;
-
-                            var error = context.Features.Get<IExceptionHandlerFeature>();
-                            var exception = error?.Error;
-
-                            // Errors happening in the Apply() stuff result in an InvocationException due to the dynamic stuff.
-                            if (exception is TargetInvocationException && exception.InnerException != null)
-                                exception = exception.InnerException;
-
-                            await exceptionHandler.HandleException(exception!, context);
-                        });
+                await exceptionHandler.HandleException(exception!, context: context);
             });
+        });
     }
 
     private static void LoadConfiguration(WebApplicationBuilder builder, params string[] args)
     {
-        builder.Configuration
-               .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
-                            reloadOnChange: false)
-               .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
-               .AddEnvironmentVariables()
-               .AddCommandLine(args)
-               .AddInMemoryCollection();
+        builder
+            .Configuration.AddJsonFile("appsettings.json")
+            .AddJsonFile(
+                $"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json",
+                optional: true,
+                reloadOnChange: false
+            )
+            .AddJsonFile(
+                $"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
+                optional: true,
+                reloadOnChange: false
+            )
+            .AddEnvironmentVariables()
+            .AddCommandLine(args)
+            .AddInMemoryCollection();
     }
 
     private static void ConfigureMiddleware(IApplicationBuilder app)
     {
-        app
-           .UseMiddleware<EnableRequestRewindMiddleware>()
-           .UseMiddleware<AddCorrelationIdToResponseMiddleware>()
-           .UseMiddleware<AddCorrelationIdMiddleware>()
-           .UseMiddleware<AddCorrelationIdToLogContextMiddleware>()
-           .UseMiddleware<ApiKeyEnrichmentMiddleware>()
-           .UseMiddleware<AddHttpSecurityHeadersMiddleware>()
-           .UseMiddleware<AddRemoteIpAddressMiddleware>(AddRemoteIpAddressMiddleware.UrnBasisregistersVlaanderenIp)
-           .UseMiddleware<AddVersionHeaderMiddleware>(AddVersionHeaderMiddleware.HeaderName)
-           .UseMiddleware<AddNoCacheHeadersMiddleware>()
-           .UseMiddleware<DefaultResponseCompressionQualityMiddleware>(
-                new Dictionary<string, double>
-                {
-                    { "br", 1.0 },
-                    { "gzip", 0.9 },
-                })
-           .UseResponseCompression();
+        app.UseMiddleware<EnableRequestRewindMiddleware>()
+            .UseMiddleware<AddCorrelationIdToResponseMiddleware>()
+            .UseMiddleware<AddCorrelationIdMiddleware>()
+            .UseMiddleware<AddCorrelationIdToLogContextMiddleware>()
+            .UseMiddleware<ApiKeyEnrichmentMiddleware>()
+            .UseMiddleware<AddHttpSecurityHeadersMiddleware>()
+            .UseMiddleware<AddRemoteIpAddressMiddleware>(AddRemoteIpAddressMiddleware.UrnBasisregistersVlaanderenIp)
+            .UseMiddleware<AddVersionHeaderMiddleware>(AddVersionHeaderMiddleware.HeaderName)
+            .UseMiddleware<AddNoCacheHeadersMiddleware>()
+            .UseMiddleware<DefaultResponseCompressionQualityMiddleware>(
+                new Dictionary<string, double> { { "br", 1.0 }, { "gzip", 0.9 } }
+            )
+            .UseResponseCompression();
     }
 
     private static void ConfigureServices(WebApplicationBuilder builder)
@@ -288,28 +289,34 @@ public class Program
 
         var appSettings = builder.Configuration.Get<AppSettings>();
 
-        builder.Services
-               .AddSingleton(postgreSqlOptionsSection)
-               .AddSingleton(appSettings)
-               .AddMarten(postgreSqlOptionsSection, builder.Configuration)
-               .AddSingleton(elasticSearchOptionsSection)
-               .AddElasticSearch(elasticSearchOptionsSection)
-               .AddTransient<IPubliekVerenigingenDetailAllQuery, PubliekVerenigingenDetailAllQuery>()
-               .AddTransient<IPubliekVerenigingenZoekQuery, PubliekVerenigingenZoekQuery>()
-               .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>()
-               .AddScoped<IDetailAllStreamWriter, DetailAllStreamWriter>()
-               .AddScoped<IDetailAllS3Client, DetailAllS3Client>()
-               .AddScoped<IDetailAllConverter, DetailAllConverter>()
-               .AddScoped<IAmazonS3>(sp => appSettings.Publiq.UseLocalstack
-                                         ? new AmazonS3Client(new BasicAWSCredentials("dummy", "dummy"), new AmazonS3Config
-                                         {
-                                             ServiceURL = "http://localhost:4566",
-                                             ForcePathStyle = true,
-                                         })
-                                         : new AmazonS3Client())
-               .AddTransient<WerkingsgebiedenService>()
-               .AddHttpContextAccessor()
-               .AddControllers();
+        builder
+            .Services.AddSingleton(postgreSqlOptionsSection)
+            .AddSingleton(appSettings)
+            .AddMarten(postgreSqlOptions: postgreSqlOptionsSection, configuration: builder.Configuration)
+            .AddSingleton(elasticSearchOptionsSection)
+            .AddElasticSearch(elasticSearchOptionsSection)
+            .AddTransient<IPubliekVerenigingenDetailAllQuery, PubliekVerenigingenDetailAllQuery>()
+            .AddTransient<IPubliekVerenigingenZoekQuery, PubliekVerenigingenZoekQuery>()
+            .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>()
+            .AddScoped<IDetailAllStreamWriter, DetailAllStreamWriter>()
+            .AddScoped<IDetailAllS3Client, DetailAllS3Client>()
+            .AddScoped<IDetailAllConverter, DetailAllConverter>()
+            .AddScoped<IAmazonS3>(sp =>
+                appSettings.Publiq.UseLocalstack
+                    ? new AmazonS3Client(
+                        new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"),
+                        new AmazonS3Config
+                        {
+                            ServiceURL = "http://127.0.0.1:4566",
+                            ForcePathStyle = true,
+                            UseHttp = true,
+                        }
+                    )
+                    : new AmazonS3Client()
+            )
+            .AddTransient<WerkingsgebiedenService>()
+            .AddHttpContextAccessor()
+            .AddControllers();
 
         builder.Services.AddSingleton<IEventPreConflictResolutionStrategy, EmptyConflictResolutionStrategy>();
         builder.Services.AddSingleton<IEventPostConflictResolutionStrategy, EmptyConflictResolutionStrategy>();
@@ -317,169 +324,157 @@ public class Program
 
         builder.ConfigureOpenTelemetry(new[] { WellknownHeaderNames.ApiKey }, new Instrumentation());
 
-        builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
+        builder.Services.TryAddEnumerable(
+            ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>()
+        );
 
-        builder.Services
-               .AddSingleton(
-                    new StartupConfigureOptions
-                    {
-                        Server =
-                        {
-                            BaseUrl = builder.Configuration.GetBaseUrl(),
-                        },
-                    })
-               .ConfigureOptions<ProblemDetailsSetup>()
-               .Configure<ProblemDetailsOptions>(
-                    cfg =>
-                    {
-                        foreach (var header in StartupConstants.ExposedHeaders)
-                        {
-                            cfg.AllowedHeaderNames.Add(header);
-                        }
-                    })
-               .TryAddEnumerable(ServiceDescriptor
-                                    .Transient<IConfigureOptions<ProblemDetailsOptions>,
-                                         ProblemDetailsOptionsSetup>());
+        builder
+            .Services.AddSingleton(
+                new StartupConfigureOptions { Server = { BaseUrl = builder.Configuration.GetBaseUrl() } }
+            )
+            .ConfigureOptions<ProblemDetailsSetup>()
+            .Configure<ProblemDetailsOptions>(cfg =>
+            {
+                foreach (var header in StartupConstants.ExposedHeaders)
+                {
+                    cfg.AllowedHeaderNames.Add(header);
+                }
+            })
+            .TryAddEnumerable(
+                ServiceDescriptor.Transient<IConfigureOptions<ProblemDetailsOptions>, ProblemDetailsOptionsSetup>()
+            );
 
-        builder.Services
-               .AddMvcCore(
-                    cfg =>
-                    {
-                        cfg.RespectBrowserAcceptHeader = false;
-                        cfg.ReturnHttpNotAcceptable = true;
+        builder
+            .Services.AddMvcCore(cfg =>
+            {
+                cfg.RespectBrowserAcceptHeader = false;
+                cfg.ReturnHttpNotAcceptable = true;
 
-                        cfg.Filters.Add(new LoggingFilterFactory(StartupConstants.HttpMethodsAsString));
+                cfg.Filters.Add(new LoggingFilterFactory(StartupConstants.HttpMethodsAsString));
 
-                        cfg.Filters.Add<OperationCancelledExceptionFilterAttribute>();
+                cfg.Filters.Add<OperationCancelledExceptionFilterAttribute>();
 
-                        cfg.EnableEndpointRouting = false;
-                    })
-               .AddCors(
-                    cfg =>
-                    {
-                        cfg.AddPolicy(
-                            StartupConstants.AllowAnyOrigin,
-                            configurePolicy: corsPolicy => corsPolicy
-                                                          .AllowAnyOrigin()
-                                                          .WithMethods(StartupConstants.HttpMethodsAsString)
-                                                          .WithHeaders(StartupConstants.Headers)
-                                                          .WithExposedHeaders(StartupConstants.ExposedHeaders)
-                                                          .SetPreflightMaxAge(TimeSpan.FromSeconds(60 * 15)));
+                cfg.EnableEndpointRouting = false;
+            })
+            .AddCors(cfg =>
+            {
+                cfg.AddPolicy(
+                    name: StartupConstants.AllowAnyOrigin,
+                    configurePolicy: corsPolicy =>
+                        corsPolicy
+                            .AllowAnyOrigin()
+                            .WithMethods(StartupConstants.HttpMethodsAsString)
+                            .WithHeaders(StartupConstants.Headers)
+                            .WithExposedHeaders(StartupConstants.ExposedHeaders)
+                            .SetPreflightMaxAge(TimeSpan.FromSeconds(60 * 15))
+                );
 
-                        cfg.AddPolicy(
-                            StartupConstants.AllowSpecificOrigin,
-                            configurePolicy: corsPolicy => corsPolicy
-                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ??
-                                                                       Array.Empty<string>())
-                                                          .WithMethods(StartupConstants.HttpMethodsAsString)
-                                                          .WithHeaders(StartupConstants.Headers)
-                                                          .WithExposedHeaders(StartupConstants.ExposedHeaders)
-                                                          .SetPreflightMaxAge(TimeSpan.FromSeconds(60 * 15))
-                                                          .AllowCredentials());
-                    })
-               .AddControllersAsServices()
-               .AddAuthorization()
-               .AddNewtonsoftJson(
-                    opt =>
-                    {
-                        opt.SerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                        opt.SerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                        opt.SerializerSettings.NullValueHandling = NullValueHandling.Include;
-                        opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    })
-               .AddXmlDataContractSerializerFormatters()
-               .AddFormatterMappings()
-               .AddApiExplorer();
+                cfg.AddPolicy(
+                    name: StartupConstants.AllowSpecificOrigin,
+                    configurePolicy: corsPolicy =>
+                        corsPolicy
+                            .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ?? Array.Empty<string>())
+                            .WithMethods(StartupConstants.HttpMethodsAsString)
+                            .WithHeaders(StartupConstants.Headers)
+                            .WithExposedHeaders(StartupConstants.ExposedHeaders)
+                            .SetPreflightMaxAge(TimeSpan.FromSeconds(60 * 15))
+                            .AllowCredentials()
+                );
+            })
+            .AddControllersAsServices()
+            .AddAuthorization()
+            .AddNewtonsoftJson(opt =>
+            {
+                opt.SerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                opt.SerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                opt.SerializerSettings.NullValueHandling = NullValueHandling.Include;
+                opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            })
+            .AddXmlDataContractSerializerFormatters()
+            .AddFormatterMappings()
+            .AddApiExplorer();
 
-        builder.Services
-               .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
-               .AddDatabaseDeveloperPageExceptionFilter();
+        builder
+            .Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+            .AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddHealthChecks();
 
-        builder.Services
-               .AddLocalization(cfg => cfg.ResourcesPath = "Resources")
-               .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
-               .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
-               .Configure<RequestLocalizationOptions>(
-                    opts =>
-                    {
-                        opts.DefaultRequestCulture = new RequestCulture(new CultureInfo(StartupConstants.Culture));
-                        opts.SupportedCultures = new[] { new CultureInfo(StartupConstants.Culture) };
-                        opts.SupportedUICultures = new[] { new CultureInfo(StartupConstants.Culture) };
+        builder
+            .Services.AddLocalization(cfg => cfg.ResourcesPath = "Resources")
+            .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<StartupDefaults.DefaultResources>>()
+            .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>()
+            .Configure<RequestLocalizationOptions>(opts =>
+            {
+                opts.DefaultRequestCulture = new RequestCulture(new CultureInfo(StartupConstants.Culture));
+                opts.SupportedCultures = new[] { new CultureInfo(StartupConstants.Culture) };
+                opts.SupportedUICultures = new[] { new CultureInfo(StartupConstants.Culture) };
 
-                        opts.FallBackToParentCultures = true;
-                        opts.FallBackToParentUICultures = true;
-                    })
-               .AddEndpointsApiExplorer()
-               .AddResponseCompression(
-                    cfg =>
-                    {
-                        cfg.EnableForHttps = true;
+                opts.FallBackToParentCultures = true;
+                opts.FallBackToParentUICultures = true;
+            })
+            .AddEndpointsApiExplorer()
+            .AddResponseCompression(cfg =>
+            {
+                cfg.EnableForHttps = true;
 
-                        cfg.Providers.Add<BrotliCompressionProvider>();
-                        cfg.Providers.Add<GzipCompressionProvider>();
+                cfg.Providers.Add<BrotliCompressionProvider>();
+                cfg.Providers.Add<GzipCompressionProvider>();
 
-                        cfg.MimeTypes = new[]
-                        {
-                            // General
-                            "text/plain",
-                            "text/csv",
+                cfg.MimeTypes = new[]
+                {
+                    // General
+                    "text/plain",
+                    "text/csv",
+                    // Static files
+                    "text/css",
+                    "application/javascript",
+                    // MVC
+                    "text/html",
+                    "application/xml",
+                    "text/xml",
+                    "application/json",
+                    "text/json",
+                    "application/ld+json",
+                    "application/atom+xml",
+                    // Fonts
+                    "application/font-woff",
+                    "font/otf",
+                    "application/vnd.ms-fontobject",
+                };
+            })
+            .Configure<GzipCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
+            .Configure<BrotliCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
+            .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
 
-                            // Static files
-                            "text/css",
-                            "application/javascript",
-
-                            // MVC
-                            "text/html",
-                            "application/xml",
-                            "text/xml",
-                            "application/json",
-                            "text/json",
-                            "application/ld+json",
-                            "application/atom+xml",
-
-                            // Fonts
-                            "application/font-woff",
-                            "font/otf",
-                            "application/vnd.ms-fontobject",
-                        };
-                    })
-               .Configure<GzipCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
-               .Configure<BrotliCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
-               .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
-
-        builder.Services
-               .AddApiVersioning(
-                    cfg =>
-                    {
-                        cfg.ReportApiVersions = true;
-                    })
-               .AddApiExplorer(
-                    cfg =>
-                    {
-                        cfg.GroupNameFormat = "'v'VVV";
-                        cfg.SubstituteApiVersionInUrl = true;
-                    });
+        builder
+            .Services.AddApiVersioning(cfg =>
+            {
+                cfg.ReportApiVersions = true;
+            })
+            .AddApiExplorer(cfg =>
+            {
+                cfg.GroupNameFormat = "'v'VVV";
+                cfg.SubstituteApiVersionInUrl = true;
+            });
 
         builder.Services.AddPublicApiSwagger(appSettings);
 
         builder.Services.AddSingleton<ProblemDetailsHelper>();
     }
 
-    private static void ConfigureWebHost(WebApplicationBuilder builder)
-        => builder.WebHost.CaptureStartupErrors(captureStartupErrors: true);
+    private static void ConfigureWebHost(WebApplicationBuilder builder) =>
+        builder.WebHost.CaptureStartupErrors(captureStartupErrors: true);
 
     private static void ConfigureLogger(WebApplicationBuilder builder)
     {
-        var loggerConfig =
-            new LoggerConfiguration()
-               .ReadFrom.Configuration(builder.Configuration)
-               .Enrich.FromLogContext()
-               .Enrich.WithMachineName()
-               .Enrich.WithThreadId()
-               .Enrich.WithEnvironmentUserName()
-               .Destructure.JsonNetTypes();
+        var loggerConfig = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration)
+            .Enrich.FromLogContext()
+            .Enrich.WithMachineName()
+            .Enrich.WithThreadId()
+            .Enrich.WithEnvironmentUserName()
+            .Destructure.JsonNetTypes();
 
         var logger = loggerConfig.CreateLogger();
 
@@ -488,27 +483,26 @@ public class Program
 
     private static void ConfigureKestrel(WebApplicationBuilder builder)
     {
-        builder.WebHost.ConfigureKestrel(
-            options =>
-            {
-                options.AddServerHeader = false;
+        builder.WebHost.ConfigureKestrel(options =>
+        {
+            options.AddServerHeader = false;
 
-                options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(value: 120);
+            options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(value: 120);
 
-                options.Listen(
-                    new IPEndPoint(IPAddress.Any, port: 11003),
-                    configure: listenOptions =>
-                    {
-                        listenOptions.UseConnectionLogging();
-                        listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-                    });
+            options.Listen(
+                new IPEndPoint(address: IPAddress.Any, port: 11003),
+                configure: listenOptions =>
+                {
+                    listenOptions.UseConnectionLogging();
+                    listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                }
+            );
 
-                options.ConfigureEndpointDefaults(c => c.Protocols = HttpProtocols.Http2);
-            });
+            options.ConfigureEndpointDefaults(c => c.Protocols = HttpProtocols.Http2);
+        });
     }
 
-    private static void ConfigureEncoding()
-        => Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+    private static void ConfigureEncoding() => Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
     private static void ConfigureJsonSerializerSettings()
     {
@@ -520,26 +514,27 @@ public class Program
     {
         AppDomain.CurrentDomain.FirstChanceException += (_, eventArgs) =>
             Log.Debug(
-                eventArgs.Exception,
+                exception: eventArgs.Exception,
                 messageTemplate: "FirstChanceException event raised in {AppDomain}",
-                AppDomain.CurrentDomain.FriendlyName);
+                propertyValue: AppDomain.CurrentDomain.FriendlyName
+            );
 
         AppDomain.CurrentDomain.UnhandledException += (_, eventArgs) =>
             Log.Fatal(
                 (Exception)eventArgs.ExceptionObject,
-                messageTemplate: "Encountered a fatal exception, exiting program");
+                messageTemplate: "Encountered a fatal exception, exiting program"
+            );
     }
 
     private static void ConfigureLifetimeHooks(WebApplication app)
     {
         app.Lifetime.ApplicationStarted.Register(() => Log.Information("Public api started"));
 
-        app.Lifetime.ApplicationStopping.Register(
-            () =>
-            {
-                Log.Information("Public api stopping");
-                Log.CloseAndFlush();
-            });
+        app.Lifetime.ApplicationStopping.Register(() =>
+        {
+            Log.Information("Public api stopping");
+            Log.CloseAndFlush();
+        });
 
         Console.CancelKeyPress += (_, eventArgs) =>
         {

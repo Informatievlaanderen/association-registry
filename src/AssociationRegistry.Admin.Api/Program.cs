@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api;
 
+using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
@@ -100,9 +101,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using AssociationRegistry.OpenTelemetry.Metrics;
 using OpenTelemetry.Extensions;
-using System.Diagnostics.Metrics;
+using OpenTelemetry.Metrics;
 using Persoonsgegevens;
 using Queries;
 using Schema.Detail;
@@ -207,6 +207,7 @@ public class Program
             .UseEndpoints(routeBuilder =>
             {
                 routeBuilder.MapControllers().RequireAuthorization(AdminGlobalPolicyName);
+
                 routeBuilder
                     .MapDeadLettersEndpoints()
                     .RequireAuthorization(SuperAdminPolicyName)
@@ -232,24 +233,30 @@ public class Program
         await LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(app: app, logger: logger);
     }
 
-    private static async Task LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(WebApplication app, ILogger<Program> logger)
+    private static async Task LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(
+        WebApplication app,
+        ILogger<Program> logger
+    )
     {
         // TODO This method may be removed in the future once we know that this event does not occur in the test environment
         using var scope = app.Services.CreateScope();
         await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
-        var @event = await session.Events.QueryRawEventDataOnly<BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens>().FirstOrDefaultAsync();
+        var @event = await session
+            .Events.QueryRawEventDataOnly<BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens>()
+            .FirstOrDefaultAsync();
 
         if (@event is null)
-        {
-            logger.LogInformation("✅ No obsolete events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
-        }
+            logger.LogInformation(
+                message: "✅ No obsolete events found of type {eventName}",
+                nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens)
+            );
         else
-        {
-            logger.LogWarning("⚠️ Obsolete events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
-        }
+            logger.LogWarning(
+                message: "⚠️ Obsolete events found of type {eventName}",
+                nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens)
+            );
     }
-
 
     private static async Task LogPendingDatabaseChanges(WebApplication app, ILogger<Program> logger)
     {
@@ -439,7 +446,7 @@ public class Program
         var sqsClient = grarOptions.Sqs.UseLocalStack
             ? new AmazonSQSClient(
                 new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"),
-                new AmazonSQSConfig { ServiceURL = "http://localhost:4566" }
+                new AmazonSQSConfig { ServiceURL = grarOptions.Wolverine.TransportServiceUrl, UseHttp = true }
             )
             : new AmazonSQSClient(RegionEndpoint.EUWest1);
 
@@ -542,9 +549,7 @@ public class Program
             .AddScoped<IMagdaSyncGeefVerenigingService, SyncGeefVerenigingService>()
             .AddScoped<IFilterVzerOnlyQuery, FilterVzerOnlyQuery>()
             .AddScoped<VzerVertegenwoordigerForInszQuery>()
-            .AddMarten(postgreSqlOptions: postgreSqlOptionsSection,
-                       builder.Environment.IsDevelopment()
-            )
+            .AddMarten(postgreSqlOptions: postgreSqlOptionsSection, builder.Environment.IsDevelopment())
             .AddElasticSearch(elasticSearchOptionsSection)
             .AddHttpContextAccessor()
             .AddControllers(options => options.Filters.Add<JsonRequestFilter>());
