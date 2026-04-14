@@ -45,7 +45,8 @@ public class Given_A_Valid_Erkenning
                 command.Erkenning.Einddatum,
                 command.Erkenning.Hernieuwingsdatum,
                 command.Erkenning.HernieuwingsUrl,
-                new GegevensInitiator() { OvoCode = commandMetadata.Initiator }
+                new GegevensInitiator() { OvoCode = commandMetadata.Initiator },
+                ""
             )
         );
     }
