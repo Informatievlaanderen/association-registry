@@ -67,6 +67,7 @@
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj" />
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
     <ProjectReference Include="..\AssociationRegistry.CommandHandling\AssociationRegistry.CommandHandling.csproj" />
+    <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Slack\AssociationRegistry.Integrations.Slack.csproj" />
   </ItemGroup>
 
   <ItemGroup>
