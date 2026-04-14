@@ -258,6 +258,7 @@ public class BeheerDetailResponseMapper
     public static Werkingsgebied[] MapWerkingsgebieden(string[] werkingsgebieden)
     {
         var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
+
         return werkingsgebieden
             .Select(x =>
             {
@@ -297,30 +298,23 @@ public class BeheerDetailResponseMapper
             .ToArray();
     }
 
-    public static Erkenning MapErkenningen(Admin.Schema.Detail.Erkenning erkenning, string vCode) =>
+    public static Erkenning MapErkenningen(Admin.Schema.Detail.Erkenning erkenning) =>
         new()
         {
             id = erkenning.JsonLdMetadata.Id,
             type = erkenning.JsonLdMetadata.Type,
             ErkenningId = erkenning.ErkenningId,
-            VCode = erkenning.VCode,
-            GeregistreerdDoor = erkenning.GeregistreerdDoor is null
-                ? new GegevensInitiatorErkenning()
-                : new GegevensInitiatorErkenning
-                {
-                    OvoCode = erkenning.GeregistreerdDoor.OvoCode,
-                    Naam = erkenning.GeregistreerdDoor.Naam ?? string.Empty,
-                },
-            IpdcProduct = new IpdcProduct
+            GeregistreerdDoor = new GegevensInitiatorErkenning
             {
-                Nummer = erkenning.IpdcProduct?.Nummer ?? string.Empty,
-                Naam = erkenning.IpdcProduct?.Naam ?? string.Empty,
+                OvoCode = erkenning.GeregistreerdDoor.OvoCode,
+                Naam = erkenning.GeregistreerdDoor.Naam,
             },
+            IpdcProduct = new IpdcProduct { Nummer = erkenning.IpdcProduct.Nummer, Naam = erkenning.IpdcProduct.Naam },
             Startdatum = erkenning.Startdatum,
             Einddatum = erkenning.Einddatum,
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
-            RedenSchorsing = erkenning.Motivering ?? string.Empty,
+            RedenSchorsing = erkenning.Motivering,
             Status = ErkenningStatus.Create(erkenning.Startdatum, erkenning.Einddatum).Value,
         };
 }

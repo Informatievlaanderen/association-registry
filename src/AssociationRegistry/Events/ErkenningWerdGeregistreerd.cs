@@ -11,7 +11,8 @@ public record ErkenningWerdGeregistreerd(
     DateOnly Einddatum,
     DateOnly Hernieuwingsdatum,
     string HernieuwingsUrl,
-    GegevensInitiator GeregistreerdDoor
+    GegevensInitiator GeregistreerdDoor,
+    string Status
 ) : IEvent
 {
     [IgnoreDataMember]
@@ -26,6 +27,7 @@ public record ErkenningWerdGeregistreerd(
         builder.Append($"Hernieuwingsdatum = {Hernieuwingsdatum}, ");
         builder.Append($"HernieuwingsUrl = {HernieuwingsUrl}, ");
         builder.Append($"GeregistreerdDoor = {GeregistreerdDoor}, ");
+        builder.Append($"Status = {Status}, ");
 
         return true;
     }

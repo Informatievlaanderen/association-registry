@@ -6,9 +6,8 @@ using Contracts.JsonLdContext;
 using Scenario.Erkenningen;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_ErkenningWerdGeregistreerd(
-    BeheerDetailScenarioFixture<ErkenningWerdGeregistreerdScenario> fixture
-) : BeheerDetailScenarioClassFixture<ErkenningWerdGeregistreerdScenario>
+public class Given_ErkenningWerdGeregistreerd(BeheerDetailScenarioFixture<ErkenningWerdGeregistreerdScenario> fixture)
+    : BeheerDetailScenarioClassFixture<ErkenningWerdGeregistreerdScenario>
 {
     [Fact]
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(2);
@@ -28,22 +27,22 @@ public class Given_ErkenningWerdGeregistreerd(
                     ),
 
                     ErkenningId = fixture.Scenario.ErkenningWerdGeregistreerd.ErkenningId,
-                    VCode =  fixture.Scenario.ErkenningWerdGeregistreerd.VCode,
                     GeregistreerdDoor = new GegevensInitiator
                     {
-                        OvoCode =  fixture.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-                        Naam =  fixture.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.Naam,
+                        OvoCode = fixture.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+                        Naam = fixture.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.Naam,
                     },
                     IpdcProduct = new IpdcProduct
                     {
-                        Nummer =  fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
-                        Naam =  fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Naam,
+                        Nummer = fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
+                        Naam = fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Naam,
                     },
-                    Startdatum =  fixture.Scenario.ErkenningWerdGeregistreerd.Startdatum,
-                    Einddatum =  fixture.Scenario.ErkenningWerdGeregistreerd.Einddatum,
-                    Hernieuwingsdatum =  fixture.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum,
-                    HernieuwingsUrl =  fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
-                    Motivering =  string.Empty,
+                    Startdatum = fixture.Scenario.ErkenningWerdGeregistreerd.Startdatum,
+                    Einddatum = fixture.Scenario.ErkenningWerdGeregistreerd.Einddatum,
+                    Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum,
+                    HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
+                    Motivering = string.Empty,
+                    Status = fixture.Scenario.ErkenningWerdGeregistreerd.Status,
                 }
             );
     }
