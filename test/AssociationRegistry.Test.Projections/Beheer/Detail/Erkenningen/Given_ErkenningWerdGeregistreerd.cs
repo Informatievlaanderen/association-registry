@@ -17,7 +17,7 @@ public class Given_ErkenningWerdGeregistreerd(BeheerDetailScenarioFixture<Erkenn
     {
         fixture
             .Result.Erkenningen.Should()
-            .ContainEquivalentOf(
+            .BeEquivalentTo([
                 new Erkenning
                 {
                     JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
@@ -25,7 +25,6 @@ public class Given_ErkenningWerdGeregistreerd(BeheerDetailScenarioFixture<Erkenn
                         fixture.Scenario.AggregateId,
                         fixture.Scenario.ErkenningWerdGeregistreerd.ErkenningId.ToString()
                     ),
-
                     ErkenningId = fixture.Scenario.ErkenningWerdGeregistreerd.ErkenningId,
                     GeregistreerdDoor = new GegevensInitiator
                     {
@@ -43,7 +42,7 @@ public class Given_ErkenningWerdGeregistreerd(BeheerDetailScenarioFixture<Erkenn
                     HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     Motivering = string.Empty,
                     Status = fixture.Scenario.ErkenningWerdGeregistreerd.Status,
-                }
-            );
+                },
+            ]);
     }
 }
