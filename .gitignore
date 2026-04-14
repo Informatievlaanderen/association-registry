@@ -5,6 +5,7 @@ appsettings.*.json
 !appsettings.v2.*.json
 *.Importer-*.config
 wwwroot/
+.env.local
 
 # Internal folders created by marten for prebuilding
 otel-collector-config.yaml
