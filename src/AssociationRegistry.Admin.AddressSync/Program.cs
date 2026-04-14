@@ -1,10 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
 using CommandHandling.DecentraalBeheer.Acties.Locaties.ProbeerAdresTeMatchen;
-using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;
 using Destructurama;
-using EventStore;
 using EventStore.ConflictResolution;
 using Fetchers;
 using global::OpenTelemetry.Exporter;
@@ -12,9 +10,7 @@ using global::OpenTelemetry.Logs;
 using global::OpenTelemetry.Resources;
 using Grar.AdresMatch;
 using Handlers;
-using Hosts;
 using Infrastructure.Extensions;
-using Integrations.Grar;
 using Integrations.Grar.AdresMatch;
 using Integrations.Grar.Clients;
 using Integrations.Slack;
@@ -27,14 +23,11 @@ using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 using Persoonsgegevens;
 using Serilog;
 using Serilog.Debugging;
-using Vereniging;
-using Wolverine;
 
 public static class Program
 {
@@ -112,7 +105,7 @@ public static class Program
                 TeSynchroniserenLocatiesZonderAdresMatchFetcher
             >()
             .AddScoped<ISyncLocatieAdresProcessor, SyncLocatiesMetAdresIdProcessor>()
-            .AddScoped<ISyncLocatieZonderAdresMatchProcessor, Handlers.SyncLocatieZonderAdresMatchProcessor>()
+            .AddScoped<ISyncLocatieZonderAdresMatchProcessor, SyncLocatieZonderAdresMatchProcessor>()
             .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
             .AddTransient<INotifier, SlackNotifier>()
             .AddTransient<IGeotagsService, GeotagsService>()

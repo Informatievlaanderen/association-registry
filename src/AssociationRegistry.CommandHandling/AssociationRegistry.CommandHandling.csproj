@@ -50,4 +50,10 @@
     <PackageReference Include="Marten"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="AssociationRegistry.Integrations.Slack">
+      <HintPath>..\..\test\AssociationRegistry.Test.Scheduled.Host\bin\Debug\net9.0\AssociationRegistry.Integrations.Slack.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.CommandHandling.MagdaSync.SyncKbo.Notifications;
 
-using AssociationRegistry.Integrations.Slack;
+using Integrations.Slack;
 
-public class KboSynchronisatieMisluktNotification:INotification
+public class KboSynchronisatieMisluktNotification : INotification
 {
     private readonly string _kboNummer;
 
