@@ -1310,7 +1310,10 @@ public class BeheerVerenigingDetailProjector
             .ToArray();
     }
 
-    public static void Apply(IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd> @event, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd> @event,
+        BeheerVerenigingDetailDocument document
+    )
     {
         document.Bankrekeningnummers = document
             .Bankrekeningnummers.UpdateSingle(
@@ -1321,18 +1324,22 @@ public class BeheerVerenigingDetailProjector
             .ToArray();
     }
 
-    public static void Apply(IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt> @event, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt> @event,
+        BeheerVerenigingDetailDocument document
+    )
     {
         document.Bankrekeningnummers = document
-                                      .Bankrekeningnummers.UpdateSingle(
-                                           identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
-                                           update: b => b with
-                                           {
-                                               BevestigdDoor = b.BevestigdDoor.Without(@event.Data.OngedaanGemaaktDoor).ToArray(),
-                                           }
-                                       )
-                                      .OrderBy(b => b.BankrekeningnummerId)
-                                      .ToArray();
+            .Bankrekeningnummers.UpdateSingle(
+                identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
+                update: b =>
+                    b with
+                    {
+                        BevestigdDoor = b.BevestigdDoor.Without(@event.Data.OngedaanGemaaktDoor).ToArray(),
+                    }
+            )
+            .OrderBy(b => b.BankrekeningnummerId)
+            .ToArray();
     }
 
     public static void Apply(
@@ -1352,37 +1359,36 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<ErkenningWerdGeregistreerd> @event, BeheerVerenigingDetailDocument document)
     {
         document.Erkenningen = document
-                              .Erkenningen.Append(
-                                   new Erkenning
-                                   {
-                                       JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                                           JsonLdType.Erkenning,
-                                           document.VCode,
-                                           @event.Data.ErkenningId.ToString()
-                                       ),
-                                       ErkenningId = @event.Data.ErkenningId,
-                                       VCode = @event.Data.VCode,
-                                       GeregistreerdDoor = new GegevensInitiator
-                                       {
-                                           OvoCode = @event.Data.GeregistreerdDoor.OvoCode,
-                                           Naam = @event.Data.GeregistreerdDoor.Naam ?? string.Empty,
-                                       },
-                                       IpdcProduct = @event.Data.IpdcProduct is null
-                                           ? null
-                                           : new IpdcProduct
-                                           {
-                                               Nummer = @event.Data.IpdcProduct.Nummer,
-                                               Naam = @event.Data.IpdcProduct.Naam ?? string.Empty,
-                                           },
-                                       Startdatum = @event.Data.Startdatum,
-                                       Einddatum = @event.Data.Einddatum,
-                                       Hernieuwingsdatum = @event.Data.Hernieuwingsdatum,
-                                       HernieuwingsUrl = @event.Data.HernieuwingsUrl,
-                                       Motivering = string.Empty,
-                                       Status = ErkenningStatus.Create(@event.Data.Startdatum, @event.Data.Einddatum).Value,
-                                   }
-                               )
-                              .OrderBy(x => x.ErkenningId)
-                              .ToArray();
+            .Erkenningen.Append(
+                new Erkenning
+                {
+                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                        JsonLdType.Erkenning,
+                        document.VCode,
+                        @event.Data.ErkenningId.ToString()
+                    ),
+                    ErkenningId = @event.Data.ErkenningId,
+                    GeregistreerdDoor = new GegevensInitiator
+                    {
+                        OvoCode = @event.Data.GeregistreerdDoor.OvoCode,
+                        Naam = @event.Data.GeregistreerdDoor.Naam,
+                    },
+                    IpdcProduct = @event.Data.IpdcProduct is null
+                        ? null
+                        : new IpdcProduct
+                        {
+                            Nummer = @event.Data.IpdcProduct.Nummer,
+                            Naam = @event.Data.IpdcProduct.Naam,
+                        },
+                    Startdatum = @event.Data.Startdatum,
+                    Einddatum = @event.Data.Einddatum,
+                    Hernieuwingsdatum = @event.Data.Hernieuwingsdatum,
+                    HernieuwingsUrl = @event.Data.HernieuwingsUrl,
+                    Motivering = string.Empty,
+                    Status = @event.Data.Status,
+                }
+            )
+            .OrderBy(x => x.ErkenningId)
+            .ToArray();
     }
 }
