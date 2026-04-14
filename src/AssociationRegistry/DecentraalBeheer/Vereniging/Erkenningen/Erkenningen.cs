@@ -22,9 +22,9 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
     private new Erkenning this[int erkenningId] => this.Single(x => x.ErkenningId == erkenningId);
 
-    public Erkenning VoegToe(TeRegistrerenErkenning erkenning, string initiator)
+    public Erkenning VoegToe(TeRegistrerenErkenning erkenning, IpdcProduct ipdcProduct, string initiator)
     {
-        var teRegistrerenErkenning = Erkenning.Create(NextId, erkenning, initiator);
+        var teRegistrerenErkenning = Erkenning.Create(NextId, erkenning, ipdcProduct, initiator);
 
         ThrowIfCannotAppendOrUpdate(teRegistrerenErkenning);
 

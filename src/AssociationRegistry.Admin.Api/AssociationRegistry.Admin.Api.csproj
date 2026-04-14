@@ -62,6 +62,7 @@
     <ProjectReference Include="..\AssociationRegistry.Admin.ProjectionHost.Projections\AssociationRegistry.Admin.ProjectionHost.Projections.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Admin.Schema\AssociationRegistry.Admin.Schema.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
+    <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Ipdc\AssociationRegistry.Integrations.Ipdc.csproj" />
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Magda\AssociationRegistry.Integrations.Magda.csproj" />
     <ProjectReference Include="..\AssociationRegistry.MartenDb\AssociationRegistry.MartenDb.csproj" />
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj" />

@@ -42,7 +42,8 @@ public class Given_Invalid_HernieuwingsUrl
 
         var exception = await Assert.ThrowsAsync<URLStartNietMetHttpOfHttps>(async () =>
             await _commandHandler.Handle(
-                new CommandEnvelope<RegistreerErkenningCommand>(command, _fixture.Create<CommandMetadata>())
+                new CommandEnvelope<RegistreerErkenningCommand>(command, _fixture.Create<CommandMetadata>()),
+                _fixture.Create<IpdcProduct>()
             )
         );
 

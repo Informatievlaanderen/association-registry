@@ -9,21 +9,21 @@
 
 namespace AssociationRegistry.Resources {
     using System;
-    
-    
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ExceptionMessages {
-        
+
         private static System.Resources.ResourceManager resourceMan;
-        
+
         private static System.Globalization.CultureInfo resourceCulture;
-        
+
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal ExceptionMessages() {
         }
-        
+
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         public static System.Resources.ResourceManager ResourceManager {
             get {
@@ -34,7 +34,7 @@ namespace AssociationRegistry.Resources {
                 return resourceMan;
             }
         }
-        
+
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         public static System.Globalization.CultureInfo Culture {
             get {
@@ -44,631 +44,625 @@ namespace AssociationRegistry.Resources {
                 resourceCulture = value;
             }
         }
-        
+
         public static string WebsiteMissingPeriod {
             get {
                 return ResourceManager.GetString("WebsiteMissingPeriod", resourceCulture);
             }
         }
-        
+
         public static string InvalidWebsiteStart {
             get {
                 return ResourceManager.GetString("InvalidWebsiteStart", resourceCulture);
             }
         }
-        
+
         public static string InvalidTelefoonNummerCharacter {
             get {
                 return ResourceManager.GetString("InvalidTelefoonNummerCharacter", resourceCulture);
             }
         }
-        
+
         public static string NoNumbersInTelefoonNummer {
             get {
                 return ResourceManager.GetString("NoNumbersInTelefoonNummer", resourceCulture);
             }
         }
-        
+
         public static string InvalidSocialMediaStart {
             get {
                 return ResourceManager.GetString("InvalidSocialMediaStart", resourceCulture);
             }
         }
-        
+
         public static string SocialMediaMissingPeriod {
             get {
                 return ResourceManager.GetString("SocialMediaMissingPeriod", resourceCulture);
             }
         }
-        
+
         public static string InvalidContactType {
             get {
                 return ResourceManager.GetString("InvalidContactType", resourceCulture);
             }
         }
-        
+
         public static string DoelgroepOutOfRange {
             get {
                 return ResourceManager.GetString("DoelgroepOutOfRange", resourceCulture);
             }
         }
-        
+
         public static string InvalidDoelgroepRange {
             get {
                 return ResourceManager.GetString("InvalidDoelgroepRange", resourceCulture);
             }
         }
-        
+
         public static string GeenGeldigeVerenigingInKbo {
             get {
                 return ResourceManager.GetString("GeenGeldigeVerenigingInKbo", resourceCulture);
             }
         }
-        
+
         public static string OngeldigBevestigingsToken {
             get {
                 return ResourceManager.GetString("OngeldigBevestigingsToken", resourceCulture);
             }
         }
-        
+
         public static string UnsupportedOperationForVerenigingstype {
             get {
                 return ResourceManager.GetString("UnsupportedOperationForVerenigingstype", resourceCulture);
             }
         }
-        
+
         public static string DuplicateHoofdactiviteit {
             get {
                 return ResourceManager.GetString("DuplicateHoofdactiviteit", resourceCulture);
             }
         }
-        
+
         public static string DuplicateWerkingsgebied {
             get {
                 return ResourceManager.GetString("DuplicateWerkingsgebied", resourceCulture);
             }
         }
-        
+
         public static string WerkingsgebiedKanNietGecombineerdWordenMetNVT {
             get {
                 return ResourceManager.GetString("WerkingsgebiedKanNietGecombineerdWordenMetNVT", resourceCulture);
             }
         }
-        
+
         public static string InvalidInszChars {
             get {
                 return ResourceManager.GetString("InvalidInszChars", resourceCulture);
             }
         }
-        
+
         public static string InvalidInszLength {
             get {
                 return ResourceManager.GetString("InvalidInszLength", resourceCulture);
             }
         }
-        
+
         public static string InvalidInszMod97 {
             get {
                 return ResourceManager.GetString("InvalidInszMod97", resourceCulture);
             }
         }
-        
+
         public static string InvalidKboNummerChars {
             get {
                 return ResourceManager.GetString("InvalidKboNummerChars", resourceCulture);
             }
         }
-        
+
         public static string InvalidKboNummerLength {
             get {
                 return ResourceManager.GetString("InvalidKboNummerLength", resourceCulture);
             }
         }
-        
+
         public static string InvalidKboNummerMod97 {
             get {
                 return ResourceManager.GetString("InvalidKboNummerMod97", resourceCulture);
             }
         }
-        
+
         public static string DuplicateLocatie {
             get {
                 return ResourceManager.GetString("DuplicateLocatie", resourceCulture);
             }
         }
-        
+
         public static string IncompleteAdres {
             get {
                 return ResourceManager.GetString("IncompleteAdres", resourceCulture);
             }
         }
-        
+
         public static string IncompleteAdresId {
             get {
                 return ResourceManager.GetString("IncompleteAdresId", resourceCulture);
             }
         }
-        
+
         public static string InvalidBroncode {
             get {
                 return ResourceManager.GetString("InvalidBroncode", resourceCulture);
             }
         }
-        
+
         public static string InvalidBronwaardeForAR {
             get {
                 return ResourceManager.GetString("InvalidBronwaardeForAR", resourceCulture);
             }
         }
-        
+
         public static string MissingAdres {
             get {
                 return ResourceManager.GetString("MissingAdres", resourceCulture);
             }
         }
-        
+
         public static string MultipleCorrespondentieLocaties {
             get {
                 return ResourceManager.GetString("MultipleCorrespondentieLocaties", resourceCulture);
             }
         }
-        
+
         public static string MultiplePrimaireLocaties {
             get {
                 return ResourceManager.GetString("MultiplePrimaireLocaties", resourceCulture);
             }
         }
-        
+
         public static string StartdatumIsInFuture {
             get {
                 return ResourceManager.GetString("StartdatumIsInFuture", resourceCulture);
             }
         }
-        
+
         public static string InvalidVCodeFormat {
             get {
                 return ResourceManager.GetString("InvalidVCodeFormat", resourceCulture);
             }
         }
-        
+
         public static string OutOfRangeVCode {
             get {
                 return ResourceManager.GetString("OutOfRangeVCode", resourceCulture);
             }
         }
-        
+
         public static string EmptyVerenigingsNaam {
             get {
                 return ResourceManager.GetString("EmptyVerenigingsNaam", resourceCulture);
             }
         }
-        
+
         public static string AchternaamBevatNummers {
             get {
                 return ResourceManager.GetString("AchternaamBevatNummers", resourceCulture);
             }
         }
-        
+
         public static string AchternaamZonderLetters {
             get {
                 return ResourceManager.GetString("AchternaamZonderLetters", resourceCulture);
             }
         }
-        
+
         public static string DuplicateInszProvided {
             get {
                 return ResourceManager.GetString("DuplicateInszProvided", resourceCulture);
             }
         }
-        
+
         public static string MultiplePrimaireVertegenwoordigers {
             get {
                 return ResourceManager.GetString("MultiplePrimaireVertegenwoordigers", resourceCulture);
             }
         }
-        
+
         public static string UnknownInsz {
             get {
                 return ResourceManager.GetString("UnknownInsz", resourceCulture);
             }
         }
-        
+
         public static string VoornaamBevatNummers {
             get {
                 return ResourceManager.GetString("VoornaamBevatNummers", resourceCulture);
             }
         }
-        
+
         public static string VoornaamZonderLetters {
             get {
                 return ResourceManager.GetString("VoornaamZonderLetters", resourceCulture);
             }
         }
-        
+
         public static string InvalidEmailFormat {
             get {
                 return ResourceManager.GetString("InvalidEmailFormat", resourceCulture);
             }
         }
-        
+
         public static string InvalidDateFormat {
             get {
                 return ResourceManager.GetString("InvalidDateFormat", resourceCulture);
             }
         }
-        
+
         public static string CouldNotParseRequestException {
             get {
                 return ResourceManager.GetString("CouldNotParseRequestException", resourceCulture);
             }
         }
-        
+
         public static string InvalidBevestigingstokenProvided {
             get {
                 return ResourceManager.GetString("InvalidBevestigingstokenProvided", resourceCulture);
             }
         }
-        
+
         public static string MaatschappelijkeZetelIsNotAllowed {
             get {
                 return ResourceManager.GetString("MaatschappelijkeZetelIsNotAllowed", resourceCulture);
             }
         }
-        
+
         public static string MaatschappelijkeZetelCanNotBeUpdated {
             get {
                 return ResourceManager.GetString("MaatschappelijkeZetelCanNotBeUpdated", resourceCulture);
             }
         }
-        
+
         public static string MaatschappelijkeZetelCanNotBeRemoved {
             get {
                 return ResourceManager.GetString("MaatschappelijkeZetelCanNotBeRemoved", resourceCulture);
             }
         }
-        
+
         public static string ContactgegevenFromKboCannotBeUpdated {
             get {
                 return ResourceManager.GetString("ContactgegevenFromKboCannotBeUpdated", resourceCulture);
             }
         }
-        
+
         public static string ContactgegevenFromKboCannotBeRemoved {
             get {
                 return ResourceManager.GetString("ContactgegevenFromKboCannotBeRemoved", resourceCulture);
             }
         }
-        
+
         public static string EinddatumIsInFuture {
             get {
                 return ResourceManager.GetString("EinddatumIsInFuture", resourceCulture);
             }
         }
-        
+
         public static string EinddatumIsBeforeStartdatum {
             get {
                 return ResourceManager.GetString("EinddatumIsBeforeStartdatum", resourceCulture);
             }
         }
-        
+
         public static string StartdatumIsAfterEinddatum {
             get {
                 return ResourceManager.GetString("StartdatumIsAfterEinddatum", resourceCulture);
             }
         }
-        
+
         public static string VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden {
             get {
                 return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden", resourceCulture);
             }
         }
-        
+
         public static string VerenigingKanNietVerwijderdWorden {
             get {
                 return ResourceManager.GetString("VerenigingKanNietVerwijderdWorden", resourceCulture);
             }
         }
-        
+
         public static string VerenigingKanGeenLidWordenVanVerwijderdeVereniging {
             get {
                 return ResourceManager.GetString("VerenigingKanGeenLidWordenVanVerwijderdeVereniging", resourceCulture);
             }
         }
-        
+
         public static string VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging {
             get {
                 return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging", resourceCulture);
             }
         }
-        
+
         public static string VerenigingKanGeenDubbelWordenVanEenNietBestaandeVereniging {
             get {
                 return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanEenNietBestaandeVereniging", resourceCulture);
             }
         }
-        
+
         public static string VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel {
             get {
                 return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel", resourceCulture);
             }
         }
-        
+
         public static string VerenigingKanGeenDubbelWordenVanZichzelf {
             get {
                 return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanZichzelf", resourceCulture);
             }
         }
-        
+
         public static string AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden {
             get {
                 return ResourceManager.GetString("AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden", resourceCulture);
             }
         }
-        
+
         public static string VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden {
             get {
                 return ResourceManager.GetString("VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden", resourceCulture);
             }
         }
-        
+
         public static string LidmaatschapIsOverlappend {
             get {
                 return ResourceManager.GetString("LidmaatschapIsOverlappend", resourceCulture);
             }
         }
-        
+
         public static string LidmaatschapMagNietVerwijzenNaarEigenVereniging {
             get {
                 return ResourceManager.GetString("LidmaatschapMagNietVerwijzenNaarEigenVereniging", resourceCulture);
             }
         }
-        
+
         public static string LidmaatschapIsNietGekend {
             get {
                 return ResourceManager.GetString("LidmaatschapIsNietGekend", resourceCulture);
             }
         }
-        
+
         public static string VerenigingIsVerwijderd {
             get {
                 return ResourceManager.GetString("VerenigingIsVerwijderd", resourceCulture);
             }
         }
-        
+
         public static string AndereVerenigingIsVerwijderd {
             get {
                 return ResourceManager.GetString("AndereVerenigingIsVerwijderd", resourceCulture);
             }
         }
-        
+
         public static string ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype {
             get {
                 return ResourceManager.GetString("ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype", resourceCulture);
             }
         }
-        
+
         public static string VerenigingIsDubbel {
             get {
                 return ResourceManager.GetString("VerenigingIsDubbel", resourceCulture);
             }
         }
-        
+
         public static string WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben {
             get {
                 return ResourceManager.GetString("WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben", resourceCulture);
             }
         }
-        
+
         public static string VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs {
             get {
                 return ResourceManager.GetString("VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs", resourceCulture);
             }
         }
-        
+
         public static string VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs {
             get {
                 return ResourceManager.GetString("VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs", resourceCulture);
             }
         }
-        
+
         public static string UnsupportedOperationForLocatietype {
             get {
                 return ResourceManager.GetString("UnsupportedOperationForLocatietype", resourceCulture);
             }
         }
-        
+
         public static string UnsupportedOperationForContactgegevenBron {
             get {
                 return ResourceManager.GetString("UnsupportedOperationForContactgegevenBron", resourceCulture);
             }
         }
-        
+
         public static string VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers {
             get {
                 return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers", resourceCulture);
             }
         }
-        
+
         public static string VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers {
             get {
                 return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers", resourceCulture);
             }
         }
-        
+
         public static string ZoekOpdrachtWasIncorrect {
             get {
                 return ResourceManager.GetString("ZoekOpdrachtWasIncorrect", resourceCulture);
             }
         }
-        
+
         public static string ZoekOpdrachtBevatOnbekendeSorteerVelden {
             get {
                 return ResourceManager.GetString("ZoekOpdrachtBevatOnbekendeSorteerVelden", resourceCulture);
             }
         }
-        
+
         public static string RegistreerInschrijvingKonNietVoltooidWorden {
             get {
                 return ResourceManager.GetString("RegistreerInschrijvingKonNietVoltooidWorden", resourceCulture);
             }
         }
-        
+
         public static string OngeldigBewaartermijnType {
             get {
                 return ResourceManager.GetString("OngeldigBewaartermijnType", resourceCulture);
             }
         }
-        
+
         public static string UnexpectedAggregateVersion {
             get {
                 return ResourceManager.GetString("UnexpectedAggregateVersion", resourceCulture);
             }
         }
-        
+
         public static string UnsupportedContent {
             get {
                 return ResourceManager.GetString("UnsupportedContent", resourceCulture);
             }
         }
-        
+
         public static string AdresKonNietOvergenomenWorden {
             get {
                 return ResourceManager.GetString("AdresKonNietOvergenomenWorden", resourceCulture);
             }
         }
-        
+
         public static string AdresKonNietGevalideerdWordenBijAdressenregister {
             get {
                 return ResourceManager.GetString("AdresKonNietGevalideerdWordenBijAdressenregister", resourceCulture);
             }
         }
-        
+
         public static string AdresInactief {
             get {
                 return ResourceManager.GetString("AdresInactief", resourceCulture);
             }
         }
-        
+
         public static string AdresVerwijderd {
             get {
                 return ResourceManager.GetString("AdresVerwijderd", resourceCulture);
             }
         }
-        
+
         public static string AdresNietGevonden {
             get {
                 return ResourceManager.GetString("AdresNietGevonden", resourceCulture);
             }
         }
-        
+
         public static string FoutBijProjecteren {
             get {
                 return ResourceManager.GetString("FoutBijProjecteren", resourceCulture);
             }
         }
-        
+
         public static string LaatsteHoofdActiviteitKanNietVerwijderdWorden {
             get {
                 return ResourceManager.GetString("LaatsteHoofdActiviteitKanNietVerwijderdWorden", resourceCulture);
             }
         }
-        
+
         public static string LaatsteVertegenwoordigerKanNietVerwijderdWorden {
             get {
                 return ResourceManager.GetString("LaatsteVertegenwoordigerKanNietVerwijderdWorden", resourceCulture);
             }
         }
-        
+
         public static string LaatsteLocatieKanNietVerwijderdWorden {
             get {
                 return ResourceManager.GetString("LaatsteLocatieKanNietVerwijderdWorden", resourceCulture);
             }
         }
-        
+
         public static string VerenigingKanNietGeregistreerdWordenMetOverledenVertegenwoordigers {
             get {
                 return ResourceManager.GetString("VerenigingKanNietGeregistreerdWordenMetOverledenVertegenwoordigers", resourceCulture);
             }
         }
-        
+
         public static string OverledenVertegenwoordigerKanNietToegevoegdWorden {
             get {
                 return ResourceManager.GetString("OverledenVertegenwoordigerKanNietToegevoegdWorden", resourceCulture);
             }
         }
-        
+
         public static string EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz {
             get {
                 return ResourceManager.GetString("EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz", resourceCulture);
             }
         }
-        
+
         public static string MagdaException {
             get {
                 return ResourceManager.GetString("MagdaException", resourceCulture);
             }
         }
-        
+
         public static string ServiceReturnedNonSuccesfulStatusCode {
             get {
                 return ResourceManager.GetString("ServiceReturnedNonSuccesfulStatusCode", resourceCulture);
             }
         }
-        
+
         public static string IbanMoetUniekZijn {
             get {
                 return ResourceManager.GetString("IbanMoetUniekZijn", resourceCulture);
             }
         }
-        
+
         public static string IbanFormaatIsOngeldig {
             get {
                 return ResourceManager.GetString("IbanFormaatIsOngeldig", resourceCulture);
             }
         }
-        
+
         public static string TitularisMagNietNullOfLeegZijn {
             get {
                 return ResourceManager.GetString("TitularisMagNietNullOfLeegZijn", resourceCulture);
             }
         }
-        
+
         public static string BankrekeningnummerIsNietGekend {
             get {
                 return ResourceManager.GetString("BankrekeningnummerIsNietGekend", resourceCulture);
             }
         }
-        
-        public static string ValidatieBankrekeningnummerIsNietGekend {
-            get {
-                return ResourceManager.GetString("ValidatieBankrekeningnummerIsNietGekend", resourceCulture);
-            }
-        }
-        
+
         public static string OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren {
             get {
                 return ResourceManager.GetString("OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren", resourceCulture);
             }
         }
-        
+
         public static string UnsupportedOperationForKboBankrekeningnummer {
             get {
                 return ResourceManager.GetString("UnsupportedOperationForKboBankrekeningnummer", resourceCulture);
             }
         }
-        
+
         public static string IpdcProductNummerRequired {
             get {
                 return ResourceManager.GetString("IpdcProductNummerRequired", resourceCulture);
             }
         }
-        
+
         public static string UrlDoesNotStartWithHttpOrHttps {
             get {
                 return ResourceManager.GetString("UrlDoesNotStartWithHttpOrHttps", resourceCulture);
             }
         }
-        
+
         public static string ErkenningAlreadyExists {
             get {
                 return ResourceManager.GetString("ErkenningAlreadyExists", resourceCulture);

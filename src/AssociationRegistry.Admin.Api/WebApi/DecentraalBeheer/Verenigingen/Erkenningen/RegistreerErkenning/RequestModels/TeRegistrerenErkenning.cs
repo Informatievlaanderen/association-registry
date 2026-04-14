@@ -22,16 +22,14 @@ public class TeRegistrerenErkenning
     public string HernieuwingsUrl { get; set; } = null!;
 
     public static AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.TeRegistrerenErkenning Map(
-        TeRegistrerenErkenning erkenning) =>
+        TeRegistrerenErkenning erkenning
+    ) =>
         new()
         {
-            IpdcProduct = new IpdcProduct()
-            {
-                Nummer = erkenning.IpdcProductNummer,
-            },
+            IpdcProductNummer = erkenning.IpdcProductNummer,
             Startdatum = erkenning.Startdatum,
             Einddatum = erkenning.Einddatum,
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
-            HernieuwingsUrl = erkenning.HernieuwingsUrl
+            HernieuwingsUrl = erkenning.HernieuwingsUrl,
         };
 }

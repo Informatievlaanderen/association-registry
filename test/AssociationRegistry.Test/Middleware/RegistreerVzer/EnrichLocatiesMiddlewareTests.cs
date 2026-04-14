@@ -17,11 +17,11 @@ using Moq;
 using Vereniging;
 using Xunit;
 
-public class EnrichLocatiesMiddlewareTests
+public class EnrichIpdcProductMiddlewareTests
 {
     private readonly Fixture _fixture;
 
-    public EnrichLocatiesMiddlewareTests()
+    public EnrichIpdcProductMiddlewareTests()
     {
         _fixture = new Fixture().CustomizeAdminApi();
     }

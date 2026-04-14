@@ -12,7 +12,7 @@ public record RegistreerErkenningCommand(VCode VCode, TeRegistrerenErkenning Erk
         builder.Append($"Einddatum = {Erkenning.Einddatum}, ");
         builder.Append($"Hernieuwingsdatum = {Erkenning.Hernieuwingsdatum}, ");
         builder.Append($"HernieuwingsUrl = {Erkenning.HernieuwingsUrl}, ");
-        builder.Append($"IpdcProduct = {Erkenning.IpdcProduct}, ");
+        builder.Append($"IpdcProductNummer = {Erkenning.IpdcProductNummer}, ");
         return true;
     }
 }
