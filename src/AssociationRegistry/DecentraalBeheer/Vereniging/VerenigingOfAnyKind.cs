@@ -584,7 +584,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 toegevoegdeErkenning.Einddatum,
                 toegevoegdeErkenning.Hernieuwingsdatum,
                 toegevoegdeErkenning.HernieuwingsUrl,
-                toegevoegdeErkenning.GeregistreerdDoor
+                toegevoegdeErkenning.GeregistreerdDoor,
+                "" // todo
             )
         );
 
