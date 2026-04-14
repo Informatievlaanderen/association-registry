@@ -462,6 +462,12 @@ public class Program
                 httpClient.BaseAddress = new Uri(appSettings.PublicProjectionHostBaseUrl)
             );
 
+        builder
+            .Services.AddHttpClient<ScheduledHostHttpClient>()
+            .ConfigureHttpClient(httpClient =>
+                httpClient.BaseAddress = new Uri(appSettings.ScheduledHostBaseUrl)
+            );
+
         builder.Services.AddMemoryCache();
 
         builder

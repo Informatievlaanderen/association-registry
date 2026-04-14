@@ -8,6 +8,7 @@ public class AppSettings
     private string? _beheerProjectionHostBaseUrl;
     private string? _publicApiBaseUrl;
     private string? _publicProjectionHostBaseUrl;
+    private string? _scheduledHostBaseUrl;
     private string? _kboSyncQueueUrl;
     private string? _kboSyncQueueName;
     private string? _readdressQueueUrl;
@@ -28,6 +29,12 @@ public class AppSettings
     {
         get => _publicProjectionHostBaseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
         set => _publicProjectionHostBaseUrl = value;
+    }
+
+    public string ScheduledHostBaseUrl
+    {
+        get => _scheduledHostBaseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
+        set => _scheduledHostBaseUrl = value;
     }
 
     public string BaseUrl
