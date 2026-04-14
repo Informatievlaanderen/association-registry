@@ -15,7 +15,7 @@ on:
       run-docker-elasticsearch:
         required: true
         type: boolean
-      run-docker-localstack:
+      run-docker-ministack:
         required: true
         type: boolean
       run-docker-otelcollector:
@@ -49,11 +49,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Run localstack container
+      - name: Run ministack container
         shell: bash
-        if: ${{ inputs.run-docker-localstack }}
+        if: ${{ inputs.run-docker-ministack }}
         run: |
-          docker run -d --name localstack -v ${{ github.workspace }}/.localstack/init:/etc/localstack/init -p 4566:4566 -p 4510-4559:4510-4559 -e SERVICES=sqs,s3 -e DOCKER_HOST=unix:///var/run/docker.sock -e DEFAULT_REGION=eu-west-1 -e DEBUG=1 -e PORT_WEB_UI=8080 localstack/localstack:3.8.1
+          docker run -d --name ministack -p 4566:4566 -e MINISTACK_REGION=eu-west-1 -e MINISTACK_ACCOUNT_ID=123456789012 -e MINISTACK_HOST=127.0.0.1 ministackorg/ministack:latest
 
       - name: Run es container
         shell: bash
@@ -115,14 +115,26 @@ jobs:
         shell: bash
         run: dotnet build --no-restore --runtime 'linux-x64' test/${{ inputs.test-project }}
 
-      - name: Wait for LocalStack
+      - name: Wait for Ministack
         shell: bash
-        if: ${{ inputs.run-docker-localstack }}
+        if: ${{ inputs.run-docker-ministack }}
         run: |
-          timeout 120s bash -c 'until curl -fsS http://127.0.0.1:4566/_localstack/health > /dev/null; do
-            echo "Waiting for LocalStack..."
+          timeout 120s bash -c 'until curl -fsS http://127.0.0.1:4566/_ministack/health > /dev/null; do
+            echo "Waiting for Ministack..."
             sleep 3
           done'
+
+      - name: Init Ministack resources
+        shell: bash
+        if: ${{ inputs.run-docker-ministack }}
+        run: |
+          docker run --rm --network host \
+            -e AWS_ACCESS_KEY_ID=test \
+            -e AWS_SECRET_ACCESS_KEY=test \
+            -e AWS_DEFAULT_REGION=us-east-1 \
+            -e AWS_ENDPOINT_URL=http://127.0.0.1:4566 \
+            -v ${{ github.workspace }}/.localstack/init/ready.d:/init-scripts:ro \
+            amazon/aws-cli:latest sh -c "sh /init-scripts/01_sqs-init.sh && sh /init-scripts/02_s3-init.sh"
 
       - name: Wait for db container
         shell: bash
@@ -259,11 +271,11 @@ jobs:
         run: |
           docker logs elasticsearch
 
-      - name: Shows logs localstack container
+      - name: Shows logs ministack container
         if: ${{ failure() }}
         shell: bash
         run: |
-          docker logs localstack
+          docker logs ministack
 
       - name: Shows logs wiremock container
         if: ${{ failure() }}

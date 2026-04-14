@@ -15,7 +15,7 @@ on:
       run-docker-elasticsearch:
         required: true
         type: boolean
-      run-docker-localstack:
+      run-docker-ministack:
         required: true
         type: boolean
       run-docker-otelcollector:
@@ -63,11 +63,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Run localstack container
+      - name: Run ministack container
         shell: bash
-        if: ${{ inputs.run-docker-localstack }}
+        if: ${{ inputs.run-docker-ministack }}
         run: |
-          docker run -d --name localstack -v ${{ github.workspace }}/.localstack/init:/etc/localstack/init -p 4566:4566 -p 4510-4559:4510-4559 -e SERVICES=sqs -e DOCKER_HOST=unix:///var/run/docker.sock -e DEFAULT_REGION=eu-west-1 -e DEBUG=1 -e PORT_WEB_UI=8080 localstack/localstack
+          docker run -d --name ministack -p 4566:4566 -e MINISTACK_REGION=eu-west-1 -e MINISTACK_ACCOUNT_ID=123456789012 -e MINISTACK_HOST=127.0.0.1 ministackorg/ministack:latest
 
       - name: Run es container
         shell: bash
@@ -229,11 +229,11 @@ jobs:
         run: |
           docker logs elasticsearch
 
-      - name: Shows logs localstack container
+      - name: Shows logs ministack container
         if: ${{ failure() }}
         shell: bash
         run: |
-          docker logs localstack
+          docker logs ministack
 
       - name: Shows logs wiremock container
         if: ${{ failure() }}

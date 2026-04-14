@@ -104,10 +104,10 @@ jobs:
         run: |
           docker run -d --name elasticsearch -p 9200:9200 -m 2g -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.18.1
 
-      - name: Run localstack container
+      - name: Run ministack container
         shell: bash
         run: |
-          docker run -d --name localstack -v ${{ github.workspace }}/.localstack/init:/etc/localstack/init -p 4566:4566 -p 4510-4559:4510-4559 -e SERVICES=sqs,s3 -e DOCKER_HOST=unix:///var/run/docker.sock -e DEFAULT_REGION=us-east-1 -e DEBUG=1 -e PORT_WEB_UI=8080 localstack/localstack
+          docker run -d --name ministack -p 4566:4566 -e MINISTACK_REGION=eu-west-1 -e MINISTACK_ACCOUNT_ID=123456789012 -e MINISTACK_HOST=127.0.0.1 ministackorg/ministack:latest
 
       - name: Run wiremock container
         shell: bash
@@ -174,11 +174,11 @@ jobs:
         run: |
           docker logs elasticsearch
 
-      - name: Shows logs localstack container
+      - name: Shows logs ministack container
         if: ${{ failure() }}
         shell: bash
         run: |
-          docker logs localstack
+          docker logs ministack
 
       - name: Shows logs wiremock container
         if: ${{ failure() }}
@@ -212,10 +212,10 @@ jobs:
         run: |
           docker run -d --name elasticsearch -p 9200:9200 -m 2g -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.18.1
 
-      - name: Run localstack container
+      - name: Run ministack container
         shell: bash
         run: |
-          docker run -d --name localstack -v ${{ github.workspace }}/.localstack/init:/etc/localstack/init -p 4566:4566 -p 4510-4559:4510-4559 -e SERVICES=sqs,s3 -e DOCKER_HOST=unix:///var/run/docker.sock -e DEFAULT_REGION=us-east-1 -e DEBUG=1 -e PORT_WEB_UI=8080 localstack/localstack
+          docker run -d --name ministack -p 4566:4566 -e MINISTACK_REGION=eu-west-1 -e MINISTACK_ACCOUNT_ID=123456789012 -e MINISTACK_HOST=127.0.0.1 ministackorg/ministack:latest
 
       - name: Run wiremock container
         shell: bash
@@ -282,11 +282,11 @@ jobs:
         run: |
           docker logs elasticsearch
 
-      - name: Shows logs localstack container
+      - name: Shows logs ministack container
         if: ${{ failure() }}
         shell: bash
         run: |
-          docker logs localstack
+          docker logs ministack
 
       - name: Shows logs wiremock container
         if: ${{ failure() }}
