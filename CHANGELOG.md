@@ -1,3 +1,12 @@
+## [8.314.1](https://github.com/informatievlaanderen/association-registry/compare/v8.314.0...v8.314.1) (2026-04-14)
+
+
+### Bug Fixes
+
+* or-3099 introduce ministack instead of localstack ([3ca3bb2](https://github.com/informatievlaanderen/association-registry/commit/3ca3bb284ba1e75e4e88fb4e565715ae49959980))
+* or-3099 update github workflow with /bin/sh entrypoint ([1f642e1](https://github.com/informatievlaanderen/association-registry/commit/1f642e12e4dbca2e3bf7c9c8f73bfe7675bcd6ff))
+* or-3099 update github workflows to use ministack ([ad501b5](https://github.com/informatievlaanderen/association-registry/commit/ad501b57acae63b2ff323b0abb3ea57b4aaa48f5))
+
 # [8.314.0](https://github.com/informatievlaanderen/association-registry/compare/v8.313.1...v8.314.0) (2026-04-09)
 
 
