@@ -572,9 +572,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         return toegevoegdBankrekeningnummer.BankrekeningnummerId;
     }
 
-    public int RegistreerErkenning(TeRegistrerenErkenning erkenning, string initiator)
+    public int RegistreerErkenning(TeRegistrerenErkenning erkenning, IpdcProduct ipdcProduct, string initiator)
     {
-        var toegevoegdeErkenning = State.Erkenningen.VoegToe(erkenning, initiator);
+        var toegevoegdeErkenning = State.Erkenningen.VoegToe(erkenning, ipdcProduct, initiator);
 
         AddEvent(
             new ErkenningWerdGeregistreerd(

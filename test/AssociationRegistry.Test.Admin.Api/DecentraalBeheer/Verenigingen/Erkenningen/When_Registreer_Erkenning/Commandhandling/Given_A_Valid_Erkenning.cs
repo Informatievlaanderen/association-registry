@@ -33,14 +33,18 @@ public class Given_A_Valid_Erkenning
     public async ValueTask Then_An_ErkenningWerdGeregistreerd_Event_Is_Saved_With_The_Next_Id()
     {
         var command = _fixture.Create<RegistreerErkenningCommand>();
+        var ipdcProduct = _fixture.Create<IpdcProduct>();
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        await _commandHandler.Handle(new CommandEnvelope<RegistreerErkenningCommand>(command, commandMetadata));
+        await _commandHandler.Handle(
+            new CommandEnvelope<RegistreerErkenningCommand>(command, commandMetadata),
+            ipdcProduct
+        );
 
         _aggregateSessionMock.ShouldHaveSavedExact(
             new ErkenningWerdGeregistreerd(
                 1,
-                command.Erkenning.IpdcProduct,
+                ipdcProduct,
                 command.Erkenning.Startdatum,
                 command.Erkenning.Einddatum,
                 command.Erkenning.Hernieuwingsdatum,

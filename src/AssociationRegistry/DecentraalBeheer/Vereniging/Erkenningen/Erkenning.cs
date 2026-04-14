@@ -12,7 +12,12 @@ public record Erkenning
     public string HernieuwingsUrl { get; set; } = null!;
     public string Motivering { get; set; } = null!;
 
-    public static Erkenning Create(int nextId, TeRegistrerenErkenning erkenning, string initiator) =>
+    public static Erkenning Create(
+        int nextId,
+        TeRegistrerenErkenning erkenning,
+        IpdcProduct ipdcProduct,
+        string initiator
+    ) =>
         new()
         {
             ErkenningId = nextId,
@@ -20,7 +25,7 @@ public record Erkenning
             Einddatum = erkenning.Einddatum,
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
-            IpdcProduct = erkenning.IpdcProduct,
+            IpdcProduct = ipdcProduct,
             GeregistreerdDoor = new GegevensInitiator() { OvoCode = initiator },
         };
 
@@ -47,13 +52,13 @@ public record Erkenning
         };
 }
 
-public class IpdcProduct
+public record IpdcProduct
 {
     public string Nummer { get; set; } = null!;
     public string Naam { get; set; } = null!;
 }
 
-public class GegevensInitiator
+public record GegevensInitiator
 {
     public string OvoCode { get; set; } = null!;
     public string Naam { get; set; }

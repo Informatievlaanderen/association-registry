@@ -13,6 +13,7 @@ using Amazon.Runtime;
 using Amazon.SQS;
 using Asp.Versioning.ApplicationModels;
 using AssociationRegistry.Integrations.Magda;
+using AssociationRegistry.OpenTelemetry.Metrics;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -70,6 +71,7 @@ using Infrastructure.Wolverine;
 using Integrations.Grar.AdresMatch;
 using Integrations.Grar.Clients;
 using Integrations.Grar.NutsLau;
+using Integrations.Ipdc.Clients;
 using Integrations.Magda.CallReferences;
 using Integrations.Magda.Onderneming;
 using Integrations.Magda.Persoon;
@@ -233,29 +235,22 @@ public class Program
         await LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(app: app, logger: logger);
     }
 
-    private static async Task LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(
-        WebApplication app,
-        ILogger<Program> logger
-    )
+    private static async Task LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(WebApplication app, ILogger<Program> logger)
     {
         // TODO This method may be removed in the future once we know that this event does not occur in the test environment
         using var scope = app.Services.CreateScope();
         await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
-        var @event = await session
-            .Events.QueryRawEventDataOnly<BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens>()
-            .FirstOrDefaultAsync();
+        var @event = await session.Events.QueryRawEventDataOnly<BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens>().FirstOrDefaultAsync();
 
         if (@event is null)
-            logger.LogInformation(
-                message: "✅ No obsolete events found of type {eventName}",
-                nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens)
-            );
+        {
+            logger.LogInformation("✅ No obsolete events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
+        }
         else
-            logger.LogWarning(
-                message: "⚠️ Obsolete events found of type {eventName}",
-                nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens)
-            );
+        {
+            logger.LogWarning("⚠️ Obsolete events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
+        }
     }
 
     private static async Task LogPendingDatabaseChanges(WebApplication app, ILogger<Program> logger)
@@ -491,6 +486,7 @@ public class Program
             .AddSingleton<IAmazonSQS>(sqsClient)
             .AddSingleton<IClock, Clock>()
             .AddSingleton<IGrarHttpClient>(sp => sp.GetRequiredService<GrarHttpClient>())
+            .AddSingleton<IIpdcClient>(sp => sp.GetRequiredService<IpdcClient>())
             .AddSingleton(grarOptions.GrarClient)
             .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
             .AddSingleton(elasticSearchOptionsSection)

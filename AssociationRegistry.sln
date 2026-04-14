@@ -35,9 +35,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "admin-api", "admin-api", "{B2C3D4E5-F6A7-8901-2345-67890ABCDEF1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "integrations", "integrations", "{C3D4E5F6-A7B8-9012-3456-7890ABCDEF12}"
-	ProjectSection(SolutionItems) = preProject
-		src\integrations\AssociationRegistry.Integrations.Slack\AssociationRegistry.Integrations.Slack.csproj = src\integrations\AssociationRegistry.Integrations.Slack\AssociationRegistry.Integrations.Slack.csproj
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "acm-api", "acm-api", "{C8C9D0E1-F2A3-4567-89AB-CDEF67890123}"
 EndProject
@@ -267,6 +264,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Scheduled.Host", "test\AssociationRegistry.Test.Scheduled.Host\AssociationRegistry.Test.Scheduled.Host.csproj", "{DA91F981-61BF-436E-AA33-3983ACA86E4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Integrations.Slack", "src\integrations\AssociationRegistry.Integrations.Slack\AssociationRegistry.Integrations.Slack.csproj", "{DDE2A881-294B-4FB0-8202-1BD2E166AC8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Integrations.Ipdc", "src\integrations\AssociationRegistry.Integrations.Ipdc\AssociationRegistry.Integrations.Ipdc.csproj", "{CB10C4A1-71DA-4A3E-899B-FB8155111103}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -722,6 +721,18 @@ Global
 		{DDE2A881-294B-4FB0-8202-1BD2E166AC8C}.Release|x64.Build.0 = Release|Any CPU
 		{DDE2A881-294B-4FB0-8202-1BD2E166AC8C}.Release|x86.ActiveCfg = Release|Any CPU
 		{DDE2A881-294B-4FB0-8202-1BD2E166AC8C}.Release|x86.Build.0 = Release|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Debug|x64.Build.0 = Debug|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Debug|x86.Build.0 = Debug|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Release|x64.ActiveCfg = Release|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Release|x64.Build.0 = Release|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Release|x86.ActiveCfg = Release|Any CPU
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -791,5 +802,6 @@ Global
 		{63BC5D1C-3907-453F-A4A8-C10965DB15F5} = {044D78A0-1E64-4890-A1C2-BBC52F09D507}
 		{DA91F981-61BF-436E-AA33-3983ACA86E4D} = {C812C887-6495-405A-8B99-4F686D243126}
 		{DDE2A881-294B-4FB0-8202-1BD2E166AC8C} = {C3D4E5F6-A7B8-9012-3456-7890ABCDEF12}
+		{CB10C4A1-71DA-4A3E-899B-FB8155111103} = {C3D4E5F6-A7B8-9012-3456-7890ABCDEF12}
 	EndGlobalSection
 EndGlobal

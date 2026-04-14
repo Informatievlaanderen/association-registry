@@ -2,15 +2,10 @@
 
 using Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
-using AssociationRegistry.Framework;
-using AssociationRegistry.GemeentenaamVerrijking;
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Exceptions;
+using Framework;
+using GemeentenaamVerrijking;
 using Integrations.Grar.Clients;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class EnrichLocatiesMiddleware
 {
@@ -18,12 +13,12 @@ public class EnrichLocatiesMiddleware
     // Before or BeforeAsync tells Wolverine this method should be called before the actual action
     public static async Task<VerrijkteAdressenUitGrar> BeforeAsync(
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> envelope,
-        IGrarClient grarClient)
+        IGrarClient grarClient
+    )
     {
         var enrichedLocaties = new Dictionary<string, Adres>();
 
-        foreach (var locatie in envelope.Command.Locaties.Where(x => x.AdresId is not null)
-                                        .DistinctBy(x => x.AdresId))
+        foreach (var locatie in envelope.Command.Locaties.Where(x => x.AdresId is not null).DistinctBy(x => x.AdresId))
         {
             var addressDetailResponse = await grarClient.GetAddressById(locatie.AdresId.ToId(), CancellationToken.None);
 
@@ -34,16 +29,20 @@ public class EnrichLocatiesMiddleware
 
             var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
                 postalInformation,
-                addressDetailResponse.Gemeente);
+                addressDetailResponse.Gemeente
+            );
 
             enrichedLocaties.Add(
                 locatie.AdresId.Bronwaarde,
-                Adres.Create(addressDetailResponse.Straatnaam,
-                             addressDetailResponse.Huisnummer,
-                             addressDetailResponse.Busnummer,
-                             addressDetailResponse.Postcode,
-                             verrijkteGemeentenaam.Gemeentenaam,
-                             Adres.België));
+                Adres.Create(
+                    addressDetailResponse.Straatnaam,
+                    addressDetailResponse.Huisnummer,
+                    addressDetailResponse.Busnummer,
+                    addressDetailResponse.Postcode,
+                    verrijkteGemeentenaam.Gemeentenaam,
+                    Adres.België
+                )
+            );
         }
 
         return new VerrijkteAdressenUitGrar(enrichedLocaties);
