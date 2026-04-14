@@ -46,7 +46,8 @@ public class Given_StartDatum_After_EindDatum
 
         var exception = await Assert.ThrowsAsync<StartdatumLigtNaEinddatum>(async () =>
             await _commandHandler.Handle(
-                new CommandEnvelope<RegistreerErkenningCommand>(command, _fixture.Create<CommandMetadata>())
+                new CommandEnvelope<RegistreerErkenningCommand>(command, _fixture.Create<CommandMetadata>()),
+                _fixture.Create<IpdcProduct>()
             )
         );
 

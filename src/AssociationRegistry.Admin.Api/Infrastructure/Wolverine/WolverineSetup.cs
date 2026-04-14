@@ -46,6 +46,8 @@ public static class WolverineSetup
                 options.Discovery.IncludeAssembly(typeof(BewaartermijnVertegenwoordigersEventHandler).Assembly); // TODO remove
 
                 RegistreerVzerPipeline.Setup(options);
+                RegistreerErkenningPipeline.Setup(options);
+
                 VoegVertegenwoordigerToePipeline.Setup(options);
 
                 SqsWolverineSetup.ConfigureSqsQueues(options, builder.Configuration);

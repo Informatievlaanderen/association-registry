@@ -31,13 +31,11 @@ public class Given_Erkenning_Already_Exists
     [Fact]
     public async ValueTask Then_An_ErkenningAlreadyExists_Exception_Is_Thrown()
     {
-        var command = _fixture.Create<RegistreerErkenningCommand>() with
+        var command = _fixture.Create<RegistreerErkenningCommand>() with { VCode = _scenario.VCode };
+
+        var ipdcProductNummer = _fixture.Create<IpdcProduct>() with
         {
-            VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeRegistrerenErkenning>() with
-            {
-                IpdcProduct = _scenario.ErkenningWerdGeregistreerd.IpdcProduct,
-            },
+            Nummer = _scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
         };
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with
@@ -47,7 +45,10 @@ public class Given_Erkenning_Already_Exists
 
         var exception = await Assert.ThrowsAsync<ErkenningBestaatAl>(async () =>
         {
-            await _commandHandler.Handle(new CommandEnvelope<RegistreerErkenningCommand>(command, commandMetadata));
+            await _commandHandler.Handle(
+                new CommandEnvelope<RegistreerErkenningCommand>(command, commandMetadata),
+                ipdcProductNummer
+            );
         });
 
         exception.Message.Should().Be(ExceptionMessages.ErkenningAlreadyExists);

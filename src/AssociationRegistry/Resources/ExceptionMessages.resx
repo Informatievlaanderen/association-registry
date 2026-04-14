@@ -334,6 +334,9 @@
   <data name="IpdcProductNummerRequired">
     <value>IpdcProductNummer is verplicht.</value>
   </data>
+  <data name="OnbekendIpdcProductNummer">
+    <value>Voor ipdc product nummer '{0}' werd geen ipdc product gevonden.</value>
+  </data>
   <data name="UrlDoesNotStartWithHttpOrHttps">
     <value>Url moet starten met 'http://' of 'https://.'</value>
   </data>

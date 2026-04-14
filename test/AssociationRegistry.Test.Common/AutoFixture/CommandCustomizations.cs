@@ -115,7 +115,7 @@ public static class CommandCustomizations
                         Hernieuwingsdatum = renew,
                         Einddatum = end,
                         HernieuwingsUrl = $"{protocol}://www.example.com/{fixture.Create<Guid>()}",
-                        IpdcProduct = fixture.Create<IpdcProduct>(),
+                        IpdcProductNummer = fixture.Create<int>().ToString(),
                     };
                 })
                 .OmitAutoProperties()
