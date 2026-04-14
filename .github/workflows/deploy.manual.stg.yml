@@ -21,6 +21,7 @@ jobs:
             'publicprojections',
             'adminapi',
             'adminprojections',
+            'scheduledhost',
           ]
     steps:
       - name: CD

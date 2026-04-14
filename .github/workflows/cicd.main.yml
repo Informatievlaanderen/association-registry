@@ -336,6 +336,63 @@ jobs:
           name: verenigingsregister-adminprojections
           path: ~/ar-admin-projections-image.tar
 
+  run-scheduled-host-tests:
+    name: Scheduled host
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    with:
+      test-project: AssociationRegistry.Test.Scheduled.Host
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-ministack: false
+      run-docker-otelcollector: true
+      pre-gen-marten: true
+    secrets: inherit
+
+  build-scheduled-host:
+    name: Build Scheduled Host
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version, run-scheduled-host-tests ]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Scheduled.Host/Dockerfile \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-scheduledhost:$VERSION
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-scheduledhost:${{ needs.set-release-version.outputs.version }} -o ~/ar-scheduled-host-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-scheduledhost
+          path: ~/ar-scheduled-host-image.tar
+
+
   run-address-sync-tests:
     name: Address Sync
     uses: ./.github/workflows/shared.run-tests.yml
@@ -392,63 +449,6 @@ jobs:
         with:
           name: verenigingsregister-adressensync
           path: ~/ar-admin-address-sync-image.tar
-
-  run-bewaartermijn-purge-runner-tests:
-    name: Bewaartermijn Purge Runner
-    uses: ./.github/workflows/shared.run-tests.yml
-    if: github.repository_owner == 'Informatievlaanderen'
-    with:
-      test-project: AssociationRegistry.Test.Bewaartermijnen.PurgeRunner
-      run-docker-acm: false
-      run-docker-wiremock: false
-      run-docker-db: true
-      run-docker-elasticsearch: false
-      run-docker-ministack: false
-      run-docker-otelcollector: true
-      pre-gen-marten: true
-    secrets: inherit
-
-  build-bewaartermijn-purge-runner:
-    name: Build Bewaartermijn Purge Runner
-    runs-on: ubuntu-latest
-    if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-bewaartermijn-purge-runner-tests ]
-    steps:
-
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Build
-        shell: bash
-        env:
-          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ needs.set-release-version.outputs.version }}
-        run: |
-          VERSION=${SEMVER:-"0.0.0"}
-          if [ "$VERSION" == "none" ]; then
-            VERSION="0.0.0"
-          fi
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Bewaartermijnen.PurgeRunner/Dockerfile \
-          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-bewaartermijn-purgerunner:$VERSION
-
-      - name: Show images
-        shell: bash
-        run: docker images
-
-      - name: Save Image
-        if: needs.set-release-version.outputs.version != 'none'
-        shell: bash
-        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-bewaartermijn-purgerunner:${{ needs.set-release-version.outputs.version }} -o ~/ar-bewaartermijn-purgerunner-image.tar
-        env:
-          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ needs.set-release-version.outputs.version }}
-
-      - name: Upload artifact
-        if: needs.set-release-version.outputs.version != 'none'
-        uses: actions/upload-artifact@v4
-        with:
-          name: verenigingsregister-bewaartermijn-purgerunner
-          path: ~/ar-bewaartermijn-purgerunner-image.tar
 
   build-admin-api-migrations:
     name: Build Admin Api Migrations
@@ -764,7 +764,7 @@ jobs:
       build-admin-projections,
       build-admin-api-migrations,
       build-admin-address-sync,
-      build-bewaartermijn-purge-runner,
+      build-scheduled-host,
       build-powerbi-exporthost,
 #      pack-association-registry,
       build-sync-lambda,
@@ -1099,15 +1099,15 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-admin-address-sync-image.tar
 
-      - name: Download Bewaartermijn Purge Runner artifact
+      - name: Download Scheduled Host Runner artifact
         uses: actions/download-artifact@v4
         with:
-          name: verenigingsregister-bewaartermijn-purgerunner
+          name: verenigingsregister-scheduledhost
           path: ~/
 
-      - name: Load Bewaartermijn Purge runner image
+      - name: Load Scheduled Host runner image
         shell: bash
-        run: docker image load -i ~/ar-bewaartermijn-purgerunner-image.tar
+        run: docker image load -i ~/ar-scheduled-host-image.tar
 
       - name: Download PowerBI Export Scheduled Task artifact
         uses: actions/download-artifact@v4
@@ -1170,7 +1170,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adressensync:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-bewaartermijn-purgerunner:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-scheduledhost:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-powerbiexport:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi-migrations:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections-migrations:$SEMVER
@@ -1196,6 +1196,7 @@ jobs:
             'publicprojections',
             'adminapi',
             'adminprojections',
+            'scheduledhost'
           ]
     steps:
       - name: debug_output
@@ -1241,7 +1242,6 @@ jobs:
         services:
           [
             'adressensync',
-            'bewaartermijn-purgerunner',
             'powerbiexport'
           ]
     steps:
