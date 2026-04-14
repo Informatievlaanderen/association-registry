@@ -215,20 +215,19 @@ public class BeheerVerenigingDetailMapper
             Iban = bankrekeningnummer.Iban,
             Doel = bankrekeningnummer.Doel,
             Titularis = bankrekeningnummer.Titularis,
-            BevestigdDoor = bankrekeningnummer.BevestigdDoor.Select(x=> new GegevensInitiator()
-            {
-                OvoCode = x
-            }).ToArray(),
+            BevestigdDoor = bankrekeningnummer
+                .BevestigdDoor.Select(x => new GegevensInitiator() { OvoCode = x })
+                .ToArray(),
             Bron = bankrekeningnummer.Bron,
         };
+
     private static Erkenning Map(Schema.Detail.Erkenning erkenning) =>
         new()
         {
             id = erkenning.JsonLdMetadata.Id,
             type = erkenning.JsonLdMetadata.Type,
             ErkenningId = erkenning.ErkenningId,
-            VCode = erkenning.VCode,
-            GeregistreerdDoor = new ()
+            GeregistreerdDoor = new()
             {
                 OvoCode = erkenning.GeregistreerdDoor.OvoCode,
                 Naam = erkenning.GeregistreerdDoor.Naam,

@@ -38,7 +38,9 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
     public Types.Lidmaatschap[] Lidmaatschappen { get; set; } = [];
     public Types.Erkenning[] Erkenningen { get; set; } = [];
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
-    [Identity] public string VCode { get; set; } = null!;
+
+    [Identity]
+    public string VCode { get; set; } = null!;
 
     public static class Types
     {
@@ -118,12 +120,11 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
             public GestructureerdeIdentificator GestructureerdeIdentificator { get; set; }
             public string CodeerSysteem { get; set; }
         }
+
         public record Erkenning
         {
             public JsonLdMetadata JsonLdMetadata { get; set; }
-
             public int ErkenningId { get; set; }
-            public string VCode { get; set; } = null!;
             public GegevensInitiator GeregistreerdDoor { get; set; }
             public IpdcProduct? IpdcProduct { get; set; }
             public DateOnly Startdatum { get; set; }
@@ -133,17 +134,18 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
             public string Motivering { get; set; } = null!;
             public string Status { get; set; }
         }
+
         public class IpdcProduct
         {
             public string Nummer { get; set; } = null!;
             public string Naam { get; set; } = null!;
         }
+
         public record GegevensInitiator
         {
             public string OvoCode { get; set; }
             public string Naam { get; set; }
         }
-
 
         public class GestructureerdeIdentificator
         {
@@ -171,7 +173,8 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
             DateOnly? Van,
             DateOnly? Tot,
             string Identificatie,
-            string Beschrijving);
+            string Beschrijving
+        );
 
         public class AdresId
         {
@@ -197,9 +200,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
 public class JsonLdMetadata
 {
-    public JsonLdMetadata()
-    {
-    }
+    public JsonLdMetadata() { }
 
     public JsonLdMetadata(string id, string type)
     {
