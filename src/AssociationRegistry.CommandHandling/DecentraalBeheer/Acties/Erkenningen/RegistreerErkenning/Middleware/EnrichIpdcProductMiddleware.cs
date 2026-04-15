@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning.Middleware;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using Framework;
 using Integrations.Ipdc.Clients;
 
@@ -14,6 +15,8 @@ public class EnrichIpdcProductMiddleware
     )
     {
         var ipdcProductResponse = await ipdcClient.GetById(envelope.Command.Erkenning.IpdcProductNummer);
+
+        // Throw<IpdcException>.If(ipdcProductResponse == null);
 
         return new IpdcProduct()
         {

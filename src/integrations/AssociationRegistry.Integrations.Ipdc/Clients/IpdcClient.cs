@@ -6,11 +6,11 @@ using Responses;
 
 public class IpdcClient : IIpdcClient
 {
-    private readonly HttpClient _httpClient;
+    public readonly HttpClient HttpClient;
 
     public IpdcClient(HttpClient httpClient)
     {
-        _httpClient = httpClient;
+        HttpClient = httpClient;
     }
 
     public async Task<IpdcProductResponse?> GetById(
@@ -18,24 +18,35 @@ public class IpdcClient : IIpdcClient
         CancellationToken cancellationToken = default
     )
     {
-        var response = await _httpClient.GetAsync($"products/{ipdcProductNummer}", cancellationToken);
-
-        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        try
         {
-            throw new OnbekendIpdcProductNummer(ipdcProductNummer);
+            var response = await HttpClient.GetAsync($"id/concept/{ipdcProductNummer}", cancellationToken);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                throw new OngeldigIpdcProductNummer(ipdcProductNummer);
+            }
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                throw new OnbekendIpdcProductNummer(ipdcProductNummer);
+            }
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<IpdcProductResponse>(cancellationToken: cancellationToken);
         }
-
-        response.EnsureSuccessStatusCode();
-
-        var ipdcProductResponse = await response.Content.ReadFromJsonAsync<IpdcProductResponse>(
-            cancellationToken: cancellationToken
-        );
-
-        if (ipdcProductResponse == null)
+        catch (OngeldigIpdcProductNummer)
         {
-            throw new OnbekendIpdcProductNummer(ipdcProductNummer);
+            throw;
         }
-
-        return ipdcProductResponse;
+        catch (OnbekendIpdcProductNummer)
+        {
+            throw;
+        }
+        catch (Exception e)
+        {
+            throw new IpdcException(e.InnerException);
+        }
     }
 }

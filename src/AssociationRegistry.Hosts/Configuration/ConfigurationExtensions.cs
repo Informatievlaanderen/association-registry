@@ -4,18 +4,20 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Integrations.Grar.Bewaartermijnen;
 using Integrations.Grar.Clients;
+using Integrations.Ipdc.Options;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;
 
 public static class ConfigurationExtensions
 {
-    public static InitialRegistreerInschrijvingOptions GetInitialRegistreerInschrijvingOptions(this IConfiguration configuration)
+    public static InitialRegistreerInschrijvingOptions GetInitialRegistreerInschrijvingOptions(
+        this IConfiguration configuration
+    )
     {
         var initialInschrijvingenWolverineOptions = configuration
-                                      .GetSection(PostgreSqlOptionsSection.SectionName)
-                                      .Get<InitialRegistreerInschrijvingOptions>();
-
+            .GetSection(PostgreSqlOptionsSection.SectionName)
+            .Get<InitialRegistreerInschrijvingOptions>();
 
         return initialInschrijvingenWolverineOptions ?? new InitialRegistreerInschrijvingOptions();
     }
@@ -23,8 +25,8 @@ public static class ConfigurationExtensions
     public static PostgreSqlOptionsSection GetPostgreSqlOptionsSection(this IConfiguration configuration)
     {
         var postgreSqlOptionsSection = configuration
-                                      .GetSection(PostgreSqlOptionsSection.SectionName)
-                                      .Get<PostgreSqlOptionsSection>();
+            .GetSection(PostgreSqlOptionsSection.SectionName)
+            .Get<PostgreSqlOptionsSection>();
 
         postgreSqlOptionsSection.ThrowIfInvalid();
 
@@ -33,20 +35,25 @@ public static class ConfigurationExtensions
 
     public static GrarOptions GetGrarOptions(this IConfiguration configuration)
     {
-        var grarOptions = configuration
-                         .GetSection(nameof(GrarOptions))
-                         .Get<GrarOptions>();
+        var grarOptions = configuration.GetSection(nameof(GrarOptions)).Get<GrarOptions>();
 
         grarOptions.ThrowIfInValid();
 
         return grarOptions!;
     }
 
+    public static IpdcOptions GetIpdcOptions(this IConfiguration configuration)
+    {
+        var ipdcOptions = configuration.GetSection(nameof(IpdcOptions)).Get<IpdcOptions>();
+
+        ipdcOptions.ThrowIfInValid();
+
+        return ipdcOptions!;
+    }
+
     public static BewaartermijnOptions GetBewaartermijnOptions(this IConfiguration configuration)
     {
-        var bewaartermijnDuration = configuration
-                         .GetSection(nameof(BewaartermijnOptions))
-                         .Get<BewaartermijnOptions>();
+        var bewaartermijnDuration = configuration.GetSection(nameof(BewaartermijnOptions)).Get<BewaartermijnOptions>();
 
         return bewaartermijnDuration is null ? new BewaartermijnOptions() : bewaartermijnDuration!;
     }
@@ -60,22 +67,27 @@ public static class ConfigurationExtensions
     {
         if (opt.Kafka.Enabled)
         {
-            Throw<ArgumentNullException>
-               .IfNullOrWhiteSpace(opt.Kafka.Username, nameof(opt.Kafka.Username));
+            Throw<ArgumentNullException>.IfNullOrWhiteSpace(opt.Kafka.Username, nameof(opt.Kafka.Username));
 
-            Throw<ArgumentNullException>
-               .IfNullOrWhiteSpace(opt.Kafka.Password, nameof(opt.Kafka.Password));
+            Throw<ArgumentNullException>.IfNullOrWhiteSpace(opt.Kafka.Password, nameof(opt.Kafka.Password));
         }
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(opt.Sqs.AddressMatchQueueName, nameof(opt.Sqs.AddressMatchQueueName));
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            opt.Sqs.AddressMatchQueueName,
+            nameof(opt.Sqs.AddressMatchQueueName)
+        );
 
         if (opt.Sqs.GrarSyncQueueListenerEnabled)
         {
-            Throw<ArgumentNullException>.IfNullOrWhiteSpace(opt.Sqs.GrarSyncDeadLetterQueueName,
-                                                            nameof(opt.Sqs.GrarSyncDeadLetterQueueName));
+            Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+                opt.Sqs.GrarSyncDeadLetterQueueName,
+                nameof(opt.Sqs.GrarSyncDeadLetterQueueName)
+            );
 
-            Throw<ArgumentNullException>.IfNullOrWhiteSpace(opt.Sqs.GrarSyncQueueName, nameof(opt.Sqs.GrarSyncQueueName));
+            Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+                opt.Sqs.GrarSyncQueueName,
+                nameof(opt.Sqs.GrarSyncQueueName)
+            );
 
             Throw<ArgumentNullException>.IfNullOrWhiteSpace(opt.Sqs.GrarSyncQueueUrl, nameof(opt.Sqs.GrarSyncQueueUrl));
         }
@@ -85,9 +97,7 @@ public static class ConfigurationExtensions
 
     private static void ThrowIfInValid(this GrarOptions.HttpClientOptions opt)
     {
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(opt.BaseUrl, nameof(opt.BaseUrl));
-
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(opt.BaseUrl, nameof(opt.BaseUrl));
     }
 
     private static void ThrowIfInvalid(this PostgreSqlOptionsSection? postgreSqlOptions)
@@ -97,58 +107,72 @@ public static class ConfigurationExtensions
 
         const string sectionName = nameof(PostgreSqlOptionsSection);
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            postgreSqlOptions.Database,
+            $"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}"
+        );
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            postgreSqlOptions.Host,
+            $"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}"
+        );
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            postgreSqlOptions.Username,
+            $"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}"
+        );
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            postgreSqlOptions.Password,
+            $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}"
+        );
     }
 
     public static ElasticSearchOptionsSection GetElasticSearchOptionsSection(this IConfiguration configuration)
     {
         var elasticSearchOptions = configuration
-                                  .GetSection(ElasticSearchOptionsSection.SectionName)
-                                  .Get<ElasticSearchOptionsSection>();
+            .GetSection(ElasticSearchOptionsSection.SectionName)
+            .Get<ElasticSearchOptionsSection>();
 
         elasticSearchOptions.ThrowIfInvalid();
 
         return elasticSearchOptions;
     }
 
-    public static string GetBaseUrl(this IConfiguration configuration)
-        => configuration.GetValue<string>("BaseUrl").TrimEnd(trimChar: '/');
+    public static string GetBaseUrl(this IConfiguration configuration) =>
+        configuration.GetValue<string>("BaseUrl").TrimEnd(trimChar: '/');
 
     private static void ThrowIfInvalid(this ElasticSearchOptionsSection elasticSearchOptions)
     {
         const string sectionName = nameof(ElasticSearchOptionsSection);
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(elasticSearchOptions.Uri, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Uri)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            elasticSearchOptions.Uri,
+            $"{sectionName}.{nameof(ElasticSearchOptionsSection.Uri)}"
+        );
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(elasticSearchOptions.Indices?.Verenigingen,
-                               $"{sectionName}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            elasticSearchOptions.Indices?.Verenigingen,
+            $"{sectionName}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}"
+        );
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(elasticSearchOptions.Username, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Username)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            elasticSearchOptions.Username,
+            $"{sectionName}.{nameof(ElasticSearchOptionsSection.Username)}"
+        );
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(elasticSearchOptions.Password, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Password)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            elasticSearchOptions.Password,
+            $"{sectionName}.{nameof(ElasticSearchOptionsSection.Password)}"
+        );
     }
 
     public static MagdaOptionsSection GetMagdaOptionsSection(
         this IConfiguration configuration,
-        string magdaOptionsSectionName = MagdaOptionsSection.SectionName)
+        string magdaOptionsSectionName = MagdaOptionsSection.SectionName
+    )
     {
-        var magdaOptionsSection = configuration
-                                 .GetSection(magdaOptionsSectionName)
-                                 .Get<MagdaOptionsSection>();
+        var magdaOptionsSection = configuration.GetSection(magdaOptionsSectionName).Get<MagdaOptionsSection>();
 
         magdaOptionsSection.ThrowIfInvalid();
 
@@ -159,17 +183,24 @@ public static class ConfigurationExtensions
     {
         const string sectionName = nameof(MagdaOptionsSection);
 
-        Throw<ArgumentException>
-           .If(magdaOptionsSection.ClientCertificate is null != magdaOptionsSection.ClientCertificatePassword is null,
-               $"Both {sectionName}.{nameof(MagdaOptionsSection.ClientCertificate)} and {sectionName}.{nameof(MagdaOptionsSection.ClientCertificatePassword)} must be provided or ignored.");
+        Throw<ArgumentException>.If(
+            magdaOptionsSection.ClientCertificate is null != magdaOptionsSection.ClientCertificatePassword is null,
+            $"Both {sectionName}.{nameof(MagdaOptionsSection.ClientCertificate)} and {sectionName}.{nameof(MagdaOptionsSection.ClientCertificatePassword)} must be provided or ignored."
+        );
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(magdaOptionsSection.Hoedanigheid, $"{sectionName}.{nameof(MagdaOptionsSection.Hoedanigheid)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            magdaOptionsSection.Hoedanigheid,
+            $"{sectionName}.{nameof(MagdaOptionsSection.Hoedanigheid)}"
+        );
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(magdaOptionsSection.Afzender, $"{sectionName}.{nameof(MagdaOptionsSection.Afzender)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            magdaOptionsSection.Afzender,
+            $"{sectionName}.{nameof(MagdaOptionsSection.Afzender)}"
+        );
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(magdaOptionsSection.Ontvanger, $"{sectionName}.{nameof(MagdaOptionsSection.Ontvanger)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            magdaOptionsSection.Ontvanger,
+            $"{sectionName}.{nameof(MagdaOptionsSection.Ontvanger)}"
+        );
     }
 }

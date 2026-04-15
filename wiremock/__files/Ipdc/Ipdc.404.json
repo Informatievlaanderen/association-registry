@@ -1,0 +1,13 @@
+{
+  "status": 404,
+  "type": "error.notfound",
+  "title": {
+    "en": "Not found",
+    "nl": "Niet gevonden"
+  },
+  "detail": {
+    "en": "Concept not found",
+    "nl": "Concept niet gevonden"
+  },
+  "instance": "vlaanderen.be"
+}

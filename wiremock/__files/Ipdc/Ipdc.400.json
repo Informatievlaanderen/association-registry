@@ -1,0 +1,13 @@
+{
+  "status": 400,
+  "type": "error.invalid-request-parameter",
+  "title": {
+    "en": "Invalid request parameter",
+    "nl": "Ongeldige request parameter"
+  },
+  "detail": {
+    "en": "Must provide either concept id or product number",
+    "nl": "Concept id of productnummer moet aanwezig zijn"
+  },
+  "instance": "vlaanderen.be"
+}
