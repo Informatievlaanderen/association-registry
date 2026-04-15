@@ -16,7 +16,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Actief");
+        status.Should().Be(ErkenningStatus.Actief);
     }
 
 
@@ -28,7 +28,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Actief");
+        status.Should().Be(ErkenningStatus.Actief);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Actief");
+        status.Should().Be(ErkenningStatus.Actief);
     }
 
 
@@ -51,7 +51,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("InAanvraag");
+        status.Should().Be(ErkenningStatus.InAanvraag);
     }
 
 
@@ -63,7 +63,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Verlopen");
+        status.Should().Be(ErkenningStatus.Verlopen);
     }
 
     [Fact]
@@ -74,7 +74,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Verlopen");
+        status.Should().Be(ErkenningStatus.Verlopen);
     }
 
 
@@ -86,7 +86,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Actief");
+        status.Should().Be(ErkenningStatus.Actief);
     }
 
 
@@ -98,7 +98,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Actief");
+        status.Should().Be(ErkenningStatus.Actief);
     }
 
     [Fact]
@@ -109,7 +109,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Actief");
+        status.Should().Be(ErkenningStatus.Actief);
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Actief");
+        status.Should().Be(ErkenningStatus.Actief);
     }
 
     [Fact]
@@ -131,7 +131,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Actief");
+        status.Should().Be(ErkenningStatus.Actief);
     }
 
     [Fact]
@@ -142,7 +142,7 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("Actief");
+        status.Should().Be(ErkenningStatus.Actief);
     }
 
     [Fact]
@@ -153,6 +153,6 @@ public class ErkenningStatusTests
 
         var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Should().Be("InAanvraag");
+        status.Should().Be(ErkenningStatus.InAanvraag);
     }
 }
