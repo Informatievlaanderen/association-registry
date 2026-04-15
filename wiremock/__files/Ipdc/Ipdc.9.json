@@ -1,0 +1,82 @@
+{
+  "id": "40375663-3A2A-4220-A917-98D8277A1492",
+  "@context": [
+    "https://vlaanderen.be.jsonld"
+  ],
+  "@id": "https://vlaanderen.be/",
+  "@type": "Concept",
+  "bevoegdBestuursniveaus": [
+    "Lokaal"
+  ],
+  "uitvoerendBestuursniveaus": [
+    "Lokaal"
+  ],
+  "naam": {
+    "nl": "Gemeentelijke premie voor inbraakpreventie",
+    "nl-BE-x-formal": "Gemeentelijke premie voor inbraakpreventie ",
+    "nl-BE-x-generated-informal": "Gemeentelijke premie voor inbraakpreventie "
+  },
+  "beschrijving": {
+    "nl": "<p>Als u uw woning of winkel extra beveiligt tegen inbraak, kunt u daarvoor een premie aanvragen bij de gemeente.</p>",
+    "nl-BE-x-formal": "<p>Als u uw woning of winkel extra beveiligt tegen inbraak, kunt u daarvoor een premie aanvragen bij de gemeente.</p>",
+    "nl-BE-x-generated-informal": "<p>Als je jouw woning of winkel extra beveiligt tegen inbraak, kan je daarvoor een premie aanvragen bij de gemeente.</p>"
+  },
+  "type": "FinancieelVoordeel",
+  "themas": [
+    "BouwenWonen"
+  ],
+  "doelgroepen": [
+    "Burger",
+    "Onderneming",
+    "Vereniging",
+    "Organisatie"
+  ],
+  "aangemaaktDoor": {
+    "id": "OVO000001",
+    "@id": "OVO000001"
+  },
+  "voorwaarden": [
+    {
+      "beschrijving": {
+        "nl-BE-x-formal": "<p>De woning ligt op het grondgebied van de gemeente.</p>",
+        "nl-BE-x-generated-informal": "<p>De woning ligt op het grondgebied van de gemeente.</p>",
+        "nl": "<p>De woning ligt op het grondgebied van de gemeente.</p>"
+      },
+      "naam": {
+        "nl-BE-x-formal": "Voorwaarden",
+        "nl": "Voorwaarden",
+        "nl-BE-x-generated-informal": "Voorwaarden"
+      },
+      "@type": "Voorwaarde",
+      "order": 0
+    }
+  ],
+  "creatie": "2012-10-03T10:16:05Z",
+  "laatstGewijzigd": "2026-03-10T15:03:42Z",
+  "laatstOntvangen": "2026-03-10T15:08:01.523624317Z",
+  "productnummer": "9",
+  "gearchiveerd": false,
+  "uitgesloten": false,
+  "publicatieLink": {
+    "naam": {
+      "nl": "Lees meer op vlaanderen.be",
+      "en": "See also on vlaanderen.be",
+      "nl-BE-x-formal": "Lees meer op vlaanderen.be",
+      "nl-BE-x-generated-informal": "Lees meer op vlaanderen.be"
+    },
+    "url": "https://www.vlaanderen.be"
+  },
+  "verwanteProducten": [
+    {
+      "id": "41132bb6-103b-4dde-a127-bac3765055e6",
+      "productnummer": "2870",
+      "type": "INSTANTIE",
+      "order": 0
+    }
+  ],
+  "metadata": {
+    "uJeVersie": "44.5.0",
+    "generatedFormeleFields": false,
+    "generatedInformeleFields": true
+  }
+}

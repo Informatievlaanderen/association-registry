@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using DecentraalBeheer.Vereniging.Erkenningen;
 
 [DataContract]
-public class TeRegistrerenErkenning
+public record TeRegistrerenErkenning
 {
     [DataMember(Name = "ipdcProductNummer")]
     public string IpdcProductNummer { get; set; } = null!;

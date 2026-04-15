@@ -310,6 +310,9 @@
   <data name="MagdaException">
     <value>Er heeft zich een fout voorgedaan bij het aanroepen van de Magda {0}: {1}.</value>
   </data>
+  <data name="IpdcException">
+    <value>Er heeft zich een fout voorgedaan bij het aanroepen van Ipdc: {0}.</value>
+  </data>
   <data name="ServiceReturnedNonSuccesfulStatusCode">
     <value>Service {0} responded with status code '{1}' with context description '{2}'.</value>
   </data>
@@ -339,6 +342,9 @@
   </data>
   <data name="OnbekendIpdcProductNummer">
     <value>Voor ipdc product nummer '{0}' werd geen ipdc product gevonden.</value>
+  </data>
+  <data name="OngeldigIpdcProductNummer">
+    <value>Het opgegeven ipdc product nummer '{0}', is geen geldig ipdc product nummer.</value>
   </data>
   <data name="UrlDoesNotStartWithHttpOrHttps">
     <value>Url moet starten met 'http://' of 'https://.'</value>
