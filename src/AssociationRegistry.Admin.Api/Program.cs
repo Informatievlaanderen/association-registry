@@ -235,21 +235,32 @@ public class Program
         await LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(app: app, logger: logger);
     }
 
-    private static async Task LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(WebApplication app, ILogger<Program> logger)
+    private static async Task LogBankrekeningnummerWerdGevalideerdZonderPersoonsgegevensExists(
+        WebApplication app,
+        ILogger<Program> logger
+    )
     {
         // TODO This method may be removed in the future once we know that this event does not occur in the test environment
         using var scope = app.Services.CreateScope();
         await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
-        var @event = await session.Events.QueryRawEventDataOnly<BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens>().FirstOrDefaultAsync();
+        var @event = await session
+            .Events.QueryRawEventDataOnly<BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens>()
+            .FirstOrDefaultAsync();
 
         if (@event is null)
         {
-            logger.LogInformation("✅ No obsolete events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
+            logger.LogInformation(
+                "✅ No obsolete events found of type {eventName}",
+                nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens)
+            );
         }
         else
         {
-            logger.LogWarning("⚠️ Obsolete events found of type {eventName}", nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens));
+            logger.LogWarning(
+                "⚠️ Obsolete events found of type {eventName}",
+                nameof(BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens)
+            );
         }
     }
 
@@ -434,6 +445,7 @@ public class Program
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
         var grarOptions = builder.Configuration.GetGrarOptions();
+        var ipdcOptions = builder.Configuration.GetIpdcOptions();
         var bewaartermijnOptions = builder.Configuration.GetBewaartermijnOptions();
 
         var appSettings = builder.Configuration.Get<AppSettings>();
@@ -459,9 +471,11 @@ public class Program
 
         builder
             .Services.AddHttpClient<ScheduledHostHttpClient>()
-            .ConfigureHttpClient(httpClient =>
-                httpClient.BaseAddress = new Uri(appSettings.ScheduledHostBaseUrl)
-            );
+            .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.ScheduledHostBaseUrl));
+
+        builder
+            .Services.AddHttpClient<IpdcClient>()
+            .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(ipdcOptions.BaseUrl));
 
         builder.Services.AddMemoryCache();
 

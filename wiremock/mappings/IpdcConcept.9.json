@@ -1,0 +1,14 @@
+{
+  "priority": 4,
+  "request": {
+    "method": "GET",
+    "urlPath": "/id/concept/9"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "Ipdc/Ipdc.9.json"
+  }
+}

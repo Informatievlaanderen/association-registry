@@ -8,7 +8,7 @@ using Resources;
 public class OnbekendIpdcProductNummer : DomainException
 {
     public OnbekendIpdcProductNummer(string ipdcProductNummer)
-        : base(string.Format(ExceptionMessages.IpdcProductNummerRequired, ipdcProductNummer)) { }
+        : base(string.Format(ExceptionMessages.OnbekendIpdcProductNummer, ipdcProductNummer)) { }
 
     protected OnbekendIpdcProductNummer(SerializationInfo info, StreamingContext context)
         : base(info, context) { }

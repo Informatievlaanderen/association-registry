@@ -131,7 +131,7 @@ public class IpdcProductResponse
     public string LinkedConceptProductnummer { get; set; }
 
     [JsonPropertyName("productnummer")]
-    public int? Productnummer { get; set; }
+    public string Productnummer { get; set; }
 
     [JsonPropertyName("gearchiveerd")]
     public bool Gearchiveerd { get; set; }

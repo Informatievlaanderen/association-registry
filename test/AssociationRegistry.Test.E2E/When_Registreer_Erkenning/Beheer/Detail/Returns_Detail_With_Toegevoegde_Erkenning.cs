@@ -33,38 +33,30 @@ public class Returns_Detail_With_Toegevoegde_Erkenning : End2EndTest<DetailVeren
     public void JsonContentMatches()
     {
         Response
-           .Vereniging.Erkenningen.Should()
-           .BeEquivalentTo(
-                [
-                    new Erkenning
+            .Vereniging.Erkenningen.Should()
+            .BeEquivalentTo([
+                new Erkenning
+                {
+                    type = JsonLdType.Erkenning.Type,
+                    id = JsonLdType.Erkenning.CreateWithIdValues(_testContext.VCode, "1"),
+                    ErkenningId = 1,
+                    VCode = _testContext.VCode.Value,
+                    GeregistreerdDoor = new GegevensInitiatorErkenning { OvoCode = "OVO000001", Naam = string.Empty },
+                    IpdcProduct = new IpdcProduct
                     {
-                        type = JsonLdType.Erkenning.Type,
-                        id = JsonLdType.Erkenning.CreateWithIdValues(
-                            _testContext.VCode, "1"
-                        ),
-                        ErkenningId = 1,
-                        VCode = _testContext.VCode.Value,
-                        GeregistreerdDoor = new GegevensInitiatorErkenning
-                        {
-                            OvoCode = "OVO000001",
-                            Naam = string.Empty,
-                        },
-                        IpdcProduct = new IpdcProduct
-                        {
-                            Nummer = _testContext.CommandRequest.Erkenning.IpdcProductNummer,
-                            Naam = string.Empty,
-                        },
-                        Startdatum = _testContext.CommandRequest.Erkenning.Startdatum,
-                        Einddatum = _testContext.CommandRequest.Erkenning.Einddatum,
-                        Hernieuwingsdatum = _testContext.CommandRequest.Erkenning.Hernieuwingsdatum,
-                        HernieuwingsUrl = _testContext.CommandRequest.Erkenning.HernieuwingsUrl,
-                        RedenSchorsing = string.Empty,
-                        Status = ErkenningStatus.Calculate(
-                            _testContext.CommandRequest.Erkenning.Startdatum,
-                            _testContext.CommandRequest.Erkenning.Einddatum),
-
+                        Nummer = _testContext.CommandRequest.Erkenning.IpdcProductNummer,
+                        Naam = "Gemeentelijke premie voor inbraakpreventie", // See wiremock
                     },
-                ]
-            );
+                    Startdatum = _testContext.CommandRequest.Erkenning.Startdatum,
+                    Einddatum = _testContext.CommandRequest.Erkenning.Einddatum,
+                    Hernieuwingsdatum = _testContext.CommandRequest.Erkenning.Hernieuwingsdatum,
+                    HernieuwingsUrl = _testContext.CommandRequest.Erkenning.HernieuwingsUrl,
+                    RedenSchorsing = string.Empty,
+                    Status = ErkenningStatus.Calculate(
+                        _testContext.CommandRequest.Erkenning.Startdatum,
+                        _testContext.CommandRequest.Erkenning.Einddatum
+                    ),
+                },
+            ]);
     }
 }

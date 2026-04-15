@@ -36,7 +36,7 @@ public class EnrichIpdcProductMiddlewareTests
             .Setup(x => x.GetById(commandEnvelope.Command.Erkenning.IpdcProductNummer, It.IsAny<CancellationToken>()))
             .ThrowsAsync(new OnbekendIpdcProductNummer(commandEnvelope.Command.Erkenning.IpdcProductNummer));
 
-        var exception = await Assert.ThrowsAnyAsync<AdressenregisterReturnedInactiefAdres>(async () =>
+        var exception = await Assert.ThrowsAnyAsync<OnbekendIpdcProductNummer>(async () =>
             await EnrichIpdcProductMiddleware.BeforeAsync(commandEnvelope, ipdcClientMock.Object)
         );
 
