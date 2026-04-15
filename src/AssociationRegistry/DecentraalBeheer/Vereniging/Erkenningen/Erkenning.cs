@@ -11,6 +11,7 @@ public record Erkenning
     public DateOnly Hernieuwingsdatum { get; set; }
     public string HernieuwingsUrl { get; set; } = null!;
     public string Motivering { get; set; } = null!;
+    public string Status { get; set; } = null!;
 
     public static Erkenning Create(
         int nextId,
@@ -27,6 +28,7 @@ public record Erkenning
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
             IpdcProduct = ipdcProduct,
             GeregistreerdDoor = new GegevensInitiator() { OvoCode = initiator },
+            Status = ErkenningStatus.Calculate(erkenning.Startdatum, erkenning.Einddatum)
         };
 
     public static Erkenning Hydrate(
@@ -37,7 +39,8 @@ public record Erkenning
         DateOnly einddatum,
         DateOnly hernieuwingsdatum,
         string hernieuwingsUrl,
-        string motivering
+        string motivering,
+        string status
     ) =>
         new()
         {
@@ -49,6 +52,7 @@ public record Erkenning
             Hernieuwingsdatum = hernieuwingsdatum,
             HernieuwingsUrl = hernieuwingsUrl,
             Motivering = motivering,
+            Status = status,
         };
 }
 

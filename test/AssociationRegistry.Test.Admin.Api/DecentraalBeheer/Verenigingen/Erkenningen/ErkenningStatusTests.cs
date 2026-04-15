@@ -9,58 +9,150 @@ public class ErkenningStatusTests
     private static DateOnly Now => DateOnly.FromDateTime(DateTime.Now);
 
     [Fact]
-    public void Given_Startdatum_After_Now_Then_InAanvraag()
+    public void Given_Empty_Startdatum_And_Empty_EindDatum_Then_Status_Actief()
     {
-        var startDatum = Now.AddDays(1);
-        var eindDatum = Now.AddDays(30);
+        DateOnly? startDatum = null;
+        DateOnly? eindDatum = null;
 
-        var status = ErkenningStatus.Create(startDatum, eindDatum);
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Value.Should().Be("InAanvraag");
+        status.Should().Be("Actief");
+    }
+
+
+    [Fact]
+    public void Given_Past_Startdatum_And_Empty_EindDatum_Then_Status_Actief()
+    {
+        DateOnly? startDatum = Now.AddDays(-1);
+        DateOnly? eindDatum = null;
+
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
+
+        status.Should().Be("Actief");
     }
 
     [Fact]
-    public void Given_Startdatum_Before_Now_And_EindDatum_After_Now_Then_Actief()
+    public void Given_Startdatum_Today_And_Empty_EindDatum_Then_Status_Actief()
     {
-        var startDatum = Now.AddDays(-1);
-        var eindDatum = Now.AddDays(30);
+        DateOnly? startDatum = Now;
+        DateOnly? eindDatum = null;
 
-        var status = ErkenningStatus.Create(startDatum, eindDatum);
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Value.Should().Be("Actief");
+        status.Should().Be("Actief");
+    }
+
+
+    [Fact]
+    public void Given_Future_Startdatum_And_Empty_EindDatum_Then_Status_Actief()
+    {
+        DateOnly? startDatum = Now.AddDays(5);
+        DateOnly? eindDatum = null;
+
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
+
+        status.Should().Be("InAanvraag");
+    }
+
+
+    [Fact]
+    public void Given_Empty_Startdatum_And_Past_EindDatum_Then_Status_Verlopen()
+    {
+        DateOnly? startDatum = null;
+        DateOnly? eindDatum = Now.AddDays(-5);
+
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
+
+        status.Should().Be("Verlopen");
     }
 
     [Fact]
-    public void Given_Startdatum_Equal_Now_And_EindDatum_After_Now_Then_Actief()
+    public void Given_Past_Startdatum_And_Past_EindDatum_Then_Status_Verlopen()
     {
-        var startDatum = Now;
-        var eindDatum = Now.AddDays(30);
+        DateOnly? startDatum = Now.AddDays(-10);
+        DateOnly? eindDatum = Now.AddDays(-5);
 
-        var status = ErkenningStatus.Create(startDatum, eindDatum);
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Value.Should().Be("Actief");
+        status.Should().Be("Verlopen");
+    }
+
+
+    [Fact]
+    public void Given_Empty_Startdatum_And_EindDatum_Today_Then_Status_Actief()
+    {
+        DateOnly? startDatum = null;
+        DateOnly? eindDatum = Now;
+
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
+
+        status.Should().Be("Actief");
+    }
+
+
+    [Fact]
+    public void Given_Past_Startdatum_And_EindDatum_Today_Then_Status_Actief()
+    {
+        DateOnly? startDatum = Now.AddDays(-10);
+        DateOnly? eindDatum = Now;
+
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
+
+        status.Should().Be("Actief");
     }
 
     [Fact]
-    public void Given_Startdatum_Before_Now_And_EindDatum_Equal_Now_Then_Actief()
+    public void Given_Startdatum_Today_And_EindDatum_Today_Then_Status_Actief()
     {
-        var startDatum = Now.AddDays(-30);
-        var eindDatum = Now;
+        DateOnly? startDatum = Now;
+        DateOnly? eindDatum = Now;
 
-        var status = ErkenningStatus.Create(startDatum, eindDatum);
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Value.Should().Be("Actief");
+        status.Should().Be("Actief");
     }
 
     [Fact]
-    public void Given_Startdatum_Before_Now_And_EindDatum_Before_Now_Then_Verlopen()
+    public void Given_Empty_Startdatum_And_EindDatum_Future_Then_Status_Actief()
     {
-        var startDatum = Now.AddDays(-30);
-        var eindDatum = Now.AddDays(-1);
+        DateOnly? startDatum = null;
+        DateOnly? eindDatum = Now.AddDays(5);
 
-        var status = ErkenningStatus.Create(startDatum, eindDatum);
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
 
-        status.Value.Should().Be("Verlopen");
+        status.Should().Be("Actief");
     }
 
+    [Fact]
+    public void Given_Past_Startdatum_And_EindDatum_Future_Then_Status_Actief()
+    {
+        DateOnly? startDatum = Now.AddDays(-5);
+        DateOnly? eindDatum = Now.AddDays(5);
+
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
+
+        status.Should().Be("Actief");
+    }
+
+    [Fact]
+    public void Given_Startdatum_Today_And_EindDatum_Future_Then_Status_Actief()
+    {
+        DateOnly? startDatum = Now;
+        DateOnly? eindDatum = Now.AddDays(5);
+
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
+
+        status.Should().Be("Actief");
+    }
+
+    [Fact]
+    public void Given_Future_Startdatum_And_EindDatum_Future_Then_Status_InAanvraag()
+    {
+        DateOnly? startDatum = Now.AddDays(3);
+        DateOnly? eindDatum = Now.AddDays(5);
+
+        var status = ErkenningStatus.Calculate(startDatum, eindDatum);
+
+        status.Should().Be("InAanvraag");
+    }
 }

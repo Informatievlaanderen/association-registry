@@ -10,21 +10,37 @@ public class ErkenningStatus
         Value = status;
     }
 
-    public static ErkenningStatus Create(DateOnly startDatum, DateOnly eindDatum)
+    public static string Calculate(DateOnly? startDatum, DateOnly? eindDatum)
     {
-        var now = DateOnly.FromDateTime(DateTime.Now);
+        var today = DateOnly.FromDateTime(DateTime.Now);
 
-        if (startDatum > now)
+        if (startDatum is null && eindDatum is null || startDatum < today && eindDatum is null || startDatum == today && eindDatum is null)
         {
-            return new ErkenningStatus(InAanvraag);
+            return Actief;
         }
 
-        if (eindDatum < now)
+        if (startDatum > today && eindDatum is null)
         {
-            return new ErkenningStatus(Verlopen);
+            return InAanvraag;
         }
 
-        return new ErkenningStatus(Actief);
+        if (startDatum is null && eindDatum < today || startDatum < today && eindDatum < today)
+        {
+            return Verlopen;
+        }
+
+        if (startDatum is null && eindDatum == today || startDatum < today && eindDatum == today || startDatum == today && eindDatum == today || startDatum is null && eindDatum > today || startDatum < today && eindDatum > today || startDatum == today && eindDatum > today)
+        {
+            return Actief;
+        }
+
+        if (startDatum > today && eindDatum > today)
+        {
+            return InAanvraag;
+        }
+
+        return string.Empty;
+        // TODO error?
     }
 
     private const string Actief = "Actief";
