@@ -181,6 +181,9 @@
   <data name="StartdatumIsAfterEinddatum">
     <value>Startdatum moet voor einddatum liggen.</value>
   </data>
+  <data name="HernieuwingsDatumMoetTussenStartEnEindDatumLiggen">
+    <value>Hernieuwingsdatum moet tussen startdatum en einddatum liggen.</value>
+  </data>
   <data name="VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden">
     <value>Een KBO-vereniging kan niet gestopt worden.</value>
   </data>
@@ -341,6 +344,6 @@
     <value>Url moet starten met 'http://' of 'https://.'</value>
   </data>
   <data name="ErkenningAlreadyExists">
-    <value>Er bestaat reeds een erkenning voor deze combinatie van vCode, IPDC-product en geregistreerd door.</value>
+    <value>Er bestaat reeds een erkenning in deze periode voor deze combinatie</value>
   </data>
 </root>

@@ -4,6 +4,7 @@ using global::AutoFixture;
 using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
+using Admin.Api.WebApi.Verenigingen.Erkenningen.RegistreerErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
@@ -69,6 +70,9 @@ public static class AdminApiAutoFixtureCustomizations
 
         fixture.CustomizeVerenigingZoekDocument();
         fixture.CustomizeDuplicateDetectionDocument();
+
+        fixture.CustomizeRegistreerErkenningRequest();
+        fixture.CustomizeTeRegistrerenErkenningRequest();
 
         return fixture;
     }
@@ -592,6 +596,46 @@ public static class AdminApiAutoFixtureCustomizations
                     )
                 )
                 .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeRegistreerErkenningRequest(this IFixture fixture)
+    {
+        fixture.Customize<RegistreerErkenningRequest>(composer =>
+                                                          composer
+                                                             .FromFactory(() =>
+                                                                              new RegistreerErkenningRequest()
+                                                                              {
+                                                                                  Erkenning = fixture.Create<TeRegistrerenErkenning>(),
+                                                                              }
+                                                              )
+                                                             .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeTeRegistrerenErkenningRequest(this IFixture fixture)
+    {
+        fixture.Customize<TeRegistrerenErkenning>(composer =>
+                                                      composer
+                                                         .FromFactory(() =>
+                                                          {
+                                                              var start = fixture.Create<DateOnly>();
+                                                              var addDays = fixture.Create<int>();
+                                                              var renew = start.AddDays(addDays);
+                                                              var end = start.AddDays(addDays + fixture.Create<int>());
+
+                                                              var protocol = fixture.Create<bool>() ? "http" : "https";
+
+                                                              return new TeRegistrerenErkenning()
+                                                              {
+                                                                  Startdatum = start,
+                                                                  Hernieuwingsdatum = renew,
+                                                                  Einddatum = end,
+                                                                  HernieuwingsUrl = $"{protocol}://www.example.com/{fixture.Create<Guid>()}",
+                                                                  IpdcProductNummer = fixture.Create<int>().ToString(),
+                                                              };
+                                                          })
+                                                         .OmitAutoProperties()
         );
     }
 }

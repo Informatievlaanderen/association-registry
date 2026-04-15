@@ -315,6 +315,6 @@ public class BeheerDetailResponseMapper
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
             RedenSchorsing = erkenning.Motivering,
-            Status = ErkenningStatus.Create(erkenning.Startdatum, erkenning.Einddatum).Value,
+            Status = erkenning.Status,
         };
 }

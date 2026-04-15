@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.RegistreerErkenning;
 
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
 using FluentValidation;
+using Infrastructure.WebApi.Validation;
 using RequestModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
@@ -12,8 +10,8 @@ public class RegistreerErkenningValidator : AbstractValidator<RegistreerErkennin
     public RegistreerErkenningValidator()
     {
         RuleFor(request => request.Erkenning)
-            .NotNull()
-            .WithVeldIsVerplichtMessage(nameof(RegistreerErkenningRequest.Erkenning));
+           .NotNull()
+           .WithVeldIsVerplichtMessage(nameof(RegistreerErkenningRequest.Erkenning));
 
         When(
             predicate: request => request.Erkenning is not null,
@@ -25,13 +23,19 @@ public class RegistreerErkenningValidator : AbstractValidator<RegistreerErkennin
     {
         public ErkenningValidator()
         {
-            this.RequireNotNullOrEmpty(erkenning => erkenning.IpdcProductNummer);
-         //   this.RequireNotEmpty(erkenning => erkenning.Startdatum);
-          //this.RequireNotNullOrEmpty(erkenning => erkenning.Einddatum);
-          //  this.RequireNotNullOrEmpty(erkenning => erkenning.Hernieuwingsdatum);
-            this.RequireNotNullOrEmpty(erkenning => erkenning.HernieuwingsUrl);
+            RuleFor(erkenning => erkenning.IpdcProductNummer)
+               .Must(nummer => !string.IsNullOrEmpty(nummer))
+               .WithMessage("Er was een probleem met de doorgestuurde waarden");
 
+            RuleFor(erkenning => erkenning)
+               .Must(erkenning => erkenning.HernieuwingsUrl!.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                               || erkenning.HernieuwingsUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+               .When(erkenning => !string.IsNullOrEmpty(erkenning.HernieuwingsUrl))
+               .WithMessage("Url moet starten met 'http://' of 'https://.'");
 
+            RuleFor(erkenning => erkenning)
+               .Must(e => e.Startdatum <= e.Hernieuwingsdatum && e.Hernieuwingsdatum <= e.Einddatum)
+               .WithMessage("Hernieuwingsdatum moet tussen startdatum en einddatum liggen.");
         }
     }
 }
