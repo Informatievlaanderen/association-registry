@@ -77,15 +77,9 @@
     <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Marten" />
     <PackageReference Include="WolverineFx"/>
-    <PackageReference Include="WolverineFx.AmazonSqs"/>
     <PackageReference Include="Quartz"/>
     <PackageReference Include="Quartz.Extensions.Hosting"/>
     <PackageReference Include="Quartz.Extensions.DependencyInjection"/>
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="WebApi\" />
   </ItemGroup>
 </Project>
