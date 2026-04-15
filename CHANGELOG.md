@@ -1,3 +1,17 @@
+# [8.315.0](https://github.com/informatievlaanderen/association-registry/compare/v8.314.1...v8.315.0) (2026-04-15)
+
+
+### Bug Fixes
+
+* or-3097 remove WolverineFx.AmazonSqs conflicting with AWSSDK ([79cbfd5](https://github.com/informatievlaanderen/association-registry/commit/79cbfd5366382232b5eee53dd2423dc32a26330d))
+* or-3099 create ministack s3 bucket during init ([721b278](https://github.com/informatievlaanderen/association-registry/commit/721b27806c8ad883b4a7b87d9cbfcdd5e41ca38a))
+
+
+### Features
+
+* or-3097 add enpoints to trigger bewaartermijn scheduled host ([f4e9be3](https://github.com/informatievlaanderen/association-registry/commit/f4e9be3ee3238bf5ffcdf54033cf3e92436a52fa))
+* or-3097 make bewaartermijn purgerunner a continues scheduled host ([df3009d](https://github.com/informatievlaanderen/association-registry/commit/df3009d886022635b99c0871a365ea2c24229b65))
+
 ## [8.314.1](https://github.com/informatievlaanderen/association-registry/compare/v8.314.0...v8.314.1) (2026-04-14)
 
 
