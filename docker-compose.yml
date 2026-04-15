@@ -42,7 +42,7 @@ services:
     volumes:
       - ./.localstack/init/ready.d:/init-scripts:ro
     entrypoint: [ "/bin/sh", "-c" ]
-    command: "sh /init-scripts/01_sqs-init.sh && sh /init-scripts/02_s3-init.sh"
+    command: [ "sh /init-scripts/01_sqs-init.sh && sh /init-scripts/02_s3-init.sh" ]
     networks:
       - vr-net
     restart: "no"
