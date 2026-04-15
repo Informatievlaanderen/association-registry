@@ -14,36 +14,16 @@ public class ErkenningStatus
     {
         var today = DateOnly.FromDateTime(DateTime.Now);
 
-        if (startDatum is null && eindDatum is null || startDatum < today && eindDatum is null || startDatum == today && eindDatum is null)
-        {
-            return Actief;
-        }
-
-        if (startDatum > today && eindDatum is null)
-        {
+        if (startDatum > today && eindDatum is null || startDatum > today && eindDatum > today)
             return InAanvraag;
-        }
 
-        if (startDatum is null && eindDatum < today || startDatum < today && eindDatum < today)
-        {
+        if (eindDatum < today)
             return Verlopen;
-        }
 
-        if (startDatum is null && eindDatum == today || startDatum < today && eindDatum == today || startDatum == today && eindDatum == today || startDatum is null && eindDatum > today || startDatum < today && eindDatum > today || startDatum == today && eindDatum > today)
-        {
-            return Actief;
-        }
-
-        if (startDatum > today && eindDatum > today)
-        {
-            return InAanvraag;
-        }
-
-        return string.Empty;
-        // TODO error?
+        return Actief;
     }
 
-    private const string Actief = "Actief";
-    private const string Verlopen = "Verlopen";
-    private const string InAanvraag = "InAanvraag";
+    public const string Actief = "Actief";
+    public const string Verlopen = "Verlopen";
+    public const string InAanvraag = "InAanvraag";
 }
