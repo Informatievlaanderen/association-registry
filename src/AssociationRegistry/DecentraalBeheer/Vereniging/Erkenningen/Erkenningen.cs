@@ -36,8 +36,10 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         Throw<StartdatumLigtNaEinddatum>.If(teRegisterenErkenning.Einddatum <= teRegisterenErkenning.Startdatum);
 
         Throw<IpdcProductNummerOntbreekt>.If(
-            teRegisterenErkenning.IpdcProduct == null || string.IsNullOrEmpty(teRegisterenErkenning.IpdcProduct.Nummer)
+            string.IsNullOrEmpty(teRegisterenErkenning.IpdcProduct.Nummer)
         );
+
+        Throw<HernieuwingsDatumMoetTussenStartEnEindDatumLiggen>.If(teRegisterenErkenning.Einddatum <= teRegisterenErkenning.Startdatum);
 
         Throw<URLStartNietMetHttpOfHttps>.If(
             !teRegisterenErkenning.HernieuwingsUrl.StartsWith("http://")
@@ -80,7 +82,8 @@ public static class ErkenningenEnumerableExtensions
                 eventData.Einddatum,
                 eventData.Hernieuwingsdatum,
                 eventData.HernieuwingsUrl,
-                string.Empty
+                string.Empty,
+                eventData.Status
             )
         );
 }

@@ -47,9 +47,9 @@ public class Returns_Detail_With_Geregistreerde_Erkenning : IAsyncLifetime
             Hernieuwingsdatum = _context.CommandRequest.Erkenning.Hernieuwingsdatum,
             HernieuwingsUrl = _context.CommandRequest.Erkenning.HernieuwingsUrl,
             RedenSchorsing = string.Empty,
-            Status = ErkenningStatus.Create(
+            Status = ErkenningStatus.Calculate(
                 _context.CommandRequest.Erkenning.Startdatum,
-                _context.CommandRequest.Erkenning.Einddatum).Value,
+                _context.CommandRequest.Erkenning.Einddatum),
         };
 
         Response.Vereniging.Erkenningen
