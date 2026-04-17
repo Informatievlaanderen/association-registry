@@ -1,3 +1,17 @@
+## [8.315.1](https://github.com/informatievlaanderen/association-registry/compare/v8.315.0...v8.315.1) (2026-04-17)
+
+
+### Bug Fixes
+
+* or-3100 base grate image from arm ([39e19c8](https://github.com/informatievlaanderen/association-registry/commit/39e19c81f2a01e72bef30a67ba96552aa37d7477))
+* or-3100 force localstack shell command to stay as one arg. ([b132598](https://github.com/informatievlaanderen/association-registry/commit/b1325987baf209bf764186ad4c7ac577d336a372))
+* or-3100 migrate elasticsearch config to env file ([89c9896](https://github.com/informatievlaanderen/association-registry/commit/89c9896b3d5423b8a1474c88247f5d55aca6c5fb))
+
+
+### Reverts
+
+* Revert "fix: or-3099 create ministack s3 bucket during init" ([75c1cf3](https://github.com/informatievlaanderen/association-registry/commit/75c1cf3eb7232a7c01d749bbda4133e18546f020))
+
 # [8.315.0](https://github.com/informatievlaanderen/association-registry/compare/v8.314.1...v8.315.0) (2026-04-15)
 
 
