@@ -26,6 +26,7 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
         _vereniging.sleutels = new List<object>();
         _vereniging.vertegenwoordigers = new List<object>();
         _vereniging.werkingsgebieden = new List<object>();
+        _vereniging.erkenningen = new List<object>();
 
         WithStatus(VerenigingStatus.Actief);
         WithKorteNaam(string.Empty);

@@ -169,6 +169,7 @@
 {{end}}
     ],
     "lidmaatschappen": [],
+    "erkenningen": [],
     "werkingsgebieden": [
 {{for werkingsgebied in vereniging.werkingsgebieden}}
     {
