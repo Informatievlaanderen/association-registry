@@ -20,14 +20,14 @@ public class Erkenning : IJsonLd
     public int ErkenningId { get; set; }
 
     /// <summary>
-    /// De unieke identificatie code van deze vereniging
+    /// Gegevens initiatoren die deze erkenning geregistreerd hebben
     /// </summary>
-    [DataMember(Name = "VCode")]
-    public string VCode { get; set; } = null!;
-
     [DataMember(Name = "GeregistreerdDoor")]
     public GegevensInitiatorErkenning GeregistreerdDoor { get; set; }
 
+    /// <summary>
+    /// Het ipdc product van deze erkenning
+    /// </summary>
     [DataMember(Name = "IpdcProduct")]
     public IpdcProduct IpdcProduct { get; set; } = null!;
 

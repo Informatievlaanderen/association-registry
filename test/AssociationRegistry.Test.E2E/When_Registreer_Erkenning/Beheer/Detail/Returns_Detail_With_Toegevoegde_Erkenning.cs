@@ -40,7 +40,6 @@ public class Returns_Detail_With_Toegevoegde_Erkenning : End2EndTest<DetailVeren
                     type = JsonLdType.Erkenning.Type,
                     id = JsonLdType.Erkenning.CreateWithIdValues(_testContext.VCode, "1"),
                     ErkenningId = 1,
-                    VCode = _testContext.VCode.Value,
                     GeregistreerdDoor = new GegevensInitiatorErkenning { OvoCode = "OVO000001", Naam = string.Empty },
                     IpdcProduct = new IpdcProduct
                     {

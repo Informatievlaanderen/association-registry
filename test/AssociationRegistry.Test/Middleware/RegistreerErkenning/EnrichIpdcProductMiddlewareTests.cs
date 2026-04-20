@@ -40,6 +40,6 @@ public class EnrichIpdcProductMiddlewareTests
             await EnrichIpdcProductMiddleware.BeforeAsync(commandEnvelope, ipdcClientMock.Object)
         );
 
-        exception.Message.Should().Be(ExceptionMessages.OnbekendIpdcProductNummer);
+        exception.Message.Should().Be(string.Format(ExceptionMessages.OnbekendIpdcProductNummer, commandEnvelope.Command.Erkenning.IpdcProductNummer));
     }
 }
