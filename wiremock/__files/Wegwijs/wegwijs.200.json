@@ -1,0 +1,158 @@
+[
+  {
+    "changeId": 1449610,
+    "changeTime": "2026-02-05",
+    "id": "1b6db17b-fa57-416f-813b-b1b9752e43b0",
+    "name": "De LijnInfo",
+    "ovoNumber": "OVO001000",
+    "shortName": "De LijnInfo",
+    "validity": {
+      "start": "2006-03-15"
+    },
+    "operationalValidity": {},
+    "showOnVlaamseOverheidSites": true,
+    "keys": [
+      {
+        "organisationKeyId": "9accec70-ba20-4097-b243-8b4a4d09cfc6",
+        "keyTypeId": "3d4d0e7f-3686-446b-9376-2548a50af3c1",
+        "keyTypeName": "Wegwijs",
+        "value": "OVO001000",
+        "validity": {
+          "start": "2006-03-15"
+        }
+      },
+      {
+        "organisationKeyId": "a305c0c0-b236-446f-a2b9-6bdd13a0dd1d",
+        "keyTypeId": "493110de-81b5-45f3-9151-0669959de487",
+        "keyTypeName": "PIAVO_Sleutel",
+        "value": "01_12_110_055",
+        "validity": {
+          "start": "2006-03-15"
+        }
+      },
+      {
+        "organisationKeyId": "6be01264-06f9-4de9-9a7e-53f268c425bd",
+        "keyTypeId": "5f1e81fa-b638-4c48-9bf8-125b3a203724",
+        "keyTypeName": "Piavo_Sortering",
+        "value": "01_12_110_055",
+        "validity": {
+          "start": "2006-03-15"
+        }
+      }
+    ],
+    "contacts": [
+      {
+        "organisationContactId": "fa430a59-3e9e-493e-0cb3-77f97f8cccdd",
+        "contactTypeId": "4901139a-8e33-b002-a8a4-cabba6456fa3",
+        "contactTypeName": "Telefoon infolijn",
+        "value": "015 40 88 40",
+        "validity": {}
+      },
+      {
+        "organisationContactId": "230eba3b-856d-2514-75d5-00b52c5f0be1",
+        "contactTypeId": "b674476d-e6a7-ba89-f603-55d034624be2",
+        "contactTypeName": "Contactformulier",
+        "value": "https://help.delijn.be/hc/nl",
+        "validity": {}
+      },
+      {
+        "organisationContactId": "43c1cce2-296a-4654-b218-3d18942b2187",
+        "contactTypeId": "6763f372-02c5-478c-b7d7-802dc60a64b9",
+        "contactTypeName": "Website",
+        "value": "https://www.delijn.be",
+        "validity": {}
+      }
+    ],
+    "organisationClassifications": [
+      {
+        "organisationOrganisationClassificationId": "11138272-ba30-49b5-95d9-60294e5f8bcd",
+        "organisationClassificationTypeId": "daa42972-ef7d-45e7-ba4d-cabadc133781",
+        "organisationClassificationTypeName": "Categorie",
+        "organisationClassificationId": "82187614-1b2f-4d28-897a-5417e75408bb",
+        "organisationClassificationName": "Andere",
+        "validity": {
+          "start": "2006-03-15"
+        }
+      }
+    ],
+    "parents": [
+      {
+        "organisationOrganisationParentId": "23305ff6-c02a-4c6d-a611-781b4ddc7c97",
+        "parentOrganisationId": "ffde077b-54ab-470c-9e99-e90c6c4d50fd",
+        "parentOrganisationName": "Vlaamse Vervoermaatschappij - De Lijn",
+        "validity": {}
+      }
+    ],
+    "formalFrameworks": [
+      {
+        "organisationFormalFrameworkId": "356f104b-6ae4-8cab-189c-25039fbb3cf2",
+        "formalFrameworkId": "29a025db-9a58-0c46-e249-7babf8191dc3",
+        "formalFrameworkName": "eDelta",
+        "parentOrganisationId": "ffde077b-54ab-470c-9e99-e90c6c4d50fd",
+        "parentOrganisationName": "Vlaamse Vervoermaatschappij - De Lijn",
+        "validity": {}
+      }
+    ],
+    "locations": [
+      {
+        "organisationLocationId": "4cf383da-4ce1-f80b-8b17-d8e338448fb3",
+        "locationId": "4604e73d-19d3-4765-8de1-b2f08bdcb14e",
+        "formattedAddress": "Motstraat 20, 2800 Mechelen",
+        "components": {
+          "street": "Motstraat 20",
+          "zipCode": "2800",
+          "municipality": "Mechelen",
+          "country": "België"
+        },
+        "isMainLocation": true,
+        "validity": {
+          "end": "2019-07-22"
+        }
+      }
+    ],
+    "openingHours": [
+      {
+        "organisationOpeningHourId": "9c7da406-1df5-83dd-dd1c-5c52ebac6dad",
+        "opens": "07:00:00",
+        "closes": "18:00:00",
+        "dayOfWeek": "monday",
+        "validity": {}
+      },
+      {
+        "organisationOpeningHourId": "5b61ae7d-33d2-a428-a2d2-670a42112335",
+        "opens": "07:00:00",
+        "closes": "18:00:00",
+        "dayOfWeek": "tuesday",
+        "validity": {}
+      },
+      {
+        "organisationOpeningHourId": "228c2706-e4fc-c5a7-c76e-644195de97c9",
+        "opens": "07:00:00",
+        "closes": "18:00:00",
+        "dayOfWeek": "wednesday",
+        "validity": {}
+      },
+      {
+        "organisationOpeningHourId": "6c145f4c-036c-d01f-e44f-35aaa31ab005",
+        "opens": "07:00:00",
+        "closes": "18:00:00",
+        "dayOfWeek": "thursday",
+        "validity": {}
+      },
+      {
+        "organisationOpeningHourId": "73baedae-d9a5-9adf-838a-b8a8057df711",
+        "opens": "07:00:00",
+        "closes": "18:00:00",
+        "dayOfWeek": "friday",
+        "validity": {}
+      },
+      {
+        "organisationOpeningHourId": "73a17dba-86fb-e328-7b62-d94ec2edf2fc",
+        "opens": "10:00:00",
+        "closes": "18:00:00",
+        "dayOfWeek": "saturday",
+        "validity": {}
+      }
+    ]
+  }
+]

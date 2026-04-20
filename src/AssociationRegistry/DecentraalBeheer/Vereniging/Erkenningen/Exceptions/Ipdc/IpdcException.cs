@@ -1,8 +1,6 @@
-namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
+namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Ipdc;
 
-using System.Runtime.Serialization;
-using Be.Vlaanderen.Basisregisters.AggregateSource;
-using Resources;
+using AssociationRegistry.Resources;
 
 [Serializable]
 public class IpdcException : Exception

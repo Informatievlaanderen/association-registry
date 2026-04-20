@@ -683,6 +683,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Voor ovoCode {0} werd geen organisatie gevonden..
+        /// </summary>
+        public static string OrganisatieNietGevondenException {
+            get {
+                return ResourceManager.GetString("OrganisatieNietGevondenException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to VCode moet groter zijn dan 1000.
         /// </summary>
         public static string OutOfRangeVCode {
@@ -1003,6 +1012,15 @@ namespace AssociationRegistry.Resources {
         public static string WebsiteMissingPeriod {
             get {
                 return ResourceManager.GetString("WebsiteMissingPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Er heeft zich een fout voorgedaan bij het aanroepen van wegwijs: {0}..
+        /// </summary>
+        public static string WegwijsException {
+            get {
+                return ResourceManager.GetString("WegwijsException", resourceCulture);
             }
         }
         

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Ipdc.IpdcClient;
 
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
+using DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Ipdc;
 using FluentAssertions;
 using Integrations.Ipdc.Clients;
 using Resources;
