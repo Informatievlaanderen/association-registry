@@ -1,0 +1,14 @@
+{
+  "priority": 3,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/search/organisations\\?q=ovoNumber:.*"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "Wegwijs/wegwijs.200.json"
+  }
+}

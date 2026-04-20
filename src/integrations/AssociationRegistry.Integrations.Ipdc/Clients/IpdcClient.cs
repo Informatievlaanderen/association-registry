@@ -2,6 +2,7 @@
 
 using System.Net.Http.Json;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
+using DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Ipdc;
 using Responses;
 
 public class IpdcClient : IIpdcClient

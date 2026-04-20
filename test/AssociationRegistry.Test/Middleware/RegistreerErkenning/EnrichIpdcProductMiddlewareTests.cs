@@ -7,6 +7,7 @@ using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning.Middleware;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
+using DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Ipdc;
 using FluentAssertions;
 using Integrations.Ipdc.Clients;
 using Moq;
@@ -40,6 +41,13 @@ public class EnrichIpdcProductMiddlewareTests
             await EnrichIpdcProductMiddleware.BeforeAsync(commandEnvelope, ipdcClientMock.Object)
         );
 
-        exception.Message.Should().Be(string.Format(ExceptionMessages.OnbekendIpdcProductNummer, commandEnvelope.Command.Erkenning.IpdcProductNummer));
+        exception
+            .Message.Should()
+            .Be(
+                string.Format(
+                    ExceptionMessages.OnbekendIpdcProductNummer,
+                    commandEnvelope.Command.Erkenning.IpdcProductNummer
+                )
+            );
     }
 }

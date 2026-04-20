@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using DecentraalBeheer.Vereniging.Exceptions;
 using Events;
 using Exceptions;
+using Exceptions.Ipdc;
 using Framework;
 
 public class Erkenningen : ReadOnlyCollection<Erkenning>
@@ -35,11 +36,11 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
     {
         Throw<StartdatumLigtNaEinddatum>.If(teRegisterenErkenning.Einddatum <= teRegisterenErkenning.Startdatum);
 
-        Throw<IpdcProductNummerOntbreekt>.If(
-            string.IsNullOrEmpty(teRegisterenErkenning.IpdcProduct.Nummer)
-        );
+        Throw<IpdcProductNummerOntbreekt>.If(string.IsNullOrEmpty(teRegisterenErkenning.IpdcProduct.Nummer));
 
-        Throw<HernieuwingsDatumMoetTussenStartEnEindDatumLiggen>.If(teRegisterenErkenning.Einddatum <= teRegisterenErkenning.Startdatum);
+        Throw<HernieuwingsDatumMoetTussenStartEnEindDatumLiggen>.If(
+            teRegisterenErkenning.Einddatum <= teRegisterenErkenning.Startdatum
+        );
 
         Throw<URLStartNietMetHttpOfHttps>.If(
             !teRegisterenErkenning.HernieuwingsUrl.StartsWith("http://")

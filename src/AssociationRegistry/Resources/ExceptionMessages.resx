@@ -313,6 +313,12 @@
   <data name="IpdcException">
     <value>Er heeft zich een fout voorgedaan bij het aanroepen van Ipdc: {0}.</value>
   </data>
+  <data name="WegwijsException">
+    <value>Er heeft zich een fout voorgedaan bij het aanroepen van wegwijs: {0}.</value>
+  </data>
+  <data name="OrganisatieNietGevondenException">
+    <value>Voor ovoCode {0} werd geen organisatie gevonden.</value>
+  </data>
   <data name="ServiceReturnedNonSuccesfulStatusCode">
     <value>Service {0} responded with status code '{1}' with context description '{2}'.</value>
   </data>
