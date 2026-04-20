@@ -19,12 +19,15 @@ public class Erkenning
     [DataMember(Name = "ErkenningId")]
     public int ErkenningId { get; set; }
 
-    [DataMember(Name = "VCode")]
-    public string VCode { get; set; } = null!;
-
+    /// <summary>
+    /// Gegevens initiatoren die deze erkenning geregistreerd hebben
+    /// </summary>
     [DataMember(Name = "GeregistreerdDoor")]
     public GegevensInitiatorErkenning GeregistreerdDoor { get; set; }
 
+    /// <summary>
+    /// Het ipdc product van deze erkenning
+    /// </summary>
     [DataMember(Name = "IpdcProduct")]
     public IpdcProduct IpdcProduct { get; set; } = null!;
 
