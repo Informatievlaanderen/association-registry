@@ -46,6 +46,8 @@ public static class ConfigurationExtensions
     {
         var ipdcOptions = configuration.GetSection(nameof(IpdcOptions)).Get<IpdcOptions>();
 
+        // TODO Handle valid nullreference exception in this file
+
         ipdcOptions.ThrowIfInValid();
 
         return ipdcOptions!;

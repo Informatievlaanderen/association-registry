@@ -475,7 +475,11 @@ public class Program
 
         builder
             .Services.AddHttpClient<IpdcClient>()
-            .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(ipdcOptions.BaseUrl));
+            .ConfigureHttpClient(httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(ipdcOptions.HttpClient.BaseUrl);
+                httpClient.DefaultRequestHeaders.Add(name: "x-api-key", value: ipdcOptions.HttpClient.ApiKey);
+            });
 
         builder.Services.AddMemoryCache();
 
