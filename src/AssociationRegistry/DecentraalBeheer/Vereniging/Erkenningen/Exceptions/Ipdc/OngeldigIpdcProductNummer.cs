@@ -1,8 +1,8 @@
-namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
+namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Ipdc;
 
 using System.Runtime.Serialization;
+using AssociationRegistry.Resources;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
-using Resources;
 
 [Serializable]
 public class OngeldigIpdcProductNummer : DomainException
