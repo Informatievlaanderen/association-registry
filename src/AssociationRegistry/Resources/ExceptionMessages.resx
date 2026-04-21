@@ -313,6 +313,12 @@
   <data name="IpdcException">
     <value>Er heeft zich een fout voorgedaan bij het aanroepen van Ipdc: {0}.</value>
   </data>
+  <data name="IpdcLegeResponseException">
+    <value>Ipdc met nummer {0} gaf een lege response terug</value>
+  </data>
+  <data name="IpdcLegeNaamException">
+    <value>Ipdc product met nummer {0} gaf een lege Nederlandse naam terug</value>
+  </data>
   <data name="WegwijsException">
     <value>Er heeft zich een fout voorgedaan bij het aanroepen van wegwijs: {0}.</value>
   </data>

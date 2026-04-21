@@ -47,7 +47,7 @@ public class IpdcClient : IIpdcClient
         }
         catch (Exception e)
         {
-            throw new IpdcException(e.InnerException);
+            throw new IpdcException(e);
         }
     }
 }
