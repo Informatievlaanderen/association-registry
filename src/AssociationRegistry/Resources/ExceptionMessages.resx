@@ -322,6 +322,9 @@
   <data name="WegwijsException">
     <value>Er heeft zich een fout voorgedaan bij het aanroepen van wegwijs: {0}.</value>
   </data>
+  <data name="WegwijsLegeOrganisatieNaamException">
+    <value>Organisatie met OvoCode {0} gaf een lege organisatienaam terug</value>
+  </data>
   <data name="OrganisatieNietGevondenException">
     <value>Voor ovoCode {0} werd geen organisatie gevonden.</value>
   </data>

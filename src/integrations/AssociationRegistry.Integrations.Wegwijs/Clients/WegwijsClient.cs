@@ -41,7 +41,7 @@ public class WegwijsClient : IWegwijsClient
         }
         catch (Exception e)
         {
-            throw new WegwijsException(e.InnerException);
+            throw new WegwijsException(e);
         }
     }
 }

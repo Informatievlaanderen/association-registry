@@ -44,6 +44,7 @@
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Ipdc\AssociationRegistry.Integrations.Ipdc.csproj" />
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Magda\AssociationRegistry.Integrations.Magda.csproj" />
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Slack\AssociationRegistry.Integrations.Slack.csproj" />
+    <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Wegwijs\AssociationRegistry.Integrations.Wegwijs.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -639,6 +639,12 @@ namespace AssociationRegistry.Resources {
             }
         }
         
+        public static string WegwijsLegeOrganisatieNaamException {
+            get {
+                return ResourceManager.GetString("WegwijsLegeOrganisatieNaamException", resourceCulture);
+            }
+        }
+        
         public static string OrganisatieNietGevondenException {
             get {
                 return ResourceManager.GetString("OrganisatieNietGevondenException", resourceCulture);

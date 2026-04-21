@@ -5,6 +5,7 @@ using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning.Middleware;
 using Common.AutoFixture;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Ipdc;
 using FluentAssertions;
 using Integrations.Ipdc.Clients;
@@ -54,14 +55,16 @@ public class EnrichIpdcProductMiddlewareTests
                 ));
     }
 
-    [Fact]
-    public async Task With_Empty_NL_Name_Response_From_Ipdc_Then_Throws_IpdcException()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public async Task With_Empty_NL_Name_Response_From_Ipdc_Then_Throws_IpdcException(string naam)
     {
         var response = _fixture.Create<IpdcProductResponse>() with
         {
             Naam = _fixture.Create<Translation>() with
             {
-                Nl = null,
+                Nl = naam,
             },
         };
 
@@ -92,5 +95,34 @@ public class EnrichIpdcProductMiddlewareTests
                         commandEnvelope.Command.Erkenning.IpdcProductNummer
                     )
                 ));
+    }
+
+    [Fact]
+    public async Task With_Valid_Ipdc_Response_From_Ipdc_Then_IpdcProduct()
+    {
+        var response = _fixture.Create<IpdcProductResponse>();
+
+        var commandEnvelope = new CommandEnvelope<RegistreerErkenningCommand>(
+            _fixture.Create<RegistreerErkenningCommand>(),
+            _fixture.Create<CommandMetadata>()
+        );
+
+        var ipdcClientMock = new Mock<IIpdcClient>();
+
+        var ipdcProductNummer = commandEnvelope.Command.Erkenning.IpdcProductNummer;
+
+        ipdcClientMock
+           .Setup(x => x.GetById(ipdcProductNummer, It.IsAny<CancellationToken>()))
+           .ReturnsAsync(response);
+
+        var result = await EnrichIpdcProductMiddleware.BeforeAsync(
+            commandEnvelope,
+            ipdcClientMock.Object);
+
+        result.Should().BeEquivalentTo(new IpdcProduct
+        {
+            Nummer = ipdcProductNummer,
+            Naam = response.Naam.Nl,
+        });
     }
 }

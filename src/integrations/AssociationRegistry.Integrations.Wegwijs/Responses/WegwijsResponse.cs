@@ -2,7 +2,7 @@
 
 using System.Text.Json.Serialization;
 
-public class OrganisationResponse
+public record OrganisationResponse
 {
     [JsonPropertyName("changeId")]
     public int ChangeId { get; set; }
@@ -53,7 +53,7 @@ public class OrganisationResponse
     public List<OrganisationOpeningHour> OpeningHours { get; set; } = [];
 }
 
-public class Validity
+public record Validity
 {
     [JsonPropertyName("start")]
     public DateOnly? Start { get; set; }
@@ -62,7 +62,7 @@ public class Validity
     public DateOnly? End { get; set; }
 }
 
-public class OrganisationKey
+public record OrganisationKey
 {
     [JsonPropertyName("organisationKeyId")]
     public Guid OrganisationKeyId { get; set; }
@@ -80,7 +80,7 @@ public class OrganisationKey
     public Validity Validity { get; set; } = new();
 }
 
-public class OrganisationContact
+public record OrganisationContact
 {
     [JsonPropertyName("organisationContactId")]
     public Guid OrganisationContactId { get; set; }
@@ -98,7 +98,7 @@ public class OrganisationContact
     public Validity Validity { get; set; } = new();
 }
 
-public class OrganisationClassification
+public record OrganisationClassification
 {
     [JsonPropertyName("organisationOrganisationClassificationId")]
     public Guid OrganisationOrganisationClassificationId { get; set; }
@@ -119,7 +119,7 @@ public class OrganisationClassification
     public Validity Validity { get; set; } = new();
 }
 
-public class OrganisationParent
+public record OrganisationParent
 {
     [JsonPropertyName("organisationOrganisationParentId")]
     public Guid OrganisationOrganisationParentId { get; set; }
@@ -134,7 +134,7 @@ public class OrganisationParent
     public Validity Validity { get; set; } = new();
 }
 
-public class OrganisationFormalFramework
+public record OrganisationFormalFramework
 {
     [JsonPropertyName("organisationFormalFrameworkId")]
     public Guid OrganisationFormalFrameworkId { get; set; }
@@ -155,7 +155,7 @@ public class OrganisationFormalFramework
     public Validity Validity { get; set; } = new();
 }
 
-public class OrganisationLocation
+public record OrganisationLocation
 {
     [JsonPropertyName("organisationLocationId")]
     public Guid OrganisationLocationId { get; set; }
@@ -176,7 +176,7 @@ public class OrganisationLocation
     public Validity Validity { get; set; } = new();
 }
 
-public class LocationComponents
+public record LocationComponents
 {
     [JsonPropertyName("street")]
     public string Street { get; set; } = string.Empty;
@@ -191,7 +191,7 @@ public class LocationComponents
     public string Country { get; set; } = string.Empty;
 }
 
-public class OrganisationOpeningHour
+public record OrganisationOpeningHour
 {
     [JsonPropertyName("organisationOpeningHourId")]
     public Guid OrganisationOpeningHourId { get; set; }
