@@ -6,8 +6,8 @@ public record Erkenning
     public string VCode { get; set; } = null!;
     public GegevensInitiator GeregistreerdDoor { get; set; }
     public IpdcProduct IpdcProduct { get; set; }
-    public DateOnly Startdatum { get; set; }
-    public DateOnly Einddatum { get; set; }
+
+    public ErkenningsPeriode ErkenningsPeriode { get; set; }
     public DateOnly Hernieuwingsdatum { get; set; }
     public string HernieuwingsUrl { get; set; } = null!;
     public string Motivering { get; set; } = null!;
@@ -18,25 +18,30 @@ public record Erkenning
         TeRegistrerenErkenning erkenning,
         IpdcProduct ipdcProduct,
         string initiator
-    ) =>
-        new()
+    )
+    {
+        var erkenningsPeriode = ErkenningsPeriode.Create(erkenning.Startdatum, erkenning.Einddatum);
+
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        return new Erkenning
         {
             ErkenningId = nextId,
-            Startdatum = erkenning.Startdatum,
-            Einddatum = erkenning.Einddatum,
+            ErkenningsPeriode = erkenningsPeriode,
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
             IpdcProduct = ipdcProduct,
-            GeregistreerdDoor = new GegevensInitiator() { OvoCode = initiator },
-            Status = ErkenningStatus.Calculate(erkenning.Startdatum, erkenning.Einddatum)
+            GeregistreerdDoor = new GegevensInitiator { OvoCode = initiator },
+            Status = ErkenningStatus.Bepaal(erkenningsPeriode, today),
         };
+    }
 
     public static Erkenning Hydrate(
         int id,
         GegevensInitiator geregistreerdDoor,
         IpdcProduct ipdcProduct,
-        DateOnly startdatum,
-        DateOnly einddatum,
+        DateOnly? startdatum,
+        DateOnly? einddatum,
         DateOnly hernieuwingsdatum,
         string hernieuwingsUrl,
         string motivering,
@@ -47,8 +52,7 @@ public record Erkenning
             ErkenningId = id,
             GeregistreerdDoor = geregistreerdDoor,
             IpdcProduct = ipdcProduct,
-            Startdatum = startdatum,
-            Einddatum = einddatum,
+            ErkenningsPeriode = ErkenningsPeriode.Hydrate(startdatum, einddatum),
             Hernieuwingsdatum = hernieuwingsdatum,
             HernieuwingsUrl = hernieuwingsUrl,
             Motivering = motivering,

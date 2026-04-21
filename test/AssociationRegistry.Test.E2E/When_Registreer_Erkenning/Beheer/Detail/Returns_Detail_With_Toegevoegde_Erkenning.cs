@@ -51,9 +51,12 @@ public class Returns_Detail_With_Toegevoegde_Erkenning : End2EndTest<DetailVeren
                     Hernieuwingsdatum = _testContext.CommandRequest.Erkenning.Hernieuwingsdatum,
                     HernieuwingsUrl = _testContext.CommandRequest.Erkenning.HernieuwingsUrl,
                     RedenSchorsing = string.Empty,
-                    Status = ErkenningStatus.Calculate(
-                        _testContext.CommandRequest.Erkenning.Startdatum,
-                        _testContext.CommandRequest.Erkenning.Einddatum
+                    Status = ErkenningStatus.Bepaal(
+                        ErkenningsPeriode.Create(
+                            _testContext.CommandRequest.Erkenning.Startdatum,
+                            _testContext.CommandRequest.Erkenning.Einddatum
+                        ),
+                        DateOnly.FromDateTime(DateTime.Now)
                     ),
                 },
             ]);

@@ -34,12 +34,10 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
     private void ThrowIfCannotAppendOrUpdate(Erkenning teRegisterenErkenning)
     {
-        Throw<StartdatumLigtNaEinddatum>.If(teRegisterenErkenning.Einddatum <= teRegisterenErkenning.Startdatum);
-
         Throw<IpdcProductNummerOntbreekt>.If(string.IsNullOrEmpty(teRegisterenErkenning.IpdcProduct.Nummer));
 
         Throw<HernieuwingsDatumMoetTussenStartEnEindDatumLiggen>.If(
-            teRegisterenErkenning.Einddatum <= teRegisterenErkenning.Startdatum
+            teRegisterenErkenning.ErkenningsPeriode.Einddatum <= teRegisterenErkenning.ErkenningsPeriode.Startdatum
         );
 
         Throw<URLStartNietMetHttpOfHttps>.If(

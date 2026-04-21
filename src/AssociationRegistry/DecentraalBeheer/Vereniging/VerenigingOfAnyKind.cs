@@ -546,7 +546,10 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
-        Throw<ValidatieBankrekeningnummerIsNietGekend>.If(!bankrekeningnummer!.BevestigdDoor.Contains(initiator), initiator);
+        Throw<ValidatieBankrekeningnummerIsNietGekend>.If(
+            !bankrekeningnummer!.BevestigdDoor.Contains(initiator),
+            initiator
+        );
 
         AddEvent(
             new AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt(
@@ -580,12 +583,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             new ErkenningWerdGeregistreerd(
                 toegevoegdeErkenning.ErkenningId,
                 toegevoegdeErkenning.IpdcProduct,
-                toegevoegdeErkenning.Startdatum,
-                toegevoegdeErkenning.Einddatum,
+                toegevoegdeErkenning.ErkenningsPeriode.Startdatum,
+                toegevoegdeErkenning.ErkenningsPeriode.Einddatum,
                 toegevoegdeErkenning.Hernieuwingsdatum,
                 toegevoegdeErkenning.HernieuwingsUrl,
                 toegevoegdeErkenning.GeregistreerdDoor,
-                ErkenningStatus.Calculate(toegevoegdeErkenning.Startdatum, toegevoegdeErkenning.Einddatum)
+                toegevoegdeErkenning.Status
             )
         );
 
