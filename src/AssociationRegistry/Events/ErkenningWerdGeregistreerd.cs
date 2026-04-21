@@ -7,8 +7,8 @@ using Vereniging.Bronnen;
 public record ErkenningWerdGeregistreerd(
     int ErkenningId,
     IpdcProduct IpdcProduct,
-    DateOnly Startdatum,
-    DateOnly Einddatum,
+    DateOnly? Startdatum,
+    DateOnly? Einddatum,
     DateOnly Hernieuwingsdatum,
     string HernieuwingsUrl,
     GegevensInitiator GeregistreerdDoor,

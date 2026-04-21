@@ -127,8 +127,8 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
             public int ErkenningId { get; set; }
             public GegevensInitiator GeregistreerdDoor { get; set; }
             public IpdcProduct? IpdcProduct { get; set; }
-            public DateOnly Startdatum { get; set; }
-            public DateOnly Einddatum { get; set; }
+            public DateOnly? Startdatum { get; set; }
+            public DateOnly? Einddatum { get; set; }
             public DateOnly Hernieuwingsdatum { get; set; }
             public string HernieuwingsUrl { get; set; } = null!;
             public string Motivering { get; set; } = null!;
