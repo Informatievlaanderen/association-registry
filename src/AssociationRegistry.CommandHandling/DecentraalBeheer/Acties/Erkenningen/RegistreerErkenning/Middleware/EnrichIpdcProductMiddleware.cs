@@ -1,9 +1,11 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning.Middleware;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Ipdc;
 using Framework;
 using Integrations.Ipdc.Clients;
+using Integrations.Ipdc.Responses;
+using Resources;
 
 public class EnrichIpdcProductMiddleware
 {
@@ -14,14 +16,27 @@ public class EnrichIpdcProductMiddleware
         IIpdcClient ipdcClient
     )
     {
-        var ipdcProductResponse = await ipdcClient.GetById(envelope.Command.Erkenning.IpdcProductNummer);
+        var ipdcProductNummer = envelope.Command.Erkenning.IpdcProductNummer;
 
-        // Throw<IpdcException>.If(ipdcProductResponse == null);
+        var ipdcProductResponse = await ipdcClient.GetById(ipdcProductNummer);
+
+        ValidateIpdcResponse(ipdcProductResponse, ipdcProductNummer);
 
         return new IpdcProduct()
         {
-            Naam = ipdcProductResponse.Naam.Nl,
-            Nummer = envelope.Command.Erkenning.IpdcProductNummer,
+            Naam = ipdcProductResponse!.Naam!.Nl,
+            Nummer = ipdcProductNummer,
         };
+    }
+
+    private static void ValidateIpdcResponse(
+        IpdcProductResponse? ipdcProductResponse,
+        string ipdcProductNummer)
+    {
+        Throw<IpdcException>.If(ipdcProductResponse == null,
+                                string.Format(ExceptionMessages.IpdcLegeResponseException, ipdcProductNummer));
+
+        Throw<IpdcException>.If(string.IsNullOrEmpty(ipdcProductResponse?.Naam?.Nl),
+                                string.Format(ExceptionMessages.IpdcLegeNaamException, ipdcProductNummer));
     }
 }

@@ -2,7 +2,7 @@
 
 using System.Text.Json.Serialization;
 
-public class IpdcProductResponse
+public record IpdcProductResponse
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
@@ -155,7 +155,7 @@ public class IpdcProductResponse
     public bool Deminimis { get; set; }
 }
 
-public class Translation
+public record Translation
 {
     [JsonPropertyName("nl")]
     public string Nl { get; set; }
@@ -164,7 +164,7 @@ public class Translation
     public string En { get; set; }
 }
 
-public class OverheidReference
+public record OverheidReference
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
@@ -173,7 +173,7 @@ public class OverheidReference
     public string AtId { get; set; }
 }
 
-public class Case
+public record Case
 {
     [JsonPropertyName("value")]
     public string Value { get; set; }
@@ -182,13 +182,13 @@ public class Case
     public string Type { get; set; }
 }
 
-public class SocialeKaartOrganisatie
+public record SocialeKaartOrganisatie
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
 }
 
-public class Voorwaarde
+public record Voorwaarde
 {
     [JsonPropertyName("naam")]
     public Translation Naam { get; set; }
@@ -197,7 +197,7 @@ public class Voorwaarde
     public Translation Beschrijving { get; set; }
 }
 
-public class Bewijs
+public record Bewijs
 {
     [JsonPropertyName("naam")]
     public Translation Naam { get; set; }
@@ -209,7 +209,7 @@ public class Bewijs
     public string AtType { get; set; }
 }
 
-public class Procedure
+public record Procedure
 {
     [JsonPropertyName("naam")]
     public Translation Naam { get; set; }
@@ -227,7 +227,7 @@ public class Procedure
     public int? Order { get; set; }
 }
 
-public class Website
+public record Website
 {
     [JsonPropertyName("naam")]
     public Translation Naam { get; set; }
@@ -245,7 +245,7 @@ public class Website
     public int? Order { get; set; }
 }
 
-public class NamedItem
+public record NamedItem
 {
     [JsonPropertyName("naam")]
     public Translation Naam { get; set; }
@@ -260,7 +260,7 @@ public class NamedItem
     public int? Order { get; set; }
 }
 
-public class Regelgeving
+public record Regelgeving
 {
     [JsonPropertyName("naam")]
     public Translation Naam { get; set; }
@@ -281,7 +281,7 @@ public class Regelgeving
     public int? Order { get; set; }
 }
 
-public class Contactgegeven
+public record Contactgegeven
 {
     [JsonPropertyName("adres")]
     public Adres Adres { get; set; }
@@ -305,7 +305,7 @@ public class Contactgegeven
     public int? Order { get; set; }
 }
 
-public class Adres
+public record Adres
 {
     [JsonPropertyName("land")]
     public Translation Land { get; set; }
@@ -329,7 +329,7 @@ public class Adres
     public string AtType { get; set; }
 }
 
-public class MachineLeesbareVoorwaarde
+public record MachineLeesbareVoorwaarde
 {
     [JsonPropertyName("voorwaarden")]
     public List<object> Voorwaarden { get; set; }
@@ -338,7 +338,7 @@ public class MachineLeesbareVoorwaarde
     public string Subsidiemaatregel { get; set; }
 }
 
-public class Metadata
+public record Metadata
 {
     [JsonPropertyName("uJeVersie")]
     public string UJeVersie { get; set; }
@@ -350,7 +350,7 @@ public class Metadata
     public bool GeneratedInformeleFields { get; set; }
 }
 
-public class VerwantProduct
+public record VerwantProduct
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
