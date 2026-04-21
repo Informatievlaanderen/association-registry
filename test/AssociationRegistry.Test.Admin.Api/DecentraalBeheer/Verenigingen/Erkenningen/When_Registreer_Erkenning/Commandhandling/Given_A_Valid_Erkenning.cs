@@ -50,8 +50,10 @@ public class Given_A_Valid_Erkenning
                 command.Erkenning.Hernieuwingsdatum,
                 command.Erkenning.HernieuwingsUrl,
                 new GegevensInitiator() { OvoCode = commandMetadata.Initiator },
-                ErkenningStatus.Calculate(command.Erkenning.Startdatum,
-                                          command.Erkenning.Einddatum)
+                ErkenningStatus.Bepaal(
+                    ErkenningsPeriode.Create(command.Erkenning.Startdatum, command.Erkenning.Einddatum),
+                    DateOnly.FromDateTime(DateTime.Now)
+                )
             )
         );
     }

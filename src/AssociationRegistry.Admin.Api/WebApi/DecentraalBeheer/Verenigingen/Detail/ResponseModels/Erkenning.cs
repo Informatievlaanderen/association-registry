@@ -32,10 +32,10 @@ public class Erkenning
     public IpdcProduct IpdcProduct { get; set; } = null!;
 
     [DataMember(Name = "Startdatum")]
-    public DateOnly Startdatum { get; set; }
+    public DateOnly? Startdatum { get; set; }
 
     [DataMember(Name = "Einddatum")]
-    public DateOnly Einddatum { get; set; }
+    public DateOnly? Einddatum { get; set; }
 
     [DataMember(Name = "Hernieuwingsdatum")]
     public DateOnly Hernieuwingsdatum { get; set; }
@@ -48,6 +48,4 @@ public class Erkenning
 
     [DataMember(Name = "status")]
     public string Status { get; set; } = null!;
-
 }
-

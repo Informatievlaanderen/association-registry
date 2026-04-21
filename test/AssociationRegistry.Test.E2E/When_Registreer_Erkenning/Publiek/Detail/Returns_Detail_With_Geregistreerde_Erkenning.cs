@@ -23,28 +23,34 @@ public class Returns_Detail_With_Geregistreerde_Erkenning : IAsyncLifetime
     [Fact]
     public void JsonContentMatches()
     {
-        Response.Vereniging.Erkenningen.Should().BeEquivalentTo([
-            new Erkenning
-            {
-                id = JsonLdType.Erkenning.CreateWithIdValues(_context.VCode.Value, "1"),
-                type = JsonLdType.Erkenning.Type,
-                ErkenningId = 1,
-                GeregistreerdDoor = new GegevensInitiatorErkenning { OvoCode = "OVO000001", Naam = string.Empty },
-                IpdcProduct = new IpdcProduct
+        Response
+            .Vereniging.Erkenningen.Should()
+            .BeEquivalentTo([
+                new Erkenning
                 {
-                    Nummer = _context.CommandRequest.Erkenning.IpdcProductNummer,
-                    Naam = "Gemeentelijke premie voor inbraakpreventie", // See wiremock
+                    id = JsonLdType.Erkenning.CreateWithIdValues(_context.VCode.Value, "1"),
+                    type = JsonLdType.Erkenning.Type,
+                    ErkenningId = 1,
+                    GeregistreerdDoor = new GegevensInitiatorErkenning { OvoCode = "OVO000001", Naam = string.Empty },
+                    IpdcProduct = new IpdcProduct
+                    {
+                        Nummer = _context.CommandRequest.Erkenning.IpdcProductNummer,
+                        Naam = "Gemeentelijke premie voor inbraakpreventie", // See wiremock
+                    },
+                    Startdatum = _context.CommandRequest.Erkenning.Startdatum,
+                    Einddatum = _context.CommandRequest.Erkenning.Einddatum,
+                    Hernieuwingsdatum = _context.CommandRequest.Erkenning.Hernieuwingsdatum,
+                    HernieuwingsUrl = _context.CommandRequest.Erkenning.HernieuwingsUrl,
+                    RedenSchorsing = string.Empty,
+                    Status = ErkenningStatus.Bepaal(
+                        ErkenningsPeriode.Create(
+                            _context.CommandRequest.Erkenning.Startdatum,
+                            _context.CommandRequest.Erkenning.Einddatum
+                        ),
+                        DateOnly.FromDateTime(DateTime.Now)
+                    ),
                 },
-                Startdatum = _context.CommandRequest.Erkenning.Startdatum,
-                Einddatum = _context.CommandRequest.Erkenning.Einddatum,
-                Hernieuwingsdatum = _context.CommandRequest.Erkenning.Hernieuwingsdatum,
-                HernieuwingsUrl = _context.CommandRequest.Erkenning.HernieuwingsUrl,
-                RedenSchorsing = string.Empty,
-                Status = ErkenningStatus.Calculate(
-                    _context.CommandRequest.Erkenning.Startdatum,
-                    _context.CommandRequest.Erkenning.Einddatum),
-            },
-        ]);
+            ]);
     }
 
     public PubliekVerenigingDetailResponse Response { get; set; }
@@ -54,7 +60,5 @@ public class Returns_Detail_With_Geregistreerde_Erkenning : IAsyncLifetime
         Response = await _context.ApiSetup.PublicApiHost.GetPubliekDetail(_context.VCode);
     }
 
-    public async ValueTask DisposeAsync()
-    {
-    }
+    public async ValueTask DisposeAsync() { }
 }

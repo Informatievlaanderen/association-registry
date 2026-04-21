@@ -1,6 +1,5 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
-
 public class ErkenningStatus
 {
     public string Value { get; }
@@ -10,14 +9,15 @@ public class ErkenningStatus
         Value = status;
     }
 
-    public static string Calculate(DateOnly? startDatum, DateOnly? eindDatum)
+    public static string Bepaal(ErkenningsPeriode erkenningsPeriode, DateOnly today)
     {
-        var today = DateOnly.FromDateTime(DateTime.Now);
-
-        if (startDatum > today && eindDatum is null || startDatum > today && eindDatum > today)
+        if (
+            erkenningsPeriode.Startdatum > today && erkenningsPeriode.Einddatum is null
+            || erkenningsPeriode.Startdatum > today && erkenningsPeriode.Einddatum > today
+        )
             return InAanvraag;
 
-        if (eindDatum < today)
+        if (erkenningsPeriode.Einddatum < today)
             return Verlopen;
 
         return Actief;
