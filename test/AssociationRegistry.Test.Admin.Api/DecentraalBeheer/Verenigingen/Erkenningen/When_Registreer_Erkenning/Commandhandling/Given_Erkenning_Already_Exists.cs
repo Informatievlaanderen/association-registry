@@ -37,11 +37,15 @@ public class Given_Erkenning_Already_Exists
         {
             Nummer = _scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
         };
-        var initiator = _fixture.Create<GegevensInitiator>();
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with
         {
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
+
+        var initiator = _fixture.Create<GegevensInitiator>() with
+        {
+            OvoCode = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
         var exception = await Assert.ThrowsAsync<ErkenningBestaatAl>(async () =>
