@@ -361,8 +361,8 @@
   <data name="OngeldigIpdcProductNummer">
     <value>Het opgegeven ipdc product nummer '{0}', is geen geldig ipdc product nummer.</value>
   </data>
-  <data name="UrlDoesNotStartWithHttpOrHttps">
-    <value>Url moet starten met 'http://' of 'https://.'</value>
+  <data name="OngeldigUrl">
+    <value>Het opgegeven url is geen geldige url.</value>
   </data>
   <data name="ErkenningAlreadyExists">
     <value>Er bestaat reeds een erkenning in deze periode voor deze combinatie</value>

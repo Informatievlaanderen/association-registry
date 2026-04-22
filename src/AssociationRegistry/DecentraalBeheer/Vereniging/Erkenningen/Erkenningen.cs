@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
 using System.Collections.ObjectModel;
-using DecentraalBeheer.Vereniging.Exceptions;
 using Events;
 using Exceptions;
 using Exceptions.Ipdc;
@@ -23,7 +22,7 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
     private new Erkenning this[int erkenningId] => this.Single(x => x.ErkenningId == erkenningId);
 
-    public Erkenning VoegToe(TeRegistrerenErkenning erkenning, IpdcProduct ipdcProduct, string initiator)
+    public Erkenning VoegToe(TeRegistrerenErkenning erkenning, IpdcProduct ipdcProduct, GegevensInitiator initiator)
     {
         var teRegistrerenErkenning = Erkenning.Create(NextId, erkenning, ipdcProduct, initiator);
 
@@ -38,11 +37,6 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
         Throw<HernieuwingsDatumMoetTussenStartEnEindDatumLiggen>.If(
             teRegisterenErkenning.ErkenningsPeriode.Einddatum <= teRegisterenErkenning.ErkenningsPeriode.Startdatum
-        );
-
-        Throw<URLStartNietMetHttpOfHttps>.If(
-            !teRegisterenErkenning.HernieuwingsUrl.StartsWith("http://")
-                && !teRegisterenErkenning.HernieuwingsUrl.StartsWith("https://")
         );
 
         var erkenningen = this.Append(teRegisterenErkenning);

@@ -7,6 +7,7 @@ using Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Common;
 using DecentraalBeheer.Vereniging;
+using Erkenningen.RegistreerErkenning.RequestModels;
 
 [DataContract]
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest : IRegistreerVereniging
@@ -66,7 +67,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest : IRegi
 
     /// <summary>De erkenningen van een vereniging</summary>
     [DataMember]
-    public Verenigingen.Erkenningen.RegistreerErkenning.RequestModels.TeRegistrerenErkenning[] Erkenningen { get; set; } = [];
+    public TeRegistrerenErkenning[] Erkenningen { get; set; } = [];
 
     public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(Werkingsgebied[]? werkingsgebieden) =>
         new(
@@ -83,5 +84,5 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest : IRegi
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
             werkingsgebieden ?? DecentraalBeheer.Vereniging.Werkingsgebieden.NietBepaald,
             Bankrekeningnummers.Select(ToeTeVoegenBankrekeningnummer.Map).ToArray()
-            );
+        );
 }

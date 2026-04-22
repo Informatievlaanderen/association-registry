@@ -575,7 +575,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         return toegevoegdBankrekeningnummer.BankrekeningnummerId;
     }
 
-    public int RegistreerErkenning(TeRegistrerenErkenning erkenning, IpdcProduct ipdcProduct, string initiator)
+    public int RegistreerErkenning(
+        TeRegistrerenErkenning erkenning,
+        IpdcProduct ipdcProduct,
+        GegevensInitiator initiator
+    )
     {
         var toegevoegdeErkenning = State.Erkenningen.VoegToe(erkenning, ipdcProduct, initiator);
 
@@ -585,8 +589,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 toegevoegdeErkenning.IpdcProduct,
                 toegevoegdeErkenning.ErkenningsPeriode.Startdatum,
                 toegevoegdeErkenning.ErkenningsPeriode.Einddatum,
-                toegevoegdeErkenning.Hernieuwingsdatum,
-                toegevoegdeErkenning.HernieuwingsUrl,
+                toegevoegdeErkenning.Hernieuwingsdatum?.Value,
+                toegevoegdeErkenning.HernieuwingsUrl.Value,
                 toegevoegdeErkenning.GeregistreerdDoor,
                 toegevoegdeErkenning.Status
             )

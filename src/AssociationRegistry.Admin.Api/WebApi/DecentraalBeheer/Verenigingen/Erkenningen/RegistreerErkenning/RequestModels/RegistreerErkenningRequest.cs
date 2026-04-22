@@ -12,16 +12,19 @@ public record RegistreerErkenningRequest
     [DataMember(Name = "Erkenning")]
     public TeRegistrerenErkenning Erkenning { get; set; } = null!;
 
-    public RegistreerErkenningCommand ToCommand(string vCode) =>
-        new(
+    public RegistreerErkenningCommand ToCommand(string vCode)
+    {
+        var erkenningsPeriode = ErkenningsPeriode.Create(Erkenning.Startdatum, Erkenning.Einddatum);
+
+        return new RegistreerErkenningCommand(
             VCode.Create(vCode),
             new DecentraalBeheer.Vereniging.Erkenningen.TeRegistrerenErkenning()
             {
                 IpdcProductNummer = Erkenning.IpdcProductNummer,
-                Startdatum = Erkenning.Startdatum,
-                Einddatum = Erkenning.Einddatum,
-                Hernieuwingsdatum = Erkenning.Hernieuwingsdatum,
-                HernieuwingsUrl = Erkenning.HernieuwingsUrl,
+                ErkenningsPeriode = erkenningsPeriode,
+                Hernieuwingsdatum = Hernieuwingsdatum.Create(Erkenning.Hernieuwingsdatum, erkenningsPeriode),
+                HernieuwingsUrl = HernieuwingsUrl.Create(Erkenning.HernieuwingsUrl),
             }
         );
+    }
 }

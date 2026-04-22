@@ -37,6 +37,7 @@ public class Given_Erkenning_Already_Exists
         {
             Nummer = _scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
         };
+        var initiator = _fixture.Create<GegevensInitiator>();
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with
         {
@@ -47,7 +48,8 @@ public class Given_Erkenning_Already_Exists
         {
             await _commandHandler.Handle(
                 new CommandEnvelope<RegistreerErkenningCommand>(command, commandMetadata),
-                ipdcProductNummer
+                ipdcProductNummer,
+                initiator
             );
         });
 

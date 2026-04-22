@@ -34,7 +34,6 @@ public class BeheerVerenigingDetailMapper
 {
     private readonly AppSettings _appSettings;
     private readonly IVerplichteNamenVoorVCodesMapper _verplichteNamenVoorVCodesMapper;
-    private readonly string? _version;
     private readonly IVerenigingstypeMapper _verenigingstypeMapper;
 
     public BeheerVerenigingDetailMapper(
@@ -47,7 +46,6 @@ public class BeheerVerenigingDetailMapper
         _verplichteNamenVoorVCodesMapper = verplichteNamenVoorVCodesMapper;
         _verenigingstypeMapper =
             version == WellknownVersions.V2 ? new VerenigingstypeMapperV2() : new VerenigingstypeMapperV1();
-        _version = version;
     }
 
     public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging) =>
@@ -232,11 +230,7 @@ public class BeheerVerenigingDetailMapper
                 OvoCode = erkenning.GeregistreerdDoor.OvoCode,
                 Naam = erkenning.GeregistreerdDoor.Naam,
             },
-            IpdcProduct = new IpdcProduct
-            {
-                Nummer = erkenning.IpdcProduct?.Nummer ?? string.Empty,
-                Naam = erkenning.IpdcProduct?.Naam ?? string.Empty,
-            },
+            IpdcProduct = new IpdcProduct { Nummer = erkenning.IpdcProduct.Nummer, Naam = erkenning.IpdcProduct.Naam },
             Startdatum = erkenning.Startdatum,
             Einddatum = erkenning.Einddatum,
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,

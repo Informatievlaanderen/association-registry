@@ -8,7 +8,7 @@ public record Erkenning
     public IpdcProduct IpdcProduct { get; set; } = null!;
     public DateOnly? Startdatum { get; set; }
     public DateOnly? Einddatum { get; set; }
-    public DateOnly Hernieuwingsdatum { get; set; }
+    public DateOnly? Hernieuwingsdatum { get; set; }
     public string HernieuwingsUrl { get; set; } = null!;
     public string Motivering { get; set; } = null!;
     public string Status { get; set; } = null!;

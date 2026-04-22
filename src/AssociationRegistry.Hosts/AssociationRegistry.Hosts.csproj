@@ -9,6 +9,7 @@
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Grar\AssociationRegistry.Integrations.Grar.csproj" />
     <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Ipdc\AssociationRegistry.Integrations.Ipdc.csproj" />
+    <ProjectReference Include="..\integrations\AssociationRegistry.Integrations.Wegwijs\AssociationRegistry.Integrations.Wegwijs.csproj" />
   </ItemGroup>
 
   <ItemGroup>
