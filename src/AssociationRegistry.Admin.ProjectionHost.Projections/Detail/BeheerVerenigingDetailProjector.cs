@@ -1376,7 +1376,7 @@ public class BeheerVerenigingDetailProjector
                     Einddatum = @event.Data.Einddatum,
                     Hernieuwingsdatum = @event.Data.Hernieuwingsdatum,
                     HernieuwingsUrl = @event.Data.HernieuwingsUrl,
-                    Motivering = string.Empty,
+                    RedenSchorsing = string.Empty,
                     Status = @event.Data.Status,
                 }
             )

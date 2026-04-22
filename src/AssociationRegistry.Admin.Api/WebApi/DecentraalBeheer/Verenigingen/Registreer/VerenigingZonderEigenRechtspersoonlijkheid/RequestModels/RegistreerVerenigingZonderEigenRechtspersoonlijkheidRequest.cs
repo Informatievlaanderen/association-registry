@@ -65,10 +65,6 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest : IRegi
     [DataMember]
     public ToeTeVoegenBankrekeningnummer[] Bankrekeningnummers { get; set; } = [];
 
-    /// <summary>De erkenningen van een vereniging</summary>
-    [DataMember]
-    public TeRegistrerenErkenning[] Erkenningen { get; set; } = [];
-
     public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(Werkingsgebied[]? werkingsgebieden) =>
         new(
             this,

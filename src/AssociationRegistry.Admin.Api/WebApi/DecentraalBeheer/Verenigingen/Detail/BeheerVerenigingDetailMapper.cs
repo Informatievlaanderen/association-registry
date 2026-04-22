@@ -235,7 +235,7 @@ public class BeheerVerenigingDetailMapper
             Einddatum = erkenning.Einddatum,
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
-            RedenSchorsing = erkenning.Motivering,
+            RedenSchorsing = erkenning.RedenSchorsing,
             Status = erkenning.Status,
         };
 
