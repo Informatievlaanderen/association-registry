@@ -3,7 +3,6 @@
 using System.Collections.ObjectModel;
 using Events;
 using Exceptions;
-using Exceptions.Ipdc;
 using Framework;
 
 public class Erkenningen : ReadOnlyCollection<Erkenning>
@@ -33,13 +32,8 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
     private void ThrowIfCannotAppendOrUpdate(Erkenning teRegisterenErkenning)
     {
-        Throw<IpdcProductNummerOntbreekt>.If(string.IsNullOrEmpty(teRegisterenErkenning.IpdcProduct.Nummer));
-
-        Throw<HernieuwingsDatumMoetTussenStartEnEindDatumLiggen>.If(
-            teRegisterenErkenning.ErkenningsPeriode.Einddatum <= teRegisterenErkenning.ErkenningsPeriode.Startdatum
-        );
-
         var erkenningen = this.Append(teRegisterenErkenning);
+
         Throw<ErkenningBestaatAl>.If(HasDuplicateErkenning(erkenningen));
     }
 

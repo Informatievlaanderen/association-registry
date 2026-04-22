@@ -364,7 +364,7 @@
   <data name="OngeldigUrl">
     <value>Het opgegeven url is geen geldige url.</value>
   </data>
-  <data name="ErkenningAlreadyExists">
+  <data name="ErkenningBestaatAl">
     <value>Er bestaat reeds een erkenning in deze periode voor deze combinatie</value>
   </data>
 </root>
