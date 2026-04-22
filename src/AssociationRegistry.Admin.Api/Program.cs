@@ -72,12 +72,14 @@ using Integrations.Grar.AdresMatch;
 using Integrations.Grar.Clients;
 using Integrations.Grar.NutsLau;
 using Integrations.Ipdc.Clients;
+using Integrations.Ipdc.Options;
 using Integrations.Magda.CallReferences;
 using Integrations.Magda.Onderneming;
 using Integrations.Magda.Persoon;
 using Integrations.Magda.Persoon.Validation;
 using Integrations.Slack;
 using Integrations.Wegwijs.Clients;
+using Integrations.Wegwijs.Options;
 using JasperFx;
 using Magda.Kbo;
 using Magda.Persoon;
@@ -459,46 +461,9 @@ public class Program
             )
             : new AmazonSQSClient(RegionEndpoint.EUWest1);
 
-        builder
-            .Services.AddHttpClient<AdminProjectionHostHttpClient>()
-            .ConfigureHttpClient(httpClient =>
-                httpClient.BaseAddress = new Uri(appSettings.BeheerProjectionHostBaseUrl)
-            );
-
-        builder
-            .Services.AddHttpClient<PublicProjectionHostHttpClient>()
-            .ConfigureHttpClient(httpClient =>
-                httpClient.BaseAddress = new Uri(appSettings.PublicProjectionHostBaseUrl)
-            );
-
-        builder
-            .Services.AddHttpClient<ScheduledHostHttpClient>()
-            .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.ScheduledHostBaseUrl));
-
-        builder
-            .Services.AddHttpClient<IpdcClient>()
-            .ConfigureHttpClient(httpClient =>
-            {
-                httpClient.BaseAddress = new Uri(ipdcOptions.HttpClient.BaseUrl);
-                httpClient.DefaultRequestHeaders.Add(name: "x-api-key", value: ipdcOptions.HttpClient.ApiKey);
-            });
-
-        builder
-            .Services.AddHttpClient<WegwijsClient>()
-            .ConfigureHttpClient(httpClient =>
-            {
-                httpClient.BaseAddress = new Uri(wegwijsOptions.HttpClient.BaseUrl);
-            });
+        ConfigureClients(builder, appSettings, ipdcOptions, wegwijsOptions, grarOptions);
 
         builder.Services.AddMemoryCache();
-
-        builder
-            .Services.AddHttpClient<GrarHttpClient>()
-            .ConfigureHttpClient(httpClient =>
-            {
-                httpClient.DefaultRequestHeaders.Add(name: "x-api-key", value: grarOptions.HttpClient.ApiKey);
-                httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl);
-            });
 
         builder
             .Services.AddSingleton(postgreSqlOptionsSection)
@@ -839,6 +804,54 @@ public class Program
             .AddTransient<IBeheerVerenigingenZoekQuery, BeheerVerenigingenZoekQuery>()
             .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>()
             .AddTransient<IKszSyncHistoriekQuery, KszSyncHistoriekQuery>();
+    }
+
+    private static void ConfigureClients(
+        WebApplicationBuilder builder,
+        AppSettings? appSettings,
+        IpdcOptions ipdcOptions,
+        WegwijsOptions wegwijsOptions,
+        GrarOptions grarOptions
+    )
+    {
+        builder
+            .Services.AddHttpClient<AdminProjectionHostHttpClient>()
+            .ConfigureHttpClient(httpClient =>
+                httpClient.BaseAddress = new Uri(appSettings.BeheerProjectionHostBaseUrl)
+            );
+
+        builder
+            .Services.AddHttpClient<PublicProjectionHostHttpClient>()
+            .ConfigureHttpClient(httpClient =>
+                httpClient.BaseAddress = new Uri(appSettings.PublicProjectionHostBaseUrl)
+            );
+
+        builder
+            .Services.AddHttpClient<ScheduledHostHttpClient>()
+            .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.ScheduledHostBaseUrl));
+
+        builder
+            .Services.AddHttpClient<IpdcClient>()
+            .ConfigureHttpClient(httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(ipdcOptions.HttpClient.BaseUrl);
+                httpClient.DefaultRequestHeaders.Add(name: "x-api-key", value: ipdcOptions.HttpClient.ApiKey);
+            });
+
+        builder
+            .Services.AddHttpClient<WegwijsClient>()
+            .ConfigureHttpClient(httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(wegwijsOptions.HttpClient.BaseUrl);
+            });
+
+        builder
+            .Services.AddHttpClient<GrarHttpClient>()
+            .ConfigureHttpClient(httpClient =>
+            {
+                httpClient.DefaultRequestHeaders.Add(name: "x-api-key", value: grarOptions.HttpClient.ApiKey);
+                httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl);
+            });
     }
 
     private static void ConfigureHostedServices(WebApplicationBuilder builder)

@@ -53,6 +53,6 @@ public class Given_Erkenning_Already_Exists
             );
         });
 
-        exception.Message.Should().Be(ExceptionMessages.ErkenningAlreadyExists);
+        exception.Message.Should().Be(ExceptionMessages.ErkenningBestaatAl);
     }
 }
