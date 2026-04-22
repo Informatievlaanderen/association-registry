@@ -3,8 +3,7 @@
 public record TeRegistrerenErkenning
 {
     public string IpdcProductNummer { get; set; } = null!;
-    public DateOnly Startdatum { get; set; }
-    public DateOnly Einddatum { get; set; }
-    public DateOnly Hernieuwingsdatum { get; set; }
-    public string HernieuwingsUrl { get; set; } = null!;
+    public ErkenningsPeriode ErkenningsPeriode { get; set; } = null!;
+    public HernieuwingsUrl HernieuwingsUrl { get; set; } = null!;
+    public Hernieuwingsdatum Hernieuwingsdatum { get; set; } = null!;
 }

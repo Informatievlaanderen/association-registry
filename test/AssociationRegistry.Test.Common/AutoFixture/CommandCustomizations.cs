@@ -111,10 +111,11 @@ public static class CommandCustomizations
 
                     return new TeRegistrerenErkenning
                     {
-                        Startdatum = start,
-                        Hernieuwingsdatum = renew,
-                        Einddatum = end,
-                        HernieuwingsUrl = $"{protocol}://www.example.com/{fixture.Create<Guid>()}",
+                        ErkenningsPeriode = ErkenningsPeriode.Hydrate(start, end),
+                        Hernieuwingsdatum = Hernieuwingsdatum.Hydrate(renew),
+                        HernieuwingsUrl = HernieuwingsUrl.Hydrate(
+                            $"{protocol}://www.example.com/{fixture.Create<Guid>()}"
+                        ),
                         IpdcProductNummer = fixture.Create<int>().ToString(),
                     };
                 })

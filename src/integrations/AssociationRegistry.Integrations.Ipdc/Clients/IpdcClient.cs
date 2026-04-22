@@ -3,6 +3,7 @@
 using System.Net.Http.Json;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Ipdc;
+using Framework;
 using Responses;
 
 public class IpdcClient : IIpdcClient
@@ -23,15 +24,14 @@ public class IpdcClient : IIpdcClient
         {
             var response = await HttpClient.GetAsync($"id/concept/{ipdcProductNummer}", cancellationToken);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-            {
-                throw new OngeldigIpdcProductNummer(ipdcProductNummer);
-            }
-
-            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                throw new OnbekendIpdcProductNummer(ipdcProductNummer);
-            }
+            Throw<OngeldigIpdcProductNummer>.If(
+                response.StatusCode == System.Net.HttpStatusCode.BadRequest,
+                ipdcProductNummer
+            );
+            Throw<OnbekendIpdcProductNummer>.If(
+                response.StatusCode == System.Net.HttpStatusCode.NotFound,
+                ipdcProductNummer
+            );
 
             response.EnsureSuccessStatusCode();
 

@@ -8,8 +8,7 @@ public record RegistreerErkenningCommand(VCode VCode, TeRegistrerenErkenning Erk
     protected virtual bool PrintMembers(System.Text.StringBuilder builder)
     {
         builder.Append($"VCode = {VCode}, ");
-        builder.Append($"StartDatum = {Erkenning.Startdatum}, ");
-        builder.Append($"Einddatum = {Erkenning.Einddatum}, ");
+        builder.Append($"ErkenningsPeriode = {Erkenning.ErkenningsPeriode}, ");
         builder.Append($"Hernieuwingsdatum = {Erkenning.Hernieuwingsdatum}, ");
         builder.Append($"HernieuwingsUrl = {Erkenning.HernieuwingsUrl}, ");
         builder.Append($"IpdcProductNummer = {Erkenning.IpdcProductNummer}, ");

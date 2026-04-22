@@ -77,6 +77,7 @@ using Integrations.Magda.Onderneming;
 using Integrations.Magda.Persoon;
 using Integrations.Magda.Persoon.Validation;
 using Integrations.Slack;
+using Integrations.Wegwijs.Clients;
 using JasperFx;
 using Magda.Kbo;
 using Magda.Persoon;
@@ -446,6 +447,7 @@ public class Program
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
         var grarOptions = builder.Configuration.GetGrarOptions();
         var ipdcOptions = builder.Configuration.GetIpdcOptions();
+        var wegwijsOptions = builder.Configuration.GetWegwijsOptions();
         var bewaartermijnOptions = builder.Configuration.GetBewaartermijnOptions();
 
         var appSettings = builder.Configuration.Get<AppSettings>();
@@ -481,6 +483,13 @@ public class Program
                 httpClient.DefaultRequestHeaders.Add(name: "x-api-key", value: ipdcOptions.HttpClient.ApiKey);
             });
 
+        builder
+            .Services.AddHttpClient<WegwijsClient>()
+            .ConfigureHttpClient(httpClient =>
+            {
+                httpClient.BaseAddress = new Uri(wegwijsOptions.HttpClient.BaseUrl);
+            });
+
         builder.Services.AddMemoryCache();
 
         builder
@@ -505,6 +514,7 @@ public class Program
             .AddSingleton<IClock, Clock>()
             .AddSingleton<IGrarHttpClient>(sp => sp.GetRequiredService<GrarHttpClient>())
             .AddSingleton<IIpdcClient>(sp => sp.GetRequiredService<IpdcClient>())
+            .AddSingleton<IWegwijsClient>(sp => sp.GetRequiredService<WegwijsClient>())
             .AddSingleton(grarOptions.GrarClient)
             .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
             .AddSingleton(elasticSearchOptionsSection)

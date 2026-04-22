@@ -5,6 +5,7 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Integrations.Grar.Bewaartermijnen;
 using Integrations.Grar.Clients;
 using Integrations.Ipdc.Options;
+using Integrations.Wegwijs.Options;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;
@@ -51,6 +52,17 @@ public static class ConfigurationExtensions
         ipdcOptions.ThrowIfInValid();
 
         return ipdcOptions!;
+    }
+
+    public static WegwijsOptions GetWegwijsOptions(this IConfiguration configuration)
+    {
+        var wegwijsOptions = configuration.GetSection(nameof(WegwijsOptions)).Get<WegwijsOptions>();
+
+        // TODO Handle valid nullreference exception in this file
+
+        wegwijsOptions.ThrowIfInValid();
+
+        return wegwijsOptions!;
     }
 
     public static BewaartermijnOptions GetBewaartermijnOptions(this IConfiguration configuration)
