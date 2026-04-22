@@ -32,13 +32,13 @@ public class Erkenning : IJsonLd
     public IpdcProduct IpdcProduct { get; set; } = null!;
 
     [DataMember(Name = "Startdatum")]
-    public DateOnly? Startdatum { get; set; }
+    public string? Startdatum { get; set; }
 
     [DataMember(Name = "Einddatum")]
-    public DateOnly? Einddatum { get; set; }
+    public string? Einddatum { get; set; }
 
     [DataMember(Name = "Hernieuwingsdatum")]
-    public DateOnly? Hernieuwingsdatum { get; set; }
+    public string? Hernieuwingsdatum { get; set; }
 
     [DataMember(Name = "HernieuwingsUrl")]
     public string HernieuwingsUrl { get; set; } = null!;
