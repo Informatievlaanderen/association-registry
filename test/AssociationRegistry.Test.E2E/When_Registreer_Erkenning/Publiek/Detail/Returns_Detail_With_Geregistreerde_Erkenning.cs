@@ -31,7 +31,7 @@ public class Returns_Detail_With_Geregistreerde_Erkenning : IAsyncLifetime
                     id = JsonLdType.Erkenning.CreateWithIdValues(_context.VCode.Value, "1"),
                     type = JsonLdType.Erkenning.Type,
                     ErkenningId = 1,
-                    GeregistreerdDoor = new GegevensInitiatorErkenning { OvoCode = "OVO000001", Naam = string.Empty },
+                    GeregistreerdDoor = new GegevensInitiatorErkenning { OvoCode = "OVO000001", Naam = "De LijnInfo" },
                     IpdcProduct = new IpdcProduct
                     {
                         Nummer = _context.CommandRequest.Erkenning.IpdcProductNummer,

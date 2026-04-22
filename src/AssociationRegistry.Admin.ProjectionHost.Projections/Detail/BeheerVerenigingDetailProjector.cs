@@ -3,7 +3,6 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
-using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
 using Formats;
@@ -105,8 +104,7 @@ public class BeheerVerenigingDetailProjector
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(
                 DecentraalBeheer.Vereniging.Verenigingstype.VZER
             ),
-            Verenigingssubtype =
-                VerenigingssubtypeCode.Default.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>(),
+            Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
             Naam = vzer.Data.Naam,
             KorteNaam = vzer.Data.KorteNaam,
             KorteBeschrijving = vzer.Data.KorteBeschrijving,
@@ -1170,8 +1168,7 @@ public class BeheerVerenigingDetailProjector
             DecentraalBeheer.Vereniging.Verenigingstype.VZER
         );
 
-        document.Verenigingssubtype =
-            VerenigingssubtypeCode.Default.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
+        document.Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>();
     }
 
     public static void Apply(
@@ -1179,8 +1176,7 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document
     )
     {
-        document.Verenigingssubtype =
-            VerenigingssubtypeCode.FeitelijkeVereniging.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
+        document.Verenigingssubtype = VerenigingssubtypeCode.FeitelijkeVereniging.Map<Verenigingssubtype>();
 
         document.SubverenigingVan = null;
     }
@@ -1190,8 +1186,7 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document
     )
     {
-        document.Verenigingssubtype =
-            VerenigingssubtypeCode.NietBepaald.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
+        document.Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>();
         ;
         document.SubverenigingVan = null;
     }
@@ -1201,8 +1196,7 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document
     )
     {
-        document.Verenigingssubtype =
-            VerenigingssubtypeCode.Subvereniging.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
+        document.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>();
         ;
 
         document.SubverenigingVan = new SubverenigingVan()
@@ -1373,13 +1367,11 @@ public class BeheerVerenigingDetailProjector
                         OvoCode = @event.Data.GeregistreerdDoor.OvoCode,
                         Naam = @event.Data.GeregistreerdDoor.Naam,
                     },
-                    IpdcProduct = @event.Data.IpdcProduct is null
-                        ? null
-                        : new IpdcProduct
-                        {
-                            Nummer = @event.Data.IpdcProduct.Nummer,
-                            Naam = @event.Data.IpdcProduct.Naam,
-                        },
+                    IpdcProduct = new IpdcProduct
+                    {
+                        Nummer = @event.Data.IpdcProduct.Nummer,
+                        Naam = @event.Data.IpdcProduct.Naam,
+                    },
                     Startdatum = @event.Data.Startdatum,
                     Einddatum = @event.Data.Einddatum,
                     Hernieuwingsdatum = @event.Data.Hernieuwingsdatum,

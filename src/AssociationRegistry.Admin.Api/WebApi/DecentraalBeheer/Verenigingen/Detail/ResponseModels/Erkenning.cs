@@ -38,7 +38,7 @@ public class Erkenning
     public DateOnly? Einddatum { get; set; }
 
     [DataMember(Name = "Hernieuwingsdatum")]
-    public DateOnly Hernieuwingsdatum { get; set; }
+    public DateOnly? Hernieuwingsdatum { get; set; }
 
     [DataMember(Name = "HernieuwingsUrl")]
     public string HernieuwingsUrl { get; set; } = null!;

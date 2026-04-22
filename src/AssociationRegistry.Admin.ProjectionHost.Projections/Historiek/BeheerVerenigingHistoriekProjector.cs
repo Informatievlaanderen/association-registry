@@ -856,6 +856,7 @@ public class BeheerVerenigingHistoriekProjector
             $"Bankrekeningnummervalidatiedocument werd bevestigd door '{@event.Data.BevestigdDoor}'."
         );
     }
+
     public static void Apply(
         IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt> @event,
         BeheerVerenigingHistoriekDocument document
@@ -888,8 +889,7 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            $"Erkenning geregistreerd door '{@event.Data.GeregistreerdDoor.Naam}'."
-
+            $"Erkenning werd geregistreerd door '{@event.Data.GeregistreerdDoor.Naam}'."
         );
     }
 

@@ -17,12 +17,13 @@ public class RegistreerErkenningCommandHandler
     public async Task<EntityCommandResult> Handle(
         CommandEnvelope<RegistreerErkenningCommand> envelope,
         IpdcProduct ipdcProduct,
+        GegevensInitiator initiator,
         CancellationToken cancellationToken = default
     )
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
 
-        var id = vereniging.RegistreerErkenning(envelope.Command.Erkenning, ipdcProduct, envelope.Metadata.Initiator);
+        var id = vereniging.RegistreerErkenning(envelope.Command.Erkenning, ipdcProduct, initiator);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

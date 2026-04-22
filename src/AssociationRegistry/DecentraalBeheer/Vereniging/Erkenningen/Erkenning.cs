@@ -8,8 +8,8 @@ public record Erkenning
     public IpdcProduct IpdcProduct { get; set; }
 
     public ErkenningsPeriode ErkenningsPeriode { get; set; }
-    public DateOnly Hernieuwingsdatum { get; set; }
-    public string HernieuwingsUrl { get; set; } = null!;
+    public Hernieuwingsdatum Hernieuwingsdatum { get; set; }
+    public HernieuwingsUrl HernieuwingsUrl { get; set; } = null!;
     public string Motivering { get; set; } = null!;
     public string Status { get; set; } = null!;
 
@@ -17,22 +17,20 @@ public record Erkenning
         int nextId,
         TeRegistrerenErkenning erkenning,
         IpdcProduct ipdcProduct,
-        string initiator
+        GegevensInitiator initiator
     )
     {
-        var erkenningsPeriode = ErkenningsPeriode.Create(erkenning.Startdatum, erkenning.Einddatum);
-
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         return new Erkenning
         {
             ErkenningId = nextId,
-            ErkenningsPeriode = erkenningsPeriode,
+            ErkenningsPeriode = erkenning.ErkenningsPeriode,
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
             IpdcProduct = ipdcProduct,
-            GeregistreerdDoor = new GegevensInitiator { OvoCode = initiator },
-            Status = ErkenningStatus.Bepaal(erkenningsPeriode, today),
+            GeregistreerdDoor = initiator,
+            Status = ErkenningStatus.Bepaal(erkenning.ErkenningsPeriode, today),
         };
     }
 
@@ -42,7 +40,7 @@ public record Erkenning
         IpdcProduct ipdcProduct,
         DateOnly? startdatum,
         DateOnly? einddatum,
-        DateOnly hernieuwingsdatum,
+        DateOnly? hernieuwingsdatum,
         string hernieuwingsUrl,
         string motivering,
         string status
@@ -53,8 +51,8 @@ public record Erkenning
             GeregistreerdDoor = geregistreerdDoor,
             IpdcProduct = ipdcProduct,
             ErkenningsPeriode = ErkenningsPeriode.Hydrate(startdatum, einddatum),
-            Hernieuwingsdatum = hernieuwingsdatum,
-            HernieuwingsUrl = hernieuwingsUrl,
+            Hernieuwingsdatum = Hernieuwingsdatum.Hydrate(hernieuwingsdatum),
+            HernieuwingsUrl = HernieuwingsUrl.Hydrate(hernieuwingsUrl),
             Motivering = motivering,
             Status = status,
         };

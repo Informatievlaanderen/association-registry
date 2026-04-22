@@ -39,7 +39,9 @@ public class WegwijsClientTests
             _wegwijsClient.GetOrganisationByOvoCode(invalidOvoCode)
         );
 
-        exception.Message.Should().Be(string.Format(ExceptionMessages.OrganisatieNietGevondenException));
+        exception
+            .Message.Should()
+            .Be(string.Format(ExceptionMessages.OrganisatieNietGevondenException, invalidOvoCode));
     }
 
     [Fact]

@@ -2,6 +2,7 @@
 
 using System.Net.Http.Json;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Wegwijs;
+using Framework;
 using Responses;
 
 public class WegwijsClient : IWegwijsClient
@@ -28,10 +29,10 @@ public class WegwijsClient : IWegwijsClient
                 cancellationToken: cancellationToken
             );
 
-            if (organisationResponse is null || organisationResponse.Count == 0)
-            {
-                throw new OrganisatieNietGevondenException(ovoCode);
-            }
+            Throw<OrganisatieNietGevondenException>.If(
+                organisationResponse is null || organisationResponse.Count == 0,
+                ovoCode
+            );
 
             return organisationResponse.First();
         }

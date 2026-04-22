@@ -5,13 +5,11 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Resources;
 
 [Serializable]
-public class URLStartNietMetHttpOfHttps : DomainException
+public class OngeldigUrl : DomainException
 {
-    public URLStartNietMetHttpOfHttps() : base(ExceptionMessages.UrlDoesNotStartWithHttpOrHttps)
-    {
-    }
+    public OngeldigUrl()
+        : base(ExceptionMessages.OngeldigUrl) { }
 
-    protected URLStartNietMetHttpOfHttps(SerializationInfo info, StreamingContext context) : base(info, context)
-    {
-    }
+    protected OngeldigUrl(SerializationInfo info, StreamingContext context)
+        : base(info, context) { }
 }

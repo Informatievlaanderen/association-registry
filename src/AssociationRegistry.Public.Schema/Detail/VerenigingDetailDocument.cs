@@ -126,10 +126,10 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
             public JsonLdMetadata JsonLdMetadata { get; set; }
             public int ErkenningId { get; set; }
             public GegevensInitiator GeregistreerdDoor { get; set; }
-            public IpdcProduct? IpdcProduct { get; set; }
+            public IpdcProduct IpdcProduct { get; set; } = null!;
             public DateOnly? Startdatum { get; set; }
             public DateOnly? Einddatum { get; set; }
-            public DateOnly Hernieuwingsdatum { get; set; }
+            public DateOnly? Hernieuwingsdatum { get; set; }
             public string HernieuwingsUrl { get; set; } = null!;
             public string Motivering { get; set; } = null!;
             public string Status { get; set; }

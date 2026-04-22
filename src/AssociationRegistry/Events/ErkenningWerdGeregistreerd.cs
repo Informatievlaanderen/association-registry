@@ -9,7 +9,7 @@ public record ErkenningWerdGeregistreerd(
     IpdcProduct IpdcProduct,
     DateOnly? Startdatum,
     DateOnly? Einddatum,
-    DateOnly Hernieuwingsdatum,
+    DateOnly? Hernieuwingsdatum,
     string HernieuwingsUrl,
     GegevensInitiator GeregistreerdDoor,
     string Status
