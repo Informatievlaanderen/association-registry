@@ -269,9 +269,9 @@ namespace AssociationRegistry.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Er bestaat reeds een erkenning in deze periode voor deze combinatie.
         /// </summary>
-        public static string ErkenningAlreadyExists {
+        public static string ErkenningBestaatAl {
             get {
-                return ResourceManager.GetString("ErkenningAlreadyExists", resourceCulture);
+                return ResourceManager.GetString("ErkenningBestaatAl", resourceCulture);
             }
         }
         

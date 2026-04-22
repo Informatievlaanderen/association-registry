@@ -3,15 +3,11 @@ namespace AssociationRegistry.Events.Factories;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
-using AssociationRegistry.Events;
-using AssociationRegistry.GemeentenaamVerrijking;
-using AssociationRegistry.Grar.Models;
-using Be.Vlaanderen.Basisregisters.Utilities;
-using DecentraalBeheer.Vereniging.Adressen.GemeentenaamVerrijking;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
-using DecentraalBeheer.Vereniging.Erkenningen;
+using Events;
 using Grar.AdresMatch;
+using Grar.Models;
 using Magda.Kbo;
 
 public static class EventFactory
