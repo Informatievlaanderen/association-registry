@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Erkenningen;
 
+using Admin.ProjectionHost.Constants;
 using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
 using Contracts.JsonLdContext;
@@ -36,9 +37,15 @@ public class Given_ErkenningWerdGeregistreerd(BeheerDetailScenarioFixture<Erkenn
                         Nummer = fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
                         Naam = fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Naam,
                     },
-                    Startdatum = fixture.Scenario.ErkenningWerdGeregistreerd.Startdatum,
-                    Einddatum = fixture.Scenario.ErkenningWerdGeregistreerd.Einddatum,
-                    Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum,
+                    Startdatum = fixture.Scenario.ErkenningWerdGeregistreerd.Startdatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
+                    Einddatum = fixture.Scenario.ErkenningWerdGeregistreerd.Einddatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
+                    Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
                     HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = string.Empty,
                     Status = fixture.Scenario.ErkenningWerdGeregistreerd.Status,

@@ -6,6 +6,7 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Public.ProjectionHost.Constants;
 using Xunit;
 using Erkenning = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
 using IpdcProduct = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
@@ -37,9 +38,11 @@ public class Returns_Detail_With_Geregistreerde_Erkenning : IAsyncLifetime
                         Nummer = _context.CommandRequest.Erkenning.IpdcProductNummer,
                         Naam = "Gemeentelijke premie voor inbraakpreventie", // See wiremock
                     },
-                    Startdatum = _context.CommandRequest.Erkenning.Startdatum,
-                    Einddatum = _context.CommandRequest.Erkenning.Einddatum,
-                    Hernieuwingsdatum = _context.CommandRequest.Erkenning.Hernieuwingsdatum,
+                    Startdatum = _context.CommandRequest.Erkenning.Startdatum?.ToString(WellknownFormats.DateOnly),
+                    Einddatum = _context.CommandRequest.Erkenning.Einddatum?.ToString(WellknownFormats.DateOnly),
+                    Hernieuwingsdatum = _context.CommandRequest.Erkenning.Hernieuwingsdatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
                     HernieuwingsUrl = _context.CommandRequest.Erkenning.HernieuwingsUrl,
                     RedenSchorsing = string.Empty,
                     Status = ErkenningStatus.Bepaal(

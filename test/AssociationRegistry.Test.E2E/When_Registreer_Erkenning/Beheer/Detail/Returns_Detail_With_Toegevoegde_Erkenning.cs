@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Erkenning.Beheer.Detail;
 
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Admin.ProjectionHost.Constants;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using FluentAssertions;
@@ -50,9 +51,11 @@ public class Returns_Detail_With_Toegevoegde_Erkenning : End2EndTest<DetailVeren
                         Nummer = _testContext.CommandRequest.Erkenning.IpdcProductNummer,
                         Naam = "Gemeentelijke premie voor inbraakpreventie", // See wiremock
                     },
-                    Startdatum = _testContext.CommandRequest.Erkenning.Startdatum,
-                    Einddatum = _testContext.CommandRequest.Erkenning.Einddatum,
-                    Hernieuwingsdatum = _testContext.CommandRequest.Erkenning.Hernieuwingsdatum,
+                    Startdatum = _testContext.CommandRequest.Erkenning.Startdatum?.ToString(WellknownFormats.DateOnly),
+                    Einddatum = _testContext.CommandRequest.Erkenning.Einddatum?.ToString(WellknownFormats.DateOnly),
+                    Hernieuwingsdatum = _testContext.CommandRequest.Erkenning.Hernieuwingsdatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
                     HernieuwingsUrl = _testContext.CommandRequest.Erkenning.HernieuwingsUrl,
                     RedenSchorsing = string.Empty,
                     Status = ErkenningStatus.Bepaal(
