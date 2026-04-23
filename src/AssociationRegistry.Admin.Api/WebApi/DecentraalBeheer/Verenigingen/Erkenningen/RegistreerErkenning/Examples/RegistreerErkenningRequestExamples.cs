@@ -14,7 +14,7 @@ public class RegistreerErkenningRequestExamples : IExamplesProvider<RegistreerEr
                 Startdatum = new DateOnly(2026, 1, 1),
                 Einddatum = new DateOnly(2026, 12, 31),
                 Hernieuwingsdatum = new DateOnly(2026, 10, 31),
-                HernieuwingsUrl = "https://www.website.com/renew"
+                HernieuwingsUrl = "https://www.website.com/renew",
             },
         };
 }

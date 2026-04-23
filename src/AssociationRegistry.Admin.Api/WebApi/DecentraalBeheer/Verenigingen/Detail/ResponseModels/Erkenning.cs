@@ -31,21 +31,39 @@ public class Erkenning
     [DataMember(Name = "IpdcProduct")]
     public IpdcProduct IpdcProduct { get; set; } = null!;
 
+    /// <summary>
+    /// Startdatum van de erkenning
+    /// </summary>
     [DataMember(Name = "Startdatum")]
     public string? Startdatum { get; set; }
 
+    /// <summary>
+    /// Einddatum van de erkenning
+    /// </summary>
     [DataMember(Name = "Einddatum")]
     public string? Einddatum { get; set; }
 
+    /// <summary>
+    /// Datum waarop de erkenning hernieuwd kan worden
+    /// </summary>
     [DataMember(Name = "Hernieuwingsdatum")]
     public string? Hernieuwingsdatum { get; set; }
 
+    /// <summary>
+    /// URL voor het hernieuwen van de erkenning
+    /// </summary>
     [DataMember(Name = "HernieuwingsUrl")]
     public string HernieuwingsUrl { get; set; } = null!;
 
+    /// <summary>
+    /// Reden van schorsing van deze erkenning
+    /// </summary>
     [DataMember(Name = "redenSchorsing")]
     public string RedenSchorsing { get; set; } = null!;
 
+    /// <summary>
+    /// Huidige status van de erkenning
+    /// </summary>
     [DataMember(Name = "status")]
     public string Status { get; set; } = null!;
 }
