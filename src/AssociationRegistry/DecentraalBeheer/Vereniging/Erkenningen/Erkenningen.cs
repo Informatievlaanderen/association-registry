@@ -32,15 +32,12 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
     private void ThrowIfCannotAppendOrUpdate(Erkenning teRegisterenErkenning)
     {
-        var erkenningen = this.Append(teRegisterenErkenning);
-
-        Throw<ErkenningBestaatAl>.If(HasDuplicateErkenning(erkenningen));
+        Throw<ErkenningBestaatAl>.If(HeeftConflictMet(teRegisterenErkenning));
     }
 
-    private bool HasDuplicateErkenning(IEnumerable<Erkenning> erkenningen)
+    private bool HeeftConflictMet(Erkenning teRegistrerenErkenning)
     {
-        return erkenningen.DistinctBy(x => (x.VCode, x.IpdcProduct.Nummer, x.GeregistreerdDoor.OvoCode)).Count()
-            != erkenningen.Count();
+        return this.Any(bestaande => bestaande.HeeftConflictMet(teRegistrerenErkenning));
     }
 
     public Erkenningen Hydrate(IEnumerable<Erkenning> erkenningen)

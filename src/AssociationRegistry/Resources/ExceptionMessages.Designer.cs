@@ -267,7 +267,7 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Er bestaat reeds een erkenning in deze periode voor deze combinatie.
+        ///   Looks up a localized string similar to Er mag geen overlap zijn met bestaande erkenningen voor dezelfde combinatie (vCode, IPDC-product, GI)..
         /// </summary>
         public static string ErkenningBestaatAl {
             get {
