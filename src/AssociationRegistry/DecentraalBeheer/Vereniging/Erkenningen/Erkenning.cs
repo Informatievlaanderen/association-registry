@@ -3,7 +3,6 @@
 public record Erkenning
 {
     public int ErkenningId { get; set; }
-    public string VCode { get; set; } = null!;
     public GegevensInitiator GeregistreerdDoor { get; set; }
     public IpdcProduct IpdcProduct { get; set; }
 
@@ -56,6 +55,18 @@ public record Erkenning
             Motivering = motivering,
             Status = status,
         };
+
+    public bool HeeftConflictMet(Erkenning teRegistrerenErkenning)
+    {
+        var zelfdeSleutel =
+            IpdcProduct.Nummer == teRegistrerenErkenning.IpdcProduct.Nummer
+            && GeregistreerdDoor.OvoCode == teRegistrerenErkenning.GeregistreerdDoor.OvoCode;
+
+        if (!zelfdeSleutel)
+            return false;
+
+        return ErkenningsPeriode.OverlapsWith(teRegistrerenErkenning.ErkenningsPeriode);
+    }
 }
 
 public record IpdcProduct

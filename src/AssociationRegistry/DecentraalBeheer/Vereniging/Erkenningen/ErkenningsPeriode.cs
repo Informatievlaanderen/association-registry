@@ -23,5 +23,16 @@ public sealed record ErkenningsPeriode
         return new ErkenningsPeriode(startdatum, einddatum);
     }
 
+    public bool OverlapsWith(ErkenningsPeriode toeTeVoegenErkenningsPeriode)
+    {
+        var bestaandeStartDatum = Startdatum ?? DateOnly.MinValue;
+        var bestaandeEinddatum = Einddatum ?? DateOnly.MaxValue;
+
+        var toeTeVoegenStartDatum = toeTeVoegenErkenningsPeriode.Startdatum ?? DateOnly.MinValue;
+        var toeTeVoegenEinddatum = toeTeVoegenErkenningsPeriode.Einddatum ?? DateOnly.MaxValue;
+
+        return toeTeVoegenStartDatum <= bestaandeEinddatum && toeTeVoegenEinddatum >= bestaandeStartDatum;
+    }
+
     public static ErkenningsPeriode Hydrate(DateOnly? startdatum, DateOnly? einddatum) => new(startdatum, einddatum);
 }

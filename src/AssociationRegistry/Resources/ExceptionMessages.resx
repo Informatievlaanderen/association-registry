@@ -365,6 +365,6 @@
     <value>Het opgegeven url is geen geldige url.</value>
   </data>
   <data name="ErkenningBestaatAl">
-    <value>Er bestaat reeds een erkenning in deze periode voor deze combinatie</value>
+    <value>Er mag geen overlap zijn met bestaande erkenningen voor dezelfde combinatie (vCode, IPDC-product, GI).</value>
   </data>
 </root>

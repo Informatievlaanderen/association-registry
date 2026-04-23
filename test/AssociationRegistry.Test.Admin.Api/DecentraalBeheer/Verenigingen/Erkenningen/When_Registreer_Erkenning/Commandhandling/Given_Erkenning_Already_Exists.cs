@@ -12,13 +12,13 @@ using FluentAssertions;
 using Resources;
 using Xunit;
 
-public class Given_Erkenning_Already_Exists
+public class Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_And_Periode_Overlaps
 {
     private readonly RegistreerErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly ErkenningWerdGeregistreerdScenario _scenario;
 
-    public Given_Erkenning_Already_Exists()
+    public Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_And_Periode_Overlaps()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -31,7 +31,17 @@ public class Given_Erkenning_Already_Exists
     [Fact]
     public async ValueTask Then_An_ErkenningAlreadyExists_Exception_Is_Thrown()
     {
-        var command = _fixture.Create<RegistreerErkenningCommand>() with { VCode = _scenario.VCode };
+        var command = _fixture.Create<RegistreerErkenningCommand>() with
+        {
+            VCode = _scenario.VCode,
+            Erkenning = _fixture.Create<TeRegistrerenErkenning>() with
+            {
+                ErkenningsPeriode = ErkenningsPeriode.Create(
+                    _scenario.ErkenningWerdGeregistreerd.Startdatum,
+                    _scenario.ErkenningWerdGeregistreerd.Einddatum
+                ),
+            },
+        };
 
         var ipdcProductNummer = _fixture.Create<IpdcProduct>() with
         {
