@@ -4,6 +4,7 @@ using global::AutoFixture;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Emails;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.SocialMedias;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
 using Events;
@@ -30,6 +31,7 @@ public static class EventCustomizations
         fixture.CustomizeVertegenwoordigerWerdToegevoegdVanuitKBO();
         fixture.CustomizeBankrekeningnummerWerdToegevoegd();
         fixture.CustomizeBankrekeningnummerWerdToegevoegdVanuitKBO();
+        fixture.CustomizeErkenningWerdGeregistreerd();
     }
 
     private static void CustomizeLidmaatschapWerdToegevoegd(this IFixture fixture)
@@ -321,6 +323,34 @@ public static class EventCustomizations
                         fixture.Create<IbanNummer>().Value
                     )
                 )
+                .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeErkenningWerdGeregistreerd(this IFixture fixture)
+    {
+        fixture.Customize<ErkenningWerdGeregistreerd>(composer =>
+            composer
+                .FromFactory(() =>
+                {
+                    var start = fixture.Create<DateOnly>();
+                    var addDays = fixture.Create<int>();
+                    var renew = start.AddDays(addDays);
+                    var end = start.AddDays(addDays + fixture.Create<int>());
+
+                    var protocol = fixture.Create<bool>() ? "http" : "https";
+
+                    return new ErkenningWerdGeregistreerd(
+                        fixture.Create<int>(),
+                        fixture.Create<IpdcProduct>(),
+                        start,
+                        end,
+                        renew,
+                        $"{protocol}://www.example.com/{fixture.Create<Guid>()}",
+                        fixture.Create<GegevensInitiator>(),
+                        fixture.Create<string>()
+                    );
+                })
                 .OmitAutoProperties()
         );
     }
