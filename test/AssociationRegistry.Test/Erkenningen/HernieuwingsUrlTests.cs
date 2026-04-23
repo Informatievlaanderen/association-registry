@@ -2,6 +2,7 @@
 
 using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
+using DecentraalBeheer.Vereniging.Websites.Exceptions;
 using FluentAssertions;
 using Xunit;
 
@@ -68,19 +69,27 @@ public class HernieuwingsUrlTests
     }
 
     [Fact]
-    public void Given_Url_With_Ftp_Scheme_Then_Throws_OngeldigUrl()
+    public void Given_Www_Url_With_Query_Then_Throws_WebsiteMoetStartenMetHttps()
     {
-        var url = "ftp://example.com";
+        var url = "www.example.com/path?x=1";
 
-        Assert.Throws<OngeldigUrl>(() => HernieuwingsUrl.Create(url));
+        Assert.Throws<WebsiteMoetStartenMetHttps>(() => HernieuwingsUrl.Create(url));
     }
 
     [Fact]
-    public void Given_Url_Without_Scheme_Then_Throws_OngeldigUrl()
+    public void Given_Url_With_Ftp_Scheme_Then_Throws_WebsiteMoetStartenMetHttps()
+    {
+        var url = "ftp://example.com";
+
+        Assert.Throws<WebsiteMoetStartenMetHttps>(() => HernieuwingsUrl.Create(url));
+    }
+
+    [Fact]
+    public void Given_Url_Without_Scheme_Then_Throws_WebsiteMoetStartenMetHttps()
     {
         var url = "example.com";
 
-        Assert.Throws<OngeldigUrl>(() => HernieuwingsUrl.Create(url));
+        Assert.Throws<WebsiteMoetStartenMetHttps>(() => HernieuwingsUrl.Create(url));
     }
 
     [Fact]
@@ -99,19 +108,28 @@ public class HernieuwingsUrlTests
         Assert.Throws<OngeldigUrl>(() => HernieuwingsUrl.Create(url));
     }
 
-    [Fact]
-    public void Given_Relative_Url_Then_Throws_OngeldigUrl()
-    {
-        var url = "/relative/path";
 
-        Assert.Throws<OngeldigUrl>(() => HernieuwingsUrl.Create(url));
+    [Fact]
+    public void Given_Url_With_Only_HttpDot_Scheme_Then_Throws_OngeldigUrl()
+    {
+        var url = "http.";
+
+        Assert.Throws<WebsiteMoetStartenMetHttps>(() => HernieuwingsUrl.Create(url));
     }
 
     [Fact]
-    public void Given_Whitespace_Url_Then_Throws_HernieuwingsUrl()
+    public void Given_Relative_Url_Then_Throws_WebsiteMoetStartenMetHttps()
+    {
+        var url = "/relative/path";
+
+        Assert.Throws<WebsiteMoetStartenMetHttps>(() => HernieuwingsUrl.Create(url));
+    }
+
+    [Fact]
+    public void Given_Whitespace_Url_Then_Throws_WebsiteMoetStartenMetHttps()
     {
         var url = "      ";
 
-        Assert.Throws<OngeldigUrl>(() => HernieuwingsUrl.Create(url));
+        Assert.Throws<WebsiteMoetStartenMetHttps>(() => HernieuwingsUrl.Create(url));
     }
 }
