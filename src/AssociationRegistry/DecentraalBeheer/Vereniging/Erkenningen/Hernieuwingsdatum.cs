@@ -1,7 +1,6 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
 using Exceptions;
-using Primitives;
 
 public record Hernieuwingsdatum
 {
