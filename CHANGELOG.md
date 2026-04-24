@@ -1,3 +1,41 @@
+# [8.316.0](https://github.com/informatievlaanderen/association-registry/compare/v8.315.1...v8.316.0) (2026-04-24)
+
+
+### Bug Fixes
+
+* or-3071 move slack integrations project under slack folder ([79d342a](https://github.com/informatievlaanderen/association-registry/commit/79d342a158bd5860a0d528c57eee979b56b92eff))
+* or-3071 reference right integrations Slack project ([31fae63](https://github.com/informatievlaanderen/association-registry/commit/31fae6359fae4c8a7468a18c16c30a0a06178e70))
+* or-3071 reference right integrations Slack project ([a009e88](https://github.com/informatievlaanderen/association-registry/commit/a009e88494398e3355149d7c792e2504697c7b6d))
+
+
+### Features
+
+* or-3071 add api documentation for detailresponses ([a1afe51](https://github.com/informatievlaanderen/association-registry/commit/a1afe51c54ce860f04bd6676a5ffe55f91d5561c))
+* or-3071 add Erkenning status in beheer detail ([5d92e73](https://github.com/informatievlaanderen/association-registry/commit/5d92e73814e545101bb08c04d2602e218e34b924))
+* or-3071 add Erkenning to domain ([1bbf17a](https://github.com/informatievlaanderen/association-registry/commit/1bbf17ad74d19a52c883f629f280b9a1b77a2629))
+* or-3071 add Erkenningen to beheer detail ([42411a8](https://github.com/informatievlaanderen/association-registry/commit/42411a8d83969cef3fcf5e88e15cff54b2e1f100))
+* or-3071 add validations for Erkenning status ([963b2d6](https://github.com/informatievlaanderen/association-registry/commit/963b2d62f5a320f6d016ff68f1f3743545a06ea4))
+* or-3071 apply ErkenningWerdGeregistreerd in beheer historiek ([35c5ffa](https://github.com/informatievlaanderen/association-registry/commit/35c5ffabde8a85b4e483cb1577a2e24f553083fb))
+* or-3071 ensure ipdc product returns a valid Dutch name ([91c3366](https://github.com/informatievlaanderen/association-registry/commit/91c3366a5db0b541598c7bcf8b8399879510a613))
+* or-3071 ensure startdatum erkenning is before einddatum ([c1e1707](https://github.com/informatievlaanderen/association-registry/commit/c1e1707bc2a51cd660eca8d803db2ad6570c33f1))
+* or-3071 handle erkenningsPeriode overlapsWith other Periode in Erkenning ([588560a](https://github.com/informatievlaanderen/association-registry/commit/588560a351822970e0920f41da4dcb795306f5de))
+* or-3071 implement an ErkenningsPeriode for bepaling erkenningstatus ([262b4fa](https://github.com/informatievlaanderen/association-registry/commit/262b4fab565b512e3fec06129a5500e03c07720a))
+* or-3071 implement EnrichGegevensInitiatorMiddleware ([984727b](https://github.com/informatievlaanderen/association-registry/commit/984727ba5e8004e274873eedbd0f3994bd138901))
+* or-3071 implement ErkenningWerdGeregistreerd event ([82e59d9](https://github.com/informatievlaanderen/association-registry/commit/82e59d98c4aec6d04e8e7857f74d35199b8acd51))
+* or-3071 implement wegwijs integration ([50036d4](https://github.com/informatievlaanderen/association-registry/commit/50036d49c7dcab51dde02b198a0dc3399ee8d039))
+* or-3071 make valueobjects of erkenning more strict ([dcd4076](https://github.com/informatievlaanderen/association-registry/commit/dcd4076749f73c202d5543e3d9dc426a99eed111))
+* or-3071 map Erkenning status in beheer detail ([3a389e9](https://github.com/informatievlaanderen/association-registry/commit/3a389e9ba9419ac28c8a967233ee70435360b70b))
+* or-3071 regenerate resources exceptionmessages ([b6c4f54](https://github.com/informatievlaanderen/association-registry/commit/b6c4f54db944dbfdd801854d0801b5d98875f9bf))
+* or-3071 remove erkenning from registratie vereniging requests ([16d4d7f](https://github.com/informatievlaanderen/association-registry/commit/16d4d7f653b862da9e0ae7093867b2c67ea17035))
+* or-3071 remove status calculation on projections ([75e2627](https://github.com/informatievlaanderen/association-registry/commit/75e26272b1a832dda7b107816b6dba5f33168b5f))
+* or-3071 revert erkenning from registratie VZER and FV ([a0243a1](https://github.com/informatievlaanderen/association-registry/commit/a0243a1c5ca76e64bb3439b314725890b99b565b))
+* or-3071 set dateonly to string for detail responses ([c5bf205](https://github.com/informatievlaanderen/association-registry/commit/c5bf2052d5d5c6c8ed93091fe335a5e60db32b73))
+* or-3071 set initiator on geregistreerd door ([8b8aa70](https://github.com/informatievlaanderen/association-registry/commit/8b8aa70772f8702540256c44921c9369063beac1))
+* or-3071 simplify erkenningstatus ([a7ba94b](https://github.com/informatievlaanderen/association-registry/commit/a7ba94b31a0af4cfa9532763ca5b7fecbbcd4ce2))
+* or-3071 status in Erkenningen in PubliekVerenigingDetailProjection ([609db67](https://github.com/informatievlaanderen/association-registry/commit/609db67bd20b9022d85b81d882594d9dfeabdd4e))
+* or-3071 throw WebsiteMoetStartenMetHttps for hernieuwingsurl ([6e4ef6d](https://github.com/informatievlaanderen/association-registry/commit/6e4ef6dcd0943b5966ab946b89c8d092d446f626))
+* or-3071 use middleware for enriching ipdc product ([fea8ab1](https://github.com/informatievlaanderen/association-registry/commit/fea8ab183d888faaf5c6daacc15f6927208bdb73))
+
 ## [8.315.1](https://github.com/informatievlaanderen/association-registry/compare/v8.315.0...v8.315.1) (2026-04-17)
 
 
