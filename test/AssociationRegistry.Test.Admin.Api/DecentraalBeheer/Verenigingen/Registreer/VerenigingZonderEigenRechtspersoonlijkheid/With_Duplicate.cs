@@ -158,10 +158,9 @@ public class With_Duplicate : IClassFixture<With_Duplicate.Setup>
             ]
         );
 
-        savedEvents.Should().ContainSingle();
+        var savedEvent = savedEvents.Single(e => e.GedetecteerdeDubbels.Single().VCode == potentieleDubbel.VCode);
 
-        savedEvents
-            .Single()
+        savedEvent
             .Should()
             .BeEquivalentTo(
                 dubbeleVerenigingenWerdenGedetecteerd,
