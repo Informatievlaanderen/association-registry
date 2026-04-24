@@ -208,6 +208,7 @@ public static class AutoFixtureCustomizations
     private static int Mod97(string digits)
     {
         var remainder = 0;
+
         foreach (var c in digits)
             remainder = (remainder * 10 + (c - '0')) % 97;
 
@@ -465,26 +466,29 @@ public static class AutoFixtureCustomizations
 
     private static void CustomizeErkenning(this IFixture fixture)
     {
-        fixture.Customize<Erkenning>(composer =>
+        fixture.Customize<DecentraalBeheer.Vereniging.Erkenningen.Erkenning>(composer =>
             composer
                 .FromFactory(() =>
                 {
                     var start = fixture.Create<DateOnly>();
+
                     var addDays = fixture.Create<int>();
+
                     var renew = start.AddDays(addDays);
+
                     var end = start.AddDays(addDays + fixture.Create<int>());
 
                     var protocol = fixture.Create<bool>() ? "http" : "https";
 
-                    return new Erkenning()
+                    return new DecentraalBeheer.Vereniging.Erkenningen.Erkenning()
                     {
                         ErkenningsPeriode = ErkenningsPeriode.Hydrate(start, end),
                         Hernieuwingsdatum = Hernieuwingsdatum.Hydrate(renew),
                         HernieuwingsUrl = HernieuwingsUrl.Hydrate(
                             $"{protocol}://www.example.com/{fixture.Create<Guid>()}"
                         ),
-                        IpdcProduct = fixture.Create<IpdcProduct>(),
-                        GeregistreerdDoor = fixture.Create<GegevensInitiator>(),
+                        IpdcProduct = fixture.Create<DecentraalBeheer.Vereniging.Erkenningen.IpdcProduct>(),
+                        GeregistreerdDoor = fixture.Create<DecentraalBeheer.Vereniging.Erkenningen.GegevensInitiator>(),
                         ErkenningId = fixture.Create<int>(),
                         Motivering = fixture.Create<string>(),
                         Status = fixture.Create<string>(),
