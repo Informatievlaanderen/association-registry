@@ -29,12 +29,15 @@ public record PowerBiExportDocument : IVCode
 
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Bron { get; set; } = null!;
-    [Identity] public string VCode { get; init; } = null!;
+
+    [Identity]
+    public string VCode { get; init; } = null!;
     public bool Deleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
     public string KboNummer { get; set; }
     public string DatumLaatsteAanpassing { get; set; }
     public DuplicatieInfo DuplicatieInfo { get; set; }
+    public Erkenning[] Erkenningen { get; set; } = [];
 }
-    public record DuplicatieInfo(bool? BevestigdNaDuplicatie, string Bevestigingstoken);
 
+public record DuplicatieInfo(bool? BevestigdNaDuplicatie, string Bevestigingstoken);

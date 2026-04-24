@@ -26,21 +26,26 @@ public static class Program
     {
         SelfLog.Enable(Console.WriteLine);
 
-        var host =
-            Host.CreateDefaultBuilder()
-                .ConfigureAppConfiguration(
-                     (context, builder) =>
-                         builder
-                            .AddJsonFile("appsettings.json")
-                            .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName.ToLowerInvariant()}.json",
-                                         optional: true,
-                                         reloadOnChange: false)
-                            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
-                                         optional: true, reloadOnChange: false)
-                            .AddEnvironmentVariables())
-                .ConfigureServices(ConfigureServices)
-                .ConfigureLogging(ConfigureLogger)
-                .Build();
+        var host = Host.CreateDefaultBuilder()
+            .ConfigureAppConfiguration(
+                (context, builder) =>
+                    builder
+                        .AddJsonFile("appsettings.json")
+                        .AddJsonFile(
+                            $"appsettings.{context.HostingEnvironment.EnvironmentName.ToLowerInvariant()}.json",
+                            optional: true,
+                            reloadOnChange: false
+                        )
+                        .AddJsonFile(
+                            $"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
+                            optional: true,
+                            reloadOnChange: false
+                        )
+                        .AddEnvironmentVariables()
+            )
+            .ConfigureServices(ConfigureServices)
+            .ConfigureLogging(ConfigureLogger)
+            .Build();
 
         ConfigureAppDomainExceptions();
 
@@ -53,69 +58,109 @@ public static class Program
         var powerBiExportOptions = context.Configuration.GetPowerBiExportOptions();
 
         services
-           .AddOpenTelemetryServices()
-           .AddSingleton<IDocumentStore>(new DocumentStore(ServiceCollectionMartenExtensions.GetStoreOptions(postgreSqlOptions)));
+            .AddOpenTelemetryServices()
+            .AddSingleton<IDocumentStore>(
+                new DocumentStore(ServiceCollectionMartenExtensions.GetStoreOptions(postgreSqlOptions))
+            );
 
         services
-           .AddSingleton(postgreSqlOptions)
-           .AddSingleton(powerBiExportOptions)
-           .AddSingleton<IClock>(SystemClock.Instance)
-           .AddSingleton<IAmazonS3, AmazonS3Client>()
-           .AddSingleton(sp => new PowerBiExporters(new List<Exporter<PowerBiExportDocument>>()
-            {
-                new(WellKnownFileNames.Basisgegevens, powerBiExportOptions.BucketName,
-                    new BasisgegevensRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
-                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
-
-                new(WellKnownFileNames.Contactgegevens, powerBiExportOptions.BucketName,
-                    new ContactgegevensRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
-                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
-
-                new(WellKnownFileNames.Hoofdactiviteiten, powerBiExportOptions.BucketName,
-                    new HoofdactiviteitenRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
-                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
-
-                new(WellKnownFileNames.Werkingsgebieden, powerBiExportOptions.BucketName,
-                    new WerkingsgebiedenRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
-                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
-
-                new(WellKnownFileNames.Locaties, powerBiExportOptions.BucketName,
-                    new LocatiesRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
-                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
-
-                new(WellKnownFileNames.Historiek, powerBiExportOptions.BucketName,
-                    new HistoriekRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
-                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
-
-                new(WellKnownFileNames.Lidmaatschappen, powerBiExportOptions.BucketName,
-                    new LidmaatschappenRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
-                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
-
-                new(WellKnownFileNames.Bankrekeningnummers, powerBiExportOptions.BucketName,
-                    new BankrekeningnummerRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
-                    sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()),
-
-            })).AddSingleton(sp => new PowerBiDubbelDetectieExporters(new List<Exporter<PowerBiExportDubbelDetectieDocument>>()
-            {
-                new(WellKnownFileNames.DubbelDetectie, powerBiExportOptions.BucketName,
-                    new DubbelDetectieRecordWriter(), sp.GetRequiredService<IAmazonS3>(),
-                    sp.GetRequiredService<
-                        ILogger<Exporter<PowerBiExportDubbelDetectieDocument>>>()),
-            }));
+            .AddSingleton(postgreSqlOptions)
+            .AddSingleton(powerBiExportOptions)
+            .AddSingleton<IClock>(SystemClock.Instance)
+            .AddSingleton<IAmazonS3, AmazonS3Client>()
+            .AddSingleton(sp => new PowerBiExporters(
+                new List<Exporter<PowerBiExportDocument>>()
+                {
+                    new(
+                        WellKnownFileNames.Basisgegevens,
+                        powerBiExportOptions.BucketName,
+                        new BasisgegevensRecordWriter(),
+                        sp.GetRequiredService<IAmazonS3>(),
+                        sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
+                    ),
+                    new(
+                        WellKnownFileNames.Contactgegevens,
+                        powerBiExportOptions.BucketName,
+                        new ContactgegevensRecordWriter(),
+                        sp.GetRequiredService<IAmazonS3>(),
+                        sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
+                    ),
+                    new(
+                        WellKnownFileNames.Hoofdactiviteiten,
+                        powerBiExportOptions.BucketName,
+                        new HoofdactiviteitenRecordWriter(),
+                        sp.GetRequiredService<IAmazonS3>(),
+                        sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
+                    ),
+                    new(
+                        WellKnownFileNames.Werkingsgebieden,
+                        powerBiExportOptions.BucketName,
+                        new WerkingsgebiedenRecordWriter(),
+                        sp.GetRequiredService<IAmazonS3>(),
+                        sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
+                    ),
+                    new(
+                        WellKnownFileNames.Locaties,
+                        powerBiExportOptions.BucketName,
+                        new LocatiesRecordWriter(),
+                        sp.GetRequiredService<IAmazonS3>(),
+                        sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
+                    ),
+                    new(
+                        WellKnownFileNames.Historiek,
+                        powerBiExportOptions.BucketName,
+                        new HistoriekRecordWriter(),
+                        sp.GetRequiredService<IAmazonS3>(),
+                        sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
+                    ),
+                    new(
+                        WellKnownFileNames.Lidmaatschappen,
+                        powerBiExportOptions.BucketName,
+                        new LidmaatschappenRecordWriter(),
+                        sp.GetRequiredService<IAmazonS3>(),
+                        sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
+                    ),
+                    new(
+                        WellKnownFileNames.Bankrekeningnummers,
+                        powerBiExportOptions.BucketName,
+                        new BankrekeningnummerRecordWriter(),
+                        sp.GetRequiredService<IAmazonS3>(),
+                        sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
+                    ),
+                    new(
+                        WellKnownFileNames.Erkenningen,
+                        powerBiExportOptions.BucketName,
+                        new ErkenningenRecordWriter(),
+                        sp.GetRequiredService<IAmazonS3>(),
+                        sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
+                    ),
+                }
+            ))
+            .AddSingleton(sp => new PowerBiDubbelDetectieExporters(
+                new List<Exporter<PowerBiExportDubbelDetectieDocument>>()
+                {
+                    new(
+                        WellKnownFileNames.DubbelDetectie,
+                        powerBiExportOptions.BucketName,
+                        new DubbelDetectieRecordWriter(),
+                        sp.GetRequiredService<IAmazonS3>(),
+                        sp.GetRequiredService<ILogger<Exporter<PowerBiExportDubbelDetectieDocument>>>()
+                    ),
+                }
+            ));
 
         services.AddHostedService<PowerBiExportService>();
     }
 
     private static void ConfigureLogger(HostBuilderContext context, ILoggingBuilder builder)
     {
-        var loggerConfig =
-            new LoggerConfiguration()
-               .ReadFrom.Configuration(context.Configuration)
-               .Enrich.FromLogContext()
-               .Enrich.WithMachineName()
-               .Enrich.WithThreadId()
-               .Enrich.WithEnvironmentUserName()
-               .Destructure.JsonNetTypes();
+        var loggerConfig = new LoggerConfiguration()
+            .ReadFrom.Configuration(context.Configuration)
+            .Enrich.FromLogContext()
+            .Enrich.WithMachineName()
+            .Enrich.WithThreadId()
+            .Enrich.WithEnvironmentUserName()
+            .Destructure.JsonNetTypes();
 
         var logger = loggerConfig.CreateLogger();
 
@@ -130,11 +175,13 @@ public static class Program
             options.IncludeFormattedMessage = true;
             options.ParseStateValues = true;
 
-            options.AddOtlpExporter((exporterOptions, _) =>
-            {
-                exporterOptions.Protocol = OtlpExportProtocol.Grpc;
-                exporterOptions.Endpoint = new Uri(ServiceCollectionOpenTelemetryExtensions.CollectorUrl);
-            });
+            options.AddOtlpExporter(
+                (exporterOptions, _) =>
+                {
+                    exporterOptions.Protocol = OtlpExportProtocol.Grpc;
+                    exporterOptions.Endpoint = new Uri(ServiceCollectionOpenTelemetryExtensions.CollectorUrl);
+                }
+            );
         });
     }
 
@@ -144,11 +191,13 @@ public static class Program
             Log.Debug(
                 eventArgs.Exception,
                 messageTemplate: "FirstChanceException event raised in {AppDomain}",
-                AppDomain.CurrentDomain.FriendlyName);
+                AppDomain.CurrentDomain.FriendlyName
+            );
 
         AppDomain.CurrentDomain.UnhandledException += (_, eventArgs) =>
             Log.Fatal(
                 (Exception)eventArgs.ExceptionObject,
-                messageTemplate: "Encountered a fatal exception, exiting program");
+                messageTemplate: "Encountered a fatal exception, exiting program"
+            );
     }
 }
