@@ -1,3 +1,10 @@
+# [8.317.0](https://github.com/informatievlaanderen/association-registry/compare/v8.316.0...v8.317.0) (2026-04-24)
+
+
+### Features
+
+* or-3071 implement erkenningWerdGeregistreerd in powerbi ([46ae929](https://github.com/informatievlaanderen/association-registry/commit/46ae929aa08e1d5f34fec02b93779b63d235f964))
+
 # [8.316.0](https://github.com/informatievlaanderen/association-registry/compare/v8.315.1...v8.316.0) (2026-04-24)
 
 
