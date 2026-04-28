@@ -376,6 +376,24 @@ public static class PubliekVerenigingDetailProjector
             .ToArray();
     }
 
+    public static void Apply(IEvent<ErkenningWerdGeschorst> erkenningWerdGeschorst, PubliekVerenigingDetailDocument document)
+    {
+        var erkenning = document.Erkenningen.Single(c =>
+                                                        c.ErkenningId == erkenningWerdGeschorst.Data.ErkenningId);
+        document.Erkenningen = document
+                              .Erkenningen
+                              .Where(c => c.ErkenningId != erkenningWerdGeschorst.Data.ErkenningId)
+                              .Append(
+                                   erkenning with
+                                   {
+                                       Status = ErkenningStatus.Geschorst,
+                                       Motivering = erkenningWerdGeschorst.Data.RedenSchorsing,
+                                   }
+                               )
+                              .OrderBy(c => c.ErkenningId)
+                              .ToArray();
+    }
+
     public static void Apply(
         IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd,
         PubliekVerenigingDetailDocument document
