@@ -6,6 +6,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
 using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
@@ -16,13 +17,13 @@ public class Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_
 {
     private readonly RegistreerErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly ErkenningWerdGeregistreerdScenario _scenario;
+    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
 
     public Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_And_Periode_Overlaps()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _scenario = new ErkenningWerdGeregistreerdScenario();
+        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
         var aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _commandHandler = new RegistreerErkenningCommandHandler(aggregateSessionMock);
