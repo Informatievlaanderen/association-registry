@@ -1,17 +1,17 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
-using global::AutoFixture;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using Events;
+using global::AutoFixture;
 
-public class ErkenningWerdGeregistreerdScenario : CommandhandlerScenarioBase
+public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
     public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
     public readonly ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd;
 
-    public ErkenningWerdGeregistreerdScenario()
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =

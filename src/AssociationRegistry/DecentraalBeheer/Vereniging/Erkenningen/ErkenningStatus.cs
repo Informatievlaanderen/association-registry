@@ -23,9 +23,8 @@ public class ErkenningStatus
         return Actief;
     }
 
-    public string[] All = [Actief, Verlopen, InAanvraag];
-
     public const string Actief = "Actief";
     public const string Verlopen = "Verlopen";
     public const string InAanvraag = "InAanvraag";
+    public const string Geschorst = "Geschorst";
 }

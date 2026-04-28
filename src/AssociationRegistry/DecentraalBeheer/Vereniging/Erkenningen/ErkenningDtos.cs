@@ -7,3 +7,9 @@ public record TeRegistrerenErkenning
     public HernieuwingsUrl HernieuwingsUrl { get; set; } = null!;
     public Hernieuwingsdatum Hernieuwingsdatum { get; set; } = null!;
 }
+
+public record TeSchorsenErkenning
+{
+    public int ErkenningId { get; set; }
+    public string RedenSchorsing { get; set; } = null!;
+}
