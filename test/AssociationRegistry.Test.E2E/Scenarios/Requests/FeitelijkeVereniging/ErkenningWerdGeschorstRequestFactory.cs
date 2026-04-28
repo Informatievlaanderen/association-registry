@@ -26,10 +26,7 @@ public class ErkenningWerdGeschorstFactory : ITestRequestFactory<SchorsErkenning
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var request = fixture.Create<SchorsErkenningRequest>() with
-        {
-            Erkenning = fixture.Create<TeSchorsenErkenning>(),
-        };
+        var request = fixture.Create<SchorsErkenningRequest>();
 
         var response = (
             await apiSetup.AdminApiHost.Scenario(s =>

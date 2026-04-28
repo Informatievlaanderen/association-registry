@@ -52,7 +52,7 @@ public class SchorsErkenningController : ApiController
     /// </remarks>
     /// <param name="vCode">De vCode van de vereniging.</param>
     /// <param name="erkenningId">De id van de erkenning.</param>
-    /// <param name="request">De gegevens van de te schorsen erkenning.</param>
+    /// <param name="request"></param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">De erkenning werd al reeds geschorst.</response>

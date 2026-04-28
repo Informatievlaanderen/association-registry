@@ -10,30 +10,16 @@ using Xunit;
 public class SchorsErkenningValidatorTest : ValidatorTest
 {
     [Fact]
-    public void With_ErkenningId_Null_Then_Has_ValidationError()
-    {
-        var validator = new SchorsErkenningValidator();
-
-        var request = new SchorsErkenningRequest();
-
-        var result = validator.TestValidate(request);
-
-        result
-           .ShouldHaveValidationErrorFor(toeRequest => toeRequest.Erkenning)
-           .WithErrorMessage("'Erkenning' is verplicht.");
-    }
-
-    [Fact]
     public void With_IpdcProductnummer_Empty_Then_ValidationError()
     {
         var validator = new SchorsErkenningValidator();
 
-        var request = new SchorsErkenningRequest() { Erkenning = new() { RedenSchorsing = "" } };
+        var request = new SchorsErkenningRequest() { RedenSchorsing = "" };
 
         var result = validator.TestValidate(request);
 
         result
-           .ShouldHaveValidationErrorFor(toeRequest => toeRequest.Erkenning.RedenSchorsing)
+           .ShouldHaveValidationErrorFor(toeRequest => toeRequest.RedenSchorsing)
            .WithErrorMessage($"'redenSchorsing' mag niet leeg zijn.");
     }
 
@@ -42,12 +28,12 @@ public class SchorsErkenningValidatorTest : ValidatorTest
     {
         var validator = new SchorsErkenningValidator();
 
-        var request = new SchorsErkenningRequest() { Erkenning = new() { RedenSchorsing = null } };
+        var request = new SchorsErkenningRequest() { RedenSchorsing = null };
 
         var result = validator.TestValidate(request);
 
         result
-           .ShouldHaveValidationErrorFor(toeRequest => toeRequest.Erkenning.RedenSchorsing)
+           .ShouldHaveValidationErrorFor(toeRequest => toeRequest.RedenSchorsing)
            .WithErrorMessage($"'redenSchorsing' is verplicht.");
     }
 }
