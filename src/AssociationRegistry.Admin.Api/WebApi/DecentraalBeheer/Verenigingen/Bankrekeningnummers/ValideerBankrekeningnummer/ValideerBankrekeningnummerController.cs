@@ -42,7 +42,7 @@ public class ValideerBankrekeningnummerController : ApiController
     /// <param name="bankrekeningnummerId">De unieke identificatie code van dit bankrekeningnummer binnen de vereniging.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
-    /// <response code="200">Er waren geen validaties.</response>
+    /// <response code="200">Het bankrekeningnummer werd al reeds gevalideerd.</response>
     /// <response code="202">Het bankrekeningnummer werd gevalideerd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
