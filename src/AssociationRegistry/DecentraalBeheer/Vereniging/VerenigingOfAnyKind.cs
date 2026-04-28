@@ -574,7 +574,20 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         return toegevoegdBankrekeningnummer.BankrekeningnummerId;
     }
+    public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
+    {
+        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
+            x.BankrekeningnummerId == bankrekeningnummerId
+        );
 
+        Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
+
+        Throw<ActieIsNietToegestaanVoorKboBankrekeningnummer>.If(bankrekeningnummer!.Bron == Bron.KBO);
+
+        AddEvent(
+            new BankrekeningnummerWerdVerwijderd(bankrekeningnummer.BankrekeningnummerId, bankrekeningnummer.Iban.Value)
+        );
+    }
     public int RegistreerErkenning(
         TeRegistrerenErkenning erkenning,
         IpdcProduct ipdcProduct,
@@ -598,19 +611,18 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         return toegevoegdeErkenning.ErkenningId;
     }
-
-    public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
+    public void SchorsErkenning(TeSchorsenErkenning teSchorsenErkenning)
     {
-        var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
-            x.BankrekeningnummerId == bankrekeningnummerId
-        );
+        var geschorsteErkenning = State.Erkenningen.Schors(teSchorsenErkenning);
 
-        Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
-
-        Throw<ActieIsNietToegestaanVoorKboBankrekeningnummer>.If(bankrekeningnummer!.Bron == Bron.KBO);
+        if (geschorsteErkenning is null)
+            return;
 
         AddEvent(
-            new BankrekeningnummerWerdVerwijderd(bankrekeningnummer.BankrekeningnummerId, bankrekeningnummer.Iban.Value)
+            new ErkenningWerdGeschorst(
+                teSchorsenErkenning.ErkenningId,
+                teSchorsenErkenning.RedenSchorsing
+            )
         );
     }
 }

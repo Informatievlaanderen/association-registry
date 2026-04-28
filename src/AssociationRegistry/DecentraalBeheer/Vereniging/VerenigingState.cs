@@ -882,6 +882,19 @@ public record VerenigingState : IHasVersion
             Erkenningen = Erkenningen.Hydrate(Erkenningen.AppendFromEventData(@event)),
         };
 
+    public VerenigingState Apply(ErkenningWerdGeschorst @event)
+    {
+        var erkenning = Erkenningen.Single(c => c.ErkenningId == @event.ErkenningId);
+
+        return this with
+        {
+            Erkenningen = Erkenningen.Hydrate(
+                Erkenningen
+                   .Without(@event.ErkenningId)
+                   .Append(erkenning.Schors(@event.RedenSchorsing))
+            ),
+        };
+    }
     public VerenigingState Apply(BankrekeningnummerWerdToegevoegdVanuitKBO @event) =>
         this with
         {
