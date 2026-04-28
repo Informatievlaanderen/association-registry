@@ -50,7 +50,7 @@ public class Returns_Detail_With_Geschorste_Erkenning : IAsyncLifetime
                     Einddatum = geregistreerd.Einddatum?.ToString(WellknownFormats.DateOnly),
                     Hernieuwingsdatum = geregistreerd.Hernieuwingsdatum?.ToString(WellknownFormats.DateOnly),
                     HernieuwingsUrl = geregistreerd.HernieuwingsUrl,
-                    RedenSchorsing = _werdGeschorstContext.CommandRequest.Erkenning.RedenSchorsing,
+                    RedenSchorsing = _werdGeschorstContext.CommandRequest.RedenSchorsing,
                     Status = ErkenningStatus.Geschorst,
                 }
             ]);

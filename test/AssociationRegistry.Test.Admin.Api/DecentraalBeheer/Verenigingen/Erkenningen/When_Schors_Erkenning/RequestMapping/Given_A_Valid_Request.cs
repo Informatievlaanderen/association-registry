@@ -21,6 +21,6 @@ public class Given_A_Valid_Request
         var command = request.ToCommand(vCode, erkenningId);
 
         command.VCode.Should().Be(vCode);
-        command.Erkenning.RedenSchorsing.Should().Be(request.Erkenning.RedenSchorsing);
+        command.Erkenning.RedenSchorsing.Should().Be(request.RedenSchorsing);
     }
 }
