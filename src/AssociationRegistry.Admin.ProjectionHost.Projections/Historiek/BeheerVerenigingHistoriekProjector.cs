@@ -893,6 +893,16 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<ErkenningWerdGeschorst> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Erkenning werd geschorst om deze reden: {@event.Data.RedenSchorsing}."
+        );
+    }
+
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode) =>
         new()
         {

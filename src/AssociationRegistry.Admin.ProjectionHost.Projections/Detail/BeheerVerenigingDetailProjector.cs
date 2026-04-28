@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
 using Formats;
@@ -1382,5 +1383,21 @@ public class BeheerVerenigingDetailProjector
             )
             .OrderBy(x => x.ErkenningId)
             .ToArray();
+    }
+
+    public static void Apply(IEvent<ErkenningWerdGeschorst> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Erkenningen = document
+                                      .Erkenningen.UpdateSingle(
+                                           identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
+                                           update: b =>
+                                               b with
+                                               {
+                                                   Status = ErkenningStatus.Geschorst,
+                                                   RedenSchorsing = @event.Data.RedenSchorsing
+                                               }
+                                       )
+                                      .OrderBy(b => b.ErkenningId)
+                                      .ToArray();
     }
 }
