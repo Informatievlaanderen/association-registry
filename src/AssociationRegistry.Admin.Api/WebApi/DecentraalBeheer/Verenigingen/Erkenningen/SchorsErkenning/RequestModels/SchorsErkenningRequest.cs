@@ -7,20 +7,19 @@ using DecentraalBeheer.Vereniging;
 [DataContract]
 public record SchorsErkenningRequest
 {
-    /// <summary>De te schorsen erkenning</summary>
-    [DataMember(Name = "Erkenning")]
-    public TeSchorsenErkenning Erkenning { get; set; } = null!;
+    /// <summary>
+    /// Reden waarom de erkenning geschorst wordt.
+    /// </summary>
+    [DataMember(Name = "redenSchorsing")]
+    public string RedenSchorsing { get; set; }
 
     public SchorsErkenningCommand ToCommand(string vCode, int erkenningId)
-    {
-
-        return new SchorsErkenningCommand(
+        => new(
             VCode.Create(vCode),
             new DecentraalBeheer.Vereniging.Erkenningen.TeSchorsenErkenning
             {
                 ErkenningId = erkenningId,
-                RedenSchorsing = Erkenning.RedenSchorsing,
+                RedenSchorsing = RedenSchorsing,
             }
         );
-    }
 }

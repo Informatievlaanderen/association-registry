@@ -60,7 +60,7 @@ public class Returns_Detail_With_Geschorste_Erkenning : End2EndTest<DetailVereni
                     Einddatum = geregistreerd.Einddatum?.ToString(WellknownFormats.DateOnly),
                     Hernieuwingsdatum = geregistreerd.Hernieuwingsdatum?.ToString(WellknownFormats.DateOnly),
                     HernieuwingsUrl = geregistreerd.HernieuwingsUrl,
-                    RedenSchorsing = _testWerdGeschorstContext.CommandRequest.Erkenning.RedenSchorsing,
+                    RedenSchorsing = _testWerdGeschorstContext.CommandRequest.RedenSchorsing,
                     Status = ErkenningStatus.Geschorst,
                 }
             ]);

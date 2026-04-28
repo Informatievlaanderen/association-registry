@@ -8,9 +8,6 @@ public class SchorsErkenningRequestExamples : IExamplesProvider<SchorsErkenningR
     public SchorsErkenningRequest GetExamples() =>
         new()
         {
-            Erkenning = new()
-            {
-                RedenSchorsing = "Niet-naleving van de erkenningsvoorwaarden zoals bepaald in het reglement.",
-            },
+            RedenSchorsing = "Niet-naleving van de erkenningsvoorwaarden zoals bepaald in het reglement.",
         };
 }
