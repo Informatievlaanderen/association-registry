@@ -64,7 +64,7 @@ jobs:
     name: ACM
     uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-acm-tests ]
+    needs: [ set-release-version ]
     with:
       image-file: ar-acm-api-image.tar
       image-name: verenigingsregister-acmapi
@@ -98,7 +98,7 @@ jobs:
     name: Public Api
     uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-public-tests ]
+    needs: [ set-release-version ]
     with:
       image-file: ar-public-api-image.tar
       image-name: verenigingsregister-publicapi
@@ -117,7 +117,7 @@ jobs:
     name: Public Projections
     uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-public-tests ]
+    needs: [ set-release-version ]
     with:
       image-file: ar-public-projections-image.tar
       image-name: verenigingsregister-publicprojections
@@ -151,7 +151,7 @@ jobs:
     name: Build Admin Api
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-admin-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -193,7 +193,7 @@ jobs:
     name: Build Admin Projections
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-admin-tests ]
+    needs: [ set-release-version ]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -249,7 +249,7 @@ jobs:
     name: Build Scheduled Host
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-scheduled-host-tests ]
+    needs: [ set-release-version ]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -306,7 +306,7 @@ jobs:
     name: Build Admin Address Sync
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-address-sync-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -348,7 +348,7 @@ jobs:
     name: Build Admin Api Migrations
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-admin-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -392,7 +392,7 @@ jobs:
     name: Build Admin Projections Migrations
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-admin-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -436,7 +436,7 @@ jobs:
     name: Build Acm Api Migrations
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-acm-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -480,7 +480,7 @@ jobs:
     name: Build Public Projections Migrations
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-public-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -539,7 +539,7 @@ jobs:
     name: Build PowerBI Export Scheduled Task
     uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-powerbi-tests ]
+    needs: [ set-release-version ]
     with:
       image-file: ar-powerbiexport-image.tar
       image-name: verenigingsregister-powerbiexport
@@ -687,7 +687,11 @@ jobs:
              build-admin-address-sync,
              build-powerbi-exporthost,
              build-scheduled-host,
-             build-sync-lambda ]
+             build-sync-lambda,
+             build-admin-api-migrations,
+             build-admin-projections-migrations,
+             build-acm-api-migrations,
+             build-public-projections-migrations]
     name: Push images IK4 (DevOps)
     runs-on: ubuntu-latest
     steps:
