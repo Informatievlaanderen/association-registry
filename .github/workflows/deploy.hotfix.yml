@@ -26,7 +26,7 @@ jobs:
         run: |
           echo ${{ github.event.inputs.version }} > semver
           echo $(cat semver)
-          echo ::set-output name=version::$(cat semver)
+          echo "version=$(cat semver)" >> "$GITHUB_OUTPUT"
           echo RELEASE_VERSION=$(cat semver) >> $GITHUB_ENV
         shell: bash
 
@@ -208,7 +208,7 @@ jobs:
           if [ "$VERSION" == "none" ]; then
             VERSION="0.0.0"
           fi
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg github.sha=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.ProjectionHost/Dockerfile \
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.ProjectionHost/Dockerfile \
           --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminprojections:$VERSION
 
       - name: Show images
@@ -593,12 +593,12 @@ jobs:
         run: dotnet restore --runtime linux-x64
 
       - name: Package lambda
-        if: inputs.semver != 'none'
+        if: needs.set-release-version.outputs.version != 'none'
         shell: bash
         run: cd src/AssociationRegistry.KboMutations.SyncLambda && dotnet lambda package --region ${{ secrets.VBR_AWS_REGION }}
 
       - name: Upload Lambda as Artifact
-        if: inputs.semver != 'none'
+        if: needs.set-release-version.outputs.version != 'none'
         uses: actions/upload-artifact@v4
         with:
           name: lambda-sync-${{ needs.set-release-version.outputs.version }}
@@ -636,16 +636,7 @@ jobs:
 
   upload-sync-lambda:
     name: Upload Sync Lambda
-    needs: [ set-release-version,
-      build-acm-api,
-      build-public-api,
-      build-public-projections,
-      build-admin-api,
-      build-admin-projections,
-      build-admin-address-sync,
-      build-powerbi-exporthost,
-             build-scheduled-host,
-      build-sync-lambda ]
+    needs: [ set-release-version, build-sync-lambda ]
     runs-on: ubuntu-latest
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
     steps:
@@ -677,7 +668,7 @@ jobs:
           S3_LAMBDA: 'kbo-sync'
 
   push_images_to_ik4_devops:
-    if: needs.release.outputs.version != 'none'
+    if: needs.set-release-version.outputs.version != 'none'
     needs: [ set-release-version,
              build-acm-api,
              build-public-api,
@@ -696,7 +687,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials (Test)
-        if: needs.release.outputs.version != 'none'
+        if: needs.set-release-version.outputs.version != 'none'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
@@ -704,7 +695,7 @@ jobs:
           aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
 
       - name: Login to Amazon ECR (Test)
-        if: needs.release.outputs.version != 'none'
+        if: needs.set-release-version.outputs.version != 'none'
         uses: aws-actions/amazon-ecr-login@v2.0.1
 
       - name: Download Acm Api artifact
@@ -828,7 +819,7 @@ jobs:
         run: docker image load -i ~/ar-public-proj-migration-image.tar
 
       - name: Push docker images to ECR Test
-        if: needs.release.outputs.version != 'none'
+        if: needs.set-release-version.outputs.version != 'none'
         shell: bash
         run: |
           echo $SEMVER
@@ -846,5 +837,5 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-acmapi-migrations:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ needs.release.outputs.version }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
