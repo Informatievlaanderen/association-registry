@@ -677,32 +677,30 @@ jobs:
           S3_LAMBDA: 'kbo-sync'
 
   push_images_to_ik4_devops:
-    if: needs.set-release-version.outputs.version != 'none'
-    needs: [
-      set-release-version,
-      build-acm-api,
-      build-public-api,
-      build-public-projections,
-      build-admin-api,
-      build-admin-projections,
-      build-admin-address-sync,
-      build-powerbi-exporthost,
-      build-scheduled-host,
-      build-sync-lambda
-    ]
+    if: needs.release.outputs.version != 'none'
+    needs: [ set-release-version,
+             build-acm-api,
+             build-public-api,
+             build-public-projections,
+             build-admin-api,
+             build-admin-projections,
+             build-admin-address-sync,
+             build-powerbi-exporthost,
+             build-scheduled-host,
+             build-sync-lambda ]
     name: Push images IK4 (DevOps)
     runs-on: ubuntu-latest
     steps:
-      - name: Configure AWS credentials (DevOps)
-        if: needs.set-release-version.outputs.version != 'none'
+      - name: Configure AWS credentials (Test)
+        if: needs.release.outputs.version != 'none'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
           aws-secret-access-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
           aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
 
-      - name: Login to Amazon ECR (DevOps)
-        if: needs.set-release-version.outputs.version != 'none'
+      - name: Login to Amazon ECR (Test)
+        if: needs.release.outputs.version != 'none'
         uses: aws-actions/amazon-ecr-login@v2.0.1
 
       - name: Download Acm Api artifact
@@ -765,6 +763,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-admin-address-sync-image.tar
 
+      - name: Download Scheduled Host Runner artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-scheduledhost
+          path: ~/
+
+      - name: Load Scheduled Host runner image
+        shell: bash
+        run: docker image load -i ~/ar-scheduled-host-image.tar
+
       - name: Download PowerBI Export Scheduled Task artifact
         uses: actions/download-artifact@v4
         with:
@@ -775,8 +783,48 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-powerbiexport-image.tar
 
+      - name: Download Admin API Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-adminapi-migrations
+          path: ~/
+
+      - name: Load Admin API Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-admin-api-migration-image.tar
+
+      - name: Download Admin Projections Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-adminprojections-migrations
+          path: ~/
+
+      - name: Load Admin Projections Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-admin-proj-migration-image.tar
+
+      - name: Download ACM API Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-acmapi-migrations
+          path: ~/
+
+      - name: Load Acm Api Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-acm-api-migration-image.tar
+
+      - name: Download Public projections Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-publicprojections-migrations
+          path: ~/
+
+      - name: Load Public Projections Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-public-proj-migration-image.tar
+
       - name: Push docker images to ECR Test
-        if: needs.set-release-version.outputs.version != 'none'
+        if: needs.release.outputs.version != 'none'
         shell: bash
         run: |
           echo $SEMVER
@@ -794,5 +842,5 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-acmapi-migrations:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ needs.set-release-version.outputs.version }}
+          SEMVER: ${{ needs.release.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
