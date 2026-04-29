@@ -23,19 +23,20 @@ public class ProjectionController : ApiController
     private readonly AdminProjectionHostHttpClient _adminHttpClient;
     private readonly PublicProjectionHostHttpClient _publicHttpClient;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
-    private readonly IProjectionCoordinator _projectionCoordinator;
+
+    //private readonly IProjectionCoordinator _projectionCoordinator;
     private readonly ILogger<ProjectionController> _logger;
 
     public ProjectionController(
         AdminProjectionHostHttpClient adminHttpClient,
         PublicProjectionHostHttpClient publicHttpClient,
-        IProjectionCoordinator projectionCoordinator,
+        //IProjectionCoordinator projectionCoordinator,
         ILogger<ProjectionController> logger
     )
     {
         _adminHttpClient = adminHttpClient;
         _publicHttpClient = publicHttpClient;
-        _projectionCoordinator = projectionCoordinator;
+        //_projectionCoordinator = projectionCoordinator;
         _logger = logger;
 
         _jsonSerializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
@@ -57,20 +58,20 @@ public class ProjectionController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
-    [HttpPost("admin/eventsubscription/bewaartermijn/vertegenwoordigers/rebuild")]
-    public async Task<IActionResult> RebuildEventSubscriptionBewaartermijnVertegenwoordigers(
-        CancellationToken cancellationToken,
-        [FromQuery] long sequence = 0
-    )
-    {
-        await EventSubscriptionRebuildExtensions.StartRebuildSubscription(
-            BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
-            _projectionCoordinator,
-            sequence
-        );
-
-        return Ok();
-    }
+    // [HttpPost("admin/eventsubscription/bewaartermijn/vertegenwoordigers/rebuild")]
+    // public async Task<IActionResult> RebuildEventSubscriptionBewaartermijnVertegenwoordigers(
+    //     CancellationToken cancellationToken,
+    //     [FromQuery] long sequence = 0
+    // )
+    // {
+    //     await EventSubscriptionRebuildExtensions.StartRebuildSubscription(
+    //         BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
+    //         _projectionCoordinator,
+    //         sequence
+    //     );
+    //
+    //     return Ok();
+    // }
 
     [HttpPost("admin/bewaartermijn/rebuild")]
     public async Task<IActionResult> RebuildBewaartermijnen(

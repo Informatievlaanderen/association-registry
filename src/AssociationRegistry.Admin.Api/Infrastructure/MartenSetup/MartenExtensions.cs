@@ -98,18 +98,18 @@ public static class MartenExtensions
 
                 integration.AutoCreate = AutoCreate.None;
             })
-            .AddAsyncDaemon(DaemonMode.HotCold)
-            .ProcessEventsWithWolverineHandlersInStrictOrder(
-                BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
-                o =>
-                {
-                    o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
-                    o.IncludeType<VertegenwoordigerWerdVerwijderd>();
-                    o.IncludeType<VerenigingWerdVerwijderd>();
-                    o.IncludeType<VerenigingWerdGestopt>();
-                    o.Options.SubscribeFromSequence(0);
-                }
-            )
+            // .AddAsyncDaemon(DaemonMode.HotCold)
+            //  .ProcessEventsWithWolverineHandlersInStrictOrder(
+            //      BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
+            //      o =>
+            //      {
+            //          o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
+            //          o.IncludeType<VertegenwoordigerWerdVerwijderd>();
+            //          o.IncludeType<VerenigingWerdVerwijderd>();
+            //          o.IncludeType<VerenigingWerdGestopt>();
+            //          o.Options.SubscribeFromSequence(0);
+            //      }
+            //  )
             .UseLightweightSessions();
 
         martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
