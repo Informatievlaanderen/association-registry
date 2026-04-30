@@ -5,7 +5,6 @@ public record Erkenning
     public int ErkenningId { get; set; }
     public GegevensInitiator GeregistreerdDoor { get; set; }
     public IpdcProduct IpdcProduct { get; set; }
-
     public ErkenningsPeriode ErkenningsPeriode { get; set; }
     public Hernieuwingsdatum Hernieuwingsdatum { get; set; }
     public HernieuwingsUrl HernieuwingsUrl { get; set; } = null!;
@@ -60,13 +59,36 @@ public record Erkenning
     {
         var zelfdeSleutel =
             IpdcProduct.Nummer == teRegistrerenErkenning.IpdcProduct.Nummer
-            && GeregistreerdDoor.OvoCode == teRegistrerenErkenning.GeregistreerdDoor.OvoCode;
+         && GeregistreerdDoor.OvoCode == teRegistrerenErkenning.GeregistreerdDoor.OvoCode;
 
         if (!zelfdeSleutel)
             return false;
 
         return ErkenningsPeriode.OverlapsWith(teRegistrerenErkenning.ErkenningsPeriode);
     }
+
+    public bool WouldBeEquivalent(
+        TeSchorsenErkenning teSchorsenErkenning,
+        out Erkenning geschorsteErkenning
+    )
+    {
+        geschorsteErkenning = CreateForWijzigen(
+            teSchorsenErkenning.ErkenningId,
+            teSchorsenErkenning.RedenSchorsing
+        );
+
+        return this == geschorsteErkenning;
+    }
+
+    private Erkenning CreateForWijzigen(int erkenningId, string redenSchorsing) =>
+        this with
+        {
+            ErkenningId = erkenningId,
+            Motivering = redenSchorsing,
+        };
+
+    public Erkenning Schors(string redenSchorsing)
+        => this with { Motivering = redenSchorsing, Status = ErkenningStatus.Geschorst };
 }
 
 public record IpdcProduct
