@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
 
-public class StartBewaartermijnVoorVerwijderVerenigingMessage
-{
+using NodaTime;
 
+public class StartBewaartermijnVoorVerwijderVerenigingMessage {
 }

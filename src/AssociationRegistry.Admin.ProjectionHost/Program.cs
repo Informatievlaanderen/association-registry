@@ -27,8 +27,22 @@ using Serilog;
 using Serilog.Debugging;
 using System.Net;
 using System.Text;
+using CommandHandling.Bewaartermijnen.Acties.Start;
+using CommandHandling.Bewaartermijnen.MessageHandlers.Vertegenwoordigers.VertegenwoordigerWerdAangeduidAlsOverleden;
+using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
+using EventStore;
+using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
+using MartenDb;
+using MartenDb.Setup;
+using Projections.Bewaartermijn.EventHandling;
 using Wolverine;
+using Wolverine.ErrorHandling;
+using Wolverine.Postgresql;
 using HealthStatus = Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus;
+using StartBewaartermijnMessage = DecentraalBeheer.Vereniging.Bewaartermijnen.Messages.StartBewaartermijnMessage;
 
 public class Program
 {
@@ -62,7 +76,15 @@ public class Program
         builder.Host.UseWolverine(
             options =>
             {
+                Log.Logger.Information("Setting up wolverine");
+
+                options.AutoBuildMessageStorageOnStartup = AutoCreate.All;
+                options.UseNewtonsoftForSerialization(settings => settings.ConfigureForVerenigingsregister());
+
                 options.Discovery.IncludeType<BeheerZoekProjectionHandler>();
+                options.Discovery.IncludeAssembly(typeof(BewaartermijnVertegenwoordigersEventHandler).Assembly); // TODO remove
+
+                ConfigureQueues(options, WellknownSchemaNames.Wolverine, builder.Configuration);
             });
 
         builder.Services.CritterStackDefaults(x =>
@@ -202,5 +224,25 @@ public class Program
             // Don't terminate the process immediately, wait for the Main thread to exit gracefully.
             eventArgs.Cancel = true;
         };
+    }
+    public static void ConfigureQueues(
+        WolverineOptions options,
+        string wolverineSchema,
+        ConfigurationManager configuration)
+    {
+        var connectionString = configuration.GetPostgreSqlOptionsSection().GetConnectionString();
+
+        options.PersistMessagesWithPostgresql(connectionString, wolverineSchema).EnableMessageTransport();
+
+        ConfigureStartBewaartermijn(options);
+    }
+
+    private static void ConfigureStartBewaartermijn(WolverineOptions options)
+    {
+        options.Discovery.IncludeType<StartBewaartermijnMessage>();
+        options.Discovery.IncludeType<StartBewaartermijnMessageHandler>();
+
+        options.PublishMessage<StartBewaartermijnMessage>().ToPostgresqlQueue(WellknownQueueNames.StartBewaartermijnQueueName);
+
     }
 }

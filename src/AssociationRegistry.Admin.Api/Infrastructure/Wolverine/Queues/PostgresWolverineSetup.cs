@@ -1,11 +1,14 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Wolverine.Queues;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
+using CommandHandling.Bewaartermijnen.MessageHandlers.Vertegenwoordigers;
+using CommandHandling.Bewaartermijnen.MessageHandlers.Vertegenwoordigers.VertegenwoordigerWerdAangeduidAlsOverleden;
 using CommandHandling.InschrijvingenVertegenwoordigers;
 using Framework;
 using Hosts.Configuration;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardCorrectieDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
+using DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
 using global::Wolverine;
 using global::Wolverine.Postgresql;
 using Hosts.Configuration.ConfigurationBindings;
@@ -27,10 +30,19 @@ internal static class PostgresWolverineSetup
 
         options.PersistMessagesWithPostgresql(connectionString, wolverineSchema).EnableMessageTransport();
 
+        ConfigureStartBewaartermijn(options);
         ConfigureAanvaardDubbeleVerenigingen(options);
         ConfigureSchrijfVertegenwoordigersInMessageQueue(options, initialRegistreerInschrijvingOptions);
         ConfigureAanvaardCorrectieDubbeleVerenigingMessageQueue(options);
         ConfigureVerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageQueue(options);
+    }
+
+    private static void ConfigureStartBewaartermijn(WolverineOptions options)
+    {
+        options.Discovery.IncludeType<StartBewaartermijnMessage>();
+        options.Discovery.IncludeType<StartBewaartermijnMessageListener>();
+
+        options.ListenToPostgresqlQueue(WellknownQueueNames.StartBewaartermijnQueueName);
     }
 
     private static void ConfigureVerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageQueue(WolverineOptions options)

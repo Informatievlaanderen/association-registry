@@ -1,6 +1,11 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
+namespace AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
 
-public class StartBewaartermijnVoorOverledenVertegenwoordigerMessage
+using NodaTime;
+
+public class StartBewaartermijnVoorOverledenVertegenwoordigerMessage : StartBewaartermijnMessage
 {
-
+    public StartBewaartermijnVoorOverledenVertegenwoordigerMessage(string streamKey, int entityId, Instant vervaldag) :
+        base(streamKey, entityId, vervaldag, BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden)
+    {
+    }
 }

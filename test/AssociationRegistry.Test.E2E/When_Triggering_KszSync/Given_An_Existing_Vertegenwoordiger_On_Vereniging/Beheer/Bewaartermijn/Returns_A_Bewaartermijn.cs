@@ -28,8 +28,13 @@ public class Returns_A_Bewaartermijn : End2EndTest<BewaartermijnResponse>
             _context.VCode,
             _context.Scenario.Vertegenwoordiger.VertegenwoordigerId
         );
+// Deze test zou moeten groendraaien
+// Daarna nog een test toevoegen zodat alle events afgechecked zijn
+// Admin api listenTo, admin host publish msg
+// allemaal includen, geen idee of handler moet included zijn op host, indien wel reference leggen en mssges verhuizen zou ik zeggen
 
-    [Fact]
+
+[Fact]
     public void JsonContentMatches()
     {
         var expectedId =

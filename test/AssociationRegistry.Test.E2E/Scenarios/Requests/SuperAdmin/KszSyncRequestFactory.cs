@@ -16,7 +16,7 @@ public class KszSyncRequestFactory : ITestRequestFactory<NullRequest>
         _scenario = scenario;
         _insz = insz;
     }
-
+// TODO test toevoegen voor verenigingwerdgestopt
     public async Task<CommandResult<NullRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var vCode = _scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
