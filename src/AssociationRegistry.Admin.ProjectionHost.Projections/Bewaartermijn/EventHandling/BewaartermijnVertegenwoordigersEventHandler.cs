@@ -5,6 +5,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Grar.Bewaartermijnen;
+using DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
 using JasperFx.Events;
 using JasperFx.Events.Projections;
 using NodaTime;
@@ -17,29 +18,17 @@ public static class BewaartermijnVertegenwoordigersEventHandler
 
     public static async Task Handle(
         IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> @event,
-        IMessageBus messageBus,
-        BewaartermijnOptions bewaartermijnOptions,
-        CancellationToken cancellationToken
-    )
+        IMessageBus messageBus)
     {
-        await CreateBewaartermijn(
-            @event.StreamKey!,
-            @event.Data.VertegenwoordigerId,
-            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
-            eventStore,
-            bewaartermijnOptions,
-            cancellationToken,
-            BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden
-        );
+       await  messageBus.SendAsync(new StartBewaartermijnVoorOverledenVertegenwoordigerMessage());
     }
 
     public static async Task Handle(
         IEvent<VertegenwoordigerWerdVerwijderd> @event,
-        IMessageBus messageBus,
-        BewaartermijnOptions bewaartermijnOptions,
-        CancellationToken cancellationToken
-    )
+        IMessageBus messageBus)
     {
+        await  messageBus.SendAsync(new StartBewaartermijnVoorVerwijderVerenigingMessage());
+
         await CreateBewaartermijn(
             @event.StreamKey!,
             @event.Data.VertegenwoordigerId,
@@ -54,10 +43,11 @@ public static class BewaartermijnVertegenwoordigersEventHandler
     public static async Task Handle(
         IEvent<VerenigingWerdVerwijderd> @event,
         IMessageBus messageBus,
-        BewaartermijnOptions bewaartermijnOptions,
         CancellationToken cancellationToken
     )
     {
+        await messageBus.SendAsync(new StartBewaartermijnVoorVerwijderVertegenwoordigerMessage());
+
         var state = await eventStore.Load<VerenigingState>(@event.StreamKey!, expectedVersion: null);
 
         foreach (var vertegenwoordiger in state.Vertegenwoordigers)
@@ -81,6 +71,8 @@ public static class BewaartermijnVertegenwoordigersEventHandler
         CancellationToken cancellationToken
     )
     {
+        await messageBus.SendAsync(new StartBewaartermijnVoorStopVerenigingMessage());
+
         var state = await eventStore.Load<VerenigingState>(@event.StreamKey!, expectedVersion: null);
 
         foreach (var vertegenwoordiger in state.Vertegenwoordigers)

@@ -1,0 +1,6 @@
+﻿namespace AssociationRegistry.CommandHandling.Bewaartermijnen.MessageHandlers.Vertegenwoordigers.VertegenwoordigerWerdVerwijderd;
+
+public class StartBewaartermijnVoorVerwijderVertegenwoordigerMessageHandler
+{
+
+}

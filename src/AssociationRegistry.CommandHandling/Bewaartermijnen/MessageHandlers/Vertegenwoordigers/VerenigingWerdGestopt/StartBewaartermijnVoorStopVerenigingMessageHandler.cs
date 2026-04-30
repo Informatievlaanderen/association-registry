@@ -1,0 +1,6 @@
+﻿namespace AssociationRegistry.CommandHandling.Bewaartermijnen.MessageHandlers.Vertegenwoordigers.VerenigingWerdGestopt;
+
+public class StartBewaartermijnVoorStopVerenigingMessageHandler
+{
+
+}
