@@ -26,22 +26,51 @@ jobs:
         run: |
           echo ${{ github.event.inputs.version }} > semver
           echo $(cat semver)
-          echo ::set-output name=version::$(cat semver)
+          echo "version=$(cat semver)" >> "$GITHUB_OUTPUT"
           echo RELEASE_VERSION=$(cat semver) >> $GITHUB_ENV
         shell: bash
 
+  run-unit-tests:
+    name: Domain
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    with:
+      test-project: AssociationRegistry.Test
+      run-docker-acm: false
+      run-docker-wiremock: true
+      run-docker-db: true
+      run-docker-elasticsearch: true
+      run-docker-ministack: true
+      run-docker-otelcollector: true
+    secrets: inherit
+
+  run-acm-tests:
+    name: ACM
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    with:
+      test-project: AssociationRegistry.Test.Acm.Api
+      run-docker-acm: true
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-ministack: false
+      run-docker-otelcollector: false
+      pre-gen-marten: true
+      db-name: golden_master_template
+    secrets: inherit
+
   build-acm-api:
-    name: Build ACM Api
+    name: ACM
     uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
       image-file: ar-acm-api-image.tar
       image-name: verenigingsregister-acmapi
-      test-project: AssociationRegistry.Test.Acm.Api
       build-project: AssociationRegistry.Acm.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
-      run-docker-acm: true
+      run-docker-acm: false
       run-docker-wiremock: false
       run-docker-db: true
       run-docker-elasticsearch: false
@@ -50,28 +79,42 @@ jobs:
       pre-gen-marten: true
     secrets: inherit
 
+  run-public-tests:
+    name: Public Api
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    with:
+      test-project: AssociationRegistry.Test.Public.Api
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: true
+      run-docker-ministack: false
+      run-docker-otelcollector: true
+      db-name: golden_master_template
+    secrets: inherit
+
   build-public-api:
-    name: Build Public Api
+    name: Public Api
     uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
       image-file: ar-public-api-image.tar
       image-name: verenigingsregister-publicapi
-      test-project: AssociationRegistry.Test.Public.Api
       build-project: AssociationRegistry.Public.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
       run-docker-wiremock: false
       run-docker-db: true
-      run-docker-elasticsearch: true
-      run-docker-ministack: true
-      run-docker-otelcollector: true
-      pre-gen-marten: false
+      run-docker-elasticsearch: false
+      run-docker-ministack: false
+      run-docker-otelcollector: false
+      pre-gen-marten: true
     secrets: inherit
 
   build-public-projections:
-    name: Build Public Projections
+    name: Public Projections
     uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -85,8 +128,23 @@ jobs:
       run-docker-db: true
       run-docker-elasticsearch: true
       run-docker-ministack: false
-      run-docker-otelcollector: true
+      run-docker-otelcollector: false
       pre-gen-marten: true
+    secrets: inherit
+
+  run-admin-tests:
+    name: Admin Api
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    with:
+      test-project: AssociationRegistry.Test.Admin.Api
+      run-docker-acm: true
+      run-docker-wiremock: true
+      run-docker-db: true
+      run-docker-elasticsearch: true
+      run-docker-ministack: true
+      run-docker-otelcollector: true
+      db-name: golden_master_template
     secrets: inherit
 
   build-admin-api:
@@ -99,49 +157,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Run es container
-        shell: bash
-        run: |
-          docker run -d --name elasticsearch -p 9200:9200 -m 2g -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.18.1
-
-      - name: Run ministack container
-        shell: bash
-        run: |
-          docker run -d --name ministack -p 4566:4566 -e MINISTACK_REGION=eu-west-1 -e MINISTACK_ACCOUNT_ID=123456789012 -e MINISTACK_HOST=127.0.0.1 ministackorg/ministack:latest
-
-      - name: Run wiremock container
-        shell: bash
-        run: |
-          docker run -d --name wiremock -v ${{ github.workspace }}/wiremock:/home/wiremock -p 8080:8080 wiremock/wiremock:2.35.0-1 --global-response-templating --verbose
-
-      - name: Run ACM container
-        shell: bash
-        run: |
-          docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
-
-      - name: Run db container
-        shell: bash
-        run: |
-          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
-
-      - name: Run OpenTelemetry container
-        shell: bash
-        run: |
-          docker run -d --name otel-collector -p 4317:4317 -v ${{ github.workspace }}./otel-collector-config.yaml:/etc/otel-collector-config.yaml otel/opentelemetry-collector-contrib
-
-      - name: Wait for db container
-        shell: bash
-        run: |
-          timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
-
       - name: Build
         shell: bash
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
         run: |
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=${{ needs.set-release-version.outputs.version }} --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile \
-          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi:${{ needs.set-release-version.outputs.version }}
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi:$VERSION
 
       - name: Show images
         shell: bash
@@ -162,42 +189,6 @@ jobs:
           name: verenigingsregister-adminapi
           path: ~/ar-admin-api-image.tar
 
-      - name: Shows logs ACM container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs acm
-
-      - name: Shows logs elasticsearch container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs elasticsearch
-
-      - name: Shows logs ministack container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs ministack
-
-      - name: Shows logs wiremock container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs wiremock
-
-      - name: Shows logs db container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs db
-
-      - name: Shows logs otelcollector container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs otel-collector
-
   build-admin-projections:
     name: Build Admin Projections
     runs-on: ubuntu-latest
@@ -207,49 +198,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Run es container
-        shell: bash
-        run: |
-          docker run -d --name elasticsearch -p 9200:9200 -m 2g -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.18.1
-
-      - name: Run ministack container
-        shell: bash
-        run: |
-          docker run -d --name ministack -p 4566:4566 -e MINISTACK_REGION=eu-west-1 -e MINISTACK_ACCOUNT_ID=123456789012 -e MINISTACK_HOST=127.0.0.1 ministackorg/ministack:latest
-
-      - name: Run wiremock container
-        shell: bash
-        run: |
-          docker run -d --name wiremock -v ${{ github.workspace }}/wiremock:/home/wiremock -p 8080:8080 wiremock/wiremock:2.35.0-1 --global-response-templating --verbose
-
-      - name: Run ACM container
-        shell: bash
-        run: |
-          docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
-
-      - name: Run db container
-        shell: bash
-        run: |
-          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
-
-      - name: Run OpenTelemetry container
-        shell: bash
-        run: |
-          docker run -d --name otel-collector -p 4317:4317 -v ${{ github.workspace }}./otel-collector-config.yaml:/etc/otel-collector-config.yaml otel/opentelemetry-collector-contrib
-
-      - name: Wait for db container
-        shell: bash
-        run: |
-          timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
-
       - name: Build
         shell: bash
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
         run: |
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=${{ needs.set-release-version.outputs.version }} --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.ProjectionHost/Dockerfile \
-          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminprojections:${{ needs.set-release-version.outputs.version }}
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.ProjectionHost/Dockerfile \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminprojections:$VERSION
 
       - name: Show images
         shell: bash
@@ -270,53 +230,302 @@ jobs:
           name: verenigingsregister-adminprojections
           path: ~/ar-admin-projections-image.tar
 
-      - name: Shows logs ACM container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs acm
+  run-scheduled-host-tests:
+    name: Scheduled host
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    with:
+      test-project: AssociationRegistry.Test.Scheduled.Host
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-ministack: false
+      run-docker-otelcollector: true
+      pre-gen-marten: true
+    secrets: inherit
 
-      - name: Shows logs elasticsearch container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs elasticsearch
-
-      - name: Shows logs ministack container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs ministack
-
-      - name: Shows logs wiremock container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs wiremock
-
-      - name: Shows logs db container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs db
-
-      - name: Shows logs otelcollector container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs otel-collector
-
-  build-admin-address-sync:
-    name: Build Admin Address Sync Scheduled Task
-    uses: ./.github/workflows/shared.build-image.yml
+  build-scheduled-host:
+    name: Build Scheduled Host
+    runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Scheduled.Host/Dockerfile \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-scheduledhost:$VERSION
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-scheduledhost:${{ needs.set-release-version.outputs.version }} -o ~/ar-scheduled-host-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-scheduledhost
+          path: ~/ar-scheduled-host-image.tar
+
+
+  run-address-sync-tests:
+    name: Address Sync
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
     with:
-      image-file: ar-admin-address-sync-image.tar
-      image-name: verenigingsregister-adressensync
       test-project: AssociationRegistry.Test.Admin.AddressSync
-      build-project: AssociationRegistry.Admin.AddressSync/
-      semver: ${{ needs.set-release-version.outputs.version }}
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-ministack: false
+      run-docker-otelcollector: true
+      pre-gen-marten: false
+    secrets: inherit
+
+  build-admin-address-sync:
+    name: Build Admin Address Sync
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.AddressSync/Dockerfile \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adressensync:$VERSION
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-adressensync:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-address-sync-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-adressensync
+          path: ~/ar-admin-address-sync-image.tar
+
+  build-admin-api-migrations:
+    name: Build Admin Api Migrations
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          pushd migrations/production/admin.api/ \
+          && docker buildx build . --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi-migrations:$VERSION \
+          && popd
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Api Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-adminapi-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-api-migration-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload Api artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-adminapi-migrations
+          path: ~/ar-admin-api-migration-image.tar
+
+  build-admin-projections-migrations:
+    name: Build Admin Projections Migrations
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          pushd migrations/production/admin.projections/ \
+          && docker buildx build . --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminprojections-migrations:$VERSION \
+          && popd
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Api Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-adminprojections-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-proj-migration-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload Admin Projections artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-adminprojections-migrations
+          path: ~/ar-admin-proj-migration-image.tar
+
+  build-acm-api-migrations:
+    name: Build Acm Api Migrations
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          pushd migrations/production/acm.api/ \
+          && docker buildx build . --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-acmapi-migrations:$VERSION \
+          && popd
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Api Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-acmapi-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-acm-api-migration-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload Api artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-acmapi-migrations
+          path: ~/ar-acm-api-migration-image.tar
+
+  build-public-projections-migrations:
+    name: Build Public Projections Migrations
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build
+        shell: bash
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+        run: |
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          pushd migrations/production/public.projections/ \
+          && docker buildx build . --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-publicprojections-migrations:$VERSION \
+          && popd
+
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save publicprojections migrations Image
+        if: needs.set-release-version.outputs.version != 'none'
+        shell: bash
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-publicprojections-migrations:${{ needs.set-release-version.outputs.version }} -o ~/ar-public-proj-migration-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Upload Api artifact
+        if: needs.set-release-version.outputs.version != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-publicprojections-migrations
+          path: ~/ar-public-proj-migration-image.tar
+
+  run-powerbi-tests:
+    name: PowerBi
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    with:
+      test-project: AssociationRegistry.Test.PowerBi.ExportHost
       run-docker-acm: false
       run-docker-wiremock: false
       run-docker-db: true
@@ -334,15 +543,14 @@ jobs:
     with:
       image-file: ar-powerbiexport-image.tar
       image-name: verenigingsregister-powerbiexport
-      test-project: AssociationRegistry.Test.PowerBi.ExportHost
       build-project: AssociationRegistry.PowerBi.ExportHost/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
       run-docker-wiremock: false
-      run-docker-db: true
+      run-docker-db: false
       run-docker-elasticsearch: false
       run-docker-ministack: false
-      run-docker-otelcollector: true
+      run-docker-otelcollector: false
       pre-gen-marten: false
     secrets: inherit
 
@@ -385,26 +593,50 @@ jobs:
         run: dotnet restore --runtime linux-x64
 
       - name: Package lambda
+        if: needs.set-release-version.outputs.version != 'none'
         shell: bash
         run: cd src/AssociationRegistry.KboMutations.SyncLambda && dotnet lambda package --region ${{ secrets.VBR_AWS_REGION }}
 
       - name: Upload Lambda as Artifact
+        if: needs.set-release-version.outputs.version != 'none'
         uses: actions/upload-artifact@v4
         with:
           name: lambda-sync-${{ needs.set-release-version.outputs.version }}
           path: src/AssociationRegistry.KboMutations.SyncLambda/bin/Release/net9.0/AssociationRegistry.KboMutations.SyncLambda.zip
 
+  run-e2e-tests:
+    name: E2E
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    with:
+      test-project: AssociationRegistry.Test.E2E
+      run-docker-acm: true
+      run-docker-wiremock: true
+      run-docker-db: true
+      run-docker-elasticsearch: true
+      run-docker-ministack: true
+      run-docker-otelcollector: true
+      db-name: golden_master_template
+    secrets: inherit
+
+  run-projections-tests:
+    name: Projections
+    uses: ./.github/workflows/shared.run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    with:
+      test-project: AssociationRegistry.Test.Projections
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: true
+      run-docker-ministack: false
+      run-docker-otelcollector: true
+      db-name: golden_master_template
+    secrets: inherit
+
   upload-sync-lambda:
     name: Upload Sync Lambda
-    needs: [ set-release-version,
-      build-acm-api,
-      build-public-api,
-      build-public-projections,
-      build-admin-api,
-      build-admin-projections,
-      build-admin-address-sync,
-      build-powerbi-exporthost,
-      build-sync-lambda ]
+    needs: [ set-release-version, build-sync-lambda ]
     runs-on: ubuntu-latest
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
     steps:
@@ -437,21 +669,24 @@ jobs:
 
   push_images_to_ik4_devops:
     if: needs.set-release-version.outputs.version != 'none'
-    needs: [
-      set-release-version,
-      build-acm-api,
-      build-public-api,
-      build-public-projections,
-      build-admin-api,
-      build-admin-projections,
-      build-admin-address-sync,
-      build-powerbi-exporthost,
-      build-sync-lambda
-    ]
+    needs: [ set-release-version,
+             build-acm-api,
+             build-public-api,
+             build-public-projections,
+             build-admin-api,
+             build-admin-projections,
+             build-admin-address-sync,
+             build-powerbi-exporthost,
+             build-scheduled-host,
+             build-sync-lambda,
+             build-admin-api-migrations,
+             build-admin-projections-migrations,
+             build-acm-api-migrations,
+             build-public-projections-migrations]
     name: Push images IK4 (DevOps)
     runs-on: ubuntu-latest
     steps:
-      - name: Configure AWS credentials (DevOps)
+      - name: Configure AWS credentials (Test)
         if: needs.set-release-version.outputs.version != 'none'
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -459,7 +694,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
           aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
 
-      - name: Login to Amazon ECR (DevOps)
+      - name: Login to Amazon ECR (Test)
         if: needs.set-release-version.outputs.version != 'none'
         uses: aws-actions/amazon-ecr-login@v2.0.1
 
@@ -523,6 +758,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-admin-address-sync-image.tar
 
+      - name: Download Scheduled Host Runner artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-scheduledhost
+          path: ~/
+
+      - name: Load Scheduled Host runner image
+        shell: bash
+        run: docker image load -i ~/ar-scheduled-host-image.tar
+
       - name: Download PowerBI Export Scheduled Task artifact
         uses: actions/download-artifact@v4
         with:
@@ -532,6 +777,46 @@ jobs:
       - name: Load PowerBI Export Scheduled Task image
         shell: bash
         run: docker image load -i ~/ar-powerbiexport-image.tar
+
+      - name: Download Admin API Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-adminapi-migrations
+          path: ~/
+
+      - name: Load Admin API Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-admin-api-migration-image.tar
+
+      - name: Download Admin Projections Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-adminprojections-migrations
+          path: ~/
+
+      - name: Load Admin Projections Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-admin-proj-migration-image.tar
+
+      - name: Download ACM API Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-acmapi-migrations
+          path: ~/
+
+      - name: Load Acm Api Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-acm-api-migration-image.tar
+
+      - name: Download Public projections Migrations artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-publicprojections-migrations
+          path: ~/
+
+      - name: Load Public Projections Migrations image
+        shell: bash
+        run: docker image load -i ~/ar-public-proj-migration-image.tar
 
       - name: Push docker images to ECR Test
         if: needs.set-release-version.outputs.version != 'none'
@@ -544,7 +829,12 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adressensync:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-scheduledhost:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-powerbiexport:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi-migrations:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections-migrations:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections-migrations:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-acmapi-migrations:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
