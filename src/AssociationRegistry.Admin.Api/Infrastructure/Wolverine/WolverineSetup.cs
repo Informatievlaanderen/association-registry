@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Wolverine;
 
 using global::Wolverine;
-using CommandHandling.Bewaartermijnen.EventHandling;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DecentraalBeheer.Vereniging;
 using Events;
@@ -15,6 +14,7 @@ using JasperFx.Events.Daemon;
 using Marten;
 using MartenDb.Setup;
 using Pipelines;
+using ProjectionHost.Projections.Bewaartermijn.EventHandling;
 using Queues;
 using Serilog;
 

@@ -7,6 +7,7 @@ using AssociationRegistry.MartenDb.Setup;
 using AssociationRegistry.MartenDb.Subscriptions;
 using Constants;
 using Elastic.Clients.Elasticsearch;
+using Events;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
@@ -17,10 +18,12 @@ using Json;
 using Marten;
 using Marten.Events.Projections;
 using Marten.Services;
+using MartenDb;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Bewaartermijn;
+using Projections.Bewaartermijn.EventHandling;
 using Projections.Detail;
 using Projections.Historiek;
 using Projections.Locaties;
@@ -31,6 +34,7 @@ using Projections.Search.Zoeken;
 using Projections.Sync;
 using Projections.Vertegenwoordiger;
 using Schema.Setup.Marten;
+using Wolverine.Marten;
 using ConfigurationManager = ConfigurationManager;
 
 public static class ConfigureMartenExtensions
@@ -86,7 +90,26 @@ public static class ConfigureMartenExtensions
                     .GetSection(ElasticSearchOptionsSection.SectionName)
                     .Get<ElasticSearchOptionsSection>()
             );
-        });
+        })
+       .IntegrateWithWolverine(integration =>
+        {
+            integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
+            integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
+
+            integration.AutoCreate = AutoCreate.None;
+        })
+       .AddAsyncDaemon(DaemonMode.HotCold)
+       .ProcessEventsWithWolverineHandlersInStrictOrder(
+            BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
+            o =>
+            {
+                o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
+                o.IncludeType<VertegenwoordigerWerdVerwijderd>();
+                o.IncludeType<VerenigingWerdVerwijderd>();
+                o.IncludeType<VerenigingWerdGestopt>();
+                o.Options.SubscribeFromSequence(0);
+            }
+        );
 
         return martenConfigurationExpression;
     }

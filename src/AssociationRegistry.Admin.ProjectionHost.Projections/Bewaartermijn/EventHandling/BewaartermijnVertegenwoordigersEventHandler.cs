@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.CommandHandling.Bewaartermijnen.EventHandling;
+﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Bewaartermijn.EventHandling;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
-using Events;
-using Framework;
-using Integrations.Grar.Bewaartermijnen;
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Integrations.Grar.Bewaartermijnen;
 using JasperFx.Events;
 using JasperFx.Events.Projections;
 using NodaTime;

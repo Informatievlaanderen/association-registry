@@ -5,12 +5,12 @@ using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.HttpClients;
 using Be.Vlaanderen.Basisregisters.Api;
-using CommandHandling.Bewaartermijnen.EventHandling;
 using EventSubscriptions.Rebuilds;
 using Marten;
 using Marten.Events.Daemon.Coordination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectionHost.Projections.Bewaartermijn.EventHandling;
 using ResponseModels;
 
 [ApiVersion("1.0")]
