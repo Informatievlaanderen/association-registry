@@ -80,7 +80,7 @@
     <PackageVersion Include="WolverineFx.Http" Version="5.0.0" />
     <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="8.19.9" />
     <PackageVersion Include="Amazon.Lambda.RuntimeSupport" Version="1.13.1" />
-    <PackageVersion Include="Confluent.Kafka" Version="2.11.0" />
+    <PackageVersion Include="Confluent.Kafka" Version="2.14.0" />
     <PackageVersion Include="Quartz" Version="3.18.0" />
     <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.18.0" />
     <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.18.0" />
