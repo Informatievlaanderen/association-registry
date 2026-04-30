@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.MartenSetup;
 
-using CommandHandling.Bewaartermijnen.EventHandling;
 using Events;
 using global::Wolverine.Marten;
 using Hosts.Configuration.ConfigurationBindings;
@@ -91,25 +90,6 @@ public static class MartenExtensions
 
                 return opts;
             })
-            .IntegrateWithWolverine(integration =>
-            {
-                integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
-                integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
-
-                integration.AutoCreate = AutoCreate.None;
-            })
-            .AddAsyncDaemon(DaemonMode.HotCold)
-            .ProcessEventsWithWolverineHandlersInStrictOrder(
-                BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
-                o =>
-                {
-                    o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
-                    o.IncludeType<VertegenwoordigerWerdVerwijderd>();
-                    o.IncludeType<VerenigingWerdVerwijderd>();
-                    o.IncludeType<VerenigingWerdGestopt>();
-                    o.Options.SubscribeFromSequence(0);
-                }
-            )
             .UseLightweightSessions();
 
         martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
