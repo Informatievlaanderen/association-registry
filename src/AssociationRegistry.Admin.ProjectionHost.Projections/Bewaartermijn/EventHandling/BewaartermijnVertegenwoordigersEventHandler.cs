@@ -8,6 +8,7 @@ using AssociationRegistry.Integrations.Grar.Bewaartermijnen;
 using JasperFx.Events;
 using JasperFx.Events.Projections;
 using NodaTime;
+using Wolverine;
 using IEventStore = MartenDb.Store.IEventStore;
 
 public static class BewaartermijnVertegenwoordigersEventHandler
@@ -16,7 +17,7 @@ public static class BewaartermijnVertegenwoordigersEventHandler
 
     public static async Task Handle(
         IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> @event,
-        IEventStore eventStore,
+        IMessageBus messageBus,
         BewaartermijnOptions bewaartermijnOptions,
         CancellationToken cancellationToken
     )
@@ -34,7 +35,7 @@ public static class BewaartermijnVertegenwoordigersEventHandler
 
     public static async Task Handle(
         IEvent<VertegenwoordigerWerdVerwijderd> @event,
-        IEventStore eventStore,
+        IMessageBus messageBus,
         BewaartermijnOptions bewaartermijnOptions,
         CancellationToken cancellationToken
     )
@@ -52,7 +53,7 @@ public static class BewaartermijnVertegenwoordigersEventHandler
 
     public static async Task Handle(
         IEvent<VerenigingWerdVerwijderd> @event,
-        IEventStore eventStore,
+        IMessageBus messageBus,
         BewaartermijnOptions bewaartermijnOptions,
         CancellationToken cancellationToken
     )
@@ -75,7 +76,7 @@ public static class BewaartermijnVertegenwoordigersEventHandler
 
     public static async Task Handle(
         IEvent<VerenigingWerdGestopt> @event,
-        IEventStore eventStore,
+        IMessageBus messageBus,
         BewaartermijnOptions bewaartermijnOptions,
         CancellationToken cancellationToken
     )
