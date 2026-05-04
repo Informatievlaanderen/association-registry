@@ -1,9 +1,9 @@
-namespace AssociationRegistry.MartenDb.Store;
+namespace AssociationRegistry;
 
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
-using DecentraalBeheer.Vereniging;
-using Events;
-using Framework;
+using AssociationRegistry.Framework;
 
 public interface IEventStore
 {

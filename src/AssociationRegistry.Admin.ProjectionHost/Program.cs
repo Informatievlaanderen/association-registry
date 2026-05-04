@@ -1,8 +1,12 @@
 namespace AssociationRegistry.Admin.ProjectionHost;
 
+using System.Net;
+using System.Text;
 using Asp.Versioning.ApplicationModels;
+using CommandHandling.Bewaartermijnen.Acties.Start;
+using Elastic.Clients.Elasticsearch;
 using Hosts;
-using Hosts.HealthChecks;
+using Hosts.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
@@ -12,23 +16,23 @@ using Infrastructure.Program.WebApplicationBuilder;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using Marten.Events.Daemon;
+using MartenDb;
+using MartenDb.Setup;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Elastic.Clients.Elasticsearch;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Oakton;
 using OpenTelemetry.Extensions;
+using Projections.Bewaartermijn.EventHandling;
 using Projections.Rebuild;
 using Projections.Search.Zoeken;
 using Serilog;
 using Serilog.Debugging;
-using System.Net;
-using System.Text;
 using Wolverine;
+using Wolverine.Postgresql;
 using HealthStatus = Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus;
+using StartBewaartermijnMessage = DecentraalBeheer.Vereniging.Bewaartermijnen.Messages.StartBewaartermijnMessage;
 
 public class Program
 {
@@ -36,13 +40,20 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Configuration
-               .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
-                            reloadOnChange: false)
-               .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
-               .AddEnvironmentVariables()
-               .AddCommandLine(args);
+        builder
+            .Configuration.AddJsonFile("appsettings.json")
+            .AddJsonFile(
+                $"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json",
+                optional: true,
+                reloadOnChange: false
+            )
+            .AddJsonFile(
+                $"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
+                optional: true,
+                reloadOnChange: false
+            )
+            .AddEnvironmentVariables()
+            .AddCommandLine(args);
 
         builder.Configuration.GetValidPostgreSqlOptionsOrThrow();
         var elasticSearchOptions = builder.Configuration.GetValidElasticSearchOptionsOrThrow();
@@ -53,41 +64,27 @@ public class Program
         ConfigureJsonSerializerSettings();
         ConfigureAppDomainExceptions();
 
-        builder.WebHost.ConfigureKestrel(
-            options =>
-                options.AddEndpoint(IPAddress.Any, port: 11006));
+        builder.WebHost.ConfigureKestrel(options => options.AddEndpoint(IPAddress.Any, port: 11006));
 
         builder.Host.ApplyJasperFxExtensions();
 
-        builder.Host.UseWolverine(
-            options =>
-            {
-                options.Discovery.IncludeType<BeheerZoekProjectionHandler>();
-            });
-
-        builder.Services.CritterStackDefaults(x =>
-        {
-            x.Development.GeneratedCodeMode = TypeLoadMode.Dynamic;
-
-            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-            x.Production.SourceCodeWritingEnabled = false;
-        });
+        builder.AddWolverine();
 
         builder.ConfigureOpenTelemetry(new AdminInstrumentation());
 
-        builder.Services
-               .ConfigureRequestLocalization()
-               .ConfigureProjectionsWithMarten(builder.Configuration, builder.Environment.IsDevelopment())
-               .ConfigureSwagger()
-               .ConfigureElasticSearch(elasticSearchOptions)
-               .AddMvc()
-               .AddDataAnnotationsLocalization();
+        builder
+            .Services.ConfigureRequestLocalization()
+            .ConfigureProjectionsWithMarten(builder.Configuration, builder.Environment.IsDevelopment())
+            .ConfigureSwagger()
+            .ConfigureElasticSearch(elasticSearchOptions)
+            .AddMvc()
+            .AddDataAnnotationsLocalization();
 
-        builder.Services
-               .AddHealthChecks()
-               .AddMartenAsyncDaemonHealthCheck();
+        builder.Services.AddHealthChecks().AddMartenAsyncDaemonHealthCheck();
 
-        builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
+        builder.Services.TryAddEnumerable(
+            ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>()
+        );
 
         builder.Host.UseConsoleLifetime();
 
@@ -100,12 +97,15 @@ public class Program
             return;
         }
 
-        await ElasticSearchExtensions.EnsureIndicesExistsAsync(app.Services.GetRequiredService<ElasticsearchClient>(),
-                                                             elasticSearchOptions.Indices!.Verenigingen!,
-                                                             elasticSearchOptions.Indices!.DuplicateDetection!);
+        await ElasticSearchExtensions.EnsureIndicesExistsAsync(
+            app.Services.GetRequiredService<ElasticsearchClient>(),
+            elasticSearchOptions.Indices!.Verenigingen!,
+            elasticSearchOptions.Indices!.DuplicateDetection!
+        );
 
         app.AddProjectionEndpoints(
-            app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
+            app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!
+        );
 
         // app.SetUpSwagger();
         ConfigureHealtChecks(app);
@@ -131,12 +131,14 @@ public class Program
             Log.Debug(
                 eventArgs.Exception,
                 messageTemplate: "FirstChanceException event raised in {AppDomain}",
-                AppDomain.CurrentDomain.FriendlyName);
+                AppDomain.CurrentDomain.FriendlyName
+            );
 
         AppDomain.CurrentDomain.UnhandledException += (_, eventArgs) =>
             Log.Fatal(
                 (Exception)eventArgs.ExceptionObject,
-                messageTemplate: "Encountered a fatal exception, exiting program");
+                messageTemplate: "Encountered a fatal exception, exiting program"
+            );
     }
 
     private static void ConfigureHealtChecks(WebApplication app)
@@ -162,20 +164,22 @@ public class Program
                     new JProperty(
                         name: "results",
                         new JObject(
-                            healthReport.Entries.Select(
-                                pair =>
+                            healthReport.Entries.Select(pair => new JProperty(
+                                pair.Key,
+                                new JObject(
+                                    new JProperty(name: "status", pair.Value.Status.ToString()),
+                                    new JProperty(name: "duration", pair.Value.Duration),
+                                    new JProperty(name: "description", pair.Value.Description),
+                                    new JProperty(name: "exception", pair.Value.Exception?.Message),
                                     new JProperty(
-                                        pair.Key,
-                                        new JObject(
-                                            new JProperty(name: "status", pair.Value.Status.ToString()),
-                                            new JProperty(name: "duration", pair.Value.Duration),
-                                            new JProperty(name: "description", pair.Value.Description),
-                                            new JProperty(name: "exception", pair.Value.Exception?.Message),
-                                            new JProperty(
-                                                name: "data",
-                                                new JObject(
-                                                    pair.Value.Data.Select(
-                                                        p => new JProperty(p.Key, p.Value))))))))));
+                                        name: "data",
+                                        new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))
+                                    )
+                                )
+                            ))
+                        )
+                    )
+                );
 
                 return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
             },
@@ -188,12 +192,11 @@ public class Program
     {
         app.Lifetime.ApplicationStarted.Register(() => Log.Information("Admin Projections Application started"));
 
-        app.Lifetime.ApplicationStopping.Register(
-            () =>
-            {
-                Log.Information("Admin Projections Application stopping");
-                Log.CloseAndFlush();
-            });
+        app.Lifetime.ApplicationStopping.Register(() =>
+        {
+            Log.Information("Admin Projections Application stopping");
+            Log.CloseAndFlush();
+        });
 
         Console.CancelKeyPress += (_, eventArgs) =>
         {
