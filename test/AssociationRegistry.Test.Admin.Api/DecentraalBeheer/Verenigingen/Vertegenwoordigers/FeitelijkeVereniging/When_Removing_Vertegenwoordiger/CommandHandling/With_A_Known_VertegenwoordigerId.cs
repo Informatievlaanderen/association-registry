@@ -1,19 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.When_Removing_Vertegenwoordiger.CommandHandling;
 
-using AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Start;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
-using Integrations.Grar.Bewaartermijnen;
-using Moq;
-using Wolverine;
-using Wolverine.Marten;
 using Xunit;
 
 public class With_A_Known_VertegenwoordigerId
@@ -47,20 +41,6 @@ public class With_A_Known_VertegenwoordigerId
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
         _aggregateSessionMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
-    }
-
-    [Fact]
-    public void Then_It_Outboxes_An_StartBewaartermijn_Message()
-    {
-        var expectedEnvelope = new CommandEnvelope<StartBewaartermijnMessage>(
-            new StartBewaartermijnMessage(
-                _command.VCode,
-                PersoonsgegevensType.Vertegenwoordigers.Value,
-                _command.VertegenwoordigerId,
-                BewaartermijnReden.VertegenwoordigerWerdVerwijderd
-            ),
-            _commandMetadata
-        );
     }
 
     [Fact]

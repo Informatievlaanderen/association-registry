@@ -90,6 +90,11 @@ public static class MartenExtensions
 
                 return opts;
             })
+            .IntegrateWithWolverine(integration =>
+            {
+                integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
+                integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
+            })
             .UseLightweightSessions();
 
         martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();

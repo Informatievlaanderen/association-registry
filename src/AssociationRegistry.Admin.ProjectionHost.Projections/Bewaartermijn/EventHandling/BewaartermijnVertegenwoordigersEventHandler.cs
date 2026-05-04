@@ -1,14 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Bewaartermijn.EventHandling;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
-using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Integrations.Grar.Bewaartermijnen;
+using DecentraalBeheer.Vereniging.Bewaartermijnen;
+using DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
+using Events;
+using Framework;
+using Integrations.Grar.Bewaartermijnen;
 using JasperFx.Events;
 using JasperFx.Events.Projections;
-using NodaTime;
-using IEventStore = MartenDb.Store.IEventStore;
+using Wolverine;
 
 public static class BewaartermijnVertegenwoordigersEventHandler
 {
@@ -16,118 +15,83 @@ public static class BewaartermijnVertegenwoordigersEventHandler
 
     public static async Task Handle(
         IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> @event,
-        IEventStore eventStore,
         BewaartermijnOptions bewaartermijnOptions,
-        CancellationToken cancellationToken
+        IMessageBus messageBus
     )
     {
-        await CreateBewaartermijn(
-            @event.StreamKey!,
-            @event.Data.VertegenwoordigerId,
-            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
-            eventStore,
-            bewaartermijnOptions,
-            cancellationToken,
-            BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden
+        var vervaldag = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .PlusTicks(bewaartermijnOptions.Duration.Ticks);
+
+        await messageBus.SendAsync(
+            new StartBewaartermijnMessage(
+                @event.StreamKey!,
+                PersoonsgegevensType.Vertegenwoordigers.Value,
+                @event.Data.VertegenwoordigerId,
+                vervaldag,
+                BewaartermijnReden.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden
+            )
         );
     }
 
     public static async Task Handle(
         IEvent<VertegenwoordigerWerdVerwijderd> @event,
-        IEventStore eventStore,
         BewaartermijnOptions bewaartermijnOptions,
-        CancellationToken cancellationToken
+        IMessageBus messageBus
     )
     {
-        await CreateBewaartermijn(
-            @event.StreamKey!,
-            @event.Data.VertegenwoordigerId,
-            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
-            eventStore,
-            bewaartermijnOptions,
-            cancellationToken,
-            BewaartermijnReden.VertegenwoordigerWerdVerwijderd
+        var vervaldag = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .PlusTicks(bewaartermijnOptions.Duration.Ticks);
+
+        await messageBus.SendAsync(
+            new StartBewaartermijnMessage(
+                @event.StreamKey!,
+                PersoonsgegevensType.Vertegenwoordigers.Value,
+                @event.Data.VertegenwoordigerId,
+                vervaldag,
+                BewaartermijnReden.VertegenwoordigerWerdVerwijderd
+            )
         );
     }
 
     public static async Task Handle(
         IEvent<VerenigingWerdVerwijderd> @event,
-        IEventStore eventStore,
         BewaartermijnOptions bewaartermijnOptions,
-        CancellationToken cancellationToken
+        IMessageBus messageBus
     )
     {
-        var state = await eventStore.Load<VerenigingState>(@event.StreamKey!, expectedVersion: null);
+        var vervaldag = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .PlusTicks(bewaartermijnOptions.Duration.Ticks);
 
-        foreach (var vertegenwoordiger in state.Vertegenwoordigers)
-        {
-            await CreateBewaartermijn(
+        await messageBus.SendAsync(
+            new StartBewaartermijnenVoorVerenigingMessage(
                 @event.StreamKey!,
-                vertegenwoordiger.VertegenwoordigerId,
-                @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
-                eventStore,
-                bewaartermijnOptions,
-                cancellationToken,
+                PersoonsgegevensType.Vertegenwoordigers.Value,
+                vervaldag,
                 BewaartermijnReden.VerenigingWerdVerwijderd
-            );
-        }
+            )
+        );
     }
 
     public static async Task Handle(
         IEvent<VerenigingWerdGestopt> @event,
-        IEventStore eventStore,
         BewaartermijnOptions bewaartermijnOptions,
-        CancellationToken cancellationToken
+        IMessageBus messageBus
     )
     {
-        var state = await eventStore.Load<VerenigingState>(@event.StreamKey!, expectedVersion: null);
+        var vervaldag = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .PlusTicks(bewaartermijnOptions.Duration.Ticks);
 
-        foreach (var vertegenwoordiger in state.Vertegenwoordigers)
-        {
-            await CreateBewaartermijn(
+        await messageBus.SendAsync(
+            new StartBewaartermijnenVoorVerenigingMessage(
                 @event.StreamKey!,
-                vertegenwoordiger.VertegenwoordigerId,
-                @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip),
-                eventStore,
-                bewaartermijnOptions,
-                cancellationToken,
+                PersoonsgegevensType.Vertegenwoordigers.Value,
+                vervaldag,
                 BewaartermijnReden.VerenigingWerdGestopt
-            );
-        }
-    }
-
-    private static async Task CreateBewaartermijn(
-        string streamKey,
-        int entityId,
-        Instant tijdstip,
-        IEventStore eventStore,
-        BewaartermijnOptions bewaartermijnOptions,
-        CancellationToken cancellationToken,
-        string reden
-    )
-    {
-        var bewaartermijnId = new BewaartermijnId(
-            VCode.Create(streamKey),
-            PersoonsgegevensType.Vertegenwoordigers,
-            entityId
-        );
-
-        var vervaldag = tijdstip.PlusTicks(bewaartermijnOptions.Duration.Ticks);
-
-        await eventStore.SaveNew(
-            bewaartermijnId,
-            CommandMetadata.ForDigitaalVlaanderenProcess,
-            cancellationToken,
-            [
-                new BewaartermijnWerdGestartV2(
-                    bewaartermijnId,
-                    bewaartermijnId.VCode!,
-                    bewaartermijnId.PersoonsgegevensType.Value,
-                    bewaartermijnId.EntityId,
-                    vervaldag,
-                    reden
-                ),
-            ]
+            )
         );
     }
 }

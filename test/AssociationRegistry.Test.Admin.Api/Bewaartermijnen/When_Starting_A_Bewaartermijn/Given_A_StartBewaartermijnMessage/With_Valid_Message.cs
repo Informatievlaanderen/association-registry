@@ -1,15 +1,14 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Bewaartermijnen.When_Starting_A_Bewaartermijn;
+﻿namespace AssociationRegistry.Test.Admin.Api.Bewaartermijnen.When_Starting_A_Bewaartermijn.Given_A_StartBewaartermijnMessage;
 
 using AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Start;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Integrations.Grar.Bewaartermijnen;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using CommandHandling.Bewaartermijnen;
-using Events;
-using Integrations.Grar.Bewaartermijnen;
-using MartenDb.Store;
 using Moq;
 using NodaTime;
 using Xunit;
@@ -29,31 +28,24 @@ public class With_Valid_Message
 
         _vCode = fixture.Create<VCode>();
         _entityId = fixture.Create<int>();
-        _commandMetadata = fixture.Create<CommandMetadata>();
+        _commandMetadata = CommandMetadata.ForDigitaalVlaanderenProcess;
 
         _bewaartermijnOptions = new BewaartermijnOptions() { Duration = TimeSpan.FromDays(1) };
 
         _expectedVervaldag = _commandMetadata.Tijdstip.PlusTicks(_bewaartermijnOptions.Duration.Ticks);
 
-        var command = new StartBewaartermijnMessage(
+        var message = new StartBewaartermijnMessage(
             _vCode,
             PersoonsgegevensType.Vertegenwoordigers.Value,
             _entityId,
+            _expectedVervaldag,
             BewaartermijnReden.VertegenwoordigerWerdVerwijderd
         );
 
         var commandHandler = new StartBewaartermijnMessageHandler();
         _eventStore = new Mock<IEventStore>();
 
-        commandHandler
-            .Handle(
-                new CommandEnvelope<StartBewaartermijnMessage>(command, _commandMetadata),
-                _eventStore.Object,
-                _bewaartermijnOptions,
-                CancellationToken.None
-            )
-            .GetAwaiter()
-            .GetResult();
+        commandHandler.Handle(message, _eventStore.Object, CancellationToken.None).GetAwaiter().GetResult();
     }
 
     [Fact]
@@ -65,7 +57,10 @@ public class With_Valid_Message
         _eventStore.Verify(x =>
             x.SaveNew(
                 expectedAggregateId,
-                _commandMetadata,
+                It.Is<CommandMetadata>(metadata =>
+                    metadata.Initiator == CommandMetadata.ForDigitaalVlaanderenProcess.Initiator
+                    && metadata.ExpectedVersion == null
+                ),
                 It.IsAny<CancellationToken>(),
                 It.Is<IEvent[]>(events =>
                     events.Length == 1

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using NodaTime.Text;
 using Transformers;
 using IEvent = Events.IEvent;
+using IEventStore = AssociationRegistry.IEventStore;
 
 public class EventStore : IEventStore
 {
@@ -169,7 +170,6 @@ public class EventStore : IEventStore
 
             throw new UnexpectedAggregateVersionException();
         }
-
     }
 
     public void ClaimKboNummer(string vCode, IEvent? registreerEvent)

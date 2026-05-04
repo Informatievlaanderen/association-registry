@@ -1,10 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using System.Configuration;
-using AssociationRegistry.MartenDb.BeheerZoeken;
-using AssociationRegistry.MartenDb.Logging;
-using AssociationRegistry.MartenDb.Setup;
-using AssociationRegistry.MartenDb.Subscriptions;
 using Constants;
 using Elastic.Clients.Elasticsearch;
 using Events;
@@ -16,12 +12,14 @@ using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Json;
 using Marten;
-using Marten.Events.Projections;
 using Marten.Services;
 using MartenDb;
+using MartenDb.BeheerZoeken;
+using MartenDb.Logging;
+using MartenDb.Setup;
+using MartenDb.Subscriptions;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Newtonsoft.Json;
-using Projections;
 using Projections.Bewaartermijn;
 using Projections.Bewaartermijn.EventHandling;
 using Projections.Detail;
@@ -70,46 +68,49 @@ public static class ConfigureMartenExtensions
         ConfigurationManager configurationManager
     )
     {
-        var martenConfigurationExpression = services.AddMarten(serviceProvider =>
-        {
-            var opts = new StoreOptions();
-
-            return ConfigureStoreOptions(
-                opts,
-                serviceProvider,
-                serviceProvider.GetRequiredService<ILogger<LocatiesGekoppeldMetGrarProjection>>(),
-                serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
-                serviceProvider.GetRequiredService<ElasticsearchClient>(),
-                serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
-                serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(),
-                serviceProvider.GetRequiredService<ILogger<DuplicateDetectionEventsConsumer>>(),
-                () => serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
-                serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
-                configurationManager.GetSection(PostgreSqlOptionsSection.SectionName).Get<PostgreSqlOptionsSection>(),
-                configurationManager
-                    .GetSection(ElasticSearchOptionsSection.SectionName)
-                    .Get<ElasticSearchOptionsSection>()
-            );
-        })
-       .IntegrateWithWolverine(integration =>
-        {
-            integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
-            integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
-
-            integration.AutoCreate = AutoCreate.None;
-        })
-       .AddAsyncDaemon(DaemonMode.HotCold)
-       .ProcessEventsWithWolverineHandlersInStrictOrder(
-            BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
-            o =>
+        var martenConfigurationExpression = services
+            .AddMarten(serviceProvider =>
             {
-                o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
-                o.IncludeType<VertegenwoordigerWerdVerwijderd>();
-                o.IncludeType<VerenigingWerdVerwijderd>();
-                o.IncludeType<VerenigingWerdGestopt>();
-                o.Options.SubscribeFromSequence(0);
-            }
-        );
+                var opts = new StoreOptions();
+
+                return ConfigureStoreOptions(
+                    opts,
+                    serviceProvider,
+                    serviceProvider.GetRequiredService<ILogger<LocatiesGekoppeldMetGrarProjection>>(),
+                    serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(),
+                    serviceProvider.GetRequiredService<ElasticsearchClient>(),
+                    serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
+                    serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(),
+                    serviceProvider.GetRequiredService<ILogger<DuplicateDetectionEventsConsumer>>(),
+                    () => serviceProvider.GetRequiredService<ILogger<MartenSubscription>>(),
+                    serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
+                    configurationManager
+                        .GetSection(PostgreSqlOptionsSection.SectionName)
+                        .Get<PostgreSqlOptionsSection>(),
+                    configurationManager
+                        .GetSection(ElasticSearchOptionsSection.SectionName)
+                        .Get<ElasticSearchOptionsSection>()
+                );
+            })
+            .IntegrateWithWolverine(integration =>
+            {
+                integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
+                integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
+
+                integration.AutoCreate = AutoCreate.None;
+            })
+            .AddAsyncDaemon(DaemonMode.HotCold)
+            .ProcessEventsWithWolverineHandlersInStrictOrder(
+                BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
+                o =>
+                {
+                    o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
+                    o.IncludeType<VertegenwoordigerWerdVerwijderd>();
+                    o.IncludeType<VerenigingWerdVerwijderd>();
+                    o.IncludeType<VerenigingWerdGestopt>();
+                    o.Options.SubscribeFromSequence(0);
+                }
+            );
 
         return martenConfigurationExpression;
     }
