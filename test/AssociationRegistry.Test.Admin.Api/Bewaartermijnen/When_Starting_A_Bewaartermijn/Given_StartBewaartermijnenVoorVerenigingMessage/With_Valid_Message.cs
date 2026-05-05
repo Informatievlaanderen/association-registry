@@ -10,6 +10,7 @@ using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Events;
 using Integrations.Grar.Bewaartermijnen;
+using Integrations.Slack;
 using Moq;
 using NodaTime;
 using Xunit;
@@ -21,6 +22,7 @@ public class With_Valid_Message
     private readonly BewaartermijnOptions _bewaartermijnOptions;
     private readonly Instant _expectedVervaldag;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
+    private readonly Mock<INotifier> _notifier;
 
     public With_Valid_Message()
     {
@@ -39,12 +41,16 @@ public class With_Valid_Message
 
         var commandHandler = new StartBewaartermijnenVoorVerenigingMessageHandler();
         _eventStore = new Mock<IEventStore>();
+        _notifier = new Mock<INotifier>();
 
         _eventStore
             .Setup(x => x.Load<VerenigingState>(_scenario.VCode, null))
             .ReturnsAsync(_scenario.GetVerenigingState);
 
-        commandHandler.Handle(message, _eventStore.Object, CancellationToken.None).GetAwaiter().GetResult();
+        commandHandler
+            .Handle(message, _eventStore.Object, _notifier.Object, CancellationToken.None)
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
