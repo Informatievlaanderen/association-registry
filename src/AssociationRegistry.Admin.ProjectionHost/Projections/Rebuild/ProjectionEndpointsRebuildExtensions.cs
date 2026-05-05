@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Rebuild;
 
 using Bewaartermijn;
+using Bewaartermijn.EventHandling;
 using Detail;
 using Elastic.Clients.Elasticsearch;
 using Historiek;
@@ -10,6 +11,8 @@ using Infrastructure.ElasticSearch;
 using JasperFx.Events.Projections;
 using Locaties;
 using Marten;
+using Marten.Events.Daemon.Coordination;
+using Microsoft.AspNetCore.Mvc;
 using PowerBiExport;
 using Search.DuplicateDetection;
 using Search.Zoeken;
@@ -53,6 +56,7 @@ public static class ProjectionEndpointsExtensions
                             options.Indices.Verenigingen,
                             cancellationToken: CancellationToken.None
                         );
+
                         await elasticClient.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
                     }
                 );
@@ -68,6 +72,7 @@ public static class ProjectionEndpointsExtensions
                             options.Indices.DuplicateDetection,
                             cancellationToken: CancellationToken.None
                         );
+
                         await elasticClient.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection);
                     }
                 );
@@ -81,6 +86,7 @@ public static class ProjectionEndpointsExtensions
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 await StartRebuild(BeheerVerenigingDetailProjection.ShardName, store, shardTimeout, logger);
+
                 return Results.Accepted();
             }
         );
@@ -95,10 +101,26 @@ public static class ProjectionEndpointsExtensions
         );
 
         app.MapPost(
+            "v1/projections/eventsubscription/bewaartermijn/vertegenwoordigers/rebuild",
+            async (IProjectionCoordinator coordinator, ILogger<Program> logger, [FromQuery] long sequence = 0) =>
+            {
+                await StartRebuildEventSubscription(
+                    BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
+                    sequence,
+                    coordinator,
+                    logger
+                );
+
+                return Results.Accepted();
+            }
+        );
+
+        app.MapPost(
             "v1/projections/locaties/gekoppeldmetgrar/rebuild",
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 await StartRebuild(LocatiesGekoppeldMetGrarProjection.ShardName, store, shardTimeout, logger);
+
                 return Results.Accepted();
             }
         );
@@ -108,6 +130,7 @@ public static class ProjectionEndpointsExtensions
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 await StartRebuild(LocatieZonderAdresMatchProjection.ShardName, store, shardTimeout, logger);
+
                 return Results.Accepted();
             }
         );
@@ -117,6 +140,7 @@ public static class ProjectionEndpointsExtensions
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 await StartRebuild(BeheerVerenigingHistoriekProjection.ShardName, store, shardTimeout, logger);
+
                 return Results.Accepted();
             }
         );
@@ -126,6 +150,7 @@ public static class ProjectionEndpointsExtensions
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 await StartRebuild(PowerBiExportProjection.ShardName, store, shardTimeout, logger);
+
                 return Results.Accepted();
             }
         );
@@ -135,6 +160,7 @@ public static class ProjectionEndpointsExtensions
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 await StartRebuild(PowerBiExportDubbelDetectieProjection.ShardName, store, shardTimeout, logger);
+
                 return Results.Accepted();
             }
         );
@@ -144,6 +170,7 @@ public static class ProjectionEndpointsExtensions
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 await StartRebuild(BeheerKboSyncHistoriekProjection.ShardName, store, shardTimeout, logger);
+
                 return Results.Accepted();
             }
         );
@@ -153,6 +180,7 @@ public static class ProjectionEndpointsExtensions
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 await StartRebuild(BeheerKszSyncHistoriekProjection.ShardName, store, shardTimeout, logger);
+
                 return Results.Accepted();
             }
         );
@@ -162,6 +190,7 @@ public static class ProjectionEndpointsExtensions
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 await StartRebuild(VertegenwoordigersPerVCodeProjection.ShardName, store, shardTimeout, logger);
+
                 return Results.Accepted();
             }
         );
@@ -186,6 +215,7 @@ public static class ProjectionEndpointsExtensions
                             options.Indices.Verenigingen,
                             cancellationToken: CancellationToken.None
                         );
+
                         await elasticClient.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
                     }
                 );
@@ -214,6 +244,7 @@ public static class ProjectionEndpointsExtensions
                             options.Indices.DuplicateDetection,
                             cancellationToken: CancellationToken.None
                         );
+
                         await elasticClient.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection);
                     }
                 );
@@ -273,5 +304,31 @@ public static class ProjectionEndpointsExtensions
                 }
             }
         });
+    }
+
+    private static async Task StartRebuildEventSubscription(
+        string eventSubscriptionName,
+        long sequence,
+        IProjectionCoordinator coordinator,
+        ILogger logger
+    )
+    {
+        try
+        {
+            var daemon = coordinator.DaemonForMainDatabase();
+            logger.LogInformation("Rebuild eventsubscription {EventSubscriptionName} started.", eventSubscriptionName);
+
+            await daemon.RewindSubscriptionAsync(
+                eventSubscriptionName,
+                CancellationToken.None,
+                sequenceFloor: sequence
+            );
+
+            logger.LogInformation("Rebuild process {ProjectionName} complete.", eventSubscriptionName);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Failed to process eventsubscription {EventSubscriptionName}", eventSubscriptionName);
+        }
     }
 }
