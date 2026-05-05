@@ -22,6 +22,16 @@ public class AdminProjectionHostHttpClient : IDisposable
             cancellationToken
         );
 
+    public async Task<HttpResponseMessage> RebuildEventSubscriptionBewaartermijnVertegenwoordigers(
+        long sequence,
+        CancellationToken cancellationToken
+    ) =>
+        await _httpClient.PostAsync(
+            requestUri: $"/v1/projections/eventsubscription/bewaartermijn/vertegenwoordigers/rebuild?sequence={sequence}",
+            content: null,
+            cancellationToken
+        );
+
     public async Task<HttpResponseMessage> RebuildLocatieGekoppeldMetGrarProjection(
         CancellationToken cancellationToken
     ) =>

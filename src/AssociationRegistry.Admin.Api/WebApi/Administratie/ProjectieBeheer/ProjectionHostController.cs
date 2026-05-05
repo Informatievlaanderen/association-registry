@@ -2,15 +2,11 @@
 
 using System.Text.Json;
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.HttpClients;
 using Be.Vlaanderen.Basisregisters.Api;
-using EventSubscriptions.Rebuilds;
-using Marten;
-using Marten.Events.Daemon.Coordination;
+using Infrastructure;
+using Infrastructure.HttpClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProjectionHost.Projections.Bewaartermijn.EventHandling;
 using ResponseModels;
 
 [ApiVersion("1.0")]
@@ -25,20 +21,13 @@ public class ProjectionController : ApiController
 
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    // private readonly IProjectionCoordinator _projectionCoordinator;
-    private readonly ILogger<ProjectionController> _logger;
-
     public ProjectionController(
         AdminProjectionHostHttpClient adminHttpClient,
-        PublicProjectionHostHttpClient publicHttpClient,
-        // IProjectionCoordinator projectionCoordinator,
-        ILogger<ProjectionController> logger
+        PublicProjectionHostHttpClient publicHttpClient
     )
     {
         _adminHttpClient = adminHttpClient;
         _publicHttpClient = publicHttpClient;
-        // _projectionCoordinator = projectionCoordinator;
-        _logger = logger;
 
         _jsonSerializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
     }
@@ -59,23 +48,19 @@ public class ProjectionController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
-    // ProjectionController in Admin.Api injecteert IProjectionCoordinator, maar die bestaat alleen na AddAsyncDaemon.
-    // We willen geen daemon in de API en geen HTTP-forward naar projection host.
+    [HttpPost("admin/eventsubscription/bewaartermijn/vertegenwoordigers/rebuild")]
+    public async Task<IActionResult> RebuildEventSubscriptionBewaartermijnVertegenwoordigers(
+        CancellationToken cancellationToken,
+        [FromQuery] long sequence = 0
+    )
+    {
+        var response = await _adminHttpClient.RebuildEventSubscriptionBewaartermijnVertegenwoordigers(
+            sequence,
+            cancellationToken
+        );
 
-    // [HttpPost("admin/eventsubscription/bewaartermijn/vertegenwoordigers/rebuild")]
-    // public async Task<IActionResult> RebuildEventSubscriptionBewaartermijnVertegenwoordigers(
-    //     CancellationToken cancellationToken,
-    //     [FromQuery] long sequence = 0
-    // )
-    // {
-    //     await EventSubscriptionRebuildExtensions.StartRebuildSubscription(
-    //         BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
-    //         _projectionCoordinator,
-    //         sequence
-    //     );
-    //
-    //     return Ok();
-    // }
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
 
     [HttpPost("admin/bewaartermijn/rebuild")]
     public async Task<IActionResult> RebuildBewaartermijnen(
