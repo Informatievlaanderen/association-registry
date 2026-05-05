@@ -9,6 +9,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Integrations.Grar.Bewaartermijnen;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using Integrations.Slack;
 using Moq;
 using NodaTime;
 using Xunit;
@@ -16,6 +17,7 @@ using Xunit;
 public class With_Valid_Message
 {
     private Mock<IEventStore> _eventStore;
+    private Mock<INotifier> _notifier;
     private readonly VCode _vCode;
     private readonly int _entityId;
     private CommandMetadata _commandMetadata;
@@ -44,8 +46,11 @@ public class With_Valid_Message
 
         var commandHandler = new StartBewaartermijnMessageHandler();
         _eventStore = new Mock<IEventStore>();
-
-        commandHandler.Handle(message, _eventStore.Object, CancellationToken.None).GetAwaiter().GetResult();
+        _notifier = new Mock<INotifier>();
+        commandHandler
+            .Handle(message, _eventStore.Object, _notifier.Object, CancellationToken.None)
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]

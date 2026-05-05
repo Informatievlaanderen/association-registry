@@ -1,22 +1,28 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Bewaartermijnen.When_Starting_A_Bewaartermijn.Given_A_StartBewaartermijnMessage;
 
-using AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Start;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Exceptions;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using CommandHandling.Bewaartermijnen.Acties.Start;
+using CommandHandling.Bewaartermijnen.Acties.Start.Notifications;
+using Common.AutoFixture;
 using FluentAssertions;
+using Integrations.Slack;
 using Moq;
 using NodaTime;
+using Resources;
 using Xunit;
 
 public class With_Invalid_BewaartermijnType
 {
-    [Fact]
-    public async Task Then_Throws_OngeldigBewaartermijnType()
+    private readonly StartBewaartermijnMessage _message;
+    private readonly StartBewaartermijnMessageHandler _messageHandler;
+    private readonly Mock<IEventStore> _eventStore;
+    private readonly Mock<INotifier> _notifier;
+
+    public With_Invalid_BewaartermijnType()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -26,7 +32,7 @@ public class With_Invalid_BewaartermijnType
 
         var invalidPersoonsgegevensType = fixture.Create<string>();
 
-        var message = new StartBewaartermijnMessage(
+        _message = new StartBewaartermijnMessage(
             vCode,
             invalidPersoonsgegevensType,
             entityId,
@@ -34,13 +40,34 @@ public class With_Invalid_BewaartermijnType
             BewaartermijnReden.VertegenwoordigerWerdVerwijderd
         );
 
-        var messageHandler = new StartBewaartermijnMessageHandler();
-        var eventStore = new Mock<IEventStore>();
+        _messageHandler = new StartBewaartermijnMessageHandler();
+        _eventStore = new Mock<IEventStore>();
+        _notifier = new Mock<INotifier>();
+    }
 
+    [Fact]
+    public async Task Then_Throws_OngeldigBewaartermijnType()
+    {
         var exception = await Assert.ThrowsAsync<OngeldigBewaartermijnType>(() =>
-            messageHandler.Handle(message, eventStore.Object, CancellationToken.None)
+            _messageHandler.Handle(_message, _eventStore.Object, _notifier.Object, CancellationToken.None)
         );
 
         exception.Message.Should().Be(ExceptionMessages.OngeldigBewaartermijnType);
+    }
+
+    [Fact]
+    public async Task Then_A_Slack_Notification_Is_Sent()
+    {
+        await Assert.ThrowsAsync<OngeldigBewaartermijnType>(() =>
+            _messageHandler.Handle(_message, _eventStore.Object, _notifier.Object, CancellationToken.None)
+        );
+
+        _notifier.Verify(
+            x =>
+                x.Notify(
+                    It.Is<INotification>(n => n is EventSubscriptionBewaartermijnFailed && n.Type == NotifyType.Failure)
+                ),
+            Times.Once
+        );
     }
 }
