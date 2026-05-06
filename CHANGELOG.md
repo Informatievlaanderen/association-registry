@@ -1,3 +1,16 @@
+# [8.318.0](https://github.com/informatievlaanderen/association-registry/compare/v8.317.1...v8.318.0) (2026-05-06)
+
+
+### Bug Fixes
+
+* or-3126 remove basisregisters api from scheduled host ([6810210](https://github.com/informatievlaanderen/association-registry/commit/6810210b0b286b15bd7682a270ff646e599374e4))
+* or-3126 use fixed package for aws for resolving conflict with dynamodb package ([cb16932](https://github.com/informatievlaanderen/association-registry/commit/cb16932fdc21e2e09342260e7f4db6554f13fddc))
+
+
+### Features
+
+* or-3126 move powerbi exporter to continues scheduled host ([71c14ee](https://github.com/informatievlaanderen/association-registry/commit/71c14ee78b85d25f0200f5597bfe55decaec36c0))
+
 ## [8.317.1](https://github.com/informatievlaanderen/association-registry/compare/v8.317.0...v8.317.1) (2026-05-06)
 
 
