@@ -58,8 +58,7 @@ jobs:
       matrix:
         services:
           [
-            'adressensync',
-            'powerbiexport'
+            'adressensync'
           ]
     steps:
       - name: CD
