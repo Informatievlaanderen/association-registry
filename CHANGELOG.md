@@ -1,3 +1,13 @@
+## [8.317.1](https://github.com/informatievlaanderen/association-registry/compare/v8.317.0...v8.317.1) (2026-05-06)
+
+
+### Bug Fixes
+
+* or-3121 handle eventhandling projection for bewaartermijnen ([026f13f](https://github.com/informatievlaanderen/association-registry/commit/026f13f447499a96cbb3c97430441f8554168d79))
+* or-3121 implement rebuild for bewaartermijn event subscription ([3b3c077](https://github.com/informatievlaanderen/association-registry/commit/3b3c0773a464c118e1267ca090b64dca9abf0321))
+* or-3121 move eventhandling projection from admin api to admin projections ([910e9c6](https://github.com/informatievlaanderen/association-registry/commit/910e9c6aa63ae5f696dc16df92893db0a2a05183))
+* or-3121 notify slack when bewaartermijn message handlers fails ([c76bbd8](https://github.com/informatievlaanderen/association-registry/commit/c76bbd8edfca259a97f46536d1bda5562c2b27c6))
+
 # [8.317.0](https://github.com/informatievlaanderen/association-registry/compare/v8.316.0...v8.317.0) (2026-04-24)
 
 
