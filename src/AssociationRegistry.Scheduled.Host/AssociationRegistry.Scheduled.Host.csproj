@@ -83,6 +83,11 @@
     <PackageReference Include="Quartz.Extensions.DependencyInjection"/>
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>
     <PackageReference Include="CSVHelper" />
-    <PackageReference Include="AWSSDK.S3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="AWSSDK.Core" Version="3.7.511.6" />
+    <PackageVersion Include="AWSSDK.S3" Version="3.7.511.6" />
+    <PackageVersion Include="AWSSDK.DynamoDBv2" Version="3.7.511.6" />
   </ItemGroup>
 </Project>
