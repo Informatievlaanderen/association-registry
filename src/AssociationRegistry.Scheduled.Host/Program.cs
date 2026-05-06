@@ -3,11 +3,7 @@
 using System.Net;
 using System.Text;
 using Admin.Schema.PowerBiExport;
-using Amazon;
 using Amazon.S3;
-using Asp.Versioning.ApplicationModels;
-using Be.Vlaanderen.Basisregisters.Api;
-using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Bewaartermijnen;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using EventStore.ConflictResolution;
@@ -27,7 +23,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -58,26 +53,21 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder
-           .Configuration.AddJsonFile("appsettings.json")
-           .AddJsonFile(
+            .Configuration.AddJsonFile("appsettings.json")
+            .AddJsonFile(
                 $"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json",
                 optional: true,
                 reloadOnChange: false
             )
-           .AddJsonFile(
+            .AddJsonFile(
                 $"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
                 optional: true,
                 reloadOnChange: false
             )
-           .AddEnvironmentVariables()
-           .AddCommandLine(args);
+            .AddEnvironmentVariables()
+            .AddCommandLine(args);
 
         SelfLog.Enable(Console.WriteLine);
-
-        ConfigureEncoding();
-        ConfigureJsonSerializerSettings();
-        ConfigureAppDomainExceptions();
-
         ConfigureServices(builder);
 
         builder.WebHost.ConfigureKestrel(options =>
@@ -87,15 +77,9 @@ public class Program
 
         builder.Host.ApplyJasperFxExtensions();
 
-        // TODO: builder.ConfigureOpenTelemetry(new AdminInstrumentation());
-
         builder.Services.ConfigureRequestLocalization().AddMvc().AddDataAnnotationsLocalization();
 
         builder.Services.AddHealthChecks();
-
-        builder.Services.TryAddEnumerable(
-            ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>()
-        );
 
         builder.Host.UseConsoleLifetime();
 
@@ -124,18 +108,19 @@ public class Program
 
         services.AddOpenTelemetryServices().AddMarten(postgreSqlOptions).AddWolverine(postgreSqlOptions);
 
-        services.AddQuartz(q =>
-        {
-            var bewaartermijnPurgeRunner = new JobKey(ExpiredBewaartermijnJob.JobName);
-            q.AddJob<ExpiredBewaartermijnJob>(opts => opts.WithIdentity(bewaartermijnPurgeRunner));
-            q.AddTrigger(opts => opts.ForJob(bewaartermijnPurgeRunner).WithCronSchedule(bewaartermijnOptions.Cron));
-        })
-         .AddQuartz(q =>
-        {
-            var powerBiExportJob = new JobKey(PowerBiExportJob.JobName);
-            q.AddJob<PowerBiExportJob>(opts => opts.WithIdentity(powerBiExportJob));
-            q.AddTrigger(opts => opts.ForJob(powerBiExportJob).WithCronSchedule(powerBiExportOptions.Cron));
-        });
+        services
+            .AddQuartz(q =>
+            {
+                var bewaartermijnPurgeRunner = new JobKey(ExpiredBewaartermijnJob.JobName);
+                q.AddJob<ExpiredBewaartermijnJob>(opts => opts.WithIdentity(bewaartermijnPurgeRunner));
+                q.AddTrigger(opts => opts.ForJob(bewaartermijnPurgeRunner).WithCronSchedule(bewaartermijnOptions.Cron));
+            })
+            .AddQuartz(q =>
+            {
+                var powerBiExportJob = new JobKey(PowerBiExportJob.JobName);
+                q.AddJob<PowerBiExportJob>(opts => opts.WithIdentity(powerBiExportJob));
+                q.AddTrigger(opts => opts.ForJob(powerBiExportJob).WithCronSchedule(powerBiExportOptions.Cron));
+            });
 
         services.AddQuartzHostedService(options =>
         {
@@ -143,146 +128,110 @@ public class Program
         });
 
         services
-           .AddSingleton(postgreSqlOptions)
-           .AddSingleton<IClock>(SystemClock.Instance)
-           .AddSingleton<IAmazonS3, AmazonS3Client>()
-           .AddSingleton(sp => CreatePowerBiExporters(sp, powerBiExportOptions))
-           .AddSingleton(sp => CreatePowerBiDubbelDetectieExporters(sp, powerBiExportOptions))
-           .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
-           .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
-           .AddSingleton<EventConflictResolver>()
-           .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
-           .AddScoped<IEventStore, EventStore>()
-           .AddScoped<IAggregateSession, AggregateSession>()
-           .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
-           .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
-           .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
-           .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
-           .AddScoped<PersoonsgegevensEventTransformers>()
-           .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
-           .AddScoped<VerloopBewaartermijnCommandHandler>()
-           .AddScoped<IVerlopenBewaartermijnenProcessor, VerlopenBewaartermijnenProcessor>()
-           .AddScoped<IVerlopenBewaartermijnQuery, VerlopenBewaartermijnQuery>()
-           .AddScoped<INotifier, SlackNotifier>();
+            .AddSingleton(postgreSqlOptions)
+            .AddSingleton<IClock>(SystemClock.Instance)
+            .AddSingleton<IAmazonS3, AmazonS3Client>()
+            .AddSingleton(sp => CreatePowerBiExporters(sp, powerBiExportOptions))
+            .AddSingleton(sp => CreatePowerBiDubbelDetectieExporters(sp, powerBiExportOptions))
+            .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
+            .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
+            .AddSingleton<EventConflictResolver>()
+            .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
+            .AddScoped<IEventStore, EventStore>()
+            .AddScoped<IAggregateSession, AggregateSession>()
+            .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+            .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+            .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
+            .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
+            .AddScoped<PersoonsgegevensEventTransformers>()
+            .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
+            .AddScoped<VerloopBewaartermijnCommandHandler>()
+            .AddScoped<IVerlopenBewaartermijnenProcessor, VerlopenBewaartermijnenProcessor>()
+            .AddScoped<IVerlopenBewaartermijnQuery, VerlopenBewaartermijnQuery>()
+            .AddScoped<INotifier, SlackNotifier>();
     }
 
     private static PowerBiExporters CreatePowerBiExporters(
         IServiceProvider sp,
-        PowerBiExportOptions powerBiExportOptions)
-        => new(
+        PowerBiExportOptions powerBiExportOptions
+    ) =>
+        new(
             new List<Exporter<PowerBiExportDocument>>
             {
-                CreateExporter<BasisgegevensRecordWriter>(
-                    sp,
-                    powerBiExportOptions,
-                    WellKnownFileNames.Basisgegevens),
-
+                CreateExporter<BasisgegevensRecordWriter>(sp, powerBiExportOptions, WellKnownFileNames.Basisgegevens),
                 CreateExporter<ContactgegevensRecordWriter>(
                     sp,
                     powerBiExportOptions,
-                    WellKnownFileNames.Contactgegevens),
-
+                    WellKnownFileNames.Contactgegevens
+                ),
                 CreateExporter<HoofdactiviteitenRecordWriter>(
                     sp,
                     powerBiExportOptions,
-                    WellKnownFileNames.Hoofdactiviteiten),
-
+                    WellKnownFileNames.Hoofdactiviteiten
+                ),
                 CreateExporter<WerkingsgebiedenRecordWriter>(
                     sp,
                     powerBiExportOptions,
-                    WellKnownFileNames.Werkingsgebieden),
-
-                CreateExporter<LocatiesRecordWriter>(
-                    sp,
-                    powerBiExportOptions,
-                    WellKnownFileNames.Locaties),
-
-                CreateExporter<HistoriekRecordWriter>(
-                    sp,
-                    powerBiExportOptions,
-                    WellKnownFileNames.Historiek),
-
+                    WellKnownFileNames.Werkingsgebieden
+                ),
+                CreateExporter<LocatiesRecordWriter>(sp, powerBiExportOptions, WellKnownFileNames.Locaties),
+                CreateExporter<HistoriekRecordWriter>(sp, powerBiExportOptions, WellKnownFileNames.Historiek),
                 CreateExporter<LidmaatschappenRecordWriter>(
                     sp,
                     powerBiExportOptions,
-                    WellKnownFileNames.Lidmaatschappen),
-
+                    WellKnownFileNames.Lidmaatschappen
+                ),
                 CreateExporter<BankrekeningnummerRecordWriter>(
                     sp,
                     powerBiExportOptions,
-                    WellKnownFileNames.Bankrekeningnummers),
-
-                CreateExporter<ErkenningenRecordWriter>(
-                    sp,
-                    powerBiExportOptions,
-                    WellKnownFileNames.Erkenningen),
-            });
+                    WellKnownFileNames.Bankrekeningnummers
+                ),
+                CreateExporter<ErkenningenRecordWriter>(sp, powerBiExportOptions, WellKnownFileNames.Erkenningen),
+            }
+        );
 
     private static Exporter<PowerBiExportDocument> CreateExporter<TWriter>(
         IServiceProvider sp,
         PowerBiExportOptions options,
-        string fileName)
-        where TWriter : class, IRecordWriter<PowerBiExportDocument>, new()
-        => new(
+        string fileName
+    )
+        where TWriter : class, IRecordWriter<PowerBiExportDocument>, new() =>
+        new(
             fileName,
             options.BucketName,
             new TWriter(),
             sp.GetRequiredService<IAmazonS3>(),
-            sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>());
+            sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
+        );
 
     private static PowerBiDubbelDetectieExporters CreatePowerBiDubbelDetectieExporters(
         IServiceProvider sp,
-        PowerBiExportOptions options)
-    {
-        return new PowerBiDubbelDetectieExporters(
+        PowerBiExportOptions options
+    ) =>
+        new(
             new List<Exporter<PowerBiExportDubbelDetectieDocument>>
             {
                 CreateDubbelDetectieExporter<DubbelDetectieRecordWriter>(
                     sp,
                     options,
-                    WellKnownFileNames.DubbelDetectie),
-            });
-    }
+                    WellKnownFileNames.DubbelDetectie
+                ),
+            }
+        );
 
-    private static Exporter<PowerBiExportDubbelDetectieDocument>
-        CreateDubbelDetectieExporter<TWriter>(
-            IServiceProvider sp,
-            PowerBiExportOptions options,
-            string fileName)
-        where TWriter : class, IRecordWriter<PowerBiExportDubbelDetectieDocument>, new()
-        => new(
+    private static Exporter<PowerBiExportDubbelDetectieDocument> CreateDubbelDetectieExporter<TWriter>(
+        IServiceProvider sp,
+        PowerBiExportOptions options,
+        string fileName
+    )
+        where TWriter : class, IRecordWriter<PowerBiExportDubbelDetectieDocument>, new() =>
+        new(
             fileName,
             options.BucketName,
             new TWriter(),
             sp.GetRequiredService<IAmazonS3>(),
-            sp.GetRequiredService<ILogger<Exporter<PowerBiExportDubbelDetectieDocument>>>());
-
-    private static void ConfigureEncoding()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
-
-    private static void ConfigureJsonSerializerSettings()
-    {
-        var jsonSerializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
-        JsonConvert.DefaultSettings = () => jsonSerializerSettings;
-    }
-
-    private static void ConfigureAppDomainExceptions()
-    {
-        AppDomain.CurrentDomain.FirstChanceException += (_, eventArgs) =>
-            Log.Debug(
-                eventArgs.Exception,
-                messageTemplate: "FirstChanceException event raised in {AppDomain}",
-                AppDomain.CurrentDomain.FriendlyName
-            );
-
-        AppDomain.CurrentDomain.UnhandledException += (_, eventArgs) =>
-            Log.Fatal(
-                (Exception)eventArgs.ExceptionObject,
-                messageTemplate: "Encountered a fatal exception, exiting program"
-            );
-    }
+            sp.GetRequiredService<ILogger<Exporter<PowerBiExportDubbelDetectieDocument>>>()
+        );
 
     private static void ConfigureHealtChecks(WebApplication app)
     {
@@ -308,26 +257,18 @@ public class Program
                         name: "results",
                         new JObject(
                             healthReport.Entries.Select(pair => new JProperty(
-                                                            pair.Key,
-                                                            new JObject(
-                                                                new JProperty(
-                                                                    name: "status",
-                                                                    pair.Value.Status.ToString()),
-                                                                new JProperty(name: "duration", pair.Value.Duration),
-                                                                new JProperty(
-                                                                    name: "description",
-                                                                    pair.Value.Description),
-                                                                new JProperty(
-                                                                    name: "exception",
-                                                                    pair.Value.Exception?.Message),
-                                                                new JProperty(
-                                                                    name: "data",
-                                                                    new JObject(
-                                                                        pair.Value.Data.Select(p => new JProperty(p.Key,
-                                                                            p.Value)))
-                                                                )
-                                                            )
-                                                        ))
+                                pair.Key,
+                                new JObject(
+                                    new JProperty(name: "status", pair.Value.Status.ToString()),
+                                    new JProperty(name: "duration", pair.Value.Duration),
+                                    new JProperty(name: "description", pair.Value.Description),
+                                    new JProperty(name: "exception", pair.Value.Exception?.Message),
+                                    new JProperty(
+                                        name: "data",
+                                        new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))
+                                    )
+                                )
+                            ))
                         )
                     )
                 );
