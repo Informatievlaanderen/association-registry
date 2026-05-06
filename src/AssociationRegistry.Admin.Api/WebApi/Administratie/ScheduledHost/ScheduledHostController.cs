@@ -18,13 +18,25 @@ using Microsoft.AspNetCore.Mvc;
 public class ScheduledHostController : ApiController
 {
     [HttpPost("scheduledhost/trigger/bewaartermijn")]
-    public async Task<IActionResult> Get(
+    public async Task<IActionResult> TriggerBewaartermijnenPurgeRunner(
     [FromServices] ScheduledHostHttpClient client,
         [FromServices] ILogger<ScheduledHostController> logger,
         CancellationToken cancellationToken
     )
     {
         await client.TriggerBewaartermijnScheduledHost(cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpPost("scheduledhost/trigger/powerbi-export")]
+    public async Task<IActionResult> TriggerPowerBiExportRunner(
+        [FromServices] ScheduledHostHttpClient client,
+        [FromServices] ILogger<ScheduledHostController> logger,
+        CancellationToken cancellationToken
+    )
+    {
+        await client.TriggerPowerBiExportScheduledHost(cancellationToken);
 
         return Ok();
     }

@@ -82,5 +82,7 @@
     <PackageReference Include="Quartz.Extensions.Hosting"/>
     <PackageReference Include="Quartz.Extensions.DependencyInjection"/>
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api"/>
+    <PackageReference Include="CSVHelper" />
+    <PackageReference Include="AWSSDK.S3" />
   </ItemGroup>
 </Project>

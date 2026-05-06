@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Bewaartermijnen;
 using Microsoft.Extensions.Configuration;
+using PowerBi;
 
 public static class ConfigurationExtensions
 {
@@ -56,6 +57,26 @@ public static class ConfigurationExtensions
         bewaartermijnOptions.ThrowIfInValid();
 
         return bewaartermijnOptions;
+    }
+
+    public static PowerBiExportOptions GetPowerBiExportOptions(this IConfiguration configuration)
+    {
+        var powerBiExportOptions = configuration
+                                  .GetSection(nameof(PowerBiExportOptions))
+                                  .Get<PowerBiExportOptions>();
+
+        powerBiExportOptions.ThrowIfInvalid();
+
+        return powerBiExportOptions!;
+    }
+
+    private static void ThrowIfInvalid(this PowerBiExportOptions? powerBiExportOptions)
+    {
+        if (powerBiExportOptions == null)
+            throw new ArgumentNullException(nameof(powerBiExportOptions));
+
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(powerBiExportOptions.BucketName, $"{nameof(powerBiExportOptions)}.{nameof(PowerBiExportOptions.BucketName)}");
     }
 
     private static void ThrowIfInValid(this BewaartermijnOptions opt)

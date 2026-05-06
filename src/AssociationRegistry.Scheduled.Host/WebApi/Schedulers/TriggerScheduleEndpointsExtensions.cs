@@ -2,6 +2,7 @@ namespace AssociationRegistry.Scheduled.Host.WebApi.Schedulers;
 
 using Bewaartermijnen;
 using Microsoft.AspNetCore.Builder;
+using PowerBi;
 using Quartz;
 
 public static class TriggerScheduleControllersExtensions
@@ -13,6 +14,14 @@ public static class TriggerScheduleControllersExtensions
             handler: async (ISchedulerFactory schedulerFactory) =>
             {
                 await TriggerJob(ExpiredBewaartermijnJob.JobName, schedulerFactory);
+            }
+        );
+
+        app.MapPost(
+            pattern: "v1/trigger/powerbi-export",
+            handler: async (ISchedulerFactory schedulerFactory) =>
+            {
+                await TriggerJob(PowerBiExportJob.JobName, schedulerFactory);
             }
         );
     }
