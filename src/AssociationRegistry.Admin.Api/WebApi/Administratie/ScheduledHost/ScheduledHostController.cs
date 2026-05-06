@@ -30,13 +30,13 @@ public class ScheduledHostController : ApiController
     }
 
     [HttpPost("scheduledhost/trigger/powerbi-export")]
-    public async Task<IActionResult> TriggerPowerBiExportRunner(
+    public async Task<IActionResult> TriggerPowerBiExport(
         [FromServices] ScheduledHostHttpClient client,
         [FromServices] ILogger<ScheduledHostController> logger,
         CancellationToken cancellationToken
     )
     {
-        await client.TriggerPowerBiExportScheduledHost(cancellationToken);
+        await client.TriggerPowerBiExport(cancellationToken);
 
         return Ok();
     }
