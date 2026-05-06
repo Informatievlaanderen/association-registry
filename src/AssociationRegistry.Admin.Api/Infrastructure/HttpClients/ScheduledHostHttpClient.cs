@@ -17,6 +17,6 @@ public class ScheduledHostHttpClient : IDisposable
         _httpClient.Dispose();
     }
 
-    public async Task<HttpResponseMessage> TriggerPowerBiExportScheduledHost(CancellationToken cancellationToken)
+    public async Task<HttpResponseMessage> TriggerPowerBiExport(CancellationToken cancellationToken)
         => await _httpClient.PostAsync(requestUri: "/v1/trigger/powerbi-export", content: null, cancellationToken);
 }
