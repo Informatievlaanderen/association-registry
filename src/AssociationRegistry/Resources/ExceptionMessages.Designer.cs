@@ -729,9 +729,27 @@ namespace AssociationRegistry.Resources {
             }
         }
         
+        public static string ErkenningIsAlReedsGeschorst {
+            get {
+                return ResourceManager.GetString("ErkenningIsAlReedsGeschorst", resourceCulture);
+            }
+        }
+        
+        public static string ErkenningRedenSchorsingVerplicht {
+            get {
+                return ResourceManager.GetString("ErkenningRedenSchorsingVerplicht", resourceCulture);
+            }
+        }
+        
         public static string ErkenningIsNietGekend {
             get {
                 return ResourceManager.GetString("ErkenningIsNietGekend", resourceCulture);
+            }
+        }
+        
+        public static string VerlopenErkenningKanNietGeschorstWorden {
+            get {
+                return ResourceManager.GetString("VerlopenErkenningKanNietGeschorstWorden", resourceCulture);
             }
         }
     }

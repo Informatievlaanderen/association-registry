@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Erkenning.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Registreer_Erkenning.Beheer.Detail;
 
-using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
-using Admin.ProjectionHost.Constants;
-using Contracts.JsonLdContext;
-using DecentraalBeheer.Vereniging.Erkenningen;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Admin.ProjectionHost.Constants;
+using AssociationRegistry.Contracts.JsonLdContext;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using Xunit;
 using Erkenning = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
 using IpdcProduct = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;

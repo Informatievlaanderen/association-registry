@@ -367,7 +367,16 @@
   <data name="ErkenningBestaatAl">
     <value>Er mag geen overlap zijn met bestaande erkenningen voor dezelfde combinatie (vCode, IPDC-product, GI).</value>
   </data>
+  <data name="ErkenningIsAlReedsGeschorst">
+    <value>De erkenning is reeds geschorst en kan niet opnieuw geschorst worden.</value>
+  </data>
+  <data name="ErkenningRedenSchorsingVerplicht">
+    <value>De reden van schorsing is verplicht.</value>
+  </data>
   <data name="ErkenningIsNietGekend">
     <value>Erkenning met id '{0}' is niet gekend.</value>
+  </data>
+  <data name="VerlopenErkenningKanNietGeschorstWorden">
+    <value>Een verlopen erkenning kan niet geschorst worden.</value>
   </data>
 </root>

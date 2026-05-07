@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.E2E.When_Registreer_Erkenning;
+namespace AssociationRegistry.Test.E2E.Erkenningen.When_Registreer_Erkenning;
 
 using Admin.Api.WebApi.Verenigingen.Erkenningen.RegistreerErkenning.RequestModels;
 using Framework.ApiSetup;

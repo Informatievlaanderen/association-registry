@@ -195,7 +195,8 @@ public static class HistoriekGebeurtenisMapper
         };
     }
 
-    public static HistoriekGebeurtenisResponse? FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens(FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens @event)
+    public static HistoriekGebeurtenisResponse? FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens(
+        FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens @event)
     {
         return new HistoriekGebeurtenisResponse
         {
@@ -262,7 +263,6 @@ public static class HistoriekGebeurtenisMapper
             Initiator = AuthenticationSetup.Initiator,
         };
     }
-
 
     public static HistoriekGebeurtenisResponse KorteNaamWerdGewijzigd(string vCode, string naam)
     {
@@ -1025,12 +1025,14 @@ public static class HistoriekGebeurtenisMapper
             Initiator = AuthenticationSetup.Initiator,
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
     public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens(
         VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens @event)
         =>
             new()
             {
-                Beschrijving = $"Vertegenwoordiger '{WellKnownAnonymousFields.Geanonimiseerd} {WellKnownAnonymousFields.Geanonimiseerd}' werd gewijzigd in KBO.",
+                Beschrijving =
+                    $"Vertegenwoordiger '{WellKnownAnonymousFields.Geanonimiseerd} {WellKnownAnonymousFields.Geanonimiseerd}' werd gewijzigd in KBO.",
                 Gebeurtenis = nameof(Events.VertegenwoordigerWerdGewijzigdInKBO),
                 Data = new KBOVertegenwoordigerData(
                     @event.VertegenwoordigerId,
@@ -1040,6 +1042,7 @@ public static class HistoriekGebeurtenisMapper
                 Initiator = "OVO000001",
                 Tijdstip = "2024-07-30T11:08:05Z",
             };
+
     public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdVerwijderdUitKBO(
         VertegenwoordigerWerdVerwijderdUitKBO vertegenwoordigerWerdVerwijderdUitKbo
     ) =>
@@ -1057,7 +1060,8 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
-    public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens(VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens @event)
+    public static HistoriekGebeurtenisResponse? VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens(
+        VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens @event)
         =>
             new()
             {
@@ -1072,6 +1076,7 @@ public static class HistoriekGebeurtenisMapper
                 Initiator = "OVO000001",
                 Tijdstip = "2024-07-30T11:08:05Z",
             };
+
     public static HistoriekGebeurtenisResponse? KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
         KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden @event
     ) =>
@@ -1218,7 +1223,8 @@ public static class HistoriekGebeurtenisMapper
     ) =>
         new()
         {
-            Beschrijving = $"Bankrekeningnummervalidatiedocument werd bevestigd door '{AuthenticationSetup.Initiator}'.",
+            Beschrijving =
+                $"Bankrekeningnummervalidatiedocument werd bevestigd door '{AuthenticationSetup.Initiator}'.",
             Gebeurtenis = nameof(Events.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd),
             Data = new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 @event.BankrekeningnummerId,
@@ -1227,12 +1233,14 @@ public static class HistoriekGebeurtenisMapper
             Initiator = AuthenticationSetup.Initiator,
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
     public static HistoriekGebeurtenisResponse? ValidatieBankrekeningnummerWerdOngedaanGemaakt(
         int bankrekeningnummerId
     ) =>
         new()
         {
-            Beschrijving = $"Bankrekeningnummervalidatiedocument werd ongedaan gemaakt door '{AuthenticationSetup.Initiator}'.",
+            Beschrijving =
+                $"Bankrekeningnummervalidatiedocument werd ongedaan gemaakt door '{AuthenticationSetup.Initiator}'.",
             Gebeurtenis = nameof(Events.AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt),
             Data = new AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt(
                 bankrekeningnummerId,
@@ -1279,6 +1287,42 @@ public static class HistoriekGebeurtenisMapper
                 WellKnownAnonymousFields.Geanonimiseerd,
                 WellKnownAnonymousFields.Geanonimiseerd
             ),
+            Initiator = "OVO000001",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? ErkenningWerdGeregistreerd(
+        ErkenningWerdGeregistreerd @event
+    ) =>
+        new()
+        {
+            Beschrijving =
+                $"Erkenning werd geregistreerd door '{@event.GeregistreerdDoor.Naam}'.",
+            Gebeurtenis = nameof(Events.ErkenningWerdGeregistreerd),
+            Data = new ErkenningWerdGeregistreerd(
+                @event.ErkenningId,
+                @event.IpdcProduct,
+                @event.Startdatum,
+                @event.Einddatum,
+                @event.Hernieuwingsdatum,
+                @event.HernieuwingsUrl,
+                @event.GeregistreerdDoor,
+                @event.Status),
+            Initiator = "OVO000001",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? ErkenningWerdGeschorst(
+        ErkenningWerdGeschorst @event
+    ) =>
+        new()
+        {
+            Beschrijving =
+                $"Erkenning werd geschorst om deze reden: {@event.RedenSchorsing}.",
+            Gebeurtenis = nameof(Events.ErkenningWerdGeschorst),
+            Data = new ErkenningWerdGeschorst(
+                @event.ErkenningId,
+                @event.RedenSchorsing),
             Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };

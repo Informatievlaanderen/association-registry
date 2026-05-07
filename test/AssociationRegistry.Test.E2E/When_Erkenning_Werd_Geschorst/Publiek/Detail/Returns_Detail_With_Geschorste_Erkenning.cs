@@ -10,7 +10,7 @@ using Xunit;
 using Erkenning = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
 using IpdcProduct = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
 
-[Collection(nameof(SchorsErkenningCollection))]
+[Collection(nameof(ErkenningWerdGeschorstCollection))]
 public class Returns_Detail_With_Geschorste_Erkenning : IAsyncLifetime
 {
     private readonly ErkenningWerdGeschorstContext _werdGeschorstContext;

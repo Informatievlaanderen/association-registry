@@ -7,14 +7,17 @@ using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore;
 using Framework.TestClasses;
+using MartenDb.Store;
+using Vereniging;
 
-public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario : IScenario
+public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario : IScenario
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
+    public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd { get; set; }
 
     private CommandMetadata Metadata;
 
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario()
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario()
     {
     }
 
@@ -27,11 +30,13 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario
             VCode = await service.GetNext(),
         };
 
+        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>();
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
         return
         [
-            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd]),
+            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, ErkenningWerdGeregistreerd]),
         ];
     }
 
