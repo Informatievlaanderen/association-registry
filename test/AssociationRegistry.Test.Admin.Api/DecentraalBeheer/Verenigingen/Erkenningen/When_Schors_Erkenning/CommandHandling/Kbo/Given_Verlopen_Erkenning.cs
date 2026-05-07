@@ -29,7 +29,7 @@ public class Given_Verlopen_Erkenning
     }
 
     [Fact]
-    public async ValueTask Then_Nothing()
+    public async ValueTask Then_Throw_VerlopenErkenningKanNietGeschorstWorden()
     {
         var verlopenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 

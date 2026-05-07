@@ -30,7 +30,7 @@ public class Given_Verlopen_Erkenning
     }
 
     [Fact]
-    public async ValueTask Then_Nothing()
+    public async ValueTask Then_Throw_VerlopenErkenningKanNietGeschorstWorden()
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
         var command = _fixture.Create<SchorsErkenningCommand>() with

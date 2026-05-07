@@ -32,7 +32,7 @@ public class Given_Invalid_Reden_Erkenning
     [Theory]
     [InlineData("")]
     [InlineData(null)]
-    public async ValueTask Then_Nothing(string reden)
+    public async ValueTask Then_Throw_ErkenningRedenSchorsingVerplicht(string reden)
     {
         var invalidErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
