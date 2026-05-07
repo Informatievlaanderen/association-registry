@@ -20,8 +20,9 @@ public class For_Any_Event
         typeof(BankrekeningnummerWerdGevalideerd),
         typeof(KboNummerWerdGereserveerd),
         typeof(DubbeleVerenigingenWerdenGedetecteerd),
-        .. new PersoonsgegevensEventTransformers().Select(x => x.PersistedEventType),
         typeof(BewaartermijnWerdGestartV2), // TODO undo for powerbi
+        typeof(ErkenningWerdVerlopen), // TODO implement in or-3083
+        .. new PersoonsgegevensEventTransformers().Select(x => x.PersistedEventType),
     ];
 
     // Because we want to update the metadata for each event!
