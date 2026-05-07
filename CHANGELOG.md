@@ -1,3 +1,10 @@
+## [8.318.1](https://github.com/informatievlaanderen/association-registry/compare/v8.318.0...v8.318.1) (2026-05-07)
+
+
+### Bug Fixes
+
+* or-3126 reroute message to command for bewaartermijnen ([3785942](https://github.com/informatievlaanderen/association-registry/commit/3785942f12396bd22ad493309f2eb2b629c80b17))
+
 # [8.318.0](https://github.com/informatievlaanderen/association-registry/compare/v8.317.1...v8.318.0) (2026-05-06)
 
 
