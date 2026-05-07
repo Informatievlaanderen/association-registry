@@ -611,12 +611,10 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         return toegevoegdeErkenning.ErkenningId;
     }
+
     public void SchorsErkenning(TeSchorsenErkenning teSchorsenErkenning)
     {
-        var geschorsteErkenning = State.Erkenningen.Schors(teSchorsenErkenning);
-
-        if (geschorsteErkenning is null)
-            return;
+        State.Erkenningen.Schors(teSchorsenErkenning);
 
         AddEvent(
             new ErkenningWerdGeschorst(

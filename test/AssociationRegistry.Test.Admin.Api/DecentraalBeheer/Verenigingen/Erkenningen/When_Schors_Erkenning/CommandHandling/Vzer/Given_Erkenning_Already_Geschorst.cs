@@ -2,12 +2,15 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erken
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
+using FluentAssertions;
+using Resources;
 using Xunit;
 
 public class Given_Erkenning_Already_Geschorst
@@ -40,10 +43,10 @@ public class Given_Erkenning_Already_Geschorst
             },
         };
 
-        await _commandHandler.Handle(
+       var exception = await Assert.ThrowsAsync<ErkenningIsAlReedsGeschorst>(async () => await _commandHandler.Handle(
             new CommandEnvelope<SchorsErkenningCommand>(command, _fixture.Create<CommandMetadata>())
-        );
+        ));
 
-        _verenigingRepositoryMock.ShouldNotHaveSaved<ErkenningWerdGeschorst>();
+       exception.Message.Should().Be(ExceptionMessages.ErkenningIsAlReedsGeschorst);
     }
 }

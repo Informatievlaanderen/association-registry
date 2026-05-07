@@ -12,7 +12,7 @@ using Xunit;
 using Erkenning = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
 using IpdcProduct = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
 
-[Collection(nameof(SchorsErkenningCollection))]
+[Collection(nameof(ErkenningWerdGeschorstCollection))]
 public class Returns_Detail_With_Geschorste_Erkenning : End2EndTest<DetailVerenigingResponse>
 {
     private readonly ErkenningWerdGeschorstContext _testWerdGeschorstContext;

@@ -1,12 +1,11 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Erkenning.Publiek.Detail;
+﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Registreer_Erkenning.Publiek.Detail;
 
-using Contracts.JsonLdContext;
-using DecentraalBeheer.Vereniging.Erkenningen;
+using AssociationRegistry.Contracts.JsonLdContext;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
+using AssociationRegistry.Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Public.ProjectionHost.Constants;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using FluentAssertions;
-using Framework.AlbaHost;
-using KellermanSoftware.CompareNetObjects;
-using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
-using Public.ProjectionHost.Constants;
 using Xunit;
 using Erkenning = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
 using IpdcProduct = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;

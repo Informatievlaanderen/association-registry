@@ -23,7 +23,7 @@ public class ErkenningWerdGeschorstContext : TestContextBase<ErkenningWerdGeregi
     }
 }
 
-[CollectionDefinition(nameof(SchorsErkenningCollection))]
-public class SchorsErkenningCollection : ICollectionFixture<ErkenningWerdGeschorstContext>
+[CollectionDefinition(nameof(ErkenningWerdGeschorstCollection))]
+public class ErkenningWerdGeschorstCollection : ICollectionFixture<ErkenningWerdGeschorstContext>
 {
 }

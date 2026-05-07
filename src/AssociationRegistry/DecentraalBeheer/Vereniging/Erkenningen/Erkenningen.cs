@@ -49,14 +49,13 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return new Erkenningen(erkenningen, Math.Max(erkenningen.Max(x => x.ErkenningId) + 1, NextId));
     }
 
-    public Erkenning? Schors(TeSchorsenErkenning teSchorsenErkenning)
+    public void Schors(TeSchorsenErkenning teSchorsenErkenning)
     {
         var erkenning = MustExists(teSchorsenErkenning.ErkenningId);
 
-        if (erkenning.Status == ErkenningStatus.Geschorst)
-            return null;
-
-        return erkenning;
+        Throw<ErkenningIsAlReedsGeschorst>.If(erkenning.Status == ErkenningStatus.Geschorst);
+        Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teSchorsenErkenning.RedenSchorsing));
+        Throw<VerlopenErkenningKanNietGeschorstWorden>.If(erkenning.Status == ErkenningStatus.Verlopen);
     }
 
     private Erkenning MustExists(int erkenningId)
@@ -67,7 +66,6 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
         return erkenning!;
     }
-
 }
 
 public static class ErkenningenEnumerableExtensions
@@ -89,6 +87,7 @@ public static class ErkenningenEnumerableExtensions
                 eventData.Status
             )
         );
+
     public static IEnumerable<Erkenning> Without(this IEnumerable<Erkenning> source, int id)
     {
         return source.Where(c => c.ErkenningId != id);
