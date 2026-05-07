@@ -67,26 +67,6 @@ public record Erkenning
         return ErkenningsPeriode.OverlapsWith(teRegistrerenErkenning.ErkenningsPeriode);
     }
 
-    public bool WouldBeEquivalent(
-        TeSchorsenErkenning teSchorsenErkenning,
-        out Erkenning geschorsteErkenning
-    )
-    {
-        geschorsteErkenning = CreateForWijzigen(
-            teSchorsenErkenning.ErkenningId,
-            teSchorsenErkenning.RedenSchorsing
-        );
-
-        return this == geschorsteErkenning;
-    }
-
-    private Erkenning CreateForWijzigen(int erkenningId, string redenSchorsing) =>
-        this with
-        {
-            ErkenningId = erkenningId,
-            Motivering = redenSchorsing,
-        };
-
     public Erkenning Schors(string redenSchorsing)
         => this with { Motivering = redenSchorsing, Status = ErkenningStatus.Geschorst };
 }

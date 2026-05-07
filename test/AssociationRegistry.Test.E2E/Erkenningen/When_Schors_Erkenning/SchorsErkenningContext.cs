@@ -5,7 +5,6 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests.FeitelijkeVereniging;
-using When_Erkenning_Werd_Geschorst;
 using Xunit;
 
 public class SchorsErkenningContext : TestContextBase<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario, SchorsErkenningRequest>
