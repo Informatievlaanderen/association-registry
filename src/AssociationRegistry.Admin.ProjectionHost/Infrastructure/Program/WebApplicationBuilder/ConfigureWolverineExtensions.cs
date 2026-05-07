@@ -25,8 +25,7 @@ public static class ConfigureWolverineExtensions
 
             options.AutoBuildMessageStorageOnStartup = AutoCreate.All;
             options.UseNewtonsoftForSerialization(settings => settings.ConfigureForVerenigingsregister());
-
-            options.Discovery.IncludeAssembly(typeof(BewaartermijnVertegenwoordigersEventHandler).Assembly);
+            options.Discovery.IncludeType(typeof(BewaartermijnVertegenwoordigersEventHandler));
 
             ConfigureQueues(options, WellknownSchemaNames.Wolverine, builder.Configuration);
         });
@@ -55,15 +54,9 @@ public static class ConfigureWolverineExtensions
 
     private static void ConfigureStartBewaartermijn(WolverineOptions options)
     {
-        //options.Discovery.IncludeType<StartBewaartermijnMessage>();
-        options.Discovery.IncludeType<StartBewaartermijnMessageHandler>();
-
         options
             .PublishMessage<StartBewaartermijnMessage>()
             .ToPostgresqlQueue(WellknownQueueNames.StartBewaartermijnQueueName);
-
-        //options.Discovery.IncludeType<StartBewaartermijnenVoorVerenigingMessage>();
-        options.Discovery.IncludeType<StartBewaartermijnenVoorVerenigingMessageHandler>();
 
         options
             .PublishMessage<StartBewaartermijnenVoorVerenigingMessage>()

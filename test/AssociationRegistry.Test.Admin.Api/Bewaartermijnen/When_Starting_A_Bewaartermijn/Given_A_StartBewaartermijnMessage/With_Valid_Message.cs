@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Bewaartermijnen.When_Starting_A_Bewaartermijn.Given_A_StartBewaartermijnMessage;
+﻿namespace AssociationRegistry.Test.Admin.Api.Bewaartermijnen.When_Starting_A_Bewaartermijn.Given_A_StartBewaartermijnCommand;
 
 using AssociationRegistry.CommandHandling.Bewaartermijnen.Acties.Start;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
@@ -36,7 +36,7 @@ public class With_Valid_Message
 
         _expectedVervaldag = _commandMetadata.Tijdstip.PlusTicks(_bewaartermijnOptions.Duration.Ticks);
 
-        var message = new StartBewaartermijnMessage(
+        var message = new StartBewaartermijnCommand(
             _vCode,
             PersoonsgegevensType.Vertegenwoordigers.Value,
             _entityId,
@@ -44,10 +44,10 @@ public class With_Valid_Message
             BewaartermijnReden.VertegenwoordigerWerdVerwijderd
         );
 
-        var commandHandler = new StartBewaartermijnMessageHandler();
+        var messageHandler = new StartBewaartermijnCommandHandler();
         _eventStore = new Mock<IEventStore>();
         _notifier = new Mock<INotifier>();
-        commandHandler
+        messageHandler
             .Handle(message, _eventStore.Object, _notifier.Object, CancellationToken.None)
             .GetAwaiter()
             .GetResult();

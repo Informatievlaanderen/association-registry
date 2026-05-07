@@ -2,14 +2,14 @@
 
 using NodaTime;
 
-public class StartBewaartermijnenVoorVerenigingMessage
+public class StartBewaartermijnenVoorVerenigingCommand
 {
     public string StreamKey { get; }
     public string PersoonsgegevensType { get; }
     public Instant Vervaldag { get; }
     public string Reden { get; }
 
-    public StartBewaartermijnenVoorVerenigingMessage(
+    public StartBewaartermijnenVoorVerenigingCommand(
         string streamKey,
         string persoonsgegevensType,
         Instant vervaldag,
@@ -21,11 +21,4 @@ public class StartBewaartermijnenVoorVerenigingMessage
         Reden = reden;
         PersoonsgegevensType = persoonsgegevensType;
     }
-}
-
-public static class StartBewaartermijnenVoorVerenigingMessageExtensions
-{
-    public static StartBewaartermijnenVoorVerenigingCommand ToCommand(
-        this StartBewaartermijnenVoorVerenigingMessage message
-    ) => new(message.StreamKey, message.PersoonsgegevensType, message.Vervaldag, message.Reden);
 }

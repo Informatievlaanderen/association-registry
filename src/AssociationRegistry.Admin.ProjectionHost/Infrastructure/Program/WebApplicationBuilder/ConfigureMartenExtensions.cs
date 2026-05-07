@@ -96,10 +96,7 @@ public static class ConfigureMartenExtensions
             {
                 integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
                 integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
-
-                integration.AutoCreate = AutoCreate.None;
             })
-            .AddAsyncDaemon(DaemonMode.HotCold)
             .ProcessEventsWithWolverineHandlersInStrictOrder(
                 BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
                 o =>
