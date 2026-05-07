@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Bewaartermijnen.When_Starting_A_Bewaartermijn.Given_A_StartBewaartermijnMessage;
+﻿namespace AssociationRegistry.Test.Admin.Api.Bewaartermijnen.When_Starting_A_Bewaartermijn.Given_A_StartBewaartermijnCommand;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
@@ -17,8 +17,8 @@ using Xunit;
 
 public class With_Invalid_BewaartermijnType
 {
-    private readonly StartBewaartermijnMessage _message;
-    private readonly StartBewaartermijnMessageHandler _messageHandler;
+    private readonly StartBewaartermijnCommand _message;
+    private readonly StartBewaartermijnCommandHandler _messageHandler;
     private readonly Mock<IEventStore> _eventStore;
     private readonly Mock<INotifier> _notifier;
 
@@ -32,7 +32,7 @@ public class With_Invalid_BewaartermijnType
 
         var invalidPersoonsgegevensType = fixture.Create<string>();
 
-        _message = new StartBewaartermijnMessage(
+        _message = new StartBewaartermijnCommand(
             vCode,
             invalidPersoonsgegevensType,
             entityId,
@@ -40,7 +40,7 @@ public class With_Invalid_BewaartermijnType
             BewaartermijnReden.VertegenwoordigerWerdVerwijderd
         );
 
-        _messageHandler = new StartBewaartermijnMessageHandler();
+        _messageHandler = new StartBewaartermijnCommandHandler();
         _eventStore = new Mock<IEventStore>();
         _notifier = new Mock<INotifier>();
     }

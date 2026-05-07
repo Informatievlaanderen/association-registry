@@ -2,7 +2,7 @@ namespace AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Messag
 
 using NodaTime;
 
-public class StartBewaartermijnMessage
+public class StartBewaartermijnCommand
 {
     public string StreamKey { get; }
     public string PersoonsgegevensType { get; }
@@ -10,7 +10,7 @@ public class StartBewaartermijnMessage
     public Instant Vervaldag { get; }
     public string Reden { get; }
 
-    public StartBewaartermijnMessage(
+    public StartBewaartermijnCommand(
         string streamKey,
         string persoonsgegevensType,
         int entityId,
@@ -24,10 +24,4 @@ public class StartBewaartermijnMessage
         Reden = reden;
         PersoonsgegevensType = persoonsgegevensType;
     }
-}
-
-public static class StartBewaartermijnMessageExtensions
-{
-    public static StartBewaartermijnCommand ToCommand(this StartBewaartermijnMessage message) =>
-        new(message.StreamKey, message.PersoonsgegevensType, message.EntityId, message.Vervaldag, message.Reden);
 }

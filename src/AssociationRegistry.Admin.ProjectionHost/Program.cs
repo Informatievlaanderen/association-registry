@@ -63,6 +63,7 @@ public class Program
         ConfigureEncoding();
         ConfigureJsonSerializerSettings();
         ConfigureAppDomainExceptions();
+        ConfigureServices(builder);
 
         builder.WebHost.ConfigureKestrel(options => options.AddEndpoint(IPAddress.Any, port: 11006));
 
@@ -112,6 +113,13 @@ public class Program
         ConfigureLifetimeHooks(app);
 
         await app.RunJasperFxCommands(args);
+    }
+
+    private static void ConfigureServices(WebApplicationBuilder builder)
+    {
+        var bewaartermijnOptions = builder.Configuration.GetBewaartermijnOptions();
+
+        builder.Services.AddSingleton(bewaartermijnOptions);
     }
 
     private static void ConfigureEncoding()
