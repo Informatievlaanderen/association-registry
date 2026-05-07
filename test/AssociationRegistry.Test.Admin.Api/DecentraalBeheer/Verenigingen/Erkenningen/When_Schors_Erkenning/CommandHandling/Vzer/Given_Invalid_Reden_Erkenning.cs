@@ -32,7 +32,7 @@ public class Given_Invalid_Reden_Erkenning
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public async ValueTask Then_Nothing(string reden)
+    public async ValueTask Then_Throw_ErkenningRedenSchorsingVerplicht(string reden)
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
         var command = _fixture.Create<SchorsErkenningCommand>() with

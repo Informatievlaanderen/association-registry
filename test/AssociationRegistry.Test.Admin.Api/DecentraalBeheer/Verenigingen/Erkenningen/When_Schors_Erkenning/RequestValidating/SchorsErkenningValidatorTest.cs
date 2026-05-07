@@ -10,7 +10,7 @@ using Xunit;
 public class SchorsErkenningValidatorTest : ValidatorTest
 {
     [Fact]
-    public void With_IpdcProductnummer_Empty_Then_ValidationError()
+    public void With_RedenSchorsing_Empty_Then_ValidationError()
     {
         var validator = new SchorsErkenningValidator();
 
@@ -24,7 +24,7 @@ public class SchorsErkenningValidatorTest : ValidatorTest
     }
 
     [Fact]
-    public void With_IpdcProductnummer_Null_Then_ValidationError()
+    public void With_RedenSchorsing_Null_Then_ValidationError()
     {
         var validator = new SchorsErkenningValidator();
 
