@@ -1,0 +1,39 @@
+﻿namespace AssociationRegistry.Test.Projections.PowerBiExport.Lidmaatschappen;
+
+using AssociationRegistry.Admin.Schema.PowerBiExport;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
+using KellermanSoftware.CompareNetObjects;
+
+[Collection(nameof(ProjectionContext))]
+public class Given_LidmaatschapWerdGewijzigd(PowerBiScenarioFixture<LidmaatschapWerdGewijzigdScenario> fixture)
+    : PowerBiScenarioClassFixture<LidmaatschapWerdGewijzigdScenario>
+{
+    [Fact]
+    public async ValueTask ARecordIsStored_With_Lidmaatschap()
+    {
+        Lidmaatschap[] expectedLidmaatschap =
+        [
+            new(
+                fixture.Scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.LidmaatschapId,
+                fixture.Scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.AndereVereniging,
+                fixture.Scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.DatumVan.FormatAsBelgianDate(),
+                fixture.Scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.DatumTot.FormatAsBelgianDate(),
+                fixture.Scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.Identificatie,
+                fixture.Scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.Beschrijving
+            ),
+        ];
+
+        fixture.Result.Lidmaatschappen.ShouldCompare(expectedLidmaatschap);
+    }
+
+    [Fact]
+    public async ValueTask ARecordIsStored_With_Historiek()
+    {
+        fixture.Result.VCode.Should().Be(fixture.Scenario.LidmaatschapWerdGewijzigd.VCode);
+        fixture.Result.Historiek.Should().NotBeEmpty();
+
+        fixture.Result.Historiek.Should()
+                             .ContainSingle(x => x.EventType == nameof(LidmaatschapWerdGewijzigd));
+    }
+}
