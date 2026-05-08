@@ -285,6 +285,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Een geschorste erkenning kan niet verwijderd worden..
+        /// </summary>
+        public static string ErkenningIsGeschorst {
+            get {
+                return ResourceManager.GetString("ErkenningIsGeschorst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Erkenning met id &apos;{0}&apos; is niet gekend..
         /// </summary>
         public static string ErkenningIsNietGekend {
@@ -326,6 +335,15 @@ namespace AssociationRegistry.Resources {
         public static string GeenGeldigeVerenigingInKbo {
             get {
                 return ResourceManager.GetString("GeenGeldigeVerenigingInKbo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze OVOCode heeft geen machtiging om deze actie uit te voeren..
+        /// </summary>
+        public static string GiIsNIetBevoegd {
+            get {
+                return ResourceManager.GetString("GiIsNIetBevoegd", resourceCulture);
             }
         }
         
@@ -1048,6 +1066,15 @@ namespace AssociationRegistry.Resources {
         public static string VerlopenErkenningKanNietGeschorstWorden {
             get {
                 return ResourceManager.GetString("VerlopenErkenningKanNietGeschorstWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Een verlopen erkenning kan niet verwijderd worden..
+        /// </summary>
+        public static string VerlopenErkenningKanNietVerwijderdWorden {
+            get {
+                return ResourceManager.GetString("VerlopenErkenningKanNietVerwijderdWorden", resourceCulture);
             }
         }
         

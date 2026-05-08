@@ -1056,6 +1056,21 @@ public record VerenigingState : IHasVersion
         };
     }
 
+    public VerenigingState Apply(ErkenningWerdVerwijderd @event)
+    {
+        var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
+
+        if (erkenning is null)
+        {
+            return this;
+        }
+
+        return this with
+        {
+            Erkenningen = Erkenningen.Hydrate(Erkenningen.Without(@event.ErkenningId)),
+        };
+    }
+
     public void ThrowIfVerwijderd()
     {
         if (IsVerwijderd)

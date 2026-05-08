@@ -644,4 +644,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             )
         );
     }
+
+    public void VerwijderErkenning(int erkenningId, string initiator)
+    {
+        State.Erkenningen.VerwijderErkenning(erkenningId, initiator);
+
+        AddEvent(new ErkenningWerdVerwijderd(erkenningId));
+    }
 }

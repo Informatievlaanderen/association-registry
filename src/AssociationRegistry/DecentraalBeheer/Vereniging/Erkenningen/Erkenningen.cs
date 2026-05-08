@@ -96,6 +96,16 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
         return heeftWijzigingen;
     }
+
+    public void VerwijderErkenning(int erkenningId, string initiator)
+    {
+        var erkenning = this.SingleOrDefault(x => x.ErkenningId == erkenningId);
+
+        Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
+        Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
+        Throw<ErkenningIsGeschorst>.If(erkenning.Status == ErkenningStatus.Geschorst);
+        Throw<VerlopenErkenningKanNietVerwijderdWorden>.If(erkenning.Status == ErkenningStatus.Verlopen);
+    }
 }
 
 public static class ErkenningenEnumerableExtensions

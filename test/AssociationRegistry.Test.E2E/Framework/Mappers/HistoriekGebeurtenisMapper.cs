@@ -1339,4 +1339,14 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse? ErkenningWerdVerwijderd(int erkenningId) =>
+        new()
+        {
+            Beschrijving = "Erkenning werd verwijderd",
+            Gebeurtenis = nameof(Events.ErkenningWerdVerwijderd),
+            Data = new ErkenningWerdVerwijderd(erkenningId),
+            Initiator = "OVO000001",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }
