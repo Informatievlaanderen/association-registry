@@ -325,6 +325,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+    public async Task Project(IEvent<ErkenningRedenVanSchorsingWerdGecorrigeerd> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(
         IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event,
         IDocumentOperations ops

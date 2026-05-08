@@ -60,7 +60,7 @@ public class SchorsErkenningController : ApiController
     /// <response code="202">De erkenning werd geschorst.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPost("{vCode}/erkenningen/{erkenningId}/schorsingen")]
+    [HttpPatch("{vCode}/erkenningen/{erkenningId}/schorsingen")]
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(
@@ -86,7 +86,7 @@ public class SchorsErkenningController : ApiController
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Post(
+    public async Task<IActionResult> Patch(
         [FromRoute] string vCode,
         [FromRoute] int erkenningId,
         [FromBody] CorrigeerSchorsingErkenningRequest request,

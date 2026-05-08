@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Corrigeer_Schorsings_Erkenning.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Corrigeer_Reden_Schorsings_Erkenning.Beheer.Detail;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Admin.ProjectionHost.Constants;
@@ -66,13 +66,7 @@ public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
                     ),
                     HernieuwingsUrl = _testContext.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = _testContext.CommandRequest.RedenSchorsing,
-                    Status = ErkenningStatus.Bepaal(
-                        ErkenningsPeriode.Create(
-                            _testContext.Scenario.ErkenningWerdGeregistreerd.Startdatum,
-                            _testContext.Scenario.ErkenningWerdGeregistreerd.Einddatum
-                        ),
-                        DateOnly.FromDateTime(DateTime.Now)
-                    ),
+                    Status = ErkenningStatus.Geschorst,
                 },
             ]);
     }

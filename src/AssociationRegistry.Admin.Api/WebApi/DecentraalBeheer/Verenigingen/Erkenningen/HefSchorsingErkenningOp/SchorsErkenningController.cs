@@ -86,6 +86,6 @@ public class SchorsErkenningController : ApiController
         );
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        return this.PatchResponse(commandResult);
+        return this.DeleteResponse(commandResult);
     }
 }
