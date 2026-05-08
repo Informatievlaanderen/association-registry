@@ -1,3 +1,17 @@
+# [8.319.0](https://github.com/informatievlaanderen/association-registry/compare/v8.318.1...v8.319.0) (2026-05-08)
+
+
+### Features
+
+* or-3076 add domain validations for Erkenning werd geschorst ([354dcad](https://github.com/informatievlaanderen/association-registry/commit/354dcad0f7174d38afe35c19afab583d0119343c))
+* or-3076 add erkenning werd geschorst in PowerBi projection ([c0e42f7](https://github.com/informatievlaanderen/association-registry/commit/c0e42f743cac6fcde60a1dc358785e8614583a87))
+* or-3076 implement ErkenningWerdGeschorst in beheer detail en historiek ([5a850a9](https://github.com/informatievlaanderen/association-registry/commit/5a850a9d2437fbe172dffe2e1242fbf937508c84))
+* or-3076 implement ErkenningWerdGeschorst in publiek detail en mutatiedienst ([2f531f4](https://github.com/informatievlaanderen/association-registry/commit/2f531f4665ac0e136c1504e8b8b6353262630aa6))
+* or-3076 implement schors erkenning in domain and api ([a705bf9](https://github.com/informatievlaanderen/association-registry/commit/a705bf9f985ae4d84b27ad32e2a2ea187c4f9014))
+* or-3076 remove wrapper from SchorsErkenningRequest ([3a838cf](https://github.com/informatievlaanderen/association-registry/commit/3a838cf86a4b947a80c6735f201b0c97a0dea1ca))
+* or-3079 implement hef erkenning op in projections ([6b27efc](https://github.com/informatievlaanderen/association-registry/commit/6b27efc9ddda658037af486ebecd25d0190731e4))
+* or-3079 implement hef schorsing erkenning op in domain ([c55f5a8](https://github.com/informatievlaanderen/association-registry/commit/c55f5a88510e9cd2ceda923b0ee2acb22689f0a1))
+
 ## [8.318.1](https://github.com/informatievlaanderen/association-registry/compare/v8.318.0...v8.318.1) (2026-05-07)
 
 
