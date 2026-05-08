@@ -20,7 +20,7 @@ public class HefSchorsingErkenningOpCommandHandler
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
 
-        vereniging.HefSchorsingErkenningOp(envelope.Command.ErkenningId);
+        vereniging.HefSchorsingErkenningOp(envelope.Command.ErkenningId, envelope.Metadata.Initiator);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

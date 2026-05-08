@@ -38,10 +38,12 @@ public class Given_Unknown_Erkenning
             ErkenningId = unknownErkenningId,
         };
 
-        var commandEnvelope = new CommandEnvelope<HefSchorsingErkenningOpCommand>(
-            command,
-            _fixture.Create<CommandMetadata>()
-        );
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
+
+        var commandEnvelope = new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, commandMetadata);
 
         var exception = await Assert.ThrowsAsync<ErkenningIsNietGekend>(async () =>
         {

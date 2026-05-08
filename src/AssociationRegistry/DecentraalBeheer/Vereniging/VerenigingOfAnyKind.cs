@@ -614,23 +614,26 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         return toegevoegdeErkenning.ErkenningId;
     }
 
-    public void SchorsErkenning(TeSchorsenErkenning teSchorsenErkenning)
+    public void SchorsErkenning(TeSchorsenErkenning teSchorsenErkenning, string initiator)
     {
-        State.Erkenningen.Schors(teSchorsenErkenning);
+        State.Erkenningen.Schors(teSchorsenErkenning, initiator);
 
         AddEvent(new ErkenningWerdGeschorst(teSchorsenErkenning.ErkenningId, teSchorsenErkenning.RedenSchorsing));
     }
 
-    public void HefSchorsingErkenningOp(int erkenningId)
+    public void HefSchorsingErkenningOp(int erkenningId, string initiator)
     {
-        var opgehevenErkenning = State.Erkenningen.HefSchorsingErkenningOp(erkenningId);
+        var opgehevenErkenning = State.Erkenningen.HefSchorsingErkenningOp(erkenningId, initiator);
 
         AddEvent(new SchorsingVanErkenningWerdOpgeheven(erkenningId, opgehevenErkenning.Status));
     }
 
-    public void CorrigeerSchorsingErkenning(TeCorrigerenSchorsingErkenning teCorrigerenSchorsingErkenning)
+    public void CorrigeerSchorsingErkenning(
+        TeCorrigerenSchorsingErkenning teCorrigerenSchorsingErkenning,
+        string initiator
+    )
     {
-        var heeftWijzigingen = State.Erkenningen.CorrigeerSchorsing(teCorrigerenSchorsingErkenning);
+        var heeftWijzigingen = State.Erkenningen.CorrigeerSchorsing(teCorrigerenSchorsingErkenning, initiator);
 
         if (!heeftWijzigingen)
         {

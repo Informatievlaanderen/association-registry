@@ -15,9 +15,7 @@ public class ErkenningWerdGeschorstFactory : ITestRequestFactory<SchorsErkenning
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
     private readonly ErkenningWerdGeregistreerdScenario _scenario;
 
-    public ErkenningWerdGeschorstFactory(
-        ErkenningWerdGeregistreerdScenario scenario
-    )
+    public ErkenningWerdGeschorstFactory(ErkenningWerdGeregistreerdScenario scenario)
     {
         _scenario = scenario;
     }
@@ -31,16 +29,21 @@ public class ErkenningWerdGeschorstFactory : ITestRequestFactory<SchorsErkenning
         var response = (
             await apiSetup.AdminApiHost.Scenario(s =>
             {
+                s.WithRequestHeader(
+                    WellknownHeaderNames.Initiator,
+                    _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
+                );
+
                 s.Post.Json(request, JsonStyle.Mvc)
-                 .ToUrl(
-                      $"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/erkenningen/{_scenario.ErkenningWerdGeregistreerd.ErkenningId}/schorsingen"
-                  );
+                    .ToUrl(
+                        $"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/erkenningen/{_scenario.ErkenningWerdGeregistreerd.ErkenningId}/schorsingen"
+                    );
 
                 s.StatusCodeShouldBe(HttpStatusCode.Accepted);
                 s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
                 s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
             })
-            ).Context.Response;
+        ).Context.Response;
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 

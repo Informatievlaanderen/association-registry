@@ -25,6 +25,11 @@ public class HefSchorsingErkenningOpRequestFactory : ITestRequestFactory<NullReq
         var response = (
             await apiSetup.AdminApiHost.Scenario(s =>
             {
+                s.WithRequestHeader(
+                    WellknownHeaderNames.Initiator,
+                    _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
+                );
+
                 s.Delete.Url(
                     $"/v1/verenigingen/{vCode}/erkenningen/{_scenario.ErkenningWerdGeregistreerd.ErkenningId}/schorsingen"
                 );

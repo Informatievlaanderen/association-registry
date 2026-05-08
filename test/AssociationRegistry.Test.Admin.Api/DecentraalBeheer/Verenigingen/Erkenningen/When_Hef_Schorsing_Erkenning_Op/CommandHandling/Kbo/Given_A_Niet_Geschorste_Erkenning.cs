@@ -41,11 +41,14 @@ public class Given_A_Niet_Geschorste_Erkenning
             ErkenningId = teSchorsenErkenningId,
         };
 
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
+
         var exception = await Assert.ThrowsAsync<ErkenningIsNietGeschorst>(async () =>
         {
-            await _commandHandler.Handle(
-                new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, _fixture.Create<CommandMetadata>())
-            );
+            await _commandHandler.Handle(new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, commandMetadata));
         });
 
         exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningIsNietGeschorst));

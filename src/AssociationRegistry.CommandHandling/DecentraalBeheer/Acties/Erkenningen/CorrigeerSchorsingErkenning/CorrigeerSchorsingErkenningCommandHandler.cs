@@ -20,7 +20,7 @@ public class CorrigeerSchorsingErkenningCommandHandler
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
 
-        vereniging.CorrigeerSchorsingErkenning(envelope.Command.Erkenning);
+        vereniging.CorrigeerSchorsingErkenning(envelope.Command.Erkenning, envelope.Metadata.Initiator);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

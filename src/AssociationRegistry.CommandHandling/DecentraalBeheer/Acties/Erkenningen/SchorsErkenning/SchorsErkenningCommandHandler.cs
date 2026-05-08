@@ -20,7 +20,7 @@ public class SchorsErkenningCommandHandler
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
 
-        vereniging.SchorsErkenning(envelope.Command.Erkenning);
+        vereniging.SchorsErkenning(envelope.Command.Erkenning, envelope.Metadata.Initiator);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

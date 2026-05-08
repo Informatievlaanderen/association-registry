@@ -1,6 +1,7 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Hef_Schorsing_Erkenning_Op.CommandHandling.Vzer;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Hef_Schorsing_Erkenning_Op.CommandHandling.Vzer;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.HefSchorsingErkenningOp;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Resources;
@@ -12,25 +13,25 @@ using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkhei
 using FluentAssertions;
 using Xunit;
 
-public class Given_A_Niet_Geschorste_Erkenning
+public class Given_Another_OvoCode
 {
     private readonly HefSchorsingErkenningOpCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
+    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
 
-    public Given_A_Niet_Geschorste_Erkenning()
+    public Given_Another_OvoCode()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
+        _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario();
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _commandHandler = new HefSchorsingErkenningOpCommandHandler(_verenigingRepositoryMock);
     }
 
     [Fact]
-    public async ValueTask Then_Throw_ErkenningIsAlReedsGeschorst()
+    public async ValueTask With_All_Fields_Then_It_Saves_An_ErkenningWerdGeschorst_Event()
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
@@ -40,16 +41,20 @@ public class Given_A_Niet_Geschorste_Erkenning
             ErkenningId = teSchorsenErkenningId,
         };
 
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-        };
+        var status = ErkenningStatus.Bepaal(
+            ErkenningsPeriode.Create(
+                _scenario.ErkenningWerdGeregistreerd.Startdatum,
+                _scenario.ErkenningWerdGeregistreerd.Einddatum
+            ),
+            DateOnly.FromDateTime(DateTime.Now)
+        );
 
-        var exception = await Assert.ThrowsAsync<ErkenningIsNietGeschorst>(async () =>
-        {
-            await _commandHandler.Handle(new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, commandMetadata));
-        });
+        var exception = await Assert.ThrowsAsync<GiIsNIetBevoegd>(async () =>
+            await _commandHandler.Handle(
+                new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, _fixture.Create<CommandMetadata>())
+            )
+        );
 
-        exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningIsNietGeschorst));
+        exception.Message.Should().Be(ExceptionMessages.GiIsNIetBevoegd);
     }
 }

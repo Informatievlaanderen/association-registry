@@ -46,9 +46,12 @@ public class Given_A_Valid_Command
             DateOnly.FromDateTime(DateTime.Now)
         );
 
-        await _commandHandler.Handle(
-            new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, _fixture.Create<CommandMetadata>())
-        );
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
+
+        await _commandHandler.Handle(new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, commandMetadata));
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, status)

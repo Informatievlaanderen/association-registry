@@ -37,16 +37,18 @@ public class Given_Erkenning_Already_Geschorst
         var command = _fixture.Create<SchorsErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeSchorsenErkenning>() with
-            {
-                ErkenningId = teSchorsenErkenningId,
-            },
+            Erkenning = _fixture.Create<TeSchorsenErkenning>() with { ErkenningId = teSchorsenErkenningId },
         };
 
-       var exception = await Assert.ThrowsAsync<ErkenningIsAlReedsGeschorst>(async () => await _commandHandler.Handle(
-            new CommandEnvelope<SchorsErkenningCommand>(command, _fixture.Create<CommandMetadata>())
-        ));
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
 
-       exception.Message.Should().Be(ExceptionMessages.ErkenningIsAlReedsGeschorst);
+        var exception = await Assert.ThrowsAsync<ErkenningIsAlReedsGeschorst>(async () =>
+            await _commandHandler.Handle(new CommandEnvelope<SchorsErkenningCommand>(command, commandMetadata))
+        );
+
+        exception.Message.Should().Be(ExceptionMessages.ErkenningIsAlReedsGeschorst);
     }
 }

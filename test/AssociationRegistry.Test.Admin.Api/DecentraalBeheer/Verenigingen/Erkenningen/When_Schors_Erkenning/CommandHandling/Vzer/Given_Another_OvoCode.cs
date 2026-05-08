@@ -4,23 +4,23 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.Sc
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Resources;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
-using Resources;
 using Xunit;
 
-public class Given_Unknown_Erkenning
+public class Given_Another_OvoCode
 {
     private readonly SchorsErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
 
-    public Given_Unknown_Erkenning()
+    public Given_Another_OvoCode()
     {
         _fixture = new Fixture().CustomizeAdminApi();
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
@@ -29,28 +29,23 @@ public class Given_Unknown_Erkenning
     }
 
     [Fact]
-    public async ValueTask Then_Throws_ErkenningIsNietGekend()
+    public async ValueTask Then_Throws_GiIsNIetBevoegd()
     {
-        var unknownErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId + _fixture.Create<int>();
+        var erkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
         var command = _fixture.Create<SchorsErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeSchorsenErkenning>() with { ErkenningId = unknownErkenningId },
+            Erkenning = _fixture.Create<TeSchorsenErkenning>() with { ErkenningId = erkenningId },
         };
 
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-        };
+        var commandEnvelope = new CommandEnvelope<SchorsErkenningCommand>(command, _fixture.Create<CommandMetadata>());
 
-        var commandEnvelope = new CommandEnvelope<SchorsErkenningCommand>(command, commandMetadata);
-
-        var exception = await Assert.ThrowsAsync<ErkenningIsNietGekend>(async () =>
+        var exception = await Assert.ThrowsAsync<GiIsNIetBevoegd>(async () =>
         {
             await _commandHandler.Handle(commandEnvelope);
         });
 
-        exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningIsNietGekend, unknownErkenningId));
+        exception.Message.Should().Be(string.Format(ExceptionMessages.GiIsNIetBevoegd, erkenningId));
     }
 }
