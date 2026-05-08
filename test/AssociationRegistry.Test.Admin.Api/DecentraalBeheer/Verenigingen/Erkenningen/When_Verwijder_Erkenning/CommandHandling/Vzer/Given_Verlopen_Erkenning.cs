@@ -3,26 +3,25 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erken
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerwijderErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Resources;
 using Xunit;
 
 public class Given_Verlopen_Erkenning
 {
     private readonly VerwijderErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
+    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithVerlopenErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
 
     public Given_Verlopen_Erkenning()
     {
         _fixture = new Fixture().CustomizeAdminApi();
-        _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
+        _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithVerlopenErkenningScenario();
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
         _commandHandler = new VerwijderErkenningCommandHandler(_verenigingRepositoryMock);
     }

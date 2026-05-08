@@ -3,7 +3,6 @@
 using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerwijderErkenning;
 using DecentraalBeheer.Vereniging;
 using Extensions;
@@ -13,7 +12,6 @@ using Infrastructure.CommandMiddleware;
 using Infrastructure.WebApi.Swagger.Annotations;
 using Infrastructure.WebApi.Swagger.Examples;
 using Microsoft.AspNetCore.Mvc;
-using SchorsErkenning.RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;

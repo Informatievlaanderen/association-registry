@@ -924,6 +924,11 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<ErkenningWerdVerwijderd> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(@event, @event.Data, document, "Erkenning werd verwijderd");
+    }
+
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode) =>
         new()
         {
