@@ -1388,16 +1388,22 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<ErkenningWerdGeschorst> @event, BeheerVerenigingDetailDocument document)
     {
         document.Erkenningen = document
-                                      .Erkenningen.UpdateSingle(
-                                           identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
-                                           update: b =>
-                                               b with
-                                               {
-                                                   Status = ErkenningStatus.Geschorst,
-                                                   RedenSchorsing = @event.Data.RedenSchorsing
-                                               }
-                                       )
-                                      .OrderBy(b => b.ErkenningId)
-                                      .ToArray();
+            .Erkenningen.UpdateSingle(
+                identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
+                update: b => b with { Status = ErkenningStatus.Geschorst, RedenSchorsing = @event.Data.RedenSchorsing }
+            )
+            .OrderBy(b => b.ErkenningId)
+            .ToArray();
+    }
+
+    public static void Apply(IEvent<SchorsingVanErkenningWerdOpgeheven> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Erkenningen = document
+            .Erkenningen.UpdateSingle(
+                identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
+                update: b => b with { Status = @event.Data.Status, RedenSchorsing = string.Empty }
+            )
+            .OrderBy(b => b.ErkenningId)
+            .ToArray();
     }
 }

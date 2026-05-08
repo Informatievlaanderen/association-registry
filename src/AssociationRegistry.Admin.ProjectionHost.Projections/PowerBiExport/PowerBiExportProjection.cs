@@ -58,42 +58,41 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             ),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd
-                                                  .Data
-                                                  .IsUitgeschrevenUitPubliekeDatastroom,
+                .Data
+                .IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd
-                             .Data.Contactgegevens.Select(c =>
-                                                              PowerBiExportMapper.MapContactgegeven(
-                                                                  c,
-                                                                  feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
-                                                                  feitelijkeVerenigingWerdGeregistreerd.Data.VCode
-                                                              )
-                              )
-                             .ToArray(),
+                .Data.Contactgegevens.Select(c =>
+                    PowerBiExportMapper.MapContactgegeven(
+                        c,
+                        feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
+                        feitelijkeVerenigingWerdGeregistreerd.Data.VCode
+                    )
+                )
+                .ToArray(),
             Locaties = feitelijkeVerenigingWerdGeregistreerd
-                      .Data.Locaties.Select(loc =>
-                                                PowerBiExportMapper.MapLocatie(
-                                                    loc,
-                                                    feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
-                                                    feitelijkeVerenigingWerdGeregistreerd.Data.VCode
-                                                )
-                       )
-                      .ToArray(),
+                .Data.Locaties.Select(loc =>
+                    PowerBiExportMapper.MapLocatie(
+                        loc,
+                        feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
+                        feitelijkeVerenigingWerdGeregistreerd.Data.VCode
+                    )
+                )
+                .ToArray(),
             AantalVertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers.Length,
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd
-                                               .Data.HoofdactiviteitenVerenigingsloket
-                                               .Select(x => new HoofdactiviteitVerenigingsloket()
-                                                {
-                                                    Code = x.Code,
-                                                    Naam = x.Naam,
-                                                })
-                                               .ToArray(),
+                .Data.HoofdactiviteitenVerenigingsloket.Select(x => new HoofdactiviteitVerenigingsloket()
+                {
+                    Code = x.Code,
+                    Naam = x.Naam,
+                })
+                .ToArray(),
             Werkingsgebieden = [],
             Bankrekeningnummers = [],
             Erkenningen = [],
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd
-                                    .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                    .ConvertAndFormatToBelgianDate(),
+                .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                .ConvertAndFormatToBelgianDate(),
         };
 
         UpdateHistoriek(document, feitelijkeVerenigingWerdGeregistreerd);
@@ -116,40 +115,31 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = @event.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = @event
-                             .Data.Contactgegevens.Select(c =>
-                                                              PowerBiExportMapper.MapContactgegeven(
-                                                                  c,
-                                                                  @event.Data.Bron,
-                                                                  @event.Data.VCode)
-                              )
-                             .ToArray(),
+                .Data.Contactgegevens.Select(c =>
+                    PowerBiExportMapper.MapContactgegeven(c, @event.Data.Bron, @event.Data.VCode)
+                )
+                .ToArray(),
             Locaties = @event
-                      .Data.Locaties
-                      .Select(loc => PowerBiExportMapper.MapLocatie(loc, @event.Data.Bron, @event.Data.VCode))
-                      .ToArray(),
+                .Data.Locaties.Select(loc => PowerBiExportMapper.MapLocatie(loc, @event.Data.Bron, @event.Data.VCode))
+                .ToArray(),
             AantalVertegenwoordigers = @event.Data.Vertegenwoordigers.Length,
             HoofdactiviteitenVerenigingsloket = @event
-                                               .Data.HoofdactiviteitenVerenigingsloket
-                                               .Select(x => new HoofdactiviteitVerenigingsloket()
-                                                {
-                                                    Code = x.Code,
-                                                    Naam = x.Naam,
-                                                })
-                                               .ToArray(),
+                .Data.HoofdactiviteitenVerenigingsloket.Select(x => new HoofdactiviteitVerenigingsloket()
+                {
+                    Code = x.Code,
+                    Naam = x.Naam,
+                })
+                .ToArray(),
             Werkingsgebieden = [],
             Bankrekeningnummers = @event
-                                 .Data.Bankrekeningnummers.Select(b =>
-                                                                      PowerBiExportMapper.MapBankrekeningnummer(
-                                                                          b.BankrekeningnummerId,
-                                                                          b.Doel,
-                                                                          [],
-                                                                          @event.Data.Bron)
-                                  )
-                                 .ToArray(),
+                .Data.Bankrekeningnummers.Select(b =>
+                    PowerBiExportMapper.MapBankrekeningnummer(b.BankrekeningnummerId, b.Doel, [], @event.Data.Bron)
+                )
+                .ToArray(),
             Bron = @event.Data.Bron,
             DatumLaatsteAanpassing = @event
-                                    .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                    .ConvertAndFormatToBelgianDate(),
+                .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                .ConvertAndFormatToBelgianDate(),
             DuplicatieInfo = @event.Data.DuplicatieInfo is null
                 ? new DuplicatieInfo(null, string.Empty)
                 : new DuplicatieInfo(
@@ -174,15 +164,15 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             Verenigingstype = new Verenigingstype()
             {
                 Code = DecentraalBeheer
-                      .Vereniging.Verenigingstype.Parse(
-                           verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm
-                       )
-                      .Code,
+                    .Vereniging.Verenigingstype.Parse(
+                        verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm
+                    )
+                    .Code,
                 Naam = DecentraalBeheer
-                      .Vereniging.Verenigingstype.Parse(
-                           verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm
-                       )
-                      .Naam,
+                    .Vereniging.Verenigingstype.Parse(
+                        verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm
+                    )
+                    .Naam,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             Roepnaam = string.Empty,
@@ -207,8 +197,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             Bron = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Bron,
             KboNummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd
-                                    .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                    .ConvertAndFormatToBelgianDate(),
+                .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                .ConvertAndFormatToBelgianDate(),
             Erkenningen = [],
         };
 
@@ -222,8 +212,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Naam = naamWerdGewijzigd.Data.Naam;
 
         document.DatumLaatsteAanpassing = naamWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, naamWerdGewijzigd);
     }
@@ -233,8 +223,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;
 
         document.DatumLaatsteAanpassing = korteNaamWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, korteNaamWerdGewijzigd);
     }
@@ -244,8 +234,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Roepnaam = roepnaamWerdGewijzigd.Data.Roepnaam;
 
         document.DatumLaatsteAanpassing = roepnaamWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, roepnaamWerdGewijzigd);
     }
@@ -258,8 +248,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.KorteBeschrijving = korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving;
 
         document.DatumLaatsteAanpassing = korteBeschrijvingWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, korteBeschrijvingWerdGewijzigd);
     }
@@ -271,8 +261,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             : null;
 
         document.DatumLaatsteAanpassing = startdatumWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, startdatumWerdGewijzigd);
     }
@@ -284,8 +274,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             : null;
 
         document.DatumLaatsteAanpassing = startdatumWerdGewijzigdInKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, startdatumWerdGewijzigdInKbo);
     }
@@ -299,8 +289,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         };
 
         document.DatumLaatsteAanpassing = doelgroepWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, doelgroepWerdGewijzigd);
     }
@@ -308,24 +298,24 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, PowerBiExportDocument document)
     {
         document.Contactgegevens = Enumerable
-                                  .Append(
-                                       document.Contactgegevens,
-                                       new Contactgegeven
-                                       {
-                                           ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                                           Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
-                                           Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                                           Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
-                                           Bron = contactgegevenWerdToegevoegd.Data.Bron,
-                                           IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
-                                       }
-                                   )
-                                  .OrderBy(c => c.ContactgegevenId)
-                                  .ToArray();
+            .Append(
+                document.Contactgegevens,
+                new Contactgegeven
+                {
+                    ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
+                    Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
+                    Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
+                    Bron = contactgegevenWerdToegevoegd.Data.Bron,
+                    IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
+                }
+            )
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, contactgegevenWerdToegevoegd);
     }
@@ -333,23 +323,22 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, PowerBiExportDocument document)
     {
         document.Contactgegevens = document
-                                  .Contactgegevens.UpdateSingle(
-                                       identityFunc: c
-                                           => c.ContactgegevenId == contactgegevenWerdGewijzigd.Data.ContactgegevenId,
-                                       update: c =>
-                                           c with
-                                           {
-                                               Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
-                                               Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
-                                               IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
-                                           }
-                                   )
-                                  .OrderBy(c => c.ContactgegevenId)
-                                  .ToArray();
+            .Contactgegevens.UpdateSingle(
+                identityFunc: c => c.ContactgegevenId == contactgegevenWerdGewijzigd.Data.ContactgegevenId,
+                update: c =>
+                    c with
+                    {
+                        Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
+                        Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
+                        IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
+                    }
+            )
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, contactgegevenWerdGewijzigd);
     }
@@ -357,14 +346,13 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, PowerBiExportDocument document)
     {
         document.Contactgegevens = document
-                                  .Contactgegevens
-                                  .Where(c => c.ContactgegevenId != contactgegevenWerdVerwijderd.Data.ContactgegevenId)
-                                  .OrderBy(c => c.ContactgegevenId)
-                                  .ToArray();
+            .Contactgegevens.Where(c => c.ContactgegevenId != contactgegevenWerdVerwijderd.Data.ContactgegevenId)
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, contactgegevenWerdVerwijderd);
     }
@@ -375,17 +363,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.HoofdactiviteitenVerenigingsloket = hoofdactiviteitenVerenigingsloketWerdenGewijzigd
-                                                    .Data.HoofdactiviteitenVerenigingsloket
-                                                    .Select(x => new HoofdactiviteitVerenigingsloket()
-                                                     {
-                                                         Code = x.Code,
-                                                         Naam = x.Naam,
-                                                     })
-                                                    .ToArray();
+            .Data.HoofdactiviteitenVerenigingsloket.Select(x => new HoofdactiviteitVerenigingsloket()
+            {
+                Code = x.Code,
+                Naam = x.Naam,
+            })
+            .ToArray();
 
         document.DatumLaatsteAanpassing = hoofdactiviteitenVerenigingsloketWerdenGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, hoofdactiviteitenVerenigingsloketWerdenGewijzigd);
     }
@@ -398,8 +385,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         ++document.AantalVertegenwoordigers;
 
         document.DatumLaatsteAanpassing = vertegenwoordigerWerdToegevoegd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, vertegenwoordigerWerdToegevoegd);
     }
@@ -407,8 +394,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<VertegenwoordigerWerdGewijzigd> @event, PowerBiExportDocument document)
     {
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -421,8 +408,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         --document.AantalVertegenwoordigers;
 
         document.DatumLaatsteAanpassing = vertegenwoordigerWerdVerwijderd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, vertegenwoordigerWerdVerwijderd);
     }
@@ -435,8 +422,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         --document.AantalVertegenwoordigers;
 
         document.DatumLaatsteAanpassing = vertegenwoordigerWerdVerwijderd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, vertegenwoordigerWerdVerwijderd);
     }
@@ -444,8 +431,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<KszSyncHeeftVertegenwoordigerBevestigd> @event, PowerBiExportDocument document)
     {
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -458,8 +445,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         --document.AantalVertegenwoordigers;
 
         document.DatumLaatsteAanpassing = vertegenwoordigerWerdVerwijderd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, vertegenwoordigerWerdVerwijderd);
     }
@@ -472,8 +459,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.IsUitgeschrevenUitPubliekeDatastroom = true;
 
         document.DatumLaatsteAanpassing = verenigingWerdUitgeschrevenUitPubliekeDatastroom
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, verenigingWerdUitgeschrevenUitPubliekeDatastroom);
     }
@@ -486,8 +473,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.IsUitgeschrevenUitPubliekeDatastroom = false;
 
         document.DatumLaatsteAanpassing = verenigingWerdToegevoegdAanPubliekeDatastroom
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, verenigingWerdToegevoegdAanPubliekeDatastroom);
     }
@@ -495,20 +482,20 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, PowerBiExportDocument document)
     {
         document.Locaties = Enumerable
-                           .Append(
-                                document.Locaties,
-                                PowerBiExportMapper.MapLocatie(
-                                    locatieWerdToegevoegd.Data.Locatie,
-                                    locatieWerdToegevoegd.Data.Bron,
-                                    document.VCode
-                                )
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Append(
+                document.Locaties,
+                PowerBiExportMapper.MapLocatie(
+                    locatieWerdToegevoegd.Data.Locatie,
+                    locatieWerdToegevoegd.Data.Bron,
+                    document.VCode
+                )
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = locatieWerdToegevoegd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, locatieWerdToegevoegd);
     }
@@ -516,34 +503,32 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, PowerBiExportDocument document)
     {
         document.Locaties = document
-                           .Locaties.UpdateSingle(
-                                identityFunc: l => l.LocatieId == locatieWerdGewijzigd.Data.Locatie.LocatieId,
-                                update: l =>
-                                    l with
-                                    {
-                                        IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
-                                        Locatietype = locatieWerdGewijzigd.Data.Locatie.Locatietype,
-                                        Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
-                                        Adres = PowerBiExportMapper.MapAdres(
-                                            locatieWerdGewijzigd.Data.Locatie.Adres,
-                                            document.VCode,
-                                            l.LocatieId
-                                        ),
-                                        Adresvoorstelling =
-                                        AdresFormatter.ToAdresString(locatieWerdGewijzigd.Data.Locatie.Adres),
-                                        AdresId = PowerBiExportMapper.MapAdresId(
-                                            locatieWerdGewijzigd.Data.Locatie.AdresId),
-                                        VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
-                                            locatieWerdGewijzigd.Data.Locatie.AdresId
-                                        ),
-                                    }
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.UpdateSingle(
+                identityFunc: l => l.LocatieId == locatieWerdGewijzigd.Data.Locatie.LocatieId,
+                update: l =>
+                    l with
+                    {
+                        IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
+                        Locatietype = locatieWerdGewijzigd.Data.Locatie.Locatietype,
+                        Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
+                        Adres = PowerBiExportMapper.MapAdres(
+                            locatieWerdGewijzigd.Data.Locatie.Adres,
+                            document.VCode,
+                            l.LocatieId
+                        ),
+                        Adresvoorstelling = AdresFormatter.ToAdresString(locatieWerdGewijzigd.Data.Locatie.Adres),
+                        AdresId = PowerBiExportMapper.MapAdresId(locatieWerdGewijzigd.Data.Locatie.AdresId),
+                        VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
+                            locatieWerdGewijzigd.Data.Locatie.AdresId
+                        ),
+                    }
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = locatieWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, locatieWerdGewijzigd);
     }
@@ -551,13 +536,13 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, PowerBiExportDocument document)
     {
         document.Locaties = document
-                           .Locaties.Where(l => l.LocatieId != locatieWerdVerwijderd.Data.Locatie.LocatieId)
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.Where(l => l.LocatieId != locatieWerdVerwijderd.Data.Locatie.LocatieId)
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = locatieWerdVerwijderd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, locatieWerdVerwijderd);
     }
@@ -568,20 +553,20 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = Enumerable
-                           .Append(
-                                document.Locaties,
-                                PowerBiExportMapper.MapLocatie(
-                                    maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
-                                    maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Bron,
-                                    document.VCode
-                                )
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Append(
+                document.Locaties,
+                PowerBiExportMapper.MapLocatie(
+                    maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
+                    maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Bron,
+                    document.VCode
+                )
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = maatschappelijkeZetelWerdOvergenomenUitKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, maatschappelijkeZetelWerdOvergenomenUitKbo);
     }
@@ -592,22 +577,21 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = document
-                           .Locaties.UpdateSingle(
-                                identityFunc: l
-                                    => l.LocatieId == maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
-                                update: l =>
-                                    l with
-                                    {
-                                        IsPrimair = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.IsPrimair,
-                                        Naam = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam,
-                                    }
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.UpdateSingle(
+                identityFunc: l => l.LocatieId == maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
+                update: l =>
+                    l with
+                    {
+                        IsPrimair = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.IsPrimair,
+                        Naam = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam,
+                    }
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = maatschappelijkeZetelVolgensKboWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, maatschappelijkeZetelVolgensKboWerdGewijzigd);
     }
@@ -618,23 +602,23 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Contactgegevens = Enumerable
-                                  .Append(
-                                       document.Contactgegevens,
-                                       new Contactgegeven
-                                       {
-                                           ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                                           Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
-                                           Beschrijving = string.Empty,
-                                           Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                                           Bron = contactgegevenWerdToegevoegd.Data.Bron,
-                                       }
-                                   )
-                                  .OrderBy(c => c.ContactgegevenId)
-                                  .ToArray();
+            .Append(
+                document.Contactgegevens,
+                new Contactgegeven
+                {
+                    ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
+                    Beschrijving = string.Empty,
+                    Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
+                    Bron = contactgegevenWerdToegevoegd.Data.Bron,
+                }
+            )
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, contactgegevenWerdToegevoegd);
     }
@@ -645,23 +629,21 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Contactgegevens = document
-                                  .Contactgegevens.UpdateSingle(
-                                       identityFunc: c
-                                           => c.ContactgegevenId ==
-                                              contactgegevenUitKboWerdGewijzigd.Data.ContactgegevenId,
-                                       update: contactgegeven =>
-                                           contactgegeven with
-                                           {
-                                               IsPrimair = contactgegevenUitKboWerdGewijzigd.Data.IsPrimair,
-                                               Beschrijving = contactgegevenUitKboWerdGewijzigd.Data.Beschrijving,
-                                           }
-                                   )
-                                  .OrderBy(c => c.ContactgegevenId)
-                                  .ToArray();
+            .Contactgegevens.UpdateSingle(
+                identityFunc: c => c.ContactgegevenId == contactgegevenUitKboWerdGewijzigd.Data.ContactgegevenId,
+                update: contactgegeven =>
+                    contactgegeven with
+                    {
+                        IsPrimair = contactgegevenUitKboWerdGewijzigd.Data.IsPrimair,
+                        Beschrijving = contactgegevenUitKboWerdGewijzigd.Data.Beschrijving,
+                    }
+            )
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenUitKboWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, contactgegevenUitKboWerdGewijzigd);
     }
@@ -672,8 +654,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Einddatum = verenigingWerdGestopt.Data.Einddatum.ToString(WellknownFormats.DateOnly);
 
         document.DatumLaatsteAanpassing = verenigingWerdGestopt
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, verenigingWerdGestopt);
     }
@@ -684,8 +666,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Einddatum = verenigingWerdGestoptInKbo.Data.Einddatum.ToString(WellknownFormats.DateOnly);
 
         document.DatumLaatsteAanpassing = verenigingWerdGestoptInKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, verenigingWerdGestoptInKbo);
     }
@@ -695,8 +677,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Einddatum = einddatumWerdGewijzigd.Data.Einddatum.ToString(WellknownFormats.DateOnly);
 
         document.DatumLaatsteAanpassing = einddatumWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, einddatumWerdGewijzigd);
     }
@@ -709,8 +691,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         ++document.AantalVertegenwoordigers;
 
         document.DatumLaatsteAanpassing = vertegenwoordigerWerdOvergenomenUitKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, vertegenwoordigerWerdOvergenomenUitKbo);
     }
@@ -720,8 +702,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         ++document.AantalVertegenwoordigers;
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -729,8 +711,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<VertegenwoordigerWerdGewijzigdInKBO> @event, PowerBiExportDocument document)
     {
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -740,8 +722,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         --document.AantalVertegenwoordigers;
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -751,8 +733,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Naam = naamWerdGewijzigdInKbo.Data.Naam;
 
         document.DatumLaatsteAanpassing = naamWerdGewijzigdInKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, naamWerdGewijzigdInKbo);
     }
@@ -762,8 +744,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.KorteNaam = korteNaamWerdGewijzigdInKbo.Data.KorteNaam;
 
         document.DatumLaatsteAanpassing = korteNaamWerdGewijzigdInKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, korteNaamWerdGewijzigdInKbo);
     }
@@ -774,21 +756,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Contactgegevens = document
-                                  .Contactgegevens.UpdateSingle(
-                                       identityFunc: c
-                                           => c.ContactgegevenId ==
-                                              contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId,
-                                       update: contactgegeven => contactgegeven with
-                                       {
-                                           Waarde = contactgegevenWerdGewijzigdUitKbo.Data.Waarde
-                                       }
-                                   )
-                                  .OrderBy(c => c.ContactgegevenId)
-                                  .ToArray();
+            .Contactgegevens.UpdateSingle(
+                identityFunc: c => c.ContactgegevenId == contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId,
+                update: contactgegeven => contactgegeven with { Waarde = contactgegevenWerdGewijzigdUitKbo.Data.Waarde }
+            )
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdGewijzigdUitKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, contactgegevenWerdGewijzigdUitKbo);
     }
@@ -799,14 +776,13 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Contactgegevens = document
-                                  .Contactgegevens.Where(c => c.ContactgegevenId !=
-                                                              contactgegevenWerdVerwijderdUitKbo.Data.ContactgegevenId)
-                                  .OrderBy(c => c.ContactgegevenId)
-                                  .ToArray();
+            .Contactgegevens.Where(c => c.ContactgegevenId != contactgegevenWerdVerwijderdUitKbo.Data.ContactgegevenId)
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderdUitKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, contactgegevenWerdVerwijderdUitKbo);
     }
@@ -817,18 +793,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Contactgegevens = document
-                                  .Contactgegevens.UpdateSingle(
-                                       identityFunc: c
-                                           => c.ContactgegevenId == contactgegevenWerdInBeheerGenomenDoorKbo.Data
-                                              .ContactgegevenId,
-                                       update: c => c with { Bron = contactgegevenWerdInBeheerGenomenDoorKbo.Data.Bron }
-                                   )
-                                  .OrderBy(c => c.ContactgegevenId)
-                                  .ToArray();
+            .Contactgegevens.UpdateSingle(
+                identityFunc: c => c.ContactgegevenId == contactgegevenWerdInBeheerGenomenDoorKbo.Data.ContactgegevenId,
+                update: c => c with { Bron = contactgegevenWerdInBeheerGenomenDoorKbo.Data.Bron }
+            )
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdInBeheerGenomenDoorKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, contactgegevenWerdInBeheerGenomenDoorKbo);
     }
@@ -839,34 +813,33 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = document
-                           .Locaties.UpdateSingle(
-                                identityFunc: l
-                                    => l.LocatieId == maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.LocatieId,
-                                update: l =>
-                                    l with
-                                    {
-                                        Adres = PowerBiExportMapper.MapAdres(
-                                            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres,
-                                            document.VCode,
-                                            l.LocatieId
-                                        ),
-                                        Adresvoorstelling = AdresFormatter.ToAdresString(
-                                            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres
-                                        ),
-                                        AdresId = PowerBiExportMapper.MapAdresId(
-                                            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId
-                                        ),
-                                        VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
-                                            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId
-                                        ),
-                                    }
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.UpdateSingle(
+                identityFunc: l => l.LocatieId == maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.LocatieId,
+                update: l =>
+                    l with
+                    {
+                        Adres = PowerBiExportMapper.MapAdres(
+                            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres,
+                            document.VCode,
+                            l.LocatieId
+                        ),
+                        Adresvoorstelling = AdresFormatter.ToAdresString(
+                            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres
+                        ),
+                        AdresId = PowerBiExportMapper.MapAdresId(
+                            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId
+                        ),
+                        VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
+                            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId
+                        ),
+                    }
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = maatschappelijkeZetelWerdGewijzigdInKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, maatschappelijkeZetelWerdGewijzigdInKbo);
     }
@@ -877,14 +850,13 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = document
-                           .Locaties.Where(l => l.LocatieId !=
-                                                maatschappelijkeZetelWerdVerwijderdUitKbo.Data.Locatie.LocatieId)
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.Where(l => l.LocatieId != maatschappelijkeZetelWerdVerwijderdUitKbo.Data.Locatie.LocatieId)
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = maatschappelijkeZetelWerdVerwijderdUitKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, maatschappelijkeZetelWerdVerwijderdUitKbo);
     }
@@ -895,33 +867,31 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = document
-                           .Locaties.UpdateSingle(
-                                identityFunc: l
-                                    => l.LocatieId == adresWerdOvergenomenUitAdressenregister.Data.LocatieId,
-                                update: l =>
-                                    l with
-                                    {
-                                        Adres = PowerBiExportMapper.MapAdres(
-                                            adresWerdOvergenomenUitAdressenregister.Data.Adres,
-                                            document.VCode,
-                                            l.LocatieId
-                                        ),
-                                        Adresvoorstelling = AdresFormatter.ToAdresString(
-                                            adresWerdOvergenomenUitAdressenregister.Data.Adres
-                                        ),
-                                        AdresId = PowerBiExportMapper.MapAdresId(
-                                            adresWerdOvergenomenUitAdressenregister.Data.AdresId),
-                                        VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
-                                            adresWerdOvergenomenUitAdressenregister.Data.AdresId
-                                        ),
-                                    }
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.UpdateSingle(
+                identityFunc: l => l.LocatieId == adresWerdOvergenomenUitAdressenregister.Data.LocatieId,
+                update: l =>
+                    l with
+                    {
+                        Adres = PowerBiExportMapper.MapAdres(
+                            adresWerdOvergenomenUitAdressenregister.Data.Adres,
+                            document.VCode,
+                            l.LocatieId
+                        ),
+                        Adresvoorstelling = AdresFormatter.ToAdresString(
+                            adresWerdOvergenomenUitAdressenregister.Data.Adres
+                        ),
+                        AdresId = PowerBiExportMapper.MapAdresId(adresWerdOvergenomenUitAdressenregister.Data.AdresId),
+                        VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
+                            adresWerdOvergenomenUitAdressenregister.Data.AdresId
+                        ),
+                    }
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = adresWerdOvergenomenUitAdressenregister
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, adresWerdOvergenomenUitAdressenregister);
     }
@@ -932,32 +902,31 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = document
-                           .Locaties.UpdateSingle(
-                                identityFunc: l => l.LocatieId == adresWerdGewijzigdInAdressenregister.Data.LocatieId,
-                                update: l =>
-                                    l with
-                                    {
-                                        Adres = PowerBiExportMapper.MapAdres(
-                                            adresWerdGewijzigdInAdressenregister.Data.Adres,
-                                            document.VCode,
-                                            l.LocatieId
-                                        ),
-                                        Adresvoorstelling = AdresFormatter.ToAdresString(
-                                            adresWerdGewijzigdInAdressenregister.Data.Adres
-                                        ),
-                                        AdresId = PowerBiExportMapper.MapAdresId(
-                                            adresWerdGewijzigdInAdressenregister.Data.AdresId),
-                                        VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
-                                            adresWerdGewijzigdInAdressenregister.Data.AdresId
-                                        ),
-                                    }
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.UpdateSingle(
+                identityFunc: l => l.LocatieId == adresWerdGewijzigdInAdressenregister.Data.LocatieId,
+                update: l =>
+                    l with
+                    {
+                        Adres = PowerBiExportMapper.MapAdres(
+                            adresWerdGewijzigdInAdressenregister.Data.Adres,
+                            document.VCode,
+                            l.LocatieId
+                        ),
+                        Adresvoorstelling = AdresFormatter.ToAdresString(
+                            adresWerdGewijzigdInAdressenregister.Data.Adres
+                        ),
+                        AdresId = PowerBiExportMapper.MapAdresId(adresWerdGewijzigdInAdressenregister.Data.AdresId),
+                        VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
+                            adresWerdGewijzigdInAdressenregister.Data.AdresId
+                        ),
+                    }
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = adresWerdGewijzigdInAdressenregister
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, adresWerdGewijzigdInAdressenregister);
     }
@@ -973,8 +942,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Rechtsvorm = rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm;
 
         document.DatumLaatsteAanpassing = rechtsvormWerdGewijzigdInKbo
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, rechtsvormWerdGewijzigdInKbo);
     }
@@ -985,17 +954,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = document
-                           .Locaties.UpdateSingle(
-                                identityFunc: l
-                                    => l.LocatieId == adresWerdNietGevondenInAdressenregister.Data.LocatieId,
-                                update: l => l with { AdresId = null, VerwijstNaar = null }
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.UpdateSingle(
+                identityFunc: l => l.LocatieId == adresWerdNietGevondenInAdressenregister.Data.LocatieId,
+                update: l => l with { AdresId = null, VerwijstNaar = null }
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = adresWerdNietGevondenInAdressenregister
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, adresWerdNietGevondenInAdressenregister);
     }
@@ -1006,16 +974,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = document
-                           .Locaties.UpdateSingle(
-                                identityFunc: l => l.LocatieId == adresNietUniekInAdressenregister.Data.LocatieId,
-                                update: l => l with { AdresId = null, VerwijstNaar = null }
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.UpdateSingle(
+                identityFunc: l => l.LocatieId == adresNietUniekInAdressenregister.Data.LocatieId,
+                update: l => l with { AdresId = null, VerwijstNaar = null }
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = adresNietUniekInAdressenregister
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, adresNietUniekInAdressenregister);
     }
@@ -1026,17 +994,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = document
-                           .Locaties.UpdateSingleOrNothing(
-                                identityFunc: l
-                                    => l.LocatieId == adresKonNietOvergenomenWordenUitAdressenregister.Data.LocatieId,
-                                update: l => l with { AdresId = null, VerwijstNaar = null }
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.UpdateSingleOrNothing(
+                identityFunc: l => l.LocatieId == adresKonNietOvergenomenWordenUitAdressenregister.Data.LocatieId,
+                update: l => l with { AdresId = null, VerwijstNaar = null }
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = adresKonNietOvergenomenWordenUitAdressenregister
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, adresKonNietOvergenomenWordenUitAdressenregister);
     }
@@ -1047,16 +1014,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = document
-                           .Locaties.UpdateSingle(
-                                identityFunc: l => l.LocatieId == adresWerdOntkoppeldVanAdressenregister.Data.LocatieId,
-                                update: l => l with { AdresId = null, VerwijstNaar = null }
-                            )
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.UpdateSingle(
+                identityFunc: l => l.LocatieId == adresWerdOntkoppeldVanAdressenregister.Data.LocatieId,
+                update: l => l with { AdresId = null, VerwijstNaar = null }
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = adresWerdOntkoppeldVanAdressenregister
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, adresWerdOntkoppeldVanAdressenregister);
     }
@@ -1067,14 +1034,13 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Locaties = document
-                           .Locaties.Where(l => l.LocatieId !=
-                                                locatieDuplicaatWerdVerwijderdNaAdresMatch.Data.VerwijderdeLocatieId)
-                           .OrderBy(l => l.LocatieId)
-                           .ToArray();
+            .Locaties.Where(l => l.LocatieId != locatieDuplicaatWerdVerwijderdNaAdresMatch.Data.VerwijderdeLocatieId)
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = locatieDuplicaatWerdVerwijderdNaAdresMatch
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, locatieDuplicaatWerdVerwijderdNaAdresMatch);
     }
@@ -1084,8 +1050,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Status = StatusVerwijderd;
 
         document.DatumLaatsteAanpassing = verenigingWerdVerwijderd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, verenigingWerdVerwijderd);
     }
@@ -1098,8 +1064,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Werkingsgebieden = [];
 
         document.DatumLaatsteAanpassing = werkingsgebiedenWerdenNietBepaald
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, werkingsgebiedenWerdenNietBepaald);
     }
@@ -1110,13 +1076,12 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenBepaald
-                                   .Data.Werkingsgebieden
-                                   .Select(x => new Werkingsgebied() { Code = x.Code, Naam = x.Naam })
-                                   .ToArray();
+            .Data.Werkingsgebieden.Select(x => new Werkingsgebied() { Code = x.Code, Naam = x.Naam })
+            .ToArray();
 
         document.DatumLaatsteAanpassing = werkingsgebiedenWerdenBepaald
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, werkingsgebiedenWerdenBepaald);
     }
@@ -1127,13 +1092,12 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenGewijzigd
-                                   .Data.Werkingsgebieden
-                                   .Select(x => new Werkingsgebied() { Code = x.Code, Naam = x.Naam })
-                                   .ToArray();
+            .Data.Werkingsgebieden.Select(x => new Werkingsgebied() { Code = x.Code, Naam = x.Naam })
+            .ToArray();
 
         document.DatumLaatsteAanpassing = werkingsgebiedenWerdenGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, werkingsgebiedenWerdenGewijzigd);
     }
@@ -1153,8 +1117,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         ];
 
         document.DatumLaatsteAanpassing = werkingsgebiedenWerdenNietVanToepassing
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, werkingsgebiedenWerdenNietVanToepassing);
     }
@@ -1162,23 +1126,23 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, PowerBiExportDocument document)
     {
         document.Lidmaatschappen = Enumerable
-                                  .Append(
-                                       document.Lidmaatschappen,
-                                       new Lidmaatschap(
-                                           lidmaatschapWerdToegevoegd.Data.Lidmaatschap.LidmaatschapId,
-                                           lidmaatschapWerdToegevoegd.Data.Lidmaatschap.AndereVereniging,
-                                           lidmaatschapWerdToegevoegd.Data.Lidmaatschap.DatumVan.FormatAsBelgianDate(),
-                                           lidmaatschapWerdToegevoegd.Data.Lidmaatschap.DatumTot.FormatAsBelgianDate(),
-                                           lidmaatschapWerdToegevoegd.Data.Lidmaatschap.Identificatie,
-                                           lidmaatschapWerdToegevoegd.Data.Lidmaatschap.Beschrijving
-                                       )
-                                   )
-                                  .OrderBy(l => l.LidmaatschapId)
-                                  .ToArray();
+            .Append(
+                document.Lidmaatschappen,
+                new Lidmaatschap(
+                    lidmaatschapWerdToegevoegd.Data.Lidmaatschap.LidmaatschapId,
+                    lidmaatschapWerdToegevoegd.Data.Lidmaatschap.AndereVereniging,
+                    lidmaatschapWerdToegevoegd.Data.Lidmaatschap.DatumVan.FormatAsBelgianDate(),
+                    lidmaatschapWerdToegevoegd.Data.Lidmaatschap.DatumTot.FormatAsBelgianDate(),
+                    lidmaatschapWerdToegevoegd.Data.Lidmaatschap.Identificatie,
+                    lidmaatschapWerdToegevoegd.Data.Lidmaatschap.Beschrijving
+                )
+            )
+            .OrderBy(l => l.LidmaatschapId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = lidmaatschapWerdToegevoegd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, lidmaatschapWerdToegevoegd);
     }
@@ -1186,28 +1150,23 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<LidmaatschapWerdGewijzigd> lidmaatschapWerdGewijzigd, PowerBiExportDocument document)
     {
         document.Lidmaatschappen = document
-                                  .Lidmaatschappen.UpdateSingle(
-                                       identityFunc: l
-                                           => l.LidmaatschapId == lidmaatschapWerdGewijzigd.Data.Lidmaatschap
-                                              .LidmaatschapId,
-                                       update: l =>
-                                           l with
-                                           {
-                                               Van = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.DatumVan
-                                                                              .FormatAsBelgianDate(),
-                                               Tot = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.DatumTot
-                                                                              .FormatAsBelgianDate(),
-                                               Identificatie =
-                                               lidmaatschapWerdGewijzigd.Data.Lidmaatschap.Identificatie,
-                                               Beschrijving = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.Beschrijving,
-                                           }
-                                   )
-                                  .OrderBy(l => l.LidmaatschapId)
-                                  .ToArray();
+            .Lidmaatschappen.UpdateSingle(
+                identityFunc: l => l.LidmaatschapId == lidmaatschapWerdGewijzigd.Data.Lidmaatschap.LidmaatschapId,
+                update: l =>
+                    l with
+                    {
+                        Van = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.DatumVan.FormatAsBelgianDate(),
+                        Tot = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.DatumTot.FormatAsBelgianDate(),
+                        Identificatie = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.Identificatie,
+                        Beschrijving = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.Beschrijving,
+                    }
+            )
+            .OrderBy(l => l.LidmaatschapId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = lidmaatschapWerdGewijzigd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, lidmaatschapWerdGewijzigd);
     }
@@ -1215,15 +1174,13 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<LidmaatschapWerdVerwijderd> lidmaatschapWerdVerwijderd, PowerBiExportDocument document)
     {
         document.Lidmaatschappen = document
-                                  .Lidmaatschappen
-                                  .Where(l => l.LidmaatschapId !=
-                                              lidmaatschapWerdVerwijderd.Data.Lidmaatschap.LidmaatschapId)
-                                  .OrderBy(l => l.LidmaatschapId)
-                                  .ToArray();
+            .Lidmaatschappen.Where(l => l.LidmaatschapId != lidmaatschapWerdVerwijderd.Data.Lidmaatschap.LidmaatschapId)
+            .OrderBy(l => l.LidmaatschapId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = lidmaatschapWerdVerwijderd
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, lidmaatschapWerdVerwijderd);
     }
@@ -1240,8 +1197,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1249,8 +1206,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> @event, PowerBiExportDocument document)
     {
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1261,8 +1218,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1270,8 +1227,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<AdresHeeftGeenVerschillenMetAdressenregister> @event, PowerBiExportDocument document)
     {
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1281,8 +1238,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Status = @event.Data.VorigeStatus;
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1290,12 +1247,12 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> @event, PowerBiExportDocument document)
     {
         document.CorresponderendeVCodes = document
-                                         .CorresponderendeVCodes.Where(x => x != @event.Data.VCodeDubbeleVereniging)
-                                         .ToArray();
+            .CorresponderendeVCodes.Where(x => x != @event.Data.VCodeDubbeleVereniging)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1305,8 +1262,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Status = VerenigingStatus.Dubbel;
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1314,12 +1271,12 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<VerenigingAanvaarddeDubbeleVereniging> @event, PowerBiExportDocument document)
     {
         document.CorresponderendeVCodes = document
-                                         .CorresponderendeVCodes.Append(@event.Data.VCodeDubbeleVereniging)
-                                         .ToArray();
+            .CorresponderendeVCodes.Append(@event.Data.VCodeDubbeleVereniging)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1332,8 +1289,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Status = @event.Data.VorigeStatus;
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1341,8 +1298,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<SynchronisatieMetKboWasSuccesvol> @event, PowerBiExportDocument document)
     {
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1350,8 +1307,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<VerenigingWerdIngeschrevenOpWijzigingenUitKbo> @event, PowerBiExportDocument document)
     {
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1366,8 +1323,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.SubverenigingVan = null;
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1379,8 +1336,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.SubverenigingVan = null;
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1399,8 +1356,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         };
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1410,8 +1367,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.SubverenigingVan = document.SubverenigingVan! with { AndereVereniging = @event.Data.AndereVereniging };
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1425,8 +1382,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         };
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1434,8 +1391,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<GeotagsWerdenBepaald> @event, PowerBiExportDocument document)
     {
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1443,19 +1400,19 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<BankrekeningnummerWerdToegevoegd> @event, PowerBiExportDocument document)
     {
         document.Bankrekeningnummers = document
-                                      .Bankrekeningnummers.Append(
-                                           PowerBiExportMapper.MapBankrekeningnummer(
-                                               @event.Data.BankrekeningnummerId,
-                                               @event.Data.Doel,
-                                               [],
-                                               @event.Data.Bron
-                                           )
-                                       )
-                                      .ToArray();
+            .Bankrekeningnummers.Append(
+                PowerBiExportMapper.MapBankrekeningnummer(
+                    @event.Data.BankrekeningnummerId,
+                    @event.Data.Doel,
+                    [],
+                    @event.Data.Bron
+                )
+            )
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1463,17 +1420,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<BankrekeningnummerWerdGewijzigd> @event, PowerBiExportDocument document)
     {
         document.Bankrekeningnummers = document
-                                      .Bankrekeningnummers.UpdateSingle(
-                                           identityFunc: b
-                                               => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
-                                           update: b => b with { Doel = @event.Data.Doel, Bron = @event.Data.Bron }
-                                       )
-                                      .OrderBy(b => b.BankrekeningnummerId)
-                                      .ToArray();
+            .Bankrekeningnummers.UpdateSingle(
+                identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
+                update: b => b with { Doel = @event.Data.Doel, Bron = @event.Data.Bron }
+            )
+            .OrderBy(b => b.BankrekeningnummerId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1481,19 +1437,19 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<BankrekeningnummerWerdToegevoegdVanuitKBO> @event, PowerBiExportDocument document)
     {
         document.Bankrekeningnummers = document
-                                      .Bankrekeningnummers.Append(
-                                           PowerBiExportMapper.MapBankrekeningnummer(
-                                               @event.Data.BankrekeningnummerId,
-                                               string.Empty,
-                                               [],
-                                               @event.Data.Bron
-                                           )
-                                       )
-                                      .ToArray();
+            .Bankrekeningnummers.Append(
+                PowerBiExportMapper.MapBankrekeningnummer(
+                    @event.Data.BankrekeningnummerId,
+                    string.Empty,
+                    [],
+                    @event.Data.Bron
+                )
+            )
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1501,14 +1457,13 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<BankrekeningnummerWerdVerwijderdUitKBO> @event, PowerBiExportDocument document)
     {
         document.Bankrekeningnummers = document
-                                      .Bankrekeningnummers
-                                      .Where(b => b.BankrekeningnummerId != @event.Data.BankrekeningnummerId)
-                                      .OrderBy(b => b.BankrekeningnummerId)
-                                      .ToArray();
+            .Bankrekeningnummers.Where(b => b.BankrekeningnummerId != @event.Data.BankrekeningnummerId)
+            .OrderBy(b => b.BankrekeningnummerId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1516,14 +1471,13 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<BankrekeningnummerWerdVerwijderd> @event, PowerBiExportDocument document)
     {
         document.Bankrekeningnummers = document
-                                      .Bankrekeningnummers
-                                      .Where(b => b.BankrekeningnummerId != @event.Data.BankrekeningnummerId)
-                                      .OrderBy(b => b.BankrekeningnummerId)
-                                      .ToArray();
+            .Bankrekeningnummers.Where(b => b.BankrekeningnummerId != @event.Data.BankrekeningnummerId)
+            .OrderBy(b => b.BankrekeningnummerId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1534,21 +1488,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Bankrekeningnummers = document
-                                      .Bankrekeningnummers.UpdateSingle(
-                                           identityFunc: b
-                                               => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
-                                           update: b => b with
-                                           {
-                                               BevestigdDoor = b.BevestigdDoor.Append(@event.Data.BevestigdDoor)
-                                                                .ToArray()
-                                           }
-                                       )
-                                      .OrderBy(b => b.BankrekeningnummerId)
-                                      .ToArray();
+            .Bankrekeningnummers.UpdateSingle(
+                identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
+                update: b => b with { BevestigdDoor = b.BevestigdDoor.Append(@event.Data.BevestigdDoor).ToArray() }
+            )
+            .OrderBy(b => b.BankrekeningnummerId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1559,22 +1508,20 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Bankrekeningnummers = document
-                                      .Bankrekeningnummers.UpdateSingle(
-                                           identityFunc: b
-                                               => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
-                                           update: b =>
-                                               b with
-                                               {
-                                                   BevestigdDoor = b.BevestigdDoor
-                                                                    .Without(@event.Data.OngedaanGemaaktDoor).ToArray(),
-                                               }
-                                       )
-                                      .OrderBy(b => b.BankrekeningnummerId)
-                                      .ToArray();
+            .Bankrekeningnummers.UpdateSingle(
+                identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
+                update: b =>
+                    b with
+                    {
+                        BevestigdDoor = b.BevestigdDoor.Without(@event.Data.OngedaanGemaaktDoor).ToArray(),
+                    }
+            )
+            .OrderBy(b => b.BankrekeningnummerId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1582,17 +1529,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<BankrekeningnummerWerdOvergenomenVanuitKBO> @event, PowerBiExportDocument document)
     {
         document.Bankrekeningnummers = document
-                                      .Bankrekeningnummers.UpdateSingle(
-                                           identityFunc: b
-                                               => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
-                                           update: b => b with { Bron = @event.Data.Bron }
-                                       )
-                                      .OrderBy(b => b.BankrekeningnummerId)
-                                      .ToArray();
+            .Bankrekeningnummers.UpdateSingle(
+                identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
+                update: b => b with { Bron = @event.Data.Bron }
+            )
+            .OrderBy(b => b.BankrekeningnummerId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1603,8 +1549,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1612,33 +1558,33 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<ErkenningWerdGeregistreerd> @event, PowerBiExportDocument document)
     {
         document.Erkenningen = document
-                              .Erkenningen.Append(
-                                   new Erkenning()
-                                   {
-                                       ErkenningId = @event.Data.ErkenningId,
-                                       Startdatum = @event.Data.Startdatum.FormatAsBelgianDate(),
-                                       Einddatum = @event.Data.Einddatum.FormatAsBelgianDate(),
-                                       HernieuwingsUrl = @event.Data.HernieuwingsUrl,
-                                       Status = @event.Data.Status,
-                                       Hernieuwingsdatum = @event.Data.Hernieuwingsdatum.FormatAsBelgianDate(),
-                                       GeregistreerdDoor = new GegevensInitiator()
-                                       {
-                                           Naam = @event.Data.GeregistreerdDoor.Naam,
-                                           OvoCode = @event.Data.GeregistreerdDoor.OvoCode,
-                                       },
-                                       IpdcProduct = new IpdcProduct()
-                                       {
-                                           Naam = @event.Data.IpdcProduct.Naam,
-                                           Nummer = @event.Data.IpdcProduct.Nummer,
-                                       },
-                                       RedenSchorsing = string.Empty,
-                                   }
-                               )
-                              .ToArray();
+            .Erkenningen.Append(
+                new Erkenning()
+                {
+                    ErkenningId = @event.Data.ErkenningId,
+                    Startdatum = @event.Data.Startdatum.FormatAsBelgianDate(),
+                    Einddatum = @event.Data.Einddatum.FormatAsBelgianDate(),
+                    HernieuwingsUrl = @event.Data.HernieuwingsUrl,
+                    Status = @event.Data.Status,
+                    Hernieuwingsdatum = @event.Data.Hernieuwingsdatum.FormatAsBelgianDate(),
+                    GeregistreerdDoor = new GegevensInitiator()
+                    {
+                        Naam = @event.Data.GeregistreerdDoor.Naam,
+                        OvoCode = @event.Data.GeregistreerdDoor.OvoCode,
+                    },
+                    IpdcProduct = new IpdcProduct()
+                    {
+                        Naam = @event.Data.IpdcProduct.Naam,
+                        Nummer = @event.Data.IpdcProduct.Nummer,
+                    },
+                    RedenSchorsing = string.Empty,
+                }
+            )
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }
@@ -1646,20 +1592,33 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<ErkenningWerdGeschorst> @event, PowerBiExportDocument document)
     {
         document.Erkenningen = document
-                              .Erkenningen.UpdateSingle(
-                                   identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
-                                   update: b => b with
-                                   {
-                                       Status = ErkenningStatus.Geschorst,
-                                       RedenSchorsing = @event.Data.RedenSchorsing
-                                   }
-                               )
-                              .OrderBy(b => b.ErkenningId)
-                              .ToArray();
+            .Erkenningen.UpdateSingle(
+                identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
+                update: b => b with { Status = ErkenningStatus.Geschorst, RedenSchorsing = @event.Data.RedenSchorsing }
+            )
+            .OrderBy(b => b.ErkenningId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = @event
-                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                         .ConvertAndFormatToBelgianDate();
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<SchorsingVanErkenningWerdOpgeheven> @event, PowerBiExportDocument document)
+    {
+        document.Erkenningen = document
+            .Erkenningen.UpdateSingle(
+                identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
+                update: b => b with { Status = @event.Data.Status, RedenSchorsing = string.Empty }
+            )
+            .OrderBy(b => b.ErkenningId)
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, @event);
     }

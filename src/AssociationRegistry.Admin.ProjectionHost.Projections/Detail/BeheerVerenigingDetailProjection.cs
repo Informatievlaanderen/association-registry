@@ -305,11 +305,15 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<BankrekeningnummerWerdGewijzigd> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
-    public async Task Project(IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd> @event, IDocumentOperations ops) =>
-        await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+    public async Task Project(
+        IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd> @event,
+        IDocumentOperations ops
+    ) => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
-    public async Task Project(IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt> @event, IDocumentOperations ops) =>
-        await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+    public async Task Project(
+        IEvent<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt> @event,
+        IDocumentOperations ops
+    ) => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
     public async Task Project(IEvent<BankrekeningnummerWerdToegevoegdVanuitKBO> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
@@ -327,6 +331,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
         await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
     public async Task Project(IEvent<ErkenningWerdGeschorst> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
+    public async Task Project(IEvent<SchorsingVanErkenningWerdOpgeheven> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
     public async Task Project(IEvent<GeotagsWerdenBepaald> @event, IDocumentOperations ops) =>

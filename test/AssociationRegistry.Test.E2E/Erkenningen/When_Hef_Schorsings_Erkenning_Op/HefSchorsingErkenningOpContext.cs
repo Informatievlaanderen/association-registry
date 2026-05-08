@@ -7,14 +7,14 @@ using Scenarios.Requests;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Xunit;
 
-public class HefSchorsingErkenningOpContext : TestContextBase<ErkenningWerdGeregistreerdScenario, NullRequest>
+public class HefSchorsingErkenningOpContext : TestContextBase<ErkenningWerdGeschorstScenario, NullRequest>
 {
-    protected override ErkenningWerdGeregistreerdScenario InitializeScenario() => new();
+    protected override ErkenningWerdGeschorstScenario InitializeScenario() => new();
 
     public HefSchorsingErkenningOpContext(FullBlownApiSetup apiSetup)
         : base(apiSetup) { }
 
-    protected override async ValueTask ExecuteScenario(ErkenningWerdGeregistreerdScenario scenario)
+    protected override async ValueTask ExecuteScenario(ErkenningWerdGeschorstScenario scenario)
     {
         CommandResult = await new HefSchorsingErkenningOpRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }

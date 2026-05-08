@@ -172,7 +172,7 @@ public class PubliekVerenigingDetailMapper
             Einddatum = erkenning.Einddatum?.ToString(WellknownFormats.DateOnly),
             Hernieuwingsdatum = erkenning.Hernieuwingsdatum?.ToString(WellknownFormats.DateOnly),
             HernieuwingsUrl = erkenning.HernieuwingsUrl,
-            RedenSchorsing = erkenning.Motivering,
+            RedenSchorsing = erkenning.RedenSchorsing,
             Status = erkenning.Status,
         };
 
