@@ -61,7 +61,8 @@ public record VerenigingState : IHasVersion
     public GeotagsCollection Geotags { get; set; } = GeotagsCollection.Null;
 
     public Bankrekeningnummers Bankrekeningnummers { get; init; } = Bankrekeningnummers.Empty;
-    public Erkenningen.Erkenningen Erkenningen { get; init; } = DecentraalBeheer.Vereniging.Erkenningen.Erkenningen.Empty;
+    public Erkenningen.Erkenningen Erkenningen { get; init; } =
+        DecentraalBeheer.Vereniging.Erkenningen.Erkenningen.Empty;
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event) =>
         new()
@@ -889,12 +890,11 @@ public record VerenigingState : IHasVersion
         return this with
         {
             Erkenningen = Erkenningen.Hydrate(
-                Erkenningen
-                   .Without(@event.ErkenningId)
-                   .Append(erkenning.Schors(@event.RedenSchorsing))
+                Erkenningen.Without(@event.ErkenningId).Append(erkenning.Schors(@event.RedenSchorsing))
             ),
         };
     }
+
     public VerenigingState Apply(BankrekeningnummerWerdToegevoegdVanuitKBO @event) =>
         this with
         {
@@ -909,8 +909,8 @@ public record VerenigingState : IHasVersion
         {
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(
                 Bankrekeningnummers
-                   .Without(@event.BankrekeningnummerId)
-                   .Append(bankrekeningnummer.WijzigBron(@event.Bron))
+                    .Without(@event.BankrekeningnummerId)
+                    .Append(bankrekeningnummer.WijzigBron(@event.Bron))
             ),
         };
     }
@@ -950,22 +950,23 @@ public record VerenigingState : IHasVersion
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(
                 Bankrekeningnummers
                     .Without(@event.BankrekeningnummerId)
-                    .Append(bankrekeningnummer.VoegValidatieBankrekeningnummerToe(@event.BevestigdDoor))),
+                    .Append(bankrekeningnummer.VoegValidatieBankrekeningnummerToe(@event.BevestigdDoor))
+            ),
         };
     }
 
     public VerenigingState Apply(AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt @event)
     {
         var bankrekeningnummer = Bankrekeningnummers.Single(c => c.BankrekeningnummerId == @event.BankrekeningnummerId);
-        var bevestigdDoorZonderGeannuleerde = bankrekeningnummer.BevestigdDoor
-                                                                .Where(x => x != @event.OngedaanGemaaktDoor)
-                                                                .ToArray();
+        var bevestigdDoorZonderGeannuleerde = bankrekeningnummer
+            .BevestigdDoor.Where(x => x != @event.OngedaanGemaaktDoor)
+            .ToArray();
         return this with
         {
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(
                 Bankrekeningnummers
-                   .Without(@event.BankrekeningnummerId)
-                   .Append(
+                    .Without(@event.BankrekeningnummerId)
+                    .Append(
                         Bankrekeningnummer.Hydrate(
                             @event.BankrekeningnummerId,
                             bankrekeningnummer.Iban.Value,
@@ -1002,9 +1003,24 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(ErkenningWerdVerlopen @event)
     {
-        var erkenning = Erkenningen.SingleOrDefault(x =>
-                                                                       x.ErkenningId == @event.ErkenningId
-        );
+        var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
+
+        if (erkenning is null)
+        {
+            return this;
+        }
+
+        return this with
+        {
+            Erkenningen = Erkenningen.Hydrate(
+                Erkenningen.Without(@event.ErkenningId).Append(erkenning with { Status = ErkenningStatus.Verlopen })
+            ),
+        };
+    }
+
+    public VerenigingState Apply(SchorsingVanErkenningWerdOpgeheven @event)
+    {
+        var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
 
         if (erkenning is null)
         {
@@ -1015,8 +1031,8 @@ public record VerenigingState : IHasVersion
         {
             Erkenningen = Erkenningen.Hydrate(
                 Erkenningen
-                   .Without(@event.ErkenningId)
-                   .Append(erkenning with { Status = ErkenningStatus.Verlopen })
+                    .Without(@event.ErkenningId)
+                    .Append(erkenning with { Status = erkenning.Status, RedenSchorsing = string.Empty })
             ),
         };
     }

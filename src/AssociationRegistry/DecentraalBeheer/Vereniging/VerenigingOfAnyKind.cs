@@ -574,6 +574,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         return toegevoegdBankrekeningnummer.BankrekeningnummerId;
     }
+
     public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
@@ -588,6 +589,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             new BankrekeningnummerWerdVerwijderd(bankrekeningnummer.BankrekeningnummerId, bankrekeningnummer.Iban.Value)
         );
     }
+
     public int RegistreerErkenning(
         TeRegistrerenErkenning erkenning,
         IpdcProduct ipdcProduct,
@@ -616,11 +618,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         State.Erkenningen.Schors(teSchorsenErkenning);
 
-        AddEvent(
-            new ErkenningWerdGeschorst(
-                teSchorsenErkenning.ErkenningId,
-                teSchorsenErkenning.RedenSchorsing
-            )
-        );
+        AddEvent(new ErkenningWerdGeschorst(teSchorsenErkenning.ErkenningId, teSchorsenErkenning.RedenSchorsing));
+    }
+
+    public void HefSchorsingErkenningOp(int erkenningId)
+    {
+        var opgehevenErkenning = State.Erkenningen.HefSchorsingErkenningOp(erkenningId);
+
+        AddEvent(new SchorsingVanErkenningWerdOpgeheven(erkenningId, opgehevenErkenning.Status));
     }
 }

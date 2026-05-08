@@ -8,7 +8,7 @@ public record Erkenning
     public ErkenningsPeriode ErkenningsPeriode { get; set; }
     public Hernieuwingsdatum Hernieuwingsdatum { get; set; }
     public HernieuwingsUrl HernieuwingsUrl { get; set; } = null!;
-    public string Motivering { get; set; } = null!;
+    public string RedenSchorsing { get; set; } = null!;
     public string Status { get; set; } = null!;
 
     public static Erkenning Create(
@@ -51,7 +51,7 @@ public record Erkenning
             ErkenningsPeriode = ErkenningsPeriode.Hydrate(startdatum, einddatum),
             Hernieuwingsdatum = Hernieuwingsdatum.Hydrate(hernieuwingsdatum),
             HernieuwingsUrl = HernieuwingsUrl.Hydrate(hernieuwingsUrl),
-            Motivering = motivering,
+            RedenSchorsing = motivering,
             Status = status,
         };
 
@@ -59,7 +59,7 @@ public record Erkenning
     {
         var zelfdeSleutel =
             IpdcProduct.Nummer == teRegistrerenErkenning.IpdcProduct.Nummer
-         && GeregistreerdDoor.OvoCode == teRegistrerenErkenning.GeregistreerdDoor.OvoCode;
+            && GeregistreerdDoor.OvoCode == teRegistrerenErkenning.GeregistreerdDoor.OvoCode;
 
         if (!zelfdeSleutel)
             return false;
@@ -67,8 +67,12 @@ public record Erkenning
         return ErkenningsPeriode.OverlapsWith(teRegistrerenErkenning.ErkenningsPeriode);
     }
 
-    public Erkenning Schors(string redenSchorsing)
-        => this with { Motivering = redenSchorsing, Status = ErkenningStatus.Geschorst };
+    public Erkenning Schors(string redenSchorsing) =>
+        this with
+        {
+            RedenSchorsing = redenSchorsing,
+            Status = ErkenningStatus.Geschorst,
+        };
 }
 
 public record IpdcProduct

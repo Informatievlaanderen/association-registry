@@ -490,7 +490,7 @@ public static class AutoFixtureCustomizations
                         IpdcProduct = fixture.Create<DecentraalBeheer.Vereniging.Erkenningen.IpdcProduct>(),
                         GeregistreerdDoor = fixture.Create<DecentraalBeheer.Vereniging.Erkenningen.GegevensInitiator>(),
                         ErkenningId = fixture.Create<int>(),
-                        Motivering = fixture.Create<string>(),
+                        RedenSchorsing = fixture.Create<string>(),
                         Status = fixture.Create<string>(),
                     };
                 })
