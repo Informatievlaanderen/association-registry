@@ -627,4 +627,21 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(new SchorsingVanErkenningWerdOpgeheven(erkenningId, opgehevenErkenning.Status));
     }
+
+    public void CorrigeerSchorsingErkenning(TeCorrigerenSchorsingErkenning teCorrigerenSchorsingErkenning)
+    {
+        var heeftWijzigingen = State.Erkenningen.CorrigeerSchorsing(teCorrigerenSchorsingErkenning);
+
+        if (!heeftWijzigingen)
+        {
+            return;
+        }
+
+        AddEvent(
+            new RedenVanSchorsingWerdGecorrigeerd(
+                teCorrigerenSchorsingErkenning.ErkenningId,
+                teCorrigerenSchorsingErkenning.RedenSchorsing
+            )
+        );
+    }
 }

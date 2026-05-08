@@ -82,6 +82,20 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
             Status = ErkenningStatus.Bepaal(erkenning.ErkenningsPeriode, today),
         };
     }
+
+    public bool CorrigeerSchorsing(TeCorrigerenSchorsingErkenning teCorrigerenSchorsingErkenning)
+    {
+        var erkenning = MustExists(teCorrigerenSchorsingErkenning.ErkenningId);
+
+        Throw<ErkenningIsNietGeschorst>.If(erkenning.Status != ErkenningStatus.Geschorst);
+        Throw<ErkenningRedenSchorsingIsVerplicht>.If(
+            string.IsNullOrEmpty(teCorrigerenSchorsingErkenning.RedenSchorsing)
+        );
+
+        var heeftWijzigingen = erkenning.RedenSchorsing != teCorrigerenSchorsingErkenning.RedenSchorsing;
+
+        return heeftWijzigingen;
+    }
 }
 
 public static class ErkenningenEnumerableExtensions
