@@ -1,3 +1,11 @@
+# [8.320.0](https://github.com/informatievlaanderen/association-registry/compare/v8.319.0...v8.320.0) (2026-05-08)
+
+
+### Features
+
+* or-3118 implement corrigeer reden schorsing erkenning in domain ([9258b38](https://github.com/informatievlaanderen/association-registry/commit/9258b38aa93f8689c0395a37efd73dfa521e5b5d))
+* or-3118 implement corrigeer reden schorsing erkenning in projections ([609946a](https://github.com/informatievlaanderen/association-registry/commit/609946a52b8c7ad1de608617390eaac360fdd3ef))
+
 # [8.319.0](https://github.com/informatievlaanderen/association-registry/compare/v8.318.1...v8.319.0) (2026-05-08)
 
 
