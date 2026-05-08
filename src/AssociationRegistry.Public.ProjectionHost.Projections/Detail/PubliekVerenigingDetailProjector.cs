@@ -1168,4 +1168,12 @@ public static class PubliekVerenigingDetailProjector
             .OrderBy(c => c.ErkenningId)
             .ToArray();
     }
+
+    public static void Apply(IEvent<ErkenningWerdVerwijderd> @event, PubliekVerenigingDetailDocument document)
+    {
+        document.Erkenningen = document
+            .Erkenningen.Where(c => c.ErkenningId != @event.Data.ErkenningId)
+            .OrderBy(c => c.ErkenningId)
+            .ToArray();
+    }
 }

@@ -1639,4 +1639,18 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
         UpdateHistoriek(document, @event);
     }
+
+    public void Apply(IEvent<ErkenningWerdVerwijderd> @event, PowerBiExportDocument document)
+    {
+        document.Erkenningen = document
+            .Erkenningen.Where(x => x.ErkenningId != @event.Data.ErkenningId)
+            .OrderBy(b => b.ErkenningId)
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
 }

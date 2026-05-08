@@ -1420,4 +1420,12 @@ public class BeheerVerenigingDetailProjector
             .OrderBy(b => b.ErkenningId)
             .ToArray();
     }
+
+    public static void Apply(IEvent<ErkenningWerdVerwijderd> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Erkenningen = document
+            .Erkenningen.Where(l => l.ErkenningId != @event.Data.ErkenningId)
+            .OrderBy(b => b.ErkenningId)
+            .ToArray();
+    }
 }
