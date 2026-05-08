@@ -131,7 +131,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
             public DateOnly? Einddatum { get; set; }
             public DateOnly? Hernieuwingsdatum { get; set; }
             public string HernieuwingsUrl { get; set; } = null!;
-            public string Motivering { get; set; } = null!;
+            public string RedenSchorsing { get; set; } = null!;
             public string Status { get; set; }
         }
 

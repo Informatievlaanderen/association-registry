@@ -462,6 +462,11 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
         PubliekVerenigingSequenceDocument doc
     ) => UpdateVersion(e, doc);
 
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<SchorsingVanErkenningWerdOpgeheven> e,
+        PubliekVerenigingSequenceDocument doc
+    ) => UpdateVersion(e, doc);
+
     private static PubliekVerenigingSequenceDocument UpdateVersion<T>(
         IEvent<T> e,
         PubliekVerenigingSequenceDocument doc

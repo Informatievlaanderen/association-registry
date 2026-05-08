@@ -33,7 +33,7 @@ public class Given_ErkenningWerdGeregistreerd(PubliekDetailScenarioFixture<Erken
                     Einddatum = fixture.Scenario.ErkenningWerdGeregistreerd.Einddatum,
                     Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum,
                     HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
-                    Motivering = string.Empty,
+                    RedenSchorsing = string.Empty,
                     Status = fixture.Scenario.ErkenningWerdGeregistreerd.Status,
                 },
                 config: options => options.Excluding(x => x.JsonLdMetadata)

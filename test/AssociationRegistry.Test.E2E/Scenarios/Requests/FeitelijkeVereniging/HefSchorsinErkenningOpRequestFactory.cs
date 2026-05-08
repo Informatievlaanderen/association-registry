@@ -11,9 +11,9 @@ public class HefSchorsingErkenningOpRequestFactory : ITestRequestFactory<NullReq
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
 
-    private readonly ErkenningWerdGeregistreerdScenario _scenario;
+    private readonly ErkenningWerdGeschorstScenario _scenario;
 
-    public HefSchorsingErkenningOpRequestFactory(ErkenningWerdGeregistreerdScenario scenario)
+    public HefSchorsingErkenningOpRequestFactory(ErkenningWerdGeschorstScenario scenario)
     {
         _scenario = scenario;
     }
@@ -25,10 +25,9 @@ public class HefSchorsingErkenningOpRequestFactory : ITestRequestFactory<NullReq
         var response = (
             await apiSetup.AdminApiHost.Scenario(s =>
             {
-                s.Delete.Json(JsonStyle.Mvc)
-                    .ToUrl(
-                        $"/v1/verenigingen/{vCode}/erkenningen/{_scenario.ErkenningWerdGeregistreerd.ErkenningId}/schorsingen"
-                    );
+                s.Delete.Url(
+                    $"/v1/verenigingen/{vCode}/erkenningen/{_scenario.ErkenningWerdGeregistreerd.ErkenningId}/schorsingen"
+                );
 
                 s.StatusCodeShouldBe(HttpStatusCode.Accepted);
                 s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();

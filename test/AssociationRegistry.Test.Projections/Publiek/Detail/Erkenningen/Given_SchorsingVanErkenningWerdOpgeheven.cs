@@ -5,8 +5,9 @@ using Public.Schema.Detail;
 using Scenario.Erkenningen;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_ErkenningWerdGeschorst(PubliekDetailScenarioFixture<ErkenningWerdGeschorstScenario> fixture)
-    : PubliekDetailScenarioClassFixture<ErkenningWerdGeschorstScenario>
+public class Given_SchorsingVanErkenningWerdOpgeheven(
+    PubliekDetailScenarioFixture<SchorsingVanErkenningWerdOpgehevenScenario> fixture
+) : PubliekDetailScenarioClassFixture<SchorsingVanErkenningWerdOpgehevenScenario>
 {
     [Fact]
     public void Document_Is_Updated() =>
@@ -32,8 +33,8 @@ public class Given_ErkenningWerdGeschorst(PubliekDetailScenarioFixture<Erkenning
                     Einddatum = fixture.Scenario.ErkenningWerdGeregistreerd.Einddatum,
                     Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum,
                     HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
-                    RedenSchorsing = fixture.Scenario.ErkenningWerdGeschorst.RedenSchorsing,
-                    Status = ErkenningStatus.Geschorst,
+                    RedenSchorsing = string.Empty,
+                    Status = fixture.Scenario.SchorsingVanErkenningWerdOpgeheven.Status,
                 },
                 config: options => options.Excluding(x => x.JsonLdMetadata)
             );

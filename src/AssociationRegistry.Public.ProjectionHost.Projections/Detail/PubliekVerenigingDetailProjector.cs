@@ -338,63 +338,6 @@ public static class PubliekVerenigingDetailProjector
     }
 
     public static void Apply(
-        IEvent<ErkenningWerdGeregistreerd> erkenningWerdGeregistreerd,
-        PubliekVerenigingDetailDocument document
-    )
-    {
-        document.Erkenningen = document
-            .Erkenningen.Append(
-                new PubliekVerenigingDetailDocument.Types.Erkenning
-                {
-                    JsonLdMetadata = new JsonLdMetadata(
-                        JsonLdType.Erkenning.CreateWithIdValues(
-                            erkenningWerdGeregistreerd.StreamKey!,
-                            erkenningWerdGeregistreerd.Data.ErkenningId.ToString()
-                        ),
-                        JsonLdType.Erkenning.Type
-                    ),
-                    ErkenningId = erkenningWerdGeregistreerd.Data.ErkenningId,
-                    GeregistreerdDoor = new PubliekVerenigingDetailDocument.Types.GegevensInitiator
-                    {
-                        OvoCode = erkenningWerdGeregistreerd.Data.GeregistreerdDoor.OvoCode,
-                        Naam = erkenningWerdGeregistreerd.Data.GeregistreerdDoor.Naam,
-                    },
-                    IpdcProduct = new PubliekVerenigingDetailDocument.Types.IpdcProduct
-                    {
-                        Nummer = erkenningWerdGeregistreerd.Data.IpdcProduct.Nummer,
-                        Naam = erkenningWerdGeregistreerd.Data.IpdcProduct.Naam,
-                    },
-                    Startdatum = erkenningWerdGeregistreerd.Data.Startdatum,
-                    Einddatum = erkenningWerdGeregistreerd.Data.Einddatum,
-                    Hernieuwingsdatum = erkenningWerdGeregistreerd.Data.Hernieuwingsdatum,
-                    HernieuwingsUrl = erkenningWerdGeregistreerd.Data.HernieuwingsUrl,
-                    Motivering = string.Empty,
-                    Status = erkenningWerdGeregistreerd.Data.Status,
-                }
-            )
-            .OrderBy(c => c.ErkenningId)
-            .ToArray();
-    }
-
-    public static void Apply(IEvent<ErkenningWerdGeschorst> erkenningWerdGeschorst, PubliekVerenigingDetailDocument document)
-    {
-        var erkenning = document.Erkenningen.Single(c =>
-                                                        c.ErkenningId == erkenningWerdGeschorst.Data.ErkenningId);
-        document.Erkenningen = document
-                              .Erkenningen
-                              .Where(c => c.ErkenningId != erkenningWerdGeschorst.Data.ErkenningId)
-                              .Append(
-                                   erkenning with
-                                   {
-                                       Status = ErkenningStatus.Geschorst,
-                                       Motivering = erkenningWerdGeschorst.Data.RedenSchorsing,
-                                   }
-                               )
-                              .OrderBy(c => c.ErkenningId)
-                              .ToArray();
-    }
-
-    public static void Apply(
         IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd,
         PubliekVerenigingDetailDocument document
     )
@@ -1140,5 +1083,76 @@ public static class PubliekVerenigingDetailProjector
         };
 
         document.SubverenigingVan = null;
+    }
+
+    public static void Apply(
+        IEvent<ErkenningWerdGeregistreerd> erkenningWerdGeregistreerd,
+        PubliekVerenigingDetailDocument document
+    )
+    {
+        document.Erkenningen = document
+            .Erkenningen.Append(
+                new PubliekVerenigingDetailDocument.Types.Erkenning
+                {
+                    JsonLdMetadata = new JsonLdMetadata(
+                        JsonLdType.Erkenning.CreateWithIdValues(
+                            erkenningWerdGeregistreerd.StreamKey!,
+                            erkenningWerdGeregistreerd.Data.ErkenningId.ToString()
+                        ),
+                        JsonLdType.Erkenning.Type
+                    ),
+                    ErkenningId = erkenningWerdGeregistreerd.Data.ErkenningId,
+                    GeregistreerdDoor = new PubliekVerenigingDetailDocument.Types.GegevensInitiator
+                    {
+                        OvoCode = erkenningWerdGeregistreerd.Data.GeregistreerdDoor.OvoCode,
+                        Naam = erkenningWerdGeregistreerd.Data.GeregistreerdDoor.Naam,
+                    },
+                    IpdcProduct = new PubliekVerenigingDetailDocument.Types.IpdcProduct
+                    {
+                        Nummer = erkenningWerdGeregistreerd.Data.IpdcProduct.Nummer,
+                        Naam = erkenningWerdGeregistreerd.Data.IpdcProduct.Naam,
+                    },
+                    Startdatum = erkenningWerdGeregistreerd.Data.Startdatum,
+                    Einddatum = erkenningWerdGeregistreerd.Data.Einddatum,
+                    Hernieuwingsdatum = erkenningWerdGeregistreerd.Data.Hernieuwingsdatum,
+                    HernieuwingsUrl = erkenningWerdGeregistreerd.Data.HernieuwingsUrl,
+                    RedenSchorsing = string.Empty,
+                    Status = erkenningWerdGeregistreerd.Data.Status,
+                }
+            )
+            .OrderBy(c => c.ErkenningId)
+            .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<ErkenningWerdGeschorst> erkenningWerdGeschorst,
+        PubliekVerenigingDetailDocument document
+    )
+    {
+        var erkenning = document.Erkenningen.Single(c => c.ErkenningId == erkenningWerdGeschorst.Data.ErkenningId);
+        document.Erkenningen = document
+            .Erkenningen.Where(c => c.ErkenningId != erkenningWerdGeschorst.Data.ErkenningId)
+            .Append(
+                erkenning with
+                {
+                    Status = ErkenningStatus.Geschorst,
+                    RedenSchorsing = erkenningWerdGeschorst.Data.RedenSchorsing,
+                }
+            )
+            .OrderBy(c => c.ErkenningId)
+            .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<SchorsingVanErkenningWerdOpgeheven> @event,
+        PubliekVerenigingDetailDocument document
+    )
+    {
+        var erkenning = document.Erkenningen.Single(c => c.ErkenningId == @event.Data.ErkenningId);
+        document.Erkenningen = document
+            .Erkenningen.Where(c => c.ErkenningId != @event.Data.ErkenningId)
+            .Append(erkenning with { Status = @event.Data.Status, RedenSchorsing = string.Empty })
+            .OrderBy(c => c.ErkenningId)
+            .ToArray();
     }
 }
