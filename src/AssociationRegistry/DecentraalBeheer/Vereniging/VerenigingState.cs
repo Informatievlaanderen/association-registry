@@ -1037,6 +1037,25 @@ public record VerenigingState : IHasVersion
         };
     }
 
+    public VerenigingState Apply(RedenVanSchorsingWerdGecorrigeerd @event)
+    {
+        var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
+
+        if (erkenning is null)
+        {
+            return this;
+        }
+
+        return this with
+        {
+            Erkenningen = Erkenningen.Hydrate(
+                Erkenningen
+                    .Without(@event.ErkenningId)
+                    .Append(erkenning with { RedenSchorsing = @event.RedenSchorsing })
+            ),
+        };
+    }
+
     public void ThrowIfVerwijderd()
     {
         if (IsVerwijderd)

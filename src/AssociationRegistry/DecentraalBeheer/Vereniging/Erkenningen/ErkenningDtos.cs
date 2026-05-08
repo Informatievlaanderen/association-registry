@@ -13,3 +13,9 @@ public record TeSchorsenErkenning
     public int ErkenningId { get; set; }
     public string RedenSchorsing { get; set; } = null!;
 }
+
+public record TeCorrigerenSchorsingErkenning
+{
+    public int ErkenningId { get; set; }
+    public string RedenSchorsing { get; set; } = null!;
+}
