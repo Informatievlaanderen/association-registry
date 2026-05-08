@@ -50,13 +50,14 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return new Erkenningen(erkenningen, Math.Max(erkenningen.Max(x => x.ErkenningId) + 1, NextId));
     }
 
-    public void Schors(TeSchorsenErkenning teSchorsenErkenning)
+    public void Schors(TeSchorsenErkenning teSchorsenErkenning, string initiator)
     {
         var erkenning = MustExists(teSchorsenErkenning.ErkenningId);
 
         Throw<ErkenningIsAlReedsGeschorst>.If(erkenning.Status == ErkenningStatus.Geschorst);
         Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teSchorsenErkenning.RedenSchorsing));
         Throw<VerlopenErkenningKanNietGeschorstWorden>.If(erkenning.Status == ErkenningStatus.Verlopen);
+        Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
     }
 
     private Erkenning MustExists(int erkenningId)
@@ -68,12 +69,13 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return erkenning!;
     }
 
-    public Erkenning HefSchorsingErkenningOp(int erkenningId)
+    public Erkenning HefSchorsingErkenningOp(int erkenningId, string initiator)
     {
         var erkenning = this.SingleOrDefault(x => x.ErkenningId == erkenningId);
 
         Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
         Throw<ErkenningIsNietGeschorst>.If(erkenning.Status != ErkenningStatus.Geschorst);
+        Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
 
         var today = DateOnly.FromDateTime(DateTime.Today);
 
@@ -83,7 +85,7 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         };
     }
 
-    public bool CorrigeerSchorsing(TeCorrigerenSchorsingErkenning teCorrigerenSchorsingErkenning)
+    public bool CorrigeerSchorsing(TeCorrigerenSchorsingErkenning teCorrigerenSchorsingErkenning, string initiator)
     {
         var erkenning = MustExists(teCorrigerenSchorsingErkenning.ErkenningId);
 
@@ -91,6 +93,7 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         Throw<ErkenningRedenSchorsingIsVerplicht>.If(
             string.IsNullOrEmpty(teCorrigerenSchorsingErkenning.RedenSchorsing)
         );
+        Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
 
         var heeftWijzigingen = erkenning.RedenSchorsing != teCorrigerenSchorsingErkenning.RedenSchorsing;
 

@@ -34,6 +34,11 @@ public class SchorsErkenningRequestFactory : ITestRequestFactory<SchorsErkenning
         var response = (
             await apiSetup.AdminApiHost.Scenario(s =>
             {
+                s.WithRequestHeader(
+                    WellknownHeaderNames.Initiator,
+                    _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
+                );
+
                 s.Post.Json(request, JsonStyle.Mvc)
                     .ToUrl(
                         $"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/erkenningen/{_scenario.ErkenningWerdGeregistreerd.ErkenningId}/schorsingen"

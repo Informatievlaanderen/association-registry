@@ -36,21 +36,18 @@ public class Given_A_Valid_Command
         var command = _fixture.Create<SchorsErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeSchorsenErkenning>() with
-            {
-                ErkenningId = teSchorsenErkenningId,
-            },
+            Erkenning = _fixture.Create<TeSchorsenErkenning>() with { ErkenningId = teSchorsenErkenningId },
         };
 
-        await _commandHandler.Handle(
-            new CommandEnvelope<SchorsErkenningCommand>(command, _fixture.Create<CommandMetadata>())
-        );
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
+
+        await _commandHandler.Handle(new CommandEnvelope<SchorsErkenningCommand>(command, commandMetadata));
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new ErkenningWerdGeschorst(
-                command.Erkenning.ErkenningId,
-                command.Erkenning.RedenSchorsing
-            )
+            new ErkenningWerdGeschorst(command.Erkenning.ErkenningId, command.Erkenning.RedenSchorsing)
         );
     }
 }

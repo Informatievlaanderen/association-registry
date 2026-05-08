@@ -44,10 +44,12 @@ public class Given_Invalid_Reden_Erkenning
             },
         };
 
-        var commandEnvelope = new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(
-            command,
-            _fixture.Create<CommandMetadata>()
-        );
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
+
+        var commandEnvelope = new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, commandMetadata);
 
         var exception = await Assert.ThrowsAsync<ErkenningRedenSchorsingIsVerplicht>(async () =>
         {

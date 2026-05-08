@@ -1,5 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Schors_Erkenning.CommandHandling.
-    Kbo;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Schors_Erkenning.CommandHandling.Kbo;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
@@ -46,17 +45,18 @@ public class Given_Invalid_Reden_Erkenning
             },
         };
 
-        var commandEnvelope = new CommandEnvelope<SchorsErkenningCommand>(
-            command,
-            _fixture.Create<CommandMetadata>());
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
 
-        var exception =
-            await Assert.ThrowsAsync<ErkenningRedenSchorsingIsVerplicht>(async () =>
-            {
-                await _commandHandler.Handle(commandEnvelope);
-            });
+        var commandEnvelope = new CommandEnvelope<SchorsErkenningCommand>(command, commandMetadata);
 
-        exception.Message.Should().Be(
-            string.Format(ExceptionMessages.ErkenningRedenSchorsingVerplicht));
+        var exception = await Assert.ThrowsAsync<ErkenningRedenSchorsingIsVerplicht>(async () =>
+        {
+            await _commandHandler.Handle(commandEnvelope);
+        });
+
+        exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningRedenSchorsingVerplicht));
     }
 }

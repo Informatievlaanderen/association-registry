@@ -45,10 +45,15 @@ public class Given_Invalid_Reden_Erkenning
             },
         };
 
-       var exception = await Assert.ThrowsAsync<ErkenningRedenSchorsingIsVerplicht>(async () => await _commandHandler.Handle(
-            new CommandEnvelope<SchorsErkenningCommand>(command, _fixture.Create<CommandMetadata>())
-        ));
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
 
-       exception.Message.Should().Be(ExceptionMessages.ErkenningRedenSchorsingVerplicht);
+        var exception = await Assert.ThrowsAsync<ErkenningRedenSchorsingIsVerplicht>(async () =>
+            await _commandHandler.Handle(new CommandEnvelope<SchorsErkenningCommand>(command, commandMetadata))
+        );
+
+        exception.Message.Should().Be(ExceptionMessages.ErkenningRedenSchorsingVerplicht);
     }
 }

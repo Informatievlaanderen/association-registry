@@ -38,10 +38,12 @@ public class Given_Unknown_Erkenning
             Erkenning = _fixture.Create<TeCorrigerenSchorsingErkenning>() with { ErkenningId = unknownErkenningId },
         };
 
-        var commandEnvelope = new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(
-            command,
-            _fixture.Create<CommandMetadata>()
-        );
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
+
+        var commandEnvelope = new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, commandMetadata);
 
         var exception = await Assert.ThrowsAsync<ErkenningIsNietGekend>(async () =>
         {

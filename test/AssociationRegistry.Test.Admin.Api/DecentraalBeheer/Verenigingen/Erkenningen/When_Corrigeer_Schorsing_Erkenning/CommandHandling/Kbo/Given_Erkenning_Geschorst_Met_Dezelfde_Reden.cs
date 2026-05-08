@@ -45,9 +45,12 @@ public class Given_Erkenning_Geschorst_Met_Dezelfde_Reden
             },
         };
 
-        await _commandHandler.Handle(
-            new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, _fixture.Create<CommandMetadata>())
-        );
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
+
+        await _commandHandler.Handle(new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, commandMetadata));
 
         _verenigingRepositoryMock.ShouldNotHaveAnySaves();
     }

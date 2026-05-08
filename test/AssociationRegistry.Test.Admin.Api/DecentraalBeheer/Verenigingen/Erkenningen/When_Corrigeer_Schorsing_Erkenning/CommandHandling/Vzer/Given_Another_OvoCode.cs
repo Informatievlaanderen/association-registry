@@ -1,22 +1,25 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Schorsing_Erkenning.CommandHandling.Vzer;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Schorsing_Erkenning.CommandHandling.Vzer;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using FluentAssertions;
+using Resources;
 using Xunit;
 
-public class Given_Erkenning_Geschorst_Met_Dezelfde_Reden
+public class Given_Another_OvoCode
 {
     private readonly CorrigeerSchorsingErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
 
-    public Given_Erkenning_Geschorst_Met_Dezelfde_Reden()
+    public Given_Another_OvoCode()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -27,27 +30,22 @@ public class Given_Erkenning_Geschorst_Met_Dezelfde_Reden
     }
 
     [Fact]
-    public async ValueTask Then_Nothing()
+    public async ValueTask Then_It_Saves_An_ErkenningWerdGeschorst_Event()
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
         var command = _fixture.Create<CorrigeerSchorsingErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenSchorsingErkenning>() with
-            {
-                ErkenningId = teSchorsenErkenningId,
-                RedenSchorsing = _scenario.ErkenningWerdGeschorst.RedenSchorsing,
-            },
+            Erkenning = _fixture.Create<TeCorrigerenSchorsingErkenning>() with { ErkenningId = teSchorsenErkenningId },
         };
 
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-        };
+        var exception = await Assert.ThrowsAsync<GiIsNIetBevoegd>(async () =>
+            await _commandHandler.Handle(
+                new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, _fixture.Create<CommandMetadata>())
+            )
+        );
 
-        await _commandHandler.Handle(new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, commandMetadata));
-
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        exception.Message.Should().Be(ExceptionMessages.GiIsNIetBevoegd);
     }
 }
