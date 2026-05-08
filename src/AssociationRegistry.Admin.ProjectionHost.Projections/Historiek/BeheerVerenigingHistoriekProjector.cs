@@ -911,6 +911,19 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(@event, @event.Data, document, "Schorsing van erkenning werd opgeheven");
     }
 
+    public static void Apply(
+        IEvent<ErkenningRedenVanSchorsingWerdGecorrigeerd> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Reden van schorsing van een erkenning werd gecorrigeerd: {@event.Data.RedenSchorsing}"
+        );
+    }
+
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode) =>
         new()
         {

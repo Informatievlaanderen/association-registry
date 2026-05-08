@@ -1,7 +1,6 @@
-﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Corrigeer_Schorsings_Erkenning.Beheer.Historiek;
+﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Corrigeer_Reden_Schorsings_Erkenning.Beheer.Historiek;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
@@ -39,7 +38,7 @@ public class Returns_Historiek_Met_Erkenning : End2EndTest<HistoriekResponse>
     public void With_ErkenningWerdGerigistreerd_Gebeurtenissen()
     {
         var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x =>
-            x.Gebeurtenis == nameof(RedenVanSchorsingWerdGecorrigeerd)
+            x.Gebeurtenis == nameof(ErkenningRedenVanSchorsingWerdGecorrigeerd)
         );
 
         gebeurtenisResponse.ShouldCompare(

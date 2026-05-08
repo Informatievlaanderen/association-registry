@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Corrigeer_Schorsings_Erkenning.Publiek.Detail;
+﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Corrigeer_Reden_Schorsings_Erkenning.Publiek.Detail;
 
 using AssociationRegistry.Contracts.JsonLdContext;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
@@ -55,13 +55,7 @@ public class Returns_Detail : IAsyncLifetime
                     ),
                     HernieuwingsUrl = _testContext.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = _testContext.CommandRequest.RedenSchorsing,
-                    Status = ErkenningStatus.Bepaal(
-                        ErkenningsPeriode.Create(
-                            _testContext.Scenario.ErkenningWerdGeregistreerd.Startdatum,
-                            _testContext.Scenario.ErkenningWerdGeregistreerd.Einddatum
-                        ),
-                        DateOnly.FromDateTime(DateTime.Now)
-                    ),
+                    Status = ErkenningStatus.Geschorst,
                 },
             ]);
     }

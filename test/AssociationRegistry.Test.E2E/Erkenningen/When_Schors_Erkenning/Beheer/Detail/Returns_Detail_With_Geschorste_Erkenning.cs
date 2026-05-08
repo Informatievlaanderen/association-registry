@@ -8,7 +8,6 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using When_Erkenning_Werd_Geschorst;
 using Xunit;
 using Erkenning = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
 using IpdcProduct = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
@@ -35,12 +34,15 @@ public class Returns_Detail_With_Geschorste_Erkenning : End2EndTest<DetailVereni
     public void JsonContentMatches()
     {
         Response
-           .Vereniging.Erkenningen.Should()
-           .BeEquivalentTo([
+            .Vereniging.Erkenningen.Should()
+            .BeEquivalentTo([
                 new Erkenning
                 {
                     type = JsonLdType.Erkenning.Type,
-                    id = JsonLdType.Erkenning.CreateWithIdValues(_testContext.VCode, _testContext.Scenario.ErkenningWerdGeregistreerd.ErkenningId.ToString()),
+                    id = JsonLdType.Erkenning.CreateWithIdValues(
+                        _testContext.VCode,
+                        _testContext.Scenario.ErkenningWerdGeregistreerd.ErkenningId.ToString()
+                    ),
                     ErkenningId = _testContext.Scenario.ErkenningWerdGeregistreerd.ErkenningId,
                     GeregistreerdDoor = new GegevensInitiatorErkenning
                     {
@@ -53,10 +55,15 @@ public class Returns_Detail_With_Geschorste_Erkenning : End2EndTest<DetailVereni
                         Nummer = _testContext.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
                         Naam = _testContext.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Naam,
                     },
-                    Startdatum =
-                        _testContext.Scenario.ErkenningWerdGeregistreerd.Startdatum?.ToString(WellknownFormats.DateOnly),
-                    Einddatum = _testContext.Scenario.ErkenningWerdGeregistreerd.Einddatum?.ToString(WellknownFormats.DateOnly),
-                    Hernieuwingsdatum = _testContext.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum?.ToString(WellknownFormats.DateOnly),
+                    Startdatum = _testContext.Scenario.ErkenningWerdGeregistreerd.Startdatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
+                    Einddatum = _testContext.Scenario.ErkenningWerdGeregistreerd.Einddatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
+                    Hernieuwingsdatum = _testContext.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
                     HernieuwingsUrl = _testContext.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = _testContext.CommandRequest.RedenSchorsing,
                     Status = ErkenningStatus.Geschorst,

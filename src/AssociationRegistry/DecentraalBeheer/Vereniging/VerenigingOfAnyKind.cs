@@ -638,7 +638,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         }
 
         AddEvent(
-            new RedenVanSchorsingWerdGecorrigeerd(
+            new ErkenningRedenVanSchorsingWerdGecorrigeerd(
                 teCorrigerenSchorsingErkenning.ErkenningId,
                 teCorrigerenSchorsingErkenning.RedenSchorsing
             )

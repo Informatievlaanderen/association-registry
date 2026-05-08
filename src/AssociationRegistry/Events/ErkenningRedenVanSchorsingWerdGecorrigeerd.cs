@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using Vereniging.Bronnen;
 
-public record RedenVanSchorsingWerdGecorrigeerd(int ErkenningId, string RedenSchorsing) : IEvent
+public record ErkenningRedenVanSchorsingWerdGecorrigeerd(int ErkenningId, string RedenSchorsing) : IEvent
 {
     [IgnoreDataMember]
     public Bron Bron => Bron.Initiator;

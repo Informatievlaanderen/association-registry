@@ -43,7 +43,10 @@ public class Given_A_Valid_Command
         );
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new RedenVanSchorsingWerdGecorrigeerd(command.Erkenning.ErkenningId, command.Erkenning.RedenSchorsing)
+            new ErkenningRedenVanSchorsingWerdGecorrigeerd(
+                command.Erkenning.ErkenningId,
+                command.Erkenning.RedenSchorsing
+            )
         );
     }
 }

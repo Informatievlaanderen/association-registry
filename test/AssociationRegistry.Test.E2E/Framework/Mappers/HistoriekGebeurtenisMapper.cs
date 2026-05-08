@@ -1333,9 +1333,9 @@ public static class HistoriekGebeurtenisMapper
     ) =>
         new()
         {
-            Beschrijving = $"Reden van schorsing werd gecorrigeerd: {request.RedenSchorsing}",
-            Gebeurtenis = nameof(Events.SchorsingVanErkenningWerdOpgeheven),
-            Data = new SchorsingVanErkenningWerdOpgeheven(erkenningId, request.RedenSchorsing),
+            Beschrijving = $"Reden van schorsing van een erkenning werd gecorrigeerd: {request.RedenSchorsing}",
+            Gebeurtenis = nameof(Events.ErkenningRedenVanSchorsingWerdGecorrigeerd),
+            Data = new ErkenningRedenVanSchorsingWerdGecorrigeerd(erkenningId, request.RedenSchorsing),
             Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };

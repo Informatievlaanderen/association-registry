@@ -250,6 +250,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<SchorsingVanErkenningWerdOpgeheven> @event, IDocumentOperations ops) =>
         await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<ErkenningRedenVanSchorsingWerdGecorrigeerd> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
     private static async Task Update<T>(
         IEvent<T> @event,
         IDocumentOperations ops,

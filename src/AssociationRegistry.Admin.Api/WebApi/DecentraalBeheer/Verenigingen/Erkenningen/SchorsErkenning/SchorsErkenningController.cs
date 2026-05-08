@@ -95,6 +95,6 @@ public class SchorsErkenningController : ApiController
         var envelope = new CommandEnvelope<SchorsErkenningCommand>(request.ToCommand(vCode, erkenningId), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        return this.PatchResponse(commandResult);
+        return this.PostResponse(commandResult);
     }
 }

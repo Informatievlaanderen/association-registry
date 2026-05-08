@@ -1406,4 +1406,18 @@ public class BeheerVerenigingDetailProjector
             .OrderBy(b => b.ErkenningId)
             .ToArray();
     }
+
+    public static void Apply(
+        IEvent<ErkenningRedenVanSchorsingWerdGecorrigeerd> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        document.Erkenningen = document
+            .Erkenningen.UpdateSingle(
+                identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
+                update: b => b with { RedenSchorsing = @event.Data.RedenSchorsing }
+            )
+            .OrderBy(b => b.ErkenningId)
+            .ToArray();
+    }
 }
