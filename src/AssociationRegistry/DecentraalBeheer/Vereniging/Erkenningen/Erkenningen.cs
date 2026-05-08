@@ -18,6 +18,7 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
     }
 
     public Erkenning GetById(int erkenningId) => this.Single(x => x.ErkenningId == erkenningId);
+
     private new Erkenning this[int erkenningId] => this.Single(x => x.ErkenningId == erkenningId);
 
     public Erkenning VoegToe(TeRegistrerenErkenning erkenning, IpdcProduct ipdcProduct, GegevensInitiator initiator)
@@ -65,6 +66,21 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
 
         return erkenning!;
+    }
+
+    public Erkenning HefSchorsingErkenningOp(int erkenningId)
+    {
+        var erkenning = this.SingleOrDefault(x => x.ErkenningId == erkenningId);
+
+        Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
+        Throw<ErkenningIsNietGeschorst>.If(erkenning.Status != ErkenningStatus.Geschorst);
+
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        return erkenning with
+        {
+            Status = ErkenningStatus.Bepaal(erkenning.ErkenningsPeriode, today),
+        };
     }
 }
 

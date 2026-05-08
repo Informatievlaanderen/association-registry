@@ -370,6 +370,9 @@
   <data name="ErkenningIsAlReedsGeschorst">
     <value>De erkenning is reeds geschorst en kan niet opnieuw geschorst worden.</value>
   </data>
+  <data name="ErkenningIsNietGeschorst">
+    <value>De erkenning is niet geschorst en de schorsing kan dus niet opgeheven worden.</value>
+  </data>
   <data name="ErkenningRedenSchorsingVerplicht">
     <value>De reden van schorsing is verplicht.</value>
   </data>
