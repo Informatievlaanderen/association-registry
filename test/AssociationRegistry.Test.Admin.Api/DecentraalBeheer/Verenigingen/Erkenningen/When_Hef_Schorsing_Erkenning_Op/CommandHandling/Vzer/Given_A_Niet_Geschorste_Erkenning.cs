@@ -30,7 +30,7 @@ public class Given_A_Niet_Geschorste_Erkenning
     }
 
     [Fact]
-    public async ValueTask Then_Throw_ErkenningIsAlReedsGeschorst()
+    public async ValueTask Then_Throws_ErkenningIsNietGeschorst()
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 

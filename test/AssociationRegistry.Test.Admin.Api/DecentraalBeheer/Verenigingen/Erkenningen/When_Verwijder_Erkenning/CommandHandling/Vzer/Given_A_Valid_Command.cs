@@ -1,13 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Verwijder_Erkenning.CommandHandling.Vzer;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerwijderErkenning;
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
+using Events;
 using Xunit;
 
 public class Given_A_Valid_Command
@@ -28,7 +27,7 @@ public class Given_A_Valid_Command
     }
 
     [Fact]
-    public async ValueTask Then_It_Saves_An_ErkenningWerdGeschorst_Event()
+    public async ValueTask Then_It_Saves_An_ErkenningWerdVerwijderd_Event()
     {
         var teVerwijderenErkenning = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 

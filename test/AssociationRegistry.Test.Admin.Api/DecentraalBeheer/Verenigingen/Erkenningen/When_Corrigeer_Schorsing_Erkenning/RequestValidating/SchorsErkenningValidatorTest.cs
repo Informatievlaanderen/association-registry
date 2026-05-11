@@ -2,10 +2,8 @@
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning.RequestModels;
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.SchorsErkenning;
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.SchorsErkenning.RequestModels;
-using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class CorrigeerSchorsingValidatorTests : ValidatorTest

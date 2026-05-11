@@ -1,19 +1,17 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.HefSchorsingErkenningOp;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.HefSchorsingErkenningOp;
-using FluentValidation;
+using DecentraalBeheer.Vereniging;
+using Extensions;
+using Framework;
+using Hosts.Configuration.ConfigurationBindings;
+using Infrastructure;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
@@ -24,12 +22,12 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
-public class SchorsErkenningController : ApiController
+public class HefSchorsingErkenningOpController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly AppSettings _appSettings;
 
-    public SchorsErkenningController(IMessageBus messageBus, AppSettings appSettings)
+    public HefSchorsingErkenningOpController(IMessageBus messageBus, AppSettings appSettings)
     {
         _messageBus = messageBus;
         _appSettings = appSettings;

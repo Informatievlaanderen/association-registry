@@ -27,7 +27,7 @@ public class Given_A_Valid_Command
     }
 
     [Fact]
-    public async ValueTask Then_It_Saves_An_ErkenningWerdGeschorst_Event()
+    public async ValueTask Then_It_Saves_An_ErkenningWerdVerwijderd_Event()
     {
         var teVerwijderenErkenning = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 

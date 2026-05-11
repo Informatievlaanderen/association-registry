@@ -41,11 +41,11 @@ public class Given_Another_OvoCode
 
         var commandEnvelope = new CommandEnvelope<SchorsErkenningCommand>(command, _fixture.Create<CommandMetadata>());
 
-        var exception = await Assert.ThrowsAsync<GiIsNIetBevoegd>(async () =>
+        var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
         {
             await _commandHandler.Handle(commandEnvelope);
         });
 
-        exception.Message.Should().Be(string.Format(ExceptionMessages.GiIsNIetBevoegd, erkenningId));
+        exception.Message.Should().Be(string.Format(ExceptionMessages.GiIsNietBevoegd, erkenningId));
     }
 }

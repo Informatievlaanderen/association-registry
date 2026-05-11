@@ -4,13 +4,12 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.He
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Resources;
 using Xunit;
 
 public class Given_Another_OvoCode
@@ -31,7 +30,7 @@ public class Given_Another_OvoCode
     }
 
     [Fact]
-    public async ValueTask With_All_Fields_Then_It_Saves_An_ErkenningWerdGeschorst_Event()
+    public async ValueTask Then_Throws_GiIsNietBevoegd()
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
@@ -49,12 +48,12 @@ public class Given_Another_OvoCode
             DateOnly.FromDateTime(DateTime.Now)
         );
 
-        var exception = await Assert.ThrowsAsync<GiIsNIetBevoegd>(async () =>
+        var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
             await _commandHandler.Handle(
                 new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, _fixture.Create<CommandMetadata>())
             )
         );
 
-        exception.Message.Should().Be(ExceptionMessages.GiIsNIetBevoegd);
+        exception.Message.Should().Be(ExceptionMessages.GiIsNietBevoegd);
     }
 }

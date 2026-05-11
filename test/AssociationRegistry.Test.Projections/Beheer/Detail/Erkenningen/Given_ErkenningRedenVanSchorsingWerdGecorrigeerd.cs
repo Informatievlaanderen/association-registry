@@ -18,7 +18,7 @@ public class Given_ErkenningRedenVanSchorsingWerdGecorrigeerd(
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(4);
 
     [Fact]
-    public void Erkenning_Werd_Ge()
+    public void Then_RedenSchorsing_Is_Updated()
     {
         fixture
             .Result.Erkenningen.Should()

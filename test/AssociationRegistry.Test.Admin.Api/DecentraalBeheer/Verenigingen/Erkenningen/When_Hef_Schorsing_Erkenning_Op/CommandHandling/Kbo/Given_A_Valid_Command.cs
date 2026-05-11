@@ -28,7 +28,7 @@ public class Given_A_Valid_Command
     }
 
     [Fact]
-    public async ValueTask With_All_Fields_Then_It_Saves_An_ErkenningWerdGeschorst_Event()
+    public async ValueTask Then_An_SchorsingVanErkenningWerdOpgeheven_Event_Is_Saved()
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 

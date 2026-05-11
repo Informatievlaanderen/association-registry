@@ -6,11 +6,11 @@ using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
 [Collection(nameof(VerwijderErkenningCollection))]
-public class Returns_Detail_With_Geregistreerde_Erkenning : IAsyncLifetime
+public class Returns_Detail : IAsyncLifetime
 {
     private readonly VerwijderErkenningContext _context;
 
-    public Returns_Detail_With_Geregistreerde_Erkenning(VerwijderErkenningContext context)
+    public Returns_Detail(VerwijderErkenningContext context)
     {
         _context = context;
     }
