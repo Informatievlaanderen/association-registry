@@ -33,8 +33,8 @@ jobs:
         with:
           environment: staging
           version: ${{ github.event.inputs.version }}
-          status-url: $STATUS_URL
-          deploy-url: $BUILD_URL
+          status-url: ${{ env.STATUS_URL }}
+          deploy-url: ${{ env.BUILD_URL }}
           access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
           secret-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
           deploy-target: 'ecs'
@@ -70,8 +70,8 @@ jobs:
         with:
           environment: staging
           version: ${{ github.event.inputs.version }}
-          status-url: $STATUS_URL
-          deploy-url: $BUILD_URL
+          status-url: ${{ env.STATUS_URL }}
+          deploy-url: ${{ env.BUILD_URL }}
           access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
           secret-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
           domain: 'verenigingsregister'
@@ -107,8 +107,8 @@ jobs:
         with:
           environment: stg
           version: ${{ github.event.inputs.version }}
-          status-url: $STATUS_URL
-          deploy-url: $BUILD_URL
+          status-url: ${{ env.STATUS_URL }}
+          deploy-url: ${{ env.BUILD_URL }}
           access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
           secret-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
           deploy-target: 'lambda'
