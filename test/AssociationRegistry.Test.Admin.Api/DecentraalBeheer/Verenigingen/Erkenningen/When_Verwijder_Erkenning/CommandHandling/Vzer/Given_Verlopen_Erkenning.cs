@@ -27,7 +27,7 @@ public class Given_Verlopen_Erkenning
     }
 
     [Fact]
-    public async ValueTask Then_Throw_VerlopenErkenningKanNietVerwijderdWorden()
+    public async ValueTask Then_Throws_VerlopenErkenningKanNietVerwijderdWorden()
     {
         var verlopenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 

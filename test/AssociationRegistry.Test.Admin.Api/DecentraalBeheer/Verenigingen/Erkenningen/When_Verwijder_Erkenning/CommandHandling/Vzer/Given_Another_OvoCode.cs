@@ -3,13 +3,12 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erken
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerwijderErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Resources;
 using Xunit;
 
 public class Given_Another_OvoCode
@@ -28,7 +27,7 @@ public class Given_Another_OvoCode
     }
 
     [Fact]
-    public async ValueTask Then_Throw_GiIsNIetBevoegd()
+    public async ValueTask Then_Throw_GiIsNietBevoegd()
     {
         var invalidErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
@@ -43,11 +42,11 @@ public class Given_Another_OvoCode
             _fixture.Create<CommandMetadata>()
         );
 
-        var exception = await Assert.ThrowsAsync<GiIsNIetBevoegd>(async () =>
+        var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
         {
             await _commandHandler.Handle(commandEnvelope);
         });
 
-        exception.Message.Should().Be(string.Format(ExceptionMessages.GiIsNIetBevoegd));
+        exception.Message.Should().Be(string.Format(ExceptionMessages.GiIsNietBevoegd));
     }
 }

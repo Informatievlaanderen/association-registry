@@ -13,11 +13,11 @@ using Erkenning = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
 using IpdcProduct = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
 
 [Collection(nameof(VerwijderErkenningCollection))]
-public class Returns_Detail_With_Geschorste_Erkenning : End2EndTest<DetailVerenigingResponse>
+public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
 {
     private readonly VerwijderErkenningContext _testContext;
 
-    public Returns_Detail_With_Geschorste_Erkenning(VerwijderErkenningContext testContext)
+    public Returns_Detail(VerwijderErkenningContext testContext)
         : base(testContext.ApiSetup)
     {
         _testContext = testContext;

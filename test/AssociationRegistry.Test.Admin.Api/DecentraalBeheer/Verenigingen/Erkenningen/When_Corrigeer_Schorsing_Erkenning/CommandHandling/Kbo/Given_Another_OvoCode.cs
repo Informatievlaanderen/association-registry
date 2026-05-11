@@ -32,7 +32,7 @@ public class Given_Another_OvoCode
     }
 
     [Fact]
-    public async ValueTask Then_It_Saves_An_ErkenningWerdGeschorst_Event()
+    public async ValueTask Then_Throws_GiIsNietBevoegd()
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
@@ -42,12 +42,12 @@ public class Given_Another_OvoCode
             Erkenning = _fixture.Create<TeCorrigerenSchorsingErkenning>() with { ErkenningId = teSchorsenErkenningId },
         };
 
-        var exception = await Assert.ThrowsAsync<GiIsNIetBevoegd>(async () =>
+        var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
             await _commandHandler.Handle(
                 new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, _fixture.Create<CommandMetadata>())
             )
         );
 
-        exception.Message.Should().Be(ExceptionMessages.GiIsNIetBevoegd);
+        exception.Message.Should().Be(ExceptionMessages.GiIsNietBevoegd);
     }
 }

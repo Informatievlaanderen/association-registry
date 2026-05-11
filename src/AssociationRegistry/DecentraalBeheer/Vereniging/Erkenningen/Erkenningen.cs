@@ -57,7 +57,7 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         Throw<ErkenningIsAlReedsGeschorst>.If(erkenning.Status == ErkenningStatus.Geschorst);
         Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teSchorsenErkenning.RedenSchorsing));
         Throw<VerlopenErkenningKanNietGeschorstWorden>.If(erkenning.Status == ErkenningStatus.Verlopen);
-        Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
+        Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
     }
 
     private Erkenning MustExists(int erkenningId)
@@ -75,7 +75,7 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
         Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
         Throw<ErkenningIsNietGeschorst>.If(erkenning.Status != ErkenningStatus.Geschorst);
-        Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
+        Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
 
         var today = DateOnly.FromDateTime(DateTime.Today);
 
@@ -93,7 +93,7 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         Throw<ErkenningRedenSchorsingIsVerplicht>.If(
             string.IsNullOrEmpty(teCorrigerenSchorsingErkenning.RedenSchorsing)
         );
-        Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
+        Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
 
         var heeftWijzigingen = erkenning.RedenSchorsing != teCorrigerenSchorsingErkenning.RedenSchorsing;
 
@@ -105,7 +105,7 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         var erkenning = this.SingleOrDefault(x => x.ErkenningId == erkenningId);
 
         Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
-        Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
+        Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
         Throw<ErkenningIsGeschorst>.If(erkenning.Status == ErkenningStatus.Geschorst);
         Throw<VerlopenErkenningKanNietVerwijderdWorden>.If(erkenning.Status == ErkenningStatus.Verlopen);
     }

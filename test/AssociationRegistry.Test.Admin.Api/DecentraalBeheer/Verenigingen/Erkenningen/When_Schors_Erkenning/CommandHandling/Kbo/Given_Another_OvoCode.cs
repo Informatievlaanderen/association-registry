@@ -29,7 +29,7 @@ public class Given_Another_OvoCode
     }
 
     [Fact]
-    public async ValueTask Then_Throws_GiIsNIetBevoegd()
+    public async ValueTask Then_Throws_GiIsNietBevoegd()
     {
         var command = _fixture.Create<SchorsErkenningCommand>() with
         {
@@ -42,13 +42,13 @@ public class Given_Another_OvoCode
 
         var commandEnvelope = new CommandEnvelope<SchorsErkenningCommand>(command, _fixture.Create<CommandMetadata>());
 
-        var exception = await Assert.ThrowsAsync<GiIsNIetBevoegd>(async () =>
+        var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
         {
             await _commandHandler.Handle(commandEnvelope);
         });
 
         exception
             .Message.Should()
-            .Be(string.Format(ExceptionMessages.GiIsNIetBevoegd, _scenario.ErkenningWerdGeregistreerd.ErkenningId));
+            .Be(string.Format(ExceptionMessages.GiIsNietBevoegd, _scenario.ErkenningWerdGeregistreerd.ErkenningId));
     }
 }

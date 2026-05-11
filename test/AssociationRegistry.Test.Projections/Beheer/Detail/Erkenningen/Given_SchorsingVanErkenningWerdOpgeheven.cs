@@ -3,7 +3,6 @@
 using Admin.ProjectionHost.Constants;
 using Admin.ProjectionHost.Projections.Detail;
 using Contracts.JsonLdContext;
-using DecentraalBeheer.Vereniging.Erkenningen;
 using Scenario.Erkenningen;
 using Erkenning = Admin.Schema.Detail.Erkenning;
 using GegevensInitiator = Admin.Schema.Detail.GegevensInitiator;
@@ -18,7 +17,7 @@ public class Given_SchorsingVanErkenningWerdOpgeheven(
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(4);
 
     [Fact]
-    public void Erkenning_Werd_Ge()
+    public void Then_Status_Is_Recalculated_And_RedenSchorsing_Is_Empty()
     {
         fixture
             .Result.Erkenningen.Should()

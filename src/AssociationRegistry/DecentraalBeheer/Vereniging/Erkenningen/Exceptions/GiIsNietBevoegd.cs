@@ -5,11 +5,11 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Resources;
 
 [Serializable]
-public class GiIsNIetBevoegd : DomainException
+public class GiIsNietBevoegd : DomainException
 {
-    public GiIsNIetBevoegd()
-        : base(ExceptionMessages.GiIsNIetBevoegd) { }
+    public GiIsNietBevoegd()
+        : base(ExceptionMessages.GiIsNietBevoegd) { }
 
-    protected GiIsNIetBevoegd(SerializationInfo info, StreamingContext context)
+    protected GiIsNietBevoegd(SerializationInfo info, StreamingContext context)
         : base(info, context) { }
 }

@@ -14,7 +14,7 @@ public class Given_ErkenningWerdGeregistreerd(BeheerDetailScenarioFixture<Erkenn
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Erkenning_Werd_Geregistreerd()
+    public void Then_Erkenning_Is_Added()
     {
         fixture
             .Result.Erkenningen.Should()

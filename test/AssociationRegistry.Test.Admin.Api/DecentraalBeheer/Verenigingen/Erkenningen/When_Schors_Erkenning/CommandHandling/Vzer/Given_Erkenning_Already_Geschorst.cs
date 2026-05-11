@@ -8,7 +8,6 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using Events;
 using FluentAssertions;
 using Resources;
 using Xunit;
@@ -31,7 +30,7 @@ public class Given_Erkenning_Already_Geschorst
     }
 
     [Fact]
-    public async ValueTask Then_Throw_ErkenningIsAlReedsGeschorst()
+    public async ValueTask Then_Throws_ErkenningIsAlReedsGeschorst()
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
         var command = _fixture.Create<SchorsErkenningCommand>() with

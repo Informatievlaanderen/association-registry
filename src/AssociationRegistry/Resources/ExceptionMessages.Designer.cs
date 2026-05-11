@@ -341,9 +341,9 @@ namespace AssociationRegistry.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Deze OVOCode heeft geen machtiging om deze actie uit te voeren..
         /// </summary>
-        public static string GiIsNIetBevoegd {
+        public static string GiIsNietBevoegd {
             get {
-                return ResourceManager.GetString("GiIsNIetBevoegd", resourceCulture);
+                return ResourceManager.GetString("GiIsNietBevoegd", resourceCulture);
             }
         }
         

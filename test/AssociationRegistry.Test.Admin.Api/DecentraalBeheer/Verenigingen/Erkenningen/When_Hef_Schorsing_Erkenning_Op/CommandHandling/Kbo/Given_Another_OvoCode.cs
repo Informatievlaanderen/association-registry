@@ -31,7 +31,7 @@ public class Given_Another_OvoCode
     }
 
     [Fact]
-    public async ValueTask With_All_Fields_Then_It_Saves_An_ErkenningWerdGeschorst_Event()
+    public async ValueTask Then_Throws_GiIsNietBevoegd()
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
@@ -49,12 +49,12 @@ public class Given_Another_OvoCode
             DateOnly.FromDateTime(DateTime.Now)
         );
 
-        var exception = await Assert.ThrowsAsync<GiIsNIetBevoegd>(async () =>
+        var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
             await _commandHandler.Handle(
                 new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, _fixture.Create<CommandMetadata>())
             )
         );
 
-        exception.Message.Should().Be(ExceptionMessages.GiIsNIetBevoegd);
+        exception.Message.Should().Be(ExceptionMessages.GiIsNietBevoegd);
     }
 }

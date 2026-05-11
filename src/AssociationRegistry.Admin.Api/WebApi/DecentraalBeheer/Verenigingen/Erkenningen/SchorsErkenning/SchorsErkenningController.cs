@@ -9,7 +9,6 @@ using Examples;
 using Extensions;
 using FluentValidation;
 using Framework;
-using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using Infrastructure.CommandMiddleware;
 using Infrastructure.WebApi.Swagger.Annotations;
@@ -29,17 +28,11 @@ public class SchorsErkenningController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly IValidator<SchorsErkenningRequest> _validator;
-    private readonly AppSettings _appSettings;
 
-    public SchorsErkenningController(
-        IMessageBus messageBus,
-        IValidator<SchorsErkenningRequest> validator,
-        AppSettings appSettings
-    )
+    public SchorsErkenningController(IMessageBus messageBus, IValidator<SchorsErkenningRequest> validator)
     {
         _messageBus = messageBus;
         _validator = validator;
-        _appSettings = appSettings;
     }
 
     /// <summary>

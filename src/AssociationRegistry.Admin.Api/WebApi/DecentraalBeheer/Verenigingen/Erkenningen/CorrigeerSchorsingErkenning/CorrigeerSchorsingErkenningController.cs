@@ -1,23 +1,21 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
+using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
+using Framework;
+using Hosts.Configuration.ConfigurationBindings;
+using Infrastructure;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
-using SchorsErkenning.RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -27,13 +25,13 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
-public class SchorsErkenningController : ApiController
+public class CorrigeerSchorsingErkenningController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly IValidator<CorrigeerSchorsingErkenningRequest> _validator;
     private readonly AppSettings _appSettings;
 
-    public SchorsErkenningController(
+    public CorrigeerSchorsingErkenningController(
         IMessageBus messageBus,
         IValidator<CorrigeerSchorsingErkenningRequest> validator,
         AppSettings appSettings

@@ -31,7 +31,7 @@ public class Given_Erkenning_Already_Geschorst
     }
 
     [Fact]
-    public async ValueTask Then_Throw_ErkenningIsAlReedsGeschorst()
+    public async ValueTask Then_Throws_ErkenningIsAlReedsGeschorst()
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
         var command = _fixture.Create<SchorsErkenningCommand>() with
