@@ -1,3 +1,12 @@
+# [8.321.0](https://github.com/informatievlaanderen/association-registry/compare/v8.320.0...v8.321.0) (2026-05-11)
+
+
+### Features
+
+* add Gi is niet bevoegd checks on beheer erkenningen ([d376d16](https://github.com/informatievlaanderen/association-registry/commit/d376d164b30544fab16839a70cd20dd7c2c164e0))
+* or-3101 implement erkenning werd verwijderd in projections ([9bd89d0](https://github.com/informatievlaanderen/association-registry/commit/9bd89d083a6179a95f825615dc37339862514101))
+* or-3101 implement verwijder erkenning in domain ([1a2840d](https://github.com/informatievlaanderen/association-registry/commit/1a2840d3e2e9ff35499b786596621c48be3cd9cf))
+
 # [8.320.0](https://github.com/informatievlaanderen/association-registry/compare/v8.319.0...v8.320.0) (2026-05-08)
 
 
