@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
 using System.Net;
 using Admin.Api.Infrastructure;
+using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning.RequestModels;
 using Alba;
 using AutoFixture;
@@ -10,24 +11,24 @@ using DecentraalBeheer.Vereniging;
 using Framework.ApiSetup;
 using Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 
-public class CorrigeerSchorsingErkenningRequestFactory : ITestRequestFactory<CorrigeerSchorsingErkenningRequest>
+public class CorrigeerErkenningRequestFactory : ITestRequestFactory<CorrigeerErkenningRequest>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
 
-    private readonly ErkenningWerdGeschorstScenario _scenario;
+    private readonly ErkenningWerdGeregistreerdScenario _scenario;
 
-    public CorrigeerSchorsingErkenningRequestFactory(ErkenningWerdGeschorstScenario scenario)
+    public CorrigeerErkenningRequestFactory(ErkenningWerdGeregistreerdScenario scenario)
     {
         _scenario = scenario;
     }
 
-    public async Task<CommandResult<CorrigeerSchorsingErkenningRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<CorrigeerErkenningRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
         var vCode = _scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
-        var request = fixture.Create<CorrigeerSchorsingErkenningRequest>();
+        var request = fixture.Create<CorrigeerErkenningRequest>();
 
         var response = (
             await apiSetup.AdminApiHost.Scenario(s =>
@@ -39,7 +40,7 @@ public class CorrigeerSchorsingErkenningRequestFactory : ITestRequestFactory<Cor
 
                 s.Patch.Json(request, JsonStyle.Mvc)
                     .ToUrl(
-                        $"/v1/verenigingen/{vCode}/erkenningen/{_scenario.ErkenningWerdGeregistreerd.ErkenningId}/schorsingen"
+                        $"/v1/verenigingen/{vCode}/erkenningen/{_scenario.ErkenningWerdGeregistreerd.ErkenningId}"
                     );
 
                 s.StatusCodeShouldBe(HttpStatusCode.Accepted);
@@ -50,6 +51,6 @@ public class CorrigeerSchorsingErkenningRequestFactory : ITestRequestFactory<Cor
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new CommandResult<CorrigeerSchorsingErkenningRequest>(VCode.Create(vCode), request, sequence);
+        return new CommandResult<CorrigeerErkenningRequest>(VCode.Create(vCode), request, sequence);
     }
 }

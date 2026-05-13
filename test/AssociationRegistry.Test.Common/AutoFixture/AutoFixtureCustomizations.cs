@@ -14,6 +14,7 @@ using Framework;
 using global::AutoFixture.Dsl;
 using Magda.Persoon;
 using NodaTime;
+using Primitives;
 using Vereniging;
 using Adres = DecentraalBeheer.Vereniging.Adressen.Adres;
 using AdresId = DecentraalBeheer.Vereniging.Adressen.AdresId;
@@ -55,6 +56,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizePersoonUitKsz();
         fixture.CustomizeIban();
         fixture.CustomizeErkenning();
+        fixture.CustomizeTeCorrigerenErkenning();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -85,67 +87,74 @@ public static class AutoFixtureCustomizations
     private static void CustomizeVertegenwoordiger(this IFixture fixture)
     {
         fixture.Customize<Vertegenwoordiger>(composer =>
-            composer
-                .FromFactory(() =>
-                    Vertegenwoordiger.Create(
-                        fixture.Create<Insz>(),
-                        primairContactpersoon: false,
-                        fixture.Create<string>(),
-                        fixture.Create<string>(),
-                        fixture.Create<Voornaam>(),
-                        fixture.Create<Achternaam>(),
-                        fixture.Create<Email>(),
-                        fixture.Create<TelefoonNummer>(),
-                        fixture.Create<TelefoonNummer>(),
-                        fixture.Create<SocialMedia>()
-                    )
-                )
-                .OmitAutoProperties()
+                                                 composer
+                                                    .FromFactory(() =>
+                                                                     Vertegenwoordiger.Create(
+                                                                         fixture.Create<Insz>(),
+                                                                         primairContactpersoon: false,
+                                                                         fixture.Create<string>(),
+                                                                         fixture.Create<string>(),
+                                                                         fixture.Create<Voornaam>(),
+                                                                         fixture.Create<Achternaam>(),
+                                                                         fixture.Create<Email>(),
+                                                                         fixture.Create<TelefoonNummer>(),
+                                                                         fixture.Create<TelefoonNummer>(),
+                                                                         fixture.Create<SocialMedia>()
+                                                                     )
+                                                     )
+                                                    .OmitAutoProperties()
         );
     }
 
     private static void CustomizeLocatie(this IFixture fixture)
     {
         fixture.Customize<Locatietype>(composer =>
-            composer.FromFactory<int>(_ => Locatietype.Activiteiten).OmitAutoProperties()
+                                           composer.FromFactory<int>(_ => Locatietype.Activiteiten).OmitAutoProperties()
         );
 
         fixture.Customize<Locatie>(composer =>
-            composer
-                .FromFactory(() =>
-                    Locatie.Create(
-                        fixture.Create<Locatienaam>(),
-                        isPrimair: false,
-                        Locatietype.Activiteiten,
-                        adresId: null,
-                        fixture.Create<Adres>()
-                    )
-                )
-                .OmitAutoProperties()
+                                       composer
+                                          .FromFactory(() =>
+                                                           Locatie.Create(
+                                                               fixture.Create<Locatienaam>(),
+                                                               isPrimair: false,
+                                                               Locatietype.Activiteiten,
+                                                               adresId: null,
+                                                               fixture.Create<Adres>()
+                                                           )
+                                           )
+                                          .OmitAutoProperties()
         );
     }
 
     private static void CustomizeAchternaam(this IFixture fixture)
     {
         fixture.Customize<Achternaam>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                    Achternaam.Create(
-                        string.Join(separator: "", fixture.Create<string>().Where(x => !char.IsNumber(x)))
-                    )
-                )
-                .OmitAutoProperties()
+                                          composer
+                                             .FromFactory(factory: () =>
+                                                              Achternaam.Create(
+                                                                  string.Join(
+                                                                      separator: "",
+                                                                      fixture.Create<string>()
+                                                                             .Where(x => !char.IsNumber(x)))
+                                                              )
+                                              )
+                                             .OmitAutoProperties()
         );
     }
 
     private static void CustomizeVoornaam(this IFixture fixture)
     {
         fixture.Customize<Voornaam>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                    Voornaam.Create(string.Join(separator: "", fixture.Create<string>().Where(x => !char.IsNumber(x))))
-                )
-                .OmitAutoProperties()
+                                        composer
+                                           .FromFactory(factory: () =>
+                                                            Voornaam.Create(
+                                                                string.Join(
+                                                                    separator: "",
+                                                                    fixture.Create<string>()
+                                                                           .Where(x => !char.IsNumber(x))))
+                                            )
+                                           .OmitAutoProperties()
         );
     }
 
@@ -169,39 +178,41 @@ public static class AutoFixtureCustomizations
     private static void CustomizeInstant(this IFixture fixture)
     {
         fixture.Customize<Instant>(composer =>
-            composer.FromFactory(generator => new Instant() + Duration.FromSeconds(generator.Next()))
+                                       composer.FromFactory(generator => new Instant() +
+                                                                         Duration.FromSeconds(generator.Next()))
         );
     }
 
     private static void CustomizeInsz(this IFixture fixture)
     {
         fixture.Customize<Insz>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                {
-                    var inszBase = new Random().Next(minValue: 0, maxValue: 999999999);
-                    var inszModulo = 97 - inszBase % 97;
+                                    composer
+                                       .FromFactory(factory: () =>
+                                        {
+                                            var inszBase = new Random().Next(minValue: 0, maxValue: 999999999);
+                                            var inszModulo = 97 - inszBase % 97;
 
-                    return Insz.Create($"{inszBase:D9}{inszModulo:D2}");
-                })
-                .OmitAutoProperties()
+                                            return Insz.Create($"{inszBase:D9}{inszModulo:D2}");
+                                        })
+                                       .OmitAutoProperties()
         );
     }
 
     private static void CustomizeIban(this IFixture fixture)
     {
         fixture.Customize<IbanNummer>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                {
-                    var bban = Random.Shared.NextInt64(0, 1_000_000_000_000L).ToString("D12");
+                                          composer
+                                             .FromFactory(factory: () =>
+                                              {
+                                                  var bban = Random.Shared.NextInt64(0, 1_000_000_000_000L)
+                                                                   .ToString("D12");
 
-                    var mod = Mod97(bban + "111400");
-                    var checkDigits = 98 - mod;
+                                                  var mod = Mod97(bban + "111400");
+                                                  var checkDigits = 98 - mod;
 
-                    return IbanNummer.Create($"BE{checkDigits:00}{bban}");
-                })
-                .OmitAutoProperties()
+                                                  return IbanNummer.Create($"BE{checkDigits:00}{bban}");
+                                              })
+                                             .OmitAutoProperties()
         );
     }
 
@@ -218,174 +229,196 @@ public static class AutoFixtureCustomizations
     private static void CustomizeWerkingsgebied(this IFixture fixture)
     {
         fixture.Customize<Werkingsgebied>(composerTransformation: composer =>
-            composer
-                .FromFactory<int>(factory: value =>
-                {
-                    var werkingsgebieden = WerkingsgebiedenServiceMock.All;
+                                              composer
+                                                 .FromFactory<int>(factory: value =>
+                                                  {
+                                                      var werkingsgebieden = WerkingsgebiedenServiceMock.All;
 
-                    return werkingsgebieden[value % werkingsgebieden.Length];
-                })
-                .OmitAutoProperties()
+                                                      return werkingsgebieden[value % werkingsgebieden.Length];
+                                                  })
+                                                 .OmitAutoProperties()
         );
     }
 
     private static void CustomizeContactgegeven(this IFixture fixture)
     {
         fixture.Customize<Email>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                    new Email($"{fixture.Create<string>()}@example.org", fixture.Create<string>(), IsPrimair: false)
-                )
-                .OmitAutoProperties()
+                                     composer
+                                        .FromFactory(factory: () =>
+                                                         new Email($"{fixture.Create<string>()}@example.org",
+                                                                   fixture.Create<string>(),
+                                                                   IsPrimair: false)
+                                         )
+                                        .OmitAutoProperties()
         );
 
         fixture.Customize<SocialMedia>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                    new SocialMedia(
-                        $"https://{fixture.Create<string>()}.com",
-                        fixture.Create<string>(),
-                        IsPrimair: false
-                    )
-                )
-                .OmitAutoProperties()
+                                           composer
+                                              .FromFactory(factory: () =>
+                                                               new SocialMedia(
+                                                                   $"https://{fixture.Create<string>()}.com",
+                                                                   fixture.Create<string>(),
+                                                                   IsPrimair: false
+                                                               )
+                                               )
+                                              .OmitAutoProperties()
         );
 
         fixture.Customize<Website>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                    new Website($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), IsPrimair: false)
-                )
-                .OmitAutoProperties()
+                                       composer
+                                          .FromFactory(factory: () =>
+                                                           new Website($"https://{fixture.Create<string>()}.com",
+                                                                       fixture.Create<string>(),
+                                                                       IsPrimair: false)
+                                           )
+                                          .OmitAutoProperties()
         );
 
         fixture.Customize<TelefoonNummer>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                    new TelefoonNummer(fixture.Create<int>().ToString(), fixture.Create<string>(), IsPrimair: false)
-                )
-                .OmitAutoProperties()
+                                              composer
+                                                 .FromFactory(factory: () =>
+                                                                  new TelefoonNummer(
+                                                                      fixture.Create<int>().ToString(),
+                                                                      fixture.Create<string>(),
+                                                                      IsPrimair: false)
+                                                  )
+                                                 .OmitAutoProperties()
         );
 
         fixture.Customize<Contactgegeventype>(composerTransformation: composer =>
-            composer
-                .FromFactory<int>(factory: value =>
-                {
-                    var contactTypes = Contactgegeventype.All;
+                                                  composer
+                                                     .FromFactory<int>(factory: value =>
+                                                      {
+                                                          var contactTypes = Contactgegeventype.All;
 
-                    return contactTypes[value % contactTypes.Length];
-                })
-                .OmitAutoProperties()
+                                                          return contactTypes[value % contactTypes.Length];
+                                                      })
+                                                     .OmitAutoProperties()
         );
 
         fixture.Customize<ContactgegeventypeVolgensKbo>(composerTransformation: composer =>
-            composer
-                .FromFactory<int>(factory: value =>
-                {
-                    var contactTypes = ContactgegeventypeVolgensKbo.All;
+                                                            composer
+                                                               .FromFactory<int>(factory: value =>
+                                                                {
+                                                                    var contactTypes = ContactgegeventypeVolgensKbo.All;
 
-                    return contactTypes[value % contactTypes.Length];
-                })
-                .OmitAutoProperties()
+                                                                    return contactTypes[value % contactTypes.Length];
+                                                                })
+                                                               .OmitAutoProperties()
         );
 
         fixture.Customize<Contactgegeven>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                    (string)fixture.Create<Contactgegeventype>() switch
-                    {
-                        Contactgegeventype.Labels.Email => fixture.Create<Email>(),
-                        Contactgegeventype.Labels.Website => fixture.Create<Website>(),
-                        Contactgegeventype.Labels.SocialMedia => fixture.Create<SocialMedia>(),
-                        Contactgegeventype.Labels.Telefoon => fixture.Create<TelefoonNummer>(),
-                        _ => throw new ArgumentOutOfRangeException(
-                            "I'm sorry Dave, I don't know how to create a Contactgegeven of this type."
-                        ),
-                    }
-                )
-                .OmitAutoProperties()
+                                              composer
+                                                 .FromFactory(factory: () =>
+                                                                  (string)fixture.Create<Contactgegeventype>() switch
+                                                                  {
+                                                                      Contactgegeventype.Labels.Email => fixture
+                                                                         .Create<Email>(),
+                                                                      Contactgegeventype.Labels.Website => fixture
+                                                                         .Create<Website>(),
+                                                                      Contactgegeventype.Labels.SocialMedia => fixture
+                                                                         .Create<SocialMedia>(),
+                                                                      Contactgegeventype.Labels.Telefoon => fixture
+                                                                         .Create<TelefoonNummer>(),
+                                                                      _ => throw new ArgumentOutOfRangeException(
+                                                                          "I'm sorry Dave, I don't know how to create a Contactgegeven of this type."
+                                                                      ),
+                                                                  }
+                                                  )
+                                                 .OmitAutoProperties()
         );
     }
 
     private static void CustomizeKboNummer(this IFixture fixture)
     {
         fixture.Customize<KboNummer>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                {
-                    var kboBase = new Random().Next(minValue: 0, maxValue: 99999999);
-                    var kboModulo = 97 - kboBase % 97;
+                                         composer
+                                            .FromFactory(factory: () =>
+                                             {
+                                                 var kboBase = new Random().Next(minValue: 0, maxValue: 99999999);
+                                                 var kboModulo = 97 - kboBase % 97;
 
-                    return KboNummer.Create($"{kboBase:D8}{kboModulo:D2}");
-                })
-                .OmitAutoProperties()
+                                                 return KboNummer.Create($"{kboBase:D8}{kboModulo:D2}");
+                                             })
+                                            .OmitAutoProperties()
         );
     }
 
     private static void CustomizeVerengingsType(this IFixture fixture)
     {
         fixture.Customize<Verenigingstype>(composerTransformation: composer =>
-            composer
-                .FromFactory<int>(factory: i => Verenigingstype.All[i % Verenigingstype.All.Length])
-                .OmitAutoProperties()
+                                               composer
+                                                  .FromFactory<int>(
+                                                       factory: i => Verenigingstype.All[
+                                                           i % Verenigingstype.All.Length])
+                                                  .OmitAutoProperties()
         );
     }
 
     private static void CustomizeAdresBron(this IFixture fixture)
     {
         fixture.Customize<Adresbron>(composer =>
-            composer.FromFactory<int>(i => Adresbron.All[i % Adresbron.All.Length]).OmitAutoProperties()
+                                         composer.FromFactory<int>(i => Adresbron.All[i % Adresbron.All.Length])
+                                                 .OmitAutoProperties()
         );
     }
 
     private static void CustomizeHoofdactiviteitVerenigingsloket(this IFixture fixture)
     {
         fixture.Customize<HoofdactiviteitVerenigingsloket>(composerTransformation: composer =>
-            composer
-                .FromFactory<int>(factory: value =>
-                    HoofdactiviteitVerenigingsloket.All()[value % HoofdactiviteitVerenigingsloket.All().Count]
-                )
-                .OmitAutoProperties()
+                                                               composer
+                                                                  .FromFactory<int>(factory: value =>
+                                                                               HoofdactiviteitVerenigingsloket.All()[
+                                                                                   value %
+                                                                                   HoofdactiviteitVerenigingsloket.All()
+                                                                                      .Count]
+                                                                   )
+                                                                  .OmitAutoProperties()
         );
     }
 
     private static void CustomizeHoofdactiviteitenVerenigingsloket(this IFixture fixture)
     {
         fixture.Customize<HoofdactiviteitenVerenigingsloket>(composerTransformation: composer =>
-            composer
-                .FromFactory(factory: () =>
-                    HoofdactiviteitenVerenigingsloket.FromArray(
-                        fixture.CreateMany<HoofdactiviteitVerenigingsloket>().Distinct().ToArray()
-                    )
-                )
-                .OmitAutoProperties()
+                                                                 composer
+                                                                    .FromFactory(factory: () =>
+                                                                                 HoofdactiviteitenVerenigingsloket
+                                                                                    .FromArray(
+                                                                                         fixture
+                                                                                            .CreateMany<
+                                                                                                 HoofdactiviteitVerenigingsloket>()
+                                                                                            .Distinct().ToArray()
+                                                                                     )
+                                                                     )
+                                                                    .OmitAutoProperties()
         );
     }
 
     private static void CustomizeDoelgroep(this IFixture fixture)
     {
         fixture.Customize<Doelgroep>(composer =>
-            composer
-                .FromFactory(() => Doelgroep.Create(fixture.Create<int>() % 50, 50 + fixture.Create<int>() % 50))
-                .OmitAutoProperties()
+                                         composer
+                                            .FromFactory(() => Doelgroep.Create(fixture.Create<int>() % 50,
+                                                             50 + fixture.Create<int>() % 50))
+                                            .OmitAutoProperties()
         );
     }
 
     private static void CustomizeLidmaatschap(this IFixture fixture)
     {
         fixture.Customize<Lidmaatschap>(composer =>
-            composer
-                .FromFactory(() =>
-                    Lidmaatschap.Hydrate(
-                        fixture.Create<LidmaatschapId>(),
-                        fixture.Create<VCode>(),
-                        fixture.Create<string>(),
-                        fixture.Create<Geldigheidsperiode>(),
-                        fixture.Create<string>(),
-                        fixture.Create<string>()
-                    )
-                )
-                .OmitAutoProperties()
+                                            composer
+                                               .FromFactory(() =>
+                                                                Lidmaatschap.Hydrate(
+                                                                    fixture.Create<LidmaatschapId>(),
+                                                                    fixture.Create<VCode>(),
+                                                                    fixture.Create<string>(),
+                                                                    fixture.Create<Geldigheidsperiode>(),
+                                                                    fixture.Create<string>(),
+                                                                    fixture.Create<string>()
+                                                                )
+                                                )
+                                               .OmitAutoProperties()
         );
     }
 
@@ -394,107 +427,189 @@ public static class AutoFixtureCustomizations
         var date = fixture.Create<DateOnly>();
 
         fixture.Customize<Geldigheidsperiode>(composer =>
-            composer
-                .FromFactory(() =>
-                    new Geldigheidsperiode(new GeldigVan(date), new GeldigTot(date.AddDays(new Random().Next(1, 99))))
-                )
-                .OmitAutoProperties()
+                                                  composer
+                                                     .FromFactory(() =>
+                                                                      new Geldigheidsperiode(
+                                                                          new GeldigVan(date),
+                                                                          new GeldigTot(
+                                                                              date.AddDays(new Random().Next(1, 99))))
+                                                      )
+                                                     .OmitAutoProperties()
         );
     }
 
     private static void CustomizePersoonUitKsz(this IFixture fixture)
     {
         fixture.Customize<PersoonUitKsz>(composerTransformation: composer =>
-            composer.FromFactory(factory: () => new PersoonUitKsz(fixture.Create<Insz>(), false)).OmitAutoProperties()
+                                             composer.FromFactory(
+                                                          factory: () => new PersoonUitKsz(fixture.Create<Insz>(),
+                                                              false))
+                                                     .OmitAutoProperties()
         );
     }
 
     private static void CustomizeAdresId(this IFixture fixture)
     {
         fixture.Customize<AdresId>(composer =>
-            composer
-                .FromFactory<int>(i =>
-                    AdresId.Create(fixture.Create<Adresbron>(), AdresId.DataVlaanderenAdresPrefix + i)
-                )
-                .OmitAutoProperties()
+                                       composer
+                                          .FromFactory<int>(i =>
+                                                                AdresId.Create(
+                                                                    fixture.Create<Adresbron>(),
+                                                                    AdresId.DataVlaanderenAdresPrefix + i)
+                                           )
+                                          .OmitAutoProperties()
         );
 
         fixture.Customize<Admin.Api.WebApi.Verenigingen.Common.AdresId>(composer =>
-            composer
-                .FromFactory<int>(i => new Admin.Api.WebApi.Verenigingen.Common.AdresId
-                {
-                    Bronwaarde = AdresId.DataVlaanderenAdresPrefix + i,
-                    Broncode = fixture.Create<Adresbron>(),
-                })
-                .OmitAutoProperties()
+                                                                            composer
+                                                                               .FromFactory<
+                                                                                    int>(i => new Admin.Api.WebApi.
+                                                                                        Verenigingen.Common.AdresId
+                                                                                        {
+                                                                                            Bronwaarde =
+                                                                                                AdresId
+                                                                                                   .DataVlaanderenAdresPrefix +
+                                                                                                i,
+                                                                                            Broncode = fixture
+                                                                                               .Create<Adresbron>(),
+                                                                                        })
+                                                                               .OmitAutoProperties()
         );
     }
 
     private static void CustomizeAdres(this IFixture fixture)
     {
         fixture.Customize<Adres>(composer =>
-            composer
-                .FromFactory(() =>
-                    Adres.Create(
-                        fixture.Create<string>(),
-                        fixture.Create<string>(),
-                        fixture.Create<string>(),
-                        fixture.Create<string>(),
-                        fixture.Create<string>(),
-                        fixture.Create<string>()
-                    )
-                )
-                .OmitAutoProperties()
+                                     composer
+                                        .FromFactory(() =>
+                                                         Adres.Create(
+                                                             fixture.Create<string>(),
+                                                             fixture.Create<string>(),
+                                                             fixture.Create<string>(),
+                                                             fixture.Create<string>(),
+                                                             fixture.Create<string>(),
+                                                             fixture.Create<string>()
+                                                         )
+                                         )
+                                        .OmitAutoProperties()
         );
     }
 
     private static void CustomizeGebeurtenis(this IFixture fixture)
     {
         fixture.Customize<Gebeurtenis>(composer =>
-            composer
-                .FromFactory(() =>
-                    new Gebeurtenis(
-                        fixture.Create<DateTimeOffset>().UtcDateTime.ToString(),
-                        fixture.Create<string>(),
-                        fixture.Create<string>(),
-                        fixture.Create<long>()
-                    )
-                )
-                .OmitAutoProperties()
+                                           composer
+                                              .FromFactory(() =>
+                                                               new Gebeurtenis(
+                                                                   fixture.Create<DateTimeOffset>().UtcDateTime
+                                                                          .ToString(),
+                                                                   fixture.Create<string>(),
+                                                                   fixture.Create<string>(),
+                                                                   fixture.Create<long>()
+                                                               )
+                                               )
+                                              .OmitAutoProperties()
         );
     }
 
     private static void CustomizeErkenning(this IFixture fixture)
     {
         fixture.Customize<DecentraalBeheer.Vereniging.Erkenningen.Erkenning>(composer =>
-            composer
-                .FromFactory(() =>
-                {
-                    var start = fixture.Create<DateOnly>();
+                                                                                 composer
+                                                                                    .FromFactory(() =>
+                                                                                     {
+                                                                                         var start = fixture
+                                                                                            .Create<DateOnly>();
 
-                    var addDays = fixture.Create<int>();
+                                                                                         var addDays =
+                                                                                             fixture.Create<int>();
 
-                    var renew = start.AddDays(addDays);
+                                                                                         var renew = start.AddDays(
+                                                                                             addDays);
 
-                    var end = start.AddDays(addDays + fixture.Create<int>());
+                                                                                         var end = start.AddDays(
+                                                                                             addDays + fixture
+                                                                                                .Create<int>());
 
-                    var protocol = fixture.Create<bool>() ? "http" : "https";
+                                                                                         var protocol =
+                                                                                             fixture.Create<bool>()
+                                                                                                 ? "http"
+                                                                                                 : "https";
 
-                    return new DecentraalBeheer.Vereniging.Erkenningen.Erkenning()
-                    {
-                        ErkenningsPeriode = ErkenningsPeriode.Hydrate(start, end),
-                        Hernieuwingsdatum = Hernieuwingsdatum.Hydrate(renew),
-                        HernieuwingsUrl = HernieuwingsUrl.Hydrate(
-                            $"{protocol}://www.example.com/{fixture.Create<Guid>()}"
-                        ),
-                        IpdcProduct = fixture.Create<DecentraalBeheer.Vereniging.Erkenningen.IpdcProduct>(),
-                        GeregistreerdDoor = fixture.Create<DecentraalBeheer.Vereniging.Erkenningen.GegevensInitiator>(),
-                        ErkenningId = fixture.Create<int>(),
-                        RedenSchorsing = fixture.Create<string>(),
-                        Status = fixture.Create<string>(),
-                    };
-                })
-                .OmitAutoProperties()
+                                                                                         return new DecentraalBeheer.
+                                                                                             Vereniging.Erkenningen.
+                                                                                             Erkenning()
+                                                                                             {
+                                                                                                 ErkenningsPeriode =
+                                                                                                     ErkenningsPeriode
+                                                                                                        .Hydrate(start,
+                                                                                                             end),
+                                                                                                 Hernieuwingsdatum =
+                                                                                                     Hernieuwingsdatum
+                                                                                                        .Hydrate(renew),
+                                                                                                 HernieuwingsUrl =
+                                                                                                     HernieuwingsUrl
+                                                                                                        .Hydrate(
+                                                                                                             $"{protocol}://www.example.com/{fixture.Create<Guid>()}"
+                                                                                                         ),
+                                                                                                 IpdcProduct =
+                                                                                                     fixture
+                                                                                                        .Create<
+                                                                                                             DecentraalBeheer
+                                                                                                             .Vereniging
+                                                                                                             .Erkenningen
+                                                                                                             .IpdcProduct>(),
+                                                                                                 GeregistreerdDoor =
+                                                                                                     fixture
+                                                                                                        .Create<
+                                                                                                             DecentraalBeheer
+                                                                                                             .Vereniging
+                                                                                                             .Erkenningen
+                                                                                                             .GegevensInitiator>(),
+                                                                                                 ErkenningId =
+                                                                                                     fixture
+                                                                                                        .Create<int>(),
+                                                                                                 RedenSchorsing =
+                                                                                                     fixture
+                                                                                                        .Create<
+                                                                                                             string>(),
+                                                                                                 Status = fixture
+                                                                                                    .Create<string>(),
+                                                                                             };
+                                                                                     })
+                                                                                    .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeTeCorrigerenErkenning(this IFixture fixture)
+    {
+        fixture.Customize<TeCorrigerenErkenning>(composer =>
+                                                     composer
+                                                        .FromFactory(() =>
+                                                         {
+                                                             var startdatum = fixture.Create<DateOnly>();
+
+                                                             var addDays = fixture.Create<int>();
+
+                                                             var hernieuwingsDatum = startdatum.AddDays(addDays);
+
+                                                             var einddatum =
+                                                                 hernieuwingsDatum.AddDays(fixture.Create<int>());
+
+                                                             var protocol = fixture.Create<bool>() ? "http" : "https";
+
+                                                             var hernieuwingsUrl =
+                                                                 $"{protocol}://www.example.com/{fixture.Create<Guid>()}";
+
+                                                             return
+                                                                 TeCorrigerenErkenning.Create(
+                                                                     fixture.Create<int>(),
+                                                                     NullOrEmpty<DateOnly>.Create(startdatum),
+                                                                     NullOrEmpty<DateOnly>.Create(einddatum),
+                                                                     NullOrEmpty<DateOnly>.Create(hernieuwingsDatum),
+                                                                     hernieuwingsUrl);
+                                                         })
+                                                        .OmitAutoProperties()
         );
     }
 }

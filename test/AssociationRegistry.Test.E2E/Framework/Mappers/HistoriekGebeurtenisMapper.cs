@@ -5,6 +5,7 @@ using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.WijzigBankrekeningnummer
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.WebApi.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
@@ -1336,6 +1337,23 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"Reden van schorsing van een erkenning werd gecorrigeerd: {request.RedenSchorsing}",
             Gebeurtenis = nameof(Events.ErkenningRedenVanSchorsingWerdGecorrigeerd),
             Data = new ErkenningRedenVanSchorsingWerdGecorrigeerd(erkenningId, request.RedenSchorsing),
+            Initiator = "OVO000001",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse ErkenningWerdGecorrigeerd(
+        int erkenningId,
+        CorrigeerErkenningRequest request
+    ) =>
+        new()
+        {
+            Beschrijving = $"Erkenning werd gecorrigeerd",
+            Gebeurtenis = nameof(Events.ErkenningWerdGecorrigeerd),
+            Data = new ErkenningWerdGecorrigeerd(erkenningId,
+                                                 request.Startdatum.Value,
+                                                 request.Einddatum.Value,
+                                                 request.Hernieuwingsdatum.Value,
+                                                 request.HernieuwingsUrl),
             Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
