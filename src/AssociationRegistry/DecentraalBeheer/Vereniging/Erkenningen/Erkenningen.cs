@@ -107,7 +107,6 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
         Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
         Throw<ErkenningIsGeschorst>.If(erkenning.Status == ErkenningStatus.Geschorst);
-        Throw<VerlopenErkenningKanNietVerwijderdWorden>.If(erkenning.Status == ErkenningStatus.Verlopen);
     }
 }
 

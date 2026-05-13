@@ -7,6 +7,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Events;
 using FluentAssertions;
 using Resources;
 using Xunit;
@@ -27,7 +28,7 @@ public class Given_Verlopen_Erkenning
     }
 
     [Fact]
-    public async ValueTask Then_Throws_VerlopenErkenningKanNietVerwijderdWorden()
+    public async ValueTask Then_Then_It_Saves_An_ErkenningWerdVerwijderd_Event()
     {
         var verlopenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
@@ -44,11 +45,8 @@ public class Given_Verlopen_Erkenning
 
         var commandEnvelope = new CommandEnvelope<VerwijderErkenningCommand>(command, commandMetadata);
 
-        var exception = await Assert.ThrowsAsync<VerlopenErkenningKanNietVerwijderdWorden>(async () =>
-        {
-            await _commandHandler.Handle(commandEnvelope);
-        });
+        await _commandHandler.Handle(new CommandEnvelope<VerwijderErkenningCommand>(command, commandMetadata));
 
-        exception.Message.Should().Be(string.Format(ExceptionMessages.VerlopenErkenningKanNietVerwijderdWorden));
+        _verenigingRepositoryMock.ShouldHaveSavedExact(new ErkenningWerdVerwijderd(command.ErkenningId));
     }
 }

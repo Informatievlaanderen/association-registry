@@ -1070,15 +1070,6 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Een verlopen erkenning kan niet verwijderd worden..
-        /// </summary>
-        public static string VerlopenErkenningKanNietVerwijderdWorden {
-            get {
-                return ResourceManager.GetString("VerlopenErkenningKanNietVerwijderdWorden", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Voornaam mag geen nummers bevatten..
         /// </summary>
         public static string VoornaamBevatNummers {
