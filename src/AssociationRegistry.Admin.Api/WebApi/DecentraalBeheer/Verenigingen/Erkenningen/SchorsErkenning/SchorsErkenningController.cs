@@ -56,6 +56,7 @@ public class SchorsErkenningController : ApiController
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De erkenning werd geschorst.</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPost("{vCode}/erkenningen/{erkenningId}/schorsingen")]

@@ -35,4 +35,17 @@ public sealed record ErkenningsPeriode
     }
 
     public static ErkenningsPeriode Hydrate(DateOnly? startdatum, DateOnly? einddatum) => new(startdatum, einddatum);
+
+    public static ErkenningsPeriode CreateFrom(TeCorrigerenErkenning teCorrigerenErkenning, Erkenning erkenning)
+    {
+        var startdatum = teCorrigerenErkenning.StartDatum.IsNull
+            ? erkenning.ErkenningsPeriode.Startdatum
+            : teCorrigerenErkenning.StartDatum.Value;
+
+        var einddatum = teCorrigerenErkenning.EindDatum.IsNull
+            ? erkenning.ErkenningsPeriode.Einddatum
+            : teCorrigerenErkenning.EindDatum.Value;
+
+        return Create(startdatum, einddatum);
+    }
 }

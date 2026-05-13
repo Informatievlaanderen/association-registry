@@ -17,9 +17,16 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         NextId = nextId;
     }
 
-    public Erkenning GetById(int erkenningId) => this.Single(x => x.ErkenningId == erkenningId);
+    private new Erkenning this[int erkenningId]
+    {
+        get
+        {
+            var erkenning = this.SingleOrDefault(x => x.ErkenningId == erkenningId);
+            Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
 
-    private new Erkenning this[int erkenningId] => this.Single(x => x.ErkenningId == erkenningId);
+            return erkenning!;
+        }
+    }
 
     public Erkenning VoegToe(TeRegistrerenErkenning erkenning, IpdcProduct ipdcProduct, GegevensInitiator initiator)
     {
@@ -52,28 +59,17 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
     public void Schors(TeSchorsenErkenning teSchorsenErkenning, string initiator)
     {
-        var erkenning = MustExists(teSchorsenErkenning.ErkenningId);
+        var erkenning = this[teSchorsenErkenning.ErkenningId];
 
         Throw<ErkenningIsAlReedsGeschorst>.If(erkenning.Status == ErkenningStatus.Geschorst);
         Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teSchorsenErkenning.RedenSchorsing));
-        Throw<VerlopenErkenningKanNietGeschorstWorden>.If(erkenning.Status == ErkenningStatus.Verlopen);
         Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
-    }
-
-    private Erkenning MustExists(int erkenningId)
-    {
-        var erkenning = this.SingleOrDefault(x => x.ErkenningId == erkenningId);
-
-        Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
-
-        return erkenning!;
     }
 
     public Erkenning HefSchorsingErkenningOp(int erkenningId, string initiator)
     {
-        var erkenning = this.SingleOrDefault(x => x.ErkenningId == erkenningId);
+        var erkenning = this[erkenningId];
 
-        Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
         Throw<ErkenningIsNietGeschorst>.If(erkenning.Status != ErkenningStatus.Geschorst);
         Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
 
@@ -87,12 +83,14 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
     public bool CorrigeerSchorsing(TeCorrigerenSchorsingErkenning teCorrigerenSchorsingErkenning, string initiator)
     {
-        var erkenning = MustExists(teCorrigerenSchorsingErkenning.ErkenningId);
+        var erkenning = this[teCorrigerenSchorsingErkenning.ErkenningId];
 
         Throw<ErkenningIsNietGeschorst>.If(erkenning.Status != ErkenningStatus.Geschorst);
+
         Throw<ErkenningRedenSchorsingIsVerplicht>.If(
             string.IsNullOrEmpty(teCorrigerenSchorsingErkenning.RedenSchorsing)
         );
+
         Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
 
         var heeftWijzigingen = erkenning.RedenSchorsing != teCorrigerenSchorsingErkenning.RedenSchorsing;
@@ -100,11 +98,39 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return heeftWijzigingen;
     }
 
+    public Erkenning? CorrigeerErkenning(TeCorrigerenErkenning teCorrigerenErkenning, string initiator)
+    {
+        var erkenning = this[teCorrigerenErkenning.ErkenningId];
+
+        Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
+
+        var erkenningCorrectie = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
+
+        var heeftWijzigingen =
+            erkenningCorrectie.HeeftWijzigingen(erkenning);
+
+        if (!heeftWijzigingen) return null;
+
+        var gecorrigeerdeErkenning = erkenning.CreateFromErkenningCorrectie(erkenningCorrectie);
+        KanGecorrigeerdeErkenningToevoegen(gecorrigeerdeErkenning);
+
+        return gecorrigeerdeErkenning;
+    }
+
+    private void KanGecorrigeerdeErkenningToevoegen(Erkenning erkenningCorrectie)
+    {
+        var huidigeErkenningen = this.Without(erkenningCorrectie.ErkenningId);
+
+        var heeftConflictMetHuidigeErkenning =
+            huidigeErkenningen.Any(bestaande => bestaande.HeeftConflictMet(erkenningCorrectie));
+
+        Throw<ErkenningBestaatAl>.If(heeftConflictMetHuidigeErkenning);
+    }
+
     public void VerwijderErkenning(int erkenningId, string initiator)
     {
-        var erkenning = this.SingleOrDefault(x => x.ErkenningId == erkenningId);
+        var erkenning = this[erkenningId];
 
-        Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
         Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
         Throw<ErkenningIsGeschorst>.If(erkenning.Status == ErkenningStatus.Geschorst);
         Throw<VerlopenErkenningKanNietVerwijderdWorden>.If(erkenning.Status == ErkenningStatus.Verlopen);

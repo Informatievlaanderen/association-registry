@@ -121,6 +121,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public Lidmaatschap VoegLidmaatschapToe(ToeTeVoegenLidmaatschap lidmaatschap)
     {
         Throw<LidmaatschapMagNietVerwijzenNaarEigenVereniging>.If(VCode == lidmaatschap.AndereVereniging);
+
         Throw<VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs>.If(
             State.Verenigingssubtype.IsSubverenigingVan(lidmaatschap.AndereVereniging)
         );
@@ -267,6 +268,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public AdresMatchRequest CreateAdresMatchRequest(int locatieId)
     {
         var locatie = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
+
         return new AdresMatchRequest(locatie);
     }
 
@@ -278,6 +280,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (@event is not AdresWerdOvergenomenUitAdressenregister adresWerdOvergenomen)
         {
             AddEvent(@event);
+
             return;
         }
 
@@ -291,21 +294,23 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                     adresWerdOvergenomen.Adres
                 )
             );
+
             return;
         }
 
         var stateLocatie = State.Locaties.SingleOrDefault(sod =>
-            sod.LocatieId != locatieId
-            && sod.AdresId is not null
-            && sod.AdresId == adresWerdOvergenomen.AdresId
-            && sod.Naam == locatie.Naam
-            && sod.Locatietype == locatie.Locatietype
+                                                              sod.LocatieId != locatieId
+                                                           && sod.AdresId is not null
+                                                           && sod.AdresId == adresWerdOvergenomen.AdresId
+                                                           && sod.Naam == locatie.Naam
+                                                           && sod.Locatietype == locatie.Locatietype
         );
 
         if (stateLocatie is not null)
         {
             var verwijderdeLocatieId =
                 !stateLocatie.IsPrimair && locatie.IsPrimair ? stateLocatie.LocatieId : locatieId;
+
             var behoudenLocatieId = verwijderdeLocatieId == locatieId ? stateLocatie.LocatieId : locatieId;
 
             AddEvent(adresWerdOvergenomen with { VCode = VCode, LocatieId = locatieId });
@@ -319,6 +324,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                     adresWerdOvergenomen.AdresId
                 )
             );
+
             return;
         }
 
@@ -459,7 +465,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (!State.CorresponderendeVCodes.Contains(dubbeleVereniging))
             throw new ApplicationException(
                 $"Vereniging kon correctie dubbele vereniging ({dubbeleVereniging}) niet aanvaarden omdat dubbele vereniging "
-                    + $"niet voorkomt in de corresponderende VCodes: {string.Join(',', State.CorresponderendeVCodes)}."
+              + $"niet voorkomt in de corresponderende VCodes: {string.Join(',', State.CorresponderendeVCodes)}."
             );
 
         AddEvent(EventFactory.VerenigingAanvaarddeCorrectieDubbeleVereniging(VCode, dubbeleVereniging));
@@ -503,8 +509,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void WijzigBankrekeningnummer(TeWijzigenBankrekeningnummer teWijzigenBankrekeningnummer, string intiator)
     {
         var vorigeTitularis = State
-            .Bankrekeningnummers.GetById(teWijzigenBankrekeningnummer.BankrekeningnummerId)
-            .Titularis;
+                             .Bankrekeningnummers.GetById(teWijzigenBankrekeningnummer.BankrekeningnummerId)
+                             .Titularis;
 
         var gewijzigdBankrekeningnummer = State.Bankrekeningnummers.Wijzig(teWijzigenBankrekeningnummer);
 
@@ -523,7 +529,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void Valideer(int bankrekeningnummerId, string initiator)
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
-            x.BankrekeningnummerId == bankrekeningnummerId
+                                                                               x.BankrekeningnummerId ==
+                                                                               bankrekeningnummerId
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
@@ -542,10 +549,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void MaakValidatieOngedaan(int bankrekeningnummerId, string initiator)
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
-            x.BankrekeningnummerId == bankrekeningnummerId
+                                                                               x.BankrekeningnummerId ==
+                                                                               bankrekeningnummerId
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
+
         Throw<ValidatieBankrekeningnummerIsNietGekend>.If(
             !bankrekeningnummer!.BevestigdDoor.Contains(initiator),
             initiator
@@ -578,7 +587,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
-            x.BankrekeningnummerId == bankrekeningnummerId
+                                                                               x.BankrekeningnummerId ==
+                                                                               bankrekeningnummerId
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
@@ -644,6 +654,27 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             new ErkenningRedenVanSchorsingWerdGecorrigeerd(
                 teCorrigerenSchorsingErkenning.ErkenningId,
                 teCorrigerenSchorsingErkenning.RedenSchorsing
+            )
+        );
+    }
+
+    public void CorrigeerErkenning(
+        TeCorrigerenErkenning teCorrigerenErkenning,
+        string initiator
+    )
+    {
+        var gecorrigeerdeErkenning = State.Erkenningen.CorrigeerErkenning(teCorrigerenErkenning, initiator);
+
+        if (gecorrigeerdeErkenning is null)
+            return;
+
+        AddEvent(
+            new ErkenningWerdGecorrigeerd(
+                gecorrigeerdeErkenning.ErkenningId,
+                gecorrigeerdeErkenning.ErkenningsPeriode.Startdatum,
+                gecorrigeerdeErkenning.ErkenningsPeriode.Einddatum,
+                gecorrigeerdeErkenning.Hernieuwingsdatum.Value,
+                gecorrigeerdeErkenning.HernieuwingsUrl.Value
             )
         );
     }

@@ -17,7 +17,7 @@ public class CorrigeerSchorsingErkenningContext
 
     protected override async ValueTask ExecuteScenario(ErkenningWerdGeschorstScenario scenario)
     {
-        CommandResult = await new CorrigeerSchorsinErkenningRequestFactory(scenario).ExecuteRequest(ApiSetup);
+        CommandResult = await new CorrigeerSchorsingErkenningRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
 }
 

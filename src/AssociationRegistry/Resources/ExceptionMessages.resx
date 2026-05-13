@@ -373,6 +373,9 @@
   <data name="ErkenningIsNietGeschorst">
     <value>De erkenning is niet geschorst en de schorsing kan dus niet opgeheven worden.</value>
   </data>
+  <data name="TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben">
+    <value>De te corrigeren erkenning moet minstens één te corrigeren waarde hebben.</value>
+  </data>
   <data name="GiIsNIetBevoegd">
     <value>Deze OVOCode heeft geen machtiging om deze actie uit te voeren.</value>
   </data>

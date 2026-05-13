@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning;
+﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
@@ -6,18 +6,18 @@ using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
+using CorrigeerSchorsingErkenning.RequestModels;
 using Examples;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
-using SchorsErkenning.RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -30,12 +30,12 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class SchorsErkenningController : ApiController
 {
     private readonly IMessageBus _messageBus;
-    private readonly IValidator<CorrigeerSchorsingErkenningRequest> _validator;
+    private readonly IValidator<CorrigeerErkenningRequest> _validator;
     private readonly AppSettings _appSettings;
 
     public SchorsErkenningController(
         IMessageBus messageBus,
-        IValidator<CorrigeerSchorsingErkenningRequest> validator,
+        IValidator<CorrigeerErkenningRequest> validator,
         AppSettings appSettings
     )
     {
@@ -45,7 +45,7 @@ public class SchorsErkenningController : ApiController
     }
 
     /// <summary>
-    ///    Corrigeer de Schorsing van een erkenning.
+    ///    Corrigeren van gegevens van een erkenning.
     /// </summary>
     /// <remarks>
     ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
@@ -58,16 +58,16 @@ public class SchorsErkenningController : ApiController
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen correcties.</response>
-    /// <response code="202">De erkenning werd geschorst.</response>
+    /// <response code="202">De erkenning werd gecorrigeerd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPatch("{vCode}/erkenningen/{erkenningId}/schorsingen")]
+    [HttpPatch("{vCode}/erkenningen/{erkenningId}")]
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(
-        typeof(CorrigeerSchorsingErkenningRequest),
-        typeof(CorrigeerSchorsingErkenningRequestExamples)
+        typeof(CorrigeerErkenningRequest),
+        typeof(CorrigeerErkenningRequestExamples)
     )]
     [SwaggerResponseHeader(
         StatusCodes.Status202Accepted,
@@ -84,6 +84,7 @@ public class SchorsErkenningController : ApiController
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
@@ -91,7 +92,7 @@ public class SchorsErkenningController : ApiController
     public async Task<IActionResult> Patch(
         [FromRoute] string vCode,
         [FromRoute] int erkenningId,
-        [FromBody] CorrigeerSchorsingErkenningRequest request,
+        [FromBody] CorrigeerErkenningRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null
     )
@@ -99,7 +100,7 @@ public class SchorsErkenningController : ApiController
         await _validator.ValidateAsync(request);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(
+        var envelope = new CommandEnvelope<CorrigeerErkenningCommand>(
             request.ToCommand(vCode, erkenningId),
             metaData
         );
