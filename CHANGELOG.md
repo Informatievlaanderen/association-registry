@@ -1,3 +1,11 @@
+## [8.321.1](https://github.com/informatievlaanderen/association-registry/compare/v8.321.0...v8.321.1) (2026-05-13)
+
+
+### Bug Fixes
+
+* or-3079 use status from event in state for SchorsingVanErkenningWerdOpgeheven ([aaa5a6f](https://github.com/informatievlaanderen/association-registry/commit/aaa5a6fb243da7bb8b7c813a76efc248c7f98bd1))
+* or-3101 allow removing erkenning when erkenning is verlopen ([08d8c9b](https://github.com/informatievlaanderen/association-registry/commit/08d8c9bfba81d27f173cfa3903a9b887b5720934))
+
 # [8.321.0](https://github.com/informatievlaanderen/association-registry/compare/v8.320.0...v8.321.0) (2026-05-11)
 
 
