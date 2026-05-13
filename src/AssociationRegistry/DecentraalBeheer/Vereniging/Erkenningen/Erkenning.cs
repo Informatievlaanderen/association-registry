@@ -73,6 +73,16 @@ public record Erkenning
             RedenSchorsing = redenSchorsing,
             Status = ErkenningStatus.Geschorst,
         };
+
+    public Erkenning CreateFromErkenningCorrectie(ErkenningCorrectie erkenningCorrectie)
+    {
+        return this with
+        {
+            ErkenningsPeriode = erkenningCorrectie.ErkenningsPeriode,
+            Hernieuwingsdatum = erkenningCorrectie.Hernieuwingsdatum,
+            HernieuwingsUrl = erkenningCorrectie.HernieuwingsUrl,
+        };
+    }
 }
 
 public record IpdcProduct

@@ -1,17 +1,23 @@
-﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.VerwijderErkenning;
+﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning;
 
 using Asp.Versioning;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerwijderErkenning;
-using DecentraalBeheer.Vereniging;
-using Extensions;
-using Framework;
-using Infrastructure;
-using Infrastructure.CommandMiddleware;
-using Infrastructure.WebApi.Swagger.Annotations;
-using Infrastructure.WebApi.Swagger.Examples;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
+using CorrigeerSchorsingErkenning.RequestModels;
+using Examples;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -21,17 +27,25 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
-public class VerwijderErkenningController : ApiController
+public class SchorsErkenningController : ApiController
 {
     private readonly IMessageBus _messageBus;
+    private readonly IValidator<CorrigeerErkenningRequest> _validator;
+    private readonly AppSettings _appSettings;
 
-    public VerwijderErkenningController(IMessageBus messageBus)
+    public SchorsErkenningController(
+        IMessageBus messageBus,
+        IValidator<CorrigeerErkenningRequest> validator,
+        AppSettings appSettings
+    )
     {
         _messageBus = messageBus;
+        _validator = validator;
+        _appSettings = appSettings;
     }
 
     /// <summary>
-    ///     Verwijder een erkenning.
+    ///    Corrigeren van gegevens van een erkenning.
     /// </summary>
     /// <remarks>
     ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
@@ -43,13 +57,18 @@ public class VerwijderErkenningController : ApiController
     /// <param name="request"></param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
-    /// <response code="202">De erkenning werd verwijderd.</response>
+    /// <response code="200">Er waren geen correcties.</response>
+    /// <response code="202">De erkenning werd gecorrigeerd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpDelete("{vCode}/erkenningen/{erkenningId}")]
+    [HttpPatch("{vCode}/erkenningen/{erkenningId}")]
     [ConsumesJson]
     [ProducesJson]
+    [SwaggerRequestExample(
+        typeof(CorrigeerErkenningRequest),
+        typeof(CorrigeerErkenningRequestExamples)
+    )]
     [SwaggerResponseHeader(
         StatusCodes.Status202Accepted,
         WellknownHeaderNames.Sequence,
@@ -65,24 +84,28 @@ public class VerwijderErkenningController : ApiController
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Delete(
+    public async Task<IActionResult> Patch(
         [FromRoute] string vCode,
         [FromRoute] int erkenningId,
+        [FromBody] CorrigeerErkenningRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null
     )
     {
+        await _validator.ValidateAsync(request);
+
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<VerwijderErkenningCommand>(
-            new VerwijderErkenningCommand(VCode.Create(vCode), erkenningId),
+        var envelope = new CommandEnvelope<CorrigeerErkenningCommand>(
+            request.ToCommand(vCode, erkenningId),
             metaData
         );
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        return this.DeleteResponse(commandResult);
+        return this.PatchResponse(commandResult);
     }
 }
