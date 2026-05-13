@@ -376,9 +376,6 @@
   <data name="GiIsNietBevoegd">
     <value>Deze OVOCode heeft geen machtiging om deze actie uit te voeren.</value>
   </data>
-  <data name="VerlopenErkenningKanNietVerwijderdWorden">
-    <value>Een verlopen erkenning kan niet verwijderd worden.</value>
-  </data>
   <data name="ErkenningIsGeschorst">
     <value>Een geschorste erkenning kan niet verwijderd worden.</value>
   </data>
