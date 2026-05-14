@@ -90,7 +90,7 @@ services:
       - vr-net
 
   db:
-    image: postgres:15.0
+    image: postgres:15.18
     container_name: vr_postgres
     restart: always
     environment:
@@ -280,7 +280,7 @@ services:
 
   # Create the verenigingsregister database from the golden master template
   create-verenigingsregister-db:
-    image: postgres:15.0
+    image: postgres:15.18
     container_name: vr_create_verenigingsregister_db
     environment:
       - PGPASSWORD=root
