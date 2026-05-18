@@ -54,7 +54,7 @@ public class Given_A_Valid_Command
         await _commandHandler.Handle(new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, commandMetadata));
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, status)
+            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, status.Value)
         );
     }
 }

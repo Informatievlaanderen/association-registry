@@ -33,7 +33,7 @@ public class Given_ErkenningWerdGeschorst(PubliekDetailScenarioFixture<Erkenning
                     Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum,
                     HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = fixture.Scenario.ErkenningWerdGeschorst.RedenSchorsing,
-                    Status = ErkenningStatus.Geschorst,
+                    Status = ErkenningStatus.Geschorst.Value,
                 },
                 config: options => options.Excluding(x => x.JsonLdMetadata)
             );

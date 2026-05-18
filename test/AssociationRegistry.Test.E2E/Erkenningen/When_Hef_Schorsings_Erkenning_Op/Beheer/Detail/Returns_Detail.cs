@@ -66,13 +66,15 @@ public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
                     ),
                     HernieuwingsUrl = _testContext.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = string.Empty,
-                    Status = ErkenningStatus.Bepaal(
-                        ErkenningsPeriode.Create(
-                            _testContext.Scenario.ErkenningWerdGeregistreerd.Startdatum,
-                            _testContext.Scenario.ErkenningWerdGeregistreerd.Einddatum
-                        ),
-                        DateOnly.FromDateTime(DateTime.Now)
-                    ),
+                    Status = ErkenningStatus
+                        .Bepaal(
+                            ErkenningsPeriode.Create(
+                                _testContext.Scenario.ErkenningWerdGeregistreerd.Startdatum,
+                                _testContext.Scenario.ErkenningWerdGeregistreerd.Einddatum
+                            ),
+                            DateOnly.FromDateTime(DateTime.Now)
+                        )
+                        .Value,
                 },
             ]);
     }

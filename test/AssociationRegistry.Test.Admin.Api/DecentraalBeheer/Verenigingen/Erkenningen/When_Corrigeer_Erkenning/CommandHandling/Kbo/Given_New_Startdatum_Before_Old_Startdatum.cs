@@ -56,12 +56,14 @@ public class Given_New_Startdatum_Before_Old_Startdatum
         await _commandHandler.Handle(new CommandEnvelope<CorrigeerErkenningCommand>(command, commandMetadata));
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new ErkenningWerdGecorrigeerd(command.Erkenning.ErkenningId,
-                                          command.Erkenning.StartDatum.Value,
-                                          command.Erkenning.EindDatum.Value,
-                                          command.Erkenning.Hernieuwingsdatum.Value,
-                                          command.Erkenning.HernieuwingsUrl,
-                                          ErkenningStatus.Actief)
+            new ErkenningWerdGecorrigeerd(
+                command.Erkenning.ErkenningId,
+                command.Erkenning.StartDatum.Value,
+                command.Erkenning.EindDatum.Value,
+                command.Erkenning.Hernieuwingsdatum.Value,
+                command.Erkenning.HernieuwingsUrl,
+                ErkenningStatus.Actief.Value
+            )
         );
     }
 }

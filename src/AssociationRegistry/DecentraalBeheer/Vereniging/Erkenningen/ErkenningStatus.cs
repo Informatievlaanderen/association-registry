@@ -1,7 +1,12 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
-public class ErkenningStatus
+public sealed record ErkenningStatus
 {
+    public static readonly ErkenningStatus InAanvraag = new(InAanvraagValue);
+    public static readonly ErkenningStatus Verlopen = new(VerlopenValue);
+    public static readonly ErkenningStatus Geschorst = new(GeschorstValue);
+    public static readonly ErkenningStatus Actief = new(ActiefValue);
+
     public string Value { get; }
 
     private ErkenningStatus(string status)
@@ -9,7 +14,7 @@ public class ErkenningStatus
         Value = status;
     }
 
-    public static string Bepaal(ErkenningsPeriode erkenningsPeriode, DateOnly today)
+    public static ErkenningStatus Bepaal(ErkenningsPeriode erkenningsPeriode, DateOnly today)
     {
         if (
             erkenningsPeriode.Startdatum > today && erkenningsPeriode.Einddatum is null
@@ -23,8 +28,10 @@ public class ErkenningStatus
         return Actief;
     }
 
-    public const string Actief = "Actief";
-    public const string Verlopen = "Verlopen";
-    public const string InAanvraag = "InAanvraag";
-    public const string Geschorst = "Geschorst";
+    public static ErkenningStatus Hydrate(string status) => new(status);
+
+    public const string ActiefValue = "Actief";
+    public const string VerlopenValue = "Verlopen";
+    public const string InAanvraagValue = "InAanvraag";
+    public const string GeschorstValue = "Geschorst";
 }

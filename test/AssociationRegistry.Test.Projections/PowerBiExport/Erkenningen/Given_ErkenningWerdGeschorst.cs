@@ -41,7 +41,7 @@ public class Given_ErkenningWerdGeschorst(PowerBiScenarioFixture<ErkenningWerdGe
                     ),
                     HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = fixture.Scenario.ErkenningWerdGeschorst.RedenSchorsing,
-                    Status = ErkenningStatus.Geschorst,
+                    Status = ErkenningStatus.Geschorst.Value,
                 },
             ]);
     }

@@ -51,7 +51,7 @@ public class Given_ErkenningWerdGeschorst(BeheerDetailScenarioFixture<ErkenningW
                     ),
                     HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = fixture.Scenario.ErkenningWerdGeschorst.RedenSchorsing,
-                    Status = ErkenningStatus.Geschorst,
+                    Status = ErkenningStatus.Geschorst.Value,
                 },
             ]);
     }
