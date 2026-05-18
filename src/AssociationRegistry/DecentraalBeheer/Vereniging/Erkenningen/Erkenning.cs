@@ -81,6 +81,7 @@ public record Erkenning
             ErkenningsPeriode = erkenningCorrectie.ErkenningsPeriode,
             Hernieuwingsdatum = erkenningCorrectie.Hernieuwingsdatum,
             HernieuwingsUrl = erkenningCorrectie.HernieuwingsUrl,
+            Status = erkenningCorrectie.Status,
         };
     }
 }

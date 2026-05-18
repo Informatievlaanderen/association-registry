@@ -1,0 +1,48 @@
+﻿namespace AssociationRegistry.Test.Projections.PowerBiExport.Erkenningen;
+
+using Admin.ProjectionHost.Constants;
+using Scenario.Erkenningen;
+using Erkenning = Admin.Schema.PowerBiExport.Erkenning;
+using GegevensInitiator = Admin.Schema.PowerBiExport.GegevensInitiator;
+using IpdcProduct = Admin.Schema.PowerBiExport.IpdcProduct;
+
+[Collection(nameof(ProjectionContext))]
+public class Given_ErkenningWerdGecorrigeerd(
+    PowerBiScenarioFixture<ErkenningWerdGecorrigeerdScenario> fixture
+) : PowerBiScenarioClassFixture<ErkenningWerdGecorrigeerdScenario>
+{
+    [Fact]
+    public void Erkenning_Werd_Gecorrigeerd()
+    {
+        fixture
+            .Result.Erkenningen.Should()
+            .BeEquivalentTo([
+                new Erkenning
+                {
+                    ErkenningId = fixture.Scenario.ErkenningWerdGeregistreerd.ErkenningId,
+                    GeregistreerdDoor = new GegevensInitiator
+                    {
+                        OvoCode = fixture.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+                        Naam = fixture.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.Naam,
+                    },
+                    IpdcProduct = new IpdcProduct
+                    {
+                        Nummer = fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
+                        Naam = fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Naam,
+                    },
+                    Startdatum = fixture.Scenario.ErkenningWerdGecorrigeerd.Startdatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
+                    Einddatum = fixture.Scenario.ErkenningWerdGecorrigeerd.Einddatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
+                    Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGecorrigeerd.Hernieuwingsdatum?.ToString(
+                        WellknownFormats.DateOnly
+                    ),
+                    HernieuwingsUrl = fixture.Scenario.ErkenningWerdGecorrigeerd.HernieuwingsUrl,
+                    RedenSchorsing = string.Empty,
+                    Status = fixture.Scenario.ErkenningWerdGecorrigeerd.Status,
+                },
+            ]);
+    }
+}

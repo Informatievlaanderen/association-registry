@@ -1038,6 +1038,7 @@ public record VerenigingState : IHasVersion
                             ErkenningsPeriode = ErkenningsPeriode.Hydrate(@event.Startdatum, @event.Einddatum),
                             Hernieuwingsdatum = Hernieuwingsdatum.Hydrate(@event.Hernieuwingsdatum),
                             HernieuwingsUrl = HernieuwingsUrl.Hydrate(@event.HernieuwingsUrl),
+                            Status = @event.Status,
                         }
                     )
             ),

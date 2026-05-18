@@ -52,7 +52,11 @@ public class Given_A_Valid_Command
                                           command.Erkenning.StartDatum.Value,
                                           command.Erkenning.EindDatum.Value,
                                           command.Erkenning.Hernieuwingsdatum.Value,
-                                          command.Erkenning.HernieuwingsUrl)
+                                          command.Erkenning.HernieuwingsUrl,
+                                          ErkenningStatus.Bepaal(
+                                              ErkenningsPeriode.Create(command.Erkenning.StartDatum.Value,
+                                                                       command.Erkenning.EindDatum.Value),
+                                              DateOnly.FromDateTime(DateTime.Today)))
         );
     }
 }
