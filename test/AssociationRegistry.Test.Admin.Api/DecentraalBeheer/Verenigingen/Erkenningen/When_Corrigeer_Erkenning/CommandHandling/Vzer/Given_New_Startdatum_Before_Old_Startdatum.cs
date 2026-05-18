@@ -1,5 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Erkenning.
-    CommandHandling.Vzer;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Erkenning.CommandHandling.Vzer;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
@@ -57,12 +56,14 @@ public class Given_New_Startdatum_Before_Old_Startdatum
         await _commandHandler.Handle(new CommandEnvelope<CorrigeerErkenningCommand>(command, commandMetadata));
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new ErkenningWerdGecorrigeerd(command.Erkenning.ErkenningId,
-                                          command.Erkenning.StartDatum.Value,
-                                          command.Erkenning.EindDatum.Value,
-                                          command.Erkenning.Hernieuwingsdatum.Value,
-                                          command.Erkenning.HernieuwingsUrl,
-                                          ErkenningStatus.Actief)
+            new ErkenningWerdGecorrigeerd(
+                command.Erkenning.ErkenningId,
+                command.Erkenning.StartDatum.Value,
+                command.Erkenning.EindDatum.Value,
+                command.Erkenning.Hernieuwingsdatum.Value,
+                command.Erkenning.HernieuwingsUrl,
+                ErkenningStatus.Actief.Value
+            )
         );
     }
 }

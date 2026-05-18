@@ -1,12 +1,13 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 
+using global::AutoFixture;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
-using global::AutoFixture;
 
-public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningInAanvraagScenario : CommandhandlerScenarioBase
+public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningInAanvraagScenario
+    : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
@@ -29,7 +30,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningInA
             Startdatum = futureStart,
             Hernieuwingsdatum = futureStart.AddDays(10),
             Einddatum = futureStart.AddDays(20),
-            Status =  ErkenningStatus.InAanvraag,
+            Status = ErkenningStatus.InAanvraag.Value,
         };
     }
 

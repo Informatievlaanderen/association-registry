@@ -66,7 +66,7 @@ public class Returns_Detail_With_Geschorste_Erkenning : End2EndTest<DetailVereni
                     ),
                     HernieuwingsUrl = _testContext.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = _testContext.CommandRequest.RedenSchorsing,
-                    Status = ErkenningStatus.Geschorst,
+                    Status = ErkenningStatus.Geschorst.Value,
                 },
             ]);
     }

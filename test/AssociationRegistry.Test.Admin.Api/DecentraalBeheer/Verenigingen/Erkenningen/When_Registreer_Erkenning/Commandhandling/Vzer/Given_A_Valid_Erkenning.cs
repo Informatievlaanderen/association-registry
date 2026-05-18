@@ -52,13 +52,15 @@ public class Given_A_Valid_Erkenning
                 command.Erkenning.Hernieuwingsdatum.Value,
                 command.Erkenning.HernieuwingsUrl.Value,
                 initiator,
-                ErkenningStatus.Bepaal(
-                    ErkenningsPeriode.Create(
-                        command.Erkenning.ErkenningsPeriode.Startdatum,
-                        command.Erkenning.ErkenningsPeriode.Einddatum
-                    ),
-                    DateOnly.FromDateTime(DateTime.Now)
-                )
+                ErkenningStatus
+                    .Bepaal(
+                        ErkenningsPeriode.Create(
+                            command.Erkenning.ErkenningsPeriode.Startdatum,
+                            command.Erkenning.ErkenningsPeriode.Einddatum
+                        ),
+                        DateOnly.FromDateTime(DateTime.Now)
+                    )
+                    .Value
             )
         );
     }

@@ -34,7 +34,7 @@ public class Given_ErkenningRedenVanSchorsingWerdGecorrigeerd(
                     Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum,
                     HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = fixture.Scenario.ErkenningRedenVanSchorsingWerdGecorrigeerd.RedenSchorsing,
-                    Status = ErkenningStatus.Geschorst,
+                    Status = ErkenningStatus.Geschorst.Value,
                 },
                 config: options => options.Excluding(x => x.JsonLdMetadata)
             );

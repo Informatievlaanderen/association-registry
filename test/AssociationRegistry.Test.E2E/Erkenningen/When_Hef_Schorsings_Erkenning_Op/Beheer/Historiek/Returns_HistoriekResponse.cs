@@ -52,7 +52,7 @@ public class Returns_Historiek_Met_Erkenning : End2EndTest<HistoriekResponse>
 
         var expectedEvent = new SchorsingVanErkenningWerdOpgeheven(
             ErkenningId: _testContext.Scenario.ErkenningWerdGeregistreerd.ErkenningId,
-            status
+            status.Value
         );
 
         gebeurtenisResponse.ShouldCompare(

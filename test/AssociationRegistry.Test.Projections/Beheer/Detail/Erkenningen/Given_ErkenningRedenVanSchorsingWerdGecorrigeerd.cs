@@ -52,7 +52,7 @@ public class Given_ErkenningRedenVanSchorsingWerdGecorrigeerd(
                     ),
                     HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = fixture.Scenario.ErkenningRedenVanSchorsingWerdGecorrigeerd.RedenSchorsing,
-                    Status = ErkenningStatus.Geschorst,
+                    Status = ErkenningStatus.Geschorst.Value,
                 },
             ]);
     }

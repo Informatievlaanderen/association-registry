@@ -55,24 +55,22 @@ public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
                         Nummer = _testContext.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
                         Naam = _testContext.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Naam,
                     },
-                    Startdatum = _testContext.CommandRequest.Startdatum.Value.ToString(
-                        WellknownFormats.DateOnly
-                    ),
-                    Einddatum = _testContext.CommandRequest.Einddatum.Value.ToString(
-                        WellknownFormats.DateOnly
-                    ),
+                    Startdatum = _testContext.CommandRequest.Startdatum.Value.ToString(WellknownFormats.DateOnly),
+                    Einddatum = _testContext.CommandRequest.Einddatum.Value.ToString(WellknownFormats.DateOnly),
                     Hernieuwingsdatum = _testContext.CommandRequest.Hernieuwingsdatum.Value.ToString(
                         WellknownFormats.DateOnly
                     ),
                     HernieuwingsUrl = _testContext.CommandRequest.HernieuwingsUrl,
                     RedenSchorsing = string.Empty,
-                    Status = ErkenningStatus.Bepaal(
-                        ErkenningsPeriode.Create(
-                            _testContext.CommandRequest.Startdatum.Value,
-                            _testContext.CommandRequest.Einddatum.Value
-                        ),
-                        DateOnly.FromDateTime(DateTime.Now)
-                    ),
+                    Status = ErkenningStatus
+                        .Bepaal(
+                            ErkenningsPeriode.Create(
+                                _testContext.CommandRequest.Startdatum.Value,
+                                _testContext.CommandRequest.Einddatum.Value
+                            ),
+                            DateOnly.FromDateTime(DateTime.Now)
+                        )
+                        .Value,
                 },
             ]);
     }

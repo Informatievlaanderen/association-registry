@@ -9,7 +9,7 @@ public record Erkenning
     public Hernieuwingsdatum Hernieuwingsdatum { get; set; }
     public HernieuwingsUrl HernieuwingsUrl { get; set; } = null!;
     public string RedenSchorsing { get; set; } = null!;
-    public string Status { get; set; } = null!;
+    public ErkenningStatus Status { get; set; } = null!;
 
     public static Erkenning Create(
         int nextId,
@@ -52,7 +52,7 @@ public record Erkenning
             Hernieuwingsdatum = Hernieuwingsdatum.Hydrate(hernieuwingsdatum),
             HernieuwingsUrl = HernieuwingsUrl.Hydrate(hernieuwingsUrl),
             RedenSchorsing = motivering,
-            Status = status,
+            Status = ErkenningStatus.Hydrate(status),
         };
 
     public bool HeeftConflictMet(Erkenning teRegistrerenErkenning)

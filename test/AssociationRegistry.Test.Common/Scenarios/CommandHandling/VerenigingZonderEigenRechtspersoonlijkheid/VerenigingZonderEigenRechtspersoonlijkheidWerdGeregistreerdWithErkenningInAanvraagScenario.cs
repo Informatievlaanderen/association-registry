@@ -1,12 +1,13 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
+using global::AutoFixture;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
-using global::AutoFixture;
 
-public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningInAanvraagScenario : CommandhandlerScenarioBase
+public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningInAanvraagScenario
+    : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
     public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
@@ -19,7 +20,6 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErke
         var today = DateOnly.FromDateTime(DateTime.Today);
         var futureStart = today.AddDays(fixture.Create<int>() + 1);
 
-
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
             {
@@ -31,7 +31,7 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErke
             Startdatum = futureStart,
             Hernieuwingsdatum = futureStart.AddDays(10),
             Einddatum = futureStart.AddDays(20),
-            Status =  ErkenningStatus.InAanvraag,
+            Status = ErkenningStatus.InAanvraag.Value,
         };
     }
 
