@@ -71,7 +71,7 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
     {
         var erkenning = this[erkenningId];
 
-        Throw<ErkenningIsNietGeschorst>.If(erkenning.Status != ErkenningStatus.Geschorst);
+        Throw<ErkenningIsNietGeschorst>.If(erkenning.Status.Value != ErkenningStatus.Geschorst.Value);
         Throw<GiIsNIetBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
 
         var today = DateOnly.FromDateTime(DateTime.Today);
@@ -107,10 +107,10 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
         var erkenningCorrectie = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
-        var heeftWijzigingen =
-            erkenningCorrectie.HeeftWijzigingen(erkenning);
+        var heeftWijzigingen = erkenningCorrectie.HeeftWijzigingen(erkenning);
 
-        if (!heeftWijzigingen) return null;
+        if (!heeftWijzigingen)
+            return null;
 
         var gecorrigeerdeErkenning = erkenning.CreateFromErkenningCorrectie(erkenningCorrectie);
         KanGecorrigeerdeErkenningToevoegen(gecorrigeerdeErkenning);
@@ -122,8 +122,9 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
     {
         var huidigeErkenningen = this.Without(erkenningCorrectie.ErkenningId);
 
-        var heeftConflictMetHuidigeErkenning =
-            huidigeErkenningen.Any(bestaande => bestaande.HeeftConflictMet(erkenningCorrectie));
+        var heeftConflictMetHuidigeErkenning = huidigeErkenningen.Any(bestaande =>
+            bestaande.HeeftConflictMet(erkenningCorrectie)
+        );
 
         Throw<ErkenningBestaatAl>.If(heeftConflictMetHuidigeErkenning);
     }

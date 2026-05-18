@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Erkenningen;
 
-using Scenario.Erkenningen;
 using Admin.ProjectionHost.Constants;
 using Admin.ProjectionHost.Projections.Detail;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging.Erkenningen;
+using Scenario.Erkenningen;
 using Erkenning = Admin.Schema.Detail.Erkenning;
 using GegevensInitiator = Admin.Schema.Detail.GegevensInitiator;
 using IpdcProduct = Admin.Schema.Detail.IpdcProduct;
@@ -20,8 +20,8 @@ public class Given_ErkenningWerdGeschorst(BeheerDetailScenarioFixture<ErkenningW
     public void Erkenning_Werd_Ge()
     {
         fixture
-           .Result.Erkenningen.Should()
-           .BeEquivalentTo([
+            .Result.Erkenningen.Should()
+            .BeEquivalentTo([
                 new Erkenning
                 {
                     JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
@@ -51,7 +51,7 @@ public class Given_ErkenningWerdGeschorst(BeheerDetailScenarioFixture<ErkenningW
                     ),
                     HernieuwingsUrl = fixture.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = fixture.Scenario.ErkenningWerdGeschorst.RedenSchorsing,
-                    Status = ErkenningStatus.Geschorst,
+                    Status = ErkenningStatus.Geschorst.Value,
                 },
             ]);
     }

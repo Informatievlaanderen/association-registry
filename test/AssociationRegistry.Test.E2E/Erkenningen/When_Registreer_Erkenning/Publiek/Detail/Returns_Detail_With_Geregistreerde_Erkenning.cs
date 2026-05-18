@@ -44,13 +44,15 @@ public class Returns_Detail_With_Geregistreerde_Erkenning : IAsyncLifetime
                     ),
                     HernieuwingsUrl = _context.CommandRequest.Erkenning.HernieuwingsUrl,
                     RedenSchorsing = string.Empty,
-                    Status = ErkenningStatus.Bepaal(
-                        ErkenningsPeriode.Create(
-                            _context.CommandRequest.Erkenning.Startdatum,
-                            _context.CommandRequest.Erkenning.Einddatum
-                        ),
-                        DateOnly.FromDateTime(DateTime.Now)
-                    ),
+                    Status = ErkenningStatus
+                        .Bepaal(
+                            ErkenningsPeriode.Create(
+                                _context.CommandRequest.Erkenning.Startdatum,
+                                _context.CommandRequest.Erkenning.Einddatum
+                            ),
+                            DateOnly.FromDateTime(DateTime.Now)
+                        )
+                        .Value,
                 },
             ]);
     }

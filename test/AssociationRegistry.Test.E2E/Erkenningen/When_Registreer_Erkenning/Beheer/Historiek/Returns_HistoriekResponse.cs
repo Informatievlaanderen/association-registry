@@ -16,13 +16,18 @@ public class Returns_Historiek_Met_Erkenning : End2EndTest<HistoriekResponse>
 {
     private readonly RegistreerErkenningContext _testContext;
 
-    public Returns_Historiek_Met_Erkenning(RegistreerErkenningContext testContext) : base(testContext.ApiSetup)
+    public Returns_Historiek_Met_Erkenning(RegistreerErkenningContext testContext)
+        : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
 
-    public override async Task<HistoriekResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient, _testContext.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence));
+    public override async Task<HistoriekResponse> GetResponse(FullBlownApiSetup setup) =>
+        await setup.AdminApiHost.GetBeheerHistoriek(
+            setup.AdminHttpClient,
+            _testContext.VCode,
+            headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)
+        );
 
     [Fact]
     public void With_Context()
@@ -33,7 +38,9 @@ public class Returns_Historiek_Met_Erkenning : End2EndTest<HistoriekResponse>
     [Fact]
     public void With_ErkenningWerdGerigistreerd_Gebeurtenissen()
     {
-        var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(ErkenningWerdGeregistreerd));
+        var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x =>
+            x.Gebeurtenis == nameof(ErkenningWerdGeregistreerd)
+        );
         var expectedEvent = new ErkenningWerdGeregistreerd(
             ErkenningId: 1,
             IpdcProduct: new IpdcProduct
@@ -50,16 +57,20 @@ public class Returns_Historiek_Met_Erkenning : End2EndTest<HistoriekResponse>
                 OvoCode = "OVO000001",
                 Naam = "De LijnInfo", // wiremock
             },
-            Status: ErkenningStatus.Bepaal(
-                ErkenningsPeriode.Create(
-                    _testContext.CommandRequest.Erkenning.Startdatum,
-                    _testContext.CommandRequest.Erkenning.Einddatum
-                ),
-                DateOnly.FromDateTime(DateTime.Now)
-            )
+            Status: ErkenningStatus
+                .Bepaal(
+                    ErkenningsPeriode.Create(
+                        _testContext.CommandRequest.Erkenning.Startdatum,
+                        _testContext.CommandRequest.Erkenning.Einddatum
+                    ),
+                    DateOnly.FromDateTime(DateTime.Now)
+                )
+                .Value
         );
 
-        gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.ErkenningWerdGeregistreerd(expectedEvent),
-                                        compareConfig: HistoriekComparisonConfig.Instance);
+        gebeurtenisResponse.ShouldCompare(
+            HistoriekGebeurtenisMapper.ErkenningWerdGeregistreerd(expectedEvent),
+            compareConfig: HistoriekComparisonConfig.Instance
+        );
     }
 }

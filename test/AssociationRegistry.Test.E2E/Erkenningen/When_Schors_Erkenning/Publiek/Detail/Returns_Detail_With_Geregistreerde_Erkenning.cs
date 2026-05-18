@@ -55,7 +55,7 @@ public class Returns_Detail_With_Geregistreerde_Erkenning : IAsyncLifetime
                     ),
                     HernieuwingsUrl = _context.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                     RedenSchorsing = _context.CommandRequest.RedenSchorsing,
-                    Status = ErkenningStatus.Geschorst,
+                    Status = ErkenningStatus.Geschorst.Value,
                 },
             ]);
     }

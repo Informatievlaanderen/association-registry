@@ -1,5 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Erkenning.
-    CommandHandling.Kbo;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Erkenning.CommandHandling.Kbo;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
@@ -48,15 +47,19 @@ public class Given_A_Valid_Command
         await _commandHandler.Handle(new CommandEnvelope<CorrigeerErkenningCommand>(command, commandMetadata));
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new ErkenningWerdGecorrigeerd(command.Erkenning.ErkenningId,
-                                          command.Erkenning.StartDatum.Value,
-                                          command.Erkenning.EindDatum.Value,
-                                          command.Erkenning.Hernieuwingsdatum.Value,
-                                          command.Erkenning.HernieuwingsUrl,
-                                          ErkenningStatus.Bepaal(
-                                              ErkenningsPeriode.Create(command.Erkenning.StartDatum.Value,
-                                                                       command.Erkenning.EindDatum.Value),
-                                              DateOnly.FromDateTime(DateTime.Today)))
+            new ErkenningWerdGecorrigeerd(
+                command.Erkenning.ErkenningId,
+                command.Erkenning.StartDatum.Value,
+                command.Erkenning.EindDatum.Value,
+                command.Erkenning.Hernieuwingsdatum.Value,
+                command.Erkenning.HernieuwingsUrl,
+                ErkenningStatus
+                    .Bepaal(
+                        ErkenningsPeriode.Create(command.Erkenning.StartDatum.Value, command.Erkenning.EindDatum.Value),
+                        DateOnly.FromDateTime(DateTime.Today)
+                    )
+                    .Value
+            )
         );
     }
 }
