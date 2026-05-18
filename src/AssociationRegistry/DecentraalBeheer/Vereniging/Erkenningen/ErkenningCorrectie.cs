@@ -8,18 +8,21 @@ public sealed record ErkenningCorrectie
         int erkenningErkenningId,
         ErkenningsPeriode erkenningsperiode,
         Hernieuwingsdatum hernieuwingsdatum,
-        HernieuwingsUrl hernieuwingsUrl)
+        HernieuwingsUrl hernieuwingsUrl,
+        string status)
     {
         ErkenningId = erkenningErkenningId;
         ErkenningsPeriode = erkenningsperiode;
         Hernieuwingsdatum = hernieuwingsdatum;
         HernieuwingsUrl = hernieuwingsUrl;
+        Status = status;
     }
 
     public int ErkenningId { get; set; }
     public ErkenningsPeriode ErkenningsPeriode { get; set; }
     public Hernieuwingsdatum Hernieuwingsdatum { get; set; }
     public HernieuwingsUrl HernieuwingsUrl { get; set; }
+    public string Status { get; set; }
 
     public static ErkenningCorrectie Create(
         TeCorrigerenErkenning teCorrigerenErkenning,
@@ -38,7 +41,9 @@ public sealed record ErkenningCorrectie
         var teCorrigerenHernieuwingsUrl = DetermineTeCorrigerenHernieuwingsUrl(teCorrigerenErkenning, erkenning);
         var hernieuwingsUrl = HernieuwingsUrl.Create(teCorrigerenHernieuwingsUrl);
 
-        return new ErkenningCorrectie(erkenning.ErkenningId, erkenningsperiode, hernieuwingsdatum, hernieuwingsUrl);
+        var status = ErkenningStatus.Bepaal(erkenningsperiode, DateOnly.FromDateTime(DateTime.Today));
+
+        return new ErkenningCorrectie(erkenning.ErkenningId, erkenningsperiode, hernieuwingsdatum, hernieuwingsUrl, status);
     }
 
     private static DateOnly? DetermineTeCorrigerenDatum(
