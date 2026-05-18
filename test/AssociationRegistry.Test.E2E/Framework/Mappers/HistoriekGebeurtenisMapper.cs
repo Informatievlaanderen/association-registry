@@ -18,6 +18,7 @@ using Admin.Schema.Historiek.EventData;
 using AlbaHost;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 using Persoonsgegevens;
 
@@ -42,48 +43,52 @@ public static class HistoriekGebeurtenisMapper
                 ),
                 IsUitgeschrevenUitPubliekeDatastroom: request.IsUitgeschrevenUitPubliekeDatastroom,
                 Contactgegevens: request
-                    .Contactgegevens.Select(
-                        (x, i) =>
-                            new Registratiedata.Contactgegeven(
-                                i + 1,
-                                x.Contactgegeventype,
-                                x.Waarde,
-                                x.Beschrijving!,
-                                x.IsPrimair
-                            )
-                    )
-                    .ToArray(),
+                                .Contactgegevens.Select((x, i) =>
+                                                            new Registratiedata.Contactgegeven(
+                                                                i + 1,
+                                                                x.Contactgegeventype,
+                                                                x.Waarde,
+                                                                x.Beschrijving!,
+                                                                x.IsPrimair
+                                                            )
+                                 )
+                                .ToArray(),
                 Locaties: request
-                    .Locaties.Select(
-                        (x, i) =>
-                            new Registratiedata.Locatie(
-                                i + 1,
-                                x.Locatietype,
-                                x.IsPrimair,
-                                x.Naam!,
-                                x.Adres == null
-                                    ? null
-                                    : new Registratiedata.Adres(
-                                        x.Adres.Straatnaam,
-                                        x.Adres.Huisnummer,
-                                        x.Adres.Busnummer!,
-                                        x.Adres.Postcode,
-                                        x.Adres.Gemeente,
-                                        x.Adres.Land
-                                    ),
-                                x.AdresId == null
-                                    ? null
-                                    : new Registratiedata.AdresId(x.AdresId.Broncode, x.AdresId.Bronwaarde)
-                            )
-                    )
-                    .ToArray(),
+                         .Locaties.Select((x, i) =>
+                                              new Registratiedata.Locatie(
+                                                  i + 1,
+                                                  x.Locatietype,
+                                                  x.IsPrimair,
+                                                  x.Naam!,
+                                                  x.Adres == null
+                                                      ? null
+                                                      : new Registratiedata.Adres(
+                                                          x.Adres.Straatnaam,
+                                                          x.Adres.Huisnummer,
+                                                          x.Adres.Busnummer!,
+                                                          x.Adres.Postcode,
+                                                          x.Adres.Gemeente,
+                                                          x.Adres.Land
+                                                      ),
+                                                  x.AdresId == null
+                                                      ? null
+                                                      : new Registratiedata.AdresId(
+                                                          x.AdresId.Broncode,
+                                                          x.AdresId.Bronwaarde)
+                                              )
+                          )
+                         .ToArray(),
                 Vertegenwoordigers: null,
                 HoofdactiviteitenVerenigingsloket: null,
                 Bankrekeningnummers: request
-                    .Bankrekeningnummers.Select(
-                        (x, i) => new Registratiedata.Bankrekeningnummer(++i, x.Iban, x.Doel, x.Titularis)
-                    )
-                    .ToArray()
+                                    .Bankrekeningnummers
+                                    .Select((x, i) => new Registratiedata.Bankrekeningnummer(
+                                                ++i,
+                                                x.Iban,
+                                                x.Doel,
+                                                x.Titularis)
+                                     )
+                                    .ToArray()
             ),
             Initiator = AuthenticationSetup.Initiator,
         };
@@ -110,19 +115,19 @@ public static class HistoriekGebeurtenisMapper
                 @event.Contactgegevens,
                 @event.Locaties,
                 @event
-                    .Vertegenwoordigers.Select(x => new VertegenwoordigerData(
-                        x.VertegenwoordigerId,
-                        x.IsPrimair,
-                        WellKnownAnonymousFields.Geanonimiseerd,
-                        WellKnownAnonymousFields.Geanonimiseerd,
-                        WellKnownAnonymousFields.Geanonimiseerd,
-                        WellKnownAnonymousFields.Geanonimiseerd,
-                        WellKnownAnonymousFields.Geanonimiseerd,
-                        WellKnownAnonymousFields.Geanonimiseerd,
-                        WellKnownAnonymousFields.Geanonimiseerd,
-                        WellKnownAnonymousFields.Geanonimiseerd
-                    ))
-                    .ToArray(),
+                   .Vertegenwoordigers.Select(x => new VertegenwoordigerData(
+                                                  x.VertegenwoordigerId,
+                                                  x.IsPrimair,
+                                                  WellKnownAnonymousFields.Geanonimiseerd,
+                                                  WellKnownAnonymousFields.Geanonimiseerd,
+                                                  WellKnownAnonymousFields.Geanonimiseerd,
+                                                  WellKnownAnonymousFields.Geanonimiseerd,
+                                                  WellKnownAnonymousFields.Geanonimiseerd,
+                                                  WellKnownAnonymousFields.Geanonimiseerd,
+                                                  WellKnownAnonymousFields.Geanonimiseerd,
+                                                  WellKnownAnonymousFields.Geanonimiseerd
+                                              ))
+                   .ToArray(),
                 @event.HoofdactiviteitenVerenigingsloket,
                 []
             ),
@@ -148,43 +153,44 @@ public static class HistoriekGebeurtenisMapper
                     feitelijkeVerenigingWerdGeregistreerd.Doelgroep!.Minimumleeftijd,
                     feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd
                 ),
-                IsUitgeschrevenUitPubliekeDatastroom: feitelijkeVerenigingWerdGeregistreerd.IsUitgeschrevenUitPubliekeDatastroom,
+                IsUitgeschrevenUitPubliekeDatastroom: feitelijkeVerenigingWerdGeregistreerd
+                   .IsUitgeschrevenUitPubliekeDatastroom,
                 Contactgegevens: feitelijkeVerenigingWerdGeregistreerd
-                    .Contactgegevens.Select(
-                        (x, i) =>
-                            new Registratiedata.Contactgegeven(
-                                i + 1,
-                                x.Contactgegeventype,
-                                x.Waarde,
-                                x.Beschrijving!,
-                                x.IsPrimair
-                            )
-                    )
-                    .ToArray(),
+                                .Contactgegevens.Select((x, i) =>
+                                                            new Registratiedata.Contactgegeven(
+                                                                i + 1,
+                                                                x.Contactgegeventype,
+                                                                x.Waarde,
+                                                                x.Beschrijving!,
+                                                                x.IsPrimair
+                                                            )
+                                 )
+                                .ToArray(),
                 Locaties: feitelijkeVerenigingWerdGeregistreerd
-                    .Locaties.Select(
-                        (x, i) =>
-                            new Registratiedata.Locatie(
-                                i + 1,
-                                x.Locatietype,
-                                x.IsPrimair,
-                                x.Naam!,
-                                x.Adres == null
-                                    ? null
-                                    : new Registratiedata.Adres(
-                                        x.Adres.Straatnaam,
-                                        x.Adres.Huisnummer,
-                                        x.Adres.Busnummer!,
-                                        x.Adres.Postcode,
-                                        x.Adres.Gemeente,
-                                        x.Adres.Land
-                                    ),
-                                x.AdresId is null
-                                    ? null
-                                    : new Registratiedata.AdresId(x.AdresId.Broncode, x.AdresId.Bronwaarde)
-                            )
-                    )
-                    .ToArray(),
+                         .Locaties.Select((x, i) =>
+                                              new Registratiedata.Locatie(
+                                                  i + 1,
+                                                  x.Locatietype,
+                                                  x.IsPrimair,
+                                                  x.Naam!,
+                                                  x.Adres == null
+                                                      ? null
+                                                      : new Registratiedata.Adres(
+                                                          x.Adres.Straatnaam,
+                                                          x.Adres.Huisnummer,
+                                                          x.Adres.Busnummer!,
+                                                          x.Adres.Postcode,
+                                                          x.Adres.Gemeente,
+                                                          x.Adres.Land
+                                                      ),
+                                                  x.AdresId is null
+                                                      ? null
+                                                      : new Registratiedata.AdresId(
+                                                          x.AdresId.Broncode,
+                                                          x.AdresId.Bronwaarde)
+                                              )
+                          )
+                         .ToArray(),
                 Vertegenwoordigers: null,
                 HoofdactiviteitenVerenigingsloket: null,
                 Bankrekeningnummers: []
@@ -352,9 +358,9 @@ public static class HistoriekGebeurtenisMapper
     {
         var @event = new HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
             hoofdactiviteiten
-                .Select(HoofdactiviteitVerenigingsloket.Create)
-                .Select(wg => new Registratiedata.HoofdactiviteitVerenigingsloket(wg.Code, wg.Naam))
-                .ToArray()
+               .Select(HoofdactiviteitVerenigingsloket.Create)
+               .Select(wg => new Registratiedata.HoofdactiviteitVerenigingsloket(wg.Code, wg.Naam))
+               .ToArray()
         );
 
         return new HistoriekGebeurtenisResponse
@@ -386,9 +392,9 @@ public static class HistoriekGebeurtenisMapper
         var @event = new WerkingsgebiedenWerdenBepaald(
             vCode,
             werkingsgebieden
-                .Select(werkingsgebiedenServiceMock.Create)
-                .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
-                .ToArray()
+               .Select(werkingsgebiedenServiceMock.Create)
+               .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
+               .ToArray()
         );
 
         return new HistoriekGebeurtenisResponse
@@ -407,9 +413,9 @@ public static class HistoriekGebeurtenisMapper
         var @event = new WerkingsgebiedenWerdenGewijzigd(
             vCode,
             werkingsgebieden
-                .Select(werkingsgebiedenServiceMock.Create)
-                .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
-                .ToArray()
+               .Select(werkingsgebiedenServiceMock.Create)
+               .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
+               .ToArray()
         );
 
         return new HistoriekGebeurtenisResponse
@@ -439,9 +445,9 @@ public static class HistoriekGebeurtenisMapper
         var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
 
         return werkingsgebiedenCodes
-            .Select(code => werkingsgebiedenServiceMock.Create(code))
-            .Select(werkingsgebied => new Registratiedata.Werkingsgebied(werkingsgebied.Code, werkingsgebied.Naam))
-            .ToArray();
+              .Select(code => werkingsgebiedenServiceMock.Create(code))
+              .Select(werkingsgebied => new Registratiedata.Werkingsgebied(werkingsgebied.Code, werkingsgebied.Naam))
+              .ToArray();
     }
 
     public static HistoriekGebeurtenisResponse AdresWerdOvergenomen(string vCode) =>
@@ -1092,9 +1098,10 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
-    public static HistoriekGebeurtenisResponse? KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenZonderPersoonsgegevens(
-        KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenZonderPersoonsgegevens @event
-    ) =>
+    public static HistoriekGebeurtenisResponse?
+        KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenZonderPersoonsgegevens(
+            KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenZonderPersoonsgegevens @event
+        ) =>
         new()
         {
             Beschrijving =
@@ -1126,9 +1133,10 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
-    public static HistoriekGebeurtenisResponse? KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendZonderPersoonsgegevens(
-        KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendZonderPersoonsgegevens @event
-    ) =>
+    public static HistoriekGebeurtenisResponse?
+        KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendZonderPersoonsgegevens(
+            KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendZonderPersoonsgegevens @event
+        ) =>
         new()
         {
             Beschrijving =
@@ -1347,13 +1355,18 @@ public static class HistoriekGebeurtenisMapper
     ) =>
         new()
         {
-            Beschrijving = $"Erkenning werd gecorrigeerd",
+            Beschrijving = $"Erkenning werd gecorrigeerd.",
             Gebeurtenis = nameof(Events.ErkenningWerdGecorrigeerd),
             Data = new ErkenningWerdGecorrigeerd(erkenningId,
                                                  request.Startdatum.Value,
                                                  request.Einddatum.Value,
                                                  request.Hernieuwingsdatum.Value,
-                                                 request.HernieuwingsUrl),
+                                                 request.HernieuwingsUrl,
+                                                 ErkenningStatus.Bepaal(
+                                                     ErkenningsPeriode.Create(
+                                                         request.Startdatum.Value,
+                                                         request.Einddatum.Value),
+                                                     DateOnly.FromDateTime(DateTime.Today))),
             Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };

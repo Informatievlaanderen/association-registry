@@ -674,7 +674,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 gecorrigeerdeErkenning.ErkenningsPeriode.Startdatum,
                 gecorrigeerdeErkenning.ErkenningsPeriode.Einddatum,
                 gecorrigeerdeErkenning.Hernieuwingsdatum.Value,
-                gecorrigeerdeErkenning.HernieuwingsUrl.Value
+                gecorrigeerdeErkenning.HernieuwingsUrl.Value,
+                gecorrigeerdeErkenning.Status
             )
         );
     }

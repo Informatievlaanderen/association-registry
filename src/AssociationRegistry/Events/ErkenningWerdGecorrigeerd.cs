@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Events;
 
 using System.Runtime.Serialization;
-using DecentraalBeheer.Vereniging.Erkenningen;
 using Vereniging.Bronnen;
 
 public record ErkenningWerdGecorrigeerd(
@@ -9,7 +8,8 @@ public record ErkenningWerdGecorrigeerd(
     DateOnly? Startdatum,
     DateOnly? Einddatum,
     DateOnly? Hernieuwingsdatum,
-    string HernieuwingsUrl
+    string HernieuwingsUrl,
+    string Status
 ) : IEvent
 {
     [IgnoreDataMember]
@@ -22,6 +22,7 @@ public record ErkenningWerdGecorrigeerd(
         builder.Append($"Einddatum = {Einddatum}, ");
         builder.Append($"Hernieuwingsdatum = {Hernieuwingsdatum}, ");
         builder.Append($"HernieuwingsUrl = {HernieuwingsUrl}, ");
+        builder.Append($"Status = {Status}, ");
 
         return true;
     }

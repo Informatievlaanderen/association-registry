@@ -1,11 +1,10 @@
 namespace AssociationRegistry.Test.E2E.Erkenningen.When_Corrigeer_Erkenning;
 
 using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning.RequestModels;
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning.RequestModels;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Test.E2E.Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
+using Framework.ApiSetup;
+using Framework.TestClasses;
+using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
+using Scenarios.Requests.FeitelijkeVereniging;
 using Xunit;
 
 public class CorrigeerErkenningContext
