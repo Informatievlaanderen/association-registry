@@ -17,15 +17,12 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         NextId = nextId;
     }
 
-    private new Erkenning this[int erkenningId]
+    public Erkenning GetById(int erkenningId)
     {
-        get
-        {
-            var erkenning = this.SingleOrDefault(x => x.ErkenningId == erkenningId);
-            Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
+        var erkenning = this.SingleOrDefault(x => x.ErkenningId == erkenningId);
+        Throw<ErkenningIsNietGekend>.If(erkenning == null, erkenningId.ToString());
 
-            return erkenning!;
-        }
+        return erkenning!;
     }
 
     public Erkenning VoegToe(TeRegistrerenErkenning erkenning, IpdcProduct ipdcProduct, GegevensInitiator initiator)
@@ -87,9 +84,11 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         var erkenning = this[teCorrigerenSchorsingErkenning.ErkenningId];
 
         Throw<ErkenningIsNietGeschorst>.If(erkenning.Status != ErkenningStatus.Geschorst);
+
         Throw<ErkenningRedenSchorsingIsVerplicht>.If(
             string.IsNullOrEmpty(teCorrigerenSchorsingErkenning.RedenSchorsing)
         );
+
         Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
 
         var heeftWijzigingen = erkenning.RedenSchorsing != teCorrigerenSchorsingErkenning.RedenSchorsing;
@@ -97,26 +96,7 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return heeftWijzigingen;
     }
 
-    public Erkenning? CorrigeerErkenning(TeCorrigerenErkenning teCorrigerenErkenning, string initiator)
-    {
-        var erkenning = this[teCorrigerenErkenning.ErkenningId];
-
-        Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
-
-        var erkenningCorrectie = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
-
-        var heeftWijzigingen = erkenningCorrectie.HeeftWijzigingen(erkenning);
-
-        if (!heeftWijzigingen)
-            return null;
-
-        var gecorrigeerdeErkenning = erkenning.CreateFromErkenningCorrectie(erkenningCorrectie);
-        KanGecorrigeerdeErkenningToevoegen(gecorrigeerdeErkenning);
-
-        return gecorrigeerdeErkenning;
-    }
-
-    private void KanGecorrigeerdeErkenningToevoegen(Erkenning erkenningCorrectie)
+    public void KanGecorrigeerdeErkenningToevoegen(Erkenning erkenningCorrectie)
     {
         var huidigeErkenningen = this.Without(erkenningCorrectie.ErkenningId);
 

@@ -5,6 +5,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 using Grar.AdresMatch;
 using Grar.Models;
@@ -514,4 +515,14 @@ public static class EventFactory
         verenigingssubtype is null
             ? null
             : new Registratiedata.Verenigingssubtype(verenigingssubtype.Code, verenigingssubtype.Naam);
+
+    public static ErkenningWerdGecorrigeerd ErkenningWerdGecorrigeerd(Erkenning gecorrigeerdeErkenning) =>
+        new(
+            gecorrigeerdeErkenning.ErkenningId,
+            gecorrigeerdeErkenning.ErkenningsPeriode.Startdatum,
+            gecorrigeerdeErkenning.ErkenningsPeriode.Einddatum,
+            gecorrigeerdeErkenning.Hernieuwingsdatum.Value,
+            gecorrigeerdeErkenning.HernieuwingsUrl.Value,
+            gecorrigeerdeErkenning.Status.Value
+        );
 }
