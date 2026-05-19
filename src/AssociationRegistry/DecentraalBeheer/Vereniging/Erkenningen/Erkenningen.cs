@@ -54,21 +54,6 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return new Erkenningen(erkenningen, Math.Max(erkenningen.Max(x => x.ErkenningId) + 1, NextId));
     }
 
-    public Erkenning HefSchorsingErkenningOp(int erkenningId, string initiator)
-    {
-        var erkenning = this[erkenningId];
-
-        Throw<ErkenningIsNietGeschorst>.If(erkenning.Status != ErkenningStatus.Geschorst);
-        Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
-
-        var today = DateOnly.FromDateTime(DateTime.Today);
-
-        return erkenning with
-        {
-            Status = ErkenningStatus.Bepaal(erkenning.ErkenningsPeriode, today),
-        };
-    }
-
     public void KanGecorrigeerdeErkenningToevoegen(Erkenning erkenningCorrectie)
     {
         var huidigeErkenningen = this.Without(erkenningCorrectie.ErkenningId);

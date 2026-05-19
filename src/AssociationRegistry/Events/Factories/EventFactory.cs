@@ -89,7 +89,6 @@ public static class EventFactory
     ) => new(vCode, dubbeleVereniging);
 
     public static VerenigingWerdGestoptInKBO VerenigingWerdGestoptInKBO(Datum einddatum) => new(einddatum.Value);
-
     public static VerenigingWerdGestopt VerenigingWerdGestopt(Datum einddatum) => new(einddatum.Value);
 
     public static VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan(
@@ -541,4 +540,7 @@ public static class EventFactory
             teCorrigerenSchorsingErkenning.ErkenningId,
             teCorrigerenSchorsingErkenning.RedenSchorsing
         );
+
+    public static SchorsingVanErkenningWerdOpgeheven HefSchorsingErkenningOp(Erkenning huidigeErkenning)
+        => new(huidigeErkenning.ErkenningId, huidigeErkenning.Status.Value);
 }
