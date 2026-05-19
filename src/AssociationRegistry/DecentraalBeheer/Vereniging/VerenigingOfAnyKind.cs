@@ -677,8 +677,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerwijderErkenning(int erkenningId, string initiator)
     {
-        State.Erkenningen.VerwijderErkenning(erkenningId, initiator);
+        var huidigeErkenning = State.Erkenningen.GetById(erkenningId);
 
-        AddEvent(new ErkenningWerdVerwijderd(erkenningId));
+        Throw<GiIsNietBevoegd>.If(huidigeErkenning.GeregistreerdDoor.OvoCode != initiator);
+        Throw<ErkenningIsGeschorst>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
+
+        AddEvent(EventFactory.ErkenningWerdVerwijderd(erkenningId));
     }
 }

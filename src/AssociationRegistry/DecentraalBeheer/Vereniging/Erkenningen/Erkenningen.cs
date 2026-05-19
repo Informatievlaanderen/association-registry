@@ -106,14 +106,6 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
         Throw<ErkenningBestaatAl>.If(heeftConflictMetHuidigeErkenning);
     }
-
-    public void VerwijderErkenning(int erkenningId, string initiator)
-    {
-        var erkenning = this[erkenningId];
-
-        Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
-        Throw<ErkenningIsGeschorst>.If(erkenning.Status == ErkenningStatus.Geschorst);
-    }
 }
 
 public static class ErkenningenEnumerableExtensions
