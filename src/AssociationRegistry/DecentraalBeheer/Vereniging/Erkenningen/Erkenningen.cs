@@ -29,14 +29,9 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
     {
         var teRegistrerenErkenning = Erkenning.Create(NextId, erkenning, ipdcProduct, initiator);
 
-        ThrowIfCannotAppendOrUpdate(teRegistrerenErkenning);
+        Throw<ErkenningBestaatAl>.If(HeeftConflictMet(teRegistrerenErkenning));
 
         return teRegistrerenErkenning;
-    }
-
-    private void ThrowIfCannotAppendOrUpdate(Erkenning teRegisterenErkenning)
-    {
-        Throw<ErkenningBestaatAl>.If(HeeftConflictMet(teRegisterenErkenning));
     }
 
     private bool HeeftConflictMet(Erkenning teRegistrerenErkenning)
