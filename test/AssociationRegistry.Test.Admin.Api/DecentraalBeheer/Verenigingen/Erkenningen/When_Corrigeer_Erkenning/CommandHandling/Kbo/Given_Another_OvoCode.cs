@@ -40,12 +40,12 @@ public class Given_Another_OvoCode
             Erkenning = _fixture.Create<TeCorrigerenErkenning>() with { ErkenningId = teSchorsenErkenningId },
         };
 
-        var exception = await Assert.ThrowsAsync<GiIsNIetBevoegd>(async () =>
+        var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
             await _commandHandler.Handle(
                 new CommandEnvelope<CorrigeerErkenningCommand>(command, _fixture.Create<CommandMetadata>())
             )
         );
 
-        exception.Message.Should().Be(ExceptionMessages.GiIsNIetBevoegd);
+        exception.Message.Should().Be(ExceptionMessages.GiIsNietBevoegd);
     }
 }
