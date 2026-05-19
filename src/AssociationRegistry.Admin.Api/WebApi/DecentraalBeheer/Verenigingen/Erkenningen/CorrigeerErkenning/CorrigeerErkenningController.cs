@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
@@ -65,10 +66,7 @@ public class SchorsErkenningController : ApiController
     [HttpPatch("{vCode}/erkenningen/{erkenningId}")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerRequestExample(
-        typeof(CorrigeerErkenningRequest),
-        typeof(CorrigeerErkenningRequestExamples)
-    )]
+    [SwaggerRequestExample(typeof(CorrigeerErkenningRequest), typeof(CorrigeerErkenningRequestExamples))]
     [SwaggerResponseHeader(
         StatusCodes.Status202Accepted,
         WellknownHeaderNames.Sequence,
@@ -97,13 +95,10 @@ public class SchorsErkenningController : ApiController
         [FromHeader(Name = "If-Match")] string? ifMatch = null
     )
     {
-        await _validator.ValidateAsync(request);
+        await _validator.NullValidateAndThrowAsync(request);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<CorrigeerErkenningCommand>(
-            request.ToCommand(vCode, erkenningId),
-            metaData
-        );
+        var envelope = new CommandEnvelope<CorrigeerErkenningCommand>(request.ToCommand(vCode, erkenningId), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
         return this.PatchResponse(commandResult);
