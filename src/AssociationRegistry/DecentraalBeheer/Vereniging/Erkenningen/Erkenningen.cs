@@ -54,16 +54,6 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return new Erkenningen(erkenningen, Math.Max(erkenningen.Max(x => x.ErkenningId) + 1, NextId));
     }
 
-    public void Schors(TeSchorsenErkenning teSchorsenErkenning, string initiator)
-    {
-        var erkenning = this[teSchorsenErkenning.ErkenningId];
-
-        Throw<ErkenningIsAlReedsGeschorst>.If(erkenning.Status == ErkenningStatus.Geschorst);
-        Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teSchorsenErkenning.RedenSchorsing));
-        Throw<VerlopenErkenningKanNietGeschorstWorden>.If(erkenning.Status == ErkenningStatus.Verlopen);
-        Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
-    }
-
     public Erkenning HefSchorsingErkenningOp(int erkenningId, string initiator)
     {
         var erkenning = this[erkenningId];
