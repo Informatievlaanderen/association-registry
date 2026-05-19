@@ -15,14 +15,23 @@ public class Given_Alle_Te_Corrigeren_Waarden
     }
 
     [Fact]
+    public void With_Huidige_Status_Geschorst_Then_Returns_ErkenningStatus_Geschorst()
+    {
+        var erkenning = MaakStateErkenning() with { Status = ErkenningStatus.Geschorst };
+
+        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { StartDatum = NullOrEmpty<DateOnly>.Null };
+
+        var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
+
+        result.Status.Should().Be(ErkenningStatus.Geschorst);
+    }
+
+    [Fact]
     public void With_TeCorrigeren_Startdatum_Null_Then_Startdatum_Is_State_Startdatum()
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
-        {
-            StartDatum = NullOrEmpty<DateOnly>.Null,
-        };
+        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { StartDatum = NullOrEmpty<DateOnly>.Null };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -34,10 +43,7 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
-        {
-            StartDatum = NullOrEmpty<DateOnly>.Empty,
-        };
+        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { StartDatum = NullOrEmpty<DateOnly>.Empty };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -64,10 +70,7 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
-        {
-            EindDatum = NullOrEmpty<DateOnly>.Null,
-        };
+        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { EindDatum = NullOrEmpty<DateOnly>.Null };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -79,10 +82,7 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
-        {
-            EindDatum = NullOrEmpty<DateOnly>.Empty,
-        };
+        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { EindDatum = NullOrEmpty<DateOnly>.Empty };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -109,10 +109,7 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
-        {
-            Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
-        };
+        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -122,10 +119,7 @@ public class Given_Alle_Te_Corrigeren_Waarden
     [Fact]
     public void With_TeCorrigeren_Hernieuwingsdatum_Empty_Then_Hernieuwingsdatum_Is_Null()
     {
-        var erkenning = MaakStateErkenning() with
-        {
-            ErkenningsPeriode = ErkenningsPeriode.Create(null, null),
-        };
+        var erkenning = MaakStateErkenning() with { ErkenningsPeriode = ErkenningsPeriode.Create(null, null) };
 
         var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
         {
@@ -157,10 +151,7 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
-        {
-            HernieuwingsUrl = null,
-        };
+        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { HernieuwingsUrl = null };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -172,10 +163,7 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
-        {
-            HernieuwingsUrl = string.Empty,
-        };
+        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { HernieuwingsUrl = string.Empty };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -187,10 +175,7 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
-        {
-            HernieuwingsUrl = "https://anewurl.isborn",
-        };
+        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { HernieuwingsUrl = "https://anewurl.isborn" };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -199,9 +184,7 @@ public class Given_Alle_Te_Corrigeren_Waarden
 
     private static Erkenning MaakStateErkenning()
     {
-        var periode = ErkenningsPeriode.Create(
-            new DateOnly(2026, 1, 1),
-            new DateOnly(2026, 12, 31));
+        var periode = ErkenningsPeriode.Create(new DateOnly(2026, 1, 1), new DateOnly(2026, 12, 31));
 
         return new Erkenning
         {
@@ -214,13 +197,13 @@ public class Given_Alle_Te_Corrigeren_Waarden
 
     private static TeCorrigerenErkenning MaakTeCorrigerenErkenning()
     {
-        return TeCorrigerenErkenning.Create(123,
-                                            NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 1, 1)),
-                                            NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 12, 31)),
-                                            NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 10, 10)),
-                                            "https://a-new-url.isborn"
+        return TeCorrigerenErkenning.Create(
+            123,
+            NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 1, 1)),
+            NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 12, 31)),
+            NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 10, 10)),
+            "https://a-new-url.isborn"
         );
-
         ;
     }
 }

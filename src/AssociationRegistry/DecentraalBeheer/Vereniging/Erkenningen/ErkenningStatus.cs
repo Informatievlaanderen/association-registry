@@ -28,6 +28,18 @@ public sealed record ErkenningStatus
         return Actief;
     }
 
+    public static ErkenningStatus BepaalVoorCorrectie(
+        ErkenningStatus huidigeStatus,
+        ErkenningsPeriode erkenningsPeriode,
+        DateOnly today
+    )
+    {
+        if (huidigeStatus == Geschorst)
+            return Geschorst;
+
+        return Bepaal(erkenningsPeriode, today);
+    }
+
     public static ErkenningStatus Hydrate(string status) => new(status);
 
     public const string ActiefValue = "Actief";
