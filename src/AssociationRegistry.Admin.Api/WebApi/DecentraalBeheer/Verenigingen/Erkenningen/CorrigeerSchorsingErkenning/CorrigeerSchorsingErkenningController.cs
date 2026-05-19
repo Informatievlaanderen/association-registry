@@ -14,6 +14,7 @@ using Infrastructure;
 using Infrastructure.CommandMiddleware;
 using Infrastructure.WebApi.Swagger.Annotations;
 using Infrastructure.WebApi.Swagger.Examples;
+using Infrastructure.WebApi.Validation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
@@ -94,7 +95,7 @@ public class CorrigeerSchorsingErkenningController : ApiController
         [FromHeader(Name = "If-Match")] string? ifMatch = null
     )
     {
-        await _validator.ValidateAsync(request);
+        await _validator.NullValidateAndThrowAsync(request);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(
