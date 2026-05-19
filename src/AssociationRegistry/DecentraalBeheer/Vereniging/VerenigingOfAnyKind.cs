@@ -7,6 +7,7 @@ using Bankrekeningen;
 using Bankrekeningen.Exceptions;
 using Emails;
 using Erkenningen;
+using Erkenningen.Exceptions;
 using Events;
 using Events.Factories;
 using Exceptions;
@@ -657,21 +658,21 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void CorrigeerErkenning(TeCorrigerenErkenning teCorrigerenErkenning, string initiator)
     {
-        var gecorrigeerdeErkenning = State.Erkenningen.CorrigeerErkenning(teCorrigerenErkenning, initiator);
+        var huidigeErkenning = State.Erkenningen.GetById(teCorrigerenErkenning.ErkenningId);
 
-        if (gecorrigeerdeErkenning is null)
+        Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
+
+        var erkenningCorrectie = ErkenningCorrectie.Create(teCorrigerenErkenning, huidigeErkenning);
+
+        var heeftWijzigingen = erkenningCorrectie.HeeftWijzigingen(huidigeErkenning);
+
+        if (!heeftWijzigingen)
             return;
 
-        AddEvent(
-            new ErkenningWerdGecorrigeerd(
-                gecorrigeerdeErkenning.ErkenningId,
-                gecorrigeerdeErkenning.ErkenningsPeriode.Startdatum,
-                gecorrigeerdeErkenning.ErkenningsPeriode.Einddatum,
-                gecorrigeerdeErkenning.Hernieuwingsdatum.Value,
-                gecorrigeerdeErkenning.HernieuwingsUrl.Value,
-                gecorrigeerdeErkenning.Status.Value
-            )
-        );
+        var gecorrigeerdeErkenning = huidigeErkenning.CreateFromErkenningCorrectie(erkenningCorrectie);
+        State.Erkenningen.KanGecorrigeerdeErkenningToevoegen(gecorrigeerdeErkenning);
+
+        AddEvent(EventFactory.ErkenningWerdGecorrigeerd(gecorrigeerdeErkenning));
     }
 
     public void VerwijderErkenning(int erkenningId, string initiator)
