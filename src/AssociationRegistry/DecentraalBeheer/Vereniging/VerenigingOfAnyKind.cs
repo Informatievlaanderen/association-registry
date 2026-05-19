@@ -606,18 +606,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         var toegevoegdeErkenning = State.Erkenningen.VoegToe(erkenning, ipdcProduct, initiator);
 
-        AddEvent(
-            new ErkenningWerdGeregistreerd(
-                toegevoegdeErkenning.ErkenningId,
-                toegevoegdeErkenning.IpdcProduct,
-                toegevoegdeErkenning.ErkenningsPeriode.Startdatum,
-                toegevoegdeErkenning.ErkenningsPeriode.Einddatum,
-                toegevoegdeErkenning.Hernieuwingsdatum?.Value,
-                toegevoegdeErkenning.HernieuwingsUrl.Value,
-                toegevoegdeErkenning.GeregistreerdDoor,
-                toegevoegdeErkenning.Status.Value
-            )
-        );
+        AddEvent(EventFactory.ErkenningWerdGeregistreerd(toegevoegdeErkenning));
 
         return toegevoegdeErkenning.ErkenningId;
     }
