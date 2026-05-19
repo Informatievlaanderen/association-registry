@@ -1059,7 +1059,13 @@ public record VerenigingState : IHasVersion
             Erkenningen = Erkenningen.Hydrate(
                 Erkenningen
                     .Without(@event.ErkenningId)
-                    .Append(erkenning with { Status = @event.Status, RedenSchorsing = string.Empty })
+                    .Append(
+                        erkenning with
+                        {
+                            Status = ErkenningStatus.Hydrate(@event.Status),
+                            RedenSchorsing = string.Empty,
+                        }
+                    )
             ),
         };
     }

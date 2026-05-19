@@ -46,7 +46,11 @@ public sealed record ErkenningCorrectie
         var teCorrigerenHernieuwingsUrl = DetermineTeCorrigerenHernieuwingsUrl(teCorrigerenErkenning, erkenning);
         var hernieuwingsUrl = HernieuwingsUrl.Create(teCorrigerenHernieuwingsUrl);
 
-        var status = ErkenningStatus.Bepaal(erkenningsperiode, DateOnly.FromDateTime(DateTime.Today));
+        var status = ErkenningStatus.BepaalVoorCorrectie(
+            erkenning.Status,
+            erkenningsperiode,
+            DateOnly.FromDateTime(DateTime.Today)
+        );
 
         return new ErkenningCorrectie(
             erkenning.ErkenningId,
