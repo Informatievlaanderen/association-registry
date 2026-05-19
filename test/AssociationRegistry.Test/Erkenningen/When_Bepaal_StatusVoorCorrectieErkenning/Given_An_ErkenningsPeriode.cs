@@ -17,7 +17,7 @@ public class Given_An_ErkenningsPeriode
 
         var status = ErkenningStatus.BepaalVoorCorrectie(
             ErkenningStatus.Geschorst,
-            fixture.Create<ErkenningsPeriode>(),
+            ErkenningsPeriode.Hydrate(fixture.Create<DateOnly>(), fixture.Create<DateOnly>()),
             Now
         );
 
