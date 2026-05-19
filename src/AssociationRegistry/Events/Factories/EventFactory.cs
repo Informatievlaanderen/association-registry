@@ -525,4 +525,7 @@ public static class EventFactory
             gecorrigeerdeErkenning.HernieuwingsUrl.Value,
             gecorrigeerdeErkenning.Status.Value
         );
+
+    public static ErkenningWerdVerwijderd ErkenningWerdVerwijderd(int erkenningId)
+        => new(erkenningId);
 }
