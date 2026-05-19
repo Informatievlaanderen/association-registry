@@ -624,9 +624,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void SchorsErkenning(TeSchorsenErkenning teSchorsenErkenning, string initiator)
     {
-        State.Erkenningen.Schors(teSchorsenErkenning, initiator);
+        var huidigeErkenning = State.Erkenningen.GetById(teSchorsenErkenning.ErkenningId);
 
-        AddEvent(new ErkenningWerdGeschorst(teSchorsenErkenning.ErkenningId, teSchorsenErkenning.RedenSchorsing));
+        Throw<GiIsNietBevoegd>.If(huidigeErkenning.GeregistreerdDoor.OvoCode != initiator);
+        Throw<ErkenningIsAlReedsGeschorst>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
+        Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teSchorsenErkenning.RedenSchorsing));
+        Throw<VerlopenErkenningKanNietGeschorstWorden>.If(huidigeErkenning.Status == ErkenningStatus.Verlopen);
+
+        AddEvent(EventFactory.ErkenningWerdGeschorst(teSchorsenErkenning));
     }
 
     public void HefSchorsingErkenningOp(int erkenningId, string initiator)

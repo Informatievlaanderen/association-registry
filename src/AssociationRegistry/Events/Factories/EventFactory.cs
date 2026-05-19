@@ -528,4 +528,7 @@ public static class EventFactory
 
     public static ErkenningWerdVerwijderd ErkenningWerdVerwijderd(int erkenningId)
         => new(erkenningId);
+
+    public static ErkenningWerdGeschorst ErkenningWerdGeschorst(TeSchorsenErkenning teSchorsenErkenning) =>
+        new(teSchorsenErkenning.ErkenningId, teSchorsenErkenning.RedenSchorsing);
 }
