@@ -43,8 +43,10 @@ public sealed record ErkenningCorrectie
         );
         var hernieuwingsdatum = Hernieuwingsdatum.Create(hernieuwingsdatumDate, erkenningsperiode);
 
-        var teCorrigerenHernieuwingsUrl = DetermineTeCorrigerenHernieuwingsUrl(teCorrigerenErkenning, erkenning);
-        var hernieuwingsUrl = HernieuwingsUrl.Create(teCorrigerenHernieuwingsUrl);
+        var hernieuwingsUrl = DetermineTeCorrigerenHernieuwingsUrl(
+            teCorrigerenErkenning.HernieuwingsUrl,
+            erkenning.HernieuwingsUrl
+        );
 
         var status = ErkenningStatus.BepaalVoorCorrectie(
             erkenning.Status,
@@ -66,13 +68,11 @@ public sealed record ErkenningCorrectie
         : commandValue.IsEmpty ? null
         : commandValue.Value;
 
-    private static string? DetermineTeCorrigerenHernieuwingsUrl(
-        TeCorrigerenErkenning teCorrigerenErkenning,
-        Erkenning erkenning
+    private static HernieuwingsUrl DetermineTeCorrigerenHernieuwingsUrl(
+        string? teCorrigerenHernieuwingsUrl,
+        HernieuwingsUrl hernieuwingsUrl
     ) =>
-        teCorrigerenErkenning.HernieuwingsUrl is not null
-            ? teCorrigerenErkenning.HernieuwingsUrl
-            : erkenning.HernieuwingsUrl.Value;
+        teCorrigerenHernieuwingsUrl is not null ? HernieuwingsUrl.Create(teCorrigerenHernieuwingsUrl) : hernieuwingsUrl;
 
     public bool HeeftWijzigingen(Erkenning erkenning) =>
         ErkenningsPeriode != erkenning.ErkenningsPeriode
