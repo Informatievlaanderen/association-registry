@@ -28,13 +28,13 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
-public class SchorsErkenningController : ApiController
+public class CorrigeerErkenningController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly IValidator<CorrigeerErkenningRequest> _validator;
     private readonly AppSettings _appSettings;
 
-    public SchorsErkenningController(
+    public CorrigeerErkenningController(
         IMessageBus messageBus,
         IValidator<CorrigeerErkenningRequest> validator,
         AppSettings appSettings
