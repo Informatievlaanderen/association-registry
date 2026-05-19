@@ -632,9 +632,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         var today = DateOnly.FromDateTime(DateTime.Today);
 
-        huidigeErkenning.Status = ErkenningStatus.Bepaal(huidigeErkenning.ErkenningsPeriode, today);
+        var status = ErkenningStatus.Bepaal(huidigeErkenning.ErkenningsPeriode, today);
 
-        AddEvent(EventFactory.HefSchorsingErkenningOp(huidigeErkenning));
+        AddEvent(EventFactory.HefSchorsingErkenningOp(huidigeErkenning.ErkenningId, status));
     }
 
     public void CorrigeerSchorsingErkenning(

@@ -541,9 +541,6 @@ public static class EventFactory
             teCorrigerenSchorsingErkenning.RedenSchorsing
         );
 
-    public static SchorsingVanErkenningWerdOpgeheven HefSchorsingErkenningOp(Erkenning huidigeErkenning)
-        => new(huidigeErkenning.ErkenningId, huidigeErkenning.Status.Value);
-
     public static ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd(Erkenning toegevoegdeErkenning)
         => new(
             toegevoegdeErkenning.ErkenningId,
@@ -555,4 +552,9 @@ public static class EventFactory
             toegevoegdeErkenning.GeregistreerdDoor,
             toegevoegdeErkenning.Status.Value
         );
+
+    public static SchorsingVanErkenningWerdOpgeheven HefSchorsingErkenningOp(
+        int huidigeErkenningErkenningId,
+        ErkenningStatus status)
+        => new(huidigeErkenningErkenningId, status.Value);
 }
