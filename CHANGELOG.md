@@ -1,3 +1,19 @@
+# [8.322.0](https://github.com/informatievlaanderen/association-registry/compare/v8.321.1...v8.322.0) (2026-05-19)
+
+
+### Bug Fixes
+
+* or-3074 rename CorrigeerErkenningController ([d47ce38](https://github.com/informatievlaanderen/association-registry/commit/d47ce387402f67f4ae411f381c5e217022242e94))
+* or-3074 use ValidateAndThrow instead of Validate in erkenning controllers ([4a110a2](https://github.com/informatievlaanderen/association-registry/commit/4a110a2d0f4b718a553deb7eff5133be8ace69ba))
+
+
+### Features
+
+* or-3074 add validation for empty corrigeererkenning request ([000dd48](https://github.com/informatievlaanderen/association-registry/commit/000dd4814ab3411b6342f1da8f89c391bcfe6c5a))
+* or-3074 implement corrigeer erkenning in domain ([dc50281](https://github.com/informatievlaanderen/association-registry/commit/dc50281d201b118c0196ec8b82974e194ade4548))
+* or-3074 implement corrigeer erkenning in projections ([79c9d49](https://github.com/informatievlaanderen/association-registry/commit/79c9d494f43191121c55aea72d7f20957e60ee8e))
+* or-3074 return erkenningstatus geschorst when huidige status is geschort voor corrigeer erkenning ([7fc3399](https://github.com/informatievlaanderen/association-registry/commit/7fc339906aab6e5508581975a724ab2bf3163834))
+
 ## [8.321.1](https://github.com/informatievlaanderen/association-registry/compare/v8.321.0...v8.321.1) (2026-05-13)
 
 
