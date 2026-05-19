@@ -543,4 +543,16 @@ public static class EventFactory
 
     public static SchorsingVanErkenningWerdOpgeheven HefSchorsingErkenningOp(Erkenning huidigeErkenning)
         => new(huidigeErkenning.ErkenningId, huidigeErkenning.Status.Value);
+
+    public static ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd(Erkenning toegevoegdeErkenning)
+        => new(
+            toegevoegdeErkenning.ErkenningId,
+            toegevoegdeErkenning.IpdcProduct,
+            toegevoegdeErkenning.ErkenningsPeriode.Startdatum,
+            toegevoegdeErkenning.ErkenningsPeriode.Einddatum,
+            toegevoegdeErkenning.Hernieuwingsdatum?.Value,
+            toegevoegdeErkenning.HernieuwingsUrl.Value,
+            toegevoegdeErkenning.GeregistreerdDoor,
+            toegevoegdeErkenning.Status.Value
+        );
 }
