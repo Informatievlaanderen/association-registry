@@ -636,9 +636,16 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void HefSchorsingErkenningOp(int erkenningId, string initiator)
     {
-        var opgehevenErkenning = State.Erkenningen.HefSchorsingErkenningOp(erkenningId, initiator);
+        var huidigeErkenning = State.Erkenningen.GetById(erkenningId);
 
-        AddEvent(new SchorsingVanErkenningWerdOpgeheven(erkenningId, opgehevenErkenning.Status.Value));
+        Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
+        Throw<ErkenningIsNietGeschorst>.If(huidigeErkenning.Status != ErkenningStatus.Geschorst);
+
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        huidigeErkenning.Status = ErkenningStatus.Bepaal(huidigeErkenning.ErkenningsPeriode, today);
+
+        AddEvent(EventFactory.HefSchorsingErkenningOp(huidigeErkenning));
     }
 
     public void CorrigeerSchorsingErkenning(
