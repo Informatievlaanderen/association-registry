@@ -167,10 +167,13 @@ public static class EventFactory
             vertegenwoordiger.Achternaam
         );
 
-    public static WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
-        VCode vCode,
-        VerenigingStatus.StatusDubbel verenigingStatus
-    ) => new(vCode, verenigingStatus.VCodeAuthentiekeVereniging, verenigingStatus.VorigeVerenigingStatus.StatusNaam);
+    public static WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt
+        WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
+            VCode vCode,
+            VerenigingStatus.StatusDubbel verenigingStatus
+        ) => new(vCode,
+                 verenigingStatus.VCodeAuthentiekeVereniging,
+                 verenigingStatus.VorigeVerenigingStatus.StatusNaam);
 
     public static WerkingsgebiedenWerdenBepaald WerkingsgebiedenWerdenBepaald(
         VCode vCode,
@@ -288,9 +291,10 @@ public static class EventFactory
         Locatie locatie
     ) => new(locatie.LocatieId, locatie.Naam ?? string.Empty, locatie.IsPrimair);
 
-    public static MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
-        AdresVolgensKbo adres
-    ) =>
+    public static MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo
+        MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
+            AdresVolgensKbo adres
+        ) =>
         new(
             adres.Straatnaam ?? string.Empty,
             adres.Huisnummer ?? string.Empty,
@@ -304,7 +308,6 @@ public static class EventFactory
         new(vCode, Locatie(locatie));
 
     public static LocatieWerdToegevoegd LocatieWerdToegevoegd(Locatie locatie) => new(Locatie(locatie));
-
     public static LocatieWerdGewijzigd LocatieWerdGewijzigd(Locatie locatie) => new(Locatie(locatie));
 
     public static LidmaatschapWerdVerwijderd LidmaatschapWerdVerwijderd(VCode vCode, Lidmaatschap lidmaatschap) =>
@@ -531,4 +534,11 @@ public static class EventFactory
 
     public static ErkenningWerdGeschorst ErkenningWerdGeschorst(TeSchorsenErkenning teSchorsenErkenning) =>
         new(teSchorsenErkenning.ErkenningId, teSchorsenErkenning.RedenSchorsing);
+
+    public static ErkenningRedenVanSchorsingWerdGecorrigeerd CorrigeerSchorsingErkenning(
+        TeCorrigerenSchorsingErkenning teCorrigerenSchorsingErkenning) =>
+        new(
+            teCorrigerenSchorsingErkenning.ErkenningId,
+            teCorrigerenSchorsingErkenning.RedenSchorsing
+        );
 }
