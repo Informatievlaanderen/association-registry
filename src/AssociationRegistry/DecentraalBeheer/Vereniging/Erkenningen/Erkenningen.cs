@@ -69,23 +69,6 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         };
     }
 
-    public bool CorrigeerSchorsing(TeCorrigerenSchorsingErkenning teCorrigerenSchorsingErkenning, string initiator)
-    {
-        var erkenning = this[teCorrigerenSchorsingErkenning.ErkenningId];
-
-        Throw<ErkenningIsNietGeschorst>.If(erkenning.Status != ErkenningStatus.Geschorst);
-
-        Throw<ErkenningRedenSchorsingIsVerplicht>.If(
-            string.IsNullOrEmpty(teCorrigerenSchorsingErkenning.RedenSchorsing)
-        );
-
-        Throw<GiIsNietBevoegd>.If(erkenning!.GeregistreerdDoor.OvoCode != initiator);
-
-        var heeftWijzigingen = erkenning.RedenSchorsing != teCorrigerenSchorsingErkenning.RedenSchorsing;
-
-        return heeftWijzigingen;
-    }
-
     public void KanGecorrigeerdeErkenningToevoegen(Erkenning erkenningCorrectie)
     {
         var huidigeErkenningen = this.Without(erkenningCorrectie.ErkenningId);

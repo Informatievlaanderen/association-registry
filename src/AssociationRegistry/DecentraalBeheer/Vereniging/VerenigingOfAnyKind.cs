@@ -646,7 +646,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         string initiator
     )
     {
-        var heeftWijzigingen = State.Erkenningen.CorrigeerSchorsing(teCorrigerenSchorsingErkenning, initiator);
+       Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teCorrigerenSchorsingErkenning.RedenSchorsing));
+
+       var huidigeErkenning = State.Erkenningen.GetById(teCorrigerenSchorsingErkenning.ErkenningId);
+
+       Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
+       Throw<ErkenningIsNietGeschorst>.If(huidigeErkenning.Status != ErkenningStatus.Geschorst);
+
+       var heeftWijzigingen = huidigeErkenning.RedenSchorsing != teCorrigerenSchorsingErkenning.RedenSchorsing;
 
         if (!heeftWijzigingen)
         {
@@ -654,10 +661,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         }
 
         AddEvent(
-            new ErkenningRedenVanSchorsingWerdGecorrigeerd(
-                teCorrigerenSchorsingErkenning.ErkenningId,
-                teCorrigerenSchorsingErkenning.RedenSchorsing
-            )
+           EventFactory.CorrigeerSchorsingErkenning(teCorrigerenSchorsingErkenning)
         );
     }
 
