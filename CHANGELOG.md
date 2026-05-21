@@ -1,3 +1,10 @@
+# [8.323.0](https://github.com/informatievlaanderen/association-registry/compare/v8.322.0...v8.323.0) (2026-05-21)
+
+
+### Features
+
+* OR-3096 push v1/v2 usage to observ. stack ([59aa5a6](https://github.com/informatievlaanderen/association-registry/commit/59aa5a65c993e77d92ca49fe435245a82ac937cc))
+
 # [8.322.0](https://github.com/informatievlaanderen/association-registry/compare/v8.321.1...v8.322.0) (2026-05-19)
 
 
