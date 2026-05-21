@@ -1,21 +1,21 @@
-﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Schors_Erkenning.Publiek.Detail;
+﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Verleng_Erkenning.Publiek.Detail;
 
-using Contracts.JsonLdContext;
-using DecentraalBeheer.Vereniging.Erkenningen;
+using AssociationRegistry.Contracts.JsonLdContext;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
+using AssociationRegistry.Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Public.ProjectionHost.Constants;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using FluentAssertions;
-using Framework.AlbaHost;
-using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
-using Public.ProjectionHost.Constants;
 using Xunit;
 using Erkenning = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
 using IpdcProduct = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
 
-[Collection(nameof(SchorsErkenningCollection))]
-public class Returns_Detail_With_Geschorste_Erkenning : IAsyncLifetime
+[Collection(nameof(VerlengErkenningCollection))]
+public class Returns_Detail_With_Verlengde_Erkenning : IAsyncLifetime
 {
-    private readonly SchorsErkenningContext _context;
+    private readonly VerlengErkenningContext _context;
 
-    public Returns_Detail_With_Geschorste_Erkenning(SchorsErkenningContext context)
+    public Returns_Detail_With_Verlengde_Erkenning(VerlengErkenningContext context)
     {
         _context = context;
     }
@@ -47,15 +47,15 @@ public class Returns_Detail_With_Geschorste_Erkenning : IAsyncLifetime
                     Startdatum = _context.Scenario.ErkenningWerdGeregistreerd.Startdatum?.ToString(
                         WellknownFormats.DateOnly
                     ),
-                    Einddatum = _context.Scenario.ErkenningWerdGeregistreerd.Einddatum?.ToString(
+                    Einddatum = _context.CommandRequest.Einddatum.ToString(
                         WellknownFormats.DateOnly
                     ),
-                    Hernieuwingsdatum = _context.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum?.ToString(
+                    Hernieuwingsdatum = _context.CommandRequest.Hernieuwingsdatum.Value.ToString(
                         WellknownFormats.DateOnly
                     ),
                     HernieuwingsUrl = _context.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
-                    RedenSchorsing = _context.CommandRequest.RedenSchorsing,
-                    Status = ErkenningStatus.Geschorst.Value,
+                    RedenSchorsing = string.Empty,
+                    Status = _context.Scenario.ErkenningWerdGeregistreerd.Status,
                 },
             ]);
     }

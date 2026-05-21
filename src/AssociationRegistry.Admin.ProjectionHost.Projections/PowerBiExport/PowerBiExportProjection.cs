@@ -1613,8 +1613,6 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<ErkenningWerdGecorrigeerd> @event, PowerBiExportDocument document)
     {
-        var today = DateOnly.FromDateTime(DateTime.Today);
-
         document.Erkenningen = document
             .Erkenningen.UpdateSingle(
                 identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,

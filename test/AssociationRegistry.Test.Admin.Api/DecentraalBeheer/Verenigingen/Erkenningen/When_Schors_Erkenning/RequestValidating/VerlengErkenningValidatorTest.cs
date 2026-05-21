@@ -7,7 +7,7 @@ using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 
-public class SchorsErkenningValidatorTest : ValidatorTest
+public class VerlengErkenningValidatorTest : ValidatorTest
 {
     [Fact]
     public void With_RedenSchorsing_Empty_Then_ValidationError()

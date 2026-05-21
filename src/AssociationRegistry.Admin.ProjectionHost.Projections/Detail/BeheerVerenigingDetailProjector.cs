@@ -1403,8 +1403,6 @@ public class BeheerVerenigingDetailProjector
 
     public static void Apply(IEvent<ErkenningWerdGecorrigeerd> @event, BeheerVerenigingDetailDocument document)
     {
-        var today = DateOnly.FromDateTime(DateTime.Today);
-
         document.Erkenningen = document
             .Erkenningen.UpdateSingle(
                 identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,

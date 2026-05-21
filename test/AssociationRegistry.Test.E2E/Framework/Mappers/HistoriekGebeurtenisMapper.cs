@@ -1317,6 +1317,16 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
+    public static HistoriekGebeurtenisResponse? ErkenningWerdVerlengd(ErkenningWerdVerlengd @event) =>
+        new()
+        {
+            Beschrijving = $"Erkenning werd verlengd naar {@event.Einddatum}.",
+            Gebeurtenis = nameof(Events.ErkenningWerdVerlengd),
+            Data = new ErkenningWerdVerlengd(@event.ErkenningId, @event.Einddatum, @event.Hernieuwingsdatum, @event.Status),
+            Initiator = "OVO000001",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
     public static HistoriekGebeurtenisResponse? SchorsingVanErkenningWerdOpgeheven(
         SchorsingVanErkenningWerdOpgeheven @event
     ) =>

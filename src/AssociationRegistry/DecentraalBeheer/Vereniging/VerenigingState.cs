@@ -1044,6 +1044,32 @@ public record VerenigingState : IHasVersion
             ),
         };
     }
+    public VerenigingState Apply(ErkenningWerdVerlengd @event)
+    {
+        var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
+
+        if (erkenning is null)
+        {
+            return this;
+        }
+
+        return this with
+        {
+            Erkenningen = Erkenningen.Hydrate(
+                Erkenningen
+                    .Without(@event.ErkenningId)
+                    .Append(
+                        erkenning with
+                        {
+                            ErkenningsPeriode = ErkenningsPeriode.Hydrate(erkenning.ErkenningsPeriode.Startdatum, @event.Einddatum),
+                            Hernieuwingsdatum = Hernieuwingsdatum.Hydrate(@event.Hernieuwingsdatum),
+                            HernieuwingsUrl = HernieuwingsUrl.Hydrate(erkenning.HernieuwingsUrl.Value),
+                            Status = ErkenningStatus.Hydrate(@event.Status),
+                        }
+                    )
+            ),
+        };
+    }
 
     public VerenigingState Apply(SchorsingVanErkenningWerdOpgeheven @event)
     {

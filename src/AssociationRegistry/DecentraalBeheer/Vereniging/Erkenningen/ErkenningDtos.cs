@@ -17,6 +17,13 @@ public record TeSchorsenErkenning
     public string RedenSchorsing { get; set; } = null!;
 }
 
+public record TeVerlengenErkenning
+{
+    public int ErkenningId { get; set; }
+    public DateOnly Einddatum { get; set; }
+    public NullOrEmpty<DateOnly> Hernieuwingsdatum { get; set; }
+}
+
 public record TeCorrigerenSchorsingErkenning
 {
     public int ErkenningId { get; set; }
@@ -25,7 +32,12 @@ public record TeCorrigerenSchorsingErkenning
 
 public record TeCorrigerenErkenning
 {
-    private TeCorrigerenErkenning(int erkenningId, NullOrEmpty<DateOnly> startDatum, NullOrEmpty<DateOnly> eindDatum, NullOrEmpty<DateOnly> hernieuwingsDatum, string? hernieuwingsUrl)
+    private TeCorrigerenErkenning(
+        int erkenningId,
+        NullOrEmpty<DateOnly> startDatum,
+        NullOrEmpty<DateOnly> eindDatum,
+        NullOrEmpty<DateOnly> hernieuwingsDatum,
+        string? hernieuwingsUrl)
     {
         ErkenningId = erkenningId;
         StartDatum = startDatum;

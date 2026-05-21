@@ -557,4 +557,15 @@ public static class EventFactory
         int huidigeErkenningErkenningId,
         ErkenningStatus status)
         => new(huidigeErkenningErkenningId, status.Value);
+
+    public static ErkenningWerdVerlengd ErkenningWerdVerlengd(
+        int erkenningId,
+        DateOnly einddatum,
+        Hernieuwingsdatum? hernieuwingsdatum,
+        ErkenningStatus status)
+        => new(
+            erkenningId,
+            einddatum,
+            hernieuwingsdatum?.Value,
+            status.Value);
 }

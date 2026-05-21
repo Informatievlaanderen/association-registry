@@ -1,7 +1,7 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 
 using System.Runtime.Serialization;
-using AssociationRegistry.Resources;
+using Resources;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 
 [Serializable]
