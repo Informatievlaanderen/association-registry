@@ -9,6 +9,8 @@ using System.Text;
 using Amazon.Runtime;
 using Amazon.S3;
 using Asp.Versioning.ApplicationModels;
+using AssociationRegistry.OpenTelemetry.Metrics;
+using AssociationRegistry.OpenTelemetry.Middleware;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -138,6 +140,8 @@ public class Program
         ConfigureRequestLocalization(app);
 
         app.ConfigurePublicApiSwagger();
+
+        app.UseApiVersionUsageMetrics(ApiVersionMetrics.Apis.Public);
 
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting().UseEndpoints(routeBuilder => routeBuilder.MapControllers());

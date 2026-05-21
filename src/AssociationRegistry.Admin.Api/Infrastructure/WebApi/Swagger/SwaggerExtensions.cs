@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger;
 
+using System.Reflection;
 using Asp.Versioning.ApiExplorer;
 using AssociationRegistry.Hosts;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
@@ -11,54 +12,52 @@ using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Reflection;
 
 public static class SwaggerExtensions
 {
-    public static IServiceCollection AddAdminApiSwagger(this IServiceCollection services, AppSettings appSettings)
-        => services
-          .AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly())
-          .AddSwaggerGen(
-               options =>
-               {
-                   options.AddXmlComments(Assembly.GetExecutingAssembly().GetName().Name!);
-                   options.DescribeAllParametersInCamelCase();
-                   options.UseAllOfToExtendReferenceSchemas();
-                   options.SupportNonNullableReferenceTypes();
-                   options.SchemaFilter<DisableNullableFilter>();
-                   options.SchemaFilter<ExampleSchemaFilter>();
-                   options.OperationFilter<CapitalizeParameterFilter>();
+    public static IServiceCollection AddAdminApiSwagger(this IServiceCollection services, AppSettings appSettings) =>
+        services
+            .AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly())
+            .AddSwaggerGen(options =>
+            {
+                options.AddXmlComments(Assembly.GetExecutingAssembly().GetName().Name!);
+                options.DescribeAllParametersInCamelCase();
+                options.UseAllOfToExtendReferenceSchemas();
+                options.SupportNonNullableReferenceTypes();
+                options.SchemaFilter<DisableNullableFilter>();
+                options.SchemaFilter<ExampleSchemaFilter>();
+                options.OperationFilter<CapitalizeParameterFilter>();
 
-                   options.MapType<DateOnly>(
-                       () => new OpenApiSchema
-                       {
-                           Type = "string",
-                           Format = "date",
-                           Pattern = "yyyy-MM-dd",
-                       });
+                options.MapType<DateOnly>(() =>
+                    new OpenApiSchema
+                    {
+                        Type = "string",
+                        Format = "date",
+                        Pattern = "yyyy-MM-dd",
+                    }
+                );
 
-                   options.MapType<NullOrEmpty<DateOnly>>(
-                       () => new OpenApiSchema
-                       {
-                           Type = "string",
-                           Nullable = true,
-                       });
+                options.MapType<NullOrEmpty<DateOnly>>(() => new OpenApiSchema { Type = "string", Nullable = true });
 
-                   options.CustomSchemaIds(type => type.FullName);
+                options.CustomSchemaIds(type => type.FullName);
 
-                   options.SwaggerDoc(
-                       "v1",
-                       new OpenApiInfo
-                       {
-                           Version = "v1",
-                           Extensions = new Dictionary<string, IOpenApiExtension>
-                           {
-                               {
-                                   WellknownOpenApiExtensions.XAssemblyversion, new Microsoft.OpenApi.Any.OpenApiString(Assembly.GetAssembly(typeof(Program)).GetVersionText())
-                               },
-                           },
-                           Title = appSettings.ApiDocs.Title,
-                           Description = @$"
+                options.SwaggerDoc(
+                    "v1",
+                    new OpenApiInfo
+                    {
+                        Version = "v1",
+                        Extensions = new Dictionary<string, IOpenApiExtension>
+                        {
+                            {
+                                WellknownOpenApiExtensions.XAssemblyversion,
+                                new Microsoft.OpenApi.Any.OpenApiString(
+                                    Assembly.GetAssembly(typeof(Program)).GetVersionText()
+                                )
+                            },
+                        },
+                        Title = appSettings.ApiDocs.Title,
+                        Description =
+                            @$"
 Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze [publieke confluence pagina](https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6264358372/Technische+documentatie).
 
 ## Eventual consistency
@@ -76,10 +75,11 @@ Je kan bepalen of een endpoint meerdere versies ondersteunt, door de aanwezighei
 Mogelijke waarden zijn:
 * {WellknownVersions.V2} – in deze versie wordt het verenigingstype omgezet van `FV - Feitelijke vereniging` naar `VZER - Vereniging zonder eigen rechtspersoonlijkheid`.
 
-| Type            | Naam             | Voorbeeld                                                                                                                                                       |
-|-----------------|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Header          | `vr-api-version` | `curl --request GET --url '{appSettings.BaseUrl}/v1/verenigingen' --header 'vr-api-version: {WellknownVersions.V2}'`                      |
-| Query parameter | `vr-api-version` | {appSettings.BaseUrl}/v1/verenigingen?vr-api-version={WellknownVersions.V2}                                                                   |
+| Type   | Naam              | Voorbeeld                                                                                                                                |
+|--------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| Header | `vr-api-version` | `curl --request GET --url '{appSettings.BaseUrl}/v1/verenigingen' --header 'vr-api-version: {WellknownVersions.V2}'`                     |
+
+Meegestuurde waarden die niet `v2` zijn, worden genegeerd en resulteren in het standaardgedrag (v1-semantiek).
 
 ### Wijzigingen in v2
 
@@ -91,51 +91,48 @@ en krijgen als verenigingssubtype standaard de waarde `Niet bepaald`.
 
 Bij het opvragen van deze verenigingen zonder de v2-header, worden echter nog steeds de velden en semantiek van v1 gehanteerd.
 ",
-                           Contact = new OpenApiContact
-                           {
-                               Name = appSettings.ApiDocs.Contact.Name,
-                               Email = appSettings.ApiDocs.Contact.Email,
-                               Url = new Uri(appSettings.ApiDocs.Contact.Url),
-                           },
-                       });
+                        Contact = new OpenApiContact
+                        {
+                            Name = appSettings.ApiDocs.Contact.Name,
+                            Email = appSettings.ApiDocs.Contact.Email,
+                            Url = new Uri(appSettings.ApiDocs.Contact.Url),
+                        },
+                    }
+                );
 
-                   options.ExampleFilters();
+                options.ExampleFilters();
 
-                   options.SchemaFilter<AutoRestSchemaFilter>();
+                options.SchemaFilter<AutoRestSchemaFilter>();
 
-                   options.OperationFilter<SwaggerDefaultValues>();
-                   options.OperationFilter<DescriptionOperationFilter>();
-                   options.OperationFilter<AddResponseHeadersFilter>();
-                   options.OperationFilter<TagByApiExplorerSettingsOperationFilter>();
-                   options.OperationFilter<AuthorizationResponseOperationFilter>();
-                   options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
-                   options.OperationFilter<AppendCorrelationIdToHeaders>();
-                   options.OperationFilter<AppendInitiatorToHeaders>();
+                options.OperationFilter<SwaggerDefaultValues>();
+                options.OperationFilter<DescriptionOperationFilter>();
+                options.OperationFilter<AddResponseHeadersFilter>();
+                options.OperationFilter<TagByApiExplorerSettingsOperationFilter>();
+                options.OperationFilter<AuthorizationResponseOperationFilter>();
+                options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+                options.OperationFilter<AppendCorrelationIdToHeaders>();
+                options.OperationFilter<AppendInitiatorToHeaders>();
 
-                   options.OrderActionsBy(a => $"{a.RelativePath}.{a.HttpMethod}");
+                options.OrderActionsBy(a => $"{a.RelativePath}.{a.HttpMethod}");
 
-                   options.DocInclusionPredicate((_, _) => true);
-               })
-          .AddSwaggerGenNewtonsoftSupport();
+                options.DocInclusionPredicate((_, _) => true);
+            })
+            .AddSwaggerGenNewtonsoftSupport();
 
-    public static IApplicationBuilder ConfigureAdminApiSwagger(this IApplicationBuilder app)
-        => app.UseSwaggerDocumentation(
+    public static IApplicationBuilder ConfigureAdminApiSwagger(this IApplicationBuilder app) =>
+        app.UseSwaggerDocumentation(
             new SwaggerDocumentationOptions
             {
-                ApiVersionDescriptionProvider = app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>(),
-                DocumentTitleFunc = groupName => $"Basisregisters Vlaanderen - Verenigingsregister Beheer API {groupName}",
+                ApiVersionDescriptionProvider =
+                    app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>(),
+                DocumentTitleFunc = groupName =>
+                    $"Basisregisters Vlaanderen - Verenigingsregister Beheer API {groupName}",
                 HeadContentFunc = _ => Documentation.Documentation.GetHeadContent(),
                 FooterVersion = Assembly.GetExecutingAssembly().GetVersionText(),
-                CSharpClient =
-                {
-                    ClassName = "Verenigingsregister",
-                    Namespace = "Be.Vlaanderen.Basisregisters",
-                },
-                TypeScriptClient =
-                {
-                    ClassName = "Verenigingsregister",
-                },
-            });
+                CSharpClient = { ClassName = "Verenigingsregister", Namespace = "Be.Vlaanderen.Basisregisters" },
+                TypeScriptClient = { ClassName = "Verenigingsregister" },
+            }
+        );
 
     private static void AddXmlComments(this SwaggerGenOptions swaggerGenOptions, string name)
     {
@@ -157,9 +154,10 @@ Bij het opvragen van deze verenigingen zonder de v2-header, worden echter nog st
         }
 
         throw new ApplicationException(
-            $"Could not find swagger xml docs. Locations where I searched:\n\t- {string.Join(separator: "\n\t-", possiblePaths)}");
+            $"Could not find swagger xml docs. Locations where I searched:\n\t- {string.Join(separator: "\n\t-", possiblePaths)}"
+        );
     }
 
-    private static string CreateXmlCommentsPath(string directory, string name)
-        => Path.Combine(directory, $"{name}.xml");
+    private static string CreateXmlCommentsPath(string directory, string name) =>
+        Path.Combine(directory, $"{name}.xml");
 }

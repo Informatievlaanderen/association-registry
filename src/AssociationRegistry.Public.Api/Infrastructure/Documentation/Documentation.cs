@@ -1,13 +1,14 @@
 namespace AssociationRegistry.Public.Api.Infrastructure.Documentation;
 
-using ConfigurationBindings;
 using System;
 using System.Text;
+using ConfigurationBindings;
 
 public static class Documentation
 {
-    private static Func<AppSettings, string> IntroductieText
-        => appSettings => @$"
+    private static Func<AppSettings, string> IntroductieText =>
+        appSettings =>
+            @$"
 ---
 Het Verenigingsregister verstrekt informatie over verenigingen die in interactie treden met een overheid (in het kader van dienstverlening).
 <br />Het betreft verenigingen zonder rechtspersoonlijkheid (zoals feitelijke verenigingen) en verenigingen met rechtspersoonlijkheid (zoals vzw’s).
@@ -17,8 +18,9 @@ Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze [pub
 
 Schrijf je in op <a href=""{appSettings.NewsletterUrl}"">onze nieuwsbrief</a> om op de hoogte te blijven met informatie en nieuwigheden over het verenigingsregister.";
 
-    private static Func<AppSettings, string> ToegangTotHetRegisterText
-        => appSettings => @$"
+    private static Func<AppSettings, string> ToegangTotHetRegisterText =>
+        appSettings =>
+            @$"
 # Toegang tot het register
 ## Basis-URL
 
@@ -53,10 +55,11 @@ Je kan bepalen of een endpoint meerdere versies ondersteunt, door de aanwezighei
 Mogelijke waarden zijn:
 * {WellknownVersions.V2} – in deze versie wordt het verenigingstype omgezet van `FV - Feitelijke vereniging` naar `VZER - Vereniging zonder eigen rechtspersoonlijkheid`.
 
-| Type            | Naam             | Voorbeeld                                                                                                                                                       |
-|-----------------|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Header          | `vr-api-version` | `curl --request GET --url '{appSettings.BaseUrl}/v1/verenigingen' --header 'vr-api-version: {WellknownVersions.V2}'`                      |
-| Query parameter | `vr-api-version` | {appSettings.BaseUrl}/v1/verenigingen?vr-api-version={WellknownVersions.V2}                                                                   |
+| Type   | Naam              | Voorbeeld                                                                                                                                |
+|--------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| Header | `vr-api-version` | `curl --request GET --url '{appSettings.BaseUrl}/v1/verenigingen' --header 'vr-api-version: {WellknownVersions.V2}'`                     |
+
+Meegestuurde waarden die niet `v2` zijn, worden genegeerd en resulteren in het standaardgedrag (v1-semantiek).
 
 ### Wijzigingen in v2
 
@@ -69,8 +72,8 @@ en krijgen als verenigingssubtype standaard de waarde `Niet bepaald`.
 Bij het opvragen van deze verenigingen zonder de v2-header, worden echter nog steeds de velden en semantiek van v1 gehanteerd.
 ";
 
-    private static string FoutmeldingenText
-        => @"# Foutmeldingen
+    private static string FoutmeldingenText =>
+        @"# Foutmeldingen
 
 De Basisregisters Vlaanderen API gebruikt [Problem Details for HTTP APIs (RFC7807)](https://tools.ietf.org/html/rfc7807) om foutmeldingen te ontsluiten. Een foutmelding zal resulteren in volgende datastructuur:
 
@@ -108,7 +111,8 @@ Foutmelding | Wanneer                                                           
 
     public static string GetHeadContent()
     {
-        var borderAfterFoutmeldingenSection = @"
+        var borderAfterFoutmeldingenSection =
+            @"
 <style>
 li[data-item-id=""section/Foutmeldingen""]
 {
@@ -116,7 +120,8 @@ li[data-item-id=""section/Foutmeldingen""]
 }
 </style>";
 
-        var lessSpaceBetweenSections = @"
+        var lessSpaceBetweenSections =
+            @"
 <script src=""https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js""> </script>
 <script>
 window.addEventListener('load', () => {

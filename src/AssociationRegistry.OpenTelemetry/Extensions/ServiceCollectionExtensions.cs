@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.OpenTelemetry.Extensions;
 
+using System.Reflection;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Destructurama;
 using global::OpenTelemetry.Exporter;
@@ -15,7 +16,6 @@ using Npgsql;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.OpenTelemetry;
-using System.Reflection;
 
 public static class ServiceCollectionExtensions
 {
@@ -28,22 +28,21 @@ public static class ServiceCollectionExtensions
     {
         builder.Logging.ClearProviders();
 
-        var loggerConfig =
-            new LoggerConfiguration()
-               .Destructure.JsonNetTypes()
-               .ReadFrom.Configuration(builder.Configuration)
-               .Enrich.FromLogContext()
-               .Enrich.WithMachineName()
-               .Enrich.WithThreadId()
-               .Enrich.WithEnvironmentUserName()
-               .MinimumLevel.Information()
-               .Filter.ByExcluding(e => e is { Exception: DomainException, Level: LogEventLevel.Error })
-               .WriteTo.Logger(lc => lc
-                                    .Filter.ByIncludingOnly(evt => evt.Exception is DomainException)
-                                    .MinimumLevel.Information()
-                                    .WriteTo.OpenTelemetry(ConfigureOpenTelemetry)
-                )
-               .WriteTo.OpenTelemetry(ConfigureOpenTelemetry);
+        var loggerConfig = new LoggerConfiguration()
+            .Destructure.JsonNetTypes()
+            .ReadFrom.Configuration(builder.Configuration)
+            .Enrich.FromLogContext()
+            .Enrich.WithMachineName()
+            .Enrich.WithThreadId()
+            .Enrich.WithEnvironmentUserName()
+            .MinimumLevel.Information()
+            .Filter.ByExcluding(e => e is { Exception: DomainException, Level: LogEventLevel.Error })
+            .WriteTo.Logger(lc =>
+                lc.Filter.ByIncludingOnly(evt => evt.Exception is DomainException)
+                    .MinimumLevel.Information()
+                    .WriteTo.OpenTelemetry(ConfigureOpenTelemetry)
+            )
+            .WriteTo.OpenTelemetry(ConfigureOpenTelemetry);
         Log.Logger = loggerConfig.CreateLogger();
         return builder.Logging.AddSerilog();
     }
@@ -56,12 +55,13 @@ public static class ServiceCollectionExtensions
         var executingAssembly = Assembly.GetEntryAssembly()!;
         var assemblyVersion = executingAssembly.GetName().Version?.ToString() ?? "unknown";
 
-        options.IncludedData = IncludedData.MessageTemplateTextAttribute | IncludedData.TraceIdField | IncludedData.SpanIdField | IncludedData.SourceContextAttribute;
+        options.IncludedData =
+            IncludedData.MessageTemplateTextAttribute
+            | IncludedData.TraceIdField
+            | IncludedData.SpanIdField
+            | IncludedData.SourceContextAttribute;
 
-        options.HttpMessageHandler = new SocketsHttpHandler
-        {
-            ActivityHeadersPropagator = null
-        };
+        options.HttpMessageHandler = new SocketsHttpHandler { ActivityHeadersPropagator = null };
 
         options.BatchingOptions.BatchSizeLimit = 700;
         //options.BatchingOptions.Period = TimeSpan.FromSeconds(1);
@@ -74,16 +74,22 @@ public static class ServiceCollectionExtensions
             ["service.instanceId"] = Environment.MachineName,
             ["service.name"] = serviceName,
 
-            ["deployment.environment"] = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
-                                                   ?.ToLowerInvariant() ?? "unknown",
+            ["deployment.environment"] =
+                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLowerInvariant() ?? "unknown",
         };
     }
 
-    public static IServiceCollection ConfigureOpenTelemetry<T>(this IHostApplicationBuilder builder, params T[] instrumentations)
-        where T : class, IInstrumentation
-        => builder.ConfigureOpenTelemetry([], instrumentations);
+    public static IServiceCollection ConfigureOpenTelemetry<T>(
+        this IHostApplicationBuilder builder,
+        params T[] instrumentations
+    )
+        where T : class, IInstrumentation => builder.ConfigureOpenTelemetry([], instrumentations);
 
-    public static IServiceCollection ConfigureOpenTelemetry<T>(this IHostApplicationBuilder builder, string[] additionalHeaders, params T[] instrumentations)
+    public static IServiceCollection ConfigureOpenTelemetry<T>(
+        this IHostApplicationBuilder builder,
+        string[] additionalHeaders,
+        params T[] instrumentations
+    )
         where T : class, IInstrumentation
     {
         var services = builder.Services;
@@ -95,67 +101,74 @@ public static class ServiceCollectionExtensions
             services.AddSingleton(instrumentation);
         }
 
-
         builder.ConfigureOpenTelemetryLogging();
-        return services.AddOpenTelemetry()
-                       .ConfigureResource(configureResource)
-                       .WithMetrics(providerBuilder => providerBuilder
-                                                      .ConfigureResource(configureResource)
-                                                      .SetExemplarFilter(ExemplarFilterType.AlwaysOn)
-                                                      .AddMeter($"Wolverine:{serviceName}")
-                                                      .AddMeter("Marten")
-                                                      .AddMeter(RepositoryMetrics.MeterName)
-                                                      .AddMeter(KboSyncMetrics.MeterName)
-                                                      .AddRuntimeInstrumentation()
-                                                      .AddAspNetCoreInstrumentation()
-                                                      .AddHttpClientInstrumentation()
-                                                      .AddOtlpExporter((options, readerOptions) =>
-                                                       {
-                                                           readerOptions.PeriodicExportingMetricReaderOptions = new PeriodicExportingMetricReaderOptions
-                                                               {ExportIntervalMilliseconds = 10 * 1000};
-
-                                                           options.Endpoint = new Uri(collectorUrl);
-                                                           options.Protocol = OtlpExportProtocol.Grpc;
-                                                       }))
-                       .WithTracing(builder =>
+        return services
+            .AddOpenTelemetry()
+            .ConfigureResource(configureResource)
+            .WithMetrics(providerBuilder =>
+                providerBuilder
+                    .ConfigureResource(configureResource)
+                    .SetExemplarFilter(ExemplarFilterType.AlwaysOn)
+                    .AddMeter($"Wolverine:{serviceName}")
+                    .AddMeter("Marten")
+                    .AddMeter(RepositoryMetrics.MeterName)
+                    .AddMeter(KboSyncMetrics.MeterName)
+                    .AddMeter(ApiVersionMetrics.MeterName)
+                    .AddRuntimeInstrumentation()
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddOtlpExporter(
+                        (options, readerOptions) =>
                         {
-                            builder
-                               .AddSource(serviceName)
-                               .ConfigureResource(configureResource).AddHttpClientInstrumentation()
-                               .AddAspNetCoreInstrumentation(
-                                    options =>
-                                    {
-                                        options.EnrichWithHttpRequest =
-                                            (activity, request) =>
-                                            {
-                                                activity.SetCustomProperty(VrInitiatorHeaderName, request.Headers[VrInitiatorHeaderName]);
+                            readerOptions.PeriodicExportingMetricReaderOptions =
+                                new PeriodicExportingMetricReaderOptions { ExportIntervalMilliseconds = 10 * 1000 };
 
-                                                activity.SetCustomProperty(XCorrelationIdHeaderName,
-                                                                           request.Headers[XCorrelationIdHeaderName]);
+                            options.Endpoint = new Uri(collectorUrl);
+                            options.Protocol = OtlpExportProtocol.Grpc;
+                        }
+                    )
+            )
+            .WithTracing(builder =>
+            {
+                builder
+                    .AddSource(serviceName)
+                    .ConfigureResource(configureResource)
+                    .AddHttpClientInstrumentation()
+                    .AddAspNetCoreInstrumentation(options =>
+                    {
+                        options.EnrichWithHttpRequest = (activity, request) =>
+                        {
+                            activity.SetCustomProperty(VrInitiatorHeaderName, request.Headers[VrInitiatorHeaderName]);
 
-                                                activity.SetCustomProperty(BevestigingsTokenHeaderName,
-                                                                           request.Headers[BevestigingsTokenHeaderName]);
+                            activity.SetCustomProperty(
+                                XCorrelationIdHeaderName,
+                                request.Headers[XCorrelationIdHeaderName]
+                            );
 
-                                                foreach (var header in additionalHeaders)
-                                                {
-                                                    activity.SetCustomProperty(header, request.Headers[header]);
-                                                }
+                            activity.SetCustomProperty(
+                                BevestigingsTokenHeaderName,
+                                request.Headers[BevestigingsTokenHeaderName]
+                            );
 
-                                                activity.SetParentId(request.Headers["traceparent"]);
-                                            };
+                            foreach (var header in additionalHeaders)
+                            {
+                                activity.SetCustomProperty(header, request.Headers[header]);
+                            }
 
-                                        options.Filter = context => context.Request.Method != HttpMethods.Options;
-                                    })
-                               .AddNpgsql()
-                               .AddOtlpExporter(
-                                    options =>
-                                    {
-                                        options.Protocol = OtlpExportProtocol.Grpc;
-                                        options.Endpoint = new Uri(collectorUrl);
-                                    })
-                               .AddSource("Wolverine");
-                        })
-                       .Services;
+                            activity.SetParentId(request.Headers["traceparent"]);
+                        };
+
+                        options.Filter = context => context.Request.Method != HttpMethods.Options;
+                    })
+                    .AddNpgsql()
+                    .AddOtlpExporter(options =>
+                    {
+                        options.Protocol = OtlpExportProtocol.Grpc;
+                        options.Endpoint = new Uri(collectorUrl);
+                    })
+                    .AddSource("Wolverine");
+            })
+            .Services;
     }
 
     public static (string serviceName, string collectorUrl, Action<ResourceBuilder> configureResource) GetResources()
@@ -165,19 +178,16 @@ public static class ServiceCollectionExtensions
         var assemblyVersion = executingAssembly.GetName().Version?.ToString() ?? "unknown";
         var collectorUrl = Environment.GetEnvironmentVariable("COLLECTOR_URL") ?? "http://localhost:4317";
 
-        Action<ResourceBuilder> configureResource = r => r
-                                                        .AddService(
-                                                             serviceName,
-                                                             serviceVersion: assemblyVersion,
-                                                             serviceInstanceId: Environment.MachineName)
-                                                        .AddAttributes(
-                                                             new Dictionary<string, object>
-                                                             {
-                                                                 ["deployment.environment"] =
-                                                                     Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
-                                                                               ?.ToLowerInvariant()
-                                                                  ?? "unknown",
-                                                             });
+        Action<ResourceBuilder> configureResource = r =>
+            r.AddService(serviceName, serviceVersion: assemblyVersion, serviceInstanceId: Environment.MachineName)
+                .AddAttributes(
+                    new Dictionary<string, object>
+                    {
+                        ["deployment.environment"] =
+                            Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLowerInvariant()
+                            ?? "unknown",
+                    }
+                );
 
         return (serviceName, collectorUrl, configureResource);
     }
