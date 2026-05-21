@@ -62,3 +62,7 @@ scripts/kbo-sync-lambda-local.zip
 
 # detect-secrets cache
 .dccache
+
+# Local AI tooling
+.opencode/
+.serena/

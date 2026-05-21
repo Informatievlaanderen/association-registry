@@ -14,6 +14,7 @@ using Amazon.SQS;
 using Asp.Versioning.ApplicationModels;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.OpenTelemetry.Metrics;
+using AssociationRegistry.OpenTelemetry.Middleware;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -204,6 +205,8 @@ public class Program
         ConfigureHealtChecks(app);
         ConfigureRequestLocalization(app);
         app.ConfigureAdminApiSwagger();
+
+        app.UseApiVersionUsageMetrics(ApiVersionMetrics.Apis.Admin);
 
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
