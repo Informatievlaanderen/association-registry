@@ -902,6 +902,15 @@ public class BeheerVerenigingHistoriekProjector
             $"Erkenning werd geschorst om deze reden: {@event.Data.RedenSchorsing}."
         );
     }
+    public static void Apply(IEvent<ErkenningWerdVerlengd> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Erkenning werd verlengd naar {@event.Data.Einddatum.ToString(WellknownFormats.DateOnly)}."
+        );
+    }
 
     public static void Apply(
         IEvent<SchorsingVanErkenningWerdOpgeheven> @event,

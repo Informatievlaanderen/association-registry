@@ -1401,6 +1401,23 @@ public class BeheerVerenigingDetailProjector
             .ToArray();
     }
 
+    public static void Apply(IEvent<ErkenningWerdVerlengd> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Erkenningen = document
+            .Erkenningen.UpdateSingle(
+                identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
+                update: b =>
+                    b with
+                    {
+                        Einddatum = @event.Data.Einddatum.ToString(WellknownFormats.DateOnly),
+                        Hernieuwingsdatum = @event.Data.Hernieuwingsdatum?.ToString(WellknownFormats.DateOnly),
+                        Status = @event.Data.Status,
+                    }
+            )
+            .OrderBy(b => b.ErkenningId)
+            .ToArray();
+    }
+
     public static void Apply(IEvent<ErkenningWerdGecorrigeerd> @event, BeheerVerenigingDetailDocument document)
     {
         document.Erkenningen = document

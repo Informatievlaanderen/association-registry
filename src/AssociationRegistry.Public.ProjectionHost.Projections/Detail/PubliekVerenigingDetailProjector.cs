@@ -1144,6 +1144,26 @@ public static class PubliekVerenigingDetailProjector
     }
 
     public static void Apply(
+        IEvent<ErkenningWerdVerlengd> erkenningWerdVerlengd,
+        PubliekVerenigingDetailDocument document
+    )
+    {
+        var erkenning = document.Erkenningen.Single(c => c.ErkenningId == erkenningWerdVerlengd.Data.ErkenningId);
+        document.Erkenningen = document
+            .Erkenningen.Where(c => c.ErkenningId != erkenningWerdVerlengd.Data.ErkenningId)
+            .Append(
+                erkenning with
+                {
+                    Einddatum = erkenningWerdVerlengd.Data.Einddatum,
+                    Hernieuwingsdatum = erkenningWerdVerlengd.Data.Hernieuwingsdatum,
+                    Status = erkenningWerdVerlengd.Data.Status,
+                }
+            )
+            .OrderBy(c => c.ErkenningId)
+            .ToArray();
+    }
+
+    public static void Apply(
         IEvent<SchorsingVanErkenningWerdOpgeheven> @event,
         PubliekVerenigingDetailDocument document
     )
