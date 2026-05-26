@@ -2,6 +2,7 @@
 
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Net;
 using System.Text;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -68,9 +69,50 @@ public class Exporter<TSource>
             _key,
             _bucketName
         );
-        await _s3Client.PutObjectAsync(putRequest);
 
-        // todo: controleer return object
+        try
+        {
+            var responseSendingToS3 = await _s3Client.PutObjectAsync(putRequest);
+
+            if (responseSendingToS3.HttpStatusCode == HttpStatusCode.OK)
+            {
+                _logger.LogInformation(
+                    "Successfully uploaded file to S3 bucket {BucketName} with key {Key}.",
+                    _bucketName,
+                    _key
+                );
+            }
+            else
+            {
+                _logger.LogError(
+                    "Upload to S3 returned unexpected status code {StatusCode} for bucket {BucketName} and key {Key}.",
+                    responseSendingToS3.HttpStatusCode,
+                    _bucketName,
+                    _key
+                );
+            }
+        }
+        catch (AmazonS3Exception ex)
+        {
+            _logger.LogError(
+                ex,
+                "AWS S3 error while uploading to bucket {BucketName} with key {Key}. StatusCode: {StatusCode}, Exception: {Exception}",
+                _bucketName,
+                _key,
+                ex.StatusCode,
+                ex.InnerException
+            );
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                ex,
+                "Unexpected error while uploading to bucket {BucketName} with key {Key}. Exception: {InnerException}",
+                _bucketName,
+                _key,
+                ex.InnerException
+            );
+        }
     }
 
     private static async Task<MemoryStream> WriteToStream(
