@@ -20,49 +20,48 @@ public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
-        PostgreSqlOptionsSection postgreSqlOptions)
+        PostgreSqlOptionsSection postgreSqlOptions
+    )
     {
         var martenConfiguration = services
-                                 .AddMarten(serviceProvider =>
-                                  {
-                                      var opts = new StoreOptions();
+            .AddMarten(serviceProvider =>
+            {
+                var opts = new StoreOptions();
 
-                                      var querySessionFunc = ()
-                                          => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession();
+                var querySessionFunc = () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession();
 
-                                      opts.UsePostgreSqlOptions(postgreSqlOptions)
-                                          .AddVCodeSequence()
-                                          .ConfigureSerialization()
-                                          .SetUpOpenTelemetry()
-                                          .RegisterAllEventTypes()
-                                          .RegisterAdminDocumentTypes()
-                                          .UpcastEvents(querySessionFunc);
+                opts.UsePostgreSqlOptions(postgreSqlOptions)
+                    .AddVCodeSequence()
+                    .ConfigureSerialization()
+                    .SetUpOpenTelemetry()
+                    .RegisterAllEventTypes()
+                    .RegisterAdminDocumentTypes()
+                    .UpcastEvents(querySessionFunc);
 
-                                      if (!postgreSqlOptions.IncludeErrorDetail)
-                                          opts.Logger(
-                                              new SecureMartenLogger(
-                                                  serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>())
-                                          );
+                if (!postgreSqlOptions.IncludeErrorDetail)
+                    opts.Logger(
+                        new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>())
+                    );
 
-                                      opts.Events.StreamIdentity = StreamIdentity.AsString;
-                                      opts.Events.MetadataConfig.EnableAll();
-                                      opts.Events.AppendMode = EventAppendMode.Quick;
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+                opts.Events.MetadataConfig.EnableAll();
+                opts.Events.AppendMode = EventAppendMode.Quick;
 
-                                      opts.AutoCreateSchemaObjects = AutoCreate.None;
+                opts.AutoCreateSchemaObjects = AutoCreate.None;
 
-                                      opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
 
-                                      return opts;
-                                  })
-                                 .IntegrateWithWolverine(integration =>
-                                  {
-                                      integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
-                                      integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
+                return opts;
+            })
+            .IntegrateWithWolverine(integration =>
+            {
+                integration.TransportSchemaName = WellknownSchemaNames.Wolverine;
+                integration.MessageStorageSchemaName = WellknownSchemaNames.Wolverine;
 
-                                      integration.AutoCreate = AutoCreate.None;
-                                  })
-                                 .AddAsyncDaemon(DaemonMode.HotCold)
-                                 .UseLightweightSessions();
+                integration.AutoCreate = AutoCreate.None;
+            })
+            .AddAsyncDaemon(DaemonMode.HotCold) // todo: remove, probably
+            .UseLightweightSessions();
 
         martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
@@ -81,7 +80,7 @@ public static class MartenExtensions
 
     public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions) =>
         $"host={postgreSqlOptions.Host};"
-      + $"database={postgreSqlOptions.Database};"
-      + $"password={postgreSqlOptions.Password};"
-      + $"username={postgreSqlOptions.Username};";
+        + $"database={postgreSqlOptions.Database};"
+        + $"password={postgreSqlOptions.Password};"
+        + $"username={postgreSqlOptions.Username};";
 }

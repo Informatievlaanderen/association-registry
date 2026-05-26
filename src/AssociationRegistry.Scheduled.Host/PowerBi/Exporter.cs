@@ -12,14 +12,16 @@ using Writers;
 
 public class PowerBiExporters : ReadOnlyCollection<Exporter<PowerBiExportDocument>>
 {
-    public PowerBiExporters(IList<Exporter<PowerBiExportDocument>> exporters) : base(exporters)
-    { }
+    public PowerBiExporters(IList<Exporter<PowerBiExportDocument>> exporters)
+        : base(exporters) { }
 }
+
 public class PowerBiDubbelDetectieExporters : ReadOnlyCollection<Exporter<PowerBiExportDubbelDetectieDocument>>
 {
-    public PowerBiDubbelDetectieExporters(IList<Exporter<PowerBiExportDubbelDetectieDocument>> exporters) : base(exporters)
-    { }
+    public PowerBiDubbelDetectieExporters(IList<Exporter<PowerBiExportDubbelDetectieDocument>> exporters)
+        : base(exporters) { }
 }
+
 public class Exporter<TSource>
 {
     private readonly string _key;
@@ -33,7 +35,8 @@ public class Exporter<TSource>
         string bucketName,
         IRecordWriter<TSource> writer,
         IAmazonS3 s3Client,
-        ILogger<Exporter<TSource>> logger)
+        ILogger<Exporter<TSource>> logger
+    )
     {
         _key = key;
         _bucketName = bucketName;
@@ -59,12 +62,21 @@ public class Exporter<TSource>
             ContentType = "text/csv",
         };
 
-        _logger.LogInformation("Sending {MemoryStreamByteCount} bytes to s3 bucket {BucketName} with key {Key}.", stream.Length, _key, _bucketName);
+        _logger.LogInformation(
+            "Sending {MemoryStreamByteCount} bytes to s3 bucket {BucketName} with key {Key}.",
+            stream.Length,
+            _key,
+            _bucketName
+        );
         await _s3Client.PutObjectAsync(putRequest);
+
+        // todo: controleer return object
     }
 
     private static async Task<MemoryStream> WriteToStream(
-        IEnumerable<TSource> docs, IRecordWriter<TSource> recordWriter)
+        IEnumerable<TSource> docs,
+        IRecordWriter<TSource> recordWriter
+    )
     {
         var memoryStream = new MemoryStream();
         var writer = new StreamWriter(memoryStream, Encoding.UTF8);
