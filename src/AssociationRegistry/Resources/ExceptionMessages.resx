@@ -394,4 +394,10 @@
   <data name="VerlopenErkenningKanNietGeschorstWorden">
     <value>Een verlopen erkenning kan niet geschorst worden.</value>
   </data>
+  <data name="GeschorsteErkenningKanNietVerlengdWorden">
+    <value>Een geschorste erkenning kan niet verlengd worden.</value>
+  </data>
+  <data name="NieuweEinddatumMoetLaterZijnDanHuidigeEinddatum">
+    <value>Nieuwe einddatum moet later zijn dan de huidige einddatum.</value>
+  </data>
 </root>

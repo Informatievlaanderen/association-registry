@@ -34,7 +34,7 @@ public class Given_Unknown_Erkenning
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenErkenning>() with { ErkenningId = unknownErkenningId },
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with { ErkenningId = unknownErkenningId },
         };
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with

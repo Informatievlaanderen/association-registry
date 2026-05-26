@@ -37,7 +37,7 @@ public class Given_Another_OvoCode
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenErkenning>() with { ErkenningId = teSchorsenErkenningId },
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with { ErkenningId = teSchorsenErkenningId },
         };
 
         var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>

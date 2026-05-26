@@ -22,7 +22,7 @@ public class Given_Te_Corrigeren_Waarden
         var startdatum = NullOrEmpty<DateOnly>.Create(_fixture.Create<DateOnly>());
         var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
-        var erkenning = TeCorrigerenErkenning.Create(
+        var erkenning = TeWijzigenErkenning.Create(
             _fixture.Create<int>(),
             startdatum,
             NullOrEmpty<DateOnly>.Null,
@@ -39,7 +39,7 @@ public class Given_Te_Corrigeren_Waarden
         var startdatum = NullOrEmpty<DateOnly>.Empty;
         var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
-        var erkenning = TeCorrigerenErkenning.Create(
+        var erkenning = TeWijzigenErkenning.Create(
             _fixture.Create<int>(),
             startdatum,
             NullOrEmpty<DateOnly>.Null,
@@ -56,7 +56,7 @@ public class Given_Te_Corrigeren_Waarden
         var startdatum = NullOrEmpty<DateOnly>.Create(_fixture.Create<DateOnly>());
         var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
-        var erkenning = TeCorrigerenErkenning.Create(
+        var erkenning = TeWijzigenErkenning.Create(
             _fixture.Create<int>(),
             startdatum,
             NullOrEmpty<DateOnly>.Null,
@@ -74,7 +74,7 @@ public class Given_Te_Corrigeren_Waarden
         var eindDatum = NullOrEmpty<DateOnly>.Create(_fixture.Create<DateOnly>());
         var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
-        var erkenning = TeCorrigerenErkenning.Create(
+        var erkenning = TeWijzigenErkenning.Create(
             _fixture.Create<int>(),
             NullOrEmpty<DateOnly>.Null,
             eindDatum,
@@ -92,7 +92,7 @@ public class Given_Te_Corrigeren_Waarden
         var eindDatum = NullOrEmpty<DateOnly>.Empty;
         var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
-        var erkenning = TeCorrigerenErkenning.Create(
+        var erkenning = TeWijzigenErkenning.Create(
             _fixture.Create<int>(),
             NullOrEmpty<DateOnly>.Null,
             eindDatum,
@@ -110,7 +110,7 @@ public class Given_Te_Corrigeren_Waarden
         var hernieuwingsDatum = NullOrEmpty<DateOnly>.Create(_fixture.Create<DateOnly>());
         var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
-        var erkenning = TeCorrigerenErkenning.Create(
+        var erkenning = TeWijzigenErkenning.Create(
             _fixture.Create<int>(),
             NullOrEmpty<DateOnly>.Null,
             NullOrEmpty<DateOnly>.Null,
@@ -128,7 +128,7 @@ public class Given_Te_Corrigeren_Waarden
         var hernieuwingsDatum = NullOrEmpty<DateOnly>.Empty;
         var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
-        var erkenning = TeCorrigerenErkenning.Create(
+        var erkenning = TeWijzigenErkenning.Create(
             _fixture.Create<int>(),
             NullOrEmpty<DateOnly>.Null,
             NullOrEmpty<DateOnly>.Null,
@@ -146,7 +146,7 @@ public class Given_Te_Corrigeren_Waarden
         var hernieuwingsUrl = _fixture.Create<string>();
         var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
-        var erkenning = TeCorrigerenErkenning.Create(
+        var erkenning = TeWijzigenErkenning.Create(
             _fixture.Create<int>(),
             NullOrEmpty<DateOnly>.Null,
             NullOrEmpty<DateOnly>.Null,

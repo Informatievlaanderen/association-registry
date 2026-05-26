@@ -39,7 +39,7 @@ public class Given_Overlapping_Datums
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
                 ErkenningId = teCorrigerenErkenning,
                 StartDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd2.Startdatum.Value),

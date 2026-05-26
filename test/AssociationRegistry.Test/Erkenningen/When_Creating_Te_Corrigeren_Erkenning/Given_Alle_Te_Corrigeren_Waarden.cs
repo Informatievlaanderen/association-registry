@@ -26,7 +26,7 @@ public class Given_Alle_Te_Corrigeren_Waarden
         var hernieuwingsUrl = _fixture.Create<string>();
         var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
-        var erkenning = TeCorrigerenErkenning.Create(
+        var erkenning = TeWijzigenErkenning.Create(
             erkenningId,
             startDatum,
             eindDatum,

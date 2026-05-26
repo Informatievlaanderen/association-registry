@@ -41,7 +41,7 @@ public record WijzigErkenningRequest
     public WijzigErkenningCommand ToCommand(string vCode, int erkenningId) =>
         new(
             VCode.Create(vCode),
-            DecentraalBeheer.Vereniging.Erkenningen.TeCorrigerenErkenning.Create(
+            DecentraalBeheer.Vereniging.Erkenningen.TeWijzigenErkenning.Create(
                 erkenningId,
                 Startdatum,
                 Einddatum,

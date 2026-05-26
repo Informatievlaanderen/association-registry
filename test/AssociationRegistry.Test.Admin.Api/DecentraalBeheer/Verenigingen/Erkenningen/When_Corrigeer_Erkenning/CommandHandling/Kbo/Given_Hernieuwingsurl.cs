@@ -41,7 +41,7 @@ public class Given_Hernieuwingsurl
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
                 ErkenningId = teCorrigerenErkenningId,
                 HernieuwingsUrl = hernieuwingsUrl,

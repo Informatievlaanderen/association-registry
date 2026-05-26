@@ -502,7 +502,7 @@ public static class AutoFixtureCustomizations
 
     private static void CustomizeTeCorrigerenErkenning(this IFixture fixture)
     {
-        fixture.Customize<TeCorrigerenErkenning>(composer =>
+        fixture.Customize<TeWijzigenErkenning>(composer =>
             composer
                 .FromFactory(() =>
                 {
@@ -518,7 +518,7 @@ public static class AutoFixtureCustomizations
 
                     var hernieuwingsUrl = $"{protocol}://www.example.com/{fixture.Create<Guid>()}";
 
-                    return TeCorrigerenErkenning.Create(
+                    return TeWijzigenErkenning.Create(
                         fixture.Create<int>(),
                         NullOrEmpty<DateOnly>.Create(startdatum),
                         NullOrEmpty<DateOnly>.Create(einddatum),

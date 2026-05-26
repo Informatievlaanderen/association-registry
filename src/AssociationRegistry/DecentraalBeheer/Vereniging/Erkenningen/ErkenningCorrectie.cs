@@ -25,26 +25,26 @@ public sealed record ErkenningCorrectie
     public HernieuwingsUrl HernieuwingsUrl { get; set; }
     public ErkenningStatus Status { get; set; }
 
-    public static ErkenningCorrectie Create(TeCorrigerenErkenning teCorrigerenErkenning, Erkenning erkenning)
+    public static ErkenningCorrectie Create(TeWijzigenErkenning teWijzigenErkenning, Erkenning erkenning)
     {
         var startdatum = DetermineTeCorrigerenDatum(
-            teCorrigerenErkenning.StartDatum,
+            teWijzigenErkenning.StartDatum,
             erkenning.ErkenningsPeriode.Startdatum
         );
         var einddatum = DetermineTeCorrigerenDatum(
-            teCorrigerenErkenning.EindDatum,
+            teWijzigenErkenning.EindDatum,
             erkenning.ErkenningsPeriode.Einddatum
         );
         var erkenningsperiode = ErkenningsPeriode.Create(startdatum, einddatum);
 
         var hernieuwingsdatumDate = DetermineTeCorrigerenDatum(
-            teCorrigerenErkenning.Hernieuwingsdatum,
+            teWijzigenErkenning.Hernieuwingsdatum,
             erkenning.Hernieuwingsdatum.Value
         );
         var hernieuwingsdatum = Hernieuwingsdatum.Create(hernieuwingsdatumDate, erkenningsperiode);
 
         var hernieuwingsUrl = DetermineTeCorrigerenHernieuwingsUrl(
-            teCorrigerenErkenning.HernieuwingsUrl,
+            teWijzigenErkenning.HernieuwingsUrl,
             erkenning.HernieuwingsUrl
         );
 

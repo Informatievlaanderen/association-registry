@@ -44,7 +44,7 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
                 ErkenningId = teCorrigerenErkenningId,
                 StartDatum = NullOrEmpty<DateOnly>.Null,
@@ -83,7 +83,7 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
                 ErkenningId = teCorrigerenErkenningId,
                 StartDatum = NullOrEmpty<DateOnly>.Null,

@@ -23,7 +23,7 @@ public class Given_Geen_Te_Corrigeren_Waarden
     {
         var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
-        var exception = Assert.Throws<TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben>(() => TeCorrigerenErkenning.Create(
+        var exception = Assert.Throws<TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben>(() => TeWijzigenErkenning.Create(
             _fixture.Create<int>(),
             NullOrEmpty<DateOnly>.Null,
             NullOrEmpty<DateOnly>.Null,

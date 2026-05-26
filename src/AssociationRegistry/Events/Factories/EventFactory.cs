@@ -518,7 +518,7 @@ public static class EventFactory
             ? null
             : new Registratiedata.Verenigingssubtype(verenigingssubtype.Code, verenigingssubtype.Naam);
 
-    public static ErkenningWerdGewijzigd ErkenningWerdGecorrigeerd(Erkenning gecorrigeerdeErkenning, string wijzigingsType) =>
+    public static ErkenningWerdGewijzigd ErkenningWerdGewijzigd(Erkenning gecorrigeerdeErkenning, string wijzigingsType) =>
         new(
             gecorrigeerdeErkenning.ErkenningId,
             gecorrigeerdeErkenning.ErkenningsPeriode.Startdatum,

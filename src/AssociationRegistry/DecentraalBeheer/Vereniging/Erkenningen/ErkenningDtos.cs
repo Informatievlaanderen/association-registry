@@ -23,9 +23,9 @@ public record TeCorrigerenSchorsingErkenning
     public string RedenSchorsing { get; set; } = null!;
 }
 
-public record TeCorrigerenErkenning
+public record TeWijzigenErkenning
 {
-    private TeCorrigerenErkenning(int erkenningId, NullOrEmpty<DateOnly> startDatum, NullOrEmpty<DateOnly> eindDatum, NullOrEmpty<DateOnly> hernieuwingsDatum, string? hernieuwingsUrl, string wijzigingsType)
+    private TeWijzigenErkenning(int erkenningId, NullOrEmpty<DateOnly> startDatum, NullOrEmpty<DateOnly> eindDatum, NullOrEmpty<DateOnly> hernieuwingsDatum, string? hernieuwingsUrl, string wijzigingsType)
     {
         ErkenningId = erkenningId;
         StartDatum = startDatum;
@@ -35,7 +35,7 @@ public record TeCorrigerenErkenning
         WijzigingsType = wijzigingsType;
     }
 
-    public static TeCorrigerenErkenning Create(
+    public static TeWijzigenErkenning Create(
         int erkenningId,
         NullOrEmpty<DateOnly> startDatum,
         NullOrEmpty<DateOnly> eindDatum,
@@ -49,7 +49,7 @@ public record TeCorrigerenErkenning
         if (string.IsNullOrEmpty(type))
             throw new TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben();
 
-        return new TeCorrigerenErkenning(erkenningId, startDatum, eindDatum, hernieuwingsDatum, hernieuwingsUrl, type);
+        return new TeWijzigenErkenning(erkenningId, startDatum, eindDatum, hernieuwingsDatum, hernieuwingsUrl, type);
     }
 
     public int ErkenningId { get; set; }

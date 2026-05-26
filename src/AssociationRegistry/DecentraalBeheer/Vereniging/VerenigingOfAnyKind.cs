@@ -661,13 +661,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         );
     }
 
-    public void CorrigeerErkenning(TeCorrigerenErkenning teCorrigerenErkenning, string initiator)
+    public void CorrigeerErkenning(TeWijzigenErkenning teWijzigenErkenning, string initiator)
     {
-        var huidigeErkenning = State.Erkenningen.GetById(teCorrigerenErkenning.ErkenningId);
+        var huidigeErkenning = State.Erkenningen.GetById(teWijzigenErkenning.ErkenningId);
 
         Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
 
-        var erkenningCorrectie = ErkenningCorrectie.Create(teCorrigerenErkenning, huidigeErkenning);
+        var erkenningCorrectie = ErkenningCorrectie.Create(teWijzigenErkenning, huidigeErkenning);
 
         var heeftWijzigingen = erkenningCorrectie.HeeftWijzigingen(huidigeErkenning);
 
@@ -677,7 +677,34 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var gecorrigeerdeErkenning = huidigeErkenning.CreateFromErkenningCorrectie(erkenningCorrectie);
         State.Erkenningen.KanGecorrigeerdeErkenningToevoegen(gecorrigeerdeErkenning);
 
-        AddEvent(EventFactory.ErkenningWerdGecorrigeerd(gecorrigeerdeErkenning, teCorrigerenErkenning.WijzigingsType));
+        AddEvent(EventFactory.ErkenningWerdGewijzigd(gecorrigeerdeErkenning, teWijzigenErkenning.WijzigingsType));
+    }
+
+    public void VerlengErkenning(TeWijzigenErkenning teWijzigenErkenning, string initiator)
+    {
+        var huidigeErkenning = State.Erkenningen.GetById(teWijzigenErkenning.ErkenningId);
+
+        Throw<GiIsNietBevoegd>.If(huidigeErkenning.GeregistreerdDoor.OvoCode != initiator);
+        Throw<GeschorsteErkenningKanNietVerlengdWorden>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
+        Throw<NieuweEinddatumMoetLaterZijnDanHuidigeEinddatum>.If(
+            huidigeErkenning.ErkenningsPeriode.Einddatum > teWijzigenErkenning.EindDatum.Value);
+
+        var erkenningsCorrectie = ErkenningCorrectie.Create(teWijzigenErkenning, huidigeErkenning);
+        var gewijzigdeErkenning = huidigeErkenning.CreateFromErkenningCorrectie(erkenningsCorrectie);
+
+        AddEvent(EventFactory.ErkenningWerdGewijzigd(gewijzigdeErkenning, teWijzigenErkenning.WijzigingsType));
+    }
+
+    private static Hernieuwingsdatum DetermineHernieuwingsdatum(
+        TeWijzigenErkenning teVerlengenErkenning,
+        Erkenning huidigeErkenning,
+        ErkenningsPeriode erkenningsPeriode)
+    {
+        var hernieuwingsdatum = teVerlengenErkenning.Hernieuwingsdatum.HasValue
+            ? teVerlengenErkenning.Hernieuwingsdatum.Value
+            : huidigeErkenning.Hernieuwingsdatum.Value;
+
+        return Hernieuwingsdatum.Create(hernieuwingsdatum, erkenningsPeriode);
     }
 
     public void VerwijderErkenning(int erkenningId, string initiator)

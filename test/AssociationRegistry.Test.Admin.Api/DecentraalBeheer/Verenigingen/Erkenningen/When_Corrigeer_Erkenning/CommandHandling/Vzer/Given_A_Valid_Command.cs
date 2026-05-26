@@ -36,7 +36,7 @@ public class Given_A_Valid_Command
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenErkenning>() with { ErkenningId = teSchorsenErkenningId },
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with { ErkenningId = teSchorsenErkenningId },
         };
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with

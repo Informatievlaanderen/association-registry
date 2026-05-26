@@ -782,5 +782,17 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerlopenErkenningKanNietGeschorstWorden", resourceCulture);
             }
         }
+        
+        public static string GeschorsteErkenningKanNietVerlengdWorden {
+            get {
+                return ResourceManager.GetString("GeschorsteErkenningKanNietVerlengdWorden", resourceCulture);
+            }
+        }
+        
+        public static string NieuweEinddatumMoetLaterZijnDanHuidigeEinddatum {
+            get {
+                return ResourceManager.GetString("NieuweEinddatumMoetLaterZijnDanHuidigeEinddatum", resourceCulture);
+            }
+        }
     }
 }

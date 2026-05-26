@@ -41,7 +41,7 @@ public class Given_Startdatum_After_Erkenning_Einddatum
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
                 ErkenningId = teSchorsenErkenningId,
                 StartDatum = startDatum,
@@ -78,7 +78,7 @@ public class Given_Startdatum_After_Erkenning_Einddatum
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
                 ErkenningId = teSchorsenErkenningId,
                 StartDatum = startDatum,

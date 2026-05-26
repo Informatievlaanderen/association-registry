@@ -195,9 +195,9 @@ public class Given_Alle_Te_Corrigeren_Waarden
         };
     }
 
-    private static TeCorrigerenErkenning MaakTeCorrigerenErkenning()
+    private static TeWijzigenErkenning MaakTeCorrigerenErkenning()
     {
-        return TeCorrigerenErkenning.Create(
+        return TeWijzigenErkenning.Create(
             123,
             NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 1, 1)),
             NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 12, 31)),
