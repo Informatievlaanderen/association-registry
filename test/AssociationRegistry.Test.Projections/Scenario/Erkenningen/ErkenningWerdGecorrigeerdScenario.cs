@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Scenario.Erkenningen;
 
 using AutoFixture;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 
 public class ErkenningWerdGecorrigeerdScenario : ScenarioBase
@@ -25,6 +26,7 @@ public class ErkenningWerdGecorrigeerdScenario : ScenarioBase
                 Einddatum = ErkenningWerdGeregistreerd.Einddatum.Value.AddDays(10),
                 Hernieuwingsdatum= ErkenningWerdGeregistreerd.Hernieuwingsdatum.Value.AddDays(10),
                 HernieuwingsUrl="https://a-new-url-is-generated.random" + AutoFixture.Create<Guid>(),
+                Type = WijzigingsTypeErkenning.CorrigeerValue
             };
     }
 
