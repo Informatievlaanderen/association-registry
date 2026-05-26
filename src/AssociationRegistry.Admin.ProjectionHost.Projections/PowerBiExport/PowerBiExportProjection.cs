@@ -1611,7 +1611,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         UpdateHistoriek(document, @event);
     }
 
-    public void Apply(IEvent<ErkenningWerdGecorrigeerd> @event, PowerBiExportDocument document)
+    public void Apply(IEvent<ErkenningWerdGewijzigd> @event, PowerBiExportDocument document)
     {
         var today = DateOnly.FromDateTime(DateTime.Today);
 

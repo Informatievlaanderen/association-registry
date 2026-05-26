@@ -1,24 +1,34 @@
-﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Corrigeer_Erkenning.Publiek.Detail;
+﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Wijzig_Erkenning.Beheer.Detail;
 
-using AssociationRegistry.Contracts.JsonLdContext;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
-using AssociationRegistry.Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Public.ProjectionHost.Constants;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Admin.ProjectionHost.Constants;
+using Contracts.JsonLdContext;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using FluentAssertions;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using Xunit;
-using Erkenning = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
-using IpdcProduct = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
+using Erkenning = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
+using IpdcProduct = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
 
-[Collection(nameof(CorrigeerErkenningCollection))]
-public class Returns_Detail : IAsyncLifetime
+[Collection(nameof(WijzigErkenningCollection))]
+public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly CorrigeerErkenningContext _testContext;
+    private readonly WijzigErkenningContext _testContext;
 
-    public Returns_Detail(CorrigeerErkenningContext testContext)
+    public Returns_Detail(WijzigErkenningContext testContext)
+        : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
+
+    public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup) =>
+        await setup.AdminApiHost.GetBeheerDetail(
+            setup.AdminHttpClient,
+            _testContext.VCode,
+            new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)
+        );
 
     [Fact]
     public void JsonContentMatches()
@@ -28,17 +38,18 @@ public class Returns_Detail : IAsyncLifetime
             .BeEquivalentTo([
                 new Erkenning
                 {
+                    type = JsonLdType.Erkenning.Type,
                     id = JsonLdType.Erkenning.CreateWithIdValues(
-                        _testContext.VCode.Value,
+                        _testContext.VCode,
                         _testContext.Scenario.ErkenningWerdGeregistreerd.ErkenningId.ToString()
                     ),
-                    type = JsonLdType.Erkenning.Type,
                     ErkenningId = _testContext.Scenario.ErkenningWerdGeregistreerd.ErkenningId,
                     GeregistreerdDoor = new GegevensInitiatorErkenning
                     {
                         OvoCode = _testContext.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
                         Naam = _testContext.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.Naam,
                     },
+
                     IpdcProduct = new IpdcProduct
                     {
                         Nummer = _testContext.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
@@ -63,13 +74,4 @@ public class Returns_Detail : IAsyncLifetime
                 },
             ]);
     }
-
-    public PubliekVerenigingDetailResponse Response { get; set; }
-
-    public async ValueTask InitializeAsync()
-    {
-        Response = await _testContext.ApiSetup.PublicApiHost.GetPubliekDetail(_testContext.VCode);
-    }
-
-    public async ValueTask DisposeAsync() { }
 }

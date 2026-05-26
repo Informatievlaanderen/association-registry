@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Erkenning.CommandHandling.Vzer;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
@@ -16,7 +16,7 @@ using Xunit;
 
 public class Given_Overlapping_Datums
 {
-    private readonly CorrigeerErkenningCommandHandler _commandHandler;
+    private readonly WijzigErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
@@ -28,7 +28,7 @@ public class Given_Overlapping_Datums
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario();
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        _commandHandler = new CorrigeerErkenningCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigErkenningCommandHandler(_verenigingRepositoryMock);
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class Given_Overlapping_Datums
     {
         var teCorrigerenErkenning = _scenario.ErkenningWerdGeregistreerd1.ErkenningId;
 
-        var command = _fixture.Create<CorrigeerErkenningCommand>() with
+        var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
             Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
@@ -53,7 +53,7 @@ public class Given_Overlapping_Datums
             Initiator = _scenario.ErkenningWerdGeregistreerd1.GeregistreerdDoor.OvoCode,
         };
 
-        var commandEnvelope = new CommandEnvelope<CorrigeerErkenningCommand>(command, commandMetadata);
+        var commandEnvelope = new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata);
 
         var exception = await Assert.ThrowsAsync<ErkenningBestaatAl>(async () =>
         {

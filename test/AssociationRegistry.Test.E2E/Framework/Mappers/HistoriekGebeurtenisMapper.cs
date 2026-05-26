@@ -5,8 +5,8 @@ using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.WijzigBankrekeningnummer
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.WebApi.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
-using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Erkenningen.WijzigErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
@@ -1342,15 +1342,15 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
-    public static HistoriekGebeurtenisResponse ErkenningWerdGecorrigeerd(
+    public static HistoriekGebeurtenisResponse ErkenningWerdGewijzigd(
         int erkenningId,
-        CorrigeerErkenningRequest request
+        WijzigErkenningRequest request
     ) =>
         new()
         {
-            Beschrijving = $"Erkenning werd gecorrigeerd.",
-            Gebeurtenis = nameof(Events.ErkenningWerdGecorrigeerd),
-            Data = new ErkenningWerdGecorrigeerd(
+            Beschrijving = $"Erkenning werd gewijzigd.",
+            Gebeurtenis = nameof(Events.ErkenningWerdGewijzigd),
+            Data = new ErkenningWerdGewijzigd(
                 erkenningId,
                 request.Startdatum.Value,
                 request.Einddatum.Value,
@@ -1361,7 +1361,8 @@ public static class HistoriekGebeurtenisMapper
                         ErkenningsPeriode.Create(request.Startdatum.Value, request.Einddatum.Value),
                         DateOnly.FromDateTime(DateTime.Today)
                     )
-                    .Value
+                    .Value,
+                request.WijgingsType
             ),
             Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",

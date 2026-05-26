@@ -518,14 +518,15 @@ public static class EventFactory
             ? null
             : new Registratiedata.Verenigingssubtype(verenigingssubtype.Code, verenigingssubtype.Naam);
 
-    public static ErkenningWerdGecorrigeerd ErkenningWerdGecorrigeerd(Erkenning gecorrigeerdeErkenning) =>
+    public static ErkenningWerdGewijzigd ErkenningWerdGecorrigeerd(Erkenning gecorrigeerdeErkenning, string wijzigingsType) =>
         new(
             gecorrigeerdeErkenning.ErkenningId,
             gecorrigeerdeErkenning.ErkenningsPeriode.Startdatum,
             gecorrigeerdeErkenning.ErkenningsPeriode.Einddatum,
             gecorrigeerdeErkenning.Hernieuwingsdatum.Value,
             gecorrigeerdeErkenning.HernieuwingsUrl.Value,
-            gecorrigeerdeErkenning.Status.Value
+            gecorrigeerdeErkenning.Status.Value,
+            wijzigingsType
         );
 
     public static ErkenningWerdVerwijderd ErkenningWerdVerwijderd(int erkenningId)

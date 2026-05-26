@@ -25,13 +25,14 @@ public record TeCorrigerenSchorsingErkenning
 
 public record TeCorrigerenErkenning
 {
-    private TeCorrigerenErkenning(int erkenningId, NullOrEmpty<DateOnly> startDatum, NullOrEmpty<DateOnly> eindDatum, NullOrEmpty<DateOnly> hernieuwingsDatum, string? hernieuwingsUrl)
+    private TeCorrigerenErkenning(int erkenningId, NullOrEmpty<DateOnly> startDatum, NullOrEmpty<DateOnly> eindDatum, NullOrEmpty<DateOnly> hernieuwingsDatum, string? hernieuwingsUrl, string wijzigingsType)
     {
         ErkenningId = erkenningId;
         StartDatum = startDatum;
         EindDatum = eindDatum;
         Hernieuwingsdatum = hernieuwingsDatum;
         HernieuwingsUrl = hernieuwingsUrl;
+        WijzigingsType = wijzigingsType;
     }
 
     public static TeCorrigerenErkenning Create(
@@ -39,12 +40,16 @@ public record TeCorrigerenErkenning
         NullOrEmpty<DateOnly> startDatum,
         NullOrEmpty<DateOnly> eindDatum,
         NullOrEmpty<DateOnly> hernieuwingsDatum,
-        string? hernieuwingsUrl)
+        string? hernieuwingsUrl,
+        string type)
     {
-        if (HeeftGeenTeCorrigerenWaarde(startDatum, eindDatum, hernieuwingsDatum, hernieuwingsUrl))
+        if (HeeftGeenTeWijzigenWaarde(startDatum, eindDatum, hernieuwingsDatum, hernieuwingsUrl))
             throw new TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben();
 
-        return new TeCorrigerenErkenning(erkenningId, startDatum, eindDatum, hernieuwingsDatum, hernieuwingsUrl);
+        if (string.IsNullOrEmpty(type))
+            throw new TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben();
+
+        return new TeCorrigerenErkenning(erkenningId, startDatum, eindDatum, hernieuwingsDatum, hernieuwingsUrl, type);
     }
 
     public int ErkenningId { get; set; }
@@ -52,8 +57,9 @@ public record TeCorrigerenErkenning
     public NullOrEmpty<DateOnly> EindDatum { get; set; }
     public string? HernieuwingsUrl { get; set; } = null!;
     public NullOrEmpty<DateOnly> Hernieuwingsdatum { get; set; }
+    public string WijzigingsType { get; set; }
 
-    public static bool HeeftGeenTeCorrigerenWaarde(
+    public static bool HeeftGeenTeWijzigenWaarde(
         NullOrEmpty<DateOnly> startDatum,
         NullOrEmpty<DateOnly> eindDatum,
         NullOrEmpty<DateOnly> hernieuwingsDatum,

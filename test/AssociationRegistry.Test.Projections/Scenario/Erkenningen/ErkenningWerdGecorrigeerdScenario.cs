@@ -8,7 +8,7 @@ public class ErkenningWerdGecorrigeerdScenario : ScenarioBase
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
 
     public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd { get; }
-    public ErkenningWerdGecorrigeerd ErkenningWerdGecorrigeerd { get; }
+    public ErkenningWerdGewijzigd ErkenningWerdGewijzigd { get; }
 
     public ErkenningWerdGecorrigeerdScenario()
     {
@@ -17,8 +17,8 @@ public class ErkenningWerdGecorrigeerdScenario : ScenarioBase
 
         ErkenningWerdGeregistreerd = AutoFixture.Create<ErkenningWerdGeregistreerd>();
 
-        ErkenningWerdGecorrigeerd =
-            AutoFixture.Create<ErkenningWerdGecorrigeerd>() with
+        ErkenningWerdGewijzigd =
+            AutoFixture.Create<ErkenningWerdGewijzigd>() with
             {
                 ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
                 Startdatum = ErkenningWerdGeregistreerd.Startdatum.Value.AddDays(10),
@@ -36,7 +36,7 @@ public class ErkenningWerdGecorrigeerdScenario : ScenarioBase
                 AggregateId,
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
                 ErkenningWerdGeregistreerd,
-                ErkenningWerdGecorrigeerd
+                ErkenningWerdGewijzigd
             ),
         ];
 }

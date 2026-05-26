@@ -523,8 +523,8 @@ public static class AutoFixtureCustomizations
                         NullOrEmpty<DateOnly>.Create(startdatum),
                         NullOrEmpty<DateOnly>.Create(einddatum),
                         NullOrEmpty<DateOnly>.Create(hernieuwingsDatum),
-                        hernieuwingsUrl
-                    );
+                        hernieuwingsUrl,
+                        WijzigingsTypeErkenning.CorrigeerValue);
                 })
                 .OmitAutoProperties()
         );

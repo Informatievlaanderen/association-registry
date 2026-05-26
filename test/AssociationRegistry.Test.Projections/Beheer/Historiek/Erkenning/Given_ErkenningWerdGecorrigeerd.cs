@@ -20,8 +20,8 @@ public class Given_ErkenningWerdGecorrigeerd(
             .BeEquivalentTo(
                 new BeheerVerenigingHistoriekGebeurtenis(
                     Beschrijving: $"Erkenning werd gecorrigeerd.",
-                    nameof(ErkenningWerdGecorrigeerd),
-                    fixture.Scenario.ErkenningWerdGecorrigeerd,
+                    nameof(ErkenningWerdGewijzigd),
+                    fixture.Scenario.ErkenningWerdGewijzigd,
                     fixture.MetadataInitiator,
                     fixture.MetadataTijdstip
                 )

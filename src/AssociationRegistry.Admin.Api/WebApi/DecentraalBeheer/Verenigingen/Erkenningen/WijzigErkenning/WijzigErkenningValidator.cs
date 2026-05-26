@@ -1,14 +1,12 @@
-﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning;
+﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.WijzigErkenning;
 
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using FluentValidation;
-using RegistreerErkenning;
 using RequestModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-public class CorrigeerErkenningValidator : AbstractValidator<CorrigeerErkenningRequest>
+public class WijzigErkenningValidator : AbstractValidator<WijzigErkenningRequest>
 {
-    public CorrigeerErkenningValidator()
+    public WijzigErkenningValidator()
     {
         RuleFor(request => request)
             .Must(HaveAtLeastOneValue)
@@ -16,7 +14,7 @@ public class CorrigeerErkenningValidator : AbstractValidator<CorrigeerErkenningR
             .WithMessage("Een request mag niet leeg zijn.");
     }
 
-    private static bool HaveAtLeastOneValue(CorrigeerErkenningRequest request) =>
+    private static bool HaveAtLeastOneValue(WijzigErkenningRequest request) =>
         request.Startdatum.HasValue
         || request.Einddatum.HasValue
         || request.Hernieuwingsdatum.HasValue

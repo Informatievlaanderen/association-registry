@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Erkenning.CommandHandling.Vzer;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
@@ -14,7 +14,7 @@ using Xunit;
 
 public class Given_Unknown_Erkenning
 {
-    private readonly CorrigeerErkenningCommandHandler _commandHandler;
+    private readonly WijzigErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
@@ -24,7 +24,7 @@ public class Given_Unknown_Erkenning
         _fixture = new Fixture().CustomizeAdminApi();
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
         var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-        _commandHandler = new CorrigeerErkenningCommandHandler(verenigingRepositoryMock);
+        _commandHandler = new WijzigErkenningCommandHandler(verenigingRepositoryMock);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class Given_Unknown_Erkenning
     {
         var unknownErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId + _fixture.Create<int>();
 
-        var command = _fixture.Create<CorrigeerErkenningCommand>() with
+        var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
             Erkenning = _fixture.Create<TeCorrigerenErkenning>() with { ErkenningId = unknownErkenningId },
@@ -43,7 +43,7 @@ public class Given_Unknown_Erkenning
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        var commandEnvelope = new CommandEnvelope<CorrigeerErkenningCommand>(command, commandMetadata);
+        var commandEnvelope = new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata);
 
         var exception = await Assert.ThrowsAsync<ErkenningIsNietGekend>(async () =>
         {

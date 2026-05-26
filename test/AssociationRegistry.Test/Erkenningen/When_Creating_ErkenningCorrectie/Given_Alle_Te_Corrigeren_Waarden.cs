@@ -202,8 +202,8 @@ public class Given_Alle_Te_Corrigeren_Waarden
             NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 1, 1)),
             NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 12, 31)),
             NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 10, 10)),
-            "https://a-new-url.isborn"
-        );
+            "https://a-new-url.isborn",
+            WijzigingsTypeErkenning.CorrigeerValue);
         ;
     }
 }

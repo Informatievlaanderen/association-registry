@@ -1401,7 +1401,7 @@ public class BeheerVerenigingDetailProjector
             .ToArray();
     }
 
-    public static void Apply(IEvent<ErkenningWerdGecorrigeerd> @event, BeheerVerenigingDetailDocument document)
+    public static void Apply(IEvent<ErkenningWerdGewijzigd> @event, BeheerVerenigingDetailDocument document)
     {
         var today = DateOnly.FromDateTime(DateTime.Today);
 

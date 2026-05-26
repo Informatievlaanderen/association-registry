@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Erkenning.
     CommandHandling.Kbo;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
@@ -17,7 +17,7 @@ using Xunit;
 
 public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
 {
-    private readonly CorrigeerErkenningCommandHandler _commandHandler;
+    private readonly WijzigErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
@@ -29,7 +29,7 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        _commandHandler = new CorrigeerErkenningCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigErkenningCommandHandler(_verenigingRepositoryMock);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
         var hernieuwingsdatum =
             NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd.Startdatum.Value.AddDays(-1));
 
-        var command = _fixture.Create<CorrigeerErkenningCommand>() with
+        var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
             Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
@@ -62,7 +62,7 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
 
             await _commandHandler.Handle(
                 new CommandEnvelope<
-                    CorrigeerErkenningCommand>(
+                    WijzigErkenningCommand>(
                     command,
                     commandMetadata)
             );
@@ -80,7 +80,7 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
         var hernieuwingsdatum =
             NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd.Einddatum.Value.AddDays(1));
 
-        var command = _fixture.Create<CorrigeerErkenningCommand>() with
+        var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
             Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
@@ -101,7 +101,7 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
 
             await _commandHandler.Handle(
                 new CommandEnvelope<
-                    CorrigeerErkenningCommand>(
+                    WijzigErkenningCommand>(
                     command,
                     commandMetadata)
             );

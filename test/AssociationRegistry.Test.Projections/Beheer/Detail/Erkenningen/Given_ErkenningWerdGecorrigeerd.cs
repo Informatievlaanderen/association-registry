@@ -40,18 +40,18 @@ public class Given_ErkenningWerdGecorrigeerd(
                         Nummer = fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
                         Naam = fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Naam,
                     },
-                    Startdatum = fixture.Scenario.ErkenningWerdGecorrigeerd.Startdatum?.ToString(
+                    Startdatum = fixture.Scenario.ErkenningWerdGewijzigd.Startdatum?.ToString(
                         WellknownFormats.DateOnly
                     ),
-                    Einddatum = fixture.Scenario.ErkenningWerdGecorrigeerd.Einddatum?.ToString(
+                    Einddatum = fixture.Scenario.ErkenningWerdGewijzigd.Einddatum?.ToString(
                         WellknownFormats.DateOnly
                     ),
-                    Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGecorrigeerd.Hernieuwingsdatum?.ToString(
+                    Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGewijzigd.Hernieuwingsdatum?.ToString(
                         WellknownFormats.DateOnly
                     ),
-                    HernieuwingsUrl = fixture.Scenario.ErkenningWerdGecorrigeerd.HernieuwingsUrl,
+                    HernieuwingsUrl = fixture.Scenario.ErkenningWerdGewijzigd.HernieuwingsUrl,
                     RedenSchorsing = string.Empty,
-                    Status = fixture.Scenario.ErkenningWerdGecorrigeerd.Status,
+                    Status = fixture.Scenario.ErkenningWerdGewijzigd.Status,
                 },
             ]);
     }

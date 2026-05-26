@@ -1,13 +1,12 @@
-﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning.RequestModels;
+﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.WijzigErkenning.RequestModels;
 
 using System.Runtime.Serialization;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
-using Primitives;
+using AssociationRegistry.Primitives;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 
 [DataContract]
-public record CorrigeerErkenningRequest
+public record WijzigErkenningRequest
 {
     /// <summary>
     /// Datum waarop de erkenning hernieuwd kan worden. Een leeg veld (““) wordt geïnterpreteerd als null.
@@ -33,7 +32,13 @@ public record CorrigeerErkenningRequest
     [DataMember(Name = "eindDatum")]
     public NullOrEmpty<DateOnly> Einddatum { get; set; }
 
-    public CorrigeerErkenningCommand ToCommand(string vCode, int erkenningId) =>
+    /// <summary>
+    /// WijzigingsType wijziging van de erkenning (Corrigeer, Verlenging)
+    /// </summary>
+    [DataMember(Name = "type")]
+    public string WijgingsType { get; set; }
+
+    public WijzigErkenningCommand ToCommand(string vCode, int erkenningId) =>
         new(
             VCode.Create(vCode),
             DecentraalBeheer.Vereniging.Erkenningen.TeCorrigerenErkenning.Create(
@@ -41,6 +46,7 @@ public record CorrigeerErkenningRequest
                 Startdatum,
                 Einddatum,
                 Hernieuwingsdatum,
-                HernieuwingsUrl)
+                HernieuwingsUrl,
+                WijgingsType)
         );
 }

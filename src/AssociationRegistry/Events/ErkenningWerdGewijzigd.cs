@@ -3,13 +3,14 @@
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
-public record ErkenningWerdGecorrigeerd(
+public record ErkenningWerdGewijzigd(
     int ErkenningId,
     DateOnly? Startdatum,
     DateOnly? Einddatum,
     DateOnly? Hernieuwingsdatum,
     string HernieuwingsUrl,
-    string Status
+    string Status,
+    string Type
 ) : IEvent
 {
     [IgnoreDataMember]
@@ -23,6 +24,7 @@ public record ErkenningWerdGecorrigeerd(
         builder.Append($"Hernieuwingsdatum = {Hernieuwingsdatum}, ");
         builder.Append($"HernieuwingsUrl = {HernieuwingsUrl}, ");
         builder.Append($"Status = {Status}, ");
+        builder.Append($"WijzigingsType = {Type}, ");
 
         return true;
     }

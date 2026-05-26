@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning;
+﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.WijzigErkenning;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
@@ -7,14 +7,12 @@ using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
-using CorrigeerSchorsingErkenning.RequestModels;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using Examples;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -28,15 +26,15 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
-public class CorrigeerErkenningController : ApiController
+public class WijzigErkenningController : ApiController
 {
     private readonly IMessageBus _messageBus;
-    private readonly IValidator<CorrigeerErkenningRequest> _validator;
+    private readonly IValidator<WijzigErkenningRequest> _validator;
     private readonly AppSettings _appSettings;
 
-    public CorrigeerErkenningController(
+    public WijzigErkenningController(
         IMessageBus messageBus,
-        IValidator<CorrigeerErkenningRequest> validator,
+        IValidator<WijzigErkenningRequest> validator,
         AppSettings appSettings
     )
     {
@@ -59,14 +57,14 @@ public class CorrigeerErkenningController : ApiController
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen correcties.</response>
-    /// <response code="202">De erkenning werd gecorrigeerd.</response>
+    /// <response code="202">De erkenning werd gewijzigd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPatch("{vCode}/erkenningen/{erkenningId}")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerRequestExample(typeof(CorrigeerErkenningRequest), typeof(CorrigeerErkenningRequestExamples))]
+    [SwaggerRequestExample(typeof(WijzigErkenningRequest), typeof(WijzigErkenningRequestExamples))]
     [SwaggerResponseHeader(
         StatusCodes.Status202Accepted,
         WellknownHeaderNames.Sequence,
@@ -90,7 +88,7 @@ public class CorrigeerErkenningController : ApiController
     public async Task<IActionResult> Patch(
         [FromRoute] string vCode,
         [FromRoute] int erkenningId,
-        [FromBody] CorrigeerErkenningRequest request,
+        [FromBody] WijzigErkenningRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null
     )
@@ -98,7 +96,7 @@ public class CorrigeerErkenningController : ApiController
         await _validator.NullValidateAndThrowAsync(request);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<CorrigeerErkenningCommand>(request.ToCommand(vCode, erkenningId), metaData);
+        var envelope = new CommandEnvelope<WijzigErkenningCommand>(request.ToCommand(vCode, erkenningId), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
         return this.PatchResponse(commandResult);

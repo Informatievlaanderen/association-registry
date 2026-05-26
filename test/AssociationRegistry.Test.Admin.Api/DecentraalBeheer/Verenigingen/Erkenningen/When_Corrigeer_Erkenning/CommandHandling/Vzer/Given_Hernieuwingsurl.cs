@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Erkenning.
     CommandHandling.Vzer;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Websites.Exceptions;
@@ -17,7 +17,7 @@ using Xunit;
 
 public class Given_Hernieuwingsurl
 {
-    private readonly CorrigeerErkenningCommandHandler _commandHandler;
+    private readonly WijzigErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
@@ -29,7 +29,7 @@ public class Given_Hernieuwingsurl
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        _commandHandler = new CorrigeerErkenningCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigErkenningCommandHandler(_verenigingRepositoryMock);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class Given_Hernieuwingsurl
 
         var hernieuwingsUrl = "ftp://example.com";
 
-        var command = _fixture.Create<CorrigeerErkenningCommand>() with
+        var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
             Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
@@ -58,7 +58,7 @@ public class Given_Hernieuwingsurl
 
             await _commandHandler.Handle(
                 new CommandEnvelope<
-                    CorrigeerErkenningCommand>(
+                    WijzigErkenningCommand>(
                     command,
                     commandMetadata)
             );

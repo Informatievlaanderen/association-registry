@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Erkenning.CommandHandling.Kbo;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerErkenning;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -12,7 +12,7 @@ using Xunit;
 
 public class Given_The_Same_TeCorrigeren_Values
 {
-    private readonly CorrigeerErkenningCommandHandler _commandHandler;
+    private readonly WijzigErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
@@ -24,7 +24,7 @@ public class Given_The_Same_TeCorrigeren_Values
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        _commandHandler = new CorrigeerErkenningCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigErkenningCommandHandler(_verenigingRepositoryMock);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class Given_The_Same_TeCorrigeren_Values
     {
         var teCorrigerenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
-        var command = _fixture.Create<CorrigeerErkenningCommand>() with
+        var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
             Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
@@ -53,7 +53,7 @@ public class Given_The_Same_TeCorrigeren_Values
 
         await _commandHandler.Handle(
             new CommandEnvelope<
-                CorrigeerErkenningCommand>(
+                WijzigErkenningCommand>(
                 command,
                 commandMetadata)
         );

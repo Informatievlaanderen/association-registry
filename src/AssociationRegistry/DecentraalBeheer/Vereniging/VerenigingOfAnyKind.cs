@@ -677,7 +677,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var gecorrigeerdeErkenning = huidigeErkenning.CreateFromErkenningCorrectie(erkenningCorrectie);
         State.Erkenningen.KanGecorrigeerdeErkenningToevoegen(gecorrigeerdeErkenning);
 
-        AddEvent(EventFactory.ErkenningWerdGecorrigeerd(gecorrigeerdeErkenning));
+        AddEvent(EventFactory.ErkenningWerdGecorrigeerd(gecorrigeerdeErkenning, teCorrigerenErkenning.WijzigingsType));
     }
 
     public void VerwijderErkenning(int erkenningId, string initiator)

@@ -1169,7 +1169,7 @@ public static class PubliekVerenigingDetailProjector
             .ToArray();
     }
 
-    public static void Apply(IEvent<ErkenningWerdGecorrigeerd> @event, PubliekVerenigingDetailDocument document)
+    public static void Apply(IEvent<ErkenningWerdGewijzigd> @event, PubliekVerenigingDetailDocument document)
     {
         var erkenning = document.Erkenningen.Single(c => c.ErkenningId == @event.Data.ErkenningId);
         document.Erkenningen = document

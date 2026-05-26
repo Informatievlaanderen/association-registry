@@ -24,13 +24,15 @@ public class Given_Alle_Te_Corrigeren_Waarden
         var eindDatum = NullOrEmpty<DateOnly>.Create(_fixture.Create<DateOnly>());
         var hernieuwingsDatum = NullOrEmpty<DateOnly>.Create(_fixture.Create<DateOnly>());
         var hernieuwingsUrl = _fixture.Create<string>();
+        var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
 
         var erkenning = TeCorrigerenErkenning.Create(
             erkenningId,
             startDatum,
             eindDatum,
             hernieuwingsDatum,
-            hernieuwingsUrl);
+            hernieuwingsUrl,
+            wijzigingsType);
 
         erkenning.ErkenningId.Should().Be(erkenningId);
         erkenning.StartDatum.Should().Be(startDatum);

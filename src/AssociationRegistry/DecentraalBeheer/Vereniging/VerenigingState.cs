@@ -1018,7 +1018,7 @@ public record VerenigingState : IHasVersion
         };
     }
 
-    public VerenigingState Apply(ErkenningWerdGecorrigeerd @event)
+    public VerenigingState Apply(ErkenningWerdGewijzigd @event)
     {
         var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
 

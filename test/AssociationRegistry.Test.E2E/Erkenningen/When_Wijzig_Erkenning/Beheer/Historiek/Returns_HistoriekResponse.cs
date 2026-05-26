@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Corrigeer_Erkenning.Beheer.Historiek;
+﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Wijzig_Erkenning.Beheer.Historiek;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using AssociationRegistry.Events;
@@ -10,12 +10,12 @@ using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(CorrigeerErkenningCollection))]
+[Collection(nameof(WijzigErkenningCollection))]
 public class Returns_Historiek_Met_Erkenning : End2EndTest<HistoriekResponse>
 {
-    private readonly CorrigeerErkenningContext _testContext;
+    private readonly WijzigErkenningContext _testContext;
 
-    public Returns_Historiek_Met_Erkenning(CorrigeerErkenningContext testContext)
+    public Returns_Historiek_Met_Erkenning(WijzigErkenningContext testContext)
         : base(testContext.ApiSetup)
     {
         _testContext = testContext;
@@ -38,11 +38,11 @@ public class Returns_Historiek_Met_Erkenning : End2EndTest<HistoriekResponse>
     public void With_ErkenningWerdGecorigeerd_Gebeurtenissen()
     {
         var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x =>
-            x.Gebeurtenis == nameof(ErkenningWerdGecorrigeerd)
+            x.Gebeurtenis == nameof(ErkenningWerdGewijzigd)
         );
 
         gebeurtenisResponse.ShouldCompare(
-            HistoriekGebeurtenisMapper.ErkenningWerdGecorrigeerd(
+            HistoriekGebeurtenisMapper.ErkenningWerdGewijzigd(
                 _testContext.Scenario.ErkenningWerdGeregistreerd.ErkenningId,
                 _testContext.CommandRequest
             ),

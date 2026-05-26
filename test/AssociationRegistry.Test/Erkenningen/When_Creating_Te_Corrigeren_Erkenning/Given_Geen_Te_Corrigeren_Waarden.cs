@@ -21,12 +21,15 @@ public class Given_Geen_Te_Corrigeren_Waarden
     [Fact]
     public void Then_Throws_TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben()
     {
+        var wijzigingsType = WijzigingsTypeErkenning.CorrigeerValue;
+
         var exception = Assert.Throws<TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben>(() => TeCorrigerenErkenning.Create(
             _fixture.Create<int>(),
             NullOrEmpty<DateOnly>.Null,
             NullOrEmpty<DateOnly>.Null,
             NullOrEmpty<DateOnly>.Null,
-            null));
+            null,
+            wijzigingsType));
 
         exception.Message.Should().Be(ExceptionMessages.TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben);
     }

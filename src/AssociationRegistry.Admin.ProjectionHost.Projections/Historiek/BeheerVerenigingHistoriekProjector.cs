@@ -925,7 +925,7 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
-        IEvent<ErkenningWerdGecorrigeerd> @event,
+        IEvent<ErkenningWerdGewijzigd> @event,
         BeheerVerenigingHistoriekDocument document
     )
     {
@@ -933,7 +933,7 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            $"Erkenning werd gecorrigeerd."
+            $"Erkenning werd gewijzigd."
         );
     }
 
