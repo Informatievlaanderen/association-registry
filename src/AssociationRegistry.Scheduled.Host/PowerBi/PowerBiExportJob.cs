@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Scheduled.Host.PowerBi;
 
 using AssociationRegistry.Admin.Schema.PowerBiExport;
+using Exporters;
 using Marten;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

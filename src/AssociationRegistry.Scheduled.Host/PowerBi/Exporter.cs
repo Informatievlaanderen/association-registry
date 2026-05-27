@@ -1,30 +1,12 @@
 ﻿namespace AssociationRegistry.Scheduled.Host.PowerBi;
 
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using Amazon.S3;
 using Amazon.S3.Model;
-using AssociationRegistry.Admin.Schema.PowerBiExport;
 using CsvHelper;
 using Microsoft.Extensions.Logging;
 using Writers;
-
-public class PowerBiExporters : ReadOnlyCollection<Exporter<PowerBiExportDocument>>
-{
-    public PowerBiExporters(IList<Exporter<PowerBiExportDocument>> exporters)
-        : base(exporters)
-    {
-    }
-}
-
-public class PowerBiDubbelDetectieExporters : ReadOnlyCollection<Exporter<PowerBiExportDubbelDetectieDocument>>
-{
-    public PowerBiDubbelDetectieExporters(IList<Exporter<PowerBiExportDubbelDetectieDocument>> exporters)
-        : base(exporters)
-    {
-    }
-}
 
 public class Exporter<TSource>
 {

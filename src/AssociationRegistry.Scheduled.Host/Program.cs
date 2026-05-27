@@ -30,6 +30,7 @@ using Newtonsoft.Json.Linq;
 using NodaTime;
 using Persoonsgegevens;
 using PowerBi;
+using PowerBi.Exporters;
 using PowerBi.Writers;
 using Quartz;
 using Queries;
