@@ -60,7 +60,6 @@ public static class MartenExtensions
 
                 integration.AutoCreate = AutoCreate.None;
             })
-            .AddAsyncDaemon(DaemonMode.HotCold) // todo: remove, probably
             .UseLightweightSessions();
 
         martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
