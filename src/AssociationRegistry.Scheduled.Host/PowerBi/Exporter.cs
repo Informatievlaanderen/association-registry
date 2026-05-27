@@ -2,7 +2,6 @@
 
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Net;
 using System.Text;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -14,13 +13,17 @@ using Writers;
 public class PowerBiExporters : ReadOnlyCollection<Exporter<PowerBiExportDocument>>
 {
     public PowerBiExporters(IList<Exporter<PowerBiExportDocument>> exporters)
-        : base(exporters) { }
+        : base(exporters)
+    {
+    }
 }
 
 public class PowerBiDubbelDetectieExporters : ReadOnlyCollection<Exporter<PowerBiExportDubbelDetectieDocument>>
 {
     public PowerBiDubbelDetectieExporters(IList<Exporter<PowerBiExportDubbelDetectieDocument>> exporters)
-        : base(exporters) { }
+        : base(exporters)
+    {
+    }
 }
 
 public class Exporter<TSource>
@@ -29,21 +32,20 @@ public class Exporter<TSource>
     private readonly string _bucketName;
     private readonly IRecordWriter<TSource> _writer;
     private readonly IAmazonS3 _s3Client;
-    private readonly ILogger<Exporter<TSource>> _logger;
+    private readonly PowerBIS3Logger _logger;
 
     public Exporter(
         string key,
         string bucketName,
         IRecordWriter<TSource> writer,
         IAmazonS3 s3Client,
-        ILogger<Exporter<TSource>> logger
-    )
+        ILogger<Exporter<TSource>> logger)
     {
         _key = key;
         _bucketName = bucketName;
         _writer = writer;
         _s3Client = s3Client;
-        _logger = logger;
+        _logger = new PowerBIS3Logger(logger, bucketName, key);
     }
 
     public async Task Export(IEnumerable<TSource> docs)
@@ -63,55 +65,21 @@ public class Exporter<TSource>
             ContentType = "text/csv",
         };
 
-        _logger.LogInformation(
-            "Sending {MemoryStreamByteCount} bytes to s3 bucket {BucketName} with key {Key}.",
-            stream.Length,
-            _key,
-            _bucketName
-        );
+        _logger.LogS3UploadInformation(stream);
 
         try
         {
             var responseSendingToS3 = await _s3Client.PutObjectAsync(putRequest);
 
-            if (responseSendingToS3.HttpStatusCode == HttpStatusCode.OK)
-            {
-                _logger.LogInformation(
-                    "Successfully uploaded file to S3 bucket {BucketName} with key {Key}.",
-                    _bucketName,
-                    _key
-                );
-            }
-            else
-            {
-                _logger.LogError(
-                    "Upload to S3 returned unexpected status code {StatusCode} for bucket {BucketName} and key {Key}.",
-                    responseSendingToS3.HttpStatusCode,
-                    _bucketName,
-                    _key
-                );
-            }
+            _logger.LogS3UploadResponse(responseSendingToS3);
         }
         catch (AmazonS3Exception ex)
         {
-            _logger.LogError(
-                ex,
-                "AWS S3 error while uploading to bucket {BucketName} with key {Key}. StatusCode: {StatusCode}, Exception: {Exception}",
-                _bucketName,
-                _key,
-                ex.StatusCode,
-                ex.InnerException
-            );
+            _logger.LogS3Exception(ex);
         }
         catch (Exception ex)
         {
-            _logger.LogError(
-                ex,
-                "Unexpected error while uploading to bucket {BucketName} with key {Key}. Exception: {InnerException}",
-                _bucketName,
-                _key,
-                ex.InnerException
-            );
+            _logger.LogException(ex);
         }
     }
 

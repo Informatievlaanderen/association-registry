@@ -87,8 +87,7 @@ public class ErkenningenExportTests
             bucketName: "something",
             new ErkenningenRecordWriter(),
             _s3ClientMock.Object,
-            new NullLogger<Exporter<PowerBiExportDocument>>()
-        );
+            new NullLogger<Exporter<PowerBiExportDocument>>());
 
         await exporter.Export(docs);
     }

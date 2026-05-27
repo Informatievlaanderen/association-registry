@@ -201,8 +201,7 @@ public class Program
             options.BucketName,
             new TWriter(),
             sp.GetRequiredService<IAmazonS3>(),
-            sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>()
-        );
+            sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>());
 
     private static PowerBiDubbelDetectieExporters CreatePowerBiDubbelDetectieExporters(
         IServiceProvider sp,
@@ -230,8 +229,7 @@ public class Program
             options.BucketName,
             new TWriter(),
             sp.GetRequiredService<IAmazonS3>(),
-            sp.GetRequiredService<ILogger<Exporter<PowerBiExportDubbelDetectieDocument>>>()
-        );
+            sp.GetRequiredService<ILogger<Exporter<PowerBiExportDubbelDetectieDocument>>>());
 
     private static void ConfigureHealtChecks(WebApplication app)
     {
