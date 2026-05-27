@@ -132,8 +132,8 @@ public class Program
             .AddSingleton(postgreSqlOptions)
             .AddSingleton<IClock>(SystemClock.Instance)
             .AddSingleton<IAmazonS3, AmazonS3Client>()
-            .AddSingleton(sp => CreatePowerBiExporters(sp, powerBiExportOptions))
-            .AddSingleton(sp => CreatePowerBiDubbelDetectieExporters(sp, powerBiExportOptions))
+            .AddSingleton(sp => PowerBiExporters.Create(sp, powerBiExportOptions))
+            .AddSingleton(sp => PowerBiDubbelDetectieExporters.Create(sp, powerBiExportOptions))
             .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
             .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
             .AddSingleton<EventConflictResolver>()
@@ -151,86 +151,6 @@ public class Program
             .AddScoped<IVerlopenBewaartermijnQuery, VerlopenBewaartermijnQuery>()
             .AddScoped<INotifier, SlackNotifier>();
     }
-
-    private static PowerBiExporters CreatePowerBiExporters(
-        IServiceProvider sp,
-        PowerBiExportOptions powerBiExportOptions
-    ) =>
-        new(
-            new List<Exporter<PowerBiExportDocument>>
-            {
-                CreateExporter<BasisgegevensRecordWriter>(sp, powerBiExportOptions, WellKnownFileNames.Basisgegevens),
-                CreateExporter<ContactgegevensRecordWriter>(
-                    sp,
-                    powerBiExportOptions,
-                    WellKnownFileNames.Contactgegevens
-                ),
-                CreateExporter<HoofdactiviteitenRecordWriter>(
-                    sp,
-                    powerBiExportOptions,
-                    WellKnownFileNames.Hoofdactiviteiten
-                ),
-                CreateExporter<WerkingsgebiedenRecordWriter>(
-                    sp,
-                    powerBiExportOptions,
-                    WellKnownFileNames.Werkingsgebieden
-                ),
-                CreateExporter<LocatiesRecordWriter>(sp, powerBiExportOptions, WellKnownFileNames.Locaties),
-                CreateExporter<HistoriekRecordWriter>(sp, powerBiExportOptions, WellKnownFileNames.Historiek),
-                CreateExporter<LidmaatschappenRecordWriter>(
-                    sp,
-                    powerBiExportOptions,
-                    WellKnownFileNames.Lidmaatschappen
-                ),
-                CreateExporter<BankrekeningnummerRecordWriter>(
-                    sp,
-                    powerBiExportOptions,
-                    WellKnownFileNames.Bankrekeningnummers
-                ),
-                CreateExporter<ErkenningenRecordWriter>(sp, powerBiExportOptions, WellKnownFileNames.Erkenningen),
-            }
-        );
-
-    private static Exporter<PowerBiExportDocument> CreateExporter<TWriter>(
-        IServiceProvider sp,
-        PowerBiExportOptions options,
-        string fileName
-    )
-        where TWriter : class, IRecordWriter<PowerBiExportDocument>, new() =>
-        new(
-            fileName,
-            options.BucketName,
-            new TWriter(),
-            sp.GetRequiredService<IAmazonS3>(),
-            sp.GetRequiredService<ILogger<Exporter<PowerBiExportDocument>>>());
-
-    private static PowerBiDubbelDetectieExporters CreatePowerBiDubbelDetectieExporters(
-        IServiceProvider sp,
-        PowerBiExportOptions options
-    ) =>
-        new(
-            new List<Exporter<PowerBiExportDubbelDetectieDocument>>
-            {
-                CreateDubbelDetectieExporter<DubbelDetectieRecordWriter>(
-                    sp,
-                    options,
-                    WellKnownFileNames.DubbelDetectie
-                ),
-            }
-        );
-
-    private static Exporter<PowerBiExportDubbelDetectieDocument> CreateDubbelDetectieExporter<TWriter>(
-        IServiceProvider sp,
-        PowerBiExportOptions options,
-        string fileName
-    )
-        where TWriter : class, IRecordWriter<PowerBiExportDubbelDetectieDocument>, new() =>
-        new(
-            fileName,
-            options.BucketName,
-            new TWriter(),
-            sp.GetRequiredService<IAmazonS3>(),
-            sp.GetRequiredService<ILogger<Exporter<PowerBiExportDubbelDetectieDocument>>>());
 
     private static void ConfigureHealtChecks(WebApplication app)
     {
