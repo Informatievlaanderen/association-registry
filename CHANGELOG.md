@@ -1,3 +1,10 @@
+# [8.324.0](https://github.com/informatievlaanderen/association-registry/compare/v8.323.0...v8.324.0) (2026-05-27)
+
+
+### Features
+
+* or-3126 errorlogging when sending csv files to S3 bucket in scheduled host ([740f371](https://github.com/informatievlaanderen/association-registry/commit/740f3717ac26b9ed29262b950674859811298e6d))
+
 # [8.323.0](https://github.com/informatievlaanderen/association-registry/compare/v8.322.0...v8.323.0) (2026-05-21)
 
 
