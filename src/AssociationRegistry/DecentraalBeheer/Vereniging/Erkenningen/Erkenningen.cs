@@ -49,17 +49,6 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return new Erkenningen(erkenningen, Math.Max(erkenningen.Max(x => x.ErkenningId) + 1, NextId));
     }
 
-    public void KanGecorrigeerdeErkenningToevoegen(Erkenning erkenningCorrectie)
-    {
-        var huidigeErkenningen = this.Without(erkenningCorrectie.ErkenningId);
-
-        var heeftConflictMetHuidigeErkenning = huidigeErkenningen.Any(bestaande =>
-            bestaande.HeeftConflictMet(erkenningCorrectie)
-        );
-
-        Throw<ErkenningBestaatAl>.If(heeftConflictMetHuidigeErkenning);
-    }
-
     public void KanGewijzigdeErkenningToevoegen(Erkenning erkenning)
     {
         var huidigeErkenningen = this.Without(erkenning.ErkenningId);
