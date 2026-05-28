@@ -665,25 +665,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         );
     }
 
-    public void CorrigeerErkenning(TeCorrigerenErkenning teCorrigerenErkenning, string initiator)
-    {
-        var huidigeErkenning = State.Erkenningen.GetById(teCorrigerenErkenning.ErkenningId);
-
-        Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
-
-        var erkenningCorrectie = ErkenningCorrectie.Create(teCorrigerenErkenning, huidigeErkenning);
-
-        var heeftWijzigingen = erkenningCorrectie.HeeftWijzigingen(huidigeErkenning);
-
-        if (!heeftWijzigingen)
-            return;
-
-        var gecorrigeerdeErkenning = huidigeErkenning.CreateFromErkenningCorrectie(erkenningCorrectie);
-        State.Erkenningen.KanGecorrigeerdeErkenningToevoegen(gecorrigeerdeErkenning);
-
-        AddEvent(EventFactory.ErkenningWerdGecorrigeerd(gecorrigeerdeErkenning));
-    }
-
     public void WijzigErkenning(TeWijzigenErkenning teWijzigenErkenning, string initiator)
     {
         Throw<RedenVanWijzigingIsVerplicht>.If(string.IsNullOrWhiteSpace(teWijzigenErkenning.RedenVanWijziging));

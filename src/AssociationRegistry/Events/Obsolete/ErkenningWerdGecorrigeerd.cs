@@ -3,6 +3,7 @@
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
+[Obsolete("Feature was gedeployed on test environment but was dropped. Kept event for supporting existing events.")]
 public record ErkenningWerdGecorrigeerd(
     int ErkenningId,
     DateOnly? Startdatum,

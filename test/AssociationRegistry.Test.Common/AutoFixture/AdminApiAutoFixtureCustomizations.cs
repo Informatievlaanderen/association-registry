@@ -4,7 +4,6 @@ using global::AutoFixture;
 using Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
-using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Erkenningen.RegistreerErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Erkenningen.WijzigErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
@@ -17,19 +16,16 @@ using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegV
 using Admin.Api.WebApi.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.WijzigVertegenwoordiger.RequestModels;
 using Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Admin.Schema;
-using Admin.Schema.Detail;
 using Admin.Schema.Search;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Emails;
-using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.SocialMedias;
 using DecentraalBeheer.Vereniging.TelefoonNummers;
 using Events;
 using Formats;
 using Primitives;
-using Vereniging;
 using Adres = Admin.Api.WebApi.Verenigingen.Common.Adres;
 using Contactgegeven = DecentraalBeheer.Vereniging.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket;
@@ -78,7 +74,6 @@ public static class AdminApiAutoFixtureCustomizations
 
         fixture.CustomizeRegistreerErkenningRequest();
         fixture.CustomizeTeRegistrerenErkenningRequest();
-        fixture.CustomizeTeCorrigerenErkenningRequest();
         fixture.CustomizeTeWijzigenErkenningRequest();
 
         return fixture;
@@ -768,39 +763,6 @@ public static class AdminApiAutoFixtureCustomizations
                                                               };
                                                           })
                                                          .OmitAutoProperties()
-        );
-    }
-
-    private static void CustomizeTeCorrigerenErkenningRequest(this IFixture fixture)
-    {
-        fixture.Customize<CorrigeerErkenningRequest>(composer =>
-                                                         composer
-                                                            .FromFactory(() =>
-                                                             {
-                                                                 var start = NullOrEmpty<DateOnly>.Create(
-                                                                     fixture.Create<DateOnly>());
-
-                                                                 var addDays = fixture.Create<int>();
-                                                                 var renew = start.Value.AddDays(addDays);
-
-                                                                 var end = start.Value.AddDays(
-                                                                     addDays + fixture.Create<int>());
-
-                                                                 var protocol = fixture.Create<bool>()
-                                                                     ? "http"
-                                                                     : "https";
-
-                                                                 return new CorrigeerErkenningRequest()
-                                                                 {
-                                                                     Startdatum = start,
-                                                                     Hernieuwingsdatum =
-                                                                         NullOrEmpty<DateOnly>.Create(renew),
-                                                                     Einddatum = NullOrEmpty<DateOnly>.Create(end),
-                                                                     HernieuwingsUrl =
-                                                                         $"{protocol}://www.example.com/{fixture.Create<Guid>()}",
-                                                                 };
-                                                             })
-                                                            .OmitAutoProperties()
         );
     }
 
