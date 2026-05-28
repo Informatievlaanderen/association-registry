@@ -342,6 +342,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<ErkenningWerdGecorrigeerd> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<ErkenningWerdGewijzigd> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
     public async Task Project(IEvent<ErkenningWerdVerwijderd> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 

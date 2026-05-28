@@ -1421,6 +1421,24 @@ public class BeheerVerenigingDetailProjector
             .OrderBy(b => b.ErkenningId)
             .ToArray();
     }
+    public static void Apply(IEvent<ErkenningWerdGewijzigd> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Erkenningen = document
+            .Erkenningen.UpdateSingle(
+                identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
+                update: b =>
+                    b with
+                    {
+                        Startdatum = @event.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+                        Einddatum = @event.Data.Einddatum?.ToString(WellknownFormats.DateOnly),
+                        Hernieuwingsdatum = @event.Data.Hernieuwingsdatum?.ToString(WellknownFormats.DateOnly),
+                        HernieuwingsUrl = @event.Data.HernieuwingsUrl,
+                        Status = @event.Data.Status,
+                    }
+            )
+            .OrderBy(b => b.ErkenningId)
+            .ToArray();
+    }
 
     public static void Apply(IEvent<SchorsingVanErkenningWerdOpgeheven> @event, BeheerVerenigingDetailDocument document)
     {
