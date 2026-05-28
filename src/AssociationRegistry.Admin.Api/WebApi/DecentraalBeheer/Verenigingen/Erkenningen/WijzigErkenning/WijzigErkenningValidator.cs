@@ -27,5 +27,5 @@ public class WijzigErkenningValidator : AbstractValidator<WijzigErkenningRequest
         request.Startdatum.HasValue
      || request.Einddatum.HasValue
      || request.Hernieuwingsdatum.HasValue
-     || !string.IsNullOrWhiteSpace(request.HernieuwingsUrl);
+     || request.HernieuwingsUrl is not null;
 }

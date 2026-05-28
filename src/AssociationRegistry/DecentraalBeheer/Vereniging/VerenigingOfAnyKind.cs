@@ -701,5 +701,5 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         teWijzigenErkenning.StartDatum.HasValue
      || teWijzigenErkenning.EindDatum.HasValue
      || teWijzigenErkenning.Hernieuwingsdatum.HasValue
-     || !string.IsNullOrWhiteSpace(teWijzigenErkenning.HernieuwingsUrl);
+     || teWijzigenErkenning.HernieuwingsUrl is not null;
 }

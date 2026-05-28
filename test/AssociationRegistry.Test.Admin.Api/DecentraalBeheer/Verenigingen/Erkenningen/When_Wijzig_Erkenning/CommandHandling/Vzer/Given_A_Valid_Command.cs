@@ -217,7 +217,7 @@ public class Given_A_Valid_Command
 
     [Fact]
     public async ValueTask
-        With_Hernieuwingsurl_Then_It_Adds_An_ErkenningWerdGewijzigd_Event_With_Hernieuwingsurl_From_Command()
+        With_Valid_Scheme_Hernieuwingsurl_Then_It_Adds_An_ErkenningWerdGewijzigd_Event_With_Hernieuwingsurl_From_Command()
     {
         var teWijzigenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
@@ -247,6 +247,51 @@ public class Given_A_Valid_Command
                 _scenario.ErkenningWerdGeregistreerd.Einddatum.Value,
                 _scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum.Value,
                 command.Erkenning.HernieuwingsUrl,
+                ErkenningStatus
+                   .Bepaal(
+                        ErkenningsPeriode.Create(_scenario.ErkenningWerdGeregistreerd.Startdatum,
+                                                 _scenario.ErkenningWerdGeregistreerd.Einddatum),
+                        DateOnly.FromDateTime(DateTime.Today)
+                    )
+                   .Value,
+                command.Erkenning.RedenVanWijziging
+            )
+        );
+    }
+
+    [Fact]
+    public async ValueTask
+        With_Empty_Hernieuwingsurl_Then_It_Adds_An_ErkenningWerdGewijzigd_Event_With_Empty_Hernieuwingsurl()
+    {
+        var teWijzigenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
+
+        var command = _fixture.Create<WijzigErkenningCommand>() with
+        {
+            VCode = _scenario.VCode,
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with
+            {
+                ErkenningId = teWijzigenErkenningId,
+                StartDatum = NullOrEmpty<DateOnly>.Null,
+                EindDatum = NullOrEmpty<DateOnly>.Null,
+                Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
+                HernieuwingsUrl = string.Empty,
+            },
+        };
+
+        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+        };
+
+        await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata));
+
+        _verenigingRepositoryMock.ShouldHaveSavedExact(
+            new ErkenningWerdGewijzigd(
+                command.Erkenning.ErkenningId,
+                _scenario.ErkenningWerdGeregistreerd.Startdatum.Value,
+                _scenario.ErkenningWerdGeregistreerd.Einddatum.Value,
+                _scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum.Value,
+                string.Empty,
                 ErkenningStatus
                    .Bepaal(
                         ErkenningsPeriode.Create(_scenario.ErkenningWerdGeregistreerd.Startdatum,
