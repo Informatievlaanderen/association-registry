@@ -62,6 +62,43 @@ public sealed record ErkenningCorrectie
             status
         );
     }
+    public static ErkenningCorrectie Create(TeWijzigenErkenning teWijzigenErkenning, Erkenning erkenning)
+    {
+        var startdatum = DetermineTeCorrigerenDatum(
+            teWijzigenErkenning.StartDatum,
+            erkenning.ErkenningsPeriode.Startdatum
+        );
+        var einddatum = DetermineTeCorrigerenDatum(
+            teWijzigenErkenning.EindDatum,
+            erkenning.ErkenningsPeriode.Einddatum
+        );
+        var erkenningsperiode = ErkenningsPeriode.Create(startdatum, einddatum);
+
+        var hernieuwingsdatumDate = DetermineTeCorrigerenDatum(
+            teWijzigenErkenning.Hernieuwingsdatum,
+            erkenning.Hernieuwingsdatum.Value
+        );
+        var hernieuwingsdatum = Hernieuwingsdatum.Create(hernieuwingsdatumDate, erkenningsperiode);
+
+        var hernieuwingsUrl = DetermineTeCorrigerenHernieuwingsUrl(
+            teWijzigenErkenning.HernieuwingsUrl,
+            erkenning.HernieuwingsUrl
+        );
+
+        var status = ErkenningStatus.BepaalVoorCorrectie(
+            erkenning.Status,
+            erkenningsperiode,
+            DateOnly.FromDateTime(DateTime.Today)
+        );
+
+        return new ErkenningCorrectie(
+            erkenning.ErkenningId,
+            erkenningsperiode,
+            hernieuwingsdatum,
+            hernieuwingsUrl,
+            status
+        );
+    }
 
     private static DateOnly? DetermineTeCorrigerenDatum(NullOrEmpty<DateOnly> commandValue, DateOnly? stateValue) =>
         commandValue.IsNull ? stateValue

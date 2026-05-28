@@ -25,7 +25,12 @@ public record TeCorrigerenSchorsingErkenning
 
 public record TeCorrigerenErkenning
 {
-    private TeCorrigerenErkenning(int erkenningId, NullOrEmpty<DateOnly> startDatum, NullOrEmpty<DateOnly> eindDatum, NullOrEmpty<DateOnly> hernieuwingsDatum, string? hernieuwingsUrl)
+    private TeCorrigerenErkenning(
+        int erkenningId,
+        NullOrEmpty<DateOnly> startDatum,
+        NullOrEmpty<DateOnly> eindDatum,
+        NullOrEmpty<DateOnly> hernieuwingsDatum,
+        string? hernieuwingsUrl)
     {
         ErkenningId = erkenningId;
         StartDatum = startDatum;
@@ -54,6 +59,61 @@ public record TeCorrigerenErkenning
     public NullOrEmpty<DateOnly> Hernieuwingsdatum { get; set; }
 
     public static bool HeeftGeenTeCorrigerenWaarde(
+        NullOrEmpty<DateOnly> startDatum,
+        NullOrEmpty<DateOnly> eindDatum,
+        NullOrEmpty<DateOnly> hernieuwingsDatum,
+        string? hernieuwingsUrl)
+        => startDatum.IsNull &&
+           eindDatum.IsNull &&
+           hernieuwingsUrl is null &&
+           hernieuwingsDatum.IsNull;
+}
+
+public record TeWijzigenErkenning
+{
+    private TeWijzigenErkenning(
+        int erkenningId,
+        NullOrEmpty<DateOnly> startDatum,
+        NullOrEmpty<DateOnly> eindDatum,
+        NullOrEmpty<DateOnly> hernieuwingsDatum,
+        string? hernieuwingsUrl,
+        string redenVanWijziging)
+    {
+        ErkenningId = erkenningId;
+        StartDatum = startDatum;
+        EindDatum = eindDatum;
+        Hernieuwingsdatum = hernieuwingsDatum;
+        HernieuwingsUrl = hernieuwingsUrl;
+        RedenVanWijziging = redenVanWijziging;
+    }
+
+    public static TeWijzigenErkenning Create(
+        int erkenningId,
+        NullOrEmpty<DateOnly> startDatum,
+        NullOrEmpty<DateOnly> eindDatum,
+        NullOrEmpty<DateOnly> hernieuwingsDatum,
+        string? hernieuwingsUrl,
+        string redenVanWijziging)
+    {
+        if (HeeftGeenTeWijzigenWaarde(startDatum, eindDatum, hernieuwingsDatum, hernieuwingsUrl))
+            throw new MinstensEenVeldMoetIngevuldZijn();
+
+        return new TeWijzigenErkenning(erkenningId,
+                                       startDatum,
+                                       eindDatum,
+                                       hernieuwingsDatum,
+                                       hernieuwingsUrl,
+                                       redenVanWijziging);
+    }
+
+    public int ErkenningId { get; set; }
+    public NullOrEmpty<DateOnly> StartDatum { get; set; }
+    public NullOrEmpty<DateOnly> EindDatum { get; set; }
+    public string? HernieuwingsUrl { get; set; } = null!;
+    public string RedenVanWijziging { get; set; } = null!;
+    public NullOrEmpty<DateOnly> Hernieuwingsdatum { get; set; }
+
+    public static bool HeeftGeenTeWijzigenWaarde(
         NullOrEmpty<DateOnly> startDatum,
         NullOrEmpty<DateOnly> eindDatum,
         NullOrEmpty<DateOnly> hernieuwingsDatum,

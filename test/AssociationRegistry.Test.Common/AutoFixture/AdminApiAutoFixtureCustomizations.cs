@@ -6,6 +6,7 @@ using Admin.Api.WebApi.Verenigingen.Common;
 using Admin.Api.WebApi.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Erkenningen.RegistreerErkenning.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Erkenningen.WijzigErkenning.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.WebApi.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
@@ -78,6 +79,7 @@ public static class AdminApiAutoFixtureCustomizations
         fixture.CustomizeRegistreerErkenningRequest();
         fixture.CustomizeTeRegistrerenErkenningRequest();
         fixture.CustomizeTeCorrigerenErkenningRequest();
+        fixture.CustomizeTeWijzigenErkenningRequest();
 
         return fixture;
     }
@@ -796,6 +798,40 @@ public static class AdminApiAutoFixtureCustomizations
                                                                      Einddatum = NullOrEmpty<DateOnly>.Create(end),
                                                                      HernieuwingsUrl =
                                                                          $"{protocol}://www.example.com/{fixture.Create<Guid>()}",
+                                                                 };
+                                                             })
+                                                            .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeTeWijzigenErkenningRequest(this IFixture fixture)
+    {
+        fixture.Customize<WijzigErkenningRequest>(composer =>
+                                                         composer
+                                                            .FromFactory(() =>
+                                                             {
+                                                                 var start = NullOrEmpty<DateOnly>.Create(
+                                                                     fixture.Create<DateOnly>());
+
+                                                                 var addDays = fixture.Create<int>();
+                                                                 var renew = start.Value.AddDays(addDays);
+
+                                                                 var end = start.Value.AddDays(
+                                                                     addDays + fixture.Create<int>());
+
+                                                                 var protocol = fixture.Create<bool>()
+                                                                     ? "http"
+                                                                     : "https";
+
+                                                                 return new WijzigErkenningRequest
+                                                                 {
+                                                                     Startdatum = start,
+                                                                     Hernieuwingsdatum =
+                                                                         NullOrEmpty<DateOnly>.Create(renew),
+                                                                     Einddatum = NullOrEmpty<DateOnly>.Create(end),
+                                                                     HernieuwingsUrl =
+                                                                         $"{protocol}://www.example.com/{fixture.Create<Guid>()}",
+                                                                     RedenVanWijziging = fixture.Create<string>(),
                                                                  };
                                                              })
                                                             .OmitAutoProperties()
