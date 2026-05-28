@@ -528,6 +528,17 @@ public static class EventFactory
             gecorrigeerdeErkenning.Status.Value
         );
 
+    public static ErkenningWerdGewijzigd ErkenningWerdGewijzigd(Erkenning erkenning, string redenVanWijziging) =>
+        new(
+            erkenning.ErkenningId,
+            erkenning.ErkenningsPeriode.Startdatum,
+            erkenning.ErkenningsPeriode.Einddatum,
+            erkenning.Hernieuwingsdatum.Value,
+            erkenning.HernieuwingsUrl.Value,
+            erkenning.Status.Value,
+            redenVanWijziging
+        );
+
     public static ErkenningWerdVerwijderd ErkenningWerdVerwijderd(int erkenningId)
         => new(erkenningId);
 

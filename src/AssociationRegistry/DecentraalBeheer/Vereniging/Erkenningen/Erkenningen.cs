@@ -59,6 +59,17 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
 
         Throw<ErkenningBestaatAl>.If(heeftConflictMetHuidigeErkenning);
     }
+
+    public void KanGewijzigdeErkenningToevoegen(Erkenning erkenning)
+    {
+        var huidigeErkenningen = this.Without(erkenning.ErkenningId);
+
+        var heeftConflictMetHuidigeErkenning = huidigeErkenningen.Any(bestaande =>
+            bestaande.HeeftConflictMet(erkenning)
+        );
+
+        Throw<ErkenningBestaatAl>.If(heeftConflictMetHuidigeErkenning);
+    }
 }
 
 public static class ErkenningenEnumerableExtensions

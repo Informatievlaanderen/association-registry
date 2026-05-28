@@ -379,6 +379,12 @@
   <data name="TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben">
     <value>De te corrigeren erkenning moet minstens één te corrigeren waarde hebben.</value>
   </data>
+  <data name="MinstensEenVeldMoetIngevuldZijn">
+    <value>Minstens één veld moet ingevuld zijn.</value>
+  </data>
+  <data name="RedenVanWijzigingIsVerplicht">
+    <value>RedenVanWijziging is verplicht.</value>
+  </data>
   <data name="ErkenningIsGeschorst">
     <value>Een geschorste erkenning kan niet verwijderd worden.</value>
   </data>

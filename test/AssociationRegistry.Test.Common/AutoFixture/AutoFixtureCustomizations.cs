@@ -57,6 +57,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeIban();
         fixture.CustomizeErkenning();
         fixture.CustomizeTeCorrigerenErkenning();
+        fixture.CustomizeTeWijzigenErkenning();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -524,6 +525,38 @@ public static class AutoFixtureCustomizations
                         NullOrEmpty<DateOnly>.Create(einddatum),
                         NullOrEmpty<DateOnly>.Create(hernieuwingsDatum),
                         hernieuwingsUrl
+                    );
+                })
+                .OmitAutoProperties()
+        );
+    }
+    private static void CustomizeTeWijzigenErkenning(this IFixture fixture)
+    {
+        fixture.Customize<TeWijzigenErkenning>(composer =>
+            composer
+                .FromFactory(() =>
+                {
+                    var startdatum = fixture.Create<DateOnly>();
+
+                    var addDays = fixture.Create<int>();
+
+                    var hernieuwingsDatum = startdatum.AddDays(addDays);
+
+                    var einddatum = hernieuwingsDatum.AddDays(fixture.Create<int>());
+
+                    var protocol = fixture.Create<bool>() ? "http" : "https";
+
+                    var hernieuwingsUrl = $"{protocol}://www.example.com/{fixture.Create<Guid>()}";
+
+                    var redenVanSchorsing = fixture.Create<string>();
+
+                    return TeWijzigenErkenning.Create(
+                        fixture.Create<int>(),
+                        NullOrEmpty<DateOnly>.Create(startdatum),
+                        NullOrEmpty<DateOnly>.Create(einddatum),
+                        NullOrEmpty<DateOnly>.Create(hernieuwingsDatum),
+                        hernieuwingsUrl,
+                        redenVanSchorsing
                     );
                 })
                 .OmitAutoProperties()
