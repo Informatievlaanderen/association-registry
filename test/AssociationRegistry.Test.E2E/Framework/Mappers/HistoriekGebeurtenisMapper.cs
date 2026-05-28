@@ -1381,7 +1381,7 @@ public static class HistoriekGebeurtenisMapper
     ) =>
         new()
         {
-            Beschrijving = $"Erkenning werd gewijzigd.",
+            Beschrijving = $"Erkenning werd gewijzigd omwille van volgende reden: {request.RedenVanWijziging}",
             Gebeurtenis = nameof(Events.ErkenningWerdGewijzigd),
             Data = new ErkenningWerdGewijzigd(
                 erkenningId,

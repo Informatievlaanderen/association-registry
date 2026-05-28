@@ -1188,6 +1188,25 @@ public static class PubliekVerenigingDetailProjector
             .ToArray();
     }
 
+    public static void Apply(IEvent<ErkenningWerdGewijzigd> @event, PubliekVerenigingDetailDocument document)
+    {
+        var erkenning = document.Erkenningen.Single(c => c.ErkenningId == @event.Data.ErkenningId);
+        document.Erkenningen = document
+            .Erkenningen.Where(c => c.ErkenningId != @event.Data.ErkenningId)
+            .Append(
+                erkenning with
+                {
+                    Startdatum = @event.Data.Startdatum,
+                    Einddatum = @event.Data.Einddatum,
+                    Hernieuwingsdatum = @event.Data.Hernieuwingsdatum,
+                    HernieuwingsUrl = @event.Data.HernieuwingsUrl,
+                    Status = @event.Data.Status,
+                }
+            )
+            .OrderBy(c => c.ErkenningId)
+            .ToArray();
+    }
+
     public static void Apply(IEvent<ErkenningWerdVerwijderd> @event, PubliekVerenigingDetailDocument document)
     {
         document.Erkenningen = document

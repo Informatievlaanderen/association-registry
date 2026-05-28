@@ -937,6 +937,19 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(
+        IEvent<ErkenningWerdGewijzigd> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Erkenning werd gewijzigd omwille van volgende reden: {@event.Data.RedenVanWijziging}"
+        );
+    }
+
     public static void Apply(IEvent<ErkenningWerdVerwijderd> @event, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(@event, @event.Data, document, "Erkenning werd verwijderd");

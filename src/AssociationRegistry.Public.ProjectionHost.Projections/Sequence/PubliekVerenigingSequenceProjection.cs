@@ -478,6 +478,11 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
     ) => UpdateVersion(e, doc);
 
     public PubliekVerenigingSequenceDocument Apply(
+        IEvent<ErkenningWerdGewijzigd> e,
+        PubliekVerenigingSequenceDocument doc
+    ) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
         IEvent<ErkenningWerdVerwijderd> e,
         PubliekVerenigingSequenceDocument doc
     ) => UpdateVersion(e, doc);
