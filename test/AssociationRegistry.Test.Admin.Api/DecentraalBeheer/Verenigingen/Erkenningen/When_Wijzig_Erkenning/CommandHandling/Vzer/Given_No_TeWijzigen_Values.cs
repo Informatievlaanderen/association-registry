@@ -46,7 +46,7 @@ public class Given_No_TeWijzigen_Values
                 StartDatum = NullOrEmpty<DateOnly>.Null,
                 EindDatum = NullOrEmpty<DateOnly>.Null,
                 Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
-                HernieuwingsUrl = string.Empty,
+                HernieuwingsUrl = null,
             },
         };
 

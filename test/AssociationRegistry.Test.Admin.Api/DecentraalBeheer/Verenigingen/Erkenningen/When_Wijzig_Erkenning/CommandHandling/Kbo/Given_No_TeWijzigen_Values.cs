@@ -42,10 +42,10 @@ public class Given_No_TeWijzigen_Values
             Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
                 ErkenningId = teWijzigenErkenningId,
-                StartDatum = NullOrEmpty<DateOnly>.Null,
+                StartDatum = NullOrEmpty<DateOnly>.Empty,
                 EindDatum = NullOrEmpty<DateOnly>.Null,
                 Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
-                HernieuwingsUrl = string.Empty,
+                HernieuwingsUrl = null,
             },
         };
 

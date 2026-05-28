@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.WijzigErkenning;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.WijzigErkenning.RequestModels;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
+using Framework;
+using Resources;
 using Xunit;
 
 public class WijzigErkenningValidatorTests : ValidatorTest
