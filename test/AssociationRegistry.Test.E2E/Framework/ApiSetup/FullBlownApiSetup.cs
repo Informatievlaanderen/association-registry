@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
+using System.Diagnostics;
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
 using Admin.ProjectionHost.Projections;
@@ -11,31 +12,32 @@ using Common.Clients;
 using Common.Database;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
+using Elastic.Clients.Elasticsearch;
+using EventStore.ConflictResolution;
 using Grar.NutsLau;
 using Hosts.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using JasperFx;
+using JasperFx.CodeGeneration;
 using JasperFx.CommandLine;
 using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
+using MartenDb.Store;
+using MartenDb.Transformers;
+using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Elastic.Clients.Elasticsearch;
-using EventStore.ConflictResolution;
-using MartenDb.Store;
-using MartenDb.Transformers;
-using MartenDb.VertegenwoordigerPersoonsgegevens;
 using NodaTime;
 using NodaTime.Text;
 using Npgsql;
 using Oakton;
 using Scenarios.Givens.FeitelijkeVereniging;
-using System.Diagnostics;
-using MartenDb.BankrekeningnummerPersoonsgegevens;
 using TestClasses;
 using Vereniging;
 using Wolverine;
@@ -44,9 +46,7 @@ using ProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 {
-    public FullBlownApiSetup()
-    {
-    }
+    public FullBlownApiSetup() { }
 
     public string? AuthCookie { get; private set; }
     public ILogger<Program> Logger { get; private set; }
@@ -65,10 +65,12 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         JasperFxEnvironment.AutoStartHost = true;
 
-        var adminApiHost = await AlbaHost.For<Program>(ConfigureForTesting("adminapi"));
+        var adminApiHost = await AlbaHost.For<Program>(ConfigureForTesting<Program>("adminapi"));
 
-        var clients = new Clients(adminApiHost.Services.GetRequiredService<OAuth2IntrospectionOptions>(),
-                                  createClientFunc: () => new HttpClient());
+        var clients = new Clients(
+            adminApiHost.Services.GetRequiredService<OAuth2IntrospectionOptions>(),
+            createClientFunc: () => new HttpClient()
+        );
 
         SuperAdminHttpClient = clients.SuperAdmin.HttpClient;
         UnautenticatedClient = clients.Unauthenticated.HttpClient;
@@ -79,8 +81,9 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         await AdminApiHost.ResetAllMartenDataAsync();
 
-        var elasticSearchOptions = AdminApiHost.Server.Services.GetRequiredService<IConfiguration>()
-                                               .GetElasticSearchOptionsSection();
+        var elasticSearchOptions = AdminApiHost
+            .Server.Services.GetRequiredService<IConfiguration>()
+            .GetElasticSearchOptionsSection();
 
         ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
         await ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.DuplicateDetection);
@@ -88,19 +91,20 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await InsertNutsLauInfo();
 
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
-            ConfigureForTesting("adminproj"));
+            ConfigureForTesting<Admin.ProjectionHost.Program>("adminproj")
+        );
 
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 
         PublicProjectionHost = await AlbaHost.For<ProjectionHostProgram>(
-            ConfigureForTesting("publicproj"));
+            ConfigureForTesting<ProjectionHostProgram>("publicproj")
+        );
 
-        PublicApiHost = await AlbaHost.For<Public.Api.Program>(
-            ConfigureForTesting("publicapi"));
+        PublicApiHost = await AlbaHost.For<Public.Api.Program>(ConfigureForTesting<Public.Api.Program>("publicapi"));
 
-        AcmApiHost = (await AlbaHost.For<Acm.Api.Program>(
-                ConfigureForTesting("acmapi")))
-           .EnsureEachCallIsAuthenticatedForAcmApi();
+        AcmApiHost = (
+            await AlbaHost.For<Acm.Api.Program>(ConfigureForTesting<Acm.Api.Program>("acmapi"))
+        ).EnsureEachCallIsAuthenticatedForAcmApi();
 
         using var scope = AdminApiHost.Services.CreateScope();
         _serviceProvider = scope.ServiceProvider;
@@ -146,10 +150,10 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     private void SetUpAdminApiConfiguration()
     {
         var configuration = new ConfigurationBuilder()
-                           .AddJsonFile("appsettings.development.json", false)
-                           .AddJsonFile("appsettings.e2e.json", false)
-                           .AddJsonFile($"appsettings.e2e.adminapi.json", false)
-                           .Build();
+            .AddJsonFile("appsettings.development.json", false)
+            .AddJsonFile("appsettings.e2e.json", false)
+            .AddJsonFile($"appsettings.e2e.adminapi.json", false)
+            .Build();
 
         AdminApiConfiguration = configuration;
     }
@@ -157,13 +161,13 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     public IAmazonSQS AmazonSqs { get; set; }
     public IMessageBus MessageBus { get; set; }
 
-    private Action<IWebHostBuilder> ConfigureForTesting(string name)
+    private Action<IWebHostBuilder> ConfigureForTesting<TProgram>(string name)
     {
         var configuration = new ConfigurationBuilder()
-                           .AddJsonFile("appsettings.development.json", false)
-                           .AddJsonFile("appsettings.e2e.json", false)
-                           .AddJsonFile($"appsettings.e2e.{name}.json", false)
-                           .Build();
+            .AddJsonFile("appsettings.development.json", false)
+            .AddJsonFile("appsettings.e2e.json", false)
+            .AddJsonFile($"appsettings.e2e.{name}.json", false)
+            .Build();
 
         return b =>
         {
@@ -172,12 +176,27 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
             b.UseConfiguration(configuration);
 
-            b.ConfigureServices((context, services) =>
-              {
-                  context.HostingEnvironment.EnvironmentName = "Development";
-              })
-             .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-             .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
+            b.ConfigureServices(
+                    (context, services) =>
+                    {
+                        context.HostingEnvironment.EnvironmentName = "Development";
+
+                        services.CritterStackDefaults(options =>
+                        {
+                            options.ApplicationAssembly = typeof(TProgram).Assembly;
+
+                            options.Development.GeneratedCodeMode = TypeLoadMode.Static;
+                            options.Development.AssertAllPreGeneratedTypesExist = true;
+                            options.Development.SourceCodeWritingEnabled = false;
+
+                            options.Production.GeneratedCodeMode = TypeLoadMode.Static;
+                            options.Production.AssertAllPreGeneratedTypesExist = true;
+                            options.Production.SourceCodeWritingEnabled = false;
+                        });
+                    }
+                )
+                .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
+                .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
         };
     }
 
@@ -188,10 +207,10 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
             return;
 
         var configuration = new ConfigurationBuilder()
-                           .AddJsonFile("appsettings.development.json", false)
-                           .AddJsonFile("appsettings.e2e.json", false)
-                           .AddJsonFile($"appsettings.e2e.adminapi.json", false)
-                           .Build();
+            .AddJsonFile("appsettings.development.json", false)
+            .AddJsonFile("appsettings.e2e.json", false)
+            .AddJsonFile($"appsettings.e2e.adminapi.json", false)
+            .Build();
 
         var databaseName = configuration["PostgreSQLOptions:database"] ?? configuration["PostgreSQLOptions:Database"];
         var connectionString = GetConnectionString(configuration, "postgres");
@@ -216,7 +235,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
                     DatabaseTemplateHelper.CreateDatabaseFromTemplate(
                         configuration,
                         databaseName!,
-                        NullLogger.Instance);
+                        NullLogger.Instance
+                    );
 
                     Console.WriteLine($"Database '{databaseName}' created successfully from template.");
                 }
@@ -242,11 +262,11 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         }
     }
 
-    private static string GetConnectionString(IConfiguration configuration, string database)
-        => $"host={configuration["PostgreSQLOptions:host"]};" +
-           $"database={database};" +
-           $"password={configuration["PostgreSQLOptions:password"]};" +
-           $"username={configuration["PostgreSQLOptions:username"]}";
+    private static string GetConnectionString(IConfiguration configuration, string database) =>
+        $"host={configuration["PostgreSQLOptions:host"]};"
+        + $"database={database};"
+        + $"password={configuration["PostgreSQLOptions:password"]};"
+        + $"username={configuration["PostgreSQLOptions:username"]}";
 
     public IConfigurationRoot AdminApiConfiguration { get; set; }
 
@@ -280,16 +300,26 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         var eventConflictResolver = new EventConflictResolver(
             Array.Empty<IEventPreConflictResolutionStrategy>(),
-            Array.Empty<IEventPostConflictResolutionStrategy>());
+            Array.Empty<IEventPostConflictResolutionStrategy>()
+        );
 
-        var eventStore = new EventStore(session,
-                                        eventConflictResolver,
-                                        new PersoonsgegevensProcessor(
-                                            new PersoonsgegevensEventTransformers(),
-                                            new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
-                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
-                                            NullLogger<PersoonsgegevensProcessor>.Instance),
-                                        NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(
+            session,
+            eventConflictResolver,
+            new PersoonsgegevensProcessor(
+                new PersoonsgegevensEventTransformers(),
+                new VertegenwoordigerPersoonsgegevensRepository(
+                    session,
+                    new VertegenwoordigerPersoonsgegevensQuery(session)
+                ),
+                new BankrekeningnummerPersoonsgegevensRepository(
+                    session,
+                    new BankrekeningnummerPersoonsgegevensQuery(session)
+                ),
+                NullLogger<PersoonsgegevensProcessor>.Instance
+            ),
+            NullLogger<EventStore>.Instance
+        );
 
         long maxSequence = 0;
 
@@ -301,28 +331,24 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
             {
                 var vereniging = await eventStore.Load<VerenigingState>(VCode.Hydrate(eventsPerStream.Key), null);
 
-                var streamAction = await eventStore.Save(eventsPerStream.Key,
-                                                         vereniging.Version,
-                                                         new CommandMetadata(
-                                                             "metadata.Initiator",
-                                                             new Instant(),
-                                                             Guid.NewGuid(),
-                                                             null),
-                                                         CancellationToken.None,
-                                                         eventsPerStream.Value);
+                var streamAction = await eventStore.Save(
+                    eventsPerStream.Key,
+                    vereniging.Version,
+                    new CommandMetadata("metadata.Initiator", new Instant(), Guid.NewGuid(), null),
+                    CancellationToken.None,
+                    eventsPerStream.Value
+                );
 
                 maxSequence = streamAction.Sequence.Value;
             }
             else
             {
-                var streamAction = await eventStore.SaveNew(eventsPerStream.Key,
-                                                            new CommandMetadata(
-                                                                "metadata.Initiator",
-                                                                new Instant(),
-                                                                Guid.NewGuid(),
-                                                                null),
-                                                            CancellationToken.None,
-                                                            eventsPerStream.Value);
+                var streamAction = await eventStore.SaveNew(
+                    eventsPerStream.Key,
+                    new CommandMetadata("metadata.Initiator", new Instant(), Guid.NewGuid(), null),
+                    CancellationToken.None,
+                    eventsPerStream.Value
+                );
 
                 maxSequence = streamAction.Sequence.Value;
             }
@@ -333,8 +359,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         return maxSequence;
     }
 
-    public async Task RefreshIndices()
-        => await ElasticClient.Indices.RefreshAsync(Indices.All);
+    public async Task RefreshIndices() => await ElasticClient.Indices.RefreshAsync(Indices.All);
 
     private readonly Dictionary<string, object> _ranContexts = new();
     private IServiceProvider _serviceProvider;

@@ -248,6 +248,7 @@ jobs:
           LIVEMAGDAOPTIONS__ONTVANGER: ${{ secrets.LIVEMAGDAOPTIONS_ONTVANGER }}
         run: |
           if [[ "${{ inputs.test-project }}" == "AssociationRegistry.Test.E2E" ]]; then
+            ./regen-marten.sh
             dotnet test test/${{ inputs.test-project }} --logger html -- -parallel none
           else
             dotnet test test/${{ inputs.test-project }} --logger html

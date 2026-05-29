@@ -4,10 +4,7 @@ rm -rfv ./**/*/Internal/
 dotnet run --project src/AssociationRegistry.Admin.ProjectionHost -- codegen write
 dotnet run --project src/AssociationRegistry.Admin.Api -- codegen write
 dotnet run --project src/AssociationRegistry.Public.ProjectionHost -- codegen write
+dotnet run --project src/AssociationRegistry.Public.Api -- codegen write
 dotnet run --project src/AssociationRegistry.Acm.Api -- codegen write
-pushd src/AssociationRegistry.Admin.AddressSync
-dotnet run -- codegen write
-popd
-pushd src/AssociationRegistry.Scheduled.Host
-dotnet run -- codegen write
-popd
+(cd src/AssociationRegistry.Admin.AddressSync && dotnet run -- codegen write)
+(cd src/AssociationRegistry.Scheduled.Host && dotnet run -- codegen write)
