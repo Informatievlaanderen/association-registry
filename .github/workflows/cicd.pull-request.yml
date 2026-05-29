@@ -360,6 +360,7 @@ jobs:
           IGNORE_MAGDA_TESTS: ${{ secrets.LIVEMAGDAOPTIONS_CLIENTCERTIFICATE == '' && 'true' || 'false' }}
         run: |
           if [[ "${{matrix.projects}}" == "test/AssociationRegistry.Test.E2E" ]]; then
+            ./regen-marten.sh
             dotnet test ${{matrix.projects}} --logger html -- -parallel none
           else
             dotnet test ${{matrix.projects}} --logger html
