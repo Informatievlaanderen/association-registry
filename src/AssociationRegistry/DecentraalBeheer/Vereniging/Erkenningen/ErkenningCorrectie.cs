@@ -25,67 +25,30 @@ public sealed record ErkenningCorrectie
     public HernieuwingsUrl HernieuwingsUrl { get; set; }
     public ErkenningStatus Status { get; set; }
 
-    public static ErkenningCorrectie Create(TeCorrigerenErkenning teCorrigerenErkenning, Erkenning erkenning)
-    {
-        var startdatum = DetermineTeCorrigerenDatum(
-            teCorrigerenErkenning.StartDatum,
-            erkenning.ErkenningsPeriode.Startdatum
-        );
-        var einddatum = DetermineTeCorrigerenDatum(
-            teCorrigerenErkenning.EindDatum,
-            erkenning.ErkenningsPeriode.Einddatum
-        );
-        var erkenningsperiode = ErkenningsPeriode.Create(startdatum, einddatum);
-
-        var hernieuwingsdatumDate = DetermineTeCorrigerenDatum(
-            teCorrigerenErkenning.Hernieuwingsdatum,
-            erkenning.Hernieuwingsdatum.Value
-        );
-        var hernieuwingsdatum = Hernieuwingsdatum.Create(hernieuwingsdatumDate, erkenningsperiode);
-
-        var hernieuwingsUrl = DetermineTeCorrigerenHernieuwingsUrl(
-            teCorrigerenErkenning.HernieuwingsUrl,
-            erkenning.HernieuwingsUrl
-        );
-
-        var status = ErkenningStatus.BepaalVoorCorrectie(
-            erkenning.Status,
-            erkenningsperiode,
-            DateOnly.FromDateTime(DateTime.Today)
-        );
-
-        return new ErkenningCorrectie(
-            erkenning.ErkenningId,
-            erkenningsperiode,
-            hernieuwingsdatum,
-            hernieuwingsUrl,
-            status
-        );
-    }
     public static ErkenningCorrectie Create(TeWijzigenErkenning teWijzigenErkenning, Erkenning erkenning)
     {
-        var startdatum = DetermineTeCorrigerenDatum(
+        var startdatum = DetermineTeWijzigenDatum(
             teWijzigenErkenning.StartDatum,
             erkenning.ErkenningsPeriode.Startdatum
         );
-        var einddatum = DetermineTeCorrigerenDatum(
+        var einddatum = DetermineTeWijzigenDatum(
             teWijzigenErkenning.EindDatum,
             erkenning.ErkenningsPeriode.Einddatum
         );
         var erkenningsperiode = ErkenningsPeriode.Create(startdatum, einddatum);
 
-        var hernieuwingsdatumDate = DetermineTeCorrigerenDatum(
+        var hernieuwingsdatumDate = DetermineTeWijzigenDatum(
             teWijzigenErkenning.Hernieuwingsdatum,
             erkenning.Hernieuwingsdatum.Value
         );
         var hernieuwingsdatum = Hernieuwingsdatum.Create(hernieuwingsdatumDate, erkenningsperiode);
 
-        var hernieuwingsUrl = DetermineTeCorrigerenHernieuwingsUrl(
+        var hernieuwingsUrl = DetermineTeWijzigenHernieuwingsUrl(
             teWijzigenErkenning.HernieuwingsUrl,
             erkenning.HernieuwingsUrl
         );
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(
+        var status = ErkenningStatus.BepaalVoorWijziging(
             erkenning.Status,
             erkenningsperiode,
             DateOnly.FromDateTime(DateTime.Today)
@@ -100,12 +63,12 @@ public sealed record ErkenningCorrectie
         );
     }
 
-    private static DateOnly? DetermineTeCorrigerenDatum(NullOrEmpty<DateOnly> commandValue, DateOnly? stateValue) =>
+    private static DateOnly? DetermineTeWijzigenDatum(NullOrEmpty<DateOnly> commandValue, DateOnly? stateValue) =>
         commandValue.IsNull ? stateValue
         : commandValue.IsEmpty ? null
         : commandValue.Value;
 
-    private static HernieuwingsUrl DetermineTeCorrigerenHernieuwingsUrl(
+    private static HernieuwingsUrl DetermineTeWijzigenHernieuwingsUrl(
         string? teCorrigerenHernieuwingsUrl,
         HernieuwingsUrl hernieuwingsUrl
     ) =>

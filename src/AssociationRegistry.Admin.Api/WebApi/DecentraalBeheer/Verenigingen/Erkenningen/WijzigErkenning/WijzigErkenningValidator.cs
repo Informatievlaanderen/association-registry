@@ -10,18 +10,15 @@ public class WijzigErkenningValidator : AbstractValidator<WijzigErkenningRequest
     public WijzigErkenningValidator()
     {
         RuleFor(request => request)
-           .Must(HasRedenVanWijzigingIsVerplicht)
-           .OverridePropertyName("redenVanWijziging")
-           .WithMessage(ExceptionMessages.RedenVanWijzigingIsVerplicht);
-
-        RuleFor(request => request)
            .Must(HaveAtLeastOneTeWijzigenValue)
            .OverridePropertyName("request")
            .WithMessage(ExceptionMessages.MinstensEenVeldMoetIngevuldZijn);
-    }
 
-    private static bool HasRedenVanWijzigingIsVerplicht(WijzigErkenningRequest request) =>
-         !string.IsNullOrWhiteSpace(request.HernieuwingsUrl);
+        RuleFor(request => request.RedenVanWijziging)
+           .NotNull()
+           .NotEmpty()
+           .WithMessage(ExceptionMessages.RedenVanWijzigingIsVerplicht);
+    }
 
     private static bool HaveAtLeastOneTeWijzigenValue(WijzigErkenningRequest request) =>
         request.Startdatum.HasValue

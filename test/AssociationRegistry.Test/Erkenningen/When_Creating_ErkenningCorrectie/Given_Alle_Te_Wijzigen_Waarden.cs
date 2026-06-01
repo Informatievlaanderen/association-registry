@@ -7,11 +7,13 @@ using FluentAssertions;
 using Primitives;
 using Xunit;
 
-public class Given_Alle_Te_Corrigeren_Waarden
+public class Given_Alle_Te_Wijzigen_Waarden
 {
-    public Given_Alle_Te_Corrigeren_Waarden()
+    private readonly Fixture _fixture;
+
+    public Given_Alle_Te_Wijzigen_Waarden()
     {
-        new Fixture().CustomizeDomain();
+        _fixture = new Fixture().CustomizeDomain();
     }
 
     [Fact]
@@ -19,7 +21,11 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning() with { Status = ErkenningStatus.Geschorst };
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { StartDatum = NullOrEmpty<DateOnly>.Null };
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
+        {
+            ErkenningId = erkenning.ErkenningId,
+            StartDatum = NullOrEmpty<DateOnly>.Null,
+        };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -31,7 +37,11 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { StartDatum = NullOrEmpty<DateOnly>.Null };
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
+        {
+            ErkenningId = erkenning.ErkenningId,
+            StartDatum = NullOrEmpty<DateOnly>.Null,
+        };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -43,7 +53,11 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { StartDatum = NullOrEmpty<DateOnly>.Empty };
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
+        {
+            ErkenningId = erkenning.ErkenningId,
+            StartDatum = NullOrEmpty<DateOnly>.Empty,
+        };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -55,8 +69,9 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
         {
+            ErkenningId = erkenning.ErkenningId,
             StartDatum = NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 2, 1)),
         };
 
@@ -70,7 +85,11 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { EindDatum = NullOrEmpty<DateOnly>.Null };
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
+        {
+            ErkenningId = erkenning.ErkenningId,
+            EindDatum = NullOrEmpty<DateOnly>.Null,
+        };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -82,7 +101,11 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { EindDatum = NullOrEmpty<DateOnly>.Empty };
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
+        {
+            ErkenningId = erkenning.ErkenningId,
+            EindDatum = NullOrEmpty<DateOnly>.Empty,
+        };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -94,8 +117,9 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
         {
+            ErkenningId = erkenning.ErkenningId,
             EindDatum = NullOrEmpty<DateOnly>.Create(new DateOnly(2027, 12, 1)),
         };
 
@@ -109,7 +133,11 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null };
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
+        {
+            ErkenningId = erkenning.ErkenningId,
+            Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
+        };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -121,8 +149,9 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning() with { ErkenningsPeriode = ErkenningsPeriode.Create(null, null) };
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
         {
+            ErkenningId = erkenning.ErkenningId,
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Empty,
         };
 
@@ -136,8 +165,9 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
         {
+            ErkenningId = erkenning.ErkenningId,
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 5, 1)),
         };
 
@@ -151,7 +181,11 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { HernieuwingsUrl = null };
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
+        {
+            ErkenningId = erkenning.ErkenningId,
+            HernieuwingsUrl = null,
+        };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -163,7 +197,11 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { HernieuwingsUrl = string.Empty };
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
+        {
+            ErkenningId = erkenning.ErkenningId,
+            HernieuwingsUrl = string.Empty,
+        };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
@@ -175,35 +213,41 @@ public class Given_Alle_Te_Corrigeren_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teCorrigerenErkenning = MaakTeCorrigerenErkenning() with { HernieuwingsUrl = "https://anewurl.isborn" };
+        var teCorrigerenErkenning = MaakTeWijzigenErkenning() with
+        {
+            ErkenningId = erkenning.ErkenningId,
+        };
 
         var result = ErkenningCorrectie.Create(teCorrigerenErkenning, erkenning);
 
         result.HernieuwingsUrl.Value.Should().Be(teCorrigerenErkenning.HernieuwingsUrl);
     }
 
-    private static Erkenning MaakStateErkenning()
+    private  Erkenning MaakStateErkenning()
     {
         var periode = ErkenningsPeriode.Create(new DateOnly(2026, 1, 1), new DateOnly(2026, 12, 31));
 
         return new Erkenning
         {
-            ErkenningId = 123,
+            ErkenningId = _fixture.Create<int>(),
             ErkenningsPeriode = periode,
             Hernieuwingsdatum = Hernieuwingsdatum.Create(new DateOnly(2026, 6, 1), periode),
-            HernieuwingsUrl = HernieuwingsUrl.Create("https://example.org/hernieuw"),
+            HernieuwingsUrl = _fixture.Create<HernieuwingsUrl>(),
         };
     }
 
-    private static TeCorrigerenErkenning MaakTeCorrigerenErkenning()
+    private TeWijzigenErkenning MaakTeWijzigenErkenning()
     {
-        return TeCorrigerenErkenning.Create(
-            123,
+        var redenVanWijziging = _fixture.Create<string>();
+        var hernieuwingsurl = _fixture.Create<HernieuwingsUrl>();
+
+        return TeWijzigenErkenning.Create(
+            _fixture.Create<int>(),
             NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 1, 1)),
             NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 12, 31)),
             NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 10, 10)),
-            "https://a-new-url.isborn"
+            hernieuwingsurl.Value,
+            redenVanWijziging
         );
-        ;
     }
 }

@@ -376,9 +376,6 @@
   <data name="GiIsNietBevoegd">
     <value>Deze OVOCode heeft geen machtiging om deze actie uit te voeren.</value>
   </data>
-  <data name="TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben">
-    <value>De te corrigeren erkenning moet minstens één te corrigeren waarde hebben.</value>
-  </data>
   <data name="MinstensEenVeldMoetIngevuldZijn">
     <value>Minstens één veld moet ingevuld zijn.</value>
   </data>

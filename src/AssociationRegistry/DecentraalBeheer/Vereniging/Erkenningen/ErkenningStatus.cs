@@ -28,7 +28,7 @@ public sealed record ErkenningStatus
         return Actief;
     }
 
-    public static ErkenningStatus BepaalVoorCorrectie(
+    public static ErkenningStatus BepaalVoorWijziging(
         ErkenningStatus huidigeStatus,
         ErkenningsPeriode erkenningsPeriode,
         DateOnly today

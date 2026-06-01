@@ -15,7 +15,7 @@ public class Given_An_ErkenningsPeriode
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(
+        var status = ErkenningStatus.BepaalVoorWijziging(
             ErkenningStatus.Geschorst,
             ErkenningsPeriode.Hydrate(fixture.Create<DateOnly>(), fixture.Create<DateOnly>()),
             Now
@@ -33,7 +33,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = null;
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Actief);
     }
@@ -47,7 +47,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = null;
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Actief);
     }
@@ -61,7 +61,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = null;
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Actief);
     }
@@ -75,7 +75,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = null;
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.InAanvraag);
     }
@@ -89,7 +89,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = Now.AddDays(-5);
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Verlopen);
     }
@@ -103,7 +103,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = Now.AddDays(-5);
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Verlopen);
     }
@@ -117,7 +117,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = Now;
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Actief);
     }
@@ -131,7 +131,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = Now;
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Actief);
     }
@@ -145,7 +145,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = Now;
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Actief);
     }
@@ -159,7 +159,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = Now.AddDays(5);
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Actief);
     }
@@ -173,7 +173,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = Now.AddDays(5);
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Actief);
     }
@@ -187,7 +187,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = Now.AddDays(5);
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.Actief);
     }
@@ -201,7 +201,7 @@ public class Given_An_ErkenningsPeriode
         DateOnly? eindDatum = Now.AddDays(5);
         var erkenningsPeriode = ErkenningsPeriode.Create(startDatum, eindDatum);
 
-        var status = ErkenningStatus.BepaalVoorCorrectie(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
+        var status = ErkenningStatus.BepaalVoorWijziging(fixture.Create<ErkenningStatus>(), erkenningsPeriode, Now);
 
         status.Should().Be(ErkenningStatus.InAanvraag);
     }

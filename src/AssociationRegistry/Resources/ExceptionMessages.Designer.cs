@@ -747,12 +747,6 @@ namespace AssociationRegistry.Resources {
             }
         }
         
-        public static string TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben {
-            get {
-                return ResourceManager.GetString("TeCorrigerenErkenningMoetMinstensEenTeCorrigerenWaardeHebben", resourceCulture);
-            }
-        }
-        
         public static string MinstensEenVeldMoetIngevuldZijn {
             get {
                 return ResourceManager.GetString("MinstensEenVeldMoetIngevuldZijn", resourceCulture);
