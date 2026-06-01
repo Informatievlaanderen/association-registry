@@ -925,19 +925,6 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
-        IEvent<ErkenningWerdGecorrigeerd> @event,
-        BeheerVerenigingHistoriekDocument document
-    )
-    {
-        AddHistoriekEntry(
-            @event,
-            @event.Data,
-            document,
-            $"Erkenning werd gecorrigeerd."
-        );
-    }
-
-    public static void Apply(
         IEvent<ErkenningWerdGewijzigd> @event,
         BeheerVerenigingHistoriekDocument document
     )

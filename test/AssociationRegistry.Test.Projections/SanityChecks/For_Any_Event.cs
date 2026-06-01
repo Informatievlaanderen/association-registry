@@ -22,6 +22,7 @@ public class For_Any_Event
         typeof(DubbeleVerenigingenWerdenGedetecteerd),
         typeof(BewaartermijnWerdGestartV2), // TODO undo for powerbi
         typeof(ErkenningWerdVerlopen), // TODO implement in or-3083
+        typeof(ErkenningWerdGecorrigeerd),
         .. new PersoonsgegevensEventTransformers().Select(x => x.PersistedEventType),
     ];
 

@@ -56,8 +56,8 @@ public static class AutoFixtureCustomizations
         fixture.CustomizePersoonUitKsz();
         fixture.CustomizeIban();
         fixture.CustomizeErkenning();
-        fixture.CustomizeTeCorrigerenErkenning();
         fixture.CustomizeTeWijzigenErkenning();
+        fixture.CustomizeHernieuwingsUrl();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -501,35 +501,6 @@ public static class AutoFixtureCustomizations
         );
     }
 
-    private static void CustomizeTeCorrigerenErkenning(this IFixture fixture)
-    {
-        fixture.Customize<TeCorrigerenErkenning>(composer =>
-            composer
-                .FromFactory(() =>
-                {
-                    var startdatum = fixture.Create<DateOnly>();
-
-                    var addDays = fixture.Create<int>();
-
-                    var hernieuwingsDatum = startdatum.AddDays(addDays);
-
-                    var einddatum = hernieuwingsDatum.AddDays(fixture.Create<int>());
-
-                    var protocol = fixture.Create<bool>() ? "http" : "https";
-
-                    var hernieuwingsUrl = $"{protocol}://www.example.com/{fixture.Create<Guid>()}";
-
-                    return TeCorrigerenErkenning.Create(
-                        fixture.Create<int>(),
-                        NullOrEmpty<DateOnly>.Create(startdatum),
-                        NullOrEmpty<DateOnly>.Create(einddatum),
-                        NullOrEmpty<DateOnly>.Create(hernieuwingsDatum),
-                        hernieuwingsUrl
-                    );
-                })
-                .OmitAutoProperties()
-        );
-    }
     private static void CustomizeTeWijzigenErkenning(this IFixture fixture)
     {
         fixture.Customize<TeWijzigenErkenning>(composer =>
@@ -558,6 +529,21 @@ public static class AutoFixtureCustomizations
                         hernieuwingsUrl,
                         redenVanSchorsing
                     );
+                })
+                .OmitAutoProperties()
+        );
+    }
+    private static void CustomizeHernieuwingsUrl(this IFixture fixture)
+    {
+        fixture.Customize<HernieuwingsUrl>(composer =>
+            composer
+                .FromFactory(() =>
+                {
+                    var protocol = fixture.Create<bool>() ? "http" : "https";
+
+                    var hernieuwingsUrl = $"{protocol}://www.example.com/{fixture.Create<Guid>()}";
+
+                    return HernieuwingsUrl.Create(hernieuwingsUrl);
                 })
                 .OmitAutoProperties()
         );
