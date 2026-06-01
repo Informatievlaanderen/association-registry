@@ -35,7 +35,7 @@ public class Returns_Historiek_Met_Erkenning : End2EndTest<HistoriekResponse>
     }
 
     [Fact]
-    public void With_ErkenningWerdGecorigeerd_Gebeurtenissen()
+    public void With_ErkenningWerdGewijzigd_Gebeurtenissen()
     {
         var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x =>
             x.Gebeurtenis == nameof(ErkenningWerdGewijzigd)

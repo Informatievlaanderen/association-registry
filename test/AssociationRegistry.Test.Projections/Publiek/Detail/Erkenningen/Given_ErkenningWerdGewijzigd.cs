@@ -1,13 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail.Erkenningen;
 
-using DecentraalBeheer.Vereniging.Erkenningen;
 using Public.Schema.Detail;
 using Scenario.Erkenningen;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_ErkenningWerdGecorrigeerd(
-    PubliekDetailScenarioFixture<ErkenningWerdGecorrigeerdScenario> fixture
-) : PubliekDetailScenarioClassFixture<ErkenningWerdGecorrigeerdScenario>
+public class Given_ErkenningWerdGewijzigd(
+    PubliekDetailScenarioFixture<ErkenningWerdGewijzigdScenario> fixture
+) : PubliekDetailScenarioClassFixture<ErkenningWerdGewijzigdScenario>
 {
     [Fact]
     public void Document_Is_Updated() =>
@@ -29,11 +28,11 @@ public class Given_ErkenningWerdGecorrigeerd(
                         Nummer = fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
                         Naam = fixture.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Naam,
                     },
-                    Startdatum = fixture.Scenario.ErkenningWerdGecorrigeerd.Startdatum,
-                    Einddatum = fixture.Scenario.ErkenningWerdGecorrigeerd.Einddatum,
-                    Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGecorrigeerd.Hernieuwingsdatum,
-                    HernieuwingsUrl = fixture.Scenario.ErkenningWerdGecorrigeerd.HernieuwingsUrl,
-                    Status = fixture.Scenario.ErkenningWerdGecorrigeerd.Status,
+                    Startdatum = fixture.Scenario.ErkenningWerdGewijzigd.Startdatum,
+                    Einddatum = fixture.Scenario.ErkenningWerdGewijzigd.Einddatum,
+                    Hernieuwingsdatum = fixture.Scenario.ErkenningWerdGewijzigd.Hernieuwingsdatum,
+                    HernieuwingsUrl = fixture.Scenario.ErkenningWerdGewijzigd.HernieuwingsUrl,
+                    Status = fixture.Scenario.ErkenningWerdGewijzigd.Status,
                     RedenSchorsing = string.Empty,
                 },
                 config: options => options.Excluding(x => x.JsonLdMetadata)
