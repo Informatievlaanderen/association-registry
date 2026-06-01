@@ -35,7 +35,7 @@ public class Returns_Detail_With_Geregistreerde_Erkenning : IAsyncLifetime
                     IpdcProduct = new IpdcProduct
                     {
                         Nummer = _context.CommandRequest.Erkenning.IpdcProductNummer,
-                        Naam = "Gemeentelijke premie voor inbraakpreventie", // See wiremock
+                        Naam = "Instantie van Concept Sanity check 27 mei 2026", // See wiremock
                     },
                     Startdatum = _context.CommandRequest.Erkenning.Startdatum?.ToString(WellknownFormats.DateOnly),
                     Einddatum = _context.CommandRequest.Erkenning.Einddatum?.ToString(WellknownFormats.DateOnly),

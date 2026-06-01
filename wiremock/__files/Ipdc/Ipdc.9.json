@@ -1,82 +1,69 @@
 {
-  "id": "40375663-3A2A-4220-A917-98D8277A1492",
-  "@context": [
-    "https://vlaanderen.be.jsonld"
-  ],
-  "@id": "https://vlaanderen.be/",
-  "@type": "Concept",
-  "bevoegdBestuursniveaus": [
-    "Lokaal"
-  ],
-  "uitvoerendBestuursniveaus": [
-    "Lokaal"
-  ],
-  "naam": {
-    "nl": "Gemeentelijke premie voor inbraakpreventie",
-    "nl-BE-x-formal": "Gemeentelijke premie voor inbraakpreventie ",
-    "nl-BE-x-generated-informal": "Gemeentelijke premie voor inbraakpreventie "
+  "id": "68710a12-b60a-6521-a238-9ef6ebb24544",
+  "aangemaaktDoor": {
+    "id": "http://data.info",
+    "@id": "http://data.info"
   },
   "beschrijving": {
-    "nl": "<p>Als u uw woning of winkel extra beveiligt tegen inbraak, kunt u daarvoor een premie aanvragen bij de gemeente.</p>",
-    "nl-BE-x-formal": "<p>Als u uw woning of winkel extra beveiligt tegen inbraak, kunt u daarvoor een premie aanvragen bij de gemeente.</p>",
-    "nl-BE-x-generated-informal": "<p>Als je jouw woning of winkel extra beveiligt tegen inbraak, kan je daarvoor een premie aanvragen bij de gemeente.</p>"
+    "nl-BE-x-informal": "<p>Je hebt iets geschreven</p>",
+    "nl": "<p>Je hebt iets geschreven</p>",
+    "nl-BE-x-generated-formal": "<p>U hebt iets geschreven</p>"
   },
-  "type": "FinancieelVoordeel",
-  "themas": [
-    "BouwenWonen"
+  "bevoegdBestuursniveaus": [
+    "Vlaams"
   ],
+  "bevoegdeOverheden": [
+    {
+      "id": "OVO000106",
+      "@id": "OVO000106"
+    }
+  ],
+  "cases": [
+    "rechtenverkenner"
+  ],
+  "creatie": "2026-05-27T13:20:56.802Z",
   "doelgroepen": [
-    "Burger",
-    "Onderneming",
-    "Vereniging",
     "Organisatie"
   ],
-  "aangemaaktDoor": {
-    "id": "OVO000001",
-    "@id": "OVO000001"
-  },
-  "voorwaarden": [
-    {
-      "beschrijving": {
-        "nl-BE-x-formal": "<p>De woning ligt op het grondgebied van de gemeente.</p>",
-        "nl-BE-x-generated-informal": "<p>De woning ligt op het grondgebied van de gemeente.</p>",
-        "nl": "<p>De woning ligt op het grondgebied van de gemeente.</p>"
-      },
-      "naam": {
-        "nl-BE-x-formal": "Voorwaarden",
-        "nl": "Voorwaarden",
-        "nl-BE-x-generated-informal": "Voorwaarden"
-      },
-      "@type": "Voorwaarde",
-      "order": 0
-    }
-  ],
-  "creatie": "2012-10-03T10:16:05Z",
-  "laatstGewijzigd": "2026-03-10T15:03:42Z",
-  "laatstOntvangen": "2026-03-10T15:08:01.523624317Z",
-  "productnummer": "9",
   "gearchiveerd": false,
-  "uitgesloten": false,
-  "publicatieLink": {
-    "naam": {
-      "nl": "Lees meer op vlaanderen.be",
-      "en": "See also on vlaanderen.be",
-      "nl-BE-x-formal": "Lees meer op vlaanderen.be",
-      "nl-BE-x-generated-informal": "Lees meer op vlaanderen.be"
-    },
-    "url": "https://www.vlaanderen.be"
+  "geografischToepassingsgebieden": [
+    "BE24224062"
+  ],
+  "laatstGewijzigd": "2026-05-27T13:30:10.437358413Z",
+  "laatstOntvangen": "2026-05-27T13:30:10.437359316Z",
+  "linkedConcept": "https://ipdc.be/id/concept/8",
+  "linkedConceptId": "8",
+  "linkedConceptProductnummer": "75270",
+  "metadata": {
+    "uJeVersie": "46.1.0",
+    "generatedFormeleFields": true,
+    "generatedInformeleFields": false
   },
-  "verwanteProducten": [
+  "naam": {
+    "nl-BE-x-generated-formal": "Instantie van Concept Sanity check 27 mei 2026",
+    "nl-BE-x-informal": "Instantie van Concept Sanity check 27 mei 2026",
+    "nl": "Instantie van Concept Sanity check 27 mei 2026"
+  },
+  "productnummer": "9",
+  "type": "AdviesBegeleiding",
+  "uitgesloten": false,
+  "uitvoerendBestuursniveaus": [
+    "Vlaams",
+    "Lokaal"
+  ],
+  "uitvoerendeOverheden": [
     {
-      "id": "41132bb6-103b-4dde-a127-bac3765055e6",
-      "productnummer": "2870",
-      "type": "INSTANTIE",
-      "order": 0
+      "id": "OVO002149",
+      "@id": "OVO002149"
+    },
+    {
+      "id": "OVO000106",
+      "@id": "OVO000106"
     }
   ],
-  "metadata": {
-    "uJeVersie": "44.5.0",
-    "generatedFormeleFields": false,
-    "generatedInformeleFields": true
-  }
+  "@context": [
+    "https://ipdc.jsonld"
+  ],
+  "@id": "https://ipdc.be/id/instantie/6",
+  "@type": "Instantie"
 }

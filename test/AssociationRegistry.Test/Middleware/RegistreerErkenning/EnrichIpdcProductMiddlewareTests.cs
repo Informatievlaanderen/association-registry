@@ -34,25 +34,24 @@ public class EnrichIpdcProductMiddlewareTests
         var ipdcClientMock = new Mock<IIpdcClient>();
 
         ipdcClientMock
-           .Setup(x => x.GetById(commandEnvelope.Command.Erkenning.IpdcProductNummer, It.IsAny<CancellationToken>()))
-           .ReturnsAsync((IpdcProductResponse?)null);
+            .Setup(x => x.GetById(commandEnvelope.Command.Erkenning.IpdcProductNummer, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((IpdcProductResponse?)null);
 
         var exception = await Assert.ThrowsAnyAsync<IpdcException>(async () =>
-                                                                       await EnrichIpdcProductMiddleware.BeforeAsync(
-                                                                           commandEnvelope,
-                                                                           ipdcClientMock.Object)
+            await EnrichIpdcProductMiddleware.BeforeAsync(commandEnvelope, ipdcClientMock.Object)
         );
 
         exception
-           .Message.Should()
-           .Be(
+            .Message.Should()
+            .Be(
                 string.Format(
                     ExceptionMessages.IpdcException,
                     string.Format(
                         ExceptionMessages.IpdcLegeResponseException,
                         commandEnvelope.Command.Erkenning.IpdcProductNummer
                     )
-                ));
+                )
+            );
     }
 
     [Theory]
@@ -62,10 +61,7 @@ public class EnrichIpdcProductMiddlewareTests
     {
         var response = _fixture.Create<IpdcProductResponse>() with
         {
-            Naam = _fixture.Create<Translation>() with
-            {
-                Nl = naam,
-            },
+            Naam = _fixture.Create<LocalizedTranslation>() with { Nl = naam },
         };
 
         var commandEnvelope = new CommandEnvelope<RegistreerErkenningCommand>(
@@ -76,25 +72,24 @@ public class EnrichIpdcProductMiddlewareTests
         var ipdcClientMock = new Mock<IIpdcClient>();
 
         ipdcClientMock
-           .Setup(x => x.GetById(commandEnvelope.Command.Erkenning.IpdcProductNummer, It.IsAny<CancellationToken>()))
-           .ReturnsAsync(response);
+            .Setup(x => x.GetById(commandEnvelope.Command.Erkenning.IpdcProductNummer, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(response);
 
         var exception = await Assert.ThrowsAnyAsync<IpdcException>(async () =>
-                                                                       await EnrichIpdcProductMiddleware.BeforeAsync(
-                                                                           commandEnvelope,
-                                                                           ipdcClientMock.Object)
+            await EnrichIpdcProductMiddleware.BeforeAsync(commandEnvelope, ipdcClientMock.Object)
         );
 
         exception
-           .Message.Should()
-           .Be(
+            .Message.Should()
+            .Be(
                 string.Format(
                     ExceptionMessages.IpdcException,
                     string.Format(
                         ExceptionMessages.IpdcLegeNaamException,
                         commandEnvelope.Command.Erkenning.IpdcProductNummer
                     )
-                ));
+                )
+            );
     }
 
     [Fact]
@@ -111,18 +106,10 @@ public class EnrichIpdcProductMiddlewareTests
 
         var ipdcProductNummer = commandEnvelope.Command.Erkenning.IpdcProductNummer;
 
-        ipdcClientMock
-           .Setup(x => x.GetById(ipdcProductNummer, It.IsAny<CancellationToken>()))
-           .ReturnsAsync(response);
+        ipdcClientMock.Setup(x => x.GetById(ipdcProductNummer, It.IsAny<CancellationToken>())).ReturnsAsync(response);
 
-        var result = await EnrichIpdcProductMiddleware.BeforeAsync(
-            commandEnvelope,
-            ipdcClientMock.Object);
+        var result = await EnrichIpdcProductMiddleware.BeforeAsync(commandEnvelope, ipdcClientMock.Object);
 
-        result.Should().BeEquivalentTo(new IpdcProduct
-        {
-            Nummer = ipdcProductNummer,
-            Naam = response.Naam.Nl,
-        });
+        result.Should().BeEquivalentTo(new IpdcProduct { Nummer = ipdcProductNummer, Naam = response.Naam.Nl });
     }
 }

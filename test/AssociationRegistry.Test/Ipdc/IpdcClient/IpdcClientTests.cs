@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Ipdc.IpdcClient;
 
-using DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Ipdc;
 using FluentAssertions;
 using Integrations.Ipdc.Clients;
@@ -29,6 +28,7 @@ public class IpdcClientTests
         var response = await _ipdcClient.GetById(validIpdcProductNummer);
 
         response.Should().NotBeNull();
+        response!.Naam.Should().NotBeNull();
     }
 
     [Fact]

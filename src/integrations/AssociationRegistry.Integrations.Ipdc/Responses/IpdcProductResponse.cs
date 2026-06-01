@@ -13,14 +13,20 @@ public record IpdcProductResponse
     [JsonPropertyName("@type")]
     public string AtType { get; set; }
 
+    [JsonPropertyName("@context")]
+    public List<string> AtContext { get; set; }
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
+
     [JsonPropertyName("naam")]
-    public Translation Naam { get; set; }
+    public LocalizedTranslation Naam { get; set; }
 
     [JsonPropertyName("beschrijving")]
-    public Translation Beschrijving { get; set; }
+    public LocalizedTranslation Beschrijving { get; set; }
 
     [JsonPropertyName("verdereBeschrijving")]
-    public Translation VerdereBeschrijving { get; set; }
+    public LocalizedTranslation VerdereBeschrijving { get; set; }
 
     [JsonPropertyName("bevoegdBestuursniveaus")]
     public List<string> BevoegdBestuursniveaus { get; set; }
@@ -38,7 +44,7 @@ public record IpdcProductResponse
     public List<string> Publicatiekanalen { get; set; }
 
     [JsonPropertyName("cases")]
-    public List<Case> Cases { get; set; }
+    public List<string> Cases { get; set; }
 
     [JsonPropertyName("tags")]
     public List<string> Tags { get; set; }
@@ -59,16 +65,16 @@ public record IpdcProductResponse
     public List<string> YourEuropeCategorieeen { get; set; }
 
     [JsonPropertyName("regelgevingTekst")]
-    public Translation RegelgevingTekst { get; set; }
+    public LocalizedTranslation RegelgevingTekst { get; set; }
 
     [JsonPropertyName("uitzonderingen")]
-    public Translation Uitzonderingen { get; set; }
+    public LocalizedTranslation Uitzonderingen { get; set; }
 
     [JsonPropertyName("aangemaaktDoor")]
     public OverheidReference AangemaaktDoor { get; set; }
 
     [JsonPropertyName("zoektermen")]
-    public Translation Zoektermen { get; set; }
+    public LocalizedTranslation Zoektermen { get; set; }
 
     [JsonPropertyName("bevoegdeOverheden")]
     public List<OverheidReference> BevoegdeOverheden { get; set; }
@@ -80,7 +86,7 @@ public record IpdcProductResponse
     public List<OverheidReference> ContactOverheden { get; set; }
 
     [JsonPropertyName("contactBeschrijving")]
-    public Translation ContactBeschrijving { get; set; }
+    public LocalizedTranslation ContactBeschrijving { get; set; }
 
     [JsonPropertyName("socialeKaartOrganisaties")]
     public List<SocialeKaartOrganisatie> SocialeKaartOrganisaties { get; set; }
@@ -93,6 +99,9 @@ public record IpdcProductResponse
 
     [JsonPropertyName("order")]
     public int? Order { get; set; }
+
+    [JsonPropertyName("orderOrMaxValue")]
+    public int? OrderOrMaxValue { get; set; }
 
     [JsonPropertyName("procedures")]
     public List<Procedure> Procedures { get; set; }
@@ -155,13 +164,19 @@ public record IpdcProductResponse
     public bool Deminimis { get; set; }
 }
 
-public record Translation
+public record LocalizedTranslation
 {
     [JsonPropertyName("nl")]
     public string Nl { get; set; }
 
     [JsonPropertyName("en")]
     public string En { get; set; }
+
+    [JsonPropertyName("nl-BE-x-informal")]
+    public string NlBeInformal { get; set; }
+
+    [JsonPropertyName("nl-BE-x-generated-formal")]
+    public string NlBeGeneratedFormal { get; set; }
 }
 
 public record OverheidReference
@@ -173,15 +188,6 @@ public record OverheidReference
     public string AtId { get; set; }
 }
 
-public record Case
-{
-    [JsonPropertyName("value")]
-    public string Value { get; set; }
-
-    [JsonPropertyName("type")]
-    public string Type { get; set; }
-}
-
 public record SocialeKaartOrganisatie
 {
     [JsonPropertyName("id")]
@@ -191,19 +197,19 @@ public record SocialeKaartOrganisatie
 public record Voorwaarde
 {
     [JsonPropertyName("naam")]
-    public Translation Naam { get; set; }
+    public LocalizedTranslation Naam { get; set; }
 
     [JsonPropertyName("beschrijving")]
-    public Translation Beschrijving { get; set; }
+    public LocalizedTranslation Beschrijving { get; set; }
 }
 
 public record Bewijs
 {
     [JsonPropertyName("naam")]
-    public Translation Naam { get; set; }
+    public LocalizedTranslation Naam { get; set; }
 
     [JsonPropertyName("beschrijving")]
-    public Translation Beschrijving { get; set; }
+    public LocalizedTranslation Beschrijving { get; set; }
 
     [JsonPropertyName("@type")]
     public string AtType { get; set; }
@@ -212,10 +218,10 @@ public record Bewijs
 public record Procedure
 {
     [JsonPropertyName("naam")]
-    public Translation Naam { get; set; }
+    public LocalizedTranslation Naam { get; set; }
 
     [JsonPropertyName("beschrijving")]
-    public Translation Beschrijving { get; set; }
+    public LocalizedTranslation Beschrijving { get; set; }
 
     [JsonPropertyName("websites")]
     public List<Website> Websites { get; set; }
@@ -225,15 +231,18 @@ public record Procedure
 
     [JsonPropertyName("order")]
     public int? Order { get; set; }
+
+    [JsonPropertyName("orderOrMaxValue")]
+    public int? OrderOrMaxValue { get; set; }
 }
 
 public record Website
 {
     [JsonPropertyName("naam")]
-    public Translation Naam { get; set; }
+    public LocalizedTranslation Naam { get; set; }
 
     [JsonPropertyName("beschrijving")]
-    public Translation Beschrijving { get; set; }
+    public LocalizedTranslation Beschrijving { get; set; }
 
     [JsonPropertyName("url")]
     public string Url { get; set; }
@@ -243,30 +252,36 @@ public record Website
 
     [JsonPropertyName("order")]
     public int? Order { get; set; }
+
+    [JsonPropertyName("orderOrMaxValue")]
+    public int? OrderOrMaxValue { get; set; }
 }
 
 public record NamedItem
 {
     [JsonPropertyName("naam")]
-    public Translation Naam { get; set; }
+    public LocalizedTranslation Naam { get; set; }
 
     [JsonPropertyName("beschrijving")]
-    public Translation Beschrijving { get; set; }
+    public LocalizedTranslation Beschrijving { get; set; }
 
     [JsonPropertyName("@type")]
     public string AtType { get; set; }
 
     [JsonPropertyName("order")]
     public int? Order { get; set; }
+
+    [JsonPropertyName("orderOrMaxValue")]
+    public int? OrderOrMaxValue { get; set; }
 }
 
 public record Regelgeving
 {
     [JsonPropertyName("naam")]
-    public Translation Naam { get; set; }
+    public LocalizedTranslation Naam { get; set; }
 
     [JsonPropertyName("beschrijving")]
-    public Translation Beschrijving { get; set; }
+    public LocalizedTranslation Beschrijving { get; set; }
 
     [JsonPropertyName("id")]
     public string Id { get; set; }
@@ -279,6 +294,9 @@ public record Regelgeving
 
     [JsonPropertyName("order")]
     public int? Order { get; set; }
+
+    [JsonPropertyName("orderOrMaxValue")]
+    public int? OrderOrMaxValue { get; set; }
 }
 
 public record Contactgegeven
@@ -303,12 +321,15 @@ public record Contactgegeven
 
     [JsonPropertyName("order")]
     public int? Order { get; set; }
+
+    [JsonPropertyName("orderOrMaxValue")]
+    public int? OrderOrMaxValue { get; set; }
 }
 
 public record Adres
 {
     [JsonPropertyName("land")]
-    public Translation Land { get; set; }
+    public LocalizedTranslation Land { get; set; }
 
     [JsonPropertyName("huisnummer")]
     public string Huisnummer { get; set; }
@@ -320,10 +341,10 @@ public record Adres
     public string Postcode { get; set; }
 
     [JsonPropertyName("gemeentenaam")]
-    public Translation Gemeentenaam { get; set; }
+    public LocalizedTranslation Gemeentenaam { get; set; }
 
     [JsonPropertyName("straatnaam")]
-    public Translation Straatnaam { get; set; }
+    public LocalizedTranslation Straatnaam { get; set; }
 
     [JsonPropertyName("@type")]
     public string AtType { get; set; }
@@ -332,10 +353,28 @@ public record Adres
 public record MachineLeesbareVoorwaarde
 {
     [JsonPropertyName("voorwaarden")]
-    public List<object> Voorwaarden { get; set; }
+    public List<MachineLeesbareVoorwaardeItem> Voorwaarden { get; set; }
 
     [JsonPropertyName("subsidiemaatregel")]
     public string Subsidiemaatregel { get; set; }
+}
+
+public record MachineLeesbareVoorwaardeItem
+{
+    [JsonPropertyName("id")]
+    public string Id { get; set; }
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
+
+    [JsonPropertyName("verrijking")]
+    public Dictionary<string, List<VerrijkingValue>> Verrijking { get; set; }
+}
+
+public record VerrijkingValue
+{
+    [JsonPropertyName("value")]
+    public string Value { get; set; }
 }
 
 public record Metadata
@@ -356,11 +395,14 @@ public record VerwantProduct
     public string Id { get; set; }
 
     [JsonPropertyName("productnummer")]
-    public int? Productnummer { get; set; }
+    public string Productnummer { get; set; }
 
     [JsonPropertyName("type")]
     public string Type { get; set; }
 
     [JsonPropertyName("order")]
     public int? Order { get; set; }
+
+    [JsonPropertyName("orderOrMaxValue")]
+    public int? OrderOrMaxValue { get; set; }
 }
