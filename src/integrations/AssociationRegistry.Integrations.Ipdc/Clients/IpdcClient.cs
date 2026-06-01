@@ -22,7 +22,7 @@ public class IpdcClient : IIpdcClient
     {
         try
         {
-            var response = await HttpClient.GetAsync($"id/concept/{ipdcProductNummer}", cancellationToken);
+            var response = await HttpClient.GetAsync($"id/product/{ipdcProductNummer}", cancellationToken);
 
             Throw<OngeldigIpdcProductNummer>.If(
                 response.StatusCode == System.Net.HttpStatusCode.BadRequest,

@@ -49,7 +49,7 @@ public class Returns_Detail_With_Toegevoegde_Erkenning : End2EndTest<DetailVeren
                     IpdcProduct = new IpdcProduct
                     {
                         Nummer = _testContext.CommandRequest.Erkenning.IpdcProductNummer,
-                        Naam = "Gemeentelijke premie voor inbraakpreventie", // See wiremock
+                        Naam = "Instantie van Concept Sanity check 27 mei 2026", // See wiremock
                     },
                     Startdatum = _testContext.CommandRequest.Erkenning.Startdatum?.ToString(WellknownFormats.DateOnly),
                     Einddatum = _testContext.CommandRequest.Erkenning.Einddatum?.ToString(WellknownFormats.DateOnly),

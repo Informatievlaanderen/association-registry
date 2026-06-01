@@ -46,7 +46,7 @@ public class Returns_Historiek_Met_Erkenning : End2EndTest<HistoriekResponse>
             IpdcProduct: new IpdcProduct
             {
                 Nummer = _testContext.CommandRequest.Erkenning.IpdcProductNummer,
-                Naam = "Gemeentelijke premie voor inbraakpreventie", // wiremock
+                Naam = "Instantie van Concept Sanity check 27 mei 2026", // wiremock
             },
             Startdatum: _testContext.CommandRequest.Erkenning.Startdatum,
             Einddatum: _testContext.CommandRequest.Erkenning.Einddatum,

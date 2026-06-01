@@ -2,7 +2,7 @@
   "priority": 4,
   "request": {
     "method": "GET",
-    "urlPath": "/id/concept/9"
+    "urlPath": "/id/product/9"
   },
   "response": {
     "status": 200,
