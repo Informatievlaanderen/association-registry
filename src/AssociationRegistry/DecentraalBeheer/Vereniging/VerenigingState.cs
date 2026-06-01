@@ -958,9 +958,11 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt @event)
     {
         var bankrekeningnummer = Bankrekeningnummers.Single(c => c.BankrekeningnummerId == @event.BankrekeningnummerId);
+
         var bevestigdDoorZonderGeannuleerde = bankrekeningnummer
             .BevestigdDoor.Where(x => x != @event.OngedaanGemaaktDoor)
             .ToArray();
+
         return this with
         {
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(
@@ -1100,6 +1102,23 @@ public record VerenigingState : IHasVersion
                             Status = ErkenningStatus.Hydrate(@event.Status!),
                         }
                     )
+            ),
+        };
+    }
+
+    public VerenigingState Apply(ErkenningWerdGeactiveerd @event)
+    {
+        var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
+
+        if (erkenning is null)
+        {
+            return this;
+        }
+
+        return this with
+        {
+            Erkenningen = Erkenningen.Hydrate(
+                Erkenningen.Without(@event.ErkenningId).Append(erkenning with { Status = ErkenningStatus.Actief })
             ),
         };
     }
