@@ -1,3 +1,13 @@
+# [8.325.0](https://github.com/informatievlaanderen/association-registry/compare/v8.324.0...v8.325.0) (2026-06-01)
+
+
+### Features
+
+* or-3074 allow and save empty hernieuwingsurl in wijzig erkenning ([a32a2f5](https://github.com/informatievlaanderen/association-registry/commit/a32a2f59835f9161778a42657b2fe4c93f6e2734))
+* or-3074 implement wijzig erkenning in domain ([dd8329c](https://github.com/informatievlaanderen/association-registry/commit/dd8329c382a263ea6f168fbbba5ef856d40fff69))
+* or-3074 implement wijzig erkenning in projecties ([338b8d3](https://github.com/informatievlaanderen/association-registry/commit/338b8d3dd991e6031087aac4f11663e09fa570ce))
+* or-3074 remove corrigeer erkenning from api ([98cb9f8](https://github.com/informatievlaanderen/association-registry/commit/98cb9f837c985e70d4e48e73a91bce6912f15ed6))
+
 # [8.324.0](https://github.com/informatievlaanderen/association-registry/compare/v8.323.0...v8.324.0) (2026-05-27)
 
 
