@@ -33,14 +33,14 @@ public class Given_Overlapping_Datums
     [Fact]
     public async ValueTask Then_Throws_ErkenningBestaatAl()
     {
-        var teCorrigerenErkenning = _scenario.ErkenningWerdGeregistreerd1.ErkenningId;
+        var teWijzigenErkenning = _scenario.ErkenningWerdGeregistreerd1.ErkenningId;
 
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = _scenario.VCode,
             Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
-                ErkenningId = teCorrigerenErkenning,
+                ErkenningId = teWijzigenErkenning,
                 StartDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd2.Startdatum.Value),
                 EindDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd2.Einddatum.Value),
                 Hernieuwingsdatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd2.Hernieuwingsdatum.Value)
@@ -59,6 +59,6 @@ public class Given_Overlapping_Datums
             await _commandHandler.Handle(commandEnvelope);
         });
 
-        exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningBestaatAl, teCorrigerenErkenning));
+        exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningBestaatAl, teWijzigenErkenning));
     }
 }
