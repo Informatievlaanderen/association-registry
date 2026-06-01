@@ -15,7 +15,6 @@ public class WijzigErkenningValidator : AbstractValidator<WijzigErkenningRequest
            .WithMessage(ExceptionMessages.MinstensEenVeldMoetIngevuldZijn);
 
         RuleFor(request => request.RedenVanWijziging)
-           .NotNull()
            .NotEmpty()
            .WithMessage(ExceptionMessages.RedenVanWijzigingIsVerplicht);
     }
