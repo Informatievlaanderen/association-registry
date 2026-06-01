@@ -37,7 +37,7 @@ public class WijzigErkenningValidatorTests : ValidatorTest
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor("redenVanWijziging")
+        result.ShouldHaveValidationErrorFor(nameof(WijzigErkenningRequest.RedenVanWijziging))
               .WithErrorMessage(ExceptionMessages.RedenVanWijzigingIsVerplicht);
     }
 }
