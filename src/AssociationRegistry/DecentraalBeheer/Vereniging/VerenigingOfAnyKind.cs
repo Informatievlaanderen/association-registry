@@ -642,23 +642,23 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         string initiator
     )
     {
-       Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teCorrigerenSchorsingErkenning.RedenSchorsing));
+        Throw<ErkenningRedenSchorsingIsVerplicht>.If(
+            string.IsNullOrEmpty(teCorrigerenSchorsingErkenning.RedenSchorsing)
+        );
 
-       var huidigeErkenning = State.Erkenningen.GetById(teCorrigerenSchorsingErkenning.ErkenningId);
+        var huidigeErkenning = State.Erkenningen.GetById(teCorrigerenSchorsingErkenning.ErkenningId);
 
-       Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
-       Throw<ErkenningIsNietGeschorst>.If(huidigeErkenning.Status != ErkenningStatus.Geschorst);
+        Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
+        Throw<ErkenningIsNietGeschorst>.If(huidigeErkenning.Status != ErkenningStatus.Geschorst);
 
-       var heeftWijzigingen = huidigeErkenning.RedenSchorsing != teCorrigerenSchorsingErkenning.RedenSchorsing;
+        var heeftWijzigingen = huidigeErkenning.RedenSchorsing != teCorrigerenSchorsingErkenning.RedenSchorsing;
 
         if (!heeftWijzigingen)
         {
             return;
         }
 
-        AddEvent(
-           EventFactory.CorrigeerSchorsingErkenning(teCorrigerenSchorsingErkenning)
-        );
+        AddEvent(EventFactory.CorrigeerSchorsingErkenning(teCorrigerenSchorsingErkenning));
     }
 
     public void CorrigeerErkenning(TeCorrigerenErkenning teCorrigerenErkenning, string initiator)
@@ -688,5 +688,27 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         Throw<ErkenningIsGeschorst>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
 
         AddEvent(EventFactory.ErkenningWerdVerwijderd(erkenningId));
+    }
+
+    public void ActiveerErkenning(int erkenningId)
+    {
+        var erkenning = State.Erkenningen.GetById(erkenningId);
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        if (
+            !erkenning.HasValidStartdatumForActivatie(today)
+            || !erkenning.HasValidEinddatumForActivatie(today)
+            || !erkenning.HasValidStatusForActivatie()
+        )
+        {
+            throw new ErkenningKanNietGeactiveerdWorden(
+                erkenningId,
+                erkenning.ErkenningsPeriode.Startdatum,
+                erkenning.ErkenningsPeriode.Einddatum,
+                erkenning.Status
+            );
+        }
+
+        AddEvent(EventFactory.ErkenningWerdGeactiveerd(erkenningId));
     }
 }
