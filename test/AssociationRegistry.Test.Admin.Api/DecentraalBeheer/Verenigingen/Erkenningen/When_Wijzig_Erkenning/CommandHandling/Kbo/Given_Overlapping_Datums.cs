@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling.Kbo;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling.Kbo;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
@@ -11,6 +11,8 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRec
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using FluentAssertions;
+using Primitives;
+using Resources;
 using Xunit;
 
 public class Given_Overlapping_Datums
@@ -33,7 +35,7 @@ public class Given_Overlapping_Datums
     [Fact]
     public async ValueTask Then_Throws_ErkenningBestaatAl()
     {
-        var teWijzigenErkenningId = _scenario.ErkenningWerdGeregistreerd1.ErkenningId;
+        var teWijzigenErkenningId = _scenario.ErkenningWerdGeregistreerdInVerleden.ErkenningId;
 
         var command = _fixture.Create<WijzigErkenningCommand>() with
         {
@@ -41,15 +43,19 @@ public class Given_Overlapping_Datums
             Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
                 ErkenningId = teWijzigenErkenningId,
-                StartDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd2.Startdatum.Value),
-                EindDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd2.Einddatum.Value),
-                Hernieuwingsdatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd2.Hernieuwingsdatum.Value)
+                StartDatum = NullOrEmpty<DateOnly>.Create(
+                    _scenario.ErkenningWerdGeregistreerdInHuidig.Startdatum.Value
+                ),
+                EindDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerdInHuidig.Einddatum.Value),
+                Hernieuwingsdatum = NullOrEmpty<DateOnly>.Create(
+                    _scenario.ErkenningWerdGeregistreerdInHuidig.Hernieuwingsdatum.Value
+                ),
             },
         };
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with
         {
-            Initiator = _scenario.ErkenningWerdGeregistreerd1.GeregistreerdDoor.OvoCode,
+            Initiator = _scenario.ErkenningWerdGeregistreerdInVerleden.GeregistreerdDoor.OvoCode,
         };
 
         var commandEnvelope = new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata);

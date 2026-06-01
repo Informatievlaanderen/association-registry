@@ -1,20 +1,22 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
+using global::AutoFixture;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
-using global::AutoFixture;
 
-public class
-    VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario : CommandhandlerScenarioBase
+public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario
+    : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
 
-    public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
+    public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
 
-    public readonly ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd1;
-    public readonly ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd2;
+    public readonly ErkenningWerdGeregistreerd ErkenningWerdGeregistreerdInVerleden;
+    public readonly ErkenningWerdGeregistreerd ErkenningWerdGeregistreerdInHuidig;
+    public readonly ErkenningWerdGeregistreerd ErkenningWerdGeregistreerdInToekomst;
+    public readonly ErkenningWerdGeregistreerd ErkenningWerdGeregistreerdTeActiveren;
 
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario()
     {
@@ -26,21 +28,69 @@ public class
                 VCode = VCode,
             };
 
-        ErkenningWerdGeregistreerd1 = fixture.Create<ErkenningWerdGeregistreerd>();
-        var startDatumVoorErkenning2 = ErkenningWerdGeregistreerd1.Einddatum.Value.AddDays(fixture.Create<int>());
-        var hernieuwingsDatumVoorErkenning2 = startDatumVoorErkenning2.AddDays(fixture.Create<int>());
-        var eindDatumVoorErkenning2 = hernieuwingsDatumVoorErkenning2.AddDays(fixture.Create<int>());
+        var today = DateOnly.FromDateTime(DateTime.Now);
+        var einddatum = today.AddDays(-fixture.Create<int>());
+        var hernieuwingsdatum = einddatum.AddDays(-fixture.Create<int>());
+        var startdatum = hernieuwingsdatum.AddDays(-fixture.Create<int>());
 
-        ErkenningWerdGeregistreerd2 = fixture.Create<ErkenningWerdGeregistreerd>() with
+        ErkenningWerdGeregistreerdInVerleden = fixture.Create<ErkenningWerdGeregistreerd>() with
         {
-            Startdatum = startDatumVoorErkenning2,
-            Einddatum = eindDatumVoorErkenning2,
-            Hernieuwingsdatum = hernieuwingsDatumVoorErkenning2,
-            IpdcProduct = ErkenningWerdGeregistreerd1.IpdcProduct,
-            GeregistreerdDoor = ErkenningWerdGeregistreerd1.GeregistreerdDoor,
+            Startdatum = startdatum,
+            Hernieuwingsdatum = hernieuwingsdatum,
+            Einddatum = einddatum,
+            Status = ErkenningStatus.VerlopenValue,
+        };
+
+        var huidigeErkenningStartDatum = ErkenningWerdGeregistreerdInVerleden.Einddatum.Value;
+        var hernieuwingsDatumVoorHuidigeErkenning = today.AddDays(fixture.Create<int>());
+        var eindDatumVoorHuidigeErkenning = hernieuwingsDatumVoorHuidigeErkenning.AddDays(fixture.Create<int>());
+
+        ErkenningWerdGeregistreerdInHuidig = fixture.Create<ErkenningWerdGeregistreerd>() with
+        {
+            Startdatum = huidigeErkenningStartDatum,
+            Einddatum = eindDatumVoorHuidigeErkenning,
+            Hernieuwingsdatum = hernieuwingsDatumVoorHuidigeErkenning,
+            IpdcProduct = ErkenningWerdGeregistreerdInVerleden.IpdcProduct,
+            GeregistreerdDoor = ErkenningWerdGeregistreerdInVerleden.GeregistreerdDoor,
+            Status = ErkenningStatus.ActiefValue,
+        };
+
+        var teActiverenErkenningStartDatum = ErkenningWerdGeregistreerdInVerleden.Einddatum.Value;
+        var hernieuwingsDatumVoorteActiveren = today.AddDays(fixture.Create<int>());
+        var eindDatumVoorteActiveren = hernieuwingsDatumVoorteActiveren.AddDays(fixture.Create<int>());
+
+        ErkenningWerdGeregistreerdTeActiveren = fixture.Create<ErkenningWerdGeregistreerd>() with
+        {
+            Startdatum = teActiverenErkenningStartDatum,
+            Einddatum = eindDatumVoorteActiveren,
+            Hernieuwingsdatum = hernieuwingsDatumVoorteActiveren,
+            IpdcProduct = ErkenningWerdGeregistreerdInVerleden.IpdcProduct,
+            GeregistreerdDoor = ErkenningWerdGeregistreerdInVerleden.GeregistreerdDoor,
+            Status = ErkenningStatus.InAanvraagValue,
+        };
+
+        var toekomstErkenningStartDatum = ErkenningWerdGeregistreerdInHuidig.Einddatum.Value;
+        var hernieuwingsDatumVoorToekomstErkenning = toekomstErkenningStartDatum.AddDays(fixture.Create<int>());
+        var eindDatumVoorToekomstErkenning = hernieuwingsDatumVoorToekomstErkenning.AddDays(fixture.Create<int>());
+
+        ErkenningWerdGeregistreerdInToekomst = fixture.Create<ErkenningWerdGeregistreerd>() with
+        {
+            Startdatum = toekomstErkenningStartDatum,
+            Einddatum = eindDatumVoorToekomstErkenning,
+            Hernieuwingsdatum = hernieuwingsDatumVoorToekomstErkenning,
+            IpdcProduct = ErkenningWerdGeregistreerdInVerleden.IpdcProduct,
+            GeregistreerdDoor = ErkenningWerdGeregistreerdInVerleden.GeregistreerdDoor,
+            Status = ErkenningStatus.InAanvraagValue,
         };
     }
 
     public override IEnumerable<IEvent> Events() =>
-        new IEvent[] { VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, ErkenningWerdGeregistreerd1, ErkenningWerdGeregistreerd2 };
+        new IEvent[]
+        {
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+            ErkenningWerdGeregistreerdInVerleden,
+            ErkenningWerdGeregistreerdInHuidig,
+            ErkenningWerdGeregistreerdInToekomst,
+            ErkenningWerdGeregistreerdTeActiveren,
+        };
 }

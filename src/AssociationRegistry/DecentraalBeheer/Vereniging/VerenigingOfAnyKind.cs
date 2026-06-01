@@ -702,4 +702,22 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
      || teWijzigenErkenning.EindDatum.HasValue
      || teWijzigenErkenning.Hernieuwingsdatum.HasValue
      || teWijzigenErkenning.HernieuwingsUrl is not null;
+
+    public void ActiveerErkenning(int erkenningId)
+    {
+        var erkenning = State.Erkenningen.GetById(erkenningId);
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        if (!erkenning.KanGeactiveerdWordenOp(today))
+        {
+            throw new ErkenningKanNietGeactiveerdWorden(
+                erkenningId,
+                erkenning.ErkenningsPeriode.Startdatum,
+                erkenning.ErkenningsPeriode.Einddatum,
+                erkenning.Status
+            );
+        }
+
+        AddEvent(EventFactory.ErkenningWerdGeactiveerd(erkenningId));
+    }
 }

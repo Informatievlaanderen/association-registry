@@ -84,6 +84,17 @@ public record Erkenning
             Status = erkenningCorrectie.Status,
         };
     }
+
+    public bool KanGeactiveerdWordenOp(DateOnly today)
+    {
+        if (Status != ErkenningStatus.InAanvraag)
+            return false;
+
+        if (!ErkenningsPeriode.Startdatum.HasValue)
+            return false;
+
+        return ErkenningStatus.Bepaal(ErkenningsPeriode, today) == ErkenningStatus.Actief;
+    }
 }
 
 public record IpdcProduct
