@@ -36,7 +36,7 @@ public class Given_Overlapping_Datums
     [Fact]
     public async ValueTask Then_Throws_ErkenningBestaatAl()
     {
-        var teCorrigerenErkenning = _scenario.ErkenningWerdGeregistreerd1.ErkenningId;
+        var teCorrigerenErkenning = _scenario.ErkenningWerdGeregistreerdInVerleden.ErkenningId;
 
         var command = _fixture.Create<CorrigeerErkenningCommand>() with
         {
@@ -44,15 +44,15 @@ public class Given_Overlapping_Datums
             Erkenning = _fixture.Create<TeCorrigerenErkenning>() with
             {
                 ErkenningId = teCorrigerenErkenning,
-                StartDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd2.Startdatum.Value),
-                EindDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd2.Einddatum.Value),
-                Hernieuwingsdatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd2.Hernieuwingsdatum.Value)
+                StartDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerdInHuidig.Startdatum.Value),
+                EindDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerdInHuidig.Einddatum.Value),
+                Hernieuwingsdatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerdInHuidig.Hernieuwingsdatum.Value)
             },
         };
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with
         {
-            Initiator = _scenario.ErkenningWerdGeregistreerd1.GeregistreerdDoor.OvoCode,
+            Initiator = _scenario.ErkenningWerdGeregistreerdInVerleden.GeregistreerdDoor.OvoCode,
         };
 
         var commandEnvelope = new CommandEnvelope<CorrigeerErkenningCommand>(command, commandMetadata);

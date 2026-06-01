@@ -1,33 +1,26 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Activeer_Erkenning.CommandHandling.Kbo;
 
-using System;
-using System.Threading.Tasks;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
+using Events;
 using Xunit;
 
-public class Given_Startdatum_In_Past
+public class Given_Actieve_Erkenning
 {
     private readonly ActiveerErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForActiveerErkenningScenario _scenario;
+    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
 
-    public Given_Startdatum_In_Past()
+    public Given_Actieve_Erkenning()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
-        var today = DateOnly.FromDateTime(DateTime.Today);
-
-        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForActiveerErkenningScenario(
-            startdatum: today.AddDays(-1),
-            einddatum: today.AddYears(1)
-        );
+        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario();
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _commandHandler = new ActiveerErkenningCommandHandler(_verenigingRepositoryMock);
@@ -36,7 +29,7 @@ public class Given_Startdatum_In_Past
     [Fact]
     public async ValueTask Then_Saves_An_ErkenningWerdGeactiveerd_Event()
     {
-        var teActiverenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
+        var teActiverenErkenningId = _scenario.ErkenningWerdGeregistreerdInHuidig.ErkenningId;
 
         var command = _fixture.Create<ActiveerErkenningCommand>() with
         {
@@ -46,9 +39,10 @@ public class Given_Startdatum_In_Past
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with
         {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+            Initiator = _scenario.ErkenningWerdGeregistreerdInHuidig.GeregistreerdDoor.OvoCode,
         };
 
+        throw new NotImplementedException(); // TODO 202 of error?
         await _commandHandler.Handle(new CommandEnvelope<ActiveerErkenningCommand>(command, commandMetadata));
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(new ErkenningWerdGeactiveerd(command.ErkenningId));
