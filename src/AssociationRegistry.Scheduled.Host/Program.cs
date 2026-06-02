@@ -6,6 +6,8 @@ using Admin.Schema.PowerBiExport;
 using Amazon.S3;
 using Bewaartermijnen;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
+using Erkenningen;
 using EventStore.ConflictResolution;
 using Infrastructure.Extensions;
 using Infrastructure.MartenSetup;
@@ -106,6 +108,7 @@ public class Program
         var postgreSqlOptions = builder.Configuration.GetPostgreSqlOptions();
         var bewaartermijnOptions = builder.Configuration.GetBewaartermijnenOptions();
         var powerBiExportOptions = builder.Configuration.GetPowerBiExportOptions();
+        var erkenningenActivatieOptions = builder.Configuration.GetErkenningenActivatieOptions();
 
         services.AddOpenTelemetryServices().AddMarten(postgreSqlOptions).AddWolverine(postgreSqlOptions);
 
@@ -121,6 +124,18 @@ public class Program
                 var powerBiExportJob = new JobKey(PowerBiExportJob.JobName);
                 q.AddJob<PowerBiExportJob>(opts => opts.WithIdentity(powerBiExportJob));
                 q.AddTrigger(opts => opts.ForJob(powerBiExportJob).WithCronSchedule(powerBiExportOptions.Cron));
+            })
+            .AddQuartz(q =>
+            {
+                var erkenningenActivatieJob = new JobKey(ErkenningenActivatieJob.JobName);
+                q.AddJob<ErkenningenActivatieJob>(opts => opts.WithIdentity(erkenningenActivatieJob));
+                q.AddTrigger(opts =>
+                    opts.ForJob(erkenningenActivatieJob)
+                        .WithCronSchedule(
+                            erkenningenActivatieOptions.Cron,
+                            schedule => schedule.InTimeZone(TimeZoneInfo.Utc)
+                        )
+                );
             });
 
         services.AddQuartzHostedService(options =>
@@ -146,6 +161,9 @@ public class Program
             .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
             .AddScoped<PersoonsgegevensEventTransformers>()
             .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
+            .AddScoped<ActiveerErkenningCommandHandler>()
+            .AddScoped<IErkenningenActivatieProcessor, ErkenningenActivatieProcessor>()
+            .AddScoped<ITeActiverenErkenningenQuery, TeActiverenErkenningenQuery>()
             .AddScoped<VerloopBewaartermijnCommandHandler>()
             .AddScoped<IVerlopenBewaartermijnenProcessor, VerlopenBewaartermijnenProcessor>()
             .AddScoped<IVerlopenBewaartermijnQuery, VerlopenBewaartermijnQuery>()

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Scheduled.Host.Infrastructure.Extensions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Bewaartermijnen;
+using Erkenningen;
 using Microsoft.Extensions.Configuration;
 using PowerBi;
 
@@ -61,22 +62,26 @@ public static class ConfigurationExtensions
 
     public static PowerBiExportOptions GetPowerBiExportOptions(this IConfiguration configuration)
     {
-        var powerBiExportOptions = configuration
-                                  .GetSection(nameof(PowerBiExportOptions))
-                                  .Get<PowerBiExportOptions>();
+        var powerBiExportOptions = configuration.GetSection(nameof(PowerBiExportOptions)).Get<PowerBiExportOptions>();
 
         powerBiExportOptions.ThrowIfInvalid();
 
         return powerBiExportOptions!;
     }
 
+    public static ErkenningenActivatieOptions GetErkenningenActivatieOptions(this IConfiguration configuration) =>
+        configuration.GetSection(nameof(ErkenningenActivatieOptions)).Get<ErkenningenActivatieOptions>()
+        ?? new ErkenningenActivatieOptions();
+
     private static void ThrowIfInvalid(this PowerBiExportOptions? powerBiExportOptions)
     {
         if (powerBiExportOptions == null)
             throw new ArgumentNullException(nameof(powerBiExportOptions));
 
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(powerBiExportOptions.BucketName, $"{nameof(powerBiExportOptions)}.{nameof(PowerBiExportOptions.BucketName)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            powerBiExportOptions.BucketName,
+            $"{nameof(powerBiExportOptions)}.{nameof(PowerBiExportOptions.BucketName)}"
+        );
     }
 
     private static void ThrowIfInValid(this BewaartermijnOptions opt)
