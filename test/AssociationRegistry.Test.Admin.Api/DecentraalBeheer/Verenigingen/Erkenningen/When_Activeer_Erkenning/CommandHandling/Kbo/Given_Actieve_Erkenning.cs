@@ -1,12 +1,16 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Activeer_Erkenning.CommandHandling.Kbo;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Activeer_Erkenning.
+    CommandHandling.Kbo;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
+using FluentAssertions;
 using Xunit;
 
 public class Given_Actieve_Erkenning
@@ -42,9 +46,23 @@ public class Given_Actieve_Erkenning
             Initiator = _scenario.ErkenningWerdGeregistreerdInHuidig.GeregistreerdDoor.OvoCode,
         };
 
-        throw new NotImplementedException(); // TODO 202 of error?
-        await _commandHandler.Handle(new CommandEnvelope<ActiveerErkenningCommand>(command, commandMetadata));
+        var exception = await Assert.ThrowsAsync<ErkenningKanNietGeactiveerdWorden>(async () =>
+            await _commandHandler.Handle(
+                new CommandEnvelope<ActiveerErkenningCommand>(command, commandMetadata))
+        );
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(new ErkenningWerdGeactiveerd(command.ErkenningId));
+        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+
+        exception
+           .Message.Should()
+           .Be(
+                string.Format(
+                    "Erkenning met id: {0}, startdatum: {1}, einddatum: {2} en status: {3} kan niet geactiveerd worden.",
+                    _scenario.ErkenningWerdGeregistreerdInHuidig.ErkenningId,
+                    _scenario.ErkenningWerdGeregistreerdInHuidig.Startdatum.Value,
+                    _scenario.ErkenningWerdGeregistreerdInHuidig.Einddatum.Value,
+                    ErkenningStatus.ActiefValue
+                )
+            );
     }
 }
