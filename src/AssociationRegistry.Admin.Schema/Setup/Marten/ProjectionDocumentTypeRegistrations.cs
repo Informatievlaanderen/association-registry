@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Schema.Setup.Marten;
 using Bewaartermijn;
 using DecentraalBeheer.Vereniging;
 using Detail;
+using Erkenningen;
 using global::Marten;
 using Grar.NutsLau;
 using Historiek;
@@ -45,6 +46,12 @@ public static class ProjectionDocumentTypeRegistrations
         opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
 
         opts.Schema.For<LocatieZonderAdresMatchDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
+
+        opts.RegisterDocumentType<ErkenningDocument>();
+
+        opts.Schema.For<ErkenningDocument>()
             .UseNumericRevisions(true)
             .UseOptimisticConcurrency(false);
 
