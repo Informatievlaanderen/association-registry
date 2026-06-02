@@ -52,7 +52,7 @@ public class Given_A_Geschorste_Erkenning
                 command.Erkenning.EindDatum.Value,
                 command.Erkenning.Hernieuwingsdatum.Value,
                 command.Erkenning.HernieuwingsUrl,
-                ErkenningStatus.GeschorstValue,
+                ErkenningStatus.Geschorst.Value,
                 command.Erkenning.RedenVanWijziging
             )
         );

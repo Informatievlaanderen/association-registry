@@ -1,5 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.
-    CommandHandling.Kbo;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling.Kbo;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
@@ -66,7 +65,7 @@ public class Given_A_Verlopen_Erkenning
                 command.Erkenning.EindDatum.Value,
                 command.Erkenning.Hernieuwingsdatum.Value,
                 _scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
-                ErkenningStatus.ActiefValue,
+                ErkenningStatus.Actief.Value,
                 command.Erkenning.RedenVanWijziging
             )
         );
