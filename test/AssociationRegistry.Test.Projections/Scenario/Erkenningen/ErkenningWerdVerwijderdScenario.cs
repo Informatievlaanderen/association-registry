@@ -7,6 +7,7 @@ public class ErkenningWerdVerwijderdScenario : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
 
+    public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerdToBeRemoved { get; }
     public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd { get; }
     public ErkenningWerdVerwijderd ErkenningWerdVerwijderd { get; }
 
@@ -15,10 +16,13 @@ public class ErkenningWerdVerwijderdScenario : ScenarioBase
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
+        ErkenningWerdGeregistreerdToBeRemoved = AutoFixture.Create<ErkenningWerdGeregistreerd>();
+
         ErkenningWerdGeregistreerd = AutoFixture.Create<ErkenningWerdGeregistreerd>();
+
         ErkenningWerdVerwijderd = AutoFixture.Create<ErkenningWerdVerwijderd>() with
         {
-            ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
+            ErkenningId = ErkenningWerdGeregistreerdToBeRemoved.ErkenningId,
         };
     }
 
@@ -29,6 +33,7 @@ public class ErkenningWerdVerwijderdScenario : ScenarioBase
             new(
                 AggregateId,
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+                ErkenningWerdGeregistreerdToBeRemoved,
                 ErkenningWerdGeregistreerd,
                 ErkenningWerdVerwijderd
             ),

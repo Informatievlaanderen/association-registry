@@ -23,6 +23,7 @@ using Newtonsoft.Json;
 using Projections.Bewaartermijn;
 using Projections.Bewaartermijn.EventHandling;
 using Projections.Detail;
+using Projections.Erkenningen;
 using Projections.Historiek;
 using Projections.Locaties;
 using Projections.PowerBiExport;
@@ -254,6 +255,7 @@ public static class ConfigureMartenExtensions
             new LocatieZonderAdresMatchProjection(locatieZonderAdresMatchProjectionLogger),
             ProjectionLifecycle.Async
         );
+        opts.Projections.Add(new ErkenningProjection(), ProjectionLifecycle.Async);
 
         opts.Projections.Add(
             new MartenSubscription(
