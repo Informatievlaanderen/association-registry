@@ -45,21 +45,20 @@ public class Given_Actieve_Erkenning
         };
 
         var exception = await Assert.ThrowsAsync<ErkenningKanNietGeactiveerdWorden>(async () =>
-            await _commandHandler.Handle(
-                new CommandEnvelope<ActiveerErkenningCommand>(command, commandMetadata))
+            await _commandHandler.Handle(new CommandEnvelope<ActiveerErkenningCommand>(command, commandMetadata))
         );
 
         _verenigingRepositoryMock.ShouldNotHaveAnySaves();
 
         exception
-           .Message.Should()
-           .Be(
+            .Message.Should()
+            .Be(
                 string.Format(
                     "Erkenning met id: {0}, startdatum: {1}, einddatum: {2} en status: {3} kan niet geactiveerd worden.",
                     _scenario.ErkenningWerdGeregistreerdInHuidig.ErkenningId,
                     _scenario.ErkenningWerdGeregistreerdInHuidig.Startdatum.Value,
                     _scenario.ErkenningWerdGeregistreerdInHuidig.Einddatum.Value,
-                    ErkenningStatus.ActiefValue
+                    ErkenningStatus.Actief.Value
                 )
             );
     }

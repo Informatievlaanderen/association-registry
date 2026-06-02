@@ -60,7 +60,7 @@ public class Given_Verlopen_Erkenning
                     _scenario.ErkenningWerdGeregistreerdInVerleden.ErkenningId,
                     _scenario.ErkenningWerdGeregistreerdInVerleden.Startdatum.Value,
                     _scenario.ErkenningWerdGeregistreerdInVerleden.Einddatum.Value,
-                    ErkenningStatus.VerlopenValue
+                    ErkenningStatus.Verlopen.Value
                 )
             );
     }

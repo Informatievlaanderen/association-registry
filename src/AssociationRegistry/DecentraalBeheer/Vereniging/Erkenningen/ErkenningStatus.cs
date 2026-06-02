@@ -42,8 +42,8 @@ public sealed record ErkenningStatus
 
     public static ErkenningStatus Hydrate(string status) => new(status);
 
-    public const string ActiefValue = "Actief";
-    public const string VerlopenValue = "Verlopen";
-    public const string InAanvraagValue = "InAanvraag";
-    public const string GeschorstValue = "Geschorst";
+    private const string ActiefValue = "Actief";
+    private const string VerlopenValue = "Verlopen";
+    private const string InAanvraagValue = "InAanvraag";
+    private const string GeschorstValue = "Geschorst";
 }
