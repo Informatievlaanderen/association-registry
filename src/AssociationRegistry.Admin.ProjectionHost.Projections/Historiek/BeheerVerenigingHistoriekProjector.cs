@@ -903,6 +903,11 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<ErkenningWerdGeactiveerd> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(@event, @event.Data, document, "Erkenning werd geactiveerd");
+    }
+
     public static void Apply(
         IEvent<SchorsingVanErkenningWerdOpgeheven> @event,
         BeheerVerenigingHistoriekDocument document
