@@ -1401,6 +1401,17 @@ public class BeheerVerenigingDetailProjector
             .ToArray();
     }
 
+    public static void Apply(IEvent<ErkenningWerdGeactiveerd> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Erkenningen = document
+                              .Erkenningen.UpdateSingle(
+                                   identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
+                                   update: b => b with { Status = ErkenningStatus.Actief.Value }
+                               )
+                              .OrderBy(b => b.ErkenningId)
+                              .ToArray();
+    }
+
     public static void Apply(IEvent<ErkenningWerdGewijzigd> @event, BeheerVerenigingDetailDocument document)
     {
         document.Erkenningen = document

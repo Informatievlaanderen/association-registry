@@ -1611,6 +1611,23 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         UpdateHistoriek(document, @event);
     }
 
+    public void Apply(IEvent<ErkenningWerdGeactiveerd> @event, PowerBiExportDocument document)
+    {
+        document.Erkenningen = document
+                              .Erkenningen.UpdateSingle(
+                                   identityFunc: b => b.ErkenningId == @event.Data.ErkenningId,
+                                   update: b => b with { Status = ErkenningStatus.Actief.Value }
+                               )
+                              .OrderBy(b => b.ErkenningId)
+                              .ToArray();
+
+        document.DatumLaatsteAanpassing = @event
+                                         .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                         .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
     public void Apply(IEvent<ErkenningWerdGewijzigd> @event, PowerBiExportDocument document)
     {
         document.Erkenningen = document
