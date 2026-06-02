@@ -37,7 +37,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningenS
             Startdatum = startdatum,
             Hernieuwingsdatum = hernieuwingsdatum,
             Einddatum = einddatum,
-            Status = ErkenningStatus.VerlopenValue,
+            Status = ErkenningStatus.Verlopen.Value,
         };
 
         var huidigeErkenningStartDatum = ErkenningWerdGeregistreerdInVerleden.Einddatum.Value;
@@ -51,7 +51,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningenS
             Hernieuwingsdatum = hernieuwingsDatumVoorHuidigeErkenning,
             IpdcProduct = ErkenningWerdGeregistreerdInVerleden.IpdcProduct,
             GeregistreerdDoor = ErkenningWerdGeregistreerdInVerleden.GeregistreerdDoor,
-            Status = ErkenningStatus.ActiefValue,
+            Status = ErkenningStatus.Actief.Value,
         };
 
         var teActiverenErkenningStartDatum = ErkenningWerdGeregistreerdInVerleden.Einddatum.Value;
@@ -65,7 +65,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningenS
             Hernieuwingsdatum = hernieuwingsDatumVoorteActiveren,
             IpdcProduct = ErkenningWerdGeregistreerdInVerleden.IpdcProduct,
             GeregistreerdDoor = ErkenningWerdGeregistreerdInVerleden.GeregistreerdDoor,
-            Status = ErkenningStatus.InAanvraagValue,
+            Status = ErkenningStatus.InAanvraag.Value,
         };
 
         var toekomstErkenningStartDatum = ErkenningWerdGeregistreerdInHuidig.Einddatum.Value;
@@ -79,7 +79,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningenS
             Hernieuwingsdatum = hernieuwingsDatumVoorToekomstErkenning,
             IpdcProduct = ErkenningWerdGeregistreerdInVerleden.IpdcProduct,
             GeregistreerdDoor = ErkenningWerdGeregistreerdInVerleden.GeregistreerdDoor,
-            Status = ErkenningStatus.InAanvraagValue,
+            Status = ErkenningStatus.InAanvraag.Value,
         };
     }
 

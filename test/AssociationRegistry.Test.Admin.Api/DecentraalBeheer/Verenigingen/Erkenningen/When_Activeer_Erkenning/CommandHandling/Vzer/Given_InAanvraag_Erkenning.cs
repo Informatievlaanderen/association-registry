@@ -58,7 +58,7 @@ public class Given_Erkenning_InAanvraag
                     _scenario.ErkenningWerdGeregistreerdInToekomst.ErkenningId,
                     _scenario.ErkenningWerdGeregistreerdInToekomst.Startdatum.Value,
                     _scenario.ErkenningWerdGeregistreerdInToekomst.Einddatum.Value,
-                    ErkenningStatus.InAanvraagValue
+                    ErkenningStatus.InAanvraag.Value
                 )
             );
     }

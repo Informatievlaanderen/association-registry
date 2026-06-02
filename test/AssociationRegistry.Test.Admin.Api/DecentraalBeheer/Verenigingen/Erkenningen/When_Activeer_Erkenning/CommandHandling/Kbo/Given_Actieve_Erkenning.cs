@@ -59,7 +59,7 @@ public class Given_Actieve_Erkenning
                     _scenario.ErkenningWerdGeregistreerdInHuidig.ErkenningId,
                     _scenario.ErkenningWerdGeregistreerdInHuidig.Startdatum.Value,
                     _scenario.ErkenningWerdGeregistreerdInHuidig.Einddatum.Value,
-                    ErkenningStatus.ActiefValue
+                    ErkenningStatus.Actief.Value
                 )
             );
     }

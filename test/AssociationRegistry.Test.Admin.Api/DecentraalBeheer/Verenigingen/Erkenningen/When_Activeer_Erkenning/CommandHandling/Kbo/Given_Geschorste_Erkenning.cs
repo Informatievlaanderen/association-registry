@@ -59,7 +59,7 @@ public class Given_Geschorste_Erkenning
                     _scenario.ErkenningWerdGeschorst.ErkenningId,
                     _scenario.ErkenningWerdGeregistreerd.Startdatum.Value,
                     _scenario.ErkenningWerdGeregistreerd.Einddatum.Value,
-                    ErkenningStatus.GeschorstValue
+                    ErkenningStatus.Geschorst.Value
                 )
             );
     }
