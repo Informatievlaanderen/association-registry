@@ -1,3 +1,16 @@
+# [8.326.0](https://github.com/informatievlaanderen/association-registry/compare/v8.325.1...v8.326.0) (2026-06-03)
+
+
+### Features
+
+* or-3082 activeer erkenning in domain ([39f1fa1](https://github.com/informatievlaanderen/association-registry/commit/39f1fa1096e19e265a32a9edf223ea8eb7c50659))
+* or-3082 add erkenningdocument migration and update migrationrunner ([43ed0ab](https://github.com/informatievlaanderen/association-registry/commit/43ed0ab22b97e1ba869a7b04ead1b13bf50ad131))
+* or-3082 implement erkenning projection ([ab168b0](https://github.com/informatievlaanderen/association-registry/commit/ab168b06a6feba367861eb78f1e7ab30e4f392e0))
+* or-3082 implement erkenning werd geactiveerd in projections ([ce5f81a](https://github.com/informatievlaanderen/association-registry/commit/ce5f81a185e6889699730880c243cb0c4193de80))
+* or-3082 query te activeren erkenningen in scheduled host ([2287052](https://github.com/informatievlaanderen/association-registry/commit/2287052c2919e38f52f6ed37fe51397398eb8549))
+* or-3082 register activeer erkenning queue ([239cf74](https://github.com/informatievlaanderen/association-registry/commit/239cf74df30926b9b22ebf1c71c6859b17797e04))
+* or-3082 use erkenning projection for activeer erkenning on schedueld host ([3232fd9](https://github.com/informatievlaanderen/association-registry/commit/3232fd98ffbf22f5c2de5e9cfa9f81b63a38aeaf))
+
 ## [8.325.1](https://github.com/informatievlaanderen/association-registry/compare/v8.325.0...v8.325.1) (2026-06-03)
 
 
