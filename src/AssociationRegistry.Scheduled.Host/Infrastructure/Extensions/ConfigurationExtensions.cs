@@ -69,9 +69,20 @@ public static class ConfigurationExtensions
         return powerBiExportOptions!;
     }
 
-    public static ActiveerErkenningenOptions GetActiveerErkenningenOptions(this IConfiguration configuration) =>
-        configuration.GetSection(nameof(ActiveerErkenningenOptions)).Get<ActiveerErkenningenOptions>()
-        ?? new ActiveerErkenningenOptions();
+    public static ActiveerErkenningenOptions GetActiveerErkenningenOptions(this IConfiguration configuration)
+    {
+        var options = configuration.GetSection(nameof(ActiveerErkenningenOptions)).Get<ActiveerErkenningenOptions>();
+
+        if (options is null)
+            throw new ArgumentNullException(nameof(options));
+
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            options.Cron,
+            $"{nameof(ActiveerErkenningenOptions)}.{nameof(ActiveerErkenningenOptions.Cron)}"
+        );
+
+        return options;
+    }
 
     private static void ThrowIfInvalid(this PowerBiExportOptions? powerBiExportOptions)
     {
