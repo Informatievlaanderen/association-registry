@@ -3,6 +3,7 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Hosts.Configuration.ConfigurationBindings;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
 using JasperFx;
 using MartenDb.Setup;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,12 @@ public static class WolverineExtensions
         string wolverineSchema,
         PostgreSqlOptionsSection postgreSqlOptions)
     {
+        ConfigureBewaartermijnen(options, wolverineSchema, postgreSqlOptions);
+        ConfigureErkenningen(options, wolverineSchema, postgreSqlOptions);
+    }
+
+    private static void ConfigureBewaartermijnen(WolverineOptions options, string wolverineSchema, PostgreSqlOptionsSection postgreSqlOptions)
+    {
         const string NightlyExpiredBewaartermijnenProcessorQueueName = "nachtelijke-expiredbewaartermijnen-queue";
 
         options.Discovery.IncludeType<VerloopBewaartermijnCommand>();
@@ -49,5 +56,21 @@ public static class WolverineExtensions
                .ToPostgresqlQueue(NightlyExpiredBewaartermijnenProcessorQueueName);
 
         options.ListenToPostgresqlQueue(NightlyExpiredBewaartermijnenProcessorQueueName);
+    }
+
+    private static void ConfigureErkenningen(WolverineOptions options, string wolverineSchema, PostgreSqlOptionsSection postgreSqlOptions)
+    {
+        const string ActiveerErkenningenProcessorQueueName = "activeer-erkenningen-queue";
+
+        options.Discovery.IncludeType<ActiveerErkenningCommand>();
+        options.Discovery.IncludeType<ActiveerErkenningCommandHandler>();
+
+        options.PersistMessagesWithPostgresql(postgreSqlOptions.GetConnectionString(), wolverineSchema)
+               .EnableMessageTransport();
+
+        options.PublishMessage<ActiveerErkenningCommand>()
+               .ToPostgresqlQueue(ActiveerErkenningenProcessorQueueName);
+
+        options.ListenToPostgresqlQueue(ActiveerErkenningenProcessorQueueName);
     }
 }

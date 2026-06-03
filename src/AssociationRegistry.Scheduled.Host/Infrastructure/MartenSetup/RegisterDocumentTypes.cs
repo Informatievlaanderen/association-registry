@@ -20,6 +20,10 @@ public static class RegisterDocumentTypes
         opts.RegisterDocumentType<PowerBiExportDocument>();
         opts.RegisterDocumentType<ErkenningDocument>();
 
+        opts.Schema.For<ErkenningDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
+
         opts.Schema.For<PowerBiExportDubbelDetectieDocument>()
             .UseNumericRevisions(true)
             .UseOptimisticConcurrency(false);
