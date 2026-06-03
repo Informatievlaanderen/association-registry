@@ -108,7 +108,7 @@ public class Program
         var postgreSqlOptions = builder.Configuration.GetPostgreSqlOptions();
         var bewaartermijnOptions = builder.Configuration.GetBewaartermijnenOptions();
         var powerBiExportOptions = builder.Configuration.GetPowerBiExportOptions();
-        var ActiveerErkenningenOptions = builder.Configuration.GetActiveerErkenningenOptions();
+        var activeerErkenningenOptions = builder.Configuration.GetActiveerErkenningenOptions();
 
         services.AddOpenTelemetryServices().AddMarten(postgreSqlOptions).AddWolverine(postgreSqlOptions);
 
@@ -129,10 +129,11 @@ public class Program
             {
                 var erkenningenActivatieJob = new JobKey(ActiveerErkenningenJob.JobName);
                 q.AddJob<ActiveerErkenningenJob>(opts => opts.WithIdentity(erkenningenActivatieJob));
+
                 q.AddTrigger(opts =>
                     opts.ForJob(erkenningenActivatieJob)
                         .WithCronSchedule(
-                            ActiveerErkenningenOptions.Cron,
+                            activeerErkenningenOptions.Cron,
                             schedule => schedule.InTimeZone(TimeZoneInfo.Utc)
                         )
                 );
