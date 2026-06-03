@@ -153,6 +153,7 @@ public class Program
             .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
             .AddSingleton<EventConflictResolver>()
             .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
+            .AddSingleton<Framework.IClock, Framework.Clock>()
             .AddScoped<IEventStore, EventStore>()
             .AddScoped<IAggregateSession, AggregateSession>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
