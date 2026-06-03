@@ -9,7 +9,7 @@ public class Given_ErkenningWerdVerwijderd(BeheerHistoriekScenarioFixture<Erkenn
     : BeheerHistoriekScenarioClassFixture<ErkenningWerdVerwijderdScenario>
 {
     [Fact]
-    public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(3);
+    public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(4);
 
     [Fact]
     public void Document_Is_Updated() =>
