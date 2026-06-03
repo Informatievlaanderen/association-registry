@@ -3,7 +3,7 @@ projects:
     name: Admin API
     csprojPath: src/AssociationRegistry.Admin.Api
     migrationDestination: migrations/production/admin.api/scripts/up
-    connectionString: postgresql://127.0.0.1/verenigingsregister
+    connectionString: postgresql://127.0.0.1/verenigingsregister/public
   Wolverine Schema:
     name: Wolverine Schema
     csprojPath: src/AssociationRegistry.Admin.Api
@@ -13,17 +13,17 @@ projects:
     name: Admin Projections
     csprojPath: src/AssociationRegistry.Admin.ProjectionHost
     migrationDestination: migrations/production/admin.projections/scripts/up
-    connectionString: postgresql://127.0.0.1/verenigingsregister
+    connectionString: postgresql://127.0.0.1/verenigingsregister/public
   Public Projections:
     name: Public Projections
     csprojPath: src/AssociationRegistry.Public.ProjectionHost
     migrationDestination: migrations/production/public.projections/scripts/up
-    connectionString: postgresql://127.0.0.1/verenigingsregister
+    connectionString: postgresql://127.0.0.1/verenigingsregister/public
   ACM API:
     name: ACM API
     csprojPath: src/AssociationRegistry.Acm.Api
     migrationDestination: migrations/production/acm.api/scripts/up
-    connectionString: postgresql://127.0.0.1/verenigingsregister
+    connectionString: postgresql://127.0.0.1/verenigingsregister/public
 customScripts:
 - name: Regenerate Marten
   command: ./regen-marten.sh
