@@ -1,14 +1,14 @@
 namespace AssociationRegistry.Test.Scheduled.Host.Queries;
 
-using System.Globalization;
-using AssociationRegistry.Admin.Schema.Detail;
+using Admin.Schema.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Scheduled.Host.Erkenningen;
+using AssociationRegistry.Scheduled.Host.Queries;
 using AssociationRegistry.Test.Common.Framework;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using FluentAssertions;
+using Framework;
 using Marten;
 using NodaTime;
-using DomainErkenningStatus = AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.ErkenningStatus;
 
 public class TeActiverenErkenningenQueryTests
 {
@@ -20,76 +20,56 @@ public class TeActiverenErkenningenQueryTests
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(TeActiverenErkenningenQueryTests));
         var session = store.LightweightSession();
 
-        await InsertVerenigingen(session);
+        await InsertErkenningen(session);
 
-        var sut = new TeActiverenErkenningenQuery(session, new FakeClock(Instant.FromUtc(2026, 1, 1, 0, 0)));
+        var sut = new TeActiverenErkenningenQuery(session, new ClockStub(DateOnly.FromDateTime(DateTime.Today)));
         var actual = await sut.ExecuteAsync(CancellationToken.None);
 
         actual
             .Should()
-            .BeEquivalentTo([
-                new TeActiverenErkenning(VCode.Create("V0001001"), 1),
-                new TeActiverenErkenning(VCode.Create("V0001001"), 2),
-            ]);
+            .BeEquivalentTo(
+                [
+                    Erkenning("V0001001", 3, ErkenningStatus.InAanvraag, Today.AddDays(-100), Today.AddDays(-50)),
+                    //Dit geval kan in werkelijkheid niet voorkomen
+                    Erkenning("V0001001", 4, ErkenningStatus.InAanvraag, Today.AddDays(1), Today.AddDays(50)),
+                    Erkenning("V0001001", 5, ErkenningStatus.InAanvraag, Today.AddDays(-1), Today.AddDays(50)),
+                    Erkenning("V0001002", 1, ErkenningStatus.InAanvraag, Today, Today.AddDays(50)),
+                ],
+                options => options.ExcludingMissingMembers()
+            );
     }
 
-    private static async Task InsertVerenigingen(IDocumentSession session)
+    private static async Task InsertErkenningen(IDocumentSession session)
     {
-        session.Store(
-            Vereniging(
-                "V0001001",
-                false,
-                VerenigingStatus.StatusActief.Naam,
-                [
-                    Erkenning(1, Today, Today.AddDays(10), DomainErkenningStatus.InAanvraag.Value),
-                    Erkenning(2, Today.AddDays(-1), Today.AddDays(10), DomainErkenningStatus.InAanvraag.Value),
-                    Erkenning(3, Today.AddDays(1), Today.AddDays(10), DomainErkenningStatus.InAanvraag.Value),
-                    Erkenning(4, Today.AddDays(-1), Today.AddDays(10), DomainErkenningStatus.Actief.Value),
-                    Erkenning(5, Today.AddDays(-1), Today.AddDays(10), DomainErkenningStatus.Geschorst.Value),
-                    Erkenning(6, Today.AddDays(-10), Today.AddDays(-1), DomainErkenningStatus.InAanvraag.Value),
-                ]
-            ),
-            Vereniging(
-                "V0001002",
-                true,
-                VerenigingStatus.StatusActief.Naam,
-                [Erkenning(7, Today, Today.AddDays(10), DomainErkenningStatus.InAanvraag.Value)]
-            ),
-            Vereniging(
-                "V0001003",
-                false,
-                "Dubbel",
-                [Erkenning(8, Today, Today.AddDays(10), DomainErkenningStatus.InAanvraag.Value)]
-            )
-        );
-
-        session.Delete<BeheerVerenigingDetailDocument>("V0001002");
+        session.StoreObjects([
+            Erkenning("V0001001", 1, ErkenningStatus.Verlopen, Today.AddDays(-100), Today.AddDays(-50)),
+            Erkenning("V0001001", 2, ErkenningStatus.Geschorst, Today.AddDays(-3), Today.AddDays(50)),
+            Erkenning("V0001001", 3, ErkenningStatus.InAanvraag, Today.AddDays(-100), Today.AddDays(-50)),
+            Erkenning("V0001001", 4, ErkenningStatus.InAanvraag, Today.AddDays(1), Today.AddDays(50)),
+            Erkenning("V0001001", 5, ErkenningStatus.InAanvraag, Today.AddDays(-1), Today.AddDays(50)),
+            Erkenning("V0001002", 1, ErkenningStatus.InAanvraag, Today, Today.AddDays(50)),
+            Erkenning("V0001003", 1, ErkenningStatus.Actief, Today.AddDays(-1), Today.AddDays(50)),
+            Erkenning("V0001004", 1, ErkenningStatus.Geschorst, Today.AddDays(-1), Today.AddDays(50)),
+        ]);
 
         await session.SaveChangesAsync();
     }
 
-    private static BeheerVerenigingDetailDocument Vereniging(
+    private static ErkenningDocument Erkenning(
         string vCode,
-        bool deleted,
-        string status,
-        Erkenning[] erkenningen
+        int erkenningId,
+        ErkenningStatus status,
+        DateOnly startdatum,
+        DateOnly einddatum
     ) =>
         new()
         {
-            VCode = vCode,
-            Deleted = deleted,
-            Status = status,
-            Erkenningen = erkenningen,
-        };
-
-    private static Erkenning Erkenning(int id, DateOnly startdatum, DateOnly? einddatum, string status) =>
-        new()
-        {
-            ErkenningId = id,
-            Startdatum = startdatum.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
-            Einddatum = einddatum?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
-            RedenSchorsing = string.Empty,
-            Status = status,
+            Id = $"{vCode}-{erkenningId}",
+            VCode = VCode.Create(vCode),
+            ErkenningId = erkenningId,
+            Status = status.Value,
+            Startdatum = startdatum,
+            Einddatum = einddatum,
         };
 
     private sealed class FakeClock : IClock

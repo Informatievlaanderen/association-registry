@@ -3,16 +3,16 @@ namespace AssociationRegistry.Scheduled.Host.Erkenningen;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
-public class ErkenningenActivatieJob(IErkenningenActivatieProcessor processor, ILogger<ErkenningenActivatieJob> logger)
+public class ActiveerErkenningenJob(IErkenningenActivatieProcessor processor, ILogger<ActiveerErkenningenJob> logger)
     : IJob
 {
-    public const string JobName = "erkenningen-activatie-runner";
+    public const string JobName = "activeer-erkenningen-runner";
 
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
-            logger.LogInformation("{ServiceName} started", typeof(ErkenningenActivatieJob));
+            logger.LogInformation("{ServiceName} started", typeof(ActiveerErkenningenJob));
 
             await processor.ActiveerErkenningen(context.CancellationToken);
 

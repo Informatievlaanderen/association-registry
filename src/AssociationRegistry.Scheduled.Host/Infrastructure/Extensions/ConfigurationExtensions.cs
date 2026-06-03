@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Scheduled.Host.Infrastructure.Extensions;
 
-using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Bewaartermijnen;
 using Erkenningen;
+using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
 using PowerBi;
 
@@ -69,9 +69,9 @@ public static class ConfigurationExtensions
         return powerBiExportOptions!;
     }
 
-    public static ErkenningenActivatieOptions GetErkenningenActivatieOptions(this IConfiguration configuration) =>
-        configuration.GetSection(nameof(ErkenningenActivatieOptions)).Get<ErkenningenActivatieOptions>()
-        ?? new ErkenningenActivatieOptions();
+    public static ActiveerErkenningenOptions GetActiveerErkenningenOptions(this IConfiguration configuration) =>
+        configuration.GetSection(nameof(ActiveerErkenningenOptions)).Get<ActiveerErkenningenOptions>()
+        ?? new ActiveerErkenningenOptions();
 
     private static void ThrowIfInvalid(this PowerBiExportOptions? powerBiExportOptions)
     {

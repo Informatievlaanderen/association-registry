@@ -19,7 +19,7 @@ public class ScheduledHostController : ApiController
 {
     [HttpPost("scheduledhost/trigger/bewaartermijn")]
     public async Task<IActionResult> TriggerBewaartermijnenPurgeRunner(
-    [FromServices] ScheduledHostHttpClient client,
+        [FromServices] ScheduledHostHttpClient client,
         [FromServices] ILogger<ScheduledHostController> logger,
         CancellationToken cancellationToken
     )
@@ -37,6 +37,18 @@ public class ScheduledHostController : ApiController
     )
     {
         await client.TriggerPowerBiExport(cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpPost("scheduledhost/trigger/activeer-erkenningen")]
+    public async Task<IActionResult> TriggerActiveerErkenningen(
+        [FromServices] ScheduledHostHttpClient client,
+        [FromServices] ILogger<ScheduledHostController> logger,
+        CancellationToken cancellationToken
+    )
+    {
+        await client.TriggerActiveerErkenningen(cancellationToken);
 
         return Ok();
     }

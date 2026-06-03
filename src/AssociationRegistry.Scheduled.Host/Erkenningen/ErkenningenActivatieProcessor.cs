@@ -1,20 +1,21 @@
 namespace AssociationRegistry.Scheduled.Host.Erkenningen;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
-using AssociationRegistry.Framework;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
+using Framework;
 using Microsoft.Extensions.Logging;
+using Queries;
 using Wolverine;
 
-public class ErkenningenActivatieProcessor : IErkenningenActivatieProcessor
+public class ActiveerErkenningenProcessor : IErkenningenActivatieProcessor
 {
     private readonly ITeActiverenErkenningenQuery _query;
     private readonly IMessageBus _messageBus;
-    private readonly ILogger<ErkenningenActivatieProcessor> _logger;
+    private readonly ILogger<ActiveerErkenningenProcessor> _logger;
 
-    public ErkenningenActivatieProcessor(
+    public ActiveerErkenningenProcessor(
         ITeActiverenErkenningenQuery query,
         IMessageBus messageBus,
-        ILogger<ErkenningenActivatieProcessor> logger
+        ILogger<ActiveerErkenningenProcessor> logger
     )
     {
         _query = query;
@@ -35,7 +36,7 @@ public class ErkenningenActivatieProcessor : IErkenningenActivatieProcessor
                 CommandMetadata.ForDigitaalVlaanderenProcess
             );
 
-            await _messageBus.InvokeAsync(command, cancellationToken);
+            await _messageBus.SendAsync(command);
         }
     }
 }

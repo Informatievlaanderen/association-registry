@@ -18,7 +18,10 @@ public class ActiveerErkenningCommandHandler
         CancellationToken cancellationToken = default
     )
     {
-        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
+        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
+            VCode.Create(envelope.Command.VCode),
+            envelope.Metadata
+        );
         vereniging.ActiveerErkenning(envelope.Command.ErkenningId);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
