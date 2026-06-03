@@ -7,11 +7,17 @@ public class Given_ErkenningWerdVerwijderd(BeheerDetailScenarioFixture<Erkenning
     : BeheerDetailScenarioClassFixture<ErkenningWerdVerwijderdScenario>
 {
     [Fact]
-    public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(3);
+    public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(4);
 
     [Fact]
     public void Then_Erkenning_Is_Removed()
     {
-        fixture.Result.Erkenningen.Should().BeEmpty();
+        fixture
+            .Result.Erkenningen.Should()
+            .NotContain(x => x.ErkenningId == fixture.Scenario.ErkenningWerdGeregistreerdToBeRemoved.ErkenningId);
+
+        fixture
+            .Result.Erkenningen.Should()
+            .ContainSingle(x => x.ErkenningId == fixture.Scenario.ErkenningWerdGeregistreerd.ErkenningId);
     }
 }
