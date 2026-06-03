@@ -1,3 +1,10 @@
+## [8.325.1](https://github.com/informatievlaanderen/association-registry/compare/v8.325.0...v8.325.1) (2026-06-03)
+
+
+### Bug Fixes
+
+* or-3204 use product endpoint for ipdc ([b809bf7](https://github.com/informatievlaanderen/association-registry/commit/b809bf7825fc69e7bc032af79110f7fd7b395695))
+
 # [8.325.0](https://github.com/informatievlaanderen/association-registry/compare/v8.324.0...v8.325.0) (2026-06-01)
 
 
