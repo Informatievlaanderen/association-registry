@@ -2,6 +2,7 @@ namespace AssociationRegistry.Scheduled.Host.Infrastructure.MartenSetup;
 
 using Admin.ProjectionHost.Projections.PowerBiExport;
 using Admin.Schema.Bewaartermijn;
+using Admin.Schema.Erkenningen;
 using Admin.Schema.Persoonsgegevens;
 using Admin.Schema.PowerBiExport;
 using DecentraalBeheer.Vereniging;
@@ -17,18 +18,15 @@ public static class RegisterDocumentTypes
         opts.RegisterDocumentType<BewaartermijnDocument>();
         opts.RegisterDocumentType<PowerBiExportDubbelDetectieDocument>();
         opts.RegisterDocumentType<PowerBiExportDocument>();
+        opts.RegisterDocumentType<ErkenningDocument>();
 
         opts.Schema.For<PowerBiExportDubbelDetectieDocument>()
             .UseNumericRevisions(true)
             .UseOptimisticConcurrency(false);
 
-        opts.Schema.For<PowerBiExportDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<PowerBiExportDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
-        opts.Schema.For<BewaartermijnDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<BewaartermijnDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<VerenigingState>();
 

@@ -108,7 +108,7 @@ public class Program
         var postgreSqlOptions = builder.Configuration.GetPostgreSqlOptions();
         var bewaartermijnOptions = builder.Configuration.GetBewaartermijnenOptions();
         var powerBiExportOptions = builder.Configuration.GetPowerBiExportOptions();
-        var erkenningenActivatieOptions = builder.Configuration.GetErkenningenActivatieOptions();
+        var ActiveerErkenningenOptions = builder.Configuration.GetActiveerErkenningenOptions();
 
         services.AddOpenTelemetryServices().AddMarten(postgreSqlOptions).AddWolverine(postgreSqlOptions);
 
@@ -127,12 +127,12 @@ public class Program
             })
             .AddQuartz(q =>
             {
-                var erkenningenActivatieJob = new JobKey(ErkenningenActivatieJob.JobName);
-                q.AddJob<ErkenningenActivatieJob>(opts => opts.WithIdentity(erkenningenActivatieJob));
+                var erkenningenActivatieJob = new JobKey(ActiveerErkenningenJob.JobName);
+                q.AddJob<ActiveerErkenningenJob>(opts => opts.WithIdentity(erkenningenActivatieJob));
                 q.AddTrigger(opts =>
                     opts.ForJob(erkenningenActivatieJob)
                         .WithCronSchedule(
-                            erkenningenActivatieOptions.Cron,
+                            ActiveerErkenningenOptions.Cron,
                             schedule => schedule.InTimeZone(TimeZoneInfo.Utc)
                         )
                 );
@@ -162,7 +162,7 @@ public class Program
             .AddScoped<PersoonsgegevensEventTransformers>()
             .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
             .AddScoped<ActiveerErkenningCommandHandler>()
-            .AddScoped<IErkenningenActivatieProcessor, ErkenningenActivatieProcessor>()
+            .AddScoped<IErkenningenActivatieProcessor, ActiveerErkenningenProcessor>()
             .AddScoped<ITeActiverenErkenningenQuery, TeActiverenErkenningenQuery>()
             .AddScoped<VerloopBewaartermijnCommandHandler>()
             .AddScoped<IVerlopenBewaartermijnenProcessor, VerlopenBewaartermijnenProcessor>()

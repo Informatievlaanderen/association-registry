@@ -5,7 +5,6 @@ using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events;
-using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Marten;
 using MartenDb;

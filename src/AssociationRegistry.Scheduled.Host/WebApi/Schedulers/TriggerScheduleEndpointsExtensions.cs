@@ -27,10 +27,10 @@ public static class TriggerScheduleControllersExtensions
         );
 
         app.MapPost(
-            pattern: "v1/trigger/erkenningen-activatie",
+            pattern: "v1/trigger/activeer-erkenningen",
             handler: async (ISchedulerFactory schedulerFactory) =>
             {
-                await TriggerJob(ErkenningenActivatieJob.JobName, schedulerFactory);
+                await TriggerJob(ActiveerErkenningenJob.JobName, schedulerFactory);
             }
         );
     }
