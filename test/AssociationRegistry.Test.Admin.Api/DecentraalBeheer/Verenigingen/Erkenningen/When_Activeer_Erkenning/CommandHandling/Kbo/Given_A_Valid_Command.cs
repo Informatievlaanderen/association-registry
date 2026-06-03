@@ -29,7 +29,6 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask Then_It_Adds_An_ErkenningWerdGeactiveerd_Event()
     {
-        // TODO Testen naar vZER kopieren
         var teActiverenErkenningId = _scenario.ErkenningWerdGeregistreerdTeActiveren.ErkenningId;
 
         var command = _fixture.Create<ActiveerErkenningCommand>() with
