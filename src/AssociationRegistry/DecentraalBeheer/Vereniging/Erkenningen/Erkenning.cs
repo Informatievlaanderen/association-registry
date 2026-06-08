@@ -95,6 +95,17 @@ public record Erkenning
 
         return ErkenningStatus.Bepaal(ErkenningsPeriode, today) == ErkenningStatus.Actief;
     }
+
+    public bool KanVerlopenWordenOp(DateOnly today)
+    {
+        if (Status != ErkenningStatus.Actief)
+            return false;
+
+        if (!ErkenningsPeriode.Einddatum.HasValue)
+            return false;
+
+        return ErkenningStatus.Bepaal(ErkenningsPeriode, today) == ErkenningStatus.Verlopen;
+    }
 }
 
 public record IpdcProduct

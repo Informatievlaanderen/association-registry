@@ -403,4 +403,7 @@
   <data name="ErkenningKanNietGeactiveerdWorden">
     <value>Erkenning met id: {0}, startdatum: {1}, einddatum: {2} en status: {3} kan niet geactiveerd worden.</value>
   </data>
+  <data name="ErkenningKanNietVerlopenWorden">
+    <value>Erkenning met id: {0}, startdatum: {1}, einddatum: {2} en status: {3} kan niet verlopen worden.</value>
+  </data>
 </root>

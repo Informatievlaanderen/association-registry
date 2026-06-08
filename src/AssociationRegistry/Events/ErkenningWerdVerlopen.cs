@@ -5,8 +5,7 @@ using System.Text;
 using Vereniging.Bronnen;
 
 public record ErkenningWerdVerlopen(
-    int ErkenningId,
-    DateOnly VerlopenOp
+    int ErkenningId
 ) : IEvent
 {
     [IgnoreDataMember]
@@ -15,7 +14,6 @@ public record ErkenningWerdVerlopen(
     protected virtual bool PrintMembers(StringBuilder builder)
     {
         builder.Append($"ErkenningId = {ErkenningId}, ");
-        builder.Append($"Verlopen = {VerlopenOp}, ");
 
         return true;
     }
