@@ -554,4 +554,5 @@ public static class EventFactory
     ) => new(huidigeErkenningErkenningId, status.Value);
 
     public static ErkenningWerdGeactiveerd ErkenningWerdGeactiveerd(int erkenningId) => new(erkenningId);
+    public static ErkenningWerdVerlopen ErkenningWerdVerlopen(int erkenningId) => new(erkenningId);
 }

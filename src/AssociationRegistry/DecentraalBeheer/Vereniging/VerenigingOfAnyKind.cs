@@ -720,4 +720,22 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.ErkenningWerdGeactiveerd(erkenningId));
     }
+
+    public void VerloopErkenning(int erkenningId)
+    {
+        var erkenning = State.Erkenningen.GetById(erkenningId);
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        if (!erkenning.KanVerlopenWordenOp(today))
+        {
+            throw new ErkenningKanNietVerlopenWorden(
+                erkenningId,
+                erkenning.ErkenningsPeriode.Startdatum,
+                erkenning.ErkenningsPeriode.Einddatum,
+                erkenning.Status
+            );
+        }
+
+        AddEvent(EventFactory.ErkenningWerdVerlopen(erkenningId));
+    }
 }
