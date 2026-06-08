@@ -908,6 +908,11 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(@event, @event.Data, document, "Erkenning werd geactiveerd");
     }
 
+    public static void Apply(IEvent<ErkenningWerdVerlopen> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(@event, @event.Data, document, "Erkenning werd verlopen");
+    }
+
     public static void Apply(
         IEvent<SchorsingVanErkenningWerdOpgeheven> @event,
         BeheerVerenigingHistoriekDocument document
@@ -929,10 +934,7 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
-    public static void Apply(
-        IEvent<ErkenningWerdGewijzigd> @event,
-        BeheerVerenigingHistoriekDocument document
-    )
+    public static void Apply(IEvent<ErkenningWerdGewijzigd> @event, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             @event,

@@ -322,6 +322,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<ErkenningWerdGeactiveerd> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+    public async Task Project(IEvent<ErkenningWerdVerlopen> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(IEvent<SchorsingVanErkenningWerdOpgeheven> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
