@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Scheduled.Host.Erkenningen.Verloop;
 
-using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
 using Framework;
 using Microsoft.Extensions.Logging;

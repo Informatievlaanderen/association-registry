@@ -25,9 +25,7 @@ public class TeVerlopenErkenningenQuery : ITeVerlopenErkenningenQuery
             .Where(erkenning => erkenning.Status == ErkenningStatus.Actief.Value)
             .ToListAsync(token: cancellationToken);
 
-        var teVerlopenErkenningen = erkenningenVerlopen.Where(erkenning =>
-                                                                  erkenning.Startdatum <= _clock.Today
-                                                                  && erkenning.Einddatum <= _clock.Today);
+        var teVerlopenErkenningen = erkenningenVerlopen.Where(erkenning => erkenning.Einddatum < _clock.Today);
 
         return teVerlopenErkenningen.ToArray();
     }
