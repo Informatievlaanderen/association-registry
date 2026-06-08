@@ -2,6 +2,8 @@ namespace AssociationRegistry.Scheduled.Host.Infrastructure.Extensions;
 
 using Bewaartermijnen;
 using Erkenningen;
+using Erkenningen.Activeer;
+using Erkenningen.Verloop;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
@@ -79,6 +81,20 @@ public static class ConfigurationExtensions
         Throw<ArgumentNullException>.IfNullOrWhiteSpace(
             options.Cron,
             $"{nameof(ActiveerErkenningenOptions)}.{nameof(ActiveerErkenningenOptions.Cron)}"
+        );
+
+        return options;
+    }
+    public static VerloopErkenningenOptions GetVerloopErkenningenOptions(this IConfiguration configuration)
+    {
+        var options = configuration.GetSection(nameof(VerloopErkenningenOptions)).Get<VerloopErkenningenOptions>();
+
+        if (options is null)
+            throw new ArgumentNullException(nameof(options));
+
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            options.Cron,
+            $"{nameof(VerloopErkenningenOptions)}.{nameof(VerloopErkenningenOptions.Cron)}"
         );
 
         return options;

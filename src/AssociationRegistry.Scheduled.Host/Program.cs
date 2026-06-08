@@ -7,7 +7,10 @@ using Amazon.S3;
 using Bewaartermijnen;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
 using Erkenningen;
+using Erkenningen.Activeer;
+using Erkenningen.Verloop;
 using EventStore.ConflictResolution;
 using Infrastructure.Extensions;
 using Infrastructure.MartenSetup;
@@ -56,19 +59,19 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder
-            .Configuration.AddJsonFile("appsettings.json")
-            .AddJsonFile(
+           .Configuration.AddJsonFile("appsettings.json")
+           .AddJsonFile(
                 $"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json",
                 optional: true,
                 reloadOnChange: false
             )
-            .AddJsonFile(
+           .AddJsonFile(
                 $"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
                 optional: true,
                 reloadOnChange: false
             )
-            .AddEnvironmentVariables()
-            .AddCommandLine(args);
+           .AddEnvironmentVariables()
+           .AddCommandLine(args);
 
         SelfLog.Enable(Console.WriteLine);
         ConfigureServices(builder);
@@ -109,33 +112,47 @@ public class Program
         var bewaartermijnOptions = builder.Configuration.GetBewaartermijnenOptions();
         var powerBiExportOptions = builder.Configuration.GetPowerBiExportOptions();
         var activeerErkenningenOptions = builder.Configuration.GetActiveerErkenningenOptions();
+        var verloopErkenningenOptions = builder.Configuration.GetVerloopErkenningenOptions();
 
         services.AddOpenTelemetryServices().AddMarten(postgreSqlOptions).AddWolverine(postgreSqlOptions);
 
         services
-            .AddQuartz(q =>
+           .AddQuartz(q =>
             {
                 var bewaartermijnPurgeRunner = new JobKey(ExpiredBewaartermijnJob.JobName);
                 q.AddJob<ExpiredBewaartermijnJob>(opts => opts.WithIdentity(bewaartermijnPurgeRunner));
                 q.AddTrigger(opts => opts.ForJob(bewaartermijnPurgeRunner).WithCronSchedule(bewaartermijnOptions.Cron));
             })
-            .AddQuartz(q =>
+           .AddQuartz(q =>
             {
                 var powerBiExportJob = new JobKey(PowerBiExportJob.JobName);
                 q.AddJob<PowerBiExportJob>(opts => opts.WithIdentity(powerBiExportJob));
                 q.AddTrigger(opts => opts.ForJob(powerBiExportJob).WithCronSchedule(powerBiExportOptions.Cron));
             })
-            .AddQuartz(q =>
+           .AddQuartz(q =>
             {
                 var erkenningenActivatieJob = new JobKey(ActiveerErkenningenJob.JobName);
                 q.AddJob<ActiveerErkenningenJob>(opts => opts.WithIdentity(erkenningenActivatieJob));
 
                 q.AddTrigger(opts =>
-                    opts.ForJob(erkenningenActivatieJob)
-                        .WithCronSchedule(
-                            activeerErkenningenOptions.Cron,
-                            schedule => schedule.InTimeZone(TimeZoneInfo.Utc)
-                        )
+                                 opts.ForJob(erkenningenActivatieJob)
+                                     .WithCronSchedule(
+                                          activeerErkenningenOptions.Cron,
+                                          schedule => schedule.InTimeZone(TimeZoneInfo.Utc)
+                                      )
+                );
+            })
+           .AddQuartz(q =>
+            {
+                var erkenningenVerloopJob = new JobKey(VerloopErkenningenJob.JobName);
+                q.AddJob<VerloopErkenningenJob>(opts => opts.WithIdentity(erkenningenVerloopJob));
+
+                q.AddTrigger(opts =>
+                                 opts.ForJob(erkenningenVerloopJob)
+                                     .WithCronSchedule(
+                                          verloopErkenningenOptions.Cron,
+                                          schedule => schedule.InTimeZone(TimeZoneInfo.Utc)
+                                      )
                 );
             });
 
@@ -145,31 +162,34 @@ public class Program
         });
 
         services
-            .AddSingleton(postgreSqlOptions)
-            .AddSingleton<IClock>(SystemClock.Instance)
-            .AddSingleton<IAmazonS3, AmazonS3Client>()
-            .AddSingleton(sp => PowerBiExporters.Create(sp, powerBiExportOptions))
-            .AddSingleton(sp => PowerBiDubbelDetectieExporters.Create(sp, powerBiExportOptions))
-            .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
-            .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
-            .AddSingleton<EventConflictResolver>()
-            .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
-            .AddSingleton<Framework.IClock, Framework.Clock>()
-            .AddScoped<IEventStore, EventStore>()
-            .AddScoped<IAggregateSession, AggregateSession>()
-            .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
-            .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
-            .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
-            .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
-            .AddScoped<PersoonsgegevensEventTransformers>()
-            .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
-            .AddScoped<ActiveerErkenningCommandHandler>()
-            .AddScoped<IErkenningenActivatieProcessor, ActiveerErkenningenProcessor>()
-            .AddScoped<ITeActiverenErkenningenQuery, TeActiverenErkenningenQuery>()
-            .AddScoped<VerloopBewaartermijnCommandHandler>()
-            .AddScoped<IVerlopenBewaartermijnenProcessor, VerlopenBewaartermijnenProcessor>()
-            .AddScoped<IVerlopenBewaartermijnQuery, VerlopenBewaartermijnQuery>()
-            .AddScoped<INotifier, SlackNotifier>();
+           .AddSingleton(postgreSqlOptions)
+           .AddSingleton<IClock>(SystemClock.Instance)
+           .AddSingleton<IAmazonS3, AmazonS3Client>()
+           .AddSingleton(sp => PowerBiExporters.Create(sp, powerBiExportOptions))
+           .AddSingleton(sp => PowerBiDubbelDetectieExporters.Create(sp, powerBiExportOptions))
+           .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
+           .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
+           .AddSingleton<EventConflictResolver>()
+           .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
+           .AddSingleton<Framework.IClock, Framework.Clock>()
+           .AddScoped<IEventStore, EventStore>()
+           .AddScoped<IAggregateSession, AggregateSession>()
+           .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
+           .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
+           .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
+           .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
+           .AddScoped<PersoonsgegevensEventTransformers>()
+           .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
+           .AddScoped<ActiveerErkenningCommandHandler>()
+           .AddScoped<IErkenningenActivatieProcessor, ActiveerErkenningenProcessor>()
+           .AddScoped<ITeActiverenErkenningenQuery, TeActiverenErkenningenQuery>()
+           .AddScoped<VerloopErkenningCommandHandler>()
+           .AddScoped<IVerloopErkenningenProcessor, VerloopErkenningenProcessor>()
+           .AddScoped<ITeVerlopenErkenningenQuery, TeVerlopenErkenningenQuery>()
+           .AddScoped<VerloopBewaartermijnCommandHandler>()
+           .AddScoped<IVerlopenBewaartermijnenProcessor, VerlopenBewaartermijnenProcessor>()
+           .AddScoped<IVerlopenBewaartermijnQuery, VerlopenBewaartermijnQuery>()
+           .AddScoped<INotifier, SlackNotifier>();
     }
 
     private static void ConfigureHealtChecks(WebApplication app)
@@ -196,18 +216,26 @@ public class Program
                         name: "results",
                         new JObject(
                             healthReport.Entries.Select(pair => new JProperty(
-                                pair.Key,
-                                new JObject(
-                                    new JProperty(name: "status", pair.Value.Status.ToString()),
-                                    new JProperty(name: "duration", pair.Value.Duration),
-                                    new JProperty(name: "description", pair.Value.Description),
-                                    new JProperty(name: "exception", pair.Value.Exception?.Message),
-                                    new JProperty(
-                                        name: "data",
-                                        new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))
-                                    )
-                                )
-                            ))
+                                                            pair.Key,
+                                                            new JObject(
+                                                                new JProperty(
+                                                                    name: "status",
+                                                                    pair.Value.Status.ToString()),
+                                                                new JProperty(name: "duration", pair.Value.Duration),
+                                                                new JProperty(
+                                                                    name: "description",
+                                                                    pair.Value.Description),
+                                                                new JProperty(
+                                                                    name: "exception",
+                                                                    pair.Value.Exception?.Message),
+                                                                new JProperty(
+                                                                    name: "data",
+                                                                    new JObject(
+                                                                        pair.Value.Data.Select(p => new JProperty(p.Key,
+                                                                            p.Value)))
+                                                                )
+                                                            )
+                                                        ))
                         )
                     )
                 );

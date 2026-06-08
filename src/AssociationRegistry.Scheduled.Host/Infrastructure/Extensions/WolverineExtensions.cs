@@ -4,6 +4,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Hosts.Configuration.ConfigurationBindings;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
 using JasperFx;
 using MartenDb.Setup;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,7 +43,10 @@ public static class WolverineExtensions
         ConfigureErkenningen(options, wolverineSchema, postgreSqlOptions);
     }
 
-    private static void ConfigureBewaartermijnen(WolverineOptions options, string wolverineSchema, PostgreSqlOptionsSection postgreSqlOptions)
+    private static void ConfigureBewaartermijnen(
+        WolverineOptions options,
+        string wolverineSchema,
+        PostgreSqlOptionsSection postgreSqlOptions)
     {
         const string NightlyExpiredBewaartermijnenProcessorQueueName = "nachtelijke-expiredbewaartermijnen-queue";
 
@@ -58,19 +62,46 @@ public static class WolverineExtensions
         options.ListenToPostgresqlQueue(NightlyExpiredBewaartermijnenProcessorQueueName);
     }
 
-    private static void ConfigureErkenningen(WolverineOptions options, string wolverineSchema, PostgreSqlOptionsSection postgreSqlOptions)
+    private static void ConfigureErkenningen(
+        WolverineOptions options,
+        string wolverineSchema,
+        PostgreSqlOptionsSection postgreSqlOptions)
     {
         const string ActiveerErkenningenProcessorQueueName = "activeer-erkenningen-queue";
+        const string VerloopErkenningenProcessorQueueName = "verloop-erkenningen-queue";
+        // TODO Alles van erkenningen op 1 queue of splitsen? @egon?
+        // Alles van erkenningen op 1 queue of splitsen?
 
-        options.Discovery.IncludeType<ActiveerErkenningCommand>();
-        options.Discovery.IncludeType<ActiveerErkenningCommandHandler>();
+        ConfigureActiveerErkenning(options, ActiveerErkenningenProcessorQueueName);
+        ConfigureVerloopErkenning(options, VerloopErkenningenProcessorQueueName);
 
         options.PersistMessagesWithPostgresql(postgreSqlOptions.GetConnectionString(), wolverineSchema)
                .EnableMessageTransport();
+    }
+
+    private static void ConfigureActiveerErkenning(
+        WolverineOptions options,
+        string queueName)
+    {
+        options.Discovery.IncludeType<ActiveerErkenningCommand>();
+        options.Discovery.IncludeType<ActiveerErkenningCommandHandler>();
 
         options.PublishMessage<ActiveerErkenningCommand>()
-               .ToPostgresqlQueue(ActiveerErkenningenProcessorQueueName);
+               .ToPostgresqlQueue(queueName);
 
-        options.ListenToPostgresqlQueue(ActiveerErkenningenProcessorQueueName);
+        options.ListenToPostgresqlQueue(queueName);
+    }
+
+    private static void ConfigureVerloopErkenning(
+        WolverineOptions options,
+        string queueName)
+    {
+        options.Discovery.IncludeType<VerloopErkenningCommand>();
+        options.Discovery.IncludeType<VerloopErkenningCommand>();
+
+        options.PublishMessage<VerloopErkenningCommand>()
+               .ToPostgresqlQueue(queueName);
+
+        options.ListenToPostgresqlQueue(queueName);
     }
 }
