@@ -22,7 +22,10 @@ public class Given_A_Valid_Command
         _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
+        _verenigingRepositoryMock = new AggregateSessionMock(
+            _scenario.GetVerenigingState(),
+            expectedLoadingDubbel: true
+        );
 
         _commandHandler = new ActiveerErkenningCommandHandler(_verenigingRepositoryMock);
     }
