@@ -1,0 +1,368 @@
+{
+  "uid": "panel-gallery",
+  "title": "Panel Gallery — Bouwstenen",
+  "description": "Standaardpanelen als referentie: RED, Lag/Backlog, Resources. Kopieer panels naar eigen dashboards.",
+  "tags": ["gallery", "template"],
+  "editable": true,
+  "schemaVersion": 39,
+  "timezone": "browser",
+  "templating": {
+    "list": [
+      {
+        "name": "job",
+        "type": "query",
+        "datasource": { "uid": "prometheus", "type": "prometheus" },
+        "query": "label_values(up, job)",
+        "refresh": 2,
+        "includeAll": true,
+        "multi": true,
+        "current": { "text": "All", "value": "$__all" }
+      },
+      {
+        "name": "instance",
+        "type": "query",
+        "datasource": { "uid": "prometheus", "type": "prometheus" },
+        "query": "label_values(up{job=~\"$job\"}, instance)",
+        "refresh": 2,
+        "includeAll": true,
+        "multi": true,
+        "current": { "text": "All", "value": "$__all" }
+      }
+    ]
+  },
+  "annotations": { "list": [] },
+  "panels": [
+    {
+      "id": 100,
+      "type": "row",
+      "title": "RED — Rate / Errors / Duration",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "collapsed": false
+    },
+    {
+      "id": 1,
+      "title": "Request Rate (req/s)",
+      "description": "HTTP request throughput per second, grouped by method + path.",
+      "type": "timeseries",
+      "datasource": { "uid": "prometheus", "type": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 1 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": { "fillOpacity": 10, "lineWidth": 2 }
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] } },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "sum by (method, path) (\n  rate(http_server_request_duration_seconds_count{job=~\"${job:regex}\"}[$__rate_interval])\n)",
+          "legendFormat": "{{method}} {{path}}"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "P95 Latency (s)",
+      "description": "95th percentile request duration via native histogram or classic _bucket.",
+      "type": "timeseries",
+      "datasource": { "uid": "prometheus", "type": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 1 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": { "fillOpacity": 10, "lineWidth": 2 }
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] } },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "histogram_quantile(0.95,\n  sum by (le) (\n    rate(http_server_request_duration_seconds_bucket{job=~\"${job:regex}\"}[$__rate_interval])\n  )\n)",
+          "legendFormat": "p95"
+        },
+        {
+          "refId": "B",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "histogram_quantile(0.50,\n  sum by (le) (\n    rate(http_server_request_duration_seconds_bucket{job=~\"${job:regex}\"}[$__rate_interval])\n  )\n)",
+          "legendFormat": "p50"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Error Rate by Status",
+      "description": "HTTP 4xx/5xx error rate, split by status code.",
+      "type": "timeseries",
+      "datasource": { "uid": "prometheus", "type": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 1 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": { "fillOpacity": 20, "lineWidth": 2, "stacking": { "mode": "normal" } }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byRegexp", "options": "5.." },
+            "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }]
+          },
+          {
+            "matcher": { "id": "byRegexp", "options": "4.." },
+            "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }]
+          }
+        ]
+      },
+      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "lastNotNull"] } },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "sum by (http_response_status_code) (\n  rate(http_server_request_duration_seconds_count{job=~\"${job:regex}\", http_response_status_code=~\"[45]..\"}[$__rate_interval])\n)",
+          "legendFormat": "{{http_response_status_code}}"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Error Ratio (%)",
+      "description": "Percentage of requests resulting in 5xx errors — use as SLI.",
+      "type": "stat",
+      "datasource": { "uid": "prometheus", "type": "prometheus" },
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 9 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "thresholds": { "steps": [{ "value": 0, "color": "green" }, { "value": 0.01, "color": "yellow" }, { "value": 0.05, "color": "red" }] }
+        },
+        "overrides": []
+      },
+      "options": { "graphMode": "area", "textMode": "value_and_name" },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "sum(rate(http_server_request_duration_seconds_count{job=~\"${job:regex}\", http_response_status_code=~\"5..\"}[$__rate_interval]))\n/\nsum(rate(http_server_request_duration_seconds_count{job=~\"${job:regex}\"}[$__rate_interval]))",
+          "legendFormat": "error ratio"
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "type": "row",
+      "title": "Lag / Backlog (Event Sourcing & Messaging)",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 13 },
+      "collapsed": false
+    },
+    {
+      "id": 5,
+      "title": "Projection Lag (events behind)",
+      "description": "Verschil tussen laatste event in stream en laatste verwerkte event door projectie.",
+      "type": "timeseries",
+      "datasource": { "uid": "prometheus", "type": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 14 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": { "fillOpacity": 15, "lineWidth": 2 }
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "table", "calcs": ["lastNotNull", "max"] } },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "marten_event_store_last_sequence{job=~\"${job:regex}\"}\n-\nmarten_projection_position{job=~\"${job:regex}\"}",
+          "legendFormat": "{{projection}}"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Message Queue Depth",
+      "description": "Aantal berichten in queue (MSB/RabbitMQ/SQS). Pas metric-naam aan voor jouw broker.",
+      "type": "timeseries",
+      "datasource": { "uid": "prometheus", "type": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 14 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": { "fillOpacity": 15, "lineWidth": 2 }
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "table", "calcs": ["lastNotNull", "max"] } },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "rabbitmq_queue_messages{job=~\"${job:regex}\"}",
+          "legendFormat": "{{queue}}"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Consumer Lag Rate (delta/s)",
+      "description": "Snelheid waarmee lag toe- of afneemt. Positief = achterstand groeit.",
+      "type": "timeseries",
+      "datasource": { "uid": "prometheus", "type": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 14 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": { "fillOpacity": 10, "lineWidth": 2, "axisPlacement": "auto" }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "deriv(\n  (marten_event_store_last_sequence{job=~\"${job:regex}\"} - marten_projection_position{job=~\"${job:regex}\"})[5m:1m]\n)",
+          "legendFormat": "{{projection}} drift/s"
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "type": "row",
+      "title": "Resources — CPU / Memory / GC",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 22 },
+      "collapsed": false
+    },
+    {
+      "id": 8,
+      "title": "CPU Usage (%)",
+      "description": "Process CPU time als percentage van beschikbare cores.",
+      "type": "timeseries",
+      "datasource": { "uid": "prometheus", "type": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 23 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": { "fillOpacity": 15, "lineWidth": 2 }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "rate(process_cpu_seconds_total{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}[$__rate_interval])",
+          "legendFormat": "{{instance}}"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Memory Working Set (MB)",
+      "description": ".NET process memory (private bytes / working set).",
+      "type": "timeseries",
+      "datasource": { "uid": "prometheus", "type": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 23 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "decmbytes",
+          "custom": { "fillOpacity": 15, "lineWidth": 2 }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "dotnet_process_memory_workingset_bytes{job=~\"${job:regex}\", instance=~\"${instance:regex}\"} / 1024 / 1024",
+          "legendFormat": "{{instance}} working set"
+        },
+        {
+          "refId": "B",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "dotnet_gc_heap_size_bytes{job=~\"${job:regex}\", instance=~\"${instance:regex}\"} / 1024 / 1024",
+          "legendFormat": "{{instance}} GC heap"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "GC Collections / min",
+      "description": "Garbage collection frequency per generation.",
+      "type": "timeseries",
+      "datasource": { "uid": "prometheus", "type": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 23 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cpm",
+          "custom": { "fillOpacity": 10, "lineWidth": 2 }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "prometheus", "type": "prometheus" },
+          "expr": "rate(dotnet_gc_collections_total{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}[$__rate_interval]) * 60",
+          "legendFormat": "gen{{generation}} {{instance}}"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "type": "row",
+      "title": "Logs & Traces (Loki + Tempo)",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 31 },
+      "collapsed": false
+    },
+    {
+      "id": 11,
+      "title": "Recent Error Logs",
+      "description": "Laatste error-level logs uit Loki.",
+      "type": "logs",
+      "datasource": { "uid": "loki", "type": "loki" },
+      "gridPos": { "h": 8, "w": 16, "x": 0, "y": 32 },
+      "options": { "showTime": true, "sortOrder": "Descending", "enableLogDetails": true },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "loki", "type": "loki" },
+          "expr": "{job=~\"${job:regex}\"} | logfmt | level = `error`",
+          "legendFormat": ""
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Log Volume (lines/s by level)",
+      "description": "Throughput van logregels per severity level.",
+      "type": "timeseries",
+      "datasource": { "uid": "loki", "type": "loki" },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 32 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": { "fillOpacity": 30, "lineWidth": 1, "stacking": { "mode": "normal" } }
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "error" }, "properties": [{ "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }] },
+          { "matcher": { "id": "byName", "options": "warn" }, "properties": [{ "id": "color", "value": { "fixedColor": "yellow", "mode": "fixed" } }] }
+        ]
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "uid": "loki", "type": "loki" },
+          "expr": "sum by (level) (rate({job=~\"${job:regex}\"} | logfmt | __error__=`` [$__auto]))",
+          "legendFormat": "{{level}}"
+        }
+      ]
+    }
+  ],
+  "time": { "from": "now-1h", "to": "now" },
+  "refresh": "30s"
+}
