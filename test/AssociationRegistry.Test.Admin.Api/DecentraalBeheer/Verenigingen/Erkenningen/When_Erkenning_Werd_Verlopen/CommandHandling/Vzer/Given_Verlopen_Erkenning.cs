@@ -24,7 +24,10 @@ public class Given_Verlopen_Erkenning
         _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
+        _verenigingRepositoryMock = new AggregateSessionMock(
+            _scenario.GetVerenigingState(),
+            expectedLoadingDubbel: true
+        );
 
         _commandHandler = new VerloopErkenningCommandHandler(_verenigingRepositoryMock);
     }

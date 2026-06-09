@@ -23,7 +23,10 @@ public class Given_Erkenning_InAanvraag
         _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
+        _verenigingRepositoryMock = new AggregateSessionMock(
+            _scenario.GetVerenigingState(),
+            expectedLoadingDubbel: true
+        );
 
         _commandHandler = new VerloopErkenningCommandHandler(_verenigingRepositoryMock);
     }
