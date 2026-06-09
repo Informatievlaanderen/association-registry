@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Integrations.Ipdc.Responses;
 
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 public record IpdcProductResponse
@@ -74,7 +75,7 @@ public record IpdcProductResponse
     public OverheidReference AangemaaktDoor { get; set; }
 
     [JsonPropertyName("zoektermen")]
-    public LocalizedTranslation Zoektermen { get; set; }
+    public ZoektermenTranslation Zoektermen { get; set; }
 
     [JsonPropertyName("bevoegdeOverheden")]
     public List<OverheidReference> BevoegdeOverheden { get; set; }
@@ -175,8 +176,35 @@ public record LocalizedTranslation
     [JsonPropertyName("nl-BE-x-informal")]
     public string NlBeInformal { get; set; }
 
+    [JsonPropertyName("nl-BE-x-formal")]
+    public string NlBeFormal { get; set; }
+
+    [JsonPropertyName("nl-BE-x-generated-informal")]
+    public string NlBeGeneratedInformal { get; set; }
+
     [JsonPropertyName("nl-BE-x-generated-formal")]
     public string NlBeGeneratedFormal { get; set; }
+}
+
+public record ZoektermenTranslation
+{
+    [JsonPropertyName("nl")]
+    public List<string> Nl { get; set; }
+
+    [JsonPropertyName("en")]
+    public List<string> En { get; set; }
+
+    [JsonPropertyName("nl-BE-x-informal")]
+    public List<string> NlBeInformal { get; set; }
+
+    [JsonPropertyName("nl-BE-x-formal")]
+    public List<string> NlBeFormal { get; set; }
+
+    [JsonPropertyName("nl-BE-x-generated-informal")]
+    public List<string> NlBeGeneratedInformal { get; set; }
+
+    [JsonPropertyName("nl-BE-x-generated-formal")]
+    public List<string> NlBeGeneratedFormal { get; set; }
 }
 
 public record OverheidReference
@@ -196,27 +224,39 @@ public record SocialeKaartOrganisatie
 
 public record Voorwaarde
 {
+    [JsonPropertyName("@type")]
+    public string AtType { get; set; }
+
     [JsonPropertyName("naam")]
     public LocalizedTranslation Naam { get; set; }
 
     [JsonPropertyName("beschrijving")]
     public LocalizedTranslation Beschrijving { get; set; }
+
+    [JsonPropertyName("order")]
+    public int? Order { get; set; }
+
+    [JsonPropertyName("orderOrMaxValue")]
+    public int? OrderOrMaxValue { get; set; }
 }
 
 public record Bewijs
 {
+    [JsonPropertyName("@type")]
+    public string AtType { get; set; }
+
     [JsonPropertyName("naam")]
     public LocalizedTranslation Naam { get; set; }
 
     [JsonPropertyName("beschrijving")]
     public LocalizedTranslation Beschrijving { get; set; }
-
-    [JsonPropertyName("@type")]
-    public string AtType { get; set; }
 }
 
 public record Procedure
 {
+    [JsonPropertyName("@type")]
+    public string AtType { get; set; }
+
     [JsonPropertyName("naam")]
     public LocalizedTranslation Naam { get; set; }
 
@@ -225,9 +265,6 @@ public record Procedure
 
     [JsonPropertyName("websites")]
     public List<Website> Websites { get; set; }
-
-    [JsonPropertyName("@type")]
-    public string AtType { get; set; }
 
     [JsonPropertyName("order")]
     public int? Order { get; set; }
@@ -238,6 +275,9 @@ public record Procedure
 
 public record Website
 {
+    [JsonPropertyName("@type")]
+    public string AtType { get; set; }
+
     [JsonPropertyName("naam")]
     public LocalizedTranslation Naam { get; set; }
 
@@ -246,9 +286,6 @@ public record Website
 
     [JsonPropertyName("url")]
     public string Url { get; set; }
-
-    [JsonPropertyName("@type")]
-    public string AtType { get; set; }
 
     [JsonPropertyName("order")]
     public int? Order { get; set; }
@@ -259,14 +296,14 @@ public record Website
 
 public record NamedItem
 {
+    [JsonPropertyName("@type")]
+    public string AtType { get; set; }
+
     [JsonPropertyName("naam")]
     public LocalizedTranslation Naam { get; set; }
 
     [JsonPropertyName("beschrijving")]
     public LocalizedTranslation Beschrijving { get; set; }
-
-    [JsonPropertyName("@type")]
-    public string AtType { get; set; }
 
     [JsonPropertyName("order")]
     public int? Order { get; set; }
@@ -277,6 +314,9 @@ public record NamedItem
 
 public record Regelgeving
 {
+    [JsonPropertyName("@type")]
+    public string AtType { get; set; }
+
     [JsonPropertyName("naam")]
     public LocalizedTranslation Naam { get; set; }
 
@@ -289,9 +329,6 @@ public record Regelgeving
     [JsonPropertyName("url")]
     public string Url { get; set; }
 
-    [JsonPropertyName("@type")]
-    public string AtType { get; set; }
-
     [JsonPropertyName("order")]
     public int? Order { get; set; }
 
@@ -301,6 +338,9 @@ public record Regelgeving
 
 public record Contactgegeven
 {
+    [JsonPropertyName("@type")]
+    public string AtType { get; set; }
+
     [JsonPropertyName("adres")]
     public Adres Adres { get; set; }
 
@@ -316,9 +356,6 @@ public record Contactgegeven
     [JsonPropertyName("url")]
     public string Url { get; set; }
 
-    [JsonPropertyName("@type")]
-    public string AtType { get; set; }
-
     [JsonPropertyName("order")]
     public int? Order { get; set; }
 
@@ -328,6 +365,9 @@ public record Contactgegeven
 
 public record Adres
 {
+    [JsonPropertyName("@type")]
+    public string AtType { get; set; }
+
     [JsonPropertyName("land")]
     public LocalizedTranslation Land { get; set; }
 
@@ -345,9 +385,6 @@ public record Adres
 
     [JsonPropertyName("straatnaam")]
     public LocalizedTranslation Straatnaam { get; set; }
-
-    [JsonPropertyName("@type")]
-    public string AtType { get; set; }
 }
 
 public record MachineLeesbareVoorwaarde

@@ -32,6 +32,17 @@ public class IpdcClientTests
     }
 
     [Fact]
+    public async ValueTask Valid_IpdcNummer_But_Its_An_Instatie_Then_Returns_IpdcProductResponse()
+    {
+        var validIpdcProductNummer = "99";
+
+        var response = await _ipdcClient.GetById(validIpdcProductNummer);
+
+        response.Should().NotBeNull();
+        response!.Naam.Should().NotBeNull();
+    }
+
+    [Fact]
     public async ValueTask IpdcNummer_Not_Found_Then_Throws_OnbekendIpdcProductNummer()
     {
         var ipdcProductNummerNotFound = "404";
