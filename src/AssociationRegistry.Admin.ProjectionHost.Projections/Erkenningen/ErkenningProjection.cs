@@ -92,6 +92,13 @@ public class ErkenningProjection : EventProjection
         ops.Delete(doc);
     }
 
+    public void Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops)
+    {
+        var vCode = @event.StreamKey!;
+
+        ops.DeleteWhere<ErkenningDocument>(x => x.VCode == vCode);
+    }
+
     public async Task Project(IEvent<SchorsingVanErkenningWerdOpgeheven> @event, IDocumentOperations ops)
     {
         var vCode = @event.StreamKey!;
