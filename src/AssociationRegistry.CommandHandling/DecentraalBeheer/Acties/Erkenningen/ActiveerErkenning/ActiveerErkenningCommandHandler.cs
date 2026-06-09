@@ -20,7 +20,8 @@ public class ActiveerErkenningCommandHandler
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
             VCode.Create(envelope.Command.VCode),
-            envelope.Metadata
+            envelope.Metadata,
+            allowDubbeleVereniging: true
         );
         vereniging.ActiveerErkenning(envelope.Command.ErkenningId);
 

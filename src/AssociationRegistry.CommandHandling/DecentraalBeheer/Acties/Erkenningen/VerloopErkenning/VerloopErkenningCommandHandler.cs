@@ -20,10 +20,11 @@ public class VerloopErkenningCommandHandler
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
             VCode.Create(envelope.Command.VCode),
-            envelope.Metadata
+            envelope.Metadata,
+            allowDubbeleVereniging: true
         );
 
-       vereniging.VerloopErkenning(envelope.Command.ErkenningId);
+        vereniging.VerloopErkenning(envelope.Command.ErkenningId);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 
