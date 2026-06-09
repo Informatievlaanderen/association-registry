@@ -74,8 +74,6 @@ public static class WolverineExtensions
     {
         const string ActiveerErkenningenProcessorQueueName = "activeer-erkenningen-queue";
         const string VerloopErkenningenProcessorQueueName = "verloop-erkenningen-queue";
-        // TODO Alles van erkenningen op 1 queue of splitsen? @egon?
-        // Alles van erkenningen op 1 queue of splitsen?
 
         ConfigureActiveerErkenning(options, ActiveerErkenningenProcessorQueueName);
         ConfigureVerloopErkenning(options, VerloopErkenningenProcessorQueueName);
