@@ -1,3 +1,11 @@
+## [8.326.1](https://github.com/informatievlaanderen/association-registry/compare/v8.326.0...v8.326.1) (2026-06-09)
+
+
+### Bug Fixes
+
+* or-3082 activate erkenningen for duplicate verenigingen ([e13dd95](https://github.com/informatievlaanderen/association-registry/commit/e13dd95425b43055dad8f7619026a41082e82356))
+* remove erkenningen when vereniging is deleted ([86551b3](https://github.com/informatievlaanderen/association-registry/commit/86551b3c5212c5ff9bf78fa3e1c6edba893c040f))
+
 # [8.326.0](https://github.com/informatievlaanderen/association-registry/compare/v8.325.1...v8.326.0) (2026-06-03)
 
 
