@@ -1,0 +1,150 @@
+{
+  "id": "5dedcf39-7894-495b-9c0b-43bdd0b6f5fa",
+  "aangemaaktDoor": {
+    "id": "OVO000001",
+    "@id": "OVO000001"
+  },
+  "beschrijving": {
+    "nl-BE-x-generated-informal": "<p>Tot 30-6-2022 kon je van Fluvius een premie krijgen, als je in jouw woning of appartement vloerisolatie liet plaatsen op volle grond of op het plafond van een kelder of verluchte ruimte onder een verwarmde ruimte.</p><p>Deze premie is<strong> stopgezet </strong>en <strong>sinds 1 juli 2022 </strong>een onderdeel geworden van <strong>Mijn VerbouwPremie</strong>, zie <a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/bouwen-en-verbouwen/premies-voor-renovatie/mijn-verbouwpremie/mijn-verbouwpremie-voor-vloer\">Mijn VerbouwPremie voor vloer.</a> Heb je al investeringen gedaan én nog geen premie bij Fluvius aangevraagd? Bekijk de voorwaarden van <a href=\"https://www.vlaanderen.be/mijnverbouwpremie\">Mijn VerbouwPremie</a> om te zien of je in aanmerking komt.</p>",
+    "nl": "<p>Tot 30-6-2022 kon u van Fluvius een premie krijgen, als u in uw woning of appartement vloerisolatie liet plaatsen op volle grond of op het plafond van een kelder of verluchte ruimte onder een verwarmde ruimte.</p><p>Deze premie is<strong> stopgezet </strong>en <strong>sinds 1 juli 2022 </strong>een onderdeel geworden van <strong>Mijn VerbouwPremie</strong>, zie <a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/bouwen-en-verbouwen/premies-voor-renovatie/mijn-verbouwpremie/mijn-verbouwpremie-voor-vloer\">Mijn VerbouwPremie voor vloer.</a> Hebt u al investeringen gedaan én nog geen premie bij Fluvius aangevraagd? Bekijk de voorwaarden van <a href=\"https://www.vlaanderen.be/mijnverbouwpremie\">Mijn VerbouwPremie</a> om te zien of u in aanmerking komt.</p>",
+    "nl-BE-x-formal": "<p>Tot 30-6-2022 kon u van Fluvius een premie krijgen, als u in uw woning of appartement vloerisolatie liet plaatsen op volle grond of op het plafond van een kelder of verluchte ruimte onder een verwarmde ruimte.</p><p>Deze premie is<strong> stopgezet </strong>en <strong>sinds 1 juli 2022 </strong>een onderdeel geworden van <strong>Mijn VerbouwPremie</strong>, zie <a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/bouwen-en-verbouwen/premies-voor-renovatie/mijn-verbouwpremie/mijn-verbouwpremie-voor-vloer\">Mijn VerbouwPremie voor vloer.</a> Hebt u al investeringen gedaan én nog geen premie bij Fluvius aangevraagd? Bekijk de voorwaarden van <a href=\"https://www.vlaanderen.be/mijnverbouwpremie\">Mijn VerbouwPremie</a> om te zien of u in aanmerking komt.</p>"
+  },
+  "bevoegdBestuursniveaus": [
+    "Vlaams"
+  ],
+  "bevoegdeOverheden": [
+    {
+      "id": "OVO000090",
+      "@id": "OVO000090"
+    }
+  ],
+  "contactOverheden": [
+    {
+      "id": "OVO003459",
+      "@id": "OVO003459"
+    }
+  ],
+  "creatie": "2012-01-04T13:56:25Z",
+  "doelgroepen": [
+    "Burger",
+    "Onderneming",
+    "Vereniging",
+    "Organisatie"
+  ],
+  "eindeDienstVerlening": "2022-06-30T12:00:00Z",
+  "financieleVoordelen": [
+    {
+      "@type": "FinancieelVoordeel",
+      "beschrijving": {
+        "nl-BE-x-formal": "<div data-table><table><tbody><tr><td>Eindfactuur in</td><td>Premie isolatie<br>van vloer of kelderplafond</td></tr><tr><td><p>2020</p></td><td>6 euro per m<sup>2 </sup></td></tr><tr><td>2021</td><td>6 euro per m<sup>2</sup></td></tr><tr><td>2021 - Klant met<br>'<a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/elektriciteit-en-aardgas/factuur-voor-elektriciteit-en-aardgas/energiefactuur-voor-elektriciteit-of-aardgas/afbouw-van-exclusief-nachttarief-en-steunmaatregelen\">uitsluitend nachttarief</a>'</td><td>9 euro per m<sup>2</sup></td></tr></tbody></table></div><p>Beschermde afnemers konden een hogere premie krijgen. <a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/voordelen-voor-beschermde-afnemers\">Beschermde afnemers</a> zijn personen die recht hebben op de sociale maximumprijzen voor elektriciteit en aardgas. Een beschermde afnemer kreeg 9 euro per m² geïsoleerde muuroppervlakte. Dit bedrag gold in 2021 ook in geval van 'uitsluitend nachttarief'.</p>",
+        "nl-BE-x-generated-informal": "<div data-table=\"\"><table><tbody><tr><td>Eindfactuur in</td><td>Premie isolatie<br/>van vloer of kelderplafond</td></tr><tr><td><p>2020</p></td><td>6 euro per m<sup>2 </sup></td></tr><tr><td>2021</td><td>6 euro per m<sup>2</sup></td></tr><tr><td>2021 - Klant met<br/>'<a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/elektriciteit-en-aardgas/factuur-voor-elektriciteit-en-aardgas/energiefactuur-voor-elektriciteit-of-aardgas/afbouw-van-exclusief-nachttarief-en-steunmaatregelen\">uitsluitend nachttarief</a>'</td><td>9 euro per m<sup>2</sup></td></tr></tbody></table></div><p>Beschermde afnemers konden een hogere premie krijgen. <a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/voordelen-voor-beschermde-afnemers\">Beschermde afnemers</a> zijn personen die recht hebben op de sociale maximumprijzen voor elektriciteit en aardgas. Een beschermde afnemer kreeg 9 euro per m² geïsoleerde muuroppervlakte. Dit bedrag gold in 2021 ook in geval van 'uitsluitend nachttarief'.</p>",
+        "nl": "<div data-table><table><tbody><tr><td>Eindfactuur in</td><td>Premie isolatie<br>van vloer of kelderplafond</td></tr><tr><td><p>2020</p></td><td>6 euro per m<sup>2 </sup></td></tr><tr><td>2021</td><td>6 euro per m<sup>2</sup></td></tr><tr><td>2021 - Klant met<br>'<a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/elektriciteit-en-aardgas/factuur-voor-elektriciteit-en-aardgas/energiefactuur-voor-elektriciteit-of-aardgas/afbouw-van-exclusief-nachttarief-en-steunmaatregelen\">uitsluitend nachttarief</a>'</td><td>9 euro per m<sup>2</sup></td></tr></tbody></table></div><p>Beschermde afnemers konden een hogere premie krijgen. <a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/voordelen-voor-beschermde-afnemers\">Beschermde afnemers</a> zijn personen die recht hebben op de sociale maximumprijzen voor elektriciteit en aardgas. Een beschermde afnemer kreeg 9 euro per m² geïsoleerde muuroppervlakte. Dit bedrag gold in 2021 ook in geval van 'uitsluitend nachttarief'.</p>"
+      },
+      "naam": {
+        "nl-BE-x-generated-informal": "Berekening",
+        "nl": "Berekening",
+        "nl-BE-x-formal": "Berekening"
+      },
+      "order": 0
+    }
+  ],
+  "gearchiveerd": false,
+  "geografischToepassingsgebieden": [
+    "BE2"
+  ],
+  "laatstGewijzigd": "2024-07-24T18:35:00Z",
+  "laatstOntvangen": "2026-06-09T10:18:29.353928552Z",
+  "metadata": {
+    "uJeVersie": "46.1.0",
+    "generatedFormeleFields": false,
+    "generatedInformeleFields": true
+  },
+  "naam": {
+    "nl": "Stopgezet - Premie voor vloerisolatie of kelderplafondisolatie (Fluvius)",
+    "nl-BE-x-formal": "Stopgezet - Premie voor vloerisolatie of kelderplafondisolatie (Fluvius)",
+    "nl-BE-x-generated-informal": "Stopgezet - Premie voor vloerisolatie of kelderplafondisolatie (Fluvius)"
+  },
+  "procedures": [
+    {
+      "@type": "Procedure",
+      "beschrijving": {
+        "nl-BE-x-formal": "<ul><li><strong>U kunt deze premie niet meer aanvragen.</strong></li><li>Als uw aanvraag wordt goedgekeurd, volgt de uitbetaling binnen de 6 maanden.</li><li>U kunt de status van uw aanvraag opvolgen in ‘Mijn Fluvius’.</li></ul>",
+        "nl": "<ul><li><strong>U kunt deze premie niet meer aanvragen.</strong></li><li>Als uw aanvraag wordt goedgekeurd, volgt de uitbetaling binnen de 6 maanden.</li><li>U kunt de status van uw aanvraag opvolgen in ‘Mijn Fluvius’.</li></ul>",
+        "nl-BE-x-generated-informal": "<ul><li><strong>Je kan deze premie niet meer aanvragen.</strong></li><li>Als jouw aanvraag wordt goedgekeurd, volgt de uitbetaling binnen de 6 maanden.</li><li>Je kan de status van jouw aanvraag opvolgen in ‘Mijn Fluvius’.</li></ul>"
+      },
+      "naam": {
+        "nl": "Procedure",
+        "nl-BE-x-formal": "Procedure",
+        "nl-BE-x-generated-informal": "Procedure"
+      },
+      "order": 0
+    }
+  ],
+  "productnummer": "99",
+  "publicatieLink": {
+    "naam": {
+      "nl-BE-x-formal": "Lees meer op vlaanderen.be",
+      "nl": "Lees meer op vlaanderen.be",
+      "en": "See also on vlaanderen.be",
+      "nl-BE-x-generated-informal": "Lees meer op vlaanderen.be"
+    },
+    "url": "https://www.vlaanderen.be/Product/123"
+  },
+  "regelgevingTekst": {
+    "nl-BE-x-formal": "<p>Energiebesluit van 19 november 2010</p>",
+    "nl": "<p>Energiebesluit van 19 november 2010</p>",
+    "nl-BE-x-generated-informal": "<p>Energiebesluit van 19 november 2010</p>"
+  },
+  "themas": [
+    "BouwenWonen"
+  ],
+  "type": "FinancieelVoordeel",
+  "uitgesloten": false,
+  "uitvoerendBestuursniveaus": [
+    "Derden"
+  ],
+  "uitvoerendeOverheden": [
+    {
+      "id": "OVO003459",
+      "@id": "OVO003459"
+    }
+  ],
+  "voorwaarden": [
+    {
+      "@type": "Voorwaarde",
+      "beschrijving": {
+        "nl": "<ul><li>Deze premie was er alleen voor woningen, appartementen of appartementsgebouwen in het Vlaamse gewest die vóór 1-1-2006 werden aangesloten op het elektriciteitsnet.</li><li>De isolatie van nieuw aangebouwde deelconstructies kwam ook in aanmerking voor de premie. Bij volledige herbouw (=nieuwbouw) gold de premie niet.</li><li>Het aanvraagformulier moest bij Fluvius (de elektriciteitsnetbeheerder) aankomen (met eindfactuur vanaf 1-7-2020) uiterlijk 24 maanden na de eindfactuurdatum.<br>Met een eindfactuur tot 30-6-2020 kon u geen premie meer aanvragen.</li><li>De werken moesten uitgevoerd en gefactureerd worden door een aannemer. De aannemer moest een attest invullen met technische gegevens over de geplaatste isolatie.</li><li>Alle voorwaarden en de technische eisen (Rd-waarde, lambdawaarde, ...) staan op het <a href=\"https://www.fluvius.be/nl/publicatie/vloer-kelderisolatie-huishoudelijke-premie-2022-informatieblad\">Informatieblad 2022 van Fluvius</a>.</li><li>Vanaf 2021 (eindfactuur) was er een verhoogde premie voor huishoudelijke eindafnemers die op het elektriciteitsdistributienet zijn aangesloten met toepassing van <a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/elektriciteit-en-aardgas/factuur-voor-elektriciteit-en-aardgas/energiefactuur-voor-elektriciteit-of-aardgas/afbouw-van-exclusief-nachttarief-en-steunmaatregelen\">uitsluitend nachttarief</a>.</li></ul>",
+        "nl-BE-x-generated-informal": "<ul><li>Deze premie was er alleen voor woningen, appartementen of appartementsgebouwen in het Vlaamse gewest die vóór 1-1-2006 werden aangesloten op het elektriciteitsnet.</li><li>De isolatie van nieuw aangebouwde deelconstructies kwam ook in aanmerking voor de premie. Bij volledige herbouw (=nieuwbouw) gold de premie niet.</li><li>Het aanvraagformulier moest bij Fluvius (de elektriciteitsnetbeheerder) aankomen (met eindfactuur vanaf 1-7-2020) uiterlijk 24 maanden na de eindfactuurdatum.<br/>Met een eindfactuur tot 30-6-2020 kon je geen premie meer aanvragen.</li><li>De werken moesten uitgevoerd en gefactureerd worden door een aannemer. De aannemer moest een attest invullen met technische gegevens over de geplaatste isolatie.</li><li>Alle voorwaarden en de technische eisen (Rd-waarde, lambdawaarde, ...) staan op het <a href=\"https://www.fluvius.be/nl/publicatie/vloer-kelderisolatie-huishoudelijke-premie-2022-informatieblad\">Informatieblad 2022 van Fluvius</a>.</li><li>Vanaf 2021 (eindfactuur) was er een verhoogde premie voor huishoudelijke eindafnemers die op het elektriciteitsdistributienet zijn aangesloten met toepassing van <a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/elektriciteit-en-aardgas/factuur-voor-elektriciteit-en-aardgas/energiefactuur-voor-elektriciteit-of-aardgas/afbouw-van-exclusief-nachttarief-en-steunmaatregelen\">uitsluitend nachttarief</a>.</li></ul>",
+        "nl-BE-x-formal": "<ul><li>Deze premie was er alleen voor woningen, appartementen of appartementsgebouwen in het Vlaamse gewest die vóór 1-1-2006 werden aangesloten op het elektriciteitsnet.</li><li>De isolatie van nieuw aangebouwde deelconstructies kwam ook in aanmerking voor de premie. Bij volledige herbouw (=nieuwbouw) gold de premie niet.</li><li>Het aanvraagformulier moest bij Fluvius (de elektriciteitsnetbeheerder) aankomen (met eindfactuur vanaf 1-7-2020) uiterlijk 24 maanden na de eindfactuurdatum.<br>Met een eindfactuur tot 30-6-2020 kon u geen premie meer aanvragen.</li><li>De werken moesten uitgevoerd en gefactureerd worden door een aannemer. De aannemer moest een attest invullen met technische gegevens over de geplaatste isolatie.</li><li>Alle voorwaarden en de technische eisen (Rd-waarde, lambdawaarde, ...) staan op het <a href=\"https://www.fluvius.be/nl/publicatie/vloer-kelderisolatie-huishoudelijke-premie-2022-informatieblad\">Informatieblad 2022 van Fluvius</a>.</li><li>Vanaf 2021 (eindfactuur) was er een verhoogde premie voor huishoudelijke eindafnemers die op het elektriciteitsdistributienet zijn aangesloten met toepassing van <a href=\"https://www.uat-vlaanderen.be/bouwen-wonen-en-energie/elektriciteit-en-aardgas/factuur-voor-elektriciteit-en-aardgas/energiefactuur-voor-elektriciteit-of-aardgas/afbouw-van-exclusief-nachttarief-en-steunmaatregelen\">uitsluitend nachttarief</a>.</li></ul>"
+      },
+      "naam": {
+        "nl": "Voorwaarden",
+        "nl-BE-x-formal": "Voorwaarden",
+        "nl-BE-x-generated-informal": "Voorwaarden"
+      },
+      "order": 0
+    }
+  ],
+  "zoektermen": {
+    "nl": [
+      "electriciteit",
+      "energie",
+      "energiebesparing",
+      "energiepremie",
+      "energiepremies",
+      "isolatie",
+      "kelderisolatie",
+      "keldervloer",
+      "netbeheerder",
+      "plafond van kelder",
+      "premie",
+      "vloerisolatie",
+      "volle grond"
+    ]
+  },
+  "@context": [
+    "https://ipdc.be/jsonld"
+  ],
+  "@id": "https://ipdc.be/id/instantie/5dedcf39-1252-495b-9c0b-43bdd0b6f5fa",
+  "@type": "Instantie"
+}
