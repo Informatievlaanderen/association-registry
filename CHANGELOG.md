@@ -1,3 +1,10 @@
+## [8.327.1](https://github.com/informatievlaanderen/association-registry/compare/v8.327.0...v8.327.1) (2026-06-09)
+
+
+### Bug Fixes
+
+* or-3071 change IpdcProductResponse to also allow parsing instanties ([843bf10](https://github.com/informatievlaanderen/association-registry/commit/843bf10012979b0147e8dd5c62c36df0af0caee4))
+
 # [8.327.0](https://github.com/informatievlaanderen/association-registry/compare/v8.326.1...v8.327.0) (2026-06-09)
 
 
