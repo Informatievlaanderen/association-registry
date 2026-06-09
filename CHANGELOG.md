@@ -1,3 +1,17 @@
+# [8.327.0](https://github.com/informatievlaanderen/association-registry/compare/v8.326.1...v8.327.0) (2026-06-09)
+
+
+### Bug Fixes
+
+* or-3083 allow erkenning lifecycle for dubbele vereniging ([4467dbf](https://github.com/informatievlaanderen/association-registry/commit/4467dbf5028a5e3a6f72892cc76cfe97d47e9027))
+
+
+### Features
+
+* or-3083 add erkenning werd verlopen in domain ([5cb1670](https://github.com/informatievlaanderen/association-registry/commit/5cb167035c02835203e95ed1d40cbef1b701c17d))
+* or-3083 expire erkenningen from scheduled host ([f8065fc](https://github.com/informatievlaanderen/association-registry/commit/f8065fcd6cc6933ed358df495b56be5d242c8675))
+* or-3083 project verlopen erkenning events ([131ec90](https://github.com/informatievlaanderen/association-registry/commit/131ec90b9ec527f15731532a9137a82920577260))
+
 ## [8.326.1](https://github.com/informatievlaanderen/association-registry/compare/v8.326.0...v8.326.1) (2026-06-09)
 
 
