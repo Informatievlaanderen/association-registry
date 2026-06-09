@@ -1205,4 +1205,14 @@ public static class PubliekVerenigingDetailProjector
             .OrderBy(c => c.ErkenningId)
             .ToArray();
     }
+
+    public static void Apply(IEvent<ErkenningWerdVerlopen> @event, PubliekVerenigingDetailDocument document)
+    {
+        var erkenning = document.Erkenningen.Single(c => c.ErkenningId == @event.Data.ErkenningId);
+        document.Erkenningen = document
+            .Erkenningen.Where(c => c.ErkenningId != @event.Data.ErkenningId)
+            .Append(erkenning with { Status = ErkenningStatus.Verlopen.Value })
+            .OrderBy(c => c.ErkenningId)
+            .ToArray();
+    }
 }
