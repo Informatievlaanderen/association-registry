@@ -65,6 +65,20 @@ public class ErkenningProjection : EventProjection
         ops.Store(doc);
     }
 
+    public async Task Project(IEvent<ErkenningWerdVerlopen> @event, IDocumentOperations ops)
+    {
+        var vCode = @event.StreamKey!;
+        var id = $"{vCode}-{@event.Data.ErkenningId}";
+
+        var doc = await ops.LoadAsync<ErkenningDocument>(id);
+
+        if (doc is null)
+            return;
+
+        doc.Status = ErkenningStatus.Verlopen.Value;
+        ops.Store(doc);
+    }
+
     public async Task Project(IEvent<ErkenningWerdGeschorst> @event, IDocumentOperations ops)
     {
         var vCode = @event.StreamKey!;
