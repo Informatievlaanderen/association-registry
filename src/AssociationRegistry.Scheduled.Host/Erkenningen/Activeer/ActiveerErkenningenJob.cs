@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Scheduled.Host.Erkenningen;
+namespace AssociationRegistry.Scheduled.Host.Erkenningen.Activeer;
 
 using Microsoft.Extensions.Logging;
 using Quartz;
