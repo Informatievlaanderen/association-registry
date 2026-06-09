@@ -31,7 +31,7 @@ public class Given_Verlopen_Erkenning
     }
 
     [Fact]
-    public async ValueTask Then_Saves_An_ErkenningWerdGeVerloopd_Event()
+    public async ValueTask Then_No_Saved_Event()
     {
         var teActiverenErkenningId = _scenario.ErkenningWerdGeregistreerdInVerleden.ErkenningId;
 
