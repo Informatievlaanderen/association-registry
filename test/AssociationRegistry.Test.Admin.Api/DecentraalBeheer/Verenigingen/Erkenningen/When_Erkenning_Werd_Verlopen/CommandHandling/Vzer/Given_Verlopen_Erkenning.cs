@@ -1,5 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Erkenning_Werd_Verlopen.
-    CommandHandling.Vzer;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Erkenning_Werd_Verlopen.CommandHandling.Vzer;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
@@ -31,7 +30,7 @@ public class Given_Verlopen_Erkenning
     }
 
     [Fact]
-    public async ValueTask Then_Saves_An_ErkenningWerdGeVerloopd_Event()
+    public async ValueTask Then_No_Saved_Event()
     {
         var teActiverenErkenningId = _scenario.ErkenningWerdGeregistreerdInVerleden.ErkenningId;
 
@@ -52,8 +51,8 @@ public class Given_Verlopen_Erkenning
 
         _verenigingRepositoryMock.ShouldNotHaveAnySaves();
         exception
-           .Message.Should()
-           .Be(
+            .Message.Should()
+            .Be(
                 string.Format(
                     "Erkenning met id: {0}, startdatum: {1}, einddatum: {2} en status: {3} kan niet verlopen worden.",
                     _scenario.ErkenningWerdGeregistreerdInVerleden.ErkenningId,
