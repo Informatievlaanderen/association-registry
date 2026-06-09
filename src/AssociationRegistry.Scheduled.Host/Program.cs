@@ -7,7 +7,10 @@ using Amazon.S3;
 using Bewaartermijnen;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
 using Erkenningen;
+using Erkenningen.Activeer;
+using Erkenningen.Verloop;
 using EventStore.ConflictResolution;
 using Infrastructure.Extensions;
 using Infrastructure.MartenSetup;
@@ -109,6 +112,7 @@ public class Program
         var bewaartermijnOptions = builder.Configuration.GetBewaartermijnenOptions();
         var powerBiExportOptions = builder.Configuration.GetPowerBiExportOptions();
         var activeerErkenningenOptions = builder.Configuration.GetActiveerErkenningenOptions();
+        var verloopErkenningenOptions = builder.Configuration.GetVerloopErkenningenOptions();
 
         services.AddOpenTelemetryServices().AddMarten(postgreSqlOptions).AddWolverine(postgreSqlOptions);
 
@@ -134,6 +138,19 @@ public class Program
                     opts.ForJob(erkenningenActivatieJob)
                         .WithCronSchedule(
                             activeerErkenningenOptions.Cron,
+                            schedule => schedule.InTimeZone(TimeZoneInfo.Utc)
+                        )
+                );
+            })
+            .AddQuartz(q =>
+            {
+                var erkenningenVerloopJob = new JobKey(VerloopErkenningenJob.JobName);
+                q.AddJob<VerloopErkenningenJob>(opts => opts.WithIdentity(erkenningenVerloopJob));
+
+                q.AddTrigger(opts =>
+                    opts.ForJob(erkenningenVerloopJob)
+                        .WithCronSchedule(
+                            verloopErkenningenOptions.Cron,
                             schedule => schedule.InTimeZone(TimeZoneInfo.Utc)
                         )
                 );
@@ -166,6 +183,9 @@ public class Program
             .AddScoped<ActiveerErkenningCommandHandler>()
             .AddScoped<IErkenningenActivatieProcessor, ActiveerErkenningenProcessor>()
             .AddScoped<ITeActiverenErkenningenQuery, TeActiverenErkenningenQuery>()
+            .AddScoped<VerloopErkenningCommandHandler>()
+            .AddScoped<IVerloopErkenningenProcessor, VerloopErkenningenProcessor>()
+            .AddScoped<ITeVerlopenErkenningenQuery, TeVerlopenErkenningenQuery>()
             .AddScoped<VerloopBewaartermijnCommandHandler>()
             .AddScoped<IVerlopenBewaartermijnenProcessor, VerlopenBewaartermijnenProcessor>()
             .AddScoped<IVerlopenBewaartermijnQuery, VerlopenBewaartermijnQuery>()

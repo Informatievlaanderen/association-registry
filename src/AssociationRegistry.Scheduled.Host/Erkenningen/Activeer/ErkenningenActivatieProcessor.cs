@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Scheduled.Host.Erkenningen;
+namespace AssociationRegistry.Scheduled.Host.Erkenningen.Activeer;
 
-using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
-using Framework;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Scheduled.Host.Queries;
 using Microsoft.Extensions.Logging;
-using Queries;
 using Wolverine;
 
 public class ActiveerErkenningenProcessor : IErkenningenActivatieProcessor
