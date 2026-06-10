@@ -51,6 +51,30 @@ public record OrganisationResponse
 
     [JsonPropertyName("openingHours")]
     public List<OrganisationOpeningHour> OpeningHours { get; set; } = [];
+
+    [JsonPropertyName("relations")]
+    public List<OrganisationRelation> Relations { get; set; } = [];
+}
+
+public record OrganisationRelation
+{
+    [JsonPropertyName("organisationRelationId")]
+    public Guid OrganisationRelationId { get; set; }
+
+    [JsonPropertyName("relationId")]
+    public Guid RelationId { get; set; }
+
+    [JsonPropertyName("relationName")]
+    public string RelationName { get; set; } = string.Empty;
+
+    [JsonPropertyName("relatedOrganisationId")]
+    public Guid RelatedOrganisationId { get; set; }
+
+    [JsonPropertyName("relatedOrganisationOvoNumber")]
+    public string RelatedOrganisationOvoNumber { get; set; } = string.Empty;
+
+    [JsonPropertyName("validity")]
+    public Validity Validity { get; set; } = new();
 }
 
 public record Validity
