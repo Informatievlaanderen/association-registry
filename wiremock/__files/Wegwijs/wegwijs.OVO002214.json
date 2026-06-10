@@ -1,0 +1,230 @@
+[
+  {
+    "changeId": 1033475,
+    "changeTime": "2022-10-07",
+    "id": "8a74b3d7-2fea-4dab-95ad-72ea7ebee306",
+    "name": "Gemeente Puurs",
+    "ovoNumber": "OVO002214",
+    "shortName": "Puurs",
+    "validity": {
+      "start": "1977-01-01",
+      "end": "2018-12-31"
+    },
+    "operationalValidity": {},
+    "showOnVlaamseOverheidSites": false,
+    "keys": [
+      {
+        "organisationKeyId": "2893dc5e-1c2b-4224-91d6-9a6655228b73",
+        "keyTypeId": "95dfef4a-ba38-47d7-bd76-05151aec8141",
+        "keyTypeName": "KBO",
+        "value": "0207.499.826",
+        "validity": { "start": "1977-01-01", "end": "2018-12-31" }
+      },
+      {
+        "organisationKeyId": "8580f004-80de-48ed-9e92-c9c31c0e3b9f",
+        "keyTypeId": "371462ac-f885-4b1e-b657-b04da30a6377",
+        "keyTypeName": "NIS",
+        "value": "12030",
+        "validity": { "start": "1977-01-01", "end": "2018-12-31" }
+      },
+      {
+        "organisationKeyId": "3793bb4e-3e3f-4942-8b0b-9c7842729b7b",
+        "keyTypeId": "5f1e81fa-b638-4c48-9bf8-125b3a203724",
+        "keyTypeName": "Piavo_Sortering",
+        "value": "40_2230",
+        "validity": { "start": "1977-01-01", "end": "1977-01-01" }
+      },
+      {
+        "organisationKeyId": "199afb34-d6ba-4afc-b582-274ff94b56f3",
+        "keyTypeId": "7f2994e5-211a-9c15-0d0e-c32b709774d8",
+        "keyTypeName": "CIB",
+        "value": "CIB000039372",
+        "validity": { "end": "2018-12-31" }
+      },
+      {
+        "organisationKeyId": "d6accceb-98e9-4e60-9821-fe8c667ff622",
+        "keyTypeId": "e26ee59c-e992-4e18-9ea9-ee3b33d7ba06",
+        "keyTypeName": "INR",
+        "value": "500",
+        "validity": { "start": "1977-01-01", "end": "2018-12-31" }
+      }
+    ],
+    "contacts": [
+      {
+        "organisationContactId": "edbc650b-1d33-f7d7-50b2-68e4f2ca1484",
+        "contactTypeId": "f611e91d-a811-4519-afa6-08f0e9dcdd9b",
+        "contactTypeName": "Email",
+        "value": "info@puurs.be",
+        "validity": { "end": "2018-12-31" }
+      },
+      {
+        "organisationContactId": "12cc5b39-5b60-99cd-bd43-1c21236e46f4",
+        "contactTypeId": "02d63bb2-2503-46ab-8cab-93781e11c45f",
+        "contactTypeName": "Fax",
+        "value": "03 890 76 94",
+        "validity": { "end": "2018-12-31" }
+      },
+      {
+        "organisationContactId": "7be6c213-7899-4faf-a125-e14e43795664",
+        "contactTypeId": "02d63bb2-2503-46ab-8cab-93781e11c45f",
+        "contactTypeName": "Fax",
+        "value": "03 890 76 91",
+        "validity": { "end": "2018-12-31" }
+      },
+      {
+        "organisationContactId": "279c9f9d-7ff0-8f45-d097-5948ee3746b3",
+        "contactTypeId": "d792d4ff-8c34-4336-8434-56ecb40f2fa4",
+        "contactTypeName": "Telefoon",
+        "value": "03 890 76 76",
+        "validity": { "end": "2018-12-31" }
+      },
+      {
+        "organisationContactId": "4bb4f238-2c17-42b3-ae6f-fced8ae7fa73",
+        "contactTypeId": "d792d4ff-8c34-4336-8434-56ecb40f2fa4",
+        "contactTypeName": "Telefoon",
+        "value": "+3238907676",
+        "validity": { "end": "2018-12-31" }
+      },
+      {
+        "organisationContactId": "b64d9eb5-ae81-d156-5b58-40a85d270a7e",
+        "contactTypeId": "6763f372-02c5-478c-b7d7-802dc60a64b9",
+        "contactTypeName": "Website",
+        "value": "http://www.puurs.be",
+        "validity": { "end": "2018-12-31" }
+      }
+    ],
+    "organisationClassifications": [
+      {
+        "organisationOrganisationClassificationId": "8101c3a3-f9f3-8ddf-8e77-641f5a197cec",
+        "organisationClassificationTypeId": "dca8b0bf-0316-acbc-ca2b-c25f3713edbd",
+        "organisationClassificationTypeName": "Bestuursniveau",
+        "organisationClassificationId": "55790cda-783f-1c32-3df4-9f802f86833b",
+        "organisationClassificationName": "Lokale overheid",
+        "validity": { "end": "2018-12-31" }
+      },
+      {
+        "organisationOrganisationClassificationId": "292d1745-d95c-4c07-a116-0cfaf5f876c2",
+        "organisationClassificationTypeId": "daa42972-ef7d-45e7-ba4d-cabadc133781",
+        "organisationClassificationTypeName": "Categorie",
+        "organisationClassificationId": "274c600f-c842-4eb2-8d1d-c2202cad8bd5",
+        "organisationClassificationName": "Entiteit",
+        "validity": { "start": "1977-01-01", "end": "2018-12-31" }
+      },
+      {
+        "organisationOrganisationClassificationId": "9315dc79-2eaf-4b0e-b32d-1dd1a49765a9",
+        "organisationClassificationTypeId": "c35407e4-8559-08d4-f461-a8247c993d58",
+        "organisationClassificationTypeName": "CJM-leverancier",
+        "organisationClassificationId": "b0fe0974-31dd-e54b-9d7f-af73b8fd5869",
+        "organisationClassificationName": "Ja",
+        "validity": { "end": "2018-12-31" }
+      },
+      {
+        "organisationOrganisationClassificationId": "f4d1f892-b8ac-45ff-89ae-7fa68581be4d",
+        "organisationClassificationTypeId": "af8e2f7d-c68c-8c15-c48e-61ef43e5a264",
+        "organisationClassificationTypeName": "Cultuur, Jeugd en Media",
+        "organisationClassificationId": "2bc9b53c-1fe7-648d-b439-a486e6876c96",
+        "organisationClassificationName": "Gemeente",
+        "validity": { "end": "2018-12-31" }
+      },
+      {
+        "organisationOrganisationClassificationId": "db95f682-d431-4b0e-a07f-1e17fd9037cd",
+        "organisationClassificationTypeId": "1131205e-9212-435d-b4cd-b0d955d08bcf",
+        "organisationClassificationTypeName": "Rechtsvorm",
+        "organisationClassificationId": "3c809ffd-f864-456f-8704-28c16528daa2",
+        "organisationClassificationName": "Stad/Gemeente",
+        "validity": { "start": "1977-01-01", "end": "2018-12-31" }
+      },
+      {
+        "organisationOrganisationClassificationId": "e0787baa-0714-c322-ab96-f8d8545701ec",
+        "organisationClassificationTypeId": "4250299c-e709-fad5-9c5b-04341392c89f",
+        "organisationClassificationTypeName": "Uitvoerend niveau",
+        "organisationClassificationId": "43a1ae3c-a3a6-70bf-f3d3-5fb70f1112a3",
+        "organisationClassificationName": "Stad en gemeente",
+        "validity": { "end": "2018-12-31" }
+      }
+    ],
+    "relations": [
+      {
+        "organisationRelationId": "25c58032-fb80-41bc-9255-d605b49a56da",
+        "relationId": "9ac9c9d5-ac30-edf4-585e-6d4686b91ee2",
+        "relationName": "is inrichtende macht van",
+        "relatedOrganisationId": "10f3401a-8080-41e1-8619-921d08d73fd9",
+        "relatedOrganisationOvoNumber": "OVO021866",
+        "relatedOrganisationName": "Gemeentelijke Jeugdraad Puurs",
+        "validity": {}
+      },
+      {
+        "organisationRelationId": "a244cfb3-74ad-45c4-87ab-e6141f6ee8c2",
+        "relationId": "9ac9c9d5-ac30-edf4-585e-6d4686b91ee2",
+        "relationName": "is inrichtende macht van",
+        "relatedOrganisationId": "66e901cc-3429-4289-b219-4dc218ecb95f",
+        "relatedOrganisationOvoNumber": "OVO020742",
+        "relatedOrganisationName": "Openbare Bibliotheek Puurs",
+        "validity": {}
+      },
+      {
+        "organisationRelationId": "97d50fa5-a9a0-4f9c-8ff7-c0a91804fdab",
+        "relationId": "9ac9c9d5-ac30-edf4-585e-6d4686b91ee2",
+        "relationName": "is inrichtende macht van",
+        "relatedOrganisationId": "66ee23dc-a40b-4222-a591-dadf3e3558d2",
+        "relatedOrganisationOvoNumber": "OVO021651",
+        "relatedOrganisationName": "Gemeentelijke Cultuurraad Puurs",
+        "validity": {}
+      },
+      {
+        "organisationRelationId": "f6b26746-69a4-bd83-ee02-e47309a4145e",
+        "relationId": "2c68b8eb-55d2-ff8e-3301-f0fb12467df7",
+        "relationName": "Wordt opgevolgd door",
+        "relatedOrganisationId": "75c763f8-6160-86f3-235e-b5563850dd0d",
+        "relatedOrganisationOvoNumber": "OVO008382",
+        "relatedOrganisationName": "Gemeente Puurs-Sint-Amands",
+        "validity": { "start": "2019-01-01" }
+      },
+      {
+        "organisationRelationId": "5f47ab3b-5de9-498b-a30a-fc01c9cccba7",
+        "relationId": "9ac9c9d5-ac30-edf4-585e-6d4686b91ee2",
+        "relationName": "is inrichtende macht van",
+        "relatedOrganisationId": "829714ef-6a28-482b-866e-d1634dfce357",
+        "relatedOrganisationOvoNumber": "OVO019548",
+        "relatedOrganisationName": "Gemeenschaspcentrum De Kollebloem",
+        "validity": { "end": "2018-12-31" }
+      }
+    ],
+    "parents": [
+      {
+        "organisationOrganisationParentId": "6440d393-813e-4525-af56-251767472c81",
+        "parentOrganisationId": "38adfd1a-f2af-4ae5-84c0-6da8c7387a71",
+        "parentOrganisationName": "Provincie Antwerpen",
+        "validity": { "end": "1977-01-01" }
+      }
+    ],
+    "formalFrameworks": [
+      {
+        "organisationFormalFrameworkId": "e5bb51d5-a281-90b8-a07a-311346d87923",
+        "formalFrameworkId": "b9465eda-7e05-da7f-ad90-b76531defcab",
+        "formalFrameworkName": "Gemeentewet van 1836",
+        "parentOrganisationId": "38adfd1a-f2af-4ae5-84c0-6da8c7387a71",
+        "parentOrganisationName": "Provincie Antwerpen",
+        "validity": { "end": "2018-12-31" }
+      }
+    ],
+    "locations": [
+      {
+        "organisationLocationId": "6b373f6d-9212-5e3e-dc29-fd56fd479f37",
+        "locationId": "a555531f-97d0-419c-ae2e-72982b27f26a",
+        "formattedAddress": "Hoogstraat 29, 2870 Puurs-Sint-Amands, België",
+        "components": {
+          "street": "Hoogstraat 29",
+          "zipCode": "2870",
+          "municipality": "Puurs-Sint-Amands",
+          "country": "België"
+        },
+        "isMainLocation": true,
+        "locationTypeId": "2a6c2912-6202-1693-e3b8-c9db9f33aec4",
+        "locationTypeName": "Maatschappelijke zetel",
+        "validity": { "end": "2018-12-31" }
+      }
+    ],
+    "openingHours": []
+  }
+]

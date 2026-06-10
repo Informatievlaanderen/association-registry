@@ -1,0 +1,112 @@
+[
+  {
+    "changeId": 1033477,
+    "changeTime": "2026-01-01",
+    "id": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3",
+    "name": "Stad Aalst",
+    "ovoNumber": "OVO_CHAIN_END",
+    "shortName": "Stad Aalst",
+    "validity": {
+      "start": "2023-01-01"
+    },
+    "operationalValidity": {},
+    "showOnVlaamseOverheidSites": true,
+    "keys": [
+      {
+        "organisationKeyId": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c4",
+        "keyTypeId": "95dfef4a-ba38-47d7-bd76-05151aec8141",
+        "keyTypeName": "KBO",
+        "value": "0207.333.333",
+        "validity": {
+          "start": "2023-01-01"
+        }
+      },
+      {
+        "organisationKeyId": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c5",
+        "keyTypeId": "371462ac-f885-4b1e-b657-b04da30a6377",
+        "keyTypeName": "NIS",
+        "value": "41004",
+        "validity": {
+          "start": "2023-01-01"
+        }
+      }
+    ],
+    "contacts": [
+      {
+        "organisationContactId": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c6",
+        "contactTypeId": "f611e91d-a811-4519-afa6-08f0e9dcdd9b",
+        "contactTypeName": "Email",
+        "value": "info@stad-aalst.be",
+        "validity": {}
+      },
+      {
+        "organisationContactId": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c7",
+        "contactTypeId": "6763f372-02c5-478c-b7d7-802dc60a64b9",
+        "contactTypeName": "Website",
+        "value": "http://www.stad-aalst.be",
+        "validity": {}
+      }
+    ],
+    "organisationClassifications": [
+      {
+        "organisationOrganisationClassificationId": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c8",
+        "organisationClassificationTypeId": "dca8b0bf-0316-acbc-ca2b-c25f3713edbd",
+        "organisationClassificationTypeName": "Bestuursniveau",
+        "organisationClassificationId": "55790cda-783f-1c32-3df4-9f802f86833b",
+        "organisationClassificationName": "Lokale overheid",
+        "validity": {}
+      },
+      {
+        "organisationOrganisationClassificationId": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c9",
+        "organisationClassificationTypeId": "1131205e-9212-435d-b4cd-b0d955d08bcf",
+        "organisationClassificationTypeName": "Rechtsvorm",
+        "organisationClassificationId": "3c809ffd-f864-456f-8704-28c16528daa2",
+        "organisationClassificationName": "Stad/Gemeente",
+        "validity": {
+          "start": "2023-01-01"
+        }
+      }
+    ],
+    "relations": [],
+    "parents": [
+      {
+        "organisationOrganisationParentId": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3cc10",
+        "parentOrganisationId": "38adfd1a-f2af-4ae5-84c0-6da8c7387a71",
+        "parentOrganisationName": "Provincie Oost-Vlaanderen",
+        "validity": {}
+      }
+    ],
+    "formalFrameworks": [
+      {
+        "organisationFormalFrameworkId": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3cc11",
+        "formalFrameworkId": "b9465eda-7e05-da7f-ad90-b76531defcab",
+        "formalFrameworkName": "Gemeentewet van 1836",
+        "parentOrganisationId": "38adfd1a-f2af-4ae5-84c0-6da8c7387a71",
+        "parentOrganisationName": "Provincie Oost-Vlaanderen",
+        "validity": {
+          "start": "2023-01-01"
+        }
+      }
+    ],
+    "locations": [
+      {
+        "organisationLocationId": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3cc12",
+        "locationId": "c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3cc13",
+        "formattedAddress": "Grote Markt 3, 9300 Aalst, België",
+        "components": {
+          "street": "Grote Markt 3",
+          "zipCode": "9300",
+          "municipality": "Aalst",
+          "country": "België"
+        },
+        "isMainLocation": true,
+        "locationTypeId": "2a6c2912-6202-1693-e3b8-c9db9f33aec4",
+        "locationTypeName": "Maatschappelijke zetel",
+        "validity": {
+          "start": "2023-01-01"
+        }
+      }
+    ],
+    "openingHours": []
+  }
+]
