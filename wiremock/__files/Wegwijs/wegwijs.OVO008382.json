@@ -1,0 +1,112 @@
+[
+  {
+    "changeId": 1033476,
+    "changeTime": "2022-10-07",
+    "id": "75c763f8-6160-86f3-235e-b5563850dd0d",
+    "name": "Gemeente Puurs-Sint-Amands",
+    "ovoNumber": "OVO008382",
+    "shortName": "Puurs-Sint-Amands",
+    "validity": {
+      "start": "2019-01-01"
+    },
+    "operationalValidity": {},
+    "showOnVlaamseOverheidSites": true,
+    "keys": [
+      {
+        "organisationKeyId": "75c763f8-6160-86f3-235e-b5563850dd0d",
+        "keyTypeId": "95dfef4a-ba38-47d7-bd76-05151aec8141",
+        "keyTypeName": "KBO",
+        "value": "0207.725.597",
+        "validity": {
+          "start": "2019-01-01"
+        }
+      },
+      {
+        "organisationKeyId": "75c763f8-6160-86f3-235e-b5563850dd0e",
+        "keyTypeId": "371462ac-f885-4b1e-b657-b04da30a6377",
+        "keyTypeName": "NIS",
+        "value": "12040",
+        "validity": {
+          "start": "2019-01-01"
+        }
+      }
+    ],
+    "contacts": [
+      {
+        "organisationContactId": "75c763f8-6160-86f3-235e-b5563850dd0f",
+        "contactTypeId": "f611e91d-a811-4519-afa6-08f0e9dcdd9b",
+        "contactTypeName": "Email",
+        "value": "info@puurs-sint-amands.be",
+        "validity": {}
+      },
+      {
+        "organisationContactId": "75c763f8-6160-86f3-235e-b5563850dd10",
+        "contactTypeId": "6763f372-02c5-478c-b7d7-802dc60a64b9",
+        "contactTypeName": "Website",
+        "value": "http://www.puurs-sint-amands.be",
+        "validity": {}
+      }
+    ],
+    "organisationClassifications": [
+      {
+        "organisationOrganisationClassificationId": "75c763f8-6160-86f3-235e-b5563850dd11",
+        "organisationClassificationTypeId": "dca8b0bf-0316-acbc-ca2b-c25f3713edbd",
+        "organisationClassificationTypeName": "Bestuursniveau",
+        "organisationClassificationId": "55790cda-783f-1c32-3df4-9f802f86833b",
+        "organisationClassificationName": "Lokale overheid",
+        "validity": {}
+      },
+      {
+        "organisationOrganisationClassificationId": "75c763f8-6160-86f3-235e-b5563850dd12",
+        "organisationClassificationTypeId": "1131205e-9212-435d-b4cd-b0d955d08bcf",
+        "organisationClassificationTypeName": "Rechtsvorm",
+        "organisationClassificationId": "3c809ffd-f864-456f-8704-28c16528daa2",
+        "organisationClassificationName": "Stad/Gemeente",
+        "validity": {
+          "start": "2019-01-01"
+        }
+      }
+    ],
+    "relations": [],
+    "parents": [
+      {
+        "organisationOrganisationParentId": "75c763f8-6160-86f3-235e-b5563850dd13",
+        "parentOrganisationId": "38adfd1a-f2af-4ae5-84c0-6da8c7387a71",
+        "parentOrganisationName": "Provincie Antwerpen",
+        "validity": {}
+      }
+    ],
+    "formalFrameworks": [
+      {
+        "organisationFormalFrameworkId": "75c763f8-6160-86f3-235e-b5563850dd14",
+        "formalFrameworkId": "b9465eda-7e05-da7f-ad90-b76531defcab",
+        "formalFrameworkName": "Gemeentewet van 1836",
+        "parentOrganisationId": "38adfd1a-f2af-4ae5-84c0-6da8c7387a71",
+        "parentOrganisationName": "Provincie Antwerpen",
+        "validity": {
+          "start": "2019-01-01"
+        }
+      }
+    ],
+    "locations": [
+      {
+        "organisationLocationId": "75c763f8-6160-86f3-235e-b5563850dd15",
+        "locationId": "75c763f8-6160-86f3-235e-b5563850dd16",
+        "formattedAddress": "Hoogstraat 29, 2870 Puurs-Sint-Amands, België",
+        "components": {
+          "street": "Hoogstraat 29",
+          "zipCode": "2870",
+          "municipality": "Puurs-Sint-Amands",
+          "country": "België"
+        },
+        "isMainLocation": true,
+        "locationTypeId": "2a6c2912-6202-1693-e3b8-c9db9f33aec4",
+        "locationTypeName": "Maatschappelijke zetel",
+        "validity": {
+          "start": "2019-01-01"
+        }
+      }
+    ],
+    "openingHours": []
+  }
+]

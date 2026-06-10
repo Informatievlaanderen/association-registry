@@ -9,11 +9,11 @@ using Xunit;
 /// <summary>
 /// See wiremock for ipdc nummers
 /// </summary>
-public class WegwijsClientTests
+public class GetOrganisationByOvoCodeTests
 {
     private WegwijsClient _wegwijsClient;
 
-    public WegwijsClientTests()
+    public GetOrganisationByOvoCodeTests()
     {
         var client = new HttpClient() { BaseAddress = new Uri("http://127.0.0.1:8080") };
 
