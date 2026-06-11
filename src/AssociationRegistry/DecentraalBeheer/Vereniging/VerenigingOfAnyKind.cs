@@ -677,7 +677,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (!heeftWijzigingen)
             return;
 
-        var gewijzigdeErkenning = huidigeErkenning.CreateFromErkenningCorrectie(erkenningCorrectie);
+        var gewijzigdeErkenning = huidigeErkenning.CreateFromErkenningWijziging(erkenningCorrectie);
         State.Erkenningen.KanGewijzigdeErkenningToevoegen(gewijzigdeErkenning);
 
         AddEvent(EventFactory.ErkenningWerdGewijzigd(gewijzigdeErkenning, teWijzigenErkenning.RedenVanWijziging));
