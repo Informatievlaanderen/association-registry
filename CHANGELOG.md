@@ -1,3 +1,11 @@
+# [8.328.0](https://github.com/informatievlaanderen/association-registry/compare/v8.327.1...v8.328.0) (2026-06-11)
+
+
+### Features
+
+* or-3086 disable indexing for erkenningen in search ([8730a3c](https://github.com/informatievlaanderen/association-registry/commit/8730a3c7291c828264eab53a994ae55448d215a8))
+* or-3086 implement searching on erkende verenigingen ([71e9852](https://github.com/informatievlaanderen/association-registry/commit/71e9852a2d18198edb44028cfb58bc7d1341eec7))
+
 ## [8.327.1](https://github.com/informatievlaanderen/association-registry/compare/v8.327.0...v8.327.1) (2026-06-09)
 
 
