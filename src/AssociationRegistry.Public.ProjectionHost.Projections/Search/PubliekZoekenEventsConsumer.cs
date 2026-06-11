@@ -16,18 +16,18 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
     private readonly ElasticSearchOptionsSection _options;
     private readonly ILogger<PubliekZoekenEventsConsumer> _logger;
 
-    public PubliekZoekenEventsConsumer(ElasticsearchClient elasticClient,
-                                       PubliekZoekProjectionHandler zoekProjectionHandler,
-                                       ElasticSearchOptionsSection options,
-                                       ILogger<PubliekZoekenEventsConsumer> logger)
+    public PubliekZoekenEventsConsumer(
+        ElasticsearchClient elasticClient,
+        PubliekZoekProjectionHandler zoekProjectionHandler,
+        ElasticSearchOptionsSection options,
+        ILogger<PubliekZoekenEventsConsumer> logger
+    )
     {
         _elasticClient = elasticClient;
         _zoekProjectionHandler = zoekProjectionHandler;
         _options = options;
         _logger = logger;
     }
-
-
 
     public async Task ConsumeAsync(SubscriptionEventList eventList)
     {
@@ -39,10 +39,7 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
         var multiGetRequest = new MultiGetRequest
         {
             Index = _options.Indices.Verenigingen,
-            Docs = keys.Select(key => new MultiGetOperation
-            {
-                Id = key
-            }).ToList()
+            Docs = keys.Select(key => new MultiGetOperation { Id = key }).ToList(),
         };
 
         var multiGetResponse = await _elasticClient.MultiGetAsync<VerenigingZoekDocument>(multiGetRequest);
@@ -65,8 +62,10 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
 
         foreach (var @event in eventList.Events)
         {
-            dynamic eventEnvelope =
-                Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;
+            dynamic eventEnvelope = Activator.CreateInstance(
+                typeof(EventEnvelope<>).MakeGenericType(@event.EventType),
+                @event
+            )!;
 
             var doc = documentsPerVCode[@event.StreamKey];
 
@@ -116,6 +115,12 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(SubverenigingRelatieWerdGewijzigd):
                 case nameof(SubverenigingDetailsWerdenGewijzigd):
                 case nameof(GeotagsWerdenBepaald):
+                case nameof(ErkenningWerdGeregistreerd):
+                case nameof(ErkenningWerdGeactiveerd):
+                case nameof(ErkenningWerdVerlopen):
+                case nameof(ErkenningWerdGeschorst):
+                case nameof(ErkenningWerdGewijzigd):
+                case nameof(ErkenningWerdVerwijderd):
                     try
                     {
                         _zoekProjectionHandler.Handle(eventEnvelope, doc);
@@ -124,7 +129,13 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, string.Format(ExceptionMessages.FoutBijProjecteren, PubliekZoekProjectionHandler.ShardName.Name));
+                        _logger.LogError(
+                            ex,
+                            string.Format(
+                                ExceptionMessages.FoutBijProjecteren,
+                                PubliekZoekProjectionHandler.ShardName.Name
+                            )
+                        );
 
                         throw;
                     }
@@ -137,10 +148,8 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
     private async Task<bool> IndexDocumentsAsync<T>(IEnumerable<T> documents)
         where T : class
     {
-        var response = await _elasticClient.BulkAsync(b => b
-                                                          .Index(_options.Indices.Verenigingen)
-                                                          .IndexMany(documents)
-                                                          .Refresh(Refresh.WaitFor)
+        var response = await _elasticClient.BulkAsync(b =>
+            b.Index(_options.Indices.Verenigingen).IndexMany(documents).Refresh(Refresh.WaitFor)
         );
 
         if (!response.IsValidResponse)
@@ -158,4 +167,3 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
         return true;
     }
 }
-

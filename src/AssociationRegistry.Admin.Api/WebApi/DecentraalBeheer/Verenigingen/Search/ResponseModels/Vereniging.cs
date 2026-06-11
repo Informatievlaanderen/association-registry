@@ -89,4 +89,8 @@ public class Vereniging
     /// <summary>De lidmaatschappen van de vereniging</summary>
     [DataMember(Name = "Lidmaatschappen")]
     public Lidmaatschap[] Lidmaatschappen { get; init; } = null!;
+
+    /// <summary>Geeft aan of de vereniging minstens een actieve erkenning heeft</summary>
+    [DataMember(Name = "isErkend")]
+    public bool IsErkend { get; init; }
 }

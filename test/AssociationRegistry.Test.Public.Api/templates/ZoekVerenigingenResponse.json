@@ -103,7 +103,8 @@
       ],
       "links":{
         "detail": "https://127.0.0.1:11003/v1/verenigingen/{{vereniging.vcode}}"
-      }
+      },
+      "isErkend": false
     },
     {{end}}
   ],

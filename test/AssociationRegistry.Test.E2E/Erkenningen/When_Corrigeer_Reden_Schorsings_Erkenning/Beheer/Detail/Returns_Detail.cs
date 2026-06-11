@@ -12,12 +12,12 @@ using Xunit;
 using Erkenning = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.Erkenning;
 using IpdcProduct = Admin.Api.WebApi.Verenigingen.Detail.ResponseModels.IpdcProduct;
 
-[Collection(nameof(CorrigeerSchorsingErkenningCollection))]
+[Collection(nameof(CorrigeerRedenSchorsingErkenningCollection))]
 public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly CorrigeerSchorsingErkenningContext _testContext;
+    private readonly CorrigeerRedenSchorsingErkenningContext _testContext;
 
-    public Returns_Detail(CorrigeerSchorsingErkenningContext testContext)
+    public Returns_Detail(CorrigeerRedenSchorsingErkenningContext testContext)
         : base(testContext.ApiSetup)
     {
         _testContext = testContext;

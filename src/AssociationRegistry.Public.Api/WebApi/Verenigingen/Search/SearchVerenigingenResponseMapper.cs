@@ -1,5 +1,8 @@
 ﻿namespace AssociationRegistry.Public.Api.WebApi.Verenigingen.Search;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Public.Api.Infrastructure;
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
@@ -9,9 +12,6 @@ using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Aggregations;
 using RequestModels;
 using ResponseModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
@@ -28,11 +28,16 @@ public class SearchVerenigingenResponseMapper
     private readonly ILogger<SearchVerenigingenController> _logger;
     private readonly IVerenigingstypeMapper _verenigingstypeMapper;
 
-    public SearchVerenigingenResponseMapper(AppSettings appSettings, ILogger<SearchVerenigingenController> logger, string? version)
+    public SearchVerenigingenResponseMapper(
+        AppSettings appSettings,
+        ILogger<SearchVerenigingenController> logger,
+        string? version
+    )
     {
         _appSettings = appSettings;
         _logger = logger;
-        _verenigingstypeMapper = version == WellknownVersions.V2 ? new VerenigingstypeMapperV2() : new VerenigingstypeMapperV1();
+        _verenigingstypeMapper =
+            version == WellknownVersions.V2 ? new VerenigingstypeMapperV2() : new VerenigingstypeMapperV1();
     }
 
     public SearchVerenigingenResponse ToSearchVereningenResponse(
@@ -40,29 +45,38 @@ public class SearchVerenigingenResponseMapper
         SearchResponse<VerenigingZoekDocument> searchResponse,
         PaginationQueryParams paginationRequest,
         string originalQuery,
-        string[] hoofdactiviteiten)
+        string[] hoofdactiviteiten
+    )
     {
         return new SearchVerenigingenResponse
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",
-            Verenigingen = searchResponse.Hits
-                                         .Select(x => Map(logger, x.Source, _appSettings))
-                                         .ToArray(),
+            Verenigingen = searchResponse.Hits.Select(x => Map(logger, x.Source, _appSettings)).ToArray(),
             Facets = MapFacets(searchResponse, originalQuery, hoofdactiviteiten),
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
     }
 
-    private Facets MapFacets(SearchResponse<VerenigingZoekDocument> searchResponse, string originalQuery, string[] hoofdactiviteiten)
-        => new()
+    private Facets MapFacets(
+        SearchResponse<VerenigingZoekDocument> searchResponse,
+        string originalQuery,
+        string[] hoofdactiviteiten
+    ) =>
+        new()
         {
-            HoofdactiviteitenVerenigingsloket = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
+            HoofdactiviteitenVerenigingsloket = GetHoofdActiviteitFacets(
+                _appSettings,
+                searchResponse,
+                originalQuery,
+                hoofdactiviteiten
+            ),
         };
 
     private Vereniging Map(
         ILogger<SearchVerenigingenController> logger,
         VerenigingZoekDocument verenigingZoekDocument,
-        AppSettings appSettings)
+        AppSettings appSettings
+    )
     {
         if (verenigingZoekDocument == null)
             throw new ArgumentNullException(nameof(verenigingZoekDocument));
@@ -76,43 +90,38 @@ public class SearchVerenigingenResponseMapper
             {
                 type = verenigingZoekDocument.JsonLdMetadataType,
                 VCode = verenigingZoekDocument.VCode,
-                Verenigingstype =
-                    _verenigingstypeMapper.Map<VerenigingsType, VerenigingZoekDocument.Types.Verenigingstype>(
-                        verenigingZoekDocument.Verenigingstype),
-                Verenigingssubtype =
-                    _verenigingstypeMapper.MapSubtype<Verenigingssubtype, VerenigingZoekDocument.Types.Verenigingssubtype>(
-                        verenigingZoekDocument.Verenigingssubtype),
-                SubverenigingVan = _verenigingstypeMapper
-                   .MapSubverenigingVan(verenigingZoekDocument.Verenigingssubtype, () =>
-                                            new SubverenigingVan()
-                                            {
-                                                AndereVereniging = verenigingZoekDocument.SubverenigingVan.AndereVereniging,
-                                                Identificatie = verenigingZoekDocument.SubverenigingVan.Identificatie,
-                                                Beschrijving = verenigingZoekDocument.SubverenigingVan.Beschrijving,
-                                            }),
+                Verenigingstype = _verenigingstypeMapper.Map<
+                    VerenigingsType,
+                    VerenigingZoekDocument.Types.Verenigingstype
+                >(verenigingZoekDocument.Verenigingstype),
+                Verenigingssubtype = _verenigingstypeMapper.MapSubtype<
+                    Verenigingssubtype,
+                    VerenigingZoekDocument.Types.Verenigingssubtype
+                >(verenigingZoekDocument.Verenigingssubtype),
+                SubverenigingVan = _verenigingstypeMapper.MapSubverenigingVan(
+                    verenigingZoekDocument.Verenigingssubtype,
+                    () =>
+                        new SubverenigingVan()
+                        {
+                            AndereVereniging = verenigingZoekDocument.SubverenigingVan.AndereVereniging,
+                            Identificatie = verenigingZoekDocument.SubverenigingVan.Identificatie,
+                            Beschrijving = verenigingZoekDocument.SubverenigingVan.Beschrijving,
+                        }
+                ),
                 Naam = verenigingZoekDocument.Naam,
                 Roepnaam = verenigingZoekDocument.Roepnaam,
                 KorteNaam = verenigingZoekDocument.KorteNaam,
                 KorteBeschrijving = verenigingZoekDocument.KorteBeschrijving,
+                IsErkend = verenigingZoekDocument.IsErkend,
                 Doelgroep = Map(verenigingZoekDocument.Doelgroep),
-                HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
-                                                                          .Select(Map)
-                                                                          .ToArray(),
-                Werkingsgebieden = verenigingZoekDocument.Werkingsgebieden
-                                                         .Select(Map)
-                                                         .ToArray(),
-                Locaties = verenigingZoekDocument.Locaties
-                                                 .Select(Map)
-                                                 .ToArray(),
-                Lidmaatschappen = verenigingZoekDocument.Lidmaatschappen
-                                                        .Select(Map)
-                                                        .ToArray(),
-                Sleutels = verenigingZoekDocument.Sleutels
-                                                 .Select(Map)
-                                                 .ToArray(),
-                Relaties = verenigingZoekDocument.Relaties
-                                                 .Select(r => Map(appSettings, r))
-                                                 .ToArray(),
+                HoofdactiviteitenVerenigingsloket = verenigingZoekDocument
+                    .HoofdactiviteitenVerenigingsloket.Select(Map)
+                    .ToArray(),
+                Werkingsgebieden = verenigingZoekDocument.Werkingsgebieden.Select(Map).ToArray(),
+                Locaties = verenigingZoekDocument.Locaties.Select(Map).ToArray(),
+                Lidmaatschappen = verenigingZoekDocument.Lidmaatschappen.Select(Map).ToArray(),
+                Sleutels = verenigingZoekDocument.Sleutels.Select(Map).ToArray(),
+                Relaties = verenigingZoekDocument.Relaties.Select(r => Map(appSettings, r)).ToArray(),
                 Links = Map(verenigingZoekDocument.VCode, appSettings),
             };
         }
@@ -124,8 +133,8 @@ public class SearchVerenigingenResponseMapper
         }
     }
 
-    private static DoelgroepResponse Map(Doelgroep doelgroep)
-        => new()
+    private static DoelgroepResponse Map(Doelgroep doelgroep) =>
+        new()
         {
             id = doelgroep.JsonLdMetadata.Id,
             type = doelgroep.JsonLdMetadata.Type,
@@ -133,11 +142,13 @@ public class SearchVerenigingenResponseMapper
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
 
-    private static VerenigingLinks Map(string vCode, AppSettings appSettings)
-        => new() { Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{vCode}") };
+    private static VerenigingLinks Map(string vCode, AppSettings appSettings) =>
+        new() { Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{vCode}") };
 
-    private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket h)
-        => new()
+    private static HoofdactiviteitVerenigingsloket Map(
+        VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket h
+    ) =>
+        new()
         {
             id = h.JsonLdMetadata.Id,
             type = h.JsonLdMetadata.Type,
@@ -145,8 +156,8 @@ public class SearchVerenigingenResponseMapper
             Naam = h.Naam,
         };
 
-    private static Werkingsgebied Map(VerenigingZoekDocument.Types.Werkingsgebied w)
-        => new()
+    private static Werkingsgebied Map(VerenigingZoekDocument.Types.Werkingsgebied w) =>
+        new()
         {
             id = w.JsonLdMetadata.Id,
             type = w.JsonLdMetadata.Type,
@@ -154,8 +165,11 @@ public class SearchVerenigingenResponseMapper
             Naam = w.Naam,
         };
 
-    private static Metadata GetMetadata(SearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)
-        => new()
+    private static Metadata GetMetadata(
+        SearchResponse<VerenigingZoekDocument> searchResponse,
+        PaginationQueryParams paginationRequest
+    ) =>
+        new()
         {
             Pagination = new Pagination
             {
@@ -169,10 +183,13 @@ public class SearchVerenigingenResponseMapper
         AppSettings appSettings,
         SearchResponse<VerenigingZoekDocument> searchResponse,
         string originalQuery,
-        string[] hoofdactiviteiten)
+        string[] hoofdactiviteiten
+    )
     {
-        if (appSettings is null) throw new ArgumentException("Search response is null", nameof(appSettings));
-        if (searchResponse is null) throw new ArgumentException("Search response is null", nameof(searchResponse));
+        if (appSettings is null)
+            throw new ArgumentException("Search response is null", nameof(appSettings));
+        if (searchResponse is null)
+            throw new ArgumentException("Search response is null", nameof(searchResponse));
 
         if (searchResponse.Aggregations is null)
             throw new ArgumentException("Search response is null", nameof(searchResponse.Aggregations));
@@ -180,28 +197,27 @@ public class SearchVerenigingenResponseMapper
         _logger.LogInformation($"Original query: {originalQuery}");
         _logger.LogInformation(string.Join(", ", hoofdactiviteiten));
 
-        var buckets = searchResponse.Aggregations
-                                    .GetGlobal(WellknownFacets.GlobalAggregateName)
-                                    .Aggregations!
-                                    .GetFilter(WellknownFacets.FilterAggregateName)
-                                    .Aggregations!
-                                    .GetStringTerms(WellknownFacets.HoofdactiviteitenCountAggregateName)
-                                    .Buckets;
+        var buckets = searchResponse
+            .Aggregations.GetGlobal(WellknownFacets.GlobalAggregateName)
+            .Aggregations!.GetFilter(WellknownFacets.FilterAggregateName)
+            .Aggregations!.GetStringTerms(WellknownFacets.HoofdactiviteitenCountAggregateName)
+            .Buckets;
 
-
-        if (buckets is null) throw new ArgumentException("Search buckets is null", nameof(buckets));
+        if (buckets is null)
+            throw new ArgumentException("Search buckets is null", nameof(buckets));
 
         return buckets
-              .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
-              .ToArray();
+            .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
+            .ToArray();
     }
 
     private static HoofdactiviteitVerenigingsloketFacetItem CreateHoofdActiviteitFacetItem(
         AppSettings appSettings,
         StringTermsBucket bucket,
         string originalQuery,
-        string[] originalHoofdactiviteiten)
-        => new()
+        string[] originalHoofdactiviteiten
+    ) =>
+        new()
         {
             Code = bucket.Key.ToString(),
             Aantal = bucket.DocCount,
@@ -209,7 +225,8 @@ public class SearchVerenigingenResponseMapper
                 appSettings,
                 bucket.Key.ToString(),
                 originalQuery,
-                originalHoofdactiviteiten),
+                originalHoofdactiviteiten
+            ),
         };
 
     // public for testing
@@ -217,16 +234,21 @@ public class SearchVerenigingenResponseMapper
         AppSettings appSettings,
         string hoofdactiviteitenVerenigingsloketCode,
         string originalQuery,
-        string[] hoofdactiviteiten)
-        => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteitenVerenigingsloket={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdactiviteitenVerenigingsloketCode)}";
+        string[] hoofdactiviteiten
+    ) =>
+        $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteitenVerenigingsloket={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdactiviteitenVerenigingsloketCode)}";
 
-    private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)
-        => string.Join(
+    private static string CalculateHoofdactiviteiten(
+        IEnumerable<string> originalHoofdactiviteiten,
+        string hoofdActiviteitCode
+    ) =>
+        string.Join(
             separator: ',',
-            originalHoofdactiviteiten.Append(hoofdActiviteitCode).Select(x => x.ToUpperInvariant()).Distinct());
+            originalHoofdactiviteiten.Append(hoofdActiviteitCode).Select(x => x.ToUpperInvariant()).Distinct()
+        );
 
-    private static Lidmaatschap Map(VerenigingZoekDocument.Types.Lidmaatschap l)
-        => new()
+    private static Lidmaatschap Map(VerenigingZoekDocument.Types.Lidmaatschap l) =>
+        new()
         {
             id = l.JsonLdMetadata.Id,
             type = l.JsonLdMetadata.Type,
@@ -237,8 +259,8 @@ public class SearchVerenigingenResponseMapper
             Identificatie = l.Identificatie,
         };
 
-    private static Locatie Map(VerenigingZoekDocument.Types.Locatie loc)
-        => new()
+    private static Locatie Map(VerenigingZoekDocument.Types.Locatie loc) =>
+        new()
         {
             id = loc.JsonLdMetadata.Id,
             type = loc.JsonLdMetadata.Type,
@@ -250,25 +272,24 @@ public class SearchVerenigingenResponseMapper
             Gemeente = loc.Gemeente,
         };
 
-    private static Sleutel Map(VerenigingZoekDocument.Types.Sleutel s)
-        => new()
+    private static Sleutel Map(VerenigingZoekDocument.Types.Sleutel s) =>
+        new()
         {
             id = s.JsonLdMetadata.Id,
             type = s.JsonLdMetadata.Type,
             Bron = s.Bron,
             Waarde = s.Waarde,
             CodeerSysteem = s.CodeerSysteem,
-            GestructureerdeIdentificator =
-                new GestructureerdeIdentificator
-                {
-                    id = s.GestructureerdeIdentificator.JsonLdMetadata.Id,
-                    type = s.GestructureerdeIdentificator.JsonLdMetadata.Type,
-                    Nummer = s.GestructureerdeIdentificator.Nummer,
-                },
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
+            {
+                id = s.GestructureerdeIdentificator.JsonLdMetadata.Id,
+                type = s.GestructureerdeIdentificator.JsonLdMetadata.Type,
+                Nummer = s.GestructureerdeIdentificator.Nummer,
+            },
         };
 
-    private static Relatie Map(AppSettings appSettings, Schema.Search.VerenigingZoekDocument.Types.Relatie r)
-        => new()
+    private static Relatie Map(AppSettings appSettings, Schema.Search.VerenigingZoekDocument.Types.Relatie r) =>
+        new()
         {
             Relatietype = r.Relatietype,
             AndereVereniging = new Relatie.GerelateerdeVereniging

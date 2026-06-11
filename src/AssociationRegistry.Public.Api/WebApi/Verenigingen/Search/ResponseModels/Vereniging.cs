@@ -76,4 +76,8 @@ public class Vereniging
     /// <summary>Weblinks i.v.m. deze vereniging</summary>
     [DataMember(Name = "Links")]
     public VerenigingLinks Links { get; init; } = null!;
+
+    /// <summary>Geeft aan of de vereniging minstens een actieve erkenning heeft</summary>
+    [DataMember(Name = "isErkend")]
+    public bool IsErkend { get; init; }
 }

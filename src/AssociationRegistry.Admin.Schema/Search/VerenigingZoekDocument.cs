@@ -28,6 +28,8 @@ public class VerenigingZoekDocument
     public bool IsVerwijderd { get; set; }
     public bool IsDubbel { get; set; }
     public Types.Geotag[] Geotags { get; set; } = null!;
+    public bool IsErkend { get; set; }
+    public Dictionary<int, string> Erkenningen { get; set; } = new();
 
     public static class Types
     {
@@ -116,6 +118,5 @@ public class VerenigingZoekDocument
             public int Minimumleeftijd { get; set; }
             public int Maximumleeftijd { get; set; }
         }
-
     }
 }
