@@ -137,6 +137,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mappings", "mappings", "{9E
 		wiremock\mappings\IpdcProduct.404.json = wiremock\mappings\IpdcProduct.404.json
 		wiremock\mappings\IpdcProduct.500.json = wiremock\mappings\IpdcProduct.500.json
 		wiremock\mappings\IpdcInstantie.99.json = wiremock\mappings\IpdcInstantie.99.json
+		wiremock\mappings\wegwijs.OVO008382.json = wiremock\mappings\wegwijs.OVO008382.json
+		wiremock\mappings\Wegwijs.OVO002214.json = wiremock\mappings\Wegwijs.OVO002214.json
+		wiremock\mappings\Wegwijs.OVO_CHAIN_START.json = wiremock\mappings\Wegwijs.OVO_CHAIN_START.json
+		wiremock\mappings\Wegwijs.OVO_CHAIN_Middle.json = wiremock\mappings\Wegwijs.OVO_CHAIN_Middle.json
+		wiremock\mappings\Wegwijs.OVO_CHAIN_End.json = wiremock\mappings\Wegwijs.OVO_CHAIN_End.json
+		wiremock\mappings\Wegwijs.OVO_CHAIN_DEADLOCK.json = wiremock\mappings\Wegwijs.OVO_CHAIN_DEADLOCK.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Integrations.Magda", "src\integrations\AssociationRegistry.Integrations.Magda\AssociationRegistry.Integrations.Magda.csproj", "{85139412-485D-4B23-8423-A0C2021B60DE}"
@@ -285,6 +291,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wegwijs", "Wegwijs", "{DE83
 		wiremock\__files\Wegwijs\wegwijs.200.json = wiremock\__files\Wegwijs\wegwijs.200.json
 		wiremock\__files\Wegwijs\wegwijs.500.json = wiremock\__files\Wegwijs\wegwijs.500.json
 		wiremock\__files\Wegwijs\wegwijs.404.json = wiremock\__files\Wegwijs\wegwijs.404.json
+		wiremock\__files\Wegwijs\wegwijs.OVO_CHAIN_DEADLOCK.json = wiremock\__files\Wegwijs\wegwijs.OVO_CHAIN_DEADLOCK.json
+		wiremock\__files\Wegwijs\wegwijs.OVO_CHAIN_END.json = wiremock\__files\Wegwijs\wegwijs.OVO_CHAIN_END.json
+		wiremock\__files\Wegwijs\wegwijs.OVO_CHAIN_MIDDLE.json = wiremock\__files\Wegwijs\wegwijs.OVO_CHAIN_MIDDLE.json
+		wiremock\__files\Wegwijs\wegwijs.OVO_CHAIN_START.json = wiremock\__files\Wegwijs\wegwijs.OVO_CHAIN_START.json
+		wiremock\__files\Wegwijs\wegwijs.OVO002214.json = wiremock\__files\Wegwijs\wegwijs.OVO002214.json
+		wiremock\__files\Wegwijs\wegwijs.OVO008382.json = wiremock\__files\Wegwijs\wegwijs.OVO008382.json
 	EndProjectSection
 EndProject
 Global
