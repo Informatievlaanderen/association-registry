@@ -2,9 +2,9 @@
 
 using Primitives;
 
-public sealed record ErkenningCorrectie
+public sealed record ErkenningWijziging
 {
-    private ErkenningCorrectie(
+    private ErkenningWijziging(
         int erkenningErkenningId,
         ErkenningsPeriode erkenningsperiode,
         Hernieuwingsdatum hernieuwingsdatum,
@@ -25,7 +25,7 @@ public sealed record ErkenningCorrectie
     public HernieuwingsUrl HernieuwingsUrl { get; set; }
     public ErkenningStatus Status { get; set; }
 
-    public static ErkenningCorrectie Create(TeWijzigenErkenning teWijzigenErkenning, Erkenning erkenning)
+    public static ErkenningWijziging Create(TeWijzigenErkenning teWijzigenErkenning, Erkenning erkenning)
     {
         var startdatum = DetermineTeWijzigenDatum(
             teWijzigenErkenning.StartDatum,
@@ -54,7 +54,7 @@ public sealed record ErkenningCorrectie
             DateOnly.FromDateTime(DateTime.Today)
         );
 
-        return new ErkenningCorrectie(
+        return new ErkenningWijziging(
             erkenning.ErkenningId,
             erkenningsperiode,
             hernieuwingsdatum,

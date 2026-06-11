@@ -532,7 +532,7 @@ public static class EventFactory
     public static ErkenningWerdGeschorst ErkenningWerdGeschorst(TeSchorsenErkenning teSchorsenErkenning) =>
         new(teSchorsenErkenning.ErkenningId, teSchorsenErkenning.RedenSchorsing);
 
-    public static ErkenningRedenVanSchorsingWerdGecorrigeerd CorrigeerSchorsingErkenning(
+    public static ErkenningRedenVanSchorsingWerdGecorrigeerd CorrigeerRedenSchorsingErkenning(
         TeCorrigerenRedenSchorsingErkenning teCorrigerenRedenSchorsingErkenning
     ) => new(teCorrigerenRedenSchorsingErkenning.ErkenningId, teCorrigerenRedenSchorsingErkenning.RedenSchorsing);
 

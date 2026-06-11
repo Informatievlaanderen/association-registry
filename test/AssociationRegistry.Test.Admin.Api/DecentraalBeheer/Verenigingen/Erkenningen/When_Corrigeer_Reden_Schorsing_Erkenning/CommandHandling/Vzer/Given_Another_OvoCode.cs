@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Schorsing_Erkenning.CommandHandling.Vzer;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Reden_Schorsing_Erkenning.CommandHandling.Vzer;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
@@ -6,53 +6,52 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using FluentAssertions;
 using Xunit;
 
-public class Given_Unknown_Erkenning
+public class Given_Another_OvoCode
 {
-    private readonly CorrigeerSchorsingErkenningCommandHandler _commandHandler;
+    private readonly CorrigeerRedenSchorsingErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
 
-    public Given_Unknown_Erkenning()
+    public Given_Another_OvoCode()
     {
         _fixture = new Fixture().CustomizeAdminApi();
+
         _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario();
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-        _commandHandler = new CorrigeerSchorsingErkenningCommandHandler(_verenigingRepositoryMock);
+
+        _commandHandler = new CorrigeerRedenSchorsingErkenningCommandHandler(_verenigingRepositoryMock);
     }
 
     [Fact]
-    public async ValueTask Then_Throws_ErkenningIsNietGekend()
+    public async ValueTask Then_Throws_GiIsNietBevoegd()
     {
-        var unknownErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId + _fixture.Create<int>();
+        var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
         var command = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
         {
             VCode = _scenario.VCode,
             Erkenning = _fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
             {
-                ErkenningId = unknownErkenningId,
+                ErkenningId = teSchorsenErkenningId,
             },
         };
 
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-        };
+        var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
+            await _commandHandler.Handle(
+                new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(
+                    command,
+                    _fixture.Create<CommandMetadata>()
+                )
+            )
+        );
 
-        var commandEnvelope = new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(command, commandMetadata);
-
-        var exception = await Assert.ThrowsAsync<ErkenningIsNietGekend>(async () =>
-        {
-            await _commandHandler.Handle(commandEnvelope);
-        });
-
-        exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningIsNietGekend, unknownErkenningId));
+        exception.Message.Should().Be(ExceptionMessages.GiIsNietBevoegd);
     }
 }

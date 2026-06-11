@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
-using AssociationRegistry.MartenDb.Store;
+using Framework;
+using MartenDb.Store;
 
-public class CorrigeerSchorsingErkenningCommandHandler
+public class CorrigeerRedenSchorsingErkenningCommandHandler
 {
     private readonly IAggregateSession _aggregateSession;
 
-    public CorrigeerSchorsingErkenningCommandHandler(IAggregateSession aggregateSession)
+    public CorrigeerRedenSchorsingErkenningCommandHandler(IAggregateSession aggregateSession)
     {
         _aggregateSession = aggregateSession;
     }
@@ -20,7 +20,7 @@ public class CorrigeerSchorsingErkenningCommandHandler
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
 
-        vereniging.CorrigeerSchorsingErkenning(envelope.Command.Erkenning, envelope.Metadata.Initiator);
+        vereniging.CorrigeerRedenSchorsingErkenning(envelope.Command.Erkenning, envelope.Metadata.Initiator);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

@@ -74,14 +74,14 @@ public record Erkenning
             Status = ErkenningStatus.Geschorst,
         };
 
-    public Erkenning CreateFromErkenningCorrectie(ErkenningCorrectie erkenningCorrectie)
+    public Erkenning CreateFromErkenningCorrectie(ErkenningWijziging erkenningWijziging)
     {
         return this with
         {
-            ErkenningsPeriode = erkenningCorrectie.ErkenningsPeriode,
-            Hernieuwingsdatum = erkenningCorrectie.Hernieuwingsdatum,
-            HernieuwingsUrl = erkenningCorrectie.HernieuwingsUrl,
-            Status = erkenningCorrectie.Status,
+            ErkenningsPeriode = erkenningWijziging.ErkenningsPeriode,
+            Hernieuwingsdatum = erkenningWijziging.Hernieuwingsdatum,
+            HernieuwingsUrl = erkenningWijziging.HernieuwingsUrl,
+            Status = erkenningWijziging.Status,
         };
     }
 
