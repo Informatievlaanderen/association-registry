@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Wegwijs.Client;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Wegwijs;
 using FluentAssertions;
 using Integrations.Wegwijs.Clients;
+using Integrations.Wegwijs.Services;
 using Resources;
 using Xunit;
 
@@ -31,6 +32,20 @@ public class GetOrganisationByOvoCodeTests
     }
 
     [Fact]
+    public async ValueTask With_Opgevolgd_Door_Ovocode_Then_Returns_Opgevolgd_Door()
+    {
+        var validOvoCode = "OVO002214";
+
+        var response = await _wegwijsClient.GetOrganisationByOvoCode(validOvoCode);
+
+        response.Relations
+                .Single(r => r.RelationId == OrganisatieBevoegdheidService.WordtOpgevolgdDoorRelationId)
+                .RelatedOrganisationOvoNumber
+                .Should()
+                .Be("OVO008382");
+    }
+
+    [Fact]
     public async ValueTask Unknown_OvoCode_Then_Throws_OrganisatieNietGevondenException()
     {
         var invalidOvoCode = "404";
@@ -40,8 +55,8 @@ public class GetOrganisationByOvoCodeTests
         );
 
         exception
-            .Message.Should()
-            .Be(string.Format(ExceptionMessages.OrganisatieNietGevondenException, invalidOvoCode));
+           .Message.Should()
+           .Be(string.Format(ExceptionMessages.OrganisatieNietGevondenException, invalidOvoCode));
     }
 
     [Fact]
@@ -50,7 +65,8 @@ public class GetOrganisationByOvoCodeTests
         var internalServerErrorOvoCode = "500";
 
         await Assert.ThrowsAsync<WegwijsException>(() =>
-            _wegwijsClient.GetOrganisationByOvoCode(internalServerErrorOvoCode)
+                                                       _wegwijsClient.GetOrganisationByOvoCode(
+                                                           internalServerErrorOvoCode)
         );
     }
 }
