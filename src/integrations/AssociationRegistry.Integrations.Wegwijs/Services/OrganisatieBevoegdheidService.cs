@@ -9,7 +9,7 @@ using Responses;
 
 public class OrganisatieBevoegdheidService : IOrganisatieBevoegdheidService
 {
-    private static readonly Guid WordtOpgevolgdDoorRelationId = new("2c68b8eb-55d2-ff8e-3301-f0fb12467df7");
+    public static readonly Guid WordtOpgevolgdDoorRelationId = new("2c68b8eb-55d2-ff8e-3301-f0fb12467df7");
 
     private readonly IWegwijsClient _client;
 
@@ -23,6 +23,15 @@ public class OrganisatieBevoegdheidService : IOrganisatieBevoegdheidService
         if (initiator == geregistreerdDoor)
             return [];
 
+        var opvolgers = await GetOpvolgers(geregistreerdDoor);
+
+        Throw<GiIsNietBevoegd>.If(!opvolgers.Contains(initiator));
+
+        return opvolgers.ToArray();
+    }
+
+    private async Task<List<string>> GetOpvolgers(string geregistreerdDoor)
+    {
         var opvolgers = new List<string>();
         string? volgendOvoCode = geregistreerdDoor;
 
@@ -40,9 +49,7 @@ public class OrganisatieBevoegdheidService : IOrganisatieBevoegdheidService
         {
         }
 
-        Throw<GiIsNietBevoegd>.If(!opvolgers.Contains(initiator));
-
-        return opvolgers.ToArray();
+        return opvolgers;
     }
 
     private async Task<string?> GetDirecteOpvolger(string ovoCode, CancellationToken cancellationToken)
