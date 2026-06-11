@@ -44,6 +44,7 @@ public static class VerenigingZoekDocumentMapping
                 ["isUitgeschrevenUitPubliekeDatastroom"] = new BooleanProperty(),
                 ["isVerwijderd"] = new BooleanProperty(),
                 ["isErkend"] = new BooleanProperty(),
+                ["erkenningen"] = new ObjectProperty { Enabled = false },
                 ["isDubbel"] = new BooleanProperty(),
                 ["jsonLdMetadataType"] = new TextProperty(),
                 ["doelgroep"] = new NestedProperty
