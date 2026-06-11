@@ -1,21 +1,21 @@
 ﻿namespace AssociationRegistry.Test.E2E.Erkenningen.When_Corrigeer_Reden_Schorsings_Erkenning.Beheer.Historiek;
 
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.Mappers;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
+using Events;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.Comparison;
+using Framework.Mappers;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(CorrigeerSchorsingErkenningCollection))]
+[Collection(nameof(CorrigeerRedenSchorsingErkenningCollection))]
 public class Returns_Historiek_Met_Erkenning : End2EndTest<HistoriekResponse>
 {
-    private readonly CorrigeerSchorsingErkenningContext _testContext;
+    private readonly CorrigeerRedenSchorsingErkenningContext _testContext;
 
-    public Returns_Historiek_Met_Erkenning(CorrigeerSchorsingErkenningContext testContext)
+    public Returns_Historiek_Met_Erkenning(CorrigeerRedenSchorsingErkenningContext testContext)
         : base(testContext.ApiSetup)
     {
         _testContext = testContext;

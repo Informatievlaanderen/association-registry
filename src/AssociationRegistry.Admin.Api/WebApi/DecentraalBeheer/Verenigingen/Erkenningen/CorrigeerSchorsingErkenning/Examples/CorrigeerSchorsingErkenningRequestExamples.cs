@@ -3,8 +3,8 @@ namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.Corrigee
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 
-public class CorrigeerSchorsingErkenningRequestExamples : IExamplesProvider<CorrigeerSchorsingErkenningRequest>
+public class CorrigeerSchorsingErkenningRequestExamples : IExamplesProvider<CorrigeerRedenSchorsingErkenningRequest>
 {
-    public CorrigeerSchorsingErkenningRequest GetExamples() =>
+    public CorrigeerRedenSchorsingErkenningRequest GetExamples() =>
         new() { RedenSchorsing = "Niet-naleving van de erkenningsvoorwaarden zoals bepaald in het reglement." };
 }

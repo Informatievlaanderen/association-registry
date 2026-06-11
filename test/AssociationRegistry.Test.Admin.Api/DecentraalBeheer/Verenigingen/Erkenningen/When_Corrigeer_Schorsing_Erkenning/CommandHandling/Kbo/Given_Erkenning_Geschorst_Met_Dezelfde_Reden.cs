@@ -35,10 +35,10 @@ public class Given_Erkenning_Geschorst_Met_Dezelfde_Reden
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
-        var command = _fixture.Create<CorrigeerSchorsingErkenningCommand>() with
+        var command = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenSchorsingErkenning>() with
+            Erkenning = _fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
             {
                 ErkenningId = teSchorsenErkenningId,
                 RedenSchorsing = _scenario.ErkenningWerdGeschorst.RedenSchorsing,
@@ -50,7 +50,9 @@ public class Given_Erkenning_Geschorst_Met_Dezelfde_Reden
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, commandMetadata));
+        await _commandHandler.Handle(
+            new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(command, commandMetadata)
+        );
 
         _verenigingRepositoryMock.ShouldNotHaveAnySaves();
     }

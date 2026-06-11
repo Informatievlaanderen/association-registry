@@ -13,7 +13,7 @@ public class CorrigeerSchorsingValidatorTests : ValidatorTest
     {
         var validator = new CorrigeerSchorsingErkenningValidator();
 
-        var request = new CorrigeerSchorsingErkenningRequest() { RedenSchorsing = "" };
+        var request = new CorrigeerRedenSchorsingErkenningRequest() { RedenSchorsing = "" };
 
         var result = validator.TestValidate(request);
 
@@ -27,7 +27,7 @@ public class CorrigeerSchorsingValidatorTests : ValidatorTest
     {
         var validator = new CorrigeerSchorsingErkenningValidator();
 
-        var request = new CorrigeerSchorsingErkenningRequest() { RedenSchorsing = null };
+        var request = new CorrigeerRedenSchorsingErkenningRequest() { RedenSchorsing = null };
 
         var result = validator.TestValidate(request);
 

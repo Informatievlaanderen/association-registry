@@ -32,10 +32,13 @@ public class Given_Unknown_Erkenning
     {
         var unknownErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId + _fixture.Create<int>();
 
-        var command = _fixture.Create<CorrigeerSchorsingErkenningCommand>() with
+        var command = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenSchorsingErkenning>() with { ErkenningId = unknownErkenningId },
+            Erkenning = _fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
+            {
+                ErkenningId = unknownErkenningId,
+            },
         };
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with
@@ -43,7 +46,7 @@ public class Given_Unknown_Erkenning
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        var commandEnvelope = new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, commandMetadata);
+        var commandEnvelope = new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(command, commandMetadata);
 
         var exception = await Assert.ThrowsAsync<ErkenningIsNietGekend>(async () =>
         {

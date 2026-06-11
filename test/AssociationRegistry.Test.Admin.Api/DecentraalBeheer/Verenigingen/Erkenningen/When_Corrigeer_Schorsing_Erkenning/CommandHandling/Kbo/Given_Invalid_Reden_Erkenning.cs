@@ -35,10 +35,10 @@ public class Given_Invalid_Reden_Erkenning
     {
         var invalidErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
-        var command = _fixture.Create<CorrigeerSchorsingErkenningCommand>() with
+        var command = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenSchorsingErkenning>() with
+            Erkenning = _fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
             {
                 ErkenningId = invalidErkenningId,
                 RedenSchorsing = reden,
@@ -50,7 +50,7 @@ public class Given_Invalid_Reden_Erkenning
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        var commandEnvelope = new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, commandMetadata);
+        var commandEnvelope = new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(command, commandMetadata);
 
         var exception = await Assert.ThrowsAsync<ErkenningRedenSchorsingIsVerplicht>(async () =>
         {

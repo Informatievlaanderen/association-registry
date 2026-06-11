@@ -17,7 +17,7 @@ public record TeSchorsenErkenning
     public string RedenSchorsing { get; set; } = null!;
 }
 
-public record TeCorrigerenSchorsingErkenning
+public record TeCorrigerenRedenSchorsingErkenning
 {
     public int ErkenningId { get; set; }
     public string RedenSchorsing { get; set; } = null!;
@@ -31,7 +31,8 @@ public record TeWijzigenErkenning
         NullOrEmpty<DateOnly> eindDatum,
         NullOrEmpty<DateOnly> hernieuwingsDatum,
         string? hernieuwingsUrl,
-        string redenVanWijziging)
+        string redenVanWijziging
+    )
     {
         ErkenningId = erkenningId;
         StartDatum = startDatum;
@@ -47,17 +48,20 @@ public record TeWijzigenErkenning
         NullOrEmpty<DateOnly> eindDatum,
         NullOrEmpty<DateOnly> hernieuwingsDatum,
         string? hernieuwingsUrl,
-        string redenVanWijziging)
+        string redenVanWijziging
+    )
     {
         if (HeeftGeenTeWijzigenWaarde(startDatum, eindDatum, hernieuwingsDatum, hernieuwingsUrl))
             throw new MinstensEenVeldMoetIngevuldZijn();
 
-        return new TeWijzigenErkenning(erkenningId,
-                                       startDatum,
-                                       eindDatum,
-                                       hernieuwingsDatum,
-                                       hernieuwingsUrl,
-                                       redenVanWijziging);
+        return new TeWijzigenErkenning(
+            erkenningId,
+            startDatum,
+            eindDatum,
+            hernieuwingsDatum,
+            hernieuwingsUrl,
+            redenVanWijziging
+        );
     }
 
     public int ErkenningId { get; set; }
@@ -71,9 +75,6 @@ public record TeWijzigenErkenning
         NullOrEmpty<DateOnly> startDatum,
         NullOrEmpty<DateOnly> eindDatum,
         NullOrEmpty<DateOnly> hernieuwingsDatum,
-        string? hernieuwingsUrl)
-        => startDatum.IsNull &&
-           eindDatum.IsNull &&
-           hernieuwingsUrl is null &&
-           hernieuwingsDatum.IsNull;
+        string? hernieuwingsUrl
+    ) => startDatum.IsNull && eindDatum.IsNull && hernieuwingsUrl is null && hernieuwingsDatum.IsNull;
 }

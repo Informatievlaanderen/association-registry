@@ -32,10 +32,13 @@ public class Given_A_Valid_Command
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
-        var command = _fixture.Create<CorrigeerSchorsingErkenningCommand>() with
+        var command = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenSchorsingErkenning>() with { ErkenningId = teSchorsenErkenningId },
+            Erkenning = _fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
+            {
+                ErkenningId = teSchorsenErkenningId,
+            },
         };
 
         var commandMetadata = _fixture.Create<CommandMetadata>() with
@@ -43,7 +46,9 @@ public class Given_A_Valid_Command
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, commandMetadata));
+        await _commandHandler.Handle(
+            new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(command, commandMetadata)
+        );
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new ErkenningRedenVanSchorsingWerdGecorrigeerd(

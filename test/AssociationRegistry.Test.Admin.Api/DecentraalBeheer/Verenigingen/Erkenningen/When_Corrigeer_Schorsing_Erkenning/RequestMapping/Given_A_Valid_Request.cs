@@ -15,7 +15,7 @@ public class Given_A_Valid_Request
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var request = fixture.Create<CorrigeerSchorsingErkenningRequest>();
+        var request = fixture.Create<CorrigeerRedenSchorsingErkenningRequest>();
 
         var vCode = fixture.Create<VCode>();
         var erkenningId = fixture.Create<int>();
