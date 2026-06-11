@@ -29,12 +29,12 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class CorrigeerSchorsingErkenningController : ApiController
 {
     private readonly IMessageBus _messageBus;
-    private readonly IValidator<CorrigeerSchorsingErkenningRequest> _validator;
+    private readonly IValidator<CorrigeerRedenSchorsingErkenningRequest> _validator;
     private readonly AppSettings _appSettings;
 
     public CorrigeerSchorsingErkenningController(
         IMessageBus messageBus,
-        IValidator<CorrigeerSchorsingErkenningRequest> validator,
+        IValidator<CorrigeerRedenSchorsingErkenningRequest> validator,
         AppSettings appSettings
     )
     {
@@ -65,7 +65,7 @@ public class CorrigeerSchorsingErkenningController : ApiController
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(
-        typeof(CorrigeerSchorsingErkenningRequest),
+        typeof(CorrigeerRedenSchorsingErkenningRequest),
         typeof(CorrigeerSchorsingErkenningRequestExamples)
     )]
     [SwaggerResponseHeader(
@@ -90,7 +90,7 @@ public class CorrigeerSchorsingErkenningController : ApiController
     public async Task<IActionResult> Patch(
         [FromRoute] string vCode,
         [FromRoute] int erkenningId,
-        [FromBody] CorrigeerSchorsingErkenningRequest request,
+        [FromBody] CorrigeerRedenSchorsingErkenningRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null
     )
@@ -98,7 +98,7 @@ public class CorrigeerSchorsingErkenningController : ApiController
         await _validator.NullValidateAndThrowAsync(request);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(
+        var envelope = new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(
             request.ToCommand(vCode, erkenningId),
             metaData
         );

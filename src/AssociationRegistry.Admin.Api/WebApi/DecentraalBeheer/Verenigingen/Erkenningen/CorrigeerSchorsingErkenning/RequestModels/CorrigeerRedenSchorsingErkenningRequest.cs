@@ -6,7 +6,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
 
 [DataContract]
-public record CorrigeerSchorsingErkenningRequest
+public record CorrigeerRedenSchorsingErkenningRequest
 {
     /// <summary>
     /// Reden waarom de erkenning geschorst wordt.
@@ -14,10 +14,10 @@ public record CorrigeerSchorsingErkenningRequest
     [DataMember(Name = "redenSchorsing")]
     public string RedenSchorsing { get; set; }
 
-    public CorrigeerSchorsingErkenningCommand ToCommand(string vCode, int erkenningId) =>
+    public CorrigeerRedenSchorsingErkenningCommand ToCommand(string vCode, int erkenningId) =>
         new(
             VCode.Create(vCode),
-            new DecentraalBeheer.Vereniging.Erkenningen.TeCorrigerenSchorsingErkenning
+            new DecentraalBeheer.Vereniging.Erkenningen.TeCorrigerenRedenSchorsingErkenning
             {
                 ErkenningId = erkenningId,
                 RedenSchorsing = RedenSchorsing,

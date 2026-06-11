@@ -10,7 +10,7 @@ using DecentraalBeheer.Vereniging;
 using Framework.ApiSetup;
 using Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 
-public class CorrigeerSchorsingErkenningRequestFactory : ITestRequestFactory<CorrigeerSchorsingErkenningRequest>
+public class CorrigeerSchorsingErkenningRequestFactory : ITestRequestFactory<CorrigeerRedenSchorsingErkenningRequest>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
 
@@ -21,13 +21,13 @@ public class CorrigeerSchorsingErkenningRequestFactory : ITestRequestFactory<Cor
         _scenario = scenario;
     }
 
-    public async Task<CommandResult<CorrigeerSchorsingErkenningRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<CorrigeerRedenSchorsingErkenningRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
         var vCode = _scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
-        var request = fixture.Create<CorrigeerSchorsingErkenningRequest>();
+        var request = fixture.Create<CorrigeerRedenSchorsingErkenningRequest>();
 
         var response = (
             await apiSetup.AdminApiHost.Scenario(s =>
@@ -50,6 +50,6 @@ public class CorrigeerSchorsingErkenningRequestFactory : ITestRequestFactory<Cor
 
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new CommandResult<CorrigeerSchorsingErkenningRequest>(VCode.Create(vCode), request, sequence);
+        return new CommandResult<CorrigeerRedenSchorsingErkenningRequest>(VCode.Create(vCode), request, sequence);
     }
 }

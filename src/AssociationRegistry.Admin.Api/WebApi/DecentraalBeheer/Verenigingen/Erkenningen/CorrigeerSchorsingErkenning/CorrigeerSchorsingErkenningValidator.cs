@@ -5,7 +5,7 @@ using FluentValidation;
 using RequestModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-public class CorrigeerSchorsingErkenningValidator : AbstractValidator<CorrigeerSchorsingErkenningRequest>
+public class CorrigeerSchorsingErkenningValidator : AbstractValidator<CorrigeerRedenSchorsingErkenningRequest>
 {
     public CorrigeerSchorsingErkenningValidator()
     {

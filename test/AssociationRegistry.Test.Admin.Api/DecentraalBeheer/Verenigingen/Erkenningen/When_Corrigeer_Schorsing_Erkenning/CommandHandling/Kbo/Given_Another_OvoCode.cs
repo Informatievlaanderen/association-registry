@@ -36,15 +36,21 @@ public class Given_Another_OvoCode
     {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
-        var command = _fixture.Create<CorrigeerSchorsingErkenningCommand>() with
+        var command = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
         {
             VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenSchorsingErkenning>() with { ErkenningId = teSchorsenErkenningId },
+            Erkenning = _fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
+            {
+                ErkenningId = teSchorsenErkenningId,
+            },
         };
 
         var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
             await _commandHandler.Handle(
-                new CommandEnvelope<CorrigeerSchorsingErkenningCommand>(command, _fixture.Create<CommandMetadata>())
+                new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(
+                    command,
+                    _fixture.Create<CommandMetadata>()
+                )
             )
         );
 

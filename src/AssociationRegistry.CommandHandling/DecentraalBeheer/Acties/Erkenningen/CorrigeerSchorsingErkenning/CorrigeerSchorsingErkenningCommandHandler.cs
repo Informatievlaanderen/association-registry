@@ -14,7 +14,7 @@ public class CorrigeerSchorsingErkenningCommandHandler
     }
 
     public async Task<CommandResult> Handle(
-        CommandEnvelope<CorrigeerSchorsingErkenningCommand> envelope,
+        CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand> envelope,
         CancellationToken cancellationToken = default
     )
     {

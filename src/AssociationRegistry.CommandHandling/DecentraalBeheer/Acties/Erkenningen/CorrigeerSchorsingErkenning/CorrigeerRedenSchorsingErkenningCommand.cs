@@ -3,7 +3,7 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
-public record CorrigeerSchorsingErkenningCommand(VCode VCode, TeCorrigerenSchorsingErkenning Erkenning)
+public record CorrigeerRedenSchorsingErkenningCommand(VCode VCode, TeCorrigerenRedenSchorsingErkenning Erkenning)
 {
     protected virtual bool PrintMembers(System.Text.StringBuilder builder)
     {

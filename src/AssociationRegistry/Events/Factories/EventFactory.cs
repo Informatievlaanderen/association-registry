@@ -533,8 +533,8 @@ public static class EventFactory
         new(teSchorsenErkenning.ErkenningId, teSchorsenErkenning.RedenSchorsing);
 
     public static ErkenningRedenVanSchorsingWerdGecorrigeerd CorrigeerSchorsingErkenning(
-        TeCorrigerenSchorsingErkenning teCorrigerenSchorsingErkenning
-    ) => new(teCorrigerenSchorsingErkenning.ErkenningId, teCorrigerenSchorsingErkenning.RedenSchorsing);
+        TeCorrigerenRedenSchorsingErkenning teCorrigerenRedenSchorsingErkenning
+    ) => new(teCorrigerenRedenSchorsingErkenning.ErkenningId, teCorrigerenRedenSchorsingErkenning.RedenSchorsing);
 
     public static ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd(Erkenning toegevoegdeErkenning) =>
         new(
