@@ -50,5 +50,11 @@ public class PubliekZoekenHandledEvents
         typeof(SubverenigingRelatieWerdGewijzigd),
         typeof(SubverenigingDetailsWerdenGewijzigd),
         typeof(GeotagsWerdenBepaald),
+        typeof(ErkenningWerdGeregistreerd),
+        typeof(ErkenningWerdGeactiveerd),
+        typeof(ErkenningWerdVerlopen),
+        typeof(ErkenningWerdGeschorst),
+        typeof(ErkenningWerdGewijzigd),
+        typeof(ErkenningWerdVerwijderd),
     ];
 }

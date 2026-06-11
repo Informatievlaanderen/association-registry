@@ -25,6 +25,8 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Status { get; set; } = null!;
     public bool IsVerwijderd { get; set; }
+    public Dictionary<int, string> Erkenningen { get; set; } = new();
+    public bool IsErkend { get; set; }
     public bool IsDubbel { get; set; }
     public Types.Geotag[] Geotags { get; set; } = null!;
 
@@ -130,4 +132,3 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
         }
     }
 }
-
