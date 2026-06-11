@@ -134,6 +134,16 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
         AcmStore = acmStore;
 
+        var esOptions = Configuration.GetElasticSearchOptionsSection();
+
+        await DeleteIndicesIfExists(
+            AdminProjectionElasticClient,
+            esOptions.Indices!.Verenigingen!,
+            esOptions.Indices!.DuplicateDetection!
+        );
+
+        await DeleteIndicesIfExists(PublicProjectionElasticClient, esOptions.Indices!.Verenigingen!);
+
         // Ensure ElasticSearch indices exist
         await ElasticSearchExtensions.EnsureIndicesExistsAsync(
             AdminProjectionElasticClient,
@@ -154,6 +164,16 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         {
             session.Events.Append(eventsPerVCode.VCode, eventsPerVCode.Events);
             await session.SaveChangesAsync();
+        }
+    }
+
+    private static async Task DeleteIndicesIfExists(ElasticsearchClient client, params string[] indices)
+    {
+        foreach (var index in indices)
+        {
+            var exists = await client.Indices.ExistsAsync(index);
+            if (exists.Exists)
+                await client.Indices.DeleteAsync(index);
         }
     }
 

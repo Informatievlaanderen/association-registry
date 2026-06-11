@@ -4,9 +4,9 @@ using DecentraalBeheer.Vereniging.Erkenningen;
 using Scenario.Erkenningen.Zoeken;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_ActieveErkenningWerdVerlopen(
-    PubliekZoekenScenarioFixture<VzerMetActieveErkenningWerdVerlopenScenario> fixture
-) : PubliekZoekenScenarioClassFixture<VzerMetActieveErkenningWerdVerlopenScenario>
+public class Given_ActieveErkenningWerdVerwijderdMetBehoudenVerlopenErkenning(
+    PubliekZoekenScenarioFixture<VzerMetActieveTeVerwijderenErkenningEnBehoudenVerlopenErkenningScenario> fixture
+) : PubliekZoekenScenarioClassFixture<VzerMetActieveTeVerwijderenErkenningEnBehoudenVerlopenErkenningScenario>
 {
     [Fact]
     public void Document_Is_Updated()
@@ -16,7 +16,7 @@ public class Given_ActieveErkenningWerdVerlopen(
             .BeEquivalentTo(
                 new Dictionary<int, string>()
                 {
-                    { fixture.Scenario.ErkenningWerdGeregistreerd.ErkenningId, ErkenningStatus.Verlopen.Value },
+                    { fixture.Scenario.VerlopenErkenningWerdGerigstreerd.ErkenningId, ErkenningStatus.Verlopen.Value },
                 }
             );
     }
