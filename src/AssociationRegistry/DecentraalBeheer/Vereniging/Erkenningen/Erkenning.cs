@@ -74,7 +74,7 @@ public record Erkenning
             Status = ErkenningStatus.Geschorst,
         };
 
-    public Erkenning CreateFromErkenningCorrectie(ErkenningWijziging erkenningWijziging)
+    public Erkenning CreateFromErkenningWijziging(ErkenningWijziging erkenningWijziging)
     {
         return this with
         {
