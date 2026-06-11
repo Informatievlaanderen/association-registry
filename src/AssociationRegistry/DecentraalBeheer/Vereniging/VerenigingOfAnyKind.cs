@@ -670,14 +670,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
 
-        var erkenningCorrectie = ErkenningWijziging.Create(teWijzigenErkenning, huidigeErkenning);
+        var erkenningWijziging = ErkenningWijziging.Create(teWijzigenErkenning, huidigeErkenning);
 
-        var heeftWijzigingen = erkenningCorrectie.HeeftWijzigingen(huidigeErkenning);
+        var heeftWijzigingen = erkenningWijziging.HeeftWijzigingen(huidigeErkenning);
 
         if (!heeftWijzigingen)
             return;
 
-        var gewijzigdeErkenning = huidigeErkenning.CreateFromErkenningWijziging(erkenningCorrectie);
+        var gewijzigdeErkenning = huidigeErkenning.CreateFromErkenningWijziging(erkenningWijziging);
         State.Erkenningen.KanGewijzigdeErkenningToevoegen(gewijzigdeErkenning);
 
         AddEvent(EventFactory.ErkenningWerdGewijzigd(gewijzigdeErkenning, teWijzigenErkenning.RedenVanWijziging));
