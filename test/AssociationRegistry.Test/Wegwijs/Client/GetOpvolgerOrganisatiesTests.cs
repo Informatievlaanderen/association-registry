@@ -52,4 +52,13 @@ public class GetOpvolgerOrganisatiesTests
     {
         await Assert.ThrowsAsync<WegwijsException>(() => _wegwijsClient.GetOpvolgerOrganisaties("500"));
     }
+
+    [Fact]
+    public async Task With_Single_Opvolger_But_Deadlock_Then_Returns_List_With_One_OvoCode()
+    {
+        var opvolgers = await _wegwijsClient.GetOpvolgerOrganisaties("OVO_CHAIN_DEADLOCK");
+
+        opvolgers.Should().ContainSingle().Which.Should().Be("OVO_CHAIN_DEADLOCK");
+    }
+
 }
