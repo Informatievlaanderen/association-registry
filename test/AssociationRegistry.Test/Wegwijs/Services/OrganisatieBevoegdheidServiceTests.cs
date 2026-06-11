@@ -3,6 +3,7 @@
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using FluentAssertions;
 using Integrations.Wegwijs.Clients;
+using Integrations.Wegwijs.Responses;
 using Integrations.Wegwijs.Services;
 using Moq;
 using Resources;
@@ -22,11 +23,11 @@ public class OrganisatieBevoegdheidServiceTests
     [Fact]
     public async Task With_Same_OvoCode_Then_No_Api_Call_Is_Made()
     {
-        var result = await _service.IsGemachtigdeOrganisatie("OVO001000", "OVO001000");
+        var result = await _service.GetGemachtigdeOrganisaties("OVO001000", "OVO001000");
 
         result.Should().BeEmpty();
         _clientMock.Verify(
-            c => c.GetOpvolgerOrganisaties(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            c => c.GetOrganisationByOvoCode(It.IsAny<string>(), It.IsAny<CancellationToken>()),
             Times.Never
         );
     }
@@ -35,10 +36,14 @@ public class OrganisatieBevoegdheidServiceTests
     public async Task With_Initiator_From_OpvolgerOrganisatie_Then_Returns_Opvolgers()
     {
         _clientMock
-            .Setup(c => c.GetOpvolgerOrganisaties("OVO001000", It.IsAny<CancellationToken>()))
-            .ReturnsAsync(["OVO002000"]);
+            .Setup(c => c.GetOrganisationByOvoCode("OVO001000", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(OrganisationWithOpvolger("OVO002000"));
 
-        var result = await _service.IsGemachtigdeOrganisatie("OVO002000", "OVO001000");
+        _clientMock
+            .Setup(c => c.GetOrganisationByOvoCode("OVO002000", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(OrganisationWithoutOpvolger());
+
+        var result = await _service.GetGemachtigdeOrganisaties("OVO002000", "OVO001000");
 
         result.Should().ContainSingle().Which.Should().Be("OVO002000");
     }
@@ -47,10 +52,18 @@ public class OrganisatieBevoegdheidServiceTests
     public async Task With_Initiator_As_Indirecte_Opvolger_Then_Returns_Opvolgers()
     {
         _clientMock
-            .Setup(c => c.GetOpvolgerOrganisaties("OVO001000", It.IsAny<CancellationToken>()))
-            .ReturnsAsync(["OVO002000", "OVO003000"]);
+            .Setup(c => c.GetOrganisationByOvoCode("OVO001000", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(OrganisationWithOpvolger("OVO002000"));
 
-        var result = await _service.IsGemachtigdeOrganisatie("OVO003000", "OVO001000");
+        _clientMock
+            .Setup(c => c.GetOrganisationByOvoCode("OVO002000", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(OrganisationWithOpvolger("OVO003000"));
+
+        _clientMock
+            .Setup(c => c.GetOrganisationByOvoCode("OVO003000", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(OrganisationWithoutOpvolger());
+
+        var result = await _service.GetGemachtigdeOrganisaties("OVO003000", "OVO001000");
 
         result.Should().ContainInOrder("OVO002000", "OVO003000");
     }
@@ -59,11 +72,15 @@ public class OrganisatieBevoegdheidServiceTests
     public async Task With_Initiator_Not_In_Opvolgers_Then_Throws_GiIsNietBevoegd()
     {
         _clientMock
-            .Setup(c => c.GetOpvolgerOrganisaties("OVO001000", It.IsAny<CancellationToken>()))
-            .ReturnsAsync(["OVO002000"]);
+            .Setup(c => c.GetOrganisationByOvoCode("OVO001000", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(OrganisationWithOpvolger("OVO002000"));
+
+        _clientMock
+            .Setup(c => c.GetOrganisationByOvoCode("OVO002000", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(OrganisationWithoutOpvolger());
 
         var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
-            await _service.IsGemachtigdeOrganisatie("OVO999999", "OVO001000")
+            await _service.GetGemachtigdeOrganisaties("OVO999999", "OVO001000")
         );
 
         exception.Message.Should().Be(ExceptionMessages.GiIsNietBevoegd);
@@ -72,12 +89,29 @@ public class OrganisatieBevoegdheidServiceTests
     [Fact]
     public async Task With_No_Opvolgers_And_Different_OvoCode_Then_Throws_GiIsNietBevoegd()
     {
-        _clientMock.Setup(c => c.GetOpvolgerOrganisaties("OVO001000", It.IsAny<CancellationToken>())).ReturnsAsync([]);
+        _clientMock
+            .Setup(c => c.GetOrganisationByOvoCode("OVO001000", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(OrganisationWithoutOpvolger());
 
         var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
-            await _service.IsGemachtigdeOrganisatie("OVO999999", "OVO001000")
+            await _service.GetGemachtigdeOrganisaties("OVO999999", "OVO001000")
         );
 
         exception.Message.Should().Be(ExceptionMessages.GiIsNietBevoegd);
     }
+
+    private static OrganisationResponse OrganisationWithoutOpvolger() => new();
+
+    private static OrganisationResponse OrganisationWithOpvolger(string opvolgerOvoCode) =>
+        new()
+        {
+            Relations =
+            [
+                new OrganisationRelation
+                {
+                    RelationId = new Guid("2c68b8eb-55d2-ff8e-3301-f0fb12467df7"),
+                    RelatedOrganisationOvoNumber = opvolgerOvoCode,
+                },
+            ],
+        };
 }
