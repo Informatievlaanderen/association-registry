@@ -1,26 +1,24 @@
 namespace AssociationRegistry.Test.Projections.Scenario.Erkenningen.Zoeken;
 
 using AutoFixture;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 
-public class VzerMetGeschorsteErkenningWerdOpgehevenNaarVerlopenScenario : ScenarioBase
+public class VzerMetActieveErkenningWerdOpgehevenNaarVerlopenScenario : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
     public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd { get; }
-    public ErkenningWerdGeschorst ErkenningWerdGeschorst { get; }
-    public ErkenningWerdVerlopen ErkenningWerdVerlopen { get; }
+    public ErkenningWerdGeactiveerd ErkenningWerdGeactiveerd { get; }
     public SchorsingVanErkenningWerdOpgeheven SchorsingVanErkenningWerdOpgeheven { get; }
 
-    public VzerMetGeschorsteErkenningWerdOpgehevenNaarVerlopenScenario()
+    public VzerMetActieveErkenningWerdOpgehevenNaarVerlopenScenario()
     {
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
         ErkenningWerdGeregistreerd = AutoFixture.Create<ErkenningWerdGeregistreerd>();
 
-        ErkenningWerdVerlopen = AutoFixture.Create<ErkenningWerdVerlopen>();
-
-        ErkenningWerdGeschorst = AutoFixture.Create<ErkenningWerdGeschorst>() with
+        ErkenningWerdGeactiveerd = AutoFixture.Create<ErkenningWerdGeactiveerd>() with
         {
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
         };
@@ -28,6 +26,7 @@ public class VzerMetGeschorsteErkenningWerdOpgehevenNaarVerlopenScenario : Scena
         SchorsingVanErkenningWerdOpgeheven = AutoFixture.Create<SchorsingVanErkenningWerdOpgeheven>() with
         {
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
+            Status = ErkenningStatus.Verlopen.Value,
         };
     }
 
@@ -39,8 +38,7 @@ public class VzerMetGeschorsteErkenningWerdOpgehevenNaarVerlopenScenario : Scena
                 AggregateId,
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
                 ErkenningWerdGeregistreerd,
-                ErkenningWerdVerlopen,
-                ErkenningWerdGeschorst,
+                ErkenningWerdGeactiveerd,
                 SchorsingVanErkenningWerdOpgeheven
             ),
         ];

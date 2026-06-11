@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Projections.Scenario.Erkenningen.Zoeken;
 
 using AutoFixture;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 
 public class VzerMetGeschorsteErkenningWerdOpgehevenNaarActiefScenario : ScenarioBase
@@ -8,7 +9,6 @@ public class VzerMetGeschorsteErkenningWerdOpgehevenNaarActiefScenario : Scenari
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
     public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd { get; }
     public ErkenningWerdGeschorst ErkenningWerdGeschorst { get; }
-    public ErkenningWerdGeactiveerd ErkenningWerdGeactiveerd { get; }
     public SchorsingVanErkenningWerdOpgeheven SchorsingVanErkenningWerdOpgeheven { get; }
 
     public VzerMetGeschorsteErkenningWerdOpgehevenNaarActiefScenario()
@@ -18,8 +18,6 @@ public class VzerMetGeschorsteErkenningWerdOpgehevenNaarActiefScenario : Scenari
 
         ErkenningWerdGeregistreerd = AutoFixture.Create<ErkenningWerdGeregistreerd>();
 
-        ErkenningWerdGeactiveerd = AutoFixture.Create<ErkenningWerdGeactiveerd>();
-
         ErkenningWerdGeschorst = AutoFixture.Create<ErkenningWerdGeschorst>() with
         {
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
@@ -28,6 +26,7 @@ public class VzerMetGeschorsteErkenningWerdOpgehevenNaarActiefScenario : Scenari
         SchorsingVanErkenningWerdOpgeheven = AutoFixture.Create<SchorsingVanErkenningWerdOpgeheven>() with
         {
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
+            Status = ErkenningStatus.Actief.Value,
         };
     }
 
@@ -39,7 +38,6 @@ public class VzerMetGeschorsteErkenningWerdOpgehevenNaarActiefScenario : Scenari
                 AggregateId,
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
                 ErkenningWerdGeregistreerd,
-                ErkenningWerdGeactiveerd,
                 ErkenningWerdGeschorst,
                 SchorsingVanErkenningWerdOpgeheven
             ),

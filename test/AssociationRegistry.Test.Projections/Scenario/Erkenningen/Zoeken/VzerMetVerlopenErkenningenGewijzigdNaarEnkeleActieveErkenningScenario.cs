@@ -4,15 +4,15 @@ using AutoFixture;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 
-public class VerenigingMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenningScenario : ScenarioBase
+public class VzerMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenningScenario : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
 
     public ErkenningWerdGeregistreerd VerlopenErkenningWerdGerigstreerd { get; }
-    public ErkenningWerdGeregistreerd TeActiverenVerlopenErkenningErkenningWerdGeregistreerd { get; }
+    public ErkenningWerdGeregistreerd TeActiverenVerlopenErkenningWerdGeregistreerd { get; }
     public ErkenningWerdGeactiveerd TeActiverenVerlopenErkenningErkenningWerdGeactiveerd { get; }
 
-    public VerenigingMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenningScenario()
+    public VzerMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenningScenario()
     {
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
@@ -22,14 +22,14 @@ public class VerenigingMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenning
             Status = ErkenningStatus.Verlopen.Value,
         };
 
-        TeActiverenVerlopenErkenningErkenningWerdGeregistreerd = AutoFixture.Create<ErkenningWerdGeregistreerd>() with
+        TeActiverenVerlopenErkenningWerdGeregistreerd = AutoFixture.Create<ErkenningWerdGeregistreerd>() with
         {
             Status = ErkenningStatus.Verlopen.Value,
         };
 
         TeActiverenVerlopenErkenningErkenningWerdGeactiveerd = AutoFixture.Create<ErkenningWerdGeactiveerd>() with
         {
-            ErkenningId = TeActiverenVerlopenErkenningErkenningWerdGeregistreerd.ErkenningId,
+            ErkenningId = TeActiverenVerlopenErkenningWerdGeregistreerd.ErkenningId,
         };
     }
 
@@ -41,7 +41,7 @@ public class VerenigingMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenning
                 AggregateId,
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
                 VerlopenErkenningWerdGerigstreerd,
-                TeActiverenVerlopenErkenningErkenningWerdGeregistreerd,
+                TeActiverenVerlopenErkenningWerdGeregistreerd,
                 TeActiverenVerlopenErkenningErkenningWerdGeactiveerd
             ),
         ];

@@ -677,6 +677,12 @@ public class PubliekZoekProjectionHandler
         document.IsErkend = document.Erkenningen.Values.Any(x => x == ErkenningStatus.Actief.Value);
     }
 
+    public void Handle(EventEnvelope<SchorsingVanErkenningWerdOpgeheven> @event, VerenigingZoekDocument document)
+    {
+        document.Erkenningen[@event.Data.ErkenningId] = @event.Data.Status;
+        document.IsErkend = document.Erkenningen.Values.Any(x => x == ErkenningStatus.Actief.Value);
+    }
+
     private static VerenigingZoekDocument.Types.Lidmaatschap Map(
         Registratiedata.Lidmaatschap lidmaatschap,
         string vCode

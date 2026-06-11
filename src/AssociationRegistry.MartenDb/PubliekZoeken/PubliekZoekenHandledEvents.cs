@@ -56,5 +56,6 @@ public class PubliekZoekenHandledEvents
         typeof(ErkenningWerdGeschorst),
         typeof(ErkenningWerdGewijzigd),
         typeof(ErkenningWerdVerwijderd),
+        typeof(SchorsingVanErkenningWerdOpgeheven),
     ];
 }

@@ -60,5 +60,6 @@ public class BeheerZoekenHandledEvents
         typeof(ErkenningWerdGeschorst),
         typeof(ErkenningWerdGewijzigd),
         typeof(ErkenningWerdVerwijderd),
+        typeof(SchorsingVanErkenningWerdOpgeheven),
     ];
 }

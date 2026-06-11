@@ -707,6 +707,12 @@ public class BeheerZoekProjectionHandler
         document.IsErkend = document.Erkenningen.Values.Any(x => x == ErkenningStatus.Actief.Value);
     }
 
+    public void Handle(EventEnvelope<SchorsingVanErkenningWerdOpgeheven> @event, VerenigingZoekDocument document)
+    {
+        document.Erkenningen[@event.Data.ErkenningId] = @event.Data.Status;
+        document.IsErkend = document.Erkenningen.Values.Any(x => x == ErkenningStatus.Actief.Value);
+    }
+
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values) =>
         new() { Id = jsonLdType.CreateWithIdValues(values), Type = jsonLdType.Type };
 

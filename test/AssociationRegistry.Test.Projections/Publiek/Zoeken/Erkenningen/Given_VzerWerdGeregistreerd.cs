@@ -1,18 +1,16 @@
 namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Erkenningen;
 
-using Scenario.Erkenningen.Zoeken;
+using Scenario.Registratie;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VzerWerdGeregistreerd(
-    PubliekZoekenScenarioFixture<VzerZonderErkenningWerdGeregistreerdScenario> fixture
-) : PubliekZoekenScenarioClassFixture<VzerZonderErkenningWerdGeregistreerdScenario>
+    PubliekZoekenScenarioFixture<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario> fixture
+) : PubliekZoekenScenarioClassFixture<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario>
 {
     [Fact]
     public void Document_Is_Updated()
     {
-        var erkenning = fixture.Scenario.ErkenningWerdGeregistreerd;
-        var erkenningId = erkenning.ErkenningId;
-        fixture.Result.Erkenningen.Where(x => x.Key == erkenningId).Should().BeNullOrEmpty();
+        fixture.Result.Erkenningen.Should().BeEmpty();
     }
 
     [Fact]

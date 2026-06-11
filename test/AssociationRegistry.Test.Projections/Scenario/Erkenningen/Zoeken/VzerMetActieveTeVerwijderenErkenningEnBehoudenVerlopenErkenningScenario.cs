@@ -4,7 +4,7 @@ using AutoFixture;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 
-public class VerenigingMetActieveEnVerlopenErkenningActieveErkenningWerdVerwijderdScenario : ScenarioBase
+public class VzerMetActieveTeVerwijderenErkenningEnBehoudenVerlopenErkenningScenario : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
 
@@ -12,7 +12,7 @@ public class VerenigingMetActieveEnVerlopenErkenningActieveErkenningWerdVerwijde
     public ErkenningWerdGeregistreerd TeVerwijderenActieveErkenningWerdVerwijderd { get; }
     public ErkenningWerdVerwijderd ErkenningWerdVerwijderd { get; }
 
-    public VerenigingMetActieveEnVerlopenErkenningActieveErkenningWerdVerwijderdScenario()
+    public VzerMetActieveTeVerwijderenErkenningEnBehoudenVerlopenErkenningScenario()
     {
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();

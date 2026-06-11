@@ -11,11 +11,14 @@ public class Given_ErkenningWerdGewijzigdNaarActieveErkenning(
     [Fact]
     public void Document_Is_Updated()
     {
-        var erkenning = fixture.Scenario.ErkenningWerdGeregistreerd;
-        var erkenningId = erkenning.ErkenningId;
-        var actual = fixture.Result.Erkenningen.First(x => x.Key == erkenningId);
-
-        actual.Value.Should().BeEquivalentTo(ErkenningStatus.Actief.Value);
+        fixture
+            .Result.Erkenningen.Should()
+            .BeEquivalentTo(
+                new Dictionary<int, string>()
+                {
+                    { fixture.Scenario.ErkenningWerdGeregistreerd.ErkenningId, ErkenningStatus.Actief.Value },
+                }
+            );
     }
 
     [Fact]
