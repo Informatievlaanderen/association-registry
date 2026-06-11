@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
 using System.Net;
 using Admin.Api.Infrastructure;
-using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning.RequestModels;
+using Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerRedenSchorsingErkenning.RequestModels;
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;

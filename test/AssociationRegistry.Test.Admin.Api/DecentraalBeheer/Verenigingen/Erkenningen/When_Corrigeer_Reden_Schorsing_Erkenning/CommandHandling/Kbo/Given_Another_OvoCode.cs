@@ -1,22 +1,20 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Schorsing_Erkenning.CommandHandling.Kbo;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Reden_Schorsing_Erkenning.CommandHandling.Kbo;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Resources;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using Events;
 using FluentAssertions;
-using Resources;
 using Xunit;
 
 public class Given_Another_OvoCode
 {
-    private readonly CorrigeerSchorsingErkenningCommandHandler _commandHandler;
+    private readonly CorrigeerRedenSchorsingErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
@@ -28,7 +26,7 @@ public class Given_Another_OvoCode
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario();
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        _commandHandler = new CorrigeerSchorsingErkenningCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new CorrigeerRedenSchorsingErkenningCommandHandler(_verenigingRepositoryMock);
     }
 
     [Fact]

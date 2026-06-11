@@ -27,7 +27,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             StartDatum = NullOrEmpty<DateOnly>.Null,
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.Status.Should().Be(ErkenningStatus.Geschorst);
     }
@@ -43,7 +43,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             StartDatum = NullOrEmpty<DateOnly>.Null,
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.ErkenningsPeriode.Startdatum.Should().Be(erkenning.ErkenningsPeriode.Startdatum);
     }
@@ -59,7 +59,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             StartDatum = NullOrEmpty<DateOnly>.Empty,
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.ErkenningsPeriode.Startdatum.Should().BeNull();
     }
@@ -75,7 +75,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             StartDatum = NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 2, 1)),
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.ErkenningsPeriode.Startdatum.Should().Be(teWijzigenErkenning.StartDatum.Value);
     }
@@ -91,7 +91,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             EindDatum = NullOrEmpty<DateOnly>.Null,
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.ErkenningsPeriode.Einddatum.Should().Be(erkenning.ErkenningsPeriode.Einddatum);
     }
@@ -107,7 +107,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             EindDatum = NullOrEmpty<DateOnly>.Empty,
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.ErkenningsPeriode.Einddatum.Should().BeNull();
     }
@@ -123,7 +123,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             EindDatum = NullOrEmpty<DateOnly>.Create(new DateOnly(2027, 12, 1)),
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.ErkenningsPeriode.Einddatum.Should().Be(teWijzigenErkenning.EindDatum.Value);
     }
@@ -139,7 +139,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.Hernieuwingsdatum.Should().Be(erkenning.Hernieuwingsdatum);
     }
@@ -155,7 +155,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Empty,
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.Hernieuwingsdatum.Value.Should().BeNull();
     }
@@ -171,7 +171,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Create(new DateOnly(2026, 5, 1)),
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.Hernieuwingsdatum.Value.Should().Be(teWijzigenErkenning.Hernieuwingsdatum.Value);
     }
@@ -187,7 +187,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             HernieuwingsUrl = null,
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.HernieuwingsUrl.Should().Be(erkenning.HernieuwingsUrl);
     }
@@ -203,7 +203,7 @@ public class Given_Alle_Te_Wijzigen_Waarden
             HernieuwingsUrl = string.Empty,
         };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.HernieuwingsUrl.Value.Should().Be(teWijzigenErkenning.HernieuwingsUrl);
     }
@@ -213,17 +213,14 @@ public class Given_Alle_Te_Wijzigen_Waarden
     {
         var erkenning = MaakStateErkenning();
 
-        var teWijzigenErkenning = MaakTeWijzigenErkenning() with
-        {
-            ErkenningId = erkenning.ErkenningId,
-        };
+        var teWijzigenErkenning = MaakTeWijzigenErkenning() with { ErkenningId = erkenning.ErkenningId };
 
-        var result = ErkenningCorrectie.Create(teWijzigenErkenning, erkenning);
+        var result = ErkenningWijziging.Create(teWijzigenErkenning, erkenning);
 
         result.HernieuwingsUrl.Value.Should().Be(teWijzigenErkenning.HernieuwingsUrl);
     }
 
-    private  Erkenning MaakStateErkenning()
+    private Erkenning MaakStateErkenning()
     {
         var periode = ErkenningsPeriode.Create(new DateOnly(2026, 1, 1), new DateOnly(2026, 12, 31));
 

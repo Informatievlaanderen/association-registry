@@ -637,7 +637,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.HefSchorsingErkenningOp(huidigeErkenning.ErkenningId, status));
     }
 
-    public void CorrigeerSchorsingErkenning(
+    public void CorrigeerRedenSchorsingErkenning(
         TeCorrigerenRedenSchorsingErkenning teCorrigerenRedenSchorsingErkenning,
         string initiator
     )
@@ -658,7 +658,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             return;
         }
 
-        AddEvent(EventFactory.CorrigeerSchorsingErkenning(teCorrigerenRedenSchorsingErkenning));
+        AddEvent(EventFactory.CorrigeerRedenSchorsingErkenning(teCorrigerenRedenSchorsingErkenning));
     }
 
     public void WijzigErkenning(TeWijzigenErkenning teWijzigenErkenning, string initiator)
@@ -670,7 +670,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
 
-        var erkenningCorrectie = ErkenningCorrectie.Create(teWijzigenErkenning, huidigeErkenning);
+        var erkenningCorrectie = ErkenningWijziging.Create(teWijzigenErkenning, huidigeErkenning);
 
         var heeftWijzigingen = erkenningCorrectie.HeeftWijzigingen(huidigeErkenning);
 

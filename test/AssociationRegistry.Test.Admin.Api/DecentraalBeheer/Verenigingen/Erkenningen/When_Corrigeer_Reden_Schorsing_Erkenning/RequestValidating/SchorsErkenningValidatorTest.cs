@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Schorsing_Erkenning.RequestValidating;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Reden_Schorsing_Erkenning.RequestValidating;
 
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning;
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning.RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerRedenSchorsingErkenning;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerRedenSchorsingErkenning.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 
 public class CorrigeerSchorsingValidatorTests : ValidatorTest
@@ -11,7 +11,7 @@ public class CorrigeerSchorsingValidatorTests : ValidatorTest
     [Fact]
     public void With_RedenSchorsing_Empty_Then_ValidationError()
     {
-        var validator = new CorrigeerSchorsingErkenningValidator();
+        var validator = new CorrigeerRedenSchorsingErkenningValidator();
 
         var request = new CorrigeerRedenSchorsingErkenningRequest() { RedenSchorsing = "" };
 
@@ -25,7 +25,7 @@ public class CorrigeerSchorsingValidatorTests : ValidatorTest
     [Fact]
     public void With_RedenSchorsing_Null_Then_ValidationError()
     {
-        var validator = new CorrigeerSchorsingErkenningValidator();
+        var validator = new CorrigeerRedenSchorsingErkenningValidator();
 
         var request = new CorrigeerRedenSchorsingErkenningRequest() { RedenSchorsing = null };
 

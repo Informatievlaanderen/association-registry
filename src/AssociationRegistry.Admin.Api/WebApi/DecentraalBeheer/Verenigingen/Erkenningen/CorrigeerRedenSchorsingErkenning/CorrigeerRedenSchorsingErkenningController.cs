@@ -1,20 +1,19 @@
-﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerSchorsingErkenning;
+﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerRedenSchorsingErkenning;
 
 using Asp.Versioning;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
+using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Framework;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
-using DecentraalBeheer.Vereniging;
 using Examples;
-using Extensions;
 using FluentValidation;
-using Framework;
-using Hosts.Configuration.ConfigurationBindings;
-using Infrastructure;
-using Infrastructure.CommandMiddleware;
-using Infrastructure.WebApi.Swagger.Annotations;
-using Infrastructure.WebApi.Swagger.Examples;
-using Infrastructure.WebApi.Validation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
@@ -26,25 +25,22 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
-public class CorrigeerSchorsingErkenningController : ApiController
+public class CorrigeerRedenSchorsingErkenningController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly IValidator<CorrigeerRedenSchorsingErkenningRequest> _validator;
-    private readonly AppSettings _appSettings;
 
-    public CorrigeerSchorsingErkenningController(
+    public CorrigeerRedenSchorsingErkenningController(
         IMessageBus messageBus,
-        IValidator<CorrigeerRedenSchorsingErkenningRequest> validator,
-        AppSettings appSettings
+        IValidator<CorrigeerRedenSchorsingErkenningRequest> validator
     )
     {
         _messageBus = messageBus;
         _validator = validator;
-        _appSettings = appSettings;
     }
 
     /// <summary>
-    ///    Corrigeer de Schorsing van een erkenning.
+    ///    Corrigeer de reden van schorsing van een erkenning.
     /// </summary>
     /// <remarks>
     ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
@@ -57,7 +53,7 @@ public class CorrigeerSchorsingErkenningController : ApiController
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen correcties.</response>
-    /// <response code="202">De erkenning werd geschorst.</response>
+    /// <response code="202">De reden van schorsing van een erkenning werd gecorrigeerd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
@@ -66,7 +62,7 @@ public class CorrigeerSchorsingErkenningController : ApiController
     [ProducesJson]
     [SwaggerRequestExample(
         typeof(CorrigeerRedenSchorsingErkenningRequest),
-        typeof(CorrigeerSchorsingErkenningRequestExamples)
+        typeof(CorrigeerRedenSchorsingErkenningRequestExamples)
     )]
     [SwaggerResponseHeader(
         StatusCodes.Status202Accepted,
