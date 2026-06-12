@@ -1,3 +1,12 @@
+## [8.328.1](https://github.com/informatievlaanderen/association-registry/compare/v8.328.0...v8.328.1) (2026-06-12)
+
+
+### Bug Fixes
+
+* correct beheer api documentation and request for bankrekeningnummers ([9db290a](https://github.com/informatievlaanderen/association-registry/commit/9db290a9b3221baaab2ac34481747411b487f6fa))
+* correct beheer api documentation and request for erkenningen ([8557529](https://github.com/informatievlaanderen/association-registry/commit/8557529d57d40ffa7a282e2d72608bbd66bd1e4e))
+* undo removing ProducesJson ([2d9f92b](https://github.com/informatievlaanderen/association-registry/commit/2d9f92ba6639155d3a2aa15711761d37aa262423))
+
 # [8.328.0](https://github.com/informatievlaanderen/association-registry/compare/v8.327.1...v8.328.0) (2026-06-11)
 
 
