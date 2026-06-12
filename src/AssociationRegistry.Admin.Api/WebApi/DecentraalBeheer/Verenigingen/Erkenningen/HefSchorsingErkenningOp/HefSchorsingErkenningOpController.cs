@@ -47,6 +47,7 @@ public class HefSchorsingErkenningOpController : ApiController
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpDelete("{vCode}/erkenningen/{erkenningId}/schorsingen")]
+    [ProducesJson]
     [SwaggerResponseHeader(
         StatusCodes.Status202Accepted,
         WellknownHeaderNames.Sequence,

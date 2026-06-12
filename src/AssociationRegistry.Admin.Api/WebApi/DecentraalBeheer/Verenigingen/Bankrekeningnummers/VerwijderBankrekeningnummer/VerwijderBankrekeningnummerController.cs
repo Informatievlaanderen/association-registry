@@ -47,6 +47,7 @@ public class VerwijderBankrekeningnummerController : ApiController
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpDelete("{vCode}/bankrekeningnummers/{bankrekeningnummerId:int}")]
+    [ProducesJson]
     [SwaggerResponseHeader(
         StatusCodes.Status202Accepted,
         WellknownHeaderNames.Sequence,
