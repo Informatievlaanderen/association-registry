@@ -12,7 +12,7 @@ public record SchorsErkenningRequest
     /// Reden waarom de erkenning geschorst wordt.
     /// </summary>
     [DataMember(Name = "redenSchorsing")]
-    public string RedenSchorsing { get; set; }
+    public string RedenSchorsing { get; set; } = null!;
 
     public SchorsErkenningCommand ToCommand(string vCode, int erkenningId) =>
         new(

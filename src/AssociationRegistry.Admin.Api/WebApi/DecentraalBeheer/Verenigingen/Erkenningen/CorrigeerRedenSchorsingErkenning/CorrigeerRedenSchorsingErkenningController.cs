@@ -1,19 +1,19 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerRedenSchorsingErkenning;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
+using DecentraalBeheer.Vereniging;
 using Examples;
+using Extensions;
 using FluentValidation;
+using Framework;
+using Infrastructure;
+using Infrastructure.CommandMiddleware;
+using Infrastructure.WebApi.Swagger.Annotations;
+using Infrastructure.WebApi.Swagger.Examples;
+using Infrastructure.WebApi.Validation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
@@ -49,7 +49,7 @@ public class CorrigeerRedenSchorsingErkenningController : ApiController
     /// </remarks>
     /// <param name="vCode">De vCode van de vereniging.</param>
     /// <param name="erkenningId">De id van de erkenning.</param>
-    /// <param name="request"></param>
+    /// <param name="request">De gecorrigeerde reden van de schorsing.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen correcties.</response>
@@ -79,6 +79,7 @@ public class CorrigeerRedenSchorsingErkenningController : ApiController
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]

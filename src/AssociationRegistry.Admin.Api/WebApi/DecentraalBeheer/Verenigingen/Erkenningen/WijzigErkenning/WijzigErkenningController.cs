@@ -9,7 +9,6 @@ using Examples;
 using Extensions;
 using FluentValidation;
 using Framework;
-using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using Infrastructure.CommandMiddleware;
 using Infrastructure.WebApi.Swagger.Annotations;
@@ -30,17 +29,11 @@ public class WijzigErkenningController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly IValidator<WijzigErkenningRequest> _validator;
-    private readonly AppSettings _appSettings;
 
-    public WijzigErkenningController(
-        IMessageBus messageBus,
-        IValidator<WijzigErkenningRequest> validator,
-        AppSettings appSettings
-    )
+    public WijzigErkenningController(IMessageBus messageBus, IValidator<WijzigErkenningRequest> validator)
     {
         _messageBus = messageBus;
         _validator = validator;
-        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -53,7 +46,7 @@ public class WijzigErkenningController : ApiController
     /// </remarks>
     /// <param name="vCode">De vCode van de vereniging.</param>
     /// <param name="erkenningId">De id van de erkenning.</param>
-    /// <param name="request"></param>
+    /// <param name="request">De te wijzigen gegevens van de erkenning.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen.</response>

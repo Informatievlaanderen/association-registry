@@ -8,10 +8,10 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 public record CorrigeerRedenSchorsingErkenningRequest
 {
     /// <summary>
-    /// Reden waarom de erkenning geschorst wordt.
+    /// Gecorrigeerde reden van de schorsing.
     /// </summary>
     [DataMember(Name = "redenSchorsing")]
-    public string RedenSchorsing { get; set; }
+    public string RedenSchorsing { get; set; } = null!;
 
     public CorrigeerRedenSchorsingErkenningCommand ToCommand(string vCode, int erkenningId) =>
         new(

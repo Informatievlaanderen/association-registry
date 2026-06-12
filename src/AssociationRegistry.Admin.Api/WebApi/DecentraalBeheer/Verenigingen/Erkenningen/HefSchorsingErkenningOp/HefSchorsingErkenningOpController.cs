@@ -7,7 +7,6 @@ using CommandHandling.DecentraalBeheer.Acties.Erkenningen.HefSchorsingErkenningO
 using DecentraalBeheer.Vereniging;
 using Extensions;
 using Framework;
-using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using Infrastructure.CommandMiddleware;
 using Infrastructure.WebApi.Swagger.Annotations;
@@ -25,12 +24,10 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class HefSchorsingErkenningOpController : ApiController
 {
     private readonly IMessageBus _messageBus;
-    private readonly AppSettings _appSettings;
 
-    public HefSchorsingErkenningOpController(IMessageBus messageBus, AppSettings appSettings)
+    public HefSchorsingErkenningOpController(IMessageBus messageBus)
     {
         _messageBus = messageBus;
-        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -45,13 +42,11 @@ public class HefSchorsingErkenningOpController : ApiController
     /// <param name="erkenningId">De id van de erkenning.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
-    /// <response code="202">De erkenning werd geschorst.</response>
+    /// <response code="202">De schorsing van de erkenning werd opgeheven.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpDelete("{vCode}/erkenningen/{erkenningId}/schorsingen")]
-    [ConsumesJson]
-    [ProducesJson]
     [SwaggerResponseHeader(
         StatusCodes.Status202Accepted,
         WellknownHeaderNames.Sequence,

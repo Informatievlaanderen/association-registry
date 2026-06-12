@@ -40,7 +40,6 @@ public class VerwijderErkenningController : ApiController
     /// </remarks>
     /// <param name="vCode">De vCode van de vereniging.</param>
     /// <param name="erkenningId">De id van de erkenning.</param>
-    /// <param name="request"></param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De erkenning werd verwijderd.</response>
@@ -48,8 +47,6 @@ public class VerwijderErkenningController : ApiController
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpDelete("{vCode}/erkenningen/{erkenningId}")]
-    [ConsumesJson]
-    [ProducesJson]
     [SwaggerResponseHeader(
         StatusCodes.Status202Accepted,
         WellknownHeaderNames.Sequence,
