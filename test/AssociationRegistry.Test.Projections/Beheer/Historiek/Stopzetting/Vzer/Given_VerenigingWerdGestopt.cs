@@ -16,11 +16,12 @@ public class Given_VerenigingWerdGestopt(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_VerenigingWerdGestopt()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"De vereniging werd gestopt met einddatum '{fixture.Scenario.VerenigingWerdGestopt.Einddatum.ToString(WellknownFormats.DateOnly)}'.",
+                                               Beschrijving:
+                                               $"De vereniging werd gestopt met einddatum '{fixture.Scenario.VerenigingWerdGestopt.Einddatum.ToString(WellknownFormats.DateOnly)}'.",
                                                nameof(VerenigingWerdGestopt),
                                                fixture.Scenario.VerenigingWerdGestopt,
                                                fixture.MetadataInitiator,

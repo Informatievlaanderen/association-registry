@@ -4,8 +4,11 @@ using Scenario.Migratie;
 using Verenigingstype = Admin.Schema.Detail.Verenigingstype;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(BeheerDetailScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)
-    : BeheerDetailScenarioClassFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario>
+public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(
+    BeheerDetailScenarioFixture<
+        FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)
+    : BeheerDetailScenarioClassFixture<
+        FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()
@@ -13,7 +16,7 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Vereniging_Gemigreerd_Naar_Vzer()
         => fixture.Result
                   .Verenigingstype.Should().Be(new Verenigingstype()
                    {

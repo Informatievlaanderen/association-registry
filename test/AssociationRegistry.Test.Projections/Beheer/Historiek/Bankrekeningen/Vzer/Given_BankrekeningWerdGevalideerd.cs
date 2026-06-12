@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Bankrekeningen.Vzer;
 
-using AssociationRegistry.Admin.Schema.Historiek;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Projections.Scenario.Bankrekeningnummers.Vzer;
+using Admin.Schema.Historiek;
+using Events;
+using Scenario.Bankrekeningnummers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_BankrekeningWerdGevalideerd(
@@ -15,13 +15,15 @@ public class Given_BankrekeningWerdGevalideerd(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Bankrekenummer_Werd_Gevalideerd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Bankrekeningnummervalidatiedocument werd bevestigd door '{fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor}'.",
+                                               Beschrijving:
+                                               $"Bankrekeningnummervalidatiedocument werd bevestigd door '{fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor}'.",
                                                nameof(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd),
-                                               fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
+                                               fixture.Scenario
+                                                      .AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));
 }

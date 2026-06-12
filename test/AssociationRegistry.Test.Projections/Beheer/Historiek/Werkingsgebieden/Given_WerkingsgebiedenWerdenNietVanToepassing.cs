@@ -15,7 +15,7 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_BeheerVerenigingHistoriekGebeurtenis()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should()

@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.MaatschappelijkeZetel;
 
 using Admin.Schema.Historiek;
-using Scenario.MaatschappelijkeZetelVolgensKbo;
 using Events;
+using Scenario.MaatschappelijkeZetelVolgensKbo;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
@@ -15,7 +15,7 @@ public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Maatschappelijke_Zetel_Volgens_Kbo_Werd_Gewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(

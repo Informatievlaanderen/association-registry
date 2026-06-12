@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection.Locaties.Kbo;
 
 using Formats;
-using AssociationRegistry.Test.Projections.Scenario.Locaties;
+using Scenario.Locaties;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo(
@@ -9,7 +9,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo(
     : DuplicateDetectionClassFixture<MaatschappelijkeZetelWerdOvergenomenUitKboScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Locatie_Has_Overtaken_KBO_Values()
     {
         var maatschappelijkeZetel = fixture.Scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == maatschappelijkeZetel.Locatie.LocatieId);

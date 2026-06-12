@@ -13,11 +13,13 @@ public class Given_LidmaatschapWerdGewijzigd(
     : BeheerZoekenScenarioClassFixture<LidmaatschapWerdGewijzigdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Lidmaatschap_Werd_Gewijzigd()
     {
         var lidmaatschap = fixture.Scenario.LidmaatschapWerdGewijzigd;
         var vCode = fixture.Scenario.AggregateId;
-        var actual = fixture.Result.Lidmaatschappen.First(x => x.LidmaatschapId == lidmaatschap.Lidmaatschap.LidmaatschapId);
+
+        var actual =
+            fixture.Result.Lidmaatschappen.First(x => x.LidmaatschapId == lidmaatschap.Lidmaatschap.LidmaatschapId);
 
         actual.Beschrijving.Should().BeEquivalentTo(lidmaatschap.Lidmaatschap.Beschrijving);
         actual.Identificatie.Should().BeEquivalentTo(lidmaatschap.Lidmaatschap.Identificatie);
@@ -34,7 +36,10 @@ public class Given_LidmaatschapWerdGewijzigd(
         fixture.Result.Lidmaatschappen.Select(x => x.LidmaatschapId).Should().BeInAscendingOrder();
     }
 
-    private static void VerifyJsonLdMetadata(VerenigingZoekDocument.Types.Lidmaatschap actual, string vCode, LidmaatschapWerdGewijzigd lidmaatschap)
+    private static void VerifyJsonLdMetadata(
+        VerenigingZoekDocument.Types.Lidmaatschap actual,
+        string vCode,
+        LidmaatschapWerdGewijzigd lidmaatschap)
     {
         actual.JsonLdMetadata.Should().BeEquivalentTo(new JsonLdMetadata
         {

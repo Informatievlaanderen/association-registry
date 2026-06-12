@@ -15,11 +15,12 @@ public class Given_AdresKonNietOvergenomenWordenUitAdressenregister(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Adres_Kon_Worden_Overgenomen_()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: "Adres kon niet overgenomen worden uit het adressenregister.",
+                                               Beschrijving:
+                                               "Adres kon niet overgenomen worden uit het adressenregister.",
                                                nameof(AdresKonNietOvergenomenWordenUitAdressenregister),
                                                fixture.Scenario.AdresKonNietOvergenomenWordenUitAdressenregister,
                                                fixture.MetadataInitiator,

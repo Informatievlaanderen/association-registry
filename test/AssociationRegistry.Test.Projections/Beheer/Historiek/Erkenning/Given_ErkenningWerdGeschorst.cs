@@ -13,13 +13,14 @@ public class Given_ErkenningWerdGeschorst(
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Historiek_Saved_Erkenning_Werd_Geschorst() =>
         fixture
-            .Result.Gebeurtenissen.Last()
-            .Should()
-            .BeEquivalentTo(
+           .Result.Gebeurtenissen.Last()
+           .Should()
+           .BeEquivalentTo(
                 new BeheerVerenigingHistoriekGebeurtenis(
-                    Beschrijving: $"Erkenning werd geschorst om deze reden: {fixture.Scenario.ErkenningWerdGeschorst.RedenSchorsing}.",
+                    Beschrijving:
+                    $"Erkenning werd geschorst om deze reden: {fixture.Scenario.ErkenningWerdGeschorst.RedenSchorsing}.",
                     nameof(ErkenningWerdGeschorst),
                     fixture.Scenario.ErkenningWerdGeschorst,
                     fixture.MetadataInitiator,

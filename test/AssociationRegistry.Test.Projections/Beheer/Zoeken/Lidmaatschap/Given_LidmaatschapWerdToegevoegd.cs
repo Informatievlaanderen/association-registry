@@ -13,11 +13,14 @@ public class Given_LidmaatschapWerdToegevoegd(
     : BeheerZoekenScenarioClassFixture<LidmaatschapWerdToegevoegdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Lidmaatschap_Werd_Toegevoegd()
     {
         var lidmaatschapWerdToegevoegd = fixture.Scenario.LidmaatschapWerdToegevoegdFirst;
         var vCode = fixture.Scenario.AggregateId;
-        var actual = fixture.Result.Lidmaatschappen.First(x => x.LidmaatschapId == lidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId);
+
+        var actual =
+            fixture.Result.Lidmaatschappen.First(x => x.LidmaatschapId ==
+                                                      lidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId);
 
         actual.Beschrijving.Should().BeEquivalentTo(lidmaatschapWerdToegevoegd.Lidmaatschap.Beschrijving);
         actual.Identificatie.Should().BeEquivalentTo(lidmaatschapWerdToegevoegd.Lidmaatschap.Identificatie);
@@ -34,7 +37,10 @@ public class Given_LidmaatschapWerdToegevoegd(
         fixture.Result.Lidmaatschappen.Select(x => x.LidmaatschapId).Should().BeInAscendingOrder();
     }
 
-    private static void VerifyJsonLdMetadata(VerenigingZoekDocument.Types.Lidmaatschap actual, string vCode, LidmaatschapWerdToegevoegd lidmaatschap)
+    private static void VerifyJsonLdMetadata(
+        VerenigingZoekDocument.Types.Lidmaatschap actual,
+        string vCode,
+        LidmaatschapWerdToegevoegd lidmaatschap)
     {
         actual.JsonLdMetadata.Should().BeEquivalentTo(new JsonLdMetadata
         {

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.KorteBeschijving;
 
-using AssociationRegistry.Test.Projections.Scenario.KorteBeschijving;
+using Scenario.KorteBeschijving;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_KorteBeschrijvingWerdGewijzigd(
@@ -13,7 +13,7 @@ public class Given_KorteBeschrijvingWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_KorteBeschrijving_Gewijzigd()
     {
         fixture.Result.KorteBeschrijving.Should()
                .BeEquivalentTo(fixture.Scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving);

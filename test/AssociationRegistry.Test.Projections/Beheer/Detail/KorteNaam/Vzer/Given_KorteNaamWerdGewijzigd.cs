@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.KorteNaam.Vzer;
 
-using AssociationRegistry.Test.Projections.Scenario.KorteNaamWerdGewijzigd.Vzer;
+using Scenario.KorteNaamWerdGewijzigd.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_KorteNaamWerdGewijzigd(
@@ -13,7 +13,7 @@ public class Given_KorteNaamWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Korte_Naam_Gewijzigd()
     {
         fixture.Result.KorteNaam.Should()
                .BeEquivalentTo(fixture.Scenario.KorteNaamWerdGewijzigd.KorteNaam);

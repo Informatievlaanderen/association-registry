@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Persoonsgegevens.Vertegenwoordigers;
 
-using AssociationRegistry.Admin.Schema.Historiek;
-using AssociationRegistry.Admin.Schema.Historiek.EventData;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Projections.Scenario.Vertegenwoordigers.Kbo;
+using Admin.Schema.Historiek;
+using Admin.Schema.Historiek.EventData;
+using Events;
+using Scenario.Vertegenwoordigers.Kbo;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd(
@@ -16,13 +16,15 @@ public class Given_VertegenwoordigerPersoonsGegevensWerdenGeanonimiseerd(
                   .Metadata.Version.Should().Be(1);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_VertegenwoordigerWerdGewijzigdInKBO()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.VertegenwoordigerWerdGewijzigdInKBO.Voornaam} {fixture.Scenario.VertegenwoordigerWerdGewijzigdInKBO.Achternaam}' werd gewijzigd in KBO.",
+                                               Beschrijving:
+                                               $"Vertegenwoordiger '{fixture.Scenario.VertegenwoordigerWerdGewijzigdInKBO.Voornaam} {fixture.Scenario.VertegenwoordigerWerdGewijzigdInKBO.Achternaam}' werd gewijzigd in KBO.",
                                                nameof(VertegenwoordigerWerdGewijzigdInKBO),
-                                               KBOVertegenwoordigerData.Create(fixture.Scenario.VertegenwoordigerWerdGewijzigdInKBO),
-                                                                            fixture.MetadataInitiator,
-                                                                            fixture.MetadataTijdstip));
+                                               KBOVertegenwoordigerData.Create(
+                                                   fixture.Scenario.VertegenwoordigerWerdGewijzigdInKBO),
+                                               fixture.MetadataInitiator,
+                                               fixture.MetadataTijdstip));
 }

@@ -4,7 +4,8 @@ using Admin.Schema.Constants;
 using Scenario.Dubbels;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_VerenigingWerdGemarkeerdAlsDubbelVan(BeheerDetailScenarioFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario> fixture)
+public class Given_VerenigingWerdGemarkeerdAlsDubbelVan(
+    BeheerDetailScenarioFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario> fixture)
     : BeheerDetailScenarioClassFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario>
 {
     [Fact]
@@ -13,8 +14,9 @@ public class Given_VerenigingWerdGemarkeerdAlsDubbelVan(BeheerDetailScenarioFixt
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_IsDubbelVan_Is_Updated()
-        => fixture.Result.IsDubbelVan.Should().Be(fixture.Scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging);
+    public void Document_IsDubbelVan_Is_Gemarkeerd_Als_Dubbel()
+        => fixture.Result.IsDubbelVan.Should()
+                  .Be(fixture.Scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging);
 
     [Fact]
     public void Document_Status_Is_Dubbel()

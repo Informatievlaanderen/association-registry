@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection.Locaties;
 
-using AssociationRegistry.Test.Projections.Scenario.Locaties;
+using Scenario.Locaties;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LocatieWerdVerwijderd(
@@ -8,9 +8,11 @@ public class Given_LocatieWerdVerwijderd(
     : DuplicateDetectionClassFixture<LocatieWerdVerwijderdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Locatie_Is_Removed()
     {
-        var actual = fixture.Result.Locaties.SingleOrDefault(x => x.LocatieId == fixture.Scenario.LocatieWerdVerwijderd.Locatie.LocatieId);
+        var actual =
+            fixture.Result.Locaties.SingleOrDefault(x => x.LocatieId ==
+                                                         fixture.Scenario.LocatieWerdVerwijderd.Locatie.LocatieId);
 
         actual.Should().BeNull();
     }

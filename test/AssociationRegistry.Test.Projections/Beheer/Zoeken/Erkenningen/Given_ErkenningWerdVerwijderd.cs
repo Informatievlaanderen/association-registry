@@ -1,14 +1,13 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Erkenningen;
 
-using AssociationRegistry.Test.Projections.Scenario.Erkenningen.Zoeken;
-using Publiek.Zoeken;
+using Scenario.Erkenningen.Zoeken;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_ErkenningWerdVerwijderd(BeheerZoekenScenarioFixture<VzerMetErkenningWerdVerwijderdScenario> fixture)
     : BeheerZoekenScenarioClassFixture<VzerMetErkenningWerdVerwijderdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document__Erkenningen_Is_Empty()
     {
         fixture.Result.Erkenningen.Should().BeEmpty();
     }

@@ -8,10 +8,11 @@ public class Given_MaatschappelijkeZetelWerdVerwijderdUitKbo(
     : DuplicateDetectionClassFixture<MaatschappelijkeZetelWerdVerwijderdUitKboScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Locatie_Is_Removed()
     {
         fixture.Result.Locaties.Should()
-               .NotContain(x => x.LocatieId == fixture.Scenario.MaatschappelijkeZetelWerdVerwijderdUitKboFirstLocation.Locatie.LocatieId);
+               .NotContain(x => x.LocatieId == fixture.Scenario.MaatschappelijkeZetelWerdVerwijderdUitKboFirstLocation
+                                                      .Locatie.LocatieId);
     }
 
     [Fact]

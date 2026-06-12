@@ -12,7 +12,9 @@ public class Given_LidmaatschapWerdVerwijderd(BeheerDetailScenarioFixture<Lidmaa
                   .Metadata.Version.Should().Be(4);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Lidmaatschap_Verwijderd()
         => fixture.Result
-                  .Lidmaatschappen.Should().NotContain(x => x.LidmaatschapId == fixture.Scenario.LidmaatschapWerdVerwijderd.Lidmaatschap.LidmaatschapId);
+                  .Lidmaatschappen.Should().NotContain(x => x.LidmaatschapId ==
+                                                            fixture.Scenario.LidmaatschapWerdVerwijderd.Lidmaatschap
+                                                                   .LidmaatschapId);
 }

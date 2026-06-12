@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Locaties;
 
 using Admin.Schema.Historiek;
-using AssociationRegistry.Test.Projections.Scenario.Locaties;
 using Events;
+using Scenario.Locaties;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch(
@@ -15,11 +15,12 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Has_Expected_Values()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Locatie '{fixture.Scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.LocatieNaam}' met ID {fixture.Scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.VerwijderdeLocatieId} werd verwijderd omdat de gegevens exact overeenkomen met locatie ID {fixture.Scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.BehoudenLocatieId}.",
+                                               Beschrijving:
+                                               $"Locatie '{fixture.Scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.LocatieNaam}' met ID {fixture.Scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.VerwijderdeLocatieId} werd verwijderd omdat de gegevens exact overeenkomen met locatie ID {fixture.Scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.BehoudenLocatieId}.",
                                                nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch),
                                                fixture.Scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch,
                                                fixture.MetadataInitiator,

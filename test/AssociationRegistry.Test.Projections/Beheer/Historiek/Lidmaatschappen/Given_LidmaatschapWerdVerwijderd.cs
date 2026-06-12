@@ -6,7 +6,8 @@ using Events;
 using Scenario.Lidmaatschappen;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_LidmaatschapWerdVerwijderd(BeheerHistoriekScenarioFixture<LidmaatschapWerdVerwijderdScenario> fixture)
+public class Given_LidmaatschapWerdVerwijderd(
+    BeheerHistoriekScenarioFixture<LidmaatschapWerdVerwijderdScenario> fixture)
     : BeheerHistoriekScenarioClassFixture<LidmaatschapWerdVerwijderdScenario>
 {
     [Fact]
@@ -15,13 +16,14 @@ public class Given_LidmaatschapWerdVerwijderd(BeheerHistoriekScenarioFixture<Lid
                   .Metadata.Version.Should().Be(4);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Lidmaatschap_Werd_Verwijderd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
                                                Beschrijving: "Lidmaatschap werd verwijderd.",
                                                nameof(LidmaatschapWerdVerwijderd),
-                                               LidmaatschapData.Create(fixture.Scenario.LidmaatschapWerdVerwijderd.Lidmaatschap),
+                                               LidmaatschapData.Create(
+                                                   fixture.Scenario.LidmaatschapWerdVerwijderd.Lidmaatschap),
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));
 }

@@ -14,7 +14,7 @@ public class Given_StartdatumWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Startdatum_Gewijzigd()
     {
         fixture.Result.Startdatum.Should()
                .BeEquivalentTo(fixture.Scenario.StartdatumWerdGewijzigd.Startdatum.FormatAsBelgianDate());

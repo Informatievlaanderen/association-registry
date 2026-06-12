@@ -15,7 +15,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Adres_Werd_Overgenomen_Uit_Adressenregister()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(

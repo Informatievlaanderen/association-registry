@@ -1,12 +1,15 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Migratie;
 
-using AssociationRegistry.Admin.Schema.Historiek;
+using Admin.Schema.Historiek;
 using Events;
 using Scenario.Migratie;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(BeheerHistoriekScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)
-    : BeheerHistoriekScenarioClassFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario>
+public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(
+    BeheerHistoriekScenarioFixture<
+        FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)
+    : BeheerHistoriekScenarioClassFixture<
+        FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()
@@ -14,13 +17,16 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_FeitelijkeVereniging_Werd_Gemigreerd_Naar_VerenigingZonderEigenRechtspersoonlijkheid()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: "Feitelijke vereniging werd gemigreerd naar vereniging zonder eigen rechtspersoonlijkheid.",
-                                               nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid),
-                                               fixture.Scenario.FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid,
+                                               Beschrijving:
+                                               "Feitelijke vereniging werd gemigreerd naar vereniging zonder eigen rechtspersoonlijkheid.",
+                                               nameof(
+                                                   FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid),
+                                               fixture.Scenario
+                                                      .FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid,
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));
 }

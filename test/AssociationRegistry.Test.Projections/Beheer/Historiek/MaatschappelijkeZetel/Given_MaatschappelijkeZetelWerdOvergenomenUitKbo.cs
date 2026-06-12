@@ -15,11 +15,12 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Maatschappelijke_Zetel_Werd_Overgenomen_()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO.",
+                                               Beschrijving:
+                                               "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO.",
                                                nameof(MaatschappelijkeZetelWerdOvergenomenUitKbo),
                                                fixture.Scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie,
                                                fixture.MetadataInitiator,

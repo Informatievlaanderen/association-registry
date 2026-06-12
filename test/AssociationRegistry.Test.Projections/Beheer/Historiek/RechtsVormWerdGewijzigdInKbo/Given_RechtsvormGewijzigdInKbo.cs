@@ -3,9 +3,7 @@
 using Admin.Schema.Historiek;
 using DecentraalBeheer.Vereniging;
 using Events;
-using Scenario.NaamWerdGewijzigd.Kbo;
 using Scenario.RechtsvormWerdGewijzigdInKBO;
-using Vereniging;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_RechtsvormWerdGewijzigdInKBO(
@@ -18,11 +16,12 @@ public class Given_RechtsvormWerdGewijzigdInKBO(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_RechtsvormWerdGewijzigdInKBO()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"In KBO werd de rechtsvorm gewijzigd naar '{Verenigingstype.Parse(fixture.Scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm).Naam}'.",
+                                               Beschrijving:
+                                               $"In KBO werd de rechtsvorm gewijzigd naar '{Verenigingstype.Parse(fixture.Scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm).Naam}'.",
                                                nameof(RechtsvormWerdGewijzigdInKBO),
                                                fixture.Scenario.RechtsvormWerdGewijzigdInKBO,
                                                fixture.MetadataInitiator,

@@ -13,7 +13,7 @@ public class Given_VerenigingWerdUitgeschrevenUitPubliekeDatastroom(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Uitgeschreven_In_Publieke_Datastroom()
     {
         fixture.Result.IsUitgeschrevenUitPubliekeDatastroom.Should().BeTrue();
     }

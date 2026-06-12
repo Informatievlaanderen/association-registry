@@ -15,11 +15,12 @@ public class Given_ContactgegevenWerdVerwijderd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Contactgegeven_Werd_Verwijderd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"{fixture.Scenario.ContactgegevenWerdVerwijderd.Type} '{fixture.Scenario.ContactgegevenWerdVerwijderd.Waarde}' werd verwijderd.",
+                                               Beschrijving:
+                                               $"{fixture.Scenario.ContactgegevenWerdVerwijderd.Type} '{fixture.Scenario.ContactgegevenWerdVerwijderd.Waarde}' werd verwijderd.",
                                                nameof(ContactgegevenWerdVerwijderd),
                                                fixture.Scenario.ContactgegevenWerdVerwijderd,
                                                fixture.MetadataInitiator,

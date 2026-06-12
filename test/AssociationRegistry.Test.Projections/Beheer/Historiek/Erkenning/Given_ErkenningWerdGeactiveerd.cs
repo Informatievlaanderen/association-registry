@@ -12,11 +12,11 @@ public class Given_ErkenningWerdGeactiveerd(BeheerHistoriekScenarioFixture<Erken
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Historiek_Saved_Erkenning_Werd_Geactiveerd() =>
         fixture
-            .Result.Gebeurtenissen.Last()
-            .Should()
-            .BeEquivalentTo(
+           .Result.Gebeurtenissen.Last()
+           .Should()
+           .BeEquivalentTo(
                 new BeheerVerenigingHistoriekGebeurtenis(
                     Beschrijving: "Erkenning werd geactiveerd",
                     nameof(ErkenningWerdGeactiveerd),

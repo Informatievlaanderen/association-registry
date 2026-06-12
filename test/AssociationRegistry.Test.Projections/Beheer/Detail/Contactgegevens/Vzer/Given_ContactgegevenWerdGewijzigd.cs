@@ -13,9 +13,12 @@ public class Given_ContactgegevenWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Contactgegeven_Gewijzigd()
     {
-        var gewijzgidContactGegeven = fixture.Result.Contactgegevens.Single(x => x.ContactgegevenId == fixture.Scenario.ContactgegevenWerdGewijzigd.ContactgegevenId);
+        var gewijzgidContactGegeven =
+            fixture.Result.Contactgegevens.Single(x => x.ContactgegevenId ==
+                                                       fixture.Scenario.ContactgegevenWerdGewijzigd.ContactgegevenId);
+
         gewijzgidContactGegeven.Waarde.Should().Be(fixture.Scenario.ContactgegevenWerdGewijzigd.Waarde);
         gewijzgidContactGegeven.Beschrijving.Should().Be(fixture.Scenario.ContactgegevenWerdGewijzigd.Beschrijving);
         gewijzgidContactGegeven.IsPrimair.Should().Be(fixture.Scenario.ContactgegevenWerdGewijzigd.IsPrimair);

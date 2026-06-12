@@ -8,9 +8,11 @@ public class Given_LidmaatschapWerdVerwijderd(
     : BeheerZoekenScenarioClassFixture<LidmaatschapWerdVerwijderdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Lidmaatschap_Werd_Verwijderd()
     {
-       fixture.Result.Lidmaatschappen.Should().NotContain(x => x.LidmaatschapId == fixture.Scenario.LidmaatschapWerdVerwijderd.Lidmaatschap.LidmaatschapId);
+        fixture.Result.Lidmaatschappen.Should()
+               .NotContain(x => x.LidmaatschapId ==
+                                fixture.Scenario.LidmaatschapWerdVerwijderd.Lidmaatschap.LidmaatschapId);
     }
 
     [Fact]

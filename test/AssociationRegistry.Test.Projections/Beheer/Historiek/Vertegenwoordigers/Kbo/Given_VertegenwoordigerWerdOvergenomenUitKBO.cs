@@ -16,14 +16,16 @@ public class Given_VertegenwoordigerWerdOvergenomenUitKBO(
                   .Metadata.Version.Should().Be(1);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_VertegenwoordigerWerdOvergenomenUitKBO()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should()
                   .BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.VertegenwoordigerWerdOvergenomenUitKBO.Voornaam} {fixture.Scenario.VertegenwoordigerWerdOvergenomenUitKBO.Achternaam}' werd overgenomen uit KBO.",
-                                               nameof(VertegenwoordigerWerdOvergenomenUitKBO),
-                                               KBOVertegenwoordigerData.Create(fixture.Scenario.VertegenwoordigerWerdOvergenomenUitKBO),
-                                                                            fixture.MetadataInitiator,
-                                                                            fixture.MetadataTijdstip));
+                                      Beschrijving:
+                                      $"Vertegenwoordiger '{fixture.Scenario.VertegenwoordigerWerdOvergenomenUitKBO.Voornaam} {fixture.Scenario.VertegenwoordigerWerdOvergenomenUitKBO.Achternaam}' werd overgenomen uit KBO.",
+                                      nameof(VertegenwoordigerWerdOvergenomenUitKBO),
+                                      KBOVertegenwoordigerData.Create(
+                                          fixture.Scenario.VertegenwoordigerWerdOvergenomenUitKBO),
+                                      fixture.MetadataInitiator,
+                                      fixture.MetadataTijdstip));
 }

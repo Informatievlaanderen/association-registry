@@ -13,13 +13,14 @@ public class Given_ErkenningWerdGewijzigd(
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Historiek_Saved_Erkenning_Werd_Gewijzigd() =>
         fixture
-            .Result.Gebeurtenissen.Last()
-            .Should()
-            .BeEquivalentTo(
+           .Result.Gebeurtenissen.Last()
+           .Should()
+           .BeEquivalentTo(
                 new BeheerVerenigingHistoriekGebeurtenis(
-                    Beschrijving: $"Erkenning werd gewijzigd omwille van volgende reden: {fixture.Scenario.ErkenningWerdGewijzigd.RedenVanWijziging}",
+                    Beschrijving:
+                    $"Erkenning werd gewijzigd omwille van volgende reden: {fixture.Scenario.ErkenningWerdGewijzigd.RedenVanWijziging}",
                     nameof(ErkenningWerdGewijzigd),
                     fixture.Scenario.ErkenningWerdGewijzigd,
                     fixture.MetadataInitiator,

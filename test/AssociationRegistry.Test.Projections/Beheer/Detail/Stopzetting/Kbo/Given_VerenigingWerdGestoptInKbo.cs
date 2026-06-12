@@ -15,9 +15,11 @@ public class Given_VerenigingWerdGestoptInKbo(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Status_Gestopt()
     {
-        fixture.Result.Einddatum.Should().BeEquivalentTo(fixture.Scenario.VerenigingWerdGestoptInKBO.Einddatum.FormatAsBelgianDate());
+        fixture.Result.Einddatum.Should()
+               .BeEquivalentTo(fixture.Scenario.VerenigingWerdGestoptInKBO.Einddatum.FormatAsBelgianDate());
+
         fixture.Result.Status.Should().BeEquivalentTo(VerenigingStatus.Gestopt);
     }
 }

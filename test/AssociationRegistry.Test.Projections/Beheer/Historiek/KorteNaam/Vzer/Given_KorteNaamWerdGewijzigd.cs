@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.KorteNaam.Vzer;
 
 using Admin.Schema.Historiek;
-using AssociationRegistry.Test.Projections.Scenario.KorteNaamWerdGewijzigd.Vzer;
 using Events;
+using Scenario.KorteNaamWerdGewijzigd.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_KorteNaamWerdGewijzigd(
@@ -15,11 +15,12 @@ public class Given_KorteNaamWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Korte_Naam_Werd_Gewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Korte naam werd gewijzigd naar '{@fixture.Scenario.KorteNaamWerdGewijzigd.KorteNaam}'.",
+                                               Beschrijving:
+                                               $"Korte naam werd gewijzigd naar '{@fixture.Scenario.KorteNaamWerdGewijzigd.KorteNaam}'.",
                                                nameof(KorteNaamWerdGewijzigd),
                                                fixture.Scenario.KorteNaamWerdGewijzigd,
                                                fixture.MetadataInitiator,

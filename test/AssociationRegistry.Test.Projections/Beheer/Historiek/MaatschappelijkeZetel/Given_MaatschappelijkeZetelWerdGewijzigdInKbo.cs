@@ -15,11 +15,12 @@ public class Given_MaatschappelijkeZetelWerdGewijzigdInKbo(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Maatschappelijke_Zetel_Volgens_Kbo_Werd_Gewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd gewijzigd in KBO.",
+                                               Beschrijving:
+                                               "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd gewijzigd in KBO.",
                                                nameof(MaatschappelijkeZetelWerdGewijzigdInKbo),
                                                fixture.Scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie,
                                                fixture.MetadataInitiator,

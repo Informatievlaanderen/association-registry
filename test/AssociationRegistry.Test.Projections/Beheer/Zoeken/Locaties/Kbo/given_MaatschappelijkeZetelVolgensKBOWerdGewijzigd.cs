@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Locaties.Kbo;
 
-using AssociationRegistry.Test.Projections.Scenario.Locaties;
+using Scenario.Locaties;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
@@ -8,7 +8,7 @@ public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
     : BeheerZoekenScenarioClassFixture<MaatschappelijkeZetelVolgensKBOWerdGewijzigdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Maatschappelijke_Zetel_Volgens_KBO_Werd_Gewijzigd()
     {
         var locatie = fixture.Scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigdFirstLocation;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == locatie.LocatieId);

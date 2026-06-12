@@ -13,7 +13,7 @@ public class Given_KorteNaamWerdGewijzigdInKbo(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Korte_Naam_Gewijzigd()
     {
         fixture.Result.KorteNaam.Should()
                .BeEquivalentTo(fixture.Scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam);

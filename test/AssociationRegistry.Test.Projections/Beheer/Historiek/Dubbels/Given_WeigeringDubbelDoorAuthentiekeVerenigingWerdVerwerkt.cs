@@ -4,10 +4,10 @@ using Admin.Schema.Historiek;
 using DecentraalBeheer.Vereniging;
 using Events;
 using Scenario.Dubbels;
-using Vereniging;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(BeheerHistoriekScenarioFixture<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario> fixture)
+public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
+    BeheerHistoriekScenarioFixture<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario> fixture)
     : BeheerHistoriekScenarioClassFixture<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario>
 {
     [Fact]
@@ -16,11 +16,12 @@ public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(BeheerHi
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Weigering_Dubbel_Door_AuthentiekeVereniging_Werd_Verwerkt()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Vereniging is geen dubbel meer van {fixture.Scenario.WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.VCodeAuthentiekeVereniging}.",
+                                               Beschrijving:
+                                               $"Vereniging is geen dubbel meer van {fixture.Scenario.WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.VCodeAuthentiekeVereniging}.",
                                                nameof(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt),
                                                new
                                                {

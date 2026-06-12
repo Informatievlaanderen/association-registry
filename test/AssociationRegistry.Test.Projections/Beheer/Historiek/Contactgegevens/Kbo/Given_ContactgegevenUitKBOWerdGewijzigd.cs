@@ -15,11 +15,12 @@ public class Given_ContactgegevenUitKBOWerdGewijzigd(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Contactgegeven_Uit_Kbo_Werd_Gewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"{fixture.Scenario._contactgegevenWerdOvergenomenUitKboScenario.ContactgegevenWerdOvergenomenUitKbo.TypeVolgensKbo} '{fixture.Scenario._contactgegevenWerdOvergenomenUitKboScenario.ContactgegevenWerdOvergenomenUitKbo.Waarde}' werd gewijzigd.",
+                                               Beschrijving:
+                                               $"{fixture.Scenario._contactgegevenWerdOvergenomenUitKboScenario.ContactgegevenWerdOvergenomenUitKbo.TypeVolgensKbo} '{fixture.Scenario._contactgegevenWerdOvergenomenUitKboScenario.ContactgegevenWerdOvergenomenUitKbo.Waarde}' werd gewijzigd.",
                                                nameof(ContactgegevenUitKBOWerdGewijzigd),
                                                fixture.Scenario.ContactgegevenUitKBOWerdGewijzigd,
                                                fixture.MetadataInitiator,

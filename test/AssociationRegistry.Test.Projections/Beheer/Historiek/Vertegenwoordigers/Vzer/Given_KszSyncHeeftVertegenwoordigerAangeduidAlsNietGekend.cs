@@ -2,8 +2,8 @@
 
 using Admin.Schema.Historiek;
 using Admin.Schema.Historiek.EventData;
-using AssociationRegistry.Test.Projections.Scenario.Vertegenwoordigers.Vzer;
 using Events;
+using Scenario.Vertegenwoordigers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(
@@ -16,13 +16,16 @@ public class Given_KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend.Voornaam} {fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend.Achternaam}' werd niet teruggevonden uit KSZ en werd verwijderd.",
+                                               Beschrijving:
+                                               $"Vertegenwoordiger '{fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend.Voornaam} {fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend.Achternaam}' werd niet teruggevonden uit KSZ en werd verwijderd.",
                                                nameof(KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend),
-                                               VertegenwoordigerWerdVerwijderdData.Create(fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend),
-                                                                            fixture.MetadataInitiator,
-                                                                            fixture.MetadataTijdstip));
+                                               VertegenwoordigerWerdVerwijderdData.Create(
+                                                   fixture.Scenario
+                                                          .KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend),
+                                               fixture.MetadataInitiator,
+                                               fixture.MetadataTijdstip));
 }

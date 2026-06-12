@@ -15,7 +15,7 @@ public class Given_AdresWerdOntkoppeldVanAdressenregister(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Adres_Werd_Ontkoppeld_In_Adressenregister()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(

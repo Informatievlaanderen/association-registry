@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection.Locaties;
 
 using Formats;
-using AssociationRegistry.Test.Projections.Scenario.Locaties;
+using Scenario.Locaties;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LocatieWerdGewijzigd(
@@ -9,7 +9,7 @@ public class Given_LocatieWerdGewijzigd(
     : DuplicateDetectionClassFixture<LocatieWerdGewijzigdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Locatie_Has_Modified_Values()
     {
         var locatieWerdGewijzigd = fixture.Scenario.LocatieWerdGewijzigd;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == locatieWerdGewijzigd.Locatie.LocatieId);

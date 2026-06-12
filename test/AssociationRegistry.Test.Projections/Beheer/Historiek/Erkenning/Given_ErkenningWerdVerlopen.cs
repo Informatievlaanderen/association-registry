@@ -12,11 +12,11 @@ public class Given_ErkenningWerdVerlopen(BeheerHistoriekScenarioFixture<Erkennin
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Historiek_Saved_Erkenning_Werd_Verlopen() =>
         fixture
-            .Result.Gebeurtenissen.Last()
-            .Should()
-            .BeEquivalentTo(
+           .Result.Gebeurtenissen.Last()
+           .Should()
+           .BeEquivalentTo(
                 new BeheerVerenigingHistoriekGebeurtenis(
                     Beschrijving: "Erkenning werd verlopen",
                     nameof(ErkenningWerdVerlopen),

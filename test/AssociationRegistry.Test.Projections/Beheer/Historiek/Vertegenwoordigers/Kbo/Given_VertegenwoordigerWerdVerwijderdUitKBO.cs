@@ -16,13 +16,15 @@ public class Given_VertegenwoordigerWerdVerwijderdUitKBO(
                   .Metadata.Version.Should().Be(1);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_BeheerVerenigingHistoriekGebeurtenis()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO.Voornaam} {fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO.Achternaam}' werd verwijderd uit KBO.",
+                                               Beschrijving:
+                                               $"Vertegenwoordiger '{fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO.Voornaam} {fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO.Achternaam}' werd verwijderd uit KBO.",
                                                nameof(VertegenwoordigerWerdVerwijderdUitKBO),
-                                               KBOVertegenwoordigerData.Create(fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO),
-                                                                            fixture.MetadataInitiator,
-                                                                            fixture.MetadataTijdstip));
+                                               KBOVertegenwoordigerData.Create(
+                                                   fixture.Scenario.Vertegenwoordiger1WerdVerwijderdUitKBO),
+                                               fixture.MetadataInitiator,
+                                               fixture.MetadataTijdstip));
 }

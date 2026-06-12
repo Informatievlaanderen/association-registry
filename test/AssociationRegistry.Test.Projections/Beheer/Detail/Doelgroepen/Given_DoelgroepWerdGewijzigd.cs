@@ -13,7 +13,7 @@ public class Given_DoelgroepWerdGewijzigdd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Doelgroep_Gewijzigd()
     {
         fixture.Result.Doelgroep.Should().BeEquivalentTo(fixture.Scenario.DoelgroepWerdGewijzigd.Doelgroep);
     }

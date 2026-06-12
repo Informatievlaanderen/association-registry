@@ -13,7 +13,7 @@ public class Given_LocatieWerdGewijzigd(
     : BeheerZoekenScenarioClassFixture<LocatieWerdGewijzigdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Locatie_Werd_Gewijzigd()
     {
         var locatieWerdGewijzigd = fixture.Scenario.LocatieWerdGewijzigd;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == locatieWerdGewijzigd.Locatie.LocatieId);
@@ -35,7 +35,10 @@ public class Given_LocatieWerdGewijzigd(
         fixture.Result.Locaties.Select(x => x.LocatieId).Should().BeInAscendingOrder();
     }
 
-    private static void VerifyJsonLdMetadata(VerenigingZoekDocument.Types.Locatie actual, string vCode, LocatieWerdGewijzigd locatieWerdGewijzigd)
+    private static void VerifyJsonLdMetadata(
+        VerenigingZoekDocument.Types.Locatie actual,
+        string vCode,
+        LocatieWerdGewijzigd locatieWerdGewijzigd)
     {
         actual.JsonLdMetadata.Should().BeEquivalentTo(new JsonLdMetadata
         {

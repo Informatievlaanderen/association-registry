@@ -16,13 +16,15 @@ public class Given_VertegenwoordigerWerdToegevoegd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_BeheerVerenigingHistoriekGebeurtenis()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving:$"'{fixture.Scenario.VertegenwoordigerWerdToegevoegd.Voornaam} {fixture.Scenario.VertegenwoordigerWerdToegevoegd.Achternaam}' werd toegevoegd als vertegenwoordiger.",
+                                               Beschrijving:
+                                               $"'{fixture.Scenario.VertegenwoordigerWerdToegevoegd.Voornaam} {fixture.Scenario.VertegenwoordigerWerdToegevoegd.Achternaam}' werd toegevoegd als vertegenwoordiger.",
                                                nameof(VertegenwoordigerWerdToegevoegd),
-                                               VertegenwoordigerData.Create(fixture.Scenario.VertegenwoordigerWerdToegevoegd),
-                                                                            fixture.MetadataInitiator,
-                                                                            fixture.MetadataTijdstip));
+                                               VertegenwoordigerData.Create(
+                                                   fixture.Scenario.VertegenwoordigerWerdToegevoegd),
+                                               fixture.MetadataInitiator,
+                                               fixture.MetadataTijdstip));
 }

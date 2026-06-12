@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.NaamWerdGewijzigd.Kbo;
 
-using AssociationRegistry.Test.Projections.Scenario.NaamWerdGewijzigd.Kbo;
+using Scenario.NaamWerdGewijzigd.Kbo;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_NaamWerdGewijzigdInKbo(
@@ -8,7 +8,7 @@ public class Given_NaamWerdGewijzigdInKbo(
     : BeheerZoekenScenarioClassFixture<NaamWerdGewijzigdInKboScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Naam_Werd_Gewijzigd()
     {
         fixture.Result.Naam.Should()
                .BeEquivalentTo(fixture.Scenario.NaamWerdGewijzigdInKbo.Naam);

@@ -5,7 +5,8 @@ using Events;
 using Scenario.Werkingsgebieden;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenBepaald(BeheerHistoriekScenarioFixture<WerkingsgebiedenWerdenBepaaldScenario> fixture)
+public class Given_WerkingsgebiedenWerdenBepaald(
+    BeheerHistoriekScenarioFixture<WerkingsgebiedenWerdenBepaaldScenario> fixture)
     : BeheerHistoriekScenarioClassFixture<WerkingsgebiedenWerdenBepaaldScenario>
 {
     [Fact]
@@ -14,7 +15,7 @@ public class Given_WerkingsgebiedenWerdenBepaald(BeheerHistoriekScenarioFixture<
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_BeheerVerenigingHistoriekGebeurtenis()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(

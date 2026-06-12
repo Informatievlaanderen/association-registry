@@ -6,7 +6,8 @@ using Contracts.JsonLdContext;
 using Scenario.Werkingsgebieden;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenGewijzigd(BeheerDetailScenarioFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)
+public class Given_WerkingsgebiedenWerdenGewijzigd(
+    BeheerDetailScenarioFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)
     : BeheerDetailScenarioClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>
 {
     [Fact]
@@ -15,7 +16,7 @@ public class Given_WerkingsgebiedenWerdenGewijzigd(BeheerDetailScenarioFixture<W
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Werkingsgebieden_Gewijzigd()
         => fixture.Result
                   .Werkingsgebieden
                   .Should()

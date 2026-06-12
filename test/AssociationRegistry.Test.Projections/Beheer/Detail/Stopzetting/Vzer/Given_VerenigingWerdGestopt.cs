@@ -2,7 +2,7 @@
 
 using Admin.Schema.Constants;
 using Formats;
-using AssociationRegistry.Test.Projections.Scenario.Stopzetting;
+using Scenario.Stopzetting;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingWerdGestopt(
@@ -15,9 +15,11 @@ public class Given_VerenigingWerdGestopt(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Status_Gestopt()
     {
-        fixture.Result.Einddatum.Should().BeEquivalentTo(fixture.Scenario.VerenigingWerdGestopt.Einddatum.FormatAsBelgianDate());
+        fixture.Result.Einddatum.Should()
+               .BeEquivalentTo(fixture.Scenario.VerenigingWerdGestopt.Einddatum.FormatAsBelgianDate());
+
         fixture.Result.Status.Should().BeEquivalentTo(VerenigingStatus.Gestopt);
     }
 }

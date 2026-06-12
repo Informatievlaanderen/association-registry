@@ -13,11 +13,11 @@ public class Given_SchorsingVanErkenningWerdOpgeheven(
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(4);
 
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Historiek_Saved_Schorsing_Van_Erkenning_Werd_Opgeheven() =>
         fixture
-            .Result.Gebeurtenissen.Last()
-            .Should()
-            .BeEquivalentTo(
+           .Result.Gebeurtenissen.Last()
+           .Should()
+           .BeEquivalentTo(
                 new BeheerVerenigingHistoriekGebeurtenis(
                     Beschrijving: "Schorsing van erkenning werd opgeheven",
                     nameof(SchorsingVanErkenningWerdOpgeheven),

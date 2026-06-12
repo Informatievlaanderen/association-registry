@@ -1,8 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Bankrekeningen.Kbo;
 
-using AssociationRegistry.Admin.Schema.Historiek;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Projections.Scenario.Bankrekeningnummers.Vzer;
+using Admin.Schema.Historiek;
+using Events;
 using Scenario.Bankrekeningnummers.Kbo;
 
 [Collection(nameof(ProjectionContext))]
@@ -14,13 +13,14 @@ public class Given_BankrekeningWerdGevalideerd(
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Historiek_Saved_Bankrekenummer_Werd_Gevalideerd() =>
         fixture
-            .Result.Gebeurtenissen.Last()
-            .Should()
-            .BeEquivalentTo(
+           .Result.Gebeurtenissen.Last()
+           .Should()
+           .BeEquivalentTo(
                 new BeheerVerenigingHistoriekGebeurtenis(
-                    Beschrijving: $"Bankrekeningnummervalidatiedocument werd bevestigd door '{fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor}'.",
+                    Beschrijving:
+                    $"Bankrekeningnummervalidatiedocument werd bevestigd door '{fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor}'.",
                     nameof(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd),
                     fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
                     fixture.MetadataInitiator,

@@ -13,9 +13,11 @@ public class Given_LocatieWerdVerwijderd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Locatie_Verwijderd()
     {
-        var actual = fixture.Result.Locaties.SingleOrDefault(x => x.LocatieId == fixture.Scenario.LocatieWerdVerwijderd.Locatie.LocatieId);
+        var actual =
+            fixture.Result.Locaties.SingleOrDefault(x => x.LocatieId ==
+                                                         fixture.Scenario.LocatieWerdVerwijderd.Locatie.LocatieId);
 
         actual.Should().BeNull();
     }

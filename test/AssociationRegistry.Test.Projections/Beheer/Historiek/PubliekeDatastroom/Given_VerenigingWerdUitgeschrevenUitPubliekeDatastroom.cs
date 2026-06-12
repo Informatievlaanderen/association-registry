@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.PubliekeDatastroom;
 
 using Admin.Schema.Historiek;
-using AssociationRegistry.Test.Projections.Scenario.PubliekeDatastroom;
 using Events;
+using Scenario.PubliekeDatastroom;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingWerdUitgeschrevenUitPubliekeDatastroom(
@@ -15,11 +15,12 @@ public class Given_VerenigingWerdUitgeschrevenUitPubliekeDatastroom(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_VerenigingWerdUitgeschrevenUitPubliekeDatastroom()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: "Vereniging werd uitgeschreven uit de publieke datastroom.",
+                                               Beschrijving:
+                                               "Vereniging werd uitgeschreven uit de publieke datastroom.",
                                                nameof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom),
                                                fixture.Scenario.VerenigingWerdUitgeschrevenUitPubliekeDatastroom,
                                                fixture.MetadataInitiator,

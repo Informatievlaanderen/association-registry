@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection.Locaties.Kbo;
 
-using DuplicateDetection;
-using AssociationRegistry.Test.Projections.Scenario.Locaties;
+using Scenario.Locaties;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
@@ -9,7 +8,7 @@ public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
     : DuplicateDetectionClassFixture<MaatschappelijkeZetelVolgensKBOWerdGewijzigdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Maatschappelijke_Zetel_Volgens_Kbo_Werd_Gewijzigd()
     {
         var locatie = fixture.Scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigdFirstLocation;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == locatie.LocatieId);

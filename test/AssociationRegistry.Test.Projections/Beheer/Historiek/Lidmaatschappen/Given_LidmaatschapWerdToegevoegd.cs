@@ -6,7 +6,8 @@ using Events;
 using Scenario.Lidmaatschappen;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_LidmaatschapWerdToegevoegd(BeheerHistoriekScenarioFixture<LidmaatschapWerdToegevoegdScenario> fixture)
+public class Given_LidmaatschapWerdToegevoegd(
+    BeheerHistoriekScenarioFixture<LidmaatschapWerdToegevoegdScenario> fixture)
     : BeheerHistoriekScenarioClassFixture<LidmaatschapWerdToegevoegdScenario>
 {
     [Fact]
@@ -15,12 +16,14 @@ public class Given_LidmaatschapWerdToegevoegd(BeheerHistoriekScenarioFixture<Lid
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Lidmaatschap_Werd_Toegevoegd()
         => fixture.Result
                   .Gebeurtenissen.Should().ContainEquivalentOf(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: "Lidmaatschap werd toegevoegd.",
-                                               nameof(LidmaatschapWerdToegevoegd),
-                                               LidmaatschapData.Create(fixture.Scenario.LidmaatschapWerdToegevoegdFirst.Lidmaatschap),
-                                               fixture.MetadataInitiator,
-                                               fixture.MetadataTijdstip));
+                                                                   Beschrijving: "Lidmaatschap werd toegevoegd.",
+                                                                   nameof(LidmaatschapWerdToegevoegd),
+                                                                   LidmaatschapData.Create(
+                                                                       fixture.Scenario.LidmaatschapWerdToegevoegdFirst
+                                                                              .Lidmaatschap),
+                                                                   fixture.MetadataInitiator,
+                                                                   fixture.MetadataTijdstip));
 }

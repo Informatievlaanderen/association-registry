@@ -16,11 +16,12 @@ public class Given_VerenigingWerdGestoptInKbo(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_VerenigingWerdGestoptInKBO()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"De vereniging werd gestopt in KBO met einddatum '{fixture.Scenario.VerenigingWerdGestoptInKBO.Einddatum.ToString(WellknownFormats.DateOnly)}'.",
+                                               Beschrijving:
+                                               $"De vereniging werd gestopt in KBO met einddatum '{fixture.Scenario.VerenigingWerdGestoptInKBO.Einddatum.ToString(WellknownFormats.DateOnly)}'.",
                                                nameof(VerenigingWerdGestoptInKBO),
                                                fixture.Scenario.VerenigingWerdGestoptInKBO,
                                                fixture.MetadataInitiator,

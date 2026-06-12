@@ -14,8 +14,9 @@ public class Given_EinddatumWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Gewijzigde_Einddatum()
     {
-        fixture.Result.Einddatum.Should().BeEquivalentTo(fixture.Scenario.EinddatumWerdGewijzigd.Einddatum.FormatAsBelgianDate());
+        fixture.Result.Einddatum.Should()
+               .BeEquivalentTo(fixture.Scenario.EinddatumWerdGewijzigd.Einddatum.FormatAsBelgianDate());
     }
 }

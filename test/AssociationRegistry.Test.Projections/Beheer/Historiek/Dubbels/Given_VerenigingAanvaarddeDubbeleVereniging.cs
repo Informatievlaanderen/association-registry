@@ -5,7 +5,8 @@ using Events;
 using Scenario.Dubbels;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_VerenigingAanvaarddeDubbeleVereniging(BeheerHistoriekScenarioFixture<VerenigingAanvaarddeDubbeleVerenigingScenario> fixture)
+public class Given_VerenigingAanvaarddeDubbeleVereniging(
+    BeheerHistoriekScenarioFixture<VerenigingAanvaarddeDubbeleVerenigingScenario> fixture)
     : BeheerHistoriekScenarioClassFixture<VerenigingAanvaarddeDubbeleVerenigingScenario>
 {
     [Fact]
@@ -14,16 +15,18 @@ public class Given_VerenigingAanvaarddeDubbeleVereniging(BeheerHistoriekScenario
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Vereniging_Aanvaardde_Dubbele_Vereniging()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Vereniging aanvaardde dubbele vereniging {fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode}.",
+                                               Beschrijving:
+                                               $"Vereniging aanvaardde dubbele vereniging {fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode}.",
                                                nameof(VerenigingAanvaarddeDubbeleVereniging),
                                                new
                                                {
                                                    VCode = fixture.Scenario.AggregateId,
-                                                   VCodeDubbeleVereniging = fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode,
+                                                   VCodeDubbeleVereniging = fixture.Scenario
+                                                      .DubbeleVerenigingWerdGeregistreerd.VCode,
                                                },
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));

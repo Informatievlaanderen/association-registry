@@ -16,11 +16,12 @@ public class Given_EinddatumWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Einddatum_Werd_Gewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"De einddatum van de vereniging werd gewijzigd naar '{fixture.Scenario.EinddatumWerdGewijzigd.Einddatum.ToString(WellknownFormats.DateOnly)}'.",
+                                               Beschrijving:
+                                               $"De einddatum van de vereniging werd gewijzigd naar '{fixture.Scenario.EinddatumWerdGewijzigd.Einddatum.ToString(WellknownFormats.DateOnly)}'.",
                                                nameof(EinddatumWerdGewijzigd),
                                                fixture.Scenario.EinddatumWerdGewijzigd,
                                                fixture.MetadataInitiator,

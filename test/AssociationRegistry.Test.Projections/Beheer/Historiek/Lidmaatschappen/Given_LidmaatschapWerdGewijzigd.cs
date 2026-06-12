@@ -15,13 +15,14 @@ public class Given_LidmaatschapWerdGewijzigd(BeheerHistoriekScenarioFixture<Lidm
                   .Metadata.Version.Should().Be(4);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Lidmaatschap_Werd_Gewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
                                                Beschrijving: "Lidmaatschap werd gewijzigd.",
                                                nameof(LidmaatschapWerdGewijzigd),
-                                               LidmaatschapData.Create(fixture.Scenario.LidmaatschapWerdGewijzigd.Lidmaatschap),
+                                               LidmaatschapData.Create(
+                                                   fixture.Scenario.LidmaatschapWerdGewijzigd.Lidmaatschap),
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));
 }

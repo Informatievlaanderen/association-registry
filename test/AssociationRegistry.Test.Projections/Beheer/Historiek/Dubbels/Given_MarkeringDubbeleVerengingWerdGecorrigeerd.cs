@@ -5,7 +5,8 @@ using Events;
 using Scenario.Dubbels;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_MarkeringDubbeleVerenigingWerdGecorrigeerd(BeheerHistoriekScenarioFixture<MarkeringDubbeleVerengingWerdGecorrigeerdScenario> fixture)
+public class Given_MarkeringDubbeleVerenigingWerdGecorrigeerd(
+    BeheerHistoriekScenarioFixture<MarkeringDubbeleVerengingWerdGecorrigeerdScenario> fixture)
     : BeheerHistoriekScenarioClassFixture<MarkeringDubbeleVerengingWerdGecorrigeerdScenario>
 {
     [Fact]
@@ -14,16 +15,18 @@ public class Given_MarkeringDubbeleVerenigingWerdGecorrigeerd(BeheerHistoriekSce
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Markering_Dubbele_Vereniging_Werd_Gecorrigeerd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Markering als dubbel van vereniging {fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode} werd gecorrigeerd.",
+                                               Beschrijving:
+                                               $"Markering als dubbel van vereniging {fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode} werd gecorrigeerd.",
                                                nameof(MarkeringDubbeleVerengingWerdGecorrigeerd),
                                                new
                                                {
                                                    VCode = fixture.Scenario.AggregateId,
-                                                   VCodeAuthentiekeVereniging = fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode,
+                                                   VCodeAuthentiekeVereniging = fixture.Scenario
+                                                      .AuthentiekeVerenigingWerdGeregistreerd.VCode,
                                                },
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));

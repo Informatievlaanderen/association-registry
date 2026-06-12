@@ -1,8 +1,7 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Erkenningen;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
-using AssociationRegistry.Test.Projections.Scenario.Erkenningen.Zoeken;
-using Publiek.Zoeken;
+using DecentraalBeheer.Vereniging.Erkenningen;
+using Scenario.Erkenningen.Zoeken;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerlopenErkenningWerdGewijzigdNaarActieveErkenning(
@@ -10,11 +9,11 @@ public class Given_VerlopenErkenningWerdGewijzigdNaarActieveErkenning(
 ) : BeheerZoekenScenarioClassFixture<VzerMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenningScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Has_Verlopen_And_Actieve_Erkenning()
     {
         fixture
-            .Result.Erkenningen.Should()
-            .BeEquivalentTo(
+           .Result.Erkenningen.Should()
+           .BeEquivalentTo(
                 new Dictionary<int, string>()
                 {
                     {

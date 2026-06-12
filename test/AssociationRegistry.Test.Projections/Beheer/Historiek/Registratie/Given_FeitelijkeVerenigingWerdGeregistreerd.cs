@@ -16,13 +16,15 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
                   .Metadata.Version.Should().Be(1);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_FeitelijkeVerenigingWerdGeregistreerd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Feitelijke vereniging werd geregistreerd met naam '{fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam}'.",
+                                               Beschrijving:
+                                               $"Feitelijke vereniging werd geregistreerd met naam '{fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam}'.",
                                                nameof(FeitelijkeVerenigingWerdGeregistreerd),
-                                               VerenigingWerdGeregistreerdData.Create(fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd),
+                                               VerenigingWerdGeregistreerdData.Create(
+                                                   fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd),
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));
 }

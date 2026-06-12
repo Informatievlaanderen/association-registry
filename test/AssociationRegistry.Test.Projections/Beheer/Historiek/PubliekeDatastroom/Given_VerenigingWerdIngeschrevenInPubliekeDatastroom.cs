@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.PubliekeDatastroom;
 
 using Admin.Schema.Historiek;
-using AssociationRegistry.Test.Projections.Scenario.PubliekeDatastroom;
 using Events;
+using Scenario.PubliekeDatastroom;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingWerdIngeschrevenInPubliekeDatastroom(
@@ -15,7 +15,7 @@ public class Given_VerenigingWerdIngeschrevenInPubliekeDatastroom(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_VerenigingWerdIngeschrevenInPubliekeDatastroom()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(

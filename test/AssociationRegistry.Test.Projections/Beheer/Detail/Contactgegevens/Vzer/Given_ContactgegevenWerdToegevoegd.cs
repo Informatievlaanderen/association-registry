@@ -16,14 +16,17 @@ public class Given_ContactgegevenWerdToegevoegd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Contactgegeven_Toegevoegd()
     {
-        var contactGegeven = fixture.Result.Contactgegevens.Single(x => x.ContactgegevenId == fixture.Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId);
+        var contactGegeven =
+            fixture.Result.Contactgegevens.Single(x => x.ContactgegevenId ==
+                                                       fixture.Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId);
 
         contactGegeven.Should().BeEquivalentTo(new Contactgegeven
         {
             JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                JsonLdType.Contactgegeven, fixture.Scenario.AggregateId,
+                JsonLdType.Contactgegeven,
+                fixture.Scenario.AggregateId,
                 contactGegeven.ContactgegevenId.ToString()),
             ContactgegevenId = contactGegeven.ContactgegevenId,
             Contactgegeventype = contactGegeven.Contactgegeventype,

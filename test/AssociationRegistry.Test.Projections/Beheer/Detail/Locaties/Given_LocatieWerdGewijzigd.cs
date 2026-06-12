@@ -18,7 +18,7 @@ public class Given_LocatieWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Locatie_Gewijzigd()
     {
         var locatieWerdGewijzigd = fixture.Scenario.LocatieWerdGewijzigd;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == locatieWerdGewijzigd.Locatie.LocatieId);

@@ -13,9 +13,10 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Gewijzigde_Hoofdactiviteiten()
     {
         fixture.Result.HoofdactiviteitenVerenigingsloket.Should()
-               .BeEquivalentTo(fixture.Scenario.HoofdactiviteitenVerenigingsloketWerdenGewijzigd.HoofdactiviteitenVerenigingsloket);
+               .BeEquivalentTo(fixture.Scenario.HoofdactiviteitenVerenigingsloketWerdenGewijzigd
+                                      .HoofdactiviteitenVerenigingsloket);
     }
 }

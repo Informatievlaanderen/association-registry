@@ -15,11 +15,12 @@ public class Given_ContactgegevenWerdToegevoegd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Contactgegeven_Werd_Toegevoegd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"{fixture.Scenario.ContactgegevenWerdToegevoegd.Contactgegeventype} '{fixture.Scenario.ContactgegevenWerdToegevoegd.Waarde}' werd toegevoegd.",
+                                               Beschrijving:
+                                               $"{fixture.Scenario.ContactgegevenWerdToegevoegd.Contactgegeventype} '{fixture.Scenario.ContactgegevenWerdToegevoegd.Waarde}' werd toegevoegd.",
                                                nameof(ContactgegevenWerdToegevoegd),
                                                fixture.Scenario.ContactgegevenWerdToegevoegd,
                                                fixture.MetadataInitiator,

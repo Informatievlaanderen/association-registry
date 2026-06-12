@@ -13,9 +13,13 @@ public class Given_ContactgegevenWerdVerwijderd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Contactgegeven_Verwijderd()
     {
-        var contactGegeven = fixture.Result.Contactgegevens.SingleOrDefault(x => x.ContactgegevenId == fixture.Scenario.ContactgegevenWerdVerwijderd.ContactgegevenId);
+        var contactGegeven =
+            fixture.Result.Contactgegevens.SingleOrDefault(x => x.ContactgegevenId ==
+                                                                fixture.Scenario.ContactgegevenWerdVerwijderd
+                                                                       .ContactgegevenId);
+
         contactGegeven.Should().BeNull();
     }
 }

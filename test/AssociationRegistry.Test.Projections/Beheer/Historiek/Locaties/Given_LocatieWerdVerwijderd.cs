@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Locaties;
 
 using Admin.Schema.Historiek;
-using AssociationRegistry.Test.Projections.Scenario.Locaties;
 using Events;
+using Scenario.Locaties;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LocatieWerdVerwijderd(
@@ -15,11 +15,12 @@ public class Given_LocatieWerdVerwijderd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Has_Expected_Values()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"'{fixture.Scenario.LocatieWerdVerwijderd.Locatie.Locatietype}' locatie '{fixture.Scenario.LocatieWerdVerwijderd.Locatie.Naam}' werd verwijderd.",
+                                               Beschrijving:
+                                               $"'{fixture.Scenario.LocatieWerdVerwijderd.Locatie.Locatietype}' locatie '{fixture.Scenario.LocatieWerdVerwijderd.Locatie.Naam}' werd verwijderd.",
                                                nameof(LocatieWerdVerwijderd),
                                                fixture.Scenario.LocatieWerdVerwijderd.Locatie,
                                                fixture.MetadataInitiator,

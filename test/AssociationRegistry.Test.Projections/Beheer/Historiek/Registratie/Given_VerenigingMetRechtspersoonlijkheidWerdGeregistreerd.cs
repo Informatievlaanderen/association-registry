@@ -15,11 +15,12 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                   .Metadata.Version.Should().Be(1);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Vereniging met rechtspersoonlijkheid werd geregistreerd met naam '{fixture.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}'.",
+                                               Beschrijving:
+                                               $"Vereniging met rechtspersoonlijkheid werd geregistreerd met naam '{fixture.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}'.",
                                                nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd),
                                                fixture.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
                                                fixture.MetadataInitiator,

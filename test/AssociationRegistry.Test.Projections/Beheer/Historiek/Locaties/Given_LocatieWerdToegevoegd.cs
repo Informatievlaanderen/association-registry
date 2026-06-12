@@ -15,11 +15,12 @@ public class Given_LocatieWerdToegevoegd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Has_Expected_Values()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"'{fixture.Scenario.LocatieWerdToegevoegd.Locatie.Locatietype}' locatie '{fixture.Scenario.LocatieWerdToegevoegd.Locatie.Naam}' werd toegevoegd.",
+                                               Beschrijving:
+                                               $"'{fixture.Scenario.LocatieWerdToegevoegd.Locatie.Locatietype}' locatie '{fixture.Scenario.LocatieWerdToegevoegd.Locatie.Naam}' werd toegevoegd.",
                                                nameof(LocatieWerdToegevoegd),
                                                fixture.Scenario.LocatieWerdToegevoegd.Locatie,
                                                fixture.MetadataInitiator,

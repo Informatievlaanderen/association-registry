@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Erkenningen;
 
-using AssociationRegistry.Test.Projections.Scenario.Registratie;
-using Publiek.Zoeken;
+using Scenario.Registratie;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VzerWerdGeregistreerd(
@@ -9,7 +8,7 @@ public class Given_VzerWerdGeregistreerd(
 ) : BeheerZoekenScenarioClassFixture<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Is_Empty()
     {
         fixture.Result.Erkenningen.Should().BeEmpty();
     }

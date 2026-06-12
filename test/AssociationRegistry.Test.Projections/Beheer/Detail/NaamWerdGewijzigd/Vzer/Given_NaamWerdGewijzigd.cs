@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.NaamWerdGewijzigd.Vzer;
 
-using AssociationRegistry.Test.Projections.Scenario.NaamWerdGewijzigd.Vzer;
+using Scenario.NaamWerdGewijzigd.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_NaamWerdGewijzigd(
@@ -13,7 +13,7 @@ public class Given_NaamWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Naam_Gewijzigd()
     {
         fixture.Result.Naam.Should()
                .BeEquivalentTo(fixture.Scenario.NaamWerdGewijzigd.Naam);

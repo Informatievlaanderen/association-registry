@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Subtypes;
 
 using Admin.Schema.Historiek;
-using AssociationRegistry.Test.Projections.Scenario.Subtypes;
 using Events;
+using Scenario.Subtypes;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingssubtypeWerdTerugGezetNaarNietBepaald(
@@ -15,7 +15,7 @@ public class Given_VerenigingssubtypeWerdTerugGezetNaarNietBepaald(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_BeheerVerenigingHistoriekGebeurtenis()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(

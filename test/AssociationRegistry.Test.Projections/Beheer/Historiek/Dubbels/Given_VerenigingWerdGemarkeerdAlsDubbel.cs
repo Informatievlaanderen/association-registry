@@ -5,7 +5,8 @@ using Events;
 using Scenario.Dubbels;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_VerenigingWerdGemarkeerdAlsDubbel(BeheerHistoriekScenarioFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario> fixture)
+public class Given_VerenigingWerdGemarkeerdAlsDubbel(
+    BeheerHistoriekScenarioFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario> fixture)
     : BeheerHistoriekScenarioClassFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario>
 {
     [Fact]
@@ -14,16 +15,18 @@ public class Given_VerenigingWerdGemarkeerdAlsDubbel(BeheerHistoriekScenarioFixt
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Vereniging_Gemarkeerd_Als_Dubbel()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Vereniging werd gemarkeerd als dubbel van {fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode}.",
+                                               Beschrijving:
+                                               $"Vereniging werd gemarkeerd als dubbel van {fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode}.",
                                                nameof(VerenigingWerdGemarkeerdAlsDubbelVan),
                                                new
                                                {
                                                    VCode = fixture.Scenario.AggregateId,
-                                                   VCodeAuthentiekeVereniging = fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode,
+                                                   VCodeAuthentiekeVereniging = fixture.Scenario
+                                                      .AuthentiekeVerenigingWerdGeregistreerd.VCode,
                                                },
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));

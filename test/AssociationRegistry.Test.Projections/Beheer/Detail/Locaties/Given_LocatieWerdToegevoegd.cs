@@ -18,7 +18,7 @@ public class Given_LocatieWerdToegevoegd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Locatie_Toegevoegd()
     {
         var locatieWerdToegevoegd = fixture.Scenario.LocatieWerdToegevoegd;
         var vCode = fixture.Scenario.AggregateId;

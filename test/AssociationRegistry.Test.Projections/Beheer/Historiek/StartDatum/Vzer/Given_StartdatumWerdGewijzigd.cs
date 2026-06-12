@@ -16,11 +16,12 @@ public class Given_StartdatumWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_StartdatumWerdGewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Startdatum werd gewijzigd naar '{fixture.Scenario.StartdatumWerdGewijzigd.Startdatum.FormatAsBelgianDate()}'.",
+                                               Beschrijving:
+                                               $"Startdatum werd gewijzigd naar '{fixture.Scenario.StartdatumWerdGewijzigd.Startdatum.FormatAsBelgianDate()}'.",
                                                nameof(StartdatumWerdGewijzigd),
                                                fixture.Scenario.StartdatumWerdGewijzigd,
                                                fixture.MetadataInitiator,

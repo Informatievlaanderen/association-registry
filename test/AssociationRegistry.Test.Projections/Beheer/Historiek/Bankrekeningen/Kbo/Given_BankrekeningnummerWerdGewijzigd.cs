@@ -13,11 +13,11 @@ public class Given_BankrekeningnummerWerdGewijzigd(
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Historiek_Saved_Bankrekenummer_Gewijzigd() =>
         fixture
-            .Result.Gebeurtenissen.Last()
-            .Should()
-            .BeEquivalentTo(
+           .Result.Gebeurtenissen.Last()
+           .Should()
+           .BeEquivalentTo(
                 new BeheerVerenigingHistoriekGebeurtenis(
                     Beschrijving: $"Bankrekeningnummer werd gewijzigd.",
                     nameof(BankrekeningnummerWerdGewijzigd),

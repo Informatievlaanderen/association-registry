@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection.Locaties;
 
 using Formats;
-using AssociationRegistry.Test.Projections.Scenario.Locaties;
+using Scenario.Locaties;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LocatieWerdToegevoegd(
@@ -9,7 +9,7 @@ public class Given_LocatieWerdToegevoegd(
     : DuplicateDetectionClassFixture<LocatieWerdToegevoegdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Locatie_Has_Added_Values()
     {
         var locatieWerdToegevoegd = fixture.Scenario.LocatieWerdToegevoegd;
         var vCode = fixture.Scenario.AggregateId;

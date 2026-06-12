@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Bankrekeningen.Vzer;
 
-using AssociationRegistry.Admin.Schema.Historiek;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Projections.Scenario.Bankrekeningnummers.Vzer;
+using Admin.Schema.Historiek;
+using Events;
+using Scenario.Bankrekeningnummers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_ValidatieBankrekeningWerdOngedaanGemaakt(
@@ -15,13 +15,16 @@ public class Given_ValidatieBankrekeningWerdOngedaanGemaakt(
                   .Metadata.Version.Should().Be(4);
 
     [Fact]
-    public void Then_Document_Is_Updated()
+    public void Historiek_Saved_Validatie_Bankrekenummer_Werd_Ongedaan_Gemaakt()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Bankrekeningnummervalidatiedocument werd ongedaan gemaakt door '{fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt.OngedaanGemaaktDoor}'.",
-                                               nameof(AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt),
-                                               fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt,
+                                               Beschrijving:
+                                               $"Bankrekeningnummervalidatiedocument werd ongedaan gemaakt door '{fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt.OngedaanGemaaktDoor}'.",
+                                               nameof(
+                                                   AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt),
+                                               fixture.Scenario
+                                                      .AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt,
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));
 }

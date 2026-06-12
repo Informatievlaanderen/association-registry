@@ -15,11 +15,12 @@ public class Given_ContactgegevenWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Contactgegeven_Werd_Gewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"{fixture.Scenario.ContactgegevenWerdGewijzigd.Contactgegeventype} '{fixture.Scenario.ContactgegevenWerdGewijzigd.Waarde}' werd gewijzigd.",
+                                               Beschrijving:
+                                               $"{fixture.Scenario.ContactgegevenWerdGewijzigd.Contactgegeventype} '{fixture.Scenario.ContactgegevenWerdGewijzigd.Waarde}' werd gewijzigd.",
                                                nameof(ContactgegevenWerdGewijzigd),
                                                fixture.Scenario.ContactgegevenWerdGewijzigd,
                                                fixture.MetadataInitiator,

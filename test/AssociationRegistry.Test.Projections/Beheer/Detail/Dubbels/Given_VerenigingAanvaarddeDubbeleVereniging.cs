@@ -4,7 +4,8 @@ using Admin.Schema.Constants;
 using Scenario.Dubbels;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_VerenigingWerdToegevoegdAlsDubbel(BeheerDetailScenarioFixture<VerenigingAanvaarddeDubbeleVerenigingScenario> fixture)
+public class Given_VerenigingWerdToegevoegdAlsDubbel(
+    BeheerDetailScenarioFixture<VerenigingAanvaarddeDubbeleVerenigingScenario> fixture)
     : BeheerDetailScenarioClassFixture<VerenigingAanvaarddeDubbeleVerenigingScenario>
 {
     [Fact]
@@ -13,7 +14,7 @@ public class Given_VerenigingWerdToegevoegdAlsDubbel(BeheerDetailScenarioFixture
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_IsDubbelVan_Is_Updated()
+    public void Document_IsDubbelVan_Is_Toegevoegd_Als_Dubbels()
         => fixture.Result.IsDubbelVan.Should().BeEmpty();
 
     [Fact]
@@ -22,5 +23,6 @@ public class Given_VerenigingWerdToegevoegdAlsDubbel(BeheerDetailScenarioFixture
 
     [Fact]
     public void Document_Has_DubbeleVereniging_In_CorresponderendeVCodes()
-        => fixture.Result.CorresponderendeVCodes.Should().Contain(fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode);
+        => fixture.Result.CorresponderendeVCodes.Should()
+                  .Contain(fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode);
 }

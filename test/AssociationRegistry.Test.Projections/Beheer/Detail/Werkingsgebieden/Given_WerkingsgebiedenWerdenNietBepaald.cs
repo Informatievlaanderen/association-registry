@@ -3,7 +3,8 @@
 using Scenario.Werkingsgebieden;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietBepaald(BeheerDetailScenarioFixture<WerkingsgebiedenWerdenNietBepaaldScenario> fixture)
+public class Given_WerkingsgebiedenWerdenNietBepaald(
+    BeheerDetailScenarioFixture<WerkingsgebiedenWerdenNietBepaaldScenario> fixture)
     : BeheerDetailScenarioClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario>
 {
     [Fact]
@@ -12,7 +13,7 @@ public class Given_WerkingsgebiedenWerdenNietBepaald(BeheerDetailScenarioFixture
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Werkingsgebieden_Niet_Bepaald()
         => fixture.Result
                   .Werkingsgebieden
                   .Should()

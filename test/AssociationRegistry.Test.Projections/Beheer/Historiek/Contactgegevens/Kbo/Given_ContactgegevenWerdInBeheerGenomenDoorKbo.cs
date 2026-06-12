@@ -15,11 +15,12 @@ public class Given_ContactgegevenWerdInBeheerGenomenDoorKbo(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Contactgegeven_Werd_In_Beheer_Genomen_Door_Kbo()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"{@fixture.Scenario.ContactgegevenWerdInBeheerGenomenDoorKbo.Contactgegeventype} '{fixture.Scenario.ContactgegevenWerdInBeheerGenomenDoorKbo.Waarde}' werd in beheer genomen door KBO.",
+                                               Beschrijving:
+                                               $"{@fixture.Scenario.ContactgegevenWerdInBeheerGenomenDoorKbo.Contactgegeventype} '{fixture.Scenario.ContactgegevenWerdInBeheerGenomenDoorKbo.Waarde}' werd in beheer genomen door KBO.",
                                                nameof(ContactgegevenWerdInBeheerGenomenDoorKbo),
                                                fixture.Scenario.ContactgegevenWerdInBeheerGenomenDoorKbo,
                                                fixture.MetadataInitiator,

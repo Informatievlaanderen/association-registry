@@ -1,10 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.RechtsVormWerdGewijzigdInKbo;
 
-using AssociationRegistry.Test.Projections.Scenario.NaamWerdGewijzigd.Kbo;
 using DecentraalBeheer.Vereniging;
 using Public.Schema.Detail;
 using Scenario.RechtsvormWerdGewijzigdInKBO;
-using Vereniging;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_RechtsvormWerdGewijzigdInKBO(
@@ -17,7 +15,7 @@ public class Given_RechtsvormWerdGewijzigdInKBO(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Rechstvorm_Gewijzigd()
     {
         fixture.Result.Rechtsvorm.Should()
                .BeEquivalentTo(fixture.Scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm);

@@ -15,11 +15,12 @@ public class Given_BankrekeningWerdToegevoegdVanuitKBO(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Bankrekenummer_Werd_Toegevoegd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Bankrekeningnummer met IBAN '{fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Iban}' werd toegevoegd vanuit KBO.",
+                                               Beschrijving:
+                                               $"Bankrekeningnummer met IBAN '{fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Iban}' werd toegevoegd vanuit KBO.",
                                                nameof(BankrekeningnummerWerdToegevoegdVanuitKBO),
                                                fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO,
                                                fixture.MetadataInitiator,

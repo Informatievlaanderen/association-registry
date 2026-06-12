@@ -5,7 +5,6 @@ using Admin.Schema.Search;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Scenario.Werkingsgebieden;
-using Vereniging;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenNietVanToepassing(
@@ -13,7 +12,7 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing(
     : BeheerZoekenScenarioClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Werkingsgebieden_Werden_Niet_Van_Toepassing()
         => fixture.Result
                   .Werkingsgebieden
                   .Should().BeEquivalentTo([

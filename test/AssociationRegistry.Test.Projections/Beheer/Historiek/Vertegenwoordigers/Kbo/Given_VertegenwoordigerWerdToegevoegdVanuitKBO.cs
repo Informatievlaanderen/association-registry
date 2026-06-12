@@ -16,13 +16,15 @@ public class Given_VertegenwoordigerWerdToegevoegdVanuitKBO(
                   .Metadata.Version.Should().Be(1);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_VertegenwoordigerWerdToegevoegdVanuitKBO()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO.Voornaam} {fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO.Achternaam}' werd toegevoegd vanuit KBO.",
+                                               Beschrijving:
+                                               $"Vertegenwoordiger '{fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO.Voornaam} {fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO.Achternaam}' werd toegevoegd vanuit KBO.",
                                                nameof(VertegenwoordigerWerdToegevoegdVanuitKBO),
-                                               KBOVertegenwoordigerData.Create(fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO),
-                                                                            fixture.MetadataInitiator,
-                                                                            fixture.MetadataTijdstip));
+                                               KBOVertegenwoordigerData.Create(
+                                                   fixture.Scenario.VertegenwoordigerWerdToegevoegdVanuitKBO),
+                                               fixture.MetadataInitiator,
+                                               fixture.MetadataTijdstip));
 }

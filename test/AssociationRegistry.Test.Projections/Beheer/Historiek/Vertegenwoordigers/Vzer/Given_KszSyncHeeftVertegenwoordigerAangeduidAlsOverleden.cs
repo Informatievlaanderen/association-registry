@@ -2,8 +2,8 @@
 
 using Admin.Schema.Historiek;
 using Admin.Schema.Historiek.EventData;
-using AssociationRegistry.Test.Projections.Scenario.Vertegenwoordigers.Vzer;
 using Events;
+using Scenario.Vertegenwoordigers.Vzer;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
@@ -16,13 +16,15 @@ public class Given_KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_BeheerVerenigingHistoriekGebeurtenis()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving:$"Vertegenwoordiger '{fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden.Voornaam} {fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden.Achternaam}' is overleden volgens KSZ en werd verwijderd.",
+                                               Beschrijving:
+                                               $"Vertegenwoordiger '{fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden.Voornaam} {fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden.Achternaam}' is overleden volgens KSZ en werd verwijderd.",
                                                nameof(KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden),
-                                               VertegenwoordigerWerdVerwijderdData.Create(fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden),
-                                                                            fixture.MetadataInitiator,
-                                                                            fixture.MetadataTijdstip));
+                                               VertegenwoordigerWerdVerwijderdData.Create(
+                                                   fixture.Scenario.KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden),
+                                               fixture.MetadataInitiator,
+                                               fixture.MetadataTijdstip));
 }

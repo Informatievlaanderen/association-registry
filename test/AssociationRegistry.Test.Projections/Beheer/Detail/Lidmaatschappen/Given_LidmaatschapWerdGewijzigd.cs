@@ -13,7 +13,7 @@ public class Given_LidmaatschapWerdGewijzigd(BeheerDetailScenarioFixture<Lidmaat
                   .Metadata.Version.Should().Be(4);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Lidmaatschap_Gewijzigd()
         => fixture.Result
                   .Lidmaatschappen[0]
                   .Should()

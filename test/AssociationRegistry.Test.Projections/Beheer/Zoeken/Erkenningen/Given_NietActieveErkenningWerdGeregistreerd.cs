@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Erkenningen;
 
-using AssociationRegistry.Test.Projections.Scenario.Erkenningen.Zoeken;
-using Publiek.Zoeken;
+using Scenario.Erkenningen.Zoeken;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_NietActieveErkenningWerdGeregistreerd(
@@ -9,11 +8,11 @@ public class Given_NietActieveErkenningWerdGeregistreerd(
 ) : BeheerZoekenScenarioClassFixture<VzerMetErkenningInAanvraagWerdGeregistreerdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Has_Geregistreerde_Status()
     {
         fixture
-            .Result.Erkenningen.Should()
-            .BeEquivalentTo(
+           .Result.Erkenningen.Should()
+           .BeEquivalentTo(
                 new Dictionary<int, string>()
                 {
                     {

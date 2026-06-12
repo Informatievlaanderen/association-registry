@@ -15,11 +15,12 @@ public class Given_DoelgroepWerdGewijzigdd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Doelgroep_Werd_Gewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Doelgroep werd gewijzigd naar '{fixture.Scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd} - {fixture.Scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd}'.",
+                                               Beschrijving:
+                                               $"Doelgroep werd gewijzigd naar '{fixture.Scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd} - {fixture.Scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd}'.",
                                                nameof(DoelgroepWerdGewijzigd),
                                                fixture.Scenario.DoelgroepWerdGewijzigd,
                                                fixture.MetadataInitiator,

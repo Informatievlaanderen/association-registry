@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.MaatschappelijkeZetel;
 
 using Admin.Schema;
-using AssociationRegistry.Admin.Schema.Detail;
+using Admin.Schema.Detail;
 using Contracts.JsonLdContext;
 using Events;
 using Formats;
@@ -18,19 +18,28 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Maatschappelijke_Zetel_Overgenomen()
     {
         var maatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo;
-        var actual = fixture.Result.Locaties.Single(x => x.LocatieId == maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId);
+
+        var actual =
+            fixture.Result.Locaties.Single(x => x.LocatieId ==
+                                                maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId);
+
         var vCode = fixture.Scenario.AggregateId;
 
         actual.Should().BeEquivalentTo(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie);
-        actual.Adresvoorstelling.Should().BeEquivalentTo(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString());
+
+        actual.Adresvoorstelling.Should()
+              .BeEquivalentTo(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString());
 
         VerifyJsonLdMetadata(actual, vCode, maatschappelijkeZetelWerdOvergenomenUitKbo);
     }
 
-    private static void VerifyJsonLdMetadata(Locatie actual, string vCode, MaatschappelijkeZetelWerdOvergenomenUitKbo locatie)
+    private static void VerifyJsonLdMetadata(
+        Locatie actual,
+        string vCode,
+        MaatschappelijkeZetelWerdOvergenomenUitKbo locatie)
     {
         actual.JsonLdMetadata.Should().BeEquivalentTo(new JsonLdMetadata
         {

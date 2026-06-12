@@ -3,7 +3,8 @@
 using Scenario.Dubbels;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_MarkeringDubbeleVerengingWerdGecorrigeerd(BeheerDetailScenarioFixture<MarkeringDubbeleVerengingWerdGecorrigeerdScenario> fixture)
+public class Given_MarkeringDubbeleVerengingWerdGecorrigeerd(
+    BeheerDetailScenarioFixture<MarkeringDubbeleVerengingWerdGecorrigeerdScenario> fixture)
     : BeheerDetailScenarioClassFixture<MarkeringDubbeleVerengingWerdGecorrigeerdScenario>
 {
     [Fact]
@@ -12,7 +13,7 @@ public class Given_MarkeringDubbeleVerengingWerdGecorrigeerd(BeheerDetailScenari
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_IsDubbelVan_Is_Updated()
+    public void Document_IsDubbelVan_Is_Gecorrigeerd()
         => fixture.Result.IsDubbelVan.Should().Be(String.Empty);
 
     [Fact]

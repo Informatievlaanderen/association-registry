@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.NaamWerdGewijzigd.Kbo;
 
-using AssociationRegistry.Test.Projections.Scenario.NaamWerdGewijzigd.Kbo;
+using Scenario.NaamWerdGewijzigd.Kbo;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_NaamWerdGewijzigdInKbo(
@@ -13,7 +13,7 @@ public class Given_NaamWerdGewijzigdInKbo(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Naam_Gewijzigd()
     {
         fixture.Result.Naam.Should()
                .BeEquivalentTo(fixture.Scenario.NaamWerdGewijzigdInKbo.Naam);

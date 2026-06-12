@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Roepnaam;
 
 using Admin.Schema.Historiek;
-using AssociationRegistry.Test.Projections.Scenario.Roepnaam;
 using Events;
+using Scenario.Roepnaam;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_RoepnaamWerdGewijzigd(
@@ -15,11 +15,12 @@ public class Given_RoepnaamWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_RoepnaamWerdGewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Roepnaam werd gewijzigd naar '{fixture.Scenario.RoepnaamWerdGewijzigd.Roepnaam}'.",
+                                               Beschrijving:
+                                               $"Roepnaam werd gewijzigd naar '{fixture.Scenario.RoepnaamWerdGewijzigd.Roepnaam}'.",
                                                nameof(RoepnaamWerdGewijzigd),
                                                fixture.Scenario.RoepnaamWerdGewijzigd,
                                                fixture.MetadataInitiator,

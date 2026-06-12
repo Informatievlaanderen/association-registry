@@ -15,11 +15,12 @@ public class Given_BankrekeningWerdVerwijderdUitKBO(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Bankrekenummer_Werd_Verwijderd_()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Bankrekeningnummer met IBAN '{fixture.Scenario.BankrekeningnummerWerdVerwijderdUitKBO.Iban}' werd verwijderd uit KBO.",
+                                               Beschrijving:
+                                               $"Bankrekeningnummer met IBAN '{fixture.Scenario.BankrekeningnummerWerdVerwijderdUitKBO.Iban}' werd verwijderd uit KBO.",
                                                nameof(BankrekeningnummerWerdVerwijderdUitKBO),
                                                fixture.Scenario.BankrekeningnummerWerdVerwijderdUitKBO,
                                                fixture.MetadataInitiator,

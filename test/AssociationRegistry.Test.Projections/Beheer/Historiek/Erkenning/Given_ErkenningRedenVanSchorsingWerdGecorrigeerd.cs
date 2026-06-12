@@ -13,13 +13,14 @@ public class Given_ErkenningRedenVanSchorsingWerdGecorrigeerd(
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(4);
 
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Historiek_Saved_RedenVanSchorsing_Werd_Gecorrigeerd() =>
         fixture
-            .Result.Gebeurtenissen.Last()
-            .Should()
-            .BeEquivalentTo(
+           .Result.Gebeurtenissen.Last()
+           .Should()
+           .BeEquivalentTo(
                 new BeheerVerenigingHistoriekGebeurtenis(
-                    Beschrijving: $"Reden van schorsing van een erkenning werd gecorrigeerd: {fixture.Scenario.ErkenningRedenVanSchorsingWerdGecorrigeerd.RedenSchorsing}",
+                    Beschrijving:
+                    $"Reden van schorsing van een erkenning werd gecorrigeerd: {fixture.Scenario.ErkenningRedenVanSchorsingWerdGecorrigeerd.RedenSchorsing}",
                     nameof(ErkenningRedenVanSchorsingWerdGecorrigeerd),
                     fixture.Scenario.ErkenningRedenVanSchorsingWerdGecorrigeerd,
                     fixture.MetadataInitiator,

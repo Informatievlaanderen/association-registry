@@ -16,7 +16,7 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing(
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Werkingsgebieden_Niet_Van_Toepassing()
         => fixture.Result
                   .Werkingsgebieden
                   .Should()

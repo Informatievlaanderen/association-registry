@@ -2,10 +2,10 @@
 
 using DecentraalBeheer.Vereniging;
 using Scenario.Dubbels;
-using Vereniging;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(BeheerDetailScenarioFixture<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario> fixture)
+public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
+    BeheerDetailScenarioFixture<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario> fixture)
     : BeheerDetailScenarioClassFixture<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario>
 {
     [Fact]
@@ -18,6 +18,6 @@ public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(BeheerDe
         => fixture.Result.IsDubbelVan.Should().BeEmpty();
 
     [Fact]
-    public void Document_Status_Is_Dubbel()
+    public void Document_Status_Is_Actief()
         => fixture.Result.Status.Should().Be(VerenigingStatus.Actief.StatusNaam);
 }

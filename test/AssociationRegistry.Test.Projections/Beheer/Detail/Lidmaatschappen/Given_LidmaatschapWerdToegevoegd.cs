@@ -13,7 +13,7 @@ public class Given_LidmaatschapWerdToegevoegd(BeheerDetailScenarioFixture<Lidmaa
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Lidmaatschap_Toegevoegd()
         => fixture.Result
                   .Lidmaatschappen[0]
                   .Should()

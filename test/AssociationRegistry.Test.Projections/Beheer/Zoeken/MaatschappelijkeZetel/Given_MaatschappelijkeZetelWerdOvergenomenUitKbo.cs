@@ -13,10 +13,14 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo(
     : BeheerZoekenScenarioClassFixture<MaatschappelijkeZetelWerdOvergenomenUitKboScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Maatschappelijke_Zetel_Werd_OVergenomen_()
     {
         var maatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo;
-        var actual = fixture.Result.Locaties.Single(x => x.LocatieId == maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId);
+
+        var actual =
+            fixture.Result.Locaties.Single(x => x.LocatieId ==
+                                                maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId);
+
         var vCode = fixture.Scenario.AggregateId;
 
         actual.Locatietype.Should().BeEquivalentTo(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype);
@@ -24,12 +28,17 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo(
         actual.IsPrimair.Should().Be(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.IsPrimair);
         actual.Gemeente.Should().BeEquivalentTo(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente);
         actual.Postcode.Should().BeEquivalentTo(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode);
-        actual.Adresvoorstelling.Should().BeEquivalentTo(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString());
+
+        actual.Adresvoorstelling.Should()
+              .BeEquivalentTo(maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString());
 
         VerifyJsonLdMetadata(actual, vCode, maatschappelijkeZetelWerdOvergenomenUitKbo);
     }
 
-    private static void VerifyJsonLdMetadata(VerenigingZoekDocument.Types.Locatie actual, string vCode, MaatschappelijkeZetelWerdOvergenomenUitKbo locatie)
+    private static void VerifyJsonLdMetadata(
+        VerenigingZoekDocument.Types.Locatie actual,
+        string vCode,
+        MaatschappelijkeZetelWerdOvergenomenUitKbo locatie)
     {
         actual.JsonLdMetadata.Should().BeEquivalentTo(new JsonLdMetadata
         {

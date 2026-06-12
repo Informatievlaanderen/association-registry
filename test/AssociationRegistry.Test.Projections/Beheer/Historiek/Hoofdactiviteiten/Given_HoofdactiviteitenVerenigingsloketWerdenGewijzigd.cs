@@ -15,7 +15,7 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_Hoofdactiviteiten_Verenigingsloket_Werden_Gewijzigd()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(

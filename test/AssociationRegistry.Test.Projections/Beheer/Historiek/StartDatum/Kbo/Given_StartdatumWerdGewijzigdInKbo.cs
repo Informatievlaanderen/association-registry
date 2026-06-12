@@ -16,11 +16,12 @@ public class Given_StartdatumWerdGewijzigdInKbo(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Historiek_Saved_StartdatumWerdGewijzigdInKbo()
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"In KBO werd de startdatum gewijzigd naar '{fixture.Scenario.StartdatumWerdGewijzigdInKbo.Startdatum.FormatAsBelgianDate()}'.",
+                                               Beschrijving:
+                                               $"In KBO werd de startdatum gewijzigd naar '{fixture.Scenario.StartdatumWerdGewijzigdInKbo.Startdatum.FormatAsBelgianDate()}'.",
                                                nameof(StartdatumWerdGewijzigdInKbo),
                                                fixture.Scenario.StartdatumWerdGewijzigdInKbo,
                                                fixture.MetadataInitiator,

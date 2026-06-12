@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Roepnaam;
 
-using AssociationRegistry.Test.Projections.Scenario.Roepnaam;
+using Scenario.Roepnaam;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_RoepnaamWerdGewijzigd(
@@ -13,7 +13,7 @@ public class Given_RoepnaamWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Has_Roepnaam_Gewijzigd()
     {
         fixture.Result.Roepnaam.Should()
                .BeEquivalentTo(fixture.Scenario.RoepnaamWerdGewijzigd.Roepnaam);
