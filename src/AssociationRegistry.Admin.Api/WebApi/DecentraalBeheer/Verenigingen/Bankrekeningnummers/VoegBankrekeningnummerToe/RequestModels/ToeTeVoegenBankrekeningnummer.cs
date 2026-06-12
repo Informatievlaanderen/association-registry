@@ -15,17 +15,17 @@ public class ToeTeVoegenBankrekeningnummer
 
     /// <summary>Waar deze rekening voor gebruikt wordt</summary>
     [DataMember(Name = "doel")]
-    public string? Doel { get; set; } = null!;
+    public string? Doel { get; set; }
 
     /// <summary>De titularis van het bankrekeningnummer</summary>
     [DataMember(Name = "titularis")]
     public string Titularis { get; set; } = null!;
 
     public static ToeTevoegenBankrekeningnummer Map(ToeTeVoegenBankrekeningnummer bankrekeningnummer) =>
-        new ToeTevoegenBankrekeningnummer()
+        new()
         {
             Iban = IbanNummer.Create(bankrekeningnummer.Iban),
-            Doel = bankrekeningnummer.Doel,
+            Doel = bankrekeningnummer.Doel ?? string.Empty,
             Titularis = DecentraalBeheer.Vereniging.Bankrekeningen.Titularis.Create(bankrekeningnummer.Titularis),
         };
 }
