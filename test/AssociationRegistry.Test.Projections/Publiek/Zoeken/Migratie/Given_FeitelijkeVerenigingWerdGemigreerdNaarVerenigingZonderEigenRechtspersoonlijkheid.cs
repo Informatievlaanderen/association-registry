@@ -3,15 +3,13 @@ namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Migratie;
 using DecentraalBeheer.Vereniging;
 using Public.Schema.Search;
 using Scenario.Migratie;
-using Vereniging;
-
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(PubliekZoekenScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)
     : PubliekZoekenScenarioClassFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_VerenigingsType_Gewijzigd_Naar_Vzer()
         => fixture.Result
                   .Verenigingstype.Should().BeEquivalentTo(new VerenigingZoekDocument.Types.Verenigingstype()
                    {

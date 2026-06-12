@@ -3,9 +3,9 @@
 using Contracts.JsonLdContext;
 using Events;
 using Formats;
-using Scenario.Lidmaatschappen;
 using Public.Schema.Detail;
 using Public.Schema.Search;
+using Scenario.Lidmaatschappen;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdGewijzigd(
@@ -13,7 +13,7 @@ public class Given_LidmaatschapWerdGewijzigd(
     : PubliekZoekenScenarioClassFixture<LidmaatschapWerdGewijzigdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Lidmaatschap_Werd_Gewijzigd()
     {
         var lidmaatschap = fixture.Scenario.LidmaatschapWerdGewijzigd;
         var vCode = fixture.Scenario.AggregateId;

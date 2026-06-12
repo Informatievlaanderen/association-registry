@@ -8,7 +8,7 @@ public class Given_VzerWerdGeregistreerd(
 ) : PubliekZoekenScenarioClassFixture<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Is_Empty()
     {
         fixture.Result.Erkenningen.Should().BeEmpty();
     }

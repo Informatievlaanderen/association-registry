@@ -7,7 +7,7 @@ public class Given_ErkenningWerdVerwijderd(PubliekZoekenScenarioFixture<VzerMetE
     : PubliekZoekenScenarioClassFixture<VzerMetErkenningWerdVerwijderdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Is_Empty()
     {
         fixture.Result.Erkenningen.Should().BeEmpty();
     }

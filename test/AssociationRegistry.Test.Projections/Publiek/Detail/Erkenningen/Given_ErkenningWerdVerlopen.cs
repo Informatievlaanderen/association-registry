@@ -9,7 +9,7 @@ public class Given_ErkenningWerdVerlopen(PubliekDetailScenarioFixture<ErkenningW
     : PubliekDetailScenarioClassFixture<ErkenningWerdVerlopenScenario>
 {
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Document_Erkenning_Werd_Verlopen() =>
         fixture
             .Result.Erkenningen.First()
             .Should()

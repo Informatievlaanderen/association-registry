@@ -7,6 +7,6 @@ public class Given_MarkeringDubbeleVerengingWerdGecorrigeerd(PubliekDetailScenar
     : PubliekDetailScenarioClassFixture<MarkeringDubbeleVerengingWerdGecorrigeerdScenario>
 {
     [Fact]
-    public void Document_Status_Is_Dubbel()
+    public void Document_Status_Is_VorigeStatus()
         => fixture.Result.Status.Should().Be(fixture.Scenario.MarkeringDubbeleVerengingWerdGecorrigeerd.VorigeStatus);
 }

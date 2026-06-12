@@ -13,7 +13,7 @@ public class Given_LocatieWerdToegevoegd(
     : PubliekZoekenScenarioClassFixture<LocatieWerdToegevoegdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Locatie_Werd_Toegevoegd()
     {
         var locatieWerdToegevoegd = fixture.Scenario.LocatieWerdToegevoegd;
         var vCode = fixture.Scenario.AggregateId;

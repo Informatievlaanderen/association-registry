@@ -9,7 +9,7 @@ public class Given_ActieveErkenningWerdVerwijderdEnActieveWerdBehouden(
 ) : PubliekZoekenScenarioClassFixture<VzerMetActieveErkenningenWerdVerwijderdEnActieveBehoudenScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Contains_ActieveErkenning()
     {
         fixture
             .Result.Erkenningen.Should()

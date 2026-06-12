@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail.Erkenningen;
 
-using DecentraalBeheer.Vereniging.Erkenningen;
 using Public.Schema.Detail;
 using Scenario.Erkenningen;
 
@@ -10,7 +9,7 @@ public class Given_SchorsingVanErkenningWerdOpgeheven(
 ) : PubliekDetailScenarioClassFixture<SchorsingVanErkenningWerdOpgehevenScenario>
 {
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Document_Schorsing_Werd_Opgeheven() =>
         fixture
             .Result.Erkenningen.First()
             .Should()

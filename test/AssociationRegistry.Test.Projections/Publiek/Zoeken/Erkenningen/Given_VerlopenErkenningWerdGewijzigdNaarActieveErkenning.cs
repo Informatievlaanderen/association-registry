@@ -9,7 +9,7 @@ public class Given_VerlopenErkenningWerdGewijzigdNaarActieveErkenning(
 ) : PubliekZoekenScenarioClassFixture<VzerMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenningScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Have_Expected_Statuses()
     {
         fixture
             .Result.Erkenningen.Should()

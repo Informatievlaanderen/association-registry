@@ -10,7 +10,7 @@ public class Given_ErkenningRedenVanSchorsingWerdGecorrigeerd(
 ) : PubliekDetailScenarioClassFixture<ErkenningRedenVanSchorsingWerdGecorrigeerdScenario>
 {
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Document_Erkenning_RedenVanSchorsing_Werd_Gecorrigeerd() =>
         fixture
             .Result.Erkenningen.First()
             .Should()

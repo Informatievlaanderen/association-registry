@@ -13,7 +13,7 @@ public class Given_LidmaatschapWerdToegevoegd(
     : PubliekZoekenScenarioClassFixture<LidmaatschapWerdToegevoegdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Lidmaatschap_Werd_Toegevoegd()
     {
         var lidmaatschapWerdToegevoegd = fixture.Scenario.LidmaatschapWerdToegevoegdFirst;
         var vCode = fixture.Scenario.AggregateId;

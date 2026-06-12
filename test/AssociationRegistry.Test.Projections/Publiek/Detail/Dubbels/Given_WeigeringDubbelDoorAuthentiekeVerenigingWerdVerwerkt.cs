@@ -8,6 +8,6 @@ public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(PubliekD
     : PubliekDetailScenarioClassFixture<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario>
 {
     [Fact]
-    public void Document_Status_Is_Dubbel()
+    public void Document_Weigering_Dubbel_Door_Authentieke_Vereniging_Werd_Verwerkt()
         => fixture.Result.Status.Should().Be(VerenigingStatus.Actief);
 }

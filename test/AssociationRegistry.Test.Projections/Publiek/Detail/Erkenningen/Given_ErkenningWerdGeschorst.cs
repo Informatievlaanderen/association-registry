@@ -9,7 +9,7 @@ public class Given_ErkenningWerdGeschorst(PubliekDetailScenarioFixture<Erkenning
     : PubliekDetailScenarioClassFixture<ErkenningWerdGeschorstScenario>
 {
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Document_Erkenning_Werd_Geschorst() =>
         fixture
             .Result.Erkenningen.First()
             .Should()

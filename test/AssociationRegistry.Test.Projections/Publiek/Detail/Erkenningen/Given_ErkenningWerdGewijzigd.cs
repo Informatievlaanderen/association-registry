@@ -9,7 +9,7 @@ public class Given_ErkenningWerdGewijzigd(
 ) : PubliekDetailScenarioClassFixture<ErkenningWerdGewijzigdScenario>
 {
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Document_Erkenning_Werd_Gewijzigd() =>
         fixture
            .Result.Erkenningen.First()
            .Should()

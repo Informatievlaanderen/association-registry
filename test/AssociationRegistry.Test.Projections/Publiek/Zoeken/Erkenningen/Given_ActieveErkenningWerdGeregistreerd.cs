@@ -9,7 +9,7 @@ public class Given_ActieveErkenningWerdGeregistreerd(
 ) : PubliekZoekenScenarioClassFixture<VzerMetActieveErkenningWerdGeregistreerdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Contains_ActieveErkenning()
     {
         fixture
             .Result.Erkenningen.Should()

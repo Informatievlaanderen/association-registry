@@ -9,7 +9,7 @@ public class Given_ErkenningWerdGeactiveerd(PubliekDetailScenarioFixture<Erkenni
     : PubliekDetailScenarioClassFixture<ErkenningWerdGeactiveerdScenario>
 {
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Document_Erkenning_Werd_Geactiveerd() =>
         fixture
             .Result.Erkenningen.First()
             .Should()

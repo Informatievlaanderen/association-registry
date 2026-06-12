@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Locaties.Kbo;
 
 using Formats;
-using AssociationRegistry.Test.Projections.Scenario.Locaties;
+using Scenario.Locaties;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo(
@@ -9,7 +9,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo(
     : PubliekZoekenScenarioClassFixture<MaatschappelijkeZetelWerdOvergenomenUitKboScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Maatschappelijke_Zetel_Werd_Overgenomen()
     {
         var maatschappelijkeZetel = fixture.Scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == maatschappelijkeZetel.Locatie.LocatieId);

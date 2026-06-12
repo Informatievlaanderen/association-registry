@@ -5,7 +5,6 @@ using DecentraalBeheer.Vereniging;
 using Public.Schema.Detail;
 using Public.Schema.Search;
 using Scenario.Werkingsgebieden;
-using Vereniging;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenNietVanToepassing(
@@ -13,17 +12,17 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing(
     : PubliekZoekenScenarioClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Werkingsgebieden_Contain_NietVanToepassing()
         => fixture.Result
-                  .Werkingsgebieden
-                  .Should().BeEquivalentTo([
-                       new VerenigingZoekDocument.Types.Werkingsgebied
-                       {
-                           JsonLdMetadata = new JsonLdMetadata(
-                               JsonLdType.Werkingsgebied.CreateWithIdValues(Werkingsgebied.NietVanToepassing.Code),
-                               JsonLdType.Werkingsgebied.Type),
-                           Code = Werkingsgebied.NietVanToepassing.Code,
-                           Naam = Werkingsgebied.NietVanToepassing.Naam,
-                       },
-                   ]);
+                   .Werkingsgebieden
+                   .Should().BeEquivalentTo([
+                        new VerenigingZoekDocument.Types.Werkingsgebied
+                        {
+                            JsonLdMetadata = new JsonLdMetadata(
+                                JsonLdType.Werkingsgebied.CreateWithIdValues(Werkingsgebied.NietVanToepassing.Code),
+                                JsonLdType.Werkingsgebied.Type),
+                            Code = Werkingsgebied.NietVanToepassing.Code,
+                            Naam = Werkingsgebied.NietVanToepassing.Naam,
+                        },
+                    ]);
 }

@@ -9,7 +9,7 @@ public class Given_ActieveErkenningWerdVerwijderdMetBehoudenVerlopenErkenning(
 ) : PubliekZoekenScenarioClassFixture<VzerMetActieveTeVerwijderenErkenningEnBehoudenVerlopenErkenningScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Are_Verlopen()
     {
         fixture
             .Result.Erkenningen.Should()

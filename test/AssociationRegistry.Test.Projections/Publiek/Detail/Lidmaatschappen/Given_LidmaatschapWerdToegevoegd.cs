@@ -8,7 +8,7 @@ public class Given_LidmaatschapWerdToegevoegd(PubliekDetailScenarioFixture<Lidma
     : PubliekDetailScenarioClassFixture<LidmaatschapWerdToegevoegdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Lidmaatschap_Werd_Toegevoegd()
         => fixture.Result
                   .Lidmaatschappen[0]
                   .Should()

@@ -13,7 +13,7 @@ public class Given_LocatieWerdGewijzigd(
     : PubliekZoekenScenarioClassFixture<LocatieWerdGewijzigdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Locatie_Werd_Gewijzigd()
     {
         var locatieWerdGewijzigd = fixture.Scenario.LocatieWerdGewijzigd;
         var actual = fixture.Result.Locaties.Single(x => x.LocatieId == locatieWerdGewijzigd.Locatie.LocatieId);

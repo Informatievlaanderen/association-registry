@@ -9,7 +9,7 @@ public class Given_WerkingsgebiedenWerdenGewijzigd(PubliekDetailScenarioFixture<
     : PubliekDetailScenarioClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Werkingsgebieden_Werden_Gewijzigd()
         => fixture.Result
                   .Werkingsgebieden
                   .Should()

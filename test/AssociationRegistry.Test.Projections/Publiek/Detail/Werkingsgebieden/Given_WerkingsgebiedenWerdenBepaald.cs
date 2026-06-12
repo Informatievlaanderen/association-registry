@@ -9,7 +9,7 @@ public class Given_WerkingsgebiedenWerdenBepaald(PubliekDetailScenarioFixture<We
     : PubliekDetailScenarioClassFixture<WerkingsgebiedenWerdenBepaaldScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Werkingsgebieden_Werden_Bepaald()
         => fixture.Result
                   .Werkingsgebieden
                   .Should()

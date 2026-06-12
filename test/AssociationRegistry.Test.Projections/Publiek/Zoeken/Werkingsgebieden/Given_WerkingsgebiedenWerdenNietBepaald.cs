@@ -7,7 +7,7 @@ public class Given_WerkingsgebiedenWerdenNietBepaald(PubliekZoekenScenarioFixtur
     : PubliekZoekenScenarioClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Werkingsgebieden_Is_Empty()
         => fixture.Result
                   .Werkingsgebieden
                   .Should().BeEmpty();

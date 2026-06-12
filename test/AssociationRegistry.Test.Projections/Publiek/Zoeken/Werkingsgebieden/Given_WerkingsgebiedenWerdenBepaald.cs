@@ -10,16 +10,16 @@ public class Given_WerkingsgebiedenWerdenBepaald(PubliekZoekenScenarioFixture<We
     : PubliekZoekenScenarioClassFixture<WerkingsgebiedenWerdenBepaaldScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Werkingsgebieden_Werden_Bepaald()
         => fixture.Result
-                  .Werkingsgebieden
-                  .Should().BeEquivalentTo(fixture.Scenario.WerkingsgebiedenWerdenBepaald.Werkingsgebieden.Select(
-                                               s => new VerenigingZoekDocument.Types.Werkingsgebied
-                                               {
-                                                   JsonLdMetadata = new JsonLdMetadata(
-                                                       JsonLdType.Werkingsgebied.CreateWithIdValues(s.Code),
-                                                       JsonLdType.Werkingsgebied.Type),
-                                                   Code = s.Code,
-                                                   Naam = s.Naam,
-                                               }));
+                   .Werkingsgebieden
+                   .Should().BeEquivalentTo(fixture.Scenario.WerkingsgebiedenWerdenBepaald.Werkingsgebieden.Select(
+                                                s => new VerenigingZoekDocument.Types.Werkingsgebied
+                                                {
+                                                    JsonLdMetadata = new JsonLdMetadata(
+                                                        JsonLdType.Werkingsgebied.CreateWithIdValues(s.Code),
+                                                        JsonLdType.Werkingsgebied.Type),
+                                                    Code = s.Code,
+                                                    Naam = s.Naam,
+                                                }));
 }

@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail.Erkenningen;
 
-using AssociationRegistry.Public.Schema.Detail;
-using AssociationRegistry.Test.Projections.Scenario.Lidmaatschappen;
-using DecentraalBeheer.Vereniging.Erkenningen;
+using Public.Schema.Detail;
 using Scenario.Erkenningen;
 
 [Collection(nameof(ProjectionContext))]
@@ -10,7 +8,7 @@ public class Given_ErkenningWerdGeregistreerd(PubliekDetailScenarioFixture<Erken
     : PubliekDetailScenarioClassFixture<ErkenningWerdGeregistreerdScenario>
 {
     [Fact]
-    public void Document_Is_Updated() =>
+    public void Document_Erkenning_Werd_Geregistreerd() =>
         fixture
             .Result.Erkenningen.First()
             .Should()

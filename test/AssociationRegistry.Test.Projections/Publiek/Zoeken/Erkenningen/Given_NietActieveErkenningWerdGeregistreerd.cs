@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Erkenningen;
 
-using DecentraalBeheer.Vereniging.Erkenningen;
 using Scenario.Erkenningen.Zoeken;
 
 [Collection(nameof(ProjectionContext))]
@@ -9,7 +8,7 @@ public class Given_NietActieveErkenningWerdGeregistreerd(
 ) : PubliekZoekenScenarioClassFixture<VzerMetErkenningInAanvraagWerdGeregistreerdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Contains_Expected_Status()
     {
         fixture
             .Result.Erkenningen.Should()

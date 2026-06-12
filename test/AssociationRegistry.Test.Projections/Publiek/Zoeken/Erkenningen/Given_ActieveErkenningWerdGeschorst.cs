@@ -9,7 +9,7 @@ public class Given_ActieveErkenningWerdGeschorst(
 ) : PubliekZoekenScenarioClassFixture<VzerMetActieveErkenningWerdGeschorstScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenningen_Are_Geschorst()
     {
         fixture
             .Result.Erkenningen.Should()

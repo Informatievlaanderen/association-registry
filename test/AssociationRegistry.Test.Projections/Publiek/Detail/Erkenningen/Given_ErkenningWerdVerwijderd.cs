@@ -7,7 +7,7 @@ public class Given_ErkenningWerdVerwijderd(PubliekDetailScenarioFixture<Erkennin
     : PubliekDetailScenarioClassFixture<ErkenningWerdVerwijderdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
+    public void Document_Erkenning_Werd_Verwijderd()
     {
         fixture
             .Result.Erkenningen.Should()
