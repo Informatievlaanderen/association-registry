@@ -661,7 +661,7 @@ jobs:
 
       - name: Login to Amazon ECR (Test)
         if: needs.set-release-version.outputs.version != 'none'
-        uses: aws-actions/amazon-ecr-login@v2.0.1
+        uses: aws-actions/amazon-ecr-login@v2.1.6
 
       - name: Download Acm Api artifact
         uses: actions/download-artifact@v4
