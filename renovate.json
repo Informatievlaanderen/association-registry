@@ -5,7 +5,7 @@
   ],
   "packageRules": [
     { "matchManagers": ["nuget"], "semanticCommitType": "fix" },
-    { "matchUpdateTypes": ["patch"], "automerge": true }
+    { "matchUpdateTypes": ["patch"], "automerge": true, "autoApprove": true }
   ],
   "platformAutomerge": true
 }
