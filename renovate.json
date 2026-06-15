@@ -4,6 +4,8 @@
      "config:base"
   ],
   "packageRules": [
-    { "matchManagers": ["nuget"], "semanticCommitType": "fix" }
-  ]
+    { "matchManagers": ["nuget"], "semanticCommitType": "fix" },
+    { "matchUpdateTypes": ["patch"], "automerge": true }
+  ],
+  "platformAutomerge": true
 }
