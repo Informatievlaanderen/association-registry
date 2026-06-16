@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.WijzigErkenning;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.WijzigErkenning.RequestModels;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentValidation.TestHelper;
 using Framework;
 using Primitives;
@@ -11,12 +12,26 @@ using Xunit;
 
 public class WijzigErkenningValidatorTests : ValidatorTest
 {
+    private Fixture _fixture;
+
+    public WijzigErkenningValidatorTests()
+    {
+        _fixture = new Fixture().CustomizeAdminApi();
+    }
+
     [Fact]
     public void With_Empty_Request_Then_ValidationError()
     {
         var validator = new WijzigErkenningValidator();
 
-        var request = new WijzigErkenningRequest();
+        var request = _fixture.Create<WijzigErkenningRequest>() with
+        {
+            Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
+            HernieuwingsUrl = null,
+            RedenVanWijziging = null,
+            Startdatum = NullOrEmpty<DateOnly>.Null,
+            Einddatum = NullOrEmpty<DateOnly>.Null,
+        };
 
         var result = validator.TestValidate(request);
 
@@ -32,7 +47,7 @@ public class WijzigErkenningValidatorTests : ValidatorTest
     {
         var validator = new WijzigErkenningValidator();
 
-        var request = new WijzigErkenningRequest() with
+        var request = _fixture.Create<WijzigErkenningRequest>() with
         {
             RedenVanWijziging = redenVanWijziging,
         };
@@ -48,11 +63,13 @@ public class WijzigErkenningValidatorTests : ValidatorTest
     {
         var validator = new WijzigErkenningValidator();
 
-        var request = new WijzigErkenningRequest
+        var request = _fixture.Create<WijzigErkenningRequest>() with
         {
             Startdatum = NullOrEmpty<DateOnly>.Null,
             Einddatum = NullOrEmpty<DateOnly>.Null,
-            RedenVanWijziging = Fixture.Create<string>(),
+            RedenVanWijziging = _fixture.Create<string>(),
+            Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
+            HernieuwingsUrl = null,
         };
 
         var result = validator.TestValidate(request);
@@ -66,10 +83,12 @@ public class WijzigErkenningValidatorTests : ValidatorTest
     {
         var validator = new WijzigErkenningValidator();
 
-        var request = new WijzigErkenningRequest() with
+        var request = _fixture.Create<WijzigErkenningRequest>() with
         {
             Einddatum = NullOrEmpty<DateOnly>.Empty,
-            RedenVanWijziging = Fixture.Create<string>(),
+            Startdatum = NullOrEmpty<DateOnly>.Null,
+            Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
+            HernieuwingsUrl = null,
         };
 
         var result = validator.TestValidate(request);
@@ -82,10 +101,30 @@ public class WijzigErkenningValidatorTests : ValidatorTest
     {
         var validator = new WijzigErkenningValidator();
 
-        var request = new WijzigErkenningRequest() with
+        var request = _fixture.Create<WijzigErkenningRequest>() with
         {
             Startdatum = NullOrEmpty<DateOnly>.Empty,
-            RedenVanWijziging = Fixture.Create<string>(),
+            Einddatum = NullOrEmpty<DateOnly>.Null,
+            Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
+            HernieuwingsUrl = null,
+        };
+
+        var result = validator.TestValidate(request);
+
+        result.ShouldNotHaveValidationErrorFor("request");
+    }
+
+    [Fact]
+    public void With_Hernieuwingsurl_Empty_Then_No_ValidationError()
+    {
+        var validator = new WijzigErkenningValidator();
+
+        var request = _fixture.Create<WijzigErkenningRequest>() with
+        {
+            Startdatum = NullOrEmpty<DateOnly>.Null,
+            Einddatum = NullOrEmpty<DateOnly>.Null,
+            Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
+            HernieuwingsUrl = string.Empty,
         };
 
         var result = validator.TestValidate(request);
