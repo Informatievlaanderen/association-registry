@@ -9,6 +9,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
 using Xunit;
 
@@ -53,7 +54,7 @@ public class Given_Invalid_Reden_Erkenning
 
         var exception = await Assert.ThrowsAsync<ErkenningRedenSchorsingIsVerplicht>(async () =>
         {
-            await _commandHandler.Handle(commandEnvelope);
+            await _commandHandler.Handle(commandEnvelope, new IOrganisatieBevoegdheidServiceMockStub().Object);
         });
 
         exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningRedenSchorsingVerplicht));

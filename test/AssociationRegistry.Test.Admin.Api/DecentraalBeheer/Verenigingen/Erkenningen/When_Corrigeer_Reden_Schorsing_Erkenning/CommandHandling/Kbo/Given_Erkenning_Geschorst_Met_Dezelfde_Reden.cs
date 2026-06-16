@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.StubsMocksFakes.Wegwijs;
 using Xunit;
 
 public class Given_Erkenning_Geschorst_Met_Dezelfde_Reden
@@ -47,7 +48,8 @@ public class Given_Erkenning_Geschorst_Met_Dezelfde_Reden
         };
 
         await _commandHandler.Handle(
-            new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(command, commandMetadata)
+            new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(command, commandMetadata),
+            new IOrganisatieBevoegdheidServiceMockStub().Object
         );
 
         _verenigingRepositoryMock.ShouldNotHaveAnySaves();

@@ -17,6 +17,7 @@ using Grar.AdresMatch;
 using Grar.Models;
 using SocialMedias;
 using TelefoonNummers;
+using Wegwijs;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 {
@@ -642,9 +643,10 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.HefSchorsingErkenningOp(huidigeErkenning.ErkenningId, status));
     }
 
-    public void CorrigeerRedenSchorsingErkenning(
+    public async Task CorrigeerRedenSchorsingErkenning(
         TeCorrigerenRedenSchorsingErkenning teCorrigerenRedenSchorsingErkenning,
-        string initiator
+        string initiator,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService
     )
     {
         Throw<ErkenningRedenSchorsingIsVerplicht>.If(
@@ -653,7 +655,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         var huidigeErkenning = State.Erkenningen.GetById(teCorrigerenRedenSchorsingErkenning.ErkenningId);
 
-        Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
         Throw<ErkenningIsNietGeschorst>.If(huidigeErkenning.Status != ErkenningStatus.Geschorst);
 
         var heeftWijzigingen = huidigeErkenning.RedenSchorsing != teCorrigerenRedenSchorsingErkenning.RedenSchorsing;
@@ -663,7 +664,41 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             return;
         }
 
+        await ValidateAndAddGemachtigdeOrganisaties(
+            teCorrigerenRedenSchorsingErkenning,
+            initiator,
+            organisatieBevoegdheidService,
+            huidigeErkenning
+        );
+
         AddEvent(EventFactory.CorrigeerRedenSchorsingErkenning(teCorrigerenRedenSchorsingErkenning));
+    }
+
+    private async Task ValidateAndAddGemachtigdeOrganisaties(
+        TeCorrigerenRedenSchorsingErkenning teCorrigerenRedenSchorsingErkenning,
+        string initiator,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService,
+        Erkenning huidigeErkenning
+    )
+    {
+        var isGemachtigdeOrganisatie =
+            huidigeErkenning.GeregistreerdDoor.OvoCode == initiator || huidigeErkenning.Beheerders.Contains(initiator);
+
+        if (!isGemachtigdeOrganisatie)
+        {
+            var gemachtigdeOrganisaties = await organisatieBevoegdheidService.GetAndValidateGemachtigdeOrganisaties(
+                initiator,
+                huidigeErkenning!.GeregistreerdDoor.OvoCode
+            );
+
+            if (gemachtigdeOrganisaties.Any())
+                AddEvent(
+                    EventFactory.ErkenningOpvolgersWerdenToegevoegdAlsBeheerder(
+                        teCorrigerenRedenSchorsingErkenning.ErkenningId,
+                        gemachtigdeOrganisaties
+                    )
+                );
+        }
     }
 
     public void WijzigErkenning(TeWijzigenErkenning teWijzigenErkenning, string initiator)

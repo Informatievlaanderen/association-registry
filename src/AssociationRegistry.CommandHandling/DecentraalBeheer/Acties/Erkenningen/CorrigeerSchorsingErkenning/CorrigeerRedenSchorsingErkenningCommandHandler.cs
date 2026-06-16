@@ -3,6 +3,7 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Framework;
 using MartenDb.Store;
+using Wegwijs;
 
 public class CorrigeerRedenSchorsingErkenningCommandHandler
 {
@@ -15,12 +16,17 @@ public class CorrigeerRedenSchorsingErkenningCommandHandler
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand> envelope,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService,
         CancellationToken cancellationToken = default
     )
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
 
-        vereniging.CorrigeerRedenSchorsingErkenning(envelope.Command.Erkenning, envelope.Metadata.Initiator);
+        await vereniging.CorrigeerRedenSchorsingErkenning(
+            envelope.Command.Erkenning,
+            envelope.Metadata.Initiator,
+            organisatieBevoegdheidService
+        );
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

@@ -7,33 +7,31 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
+using AssociationRegistry.Test.Common.StubsMocksFakes.Wegwijs;
 using AutoFixture;
-using Common.StubsMocksFakes.Wegwijs;
 using Xunit;
 
-public class Given_A_Valid_Command
+public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
 {
     private readonly CorrigeerRedenSchorsingErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario _scenario;
+    private readonly ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpGeschorsteErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
+    private CorrigeerRedenSchorsingErkenningCommand _command;
+    private CommandMetadata? _commandMetaData;
 
-    public Given_A_Valid_Command()
+    public Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario();
+        _scenario = new ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpGeschorsteErkenningScenario();
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _commandHandler = new CorrigeerRedenSchorsingErkenningCommandHandler(_verenigingRepositoryMock);
-    }
 
-    [Fact]
-    public async ValueTask Then_It_Saves_An_ErkenningRedenVanSchorsingWerdGecorrigeerd_Event()
-    {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
-        var command = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
+        _command = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
         {
             VCode = _scenario.VCode,
             Erkenning = _fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
@@ -42,20 +40,28 @@ public class Given_A_Valid_Command
             },
         };
 
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
+        _commandMetaData = _fixture.Create<CommandMetadata>() with
         {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+            Initiator = _scenario.ErkenningOpvolgersWerdenToegevoegdAlsBeheerder.Beheerders.First(),
         };
+    }
+
+    [Fact]
+    public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_ErkenningRedenVanSchorsingWerdGecorrigeerd()
+    {
+        var organisatieBevoegdheidService = new IOrganisatieBevoegdheidServiceMockStub().WithGemachtigdeOrganisaties([
+            _commandMetaData.Initiator,
+        ]);
 
         await _commandHandler.Handle(
-            new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(command, commandMetadata),
-            new IOrganisatieBevoegdheidServiceMockStub().Object
+            new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(_command, _commandMetaData),
+            organisatieBevoegdheidService.Object
         );
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new ErkenningRedenVanSchorsingWerdGecorrigeerd(
-                command.Erkenning.ErkenningId,
-                command.Erkenning.RedenSchorsing
+                _command.Erkenning.ErkenningId,
+                _command.Erkenning.RedenSchorsing
             )
         );
     }

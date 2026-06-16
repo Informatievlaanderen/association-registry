@@ -1092,8 +1092,8 @@ public record VerenigingState : IHasVersion
         {
             Erkenningen = Erkenningen.Hydrate(
                 Erkenningen
-                   .Without(@event.ErkenningId)
-                   .Append(
+                    .Without(@event.ErkenningId)
+                    .Append(
                         erkenning with
                         {
                             ErkenningsPeriode = ErkenningsPeriode.Hydrate(@event.Startdatum, @event.Einddatum),
@@ -1119,6 +1119,25 @@ public record VerenigingState : IHasVersion
         {
             Erkenningen = Erkenningen.Hydrate(
                 Erkenningen.Without(@event.ErkenningId).Append(erkenning with { Status = ErkenningStatus.Actief })
+            ),
+        };
+    }
+
+    public VerenigingState Apply(ErkenningOpvolgersWerdenToegevoegdAlsBeheerder @event)
+    {
+        var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
+
+        if (erkenning is null)
+        {
+            return this;
+        }
+
+        return this with
+        {
+            Erkenningen = Erkenningen.Hydrate(
+                Erkenningen
+                    .Without(@event.ErkenningId)
+                    .Append(erkenning with { Beheerders = erkenning.Beheerders.Union(@event.Beheerders).ToArray() })
             ),
         };
     }

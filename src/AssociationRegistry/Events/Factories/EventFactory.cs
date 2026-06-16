@@ -536,6 +536,11 @@ public static class EventFactory
         TeCorrigerenRedenSchorsingErkenning teCorrigerenRedenSchorsingErkenning
     ) => new(teCorrigerenRedenSchorsingErkenning.ErkenningId, teCorrigerenRedenSchorsingErkenning.RedenSchorsing);
 
+    public static ErkenningOpvolgersWerdenToegevoegdAlsBeheerder ErkenningOpvolgersWerdenToegevoegdAlsBeheerder(
+        int erkenningId,
+        string[] beheerders
+    ) => new(erkenningId, beheerders);
+
     public static ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd(Erkenning toegevoegdeErkenning) =>
         new(
             toegevoegdeErkenning.ErkenningId,
@@ -554,5 +559,6 @@ public static class EventFactory
     ) => new(huidigeErkenningErkenningId, status.Value);
 
     public static ErkenningWerdGeactiveerd ErkenningWerdGeactiveerd(int erkenningId) => new(erkenningId);
+
     public static ErkenningWerdVerlopen ErkenningWerdVerlopen(int erkenningId) => new(erkenningId);
 }

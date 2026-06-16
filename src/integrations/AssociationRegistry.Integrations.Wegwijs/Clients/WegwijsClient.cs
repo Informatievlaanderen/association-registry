@@ -47,41 +47,4 @@ public class WegwijsClient : IWegwijsClient
             throw new WegwijsException(e);
         }
     }
-
-    public async Task<IReadOnlyList<string>> GetOpvolgerOrganisaties(
-        string ovoCode,
-        CancellationToken cancellationToken = default
-    )
-    {
-        var opvolgers = new List<string>();
-        string? volgendOvoCode = ovoCode;
-
-        try
-        {
-            do
-            {
-                volgendOvoCode = await GetDirecteOpvolger(volgendOvoCode, cancellationToken);
-
-                if (volgendOvoCode is not null)
-                    opvolgers.Add(volgendOvoCode);
-            } while (volgendOvoCode is not null);
-        }
-        catch (OrganisatieNietGevondenException)
-        {
-            return opvolgers;
-        }
-
-        return opvolgers;
-    }
-
-    private async Task<string?> GetDirecteOpvolger(string ovoCode, CancellationToken cancellationToken)
-    {
-        var organisatie = await GetOrganisationByOvoCode(ovoCode, cancellationToken);
-        return HaalOpvolgerOvoCodeUitRelaties(organisatie);
-    }
-
-    private static string? HaalOpvolgerOvoCodeUitRelaties(OrganisationResponse organisatie) =>
-        organisatie
-            .Relations.FirstOrDefault(r => r.RelationId == WordtOpgevolgdDoorRelationId)
-            ?.RelatedOrganisationOvoNumber;
 }

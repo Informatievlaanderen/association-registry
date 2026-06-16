@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Wegwijs.Client;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Wegwijs;
 using FluentAssertions;
 using Integrations.Wegwijs.Clients;
+using Integrations.Wegwijs.Services;
 using Resources;
 using Xunit;
 
@@ -28,6 +29,19 @@ public class GetOrganisationByOvoCodeTests
         var response = await _wegwijsClient.GetOrganisationByOvoCode(validOvoCode);
 
         response.Name.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async ValueTask With_Opgevolgd_Door_Ovocode_Then_Returns_Opgevolgd_Door()
+    {
+        var validOvoCode = "OVO002214";
+
+        var response = await _wegwijsClient.GetOrganisationByOvoCode(validOvoCode);
+
+        response
+            .Relations.Single(r => r.RelationId == OrganisatieBevoegdheidService.WordtOpgevolgdDoorRelationId)
+            .RelatedOrganisationOvoNumber.Should()
+            .Be("OVO008382");
     }
 
     [Fact]
