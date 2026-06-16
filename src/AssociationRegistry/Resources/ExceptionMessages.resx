@@ -144,9 +144,7 @@
     <value>Voornaam moet een letter bevatten.</value>
   </data>
   <data name="InvalidEmailFormat">
-    <value>E-mail voldoet niet aan het verwachte formaat (naam@domein.vlaanderen). In naam worden de volgende tekens
-      toegestaan '!#$%&amp;'*+/=?^_`{|}~-', in domein enkel '.' en '-'.
-    </value>
+    <value>E-mail voldoet niet aan het verwachte formaat (naam@domein.vlaanderen). In naam worden de volgende tekens toegestaan '!#$%&amp;'*+/=?^_`{|}~-', in domein enkel '.' en '-'.</value>
   </data>
   <data name="InvalidDateFormat">
     <value>Datum moet van het formaat 'yyyy-MM-dd' zijn.</value>
@@ -290,13 +288,10 @@
     <value>Er is een fout opgetreden bij het verwerken van de projectie: {0}</value>
   </data>
   <data name="LaatsteHoofdActiviteitKanNietVerwijderdWorden">
-    <value>De vereniging moet minstens 1 hoofdactiviteit hebben. Je kan de laatste hoofdactiviteit niet verwijderen.
-    </value>
+    <value>De vereniging moet minstens 1 hoofdactiviteit hebben. Je kan de laatste hoofdactiviteit niet verwijderen.</value>
   </data>
   <data name="LaatsteVertegenwoordigerKanNietVerwijderdWorden">
-    <value>De vereniging moet minstens 1 vertegenwoordiger hebben. Je kan de laatste vertegenwoordiger niet
-      verwijderen.
-    </value>
+    <value>De vereniging moet minstens 1 vertegenwoordiger hebben. Je kan de laatste vertegenwoordiger niet verwijderen.</value>
   </data>
   <data name="LaatsteLocatieKanNietVerwijderdWorden">
     <value>De vereniging moet minstens 1 locatie hebben. Je kan de laatste locatie niet verwijderen.</value>
@@ -308,9 +303,7 @@
     <value>Overleden vertegenwoordigers kunnen niet worden toegevoegd aan een vereniging.</value>
   </data>
   <data name="EenOfMeerdereInszWaardenKunnenNietGevalideerdWordenBijKsz">
-    <value>Een of meerdere insz waarden konden niet gevalideerd worden bij de Kruispuntbank van de Sociale Zekerheid.
-      Controleer de gegevens en probeer het opnieuw.
-    </value>
+    <value>Een of meerdere insz waarden konden niet gevalideerd worden bij de Kruispuntbank van de Sociale Zekerheid. Controleer de gegevens en probeer het opnieuw.</value>
   </data>
   <data name="MagdaException">
     <value>Er heeft zich een fout voorgedaan bij het aanroepen van de Magda {0}: {1}.</value>
@@ -370,8 +363,7 @@
     <value>Het opgegeven url is geen geldige url.</value>
   </data>
   <data name="ErkenningBestaatAl">
-    <value>Er mag geen overlap zijn met bestaande erkenningen voor dezelfde combinatie (vCode, IPDC-product, GI).
-    </value>
+    <value>Er mag geen overlap zijn met bestaande erkenningen voor dezelfde combinatie (vCode, IPDC-product, GI).</value>
   </data>
   <data name="ErkenningIsAlReedsGeschorst">
     <value>De erkenning is reeds geschorst en kan niet opnieuw geschorst worden.</value>
@@ -384,6 +376,9 @@
   </data>
   <data name="MinstensEenVeldMoetIngevuldZijn">
     <value>Minstens één veld moet ingevuld zijn.</value>
+  </data>
+  <data name="MinstensEenTeWijzigenVeldMoetIngevuldZijn">
+    <value>Minstens één te wijzigen veld moet ingevuld zijn.</value>
   </data>
   <data name="RedenVanWijzigingIsVerplicht">
     <value>RedenVanWijziging is verplicht.</value>

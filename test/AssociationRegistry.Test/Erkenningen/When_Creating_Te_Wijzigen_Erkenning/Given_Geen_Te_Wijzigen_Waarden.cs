@@ -1,12 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Erkenningen.When_Creating_Te_Wijzigen_Erkenning;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
-using AssociationRegistry.Primitives;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using Common.AutoFixture;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using FluentAssertions;
+using Primitives;
 using Xunit;
 
 public class Given_Geen_Te_Wijzigen_Waarden
@@ -19,17 +17,17 @@ public class Given_Geen_Te_Wijzigen_Waarden
     }
 
     [Fact]
-    public void Then_Throws_MinstensEenVeldMoetIngevuldZijn()
+    public void Then_Creates_TeWijzigenErkenning_With_HeeftGeenTeWijzigenWaarde_True()
     {
         var redenVanWijziging = _fixture.Create<string>();
-        var exception = Assert.Throws<MinstensEenVeldMoetIngevuldZijn>(() => TeWijzigenErkenning.Create(
-                                                                           _fixture.Create<int>(),
-                                                                           NullOrEmpty<DateOnly>.Null,
-                                                                           NullOrEmpty<DateOnly>.Null,
-                                                                           NullOrEmpty<DateOnly>.Null,
-                                                                           null,
-                                                                           redenVanWijziging));
+        var result = TeWijzigenErkenning.Create(
+            _fixture.Create<int>(),
+            NullOrEmpty<DateOnly>.Null,
+            NullOrEmpty<DateOnly>.Null,
+            NullOrEmpty<DateOnly>.Null,
+            null,
+            redenVanWijziging);
 
-        exception.Message.Should().Be(ExceptionMessages.MinstensEenVeldMoetIngevuldZijn);
+        result.HeeftGeenTeWijzigenWaarde.Should().BeTrue();
     }
 }

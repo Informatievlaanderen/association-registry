@@ -8,7 +8,6 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
-using Events;
 using FluentAssertions;
 using Primitives;
 using Resources;
@@ -33,7 +32,7 @@ public class Given_No_TeWijzigen_Values
 
 
     [Fact]
-    public async ValueTask With_RedenVanWijziging_Then_It_Throws_MinstensEenVeldMoetIngevuldZijn()
+    public async ValueTask With_RedenVanWijziging_Then_It_Throws_MinstensEenTeWijzigenVeldMoetIngevuldZijn()
     {
         var teWijzigenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
@@ -47,14 +46,15 @@ public class Given_No_TeWijzigen_Values
                 EindDatum = NullOrEmpty<DateOnly>.Null,
                 Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
                 HernieuwingsUrl = null,
+                RedenVanWijziging = _fixture.Create<string>(),
             },
         };
 
-        var exception = await Assert.ThrowsAsync<MinstensEenVeldMoetIngevuldZijn>(async () =>
+        var exception = await Assert.ThrowsAsync<MinstensEenTeWijzigenVeldMoetIngevuldZijn>(async () =>
         {
             var commandMetadata = _fixture.Create<CommandMetadata>() with
             {
-                Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
+                Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
             };
 
             await _commandHandler.Handle(
@@ -65,6 +65,6 @@ public class Given_No_TeWijzigen_Values
             );
         });
 
-        exception.Message.Should().Be(ExceptionMessages.MinstensEenVeldMoetIngevuldZijn);
+        exception.Message.Should().Be(ExceptionMessages.MinstensEenTeWijzigenVeldMoetIngevuldZijn);
     }
 }

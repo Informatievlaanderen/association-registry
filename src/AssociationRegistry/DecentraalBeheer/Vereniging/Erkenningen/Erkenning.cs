@@ -55,18 +55,6 @@ public record Erkenning
             Status = ErkenningStatus.Hydrate(status),
         };
 
-    public bool HeeftConflictMet(Erkenning teRegistrerenErkenning)
-    {
-        var zelfdeSleutel =
-            IpdcProduct.Nummer == teRegistrerenErkenning.IpdcProduct.Nummer
-            && GeregistreerdDoor.OvoCode == teRegistrerenErkenning.GeregistreerdDoor.OvoCode;
-
-        if (!zelfdeSleutel)
-            return false;
-
-        return ErkenningsPeriode.OverlapsWith(teRegistrerenErkenning.ErkenningsPeriode);
-    }
-
     public Erkenning Schors(string redenSchorsing) =>
         this with
         {
@@ -110,12 +98,39 @@ public record Erkenning
 
 public record IpdcProduct
 {
+    public override int GetHashCode()
+        => Nummer.GetHashCode();
+
     public string Nummer { get; set; } = null!;
     public string Naam { get; set; } = null!;
+
+    public virtual bool Equals(IpdcProduct? other)
+    {
+        if (other is null)
+            return false;
+
+        if (ReferenceEquals(this, other))
+            return true;
+
+        return Nummer == other.Nummer;
+    }
 }
 
 public record GegevensInitiator
 {
+    public virtual bool Equals(GegevensInitiator? other)
+    {
+        if (other is null)
+            return false;
+
+        if (ReferenceEquals(this, other))
+            return true;
+
+        return OvoCode == other.OvoCode;
+    }
+
+    public override int GetHashCode()
+        => OvoCode.GetHashCode();
     public string OvoCode { get; set; } = null!;
     public string Naam { get; set; }
 }

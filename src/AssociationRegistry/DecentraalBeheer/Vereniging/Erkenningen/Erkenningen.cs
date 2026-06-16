@@ -25,20 +25,6 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return erkenning!;
     }
 
-    public Erkenning VoegToe(TeRegistrerenErkenning erkenning, IpdcProduct ipdcProduct, GegevensInitiator initiator)
-    {
-        var teRegistrerenErkenning = Erkenning.Create(NextId, erkenning, ipdcProduct, initiator);
-
-        Throw<ErkenningBestaatAl>.If(HeeftConflictMet(teRegistrerenErkenning));
-
-        return teRegistrerenErkenning;
-    }
-
-    private bool HeeftConflictMet(Erkenning teRegistrerenErkenning)
-    {
-        return this.Any(bestaande => bestaande.HeeftConflictMet(teRegistrerenErkenning));
-    }
-
     public Erkenningen Hydrate(IEnumerable<Erkenning> erkenningen)
     {
         erkenningen = erkenningen.ToArray();
@@ -49,16 +35,14 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return new Erkenningen(erkenningen, Math.Max(erkenningen.Max(x => x.ErkenningId) + 1, NextId));
     }
 
-    public void KanGewijzigdeErkenningToevoegen(Erkenning erkenning)
-    {
-        var huidigeErkenningen = this.Without(erkenning.ErkenningId);
+    public bool KanErkenningWijzigenMetCombinatie(Erkenning erkenning)
+        => this.Without(erkenning)
+               .WithSameOvoCodeAndIpdcProduct(erkenning)
+               .HasNoOverlapWith(erkenning);
 
-        var heeftConflictMetHuidigeErkenning = huidigeErkenningen.Any(bestaande =>
-            bestaande.HeeftConflictMet(erkenning)
-        );
-
-        Throw<ErkenningBestaatAl>.If(heeftConflictMetHuidigeErkenning);
-    }
+    public bool KanErkenningToevoegenMetCombinatie(Erkenning erkenning)
+        => this.WithSameOvoCodeAndIpdcProduct(erkenning)
+               .HasNoOverlapWith(erkenning);
 }
 
 public static class ErkenningenEnumerableExtensions
@@ -81,8 +65,29 @@ public static class ErkenningenEnumerableExtensions
             )
         );
 
+    public static IEnumerable<Erkenning> WithSameOvoCodeAndIpdcProduct(
+        this IEnumerable<Erkenning> erkenningen,
+        Erkenning erkenning)
+    {
+        return erkenningen
+              .Where(x => x.IpdcProduct.Equals(erkenning.IpdcProduct))
+              .Where(x => x.GeregistreerdDoor.Equals(erkenning.GeregistreerdDoor));
+    }
+
+    public static bool HasNoOverlapWith(
+        this IEnumerable<Erkenning> erkenningen,
+        Erkenning erkenning)
+    {
+        return !erkenningen.Any(x => x.ErkenningsPeriode.OverlapsWith(erkenning.ErkenningsPeriode));
+    }
+
     public static IEnumerable<Erkenning> Without(this IEnumerable<Erkenning> source, int id)
     {
         return source.Where(c => c.ErkenningId != id);
+    }
+
+    public static IEnumerable<Erkenning> Without(this IEnumerable<Erkenning> source, Erkenning erkenning)
+    {
+        return source.Where(c => c.ErkenningId != erkenning.ErkenningId);
     }
 }

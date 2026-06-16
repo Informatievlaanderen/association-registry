@@ -4,13 +4,13 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.Wi
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Primitives;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Primitives;
+using Resources;
 using Xunit;
 
 public class Given_Overlapping_Datums
@@ -60,7 +60,7 @@ public class Given_Overlapping_Datums
 
         var commandEnvelope = new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata);
 
-        var exception = await Assert.ThrowsAsync<ErkenningBestaatAl>(async () =>
+        var exception = await Assert.ThrowsAsync<ErkenningCombinatieBestaatAl>(async () =>
         {
             await _commandHandler.Handle(commandEnvelope);
         });
