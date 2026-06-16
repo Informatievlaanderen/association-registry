@@ -12,16 +12,21 @@ public class WijzigErkenningValidator : AbstractValidator<WijzigErkenningRequest
         RuleFor(request => request)
            .Must(HaveAtLeastOneTeWijzigenValue)
            .OverridePropertyName("request")
-           .WithMessage(ExceptionMessages.MinstensEenVeldMoetIngevuldZijn);
+           .WithMessage(ExceptionMessages.MinstensEenTeWijzigenVeldMoetIngevuldZijn);
 
         RuleFor(request => request.RedenVanWijziging)
            .NotEmpty()
            .WithMessage(ExceptionMessages.RedenVanWijzigingIsVerplicht);
     }
 
-    private static bool HaveAtLeastOneTeWijzigenValue(WijzigErkenningRequest request) =>
-        request.Startdatum.HasValue
-     || request.Einddatum.HasValue
-     || request.Hernieuwingsdatum.HasValue
-     || request.HernieuwingsUrl is not null;
+    private static bool HaveAtLeastOneTeWijzigenValue(WijzigErkenningRequest request)
+    {
+        var startdatumHasValue = !request.Startdatum.IsNull;
+        var einddatumHasValue = !request.Einddatum.IsNull;
+
+        return startdatumHasValue
+            || einddatumHasValue
+            || request.Hernieuwingsdatum.HasValue
+            || request.HernieuwingsUrl is not null;
+    }
 }

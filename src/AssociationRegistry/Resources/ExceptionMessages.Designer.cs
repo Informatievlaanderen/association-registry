@@ -753,6 +753,12 @@ namespace AssociationRegistry.Resources {
             }
         }
         
+        public static string MinstensEenTeWijzigenVeldMoetIngevuldZijn {
+            get {
+                return ResourceManager.GetString("MinstensEenTeWijzigenVeldMoetIngevuldZijn", resourceCulture);
+            }
+        }
+        
         public static string RedenVanWijzigingIsVerplicht {
             get {
                 return ResourceManager.GetString("RedenVanWijzigingIsVerplicht", resourceCulture);

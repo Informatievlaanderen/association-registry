@@ -7,7 +7,6 @@ using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Resources;
@@ -59,7 +58,7 @@ public class Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_
             OvoCode = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        var exception = await Assert.ThrowsAsync<ErkenningBestaatAl>(async () =>
+        var exception = await Assert.ThrowsAsync<ErkenningCombinatieBestaatAl>(async () =>
         {
             await _commandHandler.Handle(
                 new CommandEnvelope<RegistreerErkenningCommand>(command, commandMetadata),

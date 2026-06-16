@@ -42,14 +42,15 @@ public class Given_No_TeWijzigen_Values
             Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
                 ErkenningId = teWijzigenErkenningId,
-                StartDatum = NullOrEmpty<DateOnly>.Empty,
+                StartDatum = NullOrEmpty<DateOnly>.Null,
                 EindDatum = NullOrEmpty<DateOnly>.Null,
                 Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
                 HernieuwingsUrl = null,
+                RedenVanWijziging = _fixture.Create<string>(),
             },
         };
 
-        var exception = await Assert.ThrowsAsync<MinstensEenVeldMoetIngevuldZijn>(async () =>
+        var exception = await Assert.ThrowsAsync<MinstensEenTeWijzigenVeldMoetIngevuldZijn>(async () =>
         {
             var commandMetadata = _fixture.Create<CommandMetadata>() with
             {
@@ -64,6 +65,6 @@ public class Given_No_TeWijzigen_Values
             );
         });
 
-        exception.Message.Should().Be(ExceptionMessages.MinstensEenVeldMoetIngevuldZijn);
+        exception.Message.Should().Be(ExceptionMessages.MinstensEenTeWijzigenVeldMoetIngevuldZijn);
     }
 }

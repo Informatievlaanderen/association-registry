@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Registreer_Erkenning.Commandhandling.Kbo;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
+using Resources;
 using Xunit;
 
 public class Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_And_Periode_Overlaps
@@ -58,7 +58,7 @@ public class Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_
             OvoCode = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        var exception = await Assert.ThrowsAsync<ErkenningBestaatAl>(async () =>
+        var exception = await Assert.ThrowsAsync<ErkenningCombinatieBestaatAl>(async () =>
         {
             await _commandHandler.Handle(
                 new CommandEnvelope<RegistreerErkenningCommand>(command, commandMetadata),

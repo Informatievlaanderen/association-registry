@@ -5,11 +5,11 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Resources;
 
 [Serializable]
-public class ErkenningBestaatAl : DomainException
+public class ErkenningCombinatieBestaatAl : DomainException
 {
-    public ErkenningBestaatAl()
+    public ErkenningCombinatieBestaatAl()
         : base(ExceptionMessages.ErkenningBestaatAl) { }
 
-    protected ErkenningBestaatAl(SerializationInfo info, StreamingContext context)
+    protected ErkenningCombinatieBestaatAl(SerializationInfo info, StreamingContext context)
         : base(info, context) { }
 }

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 
-using Exceptions;
 using Primitives;
 
 public record TeRegistrerenErkenning
@@ -51,9 +50,6 @@ public record TeWijzigenErkenning
         string redenVanWijziging
     )
     {
-        if (HeeftGeenTeWijzigenWaarde(startDatum, eindDatum, hernieuwingsDatum, hernieuwingsUrl))
-            throw new MinstensEenVeldMoetIngevuldZijn();
-
         return new TeWijzigenErkenning(
             erkenningId,
             startDatum,
@@ -71,10 +67,7 @@ public record TeWijzigenErkenning
     public string RedenVanWijziging { get; set; } = null!;
     public NullOrEmpty<DateOnly> Hernieuwingsdatum { get; set; }
 
-    public static bool HeeftGeenTeWijzigenWaarde(
-        NullOrEmpty<DateOnly> startDatum,
-        NullOrEmpty<DateOnly> eindDatum,
-        NullOrEmpty<DateOnly> hernieuwingsDatum,
-        string? hernieuwingsUrl
-    ) => startDatum.IsNull && eindDatum.IsNull && hernieuwingsUrl is null && hernieuwingsDatum.IsNull;
+    public bool HeeftGeenTeWijzigenWaarde => StartDatum.IsNull && EindDatum.IsNull && HernieuwingsUrl is null && Hernieuwingsdatum.IsNull;
+
+    public bool HeeftGeenGeldigeRedenVanWijziging => string.IsNullOrWhiteSpace(RedenVanWijziging);
 }
