@@ -11,6 +11,8 @@ public record Erkenning
     public string RedenSchorsing { get; set; } = null!;
     public ErkenningStatus Status { get; set; } = null!;
 
+    public string[] Beheerders { get; set; } = [];
+
     public static Erkenning Create(
         int nextId,
         TeRegistrerenErkenning erkenning,

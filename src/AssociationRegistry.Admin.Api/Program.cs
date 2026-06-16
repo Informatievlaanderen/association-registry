@@ -81,6 +81,7 @@ using Integrations.Magda.Persoon.Validation;
 using Integrations.Slack;
 using Integrations.Wegwijs.Clients;
 using Integrations.Wegwijs.Options;
+using Integrations.Wegwijs.Services;
 using JasperFx;
 using Magda.Kbo;
 using Magda.Persoon;
@@ -122,6 +123,7 @@ using WebApi.Verenigingen;
 using WebApi.Verenigingen.Detail;
 using WebApi.Verenigingen.Historiek;
 using WebApi.Verenigingen.SequenceGuarding;
+using Wegwijs;
 using Wolverine.Http;
 using Environment = Environment;
 using HealthStatus = Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus;
@@ -514,6 +516,7 @@ public class Program
             .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
             .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
             .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
+            .AddScoped<IOrganisatieBevoegdheidService, OrganisatieBevoegdheidService>()
             .AddScoped<PersoonsgegevensEventTransformers>()
             .AddTransient<IEventStore, EventStore>()
             .AddScoped<ISyncKszMessageHandler, SyncKszMessageHandler>()
