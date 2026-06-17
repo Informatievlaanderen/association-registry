@@ -1,41 +1,22 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Voeg_Bankrekeningnummer_Toe.Commandhandling.Vzer;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.VoegBankrekeningToe;
-using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
-using AutoFixture;
+using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using Events;
 using Xunit;
 
 public class Given_A_Valid_Bankrekeningnummer
 {
-    private readonly VoegBankrekeningnummerToeCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
-    private readonly AggregateSessionMock _aggregateSessionMock;
-
-    public Given_A_Valid_Bankrekeningnummer()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _commandHandler = new VoegBankrekeningnummerToeCommandHandler(_aggregateSessionMock);
-    }
+    private readonly VoegBankrekeningnummerToeContext<FeitelijkeVerenigingWerdGeregistreerdScenario> _ctx =
+        new(new FeitelijkeVerenigingWerdGeregistreerdScenario());
 
     [Fact]
     public async ValueTask Then_A_BankrekeningWerdToegevoegd_Event_Is_Saved_With_The_Next_Id()
     {
-        var command = _fixture.Create<VoegBankrekeningnummerToeCommand>() with { VCode = _scenario.VCode };
+        var command = _ctx.CreateCommand();
 
-        await _commandHandler.Handle(
-            new CommandEnvelope<VoegBankrekeningnummerToeCommand>(command, _fixture.Create<CommandMetadata>())
-        );
+        await _ctx.Handle(command);
 
-        _aggregateSessionMock.ShouldHaveSavedExact(
+        _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new BankrekeningnummerWerdToegevoegd(
                 1,
                 command.Bankrekeningnummer.Iban.Value,

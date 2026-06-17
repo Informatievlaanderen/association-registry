@@ -222,9 +222,18 @@ After rewriting a `Given_*` file, strip every using that was only needed for the
 - Namespaces for event types used in `ShouldHaveSavedExact(...)` assertions
 - Namespaces for exception types used in `Assert.ThrowsAsync<...>`
 - `FluentAssertions` — if `.Should()` is called
-- `AssociationRegistry.Resources` (or relative alias `Resources`) — if `ExceptionMessages.*` is used
+- `Resources` — if `ExceptionMessages.*` is used (never `AssociationRegistry.Resources`)
 - `CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening` — only if `WellknownOvoNumbers` is referenced from there
 - `Xunit`
+
+**Use relative (shortened) usings — never prefix with `AssociationRegistry.` where redundant:**
+C# resolves `using` directives by walking up the enclosing namespace chain. In this project the following prefixes can be dropped:
+- `using Events;` — not `using AssociationRegistry.Events;`
+- `using Resources;` — not `using AssociationRegistry.Resources;`
+- `using Common.Scenarios.CommandHandling.X;` — not `using AssociationRegistry.Test.Common.Scenarios.CommandHandling.X;`
+- `using Common.StubsMocksFakes.VerenigingsRepositories;` — not `using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;`
+
+**Do NOT shorten `AssociationRegistry.DecentraalBeheer.*`** — the test project already has an `AssociationRegistry.Test.Admin.Api.DecentraalBeheer` namespace, so the compiler resolves `DecentraalBeheer.*` to the wrong namespace. Always write the full `using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;`.
 
 **Example — before cleanup:**
 ```csharp
