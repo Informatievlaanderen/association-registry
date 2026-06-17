@@ -1,53 +1,27 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Wijzig_Bankrekeningnummer.Commandhandling.Kbo;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.WijzigBankrekening;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
-using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
-using AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using Events;
 using Xunit;
 
 public class Given_A_Valid_Command
 {
-    private readonly WijzigBankrekeningnummerCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithBankrekeningnummersScenario _scenario;
-    private readonly AggregateSessionMock _verenigingRepositoryMock;
-
-    public Given_A_Valid_Command()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithBankrekeningnummersScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _commandHandler = new WijzigBankrekeningnummerCommandHandler(_verenigingRepositoryMock);
-    }
+    private readonly WijzigBankrekeningnummerContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithBankrekeningnummersScenario> _ctx =
+        new(
+            new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithBankrekeningnummersScenario(),
+            s => s.BankrekeningnummerWerdToegevoegdVanuitKBO1.BankrekeningnummerId
+        );
 
     [Fact]
     public async ValueTask With_All_Fields_Then_It_Saves_A_BankrekeningnummerWerdGewijzigd_Event()
     {
-        var teWijzigenBankrekeningnummerId = _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1.BankrekeningnummerId;
+        var command = _ctx.CreateCommand();
 
-        var command = _fixture.Create<WijzigBankrekeningnummerCommand>() with
-        {
-            VCode = _scenario.VCode,
-            Bankrekeningnummer = _fixture.Create<TeWijzigenBankrekeningnummer>() with
-            {
-                BankrekeningnummerId = teWijzigenBankrekeningnummerId,
-            },
-        };
+        await _ctx.Handle(command);
 
-        await _commandHandler.Handle(
-            new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())
-        );
-
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new BankrekeningnummerWerdGewijzigd(
-                teWijzigenBankrekeningnummerId,
+                _ctx.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1.BankrekeningnummerId,
                 command.Bankrekeningnummer.Doel,
                 command.Bankrekeningnummer.Titularis
             )
@@ -57,25 +31,13 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask With_Only_Doel_Then_It_Saves_A_BankrekeningnummerWerdGewijzigd_Event()
     {
-        var teWijzigenBankrekeningnummer = _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1;
+        var command = _ctx.CreateCommand(b => b with { Titularis = null });
 
-        var command = _fixture.Create<WijzigBankrekeningnummerCommand>() with
-        {
-            VCode = _scenario.VCode,
-            Bankrekeningnummer = _fixture.Create<TeWijzigenBankrekeningnummer>() with
-            {
-                BankrekeningnummerId = teWijzigenBankrekeningnummer.BankrekeningnummerId,
-                Titularis = null,
-            },
-        };
+        await _ctx.Handle(command);
 
-        await _commandHandler.Handle(
-            new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())
-        );
-
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new BankrekeningnummerWerdGewijzigd(
-                teWijzigenBankrekeningnummer.BankrekeningnummerId,
+                _ctx.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1.BankrekeningnummerId,
                 command.Bankrekeningnummer.Doel,
                 string.Empty //previous value
             )
@@ -85,25 +47,13 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask With_Only_Titularis_Then_It_Saves_A_BankrekeningnummerWerdGewijzigd_Event()
     {
-        var teWijzigenBankrekeningnummerId = _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1.BankrekeningnummerId;
+        var command = _ctx.CreateCommand(b => b with { Doel = null });
 
-        var command = _fixture.Create<WijzigBankrekeningnummerCommand>() with
-        {
-            VCode = _scenario.VCode,
-            Bankrekeningnummer = _fixture.Create<TeWijzigenBankrekeningnummer>() with
-            {
-                BankrekeningnummerId = teWijzigenBankrekeningnummerId,
-                Doel = null,
-            },
-        };
+        await _ctx.Handle(command);
 
-        await _commandHandler.Handle(
-            new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())
-        );
-
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new BankrekeningnummerWerdGewijzigd(
-                teWijzigenBankrekeningnummerId,
+                _ctx.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1.BankrekeningnummerId,
                 string.Empty, // previous value
                 command.Bankrekeningnummer.Titularis
             )
@@ -113,23 +63,10 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask With_All_Null_Then_Nothing()
     {
-        var teWijzigenBankrekeningnummerId = _scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1.BankrekeningnummerId;
+        var command = _ctx.CreateCommand(b => b with { Doel = null, Titularis = null });
 
-        var command = _fixture.Create<WijzigBankrekeningnummerCommand>() with
-        {
-            VCode = _scenario.VCode,
-            Bankrekeningnummer = _fixture.Create<TeWijzigenBankrekeningnummer>() with
-            {
-                BankrekeningnummerId = teWijzigenBankrekeningnummerId,
-                Doel = null,
-                Titularis = null,
-            },
-        };
+        await _ctx.Handle(command);
 
-        await _commandHandler.Handle(
-            new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, _fixture.Create<CommandMetadata>())
-        );
-
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _ctx.AggregateSessionMock.ShouldNotHaveAnySaves();
     }
 }
