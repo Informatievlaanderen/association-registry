@@ -1,3 +1,10 @@
+## [8.328.2](https://github.com/informatievlaanderen/association-registry/compare/v8.328.1...v8.328.2) (2026-06-17)
+
+
+### Bug Fixes
+
+* or-3074 don't check on null or empty for wijzig erkenning ([82811fa](https://github.com/informatievlaanderen/association-registry/commit/82811faffbfdf89ec40769d15975451a58abe066))
+
 ## [8.328.1](https://github.com/informatievlaanderen/association-registry/compare/v8.328.0...v8.328.1) (2026-06-12)
 
 
