@@ -64,5 +64,6 @@ scripts/kbo-sync-lambda-local.zip
 .dccache
 
 # Local AI tooling
-.opencode/
+.opencode/*
+!.opencode/skills
 .serena/
