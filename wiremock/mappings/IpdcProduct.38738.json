@@ -1,0 +1,14 @@
+{
+  "priority": 4,
+  "request": {
+    "method": "GET",
+    "urlPath": "/id/product/38738"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "Ipdc/Ipdc.38738.json"
+  }
+}
