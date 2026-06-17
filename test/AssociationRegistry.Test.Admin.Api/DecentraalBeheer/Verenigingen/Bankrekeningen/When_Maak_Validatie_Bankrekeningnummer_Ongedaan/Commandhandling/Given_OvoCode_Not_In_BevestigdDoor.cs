@@ -6,7 +6,7 @@ using FluentAssertions;
 using Resources;
 using Xunit;
 
-public class Given_Unknown_Bankrekeningnummer
+public class Given_OvoCode_Not_In_BevestigdDoor
 {
     private readonly MaakValidatieBankrekeningnummerOngedaanContext<BankrekeningnummerWerdToegevoegdScenario> _ctx =
         new(
@@ -15,16 +15,16 @@ public class Given_Unknown_Bankrekeningnummer
         );
 
     [Fact]
-    public async ValueTask Then_Throws_BankrekeningnummerIsNietGekend()
+    public async ValueTask Then_Throws_ValidatieBankrekeningnummerIsNietGekend()
     {
-        var command = _ctx.CreateCommand(bankrekeningnummerId: _ctx.CreateUnknownBankrekeningnummerId());
+        var command = _ctx.CreateCommand();
 
-        var exception = await Assert.ThrowsAsync<BankrekeningnummerIsNietGekend>(async () =>
+        var exception = await Assert.ThrowsAsync<ValidatieBankrekeningnummerIsNietGekend>(async () =>
             await _ctx.Handle(command)
         );
 
         exception
             .Message.Should()
-            .Be(string.Format(ExceptionMessages.BankrekeningnummerIsNietGekend, command.BankrekeningnummerId));
+            .Be(string.Format(ExceptionMessages.ValidatieBankrekeningnummerIsNietGekend, _ctx.Metadata.Initiator));
     }
 }

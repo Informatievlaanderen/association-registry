@@ -1,48 +1,25 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Valideer_Bankrekeningnummer.Commandhandling;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Valideer_Bankrekeningnummer.Commandhandling;
 
-using AssociationRegistry.Framework;
-using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening;
-using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
 using Xunit;
 
 public class Given_Validated_Bankrekeningnummer
 {
-    private readonly ValideerBankrekeningnummerCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly BankrekeningnummerWerdGevalideerdScenario _scenario;
-    private readonly AggregateSessionMock _aggregateSessionMock;
-
-    public Given_Validated_Bankrekeningnummer()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new BankrekeningnummerWerdGevalideerdScenario();
-        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _commandHandler = new ValideerBankrekeningnummerCommandHandler(_aggregateSessionMock);
-    }
+    private readonly ValideerBankrekeningnummerContext<BankrekeningnummerWerdGevalideerdScenario> _ctx = new(
+        new BankrekeningnummerWerdGevalideerdScenario(),
+        s => s.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId
+    );
 
     [Fact]
     public async ValueTask Then_Nothing()
     {
-        var command = _fixture.Create<ValideerBankrekeningnummerCommand>() with
-        {
-            VCode = _scenario.VCode,
-            BankrekeningnummerId = _scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-        };
+        var command = _ctx.CreateCommand();
+        var metadata = _ctx.CreateMetadata(
+            initiator: _ctx.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor
+        );
 
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor,
-        };
+        await _ctx.Handle(command, metadata);
 
-        var commandEnvelope = new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata);
-
-        await _commandHandler.Handle(commandEnvelope);
-
-        _aggregateSessionMock.ShouldNotHaveAnySaves();
+        _ctx.AggregateSessionMock.ShouldNotHaveAnySaves();
     }
 }

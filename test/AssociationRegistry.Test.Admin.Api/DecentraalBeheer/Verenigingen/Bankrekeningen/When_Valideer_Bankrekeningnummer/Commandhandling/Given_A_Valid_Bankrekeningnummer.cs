@@ -1,50 +1,27 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Valideer_Bankrekeningnummer.Commandhandling;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Valideer_Bankrekeningnummer.Commandhandling;
 
-using AssociationRegistry.Framework;
-using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening;
-using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
 using Events;
 using Xunit;
 
 public class Given_A_Valid_Bankrekeningnummer
 {
-    private readonly ValideerBankrekeningnummerCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly BankrekeningnummerWerdToegevoegdScenario _scenario;
-    private readonly AggregateSessionMock _aggregateSessionMock;
-
-    public Given_A_Valid_Bankrekeningnummer()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new BankrekeningnummerWerdToegevoegdScenario();
-        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _commandHandler = new ValideerBankrekeningnummerCommandHandler(_aggregateSessionMock);
-    }
+    private readonly ValideerBankrekeningnummerContext<BankrekeningnummerWerdToegevoegdScenario> _ctx = new(
+        new BankrekeningnummerWerdToegevoegdScenario(),
+        s => s.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId
+    );
 
     [Fact]
     public async ValueTask Then_It_Saves_A_BankrekeningnummerWerdGewijzigd_Event()
     {
-        var command = _fixture.Create<ValideerBankrekeningnummerCommand>() with
-        {
-            VCode = _scenario.VCode,
-            BankrekeningnummerId = _scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-        };
+        var command = _ctx.CreateCommand();
 
-        var commandMetadata = _fixture.Create<CommandMetadata>();
+        await _ctx.Handle(command);
 
-        var commandEnvelope = new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, commandMetadata);
-
-        await _commandHandler.Handle(commandEnvelope);
-
-        _aggregateSessionMock.ShouldHaveSavedExact(
+        _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
-                _scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-                commandMetadata.Initiator
+                _ctx.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
+                _ctx.Metadata.Initiator
             )
         );
     }
