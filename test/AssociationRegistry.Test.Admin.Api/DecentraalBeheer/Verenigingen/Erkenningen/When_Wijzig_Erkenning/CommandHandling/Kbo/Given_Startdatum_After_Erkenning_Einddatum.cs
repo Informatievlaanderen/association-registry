@@ -1,14 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling.Kbo;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
 using Primitives;
 using Resources;
@@ -16,48 +9,24 @@ using Xunit;
 
 public class Given_Startdatum_After_Erkenning_Einddatum
 {
-    private readonly WijzigErkenningCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
-    private readonly AggregateSessionMock _verenigingRepositoryMock;
-
-    public Given_Startdatum_After_Erkenning_Einddatum()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _commandHandler = new WijzigErkenningCommandHandler(_verenigingRepositoryMock);
-    }
+    private readonly WijzigErkenningContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario> _ctx =
+        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario(),
+            s => s.ErkenningWerdGeregistreerd.ErkenningId,
+            s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
 
     [Fact]
     public async ValueTask With_TeCorrigeren_Einddatum_Null_Then_It_Throws_StartdatumLigtNaEinddatum()
     {
-        var teWijzigenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
+        var startDatum = NullOrEmpty<DateOnly>.Create(_ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum.Value.AddDays(1));
 
-        var startDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd.Einddatum.Value.AddDays(1));
-
-        var command = _fixture.Create<WijzigErkenningCommand>() with
+        var erkenning = _ctx.CreateTeWijzigenErkenning() with
         {
-            VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeWijzigenErkenning>() with
-            {
-                ErkenningId = teWijzigenErkenningId,
-                StartDatum = startDatum,
-                EindDatum = NullOrEmpty<DateOnly>.Null,
-            },
+            StartDatum = startDatum,
+            EindDatum = NullOrEmpty<DateOnly>.Null,
         };
+        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
 
-        var exception = await Assert.ThrowsAsync<StartdatumLigtNaEinddatum>(async () =>
-        {
-            var commandMetadata = _fixture.Create<CommandMetadata>() with
-            {
-                Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
-            };
-
-           await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata), new IOrganisatieBevoegdheidServiceMockStub().Object);
-        });
+        var exception = await Assert.ThrowsAsync<StartdatumLigtNaEinddatum>(async () => await _ctx.Handle(command));
 
         exception.Message.Should().Be(ExceptionMessages.StartdatumIsAfterEinddatum);
     }
@@ -65,31 +34,17 @@ public class Given_Startdatum_After_Erkenning_Einddatum
     [Fact]
     public async ValueTask With_TeCorrigeren_Einddatum_Then_It_Throws_StartdatumLigtNaEinddatum()
     {
-        var teWijzigenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
+        var startDatum = NullOrEmpty<DateOnly>.Create(_ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum.Value.AddDays(1));
+        var eindDatum = NullOrEmpty<DateOnly>.Create(_ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum.Value.AddDays(-1));
 
-        var startDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd.Einddatum.Value.AddDays(1));
-        var eindDatum = NullOrEmpty<DateOnly>.Create(_scenario.ErkenningWerdGeregistreerd.Einddatum.Value.AddDays(-1));
-
-        var command = _fixture.Create<WijzigErkenningCommand>() with
+        var erkenning = _ctx.CreateTeWijzigenErkenning() with
         {
-            VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeWijzigenErkenning>() with
-            {
-                ErkenningId = teWijzigenErkenningId,
-                StartDatum = startDatum,
-                EindDatum = eindDatum,
-            },
+            StartDatum = startDatum,
+            EindDatum = eindDatum,
         };
+        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
 
-        var exception = await Assert.ThrowsAsync<StartdatumLigtNaEinddatum>(async () =>
-        {
-            var commandMetadata = _fixture.Create<CommandMetadata>() with
-            {
-                Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
-            };
-
-           await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata), new IOrganisatieBevoegdheidServiceMockStub().Object);
-        });
+        var exception = await Assert.ThrowsAsync<StartdatumLigtNaEinddatum>(async () => await _ctx.Handle(command));
 
         exception.Message.Should().Be(ExceptionMessages.StartdatumIsAfterEinddatum);
     }
