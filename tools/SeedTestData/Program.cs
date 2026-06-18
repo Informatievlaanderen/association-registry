@@ -1,3 +1,7 @@
+using System.Globalization;
+using System.IO.Compression;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using AssociationRegistry.Admin.Schema.Bewaartermijn;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
@@ -11,7 +15,13 @@ using Marten;
 using Newtonsoft.Json;
 using NodaTime;
 
-Console.WriteLine("🌱 Seeding test data for verenigingsregister...");
+var importVCodeSeedOptions = ImportVCodeSeedOptions.Parse(args);
+
+Console.WriteLine(
+    importVCodeSeedOptions.Enabled
+        ? "🌱 Seeding import v-codes for erkenningen..."
+        : "🌱 Seeding test data for verenigingsregister..."
+);
 
 var connectionString =
     Environment.GetEnvironmentVariable("ConnectionString")
@@ -41,6 +51,12 @@ await using var session = store.LightweightSession();
 session.SetHeader("Initiator", "SeedTestData");
 session.SetHeader("Tijdstip", Instant.FromDateTimeUtc(DateTime.UtcNow).ToString());
 session.CorrelationId = Guid.NewGuid().ToString();
+
+if (importVCodeSeedOptions.Enabled)
+{
+    await SeedImportVCodes(session, importVCodeSeedOptions);
+    return;
+}
 
 // Scenario 1: FeitelijkeVereniging with Vertegenwoordiger lifecycle (Toegevoegd -> Gewijzigd -> Verwijderd)
 Console.WriteLine("\n📝 Creating FeitelijkeVereniging with vertegenwoordiger lifecycle...");
@@ -195,7 +211,17 @@ session.Events.Append(
 );
 
 // TODO verwijderen
-session.Events.Append(BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers,1),new BewaartermijnWerdGestartV2(BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers,1),"V9000002", PersoonsgegevensType.Vertegenwoordigers.Value, 1, Instant.MinValue, BewaartermijnReden.VertegenwoordigerWerdVerwijderd));
+session.Events.Append(
+    BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers, 1),
+    new BewaartermijnWerdGestartV2(
+        BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers, 1),
+        "V9000002",
+        PersoonsgegevensType.Vertegenwoordigers.Value,
+        1,
+        Instant.MinValue,
+        BewaartermijnReden.VertegenwoordigerWerdVerwijderd
+    )
+);
 
 // Scenario 3: VerenigingMetRechtspersoonlijkheid with KBO vertegenwoordigers
 Console.WriteLine("📝 Creating VerenigingMetRechtspersoonlijkheid with KBO vertegenwoordigers...");
@@ -515,5 +541,260 @@ Console.WriteLine($"   ✓ VertegenwoordigerWerdOvergenomenUitKBO");
 Console.WriteLine($"   ✓ VertegenwoordigerWerdToegevoegdVanuitKBO");
 Console.WriteLine($"   ✓ VertegenwoordigerWerdGewijzigdInKBO");
 Console.WriteLine($"   ✓ VertegenwoordigerWerdVerwijderdUitKBO");
+
+static async Task SeedImportVCodes(IDocumentSession session, ImportVCodeSeedOptions options)
+{
+    if (!File.Exists(options.FilePath))
+        throw new FileNotFoundException($"Import erkenningen file not found: {options.FilePath}", options.FilePath);
+
+    session.SetHeader("Initiator", options.Initiator);
+    session.SetHeader("Tijdstip", Instant.FromDateTimeUtc(DateTime.UtcNow).ToString());
+    session.CorrelationId = Guid.NewGuid().ToString();
+
+    var vCodes = XlsxVCodeReader
+        .Read(options.FilePath, options.SheetName)
+        .Distinct(StringComparer.OrdinalIgnoreCase)
+        .OrderBy(x => x, StringComparer.OrdinalIgnoreCase)
+        .ToArray();
+
+    Console.WriteLine($"   File: {options.FilePath}");
+    Console.WriteLine($"   Sheet: {options.SheetName}");
+    Console.WriteLine($"   Distinct v-codes: {vCodes.Length}");
+
+    var skipped = 0;
+    var seeded = 0;
+
+    foreach (var vCode in vCodes)
+    {
+        var streamState = await session.Events.FetchStreamStateAsync(vCode);
+
+        if (streamState is not null)
+        {
+            skipped++;
+            continue;
+        }
+
+        session.Events.StartStream(
+            vCode,
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+                VCode: vCode,
+                Naam: $"Import erkenningen seed {vCode}",
+                KorteNaam: "",
+                KorteBeschrijving: "",
+                Startdatum: null,
+                Doelgroep: new Registratiedata.Doelgroep(0, 150),
+                IsUitgeschrevenUitPubliekeDatastroom: false,
+                Contactgegevens: [],
+                Locaties: [],
+                Vertegenwoordigers: [],
+                HoofdactiviteitenVerenigingsloket: [],
+                Bankrekeningnummers: [],
+                Registratiedata.DuplicatieInfo.GeenDuplicaten
+            )
+        );
+
+        seeded++;
+    }
+
+    await session.SaveChangesAsync();
+
+    Console.WriteLine("✅ Import v-code seed completed");
+    Console.WriteLine($"   Already existed: {skipped}");
+    Console.WriteLine($"   Seeded: {seeded}");
+}
+
+internal sealed record ImportVCodeSeedOptions(bool Enabled, string FilePath, string SheetName, string Initiator)
+{
+    public static ImportVCodeSeedOptions Parse(string[] args)
+    {
+        var values = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
+
+        for (var i = 0; i < args.Length; i++)
+        {
+            var arg = args[i];
+
+            if (!arg.StartsWith("--", StringComparison.Ordinal))
+                continue;
+
+            if (i + 1 >= args.Length)
+                throw new ArgumentException($"Missing value for {arg}");
+
+            values[arg] = args[++i];
+        }
+
+        var filePath =
+            values.GetValueOrDefault("--import-erkenningen-vcodes-file")
+            ?? Environment.GetEnvironmentVariable("IMPORT_ERKENNINGEN_VCODES_FILE");
+
+        return string.IsNullOrWhiteSpace(filePath)
+            ? new ImportVCodeSeedOptions(false, "", "Import", "ImportErkenningen")
+            : new ImportVCodeSeedOptions(
+                true,
+                filePath,
+                values.GetValueOrDefault("--import-erkenningen-vcodes-sheet")
+                    ?? Environment.GetEnvironmentVariable("IMPORT_ERKENNINGEN_VCODES_SHEET")
+                    ?? "Import",
+                values.GetValueOrDefault("--import-erkenningen-vcodes-initiator")
+                    ?? Environment.GetEnvironmentVariable("IMPORT_ERKENNINGEN_VCODES_INITIATOR")
+                    ?? "ImportErkenningen"
+            );
+    }
+}
+
+internal static class XlsxVCodeReader
+{
+    private static readonly XNamespace SpreadsheetNamespace =
+        "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+    private static readonly XNamespace RelationshipNamespace =
+        "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+    private static readonly XNamespace PackageRelationshipNamespace =
+        "http://schemas.openxmlformats.org/package/2006/relationships";
+
+    public static string[] Read(string filePath, string sheetName)
+    {
+        using var archive = ZipFile.OpenRead(filePath);
+        var sharedStrings = ReadSharedStrings(archive);
+        var sheetPath = ResolveSheetPath(archive, sheetName);
+        var rows = ReadRows(archive, sheetPath, sharedStrings);
+
+        if (rows.Count == 0)
+            return [];
+
+        var headers = rows[0].Cells.Select(x => x.Value.Trim()).ToArray();
+        var vCodeColumn = Array.FindIndex(headers, IsVCodeHeader);
+
+        if (vCodeColumn < 0)
+            throw new InvalidOperationException("Column 'vCode' or 'V-code' not found.");
+
+        return rows.Skip(1)
+            .Select(row => row.Cells.GetValueOrDefault(vCodeColumn, string.Empty).Trim())
+            .Where(vCode => Regex.IsMatch(vCode, "^V\\d{7}$", RegexOptions.CultureInvariant))
+            .ToArray();
+    }
+
+    private static bool IsVCodeHeader(string header) =>
+        string.Equals(header, "vCode", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(header, "V-code", StringComparison.OrdinalIgnoreCase);
+
+    private static string[] ReadSharedStrings(ZipArchive archive)
+    {
+        var entry = archive.GetEntry("xl/sharedStrings.xml");
+
+        if (entry is null)
+            return [];
+
+        using var stream = entry.Open();
+        var document = XDocument.Load(stream);
+
+        return document
+            .Descendants(SpreadsheetNamespace + "si")
+            .Select(si => string.Concat(si.Descendants(SpreadsheetNamespace + "t").Select(t => t.Value)))
+            .ToArray();
+    }
+
+    private static string ResolveSheetPath(ZipArchive archive, string sheetName)
+    {
+        var workbookEntry =
+            archive.GetEntry("xl/workbook.xml")
+            ?? throw new InvalidOperationException("Invalid xlsx: xl/workbook.xml not found.");
+        var relationshipsEntry =
+            archive.GetEntry("xl/_rels/workbook.xml.rels")
+            ?? throw new InvalidOperationException("Invalid xlsx: workbook relationships not found.");
+
+        XDocument workbook;
+        XDocument relationships;
+
+        using (var stream = workbookEntry.Open())
+            workbook = XDocument.Load(stream);
+
+        using (var stream = relationshipsEntry.Open())
+            relationships = XDocument.Load(stream);
+
+        var sheet = workbook
+            .Descendants(SpreadsheetNamespace + "sheet")
+            .SingleOrDefault(x =>
+                string.Equals((string?)x.Attribute("name"), sheetName, StringComparison.OrdinalIgnoreCase)
+            );
+
+        if (sheet is null)
+            throw new InvalidOperationException($"Sheet '{sheetName}' not found.");
+
+        var relationshipId =
+            (string?)sheet.Attribute(RelationshipNamespace + "id")
+            ?? throw new InvalidOperationException($"Sheet '{sheetName}' has no relationship id.");
+
+        var target = relationships
+            .Descendants(PackageRelationshipNamespace + "Relationship")
+            .Where(x => string.Equals((string?)x.Attribute("Id"), relationshipId, StringComparison.Ordinal))
+            .Select(x => (string?)x.Attribute("Target"))
+            .SingleOrDefault();
+
+        if (string.IsNullOrWhiteSpace(target))
+            throw new InvalidOperationException($"Relationship target for sheet '{sheetName}' not found.");
+
+        return target.StartsWith("xl/", StringComparison.Ordinal) ? target : $"xl/{target}";
+    }
+
+    private static List<ParsedXlsxRow> ReadRows(
+        ZipArchive archive,
+        string sheetPath,
+        IReadOnlyList<string> sharedStrings
+    )
+    {
+        var sheetEntry =
+            archive.GetEntry(sheetPath) ?? throw new InvalidOperationException($"Invalid xlsx: {sheetPath} not found.");
+
+        XDocument sheetDocument;
+
+        using (var stream = sheetEntry.Open())
+            sheetDocument = XDocument.Load(stream);
+
+        return sheetDocument
+            .Descendants(SpreadsheetNamespace + "row")
+            .Select(row => new ParsedXlsxRow(
+                int.Parse((string?)row.Attribute("r") ?? "0", CultureInfo.InvariantCulture),
+                row.Elements(SpreadsheetNamespace + "c")
+                    .ToDictionary(
+                        cell => ColumnIndex((string?)cell.Attribute("r") ?? "A1"),
+                        cell => CellValue(cell, sharedStrings)
+                    )
+            ))
+            .Where(row => row.Cells.Count > 0)
+            .ToList();
+    }
+
+    private static string CellValue(XElement cell, IReadOnlyList<string> sharedStrings)
+    {
+        var cellType = (string?)cell.Attribute("t");
+
+        if (cellType == "inlineStr")
+            return string.Concat(cell.Descendants(SpreadsheetNamespace + "t").Select(x => x.Value));
+
+        var rawValue = cell.Element(SpreadsheetNamespace + "v")?.Value ?? string.Empty;
+
+        if (
+            cellType == "s"
+            && int.TryParse(rawValue, NumberStyles.None, CultureInfo.InvariantCulture, out var sharedStringIndex)
+        )
+            return sharedStringIndex >= 0 && sharedStringIndex < sharedStrings.Count
+                ? sharedStrings[sharedStringIndex]
+                : string.Empty;
+
+        return rawValue;
+    }
+
+    private static int ColumnIndex(string cellReference)
+    {
+        var column = Regex.Match(cellReference, "^[A-Z]+", RegexOptions.CultureInvariant).Value;
+        var index = 0;
+
+        foreach (var character in column)
+            index = index * 26 + character - 'A' + 1;
+
+        return index - 1;
+    }
+
+    private sealed record ParsedXlsxRow(int RowNumber, IReadOnlyDictionary<int, string> Cells);
+}
 
 public record EventThatDoesNothing(string One, string Two);

@@ -63,38 +63,36 @@ Als er failed rows zijn die bewaard moeten blijven, commit dan alleen die `*-fai
 
 ## v-codes seeden
 
-De Admin API kan alleen erkenningen toevoegen aan bestaande verenigingen. In lokale of tijdelijke omgevingen ontbreken v-codes uit externe exports vaak. Gebruik daarom eerst de seedscript tegen dezelfde database als de Admin API.
-
-Dry-run:
-
-```bash
-dotnet-script tools/import-erkenningen/seed-vcodes.csx --no-cache -- \
-  --file "$FILE" \
-  --sheet "$SHEET"
-```
+De Admin API kan alleen erkenningen toevoegen aan bestaande verenigingen. In lokale of tijdelijke omgevingen ontbreken v-codes uit externe exports vaak. Gebruik daarom eerst de bestaande seed tool tegen dezelfde database als de Admin API.
 
 Seed lokaal:
 
 ```bash
-dotnet-script tools/import-erkenningen/seed-vcodes.csx --no-cache -- \
-  --file "$FILE" \
-  --sheet "$SHEET" \
-  --seed
+dotnet run --project tools/SeedTestData/SeedTestData.csproj -- \
+  --import-erkenningen-vcodes-file "$FILE" \
+  --import-erkenningen-vcodes-sheet "$SHEET"
 ```
-
-Verifieer daarna opnieuw met dezelfde dry-run. Als alles bestaat, staat alles op `Skipped`.
 
 Voor een andere database:
 
 ```bash
-IMPORT_ERKENNINGEN_CONNECTION_STRING="<connection-string>" \
-dotnet-script tools/import-erkenningen/seed-vcodes.csx --no-cache -- \
-  --file "$FILE" \
-  --sheet "$SHEET" \
-  --seed
+ConnectionString="<connection-string>" \
+dotnet run --project tools/SeedTestData/SeedTestData.csproj -- \
+  --import-erkenningen-vcodes-file "$FILE" \
+  --import-erkenningen-vcodes-sheet "$SHEET"
 ```
 
-Let op: de seedscript maakt minimale VZER streams aan. Dat is bedoeld voor lokaal en gecontroleerde testdata. Gebruik dit niet op productie zonder expliciete datamigratiebeslissing.
+De import-vcode mode in `SeedTestData` is idempotent: bestaande streams worden geskipt, ontbrekende v-codes worden als minimale VZER streams aangemaakt.
+
+Je kan dezelfde input ook via environment variables meegeven:
+
+```bash
+IMPORT_ERKENNINGEN_VCODES_FILE="$FILE" \
+IMPORT_ERKENNINGEN_VCODES_SHEET="$SHEET" \
+dotnet run --project tools/SeedTestData/SeedTestData.csproj
+```
+
+Let op: deze mode maakt minimale VZER streams aan. Dat is bedoeld voor lokaal en gecontroleerde testdata. Gebruik dit niet op productie zonder expliciete datamigratiebeslissing.
 
 ## Lokale services
 
