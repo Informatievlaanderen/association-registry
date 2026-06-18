@@ -7,6 +7,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
 using Resources;
 using Xunit;
@@ -45,7 +46,7 @@ public class Given_Onbekend_ErkenningId
 
         var exception = await Assert.ThrowsAsync<ErkenningIsNietGekend>(async () =>
         {
-            await _commandHandler.Handle(new CommandEnvelope<VerwijderErkenningCommand>(command, commandMetadata));
+            await _commandHandler.Handle(new CommandEnvelope<VerwijderErkenningCommand>(command, commandMetadata), new IOrganisatieBevoegdheidServiceMockStub().Object);
         });
 
         exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningIsNietGekend, onbekendErkenningId));

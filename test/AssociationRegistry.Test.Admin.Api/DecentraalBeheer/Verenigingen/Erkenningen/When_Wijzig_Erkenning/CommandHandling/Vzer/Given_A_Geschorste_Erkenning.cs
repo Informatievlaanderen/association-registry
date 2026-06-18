@@ -1,20 +1,25 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling.Vzer;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.
+    CommandHandling.Vzer;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.Wegwijs;
+using Events;
 using Xunit;
 
 public class Given_A_Geschorste_Erkenning
 {
     private readonly WijzigErkenningCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario _scenario;
+
+    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario
+        _scenario;
+
     private readonly AggregateSessionMock _verenigingRepositoryMock;
 
     public Given_A_Geschorste_Erkenning()
@@ -43,7 +48,8 @@ public class Given_A_Geschorste_Erkenning
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata));
+        await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata),
+                                     new IOrganisatieBevoegdheidServiceMockStub().Object);
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new ErkenningWerdGewijzigd(

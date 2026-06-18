@@ -9,6 +9,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
 using Xunit;
 
@@ -41,9 +42,7 @@ public class Given_Another_OvoCode
         };
 
         var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
-            await _commandHandler.Handle(
-                new CommandEnvelope<WijzigErkenningCommand>(command, _fixture.Create<CommandMetadata>())
-            )
+            await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, _fixture.Create<CommandMetadata>()), new IOrganisatieBevoegdheidServiceMockStub().Object)
         );
 
         exception.Message.Should().Be(ExceptionMessages.GiIsNietBevoegd);

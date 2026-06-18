@@ -11,6 +11,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
 using Xunit;
 
@@ -61,12 +62,7 @@ public class Given_No_RedenVanWijziging
                 Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
             };
 
-            await _commandHandler.Handle(
-                new CommandEnvelope<
-                    WijzigErkenningCommand>(
-                    command,
-                    commandMetadata)
-            );
+           await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata), new IOrganisatieBevoegdheidServiceMockStub().Object);
         });
 
         exception.Message.Should().Be(ExceptionMessages.RedenVanWijzigingIsVerplicht);

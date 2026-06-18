@@ -12,14 +12,16 @@ using Common.StubsMocksFakes.Wegwijs;
 using Events;
 using Xunit;
 
-public class Given_A_Valid_Command
+public class Given_Gemachtigde_Organisaties
 {
     private readonly HefSchorsingErkenningOpCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario _scenario;
     private readonly AggregateSessionMock _verenigingRepositoryMock;
+    private HefSchorsingErkenningOpCommand _command;
+    private CommandMetadata? _commandMetaData;
 
-    public Given_A_Valid_Command()
+    public Given_Gemachtigde_Organisaties()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -27,37 +29,46 @@ public class Given_A_Valid_Command
         _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         _commandHandler = new HefSchorsingErkenningOpCommandHandler(_verenigingRepositoryMock);
-    }
 
-    [Fact]
-    public async ValueTask Then_An_SchorsingVanErkenningWerdOpgeheven_Event_Is_Saved()
-    {
         var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
-        var command = _fixture.Create<HefSchorsingErkenningOpCommand>() with
+        _command = _fixture.Create<HefSchorsingErkenningOpCommand>() with
         {
             VCode = _scenario.VCode,
             ErkenningId = teSchorsenErkenningId,
         };
 
-        var status = ErkenningStatus.Bepaal(
-            ErkenningsPeriode.Create(
-                _scenario.ErkenningWerdGeregistreerd.Startdatum,
-                _scenario.ErkenningWerdGeregistreerd.Einddatum
-            ),
-            DateOnly.FromDateTime(DateTime.Now)
+        _commandMetaData = _fixture.Create<CommandMetadata>();
+    }
+
+    [Fact]
+    public async ValueTask
+        Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_ErkenningRedenVanSchorsingWerdGecorrigeerd()
+    {
+        var organisatieBevoegdheidService = new IOrganisatieBevoegdheidServiceMockStub().WithGemachtigdeOrganisaties([
+            _commandMetaData.Initiator,
+        ]);
+
+        await _commandHandler.Handle(
+            new CommandEnvelope<HefSchorsingErkenningOpCommand>(_command, _commandMetaData),
+            organisatieBevoegdheidService.Object
         );
 
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-        };
-
-        await _commandHandler.Handle(new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, commandMetadata),
-                                     new IOrganisatieBevoegdheidServiceMockStub().Object);
-
         _verenigingRepositoryMock.ShouldHaveSavedExact(
-            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, status.Value)
+            new ErkenningOpvolgersWerdenToegevoegdAlsBeheerder(
+                _scenario.ErkenningWerdGeregistreerd.ErkenningId,
+                [_commandMetaData.Initiator]
+            ),
+            new SchorsingVanErkenningWerdOpgeheven(
+                _command.ErkenningId,
+                ErkenningStatus.Bepaal(
+                    ErkenningsPeriode.Create(
+                        _scenario.ErkenningWerdGeregistreerd.Startdatum,
+                        _scenario.ErkenningWerdGeregistreerd.Einddatum
+                    ),
+                    DateOnly.FromDateTime(DateTime.Now)
+                ).Value
+            )
         );
     }
 }

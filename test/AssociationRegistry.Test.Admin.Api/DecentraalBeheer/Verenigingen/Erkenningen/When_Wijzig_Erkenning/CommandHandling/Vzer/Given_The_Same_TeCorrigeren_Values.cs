@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.StubsMocksFakes.Wegwijs;
 using Xunit;
 
 public class Given_The_Same_TeCorrigeren_Values
@@ -51,12 +52,9 @@ public class Given_The_Same_TeCorrigeren_Values
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
         };
 
-        await _commandHandler.Handle(
-            new CommandEnvelope<
-                WijzigErkenningCommand>(
-                command,
-                commandMetadata)
-        );
+        await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata),
+                                     new IOrganisatieBevoegdheidServiceMockStub().Object);
+
 
         _verenigingRepositoryMock.ShouldNotHaveAnySaves();
     }
