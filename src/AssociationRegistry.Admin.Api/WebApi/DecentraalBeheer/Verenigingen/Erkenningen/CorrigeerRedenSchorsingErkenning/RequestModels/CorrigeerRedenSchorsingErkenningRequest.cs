@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Erkenningen.CorrigeerRedenSchorsingErkenning.RequestModels;
 
 using System.Runtime.Serialization;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
-using AssociationRegistry.DecentraalBeheer.Vereniging;
+using CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerRedenSchorsingErkenning;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Erkenningen;
 
 [DataContract]
 public record CorrigeerRedenSchorsingErkenningRequest
@@ -16,7 +17,7 @@ public record CorrigeerRedenSchorsingErkenningRequest
     public CorrigeerRedenSchorsingErkenningCommand ToCommand(string vCode, int erkenningId) =>
         new(
             VCode.Create(vCode),
-            new DecentraalBeheer.Vereniging.Erkenningen.TeCorrigerenRedenSchorsingErkenning
+            new TeCorrigerenRedenSchorsingErkenning
             {
                 ErkenningId = erkenningId,
                 RedenSchorsing = RedenSchorsing,

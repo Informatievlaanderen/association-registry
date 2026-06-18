@@ -3,6 +3,7 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Framework;
 using MartenDb.Store;
+using Wegwijs;
 
 public class SchorsErkenningCommandHandler
 {
@@ -15,12 +16,13 @@ public class SchorsErkenningCommandHandler
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<SchorsErkenningCommand> envelope,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService,
         CancellationToken cancellationToken = default
     )
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
 
-        vereniging.SchorsErkenning(envelope.Command.Erkenning, envelope.Metadata.Initiator);
+        await vereniging.SchorsErkenning(envelope.Command.Erkenning, envelope.Metadata.Initiator, organisatieBevoegdheidService);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 
