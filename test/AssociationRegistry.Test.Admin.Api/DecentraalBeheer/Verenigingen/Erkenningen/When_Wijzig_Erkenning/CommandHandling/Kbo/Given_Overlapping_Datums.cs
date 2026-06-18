@@ -8,6 +8,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
 using Primitives;
 using Resources;
@@ -56,11 +57,9 @@ public class Given_Overlapping_Datums
             Initiator = _scenario.ErkenningWerdGeregistreerdInVerleden.GeregistreerdDoor.OvoCode,
         };
 
-        var commandEnvelope = new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata);
-
         var exception = await Assert.ThrowsAsync<ErkenningCombinatieBestaatAl>(async () =>
         {
-            await _commandHandler.Handle(commandEnvelope);
+            await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata), new IOrganisatieBevoegdheidServiceMockStub().Object);
         });
 
         exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningBestaatAl, teWijzigenErkenningId));

@@ -610,47 +610,54 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         var toegevoegdeErkenning = Erkenning.Create(State.Erkenningen.NextId, erkenning, ipdcProduct, initiator);
 
-       Throw<ErkenningCombinatieBestaatAl>.If(!State.Erkenningen.KanErkenningToevoegenMetCombinatie(toegevoegdeErkenning));
+        Throw<ErkenningCombinatieBestaatAl>.If(
+            !State.Erkenningen.KanErkenningToevoegenMetCombinatie(toegevoegdeErkenning));
 
         AddEvent(EventFactory.ErkenningWerdGeregistreerd(toegevoegdeErkenning));
 
         return toegevoegdeErkenning.ErkenningId;
     }
 
-    public async Task SchorsErkenning(TeSchorsenErkenning teSchorsenErkenning, string initiator, IOrganisatieBevoegdheidService organisatieBevoegdheidService)
+    public async Task SchorsErkenning(
+        TeSchorsenErkenning teSchorsenErkenning,
+        string initiator,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService)
     {
         var huidigeErkenning = State.Erkenningen.GetById(teSchorsenErkenning.ErkenningId);
 
-        Throw<GiIsNietBevoegd>.If(huidigeErkenning.GeregistreerdDoor.OvoCode != initiator);
-        Throw<ErkenningIsAlReedsGeschorst>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
-        Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teSchorsenErkenning.RedenSchorsing));
-        Throw<VerlopenErkenningKanNietGeschorstWorden>.If(huidigeErkenning.Status == ErkenningStatus.Verlopen);
-
-        await ValidateAndAddGemachtigdeOrganisaties(
+        var isGemachtigd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
             initiator,
             organisatieBevoegdheidService,
             huidigeErkenning
         );
 
+        Throw<GiIsNietBevoegd>.If(!isGemachtigd);
+        Throw<ErkenningIsAlReedsGeschorst>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
+        Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teSchorsenErkenning.RedenSchorsing));
+        Throw<VerlopenErkenningKanNietGeschorstWorden>.If(huidigeErkenning.Status == ErkenningStatus.Verlopen);
+
         AddEvent(EventFactory.ErkenningWerdGeschorst(teSchorsenErkenning));
     }
 
-    public async Task HefSchorsingErkenningOp(int erkenningId, string initiator, IOrganisatieBevoegdheidService organisatieBevoegdheidService)
+    public async Task HefSchorsingErkenningOp(
+        int erkenningId,
+        string initiator,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService)
     {
         var huidigeErkenning = State.Erkenningen.GetById(erkenningId);
 
-        Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
+        var isGemachtigd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
+            initiator,
+            organisatieBevoegdheidService,
+            huidigeErkenning
+        );
+
+        Throw<GiIsNietBevoegd>.If(!isGemachtigd);
         Throw<ErkenningIsNietGeschorst>.If(huidigeErkenning.Status != ErkenningStatus.Geschorst);
 
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         var status = ErkenningStatus.Bepaal(huidigeErkenning.ErkenningsPeriode, today);
-
-        await ValidateAndAddGemachtigdeOrganisaties(
-            initiator,
-            organisatieBevoegdheidService,
-            huidigeErkenning
-        );
 
         AddEvent(EventFactory.HefSchorsingErkenningOp(huidigeErkenning.ErkenningId, status));
     }
@@ -667,6 +674,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         var huidigeErkenning = State.Erkenningen.GetById(teCorrigerenRedenSchorsingErkenning.ErkenningId);
 
+        var isGemachtigd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
+            initiator,
+            organisatieBevoegdheidService,
+            huidigeErkenning
+        );
+
+        Throw<GiIsNietBevoegd>.If(!isGemachtigd);
         Throw<ErkenningIsNietGeschorst>.If(huidigeErkenning.Status != ErkenningStatus.Geschorst);
 
         var heeftWijzigingen = huidigeErkenning.RedenSchorsing != teCorrigerenRedenSchorsingErkenning.RedenSchorsing;
@@ -676,49 +690,24 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             return;
         }
 
-        await ValidateAndAddGemachtigdeOrganisaties(
+        AddEvent(EventFactory.CorrigeerRedenSchorsingErkenning(teCorrigerenRedenSchorsingErkenning));
+    }
+
+    public async Task WijzigErkenning(
+        TeWijzigenErkenning teWijzigenErkenning,
+        string initiator,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService)
+    {
+        var huidigeErkenning = State.Erkenningen.GetById(teWijzigenErkenning.ErkenningId);
+        var isGemachtigd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
             initiator,
             organisatieBevoegdheidService,
             huidigeErkenning
         );
 
-        AddEvent(EventFactory.CorrigeerRedenSchorsingErkenning(teCorrigerenRedenSchorsingErkenning));
-    }
-
-    private async Task ValidateAndAddGemachtigdeOrganisaties(
-        string initiator,
-        IOrganisatieBevoegdheidService organisatieBevoegdheidService,
-        Erkenning huidigeErkenning
-    )
-    {
-        var isGemachtigdeOrganisatie =
-            huidigeErkenning.GeregistreerdDoor.OvoCode == initiator || huidigeErkenning.Beheerders.Contains(initiator);
-
-        if (!isGemachtigdeOrganisatie)
-        {
-            var gemachtigdeOrganisaties = await organisatieBevoegdheidService.GetAndValidateGemachtigdeOrganisaties(
-                initiator,
-                huidigeErkenning!.GeregistreerdDoor.OvoCode
-            );
-
-            if (gemachtigdeOrganisaties.Any())
-                AddEvent(
-                    EventFactory.ErkenningOpvolgersWerdenToegevoegdAlsBeheerder(
-                        huidigeErkenning.ErkenningId,
-                        gemachtigdeOrganisaties
-                    )
-                );
-        }
-    }
-
-    public async Task WijzigErkenning(TeWijzigenErkenning teWijzigenErkenning, string initiator, IOrganisatieBevoegdheidService organisatieBevoegdheidService)
-    {
+        Throw<GiIsNietBevoegd>.If(!isGemachtigd);
         Throw<RedenVanWijzigingIsVerplicht>.If(teWijzigenErkenning.HeeftGeenGeldigeRedenVanWijziging);
         Throw<MinstensEenTeWijzigenVeldMoetIngevuldZijn>.If(teWijzigenErkenning.HeeftGeenTeWijzigenWaarde);
-
-        var huidigeErkenning = State.Erkenningen.GetById(teWijzigenErkenning.ErkenningId);
-
-        Throw<GiIsNietBevoegd>.If(huidigeErkenning!.GeregistreerdDoor.OvoCode != initiator);
 
         var erkenningWijziging = ErkenningWijziging.Create(teWijzigenErkenning, huidigeErkenning);
 
@@ -729,29 +718,27 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         var gewijzigdeErkenning = huidigeErkenning.CreateFromErkenningWijziging(erkenningWijziging);
 
-       Throw<ErkenningCombinatieBestaatAl>.If(!State.Erkenningen.KanErkenningWijzigenMetCombinatie(gewijzigdeErkenning));
-
-        await ValidateAndAddGemachtigdeOrganisaties(
-            initiator,
-            organisatieBevoegdheidService,
-            huidigeErkenning
-        );
+        Throw<ErkenningCombinatieBestaatAl>.If(
+            !State.Erkenningen.KanErkenningWijzigenMetCombinatie(gewijzigdeErkenning));
 
         AddEvent(EventFactory.ErkenningWerdGewijzigd(gewijzigdeErkenning, teWijzigenErkenning.RedenVanWijziging));
     }
 
-    public async Task VerwijderErkenning(int erkenningId, string initiator, IOrganisatieBevoegdheidService organisatieBevoegdheidService)
+    public async Task VerwijderErkenning(
+        int erkenningId,
+        string initiator,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService)
     {
         var huidigeErkenning = State.Erkenningen.GetById(erkenningId);
 
-        Throw<GiIsNietBevoegd>.If(huidigeErkenning.GeregistreerdDoor.OvoCode != initiator);
-        Throw<ErkenningIsGeschorst>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
-
-        await ValidateAndAddGemachtigdeOrganisaties(
+        var isGemachtigd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
             initiator,
             organisatieBevoegdheidService,
             huidigeErkenning
         );
+
+        Throw<GiIsNietBevoegd>.If(!isGemachtigd);
+        Throw<ErkenningIsGeschorst>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
 
         AddEvent(EventFactory.ErkenningWerdVerwijderd(erkenningId));
     }
@@ -790,5 +777,30 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         }
 
         AddEvent(EventFactory.ErkenningWerdVerlopen(erkenningId));
+    }
+
+    private async Task<bool> ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
+        string initiator,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService,
+        Erkenning huidigeErkenning)
+    {
+        var isGemachtigdeOrganisatie =
+            huidigeErkenning.GeregistreerdDoor.OvoCode == initiator || huidigeErkenning.Beheerders.Contains(initiator);
+
+        if (isGemachtigdeOrganisatie)
+            return true;
+
+        var opvolgers = await organisatieBevoegdheidService.GetOpvolgers(initiator);
+        var isOpvolger = opvolgers.Contains(initiator);
+
+        if (isOpvolger)
+        {
+            AddEvent(
+                EventFactory.ErkenningOpvolgersWerdenToegevoegdAlsBeheerder(
+                    huidigeErkenning.ErkenningId,
+                    opvolgers));
+        }
+
+        return isOpvolger;
     }
 }

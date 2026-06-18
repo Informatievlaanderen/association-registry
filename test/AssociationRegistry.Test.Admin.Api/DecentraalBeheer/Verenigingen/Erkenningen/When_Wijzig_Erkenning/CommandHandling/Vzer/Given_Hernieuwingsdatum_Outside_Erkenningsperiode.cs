@@ -1,16 +1,18 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling.Vzer;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.
+    CommandHandling.Vzer;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Primitives;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
+using Primitives;
+using Resources;
 using Xunit;
 
 public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
@@ -31,7 +33,8 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
     }
 
     [Fact]
-    public async ValueTask With_Hernieuwingsdatum_Before_Erkenning_Startdatum_Then_It_Throws_HernieuwingsDatumMoetTussenStartEnEindDatumLiggen()
+    public async ValueTask
+        With_Hernieuwingsdatum_Before_Erkenning_Startdatum_Then_It_Throws_HernieuwingsDatumMoetTussenStartEnEindDatumLiggen()
     {
         var teWijzigenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
@@ -58,18 +61,16 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
             };
 
             await _commandHandler.Handle(
-                new CommandEnvelope<
-                    WijzigErkenningCommand>(
-                    command,
-                    commandMetadata)
-            );
+                new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata),
+                new IOrganisatieBevoegdheidServiceMockStub().Object);
         });
 
         exception.Message.Should().Be(ExceptionMessages.HernieuwingsDatumMoetTussenStartEnEindDatumLiggen);
     }
 
     [Fact]
-    public async ValueTask With_Hernieuwingsdatum_After_Erkenning_Einddatum_Then_It_Throws_HernieuwingsDatumMoetTussenStartEnEindDatumLiggen()
+    public async ValueTask
+        With_Hernieuwingsdatum_After_Erkenning_Einddatum_Then_It_Throws_HernieuwingsDatumMoetTussenStartEnEindDatumLiggen()
     {
         var teWijzigenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
 
@@ -95,12 +96,8 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
                 Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
             };
 
-            await _commandHandler.Handle(
-                new CommandEnvelope<
-                    WijzigErkenningCommand>(
-                    command,
-                    commandMetadata)
-            );
+            await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata),
+                                         new IOrganisatieBevoegdheidServiceMockStub().Object);
         });
 
         exception.Message.Should().Be(ExceptionMessages.HernieuwingsDatumMoetTussenStartEnEindDatumLiggen);

@@ -4,13 +4,14 @@ using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.Wi
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Primitives;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
+using Primitives;
+using Resources;
 using Xunit;
 
 public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
@@ -58,12 +59,7 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
                 Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
             };
 
-            await _commandHandler.Handle(
-                new CommandEnvelope<
-                    WijzigErkenningCommand>(
-                    command,
-                    commandMetadata)
-            );
+           await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata), new IOrganisatieBevoegdheidServiceMockStub().Object);
         });
 
         exception.Message.Should().Be(ExceptionMessages.HernieuwingsDatumMoetTussenStartEnEindDatumLiggen);
@@ -97,12 +93,7 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
                 Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
             };
 
-            await _commandHandler.Handle(
-                new CommandEnvelope<
-                    WijzigErkenningCommand>(
-                    command,
-                    commandMetadata)
-            );
+           await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata), new IOrganisatieBevoegdheidServiceMockStub().Object);
         });
 
         exception.Message.Should().Be(ExceptionMessages.HernieuwingsDatumMoetTussenStartEnEindDatumLiggen);

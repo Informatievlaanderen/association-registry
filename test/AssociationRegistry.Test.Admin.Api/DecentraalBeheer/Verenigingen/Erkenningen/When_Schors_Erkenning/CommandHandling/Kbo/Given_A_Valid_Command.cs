@@ -2,13 +2,13 @@
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.Wegwijs;
+using Events;
 using Xunit;
 
 public class Given_A_Valid_Command
@@ -44,7 +44,7 @@ public class Given_A_Valid_Command
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<SchorsErkenningCommand>(command, commandMetadata));
+        await _commandHandler.Handle(new CommandEnvelope<SchorsErkenningCommand>(command, commandMetadata), new IOrganisatieBevoegdheidServiceMockStub().Object);
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new ErkenningWerdGeschorst(command.Erkenning.ErkenningId, command.Erkenning.RedenSchorsing)

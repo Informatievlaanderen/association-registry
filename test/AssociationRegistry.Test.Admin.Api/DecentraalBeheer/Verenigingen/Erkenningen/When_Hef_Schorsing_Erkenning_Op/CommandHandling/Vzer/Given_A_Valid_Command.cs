@@ -2,13 +2,13 @@
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.HefSchorsingErkenningOp;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.Wegwijs;
+using Events;
 using Xunit;
 
 public class Given_A_Valid_Command
@@ -52,7 +52,7 @@ public class Given_A_Valid_Command
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, commandMetadata));
+        await _commandHandler.Handle(new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, commandMetadata), new IOrganisatieBevoegdheidServiceMockStub().Object);
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(
             new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, status.Value)

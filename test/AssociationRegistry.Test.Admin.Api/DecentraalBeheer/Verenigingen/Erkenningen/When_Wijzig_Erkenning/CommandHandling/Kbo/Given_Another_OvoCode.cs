@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling.Kbo;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.
+    CommandHandling.Kbo;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
@@ -9,6 +10,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
 using Xunit;
 
@@ -41,9 +43,12 @@ public class Given_Another_OvoCode
         };
 
         var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
-            await _commandHandler.Handle(
-                new CommandEnvelope<WijzigErkenningCommand>(command, _fixture.Create<CommandMetadata>())
-            )
+                                                                      await _commandHandler.Handle(
+                                                                          new CommandEnvelope<WijzigErkenningCommand>(
+                                                                              command,
+                                                                              _fixture.Create<CommandMetadata>()),
+                                                                          new IOrganisatieBevoegdheidServiceMockStub()
+                                                                             .Object)
         );
 
         exception.Message.Should().Be(ExceptionMessages.GiIsNietBevoegd);

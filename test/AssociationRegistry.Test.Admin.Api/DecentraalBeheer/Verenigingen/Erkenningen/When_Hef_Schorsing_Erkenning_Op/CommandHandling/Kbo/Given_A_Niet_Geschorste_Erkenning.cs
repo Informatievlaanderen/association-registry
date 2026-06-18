@@ -1,16 +1,15 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Hef_Schorsing_Erkenning_Op.CommandHandling.Kbo;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.HefSchorsingErkenningOp;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
+using Resources;
 using Xunit;
 
 public class Given_A_Niet_Geschorste_Erkenning
@@ -48,7 +47,8 @@ public class Given_A_Niet_Geschorste_Erkenning
 
         var exception = await Assert.ThrowsAsync<ErkenningIsNietGeschorst>(async () =>
         {
-            await _commandHandler.Handle(new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, commandMetadata));
+            await _commandHandler.Handle(new CommandEnvelope<HefSchorsingErkenningOpCommand>(command, commandMetadata),
+                                         new IOrganisatieBevoegdheidServiceMockStub().Object);
         });
 
         exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningIsNietGeschorst));

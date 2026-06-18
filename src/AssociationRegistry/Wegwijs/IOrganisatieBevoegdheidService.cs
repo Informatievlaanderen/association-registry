@@ -2,5 +2,5 @@
 
 public interface IOrganisatieBevoegdheidService
 {
-    Task<string[]> GetAndValidateGemachtigdeOrganisaties(string initiator, string geregistreerdDoor);
+    Task<string[]> GetOpvolgers(string initiator);
 }

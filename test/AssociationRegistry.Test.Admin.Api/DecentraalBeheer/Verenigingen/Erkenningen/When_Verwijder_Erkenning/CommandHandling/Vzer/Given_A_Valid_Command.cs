@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.StubsMocksFakes.Wegwijs;
 using Events;
 using Xunit;
 
@@ -42,7 +43,7 @@ public class Given_A_Valid_Command
             Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<VerwijderErkenningCommand>(command, commandMetadata));
+        await _commandHandler.Handle(new CommandEnvelope<VerwijderErkenningCommand>(command, commandMetadata), new IOrganisatieBevoegdheidServiceMockStub().Object);
 
         _verenigingRepositoryMock.ShouldHaveSavedExact(new ErkenningWerdVerwijderd(command.ErkenningId));
     }

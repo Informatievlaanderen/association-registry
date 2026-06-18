@@ -12,22 +12,21 @@ public class IOrganisatieBevoegdheidServiceMockStub
     public IOrganisatieBevoegdheidServiceMockStub WithGemachtigdeOrganisaties(params string[] gemachtigdeOrganisaties)
     {
         _mock
-            .Setup(x => x.GetAndValidateGemachtigdeOrganisaties(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.GetOpvolgers(It.IsAny<string>()))
             .ReturnsAsync(gemachtigdeOrganisaties);
 
         return this;
     }
 
-    public void VerifyOnce(string? initiator = null, string? geregistreerdDoor = null) =>
+    public void VerifyOnce(string? initiator = null) =>
         _mock.Verify(
             x =>
-                x.GetAndValidateGemachtigdeOrganisaties(
-                    initiator ?? It.IsAny<string>(),
-                    geregistreerdDoor ?? It.IsAny<string>()
+                x.GetOpvolgers(
+                    initiator ?? It.IsAny<string>()
                 ),
             Times.Once
         );
 
     public void VerifyNever() =>
-        _mock.Verify(x => x.GetAndValidateGemachtigdeOrganisaties(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        _mock.Verify(x => x.GetOpvolgers(It.IsAny<string>()), Times.Never);
 }

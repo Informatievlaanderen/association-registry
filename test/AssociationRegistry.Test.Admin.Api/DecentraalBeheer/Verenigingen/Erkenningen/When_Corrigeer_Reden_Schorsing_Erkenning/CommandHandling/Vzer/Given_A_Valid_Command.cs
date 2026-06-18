@@ -1,62 +1,29 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Reden_Schorsing_Erkenning.CommandHandling.Vzer;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
-using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
-using AutoFixture;
-using Common.StubsMocksFakes.Wegwijs;
+using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Events;
 using Xunit;
 
 public class Given_A_Valid_Command
 {
-    private readonly CorrigeerRedenSchorsingErkenningCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario _scenario;
-    private readonly AggregateSessionMock _verenigingRepositoryMock;
-
-    public Given_A_Valid_Command()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _commandHandler = new CorrigeerRedenSchorsingErkenningCommandHandler(_verenigingRepositoryMock);
-    }
+    private readonly CorrigeerRedenSchorsingErkenningContext<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario> _ctx =
+        new(new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario(),
+            s => s.ErkenningWerdGeregistreerd.ErkenningId,
+            s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
 
     [Fact]
     public async ValueTask Then_It_Saves_An_ErkenningRedenVanSchorsingWerdGecorrigeerd_Event()
     {
-        var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
+        var command = _ctx.CreateCommand();
+        await _ctx.Handle(command);
 
-        var command = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
-        {
-            VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
-            {
-                ErkenningId = teSchorsenErkenningId,
-            },
-        };
-
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-        };
-
-        await _commandHandler.Handle(
-            new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(command, commandMetadata),
-            new IOrganisatieBevoegdheidServiceMockStub().Object
-        );
-
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new ErkenningRedenVanSchorsingWerdGecorrigeerd(
                 command.Erkenning.ErkenningId,
                 command.Erkenning.RedenSchorsing
             )
         );
+
+        _ctx.OrganisatieBevoegdheidService.VerifyNever();
     }
 }
