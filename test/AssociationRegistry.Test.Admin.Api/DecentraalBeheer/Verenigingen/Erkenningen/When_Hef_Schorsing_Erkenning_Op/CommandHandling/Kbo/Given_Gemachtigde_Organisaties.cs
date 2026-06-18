@@ -1,70 +1,36 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Hef_Schorsing_Erkenning_Op.
-    CommandHandling.Kbo;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Hef_Schorsing_Erkenning_Op.CommandHandling.Kbo;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.HefSchorsingErkenningOp;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using Common.StubsMocksFakes.Wegwijs;
 using Events;
 using Xunit;
 
 public class Given_Gemachtigde_Organisaties
 {
-    private readonly HefSchorsingErkenningOpCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario _scenario;
-    private readonly AggregateSessionMock _verenigingRepositoryMock;
-    private HefSchorsingErkenningOpCommand _command;
-    private CommandMetadata? _commandMetaData;
-
-    public Given_Gemachtigde_Organisaties()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _commandHandler = new HefSchorsingErkenningOpCommandHandler(_verenigingRepositoryMock);
-
-        var teSchorsenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
-
-        _command = _fixture.Create<HefSchorsingErkenningOpCommand>() with
-        {
-            VCode = _scenario.VCode,
-            ErkenningId = teSchorsenErkenningId,
-        };
-
-        _commandMetaData = _fixture.Create<CommandMetadata>();
-    }
+    private readonly HefSchorsingErkenningOpContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario> _ctx =
+        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario(),
+            s => s.ErkenningWerdGeregistreerd.ErkenningId);
 
     [Fact]
-    public async ValueTask
-        Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_ErkenningRedenVanSchorsingWerdGecorrigeerd()
+    public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_SchorsingWerdOpgeheven()
     {
-        var organisatieBevoegdheidService = new IOrganisatieBevoegdheidServiceMockStub().WithGemachtigdeOrganisaties([
-            _commandMetaData.Initiator,
-        ]);
+        var command = _ctx.CreateCommand();
 
-        await _commandHandler.Handle(
-            new CommandEnvelope<HefSchorsingErkenningOpCommand>(_command, _commandMetaData),
-            organisatieBevoegdheidService.Object
-        );
+        var service = _ctx.OrganisatieBevoegdheidService.WithGemachtigdeOrganisaties([_ctx.Metadata.Initiator]);
 
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        await _ctx.Handle(command, service: service.Object);
+
+        _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new ErkenningOpvolgersWerdenToegevoegdAlsBeheerder(
-                _scenario.ErkenningWerdGeregistreerd.ErkenningId,
-                [_commandMetaData.Initiator]
+                _ctx.Scenario.ErkenningWerdGeregistreerd.ErkenningId,
+                [_ctx.Metadata.Initiator]
             ),
             new SchorsingVanErkenningWerdOpgeheven(
-                _command.ErkenningId,
+                command.ErkenningId,
                 ErkenningStatus.Bepaal(
                     ErkenningsPeriode.Create(
-                        _scenario.ErkenningWerdGeregistreerd.Startdatum,
-                        _scenario.ErkenningWerdGeregistreerd.Einddatum
+                        _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
+                        _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
                     ),
                     DateOnly.FromDateTime(DateTime.Now)
                 ).Value
