@@ -1,53 +1,23 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Activeer_Erkenning.CommandHandling.Vzer;
 
-using System.Threading.Tasks;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
-using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
-using AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Events;
 using Xunit;
 
 public class Given_A_Valid_Command
 {
-    private readonly ActiveerErkenningCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario _scenario;
-    private readonly AggregateSessionMock _verenigingRepositoryMock;
-
-    public Given_A_Valid_Command()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(
-            _scenario.GetVerenigingState(),
-            expectedLoadingDubbel: true
-        );
-
-        _commandHandler = new ActiveerErkenningCommandHandler(_verenigingRepositoryMock);
-    }
+    private readonly ActiveerErkenningContext<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario> _ctx =
+        new(new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningenScenario(),
+            s => s.ErkenningWerdGeregistreerdTeActiveren.ErkenningId,
+            s => s.ErkenningWerdGeregistreerdTeActiveren.GeregistreerdDoor.OvoCode);
 
     [Fact]
     public async ValueTask Then_It_Adds_An_ErkenningWerdGeactiveerd_Event()
     {
-        var teActiverenErkenningId = _scenario.ErkenningWerdGeregistreerdTeActiveren.ErkenningId;
+        var command = _ctx.CreateCommand();
 
-        var command = _fixture.Create<ActiveerErkenningCommand>() with
-        {
-            VCode = _scenario.VCode,
-            ErkenningId = teActiverenErkenningId,
-        };
+        await _ctx.Handle(command);
 
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.ErkenningWerdGeregistreerdTeActiveren.GeregistreerdDoor.OvoCode,
-        };
-
-        await _commandHandler.Handle(new CommandEnvelope<ActiveerErkenningCommand>(command, commandMetadata));
-
-        _verenigingRepositoryMock.ShouldHaveSavedExact(new ErkenningWerdGeactiveerd(command.ErkenningId));
+        _ctx.AggregateSessionMock.ShouldHaveSavedExact(new ErkenningWerdGeactiveerd(command.ErkenningId));
     }
 }
