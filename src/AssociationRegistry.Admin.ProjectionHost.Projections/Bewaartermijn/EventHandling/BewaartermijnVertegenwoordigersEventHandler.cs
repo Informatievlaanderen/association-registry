@@ -56,6 +56,27 @@ public static class BewaartermijnVertegenwoordigersEventHandler
     }
 
     public static async Task Handle(
+        IEvent<VertegenwoordigerWerdVerwijderdUitKBO> @event,
+        BewaartermijnOptions bewaartermijnOptions,
+        IMessageBus messageBus
+    )
+    {
+        var vervaldag = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .PlusTicks(bewaartermijnOptions.Duration.Ticks);
+
+        await messageBus.SendAsync(
+            new StartBewaartermijnMessage(
+                @event.StreamKey!,
+                PersoonsgegevensType.Vertegenwoordigers.Value,
+                @event.Data.VertegenwoordigerId,
+                vervaldag,
+                BewaartermijnReden.VertegenwoordigerWerdVerwijderdUitKbo
+            )
+        );
+    }
+
+    public static async Task Handle(
         IEvent<VerenigingWerdVerwijderd> @event,
         BewaartermijnOptions bewaartermijnOptions,
         IMessageBus messageBus

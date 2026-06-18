@@ -5,7 +5,10 @@ using Marten;
 using Marten.Linq.SoftDeletes;
 using Schema.Bewaartermijn;
 
-public interface IBewaartermijnQuery : IQuery<BewaartermijnDocument?, BewaartermijnFilter>;
+public interface IBewaartermijnQuery : IQuery<BewaartermijnDocument?, BewaartermijnFilter>
+{
+    public Task<int> GetTotalBewaartemijnen(CancellationToken cancellationToken);
+}
 
 public class BewaartermijnQuery : IBewaartermijnQuery
 {
@@ -16,10 +19,17 @@ public class BewaartermijnQuery : IBewaartermijnQuery
         _session = session;
     }
 
-    public async Task<BewaartermijnDocument?> ExecuteAsync(BewaartermijnFilter filter, CancellationToken cancellationToken)
-        => await _session.Query<BewaartermijnDocument>()
-                         .WithBewaartermijnId(filter.BewaartermijnId)
-                         .SingleOrDefaultAsync(token: cancellationToken);
+    public async Task<BewaartermijnDocument?> ExecuteAsync(
+        BewaartermijnFilter filter,
+        CancellationToken cancellationToken
+    ) =>
+        await _session
+            .Query<BewaartermijnDocument>()
+            .WithBewaartermijnId(filter.BewaartermijnId)
+            .SingleOrDefaultAsync(token: cancellationToken);
+
+    public async Task<int> GetTotalBewaartemijnen(CancellationToken cancellationToken) =>
+        await _session.Query<BewaartermijnDocument>().CountAsync(cancellationToken);
 }
 
 public record BewaartermijnFilter

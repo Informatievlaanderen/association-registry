@@ -12,6 +12,7 @@ using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkhei
 using FluentAssertions;
 using Integrations.Grar.Bewaartermijnen;
 using Integrations.Slack;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Resources;
 using Xunit;
@@ -52,7 +53,13 @@ public class With_Invalid_BewaartermijnType
     public async Task Then_Throws_OngeldigBewaartermijnType()
     {
         var exception = await Assert.ThrowsAsync<OngeldigBewaartermijnType>(() =>
-            _commandHandler.Handle(_message, _eventStore.Object, _notifier.Object, CancellationToken.None)
+            _commandHandler.Handle(
+                _message,
+                _eventStore.Object,
+                _notifier.Object,
+                NullLogger<StartBewaartermijnenVoorVerenigingCommandHandler>.Instance,
+                CancellationToken.None
+            )
         );
 
         exception.Message.Should().Be(ExceptionMessages.OngeldigBewaartermijnType);
@@ -62,7 +69,13 @@ public class With_Invalid_BewaartermijnType
     public async Task Then_A_Slack_Notification_Is_Sent()
     {
         await Assert.ThrowsAsync<OngeldigBewaartermijnType>(() =>
-            _commandHandler.Handle(_message, _eventStore.Object, _notifier.Object, CancellationToken.None)
+            _commandHandler.Handle(
+                _message,
+                _eventStore.Object,
+                _notifier.Object,
+                NullLogger<StartBewaartermijnenVoorVerenigingCommandHandler>.Instance,
+                CancellationToken.None
+            )
         );
 
         _notifier.Verify(

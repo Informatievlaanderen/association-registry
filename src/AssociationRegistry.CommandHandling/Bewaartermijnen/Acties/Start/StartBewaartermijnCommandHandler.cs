@@ -6,6 +6,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
 using Events;
 using Framework;
 using Integrations.Slack;
+using Microsoft.Extensions.Logging;
 using Notifications;
 
 public class StartBewaartermijnCommandHandler
@@ -14,6 +15,7 @@ public class StartBewaartermijnCommandHandler
         StartBewaartermijnCommand command,
         IEventStore eventStore,
         INotifier notifier,
+        ILogger<StartBewaartermijnCommandHandler> logger,
         CancellationToken cancellationToken
     )
     {
@@ -40,6 +42,12 @@ public class StartBewaartermijnCommandHandler
                     ),
                 ]
             );
+
+            logger.LogInformation("Bewaartermijn started with id: {0}", bewaartermijnId);
+        }
+        catch (Marten.Exceptions.ExistingStreamIdCollisionException e)
+        {
+            await notifier.Notify(new EventSubscriptionBewaartermijnFailed(e.Message));
         }
         catch (Exception e)
         {
