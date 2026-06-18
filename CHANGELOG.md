@@ -1,3 +1,10 @@
+# [8.329.0](https://github.com/informatievlaanderen/association-registry/compare/v8.328.2...v8.329.0) (2026-06-18)
+
+
+### Features
+
+* create rewrite-command-handler-tests skill ([f89805a](https://github.com/informatievlaanderen/association-registry/commit/f89805a650e803601e7ff7d66ecac114aab669e5))
+
 ## [8.328.2](https://github.com/informatievlaanderen/association-registry/compare/v8.328.1...v8.328.2) (2026-06-17)
 
 
