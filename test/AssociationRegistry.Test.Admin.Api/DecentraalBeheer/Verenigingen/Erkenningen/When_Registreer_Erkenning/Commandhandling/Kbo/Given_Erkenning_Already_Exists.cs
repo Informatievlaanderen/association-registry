@@ -2,69 +2,35 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
-using AssociationRegistry.Framework;
-using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
-using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
 using Resources;
 using Xunit;
 
 public class Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_And_Periode_Overlaps
 {
-    private readonly RegistreerErkenningCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
-
-    public Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_And_Periode_Overlaps()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
-        var aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _commandHandler = new RegistreerErkenningCommandHandler(aggregateSessionMock);
-    }
+    private readonly RegistreerErkenningContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario> _ctx =
+        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario());
 
     [Fact]
     public async ValueTask Then_An_ErkenningAlreadyExists_Exception_Is_Thrown()
     {
-        var command = _fixture.Create<RegistreerErkenningCommand>() with
+        var erkenning = _ctx.CreateCommand().Erkenning with
         {
-            VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeRegistrerenErkenning>() with
-            {
-                ErkenningsPeriode = ErkenningsPeriode.Create(
-                    _scenario.ErkenningWerdGeregistreerd.Startdatum,
-                    _scenario.ErkenningWerdGeregistreerd.Einddatum
-                ),
-            },
+            ErkenningsPeriode = ErkenningsPeriode.Create(
+                _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
+                _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
+            ),
         };
 
-        var ipdcProductNummer = _fixture.Create<IpdcProduct>() with
-        {
-            Nummer = _scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer,
-        };
-
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-        };
-
-        var initiator = _fixture.Create<GegevensInitiator>() with
-        {
-            OvoCode = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-        };
+        var command = _ctx.CreateCommand(erkenning: erkenning);
+        var ipdcProduct = _ctx.CreateIpdcProduct(nummer: _ctx.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer);
+        var initiator = _ctx.CreateInitiator(ovoCode: _ctx.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
+        var metadata = _ctx.CreateMetadata(initiator: _ctx.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
 
         var exception = await Assert.ThrowsAsync<ErkenningCombinatieBestaatAl>(async () =>
         {
-            await _commandHandler.Handle(
-                new CommandEnvelope<RegistreerErkenningCommand>(command, commandMetadata),
-                ipdcProductNummer,
-                initiator
-            );
+            await _ctx.Handle(command, ipdcProduct, initiator, metadata);
         });
 
         exception.Message.Should().Be(ExceptionMessages.ErkenningBestaatAl);
