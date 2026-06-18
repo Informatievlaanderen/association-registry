@@ -1,69 +1,33 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Activeer_Erkenning.CommandHandling.Kbo;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using Events;
 using FluentAssertions;
 using Xunit;
 
 public class Given_Geschorste_Erkenning
 {
-    private readonly ActiveerErkenningCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario _scenario;
-    private readonly AggregateSessionMock _verenigingRepositoryMock;
-
-    public Given_Geschorste_Erkenning()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(
-            _scenario.GetVerenigingState(),
-            expectedLoadingDubbel: true
-        );
-
-        _commandHandler = new ActiveerErkenningCommandHandler(_verenigingRepositoryMock);
-    }
+    private readonly ActiveerErkenningContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario> _ctx =
+        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario(),
+            s => s.ErkenningWerdGeschorst.ErkenningId,
+            s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
 
     [Fact]
     public async ValueTask Then_No_Saved_Event()
     {
-        var teActiverenErkenningId = _scenario.ErkenningWerdGeschorst.ErkenningId;
+        var command = _ctx.CreateCommand();
 
-        var command = _fixture.Create<ActiveerErkenningCommand>() with
-        {
-            VCode = _scenario.VCode,
-            ErkenningId = teActiverenErkenningId,
-        };
+        var exception = await Assert.ThrowsAsync<ErkenningKanNietGeactiveerdWorden>(async () => await _ctx.Handle(command));
 
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-        };
-
-        var exception = await Assert.ThrowsAsync<ErkenningKanNietGeactiveerdWorden>(async () =>
-            await _commandHandler.Handle(new CommandEnvelope<ActiveerErkenningCommand>(command, commandMetadata))
-        );
-
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
-
-        exception
-            .Message.Should()
-            .Be(
-                string.Format(
-                    "Erkenning met id: {0}, startdatum: {1}, einddatum: {2} en status: {3} kan niet geactiveerd worden.",
-                    _scenario.ErkenningWerdGeschorst.ErkenningId,
-                    _scenario.ErkenningWerdGeregistreerd.Startdatum.Value,
-                    _scenario.ErkenningWerdGeregistreerd.Einddatum.Value,
-                    ErkenningStatus.Geschorst.Value
-                )
-            );
+        _ctx.AggregateSessionMock.ShouldNotHaveAnySaves();
+        exception.Message.Should().Be(
+            string.Format(
+                "Erkenning met id: {0}, startdatum: {1}, einddatum: {2} en status: {3} kan niet geactiveerd worden.",
+                _ctx.Scenario.ErkenningWerdGeschorst.ErkenningId,
+                _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum.Value,
+                _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum.Value,
+                ErkenningStatus.Geschorst.Value
+            ));
     }
 }
