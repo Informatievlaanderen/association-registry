@@ -1,54 +1,25 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Schors_Erkenning.CommandHandling.Kbo;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
 using Resources;
 using Xunit;
 
 public class Given_Another_OvoCode
 {
-    private readonly SchorsErkenningCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario _scenario;
-    private readonly AggregateSessionMock _verenigingRepositoryMock;
-
-    public Given_Another_OvoCode()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-        _commandHandler = new SchorsErkenningCommandHandler(_verenigingRepositoryMock);
-    }
+    private readonly SchorsErkenningContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario> _ctx =
+        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario(),
+            s => s.ErkenningWerdGeregistreerd.ErkenningId);
 
     [Fact]
     public async ValueTask Then_Throws_GiIsNietBevoegd()
     {
-        var command = _fixture.Create<SchorsErkenningCommand>() with
-        {
-            VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeSchorsenErkenning>() with
-            {
-                ErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId,
-            },
-        };
+        var command = _ctx.CreateCommand();
+        var metadata = _ctx.CreateMetadata();
 
-        var commandEnvelope = new CommandEnvelope<SchorsErkenningCommand>(command, _fixture.Create<CommandMetadata>());
+        var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () => await _ctx.Handle(command, metadata));
 
-        var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () =>
-        {
-            await _commandHandler.Handle(commandEnvelope, new IOrganisatieBevoegdheidServiceMockStub().Object);
-        });
-
-        exception
-            .Message.Should()
-            .Be(string.Format(ExceptionMessages.GiIsNietBevoegd, _scenario.ErkenningWerdGeregistreerd.ErkenningId));
+        exception.Message.Should().Be(string.Format(ExceptionMessages.GiIsNietBevoegd, _ctx.Scenario.ErkenningWerdGeregistreerd.ErkenningId));
     }
 }
