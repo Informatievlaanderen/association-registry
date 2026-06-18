@@ -3,17 +3,18 @@ namespace AssociationRegistry.Test.Wegwijs.Client;
 using DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Wegwijs;
 using FluentAssertions;
 using Integrations.Wegwijs.Clients;
+using Integrations.Wegwijs.Services;
 using Resources;
 using Xunit;
 
 /// <summary>
 /// See wiremock for ipdc nummers
 /// </summary>
-public class WegwijsClientTests
+public class GetOrganisationByOvoCodeTests
 {
     private WegwijsClient _wegwijsClient;
 
-    public WegwijsClientTests()
+    public GetOrganisationByOvoCodeTests()
     {
         var client = new HttpClient() { BaseAddress = new Uri("http://127.0.0.1:8080") };
 
@@ -31,6 +32,20 @@ public class WegwijsClientTests
     }
 
     [Fact]
+    public async ValueTask With_Opgevolgd_Door_Ovocode_Then_Returns_Opgevolgd_Door()
+    {
+        var validOvoCode = "OVO002214";
+
+        var response = await _wegwijsClient.GetOrganisationByOvoCode(validOvoCode);
+
+        response.Relations
+                .Single(r => r.RelationId == OrganisatieBevoegdheidService.WordtOpgevolgdDoorRelationId)
+                .RelatedOrganisationOvoNumber
+                .Should()
+                .Be("OVO008382");
+    }
+
+    [Fact]
     public async ValueTask Unknown_OvoCode_Then_Throws_OrganisatieNietGevondenException()
     {
         var invalidOvoCode = "404";
@@ -40,8 +55,8 @@ public class WegwijsClientTests
         );
 
         exception
-            .Message.Should()
-            .Be(string.Format(ExceptionMessages.OrganisatieNietGevondenException, invalidOvoCode));
+           .Message.Should()
+           .Be(string.Format(ExceptionMessages.OrganisatieNietGevondenException, invalidOvoCode));
     }
 
     [Fact]
@@ -50,7 +65,8 @@ public class WegwijsClientTests
         var internalServerErrorOvoCode = "500";
 
         await Assert.ThrowsAsync<WegwijsException>(() =>
-            _wegwijsClient.GetOrganisationByOvoCode(internalServerErrorOvoCode)
+                                                       _wegwijsClient.GetOrganisationByOvoCode(
+                                                           internalServerErrorOvoCode)
         );
     }
 }

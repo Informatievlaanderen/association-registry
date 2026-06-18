@@ -1,0 +1,3 @@
+﻿rowNumber,vCode,geregistreerdDoor,ipdcProduct,startdatum,einddatum,validationStatus,errors,warnings,uploadStatus,httpStatus,message
+"84","V0007871","NULL","38738","2024-05-13","2030-12-31","Invalid","geregistreerdDoor is missing","","","",""
+"152","V0007264","NULL","38738","2022-01-01","2025-12-31","Invalid","geregistreerdDoor is missing","","","",""

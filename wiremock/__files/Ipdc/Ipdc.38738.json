@@ -1,0 +1,65 @@
+{
+  "id": "38738",
+  "aangemaaktDoor": {
+    "id": "http://data.info",
+    "@id": "http://data.info"
+  },
+  "beschrijving": {
+    "nl-BE-x-informal": "Erkenning vereniging",
+    "nl": "Erkenning vereniging",
+    "nl-BE-x-generated-formal": "Erkenning vereniging"
+  },
+  "bevoegdBestuursniveaus": [
+    "Vlaams"
+  ],
+  "bevoegdeOverheden": [
+    {
+      "id": "OVO000106",
+      "@id": "OVO000106"
+    }
+  ],
+  "cases": [
+    "verenigingsregister"
+  ],
+  "creatie": "2026-06-16T00:00:00.000Z",
+  "doelgroepen": [
+    "Organisatie"
+  ],
+  "gearchiveerd": false,
+  "geografischToepassingsgebieden": [
+    "BE"
+  ],
+  "laatstGewijzigd": "2026-06-16T00:00:00.000Z",
+  "laatstOntvangen": "2026-06-16T00:00:00.000Z",
+  "linkedConcept": "https://ipdc.be/id/concept/38738",
+  "linkedConceptId": "38738",
+  "linkedConceptProductnummer": "38738",
+  "metadata": {
+    "uJeVersie": "46.1.0",
+    "generatedFormeleFields": true,
+    "generatedInformeleFields": false
+  },
+  "naam": {
+    "nl-BE-x-generated-formal": "Erkenning vereniging",
+    "nl-BE-x-informal": "Erkenning vereniging",
+    "nl": "Erkenning vereniging"
+  },
+  "productnummer": "38738",
+  "type": "Erkenning",
+  "uitgesloten": false,
+  "uitvoerendBestuursniveaus": [
+    "Vlaams",
+    "Lokaal"
+  ],
+  "uitvoerendeOverheden": [
+    {
+      "id": "OVO000106",
+      "@id": "OVO000106"
+    }
+  ],
+  "@context": [
+    "https://ipdc.jsonld"
+  ],
+  "@id": "https://ipdc.be/id/product/38738",
+  "@type": "Instantie"
+}

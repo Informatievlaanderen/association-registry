@@ -1,0 +1,19 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "GET",
+    "urlPath": "/search/organisations",
+    "queryParameters": {
+      "q": {
+        "equalTo": "ovoNumber:OVO002214"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "Wegwijs/wegwijs.OVO002214.json"
+  }
+}
