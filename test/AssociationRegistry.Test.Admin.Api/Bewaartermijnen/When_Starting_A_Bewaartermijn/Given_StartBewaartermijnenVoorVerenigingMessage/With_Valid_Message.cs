@@ -11,6 +11,7 @@ using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkhei
 using Events;
 using Integrations.Grar.Bewaartermijnen;
 using Integrations.Slack;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NodaTime;
 using Xunit;
@@ -48,7 +49,13 @@ public class With_Valid_Message
             .ReturnsAsync(_scenario.GetVerenigingState);
 
         commandHandler
-            .Handle(message, _eventStore.Object, _notifier.Object, CancellationToken.None)
+            .Handle(
+                message,
+                _eventStore.Object,
+                _notifier.Object,
+                NullLogger<StartBewaartermijnenVoorVerenigingCommandHandler>.Instance,
+                CancellationToken.None
+            )
             .GetAwaiter()
             .GetResult();
     }

@@ -104,6 +104,7 @@ public static class ConfigureMartenExtensions
                 {
                     o.IncludeType<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>();
                     o.IncludeType<VertegenwoordigerWerdVerwijderd>();
+                    o.IncludeType<VertegenwoordigerWerdVerwijderdUitKBO>();
                     o.IncludeType<VerenigingWerdVerwijderd>();
                     o.IncludeType<VerenigingWerdGestopt>();
                     o.Options.SubscribeFromSequence(0);

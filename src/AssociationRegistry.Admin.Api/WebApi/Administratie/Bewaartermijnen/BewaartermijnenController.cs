@@ -52,6 +52,18 @@ public class BewaartermijnenController : ApiController
             )
         );
     }
+
+    [HttpGet("bewaartermijnen/aantal")]
+    public async Task<IActionResult> GetAmout(
+        [FromServices] IBewaartermijnQuery query,
+        [FromServices] ILogger<BewaartermijnenController> logger,
+        CancellationToken cancellationToken
+    )
+    {
+        var aantalBewaartermijnen = await query.GetTotalBewaartemijnen(cancellationToken);
+
+        return Ok(aantalBewaartermijnen);
+    }
 }
 
 public record BewaartermijnResponse(
