@@ -1,57 +1,25 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.
-    CommandHandling.Vzer;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling.Vzer;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using Common.StubsMocksFakes.Wegwijs;
 using Events;
 using Xunit;
 
 public class Given_A_Geschorste_Erkenning
 {
-    private readonly WijzigErkenningCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-
-    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario
-        _scenario;
-
-    private readonly AggregateSessionMock _verenigingRepositoryMock;
-
-    public Given_A_Geschorste_Erkenning()
-    {
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario();
-        _verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _commandHandler = new WijzigErkenningCommandHandler(_verenigingRepositoryMock);
-    }
+    private readonly WijzigErkenningContext<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario> _ctx =
+        new(new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario(),
+            s => s.ErkenningWerdGeregistreerd.ErkenningId,
+            s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
 
     [Fact]
     public async ValueTask Then_It_Adds_An_ErkenningWerdGewijzigd_Event_With_Status_Geschorst()
     {
-        var teWijzigenErkenningId = _scenario.ErkenningWerdGeregistreerd.ErkenningId;
+        var command = _ctx.CreateCommand();
 
-        var command = _fixture.Create<WijzigErkenningCommand>() with
-        {
-            VCode = _scenario.VCode,
-            Erkenning = _fixture.Create<TeWijzigenErkenning>() with { ErkenningId = teWijzigenErkenningId },
-        };
+        await _ctx.Handle(command);
 
-        var commandMetadata = _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = _scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
-        };
-
-        await _commandHandler.Handle(new CommandEnvelope<WijzigErkenningCommand>(command, commandMetadata),
-                                     new IOrganisatieBevoegdheidServiceMockStub().Object);
-
-        _verenigingRepositoryMock.ShouldHaveSavedExact(
+        _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new ErkenningWerdGewijzigd(
                 command.Erkenning.ErkenningId,
                 command.Erkenning.StartDatum.Value,
