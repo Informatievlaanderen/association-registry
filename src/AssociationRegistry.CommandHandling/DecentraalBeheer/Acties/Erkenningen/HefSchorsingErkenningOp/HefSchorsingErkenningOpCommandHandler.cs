@@ -3,6 +3,7 @@
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Framework;
 using MartenDb.Store;
+using Wegwijs;
 
 public class HefSchorsingErkenningOpCommandHandler
 {
@@ -15,12 +16,13 @@ public class HefSchorsingErkenningOpCommandHandler
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<HefSchorsingErkenningOpCommand> envelope,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService,
         CancellationToken cancellationToken = default
     )
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
 
-        vereniging.HefSchorsingErkenningOp(envelope.Command.ErkenningId, envelope.Metadata.Initiator);
+        await vereniging.HefSchorsingErkenningOp(envelope.Command.ErkenningId, envelope.Metadata.Initiator, organisatieBevoegdheidService);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Framework;
-using AssociationRegistry.MartenDb.Store;
+using Framework;
+using MartenDb.Store;
+using Wegwijs;
 
 public class WijzigErkenningCommandHandler
 {
@@ -15,12 +16,13 @@ public class WijzigErkenningCommandHandler
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<WijzigErkenningCommand> envelope,
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService,
         CancellationToken cancellationToken = default
     )
     {
         var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(envelope.Command.VCode, envelope.Metadata);
 
-        vereniging.WijzigErkenning(envelope.Command.Erkenning, envelope.Metadata.Initiator);
+        await vereniging.WijzigErkenning(envelope.Command.Erkenning, envelope.Metadata.Initiator, organisatieBevoegdheidService);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

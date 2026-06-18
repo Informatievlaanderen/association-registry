@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerSchorsingErkenning;
+﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.CorrigeerRedenSchorsingErkenning;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using Framework;
