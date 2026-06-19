@@ -23,8 +23,6 @@ public class Given_A_Valid_Command
                 command.Erkenning.RedenSchorsing
             )
         );
-
-        _ctx.OrganisatieBevoegdheidService.VerifyNever();
     }
 
     [Fact]

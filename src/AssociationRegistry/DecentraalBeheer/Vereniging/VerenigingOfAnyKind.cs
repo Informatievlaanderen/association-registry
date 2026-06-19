@@ -625,13 +625,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         var huidigeErkenning = State.Erkenningen.GetById(teSchorsenErkenning.ErkenningId);
 
-        var isGemachtigd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
+        var isBevoegd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
             initiator,
             organisatieBevoegdheidService,
             huidigeErkenning
         );
 
-        Throw<GiIsNietBevoegd>.If(!isGemachtigd);
+        Throw<GiIsNietBevoegd>.If(!isBevoegd);
         Throw<ErkenningIsAlReedsGeschorst>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
         Throw<ErkenningRedenSchorsingIsVerplicht>.If(string.IsNullOrEmpty(teSchorsenErkenning.RedenSchorsing));
         Throw<VerlopenErkenningKanNietGeschorstWorden>.If(huidigeErkenning.Status == ErkenningStatus.Verlopen);
@@ -646,13 +646,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         var huidigeErkenning = State.Erkenningen.GetById(erkenningId);
 
-        var isGemachtigd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
+        var isBevoegd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
             initiator,
             organisatieBevoegdheidService,
             huidigeErkenning
         );
 
-        Throw<GiIsNietBevoegd>.If(!isGemachtigd);
+        Throw<GiIsNietBevoegd>.If(!isBevoegd);
         Throw<ErkenningIsNietGeschorst>.If(huidigeErkenning.Status != ErkenningStatus.Geschorst);
 
         var today = DateOnly.FromDateTime(DateTime.Today);
@@ -674,13 +674,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         var huidigeErkenning = State.Erkenningen.GetById(teCorrigerenRedenSchorsingErkenning.ErkenningId);
 
-        var isGemachtigd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
+        var isBevoegd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
             initiator,
             organisatieBevoegdheidService,
             huidigeErkenning
         );
 
-        Throw<GiIsNietBevoegd>.If(!isGemachtigd);
+        Throw<GiIsNietBevoegd>.If(!isBevoegd);
         Throw<ErkenningIsNietGeschorst>.If(huidigeErkenning.Status != ErkenningStatus.Geschorst);
 
         var heeftWijzigingen = huidigeErkenning.RedenSchorsing != teCorrigerenRedenSchorsingErkenning.RedenSchorsing;
@@ -699,13 +699,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         IOrganisatieBevoegdheidService organisatieBevoegdheidService)
     {
         var huidigeErkenning = State.Erkenningen.GetById(teWijzigenErkenning.ErkenningId);
-        var isGemachtigd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
+        var isBevoegd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
             initiator,
             organisatieBevoegdheidService,
             huidigeErkenning
         );
 
-        Throw<GiIsNietBevoegd>.If(!isGemachtigd);
+        Throw<GiIsNietBevoegd>.If(!isBevoegd);
         Throw<RedenVanWijzigingIsVerplicht>.If(teWijzigenErkenning.HeeftGeenGeldigeRedenVanWijziging);
         Throw<MinstensEenTeWijzigenVeldMoetIngevuldZijn>.If(teWijzigenErkenning.HeeftGeenTeWijzigenWaarde);
 
@@ -731,13 +731,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         var huidigeErkenning = State.Erkenningen.GetById(erkenningId);
 
-        var isGemachtigd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
+        var isBevoegd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
             initiator,
             organisatieBevoegdheidService,
             huidigeErkenning
         );
 
-        Throw<GiIsNietBevoegd>.If(!isGemachtigd);
+        Throw<GiIsNietBevoegd>.If(!isBevoegd);
         Throw<ErkenningIsGeschorst>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
 
         AddEvent(EventFactory.ErkenningWerdVerwijderd(erkenningId));
@@ -784,10 +784,10 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         IOrganisatieBevoegdheidService organisatieBevoegdheidService,
         Erkenning huidigeErkenning)
     {
-        var isGemachtigdeOrganisatie =
+        var isBevoegdeOrganisatie =
             huidigeErkenning.GeregistreerdDoor.OvoCode == initiator || huidigeErkenning.Beheerders.Contains(initiator);
 
-        if (isGemachtigdeOrganisatie)
+        if (isBevoegdeOrganisatie)
             return true;
 
         var opvolgers = await organisatieBevoegdheidService.GetOpvolgers(initiator);
