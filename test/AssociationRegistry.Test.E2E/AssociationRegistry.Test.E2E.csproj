@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
@@ -47,6 +47,7 @@
     <PackageReference Include="xunit.runner.visualstudio" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" />
     <PackageReference Include="AWSSDK.Core" />
+    <PackageReference Include="JasperFx" />
     <PackageReference Remove="Marten" />
     <PackageReference Remove="WolverineFx" />
   </ItemGroup>

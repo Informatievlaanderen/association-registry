@@ -12,6 +12,7 @@ using AssociationRegistry.MartenDb.Serialization;
 using AssociationRegistry.MartenDb.Setup;
 using JasperFx.Events;
 using Marten;
+using Marten.Newtonsoft;
 using Newtonsoft.Json;
 using NodaTime;
 

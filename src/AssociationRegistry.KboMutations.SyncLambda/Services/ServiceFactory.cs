@@ -22,6 +22,7 @@ using JasperFx.Events;
 using JsonSerialization;
 using Logging;
 using Marten;
+using Marten.Newtonsoft;
 using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
 using MartenDb.Transformers;
@@ -310,6 +311,7 @@ public class ServiceFactory
         });
 
         opts.Events.MetadataConfig.EnableAll();
+        opts.Events.AppendMode = EventAppendMode.Quick;
         opts.AutoCreateSchemaObjects = AutoCreate.None;
         opts.UpcastEvents(querySessionFunc);
 

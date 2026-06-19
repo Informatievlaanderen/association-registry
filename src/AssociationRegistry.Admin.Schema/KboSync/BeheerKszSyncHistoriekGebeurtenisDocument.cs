@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Schema.KboSync;
 
+using JasperFx;
 using Marten.Schema;
 
 public record BeheerKszSyncHistoriekGebeurtenisDocument(
@@ -9,4 +10,3 @@ public record BeheerKszSyncHistoriekGebeurtenisDocument(
     string Beschrijving,
     string Tijdstip
 );
-

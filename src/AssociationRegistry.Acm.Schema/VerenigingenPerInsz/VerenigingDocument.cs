@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 
+using JasperFx;
+using JasperFx.Metadata;
 using Marten.Metadata;
 using Marten.Schema;
 

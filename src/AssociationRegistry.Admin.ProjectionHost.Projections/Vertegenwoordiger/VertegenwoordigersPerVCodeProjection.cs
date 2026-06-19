@@ -10,7 +10,8 @@ using Marten.Events.Aggregation;
 using NodaTime;
 using Schema.Vertegenwoordiger;
 
-public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<VertegenwoordigersPerVCodeDocument, string>
+public partial class VertegenwoordigersPerVCodeProjection
+    : SingleStreamProjection<VertegenwoordigersPerVCodeDocument, string>
 {
     private Instant? _globalKszPivotPoint;
     private readonly GlobalKszPivotPointQuery _query;
@@ -47,8 +48,7 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
         {
             VCode = @event.StreamKey,
             VertegenwoordigersData = @event
-                                    .Data.Vertegenwoordigers
-                                    .Select(v => new VertegenwoordigerData(v.VertegenwoordigerId, initialStatus))
+                .Data.Vertegenwoordigers.Select(v => new VertegenwoordigerData(v.VertegenwoordigerId, initialStatus))
                                     .ToArray(),
         };
     }
@@ -59,10 +59,7 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
         var initialStatus = await DetermineInitialStatus(toegevoegdOp);
 
         document.VertegenwoordigersData = document
-                                         .VertegenwoordigersData
-                                         .Append(new VertegenwoordigerData(
-                                                     @event.Data.VertegenwoordigerId,
-                                                     initialStatus))
+            .VertegenwoordigersData.Append(new VertegenwoordigerData(@event.Data.VertegenwoordigerId, initialStatus))
                                          .ToArray();
     }
 
@@ -74,8 +71,7 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
     public void Apply(IEvent<VertegenwoordigerWerdVerwijderd> @event, VertegenwoordigersPerVCodeDocument document)
     {
         document.VertegenwoordigersData = document
-                                         .VertegenwoordigersData
-                                         .Where(x => x.VertegenwoordigerId != @event.Data.VertegenwoordigerId)
+            .VertegenwoordigersData.Where(x => x.VertegenwoordigerId != @event.Data.VertegenwoordigerId)
                                          .ToArray();
     }
 
@@ -86,8 +82,7 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
     {
         document.VertegenwoordigersData = document
                                          .VertegenwoordigersData.UpdateSingle(
-                                              identityFunc: (v
-                                                  => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
+                identityFunc: (v => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
                                               update: (v => v with { Status = VertegenwoordigerKszStatus.Bevestigd })
                                           )
                                          .ToArray();
@@ -100,8 +95,7 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
     {
         document.VertegenwoordigersData = document
                                          .VertegenwoordigersData.UpdateSingle(
-                                              identityFunc: (v
-                                                  => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
+                identityFunc: (v => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
                                               update: (v => v with { Status = VertegenwoordigerKszStatus.Overleden })
                                           )
                                          .ToArray();
@@ -114,8 +108,7 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
     {
         document.VertegenwoordigersData = document
                                          .VertegenwoordigersData.UpdateSingle(
-                                              identityFunc: (v
-                                                  => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
+                identityFunc: (v => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
                                               update: (v => v with { Status = VertegenwoordigerKszStatus.NietGekend })
                                           )
                                          .ToArray();

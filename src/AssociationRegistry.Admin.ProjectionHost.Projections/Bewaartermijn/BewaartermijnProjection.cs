@@ -8,7 +8,7 @@ using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
 using Schema.Bewaartermijn;
 
-public class BewaartermijnProjection : SingleStreamProjection<BewaartermijnDocument, string>
+public partial class BewaartermijnProjection : SingleStreamProjection<BewaartermijnDocument, string>
 {
     public static readonly ShardName ShardName = new("beheer.postgres.bewaartermijn");
 

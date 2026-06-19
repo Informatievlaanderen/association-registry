@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Marten;
 using Xunit;
 
 public class RegistreerStichtingVanOpenbaarNutSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
@@ -29,8 +30,11 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut
     {
         await using var session = _fixture.DocumentStore.LightweightSession();
 
-        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = session
+        var events = await session
             .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+            .ToListAsync();
+
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = events
             .Should()
             .ContainSingle(e =>
                 e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer
@@ -108,8 +112,11 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut
     {
         await using var session = _fixture.DocumentStore.LightweightSession();
 
-        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = session
+        var events = await session
             .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+            .ToListAsync();
+
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = events
             .Should()
             .ContainSingle(e =>
                 e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer

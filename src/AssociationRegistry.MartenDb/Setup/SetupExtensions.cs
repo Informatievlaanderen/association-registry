@@ -2,23 +2,23 @@ namespace AssociationRegistry.MartenDb.Setup;
 
 using Converters;
 using DecentraalBeheer.Vereniging;
-using Marten;
-using Upcasters;
 using Events;
 using Formats;
 using Hosts.Configuration.ConfigurationBindings;
+using JasperFx.OpenTelemetry;
+using Marten;
+using Marten.Newtonsoft;
 using Marten.Services;
 using Newtonsoft.Json;
 using Serialization;
+using Upcasters;
 using VCodeGeneration;
 
 public static class SetupExtensions
 {
     public static StoreOptions UpcastLegacyTombstoneEvents(this StoreOptions source)
     {
-        source.Events.Upcast(
-            new TombstoneUpcaster()
-        );
+        source.Events.Upcast(new TombstoneUpcaster());
 
         return source;
     }
@@ -27,13 +27,13 @@ public static class SetupExtensions
     {
         var eventInterface = typeof(Events.IEvent);
 
-        var eventTypes = eventInterface.Assembly
-                                       .GetTypes()
+        var eventTypes = eventInterface
+            .Assembly.GetTypes()
                                        .Where(t =>
-                                                  eventInterface.IsAssignableFrom(t) &&
-                                                  t.IsClass &&
-                                                  !t.IsAbstract &&
-                                                  t != typeof(AfdelingWerdGeregistreerd) // skip obsolete one if needed
+                eventInterface.IsAssignableFrom(t)
+                && t.IsClass
+                && !t.IsAbstract
+                && t != typeof(AfdelingWerdGeregistreerd) // skip obsolete one if needed
                                         );
 
         foreach (var eventType in eventTypes)

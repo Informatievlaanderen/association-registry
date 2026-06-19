@@ -5,7 +5,6 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using JasperFx.Core;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Xunit;
@@ -17,7 +16,11 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
     private readonly ITestOutputHelper _helper;
 
-    public Returns_SearchVerenigingenResponse(CorrigeerMarkeringAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
+    public Returns_SearchVerenigingenResponse(
+        CorrigeerMarkeringAlsDubbelVanContext testContext,
+        ITestOutputHelper helper
+    )
+        : base(testContext.ApiSetup)
     {
         _testContext = testContext;
         _helper = helper;
@@ -25,14 +28,17 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
 
     public override async Task<SearchVerenigingenResponse> GetResponse(FullBlownApiSetup setup)
     {
-        await Task.Delay(5.Seconds());
+        await Task.Delay(TimeSpan.FromSeconds(5));
 
-        return await setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}",
+        return await setup.AdminApiHost.GetBeheerZoeken(
+            setup.AdminHttpClient,
+            $"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}",
                                                         setup.AdminApiHost.DocumentStore(),
-                                                        
                                                         headers: new RequestParameters().WithExpectedSequence(
-                                                            _testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence),
-                                                        testOutputHelper: _helper);
+                _testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence
+            ),
+            testOutputHelper: _helper
+        );
     }
 
     [Fact]
@@ -44,7 +50,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     [Fact]
     public void WithFeitelijkeVereniging()
     {
-        Response.Verenigingen.Single(x => x.VCode == _testContext.Scenario.AuthentiekeVereniging.VCode)
-                .CorresponderendeVCodes.Should().BeEmpty();
+        Response
+            .Verenigingen.Single(x => x.VCode == _testContext.Scenario.AuthentiekeVereniging.VCode)
+            .CorresponderendeVCodes.Should()
+            .BeEmpty();
     }
 }

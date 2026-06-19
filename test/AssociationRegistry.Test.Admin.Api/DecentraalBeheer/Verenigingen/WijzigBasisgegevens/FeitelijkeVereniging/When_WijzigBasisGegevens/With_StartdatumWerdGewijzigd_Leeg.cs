@@ -8,6 +8,7 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Primitives;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Xunit;
@@ -54,13 +55,15 @@ public class With_StartdatumWerdGewijzigd_Leeg
     }
 
     [Fact]
-    public void Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
-        using var session = _fixture.DocumentStore.LightweightSession();
+        var vCode = VCode;
 
-        var startdatumWerdGewijzigd = session
-            .Events.QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
-            .Single(@event => @event.VCode == VCode);
+        await using var session = _fixture.DocumentStore.LightweightSession();
+
+        var startdatumWerdGewijzigd = (
+            await session.Events.QueryRawEventDataOnly<StartdatumWerdGewijzigd>().ToListAsync()
+        ).Single(@event => @event.VCode == vCode);
 
         startdatumWerdGewijzigd.Startdatum.Should().BeNull();
     }

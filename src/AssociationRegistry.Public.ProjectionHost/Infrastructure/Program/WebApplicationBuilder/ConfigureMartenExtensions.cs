@@ -12,6 +12,7 @@ using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Json;
 using Marten;
+using Marten.Newtonsoft;
 using MartenDb.Logging;
 using MartenDb.PubliekZoeken;
 using MartenDb.Setup;
@@ -48,7 +49,8 @@ public static class ConfigureMartenExtensions
                 serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(),
                 configurationManager
                     .GetSection(ElasticSearchOptionsSection.SectionName)
-                    .Get<ElasticSearchOptionsSection>()
+                    .Get<ElasticSearchOptionsSection>(),
+                AutoCreate.None
             );
         });
 
@@ -79,7 +81,8 @@ public static class ConfigureMartenExtensions
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
         Func<IQuerySession> querySessionFunc,
         bool isDevelopment,
-        ElasticSearchOptionsSection? elasticSearchOptionsSection
+        ElasticSearchOptionsSection? elasticSearchOptionsSection,
+        AutoCreate autoCreate
     )
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection? postgreSqlOptions) =>
@@ -110,6 +113,9 @@ public static class ConfigureMartenExtensions
         opts.Projections.DaemonLockId = 3;
 
         opts.Events.MetadataConfig.EnableAll();
+        opts.Events.AppendMode = EventAppendMode.Quick;
+
+        opts.AutoCreateSchemaObjects = autoCreate;
 
         opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 
@@ -156,7 +162,8 @@ public static class ConfigureMartenExtensions
         ILogger<SecureMartenLogger> secureMartenLogger,
         PostgreSqlOptionsSection? postgreSqlOptionsSection,
         bool isDevelopment,
-        ElasticSearchOptionsSection? elasticSearchOptionsSection
+        ElasticSearchOptionsSection? elasticSearchOptionsSection,
+        AutoCreate autoCreate = AutoCreate.None
     )
     {
         IDocumentStore? builtStore = null;
@@ -175,7 +182,8 @@ public static class ConfigureMartenExtensions
                 return builtStore.QuerySession();
             },
             isDevelopment,
-            elasticSearchOptionsSection
+            elasticSearchOptionsSection,
+            autoCreate
         );
     }
 }

@@ -10,8 +10,10 @@ using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
+using JasperFx.OpenTelemetry;
 using Json;
 using Marten;
+using Marten.Newtonsoft;
 using Marten.Services;
 using MartenDb;
 using MartenDb.BeheerZoeken;
@@ -232,6 +234,7 @@ public static class ConfigureMartenExtensions
         opts.Events.StreamIdentity = StreamIdentity.AsString;
 
         opts.Events.MetadataConfig.EnableAll();
+        opts.Events.AppendMode = EventAppendMode.Quick;
 
         opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 

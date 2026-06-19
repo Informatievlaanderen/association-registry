@@ -47,8 +47,8 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
                 ""minimumleeftijd"": {Request.Doelgroep!.Minimumleeftijd!},
                 ""maximumleeftijd"": {Request.Doelgroep!.Maximumleeftijd!}
             }},
-            ""hoofdactiviteitenVerenigingsloket"":[{Request.HoofdactiviteitenVerenigingsloket!
-                                                           .Select(h => $@"""{h}""").Join(",")}],
+            ""hoofdactiviteitenVerenigingsloket"":[{string.Join(",", Request.HoofdactiviteitenVerenigingsloket!
+                                                                      .Select(h => $@"""{h}"""))}],
             ""isUitgeschrevenUitPubliekeDatastroom"":true,
             ""initiator"": ""OVO000001""}}";
 
@@ -83,21 +83,21 @@ public class With_All_BasisGegevensWerdenGewijzigd
     {
         await using var session = _documentStore.LightweightSession();
 
-        var naamWerdGewijzigd = session
-            .Events.QueryRawEventDataOnly<NaamWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+        var naamWerdGewijzigd = (await session.Events.QueryRawEventDataOnly<NaamWerdGewijzigd>().ToListAsync()).Single(
+            @event => @event.VCode == _vCode
+        );
 
-        var korteNaamWerdGewijzigd = session
-            .Events.QueryRawEventDataOnly<KorteNaamWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+        var korteNaamWerdGewijzigd = (
+            await session.Events.QueryRawEventDataOnly<KorteNaamWerdGewijzigd>().ToListAsync()
+        ).Single(@event => @event.VCode == _vCode);
 
-        var korteBeschrijvingWerdGewijzigd = session
-            .Events.QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+        var korteBeschrijvingWerdGewijzigd = (
+            await session.Events.QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>().ToListAsync()
+        ).Single(@event => @event.VCode == _vCode);
 
-        var startdatumWerdGewijzigd = session
-            .Events.QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+        var startdatumWerdGewijzigd = (
+            await session.Events.QueryRawEventDataOnly<StartdatumWerdGewijzigd>().ToListAsync()
+        ).Single(@event => @event.VCode == _vCode);
 
         var hoofactiviteitenVerenigingloketWerdenGewijzigd = (await session.Events.FetchStreamAsync(_vCode)).Single(
             @event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd)

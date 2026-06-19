@@ -24,15 +24,13 @@ public class LocatieLookupController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        var response = new LocatiesMetAdresIdVolgensVCode
-        {
-            VCode = vCode,
-            Data = session
+        var locaties = await session
                 .Query<LocatieLookupDocument>()
                 .Where(w => w.VCode == vCode)
                 .Select(s => new LocatiesMetAdresIdVolgensVCode.LocatieLookup(s.LocatieId, s.AdresId))
-                .ToArray(),
-        };
+            .ToListAsync(token: cancellationToken);
+
+        var response = new LocatiesMetAdresIdVolgensVCode { VCode = vCode, Data = locaties.ToArray() };
 
         return Ok(response);
     }
@@ -46,15 +44,13 @@ public class LocatieLookupController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        var response = new LocatiesMetAdresIdVolgensAdresId
-        {
-            AdresId = adresId,
-            Data = session
+        var locaties = await session
                 .Query<LocatieLookupDocument>()
                 .Where(w => w.AdresId == adresId)
                 .Select(s => new LocatiesMetAdresIdVolgensAdresId.LocatieLookup(s.LocatieId, s.VCode))
-                .ToArray(),
-        };
+            .ToListAsync(token: cancellationToken);
+
+        var response = new LocatiesMetAdresIdVolgensAdresId { AdresId = adresId, Data = locaties.ToArray() };
 
         return Ok(response);
     }

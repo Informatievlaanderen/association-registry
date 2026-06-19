@@ -73,7 +73,9 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
             switch (@event.EventType.Name)
             {
                 case nameof(FeitelijkeVerenigingWerdGeregistreerd):
+                case nameof(FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens):
                 case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd):
+                case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens):
                 case nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid):
                 case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
                 case nameof(KorteNaamWerdGewijzigd):
@@ -123,24 +125,26 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
         var bulkAll = await IndexDocumentsAsync(documentsPerVCode.Values);
     }
 
-    private async Task<bool> IndexDocumentsAsync<T>(IEnumerable<T> documents)
-        where T : class
+    private async Task<bool> IndexDocumentsAsync(IEnumerable<DuplicateDetectionDocument> documents)
     {
-        var response = await _elasticClient.BulkAsync(b =>
-            b.Index(_options.Indices.DuplicateDetection).IndexMany(documents).Refresh(Refresh.WaitFor)
+        var indexedDocuments = documents.ToArray();
+
+        foreach (var document in indexedDocuments)
+        {
+            var response = await _elasticClient.IndexAsync(
+                document,
+                d => d.Index(_options.Indices.DuplicateDetection).Id(document.VCode).Refresh(Refresh.WaitFor)
         );
 
         if (!response.IsValidResponse)
         {
-            foreach (var item in response.Items.Where(i => i.Error is not null))
-            {
-                _logger.LogError("Failed to index document {Id}: {Error}", item.Id, item.Error?.Reason);
-            }
+                _logger.LogError("Failed to index document {Id}: {Error}", response.Id, response.DebugInformation);
 
             return false;
         }
+        }
 
-        _logger.LogInformation($"Successfully indexed {response.Items.Count} documents");
+        _logger.LogInformation("Successfully indexed {DocumentCount} documents", indexedDocuments.Length);
 
         return true;
     }

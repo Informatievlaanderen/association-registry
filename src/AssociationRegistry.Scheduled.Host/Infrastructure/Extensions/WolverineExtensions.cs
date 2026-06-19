@@ -10,6 +10,7 @@ using MartenDb.Setup;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Wolverine;
+using Wolverine.Newtonsoft;
 using Wolverine.Postgresql;
 using Program = Host.Program;
 

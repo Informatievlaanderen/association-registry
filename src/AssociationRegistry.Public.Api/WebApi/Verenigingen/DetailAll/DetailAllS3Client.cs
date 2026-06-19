@@ -10,16 +10,22 @@ public class DetailAllS3Client : IDetailAllS3Client
     private readonly IAmazonS3 _s3Client;
     private readonly string _bucketName;
     private readonly string _key;
+    private readonly bool _useLocalstack;
 
     public DetailAllS3Client(IAmazonS3 s3Client, AppSettings appSettings)
     {
         _s3Client = s3Client;
         _bucketName = appSettings.Publiq.BucketName;
         _key = appSettings.Publiq.Key;
+        _useLocalstack = appSettings.Publiq.UseLocalstack;
     }
 
-    public async Task<string> GetPreSignedUrlAsync(CancellationToken cancellationToken) =>
-        await _s3Client.GetPreSignedURLAsync(
+    public async Task<string> GetPreSignedUrlAsync(CancellationToken cancellationToken)
+    {
+        if (_useLocalstack)
+            return $"http://127.0.0.1:4566/{_bucketName}/{_key}";
+
+        return await _s3Client.GetPreSignedURLAsync(
             new GetPreSignedUrlRequest
             {
                 BucketName = _bucketName,
@@ -28,6 +34,7 @@ public class DetailAllS3Client : IDetailAllS3Client
                 Verb = HttpVerb.GET,
             }
         );
+    }
 
     public async Task PutAsync(Stream stream, CancellationToken cancellationToken)
     {

@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Admin.Schema.Detail;
 
+using JasperFx;
+using JasperFx.Metadata;
 using Marten.Metadata;
 using Marten.Schema;
 
@@ -29,8 +31,7 @@ public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } =
         Array.Empty<HoofdactiviteitVerenigingsloket>();
 
-    public Werkingsgebied[] Werkingsgebieden { get; set; } =
-        Array.Empty<Werkingsgebied>();
+    public Werkingsgebied[] Werkingsgebieden { get; set; } = Array.Empty<Werkingsgebied>();
 
     public Lidmaatschap[] Lidmaatschappen { get; set; } = Array.Empty<Lidmaatschap>();
 
@@ -39,7 +40,9 @@ public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Bron { get; set; } = null!;
     public Metadata Metadata { get; set; } = null!;
-    [Identity] public string VCode { get; init; } = null!;
+
+    [Identity]
+    public string VCode { get; init; } = null!;
     public bool Deleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
     public string IsDubbelVan { get; set; } = string.Empty;

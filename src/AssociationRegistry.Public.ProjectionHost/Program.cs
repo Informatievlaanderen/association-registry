@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Public.ProjectionHost;
 
+using System.Net;
+using System.Text;
 using Asp.Versioning.ApplicationModels;
 using Extensions;
 using Hosts;
@@ -12,21 +14,18 @@ using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
 using JasperFx;
 using JasperFx.CodeGeneration;
+using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Oakton;
 using OpenTelemetry.Extensions;
 using Projections.Search;
 using Serilog;
 using Serilog.Debugging;
-using System.Net;
-using System.Text;
 using Wolverine;
-using Marten.Events.Daemon;
 
 public class Program
 {
@@ -34,11 +33,18 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Configuration
-               .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
-                            reloadOnChange: false)
-               .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+        builder
+            .Configuration.AddJsonFile("appsettings.json")
+            .AddJsonFile(
+                $"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json",
+                optional: true,
+                reloadOnChange: false
+            )
+            .AddJsonFile(
+                $"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
+                optional: true,
+                reloadOnChange: false
+            )
                .AddEnvironmentVariables()
                .AddCommandLine(args);
 
@@ -51,14 +57,11 @@ public class Program
         ConfigureJsonSerializerSettings();
         ConfigureAppDomainExceptions();
 
-        builder.WebHost.ConfigureKestrel(
-            options =>
-                options.AddEndpoint(IPAddress.Any, port: 11005));
+        builder.WebHost.ConfigureKestrel(options => options.AddEndpoint(IPAddress.Any, port: 11005));
 
         builder.Host.ApplyJasperFxExtensions();
 
-        builder.Host.UseWolverine(
-            options =>
+        builder.Host.UseWolverine(options =>
             {
                 options.Discovery.IncludeType<PubliekZoekProjectionHandler>();
             });
@@ -70,18 +73,19 @@ public class Program
 
         builder.ConfigureOpenTelemetry(new PubliekInstrumentation());
 
-        builder.Services
-               .ConfigureRequestLocalization()
+        builder
+            .Services.ConfigureRequestLocalization()
                .ConfigureProjectionsWithMarten(builder.Configuration)
                .ConfigureSwagger()
                .ConfigureElasticSearch(elasticSearchOptions)
                .AddMvc()
                .AddDataAnnotationsLocalization();
 
-        builder.Services.AddHealthChecks()
-               .AddMartenAsyncDaemonHealthCheck();
+        builder.Services.AddHealthChecks().AddMartenAsyncDaemonHealthCheck();
 
-        builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
+        builder.Services.TryAddEnumerable(
+            ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>()
+        );
 
         builder.Host.UseConsoleLifetime();
 
@@ -93,7 +97,9 @@ public class Program
             return;
         }
 
-        app.AddProjectionEndpoints(app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
+        app.AddProjectionEndpoints(
+            app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!
+        );
 
         // app.SetUpSwagger();
         await app.EnsureElasticSearchIsInitialized();
@@ -119,12 +125,14 @@ public class Program
             Log.Debug(
                 eventArgs.Exception,
                 messageTemplate: "FirstChanceException event raised in {AppDomain}",
-                AppDomain.CurrentDomain.FriendlyName);
+                AppDomain.CurrentDomain.FriendlyName
+            );
 
         AppDomain.CurrentDomain.UnhandledException += (_, eventArgs) =>
             Log.Fatal(
                 (Exception)eventArgs.ExceptionObject,
-                messageTemplate: "Encountered a fatal exception, exiting program");
+                messageTemplate: "Encountered a fatal exception, exiting program"
+            );
     }
 
     private static void ConfigureHealtChecks(WebApplication app)
@@ -150,9 +158,7 @@ public class Program
                     new JProperty(
                         name: "results",
                         new JObject(
-                            healthReport.Entries.Select(
-                                pair =>
-                                    new JProperty(
+                            healthReport.Entries.Select(pair => new JProperty(
                                         pair.Key,
                                         new JObject(
                                             new JProperty(name: "status", pair.Value.Status.ToString()),
@@ -161,9 +167,13 @@ public class Program
                                             new JProperty(name: "exception", pair.Value.Exception?.Message),
                                             new JProperty(
                                                 name: "data",
-                                                new JObject(
-                                                    pair.Value.Data.Select(
-                                                        p => new JProperty(p.Key, p.Value))))))))));
+                                        new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))
+                                    )
+                                )
+                            ))
+                        )
+                    )
+                );
 
                 return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
             },

@@ -5,6 +5,7 @@ using CommandHandling.InschrijvingenVertegenwoordigers;
 using DecentraalBeheer.Vereniging;
 using Framework;
 using Grar.NutsLau;
+using JasperFx;
 using JasperFx.Core;
 using Magda.Persoon;
 using Marten;
@@ -12,24 +13,27 @@ using Marten.Schema;
 using Queries;
 using Vereniging;
 using Wolverine.Marten;
-public class InitialRegistreerInschrijvingVertegenwoordigersService: BackgroundService
+
+public class InitialRegistreerInschrijvingVertegenwoordigersService : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IDocumentStore _store;
     private readonly InitialiseerRegistreerInschrijvingOptions _options;
     private readonly ILogger<InitialRegistreerInschrijvingVertegenwoordigersService> _logger;
+
     public InitialRegistreerInschrijvingVertegenwoordigersService(
         IServiceScopeFactory scopeFactory,
         IDocumentStore store,
         InitialiseerRegistreerInschrijvingOptions options,
-        ILogger<InitialRegistreerInschrijvingVertegenwoordigersService> logger)
+        ILogger<InitialRegistreerInschrijvingVertegenwoordigersService> logger
+    )
     {
         _scopeFactory = scopeFactory;
         _store = store;
         _options = options;
         _logger = logger;
-
     }
+
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         await using var scope = _scopeFactory.CreateAsyncScope();
@@ -50,25 +54,24 @@ public class InitialRegistreerInschrijvingVertegenwoordigersService: BackgroundS
 
                 foreach (var vCode in vertegenwoordigers)
                 {
-                    await outbox.SendAsync(new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(
-                                               new SchrijfVertegenwoordigersInMessage(vCode.Value),
-                                               CommandMetadata.ForDigitaalVlaanderenProcess));
+                    await outbox.SendAsync(
+                        new CommandEnvelope<SchrijfVertegenwoordigersInMessage>(
+                            new SchrijfVertegenwoordigersInMessage(vCode.Value),
+                            CommandMetadata.ForDigitaalVlaanderenProcess
+                        )
+                    );
                 }
 
                 await session.SaveChangesAsync(cancellationToken);
-
             }
             catch (Exception e)
             {
                 _logger.LogCritical(e, "Error while migrating geotags");
                 await Task.Delay(10.Seconds(), cancellationToken);
-
             }
             migrationRanToCompletion = await repository.DidInitialisationAlreadyRunToCompletion(cancellationToken);
-
         }
         _logger.LogInformation("Initialisation of inschrijvingen completed successfully.");
-
     }
 }
 
@@ -88,15 +91,19 @@ public class InitialRegistreerInschrijvingVertegenwoordigerRepository
     private readonly IDocumentSession _session;
     private readonly InitialiseerRegistreerInschrijvingOptions _options;
 
-    public InitialRegistreerInschrijvingVertegenwoordigerRepository(IDocumentSession session, InitialiseerRegistreerInschrijvingOptions options)
+    public InitialRegistreerInschrijvingVertegenwoordigerRepository(
+        IDocumentSession session,
+        InitialiseerRegistreerInschrijvingOptions options
+    )
     {
         _session = session;
         _options = options;
     }
 
-    public async Task<bool> DidInitialisationAlreadyRunToCompletion(CancellationToken cancellationToken)
-        => await _session.Query<InitialisatieInschrijvingenDocument>()
-                         .AnyAsync(x => x.Id == _options.MigratieId, cancellationToken);
+    public async Task<bool> DidInitialisationAlreadyRunToCompletion(CancellationToken cancellationToken) =>
+        await _session
+            .Query<InitialisatieInschrijvingenDocument>()
+            .AnyAsync(x => x.Id == _options.MigratieId, cancellationToken);
 
     public void AddInitialisationRecord()
     {

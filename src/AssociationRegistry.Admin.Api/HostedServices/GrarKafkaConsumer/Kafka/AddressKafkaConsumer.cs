@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Kafka;
 
+using System.Text;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using CommandHandling.Grar.GrarUpdates.Fusies;
 using CommandHandling.Grar.GrarUpdates.Hernummering;
@@ -11,7 +12,6 @@ using Marten;
 using Notifications.Messages;
 using Polly;
 using StraatHernummering;
-using System.Text;
 
 public class AddressKafkaConsumer : BackgroundService
 {
@@ -28,7 +28,8 @@ public class AddressKafkaConsumer : BackgroundService
         ITeHernummerenStraatEventProcessor teHernummerenStraatEventProcessor,
         IDocumentStore store,
         INotifier notifier,
-        ILogger<AddressKafkaConsumer> logger)
+        ILogger<AddressKafkaConsumer> logger
+    )
     {
         _configuration = configuration;
         _fusieEventProcessor = fusieEventProcessor;
@@ -43,12 +44,14 @@ public class AddressKafkaConsumer : BackgroundService
         await Policy
              .Handle<Exception>()
              .WaitAndRetryForeverAsync(
-                  sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(x: 2, retryAttempt < 5 ? retryAttempt : 5)),
+                sleepDurationProvider: retryAttempt =>
+                    TimeSpan.FromSeconds(Math.Pow(x: 2, retryAttempt < 5 ? retryAttempt : 5)),
                   onRetryAsync: async (exception, _) =>
                   {
                       _logger.LogError(exception, $"{nameof(AddressKafkaConsumer)} failed");
                       await _notifier.Notify(new AdresKafkaConsumerGefaald(exception));
-                  })
+                }
+            )
              .ExecuteAsync(Consume, stoppingToken);
     }
 
@@ -71,7 +74,7 @@ public class AddressKafkaConsumer : BackgroundService
 
                 var idempotenceKey = FetchIdempotenceKey(result);
 
-                if (MessageAlreadyProcessed(session, idempotenceKey))
+                if (await MessageAlreadyProcessed(session, idempotenceKey, stoppingToken))
                 {
                     consumer.Commit(result);
 
@@ -86,21 +89,25 @@ public class AddressKafkaConsumer : BackgroundService
                         await _fusieEventProcessor.Process(
                             addressWasRetiredBecauseOfMunicipalityMerger.AddressPersistentLocalId,
                             addressWasRetiredBecauseOfMunicipalityMerger.NewAddressPersistentLocalId,
-                            idempotenceKey);
+                            idempotenceKey
+                        );
                         break;
 
                     case AddressWasRejectedBecauseOfMunicipalityMerger addressWasRejectedBecauseOfMunicipalityMerger:
                         await _fusieEventProcessor.Process(
                             addressWasRejectedBecauseOfMunicipalityMerger.AddressPersistentLocalId,
                             addressWasRejectedBecauseOfMunicipalityMerger.NewAddressPersistentLocalId,
-                            idempotenceKey);
+                            idempotenceKey
+                        );
                         break;
 
                     case StreetNameWasReaddressed streetNameWasReaddressed:
                         _logger.LogInformation($"{nameof(StreetNameWasReaddressed)} found! Offset: {result.Offset}");
 
                         await _teHernummerenStraatEventProcessor.Process(
-                            TeHernummerenStraatFactory.From(streetNameWasReaddressed), idempotenceKey);
+                            TeHernummerenStraatFactory.From(streetNameWasReaddressed),
+                            idempotenceKey
+                        );
 
                         break;
 
@@ -121,7 +128,11 @@ public class AddressKafkaConsumer : BackgroundService
         }
     }
 
-    private async Task<bool> DelayIfNull(ConsumeResult<string, string>? result, int i, CancellationToken cancellationToken)
+    private async Task<bool> DelayIfNull(
+        ConsumeResult<string, string>? result,
+        int i,
+        CancellationToken cancellationToken
+    )
     {
         if (result is not null)
             return false;
@@ -134,16 +145,19 @@ public class AddressKafkaConsumer : BackgroundService
     private async Task AppendLatestKnownOffset(
         IDocumentSession session,
         ConsumeResult<string, string> result,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
-        session.Insert(new AddressKafkaConsumerOffset
+        session.Insert(
+            new AddressKafkaConsumerOffset
         {
             Timestamp = result.Message.Timestamp.UnixTimestampMs,
             DateTime = result.Message.Timestamp.UtcDateTime,
             IdempotenceKey = FetchIdempotenceKey(result),
             Key = result.Message.Key,
             Offset = result.Offset,
-        });
+            }
+        );
 
         await session.SaveChangesAsync(cancellationToken);
     }
@@ -155,21 +169,28 @@ public class AddressKafkaConsumer : BackgroundService
                       .Build();
 
         var partitionSpecifier = new TopicPartition(_configuration.TopicPartition.Topic, partition: 0);
-        var topicPartitionOffsets = consumer.Committed(new List<TopicPartition> { partitionSpecifier }, TimeSpan.FromSeconds(10));
+        var topicPartitionOffsets = consumer.Committed(
+            new List<TopicPartition> { partitionSpecifier },
+            TimeSpan.FromSeconds(10)
+        );
 
         if (topicPartitionOffsets.FirstOrDefault()?.Offset < _configuration.Offset)
-            consumer.Commit(new List<TopicPartitionOffset>
-                                { new(partitionSpecifier, _configuration.Offset) });
+            consumer.Commit(new List<TopicPartitionOffset> { new(partitionSpecifier, _configuration.Offset) });
 
         return consumer;
     }
 
-    private bool MessageAlreadyProcessed(IDocumentSession session, string idempotenceKey)
-        => session.Query<AddressKafkaConsumerOffset>()
-                  .Any(m => m.IdempotenceKey == idempotenceKey);
+    private static Task<bool> MessageAlreadyProcessed(
+        IDocumentSession session,
+        string idempotenceKey,
+        CancellationToken cancellationToken
+    ) =>
+        session
+            .Query<AddressKafkaConsumerOffset>()
+            .AnyAsync(m => m.IdempotenceKey == idempotenceKey, token: cancellationToken);
 
-    private string FetchIdempotenceKey(ConsumeResult<string, string> result)
-        => result.Message.Headers.TryGetLastBytes(key: "IdempotenceKey", out var idempotenceHeaderAsBytes)
+    private string FetchIdempotenceKey(ConsumeResult<string, string> result) =>
+        result.Message.Headers.TryGetLastBytes(key: "IdempotenceKey", out var idempotenceHeaderAsBytes)
             ? Encoding.UTF8.GetString(idempotenceHeaderAsBytes)
             : result.Message.Value.ToSha512();
 }

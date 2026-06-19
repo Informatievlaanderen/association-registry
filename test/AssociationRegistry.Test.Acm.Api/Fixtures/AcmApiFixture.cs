@@ -1,10 +1,12 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
+using System.Reflection;
 using AssociationRegistry.Acm.Api;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Common.Database;
 using Common.Fixtures;
+using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using Events;
 using EventStore.ConflictResolution;
@@ -12,7 +14,11 @@ using Framework.Helpers;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using JasperFx;
+using JasperFx.CommandLine;
 using Marten;
+using MartenDb.BankrekeningnummerPersoonsgegevens;
+using MartenDb.Logging;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -24,12 +30,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NodaTime;
 using Npgsql;
-using Oakton;
 using Persoonsgegevens;
 using Polly;
-using System.Reflection;
-using Common.Framework;
-using MartenDb.BankrekeningnummerPersoonsgegevens;
 using Vereniging;
 using Xunit;
 using ConfigurationExtensions = AssociationRegistry.Acm.Api.Infrastructure.Extensions.ConfigurationExtensions;
@@ -40,48 +42,54 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     private readonly string _identifier = "acmapifixture";
     private readonly WebApplicationFactory<Program> _webApplicationFactory;
 
-    public IDocumentStore DocumentStore
-        => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
+    public IDocumentStore DocumentStore => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
 
-    public EventConflictResolver EventConflictResolver
-        => new(Array.Empty<IEventPreConflictResolutionStrategy>(), Array.Empty<IEventPostConflictResolutionStrategy>());
+    public EventConflictResolver EventConflictResolver =>
+        new(Array.Empty<IEventPreConflictResolutionStrategy>(), Array.Empty<IEventPostConflictResolutionStrategy>());
 
-    public AcmApiClient AcmApiClient
-        => AcmApiClients.Authenticated;
+    public AcmApiClient AcmApiClient => AcmApiClients.Authenticated;
 
-    public AcmApiClient UnauthenticatedClient
-        => AcmApiClients.Unauthenticated;
+    public AcmApiClient UnauthenticatedClient => AcmApiClients.Unauthenticated;
 
-    public IServiceProvider ServiceProvider
-        => _webApplicationFactory.Services;
+    public IServiceProvider ServiceProvider => _webApplicationFactory.Services;
 
     protected AcmApiFixture()
     {
-        WaitFor.PostGreSQLToBecomeAvailable(
+        WaitFor
+            .PostGreSQLToBecomeAvailable(
                     new NullLogger<AcmApiFixture>(),
-                    GetConnectionString(GetConfiguration(), RootDatabase))
-               .GetAwaiter().GetResult();
+                GetConnectionString(GetConfiguration(), RootDatabase)
+            )
+            .GetAwaiter()
+            .GetResult();
 
         CreateDatabaseFromTemplate(GetConfiguration());
+        ApplyMartenSchemaChanges(GetConfiguration());
 
-        WaitFor.PostGreSQLToBecomeAvailable(
+        WaitFor
+            .PostGreSQLToBecomeAvailable(
                     new NullLogger<AcmApiFixture>(),
-                    GetConnectionString(GetConfiguration(), ConfigurationExtensions.GetPostgreSqlOptionsSection(GetConfiguration()).Database!))
-               .GetAwaiter().GetResult();
+                GetConnectionString(
+                    GetConfiguration(),
+                    ConfigurationExtensions.GetPostgreSqlOptionsSection(GetConfiguration()).Database!
+                )
+            )
+            .GetAwaiter()
+            .GetResult();
 
-        OaktonEnvironment.AutoStartHost = true;
+        JasperFxEnvironment.AutoStartHost = true;
 
-        _webApplicationFactory = new WebApplicationFactory<Program>()
-           .WithWebHostBuilder(
-                builder =>
+        _webApplicationFactory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
-                    builder.UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
+            builder.UseSetting(
+                $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}",
+                _identifier
+            );
 
                     builder.UseConfiguration(GetConfiguration());
 
-                    builder.ConfigureAppConfiguration(
-                        cfg =>
+            builder.ConfigureAppConfiguration(cfg =>
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
                                .AddJsonFile(path: "appsettings.json", optional: true)
                                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
@@ -90,32 +98,36 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
                                     {
                                         new KeyValuePair<string, string>(
                                             $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}",
-                                            _identifier),
-                                    })
+                                _identifier
+                            ),
+                        }
+                    )
                     );
                 });
 
         var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
 
-        WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AcmApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
-               .GetAwaiter().GetResult();
+        WaitFor
+            .PostGreSQLToBecomeAvailable(
+                new NullLogger<AcmApiFixture>(),
+                GetRootConnectionString(postgreSqlOptionsSection)
+            )
+            .GetAwaiter()
+            .GetResult();
 
         AcmApiClients = new AcmApiClients(
-            GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
-                              .Get<OAuth2IntrospectionOptions>(),
-            _webApplicationFactory.CreateClient);
+            GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions)).Get<OAuth2IntrospectionOptions>(),
+            _webApplicationFactory.CreateClient
+        );
     }
 
     public AcmApiClients AcmApiClients { get; }
 
-    public AcmApiClient DefaultClient
-        => AcmApiClients.Authenticated;
+    public AcmApiClient DefaultClient => AcmApiClients.Authenticated;
 
-    public async ValueTask InitializeAsync()
-        => await Given();
+    public async ValueTask InitializeAsync() => await Given();
 
-    public virtual async ValueTask DisposeAsync()
-        => Dispose();
+    public virtual async ValueTask DisposeAsync() => Dispose();
 
     public void Dispose()
     {
@@ -129,19 +141,38 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         DatabaseTemplateHelper.CreateDatabaseFromTemplate(
             configuration,
             postgreSqlOptionsSection.Database!,
-            new NullLogger<AcmApiFixture>());
+            new NullLogger<AcmApiFixture>()
+        );
     }
 
-    private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)
-        => $"host={postgreSqlOptionsSection.Host}:5432;" +
-           "database=postgres;" +
-           $"password={postgreSqlOptionsSection.Password};" +
-           $"username={postgreSqlOptionsSection.Username}";
+    private static void ApplyMartenSchemaChanges(IConfigurationRoot configuration)
+    {
+        var postgreSqlOptionsSection = ConfigurationExtensions.GetPostgreSqlOptionsSection(configuration);
+
+        using var documentStore = Marten.DocumentStore.For(options =>
+        {
+            AssociationRegistry.Acm.Api.Infrastructure.Extensions.MartenExtensions.ConfigureStoreOptions(
+                options,
+                postgreSqlOptionsSection,
+                NullLogger<SecureMartenLogger>.Instance,
+                isDevelopment: true
+            );
+        });
+
+        documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync(AutoCreate.All).GetAwaiter().GetResult();
+    }
+
+    private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection) =>
+        $"host={postgreSqlOptionsSection.Host}:5432;"
+        + "database=postgres;"
+        + $"password={postgreSqlOptionsSection.Password};"
+        + $"username={postgreSqlOptionsSection.Username}";
 
     private static string GetRootDirectoryOrThrow()
     {
         var maybeRootDirectory = Directory
-                                .GetParent(Assembly.GetExecutingAssembly().Location)?.Parent?.Parent?.Parent?.FullName;
+            .GetParent(Assembly.GetExecutingAssembly().Location)
+            ?.Parent?.Parent?.Parent?.FullName;
 
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
@@ -149,7 +180,11 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         return rootDirectory;
     }
 
-    protected async Task<StreamActionResult> AddEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
+    protected async Task<StreamActionResult> AddEvents(
+        string vCode,
+        IEvent[] eventsToAdd,
+        CommandMetadata? metadata = null
+    )
     {
         if (!eventsToAdd.Any())
             return StreamActionResult.Empty;
@@ -160,14 +195,30 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
         await using var session = DocumentStore.LightweightSession();
 
-        var eventStore = new EventStore(session, EventConflictResolver,
+        var eventStore = new EventStore(
+            session,
+            EventConflictResolver,
                                         new PersoonsgegevensProcessor(
                                             new PersoonsgegevensEventTransformers(),
-                                            new VertegenwoordigerPersoonsgegevensRepository(session, new VertegenwoordigerPersoonsgegevensQuery(session)),
-                                            new BankrekeningnummerPersoonsgegevensRepository(session, new BankrekeningnummerPersoonsgegevensQuery(session)),
-                                            NullLogger<PersoonsgegevensProcessor>.Instance), NullLogger<EventStore>.Instance);
+                new VertegenwoordigerPersoonsgegevensRepository(
+                    session,
+                    new VertegenwoordigerPersoonsgegevensQuery(session)
+                ),
+                new BankrekeningnummerPersoonsgegevensRepository(
+                    session,
+                    new BankrekeningnummerPersoonsgegevensQuery(session)
+                ),
+                NullLogger<PersoonsgegevensProcessor>.Instance
+            ),
+            NullLogger<EventStore>.Instance
+        );
 
-        return await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), metadata, CancellationToken.None, eventsToAdd);
+        return await eventStore.SaveNew(
+            VCode.Create(vCode.ToUpperInvariant()),
+            metadata,
+            CancellationToken.None,
+            eventsToAdd
+        );
     }
 
     private IConfigurationRoot GetConfiguration()
@@ -187,7 +238,8 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     private static string GetRootDirectory()
     {
         var maybeRootDirectory = Directory
-                                .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+            .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)
+            ?.Parent?.Parent?.Parent?.FullName;
 
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
@@ -204,7 +256,8 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         {
             connection.Open();
             // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-            cmd.CommandText += $"DROP DATABASE IF EXISTS \"{GetConfiguration()["PostgreSQLOptions:database"]}\" WITH (FORCE);";
+            cmd.CommandText +=
+                $"DROP DATABASE IF EXISTS \"{GetConfiguration()["PostgreSQLOptions:database"]}\" WITH (FORCE);";
             cmd.ExecuteNonQuery();
         }
         finally
@@ -214,11 +267,11 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         }
     }
 
-    private static string GetConnectionString(IConfiguration configurationRoot, string database)
-        => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
-           $"database={database};" +
-           $"password={configurationRoot["PostgreSQLOptions:password"]};" +
-           $"username={configurationRoot["PostgreSQLOptions:username"]}";
+    private static string GetConnectionString(IConfiguration configurationRoot, string database) =>
+        $"host={configurationRoot["PostgreSQLOptions:host"]};"
+        + $"database={database};"
+        + $"password={configurationRoot["PostgreSQLOptions:password"]};"
+        + $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
     protected abstract Task Given();
 }

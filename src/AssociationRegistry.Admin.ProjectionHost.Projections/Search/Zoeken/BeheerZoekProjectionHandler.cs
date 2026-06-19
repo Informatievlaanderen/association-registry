@@ -30,6 +30,71 @@ public class BeheerZoekProjectionHandler
 
         document.Verenigingssubtype = null;
         document.Naam = message.Data.Naam;
+        document.Roepnaam = null!;
+        document.KorteNaam = message.Data.KorteNaam;
+        document.Status = VerenigingStatus.Actief;
+        document.Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray();
+        document.Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly);
+        document.Einddatum = null;
+        document.Doelgroep = Map(message.Data.Doelgroep, message.VCode);
+        document.IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom;
+
+        document.HoofdactiviteitenVerenigingsloket = message
+            .Data.HoofdactiviteitenVerenigingsloket.Select(
+                hoofdactiviteitVerenigingsloket => new VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket
+                {
+                    JsonLdMetadata = CreateJsonLdMetadata(
+                        JsonLdType.Hoofdactiviteit,
+                        hoofdactiviteitVerenigingsloket.Code
+                    ),
+                    Code = hoofdactiviteitVerenigingsloket.Code,
+                    Naam = hoofdactiviteitVerenigingsloket.Naam,
+                }
+            )
+            .ToArray();
+
+        document.Werkingsgebieden = [];
+        document.Lidmaatschappen = [];
+        document.CorresponderendeVCodes = [];
+
+        document.Sleutels =
+        [
+            new VerenigingZoekDocument.Types.Sleutel
+            {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
+                Bron = Sleutelbron.VR,
+                Waarde = message.Data.VCode,
+                CodeerSysteem = CodeerSysteem.VR,
+                GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
+                {
+                    JsonLdMetadata = CreateJsonLdMetadata(
+                        JsonLdType.GestructureerdeSleutel,
+                        message.VCode,
+                        Sleutelbron.VR.Waarde
+                    ),
+                    Nummer = message.Data.VCode,
+                },
+            },
+        ];
+    }
+
+    public void Handle(
+        EventEnvelope<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens> message,
+        VerenigingZoekDocument document
+    )
+    {
+        document.JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type;
+        document.VCode = message.Data.VCode;
+
+        document.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
+        {
+            Code = Verenigingstype.FeitelijkeVereniging.Code,
+            Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+        };
+
+        document.Verenigingssubtype = null;
+        document.Naam = message.Data.Naam;
+        document.Roepnaam = null!;
         document.KorteNaam = message.Data.KorteNaam;
         document.Status = VerenigingStatus.Actief;
         document.Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray();
@@ -98,6 +163,76 @@ public class BeheerZoekProjectionHandler
         };
 
         zoekDocument.Naam = message.Data.Naam;
+        zoekDocument.Roepnaam = null!;
+        zoekDocument.KorteNaam = message.Data.KorteNaam;
+        zoekDocument.Status = VerenigingStatus.Actief;
+        zoekDocument.Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray();
+        zoekDocument.Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly);
+        zoekDocument.Einddatum = null;
+        zoekDocument.Doelgroep = Map(message.Data.Doelgroep, message.VCode);
+        zoekDocument.IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom;
+
+        zoekDocument.HoofdactiviteitenVerenigingsloket = message
+            .Data.HoofdactiviteitenVerenigingsloket.Select(
+                hoofdactiviteitVerenigingsloket => new VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket
+                {
+                    JsonLdMetadata = CreateJsonLdMetadata(
+                        JsonLdType.Hoofdactiviteit,
+                        hoofdactiviteitVerenigingsloket.Code
+                    ),
+                    Code = hoofdactiviteitVerenigingsloket.Code,
+                    Naam = hoofdactiviteitVerenigingsloket.Naam,
+                }
+            )
+            .ToArray();
+
+        zoekDocument.Werkingsgebieden = [];
+        zoekDocument.Lidmaatschappen = [];
+        zoekDocument.CorresponderendeVCodes = [];
+
+        zoekDocument.Sleutels =
+        [
+            new VerenigingZoekDocument.Types.Sleutel
+            {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
+                Bron = Sleutelbron.VR,
+                Waarde = message.Data.VCode,
+                CodeerSysteem = CodeerSysteem.VR,
+                GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
+                {
+                    JsonLdMetadata = CreateJsonLdMetadata(
+                        JsonLdType.GestructureerdeSleutel,
+                        message.VCode,
+                        Sleutelbron.VR.Waarde
+                    ),
+                    Nummer = message.Data.VCode,
+                },
+            },
+        ];
+    }
+
+    public void Handle(
+        EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens> message,
+        VerenigingZoekDocument zoekDocument
+    )
+    {
+        zoekDocument.JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type;
+        zoekDocument.VCode = message.Data.VCode;
+
+        zoekDocument.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
+        {
+            Code = Verenigingstype.VZER.Code,
+            Naam = Verenigingstype.VZER.Naam,
+        };
+
+        zoekDocument.Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
+        {
+            Code = string.Empty,
+            Naam = string.Empty,
+        };
+
+        zoekDocument.Naam = message.Data.Naam;
+        zoekDocument.Roepnaam = null!;
         zoekDocument.KorteNaam = message.Data.KorteNaam;
         zoekDocument.Status = VerenigingStatus.Actief;
         zoekDocument.Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray();

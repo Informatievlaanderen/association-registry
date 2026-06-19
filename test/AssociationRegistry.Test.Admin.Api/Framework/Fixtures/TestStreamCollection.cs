@@ -1,8 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
-using Events;
-using JasperFx.Core;
 using System.Collections;
+using Events;
 
 public sealed record TestStreamCollection : IEnumerable<TestStreamDefinition>
 {
@@ -16,16 +15,14 @@ public sealed record TestStreamCollection : IEnumerable<TestStreamDefinition>
         {
             _streamDefinitions.Remove(streamDefinition);
 
-            events = Array.Empty<IEvent>()
-                          .AddRange(streamDefinition.Events)
-                          .AddRange(events)
-                          .ToArray();
+            events = streamDefinition.Events.Concat(events).ToArray();
         }
 
         _streamDefinitions.Add(new TestStreamDefinition(streamKey, events));
     }
 
     public IEnumerator<TestStreamDefinition> GetEnumerator() => _streamDefinitions.GetEnumerator();
+
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
 

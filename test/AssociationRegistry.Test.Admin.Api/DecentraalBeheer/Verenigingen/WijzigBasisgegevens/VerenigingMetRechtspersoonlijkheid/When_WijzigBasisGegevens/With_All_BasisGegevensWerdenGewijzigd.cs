@@ -40,8 +40,8 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
                 ""minimumleeftijd"": {Request.Doelgroep!.Minimumleeftijd!},
                 ""maximumleeftijd"": {Request.Doelgroep!.Maximumleeftijd!}
             }},
-            ""hoofdactiviteitenVerenigingsloket"":[{Request.HoofdactiviteitenVerenigingsloket!.Select(h => $@"""{h}""").Join(",")}],
-            ""werkingsgebieden"":[{Request.Werkingsgebieden!.Select(h => $@"""{h}""").Join(",")}]
+            ""hoofdactiviteitenVerenigingsloket"":[{string.Join(",", Request.HoofdactiviteitenVerenigingsloket!.Select(h => $@"""{h}"""))}],
+            ""werkingsgebieden"":[{string.Join(",", Request.Werkingsgebieden!.Select(h => $@"""{h}"""))}]
             }}";
 
         Response = fixture

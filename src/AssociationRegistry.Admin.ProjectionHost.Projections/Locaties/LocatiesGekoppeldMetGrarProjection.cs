@@ -12,7 +12,7 @@ using Schema.Detail;
 using Schema.Locaties;
 using IEvent = JasperFx.Events.IEvent;
 
-public class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieLookupDocument, string>
+public partial class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieLookupDocument, string>
 {
     public static readonly ShardName ShardName = new("beheer.postgres.locatiesgekoppeldmetgrar");
 
@@ -27,26 +27,7 @@ public class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieL
         Options.DeleteViewTypeOnTeardown<LocatieLookupDocument>();
 
         Identity<AdresWerdOvergenomenUitAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x => new LocatieLookupDocument
-        {
-            AdresPuri = x.AdresId.Bronwaarde,
-            AdresId = x.AdresId.ToId(),
-            LocatieId = x.LocatieId,
-            VCode = x.VCode,
-        });
-
-        ProjectEvent<AdresWerdOvergenomenUitAdressenregister>((doc, e) =>
-        {
-            doc.AdresPuri = e.AdresId.Bronwaarde;
-            doc.AdresId = e.AdresId.ToId();
-        });
-
         Identity<AdresWerdGewijzigdInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        ProjectEvent<AdresWerdGewijzigdInAdressenregister>((doc, @event) =>
-        {
-            doc.AdresPuri = @event.AdresId.Bronwaarde;
-            doc.AdresId = new Uri(@event.AdresId.Bronwaarde).Segments[^1].TrimEnd('/');
-        });
 
         Identity<LocatieWerdVerwijderd>(x => $"{x.VCode}-{x.Locatie.LocatieId}");
         DeleteEvent<LocatieWerdVerwijderd>();
@@ -66,6 +47,27 @@ public class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieL
         CustomGrouping(new LocatieLookupGrouper(logger));
         DeleteEvent<VerenigingWerdVerwijderd>();
     }
+
+    public LocatieLookupDocument Create(AdresWerdOvergenomenUitAdressenregister @event) =>
+        new()
+        {
+            AdresPuri = @event.AdresId.Bronwaarde,
+            AdresId = @event.AdresId.ToId(),
+            LocatieId = @event.LocatieId,
+            VCode = @event.VCode,
+        };
+
+    public void Apply(LocatieLookupDocument doc, AdresWerdOvergenomenUitAdressenregister @event)
+    {
+        doc.AdresPuri = @event.AdresId.Bronwaarde;
+        doc.AdresId = @event.AdresId.ToId();
+    }
+
+    public void Apply(LocatieLookupDocument doc, AdresWerdGewijzigdInAdressenregister @event)
+    {
+        doc.AdresPuri = @event.AdresId.Bronwaarde;
+        doc.AdresId = new Uri(@event.AdresId.Bronwaarde).Segments[^1].TrimEnd('/');
+    }
 }
 
 public class LocatieLookupGrouper : IAggregateGrouper<string>
@@ -77,11 +79,9 @@ public class LocatieLookupGrouper : IAggregateGrouper<string>
         _logger = logger;
     }
 
-    public async Task Group(IQuerySession session, IEnumerable<IEvent> events, IEventGrouping<string> grouping)
+    public async Task Group(IQuerySession session, IReadOnlyList<IEvent> events, IEventGrouping<string> grouping)
     {
-        var verwijderdEvents = events
-                              .OfType<IEvent<VerenigingWerdVerwijderd>>()
-                              .ToList();
+        var verwijderdEvents = events.OfType<IEvent<VerenigingWerdVerwijderd>>().ToList();
 
         if (!verwijderdEvents.Any())
             return;
@@ -91,13 +91,9 @@ public class LocatieLookupGrouper : IAggregateGrouper<string>
             _logger.LogInformation($"[{verwijderd.StreamKey}]\tFound Verwijderd event with id {verwijderd.Sequence}");
         }
 
-        var vCodes = verwijderdEvents
-                    .Select(e => e.Data.VCode)
-                    .ToList();
+        var vCodes = verwijderdEvents.Select(e => e.Data.VCode).ToList();
 
-        var result = await session.Query<LocatieLookupDocument>()
-                                  .Where(x => vCodes.Contains(x.VCode))
-                                  .ToListAsync();
+        var result = await session.Query<LocatieLookupDocument>().Where(x => vCodes.Contains(x.VCode)).ToListAsync();
 
         foreach (var verwijderd in verwijderdEvents)
         {
@@ -110,7 +106,8 @@ public class LocatieLookupGrouper : IAggregateGrouper<string>
             grouping.AddEvent(locatieLookupDocument.Id, verwijderd);
 
             _logger.LogInformation(
-                $"[{verwijderd.StreamKey}]\tAdding event {verwijderd.Sequence} to lookup document {locatieLookupDocument.Id}");
+                $"[{verwijderd.StreamKey}]\tAdding event {verwijderd.Sequence} to lookup document {locatieLookupDocument.Id}"
+            );
         }
     }
 }

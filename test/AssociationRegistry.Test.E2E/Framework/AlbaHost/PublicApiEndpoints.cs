@@ -208,6 +208,15 @@ public static class PublicApiEndpoints
         var client = source.Server.CreateClient();
         var response = await client.GetAsync($"/v1/verenigingen/detail/all");
 
+        if (response.Headers.Location is null)
+        {
+            var body = await response.Content.ReadAsStringAsync();
+
+            throw new InvalidOperationException(
+                $"Detail all response did not contain a Location header. Status: {(int)response.StatusCode} {response.StatusCode}. Body: {body}"
+            );
+        }
+
         return response.Headers.Location;
     }
 }

@@ -13,16 +13,14 @@ public class LocatieWerdGewijzigdEventsScenario : ScenarioBase
     public LocatieWerdGewijzigdEventsScenario()
     {
         FeitelijkeVerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
-        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            AutoFixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
 
         _locatieWerdToegevoegd = AutoFixture.Create<LocatieWerdToegevoegd>();
 
         LocatieWerdGewijzigd = AutoFixture.Create<LocatieWerdGewijzigd>() with
         {
-            Locatie = _locatieWerdToegevoegd.Locatie with
-            {
-                Naam = "Nieuwe naam",
-            },
+            Locatie = _locatieWerdToegevoegd.Locatie with { Naam = "Nieuwe naam" },
         };
     }
 
@@ -32,16 +30,23 @@ public class LocatieWerdGewijzigdEventsScenario : ScenarioBase
     [
         new(FeitelijkeVerenigingWerdGeregistreerd.VCode, FeitelijkeVerenigingWerdGeregistreerd),
         new(FeitelijkeVerenigingWerdGeregistreerd.VCode, GetEvents(FeitelijkeVerenigingWerdGeregistreerd.VCode)),
-        new(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
-            GetEvents(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode)),
+            new(
+                VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                [
+                    VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+                    .. GetEvents(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode),
+                ]
+            ),
     ];
 
     private IEvent[] GetEvents(string vCode)
     {
-
         return
         [
-            AutoFixture.Create<NaamWerdGewijzigd>() with { VCode = vCode },
+            AutoFixture.Create<NaamWerdGewijzigd>() with
+            {
+                VCode = vCode,
+            },
             _locatieWerdToegevoegd,
             AutoFixture.Create<LocatieWerdToegevoegd>(),
             LocatieWerdGewijzigd,

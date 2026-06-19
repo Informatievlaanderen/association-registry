@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
-    With_Kbo_Nummer_For_Unsupported_Organisaties;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Unsupported_Organisaties;
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using Marten;
 using Xunit;
 
 [Collection(nameof(AdminApiCollection))]
@@ -14,20 +14,23 @@ public abstract class With_KboNummer_For_Unsupported_Organisatie
 
     public With_KboNummer_For_Unsupported_Organisatie(
         EventsInDbScenariosFixture fixture,
-        RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVereniginMetRechtspersoonlijkheidSetup)
+        RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVereniginMetRechtspersoonlijkheidSetup
+    )
     {
         _fixture = fixture;
         RegistreerVereniginMetRechtspersoonlijkheidSetup = registreerVereniginMetRechtspersoonlijkheidSetup;
     }
 
     [Fact]
-    public void Then_it_saves_no_events()
+    public async ValueTask Then_it_saves_no_events()
     {
-        using var session = _fixture.DocumentStore
-                                    .LightweightSession();
+        await using var session = _fixture.DocumentStore.LightweightSession();
 
-        session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+        var events = await session
+            .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                .Where(e => e.KboNummer == RegistreerVereniginMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer)
-               .Should().BeNullOrEmpty();
+            .ToListAsync();
+
+        events.Should().BeNullOrEmpty();
     }
 }

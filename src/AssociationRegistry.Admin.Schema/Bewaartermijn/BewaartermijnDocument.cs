@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Schema.Bewaartermijn;
 
+using JasperFx;
 using Marten.Schema;
 using NodaTime;
 

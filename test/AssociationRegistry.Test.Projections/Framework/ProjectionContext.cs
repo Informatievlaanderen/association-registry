@@ -7,6 +7,7 @@ using Admin.ProjectionHost.Projections.Search;
 using Elastic.Clients.Elasticsearch;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
+using JasperFx.Events.Daemon;
 using Marten;
 using MartenDb.Logging;
 using MartenDb.Subscriptions;
@@ -72,6 +73,8 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                 },
                 Configuration.GetElasticSearchOptionsSection()
             );
+
+            opts.Projections.AsyncMode = DaemonMode.Solo;
         });
 
         await adminStore.Advanced.Clean.DeleteAllEventDataAsync();
@@ -107,6 +110,8 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                 true,
                 Configuration.GetElasticSearchOptionsSection()
             );
+
+            opts.Projections.AsyncMode = DaemonMode.Solo;
         });
 
         await publicStore.Advanced.Clean.DeleteAllEventDataAsync();
@@ -128,6 +133,8 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                 NullLogger<SecureMartenLogger>.Instance,
                 true
             );
+
+            opts.Projections.AsyncMode = DaemonMode.Solo;
         });
 
         await acmStore.Advanced.Clean.DeleteAllEventDataAsync();
@@ -160,11 +167,46 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
     public async Task SaveAsync(EventsPerVCode[] events, IDocumentSession session)
     {
+        await DeleteAllEventDataAsync();
+
+        var startedStreams = new HashSet<string>();
+
         foreach (var eventsPerVCode in events)
         {
+            if (startedStreams.Add(eventsPerVCode.VCode))
+            {
+                session.Events.StartStream(streamKey: eventsPerVCode.VCode, events: eventsPerVCode.Events);
+            }
+            else
+        {
             session.Events.Append(eventsPerVCode.VCode, eventsPerVCode.Events);
+            }
+
             await session.SaveChangesAsync();
         }
+    }
+
+    private async Task DeleteAllEventDataAsync()
+    {
+        var schema = Configuration.GetPostgreSqlOptionsSection().Schema ?? "admin";
+
+        await using var connection = new NpgsqlConnection(GetConnectionString(Configuration, RootDatabase));
+        await connection.OpenAsync();
+
+        await using var cmd = connection.CreateCommand();
+        cmd.CommandText = $"""
+            DO $$ BEGIN
+            ALTER SEQUENCE IF EXISTS {schema}.mt_events_sequence RESTART WITH 1;
+            IF EXISTS(SELECT * FROM information_schema.tables WHERE table_name = 'mt_events' AND table_schema = '{schema}')
+            THEN TRUNCATE TABLE {schema}.mt_events CASCADE; END IF;
+            IF EXISTS(SELECT * FROM information_schema.tables WHERE table_name = 'mt_streams' AND table_schema = '{schema}')
+            THEN TRUNCATE TABLE {schema}.mt_streams CASCADE; END IF;
+            IF EXISTS(SELECT * FROM information_schema.tables WHERE table_name = 'mt_event_progression' AND table_schema = '{schema}')
+            THEN DELETE FROM {schema}.mt_event_progression; END IF;
+            END; $$;
+            """;
+
+        await cmd.ExecuteNonQueryAsync();
     }
 
     private static async Task DeleteIndicesIfExists(ElasticsearchClient client, params string[] indices)

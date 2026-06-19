@@ -180,6 +180,9 @@ public class EventStore : IEventStore
 
     private StreamAction AppendEvents(string aggregateId, IReadOnlyCollection<IEvent> events, long? expectedVersion)
     {
+        if (expectedVersion == ExpectedVersion.NewStream)
+            return _session.Events.StartStream(streamKey: aggregateId, events: events);
+
         if (expectedVersion is not null)
             return _session.Events.Append(stream: aggregateId, expectedVersion.Value + events.Count, events: events);
 

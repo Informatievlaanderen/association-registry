@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Grar.NutsLau;
 using Exceptions;
+using Grar.NutsLau;
 using Marten;
 
 public interface IWerkingsgebiedenService
@@ -21,7 +21,7 @@ public class WerkingsgebiedenService : IWerkingsgebiedenService
 
     public IReadOnlyList<Werkingsgebied> AllWithNVT()
     {
-        var postalNutsLauInfos = _session.Query<PostalNutsLauInfo>().ToList();
+        var postalNutsLauInfos = _session.Query<PostalNutsLauInfo>().ToListAsync().GetAwaiter().GetResult();
 
         return MogelijkeWerkingsgebieden.FromPostalNutsLauInfo(postalNutsLauInfos);
     }
@@ -30,8 +30,7 @@ public class WerkingsgebiedenService : IWerkingsgebiedenService
     {
         var all = AllWithNVT();
 
-        var match = all.SingleOrDefault(w =>
-                                            string.Equals(w.Code, code, StringComparison.InvariantCultureIgnoreCase));
+        var match = all.SingleOrDefault(w => string.Equals(w.Code, code, StringComparison.InvariantCultureIgnoreCase));
 
         return match ?? throw new WerkingsgebiedCodeIsNietGekend(code);
     }

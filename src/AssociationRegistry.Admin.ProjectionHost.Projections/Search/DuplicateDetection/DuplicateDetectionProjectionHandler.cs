@@ -34,7 +34,45 @@ public class DuplicateDetectionProjectionHandler
     }
 
     public void Handle(
+        EventEnvelope<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens> message,
+        DuplicateDetectionDocument document
+    )
+    {
+        document.VCode = message.Data.VCode;
+        document.VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code;
+        document.VerenigingssubtypeCode = null;
+        document.Naam = message.Data.Naam;
+        document.KorteNaam = message.Data.KorteNaam;
+        document.Locaties = message.Data.Locaties.Select(Map).ToArray();
+        document.HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(
+            message.Data.HoofdactiviteitenVerenigingsloket
+        );
+        document.IsGestopt = false;
+        document.IsVerwijderd = false;
+        document.IsDubbel = false;
+    }
+
+    public void Handle(
         EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message,
+        DuplicateDetectionDocument document
+    )
+    {
+        document.VCode = message.Data.VCode;
+        document.VerenigingsTypeCode = Verenigingstype.VZER.Code;
+        document.VerenigingssubtypeCode = VerenigingssubtypeCode.Default.Code;
+        document.Naam = message.Data.Naam;
+        document.KorteNaam = message.Data.KorteNaam;
+        document.Locaties = message.Data.Locaties.Select(Map).ToArray();
+        document.HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(
+            message.Data.HoofdactiviteitenVerenigingsloket
+        );
+        document.IsGestopt = false;
+        document.IsVerwijderd = false;
+        document.IsDubbel = false;
+    }
+
+    public void Handle(
+        EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens> message,
         DuplicateDetectionDocument document
     )
     {

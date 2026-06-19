@@ -10,8 +10,6 @@ using Common.Database;
 using Helpers;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
-using JasperFx.CodeGeneration;
-using JasperFx.Core;
 using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
@@ -44,60 +42,62 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
         _configuration = ConfigurationHelper.GetConfiguration();
 
         _postgreSqlOptions = _configuration
-                            .GetSection(PostgreSqlOptionsSection.SectionName)
-                            .Get<PostgreSqlOptionsSection>(); // In your tests, you would most likely use the IHost for your
+            .GetSection(PostgreSqlOptionsSection.SectionName)
+            .Get<PostgreSqlOptionsSection>(); // In your tests, you would most likely use the IHost for your
 
-        Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
-                        .ConfigureServices(services =>
-                         {
-                             var martenConfig = services.AddMarten(
-                                                             serviceProvider =>
-                                                             {
-                                                                 var opts = new StoreOptions();
+        Host = Microsoft
+            .Extensions.Hosting.Host.CreateDefaultBuilder()
+            .ConfigureServices(services =>
+            {
+                var martenConfig = services
+                    .AddMarten(serviceProvider =>
+                    {
+                        var opts = new StoreOptions();
 
-                                                                 opts.Connection(_postgreSqlOptions.GetConnectionString());
+                        opts.Connection(_postgreSqlOptions.GetConnectionString());
 
-                                                                 opts.Events.StreamIdentity = StreamIdentity.AsString;
+                        opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                                                                 opts.Events.MetadataConfig.EnableAll();
+                        opts.Events.MetadataConfig.EnableAll();
 
-                                                                 opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
+                        opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 
-                                                                 opts.Projections.Add(
-                                                                     new LocatieZonderAdresMatchProjection(
-                                                                         serviceProvider
-                                                                            .GetRequiredService<
-                                                                                 ILogger<LocatieZonderAdresMatchProjection>>()),
-                                                                     ProjectionLifecycle.Async);
+                        opts.Projections.Add(
+                            new LocatieZonderAdresMatchProjection(
+                                serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>()
+                            ),
+                            ProjectionLifecycle.Async
+                        );
 
-                                                                 opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
+                        opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
 
-                                                                 opts.Schema.For<LocatieZonderAdresMatchDocument>()
-                                                                     .UseNumericRevisions(true)
-                                                                     .UseOptimisticConcurrency(false);
+                        opts.Schema.For<LocatieZonderAdresMatchDocument>()
+                            .UseNumericRevisions(true)
+                            .UseOptimisticConcurrency(false);
 
-                                                                 opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+                        opts.AutoCreateSchemaObjects = AutoCreate.All;
 
-                                                                 opts.AutoCreateSchemaObjects = AutoCreate.All;
+                        return opts;
+                    })
+                    // Using Solo in tests will help it start up a little quicker
+                    .AddAsyncDaemon(DaemonMode.Solo);
 
-                                                                 return opts;
-                                                             })
-
-                                                         // Using Solo in tests will help it start up a little quicker
-                                                        .AddAsyncDaemon(DaemonMode.Solo);
-
-                             martenConfig.ApplyAllDatabaseChangesOnStartup();
-                         })
-                        .Build();
+                martenConfig.ApplyAllDatabaseChangesOnStartup();
+            })
+            .Build();
 
         DocumentStore = Host.Services.GetRequiredService<IDocumentStore>();
     }
 
-    protected void Stream(string vCode, IReadOnlyCollection<IEvent> events) => _internalStreamCollection.Add(vCode, events.ToArray());
+    protected void Stream(string vCode, IReadOnlyCollection<IEvent> events) =>
+        _internalStreamCollection.Add(vCode, events.ToArray());
 
     public async ValueTask InitializeAsync()
     {
-        await WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetConnectionString(_configuration, RootDatabase));
+        await WaitFor.PostGreSQLToBecomeAvailable(
+            new NullLogger<AdminApiFixture>(),
+            GetConnectionString(_configuration, RootDatabase)
+        );
 
         CreateDatabaseFromTemplate();
 
@@ -112,7 +112,7 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
 
         await session.SaveChangesAsync();
 
-        await DocumentStore.WaitForNonStaleProjectionDataAsync(5.Seconds());
+        await DocumentStore.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(5));
     }
 
     public async ValueTask DisposeAsync()
@@ -123,14 +123,15 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
     private void CreateDatabaseFromTemplate()
     {
         DatabaseTemplateHelper.CreateDatabaseFromTemplate(
-            _configuration, 
-            _postgreSqlOptions.Database!, 
-            new NullLogger<MultiStreamTestFixture>());
+            _configuration,
+            _postgreSqlOptions.Database!,
+            new NullLogger<MultiStreamTestFixture>()
+        );
     }
 
-    private static string GetConnectionString(IConfiguration configurationRoot, string database)
-        => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
-           $"database={database};" +
-           $"password={configurationRoot["PostgreSQLOptions:password"]};" +
-           $"username={configurationRoot["PostgreSQLOptions:username"]}";
+    private static string GetConnectionString(IConfiguration configurationRoot, string database) =>
+        $"host={configurationRoot["PostgreSQLOptions:host"]};"
+        + $"database={database};"
+        + $"password={configurationRoot["PostgreSQLOptions:password"]};"
+        + $"username={configurationRoot["PostgreSQLOptions:username"]}";
 }

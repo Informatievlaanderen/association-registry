@@ -6,6 +6,7 @@ using JasperFx;
 using JasperFx.Events;
 using Marten;
 using Marten.Events;
+using Marten.Newtonsoft;
 using Marten.Services;
 using Newtonsoft.Json;
 using Weasel.Core;
@@ -16,10 +17,9 @@ public static class TestDocumentStoreFactory
     {
         var documentStore = DocumentStore.For(options =>
         {
-            options.Connection("host=127.0.0.1:5432;" +
-                               "database=verenigingsregister;" +
-                               "password=root;" +
-                               "username=root");
+            options.Connection(
+                "host=127.0.0.1:5432;" + "database=verenigingsregister;" + "password=root;" + "username=root"
+            );
 
             options.Events.StreamIdentity = StreamIdentity.AsString;
 
@@ -45,10 +45,7 @@ public static class TestDocumentStoreFactory
     {
         var jsonNetSerializer = new JsonNetSerializer();
 
-        jsonNetSerializer.Configure(
-            s =>
-            {
-            });
+        jsonNetSerializer.Configure(s => { });
 
         return jsonNetSerializer;
     }

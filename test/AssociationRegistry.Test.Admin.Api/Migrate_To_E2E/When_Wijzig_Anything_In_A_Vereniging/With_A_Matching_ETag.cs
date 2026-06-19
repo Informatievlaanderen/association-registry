@@ -8,6 +8,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Xunit;
@@ -74,13 +75,13 @@ public class With_A_Matching_ETag
     }
 
     [Fact]
-    public void Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
-        using var session = _fixture.DocumentStore.LightweightSession();
+        await using var session = _fixture.DocumentStore.LightweightSession();
 
-        var savedEvents = session
-            .Events.QueryRawEventDataOnly<NaamWerdGewijzigd>()
-            .SingleOrDefault(@event => @event.VCode == VCode);
+        var savedEvents = (
+            await session.Events.QueryRawEventDataOnly<NaamWerdGewijzigd>().ToListAsync()
+        ).SingleOrDefault(@event => @event.VCode == VCode);
 
         savedEvents.Should().NotBeNull();
         savedEvents!.Naam.Should().Be(Request.Naam);

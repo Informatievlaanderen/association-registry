@@ -7,8 +7,6 @@ using Framework;
 using Microsoft.Extensions.Logging;
 using Validation;
 
-
-
 public class MagdaGeefPersoonService : IMagdaGeefPersoonService
 {
     private readonly IMagdaRegistreerInschrijvingValidator _magdaRegistreerInschrijvingValidator;
@@ -16,7 +14,12 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
     private readonly ILogger<MagdaGeefPersoonService> _logger;
     private readonly IMagdaClient _magdaClient;
 
-    public MagdaGeefPersoonService(IMagdaClient magdaClient, IMagdaRegistreerInschrijvingValidator magdaRegistreerInschrijvingValidator, IMagdaGeefPersoonValidator magdaGeefPersoonValidator, ILogger<MagdaGeefPersoonService> logger)
+    public MagdaGeefPersoonService(
+        IMagdaClient magdaClient,
+        IMagdaRegistreerInschrijvingValidator magdaRegistreerInschrijvingValidator,
+        IMagdaGeefPersoonValidator magdaGeefPersoonValidator,
+        ILogger<MagdaGeefPersoonService> logger
+    )
     {
         _magdaClient = magdaClient;
         _magdaRegistreerInschrijvingValidator = magdaRegistreerInschrijvingValidator;
@@ -24,31 +27,45 @@ public class MagdaGeefPersoonService : IMagdaGeefPersoonService
         _logger = logger;
     }
 
-    public async Task<PersonenUitKsz> GeefPersonen(GeefPersoonRequest[] vertegenwoordigers, CommandMetadata metadata, CancellationToken cancellationToken)
+    public async Task<PersonenUitKsz> GeefPersonen(
+        GeefPersoonRequest[] vertegenwoordigers,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken
+    )
     {
-        var tasks = vertegenwoordigers
-                   .Select(v => GeefPersoon(v, metadata, cancellationToken))
-                   .ToArray();
+        var personen = new List<PersoonUitKsz>();
 
-        return new PersonenUitKsz(await Task.WhenAll(tasks));
+        foreach (var vertegenwoordiger in vertegenwoordigers)
+        {
+            personen.Add(await GeefPersoon(vertegenwoordiger, metadata, cancellationToken));
+        }
+
+        return new PersonenUitKsz(personen.ToArray());
     }
 
-    public async Task<PersoonUitKsz> GeefPersoon(GeefPersoonRequest vertegenwoordiger, CommandMetadata metadata, CancellationToken cancellationToken)
+    public async Task<PersoonUitKsz> GeefPersoon(
+        GeefPersoonRequest vertegenwoordiger,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken
+    )
     {
         await _magdaClient.RegistreerInschrijvingPersoon(
             vertegenwoordiger.Insz,
             AanroependeFunctie.RegistreerVzer,
             metadata,
-            cancellationToken);
+            cancellationToken
+        );
 
         var persoon = await _magdaClient.GeefPersoon(
             vertegenwoordiger.Insz,
             AanroependeFunctie.RegistreerVzer,
             metadata,
-            cancellationToken);
+            cancellationToken
+        );
 
         return new PersoonUitKsz(
             vertegenwoordiger.Insz,
-            persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Inhoud.Persoon.Overlijden != null);
+            persoon.Body.GeefPersoonResponse.Repliek.Antwoorden.Antwoord.Inhoud.Persoon.Overlijden != null
+        );
     }
 }

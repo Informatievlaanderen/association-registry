@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Schema.Vertegenwoordiger;
 
+using JasperFx;
 using Marten.Schema;
 
 public record VertegenwoordigersPerVCodeDocument()
 {
-    [property: Identity] public string VCode { get; set; }
+    [property: Identity]
+    public string VCode { get; set; }
     public VertegenwoordigerData[] VertegenwoordigersData { get; set; }
 
     public bool VerenigingIsVerwijderd { get; set; } = false;

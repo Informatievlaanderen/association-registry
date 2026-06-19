@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using global::AutoFixture;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using EventStore;
-using global::AutoFixture;
 using MartenDb.Store;
 
 public class V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum : IEventsInDbScenario
@@ -22,17 +22,15 @@ public class V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum : IE
         {
             VCode = VCode,
             Naam = Naam,
-            Contactgegevens = fixture.CreateMany<Registratiedata.Contactgegeven>().Select(
-                (contactgegeven, w) => contactgegeven with
-                {
-                    IsPrimair = w == 0,
-                }
-            ).ToArray(),
-            Vertegenwoordigers = fixture.CreateMany<Registratiedata.Vertegenwoordiger>().Select(
-                (vertegenwoordiger, i) => vertegenwoordiger with
-                {
-                    IsPrimair = i == 0,
-                }).ToArray(),
+            Startdatum = new DateOnly(2020, 1, 1),
+            Contactgegevens = fixture
+                .CreateMany<Registratiedata.Contactgegeven>()
+                .Select((contactgegeven, w) => contactgegeven with { IsPrimair = w == 0 })
+                .ToArray(),
+            Vertegenwoordigers = fixture
+                .CreateMany<Registratiedata.Vertegenwoordiger>()
+                .Select((vertegenwoordiger, i) => vertegenwoordiger with { IsPrimair = i == 0 })
+                .ToArray(),
         };
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -42,13 +40,9 @@ public class V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum : IE
     public StreamActionResult Result { get; set; } = null!;
     public string Naam { get; set; }
 
-    public DateOnly? Startdatum
-        => FeitelijkeVerenigingWerdGeregistreerd.Startdatum;
+    public DateOnly? Startdatum => FeitelijkeVerenigingWerdGeregistreerd.Startdatum;
 
-    public IEvent[] GetEvents()
-        => new IEvent[]
-            { FeitelijkeVerenigingWerdGeregistreerd };
+    public IEvent[] GetEvents() => new IEvent[] { FeitelijkeVerenigingWerdGeregistreerd };
 
-    public CommandMetadata GetCommandMetadata()
-        => Metadata;
+    public CommandMetadata GetCommandMetadata() => Metadata;
 }

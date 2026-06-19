@@ -1,6 +1,6 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
-    With_Kbo_Nummer_For_Supported_Rechtsvorm;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Supported_Rechtsvorm;
 
+using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
@@ -10,7 +10,6 @@ using Integrations.Magda.Shared.Models;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using System.Net;
 using Xunit;
 
 [Collection(nameof(AdminApiCollection))]
@@ -21,7 +20,8 @@ public abstract class With_KboNummer_For_Supported_Vereniging
 
     public With_KboNummer_For_Supported_Vereniging(
         EventsInDbScenariosFixture fixture,
-        RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVerenigingMetRechtspersoonlijkheidSetup)
+        RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVerenigingMetRechtspersoonlijkheidSetup
+    )
     {
         _fixture = fixture;
         RegistreerVerenigingMetRechtspersoonlijkheidSetup = registreerVerenigingMetRechtspersoonlijkheidSetup;
@@ -38,17 +38,20 @@ public abstract class With_KboNummer_For_Supported_Vereniging
     {
         RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.Should().ContainKey(HeaderNames.Location);
 
-        RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.Location!.OriginalString.Should()
-                                                         .StartWith(
-                                                              $"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup
+            .Response.Headers.Location!.OriginalString.Should()
+            .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]
     public void Then_it_returns_a_sequence_header()
     {
-        RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup
+            .Response.Headers.Should()
+            .ContainKey(WellknownHeaderNames.Sequence);
 
-        var sequenceValues = RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.GetValues(WellknownHeaderNames.Sequence)
+        var sequenceValues = RegistreerVerenigingMetRechtspersoonlijkheidSetup
+            .Response.Headers.GetValues(WellknownHeaderNames.Sequence)
                                                                               .ToList();
 
         sequenceValues.Should().HaveCount(expected: 1);
@@ -59,9 +62,10 @@ public abstract class With_KboNummer_For_Supported_Vereniging
     [Fact]
     public async ValueTask Then_it_stores_a_call_reference()
     {
-        var hasCorrelationIdHeader =
-            RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.TryGetValues(
-                WellknownHeaderNames.CorrelationId, out var correlationIdValues);
+        var hasCorrelationIdHeader = RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.TryGetValues(
+            WellknownHeaderNames.CorrelationId,
+            out var correlationIdValues
+        );
 
         hasCorrelationIdHeader.Should().BeTrue();
 
@@ -76,7 +80,9 @@ public abstract class With_KboNummer_For_Supported_Vereniging
 
         callReferences.Should().NotBeNull();
 
-        callReferences.Should().BeEquivalentTo(
+        callReferences
+            .Should()
+            .BeEquivalentTo(
             new List<MagdaCallReference>
             {
                 new()
@@ -97,9 +103,9 @@ public abstract class With_KboNummer_For_Supported_Vereniging
                     OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
                     Initiator = "OVO000001",
                 },
-
             },
-            config: options => options.Excluding(x => x.CalledAt).Excluding(x => x.Reference));
+                config: options => options.Excluding(x => x.CalledAt).Excluding(x => x.Reference)
+            );
 
         foreach (var magdaCallReference in callReferences)
         {
@@ -109,17 +115,18 @@ public abstract class With_KboNummer_For_Supported_Vereniging
     }
 
     [Fact]
-    public void Then_it_saves_the_vereniging_werd_ingeschreven_op_wijzigingen_uit_kbo_event()
+    public async ValueTask Then_it_saves_the_vereniging_werd_ingeschreven_op_wijzigingen_uit_kbo_event()
     {
-        using var session = _fixture
-                           .DocumentStore
-                           .LightweightSession();
+        await using var session = _fixture.DocumentStore.LightweightSession();
 
-        session
-           .Events
-           .QueryRawEventDataOnly<VerenigingWerdIngeschrevenOpWijzigingenUitKbo>()
-           .Should().ContainSingle(
-                e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup
-                                   .UitKboRequest.KboNummer);
+        var events = await session
+            .Events.QueryRawEventDataOnly<VerenigingWerdIngeschrevenOpWijzigingenUitKbo>()
+            .ToListAsync();
+
+        events
+            .Should()
+            .ContainSingle(e =>
+                e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer
+            );
     }
 }

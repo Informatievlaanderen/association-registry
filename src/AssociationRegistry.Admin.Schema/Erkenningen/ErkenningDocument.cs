@@ -1,10 +1,12 @@
 namespace AssociationRegistry.Admin.Schema.Erkenningen;
 
+using JasperFx;
 using Marten.Schema;
 
 public class ErkenningDocument
 {
-    [Identity] public string Id { get; set; } = null!;
+    [Identity]
+    public string Id { get; set; } = null!;
     public string VCode { get; set; } = null!;
     public int ErkenningId { get; set; }
     public string? Status { get; set; }

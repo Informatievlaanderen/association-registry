@@ -11,7 +11,7 @@
       "*, AssociationRegistry.Integrations.Magda.Onderneming.GeefOndernemingVKBO"
     ],
     "outputFile": "Onderneming.GeefOndernemingVKBO",
-    "targetFramework": "net9.0",
+    "targetFramework": "net10.0",
     "typeReuseMode": "All"
   }
 }

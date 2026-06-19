@@ -73,8 +73,10 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
             switch (@event.EventType.Name)
             {
                 case nameof(FeitelijkeVerenigingWerdGeregistreerd):
+                case nameof(FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens):
                 case nameof(DoelgroepWerdGewijzigd):
                 case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd):
+                case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens):
                 case nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid):
                 case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
                 case nameof(WerkingsgebiedenWerdenNietBepaald):
@@ -151,26 +153,26 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
         var bulkAll = await IndexDocumentsAsync(documentsPerVCode.Values);
     }
 
-    private async Task<bool> IndexDocumentsAsync<T>(IEnumerable<T> documents)
-        where T : class
+    private async Task<bool> IndexDocumentsAsync(IEnumerable<VerenigingZoekDocument> documents)
     {
-        var response = await _elasticClient.BulkAsync(b =>
-            b.Index(_options.Indices.Verenigingen).IndexMany(documents).Refresh(Refresh.WaitFor)
+        var indexedDocuments = documents.ToArray();
+
+        foreach (var document in indexedDocuments)
+        {
+            var response = await _elasticClient.IndexAsync(
+                document,
+                d => d.Index(_options.Indices.Verenigingen).Id(document.VCode).Refresh(Refresh.WaitFor)
         );
 
         if (!response.IsValidResponse)
         {
-            var errorItems = response.Items.Where(i => i.Error is not null);
+                _logger.LogError("Failed to index document {Id}: {Error}", response.Id, response.DebugInformation);
 
-            foreach (var item in errorItems)
-            {
-                _logger.LogError("Failed to index document {Id}: {Error}", item.Id, item.Error?.Reason);
+                throw new IndexDocumentFailed(response.DebugInformation);
             }
-
-            throw new BulkAllFailed(errorItems.Select(x => x.Error.Reason).ToArray(), response.DebugInformation);
         }
 
-        _logger.LogInformation($"Successfully indexed {response.Items.Count} documents");
+        _logger.LogInformation("Successfully indexed {DocumentCount} documents", indexedDocuments.Length);
 
         return true;
     }

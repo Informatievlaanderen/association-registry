@@ -37,58 +37,14 @@ public static class MartenExtensions
 
                 var querySessionFunc = () => serviceProvider.GetRequiredService<IDocumentStore>().QuerySession();
 
-                opts.UsePostgreSqlOptions(postgreSqlOptions)
-                    .AddVCodeSequence()
-                    .ConfigureSerialization()
-                    .SetUpOpenTelemetry(isDevelopment)
-                    .RegisterAllEventTypes()
-                    .RegisterAdminDocumentTypes()
-                    .UpcastEvents(querySessionFunc);
-
-                if (!postgreSqlOptions.IncludeErrorDetail)
-                    opts.Logger(
-                        new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>())
-                    );
-
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-                opts.Events.MetadataConfig.EnableAll();
-                opts.Events.AppendMode = EventAppendMode.Quick;
-
-                opts.AutoCreateSchemaObjects = AutoCreate.None;
-
-                opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
-
-                opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
-
-                opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
-
-                opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
-
-                opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
-
-                opts.Projections.Add(new BeheerKszSyncHistoriekProjection(), ProjectionLifecycle.Async);
-
-                opts.Projections.Add(
-                    new LocatiesGekoppeldMetGrarProjection(NullLogger<LocatiesGekoppeldMetGrarProjection>.Instance),
-                    ProjectionLifecycle.Async
+                return ConfigureStoreOptions(
+                    opts,
+                    postgreSqlOptions,
+                    isDevelopment,
+                    serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>(),
+                    querySessionFunc,
+                    AutoCreate.None
                 );
-
-                opts.Projections.Add(
-                    new LocatieZonderAdresMatchProjection(NullLogger<LocatieZonderAdresMatchProjection>.Instance),
-                    ProjectionLifecycle.Async
-                );
-
-                opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
-
-                opts.Projections.Add(
-                    new VertegenwoordigersPerVCodeProjection(querySessionFunc),
-                    ProjectionLifecycle.Async
-                );
-
-                opts.Projections.Errors.SkipApplyErrors = false;
-                opts.Projections.RebuildErrors.SkipApplyErrors = false;
-
-                return opts;
             })
             .IntegrateWithWolverine(integration =>
             {
@@ -110,6 +66,58 @@ public static class MartenExtensions
         });
 
         return services;
+    }
+
+    public static StoreOptions ConfigureStoreOptions(
+        StoreOptions opts,
+        PostgreSqlOptionsSection postgreSqlOptions,
+        bool isDevelopment,
+        ILogger<SecureMartenLogger> secureMartenLogger,
+        Func<IQuerySession> querySessionFunc,
+        AutoCreate autoCreate
+    )
+    {
+                opts.UsePostgreSqlOptions(postgreSqlOptions)
+                    .AddVCodeSequence()
+                    .ConfigureSerialization()
+                    .SetUpOpenTelemetry(isDevelopment)
+                    .RegisterAllEventTypes()
+                    .RegisterAdminDocumentTypes()
+                    .UpcastEvents(querySessionFunc);
+
+                if (!postgreSqlOptions.IncludeErrorDetail)
+            opts.Logger(new SecureMartenLogger(secureMartenLogger));
+
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+                opts.Events.MetadataConfig.EnableAll();
+                opts.Events.AppendMode = EventAppendMode.Quick;
+
+        opts.AutoCreateSchemaObjects = autoCreate;
+
+                opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerKszSyncHistoriekProjection(), ProjectionLifecycle.Async);
+
+                opts.Projections.Add(
+                    new LocatiesGekoppeldMetGrarProjection(NullLogger<LocatiesGekoppeldMetGrarProjection>.Instance),
+                    ProjectionLifecycle.Async
+                );
+
+                opts.Projections.Add(
+                    new LocatieZonderAdresMatchProjection(NullLogger<LocatieZonderAdresMatchProjection>.Instance),
+                    ProjectionLifecycle.Async
+                );
+
+                opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add(new VertegenwoordigersPerVCodeProjection(querySessionFunc), ProjectionLifecycle.Async);
+
+                opts.Projections.Errors.SkipApplyErrors = false;
+                opts.Projections.RebuildErrors.SkipApplyErrors = false;
+
+                return opts;
     }
 
     public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions) =>

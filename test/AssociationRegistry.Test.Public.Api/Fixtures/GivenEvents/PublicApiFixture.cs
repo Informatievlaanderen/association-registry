@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 using System.Reflection;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
+using AssociationRegistry.Test.Public.Api.Fixtures;
 using Common.Database;
 using Elastic.Clients.Elasticsearch;
 using EventStore;
@@ -10,6 +11,7 @@ using EventStore.ConflictResolution;
 using FluentAssertions;
 using Framework.Helpers;
 using Hosts.Configuration;
+using JasperFx.CommandLine;
 using Marten;
 using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
@@ -23,7 +25,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Npgsql;
-using Oakton;
 using Xunit;
 using IEvent = Events.IEvent;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
@@ -60,7 +61,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     public PublicApiFixture()
     {
-        OaktonEnvironment.AutoStartHost = true;
+        JasperFxEnvironment.AutoStartHost = true;
 
         WaitFor
             .PostGreSQLToBecomeAvailable(
@@ -72,6 +73,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         DropDatabase();
         CreateDatabaseFromTemplate(GetConfiguration());
+        PublicMartenSchemaHelper.ApplyPublicApiMartenSchemaChanges(GetConfiguration());
+        PublicMartenSchemaHelper.ApplyPublicProjectionHostMartenSchemaChanges(GetConfiguration());
 
         _publicApiServer = new WebApplicationFactory<PublicApiProgram>().WithWebHostBuilder(builder =>
         {

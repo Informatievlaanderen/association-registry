@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Schema.Sequence;
 
+using JasperFx;
 using Marten.Metadata;
 using Marten.Schema;
 

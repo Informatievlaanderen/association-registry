@@ -1,13 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Migrate_To_E2E.When_Wijzig_Anything_In_A_Vereniging;
 
+using System.ComponentModel;
+using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using Marten;
 using Microsoft.Net.Http.Headers;
-using System.ComponentModel;
-using System.Net;
 using Xunit;
 
 public sealed class When_WijzigBasisgegevens_With_A_NonMatching_ETag
@@ -18,23 +19,23 @@ public sealed class When_WijzigBasisgegevens_With_A_NonMatching_ETag
 
     private When_WijzigBasisgegevens_With_A_NonMatching_ETag(EventsInDbScenariosFixture fixture)
     {
-        Request = new WijzigBasisgegevensRequest
-        {
-            Naam = "De nieuwe vereniging",
-        };
+        Request = new WijzigBasisgegevensRequest { Naam = "De nieuwe vereniging" };
 
         VCode = fixture.V003FeitelijkeVerenigingWerdGeregistreerdForUseWithNoChanges.VCode;
 
         var jsonBody = $@"{{""naam"":""{Request.Naam}""}}";
 
         var saveVersionResult = fixture.V003FeitelijkeVerenigingWerdGeregistreerdForUseWithNoChanges.Result;
-        Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version - 1).GetAwaiter().GetResult();
+        Response = fixture
+            .DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version - 1)
+            .GetAwaiter()
+            .GetResult();
     }
 
     private static When_WijzigBasisgegevens_With_A_NonMatching_ETag? called;
 
-    public static When_WijzigBasisgegevens_With_A_NonMatching_ETag Called(EventsInDbScenariosFixture fixture)
-        => called ??= new When_WijzigBasisgegevens_With_A_NonMatching_ETag(fixture);
+    public static When_WijzigBasisgegevens_With_A_NonMatching_ETag Called(EventsInDbScenariosFixture fixture) =>
+        called ??= new When_WijzigBasisgegevens_With_A_NonMatching_ETag(fixture);
 }
 
 [Collection(nameof(AdminApiCollection))]
@@ -43,11 +44,9 @@ public class With_A_NonMatching_ETag
 {
     private readonly EventsInDbScenariosFixture _fixture;
 
-    private HttpResponseMessage Response
-        => When_WijzigBasisgegevens_With_A_NonMatching_ETag.Called(_fixture).Response;
+    private HttpResponseMessage Response => When_WijzigBasisgegevens_With_A_NonMatching_ETag.Called(_fixture).Response;
 
-    private string VCode
-        => When_WijzigBasisgegevens_With_A_NonMatching_ETag.Called(_fixture).VCode;
+    private string VCode => When_WijzigBasisgegevens_With_A_NonMatching_ETag.Called(_fixture).VCode;
 
     public With_A_NonMatching_ETag(EventsInDbScenariosFixture fixture)
     {
@@ -73,14 +72,13 @@ public class With_A_NonMatching_ETag
     }
 
     [Fact]
-    public void Then_it_saves_no_events()
+    public async ValueTask Then_it_saves_no_events()
     {
-        using var session = _fixture.DocumentStore
-                                    .LightweightSession();
+        await using var session = _fixture.DocumentStore.LightweightSession();
 
-        var savedEvents = session.Events
-                                 .QueryRawEventDataOnly<NaamWerdGewijzigd>()
-                                 .SingleOrDefault(@event => @event.VCode == VCode);
+        var savedEvents = (
+            await session.Events.QueryRawEventDataOnly<NaamWerdGewijzigd>().ToListAsync()
+        ).SingleOrDefault(@event => @event.VCode == VCode);
 
         savedEvents.Should().BeNull();
     }

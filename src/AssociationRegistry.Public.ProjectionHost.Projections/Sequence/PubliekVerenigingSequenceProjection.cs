@@ -6,7 +6,8 @@ using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
 using Schema.Sequence;
 
-public class PubliekVerenigingSequenceProjection : SingleStreamProjection<PubliekVerenigingSequenceDocument, string>
+public partial class PubliekVerenigingSequenceProjection
+    : SingleStreamProjection<PubliekVerenigingSequenceDocument, string>
 {
     public static readonly ShardName ShardName = new("publiek.postgres.sequence");
 

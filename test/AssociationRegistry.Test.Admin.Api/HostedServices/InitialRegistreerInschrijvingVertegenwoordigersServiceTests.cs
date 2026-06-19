@@ -30,7 +30,9 @@ public class InitialRegistreerInschrijvingVertegenwoordigersServiceTests
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _store = TestDocumentStoreFactory.CreateAsync("InitialRegistreerInschrijvingVertegenwoordigersServiceTests").GetAwaiter()
+        _store = TestDocumentStoreFactory
+            .CreateAsync("InitialRegistreerInschrijvingVertegenwoordigersServiceTests")
+            .GetAwaiter()
                                          .GetResult();
     }
 
@@ -41,13 +43,17 @@ public class InitialRegistreerInschrijvingVertegenwoordigersServiceTests
 
         var query = new Mock<INietKboVerenigingenVCodesQuery>();
 
-        query.Setup(x => x.ExecuteAsync(It.IsAny<CancellationToken>()))
-             .ReturnsAsync(vCodes);
+        query.Setup(x => x.ExecuteAsync(It.IsAny<CancellationToken>())).ReturnsAsync(vCodes);
 
         var martenOutbox = new Mock<IMartenOutbox>();
 
-        martenOutbox.Setup(x => x.SendAsync(It.IsAny<CommandEnvelope<SchrijfVertegenwoordigersInMessage>>(),
-                                            It.IsAny<DeliveryOptions>()))
+        martenOutbox
+            .Setup(x =>
+                x.SendAsync(
+                    It.IsAny<CommandEnvelope<SchrijfVertegenwoordigersInMessage>>(),
+                    It.IsAny<DeliveryOptions>()
+                )
+            )
                     .ThrowsAsync(new Exception());
 
         var services = new ServiceCollection();
@@ -59,13 +65,16 @@ public class InitialRegistreerInschrijvingVertegenwoordigersServiceTests
             serviceProvider.GetRequiredService<IServiceScopeFactory>(),
             store: _store,
             new InitialiseerRegistreerInschrijvingOptions
-                { MigratieId = nameof(Given_It_Throws_An_Exception_In_The_End_Then_No_Initialisation_Record_Is_Saved) },
-            new NullLogger<InitialRegistreerInschrijvingVertegenwoordigersService>());
+            {
+                MigratieId = nameof(Given_It_Throws_An_Exception_In_The_End_Then_No_Initialisation_Record_Is_Saved),
+            },
+            new NullLogger<InitialRegistreerInschrijvingVertegenwoordigersService>()
+        );
 
         try
         {
             var cancellationTokenSource = new CancellationTokenSource();
-            cancellationTokenSource.CancelAfter(7.Seconds());
+            cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(7));
             await sut.StartAsync(cancellationTokenSource.Token);
             await sut.ExecuteTask;
         }
@@ -87,8 +96,7 @@ public class InitialRegistreerInschrijvingVertegenwoordigersServiceTests
 
         var query = new Mock<INietKboVerenigingenVCodesQuery>();
 
-        query.Setup(x => x.ExecuteAsync(It.IsAny<CancellationToken>()))
-             .ReturnsAsync(vCodes);
+        query.Setup(x => x.ExecuteAsync(It.IsAny<CancellationToken>())).ReturnsAsync(vCodes);
 
         var services = new ServiceCollection();
         services.AddScoped(_ => Mock.Of<IMartenOutbox>());
@@ -98,8 +106,12 @@ public class InitialRegistreerInschrijvingVertegenwoordigersServiceTests
         var sut = new InitialRegistreerInschrijvingVertegenwoordigersService(
             serviceProvider.GetRequiredService<IServiceScopeFactory>(),
             store: _store,
-            new InitialiseerRegistreerInschrijvingOptions { MigratieId = nameof(Given_It_Succeeds_A_Initialisation_Record_Is_Saved) },
-            new NullLogger<InitialRegistreerInschrijvingVertegenwoordigersService>());
+            new InitialiseerRegistreerInschrijvingOptions
+            {
+                MigratieId = nameof(Given_It_Succeeds_A_Initialisation_Record_Is_Saved),
+            },
+            new NullLogger<InitialRegistreerInschrijvingVertegenwoordigersService>()
+        );
 
         await sut.StartAsync(CancellationToken.None);
         await sut.ExecuteTask;

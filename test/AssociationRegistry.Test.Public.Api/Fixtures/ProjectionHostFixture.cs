@@ -1,9 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
+using System.Reflection;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
+using Common.Database;
+using Elastic.Clients.Elasticsearch;
 using EventStore;
 using Framework.Helpers;
-using Common.Database;
+using JasperFx.CommandLine;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -11,10 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Elastic.Clients.Elasticsearch;
-using JasperFx.CommandLine;
 using Npgsql;
-using System.Reflection;
 using Xunit;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 
@@ -27,8 +27,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
     public WebApplicationFactory<ProjectionHostProgram> ProjectionHost { get; }
     private readonly ElasticsearchClient _elasticClient;
 
-    private string VerenigingenIndexName
-        => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"]!;
+    private string VerenigingenIndexName => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"]!;
 
     protected ProjectionHostFixture(string identifier)
     {
@@ -36,20 +35,30 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         _identifier += identifier.ToLowerInvariant();
         _configurationRoot = GetConfiguration();
 
-        WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<ProjectionHostFixture>(), GetConnectionString(_configurationRoot, RootDatabase))
-               .GetAwaiter().GetResult();
+        WaitFor
+            .PostGreSQLToBecomeAvailable(
+                new NullLogger<ProjectionHostFixture>(),
+                GetConnectionString(_configurationRoot, RootDatabase)
+            )
+            .GetAwaiter()
+            .GetResult();
 
         DropDatabase();
         CreateDatabaseFromTemplate();
+        PublicMartenSchemaHelper.ApplyPublicProjectionHostMartenSchemaChanges(_configurationRoot);
 
         ProjectionHost = RunProjectionHost();
         _elasticClient = CreateElasticClient(ProjectionHost.Services);
 
-        WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, ProjectionHost.Services.GetRequiredService<ILogger<ProjectionHostFixture>>())
-               .GetAwaiter().GetResult();
+        WaitFor
+            .ElasticSearchToBecomeAvailable(
+                _elasticClient,
+                ProjectionHost.Services.GetRequiredService<ILogger<ProjectionHostFixture>>()
+            )
+            .GetAwaiter()
+            .GetResult();
 
-        ConfigureElasticClient(_elasticClient, VerenigingenIndexName)
-           .GetAwaiter().GetResult();
+        ConfigureElasticClient(_elasticClient, VerenigingenIndexName).GetAwaiter().GetResult();
 
         DocumentStore = ProjectionHost.Services.GetRequiredService<IDocumentStore>();
     }
@@ -57,7 +66,8 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
     private IConfigurationRoot GetConfiguration()
     {
         var maybeRootDirectory = Directory
-                                .GetParent(typeof(ProjectionHostProgram).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+            .GetParent(typeof(ProjectionHostProgram).GetTypeInfo().Assembly.Location)
+            ?.Parent?.Parent?.Parent?.FullName;
 
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
@@ -76,9 +86,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
 
     private WebApplicationFactory<ProjectionHostProgram> RunProjectionHost()
     {
-        return new WebApplicationFactory<ProjectionHostProgram>()
-           .WithWebHostBuilder(
-                builder =>
+        return new WebApplicationFactory<ProjectionHostProgram>().WithWebHostBuilder(builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
                     builder.UseSetting(key: "PostgreSQLOptions:database", _identifier);
@@ -87,8 +95,8 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
                 });
     }
 
-    private static ElasticsearchClient CreateElasticClient(IServiceProvider services)
-        => (ElasticsearchClient)services.GetRequiredService(typeof(ElasticsearchClient));
+    private static ElasticsearchClient CreateElasticClient(IServiceProvider services) =>
+        (ElasticsearchClient)services.GetRequiredService(typeof(ElasticsearchClient));
 
     private static async Task ConfigureElasticClient(ElasticsearchClient client, string verenigingenIndexName)
     {
@@ -108,7 +116,8 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         DatabaseTemplateHelper.CreateDatabaseFromTemplate(
             _configurationRoot,
             _configurationRoot["PostgreSQLOptions:database"]!,
-            new NullLogger<ProjectionHostFixture>());
+            new NullLogger<ProjectionHostFixture>()
+        );
     }
 
     private void DropDatabase()
@@ -120,7 +129,8 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         {
             connection.Open();
             // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-            cmd.CommandText += $"DROP DATABASE IF EXISTS \"{_configurationRoot["PostgreSQLOptions:database"]}\" WITH (FORCE);";
+            cmd.CommandText +=
+                $"DROP DATABASE IF EXISTS \"{_configurationRoot["PostgreSQLOptions:database"]}\" WITH (FORCE);";
             cmd.ExecuteNonQuery();
         }
         finally
@@ -130,11 +140,11 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         }
     }
 
-    private static string GetConnectionString(IConfiguration configurationRoot, string database)
-        => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
-           $"database={database};" +
-           $"password={configurationRoot["PostgreSQLOptions:password"]};" +
-           $"username={configurationRoot["PostgreSQLOptions:username"]}";
+    private static string GetConnectionString(IConfiguration configurationRoot, string database) =>
+        $"host={configurationRoot["PostgreSQLOptions:host"]};"
+        + $"database={database};"
+        + $"password={configurationRoot["PostgreSQLOptions:password"]};"
+        + $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
     public void Dispose()
     {
@@ -147,11 +157,9 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         ProjectionHost.Dispose();
     }
 
-    public virtual ValueTask InitializeAsync()
-        => ValueTask.CompletedTask;
+    public virtual ValueTask InitializeAsync() => ValueTask.CompletedTask;
 
-    public virtual ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public virtual ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }
 
 // Implement IRetryPolicy interface

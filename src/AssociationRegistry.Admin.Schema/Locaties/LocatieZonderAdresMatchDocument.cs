@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.Locaties;
 
+using JasperFx;
 using Marten.Schema;
 
 public record LocatieZonderAdresMatchDocument : IVCode, IMetadata

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Schema.Persoonsgegevens;
 
+using JasperFx;
 using Marten.Schema;
 
 public class VertegenwoordigerPersoonsgegevensDocument

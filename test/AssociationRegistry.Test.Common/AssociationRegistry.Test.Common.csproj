@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
@@ -43,5 +43,6 @@
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="AWSSDK.Core" />
     <PackageReference Include="Marten" />
+    <PackageReference Include="Marten.Newtonsoft" />
   </ItemGroup>
 </Project>

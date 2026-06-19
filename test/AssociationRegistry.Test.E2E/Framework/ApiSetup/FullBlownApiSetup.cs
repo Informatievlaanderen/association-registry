@@ -4,8 +4,13 @@ using System.Diagnostics;
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
 using Admin.ProjectionHost.Projections;
+using Admin.ProjectionHost.Projections.Locaties;
+using Admin.ProjectionHost.Projections.Search;
 using Alba;
 using AlbaHost;
+using Amazon.Runtime;
+using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.SQS;
 using AssociationRegistry.Framework;
 using Common.Clients;
@@ -25,7 +30,9 @@ using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events.Daemon;
 using MartenDb.BankrekeningnummerPersoonsgegevens;
+using MartenDb.Logging;
 using MartenDb.Store;
+using MartenDb.Subscriptions;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
 using Microsoft.AspNetCore.Hosting;
@@ -36,7 +43,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using NodaTime.Text;
 using Npgsql;
-using Oakton;
 using Scenarios.Givens.FeitelijkeVereniging;
 using TestClasses;
 using Vereniging;
@@ -47,6 +53,8 @@ using ProjectionHostProgram = Public.ProjectionHost.Program;
 public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 {
     public FullBlownApiSetup() { }
+
+    private bool _disposed;
 
     public string? AuthCookie { get; private set; }
     public ILogger<Program> Logger { get; private set; }
@@ -60,8 +68,9 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     {
         SetUpAdminApiConfiguration();
 
-        // Ensure database exists before starting any hosts
-        await EnsureDatabaseExistsBeforeHostStarts("adminapi");
+        ResetDatabaseBeforeHostStarts("adminapi");
+        ApplyMartenSchemaChanges();
+        await EnsureLocalS3BucketExists();
 
         JasperFxEnvironment.AutoStartHost = true;
 
@@ -86,6 +95,10 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
             .GetElasticSearchOptionsSection();
 
         ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
+        var publicElasticSearchOptions = BuildConfiguration("publicproj").GetElasticSearchOptionsSection();
+
+        await ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.Verenigingen);
+        await ElasticClient.Indices.DeleteAsync(publicElasticSearchOptions.Indices.Verenigingen);
         await ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.DuplicateDetection);
 
         await InsertNutsLauInfo();
@@ -149,13 +162,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
     private void SetUpAdminApiConfiguration()
     {
-        var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.development.json", false)
-            .AddJsonFile("appsettings.e2e.json", false)
-            .AddJsonFile($"appsettings.e2e.adminapi.json", false)
-            .Build();
-
-        AdminApiConfiguration = configuration;
+        AdminApiConfiguration = BuildConfiguration("adminapi");
     }
 
     public IAmazonSQS AmazonSqs { get; set; }
@@ -163,11 +170,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
     private Action<IWebHostBuilder> ConfigureForTesting<TProgram>(string name)
     {
-        var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.development.json", false)
-            .AddJsonFile("appsettings.e2e.json", false)
-            .AddJsonFile($"appsettings.e2e.{name}.json", false)
-            .Build();
+        var configuration = BuildConfiguration(name);
 
         return b =>
         {
@@ -200,66 +203,204 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         };
     }
 
-    private async Task EnsureDatabaseExistsBeforeHostStarts(string name)
+    private void ResetDatabaseBeforeHostStarts(string name)
     {
-        // Only need to ensure DB exists for adminapi (primary host)
         if (name != "adminapi")
             return;
 
-        var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.development.json", false)
-            .AddJsonFile("appsettings.e2e.json", false)
-            .AddJsonFile($"appsettings.e2e.adminapi.json", false)
-            .Build();
-
+        var configuration = BuildConfiguration("adminapi");
         var databaseName = configuration["PostgreSQLOptions:database"] ?? configuration["PostgreSQLOptions:Database"];
-        var connectionString = GetConnectionString(configuration, "postgres");
 
         try
         {
-            // Check if database exists
-            using var connection = new NpgsqlConnection(connectionString);
+            if (DatabaseTemplateHelper.IsGoldenMasterTemplateAvailable(configuration, NullLogger.Instance))
+            {
+                DatabaseTemplateHelper.CreateDatabaseFromTemplate(configuration, databaseName!, NullLogger.Instance);
+
+                Console.WriteLine($"Database '{databaseName}' created successfully from template.");
+                return;
+            }
+
+            using var connection = new NpgsqlConnection(GetConnectionString(configuration, "postgres"));
             using var cmd = connection.CreateCommand();
 
             connection.Open();
-            cmd.CommandText = $"SELECT 1 FROM pg_database WHERE datname = '{databaseName}'";
-            var exists = cmd.ExecuteScalar() != null;
-
-            if (!exists)
-            {
-                Console.WriteLine($"Database '{databaseName}' does not exist. Creating from template...");
-
-                // Check if golden master template is available
-                if (DatabaseTemplateHelper.IsGoldenMasterTemplateAvailable(configuration, NullLogger.Instance))
-                {
-                    DatabaseTemplateHelper.CreateDatabaseFromTemplate(
-                        configuration,
-                        databaseName!,
-                        NullLogger.Instance
-                    );
-
-                    Console.WriteLine($"Database '{databaseName}' created successfully from template.");
-                }
-                else
-                {
-                    // Fallback to creating empty database
-                    Console.WriteLine("Golden master template not available. Creating empty database.");
-                    cmd.CommandText = $"CREATE DATABASE \"{databaseName}\"";
-                    cmd.ExecuteNonQuery();
-                    Console.WriteLine($"Database '{databaseName}' created successfully.");
-                }
-            }
-            else
-            {
-                Console.WriteLine($"Database '{databaseName}' already exists.");
-            }
+            Console.WriteLine("Golden master template not available. Recreating empty database.");
+            cmd.CommandText =
+                $"DROP DATABASE IF EXISTS \"{databaseName}\" WITH (FORCE);" + $"CREATE DATABASE \"{databaseName}\"";
+            cmd.ExecuteNonQuery();
+            Console.WriteLine($"Database '{databaseName}' created successfully.");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error ensuring database exists: {ex.Message}");
+            Console.WriteLine($"Error resetting database: {ex.Message}");
 
             throw;
         }
+    }
+
+    private static async Task EnsureLocalS3BucketExists()
+            {
+        var configuration = BuildConfiguration("publicapi");
+        var bucketName = configuration["Publiq:BucketName"];
+
+        if (string.IsNullOrWhiteSpace(bucketName))
+            return;
+
+        using var s3Client = new AmazonS3Client(
+            new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"),
+            new AmazonS3Config
+                {
+                ServiceURL = "http://127.0.0.1:4566",
+                ForcePathStyle = true,
+                UseHttp = true,
+            }
+                    );
+
+        try
+        {
+            await s3Client.PutBucketAsync(new PutBucketRequest { BucketName = bucketName });
+                }
+        catch (AmazonS3Exception ex) when (ex.ErrorCode is "BucketAlreadyOwnedByYou" or "BucketAlreadyExists") { }
+    }
+
+    private static IConfigurationRoot BuildConfiguration(string name) =>
+        new ConfigurationBuilder()
+            .AddJsonFile("appsettings.development.json", optional: false)
+            .AddJsonFile("appsettings.e2e.json", optional: false)
+            .AddJsonFile($"appsettings.e2e.{name}.json", optional: false)
+            .Build();
+
+    private void ApplyMartenSchemaChanges()
+                {
+        ApplyAdminApiMartenSchemaChanges(BuildConfiguration("adminapi"));
+        ApplyAdminProjectionHostMartenSchemaChanges(BuildConfiguration("adminproj"));
+        ApplyPublicApiMartenSchemaChanges(BuildConfiguration("publicapi"));
+        ApplyPublicProjectionHostMartenSchemaChanges(BuildConfiguration("publicproj"));
+        ApplyAcmApiMartenSchemaChanges(BuildConfiguration("acmapi"));
+                }
+
+    private static void ApplyAdminApiMartenSchemaChanges(IConfigurationRoot configuration)
+    {
+        var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
+        DocumentStore? builtStore = null;
+
+        using var documentStore = DocumentStore.For(options =>
+        {
+            Admin.Api.Infrastructure.MartenSetup.MartenExtensions.ConfigureStoreOptions(
+                options,
+                postgreSqlOptionsSection,
+                isDevelopment: true,
+                NullLogger<SecureMartenLogger>.Instance,
+                () =>
+                {
+                    builtStore ??= new DocumentStore(options);
+
+                    return builtStore.QuerySession();
+                },
+                AutoCreate.All
+            );
+        });
+
+        try
+        {
+            documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
+            }
+        finally
+            {
+            builtStore?.Dispose();
+            }
+        }
+
+    private static void ApplyAdminProjectionHostMartenSchemaChanges(IConfigurationRoot configuration)
+        {
+        var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
+        var elasticSearchOptionsSection = configuration.GetElasticSearchOptionsSection();
+        var elasticClient = Admin.ProjectionHost.Infrastructure.Extensions.ElasticSearchExtensions.CreateElasticClient(
+            elasticSearchOptionsSection,
+            NullLogger.Instance
+        );
+
+        using var documentStore = DocumentStore.For(options =>
+        {
+            Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder.ConfigureMartenExtensions.ConfigureStoreOptions(
+                options,
+                NullLogger<LocatiesGekoppeldMetGrarProjection>.Instance,
+                NullLogger<LocatieZonderAdresMatchProjection>.Instance,
+                elasticClient,
+                isDevelopment: true,
+                NullLogger<BeheerZoekenEventsConsumer>.Instance,
+                NullLogger<DuplicateDetectionEventsConsumer>.Instance,
+                () => NullLogger<MartenSubscription>.Instance,
+                NullLogger<SecureMartenLogger>.Instance,
+                postgreSqlOptionsSection,
+                elasticSearchOptionsSection
+            );
+        });
+
+        documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync(AutoCreate.All).GetAwaiter().GetResult();
+        }
+
+    private static void ApplyPublicApiMartenSchemaChanges(IConfigurationRoot configuration)
+    {
+        var postgreSqlOptionsSection =
+            Public.Api.Infrastructure.Extensions.ConfigurationExtensions.GetPostgreSqlOptionsSection(configuration);
+
+        using var documentStore = DocumentStore.For(options =>
+        {
+            Public.Api.Infrastructure.Extensions.MartenExtensions.ConfigureStoreOptions(
+                options,
+                postgreSqlOptionsSection,
+                NullLogger<SecureMartenLogger>.Instance,
+                AutoCreate.All
+            );
+        });
+
+        documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
+    }
+
+    private static void ApplyPublicProjectionHostMartenSchemaChanges(IConfigurationRoot configuration)
+    {
+        var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
+        var elasticSearchOptionsSection = configuration.GetElasticSearchOptionsSection();
+        var elasticClient =
+            Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder.ConfigureElasticSearchExtensions.CreateElasticClient(
+                elasticSearchOptionsSection
+            );
+
+        using var documentStore = DocumentStore.For(options =>
+        {
+            Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder.ConfigureMartenExtensions.ConfigureStoreOptions(
+                options,
+                elasticClient,
+                NullLogger<Public.ProjectionHost.Projections.Search.PubliekZoekenEventsConsumer>.Instance,
+                NullLogger<MartenSubscription>.Instance,
+                NullLogger<SecureMartenLogger>.Instance,
+                postgreSqlOptionsSection,
+                isDevelopment: true,
+                elasticSearchOptionsSection,
+                AutoCreate.All
+            );
+        });
+
+        documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
+    }
+
+    private static void ApplyAcmApiMartenSchemaChanges(IConfigurationRoot configuration)
+    {
+        var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
+
+        using var documentStore = DocumentStore.For(options =>
+        {
+            Acm.Api.Infrastructure.Extensions.MartenExtensions.ConfigureStoreOptions(
+                options,
+                postgreSqlOptionsSection,
+                NullLogger<SecureMartenLogger>.Instance,
+                isDevelopment: true
+            );
+        });
+
+        documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync(AutoCreate.All).GetAwaiter().GetResult();
     }
 
     private static string GetConnectionString(IConfiguration configuration, string database) =>
@@ -272,16 +413,48 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
     public async ValueTask DisposeAsync()
     {
-        await AdminApiHost.StopAsync();
-        await PublicApiHost.StopAsync();
-        await AdminProjectionHost.StopAsync();
-        await PublicProjectionHost.StopAsync();
-        await AcmApiHost.StopAsync();
-        await AdminApiHost.DisposeAsync();
-        await PublicApiHost.DisposeAsync();
-        await PublicProjectionHost.DisposeAsync();
-        await AdminProjectionHost.DisposeAsync();
-        await AcmApiHost.DisposeAsync();
+        if (_disposed)
+            return;
+
+        _disposed = true;
+
+        await StopIfCreated(AdminApiHost);
+        await StopIfCreated(PublicApiHost);
+        await StopIfCreated(AdminProjectionHost);
+        await StopIfCreated(PublicProjectionHost);
+        await StopIfCreated(AcmApiHost);
+
+        await DisposeIfCreatedAsync(AdminApiHost);
+        await DisposeIfCreatedAsync(PublicApiHost);
+        await DisposeIfCreatedAsync(PublicProjectionHost);
+        await DisposeIfCreatedAsync(AdminProjectionHost);
+        await DisposeIfCreatedAsync(AcmApiHost);
+
+        DisposeClients();
+    }
+
+    private static async ValueTask StopIfCreated(IAlbaHost? host)
+    {
+        if (host is null)
+            return;
+
+        try
+        {
+            await host.StopAsync();
+        }
+        catch (ObjectDisposedException) { }
+    }
+
+    private static async ValueTask DisposeIfCreatedAsync(IAsyncDisposable? disposable)
+    {
+        if (disposable is null)
+            return;
+
+        try
+        {
+            await disposable.DisposeAsync();
+        }
+        catch (ObjectDisposedException) { }
     }
 
     public async Task<long> ExecuteGiven(IScenario scenario)
@@ -366,16 +539,38 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
     public void Dispose()
     {
-        AdminApiHost.Dispose();
-        AcmApiHost.Dispose();
-        AdminProjectionHost.Dispose();
-        PublicProjectionHost.Dispose();
-        PublicApiHost.Dispose();
-        AdminProjectionDaemon.Dispose();
-        SuperAdminHttpClient.Dispose();
-        UnautenticatedClient.Dispose();
-        UnauthorizedClient.Dispose();
-        AdminHttpClient.Dispose();
-        AmazonSqs.Dispose();
+        if (_disposed)
+            return;
+
+        _disposed = true;
+
+        DisposeIfCreated(AdminApiHost);
+        DisposeIfCreated(AcmApiHost);
+        DisposeIfCreated(AdminProjectionHost);
+        DisposeIfCreated(PublicProjectionHost);
+        DisposeIfCreated(PublicApiHost);
+        DisposeIfCreated(AdminProjectionDaemon);
+        DisposeClients();
+    }
+
+    private void DisposeClients()
+    {
+        DisposeIfCreated(SuperAdminHttpClient);
+        DisposeIfCreated(UnautenticatedClient);
+        DisposeIfCreated(UnauthorizedClient);
+        DisposeIfCreated(AdminHttpClient);
+        DisposeIfCreated(AmazonSqs);
+    }
+
+    private static void DisposeIfCreated(IDisposable? disposable)
+    {
+        if (disposable is null)
+            return;
+
+        try
+        {
+            disposable.Dispose();
+        }
+        catch (ObjectDisposedException) { }
     }
 }

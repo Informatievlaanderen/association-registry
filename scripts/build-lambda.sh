@@ -14,7 +14,6 @@ cd src/AssociationRegistry.KboMutations.SyncLambda
 echo "Building Lambda package..."
 if dotnet lambda package --configuration Release --output-package /artifacts/kbo-sync-lambda.zip; then
     dotnet clean --configuration Release
-    dotnet paket restore
     dotnet restore
     dotnet build
     echo "✅ Lambda build successful!"

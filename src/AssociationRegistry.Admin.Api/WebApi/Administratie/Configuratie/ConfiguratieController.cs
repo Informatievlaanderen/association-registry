@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Administratie.Configuratie;
 
+using System.Runtime.Serialization;
 using Asp.Versioning;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -9,7 +10,6 @@ using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using System.Runtime.Serialization;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
@@ -22,7 +22,8 @@ public class ConfiguratieController : ApiController
     public async Task<IActionResult> OverrideMinimumScoreDuplicateDetection(
         [FromBody] OverrideMinimumScoreDuplicateDetectionRequest? request,
         [FromServices] IDocumentSession session,
-        [FromServices] IMemoryCache cache)
+        [FromServices] IMemoryCache cache
+    )
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -33,7 +34,12 @@ public class ConfiguratieController : ApiController
         }
         else
         {
-            session.Store(new SettingOverride(SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection, request.Waarde.ToString()));
+            session.Store(
+                new SettingOverride(
+                    SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection,
+                    request.Waarde.ToString()
+                )
+            );
         }
 
         await session.SaveChangesAsync();
@@ -47,18 +53,26 @@ public class ConfiguratieController : ApiController
     public async Task<IActionResult> GetMinimumScoreDuplicateDetection(
         [FromServices] ElasticSearchOptionsSection elasticSearchOptionsSection,
         [FromServices] MinimumScore minimumScore,
-        [FromServices] IDocumentSession session)
-        => Ok(new MinimumScoreDuplicateDetectionOverrideResponse(
-                  elasticSearchOptionsSection.MinimumScoreDuplicateDetection,
-                  session.Query<SettingOverride>()
-                         .FirstOrDefault(x => x.Key == SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection)?
-                         .Value ?? string.Empty,
-                  minimumScore.Value
-              ));
+        [FromServices] IDocumentSession session
+    )
+    {
+        var overrideSetting = await session
+            .Query<SettingOverride>()
+            .FirstOrDefaultAsync(x => x.Key == SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection);
+
+        return Ok(
+            new MinimumScoreDuplicateDetectionOverrideResponse(
+                elasticSearchOptionsSection.MinimumScoreDuplicateDetection,
+                overrideSetting?.Value ?? string.Empty,
+                minimumScore.Value
+            )
+        );
+    }
 }
 
 [DataContract]
 public record MinimumScoreDuplicateDetectionOverrideResponse(
-    [property: DataMember]double DefaultMinimumScore,
-    [property: DataMember]string MinimumScoreOverride,
-    [property: DataMember]double ActualMinimumScore);
+    [property: DataMember] double DefaultMinimumScore,
+    [property: DataMember] string MinimumScoreOverride,
+    [property: DataMember] double ActualMinimumScore
+);

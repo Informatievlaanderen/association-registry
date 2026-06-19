@@ -8,7 +8,7 @@ using Marten;
 using Marten.Events.Projections;
 using Schema.Detail;
 
-public class PubliekVerenigingDetailProjection : EventProjection
+public partial class PubliekVerenigingDetailProjection : EventProjection
 {
     public static readonly ShardName ShardName = new("publiek.postgres.detail");
 
@@ -20,6 +20,8 @@ public class PubliekVerenigingDetailProjection : EventProjection
         // Query yet when we handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
 
+        Options.BatchSize = 1;
+        Options.MaximumHopperSize = 1;
         Options.EnableDocumentTrackingByIdentity = true;
 
         Options.DeleteViewTypeOnTeardown<PubliekVerenigingDetailDocument>();
@@ -45,9 +47,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
         var updateDocs = Enumerable.Empty<PubliekVerenigingDetailDocument>().ToList();
         var vereniging = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(@event.StreamKey!))!;
 
-        var gerelateerdeVerenigingen = ops.Query<PubliekVerenigingDetailDocument>()
+        var gerelateerdeVerenigingen = await ops.Query<PubliekVerenigingDetailDocument>()
             .Where(d => d.Relaties.Any(r => r.AndereVereniging.VCode == vereniging.VCode))
-            .ToList();
+            .ToListAsync();
 
         foreach (var gerelateerdeVereniging in gerelateerdeVerenigingen)
         {

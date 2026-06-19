@@ -25,11 +25,27 @@ public class PubliekZoekProjectionHandler
     }
 
     public void Handle(
+        EventEnvelope<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens> message,
+        VerenigingZoekDocument document
+    )
+    {
+        CreateVerenigingZonderEigenRechtspersoonDocumentZonderPersoonsgegevens(message, document);
+    }
+
+    public void Handle(
         EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message,
         VerenigingZoekDocument document
     )
     {
         CreateVerenigingZonderEigenRechtspersoonDocument(message, document);
+    }
+
+    public void Handle(
+        EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens> message,
+        VerenigingZoekDocument document
+    )
+    {
+        CreateVerenigingZonderEigenRechtspersoonDocumentZonderPersoonsgegevens(message, document);
     }
 
     private void CreateVerenigingZonderEigenRechtspersoonDocument<TEvent>(
@@ -43,6 +59,66 @@ public class PubliekZoekProjectionHandler
         document.Verenigingstype = MapVerenigingstype(message.Data);
         document.Verenigingssubtype = MapVerenigingssubtype(message.Data);
         document.Naam = message.Data.Naam;
+        document.Roepnaam = null;
+        document.KorteNaam = message.Data.KorteNaam;
+        document.KorteBeschrijving = message.Data.KorteBeschrijving;
+        document.Status = VerenigingStatus.Actief;
+        document.IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom;
+        document.Doelgroep = Map(message.Data.Doelgroep, message.Data.VCode);
+        document.Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray();
+
+        document.HoofdactiviteitenVerenigingsloket = message
+            .Data.HoofdactiviteitenVerenigingsloket.Select(
+                hoofdactiviteitVerenigingsloket => new VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket
+                {
+                    JsonLdMetadata = CreateJsonLdMetadata(
+                        JsonLdType.Hoofdactiviteit,
+                        hoofdactiviteitVerenigingsloket.Code
+                    ),
+                    Code = hoofdactiviteitVerenigingsloket.Code,
+                    Naam = hoofdactiviteitVerenigingsloket.Naam,
+                }
+            )
+            .ToArray();
+
+        document.Werkingsgebieden = [];
+        document.Lidmaatschappen = [];
+
+        document.Sleutels = new[]
+        {
+            new VerenigingZoekDocument.Types.Sleutel
+            {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.Data.VCode, Sleutelbron.VR),
+                Bron = Sleutelbron.VR,
+                Waarde = message.Data.VCode,
+                CodeerSysteem = CodeerSysteem.VR,
+                GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
+                {
+                    JsonLdMetadata = CreateJsonLdMetadata(
+                        JsonLdType.GestructureerdeSleutel,
+                        message.Data.VCode,
+                        Sleutelbron.VR
+                    ),
+                    Nummer = message.Data.VCode,
+                },
+            },
+        };
+
+        document.Relaties = [];
+    }
+
+    private void CreateVerenigingZonderEigenRechtspersoonDocumentZonderPersoonsgegevens<TEvent>(
+        EventEnvelope<TEvent> message,
+        VerenigingZoekDocument document
+    )
+        where TEvent : IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens
+    {
+        document.JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type;
+        document.VCode = message.Data.VCode;
+        document.Verenigingstype = MapVerenigingstype(message.Data);
+        document.Verenigingssubtype = MapVerenigingssubtype(message.Data);
+        document.Naam = message.Data.Naam;
+        document.Roepnaam = null;
         document.KorteNaam = message.Data.KorteNaam;
         document.KorteBeschrijving = message.Data.KorteBeschrijving;
         document.Status = VerenigingStatus.Actief;
@@ -111,6 +187,28 @@ public class PubliekZoekProjectionHandler
         };
     }
 
+    private static VerenigingZoekDocument.Types.Verenigingstype MapVerenigingstype(
+        IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens @event
+    )
+    {
+        return @event switch
+        {
+            FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens =>
+                new VerenigingZoekDocument.Types.Verenigingstype()
+                {
+                    Code = Verenigingstype.FeitelijkeVereniging.Code,
+                    Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                },
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens =>
+                new VerenigingZoekDocument.Types.Verenigingstype()
+                {
+                    Code = Verenigingstype.VZER.Code,
+                    Naam = Verenigingstype.VZER.Naam,
+                },
+            _ => throw new ArgumentOutOfRangeException(nameof(@event)),
+        };
+    }
+
     private static VerenigingZoekDocument.Types.Verenigingssubtype MapVerenigingssubtype(
         IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event
     )
@@ -119,6 +217,19 @@ public class PubliekZoekProjectionHandler
         {
             FeitelijkeVerenigingWerdGeregistreerd => null,
             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =>
+                new VerenigingZoekDocument.Types.Verenigingssubtype() { Code = string.Empty, Naam = string.Empty },
+            _ => throw new ArgumentOutOfRangeException(nameof(@event)),
+        };
+    }
+
+    private static VerenigingZoekDocument.Types.Verenigingssubtype MapVerenigingssubtype(
+        IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens @event
+    )
+    {
+        return @event switch
+        {
+            FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens => null,
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens =>
                 new VerenigingZoekDocument.Types.Verenigingssubtype() { Code = string.Empty, Naam = string.Empty },
             _ => throw new ArgumentOutOfRangeException(nameof(@event)),
         };

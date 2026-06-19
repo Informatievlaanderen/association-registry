@@ -7,8 +7,10 @@ using Events;
 using EventStore;
 using global::Wolverine.ErrorHandling;
 using global::Wolverine.Marten;
+using global::Wolverine.Newtonsoft;
 using Integrations.Magda.Shared.Exceptions;
 using JasperFx;
+using JasperFx.CodeGeneration.Model;
 using JasperFx.Core;
 using JasperFx.Events.Daemon;
 using Marten;
@@ -29,6 +31,7 @@ public static class WolverineSetup
             {
                 Log.Logger.Information("Setting up wolverine");
                 options.ApplicationAssembly = typeof(Program).Assembly;
+                options.ServiceLocationPolicy = ServiceLocationPolicy.AllowedButWarn;
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
                 options.Discovery.IncludeAssembly(
                     typeof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler).Assembly

@@ -16,18 +16,12 @@ public class LocatieFinder : ILocatieFinder
 
     public async Task<LocatiesPerVCodeCollection> FindLocaties(params int[] adresIds)
     {
-        return await FindLocaties(
-            adresIds
-               .Select(x => x.ToString())
-               .ToArray());
+        return await FindLocaties(adresIds.Select(x => x.ToString()).ToArray());
     }
 
     public async Task<LocatiesPerVCodeCollection> FindLocaties(params string[] adresIds)
     {
-        var locatieIdsGroupedByVCode =
-            GroupByVCode(
-                await FindLocatieLookupDocuments(adresIds)
-            );
+        var locatieIdsGroupedByVCode = GroupByVCode(await FindLocatieLookupDocuments(adresIds));
 
         return LocatiesPerVCodeCollection.FromLocatiesPerVCode(locatieIdsGroupedByVCode);
     }
@@ -36,18 +30,17 @@ public class LocatieFinder : ILocatieFinder
     {
         await using var session = _documentStore.LightweightSession();
 
-        return session.Query<LocatieLookupDocument>()
+        return await session
+            .Query<LocatieLookupDocument>()
                       .Where(x => adresIds.Contains(x.AdresId))
-                      .Select(x => new LocatieLookupData(x.LocatieId, x.AdresId, x.VCode));
+            .Select(x => new LocatieLookupData(x.LocatieId, x.AdresId, x.VCode))
+            .ToListAsync();
     }
 
     private static Dictionary<string, LocatieLookupData[]> GroupByVCode(IEnumerable<LocatieLookupData> locaties)
     {
         return locaties
               .GroupBy(x => x.VCode)
-              .ToDictionary(grouping => grouping.Key,
-                            documents => documents.Select(x => x)
-                                                  .ToArray());
+            .ToDictionary(grouping => grouping.Key, documents => documents.Select(x => x).ToArray());
     }
 }
-

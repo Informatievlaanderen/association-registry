@@ -10,6 +10,7 @@ using MartenDb.Setup;
 using Projections.Bewaartermijn.EventHandling;
 using Serilog;
 using Wolverine;
+using Wolverine.Newtonsoft;
 using Wolverine.Postgresql;
 using WebApplicationBuilder = Microsoft.AspNetCore.Builder.WebApplicationBuilder;
 

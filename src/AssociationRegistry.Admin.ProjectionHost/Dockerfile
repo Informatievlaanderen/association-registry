@@ -1,7 +1,7 @@
 
 
 
-FROM mcr.microsoft.com/dotnet/sdk:9.0.302 AS base
+FROM mcr.microsoft.com/dotnet/sdk:10.0.301 AS base
 WORKDIR /
 
 COPY *.sln .
@@ -22,11 +22,11 @@ RUN dotnet dotnet-script .github/build-scripts/SetSolutionInfo.csx
 FROM base AS src-build
 
 RUN dotnet run -c Release --project src/${BUILD_PROJECT} -- codegen write
-RUN dotnet build -c Release --no-restore --runtime "linux-x64" --self-contained -f net9.0 src/${BUILD_PROJECT}/${BUILD_PROJECT}.csproj
+RUN dotnet build -c Release --no-restore --runtime "linux-x64" --self-contained -f net10.0 src/${BUILD_PROJECT}/${BUILD_PROJECT}.csproj
 
 RUN /bin/sh .github/build-scripts/set-solution-info.sh
 
-RUN dotnet publish -c Release -o /app/publish --no-build --no-restore --runtime "linux-x64" --self-contained -f net9.0 src/${BUILD_PROJECT}/${BUILD_PROJECT}.csproj
+RUN dotnet publish -c Release -o /app/publish --no-build --no-restore --runtime "linux-x64" --self-contained -f net10.0 src/${BUILD_PROJECT}/${BUILD_PROJECT}.csproj
 
 RUN if [ -n "$ELASTIC_HOST" ]; then \
       echo "ELASTIC_HOST is set to $ELASTIC_HOST, retrieving certificate..."; \
@@ -36,7 +36,7 @@ RUN if [ -n "$ELASTIC_HOST" ]; then \
       echo "ELASTIC_HOST not set, skipping certificate retrieval"; \
     fi
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:9.0 AS final
+FROM mcr.microsoft.com/dotnet/runtime-deps:10.0.9 AS final
 
 LABEL maintainer="Digitaal Vlaanderen <digitaal.vlaanderen@vlaanderen.be>"
 LABEL registry="association-registry"

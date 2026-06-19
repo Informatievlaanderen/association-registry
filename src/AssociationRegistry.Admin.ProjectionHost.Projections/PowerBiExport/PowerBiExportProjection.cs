@@ -25,7 +25,7 @@ using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Verenigingstype = Schema.PowerBiExport.Verenigingstype;
 using Werkingsgebied = Schema.PowerBiExport.Werkingsgebied;
 
-public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocument, string>
+public partial class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocument, string>
 {
     public const string StatusVerwijderd = "Verwijderd";
     public static readonly ShardName ShardName = new("beheer.postgres.powerbi.export");

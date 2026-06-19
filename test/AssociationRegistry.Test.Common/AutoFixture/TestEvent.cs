@@ -1,13 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using System.Text.Json;
 using AssociationRegistry.Framework;
 using JasperFx.Events;
 using Marten.Events;
 using NodaTime;
-using System.Text.Json;
 
-public class TestEvent<T> : IEvent<T> where T : notnull
+public class TestEvent<T> : IEvent<T>
+    where T : notnull
 {
+    private readonly List<EventTag> _tags = [];
+
     public static implicit operator TestEvent<T>(T e) => new(e);
 
     public TestEvent(T data, string ovoNumber = "OVO001001", Instant? instant = null)
@@ -16,17 +19,18 @@ public class TestEvent<T> : IEvent<T> where T : notnull
         EventTypeName = nameof(T);
         DotNetTypeName = typeof(T).FullName!;
         SetHeader(MetadataHeaderNames.Initiator, JsonSerializer.SerializeToElement(ovoNumber));
-        SetHeader(MetadataHeaderNames.Tijdstip, JsonSerializer.SerializeToElement((instant ?? new Instant()).ToString()));
+        SetHeader(
+            MetadataHeaderNames.Tijdstip,
+            JsonSerializer.SerializeToElement((instant ?? new Instant()).ToString())
+        );
     }
 
     /// <summary>The actual event data</summary>
     public T Data { get; set; }
 
-    object IEvent.Data
-        => Data;
+    object IEvent.Data => Data;
 
-    public Type EventType
-        => typeof(T);
+    public Type EventType => typeof(T);
 
     public string EventTypeName { get; set; }
     public string DotNetTypeName { get; set; }
@@ -43,7 +47,16 @@ public class TestEvent<T> : IEvent<T> where T : notnull
         object? obj = null;
 
         // ISSUE: explicit non-virtual call
-        return (headers != null ? headers.TryGetValue(key, out obj) ? 1 : 0 : 0) == 0 ? null : obj;
+        return
+            (
+                headers != null
+                    ? headers.TryGetValue(key, out obj)
+                        ? 1
+                        : 0
+                    : 0
+            ) == 0
+            ? null
+            : obj;
     }
 
     public bool IsArchived { get; set; }
@@ -91,8 +104,13 @@ public class TestEvent<T> : IEvent<T> where T : notnull
     /// <summary>This is meant to be lazy created, and can be null</summary>
     public Dictionary<string, object>? Headers { get; set; }
 
-    protected bool Equals(TestEvent<T> other)
-        => Id.Equals(other.Id);
+    public IReadOnlyList<EventTag> Tags => _tags;
+
+    public void AddTag<TTag>(TTag tag) => AddTag(new EventTag(typeof(TTag), tag!));
+
+    public void AddTag(EventTag tag) => _tags.Add(tag);
+
+    protected bool Equals(TestEvent<T> other) => Id.Equals(other.Id);
 
     public override bool Equals(object? obj)
     {
@@ -107,11 +125,10 @@ public class TestEvent<T> : IEvent<T> where T : notnull
 
     public override int GetHashCode()
         // ReSharper disable once NonReadonlyMemberInGetHashCode
-        => Id.GetHashCode();
+        =>
+        Id.GetHashCode();
 
-    public string Initiator
-        => this.GetHeaderString(MetadataHeaderNames.Initiator);
+    public string Initiator => this.GetHeaderString(MetadataHeaderNames.Initiator);
 
-    public Instant Tijdstip
-        => this.GetHeaderInstant(MetadataHeaderNames.Tijdstip);
+    public Instant Tijdstip => this.GetHeaderInstant(MetadataHeaderNames.Tijdstip);
 }

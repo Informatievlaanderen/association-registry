@@ -8,7 +8,7 @@ using Marten.Events.Aggregation;
 using Microsoft.Extensions.Logging;
 using Schema.Locaties;
 
-public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZonderAdresMatchDocument, string>
+public partial class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZonderAdresMatchDocument, string>
 {
     public static readonly ShardName ShardName = new("beheer.postgres.locatiezonderadresmatch");
 
@@ -20,25 +20,16 @@ public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZ
         Options.MaximumHopperSize = 1;
         Options.DeleteViewTypeOnTeardown<LocatieZonderAdresMatchDocument>();
 
-        CreateEvent<FeitelijkeVerenigingWerdGeregistreerd>(e => new LocatieZonderAdresMatchDocument()
-        {
-            VCode = e.VCode,
-            LocatieIds = e.Locaties.Select(x => x.LocatieId).ToArray(),
-        });
-
-        CreateEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>(
-            e => new LocatieZonderAdresMatchDocument()
-            {
-                VCode = e.VCode,
-                LocatieIds = e.Locaties.Select(x => x.LocatieId).ToArray(),
-            }
-        );
-
-        ProjectEvent<AdresWerdOvergenomenUitAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
-
         DeleteEvent<VerenigingWerdVerwijderd>();
-        ProjectEvent<LocatieWerdToegevoegd>(
-            (doc, @event) =>
+            }
+
+    public LocatieZonderAdresMatchDocument Create(FeitelijkeVerenigingWerdGeregistreerd @event) =>
+        new() { VCode = @event.VCode, LocatieIds = @event.Locaties.Select(x => x.LocatieId).ToArray() };
+
+    public LocatieZonderAdresMatchDocument Create(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event) =>
+        new() { VCode = @event.VCode, LocatieIds = @event.Locaties.Select(x => x.LocatieId).ToArray() };
+
+    public LocatieZonderAdresMatchDocument Apply(LocatieZonderAdresMatchDocument doc, LocatieWerdToegevoegd @event)
             {
                 if (@event.Locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde)
                     return doc;
@@ -51,9 +42,8 @@ public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZ
                     LocatieIds = doc.LocatieIds.Append(@event.Locatie.LocatieId).ToArray(),
                 };
             }
-        );
-        ProjectEvent<LocatieWerdGewijzigd>(
-            (doc, @event) =>
+
+    public LocatieZonderAdresMatchDocument Apply(LocatieZonderAdresMatchDocument doc, LocatieWerdGewijzigd @event)
             {
                 if (@event.Locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde)
                     return doc;
@@ -69,30 +59,52 @@ public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZ
                     LocatieIds = doc.LocatieIds.Append(@event.Locatie.LocatieId).ToArray(),
                 };
             }
-        );
 
-        ProjectEvent<LocatieWerdVerwijderd>((doc, e) => LocatieZonderAdresId(doc, e.Locatie.LocatieId));
-        ProjectEvent<AdresWerdOvergenomenUitAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
-        ProjectEvent<AdresWerdNietGevondenInAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
-        ProjectEvent<AdresNietUniekInAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
-        ProjectEvent<AdresWerdOntkoppeldVanAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
-        ProjectEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch>(
-            (doc, e) => LocatieZonderAdresId(doc, e.VerwijderdeLocatieId)
-        );
-        ProjectEvent<AdresHeeftGeenVerschillenMetAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
+    public LocatieZonderAdresMatchDocument Apply(LocatieZonderAdresMatchDocument doc, LocatieWerdVerwijderd @event) =>
+        LocatieZonderAdresId(doc, @event.Locatie.LocatieId);
 
-        ProjectEvent<AdresKonNietOvergenomenWordenUitAdressenregister>(
-            (doc, e) =>
-                e.Reden switch
+    public LocatieZonderAdresMatchDocument Apply(
+        LocatieZonderAdresMatchDocument doc,
+        AdresWerdOvergenomenUitAdressenregister @event
+    ) => LocatieZonderAdresId(doc, @event.LocatieId);
+
+    public LocatieZonderAdresMatchDocument Apply(
+        LocatieZonderAdresMatchDocument doc,
+        AdresWerdNietGevondenInAdressenregister @event
+    ) => LocatieZonderAdresId(doc, @event.LocatieId);
+
+    public LocatieZonderAdresMatchDocument Apply(
+        LocatieZonderAdresMatchDocument doc,
+        AdresNietUniekInAdressenregister @event
+    ) => LocatieZonderAdresId(doc, @event.LocatieId);
+
+    public LocatieZonderAdresMatchDocument Apply(
+        LocatieZonderAdresMatchDocument doc,
+        AdresWerdOntkoppeldVanAdressenregister @event
+    ) => LocatieZonderAdresId(doc, @event.LocatieId);
+
+    public LocatieZonderAdresMatchDocument Apply(
+        LocatieZonderAdresMatchDocument doc,
+        LocatieDuplicaatWerdVerwijderdNaAdresMatch @event
+    ) => LocatieZonderAdresId(doc, @event.VerwijderdeLocatieId);
+
+    public LocatieZonderAdresMatchDocument Apply(
+        LocatieZonderAdresMatchDocument doc,
+        AdresHeeftGeenVerschillenMetAdressenregister @event
+    ) => LocatieZonderAdresId(doc, @event.LocatieId);
+
+    public LocatieZonderAdresMatchDocument Apply(
+        LocatieZonderAdresMatchDocument doc,
+        AdresKonNietOvergenomenWordenUitAdressenregister @event
+    ) =>
+        @event.Reden switch
                 {
                     GrarClient.BadRequestSuccessStatusCodeMessage
                     or AdresKonNietOvergenomenWordenUitAdressenregister.RedenLocatieWerdVerwijderd
                     or AdresKonNietOvergenomenWordenUitAdressenregister.RedenAdresKonNietGevalideerdWordenBijAdressenregister =>
-                        LocatieZonderAdresId(doc, e.LocatieId),
+                LocatieZonderAdresId(doc, @event.LocatieId),
                     _ => doc,
-                }
-        );
-    }
+        };
 
     private static LocatieZonderAdresMatchDocument LocatieZonderAdresId(
         LocatieZonderAdresMatchDocument doc,

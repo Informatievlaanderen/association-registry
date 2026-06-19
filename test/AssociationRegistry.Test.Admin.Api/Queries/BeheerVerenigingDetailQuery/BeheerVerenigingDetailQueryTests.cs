@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingDetailQuery;
 
+using System.ComponentModel;
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -7,7 +8,6 @@ using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
 using FluentAssertions;
 using Marten;
-using System.ComponentModel;
 using Xunit;
 
 public class BeheerVerenigingDetailQueryFixture : IAsyncLifetime
@@ -26,7 +26,10 @@ public class BeheerVerenigingDetailQueryFixture : IAsyncLifetime
 }
 
 [Category(Categories.ReplaceThisQueryWithGetNamesForVCodeForOneUsage)]
-public class BeheerVerenigingDetailQueryTests : IClassFixture<BeheerVerenigingDetailQueryFixture>, IDisposable, IAsyncDisposable
+public class BeheerVerenigingDetailQueryTests
+    : IClassFixture<BeheerVerenigingDetailQueryFixture>,
+        IDisposable,
+        IAsyncDisposable
 {
     private readonly IDocumentSession _session;
 
@@ -50,7 +53,9 @@ public class BeheerVerenigingDetailQueryTests : IClassFixture<BeheerVerenigingDe
     {
         var query = new BeheerVerenigingDetailQuery(_session);
 
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await query.ExecuteAsync(new BeheerVerenigingDetailFilter(null), CancellationToken.None));
+        await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await query.ExecuteAsync(new BeheerVerenigingDetailFilter(null), CancellationToken.None)
+        );
     }
 
     [Fact]
@@ -58,8 +63,9 @@ public class BeheerVerenigingDetailQueryTests : IClassFixture<BeheerVerenigingDe
     {
         var fixture = new Fixture().CustomizeDomain().CustomizeAdminApi();
 
-        var verenigingen = fixture.CreateMany<BeheerVerenigingDetailDocument>()
-                                  .Select(x => x with { Deleted = false })
+        var verenigingen = fixture
+            .CreateMany<BeheerVerenigingDetailDocument>()
+            .Select(x => x with { Deleted = false, DeletedAt = null })
                                   .ToList();
 
         _session.StoreObjects(verenigingen);
@@ -67,7 +73,10 @@ public class BeheerVerenigingDetailQueryTests : IClassFixture<BeheerVerenigingDe
 
         var query = new BeheerVerenigingDetailQuery(_session);
 
-        var actual = await query.ExecuteAsync(new BeheerVerenigingDetailFilter(verenigingen[1].VCode), CancellationToken.None);
+        var actual = await query.ExecuteAsync(
+            new BeheerVerenigingDetailFilter(verenigingen[1].VCode),
+            CancellationToken.None
+        );
 
         actual.Should().BeEquivalentTo(verenigingen[1]);
     }

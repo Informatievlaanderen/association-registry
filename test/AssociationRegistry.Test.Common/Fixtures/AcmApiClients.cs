@@ -1,11 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Common.Fixtures;
 
+using System.Net.Http.Headers;
 using Acm.Api.Constants;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityModel.Client;
-using JasperFx.Core;
-using System.Net.Http.Headers;
 
 public class AcmApiClients : IDisposable
 {
@@ -17,13 +16,19 @@ public class AcmApiClients : IDisposable
         _oAuth2IntrospectionOptions = oAuth2IntrospectionOptions;
         _createClientFunc = createClientFunc;
 
-        Authenticated = new AcmApiClient(CreateMachine2MachineClientFor(clientId: "acmClient", Security.Scopes.ACM, clientSecret: "secret")
-                                        .GetAwaiter().GetResult());
+        Authenticated = new AcmApiClient(
+            CreateMachine2MachineClientFor(clientId: "acmClient", Security.Scopes.ACM, clientSecret: "secret")
+                .GetAwaiter()
+                .GetResult()
+        );
 
         Unauthenticated = new AcmApiClient(_createClientFunc());
 
-        Unauthorized = new AcmApiClient(CreateMachine2MachineClientFor(clientId: "acmClient", Security.Scopes.Info, clientSecret: "secret")
-                                       .GetAwaiter().GetResult());
+        Unauthorized = new AcmApiClient(
+            CreateMachine2MachineClientFor(clientId: "acmClient", Security.Scopes.Info, clientSecret: "secret")
+                .GetAwaiter()
+                .GetResult()
+        );
     }
 
     public AcmApiClient Authenticated { get; }
@@ -32,15 +37,12 @@ public class AcmApiClients : IDisposable
 
     public void Dispose()
     {
-        Authenticated.SafeDispose();
-        Unauthenticated.SafeDispose();
-        Unauthorized.SafeDispose();
+        Authenticated.Dispose();
+        Unauthenticated.Dispose();
+        Unauthorized.Dispose();
     }
 
-    private async Task<HttpClient> CreateMachine2MachineClientFor(
-        string clientId,
-        string scope,
-        string clientSecret)
+    private async Task<HttpClient> CreateMachine2MachineClientFor(string clientId, string scope, string clientSecret)
     {
         var tokenClient = new TokenClient(
             client: () => new HttpClient(),
@@ -49,12 +51,9 @@ public class AcmApiClients : IDisposable
                 Address = $"{_oAuth2IntrospectionOptions.Authority}/connect/token",
                 ClientId = clientId,
                 ClientSecret = clientSecret,
-                Parameters = new Parameters(
-                    new[]
-                    {
-                        new KeyValuePair<string, string>(key: "scope", scope),
-                    }),
-            });
+                Parameters = new Parameters(new[] { new KeyValuePair<string, string>(key: "scope", scope) }),
+            }
+        );
 
         var acmResponse = await tokenClient.RequestTokenAsync(OidcConstants.GrantTypes.ClientCredentials);
 
