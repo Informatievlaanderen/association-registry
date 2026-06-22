@@ -21,6 +21,7 @@ public class HefSchorsingErkenningOpContext<TScenario>
     public IOrganisatieBevoegdheidServiceMockStub OrganisatieBevoegdheidService { get; }
 
     private readonly HefSchorsingErkenningOpCommandHandler _commandHandler;
+    public HefSchorsingErkenningOpCommand HefSchorsingErkenningOpCommand { get; private set; }
 
     public HefSchorsingErkenningOpContext(
         TScenario scenario,
@@ -34,21 +35,28 @@ public class HefSchorsingErkenningOpContext<TScenario>
         _commandHandler = new HefSchorsingErkenningOpCommandHandler(AggregateSessionMock);
         OrganisatieBevoegdheidService = new IOrganisatieBevoegdheidServiceMockStub();
         Metadata = defaultInitiator is not null
-            ? _fixture.Create<CommandMetadata>() with { Initiator = defaultInitiator(Scenario) }
+            ? _fixture.Create<CommandMetadata>() with
+            {
+                Initiator = defaultInitiator(Scenario),
+            }
             : _fixture.Create<CommandMetadata>();
+        HefSchorsingErkenningOpCommand = CreateCommand();
     }
 
-    public HefSchorsingErkenningOpCommand CreateCommand(int? erkenningId = null)
-        => _fixture.Create<HefSchorsingErkenningOpCommand>() with
+    private HefSchorsingErkenningOpCommand CreateCommand()
+        => HefSchorsingErkenningOpCommand = _fixture.Create<HefSchorsingErkenningOpCommand>() with
         {
             VCode = Scenario.VCode,
-            ErkenningId = erkenningId ?? _defaultErkenningId(Scenario),
+            ErkenningId = _defaultErkenningId(Scenario),
         };
 
     public int CreateUnknownErkenningId() => _defaultErkenningId(Scenario) + _fixture.Create<int>();
 
     public CommandMetadata CreateMetadata(string? initiator = null)
-        => _fixture.Create<CommandMetadata>() with { Initiator = initiator ?? _fixture.Create<string>() };
+        => _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = initiator ?? _fixture.Create<string>(),
+        };
 
     public async ValueTask Handle(
         HefSchorsingErkenningOpCommand command,
