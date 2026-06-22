@@ -1,5 +1,7 @@
 namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
+using NodaTime;
+
 public record Datum
 {
     public const string Format = "yyyy-MM-dd";
@@ -50,4 +52,7 @@ public record Datum
 
     public static bool CanParse(string dateOnly)
         => DateOnly.TryParseExact(dateOnly, Format, out _);
+
+    public Instant ToInstant()
+        => Instant.FromDateTimeUtc(Value.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc));
 }

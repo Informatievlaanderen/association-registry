@@ -1,12 +1,14 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 
-using System.Threading;
-using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
-using AssociationRegistry.Framework;
+using Framework;
+using Integrations.Grar.Bewaartermijnen;
 using Magda.Persoon;
 using MartenDb.Store;
+using Wolverine.Marten;
 
 public class VoegVertegenwoordigerToeCommandHandler
 {
@@ -20,6 +22,8 @@ public class VoegVertegenwoordigerToeCommandHandler
     public async Task<EntityCommandResult> Handle(
         CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope,
         PersoonUitKsz persoonUitKsz,
+        IMartenOutbox martenOutbox,
+        BewaartermijnOptions bewaartermijnOptions,
         CancellationToken cancellationToken = default
     )
     {
@@ -32,6 +36,20 @@ public class VoegVertegenwoordigerToeCommandHandler
             .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen>();
 
         var vertegenwoordigerId = vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger);
+
+
+        if (vereniging.IsGestopt)
+        {
+            var vervaldag = vereniging.Einddatum.ToInstant().PlusTicks(bewaartermijnOptions.Duration.Ticks);
+
+            await martenOutbox.SendAsync(new StartBewaartermijnMessage(
+                vereniging.VCode,
+                PersoonsgegevensType.Vertegenwoordigers.Value,
+                vertegenwoordigerId.VertegenwoordigerId,
+                vervaldag,
+                BewaartermijnReden.VerenigingWerdGestopt
+            ));
+        }
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

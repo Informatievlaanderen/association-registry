@@ -1,60 +1,35 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.CommandHandling;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Magda.Persoon;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using AssociationRegistry.Vereniging;
-using AutoFixture;
-using Common.StubsMocksFakes.VerenigingsRepositories;
+using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using Events;
 using FluentAssertions;
 using Xunit;
 
 public class Given_A_NietPrimair_Vertegenwoordiger
 {
-    private AggregateSessionMock _aggregateSessionMock;
-    private VoegVertegenwoordigerToeCommand _command;
-    private FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
-    private VoegVertegenwoordigerToeCommandHandler _commandHandler;
-    private Fixture _fixture;
-
-    public Given_A_NietPrimair_Vertegenwoordiger()
-    {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _fixture = new Fixture().CustomizeAdminApi();
-
-        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(_aggregateSessionMock);
-
-        _command = new VoegVertegenwoordigerToeCommand(_scenario.VCode, _fixture.Create<Vertegenwoordiger>());
-    }
+    private readonly VoegVertegenwoordigerToeContext<FeitelijkeVerenigingWerdGeregistreerdScenario> _ctx =
+        new(new FeitelijkeVerenigingWerdGeregistreerdScenario());
 
     [Fact]
     public async ValueTask Then_A_VertegenwoordigerWerdToegevoegd_Event_Is_Saved()
     {
-        await _commandHandler.Handle(
-            new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()),
-            _fixture.Create<PersoonUitKsz>()
-        );
+        var command = _ctx.CreateCommand();
 
-        _aggregateSessionMock.ShouldHaveSavedExact(
+        await _ctx.Handle(command);
+
+        _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new VertegenwoordigerWerdToegevoegd(
-                _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Max(v => v.VertegenwoordigerId) + 1,
-                _command.Vertegenwoordiger.Insz,
-                _command.Vertegenwoordiger.IsPrimair,
-                _command.Vertegenwoordiger.Roepnaam ?? string.Empty,
-                _command.Vertegenwoordiger.Rol ?? string.Empty,
-                _command.Vertegenwoordiger.Voornaam,
-                _command.Vertegenwoordiger.Achternaam,
-                _command.Vertegenwoordiger.Email.Waarde,
-                _command.Vertegenwoordiger.Telefoon.Waarde,
-                _command.Vertegenwoordiger.Mobiel.Waarde,
-                _command.Vertegenwoordiger.SocialMedia.Waarde
+                _ctx.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Max(v => v.VertegenwoordigerId) + 1,
+                command.Vertegenwoordiger.Insz,
+                command.Vertegenwoordiger.IsPrimair,
+                command.Vertegenwoordiger.Roepnaam ?? string.Empty,
+                command.Vertegenwoordiger.Rol ?? string.Empty,
+                command.Vertegenwoordiger.Voornaam,
+                command.Vertegenwoordiger.Achternaam,
+                command.Vertegenwoordiger.Email.Waarde,
+                command.Vertegenwoordiger.Telefoon.Waarde,
+                command.Vertegenwoordiger.Mobiel.Waarde,
+                command.Vertegenwoordiger.SocialMedia.Waarde
             )
         );
     }
@@ -62,12 +37,11 @@ public class Given_A_NietPrimair_Vertegenwoordiger
     [Fact]
     public async ValueTask Then_A_EntityId_Is_Returned()
     {
-        var result = await _commandHandler.Handle(
-            new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()),
-            _fixture.Create<PersoonUitKsz>()
-        );
+        var command = _ctx.CreateCommand();
 
-        var vertegenwoordigerId = _aggregateSessionMock
+        var result = await _ctx.Handle(command);
+
+        var vertegenwoordigerId = _ctx.AggregateSessionMock
             .SaveInvocations[0]
             .Vereniging.UncommittedEvents.ToArray()[0]
             .As<VertegenwoordigerWerdToegevoegd>()
