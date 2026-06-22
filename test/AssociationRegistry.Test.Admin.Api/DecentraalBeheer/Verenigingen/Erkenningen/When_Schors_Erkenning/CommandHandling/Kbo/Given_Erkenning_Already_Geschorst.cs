@@ -16,7 +16,7 @@ public class Given_Erkenning_Already_Geschorst
     [Fact]
     public async ValueTask Then_Throws_ErkenningIsAlReedsGeschorst()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.SchorsErkenningCommand;
 
         var exception = await Assert.ThrowsAsync<ErkenningIsAlReedsGeschorst>(async () => await _ctx.Handle(command));
 

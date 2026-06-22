@@ -18,7 +18,13 @@ public class Given_Invalid_Reden_Erkenning
     [InlineData(null)]
     public async ValueTask Then_Throw_ErkenningRedenSchorsingVerplicht(string reden)
     {
-        var command = _ctx.CreateCommand(redenSchorsing: reden);
+        var command = _ctx.SchorsErkenningCommand with
+        {
+            Erkenning = _ctx.SchorsErkenningCommand.Erkenning with
+            {
+                RedenSchorsing = reden,
+            }
+        };
 
         var exception = await Assert.ThrowsAsync<ErkenningRedenSchorsingIsVerplicht>(async () => await _ctx.Handle(command));
 
