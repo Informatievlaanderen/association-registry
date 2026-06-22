@@ -16,7 +16,7 @@ public class Given_Erkenning_InAanvraag
     [Fact]
     public async ValueTask Then_No_Saved_Event()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.ActiveerErkenningCommand;
 
         var exception = await Assert.ThrowsAsync<ErkenningKanNietGeactiveerdWorden>(async () => await _ctx.Handle(command));
 

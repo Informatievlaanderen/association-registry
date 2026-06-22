@@ -14,7 +14,7 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask Then_It_Adds_An_ErkenningWerdGeactiveerd_Event()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.ActiveerErkenningCommand;
 
         await _ctx.Handle(command);
 
