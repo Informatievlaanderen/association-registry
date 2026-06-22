@@ -22,6 +22,7 @@ public class CorrigeerRedenSchorsingErkenningContext<TScenario>
     public IOrganisatieBevoegdheidServiceMockStub OrganisatieBevoegdheidService { get; }
 
     private readonly CorrigeerRedenSchorsingErkenningCommandHandler _commandHandler;
+    public CorrigeerRedenSchorsingErkenningCommand CorrigeerRedenSchorsingErkenningCommand { get; private set; }
 
     public CorrigeerRedenSchorsingErkenningContext(
         TScenario scenario,
@@ -35,19 +36,23 @@ public class CorrigeerRedenSchorsingErkenningContext<TScenario>
         _commandHandler = new CorrigeerRedenSchorsingErkenningCommandHandler(AggregateSessionMock);
         OrganisatieBevoegdheidService = new IOrganisatieBevoegdheidServiceMockStub();
         Metadata = defaultInitiator is not null
-            ? _fixture.Create<CommandMetadata>() with { Initiator = defaultInitiator(Scenario) }
+            ? _fixture.Create<CommandMetadata>() with
+            {
+                Initiator = defaultInitiator(Scenario),
+            }
             : _fixture.Create<CommandMetadata>();
+        CorrigeerRedenSchorsingErkenningCommand = CreateCommand();
     }
 
-    public CorrigeerRedenSchorsingErkenningCommand CreateCommand(string? redenSchorsing = null, int? erkenningId = null)
+    private CorrigeerRedenSchorsingErkenningCommand CreateCommand()
     {
         var erkenning = _fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
         {
-            ErkenningId = erkenningId ?? _defaultErkenningId(Scenario),
-            RedenSchorsing = redenSchorsing ?? _fixture.Create<string>(),
+            ErkenningId = _defaultErkenningId(Scenario),
+            RedenSchorsing = _fixture.Create<string>(),
         };
 
-        return _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
+        return CorrigeerRedenSchorsingErkenningCommand = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
         {
             VCode = Scenario.VCode,
             Erkenning = erkenning,

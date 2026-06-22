@@ -14,7 +14,7 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask Then_It_Saves_An_ErkenningRedenVanSchorsingWerdGecorrigeerd_Event()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.CorrigeerRedenSchorsingErkenningCommand;
         await _ctx.Handle(command);
 
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
@@ -28,7 +28,7 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask Then_OrganisatieBoevoegdheidService_Not_Called()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.CorrigeerRedenSchorsingErkenningCommand;
         await _ctx.Handle(command);
 
         _ctx.OrganisatieBevoegdheidService.VerifyNever();
