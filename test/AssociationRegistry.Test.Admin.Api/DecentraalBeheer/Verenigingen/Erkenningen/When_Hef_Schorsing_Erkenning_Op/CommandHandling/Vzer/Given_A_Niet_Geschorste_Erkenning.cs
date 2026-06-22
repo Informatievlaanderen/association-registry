@@ -16,7 +16,7 @@ public class Given_A_Niet_Geschorste_Erkenning
     [Fact]
     public async ValueTask Then_Throws_ErkenningIsNietGeschorst()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.HefSchorsingErkenningOpCommand;
 
         var exception = await Assert.ThrowsAsync<ErkenningIsNietGeschorst>(async () => await _ctx.Handle(command));
 

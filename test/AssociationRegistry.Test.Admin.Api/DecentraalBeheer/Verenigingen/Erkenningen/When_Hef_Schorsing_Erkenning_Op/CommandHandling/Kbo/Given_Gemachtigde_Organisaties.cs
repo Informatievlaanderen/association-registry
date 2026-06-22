@@ -14,7 +14,7 @@ public class Given_Gemachtigde_Organisaties
     [Fact]
     public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_SchorsingWerdOpgeheven()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.HefSchorsingErkenningOpCommand;
 
         var service = _ctx.OrganisatieBevoegdheidService.WithGemachtigdeOrganisaties([_ctx.Metadata.Initiator]);
 

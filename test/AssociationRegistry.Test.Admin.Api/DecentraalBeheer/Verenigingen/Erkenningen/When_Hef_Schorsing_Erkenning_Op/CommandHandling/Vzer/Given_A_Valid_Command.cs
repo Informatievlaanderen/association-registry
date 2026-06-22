@@ -15,7 +15,7 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask Then_Saves_An_SchorsingVanErkenningWerdOpgeheven_Event()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.HefSchorsingErkenningOpCommand;
 
         var status = ErkenningStatus.Bepaal(
             ErkenningsPeriode.Create(

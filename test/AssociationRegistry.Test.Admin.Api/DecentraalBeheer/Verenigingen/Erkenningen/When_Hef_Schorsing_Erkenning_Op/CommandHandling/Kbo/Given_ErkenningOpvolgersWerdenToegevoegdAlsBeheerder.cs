@@ -15,7 +15,7 @@ public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
     [Fact]
     public async ValueTask Then_Saves_SchorsingVanErkenningWerdOpgeheven()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.HefSchorsingErkenningOpCommand;
 
         await _ctx.Handle(command);
 
@@ -35,7 +35,7 @@ public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
     [Fact]
     public async ValueTask Then_OrganisatieBevoegdheidService_Not_Called()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.HefSchorsingErkenningOpCommand;
 
         await _ctx.Handle(command);
 
