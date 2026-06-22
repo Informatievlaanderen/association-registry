@@ -15,7 +15,7 @@ public class Given_Another_OvoCode
     [Fact]
     public async ValueTask Then_Throw_GiIsNietBevoegd()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.VerwijderErkenningCommand;
         var metadata = _ctx.CreateMetadata();
 
         var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () => await _ctx.Handle(command, metadata));
