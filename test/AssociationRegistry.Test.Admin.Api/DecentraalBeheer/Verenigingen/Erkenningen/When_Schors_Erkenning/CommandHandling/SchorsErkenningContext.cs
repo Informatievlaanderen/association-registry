@@ -1,4 +1,5 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Schors_Erkenning.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Schors_Erkenning.
+    CommandHandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.SchorsErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
@@ -15,13 +16,12 @@ public class SchorsErkenningContext<TScenario>
 {
     private readonly Fixture _fixture;
     private readonly Func<TScenario, int> _defaultErkenningId;
-
+    private readonly SchorsErkenningCommandHandler _commandHandler;
     public TScenario Scenario { get; }
     public AggregateSessionMock AggregateSessionMock { get; }
     public CommandMetadata Metadata { get; }
     public IOrganisatieBevoegdheidServiceMockStub OrganisatieBevoegdheidService { get; }
-
-    private readonly SchorsErkenningCommandHandler _commandHandler;
+    public SchorsErkenningCommand SchorsErkenningCommand;
 
     public SchorsErkenningContext(
         TScenario scenario,
@@ -37,21 +37,23 @@ public class SchorsErkenningContext<TScenario>
         Metadata = defaultInitiator is not null
             ? _fixture.Create<CommandMetadata>() with { Initiator = defaultInitiator(Scenario) }
             : _fixture.Create<CommandMetadata>();
+        SchorsErkenningCommand = CreateCommand();
     }
 
-    public SchorsErkenningCommand CreateCommand(int? erkenningId = null, string? redenSchorsing = null)
+    private SchorsErkenningCommand CreateCommand()
     {
         var erkenning = _fixture.Create<TeSchorsenErkenning>() with
         {
-            ErkenningId = erkenningId ?? _defaultErkenningId(Scenario),
-            RedenSchorsing = redenSchorsing ?? _fixture.Create<string>(),
+            ErkenningId = _defaultErkenningId(Scenario),
         };
 
-        return _fixture.Create<SchorsErkenningCommand>() with
+        SchorsErkenningCommand = _fixture.Create<SchorsErkenningCommand>() with
         {
             VCode = Scenario.VCode,
             Erkenning = erkenning,
         };
+
+        return SchorsErkenningCommand;
     }
 
     public int CreateUnknownErkenningId() => _defaultErkenningId(Scenario) + _fixture.Create<int>();

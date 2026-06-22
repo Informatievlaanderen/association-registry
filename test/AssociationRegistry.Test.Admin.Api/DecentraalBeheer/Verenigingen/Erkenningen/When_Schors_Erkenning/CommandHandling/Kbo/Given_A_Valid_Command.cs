@@ -14,7 +14,7 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask Then_Saves_An_ErkenningWerdGeschorst_Event()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.SchorsErkenningCommand;
 
         await _ctx.Handle(command);
 

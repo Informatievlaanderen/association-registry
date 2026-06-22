@@ -16,7 +16,7 @@ public class Given_Verlopen_Erkenning
     [Fact]
     public async ValueTask Then_Throw_VerlopenErkenningKanNietGeschorstWorden()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.SchorsErkenningCommand;
 
         var exception = await Assert.ThrowsAsync<VerlopenErkenningKanNietGeschorstWorden>(async () => await _ctx.Handle(command));
 
