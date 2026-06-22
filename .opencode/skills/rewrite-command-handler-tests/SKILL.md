@@ -93,6 +93,7 @@ public class ValideerBankrekeningnummerContext<TScenario>
 - `_commandHandler` and all delegates are **private**
 - `Metadata` is a fixture-generated `CommandMetadata` created in the constructor — use `_ctx.Metadata` in every test by default
 - `CreateCommand(...)` has one optional parameter per field a test overrides; defaults use the stored delegate(s)
+- Expose the default command as a **public property** (e.g. `public WijzigErkenningCommand WijzigErkenningCommand { get; private set; }`) initialised in the constructor by calling `CreateCommand()`. Make `CreateCommand()` **private** with no parameters. Tests that need a variant use `_ctx.XxxCommand with { ... }` instead of calling `CreateCommand(...)`
 - `CreateMetadata(string? initiator = null)` exists only for override cases (e.g. a blocked initiator); never call it when `_ctx.Metadata` suffices
 - `Handle(command, metadata?)` wraps `new CommandEnvelope<TCommand>(command, metadata ?? Metadata)` — `metadata` is optional and defaults to `Metadata`; never expose `CommandEnvelope` construction in a test method
 
@@ -118,8 +119,33 @@ Then update each test method:
 
 **Before:**
 ```csharp
-public class Given_A_Valid_Bankrekeningnummer
+var command = _ctx.CreateCommand();
+```
+
+**After:**
+```csharp
+var command = _ctx.ValideerBankrekeningnummerCommand;
+```
+
+For tests that need a variant:
+```csharp
+// single field override
+var command = _ctx.ValideerBankrekeningnummerCommand with
 {
+    BankrekeningnummerId = _ctx.CreateUnknownBankrekeningnummerId(),
+};
+
+// nested field override
+var command = _ctx.WijzigErkenningCommand with
+{
+    Erkenning = _ctx.WijzigErkenningCommand.Erkenning with
+    {
+        ErkenningId = unknownErkenningId,
+    },
+};
+```
+
+**Formatting rule for `with` expressions:** every `with { ... }` block must have its properties on separate lines with a trailing comma, including nested `with` blocks. Never write `with { Prop = value }` on a single line.
     private readonly ValideerBankrekeningnummerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly BankrekeningnummerWerdToegevoegdScenario _scenario;
@@ -187,7 +213,10 @@ For tests that override a field (e.g. unknown id, different initiator):
 
 ```csharp
 // unknown bankrekeningnummer id
-var command = _ctx.CreateCommand(bankrekeningnummerId: _ctx.CreateUnknownBankrekeningnummerId());
+var command = _ctx.ValideerBankrekeningnummerCommand with
+{
+    BankrekeningnummerId = _ctx.CreateUnknownBankrekeningnummerId(),
+};
 
 // blocked initiator
 var metadata = _ctx.CreateMetadata(initiator: WellknownOvoNumbers.VloOvoCode);
@@ -273,3 +302,5 @@ After rewriting all files, confirm the test project still compiles. Do not run t
 - **Never create multiple context classes for different scenarios** — one generic context class per command
 - **Never let the context class create the scenario itself** — the scenario is always passed in by the test class
 - **Never hardcode the default scenario-dependent field value inside the context** — always use the stored `Func<TScenario, TField>` delegate
+- **Never add parameters to `CreateCommand`** — it is private and takes no arguments; tests that need a variant use `_ctx.XxxCommand with { ... }`
+- **Never write `with { Prop = value }` on a single line** — always expand to multiline with trailing comma on every property, including in nested `with` blocks
