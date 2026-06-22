@@ -115,4 +115,24 @@ public static class BewaartermijnVertegenwoordigersEventHandler
             )
         );
     }
+
+    public static async Task Handle(
+        IEvent<VerenigingWerdGestoptInKBO> @event,
+        BewaartermijnOptions bewaartermijnOptions,
+        IMessageBus messageBus
+    )
+    {
+        var vervaldag = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .PlusTicks(bewaartermijnOptions.Duration.Ticks);
+
+        await messageBus.SendAsync(
+            new StartBewaartermijnenVoorVerenigingMessage(
+                @event.StreamKey!,
+                PersoonsgegevensType.Vertegenwoordigers.Value,
+                vervaldag,
+                BewaartermijnReden.VerenigingWerdGestoptInKbo
+            )
+        );
+    }
 }

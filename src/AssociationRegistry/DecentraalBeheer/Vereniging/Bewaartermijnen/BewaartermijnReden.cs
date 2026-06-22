@@ -6,6 +6,7 @@ public record BewaartermijnReden
     public const string VertegenwoordigerWerdVerwijderdUitKbo = "Vertegenwoordiger werd verwijderd uit KBO.";
     public const string VerenigingWerdVerwijderd = "Vereniging werd verwijderd.";
     public const string VerenigingWerdGestopt = "Vereniging werd gestopt.";
+    public const string VerenigingWerdGestoptInKbo = "De vereniging werd gestopt in KBO.";
     public const string KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden =
         "Ksz sync heeft vertegenwoordiger aangeduid als overleden.";
 }
