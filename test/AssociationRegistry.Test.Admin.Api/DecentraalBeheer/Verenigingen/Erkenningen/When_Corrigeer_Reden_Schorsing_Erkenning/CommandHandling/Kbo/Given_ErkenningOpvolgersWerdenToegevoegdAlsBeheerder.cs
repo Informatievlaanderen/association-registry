@@ -14,7 +14,7 @@ public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
     [Fact]
     public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_ErkenningRedenVanSchorsingWerdGecorrigeerd()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.CorrigeerRedenSchorsingErkenningCommand;
         await _ctx.Handle(command);
 
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
@@ -28,7 +28,7 @@ public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
     [Fact]
     public async ValueTask Then_OrganisatieBevoegdheidService_Not_Called()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.CorrigeerRedenSchorsingErkenningCommand;
         await _ctx.Handle(command);
 
         _ctx.OrganisatieBevoegdheidService.VerifyNever();

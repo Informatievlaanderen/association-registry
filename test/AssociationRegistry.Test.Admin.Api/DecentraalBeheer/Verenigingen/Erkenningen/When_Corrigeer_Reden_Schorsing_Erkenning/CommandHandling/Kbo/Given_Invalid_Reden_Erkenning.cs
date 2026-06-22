@@ -1,4 +1,5 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Corrigeer_Reden_Schorsing_Erkenning.CommandHandling.Kbo;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.
+    When_Corrigeer_Reden_Schorsing_Erkenning.CommandHandling.Kbo;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
@@ -8,7 +9,8 @@ using Xunit;
 
 public class Given_Invalid_Reden_Erkenning
 {
-    private readonly CorrigeerRedenSchorsingErkenningContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario> _ctx =
+    private readonly CorrigeerRedenSchorsingErkenningContext<
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario> _ctx =
         new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario(),
             s => s.ErkenningWerdGeregistreerd.ErkenningId,
             s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
@@ -18,7 +20,13 @@ public class Given_Invalid_Reden_Erkenning
     [InlineData(null)]
     public async ValueTask Then_Throw_ErkenningRedenSchorsingVerplicht(string reden)
     {
-        var command = _ctx.CreateCommand(redenSchorsing: reden);
+        var command = _ctx.CorrigeerRedenSchorsingErkenningCommand with
+        {
+            Erkenning = _ctx.CorrigeerRedenSchorsingErkenningCommand.Erkenning with
+            {
+                RedenSchorsing = reden,
+            },
+        };
 
         var exception = await Assert.ThrowsAsync<ErkenningRedenSchorsingIsVerplicht>(async () =>
         {

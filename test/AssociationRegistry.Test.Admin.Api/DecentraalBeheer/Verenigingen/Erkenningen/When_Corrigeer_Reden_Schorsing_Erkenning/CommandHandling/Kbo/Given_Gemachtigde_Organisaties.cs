@@ -14,7 +14,7 @@ public class Given_Gemachtigde_Organisaties
     [Fact]
     public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_ErkenningRedenVanSchorsingWerdGecorrigeerd()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.CorrigeerRedenSchorsingErkenningCommand;
         var organisatieBevoegdheidService = new IOrganisatieBevoegdheidServiceMockStub().WithGemachtigdeOrganisaties([
             _ctx.Metadata.Initiator,
         ]);
