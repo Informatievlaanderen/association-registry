@@ -14,10 +14,15 @@ using Microsoft.Extensions.Logging;
 using SocialMedias;
 using Subtypes.Subvereniging;
 using TelefoonNummers;
+using IClock = Framework.IClock;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
+
+    public bool IsGestopt => State.IsGestopt;
+    public Datum? Einddatum => State.Einddatum;
+
     public static async Task<Vereniging> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
         RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid registratieData,
         bool potentialDuplicatesSkipped,

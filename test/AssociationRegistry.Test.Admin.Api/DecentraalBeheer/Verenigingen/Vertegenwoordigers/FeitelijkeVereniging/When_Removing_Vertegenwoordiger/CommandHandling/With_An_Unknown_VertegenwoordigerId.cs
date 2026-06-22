@@ -1,45 +1,20 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.When_Removing_Vertegenwoordiger.CommandHandling;
 
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using AutoFixture;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using FluentAssertions;
-using Moq;
-using Wolverine.Marten;
+using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Xunit;
 
 public class With_An_Unknown_VertegenwoordigerId
 {
-    private readonly FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields _scenario;
-    private readonly VerwijderVertegenwoordigerCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-
-    public With_An_Unknown_VertegenwoordigerId()
-    {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields();
-
-        var verenigingRepositoryMock = new AggregateSessionMock(_scenario.GetVerenigingState());
-
-        _fixture = new Fixture().CustomizeAdminApi();
-        _commandHandler = new VerwijderVertegenwoordigerCommandHandler(
-            verenigingRepositoryMock
-        );
-    }
+    private readonly VerwijderVertegenwoordigerContext<FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields> _ctx =
+        new(new FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields(),
+            _ => 0);
 
     [Fact]
     public async ValueTask Then_A_UnknownVertegenoordigerException_Is_Thrown()
     {
-        var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _fixture.Create<int>());
-        var commandMetadata = _fixture.Create<CommandMetadata>();
+        var command = _ctx.CreateCommand(vertegenwoordigerId: _ctx.CreateUnknownVertegenwoordigerId());
 
-        var handle = () =>
-            _commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata));
-
-        await handle.Should().ThrowAsync<VertegenwoordigerIsNietGekend>();
+        await Assert.ThrowsAsync<VertegenwoordigerIsNietGekend>(async () => await _ctx.Handle(command));
     }
 }
