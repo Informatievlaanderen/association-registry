@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Test.Projections.SanityChecks;
 
 using System.Reflection;
-using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Admin.ProjectionHost.Projections.PowerBiExport;
-using AssociationRegistry.Events;
-using AssociationRegistry.MartenDb.Transformers;
-using AssociationRegistry.Public.ProjectionHost.Projections.Sequence;
+using Admin.ProjectionHost.Projections.Detail;
+using Admin.ProjectionHost.Projections.PowerBiExport;
+using Events;
 using JasperFx.Events;
-using Xunit;
+using MartenDb.Transformers;
+using Public.ProjectionHost.Projections.Sequence;
+using IEvent = Events.IEvent;
 
 public class For_Any_Event
 {
@@ -22,6 +22,7 @@ public class For_Any_Event
         typeof(DubbeleVerenigingenWerdenGedetecteerd),
         typeof(BewaartermijnWerdGestartV2), // TODO undo for powerbi
         typeof(ErkenningWerdGecorrigeerd),
+        typeof(ErkenningOpvolgersWerdenToegevoegdAlsBeheerder), // TODO check with analist if this needs to be exposed or not
         .. new PersoonsgegevensEventTransformers().Select(x => x.PersistedEventType),
     ];
 
@@ -29,9 +30,9 @@ public class For_Any_Event
     [Fact]
     public void There_Should_Be_A_Create_Or_Project_Method()
     {
-        var eventTypes = typeof(Events.IEvent)
+        var eventTypes = typeof(IEvent)
             .Assembly.GetTypes()
-            .Where(t => typeof(Events.IEvent).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
+            .Where(t => typeof(IEvent).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
             .Except(_excludedEventTypes) // only add events that are obsolete
             .ToList();
 
@@ -57,9 +58,9 @@ public class For_Any_Event
     [Fact]
     public void There_Should_Be_A_Create_Or_Project_Method_For_PowerBi()
     {
-        var eventTypes = typeof(Events.IEvent)
+        var eventTypes = typeof(IEvent)
             .Assembly.GetTypes()
-            .Where(t => typeof(Events.IEvent).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
+            .Where(t => typeof(IEvent).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
             .Except(_excludedEventTypes) // only add events that are obsolete
             .Except([typeof(ErkenningWerdGeregistreerd)]) // TODO implement in other PR
             .ToList();
@@ -89,9 +90,9 @@ public class For_Any_Event
     [Fact]
     public void There_Should_Be_A_Create_Or_Project_Method_For_Sequence_Projection()
     {
-        var eventTypes = typeof(Events.IEvent)
+        var eventTypes = typeof(IEvent)
             .Assembly.GetTypes()
-            .Where(t => typeof(Events.IEvent).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
+            .Where(t => typeof(IEvent).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
             .Except(_excludedEventTypes) // only add events that are obsolete
             .ToList();
 
