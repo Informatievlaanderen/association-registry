@@ -22,6 +22,7 @@ public class WijzigErkenningContext<TScenario>
     public IOrganisatieBevoegdheidServiceMockStub OrganisatieBevoegdheidService { get; }
 
     private readonly WijzigErkenningCommandHandler _commandHandler;
+    public WijzigErkenningCommand WijzigErkenningCommand { get; private set; }
 
     public WijzigErkenningContext(
         TScenario scenario,
@@ -35,19 +36,21 @@ public class WijzigErkenningContext<TScenario>
         _commandHandler = new WijzigErkenningCommandHandler(AggregateSessionMock);
         OrganisatieBevoegdheidService = new IOrganisatieBevoegdheidServiceMockStub();
         Metadata = defaultInitiator is not null
-            ? _fixture.Create<CommandMetadata>() with { Initiator = defaultInitiator(Scenario) }
+            ? _fixture.Create<CommandMetadata>() with
+            {
+                Initiator = defaultInitiator(Scenario),
+            }
             : _fixture.Create<CommandMetadata>();
+        WijzigErkenningCommand = CreateCommand();
     }
 
-    public WijzigErkenningCommand CreateCommand(
-        int? erkenningId = null,
-        TeWijzigenErkenning? teWijzigenErkenning = null)
-        => _fixture.Create<WijzigErkenningCommand>() with
+    private WijzigErkenningCommand CreateCommand()
+        => WijzigErkenningCommand = _fixture.Create<WijzigErkenningCommand>() with
         {
             VCode = Scenario.VCode,
-            Erkenning = teWijzigenErkenning ?? _fixture.Create<TeWijzigenErkenning>() with
+            Erkenning = _fixture.Create<TeWijzigenErkenning>() with
             {
-                ErkenningId = erkenningId ?? _defaultErkenningId(Scenario),
+                ErkenningId = _defaultErkenningId(Scenario),
             },
         };
 
@@ -60,7 +63,10 @@ public class WijzigErkenningContext<TScenario>
     public int CreateUnknownErkenningId() => _defaultErkenningId(Scenario) + _fixture.Create<int>();
 
     public CommandMetadata CreateMetadata(string? initiator = null)
-        => _fixture.Create<CommandMetadata>() with { Initiator = initiator ?? _fixture.Create<string>() };
+        => _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = initiator ?? _fixture.Create<string>(),
+        };
 
     public async ValueTask Handle(
         WijzigErkenningCommand command,

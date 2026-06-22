@@ -21,7 +21,10 @@ public class Given_The_Same_TeCorrigeren_Values
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Create(_ctx.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum.Value),
             HernieuwingsUrl = _ctx.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         await _ctx.Handle(command);
 

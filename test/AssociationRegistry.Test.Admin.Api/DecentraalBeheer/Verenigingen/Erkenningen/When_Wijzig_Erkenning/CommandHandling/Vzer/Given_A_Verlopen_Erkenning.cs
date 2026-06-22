@@ -28,7 +28,10 @@ public class Given_A_Verlopen_Erkenning
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Create(hernieuwingsdatum),
             HernieuwingsUrl = null,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         await _ctx.Handle(command);
 

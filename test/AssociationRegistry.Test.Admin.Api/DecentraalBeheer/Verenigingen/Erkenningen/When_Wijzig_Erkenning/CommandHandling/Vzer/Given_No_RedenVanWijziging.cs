@@ -28,7 +28,10 @@ public class Given_No_RedenVanWijziging
             HernieuwingsUrl = string.Empty,
             RedenVanWijziging = redenVanWijziging,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         var exception = await Assert.ThrowsAsync<RedenVanWijzigingIsVerplicht>(async () => await _ctx.Handle(command));
 

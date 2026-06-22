@@ -17,7 +17,13 @@ public class Given_Unknown_Erkenning
     public async ValueTask Then_Throws_ErkenningIsNietGekend()
     {
         var unknownErkenningId = _ctx.CreateUnknownErkenningId();
-        var command = _ctx.CreateCommand(erkenningId: unknownErkenningId);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = _ctx.WijzigErkenningCommand.Erkenning with
+            {
+                ErkenningId = unknownErkenningId,
+            },
+        };
 
         var exception = await Assert.ThrowsAsync<ErkenningIsNietGekend>(async () => await _ctx.Handle(command));
 

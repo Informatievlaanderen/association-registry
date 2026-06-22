@@ -15,7 +15,7 @@ public class Given_Another_OvoCode
     [Fact]
     public async ValueTask Then_It_Saves_An_ErkenningWerdGeschorst_Event()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.WijzigErkenningCommand;
         var metadata = _ctx.CreateMetadata();
 
         var exception = await Assert.ThrowsAsync<GiIsNietBevoegd>(async () => await _ctx.Handle(command, metadata));
