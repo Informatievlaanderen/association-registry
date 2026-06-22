@@ -18,6 +18,7 @@ public class ActiveerErkenningContext<TScenario>
     public CommandMetadata Metadata { get; }
 
     private readonly ActiveerErkenningCommandHandler _commandHandler;
+    public ActiveerErkenningCommand ActiveerErkenningCommand { get; private set; }
 
     public ActiveerErkenningContext(
         TScenario scenario,
@@ -30,21 +31,28 @@ public class ActiveerErkenningContext<TScenario>
         AggregateSessionMock = new AggregateSessionMock(Scenario.GetVerenigingState(), expectedLoadingDubbel: true);
         _commandHandler = new ActiveerErkenningCommandHandler(AggregateSessionMock);
         Metadata = defaultInitiator is not null
-            ? _fixture.Create<CommandMetadata>() with { Initiator = defaultInitiator(Scenario) }
+            ? _fixture.Create<CommandMetadata>() with
+            {
+                Initiator = defaultInitiator(Scenario),
+            }
             : _fixture.Create<CommandMetadata>();
+        ActiveerErkenningCommand = CreateCommand();
     }
 
-    public ActiveerErkenningCommand CreateCommand(int? erkenningId = null)
-        => _fixture.Create<ActiveerErkenningCommand>() with
+    private ActiveerErkenningCommand CreateCommand()
+        => ActiveerErkenningCommand = _fixture.Create<ActiveerErkenningCommand>() with
         {
             VCode = Scenario.VCode,
-            ErkenningId = erkenningId ?? _defaultErkenningId(Scenario),
+            ErkenningId = _defaultErkenningId(Scenario),
         };
 
     public int CreateUnknownErkenningId() => _defaultErkenningId(Scenario) + _fixture.Create<int>();
 
     public CommandMetadata CreateMetadata(string? initiator = null)
-        => _fixture.Create<CommandMetadata>() with { Initiator = initiator ?? _fixture.Create<string>() };
+        => _fixture.Create<CommandMetadata>() with
+        {
+            Initiator = initiator ?? _fixture.Create<string>(),
+        };
 
     public async ValueTask Handle(ActiveerErkenningCommand command, CommandMetadata? metadata = null)
         => await _commandHandler.Handle(
