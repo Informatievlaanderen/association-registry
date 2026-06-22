@@ -107,6 +107,7 @@ public static class ConfigureMartenExtensions
                     o.IncludeType<VertegenwoordigerWerdVerwijderdUitKBO>();
                     o.IncludeType<VerenigingWerdVerwijderd>();
                     o.IncludeType<VerenigingWerdGestopt>();
+                    o.IncludeType<VerenigingWerdGestoptInKBO>();
                     o.Options.SubscribeFromSequence(0);
                 }
             );
