@@ -16,7 +16,7 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask With_All_Fields_Then_It_Adds_An_ErkenningWerdGewijzigd_Event()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.WijzigErkenningCommand;
 
         await _ctx.Handle(command);
 
@@ -50,7 +50,10 @@ public class Given_A_Valid_Command
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
             HernieuwingsUrl = null,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         await _ctx.Handle(command);
 
@@ -84,7 +87,10 @@ public class Given_A_Valid_Command
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
             HernieuwingsUrl = null,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         await _ctx.Handle(command);
 
@@ -119,7 +125,10 @@ public class Given_A_Valid_Command
             EindDatum = NullOrEmpty<DateOnly>.Null,
             HernieuwingsUrl = null,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         await _ctx.Handle(command);
 
@@ -150,7 +159,10 @@ public class Given_A_Valid_Command
             EindDatum = NullOrEmpty<DateOnly>.Null,
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         await _ctx.Handle(command);
 
@@ -182,7 +194,10 @@ public class Given_A_Valid_Command
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
             HernieuwingsUrl = string.Empty,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         await _ctx.Handle(command);
 

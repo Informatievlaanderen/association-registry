@@ -20,7 +20,10 @@ public class Given_Hernieuwingsurl
         {
             HernieuwingsUrl = "ftp://example.com",
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         var exception = await Assert.ThrowsAsync<WebsiteMoetStartenMetHttps>(async () => await _ctx.Handle(command));
 

@@ -25,7 +25,10 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
             EindDatum = NullOrEmpty<DateOnly>.Null,
             Hernieuwingsdatum = hernieuwingsdatum,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         var exception = await Assert.ThrowsAsync<HernieuwingsDatumMoetTussenStartEnEindDatumLiggen>(async () => await _ctx.Handle(command));
 
@@ -43,7 +46,10 @@ public class Given_Hernieuwingsdatum_Outside_Erkenningsperiode
             EindDatum = NullOrEmpty<DateOnly>.Null,
             Hernieuwingsdatum = hernieuwingsdatum,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         var exception = await Assert.ThrowsAsync<HernieuwingsDatumMoetTussenStartEnEindDatumLiggen>(async () => await _ctx.Handle(command));
 

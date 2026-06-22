@@ -23,7 +23,10 @@ public class Given_Overlapping_Datums
             EindDatum = NullOrEmpty<DateOnly>.Create(_ctx.Scenario.ErkenningWerdGeregistreerdInToekomst.Einddatum.Value),
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Create(_ctx.Scenario.ErkenningWerdGeregistreerdInToekomst.Hernieuwingsdatum.Value),
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         var exception = await Assert.ThrowsAsync<ErkenningCombinatieBestaatAl>(async () => await _ctx.Handle(command));
 

@@ -24,7 +24,10 @@ public class Given_No_TeWijzigen_Values
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
             HernieuwingsUrl = null,
         };
-        var command = _ctx.CreateCommand(teWijzigenErkenning: erkenning);
+        var command = _ctx.WijzigErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
 
         var exception = await Assert.ThrowsAsync<MinstensEenTeWijzigenVeldMoetIngevuldZijn>(async () => await _ctx.Handle(command));
 

@@ -15,7 +15,7 @@ public class Given_A_Geschorste_Erkenning
     [Fact]
     public async ValueTask Then_It_Adds_An_ErkenningWerdGewijzigd_Event_With_Status_Geschorst()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.WijzigErkenningCommand;
 
         await _ctx.Handle(command);
 
