@@ -15,7 +15,7 @@ public class Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_
     [Fact]
     public async ValueTask Then_An_ErkenningAlreadyExists_Exception_Is_Thrown()
     {
-        var erkenning = _ctx.CreateCommand().Erkenning with
+        var erkenning = _ctx.RegistreerErkenningCommand.Erkenning with
         {
             ErkenningsPeriode = ErkenningsPeriode.Create(
                 _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
@@ -23,7 +23,11 @@ public class Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_
             ),
         };
 
-        var command = _ctx.CreateCommand(erkenning: erkenning);
+        var command = _ctx.RegistreerErkenningCommand with
+        {
+            Erkenning = erkenning,
+        };
+
         var ipdcProduct = _ctx.CreateIpdcProduct(nummer: _ctx.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer);
         var initiator = _ctx.CreateInitiator(ovoCode: _ctx.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
         var metadata = _ctx.CreateMetadata(initiator: _ctx.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
