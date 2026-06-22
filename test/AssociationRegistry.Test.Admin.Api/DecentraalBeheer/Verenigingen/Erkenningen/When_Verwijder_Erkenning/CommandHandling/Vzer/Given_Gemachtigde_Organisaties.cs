@@ -13,7 +13,7 @@ public class Given_Gemachtigde_Organisaties
     [Fact]
     public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_ErkenningWerdVerwijderd()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.VerwijderErkenningCommand;
         var service = _ctx.OrganisatieBevoegdheidService.WithGemachtigdeOrganisaties([_ctx.Metadata.Initiator]);
 
         await _ctx.Handle(command, service: service.Object);

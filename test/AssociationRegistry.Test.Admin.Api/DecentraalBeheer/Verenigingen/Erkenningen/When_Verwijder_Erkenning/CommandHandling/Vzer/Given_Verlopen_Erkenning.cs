@@ -14,7 +14,7 @@ public class Given_Verlopen_Erkenning
     [Fact]
     public async ValueTask Then_Then_It_Saves_An_ErkenningWerdVerwijderd_Event()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.VerwijderErkenningCommand;
 
         await _ctx.Handle(command);
 

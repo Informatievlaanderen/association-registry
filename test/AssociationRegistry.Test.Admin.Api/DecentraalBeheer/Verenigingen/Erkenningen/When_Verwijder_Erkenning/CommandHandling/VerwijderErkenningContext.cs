@@ -21,6 +21,7 @@ public class VerwijderErkenningContext<TScenario>
     public IOrganisatieBevoegdheidServiceMockStub OrganisatieBevoegdheidService { get; }
 
     private readonly VerwijderErkenningCommandHandler _commandHandler;
+    public VerwijderErkenningCommand VerwijderErkenningCommand { get; private set; }
 
     public VerwijderErkenningContext(
         TScenario scenario,
@@ -36,13 +37,14 @@ public class VerwijderErkenningContext<TScenario>
         Metadata = defaultInitiator is not null
             ? _fixture.Create<CommandMetadata>() with { Initiator = defaultInitiator(Scenario) }
             : _fixture.Create<CommandMetadata>();
+        VerwijderErkenningCommand = CreateCommand();
     }
 
-    public VerwijderErkenningCommand CreateCommand(int? erkenningId = null)
-        => _fixture.Create<VerwijderErkenningCommand>() with
+    private VerwijderErkenningCommand CreateCommand()
+        => VerwijderErkenningCommand = _fixture.Create<VerwijderErkenningCommand>() with
         {
             VCode = Scenario.VCode,
-            ErkenningId = erkenningId ?? _defaultErkenningId(Scenario),
+            ErkenningId = _defaultErkenningId(Scenario),
         };
 
     public int CreateUnknownErkenningId() => _defaultErkenningId(Scenario) + _fixture.Create<int>();
