@@ -13,7 +13,7 @@ public class Given_A_Valid_Erkenning
     [Fact]
     public async ValueTask Then_An_ErkenningWerdGeregistreerd_Event_Is_Saved_With_The_Next_Id()
     {
-        var command = _ctx.CreateCommand();
+        var command = _ctx.RegistreerErkenningCommand;
         var ipdcProduct = _ctx.CreateIpdcProduct();
         var initiator = _ctx.CreateInitiator();
 
