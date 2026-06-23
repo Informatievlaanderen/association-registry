@@ -1,0 +1,45 @@
+{
+  "id": null,
+  "uid": "request-rate-component",
+  "title": "[COMPONENT] request rate",
+  "tags": [],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Request Rate",
+      "datasource": { "type": "testdata", "uid": "testdata" },
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 10 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "random_walk",
+          "alias": "request rate",
+          "startValue": 150,
+          "min": 80,
+          "max": 300,
+          "spread": 40
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      }
+    }
+  ]
+}

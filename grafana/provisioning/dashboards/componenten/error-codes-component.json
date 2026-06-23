@@ -1,0 +1,97 @@
+{
+  "id": null,
+  "uid": "error-codes-component",
+  "title": "[COMPONENT] error codes",
+  "tags": [],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "4xx Errors",
+      "datasource": { "type": "testdata", "uid": "testdata" },
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 10 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "random_walk",
+          "alias": "4xx",
+          "startValue": 3,
+          "min": 0,
+          "max": 12,
+          "spread": 4
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops",
+          "color": { "mode": "fixed", "fixedColor": "orange" },
+          "custom": { "drawStyle": "bars", "fillOpacity": 80, "lineWidth": 0 }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "5xx Errors",
+      "datasource": { "type": "testdata", "uid": "testdata" },
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 10 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "predictable_pulse",
+          "alias": "5xx",
+          "pulseWave": {
+            "offCount": 12,
+            "onCount": 2,
+            "offValue": 0,
+            "onValue": 3,
+            "timeStep": 60
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "predictable_pulse",
+          "alias": "5xx spike",
+          "pulseWave": {
+            "offCount": 31,
+            "onCount": 1,
+            "offValue": 0,
+            "onValue": 5,
+            "timeStep": 60
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops",
+          "color": { "mode": "fixed", "fixedColor": "red" },
+          "custom": { "drawStyle": "bars", "fillOpacity": 80, "lineWidth": 0 },
+          "links": [
+            {
+              "title": "Bekijk error details",
+              "url": "/d/error-detail/error-detail?orgId=1&from=${__value.time}&to=${__value.time}",
+              "targetBlank": true
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      }
+    }
+  ]
+}

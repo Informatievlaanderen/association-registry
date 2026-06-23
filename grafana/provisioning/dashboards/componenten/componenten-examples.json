@@ -1,0 +1,150 @@
+{
+  "id": null,
+  "uid": "componenten-examples",
+  "title": "Componenten Examples Dashboard",
+  "tags": [],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "4xx Errors",
+      "datasource": { "type": "testdata", "uid": "testdata" },
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 10 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "random_walk",
+          "alias": "4xx",
+          "startValue": 3,
+          "min": 0,
+          "max": 12,
+          "spread": 4
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops",
+          "color": { "mode": "fixed", "fixedColor": "orange" },
+          "custom": { "drawStyle": "bars", "fillOpacity": 80, "lineWidth": 0 }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      }
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "5xx Errors",
+      "datasource": { "type": "testdata", "uid": "testdata" },
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 10 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "predictable_pulse",
+          "alias": "5xx",
+          "pulseWave": {
+            "offCount": 12,
+            "onCount": 2,
+            "offValue": 0,
+            "onValue": 3,
+            "timeStep": 60
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "predictable_pulse",
+          "alias": "5xx spike",
+          "pulseWave": {
+            "offCount": 31,
+            "onCount": 1,
+            "offValue": 0,
+            "onValue": 5,
+            "timeStep": 60
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops",
+          "color": { "mode": "fixed", "fixedColor": "red" },
+          "custom": { "drawStyle": "bars", "fillOpacity": 80, "lineWidth": 0 }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      }
+    },
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Request Rate",
+      "datasource": { "type": "testdata", "uid": "testdata" },
+      "gridPos": { "x": 0, "y": 10, "w": 24, "h": 10 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "random_walk",
+          "alias": "request rate",
+          "startValue": 150,
+          "min": 80,
+          "max": 300,
+          "spread": 40
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": { "lineWidth": 2, "fillOpacity": 10 }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "p95 Latency",
+      "datasource": { "type": "testdata", "uid": "testdata" },
+      "gridPos": { "x": 0, "y": 20, "w": 24, "h": 10 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "random_walk",
+          "alias": "p95",
+          "startValue": 0.18,
+          "min": 0.05,
+          "max": 1.5,
+          "spread": 0.25
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": { "lineWidth": 2, "fillOpacity": 10 }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      }
+    }
+  ]
+}
