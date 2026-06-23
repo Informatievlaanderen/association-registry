@@ -39,17 +39,7 @@ public class VoegVertegenwoordigerToeCommandHandler
 
 
         if (vereniging.IsGestopt)
-        {
-            var vervaldag = vereniging.Einddatum.ToInstant().PlusTicks(bewaartermijnOptions.Duration.Ticks);
-
-            await martenOutbox.SendAsync(new StartBewaartermijnMessage(
-                vereniging.VCode,
-                PersoonsgegevensType.Vertegenwoordigers.Value,
-                vertegenwoordigerId.VertegenwoordigerId,
-                vervaldag,
-                BewaartermijnReden.VerenigingWerdGestopt
-            ));
-        }
+            await StartBewaartermijn(martenOutbox, bewaartermijnOptions, vereniging, vertegenwoordigerId);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 
@@ -58,5 +48,22 @@ public class VoegVertegenwoordigerToeCommandHandler
             vertegenwoordigerId.VertegenwoordigerId,
             result
         );
+    }
+
+    private static async Task StartBewaartermijn(
+        IMartenOutbox martenOutbox,
+        BewaartermijnOptions bewaartermijnOptions,
+        Vereniging vereniging,
+        Vertegenwoordiger vertegenwoordigerId)
+    {
+        var vervaldag = vereniging.Einddatum.ToInstant().PlusTicks(bewaartermijnOptions.Duration.Ticks);
+
+        await martenOutbox.SendAsync(new StartBewaartermijnMessage(
+                                         vereniging.VCode,
+                                         PersoonsgegevensType.Vertegenwoordigers.Value,
+                                         vertegenwoordigerId.VertegenwoordigerId,
+                                         vervaldag,
+                                         BewaartermijnReden.VerenigingWerdGestopt
+                                     ));
     }
 }
