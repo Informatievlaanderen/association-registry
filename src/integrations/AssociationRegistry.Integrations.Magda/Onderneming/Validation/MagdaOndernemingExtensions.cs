@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Integrations.Magda.Onderneming.Validation;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Integrations.Magda.Onderneming.GeefOnderneming;
-using AssociationRegistry.Integrations.Magda.Shared.Constants;
-using AssociationRegistry.Integrations.Magda.Shared.Extensions;
 using AssociationRegistry.Magda.Kbo;
+using DecentraalBeheer.Vereniging;
+using GeefOnderneming;
+using Shared.Constants;
+using Shared.Extensions;
 
 public static class MagdaOndernemingExtensions
 {
@@ -59,7 +59,7 @@ public static class MagdaOndernemingExtensions
             KorteNaam = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen)?.Naam ?? string.Empty,
             Startdatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
             EindDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Stopzetting?.Datum, Formats.DateOnly),
-            IsActief = IsActiefOfInOprichting(magdaOnderneming),
+            IsActief = IsActiefOfIsInOprichting(magdaOnderneming),
             Adres = GetAdresFrom(maatschappelijkeZetel),
             Contactgegevens = GetContactgegevensFrom(maatschappelijkeZetel),
             Vertegenwoordigers = GetVertegenwoordigers(magdaOnderneming.Functies),
@@ -123,8 +123,8 @@ public static class MagdaOndernemingExtensions
     }
 
 
-    public static bool IsActiefOfInOprichting(Onderneming2_0Type magdaOnderneming)
-        => IsActief(magdaOnderneming) || IsInOprichting(magdaOnderneming);
+    public static bool IsActiefOfIsInOprichting(Onderneming2_0Type magdaOnderneming)
+        => IsActief(magdaOnderneming) || IsInJuridischeCreatie(magdaOnderneming) || IsBekendGemaakt(magdaOnderneming);
 
     public static VertegenwoordigerVolgensKbo[] GetVertegenwoordigers(FunctieType[] functies)
         => functies is null ? [] : functies
@@ -137,8 +137,11 @@ public static class MagdaOndernemingExtensions
         }).ToArray();
 
 
-    public static bool IsInOprichting(Onderneming2_0Type magdaOnderneming)
-        => magdaOnderneming.StatusKBO.Code.Value == StatusKBOCodes.InOprichting;
+    public static bool IsInJuridischeCreatie(Onderneming2_0Type magdaOnderneming)
+        => magdaOnderneming.StatusKBO.Code.Value == StatusKBOCodes.JuridischeCreatie;
+
+    public static bool IsBekendGemaakt(Onderneming2_0Type magdaOnderneming)
+        => magdaOnderneming.StatusKBO.Code.Value == StatusKBOCodes.BekendGemaakt;
 
     public static NaamOndernemingType? GetBestMatchingNaam(this NaamOndernemingType[]? namen)
     {
