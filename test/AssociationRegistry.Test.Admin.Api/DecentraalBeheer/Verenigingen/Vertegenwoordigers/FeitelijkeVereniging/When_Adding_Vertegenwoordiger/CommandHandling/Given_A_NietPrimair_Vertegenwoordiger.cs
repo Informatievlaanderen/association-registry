@@ -1,8 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.CommandHandling;
 
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Events;
 using FluentAssertions;
+using Moq;
+using Wolverine;
 using Xunit;
 
 public class Given_A_NietPrimair_Vertegenwoordiger
@@ -48,5 +51,20 @@ public class Given_A_NietPrimair_Vertegenwoordiger
             .VertegenwoordigerId;
 
         result.EntityId.Should().Be(vertegenwoordigerId);
+    }
+
+    [Fact]
+    public async ValueTask Then_BewaartermijnMessage_Is_Not_Sent()
+    {
+        var command = _ctx.CreateCommand();
+
+        await _ctx.Handle(command);
+
+        _ctx.OutboxMock.Verify(
+            x => x.SendAsync(
+                It.IsAny<StartBewaartermijnMessage>(),
+                It.IsAny<DeliveryOptions>()),
+            Times.Never
+        );
     }
 }
