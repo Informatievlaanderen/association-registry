@@ -77,7 +77,6 @@
     <PackageVersion Include="WolverineFx.AmazonSqs" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.Http" Version="5.9.2" />
     <PackageVersion Include="WolverineFx.Marten" Version="5.9.2" />
-    <PackageVersion Include="WolverineFx.Http" Version="5.0.0" />
     <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="8.19.9" />
     <PackageVersion Include="Amazon.Lambda.RuntimeSupport" Version="1.13.1" />
     <PackageVersion Include="Confluent.Kafka" Version="2.11.0" />
