@@ -233,6 +233,21 @@ var metadata = _ctx.CreateMetadata(initiator: WellknownOvoNumbers.VloOvoCode);
 await _ctx.Handle(command, metadata);
 ```
 
+For tests that check that an exception is thrown: use `Assert.ThrowsAsync<...>` — **never** `FluentAssertions` `.Should().ThrowAsync<...>`:
+
+```csharp
+// ✅ correct
+var exception = await Assert.ThrowsAsync<OverledenVertegenwoordigerKanNietToegevoegdWorden>(async () =>
+    await _ctx.Handle(command, new PersoonUitKsz(string.Empty, true))
+);
+
+// ❌ incorrect
+var method = async () => await _ctx.Handle(command);
+await method.Should().ThrowAsync<OverledenVertegenwoordigerKanNietToegevoegdWorden>();
+```
+
+Remove `FluentAssertions` from the test's usings when it was only needed for `.Should().ThrowAsync`.
+
 For tests that override a field that `CreateCommand` does not currently support, add an optional parameter to `CreateCommand` in the context class.
 
 ### 5. Clean up usings in every rewritten `Given_*` file
