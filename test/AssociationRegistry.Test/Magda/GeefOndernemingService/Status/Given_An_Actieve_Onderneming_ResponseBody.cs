@@ -19,12 +19,12 @@ using ResultNet;
 using Vereniging;
 using Xunit;
 
-public class Given_A_GeefOndernemingResponseBody_Which_Is_Active
+public class Given_An_Actieve_Onderneming_ResponseBody
 {
     private readonly MagdaGeefVerenigingService _service;
     private readonly Fixture _fixture;
 
-    public Given_A_GeefOndernemingResponseBody_Which_Is_Active()
+    public Given_An_Actieve_Onderneming_ResponseBody()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -46,11 +46,12 @@ public class Given_A_GeefOndernemingResponseBody_Which_Is_Active
     }
 
     [Fact]
-    public async ValueTask Then_It_Returns_A_SuccessResult()
+    public async ValueTask Then_It_Returns_Onderneming_Is_Actief()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), AanroependeFunctie.RegistreerVerenigingMetRechtspersoonlijkheid,_fixture.Create<CommandMetadata>(),
-                                                   CancellationToken.None);
+                                                   CancellationToken.None) as Result<VerenigingVolgensKbo>;;
 
         result.IsSuccess().Should().BeTrue();
+        result.Data.IsActief.Should().BeTrue();
     }
 }
