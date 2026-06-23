@@ -1,0 +1,54 @@
+{
+  "id": null,
+  "uid": "error-detail",
+  "title": "Error Detail",
+  "tags": [],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "",
+  "panels": [
+    {
+      "id": 1,
+      "type": "table",
+      "title": "Error Details",
+      "datasource": { "type": "testdata", "uid": "testdata" },
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 20 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "csv_content",
+          "csvContent": "Date,Error,Exception\n2026-06-23 03:01:14,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 03:04:52,500 Internal Server Error,TimeoutException: The operation has timed out\n2026-06-23 03:11:33,500 Internal Server Error,DbException: Connection timeout expired\n2026-06-23 03:22:08,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 03:35:41,500 Internal Server Error,InvalidOperationException: Sequence contains no elements\n2026-06-23 03:48:19,500 Internal Server Error,ArgumentNullException: Value cannot be null (Parameter 'registratieId')\n2026-06-23 04:02:55,500 Internal Server Error,TimeoutException: The operation has timed out\n2026-06-23 04:15:27,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 04:29:03,500 Internal Server Error,DbException: Deadlock detected on table 'Events'\n2026-06-23 04:44:38,500 Internal Server Error,InvalidOperationException: Sequence contains no elements\n2026-06-23 04:58:12,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 05:07:46,500 Internal Server Error,TimeoutException: The operation has timed out\n2026-06-23 05:19:21,500 Internal Server Error,ArgumentNullException: Value cannot be null (Parameter 'verenigingId')\n2026-06-23 05:31:55,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 05:43:09,500 Internal Server Error,DbException: Connection timeout expired\n2026-06-23 05:57:34,500 Internal Server Error,InvalidOperationException: Cannot insert duplicate key\n2026-06-23 06:03:48,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 06:17:22,500 Internal Server Error,TimeoutException: The operation has timed out\n2026-06-23 06:28:57,500 Internal Server Error,DbException: Connection timeout expired\n2026-06-23 06:41:33,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 06:52:08,500 Internal Server Error,ArgumentNullException: Value cannot be null (Parameter 'locatieId')\n2026-06-23 07:04:44,500 Internal Server Error,InvalidOperationException: Sequence contains no elements\n2026-06-23 07:16:19,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 07:29:53,500 Internal Server Error,TimeoutException: The operation has timed out\n2026-06-23 07:38:27,500 Internal Server Error,DbException: Deadlock detected on table 'Snapshots'\n2026-06-23 07:51:02,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 08:03:36,500 Internal Server Error,InvalidOperationException: Cannot insert duplicate key\n2026-06-23 08:14:11,500 Internal Server Error,ArgumentNullException: Value cannot be null (Parameter 'registratieId')\n2026-06-23 08:27:45,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 08:39:20,500 Internal Server Error,TimeoutException: The operation has timed out\n2026-06-23 08:52:54,500 Internal Server Error,DbException: Connection timeout expired\n2026-06-23 09:00:01,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 09:00:05,500 Internal Server Error,ArgumentNullException: Value cannot be null (Parameter 'registratieId')\n2026-06-23 09:01:12,500 Internal Server Error,InvalidOperationException: Sequence contains no elements\n2026-06-23 09:02:44,500 Internal Server Error,DbException: Connection timeout expired\n2026-06-23 09:03:18,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 09:04:55,500 Internal Server Error,TimeoutException: The operation has timed out\n2026-06-23 09:08:30,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 09:12:07,500 Internal Server Error,DbException: Deadlock detected on table 'Events'\n2026-06-23 09:18:42,500 Internal Server Error,InvalidOperationException: Sequence contains no elements\n2026-06-23 09:24:16,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object\n2026-06-23 09:31:51,500 Internal Server Error,TimeoutException: The operation has timed out\n2026-06-23 09:39:25,500 Internal Server Error,ArgumentNullException: Value cannot be null (Parameter 'verenigingId')\n2026-06-23 09:47:00,500 Internal Server Error,NullReferenceException: Object reference not set to an instance of an object"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "displayMode": "auto",
+            "inspect": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Date" },
+            "properties": [
+              { "id": "custom.width", "value": 200 }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Error" },
+            "properties": [
+              { "id": "custom.width", "value": 220 }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "sortBy": [{ "displayName": "Date", "desc": true }]
+      }
+    }
+  ]
+}

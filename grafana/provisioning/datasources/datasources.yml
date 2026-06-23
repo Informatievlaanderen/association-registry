@@ -24,6 +24,11 @@ datasources:
           name: TraceID
           url: "$${__value.raw}"
 
+  - name: TestData
+    type: testdata
+    uid: testdata
+    access: proxy
+
   - name: Tempo
     type: tempo
     uid: tempo

@@ -1,0 +1,45 @@
+{
+  "id": null,
+  "uid": "p95-component",
+  "title": "[COMPONENT] p95",
+  "tags": [],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "p95 Latency",
+      "datasource": { "type": "testdata", "uid": "testdata" },
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 10 },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "testdata", "uid": "testdata" },
+          "scenarioId": "random_walk",
+          "alias": "p95",
+          "startValue": 0.18,
+          "min": 0.05,
+          "max": 1.5,
+          "spread": 0.25
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi" },
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      }
+    }
+  ]
+}
