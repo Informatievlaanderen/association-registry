@@ -1230,6 +1230,34 @@ jobs:
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
 
+  deploy_grafana_dashboards:
+    if: needs.release.outputs.version != 'none'
+    needs: [ deploy_test_ik4 ]
+    name: Deploy Grafana Dashboards
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy Overview dashboard
+        shell: bash
+        env:
+          GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
+          GRAFANA_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
+        run: |
+          DASHBOARD=$(python3 -c "
+          import json
+          with open('grafana/provisioning/dashboards/root/overview.json') as f:
+              d = json.load(f)
+          d['id'] = None
+          print(json.dumps({'dashboard': d, 'overwrite': False, 'folderId': 0}))
+          ")
+          curl --silent --fail-with-body \
+            -X POST "$GRAFANA_URL/api/dashboards/db" \
+            -H "Authorization: Bearer $GRAFANA_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "$DASHBOARD"
+
   notify:
     if: failure()
     name: Notify slack
