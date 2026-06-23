@@ -1,3 +1,15 @@
+# [8.330.0](https://github.com/informatievlaanderen/association-registry/compare/v8.329.0...v8.330.0) (2026-06-23)
+
+
+### Features
+
+* or-3125 add erkenning opvolgers ([adc42aa](https://github.com/informatievlaanderen/association-registry/commit/adc42aa8c2678f9c3755ed8024dc798a6b193bc0))
+* or-3125 add ErkenningOpvolgersWerdenToegevoegdAlsBeheerder to powerbi historiek ([a2211bb](https://github.com/informatievlaanderen/association-registry/commit/a2211bb0e622f71b292a8d6d2295a1d38b325010))
+* or-3125 get opvolger organisaties when GI is niet bevoegd on erkenningen edits ([119c4ad](https://github.com/informatievlaanderen/association-registry/commit/119c4ad0c778632d345736997658b1f7ef95a6c2))
+* or-3125 implement get opvolger organisaties from wegwijs client ([49b71b8](https://github.com/informatievlaanderen/association-registry/commit/49b71b85f8c659da2575ea21fc95f397b86b14e7))
+* or-3125 implement service to check gemachtigde opvolger organisaties ([3404654](https://github.com/informatievlaanderen/association-registry/commit/340465445efe94c30dbf23cde9845ea8eb048c01))
+* or-3125 validate and add gemachtigde organisatie for erkenningen ([5d51f2b](https://github.com/informatievlaanderen/association-registry/commit/5d51f2bfeb5f5cb0616693a707eb42ecbca657a5))
+
 # [8.329.0](https://github.com/informatievlaanderen/association-registry/compare/v8.328.2...v8.329.0) (2026-06-18)
 
 
