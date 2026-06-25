@@ -7,14 +7,19 @@ using Xunit;
 public class Given_Gemachtigde_Organisaties
 {
     private readonly VerwijderErkenningContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario> _ctx =
-        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario(),
-            s => s.ErkenningWerdGeregistreerd.ErkenningId);
+        new(
+            new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario(),
+            s => s.ErkenningWerdGeregistreerd.ErkenningId
+        );
 
     [Fact]
     public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_ErkenningWerdVerwijderd()
     {
         var command = _ctx.VerwijderErkenningCommand;
-        var service = _ctx.OrganisatieBevoegdheidService.WithGemachtigdeOrganisaties([_ctx.Metadata.Initiator]);
+        var service = _ctx.OrganisatieBevoegdheidService.WithGemachtigdeOrganisaties(
+            _ctx.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+            [_ctx.Metadata.Initiator]
+        );
 
         await _ctx.Handle(command, service: service.Object);
 

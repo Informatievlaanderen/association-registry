@@ -8,16 +8,19 @@ using Xunit;
 public class Given_Gemachtigde_Organisaties
 {
     private readonly CorrigeerRedenSchorsingErkenningContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario> _ctx =
-        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario(),
-            s => s.ErkenningWerdGeregistreerd.ErkenningId);
+        new(
+            new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario(),
+            s => s.ErkenningWerdGeregistreerd.ErkenningId
+        );
 
     [Fact]
     public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_ErkenningRedenVanSchorsingWerdGecorrigeerd()
     {
         var command = _ctx.CorrigeerRedenSchorsingErkenningCommand;
-        var organisatieBevoegdheidService = new IOrganisatieBevoegdheidServiceMockStub().WithGemachtigdeOrganisaties([
-            _ctx.Metadata.Initiator,
-        ]);
+        var organisatieBevoegdheidService = new IOrganisatieBevoegdheidServiceMockStub().WithGemachtigdeOrganisaties(
+            _ctx.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+            [_ctx.Metadata.Initiator]
+        );
         await _ctx.Handle(command, service: organisatieBevoegdheidService.Object);
 
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(

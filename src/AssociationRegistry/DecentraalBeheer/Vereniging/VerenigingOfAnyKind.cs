@@ -301,11 +301,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         }
 
         var stateLocatie = State.Locaties.SingleOrDefault(sod =>
-                                                              sod.LocatieId != locatieId
-                                                           && sod.AdresId is not null
-                                                           && sod.AdresId == adresWerdOvergenomen.AdresId
-                                                           && sod.Naam == locatie.Naam
-                                                           && sod.Locatietype == locatie.Locatietype
+            sod.LocatieId != locatieId
+            && sod.AdresId is not null
+            && sod.AdresId == adresWerdOvergenomen.AdresId
+            && sod.Naam == locatie.Naam
+            && sod.Locatietype == locatie.Locatietype
         );
 
         if (stateLocatie is not null)
@@ -467,7 +467,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (!State.CorresponderendeVCodes.Contains(dubbeleVereniging))
             throw new ApplicationException(
                 $"Vereniging kon correctie dubbele vereniging ({dubbeleVereniging}) niet aanvaarden omdat dubbele vereniging "
-              + $"niet voorkomt in de corresponderende VCodes: {string.Join(',', State.CorresponderendeVCodes)}."
+                    + $"niet voorkomt in de corresponderende VCodes: {string.Join(',', State.CorresponderendeVCodes)}."
             );
 
         AddEvent(EventFactory.VerenigingAanvaarddeCorrectieDubbeleVereniging(VCode, dubbeleVereniging));
@@ -511,8 +511,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void WijzigBankrekeningnummer(TeWijzigenBankrekeningnummer teWijzigenBankrekeningnummer, string intiator)
     {
         var vorigeTitularis = State
-                             .Bankrekeningnummers.GetById(teWijzigenBankrekeningnummer.BankrekeningnummerId)
-                             .Titularis;
+            .Bankrekeningnummers.GetById(teWijzigenBankrekeningnummer.BankrekeningnummerId)
+            .Titularis;
 
         var gewijzigdBankrekeningnummer = State.Bankrekeningnummers.Wijzig(teWijzigenBankrekeningnummer);
 
@@ -531,8 +531,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void Valideer(int bankrekeningnummerId, string initiator)
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
-                                                                               x.BankrekeningnummerId ==
-                                                                               bankrekeningnummerId
+            x.BankrekeningnummerId == bankrekeningnummerId
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
@@ -551,8 +550,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void MaakValidatieOngedaan(int bankrekeningnummerId, string initiator)
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
-                                                                               x.BankrekeningnummerId ==
-                                                                               bankrekeningnummerId
+            x.BankrekeningnummerId == bankrekeningnummerId
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
@@ -589,8 +587,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void VerwijderBankrekeningnummer(int bankrekeningnummerId)
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
-                                                                               x.BankrekeningnummerId ==
-                                                                               bankrekeningnummerId
+            x.BankrekeningnummerId == bankrekeningnummerId
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
@@ -611,7 +608,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var toegevoegdeErkenning = Erkenning.Create(State.Erkenningen.NextId, erkenning, ipdcProduct, initiator);
 
         Throw<ErkenningCombinatieBestaatAl>.If(
-            !State.Erkenningen.KanErkenningToevoegenMetCombinatie(toegevoegdeErkenning));
+            !State.Erkenningen.KanErkenningToevoegenMetCombinatie(toegevoegdeErkenning)
+        );
 
         AddEvent(EventFactory.ErkenningWerdGeregistreerd(toegevoegdeErkenning));
 
@@ -621,7 +619,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public async Task SchorsErkenning(
         TeSchorsenErkenning teSchorsenErkenning,
         string initiator,
-        IOrganisatieBevoegdheidService organisatieBevoegdheidService)
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService
+    )
     {
         var huidigeErkenning = State.Erkenningen.GetById(teSchorsenErkenning.ErkenningId);
 
@@ -642,7 +641,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public async Task HefSchorsingErkenningOp(
         int erkenningId,
         string initiator,
-        IOrganisatieBevoegdheidService organisatieBevoegdheidService)
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService
+    )
     {
         var huidigeErkenning = State.Erkenningen.GetById(erkenningId);
 
@@ -696,7 +696,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public async Task WijzigErkenning(
         TeWijzigenErkenning teWijzigenErkenning,
         string initiator,
-        IOrganisatieBevoegdheidService organisatieBevoegdheidService)
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService
+    )
     {
         var huidigeErkenning = State.Erkenningen.GetById(teWijzigenErkenning.ErkenningId);
         var isBevoegd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
@@ -719,7 +720,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var gewijzigdeErkenning = huidigeErkenning.CreateFromErkenningWijziging(erkenningWijziging);
 
         Throw<ErkenningCombinatieBestaatAl>.If(
-            !State.Erkenningen.KanErkenningWijzigenMetCombinatie(gewijzigdeErkenning));
+            !State.Erkenningen.KanErkenningWijzigenMetCombinatie(gewijzigdeErkenning)
+        );
 
         AddEvent(EventFactory.ErkenningWerdGewijzigd(gewijzigdeErkenning, teWijzigenErkenning.RedenVanWijziging));
     }
@@ -727,7 +729,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public async Task VerwijderErkenning(
         int erkenningId,
         string initiator,
-        IOrganisatieBevoegdheidService organisatieBevoegdheidService)
+        IOrganisatieBevoegdheidService organisatieBevoegdheidService
+    )
     {
         var huidigeErkenning = State.Erkenningen.GetById(erkenningId);
 
@@ -782,7 +785,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     private async Task<bool> ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
         string initiator,
         IOrganisatieBevoegdheidService organisatieBevoegdheidService,
-        Erkenning huidigeErkenning)
+        Erkenning huidigeErkenning
+    )
     {
         var isBevoegdeOrganisatie =
             huidigeErkenning.GeregistreerdDoor.OvoCode == initiator || huidigeErkenning.Beheerders.Contains(initiator);
@@ -790,15 +794,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (isBevoegdeOrganisatie)
             return true;
 
-        var opvolgers = await organisatieBevoegdheidService.GetOpvolgers(initiator);
+        var opvolgers = await organisatieBevoegdheidService.GetOpvolgers(huidigeErkenning.GeregistreerdDoor.OvoCode);
         var isOpvolger = opvolgers.Contains(initiator);
 
         if (isOpvolger)
         {
             AddEvent(
-                EventFactory.ErkenningOpvolgersWerdenToegevoegdAlsBeheerder(
-                    huidigeErkenning.ErkenningId,
-                    opvolgers));
+                EventFactory.ErkenningOpvolgersWerdenToegevoegdAlsBeheerder(huidigeErkenning.ErkenningId, opvolgers)
+            );
         }
 
         return isOpvolger;

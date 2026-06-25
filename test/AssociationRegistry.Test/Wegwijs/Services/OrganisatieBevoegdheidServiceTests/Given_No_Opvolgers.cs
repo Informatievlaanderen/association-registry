@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Wegwijs.Services.OrganisatieBevoegdheidServic
 using Common.StubsMocksFakes.Wegwijs;
 using FluentAssertions;
 using Integrations.Wegwijs.Services;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 public class Given_No_Opvolgers
@@ -11,7 +12,7 @@ public class Given_No_Opvolgers
     public async Task Then_Opvolgers_Should_Be_Empty()
     {
         var stub = new IWegwijsClientMockStub().SetupGemachtigdeOrganisatieWithoutOpvolgers("OVO001000");
-        var sut = new OrganisatieBevoegdheidService(stub.Object);
+        var sut = new OrganisatieBevoegdheidService(stub.Object, NullLogger<OrganisatieBevoegdheidService>.Instance);
 
         var opvolgers = await sut.GetOpvolgers("OVO001000");
 

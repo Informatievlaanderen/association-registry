@@ -8,15 +8,20 @@ using Xunit;
 public class Given_Gemachtigde_Organisaties
 {
     private readonly HefSchorsingErkenningOpContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario> _ctx =
-        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario(),
-            s => s.ErkenningWerdGeregistreerd.ErkenningId);
+        new(
+            new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario(),
+            s => s.ErkenningWerdGeregistreerd.ErkenningId
+        );
 
     [Fact]
     public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_SchorsingWerdOpgeheven()
     {
         var command = _ctx.HefSchorsingErkenningOpCommand;
 
-        var service = _ctx.OrganisatieBevoegdheidService.WithGemachtigdeOrganisaties([_ctx.Metadata.Initiator]);
+        var service = _ctx.OrganisatieBevoegdheidService.WithGemachtigdeOrganisaties(
+            _ctx.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+            [_ctx.Metadata.Initiator]
+        );
 
         await _ctx.Handle(command, service: service.Object);
 
@@ -27,13 +32,15 @@ public class Given_Gemachtigde_Organisaties
             ),
             new SchorsingVanErkenningWerdOpgeheven(
                 command.ErkenningId,
-                ErkenningStatus.Bepaal(
-                    ErkenningsPeriode.Create(
-                        _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
-                        _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
-                    ),
-                    DateOnly.FromDateTime(DateTime.Now)
-                ).Value
+                ErkenningStatus
+                    .Bepaal(
+                        ErkenningsPeriode.Create(
+                            _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
+                            _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
+                        ),
+                        DateOnly.FromDateTime(DateTime.Now)
+                    )
+                    .Value
             )
         );
     }
