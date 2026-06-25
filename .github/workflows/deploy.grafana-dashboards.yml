@@ -1,0 +1,34 @@
+﻿name: "[Deploy] Grafana Dashboards"
+
+on:
+  workflow_dispatch:
+    inputs:
+      grafana_org_id:
+        description: "Grafana Org ID"
+        required: false
+        default: "2"
+
+jobs:
+  deploy_grafana_dashboards:
+    name: Deploy Grafana Dashboards
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install gcx
+        shell: bash
+        run: |
+          curl -sSL https://github.com/grafana/gcx/releases/download/v0.4.1/gcx_0.4.1_linux_amd64.tar.gz \
+            | tar -xz -C /usr/local/bin gcx
+          gcx --version
+
+      - name: Push Grafana dashboards
+        shell: bash
+        run: |
+          gcx config set grafana.server "${{ secrets.GRAFANA_URL }}"
+          gcx config set grafana.token "${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}"
+          gcx config set grafana.org-id "${{ inputs.grafana_org_id }}"
+          gcx resources push -p grafana/gcx-resources
+
