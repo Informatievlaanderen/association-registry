@@ -1,3 +1,10 @@
+## [8.331.1](https://github.com/informatievlaanderen/association-registry/compare/v8.331.0...v8.331.1) (2026-06-25)
+
+
+### Bug Fixes
+
+* or-3125 use geregistreerdDoor for get opvolgers erkenning instead of initiator ([a2895df](https://github.com/informatievlaanderen/association-registry/commit/a2895df5a12297e7a0a515e6b5c4d17626f16fe2))
+
 # [8.331.0](https://github.com/informatievlaanderen/association-registry/compare/v8.330.0...v8.331.0) (2026-06-25)
 
 
