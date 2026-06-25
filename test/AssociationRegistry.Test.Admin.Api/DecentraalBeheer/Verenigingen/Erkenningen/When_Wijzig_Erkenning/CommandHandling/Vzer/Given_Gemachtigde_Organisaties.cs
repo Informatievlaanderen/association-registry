@@ -8,14 +8,19 @@ using Xunit;
 public class Given_Gemachtigde_Organisaties
 {
     private readonly WijzigErkenningContext<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario> _ctx =
-        new(new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario(),
-            s => s.ErkenningWerdGeregistreerd.ErkenningId);
+        new(
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario(),
+            s => s.ErkenningWerdGeregistreerd.ErkenningId
+        );
 
     [Fact]
     public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_ErkenningWerdGewijzigd()
     {
         var command = _ctx.WijzigErkenningCommand;
-        var service = _ctx.OrganisatieBevoegdheidService.WithGemachtigdeOrganisaties([_ctx.Metadata.Initiator]);
+        var service = _ctx.OrganisatieBevoegdheidService.WithGemachtigdeOrganisaties(
+            _ctx.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode,
+            [_ctx.Metadata.Initiator]
+        );
 
         await _ctx.Handle(command, service: service.Object);
 
@@ -31,11 +36,11 @@ public class Given_Gemachtigde_Organisaties
                 command.Erkenning.Hernieuwingsdatum.Value,
                 command.Erkenning.HernieuwingsUrl,
                 ErkenningStatus
-                   .Bepaal(
+                    .Bepaal(
                         ErkenningsPeriode.Create(command.Erkenning.StartDatum.Value, command.Erkenning.EindDatum.Value),
                         DateOnly.FromDateTime(DateTime.Today)
                     )
-                   .Value,
+                    .Value,
                 command.Erkenning.RedenVanWijziging
             )
         );
