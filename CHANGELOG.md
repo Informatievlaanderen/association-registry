@@ -1,3 +1,22 @@
+# [8.331.0](https://github.com/informatievlaanderen/association-registry/compare/v8.330.0...v8.331.0) (2026-06-25)
+
+
+### Bug Fixes
+
+* or-3254 include inoprichting statussen to determine if onderneming is active ([6be8047](https://github.com/informatievlaanderen/association-registry/commit/6be8047384508e0ca29efcdf36869bede8b6cc3e))
+
+
+### Features
+
+* or-3062 deploy grafana dasboards via cicd ([45b0286](https://github.com/informatievlaanderen/association-registry/commit/45b0286b907c5915d414e40b8e4594ef4e464540))
+* or-3254 add bewaartermijn for VertegenwoordigerWerdVerwijderdUitKbo ([4a315b7](https://github.com/informatievlaanderen/association-registry/commit/4a315b77dab18b2e091986f26184ff91e458a9a5))
+* or-3254 create bewaartermijn for added vertegenwoordiger on stopped vereniging and expose context in voeg vertegenwoordigers toe and remove vertegenoordiger ([8893bd1](https://github.com/informatievlaanderen/association-registry/commit/8893bd1efeebdf50c20cef0c59086415cfbff725))
+* or-3257 setup local grafana via docker ([2a2e872](https://github.com/informatievlaanderen/association-registry/commit/2a2e872d820e6f4fdb3d64bf01f46e360727bbb1))
+* or-3258 create empty grafana dashboard ([b3cdd14](https://github.com/informatievlaanderen/association-registry/commit/b3cdd14f88d9477cf2b8b77802c2669054659b55))
+* or-3259 create components in component library dashboard ([b25b77b](https://github.com/informatievlaanderen/association-registry/commit/b25b77beb35430ec3f7f5ec11e08ebd5f4f12002))
+* or-3260 setup ci cd to push an example dashboard to grafana ([53590e1](https://github.com/informatievlaanderen/association-registry/commit/53590e16522b0a1c81d36aced48dd524f4f80d43))
+* or-3262 add bewaartermijn for VerenigingWerdGestoptInKBO ([5a11579](https://github.com/informatievlaanderen/association-registry/commit/5a11579cae0e4307b7509d009810890a4ad3fc22))
+
 # [8.330.0](https://github.com/informatievlaanderen/association-registry/compare/v8.329.0...v8.330.0) (2026-06-23)
 
 
