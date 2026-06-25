@@ -1239,24 +1239,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Deploy Overview dashboard
+      - name: Install gcx
+        shell: bash
+        run: |
+          curl -sSL https://github.com/grafana/gcx/releases/download/v0.4.1/gcx_0.4.1_linux_amd64.tar.gz \
+            | tar -xz -C /usr/local/bin gcx
+          gcx --version
+
+      - name: Push Grafana dashboards
         shell: bash
         env:
-          GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
-          GRAFANA_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
-        run: |
-          DASHBOARD=$(python3 -c "
-          import json
-          with open('grafana/provisioning/dashboards/root/overview.json') as f:
-              d = json.load(f)
-          d['id'] = None
-          print(json.dumps({'dashboard': d, 'overwrite': False, 'folderId': 0}))
-          ")
-          curl --silent --fail-with-body \
-            -X POST "$GRAFANA_URL/api/dashboards/db" \
-            -H "Authorization: Bearer $GRAFANA_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$DASHBOARD"
+          GCX_GRAFANA_SERVER: ${{ secrets.GRAFANA_URL }}
+          GCX_GRAFANA_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
+          GCX_GRAFANA_ORG_ID: "2"
+        run: gcx resources push -p grafana/gcx-resources
 
   notify:
     if: failure()
