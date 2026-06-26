@@ -1,3 +1,10 @@
+# [8.332.0](https://github.com/informatievlaanderen/association-registry/compare/v8.331.1...v8.332.0) (2026-06-26)
+
+
+### Features
+
+* or-3261 add first acm response time dashboard ([a92caa4](https://github.com/informatievlaanderen/association-registry/commit/a92caa44f3e6c98731ed2c72738e63579261ab0c))
+
 ## [8.331.1](https://github.com/informatievlaanderen/association-registry/compare/v8.331.0...v8.331.1) (2026-06-25)
 
 
