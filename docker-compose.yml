@@ -197,6 +197,35 @@ services:
       - tempo
     networks:
       - vr-net
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  grafana-dashboard-provisioner:
+    build:
+      context: ./grafana/provisioner
+      dockerfile: Dockerfile
+    image: vr_grafana_provisioner
+    container_name: vr_grafana_provisioner
+    restart: "no"
+    depends_on:
+      grafana:
+        condition: service_healthy
+    volumes:
+      - ./grafana/production-dashboards:/dashboards:ro
+    networks:
+      - vr-net
+    environment:
+      GRAFANA_URL: "http://grafana:3000"
+      GRAFANA_ORG_ID: "1"
+    command:
+      - |
+        gcx config set grafana.server "$$GRAFANA_URL"
+        gcx config set grafana.org-id "$$GRAFANA_ORG_ID"
+        gcx resources push -p /dashboards
+        echo "Dashboards pushed successfully"
 
 
   # golden master template creation - Step 1: Run Grate with local scripts (schema only, no production migrations)
