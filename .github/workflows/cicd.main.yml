@@ -1252,7 +1252,7 @@ jobs:
           gcx config set grafana.server "${{ secrets.GRAFANA_URL }}"
           gcx config set grafana.token "${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}"
           gcx config set grafana.org-id "2"
-          gcx resources push -p grafana/gcx-resources
+          gcx resources push -p grafana/production-dashboards
 
   notify:
     if: failure()
