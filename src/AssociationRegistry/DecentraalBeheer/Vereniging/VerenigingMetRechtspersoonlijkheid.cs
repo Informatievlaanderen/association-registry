@@ -53,14 +53,17 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
                 verenigingVolgensKbo.Contactgegevens.Email,
                 ContactgegeventypeVolgensKbo.Email
             );
+
             vereniging.VoegContactgegevenToe(
                 verenigingVolgensKbo.Contactgegevens.Website,
                 ContactgegeventypeVolgensKbo.Website
             );
+
             vereniging.VoegContactgegevenToe(
                 verenigingVolgensKbo.Contactgegevens.Telefoonnummer,
                 ContactgegeventypeVolgensKbo.Telefoon
             );
+
             vereniging.VoegContactgegevenToe(
                 verenigingVolgensKbo.Contactgegevens.GSM,
                 ContactgegeventypeVolgensKbo.GSM
@@ -283,6 +286,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     {
         if (State.Naam == naam)
             return;
+
         AddEvent(new NaamWerdGewijzigdInKbo(naam));
     }
 
@@ -290,6 +294,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     {
         if (State.Verenigingstype == verenigingstype)
             return;
+
         AddEvent(EventFactory.RechtsvormWerdGewijzigdInKBO(verenigingstype));
     }
 
@@ -297,6 +302,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     {
         if (State.KorteNaam == korteNaam)
             return;
+
         AddEvent(new KorteNaamWerdGewijzigdInKbo(korteNaam));
     }
 
@@ -304,6 +310,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     {
         if (State.Startdatum == startdatum)
             return;
+
         AddEvent(EventFactory.StartdatumWerdGewijzigdInKbo(startdatum));
     }
 
@@ -359,6 +366,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     {
         if (State.IsGestopt)
             return;
+
         AddEvent(EventFactory.VerenigingWerdGestoptInKBO(eindDatum));
     }
 
@@ -411,6 +419,13 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         HandleContactgegevens(verenigingVolgensMagda);
         HandleVertegenwoordigers(verenigingVolgensMagda);
         HandleBankrekeningnummers(verenigingVolgensMagda);
+        CorrigeerStatus(verenigingVolgensMagda);
+    }
+
+    private void CorrigeerStatus(VerenigingVolgensKbo verenigingVolgensMagda)
+    {
+        if (State.IsGestopt && verenigingVolgensMagda.IsActief)
+            AddEvent(EventFactory.KBOStatusWerdGecorrigeerdNaarActief(State.VCode.Value));
     }
 
     private void HandleBankrekeningnummers(VerenigingVolgensKbo verenigingVolgensKbo)
@@ -437,13 +452,19 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         );
 
         foreach (var v in findToeTeVoegenBankrekeningnummers)
+        {
             AddEvent(EventFactory.BankrekeningnummerWerdToegevoegdVanuitKBO(v));
+        }
 
         foreach (var v in findTeVerwijderdenBankrekeningnummers)
+        {
             AddEvent(EventFactory.BankrekeningnummerWerdVerwijderdUitKBO(v));
+        }
 
         foreach (var v in overTeNemenBankrekeningnummers)
+        {
             AddEvent(EventFactory.BankrekeningnummerWerdOvergenomenVanuitKBO(v));
+        }
     }
 
     private void HandleVertegenwoordigers(VerenigingVolgensKbo verenigingVolgensKbo)
@@ -456,21 +477,29 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         var toeTeVoegenVertegenwoordigers = State.Vertegenwoordigers.FindToeTeVoegenVertegenwoordigersUitKbo(
             vertegenwoordigersVolgensKbo
         );
+
         var teVerwijderenVertegenwoordigers = State.Vertegenwoordigers.FindTeVerwijderdenVertegenwoordigers(
             vertegenwoordigersVolgensKbo
         );
+
         var teWijzigenVertegenwoordigers = State.Vertegenwoordigers.FindTeWijzigenVertegenwoordigers(
             vertegenwoordigersVolgensKbo
         );
 
         foreach (var v in toeTeVoegenVertegenwoordigers)
+        {
             AddEvent(EventFactory.VertegenwoordigerWerdToegevoegdVanuitKbo(v));
+        }
 
         foreach (var v in teWijzigenVertegenwoordigers)
+        {
             AddEvent(EventFactory.VertegenwoordigerWerdGewijzigdInKBO(v));
+        }
 
         foreach (var v in teVerwijderenVertegenwoordigers)
+        {
             AddEvent(EventFactory.VertegenwoordigerWerdVerwijderdUitKBO(v));
+        }
     }
 
     private void HandleInactief(InactieveVereniging verenigingVolgensMagda)
@@ -484,6 +513,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             verenigingVolgensMagda.Data.Contactgegevens.Email,
             ContactgegeventypeVolgensKbo.Email
         );
+
         WijzigContactgegevenUitKbo(
             verenigingVolgensMagda.Data.Contactgegevens.Website,
             ContactgegeventypeVolgensKbo.Website
