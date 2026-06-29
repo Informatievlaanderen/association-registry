@@ -56,13 +56,13 @@ public record VerenigingState : IHasVersion
     public bool IsAuthentiekeVereniging => CorresponderendeVCodes.Length != 0;
     public string[] CorresponderendeVCodes { get; set; } = [];
     public VerenigingStatus VerenigingStatus { get; set; }
-    public long Version { get; set; }
-
     public GeotagsCollection Geotags { get; set; } = GeotagsCollection.Null;
-
     public Bankrekeningnummers Bankrekeningnummers { get; init; } = Bankrekeningnummers.Empty;
+
     public Erkenningen.Erkenningen Erkenningen { get; init; } =
         DecentraalBeheer.Vereniging.Erkenningen.Erkenningen.Empty;
+
+    public long Version { get; set; }
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event) =>
         new()
@@ -368,6 +368,13 @@ public record VerenigingState : IHasVersion
         };
     }
 
+    public VerenigingState Apply(KBOStatusWerdGecorrigeerdNaarActief _) =>
+        this with
+        {
+            VerenigingStatus = VerenigingStatus.Actief,
+            Einddatum = null,
+        };
+
     public VerenigingState Apply(HoofdactiviteitenVerenigingsloketWerdenGewijzigd @event) =>
         this with
         {
@@ -640,9 +647,7 @@ public record VerenigingState : IHasVersion
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
 
         if (locatie is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -665,9 +670,7 @@ public record VerenigingState : IHasVersion
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
 
         if (locatie is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -680,9 +683,7 @@ public record VerenigingState : IHasVersion
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
 
         if (locatie is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -695,9 +696,7 @@ public record VerenigingState : IHasVersion
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
 
         if (locatie is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -713,9 +712,7 @@ public record VerenigingState : IHasVersion
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
 
         if (locatie is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -738,9 +735,7 @@ public record VerenigingState : IHasVersion
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
 
         if (locatie is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -753,9 +748,7 @@ public record VerenigingState : IHasVersion
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.VerwijderdeLocatieId);
 
         if (locatie is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -989,9 +982,7 @@ public record VerenigingState : IHasVersion
         );
 
         if (vertegenwoordiger is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -1008,9 +999,7 @@ public record VerenigingState : IHasVersion
         var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
 
         if (erkenning is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -1025,9 +1014,7 @@ public record VerenigingState : IHasVersion
         var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
 
         if (erkenning is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -1050,9 +1037,7 @@ public record VerenigingState : IHasVersion
         var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
 
         if (erkenning is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -1069,9 +1054,7 @@ public record VerenigingState : IHasVersion
         var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
 
         if (erkenning is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -1084,9 +1067,7 @@ public record VerenigingState : IHasVersion
         var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
 
         if (erkenning is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -1111,9 +1092,7 @@ public record VerenigingState : IHasVersion
         var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
 
         if (erkenning is null)
-        {
             return this;
-        }
 
         return this with
         {
@@ -1128,9 +1107,7 @@ public record VerenigingState : IHasVersion
         var erkenning = Erkenningen.SingleOrDefault(x => x.ErkenningId == @event.ErkenningId);
 
         if (erkenning is null)
-        {
             return this;
-        }
 
         return this with
         {
