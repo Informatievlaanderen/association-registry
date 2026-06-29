@@ -1,3 +1,10 @@
+## [8.332.2](https://github.com/informatievlaanderen/association-registry/compare/v8.332.1...v8.332.2) (2026-06-29)
+
+
+### Bug Fixes
+
+* or-3261 add ACM API dashboard with environment selector ([58e50eb](https://github.com/informatievlaanderen/association-registry/commit/58e50ebfb8a18d94b75a8eb9638c16ab15404161))
+
 ## [8.332.1](https://github.com/informatievlaanderen/association-registry/compare/v8.332.0...v8.332.1) (2026-06-29)
 
 
