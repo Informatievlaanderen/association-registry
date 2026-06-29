@@ -1,3 +1,10 @@
+## [8.332.1](https://github.com/informatievlaanderen/association-registry/compare/v8.332.0...v8.332.1) (2026-06-29)
+
+
+### Bug Fixes
+
+* or-3261 remove example dashboard ([ab78b34](https://github.com/informatievlaanderen/association-registry/commit/ab78b34826ca960613e23c988dd7ef3455d0ea29))
+
 # [8.332.0](https://github.com/informatievlaanderen/association-registry/compare/v8.331.1...v8.332.0) (2026-06-26)
 
 
