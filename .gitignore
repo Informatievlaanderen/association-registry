@@ -66,4 +66,5 @@ scripts/kbo-sync-lambda-local.zip
 # Local AI tooling
 .opencode/*
 !.opencode/skills
+!.opencode/commands
 .serena/
