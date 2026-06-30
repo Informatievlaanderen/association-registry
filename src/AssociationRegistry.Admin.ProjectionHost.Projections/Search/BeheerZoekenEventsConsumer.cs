@@ -127,6 +127,7 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(ErkenningWerdGewijzigd):
                 case nameof(ErkenningWerdVerwijderd):
                 case nameof(SchorsingVanErkenningWerdOpgeheven):
+                case nameof(KBOStatusWerdGecorrigeerdNaarActief):
                     try
                     {
                         _zoekProjectionHandler.Handle(eventEnvelope, doc);

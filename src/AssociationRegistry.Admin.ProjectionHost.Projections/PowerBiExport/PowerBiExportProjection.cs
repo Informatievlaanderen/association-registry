@@ -1,11 +1,9 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.PowerBiExport;
 
-using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.Mappers;
-using Detail;
 using Events;
 using Formats;
 using Framework;
@@ -42,7 +40,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd
     )
     {
-        var document = new PowerBiExportDocument()
+        var document = new PowerBiExportDocument
         {
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = PowerBiExportMapper.MapVerenigingstype(
@@ -80,7 +78,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                 .ToArray(),
             AantalVertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers.Length,
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd
-                .Data.HoofdactiviteitenVerenigingsloket.Select(x => new HoofdactiviteitVerenigingsloket()
+                .Data.HoofdactiviteitenVerenigingsloket.Select(x => new HoofdactiviteitVerenigingsloket
                 {
                     Code = x.Code,
                     Naam = x.Naam,
@@ -102,7 +100,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public PowerBiExportDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event)
     {
-        var document = new PowerBiExportDocument()
+        var document = new PowerBiExportDocument
         {
             VCode = @event.Data.VCode,
             Verenigingstype = PowerBiExportMapper.MapVerenigingstype(DecentraalBeheer.Vereniging.Verenigingstype.VZER),
@@ -124,7 +122,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                 .ToArray(),
             AantalVertegenwoordigers = @event.Data.Vertegenwoordigers.Length,
             HoofdactiviteitenVerenigingsloket = @event
-                .Data.HoofdactiviteitenVerenigingsloket.Select(x => new HoofdactiviteitVerenigingsloket()
+                .Data.HoofdactiviteitenVerenigingsloket.Select(x => new HoofdactiviteitVerenigingsloket
                 {
                     Code = x.Code,
                     Naam = x.Naam,
@@ -141,7 +139,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                 .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                 .ConvertAndFormatToBelgianDate(),
             DuplicatieInfo = @event.Data.DuplicatieInfo is null
-                ? new DuplicatieInfo(null, string.Empty)
+                ? new DuplicatieInfo(BevestigdNaDuplicatie: null, string.Empty)
                 : new DuplicatieInfo(
                     @event.Data.DuplicatieInfo.BevestigdNaDuplicatie,
                     @event.Data.DuplicatieInfo.Bevestigingstoken
@@ -161,7 +159,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         var document = new PowerBiExportDocument
         {
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-            Verenigingstype = new Verenigingstype()
+            Verenigingstype = new Verenigingstype
             {
                 Code = DecentraalBeheer
                     .Vereniging.Verenigingstype.Parse(
@@ -297,9 +295,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, PowerBiExportDocument document)
     {
-        document.Contactgegevens = Enumerable
-            .Append(
-                document.Contactgegevens,
+        document.Contactgegevens = document
+            .Contactgegevens.Append(
                 new Contactgegeven
                 {
                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
@@ -363,7 +360,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.HoofdactiviteitenVerenigingsloket = hoofdactiviteitenVerenigingsloketWerdenGewijzigd
-            .Data.HoofdactiviteitenVerenigingsloket.Select(x => new HoofdactiviteitVerenigingsloket()
+            .Data.HoofdactiviteitenVerenigingsloket.Select(x => new HoofdactiviteitVerenigingsloket
             {
                 Code = x.Code,
                 Naam = x.Naam,
@@ -481,9 +478,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, PowerBiExportDocument document)
     {
-        document.Locaties = Enumerable
-            .Append(
-                document.Locaties,
+        document.Locaties = document
+            .Locaties.Append(
                 PowerBiExportMapper.MapLocatie(
                     locatieWerdToegevoegd.Data.Locatie,
                     locatieWerdToegevoegd.Data.Bron,
@@ -516,7 +512,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                             document.VCode,
                             l.LocatieId
                         ),
-                        Adresvoorstelling = AdresFormatter.ToAdresString(locatieWerdGewijzigd.Data.Locatie.Adres),
+                        Adresvoorstelling = locatieWerdGewijzigd.Data.Locatie.Adres.ToAdresString(),
                         AdresId = PowerBiExportMapper.MapAdresId(locatieWerdGewijzigd.Data.Locatie.AdresId),
                         VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
                             locatieWerdGewijzigd.Data.Locatie.AdresId
@@ -552,9 +548,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         PowerBiExportDocument document
     )
     {
-        document.Locaties = Enumerable
-            .Append(
-                document.Locaties,
+        document.Locaties = document
+            .Locaties.Append(
                 PowerBiExportMapper.MapLocatie(
                     maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
                     maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Bron,
@@ -601,9 +596,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         PowerBiExportDocument document
     )
     {
-        document.Contactgegevens = Enumerable
-            .Append(
-                document.Contactgegevens,
+        document.Contactgegevens = document
+            .Contactgegevens.Append(
                 new Contactgegeven
                 {
                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
@@ -621,6 +615,21 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, contactgegevenWerdToegevoegd);
+    }
+
+    public void Apply(
+        IEvent<KBOStatusWerdGecorrigeerdNaarActief> statusWerdGecorrigeerd,
+        PowerBiExportDocument document
+    )
+    {
+        document.Status = VerenigingStatus.Actief;
+        document.Einddatum = null;
+
+        document.DatumLaatsteAanpassing = statusWerdGecorrigeerd
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, statusWerdGecorrigeerd);
     }
 
     public void Apply(
@@ -823,9 +832,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                             document.VCode,
                             l.LocatieId
                         ),
-                        Adresvoorstelling = AdresFormatter.ToAdresString(
-                            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres
-                        ),
+                        Adresvoorstelling = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.ToAdresString(),
                         AdresId = PowerBiExportMapper.MapAdresId(
                             maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId
                         ),
@@ -877,9 +884,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                             document.VCode,
                             l.LocatieId
                         ),
-                        Adresvoorstelling = AdresFormatter.ToAdresString(
-                            adresWerdOvergenomenUitAdressenregister.Data.Adres
-                        ),
+                        Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.Adres.ToAdresString(),
                         AdresId = PowerBiExportMapper.MapAdresId(adresWerdOvergenomenUitAdressenregister.Data.AdresId),
                         VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
                             adresWerdOvergenomenUitAdressenregister.Data.AdresId
@@ -912,9 +917,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                             document.VCode,
                             l.LocatieId
                         ),
-                        Adresvoorstelling = AdresFormatter.ToAdresString(
-                            adresWerdGewijzigdInAdressenregister.Data.Adres
-                        ),
+                        Adresvoorstelling = adresWerdGewijzigdInAdressenregister.Data.Adres.ToAdresString(),
                         AdresId = PowerBiExportMapper.MapAdresId(adresWerdGewijzigdInAdressenregister.Data.AdresId),
                         VerwijstNaar = PowerBiExportMapper.MapAdresVerwijzing(
                             adresWerdGewijzigdInAdressenregister.Data.AdresId
@@ -1076,7 +1079,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenBepaald
-            .Data.Werkingsgebieden.Select(x => new Werkingsgebied() { Code = x.Code, Naam = x.Naam })
+            .Data.Werkingsgebieden.Select(x => new Werkingsgebied { Code = x.Code, Naam = x.Naam })
             .ToArray();
 
         document.DatumLaatsteAanpassing = werkingsgebiedenWerdenBepaald
@@ -1092,7 +1095,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     )
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenGewijzigd
-            .Data.Werkingsgebieden.Select(x => new Werkingsgebied() { Code = x.Code, Naam = x.Naam })
+            .Data.Werkingsgebieden.Select(x => new Werkingsgebied { Code = x.Code, Naam = x.Naam })
             .ToArray();
 
         document.DatumLaatsteAanpassing = werkingsgebiedenWerdenGewijzigd
@@ -1125,9 +1128,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, PowerBiExportDocument document)
     {
-        document.Lidmaatschappen = Enumerable
-            .Append(
-                document.Lidmaatschappen,
+        document.Lidmaatschappen = document
+            .Lidmaatschappen.Append(
                 new Lidmaatschap(
                     lidmaatschapWerdToegevoegd.Data.Lidmaatschap.LidmaatschapId,
                     lidmaatschapWerdToegevoegd.Data.Lidmaatschap.AndereVereniging,
@@ -1347,7 +1349,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>();
         ;
 
-        document.SubverenigingVan = new SubverenigingVan()
+        document.SubverenigingVan = new SubverenigingVan
         {
             AndereVereniging = @event.Data.SubverenigingVan.AndereVereniging,
             // AndereVerenigingNaam = @event.Data.SubverenigingVan.AndereVerenigingNaam,
@@ -1559,7 +1561,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     {
         document.Erkenningen = document
             .Erkenningen.Append(
-                new Erkenning()
+                new Erkenning
                 {
                     ErkenningId = @event.Data.ErkenningId,
                     Startdatum = @event.Data.Startdatum.FormatAsBelgianDate(),
@@ -1567,12 +1569,12 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                     HernieuwingsUrl = @event.Data.HernieuwingsUrl,
                     Status = @event.Data.Status,
                     Hernieuwingsdatum = @event.Data.Hernieuwingsdatum.FormatAsBelgianDate(),
-                    GeregistreerdDoor = new GegevensInitiator()
+                    GeregistreerdDoor = new GegevensInitiator
                     {
                         Naam = @event.Data.GeregistreerdDoor.Naam,
                         OvoCode = @event.Data.GeregistreerdDoor.OvoCode,
                     },
-                    IpdcProduct = new IpdcProduct()
+                    IpdcProduct = new IpdcProduct
                     {
                         Naam = @event.Data.IpdcProduct.Naam,
                         Nummer = @event.Data.IpdcProduct.Nummer,

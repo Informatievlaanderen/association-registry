@@ -435,6 +435,11 @@ public class PubliekZoekProjectionHandler
         document.Status = VerenigingStatus.Gestopt;
     }
 
+    public void Handle(EventEnvelope<KBOStatusWerdGecorrigeerdNaarActief> message, VerenigingZoekDocument document)
+    {
+        document.Status = VerenigingStatus.Actief;
+    }
+
     public void Handle(EventEnvelope<VerenigingWerdVerwijderd> message, VerenigingZoekDocument document)
     {
         document.IsVerwijderd = true;

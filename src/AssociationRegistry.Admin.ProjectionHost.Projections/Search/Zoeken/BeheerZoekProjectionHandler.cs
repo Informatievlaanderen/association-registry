@@ -466,6 +466,12 @@ public class BeheerZoekProjectionHandler
         document.Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly);
     }
 
+    public void Handle(EventEnvelope<KBOStatusWerdGecorrigeerdNaarActief> message, VerenigingZoekDocument document)
+    {
+        document.Status = VerenigingStatus.Actief;
+        document.Einddatum = null;
+    }
+
     public void Handle(EventEnvelope<VerenigingWerdVerwijderd> message, VerenigingZoekDocument document)
     {
         document.IsVerwijderd = true;

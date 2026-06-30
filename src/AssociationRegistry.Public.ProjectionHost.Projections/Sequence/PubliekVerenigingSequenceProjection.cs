@@ -303,6 +303,11 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
     ) => UpdateVersion(e, doc);
 
     public PubliekVerenigingSequenceDocument Apply(
+        IEvent<KBOStatusWerdGecorrigeerdNaarActief> e,
+        PubliekVerenigingSequenceDocument doc
+    ) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
         IEvent<AdresWerdOvergenomenUitAdressenregister> e,
         PubliekVerenigingSequenceDocument doc
     ) => UpdateVersion(e, doc);

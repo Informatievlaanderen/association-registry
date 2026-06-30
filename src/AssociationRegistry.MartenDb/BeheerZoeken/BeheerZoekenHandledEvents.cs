@@ -61,5 +61,6 @@ public class BeheerZoekenHandledEvents
         typeof(ErkenningWerdGewijzigd),
         typeof(ErkenningWerdVerwijderd),
         typeof(SchorsingVanErkenningWerdOpgeheven),
+        typeof(KBOStatusWerdGecorrigeerdNaarActief),
     ];
 }
