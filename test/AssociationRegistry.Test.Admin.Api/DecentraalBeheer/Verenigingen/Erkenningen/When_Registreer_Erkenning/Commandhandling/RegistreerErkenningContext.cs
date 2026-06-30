@@ -11,8 +11,7 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 public class RegistreerErkenningContext<TScenario>
     where TScenario : CommandhandlerScenarioBase
 {
-    private readonly Fixture _fixture;
-
+    public Fixture Fixture { get; }
     public TScenario Scenario { get; }
     public AggregateSessionMock AggregateSessionMock { get; }
     public CommandMetadata Metadata { get; }
@@ -22,46 +21,48 @@ public class RegistreerErkenningContext<TScenario>
 
     public RegistreerErkenningContext(TScenario scenario)
     {
-        _fixture = new Fixture().CustomizeAdminApi();
+        Fixture = new Fixture().CustomizeAdminApi();
         Scenario = scenario;
         AggregateSessionMock = new AggregateSessionMock(Scenario.GetVerenigingState());
         _commandHandler = new RegistreerErkenningCommandHandler(AggregateSessionMock);
-        Metadata = _fixture.Create<CommandMetadata>();
+        Metadata = Fixture.Create<CommandMetadata>();
         RegistreerErkenningCommand = CreateCommand();
     }
 
-    private RegistreerErkenningCommand CreateCommand()
-        => RegistreerErkenningCommand = _fixture.Create<RegistreerErkenningCommand>() with
+    private RegistreerErkenningCommand CreateCommand() =>
+        RegistreerErkenningCommand = Fixture.Create<RegistreerErkenningCommand>() with
         {
             VCode = Scenario.VCode,
-            Erkenning = _fixture.Create<TeRegistrerenErkenning>(),
+            Erkenning = Fixture.Create<TeRegistrerenErkenning>(),
         };
 
-    public IpdcProduct CreateIpdcProduct(string? nummer = null)
-        => _fixture.Create<IpdcProduct>() with
+    public IpdcProduct CreateIpdcProduct(string? nummer = null) =>
+        Fixture.Create<IpdcProduct>() with
         {
-            Nummer = nummer ?? _fixture.Create<string>(),
+            Nummer = nummer ?? Fixture.Create<string>(),
         };
 
-    public GegevensInitiator CreateInitiator(string? ovoCode = null)
-        => _fixture.Create<GegevensInitiator>() with
+    public GegevensInitiator CreateInitiator(string? ovoCode = null) =>
+        Fixture.Create<GegevensInitiator>() with
         {
-            OvoCode = ovoCode ?? _fixture.Create<string>(),
+            OvoCode = ovoCode ?? Fixture.Create<string>(),
         };
 
-    public CommandMetadata CreateMetadata(string? initiator = null)
-        => _fixture.Create<CommandMetadata>() with
+    public CommandMetadata CreateMetadata(string? initiator = null) =>
+        Fixture.Create<CommandMetadata>() with
         {
-            Initiator = initiator ?? _fixture.Create<string>(),
+            Initiator = initiator ?? Fixture.Create<string>(),
         };
 
     public async ValueTask Handle(
         RegistreerErkenningCommand command,
         IpdcProduct ipdcProduct,
         GegevensInitiator initiator,
-        CommandMetadata? metadata = null)
-        => await _commandHandler.Handle(
+        CommandMetadata? metadata = null
+    ) =>
+        await _commandHandler.Handle(
             new CommandEnvelope<RegistreerErkenningCommand>(command, metadata ?? Metadata),
             ipdcProduct,
-            initiator);
+            initiator
+        );
 }
