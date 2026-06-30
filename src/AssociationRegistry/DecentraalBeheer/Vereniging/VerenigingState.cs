@@ -52,6 +52,7 @@ public record VerenigingState : IHasVersion
     public bool IsGestopt => VerenigingStatus == VerenigingStatus.Gestopt;
     public bool IsIngeschrevenOpWijzigingenUitKbo { get; private init; }
     public List<string> HandledIdempotenceKeys { get; set; } = new();
+    public bool IsErkend { get; set; }
     public bool IsVerwijderd { get; set; }
     public bool IsAuthentiekeVereniging => CorresponderendeVCodes.Length != 0;
     public string[] CorresponderendeVCodes { get; set; } = [];
@@ -875,6 +876,8 @@ public record VerenigingState : IHasVersion
         {
             Erkenningen = Erkenningen.Hydrate(Erkenningen.AppendFromEventData(@event)),
         };
+
+    public VerenigingState Apply(VerenigingWerdErkend _) => this with { IsErkend = true };
 
     public VerenigingState Apply(ErkenningWerdGeschorst @event)
     {

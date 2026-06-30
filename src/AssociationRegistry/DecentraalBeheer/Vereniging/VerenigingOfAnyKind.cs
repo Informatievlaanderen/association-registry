@@ -21,6 +21,11 @@ using Wegwijs;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 {
+    public void Hydrate(VerenigingState obj)
+    {
+        State = obj;
+    }
+
     public Contactgegeven VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
@@ -174,12 +179,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             );
 
             var adres = Adres.Hydrate(
-                straatnaam: verrijktAdres.AddressResponse.Straatnaam,
-                huisnummer: verrijktAdres.AddressResponse.Huisnummer,
-                busnummer: verrijktAdres.AddressResponse.Busnummer,
-                postcode: verrijktAdres.AddressResponse.Postcode,
-                gemeente: verrijktAdres.Gemeente.Naam,
-                land: Adres.België
+                verrijktAdres.AddressResponse.Straatnaam,
+                verrijktAdres.AddressResponse.Huisnummer,
+                verrijktAdres.AddressResponse.Busnummer,
+                verrijktAdres.AddressResponse.Postcode,
+                verrijktAdres.Gemeente.Naam,
+                Adres.België
             );
 
             var verrijkteLocatie = locatie.MetAdresUitGrar(adres);
@@ -219,7 +224,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             if (locatie.AdresBestaatNietOfIsNietActief(adresDetailResponse))
             {
                 if (locatie.HeeftAdresId && locatie.AdresIdKomtOvereenMetGrarIndienBestaand(adresDetailResponse))
-                {
                     AddEvent(
                         new AdresWerdOntkoppeldVanAdressenregister(
                             VCode,
@@ -228,7 +232,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                             EventFactory.Adres(locatie.Adres)
                         )
                     );
-                }
 
                 continue;
             }
@@ -240,12 +243,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             );
 
             var adres = Adres.Hydrate(
-                straatnaam: verrijktAdres.AddressResponse.Straatnaam,
-                huisnummer: verrijktAdres.AddressResponse.Huisnummer,
-                busnummer: verrijktAdres.AddressResponse.Busnummer,
-                postcode: verrijktAdres.AddressResponse.Postcode,
-                gemeente: verrijktAdres.Gemeente.Naam,
-                land: Adres.België
+                verrijktAdres.AddressResponse.Straatnaam,
+                verrijktAdres.AddressResponse.Huisnummer,
+                verrijktAdres.AddressResponse.Busnummer,
+                verrijktAdres.AddressResponse.Postcode,
+                verrijktAdres.Gemeente.Naam,
+                Adres.België
             );
 
             var verrijkteLocatie = locatie.VerrijkMet(adres);
@@ -253,7 +256,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             State.Locaties.ThrowIfCannotAppendOrUpdate(verrijkteLocatie);
 
             if (locatie.Adres != verrijkteLocatie.Adres)
-            {
                 AddEvent(
                     new AdresWerdGewijzigdInAdressenregister(
                         VCode,
@@ -263,7 +265,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                         idempotenceKey
                     )
                 );
-            }
         }
     }
 
@@ -413,12 +414,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var verrijktAdres = await verrijkingService.FromActiefAdresId(locatie.AdresId!, cancellationToken);
 
         var adres = Adres.Hydrate(
-            straatnaam: verrijktAdres.AddressResponse.Straatnaam,
-            huisnummer: verrijktAdres.AddressResponse.Huisnummer,
-            busnummer: verrijktAdres.AddressResponse.Busnummer,
-            postcode: verrijktAdres.AddressResponse.Postcode,
-            gemeente: verrijktAdres.Gemeente.Naam,
-            land: Adres.België
+            verrijktAdres.AddressResponse.Straatnaam,
+            verrijktAdres.AddressResponse.Huisnummer,
+            verrijktAdres.AddressResponse.Busnummer,
+            verrijktAdres.AddressResponse.Postcode,
+            verrijktAdres.Gemeente.Naam,
+            Adres.België
         );
 
         var decoratedLocatie = locatie.MetAdresUitGrar(adres);
@@ -467,7 +468,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (!State.CorresponderendeVCodes.Contains(dubbeleVereniging))
             throw new ApplicationException(
                 $"Vereniging kon correctie dubbele vereniging ({dubbeleVereniging}) niet aanvaarden omdat dubbele vereniging "
-                    + $"niet voorkomt in de corresponderende VCodes: {string.Join(',', State.CorresponderendeVCodes)}."
+                    + $"niet voorkomt in de corresponderende VCodes: {string.Join(separator: ',', State.CorresponderendeVCodes)}."
             );
 
         AddEvent(EventFactory.VerenigingAanvaarddeCorrectieDubbeleVereniging(VCode, dubbeleVereniging));
@@ -483,11 +484,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var adresId = AdresId.Hydrate(@event);
 
         return locatie.Adres != adres || locatie.AdresId != adresId;
-    }
-
-    public void Hydrate(VerenigingState obj)
-    {
-        State = obj;
     }
 
     public async Task InitialiseerGeotags(IGeotagsService service)
@@ -610,6 +606,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.ErkenningWerdGeregistreerd(toegevoegdeErkenning));
 
+        if (toegevoegdeErkenning.Status == ErkenningStatus.Actief)
+            AddEvent(EventFactory.VerenigingWerdErkend());
+
         return toegevoegdeErkenning.ErkenningId;
     }
 
@@ -683,9 +682,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var heeftWijzigingen = huidigeErkenning.RedenSchorsing != teCorrigerenRedenSchorsingErkenning.RedenSchorsing;
 
         if (!heeftWijzigingen)
-        {
             return;
-        }
 
         AddEvent(EventFactory.CorrigeerRedenSchorsingErkenning(teCorrigerenRedenSchorsingErkenning));
     }
@@ -697,6 +694,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     )
     {
         var huidigeErkenning = State.Erkenningen.GetById(teWijzigenErkenning.ErkenningId);
+
         var isBevoegd = await ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
             initiator,
             organisatieBevoegdheidService,
@@ -749,14 +747,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         if (!erkenning.KanGeactiveerdWordenOp(today))
-        {
             throw new ErkenningKanNietGeactiveerdWorden(
                 erkenningId,
                 erkenning.ErkenningsPeriode.Startdatum,
                 erkenning.ErkenningsPeriode.Einddatum,
                 erkenning.Status
             );
-        }
 
         AddEvent(EventFactory.ErkenningWerdGeactiveerd(erkenningId));
     }
@@ -767,14 +763,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         if (!erkenning.KanVerlopenWordenOp(today))
-        {
             throw new ErkenningKanNietVerlopenWorden(
                 erkenningId,
                 erkenning.ErkenningsPeriode.Startdatum,
                 erkenning.ErkenningsPeriode.Einddatum,
                 erkenning.Status
             );
-        }
 
         AddEvent(EventFactory.ErkenningWerdVerlopen(erkenningId));
     }
@@ -795,11 +789,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var isOpvolger = opvolgers.Contains(initiator);
 
         if (isOpvolger)
-        {
             AddEvent(
                 EventFactory.ErkenningOpvolgersWerdenToegevoegdAlsBeheerder(huidigeErkenning.ErkenningId, opvolgers)
             );
-        }
 
         return isOpvolger;
     }

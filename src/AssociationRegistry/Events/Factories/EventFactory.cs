@@ -562,4 +562,6 @@ public static class EventFactory
     public static ErkenningWerdGeactiveerd ErkenningWerdGeactiveerd(int erkenningId) => new(erkenningId);
 
     public static ErkenningWerdVerlopen ErkenningWerdVerlopen(int erkenningId) => new(erkenningId);
+
+    public static VerenigingWerdErkend VerenigingWerdErkend() => new();
 }
