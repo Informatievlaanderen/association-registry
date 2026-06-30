@@ -606,7 +606,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.ErkenningWerdGeregistreerd(toegevoegdeErkenning));
 
-        if (toegevoegdeErkenning.Status == ErkenningStatus.Actief)
+        if (toegevoegdeErkenning.Status == ErkenningStatus.Actief && !State.IsErkend)
             AddEvent(EventFactory.VerenigingWerdErkend());
 
         return toegevoegdeErkenning.ErkenningId;
