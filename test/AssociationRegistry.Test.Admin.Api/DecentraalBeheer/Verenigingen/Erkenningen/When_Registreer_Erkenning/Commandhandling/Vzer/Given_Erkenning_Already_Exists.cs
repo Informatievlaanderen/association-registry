@@ -9,33 +9,30 @@ using Xunit;
 
 public class Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_And_Periode_Overlaps
 {
-    private readonly RegistreerErkenningContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario> _ctx =
-        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario());
-
     [Fact]
     public async ValueTask Then_An_ErkenningAlreadyExists_Exception_Is_Thrown()
     {
-        var erkenning = _ctx.RegistreerErkenningCommand.Erkenning with
-        {
-            ErkenningsPeriode = ErkenningsPeriode.Create(
-                _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
-                _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
-            ),
-        };
+        var scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
 
-        var command = _ctx.RegistreerErkenningCommand with
-        {
-            Erkenning = erkenning,
-        };
+        var test = RegistreerErkenningTest<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario>
+            .Given(scenario)
+            .WithCommand(cmd =>
+                cmd with
+                {
+                    Erkenning = cmd.Erkenning with
+                    {
+                        ErkenningsPeriode = ErkenningsPeriode.Create(
+                            scenario.ErkenningWerdGeregistreerd.Startdatum,
+                            scenario.ErkenningWerdGeregistreerd.Einddatum
+                        ),
+                    },
+                }
+            )
+            .WithIpdcProduct(nummer: scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer)
+            .WithInitiator(ovoCode: scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode)
+            .WithMetadata(initiator: scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
 
-        var ipdcProduct = _ctx.CreateIpdcProduct(nummer: _ctx.Scenario.ErkenningWerdGeregistreerd.IpdcProduct.Nummer);
-        var initiator = _ctx.CreateInitiator(ovoCode: _ctx.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
-        var metadata = _ctx.CreateMetadata(initiator: _ctx.Scenario.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
-
-        var exception = await Assert.ThrowsAsync<ErkenningCombinatieBestaatAl>(async () =>
-        {
-            await _ctx.Handle(command, ipdcProduct, initiator, metadata);
-        });
+        var exception = await Assert.ThrowsAsync<ErkenningCombinatieBestaatAl>(async () => await test.WhenHandled());
 
         exception.Message.Should().Be(ExceptionMessages.ErkenningBestaatAl);
     }
