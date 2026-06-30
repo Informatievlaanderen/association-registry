@@ -1,6 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Valideer_Bankrekeningnummer.Commandhandling;
 
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen.Exceptions;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using FluentAssertions;
+using Resources;
 using Xunit;
 
 public class Given_Validated_Bankrekeningnummer
@@ -11,15 +14,19 @@ public class Given_Validated_Bankrekeningnummer
     );
 
     [Fact]
-    public async ValueTask Then_Nothing()
+    public async ValueTask Then_Throws_BankrekeningnummerValidatieIsAlReedsToegevoegd()
     {
         var command = _ctx.CreateCommand();
         var metadata = _ctx.CreateMetadata(
             initiator: _ctx.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor
         );
 
-        await _ctx.Handle(command, metadata);
+        var exception = await Assert.ThrowsAsync<BankrekeningnummerValidatieIsAlReedsToegevoegd>(async () =>
+            await _ctx.Handle(command, metadata)
+        );
 
-        _ctx.AggregateSessionMock.ShouldNotHaveAnySaves();
+        exception
+            .Message.Should()
+            .Be(string.Format(ExceptionMessages.BankrekeningnummerValidatieIsAlReedsToegevoegd, metadata.Initiator));
     }
 }

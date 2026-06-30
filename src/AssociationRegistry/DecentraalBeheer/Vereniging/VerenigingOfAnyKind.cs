@@ -535,9 +535,10 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
-
-        if (bankrekeningnummer!.BevestigdDoor.Contains(initiator))
-            return;
+        Throw<BankrekeningnummerValidatieIsAlReedsToegevoegd>.If(
+            bankrekeningnummer!.BevestigdDoor.Contains(initiator),
+            initiator
+        );
 
         AddEvent(
             new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
