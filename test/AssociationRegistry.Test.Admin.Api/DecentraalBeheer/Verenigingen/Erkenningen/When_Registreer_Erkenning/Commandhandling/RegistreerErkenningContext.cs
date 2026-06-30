@@ -7,6 +7,7 @@ using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Events;
 
 public class RegistreerErkenningContext<TScenario>
     where TScenario : CommandhandlerScenarioBase
@@ -15,7 +16,6 @@ public class RegistreerErkenningContext<TScenario>
     public TScenario Scenario { get; }
     public AggregateSessionMock AggregateSessionMock { get; }
     public CommandMetadata Metadata { get; }
-
     private readonly RegistreerErkenningCommandHandler _commandHandler;
     public RegistreerErkenningCommand RegistreerErkenningCommand { get; private set; }
 
@@ -64,5 +64,30 @@ public class RegistreerErkenningContext<TScenario>
             new CommandEnvelope<RegistreerErkenningCommand>(command, metadata ?? Metadata),
             ipdcProduct,
             initiator
+        );
+
+    public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd(
+        RegistreerErkenningCommand command,
+        int erkenningId,
+        IpdcProduct ipdcProduct,
+        GegevensInitiator initiator
+    ) =>
+        new(
+            ErkenningId: erkenningId,
+            ipdcProduct,
+            command.Erkenning.ErkenningsPeriode.Startdatum,
+            command.Erkenning.ErkenningsPeriode.Einddatum,
+            command.Erkenning.Hernieuwingsdatum.Value,
+            command.Erkenning.HernieuwingsUrl.Value,
+            initiator,
+            ErkenningStatus
+                .Bepaal(
+                    ErkenningsPeriode.Create(
+                        command.Erkenning.ErkenningsPeriode.Startdatum,
+                        command.Erkenning.ErkenningsPeriode.Einddatum
+                    ),
+                    DateOnly.FromDateTime(DateTime.Now)
+                )
+                .Value
         );
 }
