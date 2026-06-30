@@ -7,7 +7,7 @@ using Framework;
 
 public class Erkenningen : ReadOnlyCollection<Erkenning>
 {
-    private const int InitialId = 1;
+    public const int InitialId = 1;
     public int NextId { get; }
     public static Erkenningen Empty => new(Array.Empty<Erkenning>(), InitialId);
 
@@ -35,14 +35,11 @@ public class Erkenningen : ReadOnlyCollection<Erkenning>
         return new Erkenningen(erkenningen, Math.Max(erkenningen.Max(x => x.ErkenningId) + 1, NextId));
     }
 
-    public bool KanErkenningWijzigenMetCombinatie(Erkenning erkenning)
-        => this.Without(erkenning)
-               .WithSameOvoCodeAndIpdcProduct(erkenning)
-               .HasNoOverlapWith(erkenning);
+    public bool KanErkenningWijzigenMetCombinatie(Erkenning erkenning) =>
+        this.Without(erkenning).WithSameOvoCodeAndIpdcProduct(erkenning).HasNoOverlapWith(erkenning);
 
-    public bool KanErkenningToevoegenMetCombinatie(Erkenning erkenning)
-        => this.WithSameOvoCodeAndIpdcProduct(erkenning)
-               .HasNoOverlapWith(erkenning);
+    public bool KanErkenningToevoegenMetCombinatie(Erkenning erkenning) =>
+        this.WithSameOvoCodeAndIpdcProduct(erkenning).HasNoOverlapWith(erkenning);
 }
 
 public static class ErkenningenEnumerableExtensions
@@ -67,16 +64,15 @@ public static class ErkenningenEnumerableExtensions
 
     public static IEnumerable<Erkenning> WithSameOvoCodeAndIpdcProduct(
         this IEnumerable<Erkenning> erkenningen,
-        Erkenning erkenning)
+        Erkenning erkenning
+    )
     {
         return erkenningen
-              .Where(x => x.IpdcProduct.Equals(erkenning.IpdcProduct))
-              .Where(x => x.GeregistreerdDoor.Equals(erkenning.GeregistreerdDoor));
+            .Where(x => x.IpdcProduct.Equals(erkenning.IpdcProduct))
+            .Where(x => x.GeregistreerdDoor.Equals(erkenning.GeregistreerdDoor));
     }
 
-    public static bool HasNoOverlapWith(
-        this IEnumerable<Erkenning> erkenningen,
-        Erkenning erkenning)
+    public static bool HasNoOverlapWith(this IEnumerable<Erkenning> erkenningen, Erkenning erkenning)
     {
         return !erkenningen.Any(x => x.ErkenningsPeriode.OverlapsWith(erkenning.ErkenningsPeriode));
     }

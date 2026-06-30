@@ -28,24 +28,7 @@ public class Given_A_NietErkendeVzer
         await _ctx.Handle(command, ipdcProduct, initiator);
 
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
-            new ErkenningWerdGeregistreerd(
-                ErkenningId: 1,
-                ipdcProduct,
-                command.Erkenning.ErkenningsPeriode.Startdatum,
-                command.Erkenning.ErkenningsPeriode.Einddatum,
-                command.Erkenning.Hernieuwingsdatum.Value,
-                command.Erkenning.HernieuwingsUrl.Value,
-                initiator,
-                ErkenningStatus
-                    .Bepaal(
-                        ErkenningsPeriode.Create(
-                            command.Erkenning.ErkenningsPeriode.Startdatum,
-                            command.Erkenning.ErkenningsPeriode.Einddatum
-                        ),
-                        DateOnly.FromDateTime(DateTime.Now)
-                    )
-                    .Value
-            ),
+            _ctx.ErkenningWerdGeregistreerd(command, Erkenningen.InitialId, ipdcProduct, initiator),
             new VerenigingWerdErkend()
         );
     }
@@ -70,24 +53,7 @@ public class Given_A_NietErkendeVzer
         await _ctx.Handle(command, ipdcProduct, initiator);
 
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
-            new ErkenningWerdGeregistreerd(
-                ErkenningId: 1,
-                ipdcProduct,
-                command.Erkenning.ErkenningsPeriode.Startdatum,
-                command.Erkenning.ErkenningsPeriode.Einddatum,
-                command.Erkenning.Hernieuwingsdatum.Value,
-                command.Erkenning.HernieuwingsUrl.Value,
-                initiator,
-                ErkenningStatus
-                    .Bepaal(
-                        ErkenningsPeriode.Create(
-                            command.Erkenning.ErkenningsPeriode.Startdatum,
-                            command.Erkenning.ErkenningsPeriode.Einddatum
-                        ),
-                        DateOnly.FromDateTime(DateTime.Now)
-                    )
-                    .Value
-            )
+            _ctx.ErkenningWerdGeregistreerd(command, Erkenningen.InitialId, ipdcProduct, initiator)
         );
     }
 }
