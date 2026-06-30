@@ -344,6 +344,9 @@
   <data name="ValidatieBankrekeningnummerIsNietGekend">
     <value>Validatie kan niet ongedaan gemaakt worden omdat er geen validatie is met OvoCode '{0}'.</value>
   </data>
+  <data name="BankrekeningnummerValidatieIsAlReedsToegevoegd">
+    <value>Bankrekening validatie met OvoCode '{0}' is al reeds toegevoegd.</value>
+  </data>
   <data name="OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren">
     <value>OvoCode '{0}' is niet gemachtigd om deze actie uit te voeren.</value>
   </data>
