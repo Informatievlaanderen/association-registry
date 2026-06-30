@@ -21,7 +21,7 @@ public class Given_A_Valid_Erkenning
 
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new ErkenningWerdGeregistreerd(
-                1,
+                ErkenningId: 1,
                 ipdcProduct,
                 command.Erkenning.ErkenningsPeriode.Startdatum,
                 command.Erkenning.ErkenningsPeriode.Einddatum,
@@ -37,7 +37,8 @@ public class Given_A_Valid_Erkenning
                         DateOnly.FromDateTime(DateTime.Now)
                     )
                     .Value
-            )
+            ),
+            new VerenigingWerdErkend()
         );
     }
 }

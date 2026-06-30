@@ -7,8 +7,9 @@ using Xunit;
 
 public class Given_A_Valid_Erkenning
 {
-    private readonly RegistreerErkenningContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario> _ctx =
-        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario());
+    private readonly RegistreerErkenningContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario> _ctx = new(
+        new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario()
+    );
 
     [Fact]
     public async ValueTask Then_An_ErkenningWerdGeregistreerd_Event_Is_Saved_With_The_Next_Id()
@@ -21,7 +22,7 @@ public class Given_A_Valid_Erkenning
 
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new ErkenningWerdGeregistreerd(
-                1,
+                ErkenningId: 1,
                 ipdcProduct,
                 command.Erkenning.ErkenningsPeriode.Startdatum,
                 command.Erkenning.ErkenningsPeriode.Einddatum,
@@ -37,7 +38,8 @@ public class Given_A_Valid_Erkenning
                         DateOnly.FromDateTime(DateTime.Now)
                     )
                     .Value
-            )
+            ),
+            new VerenigingWerdErkend()
         );
     }
 }
