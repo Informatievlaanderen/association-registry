@@ -5,15 +5,24 @@ using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkhei
 using Events;
 using Xunit;
 
-public class Given_A_Valid_Erkenning
+public class Given_A_NietErkendeVzer
 {
     private readonly RegistreerErkenningContext<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario> _ctx =
         new(new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario());
 
     [Fact]
-    public async ValueTask Then_An_ErkenningWerdGeregistreerd_Event_Is_Saved_With_The_Next_Id()
+    public async ValueTask With_Actieve_Erkenning_Then_ErkenningWerdGeregistreerd_With_The_Next_Id_And_Verening_Werd_Erkend()
     {
-        var command = _ctx.RegistreerErkenningCommand;
+        var command = _ctx.RegistreerErkenningCommand with
+        {
+            Erkenning = _ctx.RegistreerErkenningCommand.Erkenning with
+            {
+                ErkenningsPeriode = ErkenningsPeriode.Create(
+                    null,
+                    null),
+            },
+        };
+
         var ipdcProduct = _ctx.CreateIpdcProduct();
         var initiator = _ctx.CreateInitiator();
 
