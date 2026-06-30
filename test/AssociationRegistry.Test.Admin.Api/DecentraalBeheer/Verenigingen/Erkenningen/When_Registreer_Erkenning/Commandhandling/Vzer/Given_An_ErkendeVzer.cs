@@ -6,13 +6,13 @@ using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkhei
 using Events;
 using Xunit;
 
-public class Given_A_NietErkendeVzer
+public class Given_An_ErkendeVzer
 {
-    private readonly RegistreerErkenningContext<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario> _ctx =
-        new(new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario());
+    private readonly RegistreerErkenningContext<VerenigingZonderEigenRechtspersoonlijkheidWerdErkendScenario> _ctx =
+        new(new VerenigingZonderEigenRechtspersoonlijkheidWerdErkendScenario());
 
     [Fact]
-    public async ValueTask With_Actieve_Erkenning_Then_ErkenningWerdGeregistreerd_With_The_Next_Id_And_Verening_Werd_Erkend()
+    public async ValueTask With_Actieve_Erkenning_Then_ErkenningWerdGeregistreerd_With_The_Next_Id_And_No_Verening_Werd_Erkend()
     {
         var command = _ctx.RegistreerErkenningCommand with
         {
@@ -45,8 +45,7 @@ public class Given_A_NietErkendeVzer
                         DateOnly.FromDateTime(DateTime.Now)
                     )
                     .Value
-            ),
-            new VerenigingWerdErkend()
+            )
         );
     }
 

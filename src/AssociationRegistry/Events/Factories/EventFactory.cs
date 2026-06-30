@@ -1,12 +1,11 @@
 namespace AssociationRegistry.Events.Factories;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
-using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
+using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Adressen;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using DecentraalBeheer.Vereniging.Erkenningen;
-using Events;
+using DecentraalBeheer.Vereniging.Geotags;
 using Grar.AdresMatch;
 using Grar.Models;
 using Magda.Kbo;
@@ -561,4 +560,6 @@ public static class EventFactory
     public static ErkenningWerdGeactiveerd ErkenningWerdGeactiveerd(int erkenningId) => new(erkenningId);
 
     public static ErkenningWerdVerlopen ErkenningWerdVerlopen(int erkenningId) => new(erkenningId);
+
+    public static VerenigingWerdErkend VerenigingWerdErkend() => new();
 }
