@@ -682,6 +682,12 @@ public class BeheerVerenigingDetailProjector
         document.Einddatum = verenigingWerdGestoptInKbo.Data.Einddatum.ToString(WellknownFormats.DateOnly);
     }
 
+    public static void Apply(IEvent<KBOStatusWerdGecorrigeerdNaarActief> _, BeheerVerenigingDetailDocument document)
+    {
+        document.Status = VerenigingStatus.Actief;
+        document.Einddatum = null;
+    }
+
     public static void Apply(
         IEvent<EinddatumWerdGewijzigd> einddatumWerdGewijzigd,
         BeheerVerenigingDetailDocument document

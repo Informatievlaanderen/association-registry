@@ -627,6 +627,14 @@ public static class PubliekVerenigingDetailProjector
         document.Status = VerenigingStatus.Gestopt;
     }
 
+    public static void Apply(
+        IEvent<KBOStatusWerdGecorrigeerdNaarActief> verenigingWerdGestoptInKbo,
+        PubliekVerenigingDetailDocument document
+    )
+    {
+        document.Status = VerenigingStatus.Actief;
+    }
+
     public static void UpdateMetadata(IEvent @event, PubliekVerenigingDetailDocument document)
     {
         document.DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate();

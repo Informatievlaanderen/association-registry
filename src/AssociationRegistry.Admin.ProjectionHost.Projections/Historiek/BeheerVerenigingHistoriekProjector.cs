@@ -452,6 +452,21 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(
+        IEvent<KBOStatusWerdGecorrigeerdNaarActief> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        var gebeurtenis = document.Gebeurtenissen.LastOrDefault(x =>
+            x.Gebeurtenis == nameof(VerenigingWerdGestoptInKBO)
+        );
+
+        if (gebeurtenis != null)
+        {
+            document.Gebeurtenissen.Remove(gebeurtenis);
+        }
+    }
+
     public static void Apply(IEvent<EinddatumWerdGewijzigd> @event, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(

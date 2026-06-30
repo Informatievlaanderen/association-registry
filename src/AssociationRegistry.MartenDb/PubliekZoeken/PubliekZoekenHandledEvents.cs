@@ -57,5 +57,6 @@ public class PubliekZoekenHandledEvents
         typeof(ErkenningWerdGewijzigd),
         typeof(ErkenningWerdVerwijderd),
         typeof(SchorsingVanErkenningWerdOpgeheven),
+        typeof(KBOStatusWerdGecorrigeerdNaarActief),
     ];
 }
