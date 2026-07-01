@@ -1,3 +1,10 @@
+## [8.332.3](https://github.com/informatievlaanderen/association-registry/compare/v8.332.2...v8.332.3) (2026-07-01)
+
+
+### Bug Fixes
+
+* or-3270 throw exception when bankrekeningnummer validatie is al reeds toegevoegd ([7239521](https://github.com/informatievlaanderen/association-registry/commit/7239521af36908e11ebe2205fa2688940621b8ef))
+
 ## [8.332.2](https://github.com/informatievlaanderen/association-registry/compare/v8.332.1...v8.332.2) (2026-06-29)
 
 
