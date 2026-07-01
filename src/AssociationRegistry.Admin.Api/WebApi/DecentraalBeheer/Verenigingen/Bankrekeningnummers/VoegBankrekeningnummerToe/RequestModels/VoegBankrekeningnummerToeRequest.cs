@@ -8,7 +8,7 @@ using DecentraalBeheer.Vereniging.Bankrekeningen;
 [DataContract]
 public record VoegBankrekeningnummerToeRequest
 {
-    /// <summary>De toe te voegen Bankrekeningnummer</summary>
+    /// <summary>Het toe te voegen bankrekeningnummer</summary>
     [DataMember(Name = "Bankrekeningnummer")]
     public ToeTeVoegenBankrekeningnummer Bankrekeningnummer { get; set; } = null!;
 

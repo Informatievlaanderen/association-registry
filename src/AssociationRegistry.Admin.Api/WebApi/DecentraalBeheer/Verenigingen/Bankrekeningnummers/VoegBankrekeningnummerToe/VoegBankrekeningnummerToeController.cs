@@ -79,7 +79,7 @@ public class VoegBankrekeningnummerToeController : ApiController
         StatusCodes.Status202Accepted,
         name: "Location",
         type: "string",
-        description: "De locatie van de toegevoegde bankrekeningnummer."
+        description: "De locatie van het toegevoegde bankrekeningnummer."
     )]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]

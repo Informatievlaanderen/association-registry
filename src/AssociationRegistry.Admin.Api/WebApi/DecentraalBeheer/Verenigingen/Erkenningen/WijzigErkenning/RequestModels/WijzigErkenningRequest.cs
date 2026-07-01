@@ -30,13 +30,13 @@ public record WijzigErkenningRequest
     /// <summary>
     /// Startdatum van de erkenning in formaat YYYY-MM-DD. Een leeg veld (““) wordt geïnterpreteerd als null.
     /// </summary>
-    [DataMember(Name = "startDatum")]
+    [DataMember(Name = "startdatum")]
     public NullOrEmpty<DateOnly> Startdatum { get; set; }
 
     /// <summary>
     /// Einddatum van de erkenning in formaat YYYY-MM-DD. Een leeg veld (““) wordt geïnterpreteerd als null.
     /// </summary>
-    [DataMember(Name = "eindDatum")]
+    [DataMember(Name = "einddatum")]
     public NullOrEmpty<DateOnly> Einddatum { get; set; }
 
     public WijzigErkenningCommand ToCommand(string vCode, int erkenningId) =>
@@ -48,6 +48,7 @@ public record WijzigErkenningRequest
                 Einddatum,
                 Hernieuwingsdatum,
                 HernieuwingsUrl,
-                RedenVanWijziging)
+                RedenVanWijziging
+            )
         );
 }

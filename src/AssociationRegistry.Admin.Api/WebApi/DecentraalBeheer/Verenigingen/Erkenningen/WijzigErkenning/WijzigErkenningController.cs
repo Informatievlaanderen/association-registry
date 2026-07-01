@@ -37,7 +37,7 @@ public class WijzigErkenningController : ApiController
     }
 
     /// <summary>
-    ///    Wijzigen van gegevens van een erkenning.
+    ///    Wijzig gegevens van een erkenning.
     /// </summary>
     /// <remarks>
     ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
