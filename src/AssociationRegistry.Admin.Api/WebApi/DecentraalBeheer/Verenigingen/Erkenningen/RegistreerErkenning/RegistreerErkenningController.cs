@@ -55,7 +55,7 @@ public class RegistreerErkenningController : ApiController
     /// <param name="request">De gegevens van de te registreren erkenning.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
-    /// <response code="202">De Erkenning werd geregistreerd.</response>
+    /// <response code="202">De erkenning werd geregistreerd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
@@ -74,6 +74,12 @@ public class RegistreerErkenningController : ApiController
         name: "ETag",
         type: "string",
         description: "De versie van de geregistreerde vereniging."
+    )]
+    [SwaggerResponseHeader(
+        StatusCodes.Status202Accepted,
+        name: "Location",
+        type: "string",
+        description: "De locatie van de toegevoegde erkenning."
     )]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
