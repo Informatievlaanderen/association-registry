@@ -10,7 +10,9 @@ public class VzerMetActieveErkenningWerdGewijzigdNaarVerlopenErkenning : Scenari
 
     public ErkenningWerdGeregistreerd VerlopenErkenningWerdGerigstreerd { get; }
     public ErkenningWerdGeregistreerd ActieveErkenningWerdGeregistreerd { get; }
+    public VerenigingWerdErkend VerenigingWerdErkend { get; }
     public ErkenningWerdGewijzigd ActieveErkenningWerdGewijzigdNaarVerlopenErkenning { get; }
+    public VerenigingWerdNietLangerErkend VerenigingWerdNietLangerErkend { get; }
 
     public VzerMetActieveErkenningWerdGewijzigdNaarVerlopenErkenning()
     {
@@ -27,11 +29,15 @@ public class VzerMetActieveErkenningWerdGewijzigdNaarVerlopenErkenning : Scenari
             Status = ErkenningStatus.Actief.Value,
         };
 
+        VerenigingWerdErkend = new VerenigingWerdErkend();
+
         ActieveErkenningWerdGewijzigdNaarVerlopenErkenning = AutoFixture.Create<ErkenningWerdGewijzigd>() with
         {
             ErkenningId = ActieveErkenningWerdGeregistreerd.ErkenningId,
             Status = ErkenningStatus.Verlopen.Value,
         };
+
+        VerenigingWerdNietLangerErkend = new VerenigingWerdNietLangerErkend();
     }
 
     public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
@@ -43,7 +49,9 @@ public class VzerMetActieveErkenningWerdGewijzigdNaarVerlopenErkenning : Scenari
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
                 VerlopenErkenningWerdGerigstreerd,
                 ActieveErkenningWerdGeregistreerd,
-                ActieveErkenningWerdGewijzigdNaarVerlopenErkenning
+                VerenigingWerdErkend,
+                ActieveErkenningWerdGewijzigdNaarVerlopenErkenning,
+                VerenigingWerdNietLangerErkend
             ),
         ];
 }

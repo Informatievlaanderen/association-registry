@@ -635,6 +635,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         Throw<VerlopenErkenningKanNietGeschorstWorden>.If(huidigeErkenning.Status == ErkenningStatus.Verlopen);
 
         AddEvent(EventFactory.ErkenningWerdGeschorst(teSchorsenErkenning));
+
+        if (
+            State.IsErkend
+            && !State.Erkenningen.Any(e =>
+                e.ErkenningId != teSchorsenErkenning.ErkenningId && e.Status == ErkenningStatus.Actief
+            )
+        )
+            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
     }
 
     public async Task HefSchorsingErkenningOp(
@@ -659,6 +667,16 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var status = ErkenningStatus.Bepaal(huidigeErkenning.ErkenningsPeriode, today);
 
         AddEvent(EventFactory.HefSchorsingErkenningOp(huidigeErkenning.ErkenningId, status));
+
+        var heeftAndereActieveErkenningen = State.Erkenningen.Any(e =>
+            e.ErkenningId != erkenningId && e.Status == ErkenningStatus.Actief
+        );
+
+        if (status == ErkenningStatus.Actief && !State.IsErkend && !heeftAndereActieveErkenningen)
+            AddEvent(EventFactory.VerenigingWerdErkend());
+
+        if (status != ErkenningStatus.Actief && State.IsErkend && !heeftAndereActieveErkenningen)
+            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
     }
 
     public async Task CorrigeerRedenSchorsingErkenning(
@@ -753,6 +771,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         Throw<ErkenningIsGeschorst>.If(huidigeErkenning.Status == ErkenningStatus.Geschorst);
 
         AddEvent(EventFactory.ErkenningWerdVerwijderd(erkenningId));
+
+        if (
+            State.IsErkend
+            && huidigeErkenning.Status == ErkenningStatus.Actief
+            && !State.Erkenningen.Any(e => e.ErkenningId != erkenningId && e.Status == ErkenningStatus.Actief)
+        )
+            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
     }
 
     public void ActiveerErkenning(int erkenningId)
@@ -769,6 +794,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             );
 
         AddEvent(EventFactory.ErkenningWerdGeactiveerd(erkenningId));
+
+        if (
+            !State.IsErkend
+            && !State.Erkenningen.Any(e => e.ErkenningId != erkenningId && e.Status == ErkenningStatus.Actief)
+        )
+            AddEvent(EventFactory.VerenigingWerdErkend());
     }
 
     public void VerloopErkenning(int erkenningId)
@@ -785,6 +816,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             );
 
         AddEvent(EventFactory.ErkenningWerdVerlopen(erkenningId));
+
+        if (
+            State.IsErkend
+            && !State.Erkenningen.Any(e => e.ErkenningId != erkenningId && e.Status == ErkenningStatus.Actief)
+        )
+            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
     }
 
     private async Task<bool> ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(

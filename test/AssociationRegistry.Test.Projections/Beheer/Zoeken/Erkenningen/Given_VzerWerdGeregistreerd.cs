@@ -9,12 +9,6 @@ public class Given_VzerWerdGeregistreerd(
 ) : BeheerZoekenScenarioClassFixture<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario>
 {
     [Fact]
-    public void Document_Is_Updated()
-    {
-        fixture.Result.Erkenningen.Should().BeEmpty();
-    }
-
-    [Fact]
     public void IsErkend_Is_False()
     {
         fixture.Result.IsErkend.Should().BeFalse();

@@ -54,6 +54,8 @@ public class BeheerZoekenHandledEvents
         typeof(SubverenigingRelatieWerdGewijzigd),
         typeof(SubverenigingDetailsWerdenGewijzigd),
         typeof(GeotagsWerdenBepaald),
+        typeof(VerenigingWerdErkend),
+        typeof(VerenigingWerdNietLangerErkend),
         typeof(ErkenningWerdGeregistreerd),
         typeof(ErkenningWerdGeactiveerd),
         typeof(ErkenningWerdVerlopen),
