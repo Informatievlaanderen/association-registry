@@ -1,3 +1,17 @@
+# [8.333.0](https://github.com/informatievlaanderen/association-registry/compare/v8.332.3...v8.333.0) (2026-07-01)
+
+
+### Bug Fixes
+
+* or-3273 fix incosistent api documentation ([45d54f9](https://github.com/informatievlaanderen/association-registry/commit/45d54f9c19a5b8f723a77db55ae2e8c1a139370c))
+
+
+### Features
+
+* or-3081 correct KBO status when syncing KBO ([d831bbe](https://github.com/informatievlaanderen/association-registry/commit/d831bbe2d139e886e80e130a3976c5e0c84fdb34))
+* or-3081 implement KBOStatusWerdGecorrigeerdNaarActief in projections ([5c248ed](https://github.com/informatievlaanderen/association-registry/commit/5c248edd72836a88194fb86816a51bf56020b49b))
+* or-3096 add registration metrics for v1 & v2 ([9cacb44](https://github.com/informatievlaanderen/association-registry/commit/9cacb44c033e54c38448c523fa15f923be6f68ec))
+
 ## [8.332.3](https://github.com/informatievlaanderen/association-registry/compare/v8.332.2...v8.332.3) (2026-07-01)
 
 
