@@ -879,6 +879,8 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(VerenigingWerdErkend _) => this with { IsErkend = true };
 
+    public VerenigingState Apply(VerenigingWerdNietLangerErkend _) => this with { IsErkend = false };
+
     public VerenigingState Apply(ErkenningWerdGeschorst @event)
     {
         var erkenning = Erkenningen.Single(c => c.ErkenningId == @event.ErkenningId);
