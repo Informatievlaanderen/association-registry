@@ -11,6 +11,7 @@ public class VzerMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenningScenar
     public ErkenningWerdGeregistreerd VerlopenErkenningWerdGerigstreerd { get; }
     public ErkenningWerdGeregistreerd TeActiverenVerlopenErkenningWerdGeregistreerd { get; }
     public ErkenningWerdGeactiveerd TeActiverenVerlopenErkenningErkenningWerdGeactiveerd { get; }
+    public VerenigingWerdErkend VerenigingWerdErkend { get; }
 
     public VzerMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenningScenario()
     {
@@ -31,6 +32,8 @@ public class VzerMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenningScenar
         {
             ErkenningId = TeActiverenVerlopenErkenningWerdGeregistreerd.ErkenningId,
         };
+
+        VerenigingWerdErkend = new VerenigingWerdErkend();
     }
 
     public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
@@ -42,7 +45,8 @@ public class VzerMetVerlopenErkenningenGewijzigdNaarEnkeleActieveErkenningScenar
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
                 VerlopenErkenningWerdGerigstreerd,
                 TeActiverenVerlopenErkenningWerdGeregistreerd,
-                TeActiverenVerlopenErkenningErkenningWerdGeactiveerd
+                TeActiverenVerlopenErkenningErkenningWerdGeactiveerd,
+                VerenigingWerdErkend
             ),
         ];
 }

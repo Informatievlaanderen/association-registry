@@ -29,7 +29,6 @@ public class VerenigingZoekDocument
     public bool IsDubbel { get; set; }
     public Types.Geotag[] Geotags { get; set; } = null!;
     public bool IsErkend { get; set; }
-    public Dictionary<int, string> Erkenningen { get; set; } = new();
 
     public static class Types
     {
