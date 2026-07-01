@@ -722,6 +722,17 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         );
 
         AddEvent(EventFactory.ErkenningWerdGewijzigd(gewijzigdeErkenning, teWijzigenErkenning.RedenVanWijziging));
+
+        var heeftActieveErkenning = State
+            .Erkenningen.Without(gewijzigdeErkenning)
+            .Append(gewijzigdeErkenning)
+            .Any(e => e.Status == ErkenningStatus.Actief);
+
+        if (heeftActieveErkenning && !State.IsErkend)
+            AddEvent(EventFactory.VerenigingWerdErkend());
+
+        if (!heeftActieveErkenning && State.IsErkend)
+            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
     }
 
     public async Task VerwijderErkenning(
