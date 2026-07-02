@@ -12,8 +12,8 @@ public class Given_Status_Transitions
     {
         get
         {
-            var vzer = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenErkenningScenario();
-            var vmr = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenErkenningScenario();
+            var vzer = new ErkendeVzerWithTeVerlopenErkenningScenario();
+            var vmr = new ErkendeVmrWithTeVerlopenErkenningScenario();
 
             return new[]
             {
