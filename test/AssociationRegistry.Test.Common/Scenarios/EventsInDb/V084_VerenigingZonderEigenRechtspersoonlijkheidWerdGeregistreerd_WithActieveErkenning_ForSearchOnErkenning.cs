@@ -12,6 +12,7 @@ public class V084_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_Wi
 {
     public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
     public readonly ErkenningWerdGeregistreerd ActieveErkenningWerdGeregistreerd;
+    public readonly VerenigingWerdErkend VerenigingWerdErkend;
     public readonly CommandMetadata Metadata;
 
     public V084_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_WithActieveErkenning_ForSearchOnErkenning()
@@ -30,6 +31,8 @@ public class V084_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_Wi
             Status = ErkenningStatus.Actief.Value,
         };
 
+        VerenigingWerdErkend = fixture.Create<VerenigingWerdErkend>();
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -38,7 +41,12 @@ public class V084_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_Wi
     public string Naam { get; set; }
 
     public IEvent[] GetEvents() =>
-        new IEvent[] { VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, ActieveErkenningWerdGeregistreerd };
+        new IEvent[]
+        {
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+            ActieveErkenningWerdGeregistreerd,
+            VerenigingWerdErkend,
+        };
 
     public CommandMetadata GetCommandMetadata() => Metadata;
 }
