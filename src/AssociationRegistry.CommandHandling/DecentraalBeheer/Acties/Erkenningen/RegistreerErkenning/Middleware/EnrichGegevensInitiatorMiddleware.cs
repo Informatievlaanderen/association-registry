@@ -2,6 +2,7 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions.Wegwijs;
+using Bankrekeningen.ValideerBankrekening;
 using Framework;
 using Integrations.Wegwijs.Clients;
 using Resources;
@@ -19,14 +20,28 @@ public class EnrichGegevensInitiatorMiddleware
 
         var organisationResponse = await wegwijsClient.GetOrganisationByOvoCode(initiator);
 
-        Throw<WegwijsException>.If(string.IsNullOrWhiteSpace(organisationResponse.Name),
-                                   string.Format(ExceptionMessages.WegwijsLegeOrganisatieNaamException,
-                                                 initiator));
+        Throw<WegwijsException>.If(
+            string.IsNullOrWhiteSpace(organisationResponse.Name),
+            string.Format(ExceptionMessages.WegwijsLegeOrganisatieNaamException, initiator)
+        );
 
-        return new GegevensInitiator
-        {
-            OvoCode = initiator,
-            Naam = organisationResponse.Name,
-        };
+        return new GegevensInitiator { OvoCode = initiator, Naam = organisationResponse.Name };
+    }
+
+    public static async Task<GegevensInitiator> BeforeAsync(
+        CommandEnvelope<ValideerBankrekeningnummerCommand> envelope,
+        IWegwijsClient wegwijsClient
+    )
+    {
+        var initiator = envelope.Metadata.Initiator;
+
+        var organisationResponse = await wegwijsClient.GetOrganisationByOvoCode(initiator);
+
+        Throw<WegwijsException>.If(
+            string.IsNullOrWhiteSpace(organisationResponse.Name),
+            string.Format(ExceptionMessages.WegwijsLegeOrganisatieNaamException, initiator)
+        );
+
+        return new GegevensInitiator { OvoCode = initiator, Naam = organisationResponse.Name };
     }
 }

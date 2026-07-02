@@ -528,7 +528,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         );
     }
 
-    public void Valideer(int bankrekeningnummerId, string initiator)
+    public void Valideer(int bankrekeningnummerId, GegevensInitiator initiator)
     {
         var bankrekeningnummer = State.Bankrekeningnummers.SingleOrDefault(x =>
             x.BankrekeningnummerId == bankrekeningnummerId
@@ -536,14 +536,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
         Throw<BankrekeningnummerValidatieIsAlReedsToegevoegd>.If(
-            bankrekeningnummer!.BevestigdDoor.Contains(initiator),
-            initiator
+            bankrekeningnummer!.BevestigdDoor.Any(x => x.OvoCode == initiator.OvoCode),
+            initiator.OvoCode
         );
 
         AddEvent(
             new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 bankrekeningnummer.BankrekeningnummerId,
-                initiator
+                new Registratiedata.GegevensInitiator(initiator.OvoCode, initiator.Naam)
             )
         );
     }
@@ -557,7 +557,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
 
         Throw<ValidatieBankrekeningnummerIsNietGekend>.If(
-            !bankrekeningnummer!.BevestigdDoor.Contains(initiator),
+            !bankrekeningnummer!.BevestigdDoor.Any(x => x.OvoCode == initiator),
             initiator
         );
 

@@ -21,7 +21,7 @@ public class Given_A_Valid_Bankrekeningnummer
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 _ctx.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-                _ctx.Metadata.Initiator
+                new Registratiedata.GegevensInitiator(_ctx.Metadata.Initiator, _ctx.OrganisationName)
             )
         );
     }

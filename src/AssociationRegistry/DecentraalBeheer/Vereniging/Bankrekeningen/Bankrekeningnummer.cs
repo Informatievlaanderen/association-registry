@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
 
 using AssociationRegistry.Vereniging.Bronnen;
+using Erkenningen;
+using Events;
 using Magda.Kbo;
 
 public record Bankrekeningnummer
@@ -12,7 +14,7 @@ public record Bankrekeningnummer
     public IbanNummer Iban { get; set; }
     public string Doel { get; set; }
     public Titularis Titularis { get; set; }
-    public string[] BevestigdDoor { get; set; }
+    public GegevensInitiator[] BevestigdDoor { get; set; }
     public Bron Bron { get; set; }
 
     public static Bankrekeningnummer Create(int nextId, ToeTevoegenBankrekeningnummer bankrekeningnummer) =>
@@ -31,7 +33,7 @@ public record Bankrekeningnummer
         string doel,
         string titularis,
         Bron bankrekeningnummerBron,
-        string[] bevestigdDoor
+        GegevensInitiator[] bevestigdDoor
     ) =>
         new()
         {
@@ -76,15 +78,26 @@ public record Bankrekeningnummer
         return this == gewijzigdBankrekeningnummer;
     }
 
-    public Bankrekeningnummer WijzigBron(Bron eventBron)
-        => this with { Bron = eventBron };
+    public Bankrekeningnummer WijzigBron(Bron eventBron) => this with { Bron = eventBron };
 
-    public Bankrekeningnummer WijzigBankrekeningnummer(string doel, string titularis)
-        => this with { Doel = doel,  Titularis = Titularis.Hydrate(titularis)};
-
-    public Bankrekeningnummer VoegValidatieBankrekeningnummerToe(string bevestigdDoor)
-        => this with
+    public Bankrekeningnummer WijzigBankrekeningnummer(string doel, string titularis) =>
+        this with
         {
-            BevestigdDoor = BevestigdDoor.Append(bevestigdDoor).ToArray()
+            Doel = doel,
+            Titularis = Titularis.Hydrate(titularis),
+        };
+
+    public Bankrekeningnummer VoegValidatieBankrekeningnummerToe(string ovoCode, string naam) =>
+        this with
+        {
+            BevestigdDoor = BevestigdDoor.Append(GegevensInitiator.Hydrate(ovoCode, naam)).ToArray(),
+        };
+
+    public Bankrekeningnummer VoegValidatieBankrekeningnummerToe(GegevensInitiator bevestigdDoor) =>
+        this with
+        {
+            BevestigdDoor = BevestigdDoor
+                .Append(GegevensInitiator.Hydrate(bevestigdDoor.OvoCode, bevestigdDoor.Naam))
+                .ToArray(),
         };
 }

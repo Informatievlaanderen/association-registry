@@ -58,7 +58,8 @@ public class BankrekeningnummersExportTests
             foreach (var bankrek in doc.Bankrekeningnummers)
             {
                 stringBuilder.Append(
-                    $"{bankrek.BankrekeningnummerId},{bankrek.Doel},{doc.VCode},\"{string.Join(separator: ", ", bankrek.BevestigdDoor)}\",{bankrek.Bron}\r\n");
+                    $"{bankrek.BankrekeningnummerId},{bankrek.Doel},{doc.VCode},\"{string.Join(separator: ", ", bankrek.BevestigdDoor.Select(x => x.OvoCode))}\",{bankrek.Bron}\r\n"
+                );
             }
         }
 
@@ -69,20 +70,23 @@ public class BankrekeningnummersExportTests
     {
         var s3ClientMock = new Mock<IAmazonS3>();
 
-        s3ClientMock.Setup(x => x.PutObjectAsync(It.IsAny<PutObjectRequest>(), default))
-                    .Callback<PutObjectRequest, CancellationToken>((request, _) => _resultStream = request.InputStream)
-                    .ReturnsAsync(new PutObjectResponse { HttpStatusCode = HttpStatusCode.OK });
+        s3ClientMock
+            .Setup(x => x.PutObjectAsync(It.IsAny<PutObjectRequest>(), default))
+            .Callback<PutObjectRequest, CancellationToken>((request, _) => _resultStream = request.InputStream)
+            .ReturnsAsync(new PutObjectResponse { HttpStatusCode = HttpStatusCode.OK });
 
         return s3ClientMock;
     }
 
     private async Task Export(IEnumerable<PowerBiExportDocument> docs)
     {
-        var exporter = new Exporter<PowerBiExportDocument>(WellKnownFileNames.Bankrekeningnummers,
-                                                           bucketName: "something",
-                                                           new BankrekeningnummerRecordWriter(),
-                                                           _s3ClientMock.Object,
-                                                           new NullLogger<Exporter<PowerBiExportDocument>>());
+        var exporter = new Exporter<PowerBiExportDocument>(
+            WellKnownFileNames.Bankrekeningnummers,
+            bucketName: "something",
+            new BankrekeningnummerRecordWriter(),
+            _s3ClientMock.Object,
+            new NullLogger<Exporter<PowerBiExportDocument>>()
+        );
 
         await exporter.Export(docs);
     }

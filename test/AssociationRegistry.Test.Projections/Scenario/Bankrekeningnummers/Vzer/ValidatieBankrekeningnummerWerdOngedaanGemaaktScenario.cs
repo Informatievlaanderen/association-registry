@@ -5,16 +5,13 @@ using AutoFixture;
 
 public class ValidatieBankrekeningnummerWerdOngedaanGemaaktScenario : ScenarioBase
 {
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; set; }
 
     public BankrekeningnummerWerdToegevoegd BankrekeningnummerWerdToegevoegd { get; }
 
-    public AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd
-        AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd { get; }
+    public AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd { get; }
 
-    public AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt
-        AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt { get; }
+    public AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt { get; }
 
     public ValidatieBankrekeningnummerWerdOngedaanGemaaktScenario()
     {
@@ -24,28 +21,31 @@ public class ValidatieBankrekeningnummerWerdOngedaanGemaaktScenario : ScenarioBa
         BankrekeningnummerWerdToegevoegd = AutoFixture.Create<BankrekeningnummerWerdToegevoegd>();
 
         AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd =
-            AutoFixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd>()
-                with
-                {
-                    BankrekeningnummerId = BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-                };
+            AutoFixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd>() with
+            {
+                BankrekeningnummerId = BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
+            };
 
         AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt =
             AutoFixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt>() with
             {
                 BankrekeningnummerId = BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
-                OngedaanGemaaktDoor = AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor,
+                OngedaanGemaaktDoor = AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd
+                    .BevestigdDoor
+                    .OvoCode,
             };
     }
 
     public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
-    [
-        new(AggregateId,
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
-            BankrekeningnummerWerdToegevoegd,
-            AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
-            AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt),
-    ];
+        [
+            new(
+                AggregateId,
+                VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+                BankrekeningnummerWerdToegevoegd,
+                AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
+                AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt
+            ),
+        ];
 }

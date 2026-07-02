@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Bankrekeningnummers.Vzer;
 
+using Admin.Schema.Detail;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Contracts.JsonLdContext;
 using AssociationRegistry.Test.Projections.Scenario.Bankrekeningnummers.Vzer;
@@ -32,7 +33,22 @@ public class Given_BankrekeningnummerWerdGevalideerd(
                     Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                     Doel = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
                     Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
-                    BevestigdDoor = [fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor],
+                    BevestigdDoor =
+                    [
+                        new GegevensInitiator
+                        {
+                            OvoCode = fixture
+                                .Scenario
+                                .AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd
+                                .BevestigdDoor
+                                .OvoCode,
+                            Naam = fixture
+                                .Scenario
+                                .AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd
+                                .BevestigdDoor
+                                .Naam,
+                        },
+                    ],
                     Bron = Bron.Initiator,
                 }
             );

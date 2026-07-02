@@ -21,29 +21,40 @@ public class AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigdScenari
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
-        {
-            VCode = await service.GetNext(),
-        };
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
+            fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+            {
+                VCode = await service.GetNext(),
+            };
 
         BankrekeningnummerWerdToegevoegdVoorValidatie = fixture.Create<BankrekeningnummerWerdToegevoegd>();
 
-        AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd = fixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd>() with
-        {
-            BevestigdDoor = AuthenticationSetup.Initiator,
-            BankrekeningnummerId = BankrekeningnummerWerdToegevoegdVoorValidatie.BankrekeningnummerId,
-        };
+        AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd =
+            fixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd>() with
+            {
+                BevestigdDoor = new Registratiedata.GegevensInitiator(
+                    AuthenticationSetup.Initiator,
+                    fixture.Create<string>()
+                ),
+                BankrekeningnummerId = BankrekeningnummerWerdToegevoegdVoorValidatie.BankrekeningnummerId,
+            };
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
         return
         [
-            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, BankrekeningnummerWerdToegevoegdVoorValidatie, AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd]),
+            new(
+                VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                [
+                    VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+                    BankrekeningnummerWerdToegevoegdVoorValidatie,
+                    AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
+                ]
+            ),
         ];
     }
 
     public StreamActionResult Result { get; set; } = null!;
 
-    public CommandMetadata GetCommandMetadata()
-        => Metadata;
+    public CommandMetadata GetCommandMetadata() => Metadata;
 }

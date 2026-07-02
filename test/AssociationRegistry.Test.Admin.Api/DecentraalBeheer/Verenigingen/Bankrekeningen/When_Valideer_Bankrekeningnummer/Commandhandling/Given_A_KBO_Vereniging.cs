@@ -22,7 +22,7 @@ public class Given_A_KBO_Vereniging
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
             new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 _ctx.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO1.BankrekeningnummerId,
-                _ctx.Metadata.Initiator
+                new Registratiedata.GegevensInitiator(_ctx.Metadata.Initiator, _ctx.OrganisationName)
             )
         );
     }
