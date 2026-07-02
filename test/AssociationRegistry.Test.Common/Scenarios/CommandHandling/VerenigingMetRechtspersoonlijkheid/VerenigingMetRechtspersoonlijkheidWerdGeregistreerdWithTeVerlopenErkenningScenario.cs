@@ -6,12 +6,12 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 
-public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenErkenningScenario : CommandhandlerScenarioBase
+public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenErkenningScenario
+    : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
 
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
-
     public readonly ErkenningWerdGeregistreerd ErkenningWerdGeregistreerdTeVerlopen;
 
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenErkenningScenario()
@@ -25,9 +25,9 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenEr
             };
 
         var today = DateOnly.FromDateTime(DateTime.Now);
-        var einddatum = today.AddDays(-fixture.Create<int>());
-        var hernieuwingsdatum = einddatum.AddDays(-fixture.Create<int>());
-        var startdatum = hernieuwingsdatum.AddDays(-fixture.Create<int>());
+        var einddatum = today.AddDays(-fixture.Create<int>() - 1);
+        var hernieuwingsdatum = einddatum.AddDays(-fixture.Create<int>() - 1);
+        var startdatum = hernieuwingsdatum.AddDays(-fixture.Create<int>() - 1);
 
         ErkenningWerdGeregistreerdTeVerlopen = fixture.Create<ErkenningWerdGeregistreerd>() with
         {
@@ -39,9 +39,5 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenEr
     }
 
     public override IEnumerable<IEvent> Events() =>
-        new IEvent[]
-        {
-            VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            ErkenningWerdGeregistreerdTeVerlopen,
-        };
+        new IEvent[] { VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, ErkenningWerdGeregistreerdTeVerlopen };
 }

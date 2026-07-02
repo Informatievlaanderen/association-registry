@@ -8,6 +8,7 @@ public class VzerMetActieveErkenningWerdGeregistreerdScenario : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
     public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd { get; }
+    public VerenigingWerdErkend VerenigingWerdErkend { get; }
 
     public VzerMetActieveErkenningWerdGeregistreerdScenario()
     {
@@ -18,10 +19,19 @@ public class VzerMetActieveErkenningWerdGeregistreerdScenario : ScenarioBase
         {
             Status = ErkenningStatus.Actief.Value,
         };
+
+        VerenigingWerdErkend = new VerenigingWerdErkend();
     }
 
     public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
-        [new(AggregateId, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, ErkenningWerdGeregistreerd)];
+        [
+            new(
+                AggregateId,
+                VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+                ErkenningWerdGeregistreerd,
+                VerenigingWerdErkend
+            ),
+        ];
 }

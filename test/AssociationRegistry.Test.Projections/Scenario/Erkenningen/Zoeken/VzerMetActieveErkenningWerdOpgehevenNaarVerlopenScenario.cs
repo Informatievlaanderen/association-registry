@@ -9,7 +9,9 @@ public class VzerMetActieveErkenningWerdOpgehevenNaarVerlopenScenario : Scenario
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
     public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd { get; }
     public ErkenningWerdGeactiveerd ErkenningWerdGeactiveerd { get; }
+    public VerenigingWerdErkend VerenigingWerdErkend { get; }
     public SchorsingVanErkenningWerdOpgeheven SchorsingVanErkenningWerdOpgeheven { get; }
+    public VerenigingWerdNietLangerErkend VerenigingWerdNietLangerErkend { get; }
 
     public VzerMetActieveErkenningWerdOpgehevenNaarVerlopenScenario()
     {
@@ -23,11 +25,15 @@ public class VzerMetActieveErkenningWerdOpgehevenNaarVerlopenScenario : Scenario
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
         };
 
+        VerenigingWerdErkend = new VerenigingWerdErkend();
+
         SchorsingVanErkenningWerdOpgeheven = AutoFixture.Create<SchorsingVanErkenningWerdOpgeheven>() with
         {
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
             Status = ErkenningStatus.Verlopen.Value,
         };
+
+        VerenigingWerdNietLangerErkend = new VerenigingWerdNietLangerErkend();
     }
 
     public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
@@ -39,7 +45,9 @@ public class VzerMetActieveErkenningWerdOpgehevenNaarVerlopenScenario : Scenario
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
                 ErkenningWerdGeregistreerd,
                 ErkenningWerdGeactiveerd,
-                SchorsingVanErkenningWerdOpgeheven
+                VerenigingWerdErkend,
+                SchorsingVanErkenningWerdOpgeheven,
+                VerenigingWerdNietLangerErkend
             ),
         ];
 }

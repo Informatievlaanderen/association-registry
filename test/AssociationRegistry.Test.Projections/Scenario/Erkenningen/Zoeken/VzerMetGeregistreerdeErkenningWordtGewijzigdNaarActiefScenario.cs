@@ -8,6 +8,7 @@ public class VzerMetGeregistreerdeErkenningWordtGewijzigdNaarActiefScenario : Sc
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
     public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd { get; }
     public ErkenningWerdGeactiveerd ErkenningWerdGeactiveerd { get; }
+    public VerenigingWerdErkend VerenigingWerdErkend { get; }
 
     public VzerMetGeregistreerdeErkenningWordtGewijzigdNaarActiefScenario()
     {
@@ -20,6 +21,8 @@ public class VzerMetGeregistreerdeErkenningWordtGewijzigdNaarActiefScenario : Sc
         {
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
         };
+
+        VerenigingWerdErkend = new VerenigingWerdErkend();
     }
 
     public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
@@ -30,7 +33,8 @@ public class VzerMetGeregistreerdeErkenningWordtGewijzigdNaarActiefScenario : Sc
                 AggregateId,
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
                 ErkenningWerdGeregistreerd,
-                ErkenningWerdGeactiveerd
+                ErkenningWerdGeactiveerd,
+                VerenigingWerdErkend
             ),
         ];
 }
