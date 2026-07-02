@@ -5,7 +5,7 @@ using Vereniging.Bronnen;
 
 public record AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
     int BankrekeningnummerId,
-    string BevestigdDoor
+    Registratiedata.GegevensInitiator BevestigdDoor
 ) : IEvent
 {
     [IgnoreDataMember]
@@ -14,7 +14,8 @@ public record AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
     protected virtual bool PrintMembers(System.Text.StringBuilder builder)
     {
         builder.Append($"BankrekeningnummerId = {BankrekeningnummerId}, ");
-        builder.Append($"BevestigdDoor = {BevestigdDoor}");
+        builder.Append($"OvoCode = {BevestigdDoor.OvoCode}, ");
+        builder.Append($"Naam = {BevestigdDoor.Naam}");
         return true;
     }
 }

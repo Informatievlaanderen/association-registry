@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.Middleware.RegistreerErkenning;
+﻿namespace AssociationRegistry.Test.Middleware.ValideerBankrekeningnummer;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning;
+using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.RegistreerErkenning.Middleware;
 using Common.AutoFixture;
 using DecentraalBeheer.Vereniging.Erkenningen;
@@ -30,8 +30,8 @@ public class EnrichGegevensInitiatorMiddlewareTests
     {
         var response = _fixture.Create<OrganisationResponse>() with { Name = naam };
 
-        var commandEnvelope = new CommandEnvelope<RegistreerErkenningCommand>(
-            _fixture.Create<RegistreerErkenningCommand>(),
+        var commandEnvelope = new CommandEnvelope<ValideerBankrekeningnummerCommand>(
+            _fixture.Create<ValideerBankrekeningnummerCommand>(),
             _fixture.Create<CommandMetadata>()
         );
 
@@ -63,8 +63,8 @@ public class EnrichGegevensInitiatorMiddlewareTests
     {
         var response = _fixture.Create<OrganisationResponse>();
 
-        var commandEnvelope = new CommandEnvelope<RegistreerErkenningCommand>(
-            _fixture.Create<RegistreerErkenningCommand>(),
+        var commandEnvelope = new CommandEnvelope<ValideerBankrekeningnummerCommand>(
+            _fixture.Create<ValideerBankrekeningnummerCommand>(),
             _fixture.Create<CommandMetadata>()
         );
 

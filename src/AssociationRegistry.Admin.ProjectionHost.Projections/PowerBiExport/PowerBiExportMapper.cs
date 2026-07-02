@@ -17,7 +17,7 @@ using Werkingsgebied = Schema.PowerBiExport.Werkingsgebied;
 
 public class PowerBiExportMapper
 {
-      public static Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lid, string vCode) =>
+    public static Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lid, string vCode) =>
         new(
             lid.LidmaatschapId,
             lid.AndereVereniging,
@@ -46,9 +46,7 @@ public class PowerBiExportMapper
         if (adresId is null)
             return null;
 
-        return new AdresVerwijzing
-        {
-        };
+        return new AdresVerwijzing { };
     }
 
     public static Adres? MapAdres(Registratiedata.AdresUitAdressenregister? adres, string vCode, int locId) =>
@@ -122,19 +120,10 @@ public class PowerBiExportMapper
 
     public static HoofdactiviteitVerenigingsloket MapHoofdactiviteitVerenigingsloket(
         Registratiedata.HoofdactiviteitVerenigingsloket h
-    ) =>
-        new()
-        {
-            Code = h.Code,
-            Naam = h.Naam,
-        };
+    ) => new() { Code = h.Code, Naam = h.Naam };
 
     public static Werkingsgebied MapWerkingsgebied(Registratiedata.Werkingsgebied w) =>
-        new()
-        {
-            Code = w.Code,
-            Naam = w.Naam,
-        };
+        new() { Code = w.Code, Naam = w.Naam };
 
     public static Verenigingstype MapVerenigingstype(DecentraalBeheer.Vereniging.Verenigingstype verenigingstype) =>
         new() { Code = verenigingstype.Code, Naam = verenigingstype.Naam };
@@ -145,10 +134,7 @@ public class PowerBiExportMapper
             Bron = Sleutelbron.KBO.Waarde,
             Waarde = kboNummer,
             CodeerSysteem = CodeerSysteem.KBO.Waarde,
-            GestructureerdeIdentificator = new GestructureerdeIdentificator
-            {
-                Nummer = kboNummer,
-            },
+            GestructureerdeIdentificator = new GestructureerdeIdentificator { Nummer = kboNummer },
         };
 
     public static Sleutel MapVrSleutel(string vCode) =>
@@ -157,25 +143,18 @@ public class PowerBiExportMapper
             Bron = Sleutelbron.VR.Waarde,
             Waarde = vCode,
             CodeerSysteem = CodeerSysteem.VR.Waarde,
-            GestructureerdeIdentificator = new GestructureerdeIdentificator
-            {
-                Nummer = vCode,
-            },
+            GestructureerdeIdentificator = new GestructureerdeIdentificator { Nummer = vCode },
         };
 
     public static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep, string vCode) =>
-        new()
-        {
-            Minimumleeftijd = doelgroep.Minimumleeftijd,
-            Maximumleeftijd = doelgroep.Maximumleeftijd,
-        };
+        new() { Minimumleeftijd = doelgroep.Minimumleeftijd, Maximumleeftijd = doelgroep.Maximumleeftijd };
+
     public static Bankrekeningnummer MapBankrekeningnummer(
         int bankrekeningnummerId,
         string doel,
-        string[] bevestigdDoor,
+        GegevensInitiator[] bevestigdDoor,
         string bron
-    ) =>
-        new(bankrekeningnummerId, doel, bevestigdDoor, bron);
+    ) => new(bankrekeningnummerId, doel, bevestigdDoor, bron);
 
     public static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] idValues) =>
         new() { Id = jsonLdType.CreateWithIdValues(idValues), Type = jsonLdType.Type };

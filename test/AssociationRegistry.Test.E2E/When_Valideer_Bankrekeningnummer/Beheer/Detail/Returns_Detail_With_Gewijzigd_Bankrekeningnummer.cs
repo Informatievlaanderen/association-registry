@@ -69,7 +69,14 @@ public class Returns_Detail_With_GeValideerd_Bankrekeningnummer : End2EndTest<De
                             Iban = _testContext.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                             Doel = _testContext.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
                             Titularis = _testContext.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
-                            BevestigdDoor = [new GegevensInitiator(){ OvoCode = AuthenticationSetup.Initiator}],
+                            BevestigdDoor =
+                            [
+                                new GegevensInitiator()
+                                {
+                                    OvoCode = AuthenticationSetup.Initiator,
+                                    Naam = "De LijnInfo",
+                                },
+                            ],
                             Bron = Bron.Initiator,
                         }
                     )

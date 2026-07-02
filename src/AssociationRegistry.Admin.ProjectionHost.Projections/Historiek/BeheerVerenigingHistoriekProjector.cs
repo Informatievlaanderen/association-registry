@@ -868,7 +868,7 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            $"Bankrekeningnummervalidatiedocument werd bevestigd door '{@event.Data.BevestigdDoor}'."
+            $"Bankrekeningnummervalidatiedocument werd bevestigd door '{@event.Data.BevestigdDoor.OvoCode}'."
         );
     }
 

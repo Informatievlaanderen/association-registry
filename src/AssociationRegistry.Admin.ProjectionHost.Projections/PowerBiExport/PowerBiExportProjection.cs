@@ -1492,7 +1492,19 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         document.Bankrekeningnummers = document
             .Bankrekeningnummers.UpdateSingle(
                 identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
-                update: b => b with { BevestigdDoor = b.BevestigdDoor.Append(@event.Data.BevestigdDoor).ToArray() }
+                update: b =>
+                    b with
+                    {
+                        BevestigdDoor = b
+                            .BevestigdDoor.Append(
+                                new GegevensInitiator()
+                                {
+                                    OvoCode = @event.Data.BevestigdDoor.OvoCode,
+                                    Naam = @event.Data.BevestigdDoor.Naam,
+                                }
+                            )
+                            .ToArray(),
+                    }
             )
             .OrderBy(b => b.BankrekeningnummerId)
             .ToArray();
@@ -1515,7 +1527,9 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                 update: b =>
                     b with
                     {
-                        BevestigdDoor = b.BevestigdDoor.Without(@event.Data.OngedaanGemaaktDoor).ToArray(),
+                        BevestigdDoor = b
+                            .BevestigdDoor.Where(x => x.OvoCode != @event.Data.OngedaanGemaaktDoor)
+                            .ToArray(),
                     }
             )
             .OrderBy(b => b.BankrekeningnummerId)

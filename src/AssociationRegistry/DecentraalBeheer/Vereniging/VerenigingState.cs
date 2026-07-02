@@ -943,7 +943,12 @@ public record VerenigingState : IHasVersion
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(
                 Bankrekeningnummers
                     .Without(@event.BankrekeningnummerId)
-                    .Append(bankrekeningnummer.VoegValidatieBankrekeningnummerToe(@event.BevestigdDoor))
+                    .Append(
+                        bankrekeningnummer.VoegValidatieBankrekeningnummerToe(
+                            @event.BevestigdDoor.OvoCode,
+                            @event.BevestigdDoor.Naam
+                        )
+                    )
             ),
         };
     }
@@ -953,7 +958,7 @@ public record VerenigingState : IHasVersion
         var bankrekeningnummer = Bankrekeningnummers.Single(c => c.BankrekeningnummerId == @event.BankrekeningnummerId);
 
         var bevestigdDoorZonderGeannuleerde = bankrekeningnummer
-            .BevestigdDoor.Where(x => x != @event.OngedaanGemaaktDoor)
+            .BevestigdDoor.Where(x => x.OvoCode != @event.OngedaanGemaaktDoor)
             .ToArray();
 
         return this with
