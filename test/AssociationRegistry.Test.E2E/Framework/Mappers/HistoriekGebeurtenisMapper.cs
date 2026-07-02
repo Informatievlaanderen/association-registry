@@ -1225,7 +1225,7 @@ public static class HistoriekGebeurtenisMapper
             Gebeurtenis = nameof(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd),
             Data = new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
                 @event.BankrekeningnummerId,
-                AuthenticationSetup.Initiator
+                new Registratiedata.GegevensInitiator(AuthenticationSetup.Initiator, "De LijnInfo") // See wiremock
             ),
             Initiator = AuthenticationSetup.Initiator,
             Tijdstip = "2024-07-30T11:08:05Z",

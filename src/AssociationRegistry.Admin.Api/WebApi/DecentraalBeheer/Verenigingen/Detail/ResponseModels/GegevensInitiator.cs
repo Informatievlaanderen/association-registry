@@ -10,4 +10,10 @@ public class GegevensInitiator
     /// </summary>
     [DataMember(Name = "OvoCode")]
     public string OvoCode { get; set; }
+
+    /// <summary>
+    /// Naam van de initiator die dit bankrekeningnummer heeft bevestigd.
+    /// </summary>
+    [DataMember(Name = "Naam")]
+    public string Naam { get; set; }
 }

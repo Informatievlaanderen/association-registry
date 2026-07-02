@@ -20,7 +20,7 @@ public class BankrekeningnummerRecordWriter : IRecordWriter<PowerBiExportDocumen
                         bankrekeningnummer.BankrekeningnummerId,
                         bankrekeningnummer.Doel,
                         vereniging.VCode,
-                        string.Join(", ", bankrekeningnummer.BevestigdDoor),
+                        string.Join(", ", bankrekeningnummer.BevestigdDoor.Select(x => x.OvoCode)),
                         bankrekeningnummer.Bron
                     )
                 );

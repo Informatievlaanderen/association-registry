@@ -18,7 +18,7 @@ public class Given_Validated_Bankrekeningnummer
     {
         var command = _ctx.CreateCommand();
         var metadata = _ctx.CreateMetadata(
-            initiator: _ctx.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor
+            initiator: _ctx.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor.OvoCode
         );
 
         var exception = await Assert.ThrowsAsync<BankrekeningnummerValidatieIsAlReedsToegevoegd>(async () =>

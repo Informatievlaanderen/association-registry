@@ -20,7 +20,7 @@ public class Given_BankrekeningWerdGevalideerd(
             .Should()
             .BeEquivalentTo(
                 new BeheerVerenigingHistoriekGebeurtenis(
-                    Beschrijving: $"Bankrekeningnummervalidatiedocument werd bevestigd door '{fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor}'.",
+                    Beschrijving: $"Bankrekeningnummervalidatiedocument werd bevestigd door '{fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor.OvoCode}'.",
                     nameof(AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd),
                     fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
                     fixture.MetadataInitiator,

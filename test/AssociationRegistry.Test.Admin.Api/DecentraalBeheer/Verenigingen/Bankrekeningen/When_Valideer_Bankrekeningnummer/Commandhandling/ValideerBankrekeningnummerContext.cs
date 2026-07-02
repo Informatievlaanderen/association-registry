@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Bankrekeningen.When_Valideer_Bankrekeningnummer.Commandhandling;
 
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Bankrekeningen.ValideerBankrekening;
@@ -16,6 +17,7 @@ public class ValideerBankrekeningnummerContext<TScenario>
     public TScenario Scenario { get; }
     public AggregateSessionMock AggregateSessionMock { get; }
     public CommandMetadata Metadata { get; }
+    public string OrganisationName { get; }
 
     private readonly ValideerBankrekeningnummerCommandHandler _commandHandler;
 
@@ -27,6 +29,7 @@ public class ValideerBankrekeningnummerContext<TScenario>
         AggregateSessionMock = new AggregateSessionMock(Scenario.GetVerenigingState());
         _commandHandler = new ValideerBankrekeningnummerCommandHandler(AggregateSessionMock);
         Metadata = _fixture.Create<CommandMetadata>();
+        OrganisationName = _fixture.Create<string>();
     }
 
     public ValideerBankrekeningnummerCommand CreateCommand(int? bankrekeningnummerId = null) =>
@@ -45,5 +48,8 @@ public class ValideerBankrekeningnummerContext<TScenario>
         };
 
     public async ValueTask Handle(ValideerBankrekeningnummerCommand command, CommandMetadata? metadata = null) =>
-        await _commandHandler.Handle(new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, metadata ?? Metadata));
+        await _commandHandler.Handle(
+            new CommandEnvelope<ValideerBankrekeningnummerCommand>(command, metadata ?? Metadata),
+            GegevensInitiator.Hydrate(metadata?.Initiator ?? Metadata.Initiator, OrganisationName)
+        );
 }

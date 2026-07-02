@@ -5,19 +5,13 @@ using AutoFixture;
 
 public class ValidatieBankrekeningnummerWerdOngedaanGemaaktKBOScenario : ScenarioBase
 {
-    public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
-    {
-        get;
-        set;
-    }
+    public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; set; }
 
     public BankrekeningnummerWerdToegevoegdVanuitKBO BankrekeningnummerWerdToegevoegdVanuitKBO { get; }
 
-    public AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd
-        AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd { get; }
+    public AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd { get; }
 
-    public AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt
-        AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt { get; }
+    public AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt { get; }
 
     public ValidatieBankrekeningnummerWerdOngedaanGemaaktKBOScenario()
     {
@@ -36,20 +30,22 @@ public class ValidatieBankrekeningnummerWerdOngedaanGemaaktKBOScenario : Scenari
             AutoFixture.Create<AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt>() with
             {
                 BankrekeningnummerId = BankrekeningnummerWerdToegevoegdVanuitKBO.BankrekeningnummerId,
-                OngedaanGemaaktDoor = AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor,
+                OngedaanGemaaktDoor = AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd
+                    .BevestigdDoor
+                    .OvoCode,
             };
     }
 
     public override string AggregateId => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
-    [
-        new(
-            AggregateId,
-            VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            BankrekeningnummerWerdToegevoegdVanuitKBO,
-            AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
-            AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt
-        ),
-    ];
+        [
+            new(
+                AggregateId,
+                VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+                BankrekeningnummerWerdToegevoegdVanuitKBO,
+                AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd,
+                AanwezigheidBankrekeningnummerValidatieDocumentWerdOngedaanGemaakt
+            ),
+        ];
 }

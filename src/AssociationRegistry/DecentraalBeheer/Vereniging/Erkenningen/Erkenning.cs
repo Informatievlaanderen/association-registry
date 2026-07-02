@@ -100,8 +100,7 @@ public record Erkenning
 
 public record IpdcProduct
 {
-    public override int GetHashCode()
-        => Nummer.GetHashCode();
+    public override int GetHashCode() => Nummer.GetHashCode();
 
     public string Nummer { get; set; } = null!;
     public string Naam { get; set; } = null!;
@@ -131,8 +130,10 @@ public record GegevensInitiator
         return OvoCode == other.OvoCode;
     }
 
-    public override int GetHashCode()
-        => OvoCode.GetHashCode();
+    public override int GetHashCode() => OvoCode.GetHashCode();
+
     public string OvoCode { get; set; } = null!;
     public string Naam { get; set; }
+
+    public static GegevensInitiator Hydrate(string ovoCode, string naam) => new() { OvoCode = ovoCode, Naam = naam };
 }

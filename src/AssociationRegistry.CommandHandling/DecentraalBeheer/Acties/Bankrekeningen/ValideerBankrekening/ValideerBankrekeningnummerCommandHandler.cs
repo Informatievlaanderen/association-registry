@@ -2,6 +2,7 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using Framework;
 using MartenDb.Store;
 
@@ -16,17 +17,19 @@ public class ValideerBankrekeningnummerCommandHandler
 
     public async Task<CommandResult> Handle(
         CommandEnvelope<ValideerBankrekeningnummerCommand> envelope,
-        CancellationToken cancellationToken = default)
+        GegevensInitiator initiator,
+        CancellationToken cancellationToken = default
+    )
     {
         if (envelope.Metadata.Initiator == WellknownOvoNumbers.VloOvoCode)
             throw new OvoCodeIsNietToegelatenDezeActieUitTeVoeren(envelope.Metadata.Initiator);
 
-        var vereniging =
-            await _aggregateSession.Load<VerenigingOfAnyKind>(
-                VCode.Create(envelope.Command.VCode),
-                envelope.Metadata);
+        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
+            VCode.Create(envelope.Command.VCode),
+            envelope.Metadata
+        );
 
-        vereniging.Valideer(envelope.Command.BankrekeningnummerId, envelope.Metadata.Initiator);
+        vereniging.Valideer(envelope.Command.BankrekeningnummerId, initiator);
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

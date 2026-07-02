@@ -45,6 +45,7 @@ public static class WolverineSetup
 
                 RegistreerVzerPipeline.Setup(options);
                 RegistreerErkenningPipeline.Setup(options);
+                ValideerBankrekeningnummerPipeline.Setup(options);
 
                 VoegVertegenwoordigerToePipeline.Setup(options);
 

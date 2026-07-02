@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Bankrekeningnummers.Kbo;
 
 using Admin.ProjectionHost.Projections.Detail;
+using Admin.Schema.Detail;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using Scenario.Bankrekeningnummers.Kbo;
@@ -36,7 +37,22 @@ public class Given_BankrekeningnummerWerdGevalideerd(
                     Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Iban,
                     Doel = string.Empty,
                     Titularis = string.Empty,
-                    BevestigdDoor = [fixture.Scenario.AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd.BevestigdDoor],
+                    BevestigdDoor =
+                    [
+                        new GegevensInitiator
+                        {
+                            OvoCode = fixture
+                                .Scenario
+                                .AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd
+                                .BevestigdDoor
+                                .OvoCode,
+                            Naam = fixture
+                                .Scenario
+                                .AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd
+                                .BevestigdDoor
+                                .Naam,
+                        },
+                    ],
                     Bron = Bron.KBO,
                 },
             ]);

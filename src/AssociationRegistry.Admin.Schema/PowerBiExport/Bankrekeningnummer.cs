@@ -4,14 +4,10 @@ public record Bankrekeningnummer
 {
     public int BankrekeningnummerId { get; set; }
     public string Doel { get; set; }
-    public string[] BevestigdDoor { get; set; }
+    public GegevensInitiator[] BevestigdDoor { get; set; }
     public string Bron { get; set; }
 
-    public Bankrekeningnummer(
-        int bankrekeningnummerId,
-        string doel,
-        string[] bevestigdDoor,
-        string bron)
+    public Bankrekeningnummer(int bankrekeningnummerId, string doel, GegevensInitiator[] bevestigdDoor, string bron)
     {
         BankrekeningnummerId = bankrekeningnummerId;
         Doel = doel;

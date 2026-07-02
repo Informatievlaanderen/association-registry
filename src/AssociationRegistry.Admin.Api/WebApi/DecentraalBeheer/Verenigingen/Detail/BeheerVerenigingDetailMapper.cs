@@ -214,7 +214,7 @@ public class BeheerVerenigingDetailMapper
             Doel = bankrekeningnummer.Doel,
             Titularis = bankrekeningnummer.Titularis,
             BevestigdDoor = bankrekeningnummer
-                .BevestigdDoor.Select(x => new GegevensInitiator() { OvoCode = x })
+                .BevestigdDoor.Select(x => new GegevensInitiator() { OvoCode = x.OvoCode, Naam = x.Naam })
                 .ToArray(),
             Bron = bankrekeningnummer.Bron,
         };

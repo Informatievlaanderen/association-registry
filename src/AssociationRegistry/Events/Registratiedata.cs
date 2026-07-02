@@ -138,6 +138,8 @@ public static class Registratiedata
     public record BankrekeningnummerZonderPersoonsgegevens(Guid RefId, int BankrekeningnummerId, string Doel);
 
     public record Bankrekeningnummer(int BankrekeningnummerId, string Iban, string Doel, string Titularis);
+
+    public record GegevensInitiator(string OvoCode, string Naam);
 }
 
 public interface IAdresId
