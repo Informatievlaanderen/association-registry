@@ -1,3 +1,10 @@
+# [8.334.0](https://github.com/informatievlaanderen/association-registry/compare/v8.333.0...v8.334.0) (2026-07-03)
+
+
+### Features
+
+* or-3274 add organisation name to bevestigd door for bankrekeningnummer werd gevalideerd ([4fccac3](https://github.com/informatievlaanderen/association-registry/commit/4fccac3214bdbd4278e35c622d4c9dd279e6f861))
+
 # [8.333.0](https://github.com/informatievlaanderen/association-registry/compare/v8.332.3...v8.333.0) (2026-07-01)
 
 
