@@ -34,6 +34,7 @@ public class For_Any_Event
             .Assembly.GetTypes()
             .Where(t => typeof(IEvent).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
             .Except(_excludedEventTypes) // only add events that are obsolete
+            .Except([typeof(VerenigingWerdErkend), typeof(VerenigingWerdNietLangerErkend)])
             .ToList();
 
         var projectionType = typeof(BeheerVerenigingDetailProjection);
