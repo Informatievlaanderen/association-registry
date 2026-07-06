@@ -8,9 +8,11 @@ using Xunit;
 public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
 {
     private readonly HefSchorsingErkenningOpContext<ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpGeschorsteErkenningScenario> _ctx =
-        new(new ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpGeschorsteErkenningScenario(),
+        new(
+            new ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpGeschorsteErkenningScenario(),
             s => s.ErkenningWerdGeregistreerd.ErkenningId,
-            s => s.ErkenningOpvolgersWerdenToegevoegdAlsBeheerder.Beheerders.First());
+            s => s.ErkenningOpvolgersWerdenToegevoegdAlsBeheerder.Beheerders.First()
+        );
 
     [Fact]
     public async ValueTask Then_Saves_SchorsingVanErkenningWerdOpgeheven()
@@ -19,16 +21,9 @@ public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
 
         await _ctx.Handle(command);
 
-        var status = ErkenningStatus.Bepaal(
-            ErkenningsPeriode.Create(
-                _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
-                _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
-            ),
-            DateOnly.FromDateTime(DateTime.Now)
-        );
-
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
-            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, status.Value)
+            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, ErkenningStatus.Actief.Value),
+            new VerenigingWerdErkend()
         );
     }
 

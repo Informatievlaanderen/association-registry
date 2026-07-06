@@ -8,9 +8,11 @@ using Xunit;
 public class Given_An_Actieve_Geschorste_Erkenning
 {
     private readonly HefSchorsingErkenningOpContext<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithActieveGeschorsteErkenningScenario> _ctx =
-        new(new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithActieveGeschorsteErkenningScenario(),
+        new(
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithActieveGeschorsteErkenningScenario(),
             s => s.ErkenningWerdGeregistreerd.ErkenningId,
-            s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
+            s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
+        );
 
     [Fact]
     public async ValueTask With_Previous_State_Actief_Then_Saves_An_SchorsingVanErkenningWerdOpgeheven_Event()
@@ -28,7 +30,7 @@ public class Given_An_Actieve_Geschorste_Erkenning
         await _ctx.Handle(command);
 
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
-            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, status.Value),
+            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, ErkenningStatus.Actief.Value),
             new VerenigingWerdErkend()
         );
     }

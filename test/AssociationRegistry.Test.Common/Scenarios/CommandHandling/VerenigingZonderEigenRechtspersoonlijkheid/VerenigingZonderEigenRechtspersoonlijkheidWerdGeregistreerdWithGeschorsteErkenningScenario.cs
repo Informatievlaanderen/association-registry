@@ -1,11 +1,12 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
+using global::AutoFixture;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using Events;
-using global::AutoFixture;
 
-public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario : CommandhandlerScenarioBase
+public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario
+    : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
     public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
@@ -20,8 +21,14 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGesc
             {
                 VCode = VCode,
             };
+        var today = DateOnly.FromDateTime(DateTime.Now);
 
-        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>();
+        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>() with
+        {
+            Startdatum = today.AddDays(-fixture.Create<int>()),
+            Einddatum = today.AddDays(fixture.Create<int>()),
+        };
+
         ErkenningWerdGeschorst = fixture.Create<ErkenningWerdGeschorst>() with
         {
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
@@ -29,5 +36,10 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGesc
     }
 
     public override IEnumerable<IEvent> Events() =>
-        new IEvent[] { VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, ErkenningWerdGeregistreerd, ErkenningWerdGeschorst };
+        new IEvent[]
+        {
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+            ErkenningWerdGeregistreerd,
+            ErkenningWerdGeschorst,
+        };
 }

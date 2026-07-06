@@ -5,11 +5,11 @@ using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Events;
 using Xunit;
 
-public class Given_An_Actieve_Geschorste_Erkenning
+public class Given_A_Verlopen_Geschorste_Erkenning
 {
-    private readonly HefSchorsingErkenningOpContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithActieveGeschorsteErkenningScenario> _ctx =
+    private readonly HefSchorsingErkenningOpContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVerlopenGeschorsteErkenningScenario> _ctx =
         new(
-            new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithActieveGeschorsteErkenningScenario(),
+            new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVerlopenGeschorsteErkenningScenario(),
             s => s.ErkenningWerdGeregistreerd.ErkenningId,
             s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
         );
@@ -19,11 +19,18 @@ public class Given_An_Actieve_Geschorste_Erkenning
     {
         var command = _ctx.HefSchorsingErkenningOpCommand;
 
+        var status = ErkenningStatus.Bepaal(
+            ErkenningsPeriode.Create(
+                _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
+                _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
+            ),
+            DateOnly.FromDateTime(DateTime.Now)
+        );
+
         await _ctx.Handle(command);
 
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
-            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, ErkenningStatus.Actief.Value),
-            new VerenigingWerdErkend()
+            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, ErkenningStatus.Verlopen.Value)
         );
     }
 }

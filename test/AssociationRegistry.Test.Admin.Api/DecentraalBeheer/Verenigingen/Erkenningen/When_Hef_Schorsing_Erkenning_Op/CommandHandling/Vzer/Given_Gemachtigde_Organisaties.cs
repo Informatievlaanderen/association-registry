@@ -30,18 +30,8 @@ public class Given_Gemachtigde_Organisaties
                 _ctx.Scenario.ErkenningWerdGeregistreerd.ErkenningId,
                 [_ctx.Metadata.Initiator]
             ),
-            new SchorsingVanErkenningWerdOpgeheven(
-                command.ErkenningId,
-                ErkenningStatus
-                    .Bepaal(
-                        ErkenningsPeriode.Create(
-                            _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
-                            _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
-                        ),
-                        DateOnly.FromDateTime(DateTime.Now)
-                    )
-                    .Value
-            )
+            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, ErkenningStatus.Actief.Value),
+            new VerenigingWerdErkend()
         );
     }
 }
