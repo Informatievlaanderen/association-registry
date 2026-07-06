@@ -1,3 +1,10 @@
+## [8.334.1](https://github.com/informatievlaanderen/association-registry/compare/v8.334.0...v8.334.1) (2026-07-06)
+
+
+### Bug Fixes
+
+* or-3270 remove 200 statuscode on valideer bankrekeningnummer ([df2466c](https://github.com/informatievlaanderen/association-registry/commit/df2466c2cba61603a7cb3c394cc9c555691543f2))
+
 # [8.334.0](https://github.com/informatievlaanderen/association-registry/compare/v8.333.0...v8.334.0) (2026-07-03)
 
 
