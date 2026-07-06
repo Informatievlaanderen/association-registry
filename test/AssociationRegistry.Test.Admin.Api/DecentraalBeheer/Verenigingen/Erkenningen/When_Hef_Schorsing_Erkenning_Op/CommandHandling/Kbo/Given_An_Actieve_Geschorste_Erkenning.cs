@@ -5,10 +5,10 @@ using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Events;
 using Xunit;
 
-public class Given_A_Valid_Command
+public class Given_An_Actieve_Geschorste_Erkenning
 {
-    private readonly HefSchorsingErkenningOpContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario> _ctx =
-        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteErkenningScenario(),
+    private readonly HefSchorsingErkenningOpContext<VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithActieveGeschorsteErkenningScenario> _ctx =
+        new(new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithActieveGeschorsteErkenningScenario(),
             s => s.ErkenningWerdGeregistreerd.ErkenningId,
             s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
 
@@ -28,7 +28,8 @@ public class Given_A_Valid_Command
         await _ctx.Handle(command);
 
         _ctx.AggregateSessionMock.ShouldHaveSavedExact(
-            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, status.Value)
+            new SchorsingVanErkenningWerdOpgeheven(command.ErkenningId, status.Value),
+            new VerenigingWerdErkend()
         );
     }
 }
