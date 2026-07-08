@@ -31,11 +31,13 @@ public class WijzigBankrekeningnummerContext<TScenario>
     }
 
     public WijzigBankrekeningnummerCommand CreateCommand(
-        Func<TeWijzigenBankrekeningnummer, TeWijzigenBankrekeningnummer>? modifier = null)
+        Func<TeWijzigenBankrekeningnummer, TeWijzigenBankrekeningnummer>? modifier = null,
+        int? bankrekeningnummerId = null
+    )
     {
         var bankrekeningnummer = _fixture.Create<TeWijzigenBankrekeningnummer>() with
         {
-            BankrekeningnummerId = _defaultBankrekeningnummerId(Scenario),
+            BankrekeningnummerId = bankrekeningnummerId ?? _defaultBankrekeningnummerId(Scenario),
         };
 
         return _fixture.Create<WijzigBankrekeningnummerCommand>() with
@@ -45,13 +47,16 @@ public class WijzigBankrekeningnummerContext<TScenario>
         };
     }
 
-    public CommandMetadata CreateMetadata(string? initiator = null)
-        => _fixture.Create<CommandMetadata>() with
+    public CommandMetadata CreateMetadata(string? initiator = null) =>
+        _fixture.Create<CommandMetadata>() with
         {
             Initiator = initiator ?? _fixture.Create<string>(),
         };
 
-    public async ValueTask Handle(WijzigBankrekeningnummerCommand command, CommandMetadata? metadata = null)
-        => await _commandHandler.Handle(
-            new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, metadata ?? Metadata));
+    public async ValueTask Handle(WijzigBankrekeningnummerCommand command, CommandMetadata? metadata = null) =>
+        await _commandHandler.Handle(
+            new CommandEnvelope<WijzigBankrekeningnummerCommand>(command, metadata ?? Metadata)
+        );
+
+    public int GetUnknownBankrekeningnummerId => int.MaxValue;
 }
