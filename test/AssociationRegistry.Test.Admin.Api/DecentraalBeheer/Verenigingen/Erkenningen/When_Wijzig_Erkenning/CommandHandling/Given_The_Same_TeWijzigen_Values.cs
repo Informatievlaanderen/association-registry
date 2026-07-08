@@ -27,7 +27,7 @@ public class Given_The_Same_TeWijzigen_Values
     [MemberData(nameof(ScenariosWithErkenningId))]
     public async ValueTask Then_Should_Not_Have_Any_Saves(CommandhandlerScenarioBase scenario, int erkenningId)
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var origineleErkenning = scenario
             .Events()

@@ -1,13 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling;
 
+using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Erkenningen.WijzigErkenning;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
+using AutoFixture;
 using Common.Scenarios.CommandHandling;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Events;
 using Xunit;
-using VmrScenario = Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid.ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpErkenningScenario;
-using VzerScenario = Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid.ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpErkenningScenario;
 
 public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
 {
@@ -15,8 +13,8 @@ public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
     {
         get
         {
-            var vzer = new VzerScenario();
-            var vmr = new VmrScenario();
+            var vzer = new ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpErkenningScenario();
+            var vmr = new ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpErkenningScenario();
             return new[]
             {
                 new object[] { vzer, vzer.ErkenningWerdGeregistreerd.ErkenningId },
@@ -29,12 +27,13 @@ public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
     [MemberData(nameof(ScenariosWithErkenningId))]
     public async ValueTask Then_Saves_ErkenningWerdGewijzigd(CommandhandlerScenarioBase scenario, int erkenningId)
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
-        await test.WithDefaultErkenningModification().WithInitiator(test.GetInitiatorOvoCode()).WhenHandled();
-
-        var expectedEvent = test.ExpectedErkenningWerdGewijzigd(hernieuwingsUrl: "https://example.org/renewal");
-        test.ShouldHaveSavedErkenningWerdGewijzigd(expectedEvent);
+        (
+            await test.WithCommand(command => command.CreateRandomizedForSameVCodeAndErkenningId(test.Fixture))
+                .WithInitiator(test.GetInitiatorOvoCode())
+                .WhenHandled()
+        ).ShouldHaveSavedErkenningWerdGewijzigd(test.Command.MapToExpectedEvent());
     }
 
     [Theory]
@@ -44,9 +43,20 @@ public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
-        await test.WithDefaultErkenningModification().WithInitiator(test.GetInitiatorOvoCode()).WhenHandled();
+        await test.WithCommand(command =>
+                test.Fixture.Create<WijzigErkenningCommand>() with
+                {
+                    Erkenning = test.Fixture.Create<TeWijzigenErkenning>() with
+                    {
+                        ErkenningId = command.Erkenning.ErkenningId,
+                    },
+                    VCode = command.VCode,
+                }
+            )
+            .WithInitiator(test.GetInitiatorOvoCode())
+            .WhenHandled();
 
         test.OrganisatieBevoegdheidService.VerifyNever();
     }

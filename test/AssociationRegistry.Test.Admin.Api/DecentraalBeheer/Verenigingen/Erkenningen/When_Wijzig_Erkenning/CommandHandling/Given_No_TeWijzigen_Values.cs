@@ -32,7 +32,7 @@ public class Given_No_TeWijzigen_Values
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var exception = await Assert.ThrowsAsync<MinstensEenTeWijzigenVeldMoetIngevuldZijn>(async () =>
             await test.WithCommand(cmd =>

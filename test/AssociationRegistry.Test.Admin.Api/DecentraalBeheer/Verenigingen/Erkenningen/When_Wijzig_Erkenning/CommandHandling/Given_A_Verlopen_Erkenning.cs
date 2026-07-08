@@ -31,7 +31,7 @@ public class Given_A_Verlopen_Erkenning
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var today = DateOnly.FromDateTime(DateTime.Now);
         var startdatum = today.AddDays(-10);

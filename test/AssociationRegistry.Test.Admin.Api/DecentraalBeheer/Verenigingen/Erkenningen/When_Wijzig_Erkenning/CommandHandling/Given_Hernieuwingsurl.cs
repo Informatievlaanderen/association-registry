@@ -31,7 +31,7 @@ public class Given_Hernieuwingsurl
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var exception = await Assert.ThrowsAsync<WebsiteMoetStartenMetHttps>(async () =>
             await test.WithCommand(cmd =>

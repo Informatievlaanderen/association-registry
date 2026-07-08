@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
+using AutoFixture;
 using Common.Scenarios.CommandHandling;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
@@ -31,11 +32,18 @@ public class Given_A_Valid_Command
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var hernieuwingsUrl = test.Fixture.Create<HernieuwingsUrl>().Value;
+        test.WithErkenningCommand(command =>
+            test.Command with
+            {
+                Erkenning = command.Erkenning with { HernieuwingsUrl = hernieuwingsUrl },
+            }
+        );
 
-        await test.WithDefaultErkenningModification().WithInitiator(test.GetInitiatorOvoCode()).WhenHandled();
+        await test.WithInitiator(test.GetInitiatorOvoCode()).WhenHandled();
 
-        var expectedEvent = test.ExpectedErkenningWerdGewijzigd(hernieuwingsUrl: "https://example.org/renewal");
+        var expectedEvent = test.ExpectedErkenningWerdGewijzigd(hernieuwingsUrl: hernieuwingsUrl);
         test.ShouldHaveSavedErkenningWerdGewijzigd(expectedEvent);
     }
 
@@ -46,7 +54,7 @@ public class Given_A_Valid_Command
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var origineleErkenning = scenario
             .Events()
@@ -81,7 +89,7 @@ public class Given_A_Valid_Command
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var origineleErkenning = scenario
             .Events()
@@ -116,7 +124,7 @@ public class Given_A_Valid_Command
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var origineleErkenning = scenario
             .Events()
@@ -154,11 +162,18 @@ public class Given_A_Valid_Command
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var hernieuwingsUrl = test.Fixture.Create<HernieuwingsUrl>().Value;
+        test.WithErkenningCommand(command =>
+            test.Command with
+            {
+                Erkenning = test.Command.Erkenning with { HernieuwingsUrl = hernieuwingsUrl },
+            }
+        );
 
-        await test.WithDefaultErkenningModification().WithInitiator(test.GetInitiatorOvoCode()).WhenHandled();
+        await test.WithInitiator(test.GetInitiatorOvoCode()).WhenHandled();
 
-        var expectedEvent = test.ExpectedErkenningWerdGewijzigd(hernieuwingsUrl: "https://example.org/renewal");
+        var expectedEvent = test.ExpectedErkenningWerdGewijzigd(hernieuwingsUrl: hernieuwingsUrl);
         test.ShouldHaveSavedErkenningWerdGewijzigd(expectedEvent);
     }
 
@@ -169,7 +184,7 @@ public class Given_A_Valid_Command
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         await test.WithCommand(cmd =>
                 cmd with

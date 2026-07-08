@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using Common.Scenarios.CommandHandling;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
@@ -62,7 +61,7 @@ public class Given_Erkenning_Status_Transitions
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         await test.WithCommand(cmd =>
@@ -95,7 +94,7 @@ public class Given_Erkenning_Status_Transitions
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         var nieuweEinddatum = today.AddDays(-1);
@@ -128,7 +127,7 @@ public class Given_Erkenning_Status_Transitions
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         var nieuweEinddatum = today.AddDays(-1);

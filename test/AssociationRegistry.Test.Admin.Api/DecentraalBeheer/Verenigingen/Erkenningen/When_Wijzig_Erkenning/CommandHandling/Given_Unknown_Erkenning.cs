@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Wijzig_Erkenning.CommandHandling;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen.Exceptions;
+using AutoFixture;
 using Common.Scenarios.CommandHandling;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
@@ -16,6 +17,7 @@ public class Given_Unknown_Erkenning
         {
             var vzer = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
             var vmr = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario();
+
             return new[]
             {
                 new object[] { vzer, vzer.ErkenningWerdGeregistreerd.ErkenningId },
@@ -28,16 +30,14 @@ public class Given_Unknown_Erkenning
     [MemberData(nameof(ScenariosWithErkenningId))]
     public async ValueTask Then_Throws_ErkenningIsNietGekend(CommandhandlerScenarioBase scenario, int erkenningId)
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
-        var unknownErkenningId = erkenningId + 999;
+        var unknownErkenningId = erkenningId + test.Fixture.Create<int>();
 
-        var exception = await Assert.ThrowsAsync<ErkenningIsNietGekend>(async () =>
-            await test.WithDefaultErkenningModification()
-                .WithInitiator(test.GetInitiatorOvoCode())
-                .WithCommand(cmd => cmd with { Erkenning = cmd.Erkenning with { ErkenningId = unknownErkenningId } })
-                .WhenHandled()
-        );
+        test.WithCommand(cmd => cmd with { Erkenning = cmd.Erkenning with { ErkenningId = unknownErkenningId } })
+            .WithInitiator(test.Metadata.Initiator);
+
+        var exception = await Assert.ThrowsAsync<ErkenningIsNietGekend>(async () => await test.WhenHandled());
 
         exception.Message.Should().Be(string.Format(ExceptionMessages.ErkenningIsNietGekend, unknownErkenningId));
     }

@@ -31,7 +31,7 @@ public class Given_New_Startdatum_Before_Old_Startdatum
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var today = DateOnly.FromDateTime(DateTime.Today);
         var pastWeek = today.AddDays(-7);

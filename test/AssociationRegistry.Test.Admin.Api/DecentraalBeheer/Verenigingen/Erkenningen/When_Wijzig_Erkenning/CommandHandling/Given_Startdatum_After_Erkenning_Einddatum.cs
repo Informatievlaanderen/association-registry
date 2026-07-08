@@ -33,7 +33,7 @@ public class Given_Startdatum_After_Erkenning_Einddatum
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var origineleErkenning = scenario
             .Events()
@@ -67,7 +67,7 @@ public class Given_Startdatum_After_Erkenning_Einddatum
         int erkenningId
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var origineleErkenning = scenario
             .Events()

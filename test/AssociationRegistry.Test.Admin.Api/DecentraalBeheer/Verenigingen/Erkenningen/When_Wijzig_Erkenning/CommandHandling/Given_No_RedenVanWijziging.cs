@@ -38,7 +38,7 @@ public class Given_No_RedenVanWijziging
         string redenVanWijziging
     )
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var exception = await Assert.ThrowsAsync<RedenVanWijzigingIsVerplicht>(async () =>
             await test.WithCommand(cmd =>

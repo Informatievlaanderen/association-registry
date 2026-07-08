@@ -31,7 +31,7 @@ public class Given_Overlapping_Datums
     [MemberData(nameof(ScenariosWithErkenningId))]
     public async ValueTask Then_Throws_ErkenningBestaatAl(CommandhandlerScenarioBase scenario, int erkenningId)
     {
-        var test = WijzigErkenningTest<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+        var test = WijzigErkenningContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
 
         var origineleErkenning = scenario
             .Events()
