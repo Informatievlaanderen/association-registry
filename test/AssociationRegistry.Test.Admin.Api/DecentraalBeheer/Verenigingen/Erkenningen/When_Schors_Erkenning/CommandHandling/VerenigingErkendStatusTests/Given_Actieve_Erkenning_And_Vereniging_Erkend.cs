@@ -1,32 +1,36 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Schors_Erkenning.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Schors_Erkenning.CommandHandling.VerenigingErkendStatusTests;
 
+using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.CommandHandling;
-using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Events;
 using Xunit;
 
-public class Given_Status_Transitions
+public class Given_Actieve_Erkenning_And_Vereniging_Erkend
 {
     public static IEnumerable<object[]> ActieveErkenningScenario
     {
         get
         {
-            var vzer =
-                new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithActieveErkenningEnWerdErkendScenario();
-            var vmr = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithActieveErkenningEnWerdErkendScenario();
+            var fixture = new Fixture().CustomizeDomain();
 
-            return new[]
-            {
-                new object[] { vzer, vzer.ErkenningWerdGeregistreerd.ErkenningId },
-                new object[] { vmr, vmr.ErkenningWerdGeregistreerd.ErkenningId },
-            };
+            var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
+                .WithActieveErkenning()
+                .WithVerenigingWerdErkend()
+                .BuildForVzer();
+
+            var (vmerErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
+                .WithActieveErkenning()
+                .WithVerenigingWerdErkend()
+                .BuildForVmr();
+
+            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmerErkenningId } };
         }
     }
 
     [Theory]
     [MemberData(nameof(ActieveErkenningScenario))]
-    public async ValueTask From_Actief_To_Geschorst_Emits_VerenigingWerdNietLangerErkend(
+    public async ValueTask Then_Saves_ErkenningWerdGeschorst_VerenigingWerdNietLangerErkend(
         CommandhandlerScenarioBase scenario,
         int erkenningId
     )
