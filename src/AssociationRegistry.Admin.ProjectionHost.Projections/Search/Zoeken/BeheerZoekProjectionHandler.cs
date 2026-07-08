@@ -687,20 +687,6 @@ public class BeheerZoekProjectionHandler
         document.IsErkend = false;
     }
 
-    public void Handle(EventEnvelope<ErkenningWerdGeregistreerd> @event, VerenigingZoekDocument document) { }
-
-    public void Handle(EventEnvelope<ErkenningWerdGeactiveerd> @event, VerenigingZoekDocument document) { }
-
-    public void Handle(EventEnvelope<ErkenningWerdVerlopen> @event, VerenigingZoekDocument document) { }
-
-    public void Handle(EventEnvelope<ErkenningWerdGeschorst> @event, VerenigingZoekDocument document) { }
-
-    public void Handle(EventEnvelope<ErkenningWerdGewijzigd> @event, VerenigingZoekDocument document) { }
-
-    public void Handle(EventEnvelope<ErkenningWerdVerwijderd> @event, VerenigingZoekDocument document) { }
-
-    public void Handle(EventEnvelope<SchorsingVanErkenningWerdOpgeheven> @event, VerenigingZoekDocument document) { }
-
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values) =>
         new() { Id = jsonLdType.CreateWithIdValues(values), Type = jsonLdType.Type };
 
