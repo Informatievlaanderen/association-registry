@@ -39,7 +39,7 @@ public class MaakValidatieBankrekeningnummerOngedaanContext<TScenario>
             BankrekeningnummerId = bankrekeningnummerId ?? _defaultBankrekeningnummerId(Scenario),
         };
 
-    public int CreateUnknownBankrekeningnummerId() => _defaultBankrekeningnummerId(Scenario) + _fixture.Create<int>();
+    public int CreateUnknownBankrekeningnummerId() => int.MaxValue;
 
     public CommandMetadata CreateMetadata(string? initiator = null) =>
         _fixture.Create<CommandMetadata>() with
@@ -47,7 +47,10 @@ public class MaakValidatieBankrekeningnummerOngedaanContext<TScenario>
             Initiator = initiator ?? _fixture.Create<string>(),
         };
 
-    public async ValueTask Handle(MaakValidatieBankrekeningnummerOngedaanCommand command, CommandMetadata? metadata = null) =>
+    public async ValueTask Handle(
+        MaakValidatieBankrekeningnummerOngedaanCommand command,
+        CommandMetadata? metadata = null
+    ) =>
         await _commandHandler.Handle(
             new CommandEnvelope<MaakValidatieBankrekeningnummerOngedaanCommand>(command, metadata ?? Metadata)
         );

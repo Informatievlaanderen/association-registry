@@ -225,7 +225,7 @@ public class Given_VzerWerdGeregistreerd(
                     BankrekeningnummerId = x.BankrekeningnummerId,
                     Iban = x.Iban,
                     Doel = x.Doel,
-                    Titularis = x.Titularis,
+                    Titularissen = x.Titularissen,
                     BevestigdDoor = [],
                     Bron = Bron.Initiator,
                 })

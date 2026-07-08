@@ -57,7 +57,7 @@ public class WIth_Valid_Bankrekeningnummers
             HoofdactiviteitenVerenigingsloket: [],
             Werkingsgebieden: [],
             Bankrekeningnummers: _fixture.CreateMany<ToeTevoegenBankrekeningnummer>().ToArray()
-            );
+        );
 
         _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             newAggregateSession: _newAggregateSessionMock,
@@ -104,7 +104,7 @@ public class WIth_Valid_Bankrekeningnummers
                     Bankrekeningnummers: _command
                         .Bankrekeningnummers.Select(
                             (x, i) =>
-                                new Registratiedata.Bankrekeningnummer(++i, x.Iban.Value, x.Doel, x.Titularis.Value)
+                                new Registratiedata.Bankrekeningnummer(++i, x.Iban.Value, x.Doel, x.Titularissen.Value)
                         )
                         .ToArray(),
                     DuplicatieInfo: Registratiedata.DuplicatieInfo.GeenDuplicaten

@@ -5,7 +5,7 @@ using Events;
 using Persoonsgegevens;
 using Store;
 
-public class BankrekeningnummerWerdVerwijderdTransformer: IPersoonsgegevensEventTransformer
+public class BankrekeningnummerWerdVerwijderdTransformer : IPersoonsgegevensEventTransformer
 {
     public Type EventType => typeof(BankrekeningnummerWerdVerwijderd);
     public Type PersistedEventType => typeof(BankrekeningnummerWerdVerwijderdZonderPersoonsgegevens);
@@ -17,14 +17,16 @@ public class BankrekeningnummerWerdVerwijderdTransformer: IPersoonsgegevensEvent
 
         var transformedEvent = new BankrekeningnummerWerdVerwijderdZonderPersoonsgegevens(
             refId,
-            original.BankrekeningnummerId);
+            original.BankrekeningnummerId
+        );
 
         var persoonsgegevens = new BankrekeningnummerPersoonsgegevens(
             refId,
             VCode.Hydrate(vCode),
             original.BankrekeningnummerId,
             original.Iban,
-            string.Empty);
+            []
+        );
 
         return new EventTransformationResult(transformedEvent, [persoonsgegevens]);
     }

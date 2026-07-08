@@ -82,7 +82,7 @@ public static class HistoriekGebeurtenisMapper
                 HoofdactiviteitenVerenigingsloket: null,
                 Bankrekeningnummers: request
                     .Bankrekeningnummers.Select(
-                        (x, i) => new Registratiedata.Bankrekeningnummer(++i, x.Iban, x.Doel, x.Titularis)
+                        (x, i) => new Registratiedata.Bankrekeningnummer(++i, x.Iban, x.Doel, x.Titularissen)
                     )
                     .ToArray()
             ),
@@ -1156,7 +1156,7 @@ public static class HistoriekGebeurtenisMapper
                 nextId,
                 request.Bankrekeningnummer.Iban,
                 request.Bankrekeningnummer.Doel,
-                request.Bankrekeningnummer.Titularis
+                request.Bankrekeningnummer.Titularissen
             ),
             Initiator = AuthenticationSetup.Initiator,
             Tijdstip = "2024-07-30T11:08:05Z",
@@ -1173,7 +1173,7 @@ public static class HistoriekGebeurtenisMapper
             Data = new BankrekeningnummerWerdGewijzigd(
                 id,
                 request.Bankrekeningnummer.Doel,
-                request.Bankrekeningnummer.Titularis
+                request.Bankrekeningnummer.Titularissen
             ),
             Initiator = AuthenticationSetup.Initiator,
             Tijdstip = "2024-07-30T11:08:05Z",

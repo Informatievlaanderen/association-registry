@@ -11,11 +11,14 @@ public record WijzigBankrekeningnummerRequest
     [DataMember(Name = "Bankrekeningnummer")]
     public TeWijzigenBankrekeningnummer Bankrekeningnummer { get; set; } = null!;
 
-    public WijzigBankrekeningnummerCommand ToCommand(string vCode, int bankrekeningnummerId)
-    => new(VCode.Create(vCode), new AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen.TeWijzigenBankrekeningnummer()
-    {
-        BankrekeningnummerId = bankrekeningnummerId,
-        Doel = Bankrekeningnummer.Doel,
-        Titularis = Bankrekeningnummer.Titularis,
-    });
+    public WijzigBankrekeningnummerCommand ToCommand(string vCode, int bankrekeningnummerId) =>
+        new(
+            VCode.Create(vCode),
+            new AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen.TeWijzigenBankrekeningnummer()
+            {
+                BankrekeningnummerId = bankrekeningnummerId,
+                Doel = Bankrekeningnummer.Doel,
+                Titularissen = Bankrekeningnummer.Titularissen,
+            }
+        );
 }

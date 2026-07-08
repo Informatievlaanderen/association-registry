@@ -36,7 +36,7 @@ public class Given_BankrekeningnummerWerdGevalideerd(
                         .BankrekeningnummerId,
                     Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Iban,
                     Doel = string.Empty,
-                    Titularis = string.Empty,
+                    Titularissen = [],
                     BevestigdDoor =
                     [
                         new GegevensInitiator

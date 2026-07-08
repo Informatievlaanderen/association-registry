@@ -167,7 +167,7 @@ public class BeheerVerenigingDetailMapper
             BankrekeningnummerId = b.BankrekeningnummerId,
             Iban = b.Iban,
             Doel = b.Doel,
-            Titularis = b.Titularis,
+            Titularissen = b.Titularissen,
             Bron = bron,
         };
 

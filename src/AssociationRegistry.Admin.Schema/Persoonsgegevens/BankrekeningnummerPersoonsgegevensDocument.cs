@@ -9,5 +9,5 @@ public class BankrekeningnummerPersoonsgegevensDocument
     public string VCode { get; set; }
     public int BankrekeningnummerId { get; set; }
     public string? Iban { get; init; }
-    public string? Titularis { get; set; }
+    public string[]? Titularissen { get; set; }
 }

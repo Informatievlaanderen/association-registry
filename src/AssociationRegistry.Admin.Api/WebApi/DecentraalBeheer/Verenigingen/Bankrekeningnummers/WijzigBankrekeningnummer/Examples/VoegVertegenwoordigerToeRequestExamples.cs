@@ -11,7 +11,7 @@ public class WijzigBankrekeningnummerRequestExamples : IExamplesProvider<WijzigB
             Bankrekeningnummer = new TeWijzigenBankrekeningnummer()
             {
                 Doel = "Lidgeld",
-                Titularis = "Voornaam Achternaam",
+                Titularissen = ["Voornaam Achternaam"],
             },
         };
 }

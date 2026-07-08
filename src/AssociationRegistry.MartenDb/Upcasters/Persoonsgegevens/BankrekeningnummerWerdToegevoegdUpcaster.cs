@@ -16,19 +16,21 @@ public class BankrekeningnummerWerdToegevoegdUpcaster
 
     public async Task<BankrekeningnummerWerdToegevoegd> UpcastAsync(
         BankrekeningnummerWerdToegevoegdZonderPersoonsgegevens bankrekeningnummerWerdToegevoegdZonderPersoonsgegevens,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         var session = _querySessionFunc();
 
-        var persoonsgegevens = await session.Query<BankrekeningnummerPersoonsgegevensDocument>()
-                                                             .Where(x => x.RefId == bankrekeningnummerWerdToegevoegdZonderPersoonsgegevens.RefId)
-                                                             .SingleOrDefaultAsync(ct);
+        var persoonsgegevens = await session
+            .Query<BankrekeningnummerPersoonsgegevensDocument>()
+            .Where(x => x.RefId == bankrekeningnummerWerdToegevoegdZonderPersoonsgegevens.RefId)
+            .SingleOrDefaultAsync(ct);
 
         return new BankrekeningnummerWerdToegevoegd(
             BankrekeningnummerId: bankrekeningnummerWerdToegevoegdZonderPersoonsgegevens.BankrekeningnummerId,
             persoonsgegevens.Iban,
             bankrekeningnummerWerdToegevoegdZonderPersoonsgegevens.Doel,
-            persoonsgegevens.Titularis
+            persoonsgegevens.Titularissen
         );
     }
 }

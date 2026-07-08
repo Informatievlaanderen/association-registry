@@ -113,7 +113,7 @@ public class VerenigingZonderEigenRechtspersoonWerdGeregistreerdTransformer : IP
                     VCode.Hydrate(vCode),
                     b.BankrekeningnummerId,
                     b.Iban,
-                    b.Titularis
+                    b.Titularissen
                 )
             );
         }

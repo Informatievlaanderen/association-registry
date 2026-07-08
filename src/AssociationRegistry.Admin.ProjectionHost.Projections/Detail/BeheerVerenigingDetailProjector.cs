@@ -1250,7 +1250,7 @@ public class BeheerVerenigingDetailProjector
                     BankrekeningnummerId = @event.Data.BankrekeningnummerId,
                     Iban = @event.Data.Iban,
                     Doel = @event.Data.Doel,
-                    Titularis = @event.Data.Titularis,
+                    Titularissen = @event.Data.Titularissen,
                     Bron = @event.Data.Bron,
                 }
             )
@@ -1275,7 +1275,7 @@ public class BeheerVerenigingDetailProjector
                     BankrekeningnummerId = @event.Data.BankrekeningnummerId,
                     Iban = @event.Data.Iban,
                     Doel = string.Empty,
-                    Titularis = string.Empty,
+                    Titularissen = [],
                     Bron = @event.Data.Bron,
                 }
             )
@@ -1305,7 +1305,7 @@ public class BeheerVerenigingDetailProjector
         document.Bankrekeningnummers = document
             .Bankrekeningnummers.UpdateSingle(
                 identityFunc: b => b.BankrekeningnummerId == @event.Data.BankrekeningnummerId,
-                update: b => b with { Doel = @event.Data.Doel, Titularis = @event.Data.Titularis }
+                update: b => b with { Doel = @event.Data.Doel, Titularissen = @event.Data.Titularissen }
             )
             .OrderBy(b => b.BankrekeningnummerId)
             .ToArray();

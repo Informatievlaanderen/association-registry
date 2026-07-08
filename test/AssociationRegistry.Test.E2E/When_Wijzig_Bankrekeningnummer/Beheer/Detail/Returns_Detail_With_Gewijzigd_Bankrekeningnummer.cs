@@ -44,7 +44,7 @@ public class Returns_Detail_With_Gewijzigd_Bankrekeningnummer : End2EndTest<Deta
                     BankrekeningnummerId = x.BankrekeningnummerId,
                     Iban = x.Iban,
                     Doel = x.Doel,
-                    Titularis = x.Titularis,
+                    Titularissen = x.Titularissen,
                     BevestigdDoor = [],
                     Bron = Bron.Initiator,
                 }
@@ -68,7 +68,7 @@ public class Returns_Detail_With_Gewijzigd_Bankrekeningnummer : End2EndTest<Deta
                                 .BankrekeningnummerId,
                             Iban = _testContext.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                             Doel = _testContext.CommandRequest.Bankrekeningnummer.Doel,
-                            Titularis = _testContext.CommandRequest.Bankrekeningnummer.Titularis,
+                            Titularissen = _testContext.CommandRequest.Bankrekeningnummer.Titularissen,
                             Bron = Bron.Initiator,
                         }
                     )

@@ -23,7 +23,7 @@ public class To_VoegBankrekeningnummerToeCommand
         command.VCode.Should().Be(vCode);
         command.Bankrekeningnummer.Iban.Should().Be(IbanNummer.Create(request.Bankrekeningnummer.Iban));
         command.Bankrekeningnummer.Doel.Should().Be(request.Bankrekeningnummer.Doel);
-        command.Bankrekeningnummer.Titularis.Value.Should().Be(request.Bankrekeningnummer.Titularis);
+        command.Bankrekeningnummer.Titularissen.Value.Should().BeEquivalentTo(request.Bankrekeningnummer.Titularissen);
     }
 
     [Fact]

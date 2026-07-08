@@ -15,7 +15,9 @@ public class Returns_Detail_Without_Validatie_Bankrekeningnummer : End2EndTest<D
 {
     private readonly MaakValidatieBankrekeningnummerOngedaanContext _testOngedaanContext;
 
-    public Returns_Detail_Without_Validatie_Bankrekeningnummer(MaakValidatieBankrekeningnummerOngedaanContext testOngedaanContext)
+    public Returns_Detail_Without_Validatie_Bankrekeningnummer(
+        MaakValidatieBankrekeningnummerOngedaanContext testOngedaanContext
+    )
         : base(testOngedaanContext.ApiSetup)
     {
         _testOngedaanContext = testOngedaanContext;
@@ -43,7 +45,7 @@ public class Returns_Detail_Without_Validatie_Bankrekeningnummer : End2EndTest<D
                     BankrekeningnummerId = x.BankrekeningnummerId,
                     Iban = x.Iban,
                     Doel = x.Doel,
-                    Titularis = x.Titularis,
+                    Titularissen = x.Titularissen,
                     BevestigdDoor = [],
                     Bron = Bron.Initiator,
                 }
@@ -67,7 +69,10 @@ public class Returns_Detail_Without_Validatie_Bankrekeningnummer : End2EndTest<D
                                 .BankrekeningnummerId,
                             Iban = _testOngedaanContext.Scenario.BankrekeningnummerWerdToegevoegdVoorValidatie.Iban,
                             Doel = _testOngedaanContext.Scenario.BankrekeningnummerWerdToegevoegdVoorValidatie.Doel,
-                            Titularis = _testOngedaanContext.Scenario.BankrekeningnummerWerdToegevoegdVoorValidatie.Titularis,
+                            Titularissen = _testOngedaanContext
+                                .Scenario
+                                .BankrekeningnummerWerdToegevoegdVoorValidatie
+                                .Titularissen,
                             BevestigdDoor = [],
                             Bron = Bron.Initiator,
                         }

@@ -9,9 +9,11 @@ using Xunit;
 public class Given_A_Valid_Command
 {
     private readonly WijzigErkenningContext<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario> _ctx =
-        new(new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario(),
+        new(
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario(),
             s => s.ErkenningWerdGeregistreerd.ErkenningId,
-            s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode);
+            s => s.ErkenningWerdGeregistreerd.GeregistreerdDoor.OvoCode
+        );
 
     [Fact]
     public async ValueTask With_All_Fields_Then_It_Adds_An_ErkenningWerdGewijzigd_Event()
@@ -28,11 +30,11 @@ public class Given_A_Valid_Command
                 command.Erkenning.Hernieuwingsdatum.Value,
                 command.Erkenning.HernieuwingsUrl,
                 ErkenningStatus
-                   .Bepaal(
+                    .Bepaal(
                         ErkenningsPeriode.Create(command.Erkenning.StartDatum.Value, command.Erkenning.EindDatum.Value),
                         DateOnly.FromDateTime(DateTime.Today)
                     )
-                   .Value,
+                    .Value,
                 command.Erkenning.RedenVanWijziging
             )
         );
@@ -50,10 +52,7 @@ public class Given_A_Valid_Command
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
             HernieuwingsUrl = null,
         };
-        var command = _ctx.WijzigErkenningCommand with
-        {
-            Erkenning = erkenning,
-        };
+        var command = _ctx.WijzigErkenningCommand with { Erkenning = erkenning };
 
         await _ctx.Handle(command);
 
@@ -65,11 +64,14 @@ public class Given_A_Valid_Command
                 _ctx.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum.Value,
                 _ctx.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                 ErkenningStatus
-                   .Bepaal(
-                        ErkenningsPeriode.Create(command.Erkenning.StartDatum.Value, _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum.Value),
+                    .Bepaal(
+                        ErkenningsPeriode.Create(
+                            command.Erkenning.StartDatum.Value,
+                            _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum.Value
+                        ),
                         DateOnly.FromDateTime(DateTime.Today)
                     )
-                   .Value,
+                    .Value,
                 command.Erkenning.RedenVanWijziging
             )
         );
@@ -78,7 +80,7 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask With_Einddatum_Then_It_Adds_An_ErkenningWerdGewijzigd_Event_With_Einddatum_From_Command()
     {
-        var nieuweEinddatum = _ctx.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum.Value.AddDays(1);
+        var nieuweEinddatum = _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum.Value.AddDays(1);
 
         var erkenning = _ctx.CreateTeWijzigenErkenning() with
         {
@@ -87,10 +89,7 @@ public class Given_A_Valid_Command
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
             HernieuwingsUrl = null,
         };
-        var command = _ctx.WijzigErkenningCommand with
-        {
-            Erkenning = erkenning,
-        };
+        var command = _ctx.WijzigErkenningCommand with { Erkenning = erkenning };
 
         await _ctx.Handle(command);
 
@@ -102,11 +101,14 @@ public class Given_A_Valid_Command
                 _ctx.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum.Value,
                 _ctx.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                 ErkenningStatus
-                   .Bepaal(
-                        ErkenningsPeriode.Create(_ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum, command.Erkenning.EindDatum.Value),
+                    .Bepaal(
+                        ErkenningsPeriode.Create(
+                            _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
+                            command.Erkenning.EindDatum.Value
+                        ),
                         DateOnly.FromDateTime(DateTime.Today)
                     )
-                   .Value,
+                    .Value,
                 command.Erkenning.RedenVanWijziging
             )
         );
@@ -125,10 +127,7 @@ public class Given_A_Valid_Command
             EindDatum = NullOrEmpty<DateOnly>.Null,
             HernieuwingsUrl = null,
         };
-        var command = _ctx.WijzigErkenningCommand with
-        {
-            Erkenning = erkenning,
-        };
+        var command = _ctx.WijzigErkenningCommand with { Erkenning = erkenning };
 
         await _ctx.Handle(command);
 
@@ -140,11 +139,14 @@ public class Given_A_Valid_Command
                 command.Erkenning.Hernieuwingsdatum.Value,
                 _ctx.Scenario.ErkenningWerdGeregistreerd.HernieuwingsUrl,
                 ErkenningStatus
-                   .Bepaal(
-                        ErkenningsPeriode.Create(_ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum, _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum),
+                    .Bepaal(
+                        ErkenningsPeriode.Create(
+                            _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
+                            _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
+                        ),
                         DateOnly.FromDateTime(DateTime.Today)
                     )
-                   .Value,
+                    .Value,
                 command.Erkenning.RedenVanWijziging
             )
         );
@@ -159,10 +161,7 @@ public class Given_A_Valid_Command
             EindDatum = NullOrEmpty<DateOnly>.Null,
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
         };
-        var command = _ctx.WijzigErkenningCommand with
-        {
-            Erkenning = erkenning,
-        };
+        var command = _ctx.WijzigErkenningCommand with { Erkenning = erkenning };
 
         await _ctx.Handle(command);
 
@@ -174,11 +173,14 @@ public class Given_A_Valid_Command
                 _ctx.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum.Value,
                 command.Erkenning.HernieuwingsUrl,
                 ErkenningStatus
-                   .Bepaal(
-                        ErkenningsPeriode.Create(_ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum, _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum),
+                    .Bepaal(
+                        ErkenningsPeriode.Create(
+                            _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
+                            _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
+                        ),
                         DateOnly.FromDateTime(DateTime.Today)
                     )
-                   .Value,
+                    .Value,
                 command.Erkenning.RedenVanWijziging
             )
         );
@@ -194,10 +196,7 @@ public class Given_A_Valid_Command
             Hernieuwingsdatum = NullOrEmpty<DateOnly>.Null,
             HernieuwingsUrl = string.Empty,
         };
-        var command = _ctx.WijzigErkenningCommand with
-        {
-            Erkenning = erkenning,
-        };
+        var command = _ctx.WijzigErkenningCommand with { Erkenning = erkenning };
 
         await _ctx.Handle(command);
 
@@ -209,11 +208,14 @@ public class Given_A_Valid_Command
                 _ctx.Scenario.ErkenningWerdGeregistreerd.Hernieuwingsdatum.Value,
                 string.Empty,
                 ErkenningStatus
-                   .Bepaal(
-                        ErkenningsPeriode.Create(_ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum, _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum),
+                    .Bepaal(
+                        ErkenningsPeriode.Create(
+                            _ctx.Scenario.ErkenningWerdGeregistreerd.Startdatum,
+                            _ctx.Scenario.ErkenningWerdGeregistreerd.Einddatum
+                        ),
                         DateOnly.FromDateTime(DateTime.Today)
                     )
-                   .Value,
+                    .Value,
                 command.Erkenning.RedenVanWijziging
             )
         );

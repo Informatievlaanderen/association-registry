@@ -906,6 +906,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to De titularis van een bankrekening moet uniek zijn binnen de vereniging..
+        /// </summary>
+        public static string TitularisMoetUniekZijn {
+            get {
+                return ResourceManager.GetString("TitularisMoetUniekZijn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string UnexpectedAggregateVersion {

@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Bankrekeningnummers.VoegBankrekeningnummerToe;
 
+using AssociationRegistry.Extensions;
 using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Bankrekeningen.IbanBic;
 using FluentValidation;
 using Infrastructure.WebApi.Validation;
 using RequestModels;
+using Resources;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class VoegBankrekeningnummerToeValidator : AbstractValidator<VoegBankrekeningnummerToeRequest>
@@ -26,7 +28,13 @@ public class VoegBankrekeningnummerToeValidator : AbstractValidator<VoegBankreke
         public BankrekeningnummerValidator()
         {
             this.RequireNotNullOrEmpty(Bankrekeningnummer => Bankrekeningnummer.Iban);
-            this.RequireNotNullOrEmpty(Bankrekeningnummer => Bankrekeningnummer.Titularis);
+
+            RuleFor(x => x.Titularissen)
+                .Cascade(CascadeMode.Stop) // avoid double error when null (NotNull + NotEmpty both fire otherwise)
+                .NotNull()
+                .WithVeldIsVerplichtMessage(nameof(ToeTeVoegenBankrekeningnummer.Titularissen))
+                .NotEmpty()
+                .WithMessage($"'{nameof(ToeTeVoegenBankrekeningnummer.Titularissen)}' mag niet leeg zijn.");
 
             When(
                 x => !string.IsNullOrWhiteSpace(x.Iban),
@@ -39,10 +47,20 @@ public class VoegBankrekeningnummerToeValidator : AbstractValidator<VoegBankreke
             );
 
             When(
-                x => !string.IsNullOrWhiteSpace(x.Titularis),
+                x => x.Titularissen != null && x.Titularissen.Any(),
                 () =>
                 {
-                    RuleFor(x => x.Titularis)
+                    RuleFor(x => x.Titularissen)
+                        .Must(t => !t.HasCaseInsensitiveDuplicateValues())
+                        .When(x => !x.Titularissen.HasNullOrWhiteSpaceValues(), ApplyConditionTo.CurrentValidator)
+                        .WithMessage(ExceptionMessages.TitularisMoetUniekZijn);
+
+                    RuleForEach(x => x.Titularissen)
+                        .Cascade(CascadeMode.Stop) // null element: stop before max-length check (would NRE)
+                        .NotNull()
+                        .WithVeldIsVerplichtMessage(nameof(ToeTeVoegenBankrekeningnummer.Titularissen))
+                        .NotEmpty()
+                        .WithMessage($"'{nameof(ToeTeVoegenBankrekeningnummer.Titularissen)}' mag niet leeg zijn.")
                         .MustNotBeMoreThanAllowedMaxLength(
                             Bankrekeningnummer.MaxLengthTitularis,
                             $"Titularis mag niet langer dan {Bankrekeningnummer.MaxLengthTitularis} karakters zijn."

@@ -75,7 +75,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
             {
                 Iban = x.Iban.Value,
                 Doel = x.Doel,
-                Titularis = x.Titularis.Value,
+                Titularis = x.Titularissen.Value,
             })
             .Should()
             .BeEquivalentTo(
@@ -83,7 +83,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
                 {
                     Iban = x.Iban,
                     Doel = x.Doel,
-                    Titularis = x.Titularis,
+                    Titularis = x.Titularissen,
                 })
             );
 

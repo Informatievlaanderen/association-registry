@@ -1,9 +1,7 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.
-    VerenigingZonderEigenRechtspersoonlijkheid.RequestMapping;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestMapping;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.
-    RequestModels;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Emails;
 using AssociationRegistry.DecentraalBeheer.Vereniging.SocialMedias;
@@ -28,8 +26,8 @@ public class To_A_RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand
 
         var actual = request.ToCommand(
             werkingsgebieden: request
-                             .Werkingsgebieden?.Select(selector: s => werkingsgebiedenService.Create(code: s))
-                             .ToArray()
+                .Werkingsgebieden?.Select(selector: s => werkingsgebiedenService.Create(code: s))
+                .ToArray()
         );
 
         actual.Deconstruct(
@@ -56,8 +54,8 @@ public class To_A_RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand
         ((DateOnly?)startdatum).Should().Be(expected: request.Startdatum);
 
         doelgroep
-           .Should()
-           .BeEquivalentTo(
+            .Should()
+            .BeEquivalentTo(
                 expectation: Doelgroep.Create(
                     minimumleeftijd: request.Doelgroep!.Minimumleeftijd,
                     maximumleeftijd: request.Doelgroep.Maximumleeftijd
@@ -71,26 +69,26 @@ public class To_A_RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand
         AssertVertegenwoordigers(vertegenwoordigers: vertegenwoordigers, request: request);
 
         hoofdactiviteiten
-           .Select(selector: x => x.Code)
-           .Should()
-           .BeEquivalentTo(expectation: request.HoofdactiviteitenVerenigingsloket);
+            .Select(selector: x => x.Code)
+            .Should()
+            .BeEquivalentTo(expectation: request.HoofdactiviteitenVerenigingsloket);
 
         werkingsgebieden.Select(selector: x => x.Code).Should().BeEquivalentTo(expectation: request.Werkingsgebieden);
 
         bankrekeningnummers
-           .Select(selector: x => new
+            .Select(selector: x => new
             {
                 Iban = x.Iban.Value,
                 Doel = x.Doel,
-                Titularis = x.Titularis.Value,
+                Titularissen = x.Titularissen.Value,
             })
-           .Should()
-           .BeEquivalentTo(
+            .Should()
+            .BeEquivalentTo(
                 expectation: request.Bankrekeningnummers.Select(selector: x => new
                 {
                     Iban = x.Iban,
                     Doel = x.Doel,
-                    Titularis = x.Titularis,
+                    Titularissen = x.Titularissen,
                 })
             );
 
@@ -103,25 +101,21 @@ public class To_A_RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand
     )
     {
         vertegenwoordigers
-           .Should()
-           .BeEquivalentTo(
+            .Should()
+            .BeEquivalentTo(
                 expectation: request.Vertegenwoordigers.Select(selector: v =>
-                                                                   Vertegenwoordiger.Create(
-                                                                       insz: Insz.Create(insz: v.Insz),
-                                                                       primairContactpersoon: v.IsPrimair,
-                                                                       roepnaam: v.Roepnaam,
-                                                                       rol: v.Rol,
-                                                                       voornaam: Voornaam.Create(waarde: v.Voornaam),
-                                                                       achternaam: Achternaam.Create(
-                                                                           waarde: v.Achternaam),
-                                                                       email: Email.Create(email: v.Email),
-                                                                       telefoonNummer: TelefoonNummer.Create(
-                                                                           telefoonNummer: v.Telefoon),
-                                                                       mobiel: TelefoonNummer.Create(
-                                                                           telefoonNummer: v.Mobiel),
-                                                                       socialMedia: SocialMedia.Create(
-                                                                           socialMedia: v.SocialMedia)
-                                                                   )
+                    Vertegenwoordiger.Create(
+                        insz: Insz.Create(insz: v.Insz),
+                        primairContactpersoon: v.IsPrimair,
+                        roepnaam: v.Roepnaam,
+                        rol: v.Rol,
+                        voornaam: Voornaam.Create(waarde: v.Voornaam),
+                        achternaam: Achternaam.Create(waarde: v.Achternaam),
+                        email: Email.Create(email: v.Email),
+                        telefoonNummer: TelefoonNummer.Create(telefoonNummer: v.Telefoon),
+                        mobiel: TelefoonNummer.Create(telefoonNummer: v.Mobiel),
+                        socialMedia: SocialMedia.Create(socialMedia: v.SocialMedia)
+                    )
                 )
             );
     }
@@ -156,8 +150,8 @@ public class To_A_RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand
     )
     {
         contactgegevens[0]
-           .Should()
-           .BeEquivalentTo(
+            .Should()
+            .BeEquivalentTo(
                 expectation: Contactgegeven.CreateFromInitiator(
                     type: Contactgegeventype.Parse(value: request.Contactgegevens[0].Contactgegeventype),
                     waarde: request.Contactgegevens[0].Waarde,

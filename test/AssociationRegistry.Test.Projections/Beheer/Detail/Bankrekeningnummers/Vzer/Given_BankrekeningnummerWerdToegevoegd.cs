@@ -31,7 +31,7 @@ public class Given_BankrekeningnummerWerdToegevoegd(
                     BankrekeningnummerId = fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
                     Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                     Doel = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
-                    Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
+                    Titularissen = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularissen,
                     BevestigdDoor = [],
                     Bron = Bron.Initiator,
                 }

@@ -9,26 +9,33 @@ public record BankrekeningnummerPersoonsgegevens : IPersoonsgegevens
     public VCode VCode { get; init; }
     public int BankrekeningnummerId { get; init; }
     public string? Iban { get; init; }
-    public string? Titularis { get; init; }
+    public string[]? Titularissen { get; init; }
 
     public BankrekeningnummerPersoonsgegevens(
         Guid refId,
         VCode VCode,
         int bankrekeningnummerId,
         string? iban,
-        string? titularis)
+        string[]? titularissen
+    )
     {
         RefId = refId;
         this.VCode = VCode;
         BankrekeningnummerId = bankrekeningnummerId;
         Iban = iban;
-        Titularis = titularis;
+        Titularissen = titularissen;
     }
 
-    public static BankrekeningnummerPersoonsgegevens ToBankrekeningnummerPersoonsgegevens(Guid refId, VCode vCode, Bankrekeningnummer bankrekeningnummer)
-        => new(refId,
-               vCode,
-               bankrekeningnummer.BankrekeningnummerId,
-               bankrekeningnummer.Iban.Value,
-               bankrekeningnummer.Titularis.Value);
+    public static BankrekeningnummerPersoonsgegevens ToBankrekeningnummerPersoonsgegevens(
+        Guid refId,
+        VCode vCode,
+        Bankrekeningnummer bankrekeningnummer
+    ) =>
+        new(
+            refId,
+            vCode,
+            bankrekeningnummer.BankrekeningnummerId,
+            bankrekeningnummer.Iban.Value,
+            bankrekeningnummer.Titularissen.Value
+        );
 }

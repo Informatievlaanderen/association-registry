@@ -5,7 +5,7 @@ using Events;
 using Persoonsgegevens;
 using Store;
 
-public class BankrekeningnummerWerdGewijzigdTransformer: IPersoonsgegevensEventTransformer
+public class BankrekeningnummerWerdGewijzigdTransformer : IPersoonsgegevensEventTransformer
 {
     public Type EventType => typeof(BankrekeningnummerWerdGewijzigd);
     public Type PersistedEventType => typeof(BankrekeningnummerWerdGewijzigdZonderPersoonsgegevens);
@@ -26,7 +26,8 @@ public class BankrekeningnummerWerdGewijzigdTransformer: IPersoonsgegevensEventT
             VCode.Hydrate(vCode),
             original.BankrekeningnummerId,
             string.Empty,
-            original.Titularis);
+            original.Titularissen
+        );
 
         return new EventTransformationResult(transformedEvent, [persoonsgegevens]);
     }
