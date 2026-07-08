@@ -1,10 +1,9 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
-using DecentraalBeheer.Vereniging;
 using global::AutoFixture;
+using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using Events;
 
 public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
@@ -14,12 +13,15 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
+            fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+            {
+                VCode = VCode,
+            };
     }
 
-    public override IEnumerable<IEvent> Events()
-        => new IEvent[]
-        {
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
-        };
+    public readonly List<IEvent> additionalEvents = new();
+
+    public override IEnumerable<IEvent> Events() =>
+        new IEvent[] { VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd }.Concat(additionalEvents);
 }

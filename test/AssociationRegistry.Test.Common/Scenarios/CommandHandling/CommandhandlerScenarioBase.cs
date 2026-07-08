@@ -2,9 +2,8 @@ namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
 using DecentraalBeheer.Vereniging;
 using Events;
-using Vereniging;
 
-public abstract class CommandhandlerScenarioBase
+public abstract class CommandhandlerScenarioBase : ICommandHandlerScenarioBase
 {
     public abstract VCode VCode { get; }
     public abstract IEnumerable<IEvent> Events();
@@ -20,4 +19,9 @@ public abstract class CommandhandlerScenarioBase
 
         return verenigingState;
     }
+}
+
+public interface ICommandHandlerScenarioBase
+{
+    public IEnumerable<IEvent> Events();
 }
