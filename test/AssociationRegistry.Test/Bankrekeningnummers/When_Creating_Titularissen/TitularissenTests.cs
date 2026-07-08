@@ -2,6 +2,8 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen.Exceptions;
+using FluentAssertions;
+using Resources;
 using Xunit;
 
 public class TitularissenTests
@@ -166,7 +168,10 @@ public class TitularissenTests
     [Fact]
     public void Create_With_Duplicate_Titularis_Throws()
     {
-        Assert.Throws<TitularisMoetUniekZijn>(() => Titularissen.Create(["Frodo Baggins", "Frodo Baggins"]));
+        var exception = Assert.Throws<TitularissenMoetenUniekZijn>(() =>
+            Titularissen.Create(["Frodo Baggins", "Frodo Baggins"])
+        );
+        exception.Message.Should().Be(ExceptionMessages.TitularissenMoetenUniekZijn);
     }
 
     [Theory]
@@ -175,7 +180,10 @@ public class TitularissenTests
     [InlineData("Frodo BAGGINS")]
     public void Create_With_Duplicate_Titularis_Different_Casing_Throws(string duplicate)
     {
-        Assert.Throws<TitularisMoetUniekZijn>(() => Titularissen.Create(["Frodo Baggins", duplicate]));
+        var exception = Assert.Throws<TitularissenMoetenUniekZijn>(() =>
+            Titularissen.Create(["Frodo Baggins", duplicate])
+        );
+        exception.Message.Should().Be(ExceptionMessages.TitularissenMoetenUniekZijn);
     }
 
     [Fact]
@@ -199,6 +207,6 @@ public class TitularissenTests
     {
         var original = Titularissen.Create(["Frodo Baggins"]);
 
-        Assert.Throws<TitularisMoetUniekZijn>(() => original.Replace(["Samwise Gamgee", "samwise gamgee"]));
+        Assert.Throws<TitularissenMoetenUniekZijn>(() => original.Replace(["Samwise Gamgee", "samwise gamgee"]));
     }
 }

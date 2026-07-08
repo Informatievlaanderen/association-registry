@@ -456,7 +456,7 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
 
         result
             .ShouldHaveValidationErrorFor(r => r.Bankrekeningnummer.Titularissen)
-            .WithErrorMessage(ExceptionMessages.TitularisMoetUniekZijn);
+            .WithErrorMessage(ExceptionMessages.TitularissenMoetenUniekZijn);
 
         Assert.Single(result.Errors);
     }
@@ -476,7 +476,7 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
 
         result
             .ShouldHaveValidationErrorFor(r => r.Bankrekeningnummer.Titularissen)
-            .WithErrorMessage(ExceptionMessages.TitularisMoetUniekZijn);
+            .WithErrorMessage(ExceptionMessages.TitularissenMoetenUniekZijn);
     }
 
     [Fact]
@@ -494,6 +494,6 @@ public class VoegBankrekeningnummerToeValidatorTest : ValidatorTest
             .ShouldHaveValidationErrorFor(r => r.Bankrekeningnummer.Titularissen)
             .WithErrorMessage("'Titularissen' is verplicht.");
 
-        Assert.DoesNotContain(result.Errors, e => e.ErrorMessage == ExceptionMessages.TitularisMoetUniekZijn);
+        Assert.DoesNotContain(result.Errors, e => e.ErrorMessage == ExceptionMessages.TitularissenMoetenUniekZijn);
     }
 }

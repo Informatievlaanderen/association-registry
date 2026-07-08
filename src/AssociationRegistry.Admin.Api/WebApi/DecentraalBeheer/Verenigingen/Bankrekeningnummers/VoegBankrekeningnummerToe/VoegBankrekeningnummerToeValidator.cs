@@ -53,7 +53,7 @@ public class VoegBankrekeningnummerToeValidator : AbstractValidator<VoegBankreke
                     RuleFor(x => x.Titularissen)
                         .Must(t => !t.HasCaseInsensitiveDuplicateValues())
                         .When(x => !x.Titularissen.HasNullOrWhiteSpaceValues(), ApplyConditionTo.CurrentValidator)
-                        .WithMessage(ExceptionMessages.TitularisMoetUniekZijn);
+                        .WithMessage(ExceptionMessages.TitularissenMoetenUniekZijn);
 
                     RuleForEach(x => x.Titularissen)
                         .Cascade(CascadeMode.Stop) // null element: stop before max-length check (would NRE)

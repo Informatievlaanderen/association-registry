@@ -19,7 +19,7 @@ public record Titularissen
 
         Throw<TitularisMagNietNullOfLeegZijn>.If(titularissen.HasNullOrWhiteSpaceValues());
 
-        Throw<TitularisMoetUniekZijn>.If(titularissen.HasCaseInsensitiveDuplicateValues());
+        Throw<TitularissenMoetenUniekZijn>.If(titularissen.HasCaseInsensitiveDuplicateValues());
 
         return new Titularissen(titularissen);
     }
