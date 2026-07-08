@@ -18,9 +18,6 @@ public class Bankrekeningnummers : ReadOnlyCollection<Bankrekeningnummer>
         NextId = nextId;
     }
 
-    public Bankrekeningnummer GetById(int bankrekeningnummerId) =>
-        this.Single(x => x.BankrekeningnummerId == bankrekeningnummerId);
-
     private new Bankrekeningnummer this[int bankrekeningummerId] =>
         this.Single(x => x.BankrekeningnummerId == bankrekeningummerId);
 
