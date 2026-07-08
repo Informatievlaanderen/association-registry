@@ -23,10 +23,15 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithGesc
             };
         var today = DateOnly.FromDateTime(DateTime.Now);
 
+        var startdatum = today.AddDays(-fixture.Create<int>());
+        var hernieuwingsdatum = today.AddDays(fixture.Create<int>());
+        var einddatum = hernieuwingsdatum.AddDays(fixture.Create<int>());
+
         ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>() with
         {
-            Startdatum = today.AddDays(-fixture.Create<int>()),
-            Einddatum = today.AddDays(fixture.Create<int>()),
+            Startdatum = startdatum,
+            Hernieuwingsdatum = hernieuwingsdatum,
+            Einddatum = einddatum,
         };
 
         ErkenningWerdGeschorst = fixture.Create<ErkenningWerdGeschorst>() with

@@ -24,11 +24,14 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithGeschorsteEr
         var today = DateOnly.FromDateTime(DateTime.Now);
 
         var startdatum = today.AddDays(-fixture.Create<int>());
+        var hernieuwingsdatum = today.AddDays(fixture.Create<int>());
+        var einddatum = hernieuwingsdatum.AddDays(fixture.Create<int>());
 
         ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>() with
         {
             Startdatum = startdatum,
-            Einddatum = today.AddDays(fixture.Create<int>()),
+            Hernieuwingsdatum = hernieuwingsdatum,
+            Einddatum = einddatum,
         };
 
         ErkenningWerdGeschorst = fixture.Create<ErkenningWerdGeschorst>() with
