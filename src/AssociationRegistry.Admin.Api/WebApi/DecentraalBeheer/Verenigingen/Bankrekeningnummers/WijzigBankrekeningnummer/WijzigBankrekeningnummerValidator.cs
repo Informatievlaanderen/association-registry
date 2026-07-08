@@ -40,7 +40,7 @@ public class WijzigBankrekeningnummerValidator : AbstractValidator<WijzigBankrek
                     RuleFor(x => x.Titularissen)
                         .Must(t => !t.HasCaseInsensitiveDuplicateValues())
                         .When(x => !x.Titularissen.HasNullOrWhiteSpaceValues(), ApplyConditionTo.CurrentValidator)
-                        .WithMessage(ExceptionMessages.TitularisMoetUniekZijn);
+                        .WithMessage(ExceptionMessages.TitularissenMoetenUniekZijn);
 
                     RuleFor(x => x.Titularissen)
                         .NotEmpty()

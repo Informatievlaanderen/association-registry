@@ -335,8 +335,8 @@
   <data name="IbanFormaatIsOngeldig">
     <value>Het formaat van het IBAN is ongeldig.</value>
   </data>
-  <data name="TitularisMoetUniekZijn">
-    <value>De titularis van een bankrekening moet uniek zijn binnen de vereniging.</value>
+  <data name="TitularissenMoetenUniekZijn">
+    <value>De titularissen van een bankrekening moeten uniek zijn.</value>
   </data>
   <data name="TitularisMagNietNullOfLeegZijn">
     <value>Titularis mag niet null of leeg zijn.</value>
