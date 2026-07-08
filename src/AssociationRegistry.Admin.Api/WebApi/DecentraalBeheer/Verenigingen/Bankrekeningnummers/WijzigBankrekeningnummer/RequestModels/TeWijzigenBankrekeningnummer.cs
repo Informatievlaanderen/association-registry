@@ -7,10 +7,10 @@ using System.Runtime.Serialization;
 public class TeWijzigenBankrekeningnummer
 {
     /// <summary>Waar deze rekening voor gebruikt wordt</summary>
-    [DataMember (Name = "doel")]
+    [DataMember(Name = "doel")]
     public string? Doel { get; set; }
 
-    /// <summary>De titularis van het bankrekeningnummer</summary>
-    [DataMember (Name = "titularis")]
-    public string? Titularis { get; set; }
+    /// <summary>De titularis(sen) van het bankrekeningnummer</summary>
+    [DataMember(Name = "titularissen")]
+    public string[]? Titularissen { get; set; }
 }

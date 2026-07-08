@@ -47,7 +47,7 @@ public class Returns_Detail_With_Toegevoegde_Bankrekeningnummer : End2EndTest<De
                     BankrekeningnummerId = bankrekeningnummer.BankrekeningnummerId,
                     Iban = bankrekeningnummer.Iban,
                     Doel = string.Empty,
-                    Titularis = string.Empty,
+                    Titularissen = [],
                     Bron = Bron.KBO,
                 }
             );

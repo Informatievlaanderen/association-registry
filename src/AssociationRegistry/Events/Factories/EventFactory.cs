@@ -79,7 +79,7 @@ public static class EventFactory
             bankrekeningnummer.BankrekeningnummerId,
             bankrekeningnummer.Iban.Value,
             bankrekeningnummer.Doel,
-            bankrekeningnummer.Titularis.Value
+            bankrekeningnummer.Titularissen.Value
         );
 
     public static VerenigingAanvaarddeDubbeleVereniging VerenigingAanvaarddeDubbeleVereniging(

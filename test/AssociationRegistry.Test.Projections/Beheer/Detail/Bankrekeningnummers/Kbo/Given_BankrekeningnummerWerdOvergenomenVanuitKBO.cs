@@ -32,7 +32,7 @@ public class Given_BankrekeningnummerWerdOvergenomenVanuitKBO(
                     BankrekeningnummerId = fixture.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
                     Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Iban,
                     Doel = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
-                    Titularis = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularis,
+                    Titularissen = fixture.Scenario.BankrekeningnummerWerdToegevoegd.Titularissen,
                     BevestigdDoor = [],
                     Bron = Bron.KBO,
                 },

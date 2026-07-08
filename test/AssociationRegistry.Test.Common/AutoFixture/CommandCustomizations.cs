@@ -78,7 +78,7 @@ public static class CommandCustomizations
                     {
                         Iban = fixture.Create<IbanNummer>(),
                         Doel = fixture.Create<string>(),
-                        Titularis = fixture.Create<Titularis>(),
+                        Titularissen = fixture.Create<Titularissen>(),
                     }
                 )
                 .OmitAutoProperties()

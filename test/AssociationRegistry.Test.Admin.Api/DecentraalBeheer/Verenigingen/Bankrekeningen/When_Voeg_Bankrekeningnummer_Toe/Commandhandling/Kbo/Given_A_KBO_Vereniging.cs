@@ -21,7 +21,7 @@ public class Given_A_KBO_Vereniging
                 1,
                 command.Bankrekeningnummer.Iban.Value,
                 command.Bankrekeningnummer.Doel,
-                command.Bankrekeningnummer.Titularis.Value
+                command.Bankrekeningnummer.Titularissen.Value
             )
         );
     }

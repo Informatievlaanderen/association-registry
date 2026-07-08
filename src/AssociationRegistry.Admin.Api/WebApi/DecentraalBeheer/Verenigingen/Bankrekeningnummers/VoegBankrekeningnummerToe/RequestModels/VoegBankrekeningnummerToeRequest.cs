@@ -19,7 +19,7 @@ public record VoegBankrekeningnummerToeRequest
             {
                 Iban = IbanNummer.Create(Bankrekeningnummer.Iban),
                 Doel = Bankrekeningnummer.Doel ?? string.Empty,
-                Titularis = Titularis.Create(Bankrekeningnummer.Titularis),
+                Titularissen = Titularissen.Create(Bankrekeningnummer.Titularissen),
             }
         );
 }

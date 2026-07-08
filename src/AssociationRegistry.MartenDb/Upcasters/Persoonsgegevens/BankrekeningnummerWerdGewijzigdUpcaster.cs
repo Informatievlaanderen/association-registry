@@ -15,18 +15,20 @@ public class BankrekeningnummerWerdGewijzigdUpcaster
 
     public async Task<BankrekeningnummerWerdGewijzigd> UpcastAsync(
         BankrekeningnummerWerdGewijzigdZonderPersoonsgegevens bankrekeningnummerWerdToegevoegdZonderPersoonsgegevens,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         var session = _querySessionFunc();
 
-        var persoonsgegevens = await session.Query<BankrekeningnummerPersoonsgegevensDocument>()
-                                                             .Where(x => x.RefId == bankrekeningnummerWerdToegevoegdZonderPersoonsgegevens.RefId)
-                                                             .SingleOrDefaultAsync(ct);
+        var persoonsgegevens = await session
+            .Query<BankrekeningnummerPersoonsgegevensDocument>()
+            .Where(x => x.RefId == bankrekeningnummerWerdToegevoegdZonderPersoonsgegevens.RefId)
+            .SingleOrDefaultAsync(ct);
 
         return new BankrekeningnummerWerdGewijzigd(
             BankrekeningnummerId: bankrekeningnummerWerdToegevoegdZonderPersoonsgegevens.BankrekeningnummerId,
             bankrekeningnummerWerdToegevoegdZonderPersoonsgegevens.Doel,
-            persoonsgegevens.Titularis
+            persoonsgegevens.Titularissen
         );
     }
 }

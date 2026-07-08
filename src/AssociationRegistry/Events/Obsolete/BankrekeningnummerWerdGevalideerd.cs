@@ -7,7 +7,7 @@ using Vereniging.Bronnen;
 public record BankrekeningnummerWerdGevalideerd(
     int BankrekeningnummerId,
     string Iban,
-    string Titularis,
+    string[] Titularissen,
     string GevalideerdDoor
 ) : IEvent
 {

@@ -212,7 +212,7 @@ public class BeheerVerenigingDetailMapper
             BankrekeningnummerId = bankrekeningnummer.BankrekeningnummerId,
             Iban = bankrekeningnummer.Iban,
             Doel = bankrekeningnummer.Doel,
-            Titularis = bankrekeningnummer.Titularis,
+            Titularissen = bankrekeningnummer.Titularissen,
             BevestigdDoor = bankrekeningnummer
                 .BevestigdDoor.Select(x => new GegevensInitiator() { OvoCode = x.OvoCode, Naam = x.Naam })
                 .ToArray(),

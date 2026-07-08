@@ -13,7 +13,8 @@ public class BankrekeningnummerPersoonsgegevensRepository : IBankrekeningnummerP
 
     public BankrekeningnummerPersoonsgegevensRepository(
         IDocumentSession session,
-        IBankrekeningnummerPersoonsgegevensQuery vertegenwoordigerPersoonsgegevensQuery)
+        IBankrekeningnummerPersoonsgegevensQuery vertegenwoordigerPersoonsgegevensQuery
+    )
     {
         _session = session;
         _vertegenwoordigerPersoonsgegevensQuery = vertegenwoordigerPersoonsgegevensQuery;
@@ -21,57 +22,67 @@ public class BankrekeningnummerPersoonsgegevensRepository : IBankrekeningnummerP
 
     public async Task Save(BankrekeningnummerPersoonsgegevens vertegenwoordigerPersoonsgegevens)
     {
-        _session.Insert(new BankrekeningnummerPersoonsgegevensDocument
-        {
-            RefId = vertegenwoordigerPersoonsgegevens.RefId,
-            VCode = vertegenwoordigerPersoonsgegevens.VCode,
-            BankrekeningnummerId = vertegenwoordigerPersoonsgegevens.BankrekeningnummerId,
-            Iban = vertegenwoordigerPersoonsgegevens.Iban,
-            Titularis = vertegenwoordigerPersoonsgegevens.Titularis
-        });
+        _session.Insert(
+            new BankrekeningnummerPersoonsgegevensDocument
+            {
+                RefId = vertegenwoordigerPersoonsgegevens.RefId,
+                VCode = vertegenwoordigerPersoonsgegevens.VCode,
+                BankrekeningnummerId = vertegenwoordigerPersoonsgegevens.BankrekeningnummerId,
+                Iban = vertegenwoordigerPersoonsgegevens.Iban,
+                Titularissen = vertegenwoordigerPersoonsgegevens.Titularissen,
+            }
+        );
     }
 
     public async Task<BankrekeningnummerPersoonsgegevens> Get(Guid refId, CancellationToken cancellationToken)
     {
-        var persoonsgegevens =
-            await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(new BankrekeningnummerPersoonsgegevensByRefIdFilter(refId),
-                                                                       cancellationToken);
+        var persoonsgegevens = await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(
+            new BankrekeningnummerPersoonsgegevensByRefIdFilter(refId),
+            cancellationToken
+        );
 
-        return new BankrekeningnummerPersoonsgegevens(persoonsgegevens.RefId,
-                                                     VCode.Hydrate(persoonsgegevens.VCode),
-                                                     persoonsgegevens.BankrekeningnummerId,
-                                                     IbanNummer.Hydrate(persoonsgegevens.Iban).Value,
-                                                     persoonsgegevens.Titularis
+        return new BankrekeningnummerPersoonsgegevens(
+            persoonsgegevens.RefId,
+            VCode.Hydrate(persoonsgegevens.VCode),
+            persoonsgegevens.BankrekeningnummerId,
+            IbanNummer.Hydrate(persoonsgegevens.Iban).Value,
+            persoonsgegevens.Titularissen
         );
     }
 
     public async Task<BankrekeningnummerPersoonsgegevens[]> Get(Guid[] refIds, CancellationToken cancellationToken)
     {
-        var persoonsgegevens =
-            await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(new BankrekeningnummerPersoonsgegevensByRefIdsFilter(refIds),
-                                                                       cancellationToken);
+        var persoonsgegevens = await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(
+            new BankrekeningnummerPersoonsgegevensByRefIdsFilter(refIds),
+            cancellationToken
+        );
 
-        return persoonsgegevens.Select(v => new BankrekeningnummerPersoonsgegevens(
-                                                            v.RefId,
-                                                            VCode.Hydrate(v.VCode),
-                                                            v.BankrekeningnummerId,
-                                                            IbanNummer.Hydrate(v.Iban).Value,
-                                                            v.Titularis
-                                                        )).ToArray();
+        return persoonsgegevens
+            .Select(v => new BankrekeningnummerPersoonsgegevens(
+                v.RefId,
+                VCode.Hydrate(v.VCode),
+                v.BankrekeningnummerId,
+                IbanNummer.Hydrate(v.Iban).Value,
+                v.Titularissen
+            ))
+            .ToArray();
     }
 
     public async Task<BankrekeningnummerPersoonsgegevens[]> Get(IbanNummer iban, CancellationToken cancellationToken)
     {
-        var vertegenwoordigerPersoonsgegevens =
-            await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(new BankrekeningnummerPersoonsgegevensByIbanFilter(iban),
-                                                                       cancellationToken);
+        var vertegenwoordigerPersoonsgegevens = await _vertegenwoordigerPersoonsgegevensQuery.ExecuteAsync(
+            new BankrekeningnummerPersoonsgegevensByIbanFilter(iban),
+            cancellationToken
+        );
 
-        return vertegenwoordigerPersoonsgegevens.Select(v => new BankrekeningnummerPersoonsgegevens(
-                                                            v.RefId,
-                                                            VCode.Hydrate(v.VCode),
-                                                            v.BankrekeningnummerId,
-                                                            IbanNummer.Hydrate(v.Iban).Value,
-                                                            v.Titularis
-                                                        )).ToArray();
+        return vertegenwoordigerPersoonsgegevens
+            .Select(v => new BankrekeningnummerPersoonsgegevens(
+                v.RefId,
+                VCode.Hydrate(v.VCode),
+                v.BankrekeningnummerId,
+                IbanNummer.Hydrate(v.Iban).Value,
+                v.Titularissen
+            ))
+            .ToArray();
     }
 }

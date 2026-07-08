@@ -71,7 +71,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Naam = "Cultuur",
                         },
                     },
-                    Werkingsgebieden = new []
+                    Werkingsgebieden = new[]
                     {
                         new Werkingsgebied()
                         {
@@ -79,7 +79,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             type = JsonLdType.Werkingsgebied.Type,
                             Code = "BE25",
                             Naam = "Provincie West-Vlaanderen",
-                        }
+                        },
                     },
                     Contactgegevens = new[]
                     {
@@ -122,12 +122,11 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                                 Broncode = Adresbron.AR,
                                 Bronwaarde = DecentraalBeheer.Vereniging.Adressen.AdresId.DataVlaanderenAdresPrefix + 1,
                             },
-                            VerwijstNaar =
-                                new AdresVerwijzing
-                                {
-                                    id = JsonLdType.AdresVerwijzing.CreateWithIdValues("1"),
-                                    type = JsonLdType.AdresVerwijzing.Type,
-                                },
+                            VerwijstNaar = new AdresVerwijzing
+                            {
+                                id = JsonLdType.AdresVerwijzing.CreateWithIdValues("1"),
+                                type = JsonLdType.AdresVerwijzing.Type,
+                            },
                             Bron = Bron.Initiator,
                         },
                     },
@@ -172,7 +171,10 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             CodeerSysteem = CodeerSysteem.VR.Waarde,
                             GestructureerdeIdentificator = new GestructureerdeIdentificator
                             {
-                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.VR.Waarde),
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
+                                    "V0001001",
+                                    Sleutelbron.VR.Waarde
+                                ),
                                 type = JsonLdType.GestructureerdeSleutel.Type,
                                 Nummer = "V0001001",
                             },
@@ -194,7 +196,8 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             AndereVereniging = "V0001111",
                         },
                     ],
-                    Bankrekeningnummers = [
+                    Bankrekeningnummers =
+                    [
                         new Bankrekeningnummer()
                         {
                             id = JsonLdType.Bankrekeningnummer.CreateWithIdValues("V0001001", "1"),
@@ -202,16 +205,13 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             BankrekeningnummerId = 1,
                             Iban = "BE68539007547034",
                             Doel = "Lidgeld",
-                            Titularis = "John Doe",
-                        }
+                            Titularissen = ["John Doe"],
+                        },
                     ],
                     IsDubbelVan = "",
                     Bron = Bron.Initiator.Waarde,
                 },
-                Metadata = new Metadata
-                {
-                    DatumLaatsteAanpassing = "2020-05-15",
-                },
+                Metadata = new Metadata { DatumLaatsteAanpassing = "2020-05-15" },
             }
         );
 
@@ -254,7 +254,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Naam = "Cultuur",
                         },
                     },
-                    Werkingsgebieden = new []
+                    Werkingsgebieden = new[]
                     {
                         new Werkingsgebied()
                         {
@@ -262,7 +262,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             type = JsonLdType.Werkingsgebied.Type,
                             Code = "BE25",
                             Naam = "Provincie West-Vlaanderen",
-                        }
+                        },
                     },
                     Contactgegevens = new[]
                     {
@@ -305,12 +305,11 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                                 Broncode = Adresbron.AR,
                                 Bronwaarde = DecentraalBeheer.Vereniging.Adressen.AdresId.DataVlaanderenAdresPrefix + 1,
                             },
-                            VerwijstNaar =
-                                new AdresVerwijzing
-                                {
-                                    id = JsonLdType.AdresVerwijzing.CreateWithIdValues("1"),
-                                    type = JsonLdType.AdresVerwijzing.Type,
-                                },
+                            VerwijstNaar = new AdresVerwijzing
+                            {
+                                id = JsonLdType.AdresVerwijzing.CreateWithIdValues("1"),
+                                type = JsonLdType.AdresVerwijzing.Type,
+                            },
                             Bron = Bron.Initiator,
                         },
                     },
@@ -355,7 +354,10 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             CodeerSysteem = CodeerSysteem.VR.Waarde,
                             GestructureerdeIdentificator = new GestructureerdeIdentificator
                             {
-                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.VR.Waarde),
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
+                                    "V0001001",
+                                    Sleutelbron.VR.Waarde
+                                ),
                                 type = JsonLdType.GestructureerdeSleutel.Type,
                                 Nummer = "V0001001",
                             },
@@ -377,7 +379,8 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             AndereVereniging = "V0001111",
                         },
                     ],
-                    Bankrekeningnummers = [
+                    Bankrekeningnummers =
+                    [
                         new Bankrekeningnummer()
                         {
                             id = JsonLdType.Bankrekeningnummer.CreateWithIdValues("V0001001", "1"),
@@ -385,16 +388,13 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             BankrekeningnummerId = 1,
                             Iban = "BE68539007547034",
                             Doel = "Lidgeld",
-                            Titularis = "John Doe",
-                        }
+                            Titularissen = ["John Doe"],
+                        },
                     ],
                     IsDubbelVan = "",
                     Bron = Bron.Initiator.Waarde,
                 },
-                Metadata = new Metadata
-                {
-                    DatumLaatsteAanpassing = "2020-05-15",
-                },
+                Metadata = new Metadata { DatumLaatsteAanpassing = "2020-05-15" },
             }
         );
 
@@ -418,11 +418,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     KorteBeschrijving = "Een kleine groep vissers",
                     Startdatum = "2002-11-15",
                     Einddatum = null,
-                    Doelgroep = new DoelgroepResponse
-                    {
-                        Minimumleeftijd = 60,
-                        Maximumleeftijd = 90,
-                    },
+                    Doelgroep = new DoelgroepResponse { Minimumleeftijd = 60, Maximumleeftijd = 90 },
                     Status = VerenigingStatus.Actief,
                     IsUitgeschrevenUitPubliekeDatastroom = false,
                     HoofdactiviteitenVerenigingsloket = new[]
@@ -507,7 +503,8 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             AdresId = new AdresId
                             {
                                 Broncode = Adresbron.AR,
-                                Bronwaarde = DecentraalBeheer.Vereniging.Adressen.AdresId.DataVlaanderenAdresPrefix + 17,
+                                Bronwaarde =
+                                    DecentraalBeheer.Vereniging.Adressen.AdresId.DataVlaanderenAdresPrefix + 17,
                             },
                             VerwijstNaar = new AdresVerwijzing
                             {
@@ -529,7 +526,10 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             CodeerSysteem = CodeerSysteem.VR.Waarde,
                             GestructureerdeIdentificator = new GestructureerdeIdentificator
                             {
-                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.VR.Waarde),
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
+                                    "V0001001",
+                                    Sleutelbron.VR.Waarde
+                                ),
                                 type = JsonLdType.GestructureerdeSleutel.Type,
                                 Nummer = "V0001001",
                             },
@@ -543,14 +543,17 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             CodeerSysteem = CodeerSysteem.KBO.Waarde,
                             GestructureerdeIdentificator = new GestructureerdeIdentificator
                             {
-                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.KBO.Waarde),
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
+                                    "V0001001",
+                                    Sleutelbron.KBO.Waarde
+                                ),
                                 type = JsonLdType.GestructureerdeSleutel.Type,
                                 Nummer = "0123456789",
                             },
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),
-                    Lidmaatschappen = new []
+                    Lidmaatschappen = new[]
                     {
                         new Lidmaatschap()
                         {
@@ -559,7 +562,9 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             LidmaatschapId = 1,
                             AndereVereniging = "V0001002",
                             Naam = "De andere vereniging",
-                            Van = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
+                            Van = DateOnly
+                                .FromDateTime(DateTime.Today.AddYears(-1))
+                                .ToString(WellknownFormats.DateOnly),
                             Tot = DateOnly.FromDateTime(DateTime.Today).ToString(WellknownFormats.DateOnly),
                             Beschrijving = "Gewoon een lid",
                             Identificatie = "L1234",
@@ -571,13 +576,16 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             LidmaatschapId = 2,
                             Naam = "Samen sterk",
                             AndereVereniging = "V0001003",
-                            Van = DateOnly.FromDateTime(DateTime.Today.AddMonths(-5)).ToString(WellknownFormats.DateOnly),
+                            Van = DateOnly
+                                .FromDateTime(DateTime.Today.AddMonths(-5))
+                                .ToString(WellknownFormats.DateOnly),
                             Tot = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)).ToString(WellknownFormats.DateOnly),
                             Beschrijving = "Tijdelijk lidmaatschap",
                             Identificatie = "L4321",
                         },
                     },
-                    Bankrekeningnummers = [
+                    Bankrekeningnummers =
+                    [
                         new Bankrekeningnummer()
                         {
                             id = JsonLdType.Bankrekeningnummer.CreateWithIdValues("V0001001", "1"),
@@ -585,16 +593,13 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             BankrekeningnummerId = 1,
                             Iban = "BE68539007547034",
                             Doel = "Lidgeld",
-                            Titularis = "John Doe",
-                        }
+                            Titularissen = ["John Doe"],
+                        },
                     ],
                     IsDubbelVan = "",
                     Bron = Bron.KBO.Waarde,
                 },
-                Metadata = new Metadata
-                {
-                    DatumLaatsteAanpassing = "2020-05-15",
-                },
+                Metadata = new Metadata { DatumLaatsteAanpassing = "2020-05-15" },
             }
         );
     }

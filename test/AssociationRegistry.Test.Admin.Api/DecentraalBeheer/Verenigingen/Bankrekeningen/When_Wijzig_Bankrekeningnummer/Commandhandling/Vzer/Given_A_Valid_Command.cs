@@ -6,11 +6,10 @@ using Xunit;
 
 public class Given_A_Valid_Command
 {
-    private readonly WijzigBankrekeningnummerContext<BankrekeningnummerWerdToegevoegdScenario> _ctx =
-        new(
-            new BankrekeningnummerWerdToegevoegdScenario(),
-            s => s.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId
-        );
+    private readonly WijzigBankrekeningnummerContext<BankrekeningnummerWerdToegevoegdScenario> _ctx = new(
+        new BankrekeningnummerWerdToegevoegdScenario(),
+        s => s.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId
+    );
 
     [Fact]
     public async ValueTask With_All_Fields_Then_It_Saves_A_BankrekeningnummerWerdGewijzigd_Event()
@@ -23,7 +22,7 @@ public class Given_A_Valid_Command
             new BankrekeningnummerWerdGewijzigd(
                 _ctx.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
                 command.Bankrekeningnummer.Doel,
-                command.Bankrekeningnummer.Titularis
+                command.Bankrekeningnummer.Titularissen
             )
         );
     }
@@ -31,7 +30,7 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask With_Only_Doel_Then_It_Saves_A_BankrekeningnummerWerdGewijzigd_Event()
     {
-        var command = _ctx.CreateCommand(b => b with { Titularis = null });
+        var command = _ctx.CreateCommand(b => b with { Titularissen = null });
 
         await _ctx.Handle(command);
 
@@ -39,7 +38,7 @@ public class Given_A_Valid_Command
             new BankrekeningnummerWerdGewijzigd(
                 _ctx.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
                 command.Bankrekeningnummer.Doel,
-                _ctx.Scenario.BankrekeningnummerWerdToegevoegd.Titularis
+                _ctx.Scenario.BankrekeningnummerWerdToegevoegd.Titularissen
             )
         );
     }
@@ -55,7 +54,7 @@ public class Given_A_Valid_Command
             new BankrekeningnummerWerdGewijzigd(
                 _ctx.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
                 _ctx.Scenario.BankrekeningnummerWerdToegevoegd.Doel,
-                command.Bankrekeningnummer.Titularis
+                command.Bankrekeningnummer.Titularissen
             )
         );
     }
@@ -63,7 +62,7 @@ public class Given_A_Valid_Command
     [Fact]
     public async ValueTask With_All_Null_Then_Nothing()
     {
-        var command = _ctx.CreateCommand(b => b with { Doel = null, Titularis = null });
+        var command = _ctx.CreateCommand(b => b with { Doel = null, Titularissen = null });
 
         await _ctx.Handle(command);
 

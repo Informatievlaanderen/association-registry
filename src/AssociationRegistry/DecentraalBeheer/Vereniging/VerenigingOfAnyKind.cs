@@ -512,7 +512,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         var vorigeTitularis = State
             .Bankrekeningnummers.GetById(teWijzigenBankrekeningnummer.BankrekeningnummerId)
-            .Titularis;
+            .Titularissen;
 
         var gewijzigdBankrekeningnummer = State.Bankrekeningnummers.Wijzig(teWijzigenBankrekeningnummer);
 
@@ -523,7 +523,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             new BankrekeningnummerWerdGewijzigd(
                 gewijzigdBankrekeningnummer.BankrekeningnummerId,
                 gewijzigdBankrekeningnummer.Doel,
-                gewijzigdBankrekeningnummer.Titularis.Value
+                gewijzigdBankrekeningnummer.Titularissen.Value
             )
         );
     }
@@ -578,7 +578,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 toegevoegdBankrekeningnummer.BankrekeningnummerId,
                 toegevoegdBankrekeningnummer.Iban.Value,
                 toegevoegdBankrekeningnummer.Doel,
-                toegevoegdBankrekeningnummer.Titularis.Value
+                toegevoegdBankrekeningnummer.Titularissen.Value
             )
         );
 

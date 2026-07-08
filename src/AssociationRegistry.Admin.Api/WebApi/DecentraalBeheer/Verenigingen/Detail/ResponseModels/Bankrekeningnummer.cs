@@ -32,10 +32,10 @@ public class Bankrekeningnummer
     public string Doel { get; set; } = null!;
 
     /// <summary>
-    /// De titularis van het bankrekeningnummer
+    /// De titularis(sen) van het bankrekeningnummer
     /// </summary>
-    [DataMember(Name = "Titularis")]
-    public string Titularis { get; set; } = null!;
+    [DataMember(Name = "Titularissen")]
+    public string[] Titularissen { get; set; } = null!;
 
     /// <summary>
     /// Gegevens initiatoren die dit bankrekeningnummer bevestigd hebben
@@ -52,4 +52,3 @@ public class Bankrekeningnummer
     [DataMember(Name = "Bron")]
     public string Bron { get; set; } = null!;
 }
-

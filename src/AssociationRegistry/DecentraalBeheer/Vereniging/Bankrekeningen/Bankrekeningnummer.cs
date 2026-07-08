@@ -13,7 +13,7 @@ public record Bankrekeningnummer
     public int BankrekeningnummerId { get; set; }
     public IbanNummer Iban { get; set; }
     public string Doel { get; set; }
-    public Titularis Titularis { get; set; }
+    public Titularissen Titularissen { get; set; }
     public GegevensInitiator[] BevestigdDoor { get; set; }
     public Bron Bron { get; set; }
 
@@ -23,7 +23,7 @@ public record Bankrekeningnummer
             BankrekeningnummerId = nextId,
             Iban = bankrekeningnummer.Iban,
             Doel = bankrekeningnummer.Doel,
-            Titularis = bankrekeningnummer.Titularis,
+            Titularissen = bankrekeningnummer.Titularissen,
             Bron = Bron.Initiator,
         };
 
@@ -31,7 +31,7 @@ public record Bankrekeningnummer
         int id,
         string iban,
         string doel,
-        string titularis,
+        string[] titularissen,
         Bron bankrekeningnummerBron,
         GegevensInitiator[] bevestigdDoor
     ) =>
@@ -40,7 +40,7 @@ public record Bankrekeningnummer
             BankrekeningnummerId = id,
             Iban = IbanNummer.Hydrate(iban),
             Doel = doel,
-            Titularis = Titularis.Hydrate(titularis),
+            Titularissen = Titularissen.Hydrate(titularissen),
             Bron = bankrekeningnummerBron,
             BevestigdDoor = bevestigdDoor,
         };
@@ -51,15 +51,15 @@ public record Bankrekeningnummer
             BankrekeningnummerId = id,
             Iban = IbanNummer.Create(bankrekeningnummer.Iban),
             Doel = string.Empty,
-            Titularis = Titularis.Hydrate(string.Empty),
+            Titularissen = Titularissen.Hydrate([]),
             Bron = Bron.KBO,
         };
 
-    private Bankrekeningnummer CreateForWijzigen(string? doel, string? titularis) =>
+    private Bankrekeningnummer CreateForWijzigen(string? doel, string[]? titularissen) =>
         this with
         {
             Doel = doel ?? Doel,
-            Titularis = Titularis.Replace(titularis),
+            Titularissen = Titularissen.Replace(titularissen),
         };
 
     public bool WouldBeEquivalent(Bankrekeningnummer bankrekeningnummer) =>
@@ -72,7 +72,7 @@ public record Bankrekeningnummer
     {
         gewijzigdBankrekeningnummer = CreateForWijzigen(
             teWijzigenBankrekeningnummer.Doel,
-            teWijzigenBankrekeningnummer.Titularis
+            teWijzigenBankrekeningnummer.Titularissen
         );
 
         return this == gewijzigdBankrekeningnummer;
@@ -80,11 +80,11 @@ public record Bankrekeningnummer
 
     public Bankrekeningnummer WijzigBron(Bron eventBron) => this with { Bron = eventBron };
 
-    public Bankrekeningnummer WijzigBankrekeningnummer(string doel, string titularis) =>
+    public Bankrekeningnummer WijzigBankrekeningnummer(string doel, string[] titularissen) =>
         this with
         {
             Doel = doel,
-            Titularis = Titularis.Hydrate(titularis),
+            Titularissen = Titularissen.Hydrate(titularissen),
         };
 
     public Bankrekeningnummer VoegValidatieBankrekeningnummerToe(string ovoCode, string naam) =>

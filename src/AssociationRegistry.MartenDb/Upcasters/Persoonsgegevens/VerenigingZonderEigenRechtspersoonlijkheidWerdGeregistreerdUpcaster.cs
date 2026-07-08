@@ -82,7 +82,12 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster
 
                 return doc is null
                     ? null
-                    : new Registratiedata.Bankrekeningnummer(doc.BankrekeningnummerId, doc.Iban, b.Doel, doc.Titularis);
+                    : new Registratiedata.Bankrekeningnummer(
+                        doc.BankrekeningnummerId,
+                        doc.Iban,
+                        b.Doel,
+                        doc.Titularissen
+                    );
             })
             .ToArray();
 
@@ -120,18 +125,18 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster
                 persoonsgegevensByRefId.TryGetValue(v.RefId, out var doc);
 
                 var vertegenwoordiger = new Registratiedata.Vertegenwoordiger(
-                        v.VertegenwoordigerId,
-                        doc?.Insz ?? WellKnownAnonymousFields.Geanonimiseerd,
-                        v.IsPrimair,
-                        doc?.Roepnaam ?? WellKnownAnonymousFields.Geanonimiseerd,
-                        doc?.Rol ?? WellKnownAnonymousFields.Geanonimiseerd,
-                        doc?.Voornaam ?? WellKnownAnonymousFields.Geanonimiseerd,
-                        doc?.Achternaam ?? WellKnownAnonymousFields.Geanonimiseerd,
-                        doc?.Email ?? WellKnownAnonymousFields.Geanonimiseerd,
-                        doc?.Telefoon ?? WellKnownAnonymousFields.Geanonimiseerd,
-                        doc?.Mobiel ?? WellKnownAnonymousFields.Geanonimiseerd,
-                        doc?.SocialMedia ?? WellKnownAnonymousFields.Geanonimiseerd
-                    );
+                    v.VertegenwoordigerId,
+                    doc?.Insz ?? WellKnownAnonymousFields.Geanonimiseerd,
+                    v.IsPrimair,
+                    doc?.Roepnaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+                    doc?.Rol ?? WellKnownAnonymousFields.Geanonimiseerd,
+                    doc?.Voornaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+                    doc?.Achternaam ?? WellKnownAnonymousFields.Geanonimiseerd,
+                    doc?.Email ?? WellKnownAnonymousFields.Geanonimiseerd,
+                    doc?.Telefoon ?? WellKnownAnonymousFields.Geanonimiseerd,
+                    doc?.Mobiel ?? WellKnownAnonymousFields.Geanonimiseerd,
+                    doc?.SocialMedia ?? WellKnownAnonymousFields.Geanonimiseerd
+                );
 
                 return vertegenwoordiger;
             })

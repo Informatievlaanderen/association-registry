@@ -6,8 +6,9 @@ using Xunit;
 
 public class Given_A_Valid_Bankrekeningnummer
 {
-    private readonly VoegBankrekeningnummerToeContext<FeitelijkeVerenigingWerdGeregistreerdScenario> _ctx =
-        new(new FeitelijkeVerenigingWerdGeregistreerdScenario());
+    private readonly VoegBankrekeningnummerToeContext<FeitelijkeVerenigingWerdGeregistreerdScenario> _ctx = new(
+        new FeitelijkeVerenigingWerdGeregistreerdScenario()
+    );
 
     [Fact]
     public async ValueTask Then_A_BankrekeningWerdToegevoegd_Event_Is_Saved_With_The_Next_Id()
@@ -21,7 +22,7 @@ public class Given_A_Valid_Bankrekeningnummer
                 1,
                 command.Bankrekeningnummer.Iban.Value,
                 command.Bankrekeningnummer.Doel,
-                command.Bankrekeningnummer.Titularis.Value
+                command.Bankrekeningnummer.Titularissen.Value
             )
         );
     }

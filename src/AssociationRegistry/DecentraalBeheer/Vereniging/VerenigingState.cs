@@ -238,7 +238,7 @@ public record VerenigingState : IHasVersion
                                 b.BankrekeningnummerId,
                                 b.Iban,
                                 b.Doel,
-                                b.Titularis,
+                                b.Titularissen,
                                 Bron.Initiator,
                                 []
                             )
@@ -929,7 +929,7 @@ public record VerenigingState : IHasVersion
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(
                 Bankrekeningnummers
                     .Without(@event.BankrekeningnummerId)
-                    .Append(bankrekeningnummer.WijzigBankrekeningnummer(@event.Doel, @event.Titularis))
+                    .Append(bankrekeningnummer.WijzigBankrekeningnummer(@event.Doel, @event.Titularissen))
             ),
         };
     }
@@ -971,7 +971,7 @@ public record VerenigingState : IHasVersion
                             @event.BankrekeningnummerId,
                             bankrekeningnummer.Iban.Value,
                             bankrekeningnummer.Doel,
-                            bankrekeningnummer.Titularis.Value,
+                            bankrekeningnummer.Titularissen.Value,
                             bankrekeningnummer.Bron,
                             bevestigdDoorZonderGeannuleerde
                         )

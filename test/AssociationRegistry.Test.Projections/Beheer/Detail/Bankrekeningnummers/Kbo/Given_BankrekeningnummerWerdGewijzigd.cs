@@ -35,7 +35,7 @@ public class Given_BankrekeningnummerWerdGewijzigd(
                         .BankrekeningnummerId,
                     Iban = fixture.Scenario.BankrekeningnummerWerdToegevoegdVanuitKBO.Iban,
                     Doel = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Doel,
-                    Titularis = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Titularis,
+                    Titularissen = fixture.Scenario.BankrekeningnummerWerdGewijzigd.Titularissen,
                     BevestigdDoor = [],
                     Bron = Bron.KBO,
                 },

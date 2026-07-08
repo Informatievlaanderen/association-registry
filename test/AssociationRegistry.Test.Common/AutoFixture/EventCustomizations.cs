@@ -306,7 +306,7 @@ public static class EventCustomizations
                         fixture.Create<int>(),
                         fixture.Create<IbanNummer>().Value,
                         fixture.Create<string>(),
-                        fixture.Create<string>()
+                        fixture.Create<string[]>()
                     )
                 )
                 .OmitAutoProperties()

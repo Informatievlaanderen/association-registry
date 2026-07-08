@@ -18,14 +18,16 @@ public class BankrekeningnummerWerdGevalideerdTransformer : IPersoonsgegevensEve
         var transformedEvent = new BankrekeningnummerWerdGevalideerdZonderPersoonsgegevens(
             refId,
             original.BankrekeningnummerId,
-            original.GevalideerdDoor);
+            original.GevalideerdDoor
+        );
 
         var persoonsgegevens = new BankrekeningnummerPersoonsgegevens(
             refId,
             VCode.Hydrate(vCode),
             original.BankrekeningnummerId,
             original.Iban,
-            original.Titularis);
+            original.Titularissen
+        );
 
         return new EventTransformationResult(transformedEvent, [persoonsgegevens]);
     }

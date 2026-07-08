@@ -12,7 +12,7 @@ public class VoegBankrekeningnummerToeRequestExamples : IExamplesProvider<VoegBa
             {
                 Iban = "BE68539007547034",
                 Doel = "Lidgeld",
-                Titularis = "Voornaam Achternaam",
+                Titularissen = ["Voornaam Achternaam"],
             },
         };
 }

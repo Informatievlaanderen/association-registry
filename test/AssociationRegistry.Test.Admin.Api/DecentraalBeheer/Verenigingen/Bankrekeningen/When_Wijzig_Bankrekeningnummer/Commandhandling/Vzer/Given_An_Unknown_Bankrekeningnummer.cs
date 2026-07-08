@@ -6,11 +6,10 @@ using Xunit;
 
 public class Given_An_Unknown_Bankrekeningnummer
 {
-    private readonly WijzigBankrekeningnummerContext<BankrekeningnummerWerdToegevoegdScenario> _ctx =
-        new(
-            new BankrekeningnummerWerdToegevoegdScenario(),
-            s => s.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId
-        );
+    private readonly WijzigBankrekeningnummerContext<BankrekeningnummerWerdToegevoegdScenario> _ctx = new(
+        new BankrekeningnummerWerdToegevoegdScenario(),
+        s => s.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId
+    );
 
     [Fact]
     public async ValueTask Then_Throws_BankrekeningnummerNietGekend()
@@ -23,7 +22,7 @@ public class Given_An_Unknown_Bankrekeningnummer
             new BankrekeningnummerWerdGewijzigd(
                 _ctx.Scenario.BankrekeningnummerWerdToegevoegd.BankrekeningnummerId,
                 command.Bankrekeningnummer.Doel,
-                command.Bankrekeningnummer.Titularis
+                command.Bankrekeningnummer.Titularissen
             )
         );
     }

@@ -290,7 +290,7 @@ public class BeheerDetailResponseMapper
                         BankrekeningnummerId = i + 1,
                         Iban = x.Iban,
                         Doel = x.Doel,
-                        Titularis = x.Titularis,
+                        Titularissen = x.Titularissen,
                         BevestigdDoor = [],
                         Bron = Bron.Initiator,
                     }
