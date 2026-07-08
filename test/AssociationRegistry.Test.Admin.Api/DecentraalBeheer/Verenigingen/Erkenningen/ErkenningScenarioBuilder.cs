@@ -85,6 +85,27 @@ public class ErkenningScenarioBuilder
         return this;
     }
 
+    public ErkenningScenarioBuilder WithTeActiverenErkenning()
+    {
+        _erkenningId = _fixture.Create<int>();
+        var startdatum = _today.AddDays(-_fixture.Create<int>());
+        var einddatum = _today.AddDays(_fixture.Create<int>());
+        var hernieuwingsdatum = einddatum.AddDays(_fixture.Create<int>());
+
+        var erkenningWerdGeregistreerd = _fixture.Create<ErkenningWerdGeregistreerd>() with
+        {
+            ErkenningId = _erkenningId,
+            Startdatum = startdatum,
+            Einddatum = einddatum,
+            Hernieuwingsdatum = hernieuwingsdatum,
+            Status = ErkenningStatus.InAanvraag.Value,
+        };
+
+        Events.Add(erkenningWerdGeregistreerd);
+
+        return this;
+    }
+
     public ErkenningScenarioBuilder WithGewijzigdNaarInAanvraag()
     {
         var startdatum = _today.AddDays(_fixture.Create<int>());
