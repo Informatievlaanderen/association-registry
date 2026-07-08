@@ -158,7 +158,9 @@ public class With_Duplicate : IClassFixture<With_Duplicate.Setup>
             ]
         );
 
-        var savedEvent = savedEvents.Single(e => e.GedetecteerdeDubbels.Single().VCode == potentieleDubbel.VCode);
+        var savedEvent = savedEvents.Single(e =>
+            e.Naam == _setup.Request.Naam && e.GedetecteerdeDubbels.Any(d => d.VCode == potentieleDubbel.VCode)
+        );
 
         savedEvent
             .Should()
