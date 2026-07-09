@@ -14,13 +14,13 @@ public class Given_InAanvraag_Erkenning_And_Vereniging_Niet_Erkend
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
-                .WithTeActiverenErkenning()
-                .BuildForVzer();
+            var scenario = new ErkenningScenarioBuilder(fixture).WithTeActiverenErkenning().Build();
 
-            var (vmrErkenningId, vmr) = new ErkenningScenarioBuilder(fixture).WithTeActiverenErkenning().BuildForVmr();
-
-            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmrErkenningId } };
+            return new[]
+            {
+                new object[] { scenario.Vzer, scenario.ErkenningId },
+                new object[] { scenario.Vmr, scenario.ErkenningId },
+            };
         }
     }
 

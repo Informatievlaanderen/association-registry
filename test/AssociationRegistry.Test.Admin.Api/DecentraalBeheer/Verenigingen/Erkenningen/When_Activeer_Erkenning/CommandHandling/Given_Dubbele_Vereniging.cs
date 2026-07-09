@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erken
 
 using AutoFixture;
 using Common.AutoFixture;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using Common.Scenarios.CommandHandling;
 using Events;
 using Xunit;
 
@@ -13,27 +13,29 @@ public class Given_Dubbele_Vereniging
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var (erkenningId, scenario) = new ErkenningScenarioBuilder(fixture)
+        var scenario = new ErkenningScenarioBuilder(fixture)
             .WithActieveErkenning()
             .WithVerenigingWerdErkend()
             .WithTeActiverenErkenning()
-            .BuildForVzer();
+            .Build();
 
-        scenario.additionalEvents.Add(new VerenigingWerdGemarkeerdAlsDubbelVan(scenario.VCode.Value, "V0001001"));
+        scenario.VzerWerdGeregistreerdScenario.additionalEvents.Add(
+            new VerenigingWerdGemarkeerdAlsDubbelVan(scenario.VzerWerdGeregistreerdScenario.VCode.Value, "V0001001")
+        );
 
-        var ctx = await ActiveerErkenningContext<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario>
+        var ctx = await ActiveerErkenningContext<CommandhandlerScenarioBase>
             .Given(
-                scenario,
-                _ => erkenningId,
+                scenario.Vzer,
+                _ => scenario.ErkenningId,
                 _ =>
                     scenario
-                        .GetVerenigingState()
-                        .Erkenningen.Single(e => e.ErkenningId == erkenningId)
+                        .Vzer.GetVerenigingState()
+                        .Erkenningen.Single(e => e.ErkenningId == scenario.ErkenningId)
                         .GeregistreerdDoor.OvoCode
             )
             .WithCommand(cmd => cmd)
             .WhenHandled();
 
-        ctx.ShouldHaveSaved(new ErkenningWerdGeactiveerd(erkenningId));
+        ctx.ShouldHaveSaved(new ErkenningWerdGeactiveerd(scenario.ErkenningId));
     }
 }

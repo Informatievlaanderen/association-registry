@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erken
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AutoFixture;
+using Common.Scenarios.CommandHandling;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Events;
@@ -12,20 +13,22 @@ public class ErkenningScenarioBuilder
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario VzerWerdGeregistreerdScenario = new();
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario VmrWerdGeregistreerdScenario = new();
     private DateOnly _today = DateOnly.FromDateTime(DateTime.Today);
-    private int _erkenningId;
     private IList<IEvent> Events = new List<IEvent>();
+    public int ErkenningId { get; private set; }
+    public CommandhandlerScenarioBase Vzer { get; private set; } = null!;
+    public CommandhandlerScenarioBase Vmr { get; private set; } = null!;
 
     public ErkenningScenarioBuilder(IFixture fixture)
     {
         _fixture = fixture;
-        _erkenningId = fixture.Create<int>();
+        ErkenningId = fixture.Create<int>();
     }
 
     public ErkenningScenarioBuilder WithActieveErkenning()
     {
         var erkenningWerdGeregistreerd = _fixture.Create<ErkenningWerdGeregistreerd>() with
         {
-            ErkenningId = _erkenningId,
+            ErkenningId = ErkenningId,
             Startdatum = _today.AddDays(-10),
             Einddatum = _today.AddDays(10),
             Hernieuwingsdatum = _today.AddDays(5),
@@ -39,7 +42,7 @@ public class ErkenningScenarioBuilder
 
     public ErkenningScenarioBuilder WithVerlopenErkenning()
     {
-        var erkenningWerdVerlopen = _fixture.Create<ErkenningWerdVerlopen>() with { ErkenningId = _erkenningId };
+        var erkenningWerdVerlopen = _fixture.Create<ErkenningWerdVerlopen>() with { ErkenningId = ErkenningId };
 
         Events.Add(erkenningWerdVerlopen);
 
@@ -52,7 +55,7 @@ public class ErkenningScenarioBuilder
 
         var erkenningWerdGeregistreerd = _fixture.Create<ErkenningWerdGeregistreerd>() with
         {
-            ErkenningId = _erkenningId,
+            ErkenningId = ErkenningId,
             Startdatum = startdatum,
             Hernieuwingsdatum = startdatum.AddDays(5),
             Einddatum = startdatum.AddDays(10),
@@ -73,7 +76,7 @@ public class ErkenningScenarioBuilder
 
     public ErkenningScenarioBuilder WithErkenningWerdGeschorst()
     {
-        Events.Add(new ErkenningWerdGeschorst(_erkenningId, "Reden van schorsing"));
+        Events.Add(new ErkenningWerdGeschorst(ErkenningId, "Reden van schorsing"));
 
         return this;
     }
@@ -94,7 +97,7 @@ public class ErkenningScenarioBuilder
         Events.Add(
             _fixture.Create<ErkenningWerdGeregistreerd>() with
             {
-                ErkenningId = _erkenningId,
+                ErkenningId = ErkenningId,
                 Startdatum = startdatum,
                 Hernieuwingsdatum = hernieuwingsdatum,
                 Einddatum = einddatum,
@@ -107,21 +110,21 @@ public class ErkenningScenarioBuilder
 
     public ErkenningScenarioBuilder WithSchorsingVanErkenningWerdOpgeheven()
     {
-        Events.Add(new SchorsingVanErkenningWerdOpgeheven(_erkenningId, ErkenningStatus.Actief.Value));
+        Events.Add(new SchorsingVanErkenningWerdOpgeheven(ErkenningId, ErkenningStatus.Actief.Value));
 
         return this;
     }
 
     public ErkenningScenarioBuilder WithTeActiverenErkenning()
     {
-        _erkenningId = _fixture.Create<int>();
+        ErkenningId = _fixture.Create<int>();
         var startdatum = _today.AddDays(-_fixture.Create<int>());
         var einddatum = _today.AddDays(_fixture.Create<int>());
         var hernieuwingsdatum = einddatum.AddDays(_fixture.Create<int>());
 
         var erkenningWerdGeregistreerd = _fixture.Create<ErkenningWerdGeregistreerd>() with
         {
-            ErkenningId = _erkenningId,
+            ErkenningId = ErkenningId,
             Startdatum = startdatum,
             Einddatum = einddatum,
             Hernieuwingsdatum = hernieuwingsdatum,
@@ -138,7 +141,7 @@ public class ErkenningScenarioBuilder
         Events.Add(
             _fixture.Create<ErkenningOpvolgersWerdenToegevoegdAlsBeheerder>() with
             {
-                ErkenningId = _erkenningId,
+                ErkenningId = ErkenningId,
             }
         );
 
@@ -151,7 +154,7 @@ public class ErkenningScenarioBuilder
 
         Events.Add(
             new ErkenningWerdGewijzigd(
-                _erkenningId,
+                ErkenningId,
                 startdatum,
                 startdatum.AddDays(10),
                 startdatum.AddDays(5),
@@ -164,17 +167,25 @@ public class ErkenningScenarioBuilder
         return this;
     }
 
-    public (int, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario) BuildForVzer()
+    public ErkenningScenarioBuilder Build()
+    {
+        BuildForVzer();
+        BuildForVmr();
+
+        return this;
+    }
+
+    public void BuildForVzer()
     {
         VzerWerdGeregistreerdScenario.additionalEvents.AddRange(Events);
 
-        return (_erkenningId, VzerWerdGeregistreerdScenario);
+        Vzer = VzerWerdGeregistreerdScenario;
     }
 
-    public (int, VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario) BuildForVmr()
+    public void BuildForVmr()
     {
         VmrWerdGeregistreerdScenario.additionalEvents.AddRange(Events);
 
-        return (_erkenningId, VmrWerdGeregistreerdScenario);
+        Vmr = VmrWerdGeregistreerdScenario;
     }
 }
