@@ -38,20 +38,19 @@ public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
     [MemberData(nameof(ErkenningScenario))]
     public async ValueTask Then_Saves_ErkenningWerdGeschorst(CommandhandlerScenarioBase scenario, int erkenningId)
     {
-        var ctx = new SchorsErkenningContext<CommandhandlerScenarioBase>(
-            scenario,
-            _ => erkenningId,
-            _ =>
-                scenario
-                    .GetVerenigingState()
-                    .Erkenningen.Single(e => e.ErkenningId == erkenningId)
-                    .GeregistreerdDoor.OvoCode
-        );
+        var ctx = await SchorsErkenningContext<CommandhandlerScenarioBase>
+            .Given(
+                scenario,
+                _ => erkenningId,
+                _ =>
+                    scenario
+                        .GetVerenigingState()
+                        .Erkenningen.Single(e => e.ErkenningId == erkenningId)
+                        .GeregistreerdDoor.OvoCode
+            )
+            .WithCommand(cmd => cmd)
+            .WhenHandled();
 
-        await ctx.Handle(ctx.SchorsErkenningCommand);
-
-        ctx.AggregateSessionMock.ShouldHaveSavedExact(
-            new ErkenningWerdGeschorst(erkenningId, ctx.SchorsErkenningCommand.Erkenning.RedenSchorsing)
-        );
+        ctx.ShouldHaveSaved(new ErkenningWerdGeschorst(erkenningId, ctx.Command.Erkenning.RedenSchorsing));
     }
 }
