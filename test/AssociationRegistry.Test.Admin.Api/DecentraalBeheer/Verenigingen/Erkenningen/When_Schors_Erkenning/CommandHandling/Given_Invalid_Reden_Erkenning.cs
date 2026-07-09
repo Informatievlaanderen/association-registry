@@ -16,16 +16,14 @@ public class Given_Invalid_Reden_Erkenning
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture).WithActieveErkenning().BuildForVzer();
-
-            var (vmrErkenningId, vmr) = new ErkenningScenarioBuilder(fixture).WithActieveErkenning().BuildForVmr();
+            var scenario = new ErkenningScenarioBuilder(fixture).WithActieveErkenning().Build();
 
             string?[] redenValues = [null, ""];
 
             foreach (var reden in redenValues)
             {
-                yield return [vzer, vzerErkenningId, reden];
-                yield return [vmr, vmrErkenningId, reden];
+                yield return [scenario.Vzer, scenario.ErkenningId, reden];
+                yield return [scenario.Vmr, scenario.ErkenningId, reden];
             }
         }
     }
