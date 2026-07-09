@@ -15,17 +15,16 @@ public class Given_NietActieve_Erkenning
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
+            var scenario = new ErkenningScenarioBuilder(fixture)
                 .WithInAanvraagErkenning()
                 .WithErkenningWerdGeschorst()
-                .BuildForVzer();
+                .Build();
 
-            var (vmerErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
-                .WithInAanvraagErkenning()
-                .WithErkenningWerdGeschorst()
-                .BuildForVmr();
-
-            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmerErkenningId } };
+            return new[]
+            {
+                new object[] { scenario.Vzer, scenario.ErkenningId },
+                new object[] { scenario.Vmr, scenario.ErkenningId },
+            };
         }
     }
 
