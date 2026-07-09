@@ -14,13 +14,13 @@ public class Given_A_Valid_Command
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
-                .WithTeVerlopenErkenning()
-                .BuildForVzer();
+            var scenario = new ErkenningScenarioBuilder(fixture).WithTeVerlopenErkenning().Build();
 
-            var (vmrErkenningId, vmr) = new ErkenningScenarioBuilder(fixture).WithTeVerlopenErkenning().BuildForVmr();
-
-            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmrErkenningId } };
+            return new[]
+            {
+                new object[] { scenario.Vzer, scenario.ErkenningId },
+                new object[] { scenario.Vmr, scenario.ErkenningId },
+            };
         }
     }
 
