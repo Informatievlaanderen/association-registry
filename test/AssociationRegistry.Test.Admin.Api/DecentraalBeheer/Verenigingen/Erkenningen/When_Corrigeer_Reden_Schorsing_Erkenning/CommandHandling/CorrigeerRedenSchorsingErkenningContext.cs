@@ -9,69 +9,94 @@ using Common.AutoFixture;
 using Common.Scenarios.CommandHandling;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using Common.StubsMocksFakes.Wegwijs;
+using Events;
 
 public class CorrigeerRedenSchorsingErkenningContext<TScenario>
     where TScenario : CommandhandlerScenarioBase
 {
-    private readonly Fixture _fixture;
+    public Fixture Fixture { get; }
     private readonly Func<TScenario, int> _defaultErkenningId;
+    private readonly CorrigeerRedenSchorsingErkenningCommandHandler _commandHandler;
 
     public TScenario Scenario { get; }
     public AggregateSessionMock AggregateSessionMock { get; }
-    public CommandMetadata Metadata { get; }
+    public CommandMetadata Metadata { get; private set; }
     public IOrganisatieBevoegdheidServiceMockStub OrganisatieBevoegdheidService { get; }
-
-    private readonly CorrigeerRedenSchorsingErkenningCommandHandler _commandHandler;
-    public CorrigeerRedenSchorsingErkenningCommand CorrigeerRedenSchorsingErkenningCommand { get; private set; }
+    public CorrigeerRedenSchorsingErkenningCommand Command { get; private set; } = null!;
 
     public CorrigeerRedenSchorsingErkenningContext(
         TScenario scenario,
         Func<TScenario, int> defaultErkenningId,
-        Func<TScenario, string>? defaultInitiator = null)
+        Func<TScenario, string>? defaultInitiator = null
+    )
     {
-        _fixture = new Fixture().CustomizeAdminApi();
+        Fixture = new Fixture().CustomizeAdminApi();
         Scenario = scenario;
         _defaultErkenningId = defaultErkenningId;
         AggregateSessionMock = new AggregateSessionMock(Scenario.GetVerenigingState());
         _commandHandler = new CorrigeerRedenSchorsingErkenningCommandHandler(AggregateSessionMock);
         OrganisatieBevoegdheidService = new IOrganisatieBevoegdheidServiceMockStub();
         Metadata = defaultInitiator is not null
-            ? _fixture.Create<CommandMetadata>() with
+            ? Fixture.Create<CommandMetadata>() with
             {
                 Initiator = defaultInitiator(Scenario),
             }
-            : _fixture.Create<CommandMetadata>();
-        CorrigeerRedenSchorsingErkenningCommand = CreateCommand();
+            : Fixture.Create<CommandMetadata>();
     }
 
-    private CorrigeerRedenSchorsingErkenningCommand CreateCommand()
+    public static CorrigeerRedenSchorsingErkenningContext<TScenario> Given(
+        TScenario scenario,
+        Func<TScenario, int> erkenningIdSelector,
+        Func<TScenario, string>? defaultInitiator = null
+    ) => new(scenario, erkenningIdSelector, defaultInitiator);
+
+    public CorrigeerRedenSchorsingErkenningContext<TScenario> WithCommand(
+        Func<CorrigeerRedenSchorsingErkenningCommand, CorrigeerRedenSchorsingErkenningCommand> configure
+    )
     {
-        var erkenning = _fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
-        {
-            ErkenningId = _defaultErkenningId(Scenario),
-            RedenSchorsing = _fixture.Create<string>(),
-        };
+        Command = CreateCommand();
+        Command = configure(Command);
 
-        return CorrigeerRedenSchorsingErkenningCommand = _fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
-        {
-            VCode = Scenario.VCode,
-            Erkenning = erkenning,
-        };
+        return this;
     }
 
-    public int CreateUnknownErkenningId() => _defaultErkenningId(Scenario) + _fixture.Create<int>();
+    public CorrigeerRedenSchorsingErkenningContext<TScenario> WithInitiator(string? ovoCode = null)
+    {
+        Metadata = Metadata with { Initiator = ovoCode ?? Fixture.Create<string>() };
+
+        return this;
+    }
+
+    public async ValueTask<CorrigeerRedenSchorsingErkenningContext<TScenario>> WhenHandled(
+        IOrganisatieBevoegdheidService? service = null
+    )
+    {
+        await _commandHandler.Handle(
+            new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(Command, Metadata),
+            service ?? OrganisatieBevoegdheidService.Object
+        );
+
+        return this;
+    }
+
+    public void ShouldHaveSaved(params IEvent[] events) => AggregateSessionMock.ShouldHaveSavedExact(events);
+
+    public int CreateUnknownErkenningId() => _defaultErkenningId(Scenario) + Fixture.Create<int>();
 
     public CommandMetadata CreateMetadata(string? initiator = null) =>
-        _fixture.Create<CommandMetadata>() with
+        Fixture.Create<CommandMetadata>() with
         {
-            Initiator = initiator ?? _fixture.Create<string>(),
+            Initiator = initiator ?? Fixture.Create<string>(),
         };
 
-    public async ValueTask Handle(
-        CorrigeerRedenSchorsingErkenningCommand command,
-        CommandMetadata? metadata = null,
-        IOrganisatieBevoegdheidService? service = null) =>
-        await _commandHandler.Handle(
-            new CommandEnvelope<CorrigeerRedenSchorsingErkenningCommand>(command, metadata ?? Metadata),
-            service ?? OrganisatieBevoegdheidService.Object);
+    private CorrigeerRedenSchorsingErkenningCommand CreateCommand() =>
+        Fixture.Create<CorrigeerRedenSchorsingErkenningCommand>() with
+        {
+            VCode = Scenario.VCode,
+            Erkenning = Fixture.Create<TeCorrigerenRedenSchorsingErkenning>() with
+            {
+                ErkenningId = _defaultErkenningId(Scenario),
+                RedenSchorsing = Fixture.Create<string>(),
+            },
+        };
 }

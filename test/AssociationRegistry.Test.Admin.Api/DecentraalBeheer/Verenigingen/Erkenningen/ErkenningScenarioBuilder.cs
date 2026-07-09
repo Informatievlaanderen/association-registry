@@ -106,6 +106,18 @@ public class ErkenningScenarioBuilder
         return this;
     }
 
+    public ErkenningScenarioBuilder WithErkenningOpvolgersWerdenToegevoegdAlsBeheerder()
+    {
+        Events.Add(
+            _fixture.Create<ErkenningOpvolgersWerdenToegevoegdAlsBeheerder>() with
+            {
+                ErkenningId = _erkenningId,
+            }
+        );
+
+        return this;
+    }
+
     public ErkenningScenarioBuilder WithGewijzigdNaarInAanvraag()
     {
         var startdatum = _today.AddDays(_fixture.Create<int>());
