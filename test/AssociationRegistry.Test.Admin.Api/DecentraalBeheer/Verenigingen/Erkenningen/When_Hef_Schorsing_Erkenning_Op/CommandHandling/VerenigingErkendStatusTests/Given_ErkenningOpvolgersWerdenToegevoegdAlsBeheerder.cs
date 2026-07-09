@@ -7,7 +7,7 @@ using Common.Scenarios.CommandHandling;
 using Events;
 using Xunit;
 
-public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
+public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
 {
     public static IEnumerable<object[]> ErkenningScenarios
     {
@@ -17,23 +17,17 @@ public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
 
             var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
                 .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
-                .WithVerlopenErkenning()
-                .WithVerenigingWerdNietLangerErkend()
-                .WithGewijzigdNaarInAanvraag()
                 .WithErkenningWerdGeschorst()
+                .WithErkenningOpvolgersWerdenToegevoegdAlsBeheerder()
                 .BuildForVzer();
 
-            var (vmerErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
+            var (vmrErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
                 .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
-                .WithVerlopenErkenning()
-                .WithVerenigingWerdNietLangerErkend()
-                .WithGewijzigdNaarInAanvraag()
                 .WithErkenningWerdGeschorst()
+                .WithErkenningOpvolgersWerdenToegevoegdAlsBeheerder()
                 .BuildForVmr();
 
-            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmerErkenningId } };
+            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmrErkenningId } };
         }
     }
 
@@ -52,11 +46,37 @@ public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
                     scenario
                         .GetVerenigingState()
                         .Erkenningen.Single(e => e.ErkenningId == erkenningId)
-                        .GeregistreerdDoor.OvoCode
+                        .Beheerders.First()
             )
             .WithCommand(cmd => cmd)
             .WhenHandled();
 
-        ctx.ShouldHaveSaved(new SchorsingVanErkenningWerdOpgeheven(erkenningId, ErkenningStatus.InAanvraag.Value));
+        ctx.ShouldHaveSaved(
+            new SchorsingVanErkenningWerdOpgeheven(erkenningId, ErkenningStatus.Actief.Value),
+            new VerenigingWerdErkend()
+        );
+    }
+
+    [Theory]
+    [MemberData(nameof(ErkenningScenarios))]
+    public async ValueTask Then_OrganisatieBevoegdheidService_Not_Called(
+        CommandhandlerScenarioBase scenario,
+        int erkenningId
+    )
+    {
+        var ctx = await HefSchorsingErkenningOpContext<CommandhandlerScenarioBase>
+            .Given(
+                scenario,
+                _ => erkenningId,
+                _ =>
+                    scenario
+                        .GetVerenigingState()
+                        .Erkenningen.Single(e => e.ErkenningId == erkenningId)
+                        .Beheerders.First()
+            )
+            .WithCommand(cmd => cmd)
+            .WhenHandled();
+
+        ctx.OrganisatieBevoegdheidService.VerifyNever();
     }
 }

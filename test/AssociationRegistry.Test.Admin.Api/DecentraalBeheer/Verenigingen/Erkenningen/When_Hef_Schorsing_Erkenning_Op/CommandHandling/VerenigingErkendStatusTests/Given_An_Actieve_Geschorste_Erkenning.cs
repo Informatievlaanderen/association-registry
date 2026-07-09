@@ -7,7 +7,7 @@ using Common.Scenarios.CommandHandling;
 using Events;
 using Xunit;
 
-public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
+public class Given_An_Actieve_Geschorste_Erkenning
 {
     public static IEnumerable<object[]> ErkenningScenarios
     {
@@ -17,29 +17,21 @@ public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
 
             var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
                 .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
-                .WithVerlopenErkenning()
-                .WithVerenigingWerdNietLangerErkend()
-                .WithGewijzigdNaarInAanvraag()
                 .WithErkenningWerdGeschorst()
                 .BuildForVzer();
 
-            var (vmerErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
+            var (vmrErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
                 .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
-                .WithVerlopenErkenning()
-                .WithVerenigingWerdNietLangerErkend()
-                .WithGewijzigdNaarInAanvraag()
                 .WithErkenningWerdGeschorst()
                 .BuildForVmr();
 
-            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmerErkenningId } };
+            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmrErkenningId } };
         }
     }
 
     [Theory]
     [MemberData(nameof(ErkenningScenarios))]
-    public async ValueTask Then_Saves_SchorsingVanErkenningWerdOpgeheven(
+    public async ValueTask Then_An_SchorsingVanErkenningWerdOpgeheven_Event_Is_Saved(
         CommandhandlerScenarioBase scenario,
         int erkenningId
     )
@@ -57,6 +49,9 @@ public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
             .WithCommand(cmd => cmd)
             .WhenHandled();
 
-        ctx.ShouldHaveSaved(new SchorsingVanErkenningWerdOpgeheven(erkenningId, ErkenningStatus.InAanvraag.Value));
+        ctx.ShouldHaveSaved(
+            new SchorsingVanErkenningWerdOpgeheven(erkenningId, ErkenningStatus.Actief.Value),
+            new VerenigingWerdErkend()
+        );
     }
 }

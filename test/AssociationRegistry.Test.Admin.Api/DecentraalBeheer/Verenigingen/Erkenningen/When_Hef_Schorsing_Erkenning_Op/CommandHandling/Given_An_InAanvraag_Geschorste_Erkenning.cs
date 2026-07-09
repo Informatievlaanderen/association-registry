@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Hef_Schorsing_Erkenning_Op.CommandHandling.VerenigingErkendStatusTests;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Hef_Schorsing_Erkenning_Op.CommandHandling;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AutoFixture;
@@ -7,7 +7,7 @@ using Common.Scenarios.CommandHandling;
 using Events;
 using Xunit;
 
-public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
+public class Given_An_InAanvraag_Geschorste_Erkenning
 {
     public static IEnumerable<object[]> ErkenningScenarios
     {
@@ -16,30 +16,22 @@ public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
             var fixture = new Fixture().CustomizeDomain();
 
             var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
-                .WithVerlopenErkenning()
-                .WithVerenigingWerdNietLangerErkend()
-                .WithGewijzigdNaarInAanvraag()
+                .WithInAanvraagErkenning()
                 .WithErkenningWerdGeschorst()
                 .BuildForVzer();
 
-            var (vmerErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
-                .WithVerlopenErkenning()
-                .WithVerenigingWerdNietLangerErkend()
-                .WithGewijzigdNaarInAanvraag()
+            var (vmrErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
+                .WithInAanvraagErkenning()
                 .WithErkenningWerdGeschorst()
                 .BuildForVmr();
 
-            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmerErkenningId } };
+            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmrErkenningId } };
         }
     }
 
     [Theory]
     [MemberData(nameof(ErkenningScenarios))]
-    public async ValueTask Then_Saves_SchorsingVanErkenningWerdOpgeheven(
+    public async ValueTask Then_An_SchorsingVanErkenningWerdOpgeheven_Event_Is_Saved(
         CommandhandlerScenarioBase scenario,
         int erkenningId
     )

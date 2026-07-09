@@ -7,7 +7,7 @@ using Common.Scenarios.CommandHandling;
 using Events;
 using Xunit;
 
-public class Given_Actieve_Erkenning_And_Vereniging_Erkend
+public class Given_Gemachtigde_Organisaties
 {
     public static IEnumerable<object[]> ErkenningScenarios
     {
@@ -17,43 +17,41 @@ public class Given_Actieve_Erkenning_And_Vereniging_Erkend
 
             var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
                 .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
                 .WithErkenningWerdGeschorst()
-                .WithVerenigingWerdNietLangerErkend()
                 .BuildForVzer();
 
-            var (vmerErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
+            var (vmrErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
                 .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
                 .WithErkenningWerdGeschorst()
-                .WithVerenigingWerdNietLangerErkend()
                 .BuildForVmr();
 
-            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmerErkenningId } };
+            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmrErkenningId } };
         }
     }
 
     [Theory]
     [MemberData(nameof(ErkenningScenarios))]
-    public async ValueTask Then_Saves_SchorsingVanErkenningWerdOpgeheven_VerenigingWerdErkend(
+    public async ValueTask Then_Saves_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder_And_SchorsingWerdOpgeheven(
         CommandhandlerScenarioBase scenario,
         int erkenningId
     )
     {
-        var ctx = await HefSchorsingErkenningOpContext<CommandhandlerScenarioBase>
-            .Given(
-                scenario,
-                _ => erkenningId,
-                _ =>
-                    scenario
-                        .GetVerenigingState()
-                        .Erkenningen.Single(e => e.ErkenningId == erkenningId)
-                        .GeregistreerdDoor.OvoCode
-            )
-            .WithCommand(cmd => cmd)
-            .WhenHandled();
+        var ctx = HefSchorsingErkenningOpContext<CommandhandlerScenarioBase>.Given(scenario, _ => erkenningId);
+
+        var geregistreerdDoor = scenario
+            .GetVerenigingState()
+            .Erkenningen.Single(e => e.ErkenningId == erkenningId)
+            .GeregistreerdDoor.OvoCode;
+
+        var service = ctx.OrganisatieBevoegdheidService.WithGemachtigdeOrganisaties(
+            geregistreerdDoor,
+            [ctx.Metadata.Initiator]
+        );
+
+        ctx = await ctx.WithCommand(cmd => cmd).WhenHandled(service.Object);
 
         ctx.ShouldHaveSaved(
+            new ErkenningOpvolgersWerdenToegevoegdAlsBeheerder(erkenningId, [ctx.Metadata.Initiator]),
             new SchorsingVanErkenningWerdOpgeheven(erkenningId, ErkenningStatus.Actief.Value),
             new VerenigingWerdErkend()
         );

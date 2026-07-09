@@ -36,20 +36,19 @@ public class Given_NietActieve_Erkenning
         int erkenningId
     )
     {
-        var ctx = new HefSchorsingErkenningOpContext<CommandhandlerScenarioBase>(
-            scenario,
-            _ => erkenningId,
-            _ =>
-                scenario
-                    .GetVerenigingState()
-                    .Erkenningen.Single(e => e.ErkenningId == erkenningId)
-                    .GeregistreerdDoor.OvoCode
-        );
+        var ctx = await HefSchorsingErkenningOpContext<CommandhandlerScenarioBase>
+            .Given(
+                scenario,
+                _ => erkenningId,
+                _ =>
+                    scenario
+                        .GetVerenigingState()
+                        .Erkenningen.Single(e => e.ErkenningId == erkenningId)
+                        .GeregistreerdDoor.OvoCode
+            )
+            .WithCommand(cmd => cmd)
+            .WhenHandled();
 
-        await ctx.Handle(ctx.HefSchorsingErkenningOpCommand);
-
-        ctx.AggregateSessionMock.ShouldHaveSavedExact(
-            new SchorsingVanErkenningWerdOpgeheven(erkenningId, ErkenningStatus.InAanvraag.Value)
-        );
+        ctx.ShouldHaveSaved(new SchorsingVanErkenningWerdOpgeheven(erkenningId, ErkenningStatus.InAanvraag.Value));
     }
 }

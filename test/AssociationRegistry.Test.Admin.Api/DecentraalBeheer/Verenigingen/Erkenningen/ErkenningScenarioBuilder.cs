@@ -105,6 +105,13 @@ public class ErkenningScenarioBuilder
         return this;
     }
 
+    public ErkenningScenarioBuilder WithSchorsingVanErkenningWerdOpgeheven()
+    {
+        Events.Add(new SchorsingVanErkenningWerdOpgeheven(_erkenningId, ErkenningStatus.Actief.Value));
+
+        return this;
+    }
+
     public ErkenningScenarioBuilder WithTeActiverenErkenning()
     {
         _erkenningId = _fixture.Create<int>();
