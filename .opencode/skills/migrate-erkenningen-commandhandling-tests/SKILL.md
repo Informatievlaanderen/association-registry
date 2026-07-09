@@ -279,11 +279,21 @@ rm -rf path/to/When_Xxx/CommandHandling/Kbo
 rm -rf path/to/When_Xxx/CommandHandling/Vzer
 ```
 
-### 7. Verify compilation
+### 7. Verify compilation and run tests
+
+First build:
 
 ```bash
 dotnet build test/AssociationRegistry.Test.Admin.Api/AssociationRegistry.Test.Admin.Api.csproj --no-restore -c Release
 ```
+
+Then run **only the tests in the migrated folder** (replace `When_Xxx` with the actual folder name):
+
+```bash
+dotnet test test/AssociationRegistry.Test.Admin.Api/AssociationRegistry.Test.Admin.Api.csproj --no-build -c Release --filter "FullyQualifiedName~DecentraalBeheer.Verenigingen.Erkenningen.When_Xxx.CommandHandling"
+```
+
+All tests in the migrated folder must pass before the migration is considered complete.
 
 ---
 
