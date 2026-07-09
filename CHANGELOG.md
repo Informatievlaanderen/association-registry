@@ -1,3 +1,16 @@
+# [8.335.0](https://github.com/informatievlaanderen/association-registry/compare/v8.334.1...v8.335.0) (2026-07-09)
+
+
+### Bug Fixes
+
+* or-3286 fix unknown bankrekeningnummer id on wijzigen bankrekeningnummer ([072f09c](https://github.com/informatievlaanderen/association-registry/commit/072f09c25bfa3ae5181e92ef3c93afbf592b8e16))
+* or-3286 use right message for titularissen moeten uniek zijn ([62f6d1a](https://github.com/informatievlaanderen/association-registry/commit/62f6d1a062f9f97381120ae24a2b763263410ecb))
+
+
+### Features
+
+* or-3286 allow adding several titularissen on bankrekeningnummers ([d4ab04a](https://github.com/informatievlaanderen/association-registry/commit/d4ab04afc8c2ffbed0ba25ee790e1a68d07fc375))
+
 ## [8.334.1](https://github.com/informatievlaanderen/association-registry/compare/v8.334.0...v8.334.1) (2026-07-06)
 
 
