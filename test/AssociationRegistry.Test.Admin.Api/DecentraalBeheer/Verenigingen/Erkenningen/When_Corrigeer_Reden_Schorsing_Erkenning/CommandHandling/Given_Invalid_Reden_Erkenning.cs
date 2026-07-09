@@ -16,22 +16,17 @@ public class Given_Invalid_Reden_Erkenning
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
+            var scenario = new ErkenningScenarioBuilder(fixture)
                 .WithActieveErkenning()
                 .WithErkenningWerdGeschorst()
-                .BuildForVzer();
-
-            var (vmrErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithErkenningWerdGeschorst()
-                .BuildForVmr();
+                .Build();
 
             return new[]
             {
-                new object[] { vzer, vzerErkenningId, "" },
-                new object[] { vzer, vzerErkenningId, null! },
-                new object[] { vmr, vmrErkenningId, "" },
-                new object[] { vmr, vmrErkenningId, null! },
+                new object[] { scenario.Vzer, scenario.ErkenningId, "" },
+                new object[] { scenario.Vzer, scenario.ErkenningId, null! },
+                new object[] { scenario.Vmr, scenario.ErkenningId, "" },
+                new object[] { scenario.Vmr, scenario.ErkenningId, null! },
             };
         }
     }

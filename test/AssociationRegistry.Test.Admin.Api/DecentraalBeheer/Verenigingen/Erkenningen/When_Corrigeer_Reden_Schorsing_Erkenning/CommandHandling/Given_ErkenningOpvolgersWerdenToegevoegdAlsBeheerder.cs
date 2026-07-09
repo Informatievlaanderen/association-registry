@@ -14,19 +14,17 @@ public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
+            var scenario = new ErkenningScenarioBuilder(fixture)
                 .WithActieveErkenning()
                 .WithErkenningWerdGeschorst()
                 .WithErkenningOpvolgersWerdenToegevoegdAlsBeheerder()
-                .BuildForVzer();
+                .Build();
 
-            var (vmrErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithErkenningWerdGeschorst()
-                .WithErkenningOpvolgersWerdenToegevoegdAlsBeheerder()
-                .BuildForVmr();
-
-            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmrErkenningId } };
+            return new[]
+            {
+                new object[] { scenario.Vzer, scenario.ErkenningId },
+                new object[] { scenario.Vmr, scenario.ErkenningId },
+            };
         }
     }
 
