@@ -16,21 +16,18 @@ public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var (vzerErkenningId, vzer) = new ErkenningScenarioBuilder(fixture)
+            var scenario = new ErkenningScenarioBuilder(fixture)
                 .WithActieveErkenning()
                 .WithVerenigingWerdErkend()
                 .WithVerlopenErkenning()
                 .WithVerenigingWerdNietLangerErkend()
-                .BuildForVzer();
+                .Build();
 
-            var (vmerErkenningId, vmr) = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
-                .WithVerlopenErkenning()
-                .WithVerenigingWerdNietLangerErkend()
-                .BuildForVmr();
-
-            return new[] { new object[] { vzer, vzerErkenningId }, new object[] { vmr, vmerErkenningId } };
+            return new[]
+            {
+                new object[] { scenario.Vzer, scenario.ErkenningId },
+                new object[] { scenario.Vmr, scenario.ErkenningId },
+            };
         }
     }
 
