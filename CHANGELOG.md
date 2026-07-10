@@ -1,3 +1,10 @@
+## [8.335.2](https://github.com/informatievlaanderen/association-registry/compare/v8.335.1...v8.335.2) (2026-07-10)
+
+
+### Bug Fixes
+
+* or-3261 use prometheus as uid of datasource for acm dashboard ([14c948c](https://github.com/informatievlaanderen/association-registry/commit/14c948c87f5ac92cabd8a372bf545a36690ee6a8))
+
 ## [8.335.1](https://github.com/informatievlaanderen/association-registry/compare/v8.335.0...v8.335.1) (2026-07-10)
 
 
