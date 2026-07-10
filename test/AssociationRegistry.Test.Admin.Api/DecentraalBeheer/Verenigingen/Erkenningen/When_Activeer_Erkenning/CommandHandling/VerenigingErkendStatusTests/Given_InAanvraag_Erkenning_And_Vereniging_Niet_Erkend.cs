@@ -14,7 +14,7 @@ public class Given_InAanvraag_Erkenning_And_Vereniging_Niet_Erkend
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var scenario = new ErkenningScenarioBuilder(fixture).WithTeActiverenErkenning().Build();
+            var scenario = new ErkenningScenarioBuilder(fixture).GivenTeActiverenErkenning().Build();
 
             return new[]
             {

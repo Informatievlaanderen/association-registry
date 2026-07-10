@@ -17,9 +17,9 @@ public class Given_An_Already_OpgehevenSchorsing_Erkenning
             var fixture = new Fixture().CustomizeDomain();
 
             var scenario = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithErkenningWerdGeschorst()
-                .WithSchorsingVanErkenningWerdOpgeheven()
+                .GivenActieveErkenning()
+                .GivenErkenningWerdGeschorst()
+                .GivenSchorsingVanErkenningWerdOpgeheven()
                 .Build();
 
             return new[]

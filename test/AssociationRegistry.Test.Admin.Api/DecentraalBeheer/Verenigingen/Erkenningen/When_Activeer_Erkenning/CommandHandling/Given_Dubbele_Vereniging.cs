@@ -14,9 +14,9 @@ public class Given_Dubbele_Vereniging
         var fixture = new Fixture().CustomizeDomain();
 
         var scenario = new ErkenningScenarioBuilder(fixture)
-            .WithActieveErkenning()
-            .WithVerenigingWerdErkend()
-            .WithTeActiverenErkenning()
+            .GivenActieveErkenning()
+            .GivenVerenigingWerdErkend()
+            .GivenTeActiverenErkenning()
             .Build();
 
         scenario.VzerWerdGeregistreerdScenario.additionalEvents.Add(

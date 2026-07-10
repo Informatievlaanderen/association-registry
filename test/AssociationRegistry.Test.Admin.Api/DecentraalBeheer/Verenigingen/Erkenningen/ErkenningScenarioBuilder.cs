@@ -24,7 +24,7 @@ public class ErkenningScenarioBuilder
         ErkenningId = fixture.Create<int>();
     }
 
-    public ErkenningScenarioBuilder WithActieveErkenning()
+    public ErkenningScenarioBuilder GivenActieveErkenning()
     {
         var erkenningWerdGeregistreerd = _fixture.Create<ErkenningWerdGeregistreerd>() with
         {
@@ -40,7 +40,7 @@ public class ErkenningScenarioBuilder
         return this;
     }
 
-    public ErkenningScenarioBuilder WithVerlopenErkenning()
+    public ErkenningScenarioBuilder GivenVerlopenErkenning()
     {
         var erkenningWerdVerlopen = _fixture.Create<ErkenningWerdVerlopen>() with { ErkenningId = ErkenningId };
 
@@ -49,7 +49,7 @@ public class ErkenningScenarioBuilder
         return this;
     }
 
-    public ErkenningScenarioBuilder WithInAanvraagErkenning()
+    public ErkenningScenarioBuilder GivenInAanvraagErkenning()
     {
         var startdatum = _today.AddDays(_fixture.Create<int>());
 
@@ -67,28 +67,28 @@ public class ErkenningScenarioBuilder
         return this;
     }
 
-    public ErkenningScenarioBuilder WithVerenigingWerdErkend()
+    public ErkenningScenarioBuilder GivenVerenigingWerdErkend()
     {
         Events.Add(new VerenigingWerdErkend());
 
         return this;
     }
 
-    public ErkenningScenarioBuilder WithErkenningWerdGeschorst()
+    public ErkenningScenarioBuilder GivenErkenningWerdGeschorst()
     {
         Events.Add(new ErkenningWerdGeschorst(ErkenningId, "Reden van schorsing"));
 
         return this;
     }
 
-    public ErkenningScenarioBuilder WithVerenigingWerdNietLangerErkend()
+    public ErkenningScenarioBuilder GivenVerenigingWerdNietLangerErkend()
     {
         Events.Add(new VerenigingWerdNietLangerErkend());
 
         return this;
     }
 
-    public ErkenningScenarioBuilder WithTeVerlopenErkenning()
+    public ErkenningScenarioBuilder GivenTeVerlopenErkenning()
     {
         var einddatum = _today.AddDays(-_fixture.Create<int>());
         var hernieuwingsdatum = einddatum.AddDays(-_fixture.Create<int>());
@@ -108,14 +108,14 @@ public class ErkenningScenarioBuilder
         return this;
     }
 
-    public ErkenningScenarioBuilder WithSchorsingVanErkenningWerdOpgeheven()
+    public ErkenningScenarioBuilder GivenSchorsingVanErkenningWerdOpgeheven()
     {
         Events.Add(new SchorsingVanErkenningWerdOpgeheven(ErkenningId, ErkenningStatus.Actief.Value));
 
         return this;
     }
 
-    public ErkenningScenarioBuilder WithTeActiverenErkenning()
+    public ErkenningScenarioBuilder GivenTeActiverenErkenning()
     {
         ErkenningId = _fixture.Create<int>();
         var startdatum = _today.AddDays(-_fixture.Create<int>());
@@ -148,7 +148,7 @@ public class ErkenningScenarioBuilder
         return this;
     }
 
-    public ErkenningScenarioBuilder WithGewijzigdNaarInAanvraag()
+    public ErkenningScenarioBuilder GivenGewijzigdNaarInAanvraag()
     {
         var startdatum = _today.AddDays(_fixture.Create<int>());
 

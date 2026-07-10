@@ -16,8 +16,8 @@ public class Given_An_InAanvraag_Geschorste_Erkenning
             var fixture = new Fixture().CustomizeDomain();
 
             var scenario = new ErkenningScenarioBuilder(fixture)
-                .WithInAanvraagErkenning()
-                .WithErkenningWerdGeschorst()
+                .GivenInAanvraagErkenning()
+                .GivenErkenningWerdGeschorst()
                 .Build();
 
             return new[]

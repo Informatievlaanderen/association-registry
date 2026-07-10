@@ -18,7 +18,7 @@ public class Given_Erkenning_Already_Exists_With_Same_OvoCode_And_ProductNummer_
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var scenario = new ErkenningScenarioBuilder(fixture).WithActieveErkenning().Build();
+            var scenario = new ErkenningScenarioBuilder(fixture).GivenActieveErkenning().Build();
 
             return new[] { new object[] { scenario.Vzer }, new object[] { scenario.Vmr } };
         }

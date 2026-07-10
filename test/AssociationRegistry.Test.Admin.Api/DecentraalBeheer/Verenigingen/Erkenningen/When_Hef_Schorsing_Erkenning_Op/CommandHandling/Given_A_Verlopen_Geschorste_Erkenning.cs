@@ -16,9 +16,9 @@ public class Given_A_Verlopen_Geschorste_Erkenning
             var fixture = new Fixture().CustomizeDomain();
 
             var scenario = new ErkenningScenarioBuilder(fixture)
-                .WithTeVerlopenErkenning()
-                .WithVerlopenErkenning()
-                .WithErkenningWerdGeschorst()
+                .GivenTeVerlopenErkenning()
+                .GivenVerlopenErkenning()
+                .GivenErkenningWerdGeschorst()
                 .Build();
 
             return new[]

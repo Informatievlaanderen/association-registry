@@ -15,7 +15,7 @@ public class Given_Erkenning_InAanvraag
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var scenario = new ErkenningScenarioBuilder(fixture).WithInAanvraagErkenning().Build();
+            var scenario = new ErkenningScenarioBuilder(fixture).GivenInAanvraagErkenning().Build();
 
             return new[]
             {

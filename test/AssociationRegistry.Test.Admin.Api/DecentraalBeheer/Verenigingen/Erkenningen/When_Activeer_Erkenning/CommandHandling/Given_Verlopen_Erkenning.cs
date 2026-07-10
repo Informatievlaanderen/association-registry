@@ -15,7 +15,10 @@ public class Given_Verlopen_Erkenning
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var scenario = new ErkenningScenarioBuilder(fixture).WithActieveErkenning().WithVerlopenErkenning().Build();
+            var scenario = new ErkenningScenarioBuilder(fixture)
+                .GivenActieveErkenning()
+                .GivenVerlopenErkenning()
+                .Build();
 
             return new[]
             {

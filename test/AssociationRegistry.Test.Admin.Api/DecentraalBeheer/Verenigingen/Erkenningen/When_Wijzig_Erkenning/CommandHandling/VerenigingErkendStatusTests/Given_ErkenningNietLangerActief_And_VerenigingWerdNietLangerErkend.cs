@@ -17,10 +17,10 @@ public class Given_ErkenningNietLangerActief_And_VerenigingWerdNietLangerErkend
             var fixture = new Fixture().CustomizeDomain();
 
             var scenario = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
-                .WithVerlopenErkenning()
-                .WithVerenigingWerdNietLangerErkend()
+                .GivenActieveErkenning()
+                .GivenVerenigingWerdErkend()
+                .GivenVerlopenErkenning()
+                .GivenVerenigingWerdNietLangerErkend()
                 .Build();
 
             return new[]

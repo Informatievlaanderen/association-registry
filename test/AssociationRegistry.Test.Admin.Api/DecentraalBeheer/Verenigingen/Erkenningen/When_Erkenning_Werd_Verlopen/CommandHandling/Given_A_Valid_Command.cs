@@ -14,7 +14,7 @@ public class Given_A_Valid_Command
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var scenario = new ErkenningScenarioBuilder(fixture).WithTeVerlopenErkenning().Build();
+            var scenario = new ErkenningScenarioBuilder(fixture).GivenTeVerlopenErkenning().Build();
 
             return new[]
             {

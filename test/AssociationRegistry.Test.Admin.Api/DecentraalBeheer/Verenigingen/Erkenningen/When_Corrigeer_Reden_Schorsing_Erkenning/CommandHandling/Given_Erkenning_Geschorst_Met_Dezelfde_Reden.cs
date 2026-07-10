@@ -14,8 +14,8 @@ public class Given_Erkenning_Geschorst_Met_Dezelfde_Reden
             var fixture = new Fixture().CustomizeDomain();
 
             var scenario = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithErkenningWerdGeschorst()
+                .GivenActieveErkenning()
+                .GivenErkenningWerdGeschorst()
                 .Build();
 
             return new[]

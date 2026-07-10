@@ -16,7 +16,7 @@ public class Given_Another_OvoCode
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var scenario = new ErkenningScenarioBuilder(fixture).WithActieveErkenning().Build();
+            var scenario = new ErkenningScenarioBuilder(fixture).GivenActieveErkenning().Build();
 
             return new[]
             {

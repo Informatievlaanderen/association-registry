@@ -15,8 +15,8 @@ public class Given_Actieve_Erkenning_And_Vereniging_Erkend
             var fixture = new Fixture().CustomizeDomain();
 
             var scenario = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
+                .GivenActieveErkenning()
+                .GivenVerenigingWerdErkend()
                 .Build();
 
             return new[]

@@ -14,7 +14,7 @@ public class Given_NietActieve_Erkenning
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var scenario = new ErkenningScenarioBuilder(fixture).WithInAanvraagErkenning().Build();
+            var scenario = new ErkenningScenarioBuilder(fixture).GivenInAanvraagErkenning().Build();
 
             return new[]
             {

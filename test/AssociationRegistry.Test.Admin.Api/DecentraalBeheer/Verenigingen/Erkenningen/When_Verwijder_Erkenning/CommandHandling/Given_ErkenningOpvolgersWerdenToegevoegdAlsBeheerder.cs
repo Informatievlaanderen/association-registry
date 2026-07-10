@@ -15,7 +15,7 @@ public class Given_ErkenningOpvolgersWerdenToegevoegdAlsBeheerder
             var fixture = new Fixture().CustomizeDomain();
 
             var scenario = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
+                .GivenActieveErkenning()
                 .WithErkenningOpvolgersWerdenToegevoegdAlsBeheerder()
                 .Build();
 

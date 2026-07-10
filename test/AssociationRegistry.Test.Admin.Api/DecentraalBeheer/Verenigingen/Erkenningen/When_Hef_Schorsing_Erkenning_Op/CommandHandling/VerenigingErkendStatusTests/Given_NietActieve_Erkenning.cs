@@ -16,8 +16,8 @@ public class Given_NietActieve_Erkenning
             var fixture = new Fixture().CustomizeDomain();
 
             var scenario = new ErkenningScenarioBuilder(fixture)
-                .WithInAanvraagErkenning()
-                .WithErkenningWerdGeschorst()
+                .GivenInAanvraagErkenning()
+                .GivenErkenningWerdGeschorst()
                 .Build();
 
             return new[]

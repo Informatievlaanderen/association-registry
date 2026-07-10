@@ -14,7 +14,7 @@ public class Given_Gemachtigde_Organisaties
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var scenario = new ErkenningScenarioBuilder(fixture).WithActieveErkenning().Build();
+            var scenario = new ErkenningScenarioBuilder(fixture).GivenActieveErkenning().Build();
 
             return new[]
             {

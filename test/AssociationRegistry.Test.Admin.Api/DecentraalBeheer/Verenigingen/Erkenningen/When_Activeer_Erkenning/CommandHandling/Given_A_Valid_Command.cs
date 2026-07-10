@@ -15,9 +15,9 @@ public class Given_A_Valid_Command
             var fixture = new Fixture().CustomizeDomain();
 
             var scenario = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
-                .WithTeActiverenErkenning()
+                .GivenActieveErkenning()
+                .GivenVerenigingWerdErkend()
+                .GivenTeActiverenErkenning()
                 .Build();
 
             return new[]

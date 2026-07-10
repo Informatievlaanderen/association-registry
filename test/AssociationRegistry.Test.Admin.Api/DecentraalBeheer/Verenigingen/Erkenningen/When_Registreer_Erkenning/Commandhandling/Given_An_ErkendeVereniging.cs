@@ -14,8 +14,8 @@ public class Given_An_ErkendeVereniging
             var fixture = new Fixture().CustomizeDomain();
 
             var scenario = new ErkenningScenarioBuilder(fixture)
-                .WithActieveErkenning()
-                .WithVerenigingWerdErkend()
+                .GivenActieveErkenning()
+                .GivenVerenigingWerdErkend()
                 .Build();
 
             return new[] { new object[] { scenario.Vzer }, new object[] { scenario.Vmr } };

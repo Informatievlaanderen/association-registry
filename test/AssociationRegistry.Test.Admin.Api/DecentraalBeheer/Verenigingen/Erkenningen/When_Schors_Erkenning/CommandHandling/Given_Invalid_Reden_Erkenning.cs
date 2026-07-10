@@ -16,7 +16,7 @@ public class Given_Invalid_Reden_Erkenning
         {
             var fixture = new Fixture().CustomizeDomain();
 
-            var scenario = new ErkenningScenarioBuilder(fixture).WithActieveErkenning().Build();
+            var scenario = new ErkenningScenarioBuilder(fixture).GivenActieveErkenning().Build();
 
             string?[] redenValues = [null, ""];
 
