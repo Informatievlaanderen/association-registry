@@ -527,6 +527,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         );
 
         Throw<BankrekeningnummerIsNietGekend>.If(bankrekeningnummer == null, bankrekeningnummerId.ToString());
+
         Throw<BankrekeningnummerValidatieIsAlReedsToegevoegd>.If(
             bankrekeningnummer!.BevestigdDoor.Any(x => x.OvoCode == initiator.OvoCode),
             initiator.OvoCode
@@ -606,10 +607,18 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.ErkenningWerdGeregistreerd(toegevoegdeErkenning));
 
-        if (toegevoegdeErkenning.Status == ErkenningStatus.Actief && !State.IsErkend)
-            AddEvent(EventFactory.VerenigingWerdErkend());
+        AddVerenigingWerdErkendOrNietLangerErkendIfStatusChanged();
 
         return toegevoegdeErkenning.ErkenningId;
+    }
+
+    private void AddVerenigingWerdErkendOrNietLangerErkendIfStatusChanged()
+    {
+        if (!State.IsErkend && State.Erkenningen.Any(x => x.Status == ErkenningStatus.Actief))
+            AddEvent(EventFactory.VerenigingWerdErkend());
+
+        if (State.IsErkend && !State.Erkenningen.Any(x => x.Status == ErkenningStatus.Actief))
+            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
     }
 
     public async Task SchorsErkenning(

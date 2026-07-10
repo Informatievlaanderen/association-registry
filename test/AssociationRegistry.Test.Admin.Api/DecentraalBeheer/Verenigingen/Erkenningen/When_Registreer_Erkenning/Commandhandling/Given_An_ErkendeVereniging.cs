@@ -1,42 +1,50 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Registreer_Erkenning.Commandhandling.Vzer;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Erkenningen.When_Registreer_Erkenning.Commandhandling;
 
+using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.CommandHandling;
-using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
 
 public class Given_An_ErkendeVereniging
 {
-    public static IEnumerable<object[]> ErkendeVerenigingen =>
-        new[]
+    public static IEnumerable<object[]> ErkenningScenarios
+    {
+        get
         {
-            new object[] { new VerenigingZonderEigenRechtspersoonlijkheidWerdErkendScenario() },
-            new object[] { new VerenigingMetRechtspersoonlijkheidWerdErkendScenario() },
-        };
+            var fixture = new Fixture().CustomizeDomain();
+
+            var scenario = new ErkenningScenarioBuilder(fixture)
+                .WithActieveErkenning()
+                .WithVerenigingWerdErkend()
+                .Build();
+
+            return new[] { new object[] { scenario.Vzer }, new object[] { scenario.Vmr } };
+        }
+    }
 
     [Theory]
-    [MemberData(nameof(ErkendeVerenigingen))]
+    [MemberData(nameof(ErkenningScenarios))]
     public async ValueTask With_Actieve_Erkenning_Then_ErkenningWerdGeregistreerd(CommandhandlerScenarioBase scenario)
     {
-        var test = await RegistreerErkenningTest<CommandhandlerScenarioBase>
+        var ctx = await RegistreerErkenningContext<CommandhandlerScenarioBase>
             .Given(scenario)
             .WithActieveErkenning()
             .WhenHandled();
 
-        test.ShouldHaveSaved(test.ExpectedErkenningWerdGeregistreerd());
+        ctx.ShouldHaveSaved(ctx.ExpectedErkenningWerdGeregistreerd());
     }
 
     [Theory]
-    [MemberData(nameof(ErkendeVerenigingen))]
+    [MemberData(nameof(ErkenningScenarios))]
     public async ValueTask With_Niet_Actieve_Erkenning_Then_ErkenningWerdGeregistreerd(
         CommandhandlerScenarioBase scenario
     )
     {
-        var test = await RegistreerErkenningTest<CommandhandlerScenarioBase>
+        var ctx = await RegistreerErkenningContext<CommandhandlerScenarioBase>
             .Given(scenario)
             .WithNietActieveErkenning()
             .WhenHandled();
 
-        test.ShouldHaveSaved(test.ExpectedErkenningWerdGeregistreerd());
+        ctx.ShouldHaveSaved(ctx.ExpectedErkenningWerdGeregistreerd());
     }
 }

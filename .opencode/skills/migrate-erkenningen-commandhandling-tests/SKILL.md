@@ -19,7 +19,7 @@ After migration:
 - **ErkenningScenarioBuilder**: `test/AssociationRegistry.Test.Admin.Api/DecentraalBeheer/Verenigingen/Erkenningen/ErkenningScenarioBuilder.cs`
 - **Completed example** (VerenigingErkendStatus): `When_Hef_Schorsing_Erkenning_Op/CommandHandling/VerenigingErkendStatusTests/Given_Actieve_Erkenning_And_Vereniging_Erkend.cs`
 - **Completed example** (general test): `When_Activeer_Erkenning/CommandHandling/Given_A_Valid_Command.cs`
-- **Context class example**: `When_Activeer_Erkenning/CommandHandling/ActiveerErkenningContext.cs`
+- **Context class example** (without erkenningId, extra handler params): `When_Registreer_Erkenning/Commandhandling/RegistreerErkenningContext.cs`
 
 ---
 
@@ -53,7 +53,9 @@ The test concerns a VZER-specific domain concept (e.g. `Given_Dubbele_Vereniging
 
 ### 3. Ensure the context class has the fluent API
 
-Before writing test files, verify the context class has these members. If missing, add them — following `WijzigErkenningContext` and `ActiveerErkenningContext` as reference:
+Before writing test files, verify the context class has these members. If missing, add them — following `ActiveerErkenningContext` and `HefSchorsingErkenningOpContext` as reference.
+
+#### Standard context (references an existing erkenning by id)
 
 ```csharp
 public class XxxErkenningContext<TScenario>
@@ -105,6 +107,47 @@ public class XxxErkenningContext<TScenario>
 }
 ```
 
+#### Special context: no erkenningId, extra handler parameters (e.g. RegistreerErkenning)
+
+When the command handler requires extra parameters beyond the command and metadata (e.g. `IpdcProduct`, `GegevensInitiator`), or when there is no existing erkenning to reference by id, use this variant. See `RegistreerErkenningContext` as the canonical example:
+
+```csharp
+public class RegistreerErkenningContext<TScenario>
+    where TScenario : CommandhandlerScenarioBase
+{
+    public Fixture Fixture { get; }
+    private IpdcProduct _ipdcProduct;       // extra handler param, set in constructor
+    private GegevensInitiator _initiator;   // extra handler param, set in constructor
+
+    public TScenario Scenario { get; }
+    public AggregateSessionMock AggregateSessionMock { get; }
+    public CommandMetadata Metadata { get; private set; }
+    public RegistreerErkenningCommand Command { get; private set; } = null!;
+
+    // No erkenningId selector — we are CREATING a new erkenning, not referencing one
+    public static RegistreerErkenningContext<TScenario> Given(TScenario scenario) => new(scenario);
+
+    // Domain-specific helpers that delegate to WithCommand()
+    public RegistreerErkenningContext<TScenario> WithActieveErkenning() => WithCommand(...);
+    public RegistreerErkenningContext<TScenario> WithNietActieveErkenning() => WithCommand(...);
+
+    // Fluent setters for the extra handler params
+    public RegistreerErkenningContext<TScenario> WithIpdcProduct(string? nummer = null) { ... }
+    public RegistreerErkenningContext<TScenario> WithInitiator(string? ovoCode = null) { ... }
+    public RegistreerErkenningContext<TScenario> WithMetadata(string? initiator = null) { ... }
+
+    public async ValueTask<RegistreerErkenningContext<TScenario>> WhenHandled()
+    {
+        await _commandHandler.Handle(
+            new CommandEnvelope<RegistreerErkenningCommand>(Command, Metadata),
+            _ipdcProduct,
+            _initiator
+        );
+        return this;
+    }
+}
+```
+
 **Rules for the context class:**
 - `Command` is declared `= null!` and is **never set in the constructor**
 - `WithCommand` always calls `CreateCommand()` first, then applies the lambda
@@ -113,6 +156,7 @@ public class XxxErkenningContext<TScenario>
 - `ShouldHaveSaved(params IEvent[])` is a thin wrapper around `AggregateSessionMock.ShouldHaveSavedExact`
 - `Fixture` is **public** so tests can call `ctx.Fixture.Create<...>()`
 - The command property is named `Command`, never after the command type
+- Domain-specific helpers like `WithActieveErkenning()` always delegate to `WithCommand()` — never set `Command` directly
 
 ### 4. Write the merged test classes
 
