@@ -1,3 +1,10 @@
+## [8.335.1](https://github.com/informatievlaanderen/association-registry/compare/v8.335.0...v8.335.1) (2026-07-10)
+
+
+### Bug Fixes
+
+* or-3261 use datasource for acm dashboard ([8942a24](https://github.com/informatievlaanderen/association-registry/commit/8942a24d305f25aefd0a7dfa5af9474601391342))
+
 # [8.335.0](https://github.com/informatievlaanderen/association-registry/compare/v8.334.1...v8.335.0) (2026-07-09)
 
 
