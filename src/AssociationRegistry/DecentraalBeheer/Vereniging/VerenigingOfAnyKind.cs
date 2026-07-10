@@ -642,13 +642,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.ErkenningWerdGeschorst(teSchorsenErkenning));
 
-        if (
-            State.IsErkend
-            && !State.Erkenningen.Any(e =>
-                e.ErkenningId != teSchorsenErkenning.ErkenningId && e.Status == ErkenningStatus.Actief
-            )
-        )
-            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
+        AddVerenigingWerdErkendOrNietLangerErkendIfStatusChanged();
     }
 
     public async Task HefSchorsingErkenningOp(
@@ -674,15 +668,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.HefSchorsingErkenningOp(huidigeErkenning.ErkenningId, status));
 
-        var heeftAndereActieveErkenningen = State.Erkenningen.Any(e =>
-            e.ErkenningId != erkenningId && e.Status == ErkenningStatus.Actief
-        );
-
-        if (status == ErkenningStatus.Actief && !State.IsErkend && !heeftAndereActieveErkenningen)
-            AddEvent(EventFactory.VerenigingWerdErkend());
-
-        if (status != ErkenningStatus.Actief && State.IsErkend && !heeftAndereActieveErkenningen)
-            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
+        AddVerenigingWerdErkendOrNietLangerErkendIfStatusChanged();
     }
 
     public async Task CorrigeerRedenSchorsingErkenning(
@@ -747,16 +733,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.ErkenningWerdGewijzigd(gewijzigdeErkenning, teWijzigenErkenning.RedenVanWijziging));
 
-        var heeftActieveErkenning = State
-            .Erkenningen.Without(gewijzigdeErkenning)
-            .Append(gewijzigdeErkenning)
-            .Any(e => e.Status == ErkenningStatus.Actief);
-
-        if (heeftActieveErkenning && !State.IsErkend)
-            AddEvent(EventFactory.VerenigingWerdErkend());
-
-        if (!heeftActieveErkenning && State.IsErkend)
-            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
+        AddVerenigingWerdErkendOrNietLangerErkendIfStatusChanged();
     }
 
     public async Task VerwijderErkenning(
@@ -778,12 +755,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.ErkenningWerdVerwijderd(erkenningId));
 
-        if (
-            State.IsErkend
-            && huidigeErkenning.Status == ErkenningStatus.Actief
-            && !State.Erkenningen.Any(e => e.ErkenningId != erkenningId && e.Status == ErkenningStatus.Actief)
-        )
-            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
+        AddVerenigingWerdErkendOrNietLangerErkendIfStatusChanged();
     }
 
     public void ActiveerErkenning(int erkenningId)
@@ -801,11 +773,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.ErkenningWerdGeactiveerd(erkenningId));
 
-        if (
-            !State.IsErkend
-            && !State.Erkenningen.Any(e => e.ErkenningId != erkenningId && e.Status == ErkenningStatus.Actief)
-        )
-            AddEvent(EventFactory.VerenigingWerdErkend());
+        AddVerenigingWerdErkendOrNietLangerErkendIfStatusChanged();
     }
 
     public void VerloopErkenning(int erkenningId)
@@ -823,11 +791,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(EventFactory.ErkenningWerdVerlopen(erkenningId));
 
-        if (
-            State.IsErkend
-            && !State.Erkenningen.Any(e => e.ErkenningId != erkenningId && e.Status == ErkenningStatus.Actief)
-        )
-            AddEvent(EventFactory.VerenigingWerdNietLangerErkend());
+        AddVerenigingWerdErkendOrNietLangerErkendIfStatusChanged();
     }
 
     private async Task<bool> ValideerBevoegdheidEnVoegErkenningOpvolgersToeAlsBeheerder(
