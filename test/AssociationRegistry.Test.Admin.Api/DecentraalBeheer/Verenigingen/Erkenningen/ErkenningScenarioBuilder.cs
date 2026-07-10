@@ -90,9 +90,9 @@ public class ErkenningScenarioBuilder
 
     public ErkenningScenarioBuilder WithTeVerlopenErkenning()
     {
-        var einddatum = _today.AddDays(-_fixture.Create<int>() - 1);
-        var hernieuwingsdatum = einddatum.AddDays(-_fixture.Create<int>() - 1);
-        var startdatum = hernieuwingsdatum.AddDays(-_fixture.Create<int>() - 1);
+        var einddatum = _today.AddDays(-_fixture.Create<int>());
+        var hernieuwingsdatum = einddatum.AddDays(-_fixture.Create<int>());
+        var startdatum = hernieuwingsdatum.AddDays(-_fixture.Create<int>());
 
         Events.Add(
             _fixture.Create<ErkenningWerdGeregistreerd>() with

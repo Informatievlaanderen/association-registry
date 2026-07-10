@@ -25,9 +25,9 @@ public class ErkendeVmrWithTeVerlopenErkenningScenario : CommandhandlerScenarioB
             };
 
         var today = DateOnly.FromDateTime(DateTime.Now);
-        var einddatum = today.AddDays(-fixture.Create<int>() - 1);
-        var hernieuwingsdatum = einddatum.AddDays(-fixture.Create<int>() - 1);
-        var startdatum = hernieuwingsdatum.AddDays(-fixture.Create<int>() - 1);
+        var einddatum = today.AddDays(-fixture.Create<int>());
+        var hernieuwingsdatum = einddatum.AddDays(-fixture.Create<int>());
+        var startdatum = hernieuwingsdatum.AddDays(-fixture.Create<int>());
 
         ErkenningWerdGeregistreerdTeVerlopen = fixture.Create<ErkenningWerdGeregistreerd>() with
         {

@@ -18,7 +18,7 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithErke
         var fixture = new Fixture().CustomizeAdminApi();
 
         var today = DateOnly.FromDateTime(DateTime.Today);
-        var futureStart = today.AddDays(fixture.Create<int>() + 1);
+        var futureStart = today.AddDays(fixture.Create<int>());
 
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
