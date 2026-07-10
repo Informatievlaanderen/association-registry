@@ -2,30 +2,21 @@
   "uid": "f7ace415-6dd3-495d-8a22-43e37d2fbae4",
   "title": "ACM API",
   "tags": ["acm"],
-  "timezone": "browser",
-  "schemaVersion": 39,
+  "timezone": "Europe/Brussels",
+  "schemaVersion": 42,
   "refresh": "30s",
+  "time": { "from": "now-24h", "to": "now" },
   "templating": {
     "list": [
-      {
-        "name": "datasource",
-        "type": "datasource",
-        "label": "Prometheus",
-        "pluginId": "prometheus",
-        "query": "prometheus",
-        "refresh": 1,
-        "hide": 2,
-        "current": { "text": "Prometheus", "value": "prometheus" }
-      },
       {
         "name": "environment",
         "type": "query",
         "label": "Omgeving",
-        "datasource": { "type": "prometheus", "uid": "${datasource}" },
-        "definition": "label_values(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\"}, deployment_environment)",
+        "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
+        "definition": "label_values(target_info, deployment_environment)",
         "query": {
           "qryType": 1,
-          "query": "label_values(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\"}, deployment_environment)",
+          "query": "label_values(target_info, deployment_environment)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -50,12 +41,12 @@
       "id": 2,
       "type": "stat",
       "title": "Trage requests (>600ms)",
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
       "gridPos": { "x": 0, "y": 1, "w": 6, "h": 6 },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
           "expr": "sum(increase(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"+Inf\"}[$__rate_interval])) - sum(increase(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"0.6\"}[$__rate_interval]))",
           "legendFormat": "trage requests",
           "instant": false,
@@ -91,12 +82,12 @@
       "id": 3,
       "type": "stat",
       "title": "% requests > 600ms",
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
       "gridPos": { "x": 6, "y": 1, "w": 6, "h": 6 },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
           "expr": "100 * (sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"+Inf\"}[$__rate_interval])) - sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"0.6\"}[$__rate_interval]))) / sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"+Inf\"}[$__rate_interval]))",
           "legendFormat": "% traag",
           "instant": false,
@@ -132,12 +123,12 @@
       "id": 4,
       "type": "timeseries",
       "title": "Trage requests over tijd (>600ms)",
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
       "gridPos": { "x": 12, "y": 1, "w": 12, "h": 6 },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
           "expr": "sum by (http_route, http_request_method) (rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"+Inf\"}[$__rate_interval])) - sum by (http_route, http_request_method) (rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"0.6\"}[$__rate_interval]))",
           "legendFormat": "{{http_request_method}} {{http_route}}",
           "instant": false,
@@ -169,12 +160,12 @@
       "id": 6,
       "type": "timeseries",
       "title": "p99 Latency per endpoint (drempel: 600ms)",
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
       "gridPos": { "x": 0, "y": 8, "w": 24, "h": 10 },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
           "expr": "histogram_quantile(0.99, sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\"}[$__rate_interval])) by (le, http_route, http_request_method))",
           "legendFormat": "p99 {{http_request_method}} {{http_route}}",
           "instant": false,
@@ -205,12 +196,12 @@
       "id": 7,
       "type": "timeseries",
       "title": "p95 Latency per endpoint",
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
       "gridPos": { "x": 0, "y": 18, "w": 12, "h": 9 },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
           "expr": "histogram_quantile(0.95, sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\"}[$__rate_interval])) by (le, http_route, http_request_method))",
           "legendFormat": "p95 {{http_request_method}} {{http_route}}",
           "instant": false,
@@ -234,12 +225,12 @@
       "id": 8,
       "type": "timeseries",
       "title": "p50 Latency per endpoint",
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
       "gridPos": { "x": 12, "y": 18, "w": 12, "h": 9 },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "datasource": { "type": "prometheus", "uid": "fegwyij8qyz28d" },
           "expr": "histogram_quantile(0.50, sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\"}[$__rate_interval])) by (le, http_route, http_request_method))",
           "legendFormat": "p50 {{http_request_method}} {{http_route}}",
           "instant": false,
