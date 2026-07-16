@@ -20,7 +20,8 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
     {
         Name = ShardName.Name;
         _query = new GlobalKszPivotPointQuery(querySessionFactory);
-   }
+        DeleteEvent<Archived>();
+    }
 
     public async Task<VertegenwoordigersPerVCodeDocument> Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event)
     {
@@ -47,9 +48,8 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
         {
             VCode = @event.StreamKey,
             VertegenwoordigersData = @event
-                                    .Data.Vertegenwoordigers
-                                    .Select(v => new VertegenwoordigerData(v.VertegenwoordigerId, initialStatus))
-                                    .ToArray(),
+                .Data.Vertegenwoordigers.Select(v => new VertegenwoordigerData(v.VertegenwoordigerId, initialStatus))
+                .ToArray(),
         };
     }
 
@@ -59,11 +59,8 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
         var initialStatus = await DetermineInitialStatus(toegevoegdOp);
 
         document.VertegenwoordigersData = document
-                                         .VertegenwoordigersData
-                                         .Append(new VertegenwoordigerData(
-                                                     @event.Data.VertegenwoordigerId,
-                                                     initialStatus))
-                                         .ToArray();
+            .VertegenwoordigersData.Append(new VertegenwoordigerData(@event.Data.VertegenwoordigerId, initialStatus))
+            .ToArray();
     }
 
     public void Apply(IEvent<VerenigingWerdVerwijderd> @event, VertegenwoordigersPerVCodeDocument document)
@@ -74,9 +71,8 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
     public void Apply(IEvent<VertegenwoordigerWerdVerwijderd> @event, VertegenwoordigersPerVCodeDocument document)
     {
         document.VertegenwoordigersData = document
-                                         .VertegenwoordigersData
-                                         .Where(x => x.VertegenwoordigerId != @event.Data.VertegenwoordigerId)
-                                         .ToArray();
+            .VertegenwoordigersData.Where(x => x.VertegenwoordigerId != @event.Data.VertegenwoordigerId)
+            .ToArray();
     }
 
     public void Apply(
@@ -85,12 +81,11 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
     )
     {
         document.VertegenwoordigersData = document
-                                         .VertegenwoordigersData.UpdateSingle(
-                                              identityFunc: (v
-                                                  => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
-                                              update: (v => v with { Status = VertegenwoordigerKszStatus.Bevestigd })
-                                          )
-                                         .ToArray();
+            .VertegenwoordigersData.UpdateSingle(
+                identityFunc: (v => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
+                update: (v => v with { Status = VertegenwoordigerKszStatus.Bevestigd })
+            )
+            .ToArray();
     }
 
     public void Apply(
@@ -99,12 +94,11 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
     )
     {
         document.VertegenwoordigersData = document
-                                         .VertegenwoordigersData.UpdateSingle(
-                                              identityFunc: (v
-                                                  => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
-                                              update: (v => v with { Status = VertegenwoordigerKszStatus.Overleden })
-                                          )
-                                         .ToArray();
+            .VertegenwoordigersData.UpdateSingle(
+                identityFunc: (v => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
+                update: (v => v with { Status = VertegenwoordigerKszStatus.Overleden })
+            )
+            .ToArray();
     }
 
     public void Apply(
@@ -113,12 +107,11 @@ public class VertegenwoordigersPerVCodeProjection : SingleStreamProjection<Verte
     )
     {
         document.VertegenwoordigersData = document
-                                         .VertegenwoordigersData.UpdateSingle(
-                                              identityFunc: (v
-                                                  => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
-                                              update: (v => v with { Status = VertegenwoordigerKszStatus.NietGekend })
-                                          )
-                                         .ToArray();
+            .VertegenwoordigersData.UpdateSingle(
+                identityFunc: (v => v.VertegenwoordigerId == @event.Data.VertegenwoordigerId),
+                update: (v => v with { Status = VertegenwoordigerKszStatus.NietGekend })
+            )
+            .ToArray();
     }
 
     private async Task<string> DetermineInitialStatus(Instant toegevoegdOp)

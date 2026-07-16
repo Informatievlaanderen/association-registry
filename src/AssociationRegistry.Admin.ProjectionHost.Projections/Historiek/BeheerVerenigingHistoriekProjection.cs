@@ -38,6 +38,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         IDocumentOperations ops
     ) => DoCreate(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 
+    public void Project(IEvent<Archived> @event, IDocumentOperations ops) =>
+        ops.Delete<BeheerVerenigingHistoriekDocument>(@event.StreamKey!);
+
     public async Task Project(
         IEvent<VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerd> @event,
         IDocumentOperations ops

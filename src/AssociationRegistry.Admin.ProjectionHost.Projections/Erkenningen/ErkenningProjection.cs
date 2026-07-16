@@ -19,6 +19,12 @@ public class ErkenningProjection : EventProjection
         Options.DeleteViewTypeOnTeardown<ErkenningDocument>();
     }
 
+    public void Project(IEvent<Archived> @event, IDocumentOperations ops)
+    {
+        var vCode = @event.StreamKey!;
+        ops.DeleteWhere<ErkenningDocument>(x => x.VCode == vCode);
+    }
+
     public void Project(IEvent<ErkenningWerdGeregistreerd> @event, IDocumentOperations ops)
     {
         var vCode = @event.StreamKey!;

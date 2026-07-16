@@ -180,6 +180,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops) =>
         await SoftDelete(@event.StreamKey, ops);
 
+    public void Project(IEvent<Archived> @event, IDocumentOperations ops) =>
+        ops.Delete<BeheerVerenigingDetailDocument>(@event.StreamKey!);
+
     public async Task Project(IEvent<NaamWerdGewijzigdInKbo> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
