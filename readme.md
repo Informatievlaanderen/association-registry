@@ -41,12 +41,3 @@ docker compose down -v
 
 - **Beheer zoeken** is fixed: `IsErkend` is now set from `VerenigingWerdErkend` / `VerenigingWerdNietLangerErkend`.
 - Admin zoeken projection tests (`Beheer.Zoeken.Erkenningen`): **13/13 passing**.
-
-### TODO
-
-1. Fix domain event emission for the verlopen transition so `VerenigingWerdNietLangerErkend` is emitted when no active erkenning remains.
-2. Stabilize command handler status-transition tests (`When_Erkenning_Werd_Verlopen`, `When_Hef_Schorsing_Erkenning_Op`).
-3. Fix Admin API search integration tests (`When_Searching_An_Erkende_Vereniging`) — indexed documents currently return `IsErkend = false`.
-4. Add no-op projection handlers for `VerenigingWerdErkend` / `VerenigingWerdNietLangerErkend` in Detail, Historiek, PowerBi and sequence projections (sanity checks currently fail).
-5. Decide whether to apply the same `IsErkend` logic to **Publiek zoeken**.
-
