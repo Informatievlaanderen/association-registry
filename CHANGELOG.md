@@ -1,3 +1,10 @@
+# [8.336.0](https://github.com/informatievlaanderen/association-registry/compare/v8.335.2...v8.336.0) (2026-07-16)
+
+
+### Features
+
+* or-3248 introduce 'vereniging werd (niet langer) erkend' events ([393ca7a](https://github.com/informatievlaanderen/association-registry/commit/393ca7a74a675f28c7fa68b9435719585cbdbd13))
+
 ## [8.335.2](https://github.com/informatievlaanderen/association-registry/compare/v8.335.1...v8.335.2) (2026-07-10)
 
 
