@@ -1,3 +1,10 @@
+## [8.337.1](https://github.com/informatievlaanderen/association-registry/compare/v8.337.0...v8.337.1) (2026-07-16)
+
+
+### Bug Fixes
+
+* remove outdated dod (force build) ([84047c6](https://github.com/informatievlaanderen/association-registry/commit/84047c6dd95d70fa60ead83aba76674376f1c5df))
+
 # [8.337.0](https://github.com/informatievlaanderen/association-registry/compare/v8.336.0...v8.337.0) (2026-07-16)
 
 
