@@ -35,18 +35,22 @@ public class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieL
             VCode = x.VCode,
         });
 
-        ProjectEvent<AdresWerdOvergenomenUitAdressenregister>((doc, e) =>
-        {
-            doc.AdresPuri = e.AdresId.Bronwaarde;
-            doc.AdresId = e.AdresId.ToId();
-        });
+        ProjectEvent<AdresWerdOvergenomenUitAdressenregister>(
+            (doc, e) =>
+            {
+                doc.AdresPuri = e.AdresId.Bronwaarde;
+                doc.AdresId = e.AdresId.ToId();
+            }
+        );
 
         Identity<AdresWerdGewijzigdInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        ProjectEvent<AdresWerdGewijzigdInAdressenregister>((doc, @event) =>
-        {
-            doc.AdresPuri = @event.AdresId.Bronwaarde;
-            doc.AdresId = new Uri(@event.AdresId.Bronwaarde).Segments[^1].TrimEnd('/');
-        });
+        ProjectEvent<AdresWerdGewijzigdInAdressenregister>(
+            (doc, @event) =>
+            {
+                doc.AdresPuri = @event.AdresId.Bronwaarde;
+                doc.AdresId = new Uri(@event.AdresId.Bronwaarde).Segments[^1].TrimEnd('/');
+            }
+        );
 
         Identity<LocatieWerdVerwijderd>(x => $"{x.VCode}-{x.Locatie.LocatieId}");
         DeleteEvent<LocatieWerdVerwijderd>();
@@ -65,6 +69,7 @@ public class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieL
 
         CustomGrouping(new LocatieLookupGrouper(logger));
         DeleteEvent<VerenigingWerdVerwijderd>();
+        DeleteEvent<Archived>();
     }
 }
 
@@ -79,38 +84,41 @@ public class LocatieLookupGrouper : IAggregateGrouper<string>
 
     public async Task Group(IQuerySession session, IEnumerable<IEvent> events, IEventGrouping<string> grouping)
     {
-        var verwijderdEvents = events
-                              .OfType<IEvent<VerenigingWerdVerwijderd>>()
-                              .ToList();
+        var eventList = events.ToList();
 
-        if (!verwijderdEvents.Any())
+        var verwijderdEvents = eventList.OfType<IEvent<VerenigingWerdVerwijderd>>().Cast<IEvent>().ToList();
+
+        var archivedEvents = eventList.OfType<IEvent<Archived>>().Cast<IEvent>().ToList();
+
+        var deletionEvents = verwijderdEvents.Concat(archivedEvents).ToList();
+
+        if (!deletionEvents.Any())
             return;
 
-        foreach (var verwijderd in verwijderdEvents)
+        foreach (var deletion in deletionEvents)
         {
-            _logger.LogInformation($"[{verwijderd.StreamKey}]\tFound Verwijderd event with id {verwijderd.Sequence}");
+            _logger.LogInformation(
+                $"[{deletion.StreamKey}]\tFound deletion event {deletion.EventTypeName} with id {deletion.Sequence}"
+            );
         }
 
-        var vCodes = verwijderdEvents
-                    .Select(e => e.Data.VCode)
-                    .ToList();
+        var vCodes = deletionEvents.Select(e => e.StreamKey!).Distinct().ToList();
 
-        var result = await session.Query<LocatieLookupDocument>()
-                                  .Where(x => vCodes.Contains(x.VCode))
-                                  .ToListAsync();
+        var result = await session.Query<LocatieLookupDocument>().Where(x => vCodes.Contains(x.VCode)).ToListAsync();
 
-        foreach (var verwijderd in verwijderdEvents)
+        foreach (var deletion in deletionEvents)
         {
-            _logger.LogInformation($"[{verwijderd.StreamKey}]\tFound {result.Count} related lookup documents");
+            _logger.LogInformation($"[{deletion.StreamKey}]\tFound {result.Count} related lookup documents");
         }
 
         foreach (var locatieLookupDocument in result)
         {
-            var verwijderd = verwijderdEvents.Single(x => x.StreamKey == locatieLookupDocument.VCode);
-            grouping.AddEvent(locatieLookupDocument.Id, verwijderd);
+            var deletion = deletionEvents.Single(x => x.StreamKey == locatieLookupDocument.VCode);
+            grouping.AddEvent(locatieLookupDocument.Id, deletion);
 
             _logger.LogInformation(
-                $"[{verwijderd.StreamKey}]\tAdding event {verwijderd.Sequence} to lookup document {locatieLookupDocument.Id}");
+                $"[{deletion.StreamKey}]\tAdding event {deletion.Sequence} to lookup document {locatieLookupDocument.Id}"
+            );
         }
     }
 }

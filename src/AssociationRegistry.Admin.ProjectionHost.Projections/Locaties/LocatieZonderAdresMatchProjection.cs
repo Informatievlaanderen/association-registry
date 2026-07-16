@@ -3,6 +3,7 @@
 using DecentraalBeheer.Vereniging;
 using Events;
 using Integrations.Grar.Clients;
+using JasperFx.Events;
 using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,8 @@ public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZ
         Options.EnableDocumentTrackingByIdentity = true;
         Options.MaximumHopperSize = 1;
         Options.DeleteViewTypeOnTeardown<LocatieZonderAdresMatchDocument>();
+
+        DeleteEvent<Archived>();
 
         CreateEvent<FeitelijkeVerenigingWerdGeregistreerd>(e => new LocatieZonderAdresMatchDocument()
         {

@@ -15,6 +15,7 @@ public class PowerBiExportDubbelDetectieProjection : SingleStreamProjection<Powe
     public PowerBiExportDubbelDetectieProjection()
     {
         Name = ShardName.Name;
+        DeleteEvent<Archived>();
     }
 
     public PowerBiExportDubbelDetectieDocument Create(

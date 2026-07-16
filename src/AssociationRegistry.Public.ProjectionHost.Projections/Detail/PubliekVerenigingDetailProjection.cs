@@ -40,6 +40,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
         IDocumentOperations ops
     ) => DoCreate(@event, ops, PubliekVerenigingDetailProjector.Create);
 
+    public void Project(IEvent<Archived> @event, IDocumentOperations ops) =>
+        ops.Delete<PubliekVerenigingDetailDocument>(@event.StreamKey!);
+
     public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops)
     {
         var updateDocs = Enumerable.Empty<PubliekVerenigingDetailDocument>().ToList();

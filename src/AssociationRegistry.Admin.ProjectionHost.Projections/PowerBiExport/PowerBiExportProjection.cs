@@ -31,6 +31,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public PowerBiExportProjection()
     {
         Name = ShardName.Name;
+        DeleteEvent<Archived>();
     }
 
     private static void UpdateHistoriek(PowerBiExportDocument document, IEvent @event) =>

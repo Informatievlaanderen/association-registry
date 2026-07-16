@@ -521,6 +521,7 @@ public class Program
             .AddTransient<IEventStore, EventStore>()
             .AddScoped<ISyncKszMessageHandler, SyncKszMessageHandler>()
             .AddTransient<IVerenigingStateQueryService, VerenigingStateQueryService>()
+            .AddTransient<IStreamArchivalService, StreamArchivalService>()
             .AddTransient<INewAggregateSession, NewAggregateSession>()
             .AddTransient<IAggregateSession, AggregateSession>()
             .AddTransient<IDubbelDetectieRepository, DubbelDetectieRepository>()

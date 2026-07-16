@@ -1,13 +1,14 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Events;
 using JasperFx.Events;
+using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Projections;
 using Schema.VerenigingenPerInsz;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using JasperFx.Events.Projections;
 
 public class VerenigingenPerInszProjection : EventProjection
 {
@@ -22,7 +23,6 @@ public class VerenigingenPerInszProjection : EventProjection
         Options.BatchSize = 1;
         Options.MaximumHopperSize = 1;
         Options.DeleteViewTypeOnTeardown<VerenigingenPerInszDocument>();
-        Options.DeleteViewTypeOnTeardown<VerenigingDocument>();
     }
 
     public async Task Project(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
@@ -35,7 +35,10 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+    public async Task Project(
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd,
+        IDocumentOperations ops
+    )
     {
         var docs = new List<object>();
 
@@ -54,7 +57,10 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo,
+        IDocumentOperations ops
+    )
     {
         var docs = new List<object>();
 
@@ -84,30 +90,36 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
-        => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdToegevoegd, ops));
+    public async Task Project(
+        IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
+        IDocumentOperations ops
+    ) => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdToegevoegd, ops));
 
-    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
-        => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdVerwijderd, ops));
-    public async Task Project(IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
-        => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdVerwijderd, ops));
-    public async Task Project(IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
-        => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdVerwijderd, ops));
+    public async Task Project(
+        IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd,
+        IDocumentOperations ops
+    ) => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdVerwijderd, ops));
+
+    public async Task Project(
+        IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> vertegenwoordigerWerdVerwijderd,
+        IDocumentOperations ops
+    ) => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdVerwijderd, ops));
+
+    public async Task Project(
+        IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> vertegenwoordigerWerdVerwijderd,
+        IDocumentOperations ops
+    ) => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdVerwijderd, ops));
 
     public async Task Project(
         IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
-        IDocumentOperations ops)
-        => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, ops));
+        IDocumentOperations ops
+    ) => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, ops));
 
-    public async Task Project(
-        IEvent<VertegenwoordigerWerdToegevoegdVanuitKBO> @event,
-        IDocumentOperations ops)
-        => ops.Store(await VerenigingenPerInszProjector.Apply(@event, ops));
+    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegdVanuitKBO> @event, IDocumentOperations ops) =>
+        ops.Store(await VerenigingenPerInszProjector.Apply(@event, ops));
 
-    public async Task Project(
-        IEvent<VertegenwoordigerWerdVerwijderdUitKBO> @event,
-        IDocumentOperations ops)
-        => ops.Store(await VerenigingenPerInszProjector.Apply(@event, ops));
+    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderdUitKBO> @event, IDocumentOperations ops) =>
+        ops.Store(await VerenigingenPerInszProjector.Apply(@event, ops));
 
     public async Task Project(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, IDocumentOperations ops)
     {
@@ -129,7 +141,27 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbelVan, IDocumentOperations ops)
+    public async Task Project(IEvent<Archived> archived, IDocumentOperations ops)
+    {
+        var streamKey = archived.StreamKey!;
+
+        var documents = await ops.GetVerenigingenPerInszDocuments(streamKey);
+
+        foreach (var doc in documents)
+        {
+            doc.Verenigingen = doc.Verenigingen.Where(v => v.VCode != streamKey).ToList();
+
+            if (doc.Verenigingen.Count == 0)
+                ops.Delete<VerenigingenPerInszDocument>(doc.Insz);
+            else
+                ops.Store(doc);
+        }
+    }
+
+    public async Task Project(
+        IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbelVan,
+        IDocumentOperations ops
+    )
     {
         var docs = new List<object>();
 
@@ -138,7 +170,10 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(IEvent<VerenigingAanvaarddeDubbeleVereniging> verenigingAanvaarddeDubbeleVereniging, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<VerenigingAanvaarddeDubbeleVereniging> verenigingAanvaarddeDubbeleVereniging,
+        IDocumentOperations ops
+    )
     {
         var docs = new List<object>();
 
@@ -150,7 +185,8 @@ public class VerenigingenPerInszProjection : EventProjection
 
     public async Task Project(
         IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> @event,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<object>();
 
@@ -161,7 +197,8 @@ public class VerenigingenPerInszProjection : EventProjection
 
     public async Task Project(
         IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> markeringDubbeleVerengingWerdGecorrigeerd,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<object>();
 
@@ -170,9 +207,7 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(
-        IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> @event,
-        IDocumentOperations ops)
+    public async Task Project(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> @event, IDocumentOperations ops)
     {
         var docs = new List<object>();
 
@@ -184,7 +219,8 @@ public class VerenigingenPerInszProjection : EventProjection
 
     public async Task Project(
         IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<object>();
 
@@ -196,7 +232,8 @@ public class VerenigingenPerInszProjection : EventProjection
 
     public async Task Project(
         IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<object>();
 
@@ -206,9 +243,7 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(
-        IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event,
-        IDocumentOperations ops)
+    public async Task Project(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, IDocumentOperations ops)
     {
         var docs = new List<object>();
 
@@ -218,9 +253,7 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(
-        IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event,
-        IDocumentOperations ops)
+    public async Task Project(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, IDocumentOperations ops)
     {
         var docs = new List<object>();
 
@@ -229,6 +262,4 @@ public class VerenigingenPerInszProjection : EventProjection
 
         ops.StoreObjects(docs);
     }
-
-
 }

@@ -62,5 +62,13 @@ public class BeheerKszSyncHistoriekProjection : EventProjection
                 );
             }
         );
+
+        Project<IEvent<Archived>>(
+            (@event, operations) =>
+            {
+                var vCode = @event.StreamKey!;
+                operations.DeleteWhere<BeheerKszSyncHistoriekGebeurtenisDocument>(x => x.VCode == vCode);
+            }
+        );
     }
 }

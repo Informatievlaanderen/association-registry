@@ -14,6 +14,7 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
     {
         Name = ShardName.Name;
         Options.DeleteViewTypeOnTeardown<PubliekVerenigingSequenceDocument>();
+        DeleteEvent<Archived>();
     }
 
     public PubliekVerenigingSequenceDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> e) =>

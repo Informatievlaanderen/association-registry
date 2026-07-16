@@ -47,5 +47,13 @@ public class BeheerKboSyncHistoriekProjection : EventProjection
                 );
             }
         );
+
+        Project<IEvent<Archived>>(
+            (@event, operations) =>
+            {
+                var vCode = @event.StreamKey!;
+                operations.DeleteWhere<BeheerKboSyncHistoriekGebeurtenisDocument>(x => x.VCode == vCode);
+            }
+        );
     }
 }
