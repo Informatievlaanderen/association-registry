@@ -6,14 +6,10 @@ using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using Events;
 using FluentAssertions;
-using JasperFx;
-using JasperFx.Events;
-using Marten;
 using MartenDb.Setup;
 using MartenDb.Store;
 using MartenDb.VCodeGeneration;
 using Vereniging;
-using Weasel.Core;
 using Xunit;
 
 public class When_Registering_After_Archival
@@ -28,24 +24,11 @@ public class When_Registering_After_Archival
     [Fact]
     public async ValueTask The_Archived_VCode_Is_Not_Reused()
     {
-        const string schema = "StreamArchivalReuse";
+        await using var store = await TestDocumentStoreFactory.CreateAsync(
+            "StreamArchivalReuse",
+            options => options.AddVCodeSequence()
+        );
 
-        await using var store = DocumentStore.For(options =>
-        {
-            options.Connection(
-                "host=127.0.0.1:5432;" + "database=verenigingsregister;" + "password=root;" + "username=root"
-            );
-
-            options.Events.StreamIdentity = StreamIdentity.AsString;
-            options.DatabaseSchemaName = schema;
-            options.Events.DatabaseSchemaName = schema;
-            options.AutoCreateSchemaObjects = AutoCreate.All;
-            options.Events.MetadataConfig.EnableAll();
-            options.Serializer(TestDocumentStoreFactory.CreateCustomMartenSerializer());
-            options.AddVCodeSequence();
-        });
-
-        await store.Advanced.ResetAllData();
         await store.Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
         var vCodeService = new SequenceVCodeService(store);
@@ -76,6 +59,8 @@ public class When_Registering_After_Archival
         var vCodeB = await vCodeService.GetNext();
 
         vCodeB.Should().NotBe(vCodeA);
-        int.Parse(vCodeB.ToString().Substring(1)).Should().BeGreaterThan(int.Parse(vCodeA.ToString().Substring(1)));
+        ExtractSequenceNumber(vCodeB).Should().BeGreaterThan(ExtractSequenceNumber(vCodeA));
     }
+
+    private static int ExtractSequenceNumber(VCode vCode) => int.Parse(vCode.ToString()[1..]);
 }

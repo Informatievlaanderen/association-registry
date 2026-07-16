@@ -12,14 +12,13 @@ using Weasel.Core;
 
 public static class TestDocumentStoreFactory
 {
-    public static async Task<DocumentStore> CreateAsync(string schema)
+    public static async Task<DocumentStore> CreateAsync(string schema, Action<StoreOptions>? configure = null)
     {
         var documentStore = DocumentStore.For(options =>
         {
-            options.Connection("host=127.0.0.1:5432;" +
-                               "database=verenigingsregister;" +
-                               "password=root;" +
-                               "username=root");
+            options.Connection(
+                "host=127.0.0.1:5432;" + "database=verenigingsregister;" + "password=root;" + "username=root"
+            );
 
             options.Events.StreamIdentity = StreamIdentity.AsString;
 
@@ -34,6 +33,8 @@ public static class TestDocumentStoreFactory
                 settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                 settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
             });
+
+            configure?.Invoke(options);
         });
 
         await documentStore.Advanced.ResetAllData();
@@ -45,10 +46,7 @@ public static class TestDocumentStoreFactory
     {
         var jsonNetSerializer = new JsonNetSerializer();
 
-        jsonNetSerializer.Configure(
-            s =>
-            {
-            });
+        jsonNetSerializer.Configure(s => { });
 
         return jsonNetSerializer;
     }
