@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 
+using global::AutoFixture;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
 using Events;
-using global::AutoFixture;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningScenario : CommandhandlerScenarioBase
 {
@@ -20,7 +20,17 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithErkenningSce
                 VCode = VCode,
             };
 
-        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>();
+        var today = DateOnly.FromDateTime(DateTime.Today);
+        var startdatum = today.AddDays(-fixture.Create<int>());
+        var hernieuwingsdatum = today.AddDays(fixture.Create<int>());
+        var einddatum = hernieuwingsdatum.AddDays(fixture.Create<int>());
+
+        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>() with
+        {
+            Startdatum = startdatum,
+            Hernieuwingsdatum = hernieuwingsdatum,
+            Einddatum = einddatum,
+        };
     }
 
     public override IEnumerable<IEvent> Events() =>

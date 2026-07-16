@@ -22,7 +22,14 @@ public class ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpGeschorsteErkenning
                 VCode = VCode,
             };
 
-        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>();
+        var today = DateOnly.FromDateTime(DateTime.Now);
+
+        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>() with
+        {
+            Startdatum = today.AddDays(-fixture.Create<int>()),
+            Einddatum = today.AddDays(fixture.Create<int>()),
+        };
+
         ErkenningWerdGeschorst = fixture.Create<ErkenningWerdGeschorst>() with
         {
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,

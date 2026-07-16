@@ -6,55 +6,75 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling;
 using Common.StubsMocksFakes.VerenigingsRepositories;
+using Events;
 
 public class VerloopErkenningContext<TScenario>
     where TScenario : CommandhandlerScenarioBase
 {
-    private readonly Fixture _fixture;
+    public Fixture Fixture { get; }
     private readonly Func<TScenario, int> _defaultErkenningId;
+    private readonly VerloopErkenningCommandHandler _commandHandler;
 
     public TScenario Scenario { get; }
     public AggregateSessionMock AggregateSessionMock { get; }
-    public CommandMetadata Metadata { get; }
-
-    private readonly VerloopErkenningCommandHandler _commandHandler;
-    public VerloopErkenningCommand VerloopErkenningCommand { get; private set; }
+    public CommandMetadata Metadata { get; private set; }
+    public VerloopErkenningCommand Command { get; private set; } = null!;
 
     public VerloopErkenningContext(
         TScenario scenario,
         Func<TScenario, int> defaultErkenningId,
-        Func<TScenario, string>? defaultInitiator = null)
+        Func<TScenario, string>? defaultInitiator = null
+    )
     {
-        _fixture = new Fixture().CustomizeAdminApi();
+        Fixture = new Fixture().CustomizeAdminApi();
         Scenario = scenario;
         _defaultErkenningId = defaultErkenningId;
         AggregateSessionMock = new AggregateSessionMock(Scenario.GetVerenigingState(), expectedLoadingDubbel: true);
         _commandHandler = new VerloopErkenningCommandHandler(AggregateSessionMock);
         Metadata = defaultInitiator is not null
-            ? _fixture.Create<CommandMetadata>() with
+            ? Fixture.Create<CommandMetadata>() with
             {
                 Initiator = defaultInitiator(Scenario),
             }
-            : _fixture.Create<CommandMetadata>();
-        VerloopErkenningCommand = CreateCommand();
+            : Fixture.Create<CommandMetadata>();
     }
 
-    private VerloopErkenningCommand CreateCommand()
-        => VerloopErkenningCommand = _fixture.Create<VerloopErkenningCommand>() with
+    public static VerloopErkenningContext<TScenario> Given(
+        TScenario scenario,
+        Func<TScenario, int> erkenningIdSelector,
+        Func<TScenario, string>? defaultInitiator = null
+    ) => new(scenario, erkenningIdSelector, defaultInitiator);
+
+    public VerloopErkenningContext<TScenario> WithCommand(
+        Func<VerloopErkenningCommand, VerloopErkenningCommand> configure
+    )
+    {
+        Command = CreateCommand();
+        Command = configure(Command);
+
+        return this;
+    }
+
+    public VerloopErkenningContext<TScenario> WithInitiator(string? ovoCode = null)
+    {
+        Metadata = Metadata with { Initiator = ovoCode ?? Fixture.Create<string>() };
+
+        return this;
+    }
+
+    public async ValueTask<VerloopErkenningContext<TScenario>> WhenHandled()
+    {
+        await _commandHandler.Handle(new CommandEnvelope<VerloopErkenningCommand>(Command, Metadata));
+
+        return this;
+    }
+
+    public void ShouldHaveSaved(params IEvent[] events) => AggregateSessionMock.ShouldHaveSavedExact(events);
+
+    private VerloopErkenningCommand CreateCommand() =>
+        Fixture.Create<VerloopErkenningCommand>() with
         {
             VCode = Scenario.VCode,
             ErkenningId = _defaultErkenningId(Scenario),
         };
-
-    public int CreateUnknownErkenningId() => _defaultErkenningId(Scenario) + _fixture.Create<int>();
-
-    public CommandMetadata CreateMetadata(string? initiator = null)
-        => _fixture.Create<CommandMetadata>() with
-        {
-            Initiator = initiator ?? _fixture.Create<string>(),
-        };
-
-    public async ValueTask Handle(VerloopErkenningCommand command, CommandMetadata? metadata = null)
-        => await _commandHandler.Handle(
-            new CommandEnvelope<VerloopErkenningCommand>(command, metadata ?? Metadata));
 }

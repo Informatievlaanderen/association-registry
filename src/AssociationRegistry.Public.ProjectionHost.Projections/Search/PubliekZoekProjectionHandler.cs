@@ -646,46 +646,14 @@ public class PubliekZoekProjectionHandler
             .ToArray();
     }
 
-    public void Handle(EventEnvelope<ErkenningWerdGeregistreerd> @event, VerenigingZoekDocument document)
+    public void Handle(EventEnvelope<VerenigingWerdErkend> _, VerenigingZoekDocument document)
     {
-        document.Erkenningen.Add(@event.Data.ErkenningId, @event.Data.Status);
-        document.IsErkend = document.Erkenningen.Any(x => x.Value == ErkenningStatus.Actief.Value);
+        document.IsErkend = true;
     }
 
-    public void Handle(EventEnvelope<ErkenningWerdGeactiveerd> @event, VerenigingZoekDocument document)
+    public void Handle(EventEnvelope<VerenigingWerdNietLangerErkend> _, VerenigingZoekDocument document)
     {
-        document.Erkenningen[@event.Data.ErkenningId] = ErkenningStatus.Actief.Value;
-        document.IsErkend = document.Erkenningen.Values.Any(x => x == ErkenningStatus.Actief.Value);
-    }
-
-    public void Handle(EventEnvelope<ErkenningWerdVerlopen> @event, VerenigingZoekDocument document)
-    {
-        document.Erkenningen[@event.Data.ErkenningId] = ErkenningStatus.Verlopen.Value;
-        document.IsErkend = document.Erkenningen.Values.Any(x => x == ErkenningStatus.Actief.Value);
-    }
-
-    public void Handle(EventEnvelope<ErkenningWerdGeschorst> @event, VerenigingZoekDocument document)
-    {
-        document.Erkenningen[@event.Data.ErkenningId] = ErkenningStatus.Geschorst.Value;
-        document.IsErkend = document.Erkenningen.Values.Any(x => x == ErkenningStatus.Actief.Value);
-    }
-
-    public void Handle(EventEnvelope<ErkenningWerdGewijzigd> @event, VerenigingZoekDocument document)
-    {
-        document.Erkenningen[@event.Data.ErkenningId] = @event.Data.Status;
-        document.IsErkend = document.Erkenningen.Values.Any(x => x == ErkenningStatus.Actief.Value);
-    }
-
-    public void Handle(EventEnvelope<ErkenningWerdVerwijderd> @event, VerenigingZoekDocument document)
-    {
-        document.Erkenningen.Remove(@event.Data.ErkenningId);
-        document.IsErkend = document.Erkenningen.Values.Any(x => x == ErkenningStatus.Actief.Value);
-    }
-
-    public void Handle(EventEnvelope<SchorsingVanErkenningWerdOpgeheven> @event, VerenigingZoekDocument document)
-    {
-        document.Erkenningen[@event.Data.ErkenningId] = @event.Data.Status;
-        document.IsErkend = document.Erkenningen.Values.Any(x => x == ErkenningStatus.Actief.Value);
+        document.IsErkend = false;
     }
 
     private static VerenigingZoekDocument.Types.Lidmaatschap Map(

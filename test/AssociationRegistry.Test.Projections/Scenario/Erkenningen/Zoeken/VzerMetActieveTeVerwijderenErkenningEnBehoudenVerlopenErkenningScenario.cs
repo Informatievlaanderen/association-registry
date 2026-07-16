@@ -11,6 +11,8 @@ public class VzerMetActieveTeVerwijderenErkenningEnBehoudenVerlopenErkenningScen
     public ErkenningWerdGeregistreerd VerlopenErkenningWerdGerigstreerd { get; }
     public ErkenningWerdGeregistreerd TeVerwijderenActieveErkenningWerdVerwijderd { get; }
     public ErkenningWerdVerwijderd ErkenningWerdVerwijderd { get; }
+    public VerenigingWerdErkend VerenigingWerdErkend { get; }
+    public VerenigingWerdNietLangerErkend VerenigingWerdNietLangerErkend { get; }
 
     public VzerMetActieveTeVerwijderenErkenningEnBehoudenVerlopenErkenningScenario()
     {
@@ -31,6 +33,9 @@ public class VzerMetActieveTeVerwijderenErkenningEnBehoudenVerlopenErkenningScen
         {
             ErkenningId = TeVerwijderenActieveErkenningWerdVerwijderd.ErkenningId,
         };
+
+        VerenigingWerdErkend = new VerenigingWerdErkend();
+        VerenigingWerdNietLangerErkend = new VerenigingWerdNietLangerErkend();
     }
 
     public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
@@ -42,7 +47,9 @@ public class VzerMetActieveTeVerwijderenErkenningEnBehoudenVerlopenErkenningScen
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
                 TeVerwijderenActieveErkenningWerdVerwijderd,
                 VerlopenErkenningWerdGerigstreerd,
-                ErkenningWerdVerwijderd
+                VerenigingWerdErkend,
+                ErkenningWerdVerwijderd,
+                VerenigingWerdNietLangerErkend
             ),
         ];
 }

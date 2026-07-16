@@ -120,13 +120,8 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(SubverenigingRelatieWerdGewijzigd):
                 case nameof(SubverenigingDetailsWerdenGewijzigd):
                 case nameof(GeotagsWerdenBepaald):
-                case nameof(ErkenningWerdGeregistreerd):
-                case nameof(ErkenningWerdGeactiveerd):
-                case nameof(ErkenningWerdVerlopen):
-                case nameof(ErkenningWerdGeschorst):
-                case nameof(ErkenningWerdGewijzigd):
-                case nameof(ErkenningWerdVerwijderd):
-                case nameof(SchorsingVanErkenningWerdOpgeheven):
+                case nameof(VerenigingWerdErkend):
+                case nameof(VerenigingWerdNietLangerErkend):
                 case nameof(KBOStatusWerdGecorrigeerdNaarActief):
                     try
                     {

@@ -1,10 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
-using DecentraalBeheer.Vereniging;
 using global::AutoFixture;
+using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using Events;
 using Magda.Kbo;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : CommandhandlerScenarioBase
@@ -18,17 +17,19 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : Comma
         var fixture = new Fixture().CustomizeAdminApi();
 
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
-            fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
+            fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
+            {
+                VCode = VCode,
+            };
     }
 
-    public override IEnumerable<IEvent> Events()
-        => new IEvent[]
-        {
-            VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-        };
+    public readonly List<IEvent> additionalEvents = new();
 
-    public VerenigingVolgensKbo VerenigingVolgensKbo
-        => new()
+    public override IEnumerable<IEvent> Events() =>
+        new IEvent[] { VerenigingMetRechtspersoonlijkheidWerdGeregistreerd }.Concat(additionalEvents);
+
+    public VerenigingVolgensKbo VerenigingVolgensKbo =>
+        new()
         {
             Naam = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
             KboNummer = KboNummer.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer),
@@ -55,23 +56,32 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAdresScenari
         var fixture = new Fixture().CustomizeAdminApi();
 
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
-            fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
+            fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
+            {
+                VCode = VCode,
+            };
 
         MaatschappelijkeZetelWerdOvergenomenUitKbo = new MaatschappelijkeZetelWerdOvergenomenUitKbo(
-            Locatie: new Registratiedata.Locatie(LocatieId: 1, Naam: string.Empty, IsPrimair: false, AdresId: null,
-                                                 Locatietype: Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
-                                                 Adres: fixture.Create<Registratiedata.Adres>()));
+            Locatie: new Registratiedata.Locatie(
+                LocatieId: 1,
+                Naam: string.Empty,
+                IsPrimair: false,
+                AdresId: null,
+                Locatietype: Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                Adres: fixture.Create<Registratiedata.Adres>()
+            )
+        );
     }
 
-    public override IEnumerable<IEvent> Events()
-        => new IEvent[]
+    public override IEnumerable<IEvent> Events() =>
+        new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             MaatschappelijkeZetelWerdOvergenomenUitKbo,
         };
 
-    public VerenigingVolgensKbo VerenigingVolgensKbo
-        => new()
+    public VerenigingVolgensKbo VerenigingVolgensKbo =>
+        new()
         {
             Naam = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
             KboNummer = KboNummer.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer),
@@ -85,8 +95,8 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAdresScenari
             EindDatum = null,
         };
 
-    public AdresVolgensKbo AdresVolgensKbo
-        => new()
+    public AdresVolgensKbo AdresVolgensKbo =>
+        new()
         {
             Straatnaam = MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Straatnaam,
             Huisnummer = MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Huisnummer,

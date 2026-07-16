@@ -13,6 +13,7 @@ public class V025_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWit
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly ErkenningWerdGeregistreerd ActieveErkenningWerdGeregistreerd;
+    public readonly VerenigingWerdErkend VerenigingWerdErkend;
 
     public V025_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithActieveErkenningForSearchOnErkenningScenario()
     {
@@ -27,6 +28,8 @@ public class V025_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWit
         {
             Status = ErkenningStatus.Actief.Value,
         };
+
+        VerenigingWerdErkend = fixture.Create<VerenigingWerdErkend>();
     }
 
     public VCode VCode => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
@@ -38,6 +41,7 @@ public class V025_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWit
             FeitelijkeVerenigingWerdGeregistreerd,
             ActieveErkenningWerdGeregistreerd,
             new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
+            VerenigingWerdErkend,
         };
     }
 

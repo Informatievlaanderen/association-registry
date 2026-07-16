@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 
 using global::AutoFixture;
-using AssociationRegistry.DecentraalBeheer.Vereniging;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Common.AutoFixture;
+using AutoFixture;
+using DecentraalBeheer.Vereniging;
+using Events;
 
 public class ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpGeschorsteErkenningScenario : CommandhandlerScenarioBase
 {
@@ -21,8 +21,13 @@ public class ErkenningOpvolgersWerdenToegevoegdAlsBeheerderOpGeschorsteErkenning
             {
                 VCode = VCode,
             };
+        var today = DateOnly.FromDateTime(DateTime.Now);
 
-        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>();
+        ErkenningWerdGeregistreerd = fixture.Create<ErkenningWerdGeregistreerd>() with
+        {
+            Startdatum = today.AddDays(-fixture.Create<int>()),
+            Einddatum = today.AddDays(fixture.Create<int>()),
+        };
         ErkenningWerdGeschorst = fixture.Create<ErkenningWerdGeschorst>() with
         {
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,

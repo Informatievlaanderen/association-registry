@@ -35,3 +35,9 @@ docker compose down -v
 - collections are empty or have values (never NULL)
 - objects can be NULL
 
+## WIP — OR-3248 (temporary)
+
+### Current state
+
+- **Beheer zoeken** is fixed: `IsErkend` is now set from `VerenigingWerdErkend` / `VerenigingWerdNietLangerErkend`.
+- Admin zoeken projection tests (`Beheer.Zoeken.Erkenningen`): **13/13 passing**.

@@ -10,6 +10,7 @@ public class VzerMetGeschorsteErkenningWerdOpgehevenNaarActiefScenario : Scenari
     public ErkenningWerdGeregistreerd ErkenningWerdGeregistreerd { get; }
     public ErkenningWerdGeschorst ErkenningWerdGeschorst { get; }
     public SchorsingVanErkenningWerdOpgeheven SchorsingVanErkenningWerdOpgeheven { get; }
+    public VerenigingWerdErkend VerenigingWerdErkend { get; }
 
     public VzerMetGeschorsteErkenningWerdOpgehevenNaarActiefScenario()
     {
@@ -28,6 +29,8 @@ public class VzerMetGeschorsteErkenningWerdOpgehevenNaarActiefScenario : Scenari
             ErkenningId = ErkenningWerdGeregistreerd.ErkenningId,
             Status = ErkenningStatus.Actief.Value,
         };
+
+        VerenigingWerdErkend = new VerenigingWerdErkend();
     }
 
     public override string AggregateId => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
@@ -39,7 +42,8 @@ public class VzerMetGeschorsteErkenningWerdOpgehevenNaarActiefScenario : Scenari
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
                 ErkenningWerdGeregistreerd,
                 ErkenningWerdGeschorst,
-                SchorsingVanErkenningWerdOpgeheven
+                SchorsingVanErkenningWerdOpgeheven,
+                VerenigingWerdErkend
             ),
         ];
 }

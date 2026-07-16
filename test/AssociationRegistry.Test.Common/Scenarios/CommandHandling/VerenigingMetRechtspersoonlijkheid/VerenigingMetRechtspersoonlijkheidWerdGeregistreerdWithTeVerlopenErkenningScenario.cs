@@ -6,12 +6,12 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 
-public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenErkenningScenario : CommandhandlerScenarioBase
+public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenErkenningScenario
+    : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
 
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
-
     public readonly ErkenningWerdGeregistreerd ErkenningWerdGeregistreerdTeVerlopen;
 
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenErkenningScenario()
@@ -39,9 +39,5 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithTeVerlopenEr
     }
 
     public override IEnumerable<IEvent> Events() =>
-        new IEvent[]
-        {
-            VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            ErkenningWerdGeregistreerdTeVerlopen,
-        };
+        new IEvent[] { VerenigingMetRechtspersoonlijkheidWerdGeregistreerd, ErkenningWerdGeregistreerdTeVerlopen };
 }
