@@ -123,4 +123,8 @@ public class VerenigingDetail
     /// <summary>De erkenningen van de vereniging</summary>
     [DataMember(Name = "Erkenningen")]
     public Erkenning[] Erkenningen { get; init; } = null!;
+
+    /// <summary>Geeft aan of de vereniging zich in stopzetting bevindt.</summary>
+    [DataMember(Name = "InStopzetting")]
+    public bool InStopzetting { get; init; }
 }

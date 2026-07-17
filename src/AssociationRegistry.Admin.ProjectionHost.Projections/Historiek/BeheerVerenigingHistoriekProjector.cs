@@ -964,6 +964,14 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(@event, @event.Data, document, "Erkenning werd verwijderd");
     }
 
+    public static void Apply(
+        IEvent<VerenigingWerdInStopzettingGeplaatst> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(@event, @event.Data, document, "Vereniging werd in stopzetting geplaatst.");
+    }
+
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode) =>
         new()
         {

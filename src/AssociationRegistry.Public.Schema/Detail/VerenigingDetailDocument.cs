@@ -38,6 +38,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
     public Types.Lidmaatschap[] Lidmaatschappen { get; set; } = [];
     public Types.Erkenning[] Erkenningen { get; set; } = [];
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+    public bool InStopzetting { get; set; }
 
     [Identity]
     public string VCode { get; set; } = null!;

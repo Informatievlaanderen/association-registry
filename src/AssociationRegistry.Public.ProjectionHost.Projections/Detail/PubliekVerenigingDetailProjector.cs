@@ -8,6 +8,7 @@ using Events;
 using Formats;
 using Framework;
 using JasperFx.Events;
+using Marten;
 using Schema.Detail;
 using Vereniging;
 using AdresFormatter = Formats.AdresFormatter;
@@ -1222,5 +1223,13 @@ public static class PubliekVerenigingDetailProjector
             .Append(erkenning with { Status = ErkenningStatus.Verlopen.Value })
             .OrderBy(c => c.ErkenningId)
             .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<VerenigingWerdInStopzettingGeplaatst> @event,
+        PubliekVerenigingDetailDocument document
+    )
+    {
+        document.InStopzetting = true;
     }
 }

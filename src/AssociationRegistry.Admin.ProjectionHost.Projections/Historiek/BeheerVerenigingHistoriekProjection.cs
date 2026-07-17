@@ -346,6 +346,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<ErkenningWerdVerwijderd> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+    public async Task Project(IEvent<VerenigingWerdInStopzettingGeplaatst> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(
         IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event,
         IDocumentOperations ops

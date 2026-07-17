@@ -55,6 +55,10 @@ public class Vereniging
     [DataMember(Name = "Status")]
     public string Status { get; init; } = null!;
 
+    /// <summary>Geeft aan of de vereniging zich in stopzetting bevindt.</summary>
+    [DataMember(Name = "InStopzetting")]
+    public bool InStopzetting { get; init; }
+
     /// <summary>De contactgegevens van deze vereniging</summary>
     [DataMember(Name = "Contactgegevens")]
     public Contactgegeven[] Contactgegevens { get; init; } = [];
