@@ -53,6 +53,7 @@ public record VerenigingState : IHasVersion
     public bool IsIngeschrevenOpWijzigingenUitKbo { get; private init; }
     public List<string> HandledIdempotenceKeys { get; set; } = new();
     public bool IsErkend { get; set; }
+    public bool InStopzetting { get; set; }
     public bool IsVerwijderd { get; set; }
     public bool IsAuthentiekeVereniging => CorresponderendeVCodes.Length != 0;
     public string[] CorresponderendeVCodes { get; set; } = [];
@@ -878,6 +879,8 @@ public record VerenigingState : IHasVersion
         };
 
     public VerenigingState Apply(VerenigingWerdErkend _) => this with { IsErkend = true };
+
+    public VerenigingState Apply(VerenigingWerdInStopzettingGeplaatst _) => this with { InStopzetting = true };
 
     public VerenigingState Apply(VerenigingWerdNietLangerErkend _) => this with { IsErkend = false };
 
