@@ -1494,4 +1494,12 @@ public class BeheerVerenigingDetailProjector
             .OrderBy(b => b.ErkenningId)
             .ToArray();
     }
+
+    public static void Apply(
+        IEvent<VerenigingWerdInStopzettingGeplaatst> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        document.InStopzetting = true;
+    }
 }

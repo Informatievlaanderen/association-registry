@@ -118,6 +118,7 @@ public class BeheerVerenigingDetailMapper
             IsDubbelVan = vereniging.IsDubbelVan,
             Bankrekeningnummers = vereniging.Bankrekeningnummers.Select(Map).ToArray(),
             Erkenningen = vereniging.Erkenningen.Select(Map).ToArray(),
+            InStopzetting = vereniging.InStopzetting,
         };
     }
 

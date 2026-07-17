@@ -86,6 +86,7 @@ public class PubliekVerenigingDetailMapper
                 Relaties = document.Relaties.Select(r => Map(_appSettings, r)).ToArray(),
                 Lidmaatschappen = document.Lidmaatschappen.Select(l => Map(l, verplichteNamenMapper)).ToArray(),
                 Erkenningen = document.Erkenningen.Select(Map).ToArray(),
+                InStopzetting = document.InStopzetting,
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
         };

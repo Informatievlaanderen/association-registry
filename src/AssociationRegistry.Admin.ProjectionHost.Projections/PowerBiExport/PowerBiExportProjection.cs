@@ -1761,4 +1761,15 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
         UpdateHistoriek(document, @event);
     }
+
+    public void Apply(IEvent<VerenigingWerdInStopzettingGeplaatst> @event, PowerBiExportDocument document)
+    {
+        document.InStopzetting = true;
+
+        document.DatumLaatsteAanpassing = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
 }
