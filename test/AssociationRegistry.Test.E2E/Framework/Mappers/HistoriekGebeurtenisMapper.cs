@@ -1377,4 +1377,14 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse? VerenigingWerdInStopzettingGeplaatst() =>
+        new()
+        {
+            Beschrijving = "Vereniging werd in stopzetting geplaatst.",
+            Gebeurtenis = nameof(Events.VerenigingWerdInStopzettingGeplaatst),
+            Data = new VerenigingWerdInStopzettingGeplaatst(),
+            Initiator = "OVO000001",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }

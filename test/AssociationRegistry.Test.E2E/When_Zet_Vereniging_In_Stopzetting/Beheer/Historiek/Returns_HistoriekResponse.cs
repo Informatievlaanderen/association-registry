@@ -44,11 +44,12 @@ public class Returns_HistoriekResponse : End2EndTest<HistoriekResponse>
     public void With_VerenigingWerdInStopzettingGeplaatst_Gebeurtenis()
     {
         var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x =>
-            x.Gebeurtenis == nameof(VerenigingWerdGestopt)
+            x.Gebeurtenis == nameof(VerenigingWerdInStopzettingGeplaatst)
         );
 
-        // gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGestopt(
-        //                                              _testInStopzettingContext.CommandRequest.Einddatum.Value),
-        //                                          compareConfig: HistoriekComparisonConfig.Instance);
+        gebeurtenisResponse.ShouldCompare(
+            HistoriekGebeurtenisMapper.VerenigingWerdInStopzettingGeplaatst(),
+            compareConfig: HistoriekComparisonConfig.Instance
+        );
     }
 }
