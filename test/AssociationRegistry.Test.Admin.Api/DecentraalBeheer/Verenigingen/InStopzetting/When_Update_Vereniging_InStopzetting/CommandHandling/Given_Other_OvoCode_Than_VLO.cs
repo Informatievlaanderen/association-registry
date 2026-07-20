@@ -22,7 +22,7 @@ public class Given_Other_OvoCode_Than_VLO
         var ctx = UpdateVerenigingInStopzettingContext<CommandhandlerScenarioBase>
             .Given(scenario)
             .WithInitiator(otherOvoCodeThanVlo)
-            .WithCommand(cmd => cmd with { InStopzetting = true });
+            .WithCommand(cmd => cmd);
 
         var exception = await Assert.ThrowsAsync<OvoCodeIsNietToegelatenDezeActieUitTeVoeren>(async () =>
             await ctx.WhenHandled()

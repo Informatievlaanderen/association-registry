@@ -62,6 +62,9 @@
   <data name="VerenigingNietActiefVoorInStopzetting">
     <value>Enkel actieve verenigingen kunnen in stopzetting geplaatst worden.</value>
   </data>
+  <data name="VerenigingNietInStopzetting">
+    <value>Enkel in stopgezette verenigingen kunnen uit instopzetting gehaald worden.</value>
+  </data>
   <data name="DuplicateHoofdactiviteit">
     <value>Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.</value>
   </data>

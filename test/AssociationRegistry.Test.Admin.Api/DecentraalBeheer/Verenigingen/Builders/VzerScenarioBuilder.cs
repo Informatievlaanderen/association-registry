@@ -25,11 +25,20 @@ public class VzerScenarioBuilder
         return VzerWerdGeregistreerdScenario;
     }
 
-    public VzerScenarioBuilder GivenStopgezetteVereniging()
+    public VzerScenarioBuilder GivenGestopteVereniging()
     {
         var verenigingWerdGestopt = _fixture.Create<VerenigingWerdGestopt>();
 
         Events.Add(verenigingWerdGestopt);
+
+        return this;
+    }
+
+    public VzerScenarioBuilder GivenInStopgezetteVereniging()
+    {
+        var werdInStopzettingGeplaatst = _fixture.Create<VerenigingWerdInStopzettingGeplaatst>();
+
+        Events.Add(werdInStopzettingGeplaatst);
 
         return this;
     }

@@ -34,6 +34,10 @@ public class UpdateInStopzettingCommandHandler
         {
             vereniging.ZetInStopzetting();
         }
+        else
+        {
+            vereniging.ZetUitStopzetting();
+        }
 
         var result = await _aggregateSession.Save(vereniging, envelope.Metadata, cancellationToken);
 

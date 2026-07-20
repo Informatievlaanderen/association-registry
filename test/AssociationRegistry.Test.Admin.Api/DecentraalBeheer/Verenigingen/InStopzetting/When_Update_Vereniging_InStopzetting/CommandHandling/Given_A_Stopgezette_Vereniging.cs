@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.InSto
 using AssociationRegistry.DecentraalBeheer.Vereniging.InStopzetting.Exceptions;
 using Builders;
 using Common.Scenarios.CommandHandling;
+using Events;
 using FluentAssertions;
 using Resources;
 using Xunit;
@@ -10,9 +11,9 @@ using Xunit;
 public class Given_A_Stopgezette_Vereniging
 {
     [Fact]
-    public async ValueTask Then_It_Throws_VerenigingNietActiefVoorInStopzetting()
+    public async ValueTask With_InStopzetting_True_Then_It_Throws_VerenigingNietActiefVoorInStopzetting()
     {
-        var scenario = new VzerScenarioBuilder().GivenStopgezetteVereniging().Build();
+        var scenario = new VzerScenarioBuilder().GivenGestopteVereniging().Build();
 
         var ctx = UpdateVerenigingInStopzettingContext<CommandhandlerScenarioBase>
             .Given(scenario)
