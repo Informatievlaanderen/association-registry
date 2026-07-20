@@ -573,4 +573,7 @@ public static class EventFactory
     public static VerenigingWerdErkend VerenigingWerdErkend() => new();
 
     public static VerenigingWerdNietLangerErkend VerenigingWerdNietLangerErkend() => new();
+
+    public static IEvent VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbelVan() =>
+        new VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel();
 }

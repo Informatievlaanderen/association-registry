@@ -331,6 +331,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden>.If(State.IsAuthentiekeVereniging);
 
         AddEvent(EventFactory.VerenigingWerdGemarkeerdAlsDubbelVan(VCode, isDubbelVan));
+
+        if (State.InStopzetting)
+            AddEvent(EventFactory.VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbelVan());
     }
 
     public string CorrigeerMarkeringAlsDubbelVan()

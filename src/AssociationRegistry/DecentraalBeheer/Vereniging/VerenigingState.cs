@@ -299,6 +299,12 @@ public record VerenigingState : IHasVersion
             InStopzetting = false,
         };
 
+    public VerenigingState Apply(VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel _) =>
+        this with
+        {
+            InStopzetting = false,
+        };
+
     public VerenigingState Apply(VerenigingWerdGestoptInKBO @event) =>
         this with
         {
