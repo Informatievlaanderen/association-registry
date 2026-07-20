@@ -18,6 +18,7 @@ public class Given_Vereniging_InStopzetting
         var ctx = await UpdateVerenigingInStopzettingContext<CommandhandlerScenarioBase>
             .Given(scenario)
             .WithCommand(cmd => cmd with { InStopzetting = true })
+            .WithInitiator(WellknownOvoNumbers.VloOvoCode)
             .WhenHandled();
 
         ctx.ShouldHaveSaved(new VerenigingWerdInStopzettingGeplaatst());

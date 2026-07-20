@@ -59,6 +59,9 @@
   <data name="UnsupportedOperationForVerenigingstype">
     <value>Deze actie kan niet uitgevoerd worden op dit type vereniging.</value>
   </data>
+  <data name="VerenigingNietActiefVoorInStopzetting">
+    <value>Enkel actieve verenigingen kunnen in stopzetting geplaatst worden.</value>
+  </data>
   <data name="DuplicateHoofdactiviteit">
     <value>Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.</value>
   </data>

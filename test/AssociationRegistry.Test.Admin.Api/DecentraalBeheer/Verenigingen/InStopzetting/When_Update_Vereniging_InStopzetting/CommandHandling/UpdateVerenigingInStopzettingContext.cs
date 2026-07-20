@@ -1,12 +1,15 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.InStopzetting.When_Update_Vereniging_InStopzetting.CommandHandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.InStopzetting.UpdateInStopzetting;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
+using Builders;
+using Erkenningen;
 
 public class UpdateVerenigingInStopzettingContext<TScenario>
     where TScenario : CommandhandlerScenarioBase

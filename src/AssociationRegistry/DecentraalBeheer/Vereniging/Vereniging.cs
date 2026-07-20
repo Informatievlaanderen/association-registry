@@ -9,6 +9,7 @@ using Exceptions;
 using Framework;
 using Geotags;
 using ImTools;
+using InStopzetting.Exceptions;
 using Magda.Persoon;
 using Microsoft.Extensions.Logging;
 using SocialMedias;
@@ -19,7 +20,6 @@ using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
-
     public bool IsGestopt => State.IsGestopt;
     public Datum? Einddatum => State.Einddatum;
 
@@ -456,5 +456,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 vertegenwoordiger.Achternaam
             )
         );
+    }
+
+    public void ZetInStopzetting()
+    {
+        Throw<VerenigingNietActiefVoorInStopzetting>.If(State.VerenigingStatus != VerenigingStatus.Actief);
+
+        AddEvent(EventFactory.VerenigingWerdInStopzettingGeplaatst());
     }
 }
