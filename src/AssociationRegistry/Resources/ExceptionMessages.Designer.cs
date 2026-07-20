@@ -1131,11 +1131,20 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enkel in stopgezette verenigingen kunnen uit instopzetting gehaald worden..
+        ///   Looks up a localized string similar to Vereniging staat nog niet in stopzetting..
         /// </summary>
         public static string VerenigingNietInStopzetting {
             get {
                 return ResourceManager.GetString("VerenigingNietInStopzetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vereniging staat reeds in stopzetting..
+        /// </summary>
+        public static string VerenigingReedsInStopzetting {
+            get {
+                return ResourceManager.GetString("VerenigingReedsInStopzetting", resourceCulture);
             }
         }
         
