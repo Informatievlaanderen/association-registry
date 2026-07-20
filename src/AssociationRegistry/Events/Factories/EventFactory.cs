@@ -563,6 +563,8 @@ public static class EventFactory
 
     public static VerenigingWerdInStopzettingGeplaatst VerenigingWerdInStopzettingGeplaatst() => new();
 
+    public static VerenigingWerdUitStopzettingGehaald VerenigingWerdUitStopzettingGehaald() => new();
+
     public static ErkenningWerdVerlopen ErkenningWerdVerlopen(int erkenningId) => new(erkenningId);
 
     public static VerenigingWerdErkend VerenigingWerdErkend() => new();
