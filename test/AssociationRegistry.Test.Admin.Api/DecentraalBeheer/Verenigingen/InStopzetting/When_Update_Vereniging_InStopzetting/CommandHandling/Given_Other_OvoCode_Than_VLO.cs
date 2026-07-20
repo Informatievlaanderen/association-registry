@@ -12,7 +12,7 @@ using Xunit;
 public class Given_Other_OvoCode_Than_VLO
 {
     [Fact]
-    public async ValueTask Then_It_Throws_TypeVerenigingNietVzerVoorInStopzetting()
+    public async ValueTask Then_It_Throws_OvoCodeIsNietToegelatenDezeActieUitTeVoeren()
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new VzerScenarioBuilder().Build();

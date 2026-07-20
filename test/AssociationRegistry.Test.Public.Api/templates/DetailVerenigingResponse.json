@@ -138,7 +138,8 @@
 {{end}}
     ],
     "lidmaatschappen": [],
-    "erkenningen": []
+    "erkenningen": [],
+    "inStopzetting": false,
   },
   "metadata": {
     "datumLaatsteAanpassing": "{{datumlaatsteaanpassing}}"
