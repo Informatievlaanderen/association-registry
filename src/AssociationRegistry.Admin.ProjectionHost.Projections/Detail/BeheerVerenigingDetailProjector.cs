@@ -1517,4 +1517,12 @@ public class BeheerVerenigingDetailProjector
     {
         document.InStopzetting = false;
     }
+
+    public static void Apply(
+        IEvent<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        document.InStopzetting = false;
+    }
 }

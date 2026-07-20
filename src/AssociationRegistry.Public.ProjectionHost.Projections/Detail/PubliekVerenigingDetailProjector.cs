@@ -1248,4 +1248,12 @@ public static class PubliekVerenigingDetailProjector
     {
         document.InStopzetting = false;
     }
+
+    public static void Apply(
+        IEvent<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel> @event,
+        PubliekVerenigingDetailDocument document
+    )
+    {
+        document.InStopzetting = false;
+    }
 }
