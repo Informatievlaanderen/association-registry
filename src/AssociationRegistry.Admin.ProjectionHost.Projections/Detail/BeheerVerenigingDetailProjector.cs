@@ -1509,4 +1509,12 @@ public class BeheerVerenigingDetailProjector
     {
         document.InStopzetting = false;
     }
+
+    public static void Apply(
+        IEvent<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        document.InStopzetting = false;
+    }
 }
