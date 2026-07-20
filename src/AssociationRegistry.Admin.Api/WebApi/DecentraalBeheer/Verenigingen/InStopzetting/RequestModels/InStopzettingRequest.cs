@@ -4,16 +4,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.StopVereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using CommandHandling.DecentraalBeheer.Acties.InStopzetting.UpdateInStopzetting;
 
 [DataContract]
 public class InStopzettingRequest
 {
     /// <summary>
-    /// De datum waarop de vereniging gestopt werd.
+    /// Geeft aan of de vereniging zich in stopzetting bevindt.
     /// </summary>
     [DataMember]
     [Required]
     public bool InStopzetting { get; set; }
 
-    //public StopVerenigingCommand ToCommand(string vCode) => new(VCode.Create(vCode), Datum.CreateOptional(Einddatum));
+    public UpdateInStopzettingCommand ToCommand(string vCode) => new(vCode, InStopzetting);
 }
