@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.PowerBiExport;
 
 using DecentraalBeheer.Vereniging;
-using DecentraalBeheer.Vereniging.Bankrekeningen;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.Mappers;
 using Events;
@@ -1765,6 +1764,17 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<VerenigingWerdInStopzettingGeplaatst> @event, PowerBiExportDocument document)
     {
         document.InStopzetting = true;
+
+        document.DatumLaatsteAanpassing = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<VerenigingWerdUitStopzettingGehaald> @event, PowerBiExportDocument document)
+    {
+        document.InStopzetting = false;
 
         document.DatumLaatsteAanpassing = @event
             .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
