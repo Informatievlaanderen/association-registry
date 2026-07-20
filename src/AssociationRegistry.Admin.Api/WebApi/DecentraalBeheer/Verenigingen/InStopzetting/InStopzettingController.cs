@@ -43,12 +43,11 @@ public class InStopzettingController : ApiController
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging.</param>
-    /// <param name="request">Het toe te voegen lidmaatschap.</param>
-    /// <param name="validator">De validator voor het toevoegen van een lidmaatschap.</param>
+    /// <param name="request">De gegevens om de indicatie in stopzetting van de vereniging te wijzigen. Gebruik `true` om de vereniging in stopzetting te plaatsen en `false` om de vereniging uit stopzetting te halen.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <param name="cancellationToken"></param>
-    /// <response code="202">Het lidmaatschap werd toegevoegd.</response>
+    /// <response code="202">De indicatie in stopzetting van de vereniging werd gewijzigd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
@@ -71,18 +70,11 @@ public class InStopzettingController : ApiController
         type: "string",
         description: "De versie van de geregistreerde vereniging."
     )]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        name: "Location",
-        type: "string",
-        description: "De locatie van het toegevoegde lidmaatschap."
-    )]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(StatusCodes.Status202Accepted)]
-    public async Task<IActionResult> VoegLidmaatschapToe(
+    public async Task<IActionResult> InStopzetting(
         [FromRoute] string vCode,
         [FromBody] InStopzettingRequest request,
         [FromServices] ICommandMetadataProvider metadataProvider,
