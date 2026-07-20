@@ -3,14 +3,10 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 using System.Net;
 using Admin.Api.Infrastructure;
 using Admin.Api.WebApi.Verenigingen.InStopzetting.RequestModels;
-using Admin.Api.WebApi.Verenigingen.Stop.RequestModels;
 using Alba;
 using DecentraalBeheer.Vereniging;
-using Events;
 using FeitelijkeVereniging;
 using Framework.ApiSetup;
-using Marten;
-using Vereniging;
 
 public class ZetVerenigingInStopzettingRequestFactory : ITestRequestFactory<InStopzettingRequest>
 {
@@ -28,6 +24,8 @@ public class ZetVerenigingInStopzettingRequestFactory : ITestRequestFactory<InSt
         var response = (
             await apiSetup.AdminApiHost.Scenario(s =>
             {
+                s.WithRequestHeader("VR-Initiator", WellknownOvoNumbers.VloOvoCode);
+
                 s.Post.Json(request, JsonStyle.Mvc)
                     .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/in-stopzetting");
 
