@@ -25,7 +25,7 @@ public class Given_Vereniging_Not_InStopzetting
     }
 
     [Fact]
-    public async ValueTask With_InStopzetting_False_Then_It_Adds_An_VerenigingWerdInStopzettingGeplaatst_Event()
+    public async ValueTask With_InStopzetting_False_Then_Throws_VerenigingNietInStopzetting()
     {
         var scenario = new VzerScenarioBuilder().Build();
 
