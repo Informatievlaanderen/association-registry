@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.InStopzetting.UpdateInStopzetting;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bankrekeningen.Exceptions;
 using Framework;
 using MartenDb.Store;
 
@@ -18,7 +19,12 @@ public class UpdateInStopzettingCommandHandler
         CancellationToken cancellationToken = default
     )
     {
-        var vereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
+        Throw<OvoCodeIsNietToegelatenDezeActieUitTeVoeren>.If(
+            envelope.Metadata.Initiator != WellknownOvoNumbers.VloOvoCode,
+            envelope.Metadata.Initiator
+        );
+
+        var vereniging = await _aggregateSession.Load<Vereniging>(
             VCode.Create(envelope.Command.VCode),
             envelope.Metadata,
             allowDubbeleVereniging: true

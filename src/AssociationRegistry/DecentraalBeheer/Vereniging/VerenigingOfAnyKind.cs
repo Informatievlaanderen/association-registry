@@ -816,9 +816,4 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         return isOpvolger;
     }
-
-    public void ZetInStopzetting()
-    {
-        AddEvent(EventFactory.VerenigingWerdInStopzettingGeplaatst());
-    }
 }
