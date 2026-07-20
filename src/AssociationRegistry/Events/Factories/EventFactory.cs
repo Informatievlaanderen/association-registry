@@ -91,6 +91,9 @@ public static class EventFactory
 
     public static VerenigingWerdGestopt VerenigingWerdGestopt(Datum einddatum) => new(einddatum.Value);
 
+    public static VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt() =>
+        new();
+
     public static VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan(
         VCode vCode,
         VCode vCodeAuthentiekeVereniging

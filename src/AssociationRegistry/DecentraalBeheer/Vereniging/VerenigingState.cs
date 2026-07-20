@@ -293,6 +293,12 @@ public record VerenigingState : IHasVersion
             VerenigingStatus = new VerenigingStatus.StatusGestopt(),
         };
 
+    public VerenigingState Apply(VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt _) =>
+        this with
+        {
+            InStopzetting = false,
+        };
+
     public VerenigingState Apply(VerenigingWerdGestoptInKBO @event) =>
         this with
         {

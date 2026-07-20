@@ -187,9 +187,17 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<EinddatumLigtVoorStartdatum>.If(einddatum.IsInPastOf(State.Startdatum));
 
         if (State.IsGestopt)
+        {
             AddEvent(EventFactory.EinddatumWerdGewijzigd(einddatum));
-        else
-            AddEvent(EventFactory.VerenigingWerdGestopt(einddatum));
+            return;
+        }
+
+        AddEvent(EventFactory.VerenigingWerdGestopt(einddatum));
+
+        if (State.InStopzetting)
+        {
+            AddEvent(EventFactory.VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt());
+        }
     }
 
     public void Verwijder(string reden)
@@ -304,6 +312,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         if (State.IsUitgeschrevenUitPubliekeDatastroom)
             return;
+
         AddEvent(new VerenigingWerdUitgeschrevenUitPubliekeDatastroom());
     }
 
@@ -311,6 +320,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         if (!State.IsUitgeschrevenUitPubliekeDatastroom)
             return;
+
         AddEvent(new VerenigingWerdIngeschrevenInPubliekeDatastroom());
     }
 
@@ -345,6 +355,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 Throw<ApplicationException>.If(
                     !statusDubbel.VCodeAuthentiekeVereniging.Equals(vCodeAuthentiekeVereniging)
                 );
+
                 AddEvent(EventFactory.WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(VCode, statusDubbel));
 
                 break;
