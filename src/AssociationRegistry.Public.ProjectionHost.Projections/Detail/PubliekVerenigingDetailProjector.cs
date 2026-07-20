@@ -1240,4 +1240,12 @@ public static class PubliekVerenigingDetailProjector
     {
         document.InStopzetting = false;
     }
+
+    public static void Apply(
+        IEvent<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt> @event,
+        PubliekVerenigingDetailDocument document
+    )
+    {
+        document.InStopzetting = false;
+    }
 }
