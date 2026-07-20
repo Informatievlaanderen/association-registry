@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.InSto
 using AssociationRegistry.DecentraalBeheer.Vereniging.InStopzetting.Exceptions;
 using Builders;
 using Common.Scenarios.CommandHandling;
-using Events;
 using FluentAssertions;
 using Resources;
 using Xunit;

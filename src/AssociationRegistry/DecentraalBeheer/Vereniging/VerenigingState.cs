@@ -882,6 +882,8 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(VerenigingWerdInStopzettingGeplaatst _) => this with { InStopzetting = true };
 
+    public VerenigingState Apply(VerenigingWerdUitStopzettingGehaald _) => this with { InStopzetting = false };
+
     public VerenigingState Apply(VerenigingWerdNietLangerErkend _) => this with { IsErkend = false };
 
     public VerenigingState Apply(ErkenningWerdGeschorst @event)

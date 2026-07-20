@@ -460,7 +460,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void ZetInStopzetting()
     {
-        // todo: throw if already in stopzetting?
+        Throw<VerenigingReedsInStopzetting>.If(State.InStopzetting);
         Throw<VerenigingNietActiefVoorInStopzetting>.If(State.VerenigingStatus != VerenigingStatus.Actief);
 
         AddEvent(EventFactory.VerenigingWerdInStopzettingGeplaatst());
