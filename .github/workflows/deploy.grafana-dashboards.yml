@@ -20,13 +20,13 @@ jobs:
       - name: Resolve Prometheus datasource UID
         id: prometheus
         run: |
-          UID=$(curl -s \
+          PROMETHEUS_UID=$(curl -s \
             -H "Authorization: Bearer ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}" \
             -H "X-Grafana-Org-Id: ${{ inputs.grafana_org_id }}" \
             "${{ secrets.GRAFANA_URL }}/api/datasources/name/Prometheus" \
             | grep -o '"uid":"[^"]*"' | head -1 | cut -d'"' -f4)
-          echo "uid=$UID" >> $GITHUB_OUTPUT
-          echo "Resolved Prometheus UID: $UID"
+          echo "uid=$PROMETHEUS_UID" >> $GITHUB_OUTPUT
+          echo "Resolved Prometheus UID: $PROMETHEUS_UID"
 
       - name: Push Grafana dashboards
         run: |
