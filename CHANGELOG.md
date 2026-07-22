@@ -1,3 +1,27 @@
+# [8.338.0](https://github.com/informatievlaanderen/association-registry/compare/v8.337.1...v8.338.0) (2026-07-22)
+
+
+### Bug Fixes
+
+* or-3283 project event VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel in publiek detail ([0c6c170](https://github.com/informatievlaanderen/association-registry/commit/0c6c170fe5e1acd14f8a685de9d302e412d4dfaf))
+
+
+### Features
+
+* or-3280 allow in stopzetting in domain ([1cc7801](https://github.com/informatievlaanderen/association-registry/commit/1cc780102b0c5e21300e12b0638daa5baeaaecc9))
+* or-3280 fix documentation in stopzetting controller ([1c94eda](https://github.com/informatievlaanderen/association-registry/commit/1c94eda3050eab3052ee16233d07132996627dfb))
+* or-3280 implement instopzetting in domain ([6ff77b9](https://github.com/informatievlaanderen/association-registry/commit/6ff77b96eab3c0eb768e9eb1d0c1997bbcbf60df))
+* or-3280 implement InStopzettingController ([e99d9cc](https://github.com/informatievlaanderen/association-registry/commit/e99d9ccd15aeada45ad6f25d87905bbbdd0e353b))
+* or-3280 implement VerenigingWerdInStopzettingGeplaatst in projections ([39323e3](https://github.com/informatievlaanderen/association-registry/commit/39323e393746275cc860cd342437dcbe39343633))
+* or-3280 implement VerenigingWerdUitStopzettingGehaald in projections ([55ba494](https://github.com/informatievlaanderen/association-registry/commit/55ba494ab4c29e95b894cd5c370552f3cc884b01))
+* or-3280 implement VerenigingWerdUitStopzettingGehaald in publiek detail & beheer historiek ([aaca079](https://github.com/informatievlaanderen/association-registry/commit/aaca07941ad2e556598e1b1934ea0f80e5400121))
+* or-3280 implement zet uit stopzetting in domain ([0d8fdd0](https://github.com/informatievlaanderen/association-registry/commit/0d8fdd00d74c2902223646010908b38bfa1a8c25))
+* or-3280 throw right exceptions for in stopzetting status ([7f86810](https://github.com/informatievlaanderen/association-registry/commit/7f8681006d0653e40ac7f7f1bacb1cd148e91d1e))
+* or-3283 implement VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel in projections ([7e35252](https://github.com/informatievlaanderen/association-registry/commit/7e352524ebb84ee3c85cb6324d130852fda55e93))
+* or-3283 implement VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt in projections ([f97dde5](https://github.com/informatievlaanderen/association-registry/commit/f97dde53bf01347020fa1af3d3ce5a0a7b69fdad))
+* or-3283 set vereniging uit in stopzetting when vereniging werd gemarkeerd als dubbel in domain ([0a5caad](https://github.com/informatievlaanderen/association-registry/commit/0a5caad40875b1daf6f91c33a35d0b8d3bb4d588))
+* or-3283 set vereniging uit stopzetting when vereniging werd gestopt in domain ([d46f5ec](https://github.com/informatievlaanderen/association-registry/commit/d46f5ec53bc8f8c687e478bc294a5e8ed59055ad))
+
 ## [8.337.1](https://github.com/informatievlaanderen/association-registry/compare/v8.337.0...v8.337.1) (2026-07-16)
 
 
