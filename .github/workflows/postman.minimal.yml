@@ -23,16 +23,51 @@ jobs:
       - name: Run API tests
         run: |
           postman collection run "34061079-b4e1e96b-3649-4fcd-b7c9-9b91ffd08100" -e "24467383-b7b1ecfe-ae6d-4ded-a378-db554a2bc155" \
-          -r cli,junit \
-          --reporter-cli-no-success-assertions \
-          --reporter-cli-no-console \
-          --reporter-junit-export postman-test-results.xml
+            -r html,junit,json \
+            --reporter-html-export test-report-full.html \
+            --reporter-junit-export postman-test-results.xml \
+            --reporter-json-export test-results.json
+
+      - name: Generate failures-only HTML report
+        if: always()
+        run: |
+          pip install beautifulsoup4 -q
+          python3 - <<'EOF'
+          import os
+          from bs4 import BeautifulSoup
+
+          if not os.path.exists("test-report-full.html"):
+              print("test-report-full.html not found, skipping")
+              exit(0)
+
+          with open("test-report-full.html", encoding="utf-8") as f:
+              soup = BeautifulSoup(f.read(), "html.parser")
+
+          # Verwijder de "All Requests" tab-knop
+          for btn in soup.find_all("button", class_="tab-button"):
+              if "All Requests" in btn.get_text():
+                  btn.decompose()
+
+          # Verwijder de "All Requests" tab-inhoud (alle tab-content divs die niet tab-summary zijn)
+          for div in soup.find_all("div", class_="tab-content"):
+              if "tab-summary" not in div.get("class", []):
+                  div.decompose()
+
+          with open("test-report-only-failure-detail.html", "w", encoding="utf-8") as f:
+              f.write(str(soup))
+
+          print("Written test-report-only-failure-detail.html (All Requests tab removed)")
+          EOF
 
       - name: Upload test results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: postman-test-results
-          path: postman-test-results.xml
+          path: |
+            postman-test-results.xml
+            test-report-only-failure-detail.html
+            test-report-full.html
           retention-days: 7
           compression-level: 0
 
