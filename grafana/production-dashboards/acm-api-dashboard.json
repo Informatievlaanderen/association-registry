@@ -1,18 +1,42 @@
 {
   "uid": "f7ace415-6dd3-495d-8a22-43e37d2fbae4",
   "title": "ACM API",
-  "tags": ["acm"],
+  "tags": [
+    "acm"
+  ],
   "timezone": "Europe/Brussels",
   "schemaVersion": 42,
   "refresh": "30s",
-  "time": { "from": "now-24h", "to": "now" },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
   "templating": {
     "list": [
+      {
+        "name": "datasource",
+        "type": "datasource",
+        "label": "Datasource",
+        "pluginId": "prometheus",
+        "query": "prometheus",
+        "refresh": 1,
+        "hide": 2,
+        "multi": false,
+        "includeAll": false,
+        "options": [],
+        "current": {
+          "text": "Prometheus",
+          "value": "prometheus"
+        }
+      },
       {
         "name": "environment",
         "type": "query",
         "label": "Omgeving",
-        "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
         "definition": "label_values(target_info, deployment_environment)",
         "query": {
           "qryType": 1,
@@ -33,21 +57,37 @@
     {
       "id": 1,
       "type": "row",
-      "title": "SLO: Responstijd < 600ms",
-      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 1 },
+      "title": "SLO: Responstijd > 600ms",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 1
+      },
       "collapsed": false
     },
     {
       "id": 2,
       "type": "stat",
       "title": "Trage requests (>600ms)",
-      "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-      "gridPos": { "x": 0, "y": 1, "w": 6, "h": 6 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 1,
+        "w": 6,
+        "h": 6
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-          "expr": "sum(increase(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"+Inf\"}[1m])) - sum(increase(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"0.6\"}[1m]))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(increase(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\", le=\"+Inf\"}[$__rate_interval])) - sum(increase(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\", le=\"0.6\"}[$__rate_interval]))",
           "legendFormat": "trage requests",
           "instant": false,
           "range": true
@@ -58,20 +98,35 @@
           "unit": "short",
           "decimals": 0,
           "noValue": "0",
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "orange", "value": 1 },
-              { "color": "red", "value": 10 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
             ]
           }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["sum"] },
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -82,13 +137,24 @@
       "id": 3,
       "type": "stat",
       "title": "% requests > 600ms",
-      "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-      "gridPos": { "x": 6, "y": 1, "w": 6, "h": 6 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 6,
+        "y": 1,
+        "w": 6,
+        "h": 6
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-          "expr": "100 * (sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"+Inf\"}[1m])) - sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"0.6\"}[1m]))) / sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"+Inf\"}[1m]))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "100 * (sum(rate(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\", le=\"+Inf\"}[$__rate_interval])) - sum(rate(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\", le=\"0.6\"}[$__rate_interval]))) / sum(rate(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\", le=\"+Inf\"}[$__rate_interval]))",
           "legendFormat": "% traag",
           "instant": false,
           "range": true
@@ -99,20 +165,35 @@
           "unit": "percent",
           "decimals": 1,
           "noValue": "0%",
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "orange", "value": 1 },
-              { "color": "red", "value": 5 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
             ]
           }
         },
         "overrides": []
       },
       "options": {
-        "reduceOptions": { "calcs": ["mean"] },
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ]
+        },
         "orientation": "auto",
         "textMode": "auto",
         "colorMode": "background",
@@ -123,13 +204,24 @@
       "id": 4,
       "type": "timeseries",
       "title": "Trage requests over tijd (>600ms)",
-      "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-      "gridPos": { "x": 12, "y": 1, "w": 12, "h": 6 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 1,
+        "w": 12,
+        "h": 6
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-          "expr": "sum by (http_route, http_request_method) (rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"+Inf\"}[1m])) - sum by (http_route, http_request_method) (rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\", le=\"0.6\"}[1m]))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum by (http_route, http_request_method) (rate(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\", le=\"+Inf\"}[$__rate_interval])) - sum by (http_route, http_request_method) (rate(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\", le=\"0.6\"}[$__rate_interval]))",
           "legendFormat": "{{http_request_method}} {{http_route}}",
           "instant": false,
           "range": true
@@ -139,34 +231,66 @@
         "defaults": {
           "unit": "reqps",
           "decimals": 3,
-          "color": { "mode": "palette-classic" },
-          "custom": { "lineWidth": 2, "fillOpacity": 20 }
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 20
+          }
         },
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "desc" },
-        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean", "max", "sum"] }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        },
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max",
+            "sum"
+          ]
+        }
       }
     },
     {
       "id": 5,
       "type": "row",
       "title": "Latency per endpoint",
-      "gridPos": { "x": 0, "y": 7, "w": 24, "h": 1 },
+      "gridPos": {
+        "x": 0,
+        "y": 7,
+        "w": 24,
+        "h": 1
+      },
       "collapsed": false
     },
     {
       "id": 6,
       "type": "timeseries",
       "title": "p99 Latency per endpoint (drempel: 600ms)",
-      "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-      "gridPos": { "x": 0, "y": 8, "w": 24, "h": 10 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 24,
+        "h": 10
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-          "expr": "histogram_quantile(0.99, sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\"}[1m])) by (le, http_route, http_request_method))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "histogram_quantile(0.99, sum(rate(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\"}[$__rate_interval])) by (le, http_route, http_request_method))",
           "legendFormat": "p99 {{http_request_method}} {{http_route}}",
           "instant": false,
           "range": true
@@ -175,34 +299,68 @@
       "fieldConfig": {
         "defaults": {
           "unit": "s",
-          "custom": { "lineWidth": 2, "fillOpacity": 10 },
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "orange", "value": 0.4 },
-              { "color": "red", "value": 0.6 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 0.4
+              },
+              {
+                "color": "red",
+                "value": 0.6
+              }
             ]
           }
         },
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "desc" },
-        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean", "max", "lastNotNull"] }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        },
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ]
+        }
       }
     },
     {
       "id": 7,
       "type": "timeseries",
       "title": "p95 Latency per endpoint",
-      "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-      "gridPos": { "x": 0, "y": 18, "w": 12, "h": 9 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 18,
+        "w": 12,
+        "h": 9
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-          "expr": "histogram_quantile(0.95, sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\"}[1m])) by (le, http_route, http_request_method))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\"}[$__rate_interval])) by (le, http_route, http_request_method))",
           "legendFormat": "p95 {{http_request_method}} {{http_route}}",
           "instant": false,
           "range": true
@@ -211,27 +369,53 @@
       "fieldConfig": {
         "defaults": {
           "unit": "s",
-          "color": { "mode": "palette-classic" },
-          "custom": { "lineWidth": 2, "fillOpacity": 8 }
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 8
+          }
         },
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "desc" },
-        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean", "max"] }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        },
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        }
       }
     },
     {
       "id": 8,
       "type": "timeseries",
       "title": "p50 Latency per endpoint",
-      "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-      "gridPos": { "x": 12, "y": 18, "w": 12, "h": 9 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 18,
+        "w": 12,
+        "h": 9
+      },
       "targets": [
         {
           "refId": "A",
-          "datasource": { "type": "prometheus", "uid": "-- Prometheus --" },
-          "expr": "histogram_quantile(0.50, sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\"}[1m])) by (le, http_route, http_request_method))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "histogram_quantile(0.50, sum(rate(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\"}[$__rate_interval])) by (le, http_route, http_request_method))",
           "legendFormat": "p50 {{http_request_method}} {{http_route}}",
           "instant": false,
           "range": true
@@ -240,14 +424,29 @@
       "fieldConfig": {
         "defaults": {
           "unit": "s",
-          "color": { "mode": "palette-classic" },
-          "custom": { "lineWidth": 1, "fillOpacity": 5 }
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 5
+          }
         },
         "overrides": []
       },
       "options": {
-        "tooltip": { "mode": "multi", "sort": "desc" },
-        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean", "max"] }
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        },
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        }
       }
     }
   ]

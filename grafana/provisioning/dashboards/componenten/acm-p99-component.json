@@ -47,7 +47,7 @@
         {
           "refId": "A",
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "histogram_quantile(0.99, sum(rate(http_server_request_duration_seconds_bucket{job=~\"(?i).*acm.*\"}[$__rate_interval])) by (le, http_route, http_request_method))",
+          "expr": "histogram_quantile(0.99, sum(rate(http_server_request_duration_seconds_bucket{job=\"AssociationRegistry.Acm.Api\"}[$__rate_interval])) by (le, http_route, http_request_method))",
           "legendFormat": "p99 {{http_request_method}} {{http_route}}"
         }
       ],
