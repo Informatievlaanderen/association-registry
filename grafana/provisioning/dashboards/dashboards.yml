@@ -6,3 +6,10 @@ providers:
     type: file
     options:
       path: /etc/grafana/provisioning/dashboards/root
+
+  - name: production
+    folder: ''
+    type: file
+    options:
+      path: /etc/grafana/provisioning/dashboards/production
+

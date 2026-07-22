@@ -17,18 +17,36 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install gcx
-        shell: bash
+      - name: Resolve Prometheus datasource UID
+        id: prometheus
         run: |
-          curl -sSL https://github.com/grafana/gcx/releases/download/v0.4.1/gcx_0.4.1_linux_amd64.tar.gz \
-            | tar -xz -C /usr/local/bin gcx
-          gcx --version
+          UID=$(curl -s \
+            -H "Authorization: Bearer ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}" \
+            -H "X-Grafana-Org-Id: ${{ inputs.grafana_org_id }}" \
+            "${{ secrets.GRAFANA_URL }}/api/datasources/name/Prometheus" \
+            | grep -o '"uid":"[^"]*"' | head -1 | cut -d'"' -f4)
+          echo "uid=$UID" >> $GITHUB_OUTPUT
+          echo "Resolved Prometheus UID: $UID"
 
       - name: Push Grafana dashboards
-        shell: bash
         run: |
-          gcx config set grafana.server "${{ secrets.GRAFANA_URL }}"
-          gcx config set grafana.token "${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}"
-          gcx config set grafana.org-id "${{ inputs.grafana_org_id }}"
-          gcx resources push -p grafana/production-dashboards
+          for file in grafana/production-dashboards/*.json; do
+            echo "Pushing $file..."
+            dashboard=$(sed "s/\"uid\": \"prometheus\"/\"uid\": \"${{ steps.prometheus.outputs.uid }}\"/g" "$file")
+            payload=$(printf '{"dashboard":%s,"overwrite":true,"folderId":0}' "$dashboard")
+            response=$(curl -s -o /tmp/response.json -w "%{http_code}" \
+              -X POST "${{ secrets.GRAFANA_URL }}/api/dashboards/db" \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}" \
+              -H "X-Grafana-Org-Id: ${{ inputs.grafana_org_id }}" \
+              -d "$payload")
+            echo "  Response ($response): $(cat /tmp/response.json)"
+            if [ "$response" != "200" ] && [ "$response" != "412" ]; then
+              echo "ERROR: Failed to push $file"
+              exit 1
+            fi
+          done
+          echo "All dashboards pushed successfully."
+
+
 
