@@ -20,9 +20,37 @@ jobs:
         run: |
           postman collection run "34061079-b9019512-c4b9-4844-9e86-e70fc8d65a4a" -e "24467383-b7b1ecfe-ae6d-4ded-a378-db554a2bc155" \
             -r html,json \
-            --reporter-html-export test-report.html \
-            --reporter-json-export test-results.json \
-            --verbose
+            --reporter-html-export test-report-full.html \
+            --reporter-json-export test-results.json
+
+      - name: Generate failures-only HTML report
+        if: always()
+        run: |
+          pip install beautifulsoup4 -q
+          python3 - <<'EOF'
+          import os
+          from bs4 import BeautifulSoup
+
+          if not os.path.exists("test-report-full.html"):
+              print("test-report-full.html not found, skipping")
+              exit(0)
+
+          with open("test-report-full.html", encoding="utf-8") as f:
+              soup = BeautifulSoup(f.read(), "html.parser")
+
+          for btn in soup.find_all("button", class_="tab-button"):
+              if "All Requests" in btn.get_text():
+                  btn.decompose()
+
+          for div in soup.find_all("div", class_="tab-content"):
+              if "tab-summary" not in div.get("class", []):
+                  div.decompose()
+
+          with open("test-report-only-failure-detail.html", "w", encoding="utf-8") as f:
+              f.write(str(soup))
+
+          print("Written test-report-only-failure-detail.html (All Requests tab removed)")
+          EOF
 
       - name: Upload test reports
         if: always()
@@ -30,7 +58,8 @@ jobs:
         with:
           name: postman-test-reports
           path: |
-            test-report.html
+            test-report-full.html
+            test-report-only-failure-detail.html
             test-results.json
             postman-cli-reports/
           retention-days: 30
