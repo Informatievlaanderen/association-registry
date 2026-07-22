@@ -19,26 +19,38 @@ jobs:
 
       - name: Resolve Prometheus datasource UID
         id: prometheus
+        env:
+          GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
+          GRAFANA_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
+          GRAFANA_ORG_ID: ${{ inputs.grafana_org_id }}
         run: |
-          PROMETHEUS_UID=$(curl -s \
-            -H "Authorization: Bearer ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}" \
-            -H "X-Grafana-Org-Id: ${{ inputs.grafana_org_id }}" \
-            "${{ secrets.GRAFANA_URL }}/api/datasources/name/Prometheus" \
+          BASE_URL="${GRAFANA_URL%/}"
+          echo "Using Grafana URL: $BASE_URL"
+          PROMETHEUS_UID=$(curl -sf \
+            -H "Authorization: Bearer $GRAFANA_TOKEN" \
+            -H "X-Grafana-Org-Id: $GRAFANA_ORG_ID" \
+            "$BASE_URL/api/datasources/name/Prometheus" \
             | grep -o '"uid":"[^"]*"' | head -1 | cut -d'"' -f4)
           echo "uid=$PROMETHEUS_UID" >> $GITHUB_OUTPUT
           echo "Resolved Prometheus UID: $PROMETHEUS_UID"
 
       - name: Push Grafana dashboards
+        env:
+          GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
+          GRAFANA_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
+          GRAFANA_ORG_ID: ${{ inputs.grafana_org_id }}
+          PROMETHEUS_UID: ${{ steps.prometheus.outputs.uid }}
         run: |
+          BASE_URL="${GRAFANA_URL%/}"
           for file in grafana/production-dashboards/*.json; do
             echo "Pushing $file..."
-            dashboard=$(sed "s/\"uid\": \"prometheus\"/\"uid\": \"${{ steps.prometheus.outputs.uid }}\"/g" "$file")
+            dashboard=$(sed "s/\"uid\": \"prometheus\"/\"uid\": \"$PROMETHEUS_UID\"/g" "$file")
             payload=$(printf '{"dashboard":%s,"overwrite":true,"folderId":0}' "$dashboard")
             response=$(curl -s -o /tmp/response.json -w "%{http_code}" \
-              -X POST "${{ secrets.GRAFANA_URL }}/api/dashboards/db" \
+              -X POST "$BASE_URL/api/dashboards/db" \
               -H "Content-Type: application/json" \
-              -H "Authorization: Bearer ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}" \
-              -H "X-Grafana-Org-Id: ${{ inputs.grafana_org_id }}" \
+              -H "Authorization: Bearer $GRAFANA_TOKEN" \
+              -H "X-Grafana-Org-Id: $GRAFANA_ORG_ID" \
               -d "$payload")
             echo "  Response ($response): $(cat /tmp/response.json)"
             if [ "$response" != "200" ] && [ "$response" != "412" ]; then
