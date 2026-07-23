@@ -1,3 +1,12 @@
+# [8.339.0](https://github.com/informatievlaanderen/association-registry/compare/v8.338.0...v8.339.0) (2026-07-23)
+
+
+### Features
+
+* or-3261 fix acm dashboard ([cb6fa00](https://github.com/informatievlaanderen/association-registry/commit/cb6fa00b50a878ce7c2376cd0366e1b2d34728e9))
+* or-3261 fix push grafana dashboard ([cc131db](https://github.com/informatievlaanderen/association-registry/commit/cc131db9eca52504345caac515d99d00a4418a07))
+* or-3261 use prometheus uid for grafana dashboard ([5fde6c0](https://github.com/informatievlaanderen/association-registry/commit/5fde6c0912ace9f064879fe029731b4af674bf94))
+
 # [8.338.0](https://github.com/informatievlaanderen/association-registry/compare/v8.337.1...v8.338.0) (2026-07-22)
 
 
