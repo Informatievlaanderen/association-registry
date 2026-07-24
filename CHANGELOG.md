@@ -1,3 +1,10 @@
+# [8.340.0](https://github.com/informatievlaanderen/association-registry/compare/v8.339.0...v8.340.0) (2026-07-24)
+
+
+### Features
+
+* or-3316 run full regression test at 2 AM ([d6ed79d](https://github.com/informatievlaanderen/association-registry/commit/d6ed79db14007d8d9d69acf45f3e5561e6a3e07c))
+
 # [8.339.0](https://github.com/informatievlaanderen/association-registry/compare/v8.338.0...v8.339.0) (2026-07-23)
 
 
