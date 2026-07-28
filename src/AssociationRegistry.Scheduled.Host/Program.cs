@@ -1,19 +1,18 @@
 ﻿namespace AssociationRegistry.Scheduled.Host;
 
 using System.Net;
-using System.Text;
-using Admin.Schema.PowerBiExport;
 using Amazon.S3;
 using Bewaartermijnen;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
-using Erkenningen;
 using Erkenningen.Activeer;
 using Erkenningen.Verloop;
 using EventStore.ConflictResolution;
+using Framework;
 using Infrastructure.Extensions;
 using Infrastructure.MartenSetup;
+using Infrastructure.Metrics;
 using Infrastructure.Program.WebApplicationBuilder;
 using Integrations.Slack;
 using JasperFx;
@@ -25,24 +24,23 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NodaTime;
+using OpenTelemetry.Extensions;
 using Persoonsgegevens;
 using PowerBi;
 using PowerBi.Exporters;
-using PowerBi.Writers;
 using Quartz;
 using Queries;
 using Serilog;
 using Serilog.Debugging;
 using WebApi.Schedulers;
 using HealthStatus = Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus;
+using IClock = Framework.IClock;
 
 public class Program
 {
@@ -114,7 +112,8 @@ public class Program
         var activeerErkenningenOptions = builder.Configuration.GetActiveerErkenningenOptions();
         var verloopErkenningenOptions = builder.Configuration.GetVerloopErkenningenOptions();
 
-        services.AddOpenTelemetryServices().AddMarten(postgreSqlOptions).AddWolverine(postgreSqlOptions);
+        builder.ConfigureOpenTelemetry(new ScheduledHostInstrumentation());
+        services.AddMarten(postgreSqlOptions).AddWolverine(postgreSqlOptions);
 
         services
             .AddQuartz(q =>
@@ -163,7 +162,7 @@ public class Program
 
         services
             .AddSingleton(postgreSqlOptions)
-            .AddSingleton<IClock>(SystemClock.Instance)
+            .AddSingleton<NodaTime.IClock>(SystemClock.Instance)
             .AddSingleton<IAmazonS3, AmazonS3Client>()
             .AddSingleton(sp => PowerBiExporters.Create(sp, powerBiExportOptions))
             .AddSingleton(sp => PowerBiDubbelDetectieExporters.Create(sp, powerBiExportOptions))
@@ -171,7 +170,7 @@ public class Program
             .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
             .AddSingleton<EventConflictResolver>()
             .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
-            .AddSingleton<Framework.IClock, Framework.Clock>()
+            .AddSingleton<IClock, Clock>()
             .AddScoped<IEventStore, EventStore>()
             .AddScoped<IAggregateSession, AggregateSession>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
