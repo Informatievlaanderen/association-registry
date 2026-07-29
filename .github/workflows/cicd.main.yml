@@ -1230,30 +1230,6 @@ jobs:
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
 
-  deploy_grafana_dashboards:
-    if: needs.release.outputs.version != 'none'
-    needs: [ deploy_test_ik4 ]
-    name: Deploy Grafana Dashboards
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Install gcx
-        shell: bash
-        run: |
-          curl -sSL https://github.com/grafana/gcx/releases/download/v0.4.1/gcx_0.4.1_linux_amd64.tar.gz \
-            | tar -xz -C /usr/local/bin gcx
-          gcx --version
-
-      - name: Push Grafana dashboards
-        shell: bash
-        run: |
-          gcx config set grafana.server "${{ secrets.GRAFANA_URL }}"
-          gcx config set grafana.token "${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}"
-          gcx config set grafana.org-id "2"
-          gcx resources push -p grafana/production-dashboards
-
   notify:
     if: failure()
     name: Notify slack

@@ -190,7 +190,7 @@ services:
       GF_FEATURE_TOGGLES_ENABLE: kubernetesClientDashboardsFolders=false
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
-      - ./grafana/production-dashboards:/etc/grafana/provisioning/dashboards/production:ro
+      - ./grafana/production-dashboards:/etc/grafana/provisioning/dashboards:ro
       - grafana-data:/var/lib/grafana
     depends_on:
       - prometheus
