@@ -1,3 +1,10 @@
+# [8.341.0](https://github.com/informatievlaanderen/association-registry/compare/v8.340.0...v8.341.0) (2026-07-29)
+
+
+### Features
+
+* or-3239 logging for Scheduled Host ([cd4e79f](https://github.com/informatievlaanderen/association-registry/commit/cd4e79f4b9c1cf31b6bae4c5efda5487c4043698))
+
 # [8.340.0](https://github.com/informatievlaanderen/association-registry/compare/v8.339.0...v8.340.0) (2026-07-24)
 
 
