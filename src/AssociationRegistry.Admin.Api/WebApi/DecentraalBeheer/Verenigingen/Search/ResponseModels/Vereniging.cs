@@ -91,6 +91,10 @@ public class Vereniging
     public Lidmaatschap[] Lidmaatschappen { get; init; } = null!;
 
     /// <summary>Geeft aan of de vereniging minstens een actieve erkenning heeft</summary>
-    [DataMember(Name = "isErkend")]
+    [DataMember(Name = "IsErkend")]
     public bool IsErkend { get; init; }
+
+    /// <summary>Geeft aan of de vereniging zich in stopzetting bevindt</summary>
+    [DataMember(Name = "InStopzetting")]
+    public bool InStopzetting { get; set; }
 }

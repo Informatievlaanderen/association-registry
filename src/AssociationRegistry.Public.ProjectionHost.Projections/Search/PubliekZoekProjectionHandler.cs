@@ -2,14 +2,11 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
-using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 using Formats;
-using JasperFx.Core.Reflection;
 using JasperFx.Events.Projections;
 using Schema.Detail;
 using Schema.Search;
-using Vereniging;
 using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
@@ -654,6 +651,32 @@ public class PubliekZoekProjectionHandler
     public void Handle(EventEnvelope<VerenigingWerdNietLangerErkend> _, VerenigingZoekDocument document)
     {
         document.IsErkend = false;
+    }
+
+    public void Handle(EventEnvelope<VerenigingWerdInStopzettingGeplaatst> _, VerenigingZoekDocument document)
+    {
+        document.InStopzetting = true;
+    }
+
+    public void Handle(EventEnvelope<VerenigingWerdUitStopzettingGehaald> _, VerenigingZoekDocument document)
+    {
+        document.InStopzetting = false;
+    }
+
+    public void Handle(
+        EventEnvelope<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt> _,
+        VerenigingZoekDocument document
+    )
+    {
+        document.InStopzetting = false;
+    }
+
+    public void Handle(
+        EventEnvelope<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel> _,
+        VerenigingZoekDocument document
+    )
+    {
+        document.InStopzetting = false;
     }
 
     private static VerenigingZoekDocument.Types.Lidmaatschap Map(

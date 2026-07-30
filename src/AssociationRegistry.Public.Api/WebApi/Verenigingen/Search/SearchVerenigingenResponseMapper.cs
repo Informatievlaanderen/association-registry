@@ -1,17 +1,14 @@
 ﻿namespace AssociationRegistry.Public.Api.WebApi.Verenigingen.Search;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using AssociationRegistry.Public.Api.Constants;
-using AssociationRegistry.Public.Api.Infrastructure;
-using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Public.Schema.Search;
+using Constants;
 using DecentraalBeheer.Vereniging.Mappers;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Aggregations;
+using Infrastructure;
+using Infrastructure.ConfigurationBindings;
 using RequestModels;
 using ResponseModels;
+using Schema.Search;
 using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
@@ -113,6 +110,7 @@ public class SearchVerenigingenResponseMapper
                 KorteNaam = verenigingZoekDocument.KorteNaam,
                 KorteBeschrijving = verenigingZoekDocument.KorteBeschrijving,
                 IsErkend = verenigingZoekDocument.IsErkend,
+                InStopzetting = verenigingZoekDocument.InStopzetting,
                 Doelgroep = Map(verenigingZoekDocument.Doelgroep),
                 HoofdactiviteitenVerenigingsloket = verenigingZoekDocument
                     .HoofdactiviteitenVerenigingsloket.Select(Map)
@@ -288,7 +286,7 @@ public class SearchVerenigingenResponseMapper
             },
         };
 
-    private static Relatie Map(AppSettings appSettings, Schema.Search.VerenigingZoekDocument.Types.Relatie r) =>
+    private static Relatie Map(AppSettings appSettings, VerenigingZoekDocument.Types.Relatie r) =>
         new()
         {
             Relatietype = r.Relatietype,

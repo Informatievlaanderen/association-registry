@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Search;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Schema.Search;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using DecentraalBeheer.Vereniging.Mappers;
 using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration.ConfigurationBindings;
+using Infrastructure;
 using RequestModels;
 using ResponseModels;
+using Schema.Search;
 using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
@@ -78,6 +78,7 @@ public class SearchVerenigingenResponseMapper
                 KorteNaam = verenigingZoekDocument.KorteNaam,
                 Status = verenigingZoekDocument.Status,
                 IsErkend = verenigingZoekDocument.IsErkend,
+                InStopzetting = verenigingZoekDocument.InStopzetting,
                 Startdatum = verenigingZoekDocument.Startdatum,
                 Einddatum = verenigingZoekDocument.Einddatum,
                 Doelgroep = Map(verenigingZoekDocument.Doelgroep),

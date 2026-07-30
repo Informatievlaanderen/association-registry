@@ -677,6 +677,32 @@ public class BeheerZoekProjectionHandler
         document.SubverenigingVan.Beschrijving = @event.Data.Beschrijving;
     }
 
+    public void Handle(EventEnvelope<VerenigingWerdInStopzettingGeplaatst> @event, VerenigingZoekDocument document)
+    {
+        document.InStopzetting = true;
+    }
+
+    public void Handle(EventEnvelope<VerenigingWerdUitStopzettingGehaald> @event, VerenigingZoekDocument document)
+    {
+        document.InStopzetting = false;
+    }
+
+    public void Handle(
+        EventEnvelope<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt> @event,
+        VerenigingZoekDocument document
+    )
+    {
+        document.InStopzetting = false;
+    }
+
+    public void Handle(
+        EventEnvelope<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel> @event,
+        VerenigingZoekDocument document
+    )
+    {
+        document.InStopzetting = false;
+    }
+
     public void Handle(EventEnvelope<VerenigingWerdErkend> @event, VerenigingZoekDocument document)
     {
         document.IsErkend = true;

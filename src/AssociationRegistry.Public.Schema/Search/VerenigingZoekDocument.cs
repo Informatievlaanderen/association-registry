@@ -2,7 +2,6 @@ namespace AssociationRegistry.Public.Schema.Search;
 
 using DecentraalBeheer.Vereniging;
 using Detail;
-using Vereniging;
 
 public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable, IIsDubbel
 {
@@ -29,6 +28,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public bool IsErkend { get; set; }
     public bool IsDubbel { get; set; }
     public Types.Geotag[] Geotags { get; set; } = null!;
+    public bool InStopzetting { get; set; }
 
     public static class Types
     {

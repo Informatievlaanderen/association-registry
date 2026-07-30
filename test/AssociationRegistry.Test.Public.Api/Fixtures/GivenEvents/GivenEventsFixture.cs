@@ -4,7 +4,6 @@ using Admin.ProjectionHost;
 using AssociationRegistry.Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Common.Framework;
 using JasperFx.Events.Daemon;
-using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -66,6 +65,9 @@ public class GivenEventsFixture : PublicApiFixture
     public readonly V025_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithActieveErkenningForSearchOnErkenningScenario V025VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithActieveErkenningForSearchOnErkenningScenario =
         new();
 
+    public readonly V026_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_WithInStopzetting_ForSearchOnInStopzetting V026VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithInStopzettingForSearchOnInStopzetting =
+        new();
+
     private IEnumerable<IScenario> Scenarios =>
         new IScenario[]
         {
@@ -91,6 +93,7 @@ public class GivenEventsFixture : PublicApiFixture
             V023WerdUitgeschrevenUitPubliekeDatastroomScenarioAndNaamWerdGewijzigd,
             V024FeitelijkeVerenigingWerdGeregistreerdWithAllFacetsScenario,
             V025VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithActieveErkenningForSearchOnErkenningScenario,
+            V026VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithInStopzettingForSearchOnInStopzetting,
         };
 
     public override async ValueTask InitializeAsync()

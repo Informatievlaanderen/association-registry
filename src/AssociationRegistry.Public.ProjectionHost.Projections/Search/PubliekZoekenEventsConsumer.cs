@@ -118,6 +118,10 @@ public class PubliekZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingWerdErkend):
                 case nameof(VerenigingWerdNietLangerErkend):
                 case nameof(KBOStatusWerdGecorrigeerdNaarActief):
+                case nameof(VerenigingWerdInStopzettingGeplaatst):
+                case nameof(VerenigingWerdUitStopzettingGehaald):
+                case nameof(VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel):
+                case nameof(VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt):
                     try
                     {
                         _zoekProjectionHandler.Handle(eventEnvelope, doc);
