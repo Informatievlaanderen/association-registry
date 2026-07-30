@@ -53,5 +53,9 @@ public class PubliekZoekenHandledEvents
         typeof(VerenigingWerdErkend),
         typeof(VerenigingWerdNietLangerErkend),
         typeof(KBOStatusWerdGecorrigeerdNaarActief),
+        typeof(VerenigingWerdInStopzettingGeplaatst),
+        typeof(VerenigingWerdUitStopzettingGehaald),
+        typeof(VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt),
+        typeof(VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel),
     ];
 }

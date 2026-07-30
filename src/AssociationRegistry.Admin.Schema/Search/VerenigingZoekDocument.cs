@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.Search;
 
 using DecentraalBeheer.Vereniging;
-using Vereniging;
 
 public class VerenigingZoekDocument
 {
@@ -29,6 +28,7 @@ public class VerenigingZoekDocument
     public bool IsDubbel { get; set; }
     public Types.Geotag[] Geotags { get; set; } = null!;
     public bool IsErkend { get; set; }
+    public bool InStopzetting { get; set; }
 
     public static class Types
     {

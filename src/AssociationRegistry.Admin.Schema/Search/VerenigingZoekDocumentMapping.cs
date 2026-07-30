@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Schema.Search;
 
-using System.Collections.Generic;
 using Elastic.Clients.Elasticsearch.Mapping;
 
 public static class VerenigingZoekDocumentMapping
@@ -44,6 +43,7 @@ public static class VerenigingZoekDocumentMapping
                 ["isUitgeschrevenUitPubliekeDatastroom"] = new BooleanProperty(),
                 ["isVerwijderd"] = new BooleanProperty(),
                 ["isErkend"] = new BooleanProperty(),
+                ["inStopzetting"] = new BooleanProperty(),
                 ["erkenningen"] = new ObjectProperty { Enabled = false },
                 ["isDubbel"] = new BooleanProperty(),
                 ["jsonLdMetadataType"] = new TextProperty(),

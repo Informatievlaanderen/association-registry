@@ -5,14 +5,9 @@ using Common.Framework;
 using Common.Scenarios.EventsInDb;
 using Events;
 using EventStore;
-using JasperFx.Core;
 using JasperFx.Events.Daemon;
-using Marten.Events.Aggregation;
-using Marten.Events.Daemon;
-using MartenDb.Store;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Serilog;
 
 public class EventsInDbScenariosFixture : AdminApiFixture
 {
@@ -212,6 +207,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V084_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_WithActieveErkenning_ForSearchOnErkenning V084VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithActieveErkenningForSearchOnErkenning =
         new();
 
+    public readonly V085_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_WithInStopzetting_ForSearchOnInStopzetting V085_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_WithInStopzetting_ForSearchOnInStopzetting =
+        new();
+
     public EventsInDbScenariosFixture() { }
 
     public long MaxSequence { get; private set; } = 0;
@@ -283,6 +281,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V082VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdForDuplicateForce,
             V083VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForDuplicateCheck,
             V084VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithActieveErkenningForSearchOnErkenning,
+            V085_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_WithInStopzetting_ForSearchOnInStopzetting,
         };
 
         using var daemon = await StartDaemonBeforeAddingEvents();
