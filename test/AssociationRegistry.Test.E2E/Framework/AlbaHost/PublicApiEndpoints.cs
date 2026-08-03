@@ -1,17 +1,17 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using System.Net;
-using Admin.ProjectionHost.Projections.Search.Zoeken;
 using Alba;
 using Elastic.Clients.Elasticsearch;
 using FluentAssertions;
 using Marten;
-using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Public.Api.Infrastructure;
+using Public.Api.Queries;
 using Public.Api.WebApi.Verenigingen.Detail.ResponseModels;
+using Public.Api.WebApi.Verenigingen.DetailAll;
 using Public.Api.WebApi.Verenigingen.Mutaties;
 using Public.Api.WebApi.Verenigingen.Search.ResponseModels;
 using Public.Api.WebApi.Werkingsgebieden.ResponseModels;
@@ -165,11 +165,16 @@ public static class PublicApiEndpoints
             publiekverenigingzoekendocumentAll: PubliekVerenigingDetailProjection.ShardName.Identity
         );
 
-        var locationHeader = await GetDetailAllLocationHeader(source);
+        await using var scope = source.Services.CreateAsyncScope();
+        var query = scope.ServiceProvider.GetRequiredService<IPubliekVerenigingenDetailAllQuery>();
+        var streamWriter = scope.ServiceProvider.GetRequiredService<IDetailAllStreamWriter>();
 
-        var s3Response = await GetS3Response(locationHeader);
+        var data = await query.ExecuteAsync(CancellationToken.None);
+        var stream = await streamWriter.WriteAsync(data, CancellationToken.None);
 
-        var responseContent = await s3Response.Content.ReadAsStringAsync();
+        stream.Position = 0;
+        using var reader = new StreamReader(stream);
+        var responseContent = await reader.ReadToEndAsync();
 
         return ParseResponse(responseContent);
     }
@@ -185,29 +190,13 @@ public static class PublicApiEndpoints
         while (reader.Peek() != -1)
         {
             var line = reader.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(line))
+                continue;
+
             verenigingen.Add(JObject.Parse(line));
         }
 
         return verenigingen.ToArray();
-    }
-
-    private static async Task<HttpResponseMessage> GetS3Response(Uri? locationHeader)
-    {
-        using var handler = new HttpClientHandler();
-        handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
-
-        using var s3HttpClient = new HttpClient(handler);
-
-        var httpUri = new UriBuilder(locationHeader!) { Scheme = Uri.UriSchemeHttp }.Uri;
-
-        return await s3HttpClient.GetAsync(httpUri);
-    }
-
-    private static async Task<Uri?> GetDetailAllLocationHeader(IAlbaHost source)
-    {
-        var client = source.Server.CreateClient();
-        var response = await client.GetAsync($"/v1/verenigingen/detail/all");
-
-        return response.Headers.Location;
     }
 }
