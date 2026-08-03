@@ -235,7 +235,7 @@ public static class ConfigureMartenExtensions
 
         opts.Events.MetadataConfig.EnableAll();
 
-        opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
+        opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(3);
 
         opts.Projections.DaemonLockId = 1;
 
