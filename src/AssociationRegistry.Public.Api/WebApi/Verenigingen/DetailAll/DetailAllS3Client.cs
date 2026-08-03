@@ -41,6 +41,6 @@ public class DetailAllS3Client : IDetailAllS3Client
             ContentType = MediaTypeNames.Text.Plain,
         };
 
-        var putObjectResponse = await _s3Client.PutObjectAsync(request: request, cancellationToken: cancellationToken);
+        await _s3Client.PutObjectAsync(request: request, cancellationToken: cancellationToken);
     }
 }

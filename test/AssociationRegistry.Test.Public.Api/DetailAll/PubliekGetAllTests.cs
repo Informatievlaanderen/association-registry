@@ -32,13 +32,13 @@ public class PubliekGetAllTests
         SetupMocks(_s3ClientMock, queryMock, streamWriterMock);
 
         _response = sut.GetAll(queryMock.Object, streamWriterMock.Object, _s3ClientMock.Object, CancellationToken.None)
-                       .GetAwaiter()
-                       .GetResult();
+            .GetAwaiter()
+            .GetResult();
     }
 
     [Fact]
-    public void VerifyS3ClientPutIsCalled()
-        => _s3ClientMock.Verify(x => x.PutAsync(_stream, It.IsAny<CancellationToken>()), Times.Once);
+    public void VerifyS3ClientPutIsCalled() =>
+        _s3ClientMock.Verify(x => x.PutAsync(_stream, It.IsAny<CancellationToken>()), Times.Once);
 
     [Fact]
     public void VerifyRedirectWithLocationHeaderIsProvided()
@@ -60,17 +60,19 @@ public class PubliekGetAllTests
     private void SetupMocks(
         Mock<IDetailAllS3Client> s3ClientMock,
         Mock<IPubliekVerenigingenDetailAllQuery> queryMock,
-        Mock<IDetailAllStreamWriter> streamWriterMock)
+        Mock<IDetailAllStreamWriter> streamWriterMock
+    )
     {
         var data = GetData();
 
-        queryMock.Setup(s => s.ExecuteAsync(It.IsAny<CancellationToken>()))
-                 .ReturnsAsync(data);
+        queryMock.Setup(s => s.ExecuteAsync(It.IsAny<CancellationToken>())).ReturnsAsync(data);
 
-        streamWriterMock.Setup(s => s.WriteAsync(data, It.IsAny<CancellationToken>()))
-                        .ReturnsAsync(_stream);
+        streamWriterMock.Setup(s => s.WriteAsync(data, It.IsAny<CancellationToken>())).ReturnsAsync(_stream);
 
-        s3ClientMock.Setup(x => x.GetPreSignedUrlAsync(It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(_redirectUrl);
+        s3ClientMock.Setup(x => x.GetPreSignedUrlAsync(It.IsAny<CancellationToken>())).ReturnsAsync(_redirectUrl);
+
+        s3ClientMock
+            .Setup(x => x.PutAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
     }
 }
