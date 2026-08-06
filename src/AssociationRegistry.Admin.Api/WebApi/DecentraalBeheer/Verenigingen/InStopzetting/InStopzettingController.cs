@@ -44,6 +44,7 @@ public class InStopzettingController : ApiController
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging.</param>
     /// <param name="request">De gegevens om de indicatie in stopzetting van de vereniging te wijzigen. Gebruik `true` om de vereniging in stopzetting te plaatsen en `false` om de vereniging uit stopzetting te halen.</param>
+    /// <param name="validator"></param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <param name="cancellationToken"></param>
@@ -77,11 +78,14 @@ public class InStopzettingController : ApiController
     public async Task<IActionResult> InStopzetting(
         [FromRoute] string vCode,
         [FromBody] InStopzettingRequest request,
+        [FromServices] InStopzettingRequestValidator validator,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null,
         CancellationToken cancellationToken = default
     )
     {
+        await validator.NullValidateAndThrowAsync(request, cancellationToken: cancellationToken);
+
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<UpdateInStopzettingCommand>(request.ToCommand(vCode), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope, cancellationToken);
