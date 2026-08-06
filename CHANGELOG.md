@@ -1,3 +1,15 @@
+# [8.342.0](https://github.com/informatievlaanderen/association-registry/compare/v8.341.0...v8.342.0) (2026-08-06)
+
+
+### Bug Fixes
+
+* or-3372 set StaleSequenceThreshold to 3s ([838452d](https://github.com/informatievlaanderen/association-registry/commit/838452d7987eccf21fb5418ca61f6c3868aaf33f))
+
+
+### Features
+
+* or-3333 implement instopzetting in search endpoint ([4486000](https://github.com/informatievlaanderen/association-registry/commit/44860006ee4ca87c98ac83ee2971834ba150b4d7))
+
 # [8.341.0](https://github.com/informatievlaanderen/association-registry/compare/v8.340.0...v8.341.0) (2026-07-29)
 
 
