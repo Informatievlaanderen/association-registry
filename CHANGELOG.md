@@ -1,3 +1,10 @@
+## [8.342.1](https://github.com/informatievlaanderen/association-registry/compare/v8.342.0...v8.342.1) (2026-08-06)
+
+
+### Bug Fixes
+
+* or-3406 null validate and throw on empty instopzetting request ([56852f1](https://github.com/informatievlaanderen/association-registry/commit/56852f16235a5b6016b628de8e5c69e4234a5c8f))
+
 # [8.342.0](https://github.com/informatievlaanderen/association-registry/compare/v8.341.0...v8.342.0) (2026-08-06)
 
 
