@@ -6,10 +6,15 @@ using System.Diagnostics;
 public class SyncEnvelopeActivity : IDisposable
 {
     private readonly Activity? _activity;
+    private readonly CompositeDisposable _disposables = new();
 
     private SyncEnvelopeActivity(Activity? activity)
     {
         _activity = activity;
+        if(_activity is not null)
+        {
+            _disposables.Add(_activity);
+        }
     }
 
     public static SyncEnvelopeActivity Start(SyncEnvelope envelope)
@@ -44,9 +49,9 @@ public class SyncEnvelopeActivity : IDisposable
                 "ProcessSyncMessage",
                 ActivityKind.Consumer);
     }
-
     public void Dispose()
     {
-        _activity?.Dispose();
+        _disposables?.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

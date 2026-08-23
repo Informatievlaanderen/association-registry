@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 public class TelemetryManager : IDisposable
 {
     private OpenTelemetrySetup? _openTelemetrySetup;
+    private readonly CompositeDisposable _disposables;
     private readonly ILogger _logger;
     private readonly Meter _meter;
 
@@ -25,6 +26,7 @@ public class TelemetryManager : IDisposable
     public TelemetryManager(ILogger logger, IConfigurationRoot configuration)
     {
         _logger = logger;
+        _disposables = new CompositeDisposable(logger);
 
         _metricsUri = configuration["OTLP_METRICS_URI"];
         _tracesUri = configuration["OTLP_TRACES_URI"];
@@ -36,10 +38,10 @@ public class TelemetryManager : IDisposable
         _logger.LogInformation($"OTLP config - Logs URI: {_logsUri}");
         _logger.LogInformation($"OTLP config - Org ID: {_orgId}");
 
-        _meter = new Meter(KboSyncMetrics.MeterName);
+        _meter = new Meter(KboSyncMetrics.MeterName).DisposeWith(_disposables);
         Metrics = new KboSyncMetrics(_meter);
 
-        _openTelemetrySetup = new OpenTelemetrySetup(logger, configuration);
+        _openTelemetrySetup = new OpenTelemetrySetup(logger, configuration).DisposeWith(_disposables);
         _openTelemetrySetup.SetupMeter(_metricsUri, _orgId);
         _openTelemetrySetup.SetUpTracing(_tracesUri, _orgId);
     }
@@ -91,15 +93,7 @@ public class TelemetryManager : IDisposable
 
     public void Dispose()
     {
-        try
-        {
-            _openTelemetrySetup?.Dispose();
-            _openTelemetrySetup = null;
-            _meter?.Dispose();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error disposing OpenTelemetry setup");
-        }
+        _disposables?.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

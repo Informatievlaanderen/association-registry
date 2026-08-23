@@ -18,7 +18,7 @@ public class VertegenwoordigerWerdToegevoegdVanuitKBOUpcaster
         VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens vertegenwoordigerWerdToegevoegdVanuitKboZonderPersoonsgegevens,
         CancellationToken ct)
     {
-        var session = _querySessionFunc();
+        using var session = _querySessionFunc();
 
         var refId = vertegenwoordigerWerdToegevoegdVanuitKboZonderPersoonsgegevens.RefId;
         var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()

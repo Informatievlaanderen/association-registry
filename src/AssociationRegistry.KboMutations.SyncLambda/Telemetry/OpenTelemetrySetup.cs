@@ -2,7 +2,6 @@ namespace AssociationRegistry.KboMutations.SyncLambda.Telemetry;
 
 using System.Reflection;
 using global::OpenTelemetry;
-using Amazon.Lambda.Core;
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Logs;
 using global::OpenTelemetry.Metrics;
@@ -11,11 +10,11 @@ using global::OpenTelemetry.Trace;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Npgsql;
-using OpenTelemetry;
 using OpenTelemetry.Metrics;
 
 public class OpenTelemetrySetup : IDisposable
 {
+    private readonly CompositeDisposable _disposables;
     private readonly OpenTelemetryResources _resources;
     private readonly ILogger _logger;
     public TracerProvider TracerProvider { get; private set; }
@@ -27,7 +26,7 @@ public class OpenTelemetrySetup : IDisposable
     {
         _logger = logger;
         _logger.LogInformation("OpenTelemetrySetup: Starting setup");
-
+        _disposables = new CompositeDisposable(logger);
         _resources = GetResources(logger);
     }
 
@@ -60,7 +59,8 @@ public class OpenTelemetrySetup : IDisposable
             );
         }
 
-        MeterProvider = builder.Build();
+        MeterProvider = builder.Build()
+                               .DisposeWith(_disposables);
         return MeterProvider;
     }
 
@@ -92,8 +92,8 @@ public class OpenTelemetrySetup : IDisposable
             _logger.LogInformation("No traces URI configured, skipping OTLP traces exporter");
         }
 
-        TracerProvider = builder.Build();
-
+        TracerProvider = builder.Build()
+                                .DisposeWith(_disposables);
         return TracerProvider;
     }
 
@@ -154,8 +154,8 @@ public class OpenTelemetrySetup : IDisposable
 
     public void Dispose()
     {
-        MeterProvider.Dispose();
-        TracerProvider.Dispose();
+        _disposables?.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     private static void AddHeaders(OtlpExporterOptions options, string? orgScope)
