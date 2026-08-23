@@ -18,7 +18,7 @@ public class VertegenwoordigerWerdGewijzigdUpcaster
         VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens vertegenwoordigerWerdGewijzigdZonderPersoonsgegevens,
         CancellationToken ct)
     {
-        var session = _querySessionFunc();
+        using var session = _querySessionFunc();
 
         var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
                                                              .Where(x => x.RefId == vertegenwoordigerWerdGewijzigdZonderPersoonsgegevens.RefId)

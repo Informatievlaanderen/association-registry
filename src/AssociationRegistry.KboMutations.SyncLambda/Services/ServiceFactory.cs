@@ -1,7 +1,7 @@
 namespace AssociationRegistry.KboMutations.SyncLambda.Services;
 
-using Amazon.Lambda.Core;
 using Amazon.SimpleSystemsManagement;
+using Amazon.SQS;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.KboMutations.Configuration;
@@ -35,12 +35,17 @@ using Npgsql;
 using Telemetry;
 using PostgreSqlOptionsSection = Configuration.PostgreSqlOptionsSection;
 
-public class ServiceFactory
+public class ServiceFactory : IDisposable
 {
+    private readonly CompositeDisposable _disposables = new();
     private readonly IConfigurationRoot _configuration;
     private readonly LambdaLoggerProvider _lambdaLoggerProvider;
     private readonly TelemetryManager _telemetryManager;
-    private DocumentStore _store;
+
+    private NpgsqlDataSource? _npgsqlDataSource = null;
+    private DocumentStore? _store = null;
+    private IQuerySession GetQuerySession() => _store!.QuerySession();
+    private AmazonSimpleSystemsManagementClient _sqsClient;
 
     public ServiceFactory(
         IConfigurationRoot configuration,
@@ -51,15 +56,21 @@ public class ServiceFactory
         _configuration = configuration;
         _lambdaLoggerProvider = lambdaLoggerProvider;
         _telemetryManager = telemetryManager;
+        _sqsClient = new AmazonSimpleSystemsManagementClient().DisposeWith(_disposables);
+    }
+
+    public void Dispose()
+    {
+        _disposables.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     public async Task<LambdaServices> CreateServicesAsync()
     {
         var paramNamesConfiguration = GetParamNamesConfiguration();
-        var ssmClientWrapper = new SsmClientWrapper(new AmazonSimpleSystemsManagementClient());
-
-        var loggerFactory = CreateLoggerFactory(_lambdaLoggerProvider);
+        var loggerFactory = CreateLoggerFactory(_lambdaLoggerProvider).DisposeWith(_disposables);
         var logger = loggerFactory.CreateLogger<ServiceFactory>();
+        var ssmClientWrapper = new SsmClientWrapper(_sqsClient);
 
         var magdaOptions = await GetMagdaOptionsAsync(
             ssmClient: ssmClientWrapper,
@@ -67,14 +78,14 @@ public class ServiceFactory
             logger: logger
         );
 
-        _store = await SetUpDocumentStoreAsync(
+        await SetUpDocumentStoreAsync(
             ssmClientWrapper: ssmClientWrapper,
             paramNames: paramNamesConfiguration,
             querySessionFunc: GetQuerySession,
             logger: logger
         );
 
-        var session = _store.LightweightSession();
+        var session = _store!.LightweightSession().DisposeWith(_disposables);
 
         var eventConflictResolver = new EventConflictResolver(
             Array.Empty<IEventPreConflictResolutionStrategy>(),
@@ -101,7 +112,8 @@ public class ServiceFactory
 
         var aggregateSession = new AggregateSession(eventStore);
         var queryService = new VerenigingStateQueryService(session);
-        var referenceRepository = new MagdaCallReferenceRepository(_store.LightweightSession());
+        var magdaSession = _store.LightweightSession().DisposeWith(_disposables);
+        var referenceRepository = new MagdaCallReferenceRepository(magdaSession);
 
         var magdaClient = new MagdaClient(
             magdaOptions: magdaOptions,
@@ -176,8 +188,6 @@ public class ServiceFactory
         );
     }
 
-    private IQuerySession GetQuerySession() => _store.QuerySession();
-
     private ParamNamesConfiguration GetParamNamesConfiguration() =>
         _configuration.GetSection(ParamNamesConfiguration.Section).Get<ParamNamesConfiguration>()
         ?? throw new InvalidOperationException("Could not load ParamNamesConfiguration");
@@ -218,26 +228,29 @@ public class ServiceFactory
         if (string.IsNullOrEmpty(paramNamesConfiguration.MagdaCertificate))
         {
             logger.LogInformation("Magda certificate parameter name is not set, skipping certificate retrieval.");
-
             return magdaOptions;
         }
 
-        magdaOptions.ClientCertificate = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificate);
-
-        magdaOptions.ClientCertificatePassword = await ssmClient.GetParameterAsync(
-            paramNamesConfiguration.MagdaCertificatePassword
-        );
+        magdaOptions.ClientCertificate
+            = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificate).ConfigureAwait(false);
+        magdaOptions.ClientCertificatePassword
+            = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificatePassword).ConfigureAwait(false);
 
         return magdaOptions;
     }
 
-    private async Task<DocumentStore> SetUpDocumentStoreAsync(
+    private async Task SetUpDocumentStoreAsync(
         SsmClientWrapper ssmClientWrapper,
         ParamNamesConfiguration paramNames,
         Func<IQuerySession> querySessionFunc,
         ILogger<ServiceFactory> logger
     )
     {
+        if (_store is not null)
+        {
+            return;
+        }
+
         var postgresSection =
             _configuration.GetSection(PostgreSqlOptionsSection.SectionName).Get<PostgreSqlOptionsSection>()
             ?? throw new ApplicationException("PostgresSqlOptions section not found");
@@ -254,15 +267,23 @@ public class ServiceFactory
         var connectionString = await BuildConnectionStringAsync(
             postgresSection: postgresSection,
             ssmClientWrapper: ssmClientWrapper,
-            paramNames: paramNames
+            paramNames
         );
 
-        var opts = ConfigureStoreOptions(connectionString: connectionString, querySessionFunc: querySessionFunc);
+        //Should be a singleton
+        if (_npgsqlDataSource is null)
+        {
+            _npgsqlDataSource = BuildDataSource(connectionString).DisposeWith(_disposables);
+        }
 
-        return new DocumentStore(opts);
+        if (_store is null)
+        {
+            var opts = ConfigureStoreOptions(_npgsqlDataSource, querySessionFunc);
+            _store = new DocumentStore(opts).DisposeWith(_disposables);
+        }
     }
 
-    private async Task<string> BuildConnectionStringAsync(
+    private static async Task<string> BuildConnectionStringAsync(
         PostgreSqlOptionsSection postgresSection,
         SsmClientWrapper ssmClientWrapper,
         ParamNamesConfiguration paramNames
@@ -283,22 +304,19 @@ public class ServiceFactory
     private static NpgsqlDataSource BuildDataSource(string connectionString)
     {
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-
         dataSourceBuilder.ConfigureTracing(options =>
         {
             // Disable the "time-to-first-read" event to reduce noise in traces
             options.EnableFirstResponseEvent(false);
         });
-
         return dataSourceBuilder.Build();
     }
 
-    private static StoreOptions ConfigureStoreOptions(string connectionString, Func<IQuerySession> querySessionFunc)
+    private static StoreOptions ConfigureStoreOptions(NpgsqlDataSource dataSource, Func<IQuerySession> querySessionFunc)
     {
         var opts = new StoreOptions();
         opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
-
-        var dataSource = BuildDataSource(connectionString);
+        // When providing a NpgsqlDataSource to marthin then we need to handle data source disposal.
         opts.Connection(dataSource);
         opts.Events.StreamIdentity = StreamIdentity.AsString;
 
@@ -339,7 +357,7 @@ public class ServiceFactory
             loggerFactory.CreateLogger<MagdaRegistreerInschrijvingService>()
         );
 
-    private async Task<INotifier> CreateNotifierAsync(
+    private static async Task<INotifier> CreateNotifierAsync(
         SsmClientWrapper ssmClientWrapper,
         ParamNamesConfiguration paramNamesConfiguration,
         ILoggerFactory loggerFactory

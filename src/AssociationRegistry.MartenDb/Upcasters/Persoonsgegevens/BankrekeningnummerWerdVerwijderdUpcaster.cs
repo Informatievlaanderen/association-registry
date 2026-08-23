@@ -18,7 +18,7 @@ public class BankrekeningnummerWerdVerwijderdUpcaster
         BankrekeningnummerWerdVerwijderdZonderPersoonsgegevens bankrekeningnummerWerdVerwijderdZonderPersoonsgegevens,
         CancellationToken ct)
     {
-        var session = _querySessionFunc();
+        using var session = _querySessionFunc();
 
         var persoonsgegevens = await session.Query<BankrekeningnummerPersoonsgegevensDocument>()
                                                              .Where(x => x.RefId == bankrekeningnummerWerdVerwijderdZonderPersoonsgegevens.RefId)

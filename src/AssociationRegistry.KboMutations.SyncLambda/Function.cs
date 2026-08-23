@@ -1,17 +1,14 @@
-using System.Diagnostics.Metrics;
+
+namespace AssociationRegistry.KboMutations.SyncLambda;
 using System.Text.Json.Serialization;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.SystemTextJson;
 using Amazon.Lambda.SQSEvents;
 using Microsoft.Extensions.Logging;
-
-namespace AssociationRegistry.KboMutations.SyncLambda;
-
 using CommandHandling.MagdaSync.Exceptions;
 using Configuration;
 using Logging;
-using OpenTelemetry;
 using Serilog;
 using Services;
 using Telemetry;
@@ -23,11 +20,10 @@ public class Function
     private static async Task Main()
     {
         var handler = FunctionHandler;
-
-        await LambdaBootstrapBuilder
+        using var runner = LambdaBootstrapBuilder
             .Create(handler, new SourceGeneratorLambdaJsonSerializer<LambdaFunctionJsonSerializerContext>())
-            .Build()
-            .RunAsync();
+            .Build();
+        await runner.RunAsync(); // long-running loop, lives for the container's lifetime
     }
 
     private static async Task FunctionHandler(SQSEvent @event, ILambdaContext context)
@@ -38,15 +34,14 @@ public class Function
         var configuration = configurationManager.Build();
 
         // Create initial logger as early as possible
-        var lambdaLoggerProvider = new LambdaLoggerProvider(context.Logger);
+        using var lambdaLoggerProvider = new LambdaLoggerProvider(context.Logger);
         var earlyLogger = lambdaLoggerProvider.CreateLogger("KboMutations.SyncLambda.Startup");
-
         earlyLogger.LogInformation("Function started (cold start: {ColdStart})", coldStart);
 
         var telemetryLogger = lambdaLoggerProvider.CreateLogger("TelemetryManager");
         var telemetryManager = new TelemetryManager(telemetryLogger, configuration);
 
-        var loggerFactory = LoggerFactory.Create(builder =>
+        using var loggerFactory = LoggerFactory.Create(builder =>
         {
             builder.AddProvider(lambdaLoggerProvider);
             telemetryManager.ConfigureLogging(builder);

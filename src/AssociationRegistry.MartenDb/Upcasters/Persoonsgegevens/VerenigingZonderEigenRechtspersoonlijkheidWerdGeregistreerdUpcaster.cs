@@ -19,7 +19,7 @@ public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster
         CancellationToken ct
     )
     {
-        var session = _querySessionFunc();
+        using var session = _querySessionFunc();
 
         Registratiedata.Vertegenwoordiger[] vertegenwoordigers = await GetVertegenwoordigersPersoonsgegevens(
             verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens,
