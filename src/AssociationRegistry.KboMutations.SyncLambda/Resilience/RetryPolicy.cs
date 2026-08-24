@@ -8,7 +8,7 @@ public class RetryPolicy
 {
     public static AsyncRetryPolicy Create(ILogger logger)
     {
-        var retryCount = 5;
+        var retryCount = 1;
         var baseDelay = TimeSpan.FromSeconds(3);
 
         return Policy

@@ -49,7 +49,7 @@ public class Function
         var logger = loggerFactory.CreateLogger("KboMutations.SyncLambda");
 
         telemetryManager.Metrics.RecordLambdaInvocation("kbo_sync", coldStart);
-        var serviceFactory = new ServiceFactory(configuration, lambdaLoggerProvider, telemetryManager);
+        using var serviceFactory = new ServiceFactory(configuration, lambdaLoggerProvider, telemetryManager);
 
         LambdaServices? services = null;
         Exception? caughtException = null;
