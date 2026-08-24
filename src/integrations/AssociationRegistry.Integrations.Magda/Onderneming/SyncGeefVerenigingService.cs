@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Integrations.Magda.Onderneming;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
-using Framework;
-using Magda;
-using GeefOnderneming;
 using AssociationRegistry.Integrations.Magda.Onderneming.Models.GeefOnderneming;
-using Persoon;
 using AssociationRegistry.Magda.Kbo;
+using Framework;
+using GeefOnderneming;
+using Magda;
 using Microsoft.Extensions.Logging;
+using Persoon;
 using ResultNet;
 using Shared.Constants;
 using Shared.Exceptions;
@@ -20,9 +20,7 @@ public class SyncGeefVerenigingService : IMagdaSyncGeefVerenigingService
     private readonly IMagdaClient _magdaClient;
     private readonly ILogger _logger;
 
-    public SyncGeefVerenigingService(
-        IMagdaClient magdaClient,
-        ILogger<SyncGeefVerenigingService> logger)
+    public SyncGeefVerenigingService(IMagdaClient magdaClient, ILogger<SyncGeefVerenigingService> logger)
     {
         _magdaClient = magdaClient;
         _logger = logger;
@@ -32,11 +30,17 @@ public class SyncGeefVerenigingService : IMagdaSyncGeefVerenigingService
         KboNummer kboNummer,
         AanroependeFunctie aanroependeFunctie,
         CommandMetadata metadata,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         try
         {
-            var magdaResponse = await _magdaClient.GeefOnderneming(kboNummer, aanroependeFunctie, metadata, cancellationToken);
+            var magdaResponse = await _magdaClient.GeefOnderneming(
+                kboNummer,
+                aanroependeFunctie,
+                metadata,
+                cancellationToken
+            );
 
             if (MagdaResponseValidator.HasBlokkerendeUitzonderingen(magdaResponse))
             {
@@ -44,14 +48,13 @@ public class SyncGeefVerenigingService : IMagdaSyncGeefVerenigingService
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
             }
 
-            var magdaOnderneming = magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
+            var magdaOnderneming =
+                magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
 
-            if (magdaOnderneming is null ||
-                !magdaOnderneming.IsOnderneming() ||
-                !magdaOnderneming.IsRechtspersoon())
+            if (magdaOnderneming is null || !magdaOnderneming.IsOnderneming() || !magdaOnderneming.IsRechtspersoon())
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
-            if (!magdaOnderneming.IsActief())
+            if (!MagdaOndernemingExtensions.IsActiefOfIsInOprichting(magdaOnderneming))
             {
                 var inactieveVereniging = new InactieveVereniging()
                 {
@@ -66,11 +69,15 @@ public class SyncGeefVerenigingService : IMagdaSyncGeefVerenigingService
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
             return VerenigingVolgensKboResult.GeldigeVereniging(
-                magdaOnderneming.MapVerenigingVolgensKbo(kboNummer, naamOndernemingType));
+                magdaOnderneming.MapVerenigingVolgensKbo(kboNummer, naamOndernemingType)
+            );
         }
         catch (Exception e)
         {
-            throw new MagdaException(message: "Er heeft zich een fout voorgedaan bij het aanroepen van de Magda GeefOndernemingDienst.", e);
+            throw new MagdaException(
+                message: "Er heeft zich een fout voorgedaan bij het aanroepen van de Magda GeefOndernemingDienst.",
+                e
+            );
         }
     }
 
@@ -79,13 +86,14 @@ public class SyncGeefVerenigingService : IMagdaSyncGeefVerenigingService
         var uitzonderingen = magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Uitzonderingen;
 
         _logger.LogInformation(
-            "Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {KboNummer}: " +
-            "\nFouten:\n'{Uitzonderingen}'" +
-            "\nWaarschuwingen:\n'{Waarschuwingen}'" +
-            "\nInformatie:\n'{Informatie}'",
+            "Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {KboNummer}: "
+                + "\nFouten:\n'{Uitzonderingen}'"
+                + "\nWaarschuwingen:\n'{Waarschuwingen}'"
+                + "\nInformatie:\n'{Informatie}'",
             (string)kboNummer,
             uitzonderingen?.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.FOUT),
             uitzonderingen?.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.WAARSCHUWING),
-            uitzonderingen?.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.INFORMATIE));
+            uitzonderingen?.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.INFORMATIE)
+        );
     }
 }
