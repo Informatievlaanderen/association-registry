@@ -16,13 +16,15 @@ public class BankrekeningnummerWerdVerwijderdUpcaster
 
     public async Task<BankrekeningnummerWerdVerwijderd> UpcastAsync(
         BankrekeningnummerWerdVerwijderdZonderPersoonsgegevens bankrekeningnummerWerdVerwijderdZonderPersoonsgegevens,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        using var session = _querySessionFunc();
+        await using var session = _querySessionFunc();
 
-        var persoonsgegevens = await session.Query<BankrekeningnummerPersoonsgegevensDocument>()
-                                                             .Where(x => x.RefId == bankrekeningnummerWerdVerwijderdZonderPersoonsgegevens.RefId)
-                                                             .SingleOrDefaultAsync(ct);
+        var persoonsgegevens = await session
+            .Query<BankrekeningnummerPersoonsgegevensDocument>()
+            .Where(x => x.RefId == bankrekeningnummerWerdVerwijderdZonderPersoonsgegevens.RefId)
+            .SingleOrDefaultAsync(ct);
 
         return new BankrekeningnummerWerdVerwijderd(
             BankrekeningnummerId: bankrekeningnummerWerdVerwijderdZonderPersoonsgegevens.BankrekeningnummerId,

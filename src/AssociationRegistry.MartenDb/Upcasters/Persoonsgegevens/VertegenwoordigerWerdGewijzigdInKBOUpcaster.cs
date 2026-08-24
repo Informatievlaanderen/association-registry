@@ -16,13 +16,15 @@ public class VertegenwoordigerWerdGewijzigdInKBOUpcaster
 
     public async Task<VertegenwoordigerWerdGewijzigdInKBO> UpcastAsync(
         VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens vertegenwoordigerWerdGewijzigdInKboZonderPersoonsgegevens,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        using var session = _querySessionFunc();
+        await using var session = _querySessionFunc();
 
-        var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-                                                             .Where(x => x.RefId == vertegenwoordigerWerdGewijzigdInKboZonderPersoonsgegevens.RefId)
-                                                             .SingleOrDefaultAsync(ct);
+        var vertegenwoordigerPersoonsgegevens = await session
+            .Query<VertegenwoordigerPersoonsgegevensDocument>()
+            .Where(x => x.RefId == vertegenwoordigerWerdGewijzigdInKboZonderPersoonsgegevens.RefId)
+            .SingleOrDefaultAsync(ct);
 
         return new VertegenwoordigerWerdGewijzigdInKBO(
             VertegenwoordigerId: vertegenwoordigerWerdGewijzigdInKboZonderPersoonsgegevens.VertegenwoordigerId,

@@ -16,14 +16,16 @@ public class VertegenwoordigerWerdVerwijderdUitKBOUpcaster
 
     public async Task<VertegenwoordigerWerdVerwijderdUitKBO> UpcastAsync(
         VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens vertegenwoordigerWerdVerwijderdUitKboZonderPersoonsgegevens,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        using var session = _querySessionFunc();
+        await using var session = _querySessionFunc();
 
         var refId = vertegenwoordigerWerdVerwijderdUitKboZonderPersoonsgegevens.RefId;
-        var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-                                                             .Where(x => x.RefId == refId)
-                                                             .SingleOrDefaultAsync(ct);
+        var vertegenwoordigerPersoonsgegevens = await session
+            .Query<VertegenwoordigerPersoonsgegevensDocument>()
+            .Where(x => x.RefId == refId)
+            .SingleOrDefaultAsync(ct);
 
         return new VertegenwoordigerWerdVerwijderdUitKBO(
             VertegenwoordigerId: vertegenwoordigerWerdVerwijderdUitKboZonderPersoonsgegevens.VertegenwoordigerId,

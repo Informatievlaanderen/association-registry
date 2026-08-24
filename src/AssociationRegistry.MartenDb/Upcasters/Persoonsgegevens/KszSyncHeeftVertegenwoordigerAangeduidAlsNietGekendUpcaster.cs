@@ -16,14 +16,16 @@ public class KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendUpcaster
 
     public async Task<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> UpcastAsync(
         KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendZonderPersoonsgegevens vertegenwoordigerWerdVerwijderd,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        using var session = _querySessionFunc();
+        await using var session = _querySessionFunc();
 
         var refId = vertegenwoordigerWerdVerwijderd.RefId;
-        var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-                                                             .Where(x => x.RefId == refId)
-                                                             .SingleOrDefaultAsync(ct);
+        var vertegenwoordigerPersoonsgegevens = await session
+            .Query<VertegenwoordigerPersoonsgegevensDocument>()
+            .Where(x => x.RefId == refId)
+            .SingleOrDefaultAsync(ct);
 
         return new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend(
             VertegenwoordigerId: vertegenwoordigerWerdVerwijderd.VertegenwoordigerId,
