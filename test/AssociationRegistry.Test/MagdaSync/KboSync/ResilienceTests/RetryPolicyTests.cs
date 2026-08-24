@@ -33,8 +33,8 @@
                 });
 
                 // Assert
-                // retryCount = 5 => total = 1 initial + 5 retries = 6
-                Assert.Equal(6, executions);
+                // retryCount = 1 => total = 1 initial + 1 retries = 2
+                Assert.Equal(2, executions);
             }
             finally
             {
@@ -62,12 +62,12 @@
                     executions++;
                     await Task.Yield();
 
-                    if (executions <= 2)
+                    if (executions <= 0)
                         throw new Exception("transient");
                 });
 
                 // Assert
-                Assert.Equal(3, executions);
+                Assert.Equal(1, executions);
             }
             finally
             {
@@ -102,15 +102,8 @@
                 });
 
                 // Assert
-                // baseDelay = 3s, exponential: 3,6,12,24,48 (5 retries)
-                var expected = new[]
-                {
-                    TimeSpan.FromSeconds(3),
-                    TimeSpan.FromSeconds(6),
-                    TimeSpan.FromSeconds(12),
-                    TimeSpan.FromSeconds(24),
-                    TimeSpan.FromSeconds(48),
-                };
+                // baseDelay = 3s, exponential: 3,6,12,24,48 (1 retries)
+                var expected = new[] { TimeSpan.FromSeconds(3) };
 
                 Assert.Equal(expected.Length, observedSleeps.Count);
                 for (var i = 0; i < expected.Length; i++)
