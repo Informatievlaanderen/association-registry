@@ -18,7 +18,7 @@ public class BankrekeningnummerWerdGewijzigdUpcaster
         CancellationToken ct
     )
     {
-        using var session = _querySessionFunc();
+        await using var session = _querySessionFunc();
 
         var persoonsgegevens = await session
             .Query<BankrekeningnummerPersoonsgegevensDocument>()

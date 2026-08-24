@@ -16,13 +16,15 @@ public class VertegenwoordigerWerdToegevoegdUpcaster
 
     public async Task<VertegenwoordigerWerdToegevoegd> UpcastAsync(
         VertegenwoordigerWerdToegevoegdZonderPersoonsgegevens vertegenwoordigerWerdToegevoegd,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        using var session = _querySessionFunc();
+        await using var session = _querySessionFunc();
 
-        var vertegenwoordigerPersoonsgegevens = await session.Query<VertegenwoordigerPersoonsgegevensDocument>()
-                                                             .Where(x => x.RefId == vertegenwoordigerWerdToegevoegd.RefId)
-                                                             .SingleOrDefaultAsync(ct);
+        var vertegenwoordigerPersoonsgegevens = await session
+            .Query<VertegenwoordigerPersoonsgegevensDocument>()
+            .Where(x => x.RefId == vertegenwoordigerWerdToegevoegd.RefId)
+            .SingleOrDefaultAsync(ct);
 
         return new VertegenwoordigerWerdToegevoegd(
             VertegenwoordigerId: vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
@@ -37,6 +39,5 @@ public class VertegenwoordigerWerdToegevoegdUpcaster
             vertegenwoordigerPersoonsgegevens?.Mobiel ?? WellKnownAnonymousFields.Geanonimiseerd,
             vertegenwoordigerPersoonsgegevens?.SocialMedia ?? WellKnownAnonymousFields.Geanonimiseerd
         );
-
     }
 }
