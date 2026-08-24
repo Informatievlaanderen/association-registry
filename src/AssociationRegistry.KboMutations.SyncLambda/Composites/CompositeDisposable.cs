@@ -19,8 +19,7 @@ public sealed class CompositeDisposable(ILogger? logger) : IDisposable
 
     public CompositeDisposable Add(IDisposable disposable)
     {
-        if (_disposed)
-            throw new ObjectDisposedException(nameof(CompositeDisposable));
+        ObjectDisposedException.ThrowIf(_disposed, this);
 
         if (disposable != null)
             _disposables.Add(disposable);
@@ -30,8 +29,7 @@ public sealed class CompositeDisposable(ILogger? logger) : IDisposable
 
     public CompositeDisposable AddRange(params IDisposable[] disposables)
     {
-        if (_disposed)
-            throw new ObjectDisposedException(nameof(CompositeDisposable));
+        ObjectDisposedException.ThrowIf(_disposed, this);
 
         foreach (var disposable in disposables)
         {
