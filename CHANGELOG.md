@@ -1,3 +1,13 @@
+## [8.342.2](https://github.com/informatievlaanderen/association-registry/compare/v8.342.1...v8.342.2) (2026-08-24)
+
+
+### Bug Fixes
+
+* dispose serviceFactory + reduce retry to 1 ([44d3f38](https://github.com/informatievlaanderen/association-registry/commit/44d3f38f42c2160020cdcb0fac7fa80abc7e9f2e))
+* memory leaks ([dd57308](https://github.com/informatievlaanderen/association-registry/commit/dd57308eb51a4a356daaa7ceba383c341d004666))
+* or-3469 use await for using session ([9ecbbdc](https://github.com/informatievlaanderen/association-registry/commit/9ecbbdced5c2092e1324192c6dc68d1c7a4af4a6))
+* sonarcube improvements ([4a08165](https://github.com/informatievlaanderen/association-registry/commit/4a081651aa5150c8ed396fa72b4ed4a7b60ee930))
+
 ## [8.342.1](https://github.com/informatievlaanderen/association-registry/compare/v8.342.0...v8.342.1) (2026-08-06)
 
 
