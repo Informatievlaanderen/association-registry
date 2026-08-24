@@ -1,3 +1,10 @@
+## [8.342.3](https://github.com/informatievlaanderen/association-registry/compare/v8.342.2...v8.342.3) (2026-08-24)
+
+
+### Bug Fixes
+
+* or-3469 consider JU and BK kbo status as active in SyncGeefVerenigingService ([88eae2d](https://github.com/informatievlaanderen/association-registry/commit/88eae2d40393756a4977503127abd4841748d435))
+
 ## [8.342.2](https://github.com/informatievlaanderen/association-registry/compare/v8.342.1...v8.342.2) (2026-08-24)
 
 
