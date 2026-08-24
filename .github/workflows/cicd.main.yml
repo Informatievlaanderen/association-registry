@@ -170,7 +170,7 @@ jobs:
     name: ACM
     uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-acm-tests ]
+    needs: [ set-release-version ]
     with:
       image-file: ar-acm-api-image.tar
       image-name: verenigingsregister-acmapi
@@ -204,7 +204,7 @@ jobs:
     name: Public Api
     uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-public-tests ]
+    needs: [ set-release-version ]
     with:
       image-file: ar-public-api-image.tar
       image-name: verenigingsregister-publicapi
@@ -223,7 +223,7 @@ jobs:
     name: Public Projections
     uses: ./.github/workflows/shared.build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-public-tests ]
+    needs: [ set-release-version ]
     with:
       image-file: ar-public-projections-image.tar
       image-name: verenigingsregister-publicprojections
@@ -257,7 +257,7 @@ jobs:
     name: Build Admin Api
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-admin-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -299,7 +299,7 @@ jobs:
     name: Build Admin Projections
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-admin-tests ]
+    needs: [ set-release-version ]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -355,7 +355,7 @@ jobs:
     name: Build Scheduled Host
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-scheduled-host-tests ]
+    needs: [ set-release-version ]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -412,7 +412,7 @@ jobs:
     name: Build Admin Address Sync
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-address-sync-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -454,7 +454,7 @@ jobs:
     name: Build Admin Api Migrations
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-admin-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -498,7 +498,7 @@ jobs:
     name: Build Admin Projections Migrations
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-admin-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -542,7 +542,7 @@ jobs:
     name: Build Acm Api Migrations
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-acm-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -586,7 +586,7 @@ jobs:
     name: Build Public Projections Migrations
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-public-tests ]
+    needs: [ set-release-version ]
     steps:
 
       - name: Checkout Code
@@ -706,16 +706,16 @@ jobs:
       db-name: golden_master_template
     secrets: inherit
 
-#  pack-association-registry:
-#    name: Pack Association Registry Domain
-#    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
-#    needs: [ set-release-version ]
-#    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
-#    with:
-#      pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry
-#      build-project: AssociationRegistry
-#      semver: ${{ needs.set-release-version.outputs.version }}
-#    secrets: inherit
+  #  pack-association-registry:
+  #    name: Pack Association Registry Domain
+  #    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+  #    needs: [ set-release-version ]
+  #    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+  #    with:
+  #      pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry
+  #      build-project: AssociationRegistry
+  #      semver: ${{ needs.set-release-version.outputs.version }}
+  #    secrets: inherit
 
   release:
     if: github.repository_owner == 'Informatievlaanderen'
@@ -723,19 +723,28 @@ jobs:
     runs-on: ubuntu-latest
     needs: [
       set-release-version,
+      analyze-code,
+      run-unit-tests,
+      run-acm-tests,
+      run-public-tests,
+      run-admin-tests,
+      run-scheduled-host-tests,
+      run-address-sync-tests,
+      run-e2e-tests,
+      run-projections-tests,
       build-acm-api,
       build-public-api,
       build-public-projections,
       build-admin-api,
       build-admin-projections,
       build-admin-api-migrations,
+      build-admin-projections-migrations,
+      build-acm-api-migrations,
+      build-public-projections-migrations,
       build-admin-address-sync,
       build-scheduled-host,
-#      pack-association-registry,
-      build-sync-lambda,
-      run-unit-tests,
-      run-e2e-tests,
-      run-projections-tests
+      #      pack-association-registry,
+      build-sync-lambda
     ]
 
     outputs:
@@ -846,32 +855,32 @@ jobs:
 
     steps:
       - run: 'true'
-#      - name: Checkout Code
-#        uses: actions/checkout@v4
-#
-#      - name: Setup .NET Core
-#        uses: actions/setup-dotnet@v4
-#        with:
-#          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
-#
-#      - name: .NET version
-#        shell: bash
-#        run: dotnet --info
-#
-#      - name: Download NuGet package 'association-registry'
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}
-#          path: dist/nuget/
-#
-#      - name: Publish packages to NuGet 'association-registry'
-#        shell: bash
-#        run: |
-#          dotnet nuget push dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
-#        env:
-#          SEMVER: ${{  needs.release.outputs.version }}
-#          WORKSPACE: ${{ github.workspace }}
-#          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+  #      - name: Checkout Code
+  #        uses: actions/checkout@v4
+  #
+  #      - name: Setup .NET Core
+  #        uses: actions/setup-dotnet@v4
+  #        with:
+  #          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+  #
+  #      - name: .NET version
+  #        shell: bash
+  #        run: dotnet --info
+  #
+  #      - name: Download NuGet package 'association-registry'
+  #        uses: actions/download-artifact@v4
+  #        with:
+  #          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}
+  #          path: dist/nuget/
+  #
+  #      - name: Publish packages to NuGet 'association-registry'
+  #        shell: bash
+  #        run: |
+  #          dotnet nuget push dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+  #        env:
+  #          SEMVER: ${{  needs.release.outputs.version }}
+  #          WORKSPACE: ${{ github.workspace }}
+  #          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
   upload-sync-lambda:
     name: Upload & Deploy Sync Lambda
