@@ -114,7 +114,7 @@ public class Given_An_ActiveMagdaVereniging
     }
 
     [Fact]
-    public void With_Invalid_And_Valid_Ibans_Only_Take_Valid_Ibanks_From_Kbo()
+    public void With_Invalid_And_Valid_Ibans_Only_Take_Valid_Ibans_From_Kbo()
     {
         var nextId = _scenario.GetVerenigingState().Bankrekeningnummers.NextId;
 
@@ -130,6 +130,21 @@ public class Given_An_ActiveMagdaVereniging
         _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
 
         ShouldHaveEvents(_sut, [new BankrekeningnummerWerdToegevoegdVanuitKBO(nextId, validIban.Iban)]);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(null)]
+    public void With_No_Iban_Then_Add_BankrekeningnummerWerdToegevoegdVanuitKBO_Event(string iban)
+    {
+        var invalidIban = _fixture.Create<BankrekeningnummerVolgensKbo>() with { Iban = iban };
+
+        var verenigingVolgensKbo = _fixture.Create<VerenigingVolgensKbo>() with { Bankrekeningnummers = [invalidIban] };
+
+        _sut.NeemGegevensOverUitKboSync(VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo));
+
+        ShouldHaveNotSavedEvents(_sut, typeof(BankrekeningnummerWerdToegevoegdVanuitKBO));
     }
 
     private (

@@ -33,10 +33,11 @@ public record IbanNummer
 
     public override string ToString() => Value;
 
-    private static string Sanitize(string insz) =>
-        insz.Replace(oldValue: ".", string.Empty).Replace(oldValue: " ", string.Empty);
+    private static string Sanitize(string iban) =>
+        iban.Replace(oldValue: ".", string.Empty).Replace(oldValue: " ", string.Empty);
 
-    public static bool IsValid(string iban) => HasBelgianPrefix(iban) && IbanUtils.IsValid(Sanitize(iban), out _);
+    public static bool IsValid(string iban) =>
+        !string.IsNullOrWhiteSpace(iban) && HasBelgianPrefix(iban) && IbanUtils.IsValid(Sanitize(iban), out _);
 
     private static bool HasBelgianPrefix(string iban) => iban.StartsWith(BelgianIbanPrefix);
 }
