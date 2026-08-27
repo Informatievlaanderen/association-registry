@@ -1,3 +1,10 @@
+## [8.342.4](https://github.com/informatievlaanderen/association-registry/compare/v8.342.3...v8.342.4) (2026-08-27)
+
+
+### Bug Fixes
+
+* or-3516 add null or whitespace check for validating iban ([24846b3](https://github.com/informatievlaanderen/association-registry/commit/24846b30fb0bbd53cfbb733b23993ff12ab514de))
+
 ## [8.342.3](https://github.com/informatievlaanderen/association-registry/compare/v8.342.2...v8.342.3) (2026-08-24)
 
 
