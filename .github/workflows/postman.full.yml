@@ -23,65 +23,33 @@ jobs:
             --reporter-html-export test-report-full.html \
             --reporter-json-export test-results.json
 
-      - name: Generate failures-only HTML report
-        if: always()
-        run: |
-          pip install beautifulsoup4 -q
-          python3 - <<'EOF'
-          import os
-          from bs4 import BeautifulSoup
-      
-          if not os.path.exists("test-report-full.html"):
-              print("test-report-full.html not found, skipping")
-              exit(0)
-      
-          with open("test-report-full.html", encoding="utf-8") as f:
-              soup = BeautifulSoup(f.read(), "html.parser")
-      
-          # Remove only the All Requests tab button
-          for btn in soup.find_all("button", class_="tab-button"):
-              if "All Requests" in btn.get_text(strip=True):
-                  btn.decompose()
-      
-          # Remove only the All Requests content
-          for div in soup.find_all("div", class_="tab-content"):
-              div_id = div.get("id", "").lower()
-      
-              if (
-                  "all-request" in div_id
-                  or "allrequests" in div_id
-                  or div_id == "requests-list"
-              ):
-                  div.decompose()
-      
-          # Make Failures tab active by default
-          for btn in soup.find_all("button", class_="tab-button"):
-              classes = btn.get("class", [])
-      
-              if "active" in classes:
-                  classes.remove("active")
-      
-              text = btn.get_text(" ", strip=True).lower()
-              if "failure" in text or "error" in text:
-                  classes.append("active")
-                  btn["class"] = classes
-      
-          for div in soup.find_all("div", class_="tab-content"):
-              classes = div.get("class", [])
-      
-              if "active" in classes:
-                  classes.remove("active")
-      
-              div_id = div.get("id", "").lower()
-              if "failure" in div_id or "error" in div_id:
-                  classes.append("active")
-                  div["class"] = classes
-      
-          with open("test-report-only-failure-detail.html", "w", encoding="utf-8") as f:
-              f.write(str(soup))
-      
-          print("Written test-report-only-failure-detail.html")
-          EOF
+          failed_request_ids = set()
+          
+          failures = soup.find(id="failures-and-errors-list")
+          if failures:
+              for node in failures.find_all(attrs={"data-accordion-request-id": True}):
+                  failed_request_ids.add(
+                      node["data-accordion-request-id"]
+                  )
+          
+          print(f"Failed requests: {len(failed_request_ids)}")
+          
+          removed = 0
+          
+          # verwijder alle request-details die niet gefaald hebben
+          for node in soup.find_all(attrs={"data-accordion-request-id": True}):
+          
+              # failure-overzicht zelf laten staan
+              if node.find_parent(id="failures-and-errors-list"):
+                  continue
+          
+              req_id = node.get("data-accordion-request-id")
+          
+              if req_id not in failed_request_ids:
+                  node.decompose()
+                  removed += 1
+          
+          print(f"Removed {removed} successful requests")
 
       - name: Upload test reports
         if: always()
