@@ -23,33 +23,51 @@ jobs:
             --reporter-html-export test-report-full.html \
             --reporter-json-export test-results.json
 
-          failed_request_ids = set()
-          
-          failures = soup.find(id="failures-and-errors-list")
-          if failures:
-              for node in failures.find_all(attrs={"data-accordion-request-id": True}):
-                  failed_request_ids.add(
-                      node["data-accordion-request-id"]
-                  )
-          
-          print(f"Failed requests: {len(failed_request_ids)}")
-          
-          removed = 0
-          
-          # verwijder alle request-details die niet gefaald hebben
-          for node in soup.find_all(attrs={"data-accordion-request-id": True}):
-          
-              # failure-overzicht zelf laten staan
-              if node.find_parent(id="failures-and-errors-list"):
-                  continue
-          
-              req_id = node.get("data-accordion-request-id")
-          
-              if req_id not in failed_request_ids:
-                  node.decompose()
-                  removed += 1
-          
-          print(f"Removed {removed} successful requests")
+      - name: Build failure-only report
+        if: always()
+        run: |
+          python3 - <<'PYEOF'
+          # The "All Requests" tab in Postman's HTML reporter is NOT static HTML —
+          # it's rendered client-side from one big `const iterations = [...]` JS blob
+          # via IterationManager.createIteration(). There is nothing to strip out of
+          # it with BeautifulSoup; doing so only desyncs the tab-button/tab-content
+          # pair and breaks "View request" (switchTab(1) throws -> blank page).
+          #
+          # Instead we flip the report's own built-in request filter so it defaults
+          # to "Requests with test failures or errors" instead of "All Requests".
+          # The full dataset (and every DOM element "View request" needs) stays
+          # intact, but only failing executions get built into the DOM -> fast,
+          # and "View request" keeps working because a failed request always
+          # survives that filter.
+ 
+          old = (
+              "{ text: 'All Requests', type: ExecutionFilterTypes.ALL, defaultSelected: true },\n"
+              "        { text: 'Requests with test failures or errors', type: ExecutionFilterTypes.TEST_FAILURES_OR_ERRORS },"
+          )
+          new = (
+              "{ text: 'All Requests', type: ExecutionFilterTypes.ALL },\n"
+              "        { text: 'Requests with test failures or errors', type: ExecutionFilterTypes.TEST_FAILURES_OR_ERRORS, defaultSelected: true },"
+          )
+ 
+          with open('test-report-full.html', encoding='utf-8') as f:
+              html = f.read()
+ 
+          count = html.count(old)
+          if count != 1:
+              raise SystemExit(
+                  f"Expected exactly 1 match for the filter-button snippet, found {count}. "
+                  "The Postman HTML reporter template likely changed — update the "
+                  "'old'/'new' strings above before this can run unattended."
+              )
+ 
+          html = html.replace(old, new)
+ 
+          with open('test-report-only-failure-detail.html', 'w', encoding='utf-8') as f:
+              f.write(html)
+ 
+          print("Wrote test-report-only-failure-detail.html "
+                f"({len(html) / 1_000_000:.1f} MB, default filter = failures/errors)")
+          PYEOF
 
       - name: Upload test reports
         if: always()
