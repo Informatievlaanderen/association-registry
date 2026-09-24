@@ -26,30 +26,104 @@ jobs:
       - name: Generate failures-only HTML report
         if: always()
         run: |
-          pip install beautifulsoup4 -q
-          python3 - <<'EOF'
+          python3 <<'EOF'
+          import json
+          import re
           import os
-          from bs4 import BeautifulSoup
 
-          if not os.path.exists("test-report-full.html"):
-              print("test-report-full.html not found, skipping")
-              exit(0)
+          html_file = "test-report-full.html"
 
-          with open("test-report-full.html", encoding="utf-8") as f:
-              soup = BeautifulSoup(f.read(), "html.parser")
+          if not os.path.exists(html_file):
+           print(f"{html_file} not found")
+           exit(0)
 
-          for btn in soup.find_all("button", class_="tab-button"):
-              if "All Requests" in btn.get_text():
-                  btn.decompose()
+          with open(html_file, "r", encoding="utf-8") as f:
+           html = f.read()
 
-          for div in soup.find_all("div", class_="tab-content"):
-              if "tab-summary" not in div.get("class", []):
-                  div.decompose()
+          # Zoek de iterations dataset
+          match = re.search(
+           r'const iterations=(\{.*?\})\s*const summary=',
+           html,
+           flags=re.DOTALL
+          )
 
-          with open("test-report-only-failure-detail.html", "w", encoding="utf-8") as f:
-              f.write(str(soup))
+          if not match:
+           print("Could not locate iterations object")
+           exit(1)
 
-          print("Written test-report-only-failure-detail.html (All Requests tab removed)")
+          iterations = json.loads(match.group(1))
+
+          total_before = 0
+          total_after = 0
+
+          for iteration in iterations.values():
+
+           filtered_items = []
+
+           for item in iteration.get("items", []):
+
+               executions = item.get("executions", [])
+
+               failed_executions = []
+
+               for execution in executions:
+
+                   has_errors = len(execution.get("errors", [])) > 0
+
+                   has_failed_tests = any(
+                       test.get("status") == "failed"
+                       for test in execution.get("tests", [])
+                   )
+
+                   if has_errors or has_failed_tests:
+                       failed_executions.append(execution)
+
+               total_before += len(executions)
+               total_after += len(failed_executions)
+
+               if failed_executions:
+                   item["executions"] = failed_executions
+                   filtered_items.append(item)
+
+           iteration["items"] = filtered_items
+
+          # Vervang filtered iterations terug in html
+          new_iterations_json = json.dumps(
+           iterations,
+           separators=(",", ":")
+          )
+
+          html = (
+           html[:match.start(1)]
+           + new_iterations_json
+           + html[match.end(1):]
+          )
+
+          # Hernoem tab "All Requests" naar "Failed Requests"
+          html = re.sub(
+           r'>(\s*)All Requests(\s*)<',
+           r'>Failed Requests<',
+           html,
+           flags=re.IGNORECASE
+          )
+
+          # Hernoem request filter
+          html = html.replace(
+           'All Requests',
+           'Failed Requests'
+          )
+
+          with open(
+           "test-report-only-failure-detail.html",
+           "w",
+           encoding="utf-8"
+          ) as f:
+           f.write(html)
+
+          print(
+           f"Failures-only report created. "
+           f"Executions reduced from {total_before} to {total_after}"
+          )
           EOF
 
       - name: Upload test reports
