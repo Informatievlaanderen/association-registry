@@ -3,9 +3,8 @@ name: "[POSTMAN] Full Regression Suite"
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 2 * * 1'
-    - cron: '0 2 * * 3'
-
+    - cron: '0 0 * * 1'
+    - cron: '0 0 * * 3'
 jobs:
   automated-api-tests:
     runs-on: ubuntu-latest
@@ -137,6 +136,29 @@ jobs:
             test-results.json
             postman-cli-reports/
           retention-days: 30
+      - name: Extract test summary
+        if: always()
+        run: |
+          python3 <<'EOF'
+          import json
+          import os
+
+          with open("test-results.json") as f:
+            data = json.load(f)
+
+            tests = data["run"]["summary"]["tests"]
+
+            passed = tests["passed"]
+            failed = tests["failed"]
+            total = tests["executed"]
+
+          with open(os.environ["GITHUB_ENV"], "a") as env:
+            env.write(f"TESTS_PASSED={passed}\n")
+            env.write(f"TESTS_FAILED={failed}\n")
+            env.write(f"TESTS_TOTAL={total}\n")
+
+            print(f"Passed={passed}, Failed={failed}, Total={total}")
+          EOF
 
       - name: Notify Slack
         if: always()
@@ -145,11 +167,28 @@ jobs:
           JOB_STATUS: ${{ job.status }}
         run: |
           if [ "$JOB_STATUS" = "success" ]; then
-            MESSAGE="✅ *API tests succeeded* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
+            MESSAGE="✅ *API tests succeeded* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\nPassed: ${TESTS_PASSED}/${TESTS_TOTAL}\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
           else
-            MESSAGE="❌ *API tests failed* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\n<@U03P611N5TK>,<@koenmetsu> please check the logs: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
+            MESSAGE="❌ *API tests failed* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\nPassed: ${TESTS_PASSED}/${TESTS_TOTAL}\nFailed: ${TESTS_FAILED}\n<@U03P611N5TK>, <@koenmetsu> please check the logs: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
           fi
 
-          curl -X POST -H 'Content-type: application/json' \
-          --data "{\"text\":\"$MESSAGE\"}" \
-          $SLACK_WEBHOOK_URL
+          curl -X POST \
+            -H 'Content-type: application/json' \
+            --data "{\"text\":\"$MESSAGE\"}" \
+            "$SLACK_WEBHOOK_URL"
+
+#      - name: Notify Slack
+#        if: always()
+#        env:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#          JOB_STATUS: ${{ job.status }}
+#        run: |
+#          if [ "$JOB_STATUS" = "success" ]; then
+#            MESSAGE="✅ *API tests succeeded* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
+#          else
+#            MESSAGE="❌ *API tests failed* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\n<@U03P611N5TK>,<@koenmetsu> please check the logs: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
+#          fi
+#
+#          curl -X POST -H 'Content-type: application/json' \
+#          --data "{\"text\":\"$MESSAGE\"}" \
+#          $SLACK_WEBHOOK_URL
