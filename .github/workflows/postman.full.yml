@@ -136,28 +136,42 @@ jobs:
             test-results.json
             postman-cli-reports/
           retention-days: 30
+
+
       - name: Extract test summary
         if: always()
         run: |
           python3 <<'EOF'
           import json
           import os
+          import re
 
-          with open("test-results.json") as f:
-            data = json.load(f)
+          with open("test-report-full.html", encoding="utf-8") as f:
+              html = f.read()
 
-            tests = data["run"]["summary"]["tests"]
+          match = re.search(
+              r'const summary=(\{.*?\})\s*(?:const|let|var)',
+              html,
+              flags=re.DOTALL
+          )
 
-            passed = tests["passed"]
-            failed = tests["failed"]
-            total = tests["executed"]
+          if not match:
+              raise Exception("Could not locate summary object in HTML report")
+
+          summary = json.loads(match.group(1))
+
+          tests = summary["tests"]
+
+          passed = tests["passed"]
+          failed = tests["failed"]
+          total = tests["total"]
 
           with open(os.environ["GITHUB_ENV"], "a") as env:
-            env.write(f"TESTS_PASSED={passed}\n")
-            env.write(f"TESTS_FAILED={failed}\n")
-            env.write(f"TESTS_TOTAL={total}\n")
+              env.write(f"TESTS_PASSED={passed}\n")
+              env.write(f"TESTS_FAILED={failed}\n")
+              env.write(f"TESTS_TOTAL={total}\n")
 
-            print(f"Passed={passed}, Failed={failed}, Total={total}")
+          print(f"Passed={passed}, Failed={failed}, Total={total}")
           EOF
 
       - name: Notify Slack
@@ -167,9 +181,9 @@ jobs:
           JOB_STATUS: ${{ job.status }}
         run: |
           if [ "$JOB_STATUS" = "success" ]; then
-            MESSAGE="✅ *API tests succeeded* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\nPassed: ${TESTS_PASSED}/${TESTS_TOTAL}\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
+            MESSAGE="✅ *API tests succeeded* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\nPassed: ${TESTS_PASSED}/${TESTS_TOTAL}"
           else
-            MESSAGE="❌ *API tests failed* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\nPassed: ${TESTS_PASSED}/${TESTS_TOTAL}\nFailed: ${TESTS_FAILED}\n<@U03P611N5TK>, <@koenmetsu> please check the logs: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
+            MESSAGE="❌ *API tests failed* on \`${{ github.workflow }}\` in repo \`${{ github.repository }}\`.\nPassed: ${TESTS_PASSED}/${TESTS_TOTAL}\nFailed: ${TESTS_FAILED}"
           fi
 
           curl -X POST \
