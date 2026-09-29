@@ -5,7 +5,7 @@ dotnet tool restore
 dotnet paket restore
 chmod +x packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/*
 
-if [ $# -eq 0 ]
+if [[ $# -eq 0 ]]
 then
   FAKE_ALLOW_NO_DEPENDENCIES=true dotnet fake build
 else

@@ -83,7 +83,7 @@ def createVersion(versionToCreate, projectToUse):
    'name' : versionToCreate, \
    'description' : description, \
    'released' : 'false', \
-   'releaseDate' : datetime.datetime.utcnow().isoformat() \
+   'releaseDate': datetime.datetime.now(datetime.timezone.utc).date().isoformat() \
    }
 
   r = s.post(url, data=json.dumps(newVersion))
