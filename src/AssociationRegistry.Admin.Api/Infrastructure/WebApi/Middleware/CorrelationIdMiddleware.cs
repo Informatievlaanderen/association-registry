@@ -3,6 +3,7 @@
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandMiddleware;
 using Microsoft.Extensions.Primitives;
+using Serilog.Context;
 
 public class CorrelationIdMiddleware
 {
@@ -13,15 +14,22 @@ public class CorrelationIdMiddleware
         _next = next;
     }
 
-    public async Task Invoke(HttpContext context, ProblemDetailsHelper helper, ICorrelationIdProvider correlationIdProvider)
+    public async Task Invoke(
+        HttpContext context,
+        ProblemDetailsHelper helper,
+        ICorrelationIdProvider correlationIdProvider
+    )
     {
-        if (context.Request.Path.HasValue && context.Request.Path.Value.ToLowerInvariant().StartsWith("/v1"))
+        if (IsVersionedApiRequest(context))
         {
             var correlationId = GetCorrelationId(context);
 
             if (correlationId is null)
             {
-                await context.Response.WriteProblemDetailsAsync(helper, $"{WellknownHeaderNames.CorrelationId} is verplicht.");
+                await context.Response.WriteProblemDetailsAsync(
+                    helper,
+                    $"{WellknownHeaderNames.CorrelationId} is verplicht."
+                );
 
                 return;
             }
@@ -29,7 +37,9 @@ public class CorrelationIdMiddleware
             if (!Guid.TryParse(correlationId.Value.ToString(), out _))
             {
                 await context.Response.WriteProblemDetailsAsync(
-                    helper, $"{WellknownHeaderNames.CorrelationId} moet een geldige GUID zijn.");
+                    helper,
+                    $"{WellknownHeaderNames.CorrelationId} moet een geldige GUID zijn."
+                );
 
                 return;
             }
@@ -38,8 +48,19 @@ public class CorrelationIdMiddleware
             AddCorrelationIdHeaderToResponse(context, correlationId.Value);
         }
 
-        await _next(context);
+        using (
+            LogContext.PushProperty(
+                "CorrelationId",
+                ClientCorrelationId.OrFallbackToTraceIdentifier(correlationIdProvider, context)
+            )
+        )
+        {
+            await _next(context);
+        }
     }
+
+    private static bool IsVersionedApiRequest(HttpContext context) =>
+        context.Request.Path.HasValue && context.Request.Path.Value.ToLowerInvariant().StartsWith("/v1");
 
     private static StringValues? GetCorrelationId(HttpContext context)
     {
@@ -51,13 +72,12 @@ public class CorrelationIdMiddleware
 
     private static void AddCorrelationIdHeaderToResponse(HttpContext context, StringValues correlationId)
     {
-        context.Response.OnStarting(
-            () =>
-            {
-                context.Response.Headers.Remove(WellknownHeaderNames.CorrelationId);
-                context.Response.Headers.Add(WellknownHeaderNames.CorrelationId, new[] { correlationId.ToString() });
+        context.Response.OnStarting(() =>
+        {
+            context.Response.Headers.Remove(WellknownHeaderNames.CorrelationId);
+            context.Response.Headers.Add(WellknownHeaderNames.CorrelationId, new[] { correlationId.ToString() });
 
-                return Task.CompletedTask;
-            });
+            return Task.CompletedTask;
+        });
     }
 }
