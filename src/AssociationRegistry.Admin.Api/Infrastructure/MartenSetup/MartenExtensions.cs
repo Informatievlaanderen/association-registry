@@ -14,7 +14,7 @@ using MartenDb.Logging;
 using MartenDb.Setup;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Microsoft.Extensions.Logging.Abstractions;
-using ProjectionHost.Projections.Bewaartermijn;
+using ProjectionHost.Projections.Bewaartermijnen;
 using ProjectionHost.Projections.Detail;
 using ProjectionHost.Projections.Historiek;
 using ProjectionHost.Projections.Locaties;

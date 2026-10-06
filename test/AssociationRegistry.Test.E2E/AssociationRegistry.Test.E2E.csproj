@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
 

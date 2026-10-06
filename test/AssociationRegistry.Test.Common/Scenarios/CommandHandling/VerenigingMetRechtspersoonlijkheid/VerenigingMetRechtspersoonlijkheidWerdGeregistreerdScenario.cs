@@ -3,7 +3,9 @@
 using global::AutoFixture;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Geotags;
 using Events;
+using Events.Factories;
 using Magda.Kbo;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : CommandhandlerScenarioBase
@@ -11,6 +13,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : Comma
     public override VCode VCode => VCode.Create("V0019002");
     public KboNummer KboNummer => KboNummer.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer);
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+    public GeotagsWerdenBepaald? GeotagsWerdenBepaald { get; private set; }
 
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario()
     {
@@ -21,6 +24,16 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : Comma
             {
                 VCode = VCode,
             };
+    }
+
+    public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario WithGeotagsWerdenBepaald(
+        GeotagsCollection geotags
+    )
+    {
+        GeotagsWerdenBepaald = EventFactory.GeotagsWerdenBepaald(VCode, geotags);
+        additionalEvents.Add(GeotagsWerdenBepaald);
+
+        return this;
     }
 
     public readonly List<IEvent> additionalEvents = new();

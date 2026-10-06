@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Bewaartermijn.EventHandling;
+﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.EventHandling.Bewaartermijnen;
 
-using DecentraalBeheer.Vereniging.Bewaartermijnen;
-using DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
-using Events;
-using Framework;
-using Integrations.Grar.Bewaartermijnen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Integrations.Grar.Bewaartermijnen;
 using JasperFx.Events;
 using JasperFx.Events.Projections;
 using Wolverine;

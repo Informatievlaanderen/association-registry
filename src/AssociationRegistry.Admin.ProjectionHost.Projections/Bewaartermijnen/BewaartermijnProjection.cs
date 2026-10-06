@@ -1,12 +1,11 @@
-﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Bewaartermijn;
+﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Bewaartermijnen;
 
-using Events;
-using Formats;
-using Framework;
+using AssociationRegistry.Admin.Schema.Bewaartermijn;
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
 using JasperFx.Events;
 using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
-using Schema.Bewaartermijn;
 
 public class BewaartermijnProjection : SingleStreamProjection<BewaartermijnDocument, string>
 {

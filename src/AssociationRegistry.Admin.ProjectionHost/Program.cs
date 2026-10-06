@@ -24,7 +24,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OpenTelemetry.Extensions;
-using Projections.Bewaartermijn.EventHandling;
 using Projections.Rebuild;
 using Projections.Search.Zoeken;
 using Serilog;

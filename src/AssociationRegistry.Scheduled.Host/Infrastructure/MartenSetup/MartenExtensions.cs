@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Scheduled.Host.Infrastructure.MartenSetup;
 
-using Admin.ProjectionHost.Projections.Bewaartermijn;
+using Admin.ProjectionHost.Projections.Bewaartermijnen;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx;
 using JasperFx.CodeGeneration;
