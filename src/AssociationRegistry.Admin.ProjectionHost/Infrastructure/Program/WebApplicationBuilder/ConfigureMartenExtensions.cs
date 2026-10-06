@@ -20,10 +20,12 @@ using MartenDb.Setup;
 using MartenDb.Subscriptions;
 using MartenDb.Upcasters.Persoonsgegevens;
 using Newtonsoft.Json;
-using Projections.Bewaartermijn;
-using Projections.Bewaartermijn.EventHandling;
+using Projections.Bewaartermijnen;
 using Projections.Detail;
 using Projections.Erkenningen;
+using Projections.EventHandling;
+using Projections.EventHandling.Bewaartermijnen;
+using Projections.EventHandling.Geotags;
 using Projections.Historiek;
 using Projections.Locaties;
 using Projections.PowerBiExport;
@@ -108,6 +110,15 @@ public static class ConfigureMartenExtensions
                     o.IncludeType<VerenigingWerdVerwijderd>();
                     o.IncludeType<VerenigingWerdGestopt>();
                     o.IncludeType<VerenigingWerdGestoptInKBO>();
+                    o.Options.SubscribeFromSequence(0);
+                }
+            )
+            .ProcessEventsWithWolverineHandlersInStrictOrder(
+                HerberekenGeotagsEventHandler.ShardName.Name,
+                o =>
+                {
+                    o.IncludeType<MaatschappelijkeZetelWerdOvergenomenUitKbo>();
+                    o.IncludeType<MaatschappelijkeZetelWerdGewijzigdInKbo>();
                     o.Options.SubscribeFromSequence(0);
                 }
             );

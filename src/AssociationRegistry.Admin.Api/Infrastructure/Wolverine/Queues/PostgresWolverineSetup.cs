@@ -5,8 +5,10 @@ using CommandHandling.Bewaartermijnen.Acties.Start;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardCorrectieDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
+using CommandHandling.Geotags;
 using CommandHandling.InschrijvingenVertegenwoordigers;
 using DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
+using DecentraalBeheer.Vereniging.Geotags.Messages;
 using Framework;
 using global::Wolverine.Postgresql;
 using Hosts.Configuration;
@@ -31,6 +33,7 @@ internal static class PostgresWolverineSetup
         options.PersistMessagesWithPostgresql(connectionString, wolverineSchema).EnableMessageTransport();
 
         ConfigureStartBewaartermijn(options);
+        ConfigureHerberekenGeotags(options);
         ConfigureAanvaardDubbeleVerenigingen(options);
         ConfigureSchrijfVertegenwoordigersInMessageQueue(options, initialRegistreerInschrijvingOptions);
         ConfigureAanvaardCorrectieDubbeleVerenigingMessageQueue(options);
@@ -46,6 +49,14 @@ internal static class PostgresWolverineSetup
         options.Discovery.IncludeType<StartBewaartermijnenVoorVerenigingMessageHandler>();
 
         options.ListenToPostgresqlQueue(WellknownQueueNames.StartBewaartermijnQueueName);
+    }
+
+    private static void ConfigureHerberekenGeotags(WolverineOptions options)
+    {
+        options.Discovery.IncludeType<HerberekenGeotagsMessage>();
+        options.Discovery.IncludeType<HerberekenGeotagsMessageHandler>();
+
+        options.ListenToPostgresqlQueue(WellknownQueueNames.HerberekenGeotagsQueueName);
     }
 
     private static void ConfigureVerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageQueue(WolverineOptions options)

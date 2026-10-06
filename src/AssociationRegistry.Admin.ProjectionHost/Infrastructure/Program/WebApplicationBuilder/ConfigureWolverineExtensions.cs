@@ -2,12 +2,15 @@
 
 using CommandHandling.Bewaartermijnen.Acties.Start;
 using DecentraalBeheer.Vereniging.Bewaartermijnen.Messages;
+using DecentraalBeheer.Vereniging.Geotags.Messages;
 using Hosts.Configuration;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using MartenDb;
 using MartenDb.Setup;
-using Projections.Bewaartermijn.EventHandling;
+using Projections.EventHandling;
+using Projections.EventHandling.Bewaartermijnen;
+using Projections.EventHandling.Geotags;
 using Serilog;
 using Wolverine;
 using Wolverine.Postgresql;
@@ -26,6 +29,7 @@ public static class ConfigureWolverineExtensions
             options.AutoBuildMessageStorageOnStartup = AutoCreate.All;
             options.UseNewtonsoftForSerialization(settings => settings.ConfigureForVerenigingsregister());
             options.Discovery.IncludeType(typeof(BewaartermijnVertegenwoordigersEventHandler));
+            options.Discovery.IncludeType(typeof(HerberekenGeotagsEventHandler));
 
             ConfigureQueues(options, WellknownSchemaNames.Wolverine, builder.Configuration);
         });
@@ -50,6 +54,7 @@ public static class ConfigureWolverineExtensions
         options.PersistMessagesWithPostgresql(connectionString, wolverineSchema).EnableMessageTransport();
 
         ConfigureStartBewaartermijn(options);
+        ConfigureHerberekenGeotags(options);
     }
 
     private static void ConfigureStartBewaartermijn(WolverineOptions options)
@@ -61,5 +66,12 @@ public static class ConfigureWolverineExtensions
         options
             .PublishMessage<StartBewaartermijnenVoorVerenigingMessage>()
             .ToPostgresqlQueue(WellknownQueueNames.StartBewaartermijnQueueName);
+    }
+
+    private static void ConfigureHerberekenGeotags(WolverineOptions options)
+    {
+        options
+            .PublishMessage<HerberekenGeotagsMessage>()
+            .ToPostgresqlQueue(WellknownQueueNames.HerberekenGeotagsQueueName);
     }
 }

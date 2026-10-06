@@ -14,7 +14,6 @@ using JasperFx.Events.Daemon;
 using Marten;
 using MartenDb.Setup;
 using Pipelines;
-using ProjectionHost.Projections.Bewaartermijn.EventHandling;
 using Queues;
 using Serilog;
 

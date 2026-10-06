@@ -1,9 +1,11 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Rebuild;
 
-using Bewaartermijn;
-using Bewaartermijn.EventHandling;
+using Bewaartermijnen;
 using Detail;
 using Elastic.Clients.Elasticsearch;
+using EventHandling;
+using EventHandling.Bewaartermijnen;
+using EventHandling.Geotags;
 using Historiek;
 using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.ConfigurationBindings;
@@ -106,6 +108,21 @@ public static class ProjectionEndpointsExtensions
             {
                 await StartRebuildEventSubscription(
                     BewaartermijnVertegenwoordigersEventHandler.ShardName.Name,
+                    sequence,
+                    coordinator,
+                    logger
+                );
+
+                return Results.Accepted();
+            }
+        );
+
+        app.MapPost(
+            "v1/projections/eventsubscription/herberekengeotags/rebuild",
+            async (IProjectionCoordinator coordinator, ILogger<Program> logger, [FromQuery] long sequence = 0) =>
+            {
+                await StartRebuildEventSubscription(
+                    HerberekenGeotagsEventHandler.ShardName.Name,
                     sequence,
                     coordinator,
                     logger
