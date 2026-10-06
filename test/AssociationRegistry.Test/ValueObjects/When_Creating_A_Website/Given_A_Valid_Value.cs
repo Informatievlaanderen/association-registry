@@ -14,6 +14,13 @@ public class Given_A_Valid_Value
     [InlineData("https://sub.domain.be")]
     [InlineData("https://domain.be")]
     [InlineData("HTTPS://DOMAIN.BE")]
+    [InlineData("www.hello.me")]
+    [InlineData("google.com")]
+    [InlineData("bla.bla.bla")]
+    [InlineData("example.com/path?x=1")]
+    [InlineData("www.example.com/path?x=1")]
+    [InlineData("https://example.com/path?x=1#frag")]
+    [InlineData("https://example.com:8080")]
     public void Then_it_returns_a_Website(string? websiteString)
     {
         var website = Website.Create(websiteString);
