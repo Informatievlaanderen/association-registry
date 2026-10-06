@@ -1,3 +1,10 @@
+## [8.342.5](https://github.com/informatievlaanderen/association-registry/compare/v8.342.4...v8.342.5) (2026-10-06)
+
+
+### Bug Fixes
+
+* or-3445 herbereken geotags for maatschappelijke zetel events ([63fd5c3](https://github.com/informatievlaanderen/association-registry/commit/63fd5c39e9f6c6edf911d2faf37b24c1e06a2890))
+
 ## [8.342.4](https://github.com/informatievlaanderen/association-registry/compare/v8.342.3...v8.342.4) (2026-08-27)
 
 
