@@ -8,7 +8,6 @@ using Admin.Api.Infrastructure;
 using Admin.Api.WebApi.Administratie.Bewaartermijnen;
 using Admin.Api.WebApi.Administratie.Configuratie;
 using Admin.Api.WebApi.Administratie.Sync.ResponseModels;
-using Admin.Api.WebApi.Administratie.VertegenwoordigersPerVCode;
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
@@ -72,16 +71,6 @@ public static class AdminApiEndpoints
         await SmartHttpClient
             .Create(source, authenticatedClient, headers)
             .GetWithRetryAsync<BewaartermijnResponse>($"/v1/admin/bewaartermijnen/{vCode}/{vertegenwoordigerId}");
-
-    public static async Task<VertegenwoordigerResponse[]> GetVertegenwoordiger(
-        this IAlbaHost source,
-        HttpClient authenticatedClient,
-        string vCode,
-        RequestParameters? headers = null
-    ) =>
-        await SmartHttpClient
-            .Create(source, authenticatedClient, headers)
-            .GetWithRetryAsync<VertegenwoordigerResponse[]>($"/v1/admin/vertegenwoordigers?vCode={vCode}");
 
     public static async Task<ProblemDetails> GetProblemDetailsForBeheerDetailHttpResponse(
         this IAlbaHost source,

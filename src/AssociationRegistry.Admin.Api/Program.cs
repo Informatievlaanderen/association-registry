@@ -509,7 +509,6 @@ public class Program
             .AddScoped<IMagdaGeefPersoonValidator, MagdaGeefPersoonValidator>()
             .AddScoped<ProbeerAdresTeMatchenCommandHandler>()
             .AddScoped<IVzerOrFvExistsQuery, VzerOrFvExistsQuery>()
-            .AddScoped<IVertegenwoordigersPerVCodeQuery, VertegenwoordigersPerVCodeQuery>()
             .AddScoped<IVerenigingenWithoutGeotagsQuery, VerenigingenWithoutGeotagsQuery>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
