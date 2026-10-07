@@ -19,7 +19,6 @@ using PowerBiExport;
 using Search.DuplicateDetection;
 using Search.Zoeken;
 using Sync;
-using Vertegenwoordiger;
 
 public static class ProjectionEndpointsExtensions
 {
@@ -44,7 +43,6 @@ public static class ProjectionEndpointsExtensions
                 await StartRebuild(PowerBiExportDubbelDetectieProjection.ShardName, store, shardTimeout, logger);
                 await StartRebuild(BeheerKboSyncHistoriekProjection.ShardName, store, shardTimeout, logger);
                 await StartRebuild(BeheerKszSyncHistoriekProjection.ShardName, store, shardTimeout, logger);
-                await StartRebuild(VertegenwoordigersPerVCodeProjection.ShardName, store, shardTimeout, logger);
                 await StartRebuild(BewaartermijnProjection.ShardName, store, shardTimeout, logger);
 
                 await StartRebuild(
@@ -197,16 +195,6 @@ public static class ProjectionEndpointsExtensions
             async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 await StartRebuild(BeheerKszSyncHistoriekProjection.ShardName, store, shardTimeout, logger);
-
-                return Results.Accepted();
-            }
-        );
-
-        app.MapPost(
-            "v1/projections/vertegenwoordigers/rebuild",
-            async (IDocumentStore store, ILogger<Program> logger) =>
-            {
-                await StartRebuild(VertegenwoordigersPerVCodeProjection.ShardName, store, shardTimeout, logger);
 
                 return Results.Accepted();
             }

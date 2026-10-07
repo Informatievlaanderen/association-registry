@@ -33,7 +33,6 @@ using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
 using Projections.Sync;
-using Projections.Vertegenwoordiger;
 using Schema.Setup.Marten;
 using Wolverine.Marten;
 using ConfigurationManager = ConfigurationManager;
@@ -258,7 +257,6 @@ public static class ConfigureMartenExtensions
         opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
-        opts.Projections.Add(new VertegenwoordigersPerVCodeProjection(querySessionFactory), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);

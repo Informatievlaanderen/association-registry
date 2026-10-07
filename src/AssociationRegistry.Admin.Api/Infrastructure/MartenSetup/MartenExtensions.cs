@@ -20,7 +20,6 @@ using ProjectionHost.Projections.Historiek;
 using ProjectionHost.Projections.Locaties;
 using ProjectionHost.Projections.PowerBiExport;
 using ProjectionHost.Projections.Sync;
-using ProjectionHost.Projections.Vertegenwoordiger;
 
 public static class MartenExtensions
 {
@@ -79,11 +78,6 @@ public static class MartenExtensions
                 );
 
                 opts.Projections.Add(new BewaartermijnProjection(), ProjectionLifecycle.Async);
-
-                opts.Projections.Add(
-                    new VertegenwoordigersPerVCodeProjection(querySessionFunc),
-                    ProjectionLifecycle.Async
-                );
 
                 opts.Projections.Errors.SkipApplyErrors = false;
                 opts.Projections.RebuildErrors.SkipApplyErrors = false;
