@@ -5,13 +5,17 @@ using Marten;
 using Marten.Schema;
 using Microsoft.Extensions.Caching.Memory;
 
-public class ElasticSearchOptionsService: IMinimumScoreDuplicateDetectionConfig
+public class ElasticSearchOptionsService : IMinimumScoreDuplicateDetectionConfig
 {
     private readonly ElasticSearchOptionsSection _elasticSearchOptionsSection;
     private readonly IDocumentSession _session;
     private readonly IMemoryCache _cache;
 
-    public ElasticSearchOptionsService(ElasticSearchOptionsSection elasticSearchOptionsSection, IDocumentSession session, IMemoryCache cache)
+    public ElasticSearchOptionsService(
+        ElasticSearchOptionsSection elasticSearchOptionsSection,
+        IDocumentSession session,
+        IMemoryCache cache
+    )
     {
         _elasticSearchOptionsSection = elasticSearchOptionsSection;
         _session = session;
@@ -22,12 +26,19 @@ public class ElasticSearchOptionsService: IMinimumScoreDuplicateDetectionConfig
     {
         get
         {
-            if (_cache.TryGetValue(SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection, out double cachedValue))
+            if (
+                _cache.TryGetValue(
+                    SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection,
+                    out double cachedValue
+                )
+            )
             {
                 return cachedValue;
             }
 
-            var settingOverride = _session.Query<SettingOverride>().FirstOrDefault(x => x.Key == SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection);
+            var settingOverride = _session
+                .Query<SettingOverride>()
+                .FirstOrDefault(x => x.Key == SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection);
 
             if (!double.TryParse(settingOverride?.Value, out double minScoreOverride))
                 return _elasticSearchOptionsSection.MinimumScoreDuplicateDetection;
@@ -41,12 +52,14 @@ public static class SettingOverrideNames
 {
     public static class ElasticSearch
     {
-        public const string MinimumScoreDuplicateDetection = $"{ElasticSearchOptionsSection.SectionName}:{nameof(ElasticSearchOptionsSection.MinimumScoreDuplicateDetection)}";
+        public const string MinimumScoreDuplicateDetection =
+            $"{ElasticSearchOptionsSection.SectionName}:{nameof(ElasticSearchOptionsSection.MinimumScoreDuplicateDetection)}";
     }
 }
-public record SettingOverride([property: Identity]string Key, string Value);
 
-public class ElasticSearchOptionsSection: IMinimumScoreDuplicateDetectionConfig
+public record SettingOverride([property: Identity] string Key, string Value);
+
+public class ElasticSearchOptionsSection : IMinimumScoreDuplicateDetectionConfig
 {
     public const string SectionName = "ElasticClientOptions";
     public string? Uri { get; set; }
@@ -55,6 +68,11 @@ public class ElasticSearchOptionsSection: IMinimumScoreDuplicateDetectionConfig
     public IndicesOptionsSection? Indices { get; set; }
     public bool EnableDevelopmentLogs { get; set; }
     public double MinimumScoreDuplicateDetection { get; set; } = MinimumScore.Default.Value;
+    public int RequestTimeoutInSeconds { get; set; } = 5;
+    public int MaximumRetries { get; set; } = 1;
+    public int MaxRetryTimeoutInSeconds { get; set; } = 6;
+    public int TcpKeepAliveTimeInSeconds { get; set; } = 30;
+    public int TcpKeepAliveIntervalInSeconds { get; set; } = 10;
 
     public class IndicesOptionsSection
     {
