@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
 
       - name: Sigrid CI
-        uses: Software-Improvement-Group/sigridci@main
+        uses: Software-Improvement-Group/sigridci@e671a83c9f5d95b8c14ecfc58dba8cde470474a2
         with:
           customer: digitaalvlaanderen
           system: association-registry
