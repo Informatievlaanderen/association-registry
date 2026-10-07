@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed;
 
+using System.Collections.ObjectModel;
+using System.Globalization;
 using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
@@ -8,21 +10,18 @@ using AssociationRegistry.Admin.Schema.Search;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.DubbelDetectie;
-using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;
-using Vereniging;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Elastic.Clients.Elasticsearch;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Elastic.Clients.Elasticsearch;
-using System.Collections.ObjectModel;
-using System.Globalization;
-
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Vereniging;
 using Adres = AssociationRegistry.DecentraalBeheer.Vereniging.Adressen.Adres;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 using Locatie = AssociationRegistry.DecentraalBeheer.Vereniging.Locatie;
 
 public class DuplicateDetectionTest
@@ -51,36 +50,40 @@ public class DuplicateDetectionTest
             Indices = new ElasticSearchOptionsSection.IndicesOptionsSection()
             {
                 DuplicateDetection = _duplicateDetectionIndex,
-            }
+            },
         };
 
-        _elastic = ElasticSearchExtensions.CreateElasticClient(_elasticSearchOptionsSection, new TestOutputLogger(helper, duplicateDetectionIndex));
+        _elastic = ElasticSearchExtensions.CreateElasticClient(
+            _elasticSearchOptionsSection,
+            new TestOutputLogger(helper, duplicateDetectionIndex)
+        );
 
-        _adres = _fixture.Create<Adres>() with
-        {
-            Postcode = "8500",
-            Gemeente = Gemeentenaam.Hydrate("kortrijk"),
-        };
+        _adres = _fixture.Create<Adres>() with { Postcode = "8500", Gemeente = Gemeentenaam.Hydrate("kortrijk") };
 
         InitializeAsync().GetAwaiter().GetResult();
     }
 
-    public async Task InsertGeregistreerdeVerenigingen(IReadOnlyCollection<DuplicateDetectionSeedLine> readVerwachtDubbels)
+    public async Task InsertGeregistreerdeVerenigingen(
+        IReadOnlyCollection<DuplicateDetectionSeedLine> readVerwachtDubbels
+    )
     {
-        var toRegisterDuplicateDetectionDocuments = readVerwachtDubbels.Select(x => new DuplicateDetectionDocument() with
-        {
-            Naam = x.GeregistreerdeNaam,
-            VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code,
-            VerenigingssubtypeCode = VerenigingssubtypeCode.NietBepaald.Code,
-            HoofdactiviteitVerenigingsloket = [],
-            Locaties =
-            [
-                _fixture.Create<DuplicateDetectionDocument.Locatie>() with
-                {
-                    Gemeente = _adres.Gemeente.Naam, Postcode = _adres.Postcode
-                }
-            ]
-        });
+        var toRegisterDuplicateDetectionDocuments = readVerwachtDubbels.Select(x =>
+            new DuplicateDetectionDocument() with
+            {
+                Naam = x.GeregistreerdeNaam,
+                VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code,
+                VerenigingssubtypeCode = VerenigingssubtypeCode.NietBepaald.Code,
+                HoofdactiviteitVerenigingsloket = [],
+                Locaties =
+                [
+                    _fixture.Create<DuplicateDetectionDocument.Locatie>() with
+                    {
+                        Gemeente = _adres.Gemeente.Naam,
+                        Postcode = _adres.Postcode,
+                    },
+                ],
+            }
+        );
 
         foreach (var doc in toRegisterDuplicateDetectionDocuments)
         {
@@ -91,11 +94,12 @@ public class DuplicateDetectionTest
     }
 
     public static IReadOnlyCollection<DuplicateDetectionSeedLine> ReadSeed(
-        string associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv)
-        => ReadSeedFile(associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv);
+        string associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv
+    ) => ReadSeedFile(associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv);
 
     private static IReadOnlyCollection<DuplicateDetectionSeedLine> ReadSeedFile(
-        string associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv)
+        string associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv
+    )
     {
         var resourceName = associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv;
         var assembly = typeof(DuplicateDetectionTest).Assembly;
@@ -103,15 +107,17 @@ public class DuplicateDetectionTest
 
         using var streamReader = new StreamReader(stream);
 
-        using var csvReader = new CsvReader(streamReader, new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            Delimiter = ",",
-            HasHeaderRecord = true,
-            Quote = '"',
-        });
+        using var csvReader = new CsvReader(
+            streamReader,
+            new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ",",
+                HasHeaderRecord = true,
+                Quote = '"',
+            }
+        );
 
-        var records = csvReader.GetRecords<DuplicateDetectionSeedLine>()
-                               .ToArray();
+        var records = csvReader.GetRecords<DuplicateDetectionSeedLine>().ToArray();
 
         return new ReadOnlyCollection<DuplicateDetectionSeedLine>(records);
     }
@@ -124,28 +130,33 @@ public class DuplicateDetectionTest
         await _elastic.CreateDuplicateDetectionIndexAsync(_duplicateDetectionIndex);
 
         DuplicateVerenigingenQuery = new ZoekDuplicateVerenigingenQuery(
-            _elastic,_elasticSearchOptionsSection, MinimumScore.Default, NullLogger<ZoekDuplicateVerenigingenQuery>.Instance);
+            _elastic,
+            _elasticSearchOptionsSection,
+            MinimumScore.Default,
+            new AssociationRegistry.Test.Admin.Api.Framework.Fakes.FakePostcodesInSameGemeenteService(),
+            NullLogger<ZoekDuplicateVerenigingenQuery>.Instance
+        );
 
-        DubbelDetectieData =
-            ReadSeed("AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_dubbels.csv");
+        DubbelDetectieData = ReadSeed(
+            "AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_dubbels.csv"
+        );
 
         await InsertGeregistreerdeVerenigingen(DubbelDetectieData);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
-    public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicatesFor(string teRegistrerenNaam)
-        => await DuplicateVerenigingenQuery.ExecuteAsync(VerenigingsNaam.Create(teRegistrerenNaam),
-        [
-            _fixture.Create<Locatie>() with
-            {
-                Adres = _adres,
-            },
-        ], includeScore: true, minimumScoreOverride: new MinimumScore(3));
+    public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicatesFor(string teRegistrerenNaam) =>
+        await DuplicateVerenigingenQuery.ExecuteAsync(
+            VerenigingsNaam.Create(teRegistrerenNaam),
+            [_fixture.Create<Locatie>() with { Adres = _adres }],
+            includeScore: true,
+            minimumScoreOverride: new MinimumScore(3)
+        );
 }
 
 record Line(VerenigingLine Vereniging);
+
 record VerenigingLine(string Naam);
 
 public class TestOutputLogger : ILogger
@@ -164,15 +175,15 @@ public class TestOutputLogger : ILogger
         return null; // Scopes are not implemented
     }
 
-    public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel)
-        => true;
+    public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
 
     public void Log<TState>(
         Microsoft.Extensions.Logging.LogLevel logLevel,
         EventId eventId,
         TState state,
         Exception? exception,
-        Func<TState, Exception?, string> formatter)
+        Func<TState, Exception?, string> formatter
+    )
     {
         if (!IsEnabled(logLevel))
         {

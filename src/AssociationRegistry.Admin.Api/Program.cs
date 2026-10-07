@@ -525,6 +525,7 @@ public class Program
             .AddTransient<IAggregateSession, AggregateSession>()
             .AddTransient<IDubbelDetectieRepository, DubbelDetectieRepository>()
             .AddTransient<IDuplicateVerenigingDetectionService, ZoekDuplicateVerenigingenQuery>()
+            .AddTransient<IPostcodesInSameGemeenteService, PostcodesInSameGemeenteService>()
             .AddTransient<IGrarClient, GrarClient>()
             .AddTransient<IAdresMatchService, AdresMatchService>()
             .AddTransient<IAdresMatchStrategy, PerfectScoreMatchStrategy>()
