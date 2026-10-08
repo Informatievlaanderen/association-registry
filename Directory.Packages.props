@@ -7,7 +7,7 @@
     <PackageVersion Include="Amazon.Lambda.Core" Version="2.6.0" />
     <PackageVersion Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.4.4" />
     <PackageVersion Include="Amazon.Lambda.SQSEvents" Version="2.2.0" />
-    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1" />
     <PackageVersion Include="AWSSDK.Core" Version="4.0.0.14" />
     <PackageVersion Include="AWSSDK.DynamoDbv2" Version="4.0.0.6" />
     <PackageVersion Include="AWSSDK.S3" Version="4.0.4.1" />
