@@ -1,3 +1,11 @@
+## [8.342.6](https://github.com/informatievlaanderen/association-registry/compare/v8.342.5...v8.342.6) (2026-10-08)
+
+
+### Bug Fixes
+
+* or-3303 allow websites without http or https ([a8f78ef](https://github.com/informatievlaanderen/association-registry/commit/a8f78effcb3946897c9f5eaf4f36ccb41cfdd529))
+* or-3540 remove VertegenwoordigersPerVCode projection ([65a1495](https://github.com/informatievlaanderen/association-registry/commit/65a1495e0687881f7f038cffc63ea304dec40ef5))
+
 ## [8.342.5](https://github.com/informatievlaanderen/association-registry/compare/v8.342.4...v8.342.5) (2026-10-06)
 
 
