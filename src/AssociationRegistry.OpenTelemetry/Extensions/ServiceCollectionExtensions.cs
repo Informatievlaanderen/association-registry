@@ -162,21 +162,21 @@ public static class ServiceCollectionExtensions
                     {
                         options.EnrichWithHttpRequest = (activity, request) =>
                         {
-                            activity.SetCustomProperty(VrInitiatorHeaderName, request.Headers[VrInitiatorHeaderName]);
+                            activity.SetTag(VrInitiatorHeaderName, request.Headers[VrInitiatorHeaderName].ToString());
 
-                            activity.SetCustomProperty(
+                            activity.SetTag(
                                 XCorrelationIdHeaderName,
-                                request.Headers[XCorrelationIdHeaderName]
+                                request.Headers[XCorrelationIdHeaderName].ToString()
                             );
 
-                            activity.SetCustomProperty(
+                            activity.SetTag(
                                 BevestigingsTokenHeaderName,
-                                request.Headers[BevestigingsTokenHeaderName]
+                                request.Headers[BevestigingsTokenHeaderName].ToString()
                             );
 
                             foreach (var header in additionalHeaders)
                             {
-                                activity.SetCustomProperty(header, request.Headers[header]);
+                                activity.SetTag(header, request.Headers[header].ToString());
                             }
 
                             activity.SetParentId(request.Headers["traceparent"]);

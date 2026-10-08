@@ -433,7 +433,6 @@ public class Program
     {
         app.UseMiddleware<EnableRequestRewindMiddleware>()
             .UseMiddleware<CorrelationIdMiddleware>()
-            .UseMiddleware<AddCorrelationIdToLogContextMiddleware>()
             .UseMiddleware<AddHttpSecurityHeadersMiddleware>()
             .UseMiddleware<AddRemoteIpAddressMiddleware>(AddRemoteIpAddressMiddleware.UrnBasisregistersVlaanderenIp)
             .UseMiddleware<AddVersionHeaderMiddleware>(AddVersionHeaderMiddleware.HeaderName)
