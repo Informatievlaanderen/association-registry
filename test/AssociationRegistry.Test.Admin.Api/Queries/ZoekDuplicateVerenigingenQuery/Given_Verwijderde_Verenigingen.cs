@@ -9,22 +9,23 @@ using AssociationRegistry.DecentraalBeheer.Vereniging.DubbelDetectie;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid.DuplicateVerenigingDetection;
 using Common.AutoFixture;
+using Elastic.Clients.Elasticsearch;
 using FluentAssertions;
 using Framework.Fixtures;
 using Microsoft.Extensions.Logging.Abstractions;
-using Elastic.Clients.Elasticsearch;
 using Vereniging;
 using Xunit;
 
 public class Given_Verwijderde_VerenigingenFixture : ElasticRepositoryFixture
 {
-    public Given_Verwijderde_VerenigingenFixture() : base(nameof(Given_Verwijderde_VerenigingenFixture))
-    {
-
-    }
+    public Given_Verwijderde_VerenigingenFixture()
+        : base(nameof(Given_Verwijderde_VerenigingenFixture)) { }
 }
 
-public class Given_Verwijderde_Verenigingen : IClassFixture<Given_Verwijderde_VerenigingenFixture>, IDisposable, IAsyncDisposable
+public class Given_Verwijderde_Verenigingen
+    : IClassFixture<Given_Verwijderde_VerenigingenFixture>,
+        IDisposable,
+        IAsyncDisposable
 {
     public string Query { get; }
     private readonly Given_Verwijderde_VerenigingenFixture _fixture;
@@ -40,10 +41,14 @@ public class Given_Verwijderde_Verenigingen : IClassFixture<Given_Verwijderde_Ve
         _elasticClient = fixture.ElasticClient;
         _autoFixture = new Fixture().CustomizeAdminApi();
 
-        _query = new ZoekDuplicateVerenigingenQuery(fixture.ElasticClient, fixture.ElasticSearchOptions, new MinimumScore(0), NullLogger<ZoekDuplicateVerenigingenQuery>.Instance);
+        _query = new ZoekDuplicateVerenigingenQuery(
+            fixture.ElasticClient,
+            fixture.ElasticSearchOptions,
+            new MinimumScore(0),
+            new AssociationRegistry.Test.Admin.Api.Framework.Fakes.FakePostcodesInSameGemeenteService(),
+            NullLogger<ZoekDuplicateVerenigingenQuery>.Instance
+        );
     }
-
-
 
     [Fact]
     public async ValueTask Then_Query_Returns_Empty()
@@ -69,15 +74,24 @@ public class Given_Verwijderde_Verenigingen : IClassFixture<Given_Verwijderde_Ve
 
     private async ValueTask<IReadOnlyCollection<DuplicaatVereniging>> ExecuteQuery(DuplicateDetectionDocument document)
     {
-        var locaties = document.Locaties.Select(x => _autoFixture.Create<Locatie>() with{
-            Adres = _autoFixture.Create<Adres>() with
-            {
-                Gemeente = Gemeentenaam.Hydrate(x.Gemeente),
-                Postcode = x.Postcode,
-            }
-        }).ToArray();
+        var locaties = document
+            .Locaties.Select(x =>
+                _autoFixture.Create<Locatie>() with
+                {
+                    Adres = _autoFixture.Create<Adres>() with
+                    {
+                        Gemeente = Gemeentenaam.Hydrate(x.Gemeente),
+                        Postcode = x.Postcode,
+                    },
+                }
+            )
+            .ToArray();
 
-        return await _query.ExecuteAsync(VerenigingsNaam.Create(document.Naam), locaties, minimumScoreOverride: new MinimumScore(0));
+        return await _query.ExecuteAsync(
+            VerenigingsNaam.Create(document.Naam),
+            locaties,
+            minimumScoreOverride: new MinimumScore(0)
+        );
     }
 
     public void Dispose()
