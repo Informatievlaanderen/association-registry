@@ -1,23 +1,28 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
+using System.Text;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Transport;
 using Hosts.Configuration.ConfigurationBindings;
 using Schema.Search;
-using System.Text;
 
 public static class ElasticSearchExtensions
 {
     public static IServiceCollection AddElasticSearch(
         this IServiceCollection services,
-        ElasticSearchOptionsSection elasticSearchOptions)
+        ElasticSearchOptionsSection elasticSearchOptions
+    )
     {
-        var elasticClient = (IServiceProvider serviceProvider)
-            => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticsearchClient>>());
+        var elasticClient = (IServiceProvider serviceProvider) =>
+            CreateElasticClient(
+                elasticSearchOptions,
+                serviceProvider.GetRequiredService<ILogger<ElasticsearchClient>>()
+            );
 
-        services.AddMappingsForVerenigingZoek(elasticSearchOptions.Indices!.Verenigingen!)
-                .AddSingleton(sp => elasticClient(sp));
+        services
+            .AddMappingsForVerenigingZoek(elasticSearchOptions.Indices!.Verenigingen!)
+            .AddSingleton(sp => elasticClient(sp));
 
         return services;
     }
@@ -29,7 +34,9 @@ public static class ElasticSearchExtensions
             var client = serviceProvider.GetRequiredService<ElasticsearchClient>();
             var mappingResponse = client.Indices.GetMapping(new GetMappingRequest(indexName));
 
-            if (mappingResponse.IsValidResponse && mappingResponse.Mappings.TryGetValue(indexName, out var indexMapping))
+            if (
+                mappingResponse.IsValidResponse && mappingResponse.Mappings.TryGetValue(indexName, out var indexMapping)
+            )
             {
                 return indexMapping.Mappings;
             }
@@ -40,51 +47,69 @@ public static class ElasticSearchExtensions
         return services;
     }
 
-    public static ElasticsearchClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
+    public static ElasticsearchClient CreateElasticClient(
+        ElasticSearchOptionsSection elasticSearchOptions,
+        ILogger logger
+    )
     {
         var settings = new ElasticsearchClientSettings(new Uri(elasticSearchOptions.Uri!))
-                      .Authentication(new BasicAuthentication(
-                           elasticSearchOptions.Username,
-                           elasticSearchOptions.Password))
-                      .ServerCertificateValidationCallback((_, _, _, _) => true)
-                      .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!)
-                      .MapDuplicateDetectionDocument(elasticSearchOptions.Indices!.DuplicateDetection!);
+            .Authentication(new BasicAuthentication(elasticSearchOptions.Username, elasticSearchOptions.Password))
+            .ServerCertificateValidationCallback((_, _, _, _) => true)
+            .RequestTimeout(TimeSpan.FromSeconds(elasticSearchOptions.RequestTimeoutInSeconds))
+            .MaximumRetries(elasticSearchOptions.MaximumRetries)
+            .MaxRetryTimeout(TimeSpan.FromSeconds(elasticSearchOptions.MaxRetryTimeoutInSeconds))
+            .EnableTcpKeepAlive(
+                TimeSpan.FromSeconds(elasticSearchOptions.TcpKeepAliveTimeInSeconds),
+                TimeSpan.FromSeconds(elasticSearchOptions.TcpKeepAliveIntervalInSeconds)
+            )
+            .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!)
+            .MapDuplicateDetectionDocument(elasticSearchOptions.Indices!.DuplicateDetection!);
 
         if (elasticSearchOptions.EnableDevelopmentLogs)
         {
-            settings = settings.DisableDirectStreaming()
-                              .PrettyJson()
-                              .OnRequestCompleted(apiCallDetails =>
-                               {
-                                   if (apiCallDetails.RequestBodyInBytes != null)
-                                       logger.LogDebug(
-                                           "{HttpMethod} {Uri} \n {RequestBody}",
-                                           apiCallDetails.HttpMethod,
-                                           apiCallDetails.Uri,
-                                           Encoding.UTF8.GetString(apiCallDetails.RequestBodyInBytes));
+            settings = settings
+                .DisableDirectStreaming()
+                .PrettyJson()
+                .OnRequestCompleted(apiCallDetails =>
+                {
+                    if (apiCallDetails.RequestBodyInBytes != null)
+                        logger.LogDebug(
+                            "{HttpMethod} {Uri} \n {RequestBody}",
+                            apiCallDetails.HttpMethod,
+                            apiCallDetails.Uri,
+                            Encoding.UTF8.GetString(apiCallDetails.RequestBodyInBytes)
+                        );
 
-                                   if (apiCallDetails.ResponseBodyInBytes != null)
-                                       logger.LogDebug("Response: {ResponseBody}",
-                                                       Encoding.UTF8.GetString(apiCallDetails.ResponseBodyInBytes));
-                               });
+                    if (apiCallDetails.ResponseBodyInBytes != null)
+                        logger.LogDebug(
+                            "Response: {ResponseBody}",
+                            Encoding.UTF8.GetString(apiCallDetails.ResponseBodyInBytes)
+                        );
+                });
         }
 
         return new ElasticsearchClient(settings);
     }
 
-    public static ElasticsearchClientSettings MapVerenigingDocument(this ElasticsearchClientSettings settings, string indexName)
+    public static ElasticsearchClientSettings MapVerenigingDocument(
+        this ElasticsearchClientSettings settings,
+        string indexName
+    )
     {
         return settings.DefaultMappingFor(
             typeof(VerenigingZoekDocument),
-            selector: descriptor => descriptor.IndexName(indexName)
-                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)));
+            selector: descriptor => descriptor.IndexName(indexName).IdProperty(nameof(VerenigingZoekDocument.VCode))
+        );
     }
 
-    public static ElasticsearchClientSettings MapDuplicateDetectionDocument(this ElasticsearchClientSettings settings, string indexName)
+    public static ElasticsearchClientSettings MapDuplicateDetectionDocument(
+        this ElasticsearchClientSettings settings,
+        string indexName
+    )
     {
         return settings.DefaultMappingFor(
             typeof(DuplicateDetectionDocument),
-            selector: descriptor => descriptor.IndexName(indexName)
-                                              .IdProperty(nameof(DuplicateDetectionDocument.VCode)));
+            selector: descriptor => descriptor.IndexName(indexName).IdProperty(nameof(DuplicateDetectionDocument.VCode))
+        );
     }
 }
