@@ -1,0 +1,22 @@
+# Sigrid analysis scope configuration
+# https://docs.sigrid-says.com/reference/analysis-scope-configuration.html
+#
+# Technologies, components and test code are detected automatically.
+# Patterns are regular expressions and always start with ".*/".
+
+exclude:
+  # Tooling, local dev and CI support (not part of the application)
+  - ".*/[.]build/.*"
+  - ".*/[.]specify/.*"
+  - ".*/[.]opencode/.*"
+  - ".*/[.]localstack/.*"
+  - ".*/wiremock/.*"
+  - ".*/grafana/.*"
+  - ".*/identityserver/.*"
+  - ".*/scripts/.*"
+  - ".*/tools/.*"
+  - ".*[.]csx"
+  # Database migration scripts
+  - ".*/migrations/.*"
+  # Generated code
+  - ".*[.]Designer[.]cs"
