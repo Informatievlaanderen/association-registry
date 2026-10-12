@@ -20,3 +20,14 @@ exclude:
   - ".*/migrations/.*"
   # Generated code
   - ".*[.]Designer[.]cs"
+
+# Security scan only; the exclude list above does not apply to security.
+thirdpartyfindings:
+  exclude:
+    # detect-secrets baseline: only contains hashes of known findings
+    - ".*/[.]secrets[.]baseline"
+    # Mock responses for external services (fictitious test data)
+    - ".*/wiremock/.*"
+    # AI tooling templates and prompts (spec-kit, OpenCode)
+    - ".*/[.]specify/.*"
+    - ".*/[.]opencode/.*"
