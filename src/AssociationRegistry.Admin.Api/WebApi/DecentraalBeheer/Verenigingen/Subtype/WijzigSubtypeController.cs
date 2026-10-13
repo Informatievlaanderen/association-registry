@@ -68,18 +68,8 @@ public class WijzigSubtypeController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        WellknownHeaderNames.Sequence,
-        type: "string",
-        description: "Het sequence nummer van deze request."
-    )]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        name: "ETag",
-        type: "string",
-        description: "De versie van de aangepaste vereniging."
-    )]
+    [SequenceResponseHeader()]
+    [ETagResponseHeader("De versie van de aangepaste vereniging.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]

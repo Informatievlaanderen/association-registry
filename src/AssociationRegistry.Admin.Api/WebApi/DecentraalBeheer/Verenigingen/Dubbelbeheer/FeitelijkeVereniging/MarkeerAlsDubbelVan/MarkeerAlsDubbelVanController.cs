@@ -58,18 +58,8 @@ public class MarkeerAlsDubbelVanController : ApiController
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(MarkeerAlsDubbelVanRequest), typeof(MarkeerAlsDubbelVanRequestExamples))]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        WellknownHeaderNames.Sequence,
-        type: "string",
-        description: "Het sequence nummer van deze request."
-    )]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        name: "ETag",
-        type: "string",
-        description: "De versie van de vereniging die als dubbel werd gemarkeerd."
-    )]
+    [SequenceResponseHeader()]
+    [ETagResponseHeader("De versie van de vereniging die als dubbel werd gemarkeerd.")]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
