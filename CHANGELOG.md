@@ -1,3 +1,10 @@
+# [8.343.0](https://github.com/informatievlaanderen/association-registry/compare/v8.342.7...v8.343.0) (2026-10-13)
+
+
+### Features
+
+* or-3547 include related gemeente postcodes for dubbeldetectie ([db65a2d](https://github.com/informatievlaanderen/association-registry/commit/db65a2d4b3649f2cd28eafe37070c91b6455e847))
+
 ## [8.342.7](https://github.com/informatievlaanderen/association-registry/compare/v8.342.6...v8.342.7) (2026-10-13)
 
 ## [8.342.6](https://github.com/informatievlaanderen/association-registry/compare/v8.342.5...v8.342.6) (2026-10-08)
