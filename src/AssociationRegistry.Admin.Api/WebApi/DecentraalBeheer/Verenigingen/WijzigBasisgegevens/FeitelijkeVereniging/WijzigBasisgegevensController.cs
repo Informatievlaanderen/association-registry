@@ -61,24 +61,9 @@ public class WijzigBasisgegevensController : ApiController
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPatch("{vCode}")]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        WellknownHeaderNames.Sequence,
-        type: "string",
-        description: "Het sequence nummer van deze request."
-    )]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        name: "ETag",
-        type: "string",
-        description: "De versie van de aangepaste vereniging."
-    )]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        name: "Location",
-        type: "string",
-        description: "De locatie van de aangepaste vereniging."
-    )]
+    [SequenceResponseHeader()]
+    [ETagResponseHeader("De versie van de aangepaste vereniging.")]
+    [LocationResponseHeader("De locatie van de aangepaste vereniging.")]
     [SwaggerRequestExample(typeof(WijzigBasisgegevensRequest), typeof(WijzigBasisgegevensRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]

@@ -63,24 +63,9 @@ public class RegistreerErkenningController : ApiController
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(RegistreerErkenningRequest), typeof(RegistreerErkenningRequestExamples))]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        WellknownHeaderNames.Sequence,
-        type: "string",
-        description: "Het sequence nummer van deze request."
-    )]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        name: "ETag",
-        type: "string",
-        description: "De versie van de geregistreerde vereniging."
-    )]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        name: "Location",
-        type: "string",
-        description: "De locatie van de toegevoegde erkenning."
-    )]
+    [SequenceResponseHeader()]
+    [ETagResponseHeader("De versie van de geregistreerde vereniging.")]
+    [LocationResponseHeader("De locatie van de toegevoegde erkenning.")]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]

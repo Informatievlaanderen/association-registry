@@ -52,8 +52,11 @@ public class DetailVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(BadRequestProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(NotFoundProblemDetailsExamples))]
-    [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(DetailPreconditionFailedProblemDetailsExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status200OK, name: "ETag", type: "string", description: "De versie van de aangepaste vereniging.")]
+    [SwaggerResponseExample(
+        StatusCodes.Status412PreconditionFailed,
+        typeof(DetailPreconditionFailedProblemDetailsExamples)
+    )]
+    [ETagResponseHeader("De versie van de aangepaste vereniging.", StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -68,11 +71,15 @@ public class DetailVerenigingenController : ApiController
         [FromRoute] string vCode,
         [FromQuery] long? expectedSequence,
         [FromHeader(Name = WellknownHeaderNames.Version)] string? version,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         await sequenceGuarder.ThrowIfSequenceNotReached(expectedSequence);
 
-        var maybeVereniging = await detailQuery.ExecuteAsync(new BeheerVerenigingDetailFilter(vCode), cancellationToken);
+        var maybeVereniging = await detailQuery.ExecuteAsync(
+            new BeheerVerenigingDetailFilter(vCode),
+            cancellationToken
+        );
 
         if (maybeVereniging is not { } vereniging)
             return await responseWriter.WriteNotFoundProblemDetailsAsync(Response, ValidationMessages.Status404Detail);
@@ -89,10 +96,16 @@ public class DetailVerenigingenController : ApiController
         if (maybeSubvereniging is not null && !andereVerenigingen.Contains(maybeSubvereniging))
             andereVerenigingen = andereVerenigingen.Append(maybeSubvereniging).ToArray();
 
-        var namenVoorVCodes =
-            await getNamesForVCodesQuery.ExecuteAsync(new GetNamesForVCodesFilter(andereVerenigingen), cancellationToken);
+        var namenVoorVCodes = await getNamesForVCodesQuery.ExecuteAsync(
+            new GetNamesForVCodesFilter(andereVerenigingen),
+            cancellationToken
+        );
 
-        var mapper = new BeheerVerenigingDetailMapper(_appSettings, new VerplichteVerplichteNamenVoorVCodesMapper(namenVoorVCodes), version);
+        var mapper = new BeheerVerenigingDetailMapper(
+            _appSettings,
+            new VerplichteVerplichteNamenVoorVCodesMapper(namenVoorVCodes),
+            version
+        );
         var mappedDetail = mapper.Map(vereniging);
 
         return Ok(mappedDetail);

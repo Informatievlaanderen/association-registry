@@ -70,30 +70,10 @@ public class RegistreerVerenigingUitKboController : ApiController
     )]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
-    [SwaggerResponseHeader(
-        StatusCodes.Status200OK,
-        name: "Location",
-        type: "string",
-        description: "De locatie van de geregistreerde vereniging."
-    )]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        WellknownHeaderNames.Sequence,
-        type: "string",
-        description: "Het sequence nummer van deze request."
-    )]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        name: "ETag",
-        type: "string",
-        description: "De versie van de geregistreerde vereniging."
-    )]
-    [SwaggerResponseHeader(
-        StatusCodes.Status202Accepted,
-        name: "Location",
-        type: "string",
-        description: "De locatie van de geregistreerde vereniging."
-    )]
+    [LocationResponseHeader("De locatie van de geregistreerde vereniging.", StatusCodes.Status200OK)]
+    [SequenceResponseHeader()]
+    [ETagResponseHeader("De versie van de geregistreerde vereniging.")]
+    [LocationResponseHeader("De locatie van de geregistreerde vereniging.")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
