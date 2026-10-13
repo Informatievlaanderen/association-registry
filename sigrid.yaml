@@ -1,8 +1,15 @@
 # Sigrid analysis scope configuration
 # https://docs.sigrid-says.com/reference/analysis-scope-configuration.html
 #
-# Technologies, components and test code are detected automatically.
+# Technologies and test code are detected automatically.
 # Patterns are regular expressions and always start with ".*/".
+
+# Every project directory is a component; integrations are split per project
+# instead of being grouped into a single "integrations" component.
+component_base_dirs:
+  - "src"
+  - "src/integrations"
+  - "Root files"
 
 exclude:
   # Tooling, local dev and CI support (not part of the application)
