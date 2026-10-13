@@ -1,3 +1,10 @@
+## [8.343.1](https://github.com/informatievlaanderen/association-registry/compare/v8.343.0...v8.343.1) (2026-10-13)
+
+
+### Bug Fixes
+
+* or-3612 log client correlation id in log context and span attributes ([ea0be07](https://github.com/informatievlaanderen/association-registry/commit/ea0be07bbc347b97146b2c29f2b3162acc923d56))
+
 # [8.343.0](https://github.com/informatievlaanderen/association-registry/compare/v8.342.7...v8.343.0) (2026-10-13)
 
 
