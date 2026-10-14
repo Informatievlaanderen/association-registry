@@ -12,4 +12,10 @@ public class Given_VerenigingWerdErkend(PowerBiScenarioFixture<VerenigingWerdErk
     {
         fixture.Result.Historiek.Should().ContainSingle(x => x.EventType == nameof(VerenigingWerdErkend));
     }
+
+    [Fact]
+    public void IsErkend_Is_True()
+    {
+        fixture.Result.IsErkend.Should().BeTrue();
+    }
 }
