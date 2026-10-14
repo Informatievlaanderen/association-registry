@@ -40,7 +40,8 @@ public class BasisgegevensRecordWriter : IRecordWriter<PowerBiExportDocument>
                     vereniging.SubverenigingVan?.Beschrijving ?? string.Empty,
                     vereniging.DuplicatieInfo?.BevestigdNaDuplicatie,
                     vereniging.DuplicatieInfo?.Bevestigingstoken ?? string.Empty,
-                    vereniging.InStopzetting
+                    vereniging.InStopzetting,
+                    vereniging.IsErkend
                 )
             );
 

@@ -39,6 +39,7 @@ public record PowerBiExportDocument : IVCode
     public DuplicatieInfo DuplicatieInfo { get; set; }
     public Erkenning[] Erkenningen { get; set; } = [];
     public bool InStopzetting { get; set; }
+    public bool IsErkend { get; set; }
 }
 
 public record DuplicatieInfo(bool? BevestigdNaDuplicatie, string Bevestigingstoken);
