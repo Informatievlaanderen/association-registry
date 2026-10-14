@@ -1,3 +1,5 @@
+## [8.343.2](https://github.com/informatievlaanderen/association-registry/compare/v8.343.1...v8.343.2) (2026-10-14)
+
 ## [8.343.1](https://github.com/informatievlaanderen/association-registry/compare/v8.343.0...v8.343.1) (2026-10-13)
 
 
