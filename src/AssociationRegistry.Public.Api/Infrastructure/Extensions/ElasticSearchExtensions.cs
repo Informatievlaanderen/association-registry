@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
+using System.Net;
 using System.Text;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.IndexManagement;
@@ -53,16 +54,16 @@ public static class ElasticSearchExtensions
         ILogger logger
     )
     {
-        var settings = new ElasticsearchClientSettings(new Uri(elasticSearchOptions.Uri!))
+        var nodePool = new SingleNodePool(new Uri(elasticSearchOptions.Uri!));
+
+        var settings = new ElasticsearchClientSettings(
+            nodePool,
+            ElasticSearchRequestInvokerFactory.Create(elasticSearchOptions)
+        )
             .Authentication(new BasicAuthentication(elasticSearchOptions.Username, elasticSearchOptions.Password))
-            .ServerCertificateValidationCallback((_, _, _, _) => true)
             .RequestTimeout(TimeSpan.FromSeconds(elasticSearchOptions.RequestTimeoutInSeconds))
             .MaximumRetries(elasticSearchOptions.MaximumRetries)
             .MaxRetryTimeout(TimeSpan.FromSeconds(elasticSearchOptions.MaxRetryTimeoutInSeconds))
-            .EnableTcpKeepAlive(
-                TimeSpan.FromSeconds(elasticSearchOptions.TcpKeepAliveTimeInSeconds),
-                TimeSpan.FromSeconds(elasticSearchOptions.TcpKeepAliveIntervalInSeconds)
-            )
             .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
 
         if (elasticSearchOptions.EnableDevelopmentLogs)

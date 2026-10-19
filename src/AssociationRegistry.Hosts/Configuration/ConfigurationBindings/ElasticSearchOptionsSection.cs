@@ -71,8 +71,8 @@ public class ElasticSearchOptionsSection : IMinimumScoreDuplicateDetectionConfig
     public int RequestTimeoutInSeconds { get; set; } = 5;
     public int MaximumRetries { get; set; } = 1;
     public int MaxRetryTimeoutInSeconds { get; set; } = 6;
-    public int TcpKeepAliveTimeInSeconds { get; set; } = 30;
-    public int TcpKeepAliveIntervalInSeconds { get; set; } = 10;
+    public int PooledConnectionIdleTimeoutInSeconds { get; set; } = 30;
+    public int PooledConnectionLifetimeInSeconds { get; set; } = 300;
 
     public class IndicesOptionsSection
     {
