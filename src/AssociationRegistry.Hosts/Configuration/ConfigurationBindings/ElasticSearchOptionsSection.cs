@@ -68,9 +68,9 @@ public class ElasticSearchOptionsSection : IMinimumScoreDuplicateDetectionConfig
     public IndicesOptionsSection? Indices { get; set; }
     public bool EnableDevelopmentLogs { get; set; }
     public double MinimumScoreDuplicateDetection { get; set; } = MinimumScore.Default.Value;
-    public int RequestTimeoutInSeconds { get; set; } = 5;
+    public int RequestTimeoutInSeconds { get; set; } = 30;
     public int MaximumRetries { get; set; } = 1;
-    public int MaxRetryTimeoutInSeconds { get; set; } = 6;
+    public int MaxRetryTimeoutInSeconds { get; set; } = 60;
     public int PooledConnectionIdleTimeoutInSeconds { get; set; } = 30;
     public int PooledConnectionLifetimeInSeconds { get; set; } = 300;
 
