@@ -131,7 +131,8 @@ public class With_Same_Naam_And_Postcode
       ],
       ""links"": {{
         ""detail"": ""http://127.0.0.1:11004/v1/verenigingen/{FeitelijkeVerenigingWerdGeregistreerd.VCode}""
-      }}
+      }},
+""inStopzetting"": false
     }}
   ]
 }}";
