@@ -12,6 +12,7 @@ public record DuplicateDetectionDocument
     public bool IsGestopt { get; set; }
     public bool IsVerwijderd { get; set; }
     public bool IsDubbel { get; set; }
+    public bool InStopzetting { get; set; }
 
     public record Locatie : ILocatie
     {

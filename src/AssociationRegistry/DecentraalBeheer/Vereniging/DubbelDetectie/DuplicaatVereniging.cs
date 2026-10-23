@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging.DubbelDetectie;
 
-using AssociationRegistry.DecentraalBeheer.Vereniging;
 using System.Collections.Immutable;
+using AssociationRegistry.DecentraalBeheer.Vereniging;
 
 public record DuplicaatVereniging(
     string VCode,
@@ -11,8 +11,9 @@ public record DuplicaatVereniging(
     string KorteNaam,
     ImmutableArray<DuplicaatVereniging.Types.HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket,
     ImmutableArray<DuplicaatVereniging.Types.Locatie> Locaties,
+    bool InStopzetting,
     DuplicaatVereniging.Types.ScoringInfo? Scoring = null
-    )
+)
 {
     public static class Types
     {
@@ -22,7 +23,8 @@ public record DuplicaatVereniging(
             string Adres,
             string? Naam,
             string Postcode,
-            string Gemeente);
+            string Gemeente
+        );
 
         public record Verenigingstype : IVerenigingstype
         {
@@ -37,6 +39,7 @@ public record DuplicaatVereniging(
         }
 
         public record Activiteit(int Id, string Categorie);
+
         public record HoofdactiviteitVerenigingsloket(string Code, string Naam);
 
         public record ScoringInfo(string Explanation, double? Score)
