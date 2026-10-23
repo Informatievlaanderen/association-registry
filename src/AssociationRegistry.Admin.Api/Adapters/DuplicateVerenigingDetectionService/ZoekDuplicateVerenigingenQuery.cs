@@ -228,6 +228,7 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
                 .ToImmutableArray()
                 ?? [],
             [.. document.Source.Locaties.Select(ToLocatie)],
+            document.Source.InStopzetting,
             IncludesScore(document)
                 ? new DuplicaatVereniging.Types.ScoringInfo(document.Explanation.Description, document.Score)
                 : DuplicaatVereniging.Types.ScoringInfo.NotApplicable

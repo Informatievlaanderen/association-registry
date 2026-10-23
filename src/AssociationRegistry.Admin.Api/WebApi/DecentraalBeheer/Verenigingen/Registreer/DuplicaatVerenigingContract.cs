@@ -15,7 +15,9 @@ public class DuplicaatVerenigingContract
         Verenigingssubtype verenigingssubtype,
         ImmutableArray<HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket,
         ImmutableArray<Locatie> locaties,
-        VerenigingLinks links)
+        VerenigingLinks links,
+        bool inStopzetting
+    )
     {
         VCode = vCode;
         Naam = naam;
@@ -25,6 +27,7 @@ public class DuplicaatVerenigingContract
         HoofdactiviteitenVerenigingsloket = hoofdactiviteitenVerenigingsloket;
         Locaties = locaties;
         Links = links;
+        InStopzetting = inStopzetting;
     }
 
     /// <summary>De unieke identificatie code van deze vereniging</summary>
@@ -60,4 +63,8 @@ public class DuplicaatVerenigingContract
     /// <summary>Weblinks i.v.m. deze vereniging</summary>
     [DataMember(Name = "Links")]
     public VerenigingLinks Links { get; init; }
+
+    /// <summary>Of een vereniging in stopzetting staat</summary>
+    [DataMember(Name = "InStopzetting")]
+    public bool InStopzetting { get; set; }
 }

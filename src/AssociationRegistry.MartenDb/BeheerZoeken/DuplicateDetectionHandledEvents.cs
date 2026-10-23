@@ -34,7 +34,9 @@ public class DuplicateDetectionHandledEvents
         typeof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald),
         typeof(VerenigingssubtypeWerdVerfijndNaarSubvereniging),
         typeof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd),
+        typeof(VerenigingWerdInStopzettingGeplaatst),
+        typeof(VerenigingWerdUitStopzettingGehaald),
+        typeof(VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt),
+        typeof(VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel),
     ];
 }
-
-

@@ -302,6 +302,32 @@ public class DuplicateDetectionProjectionHandler
         document.VerenigingssubtypeCode = VerenigingssubtypeCode.Subvereniging.Code;
     }
 
+    public void Handle(EventEnvelope<VerenigingWerdInStopzettingGeplaatst> message, DuplicateDetectionDocument document)
+    {
+        document.InStopzetting = true;
+    }
+
+    public void Handle(EventEnvelope<VerenigingWerdUitStopzettingGehaald> message, DuplicateDetectionDocument document)
+    {
+        document.InStopzetting = false;
+    }
+
+    public void Handle(
+        EventEnvelope<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt> message,
+        DuplicateDetectionDocument document
+    )
+    {
+        document.InStopzetting = false;
+    }
+
+    public void Handle(
+        EventEnvelope<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGemarkeerdAlsDubbel> message,
+        DuplicateDetectionDocument document
+    )
+    {
+        document.InStopzetting = false;
+    }
+
     private static string[] MapHoofdactiviteitVerenigingsloket(
         IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket
     )
