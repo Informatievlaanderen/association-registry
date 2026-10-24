@@ -897,7 +897,7 @@ jobs:
           path: ~/
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a
         with:
           aws-access-key-id: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
           aws-secret-access-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
@@ -921,7 +921,7 @@ jobs:
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/kbosync/test/deploy/v4
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/kbosync/test/deploy/v4/status
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@e85c2e8880f7015bab7156b959f72127cf22cda7 # deploy-v4
         with:
           environment: test
           version: ${{ needs.release.outputs.version }}
@@ -1003,7 +1003,7 @@ jobs:
     steps:
       - name: Configure AWS credentials (Test)
         if: needs.release.outputs.version != 'none'
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a
         with:
           aws-access-key-id: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
           aws-secret-access-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
@@ -1172,7 +1172,7 @@ jobs:
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/test/deploy/v4
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/test/deploy/v4/status
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@e85c2e8880f7015bab7156b959f72127cf22cda7 # deploy-v4
         with:
           environment: test
           version: ${{ needs.release.outputs.version }}
@@ -1217,7 +1217,7 @@ jobs:
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/test/deploy/v4
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/test/deploy/v4/status
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@e85c2e8880f7015bab7156b959f72127cf22cda7 # deploy-v4
         with:
           environment: test
           version: ${{ needs.release.outputs.version }}

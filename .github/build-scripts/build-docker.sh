@@ -10,10 +10,10 @@ docker_cmd="docker build . --no-cache --tag $dockerRegistry/$containerName:$buil
 cd "dist/$1/linux" || exit
 
 # Run the docker build command, and storeit's result
-$docker_cmd 
+$docker_cmd
 result=$?
 
-if [ $? -eq 0 ]; then
+if [[ $? -eq 0 ]]; then
     echo "Docker build succeeded!"
 else
     echo "Docker build failed or timed out!"

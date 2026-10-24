@@ -19,15 +19,18 @@ axios.get(`https://api.github.com/app/installations`, {
     Accept: 'application/vnd.github.v3+json',
   }
 }).then(response => {
-  const installationId = response.data[0].id;  // Assuming only one installation. Adjust if needed.
+  const installationId = Number(response.data?.[0]?.id);// Assuming only one installation. Adjust if needed.
+
+  if (!Number.isSafeInteger(installationId)) {
+    throw new Error(`Invalid installation id: ${response.data?.[0]?.id}`);
+  }
 
   // Now, fetch installation token
-  return axios.post(`https://api.github.com/app/installations/${installationId}/access_tokens`, {}, {
-    headers: {
-      Authorization: `Bearer ${jwtToken}`,
-      Accept: 'application/vnd.github.v3+json',
-    }
-  });
+  return axios.post(
+    `https://api.github.com/app/installations/${encodeURIComponent(installationId)}/access_tokens`,
+    {},
+    { headers: { Authorization: `Bearer ${jwtToken}`, Accept: 'application/vnd.github.v3+json' } }
+  );
 
 }).then(response => {
   const installationToken = response.data.token;
