@@ -1,3 +1,17 @@
+# [8.344.0](https://github.com/informatievlaanderen/association-registry/compare/v8.343.2...v8.344.0) (2026-10-27)
+
+
+### Bug Fixes
+
+* enable tcp keep alive for elastic client ([770824b](https://github.com/informatievlaanderen/association-registry/commit/770824b61990bb171bee0804a4a26adc5b0dbf0e))
+* or-3620 avoid stale Elasticsearch connections behind ALB idle timeout ([5eb3ffe](https://github.com/informatievlaanderen/association-registry/commit/5eb3ffed5d72baeb77d5000da9bd5b70c0370082))
+* or-3620 set RequestTimeoutInSeconds & max MaxRetryTimeoutInSeconds higher ([187f948](https://github.com/informatievlaanderen/association-registry/commit/187f948a96e3d5122135bab185918d8832e618b8))
+
+
+### Features
+
+* or-3548 add instopzetting to dubbel detectie ([2e118cb](https://github.com/informatievlaanderen/association-registry/commit/2e118cb7872b181da924ccb6c57a456d45f58fd4))
+
 ## [8.343.2](https://github.com/informatievlaanderen/association-registry/compare/v8.343.1...v8.343.2) (2026-10-14)
 
 ## [8.343.1](https://github.com/informatievlaanderen/association-registry/compare/v8.343.0...v8.343.1) (2026-10-13)
