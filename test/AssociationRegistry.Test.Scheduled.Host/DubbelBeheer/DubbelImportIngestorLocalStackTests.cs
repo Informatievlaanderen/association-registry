@@ -6,6 +6,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using AssociationRegistry.Scheduled.Host.DubbelBeheer;
 using AssociationRegistry.Scheduled.Host.DubbelBeheer.Schema;
+using AssociationRegistry.Scheduled.Host.Infrastructure.MartenSetup;
 using Common.Framework;
 using FluentAssertions;
 using Marten;
@@ -41,13 +42,16 @@ public class DubbelImportIngestorLocalStackTests : IAsyncLifetime
 
         _store = await TestDocumentStoreFactory.CreateAsync(
             nameof(DubbelImportIngestorLocalStackTests),
-            options => options.RegisterDocumentType<DubbelImportDocument>()
+            options => options.RegisterDubbelImportDocumentTypes()
         );
 
         _ingestor = new DubbelImportIngestor(
             _s3,
             new DubbelImportOptions { SourceBucket = Bucket },
             _store,
+            new RecordingLineProcessor(),
+            new RecordingReportGenerator(),
+            TimeProvider.System,
             NullLogger<DubbelImportIngestor>.Instance
         );
 
@@ -77,16 +81,14 @@ public class DubbelImportIngestorLocalStackTests : IAsyncLifetime
         await _ingestor.Ingest(CancellationToken.None);
 
         await using var session = _store.QuerySession();
-        var rijen = await session
+        var lines = await session
             .Query<DubbelImportDocument>()
             .Where(x => x.SourceKey == _key)
-            .OrderBy(x => x.Volgnummer)
+            .OrderBy(x => x.LineNumber)
             .ToListAsync();
-        rijen.Select(x => x.DubbeleVCode).Should().Equal("V1001001", "V1001003");
+        lines.Select(x => x.DubbeleVCode).Should().Equal("V1001001", "V1001003");
 
-        var overgebleven = await _s3.ListObjectsV2Async(
-            new ListObjectsV2Request { BucketName = Bucket, Prefix = _key }
-        );
-        (overgebleven.S3Objects ?? []).Should().BeEmpty();
+        var remaining = await _s3.ListObjectsV2Async(new ListObjectsV2Request { BucketName = Bucket, Prefix = _key });
+        (remaining.S3Objects ?? []).Should().BeEmpty();
     }
 }
