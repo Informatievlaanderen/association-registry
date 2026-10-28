@@ -52,4 +52,18 @@ public class ScheduledHostController : ApiController
 
         return Ok();
     }
+
+    /// <summary>
+    ///     Start de verwerking van de CSV-bestanden met dubbele verenigingen die op S3 klaarstaan.
+    /// </summary>
+    [HttpPost("scheduledhost/trigger/verwerk-dubbelen")]
+    public async Task<IActionResult> TriggerVerwerkDubbelen(
+        [FromServices] ScheduledHostHttpClient client,
+        CancellationToken cancellationToken
+    )
+    {
+        await client.TriggerVerwerkDubbelen(cancellationToken);
+
+        return Accepted();
+    }
 }

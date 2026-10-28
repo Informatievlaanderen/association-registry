@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Scheduled.Host.Infrastructure.Extensions;
 
 using Bewaartermijnen;
+using DubbelBeheer;
 using Erkenningen;
 using Erkenningen.Activeer;
 using Erkenningen.Verloop;
@@ -96,6 +97,21 @@ public static class ConfigurationExtensions
         Throw<ArgumentNullException>.IfNullOrWhiteSpace(
             options.Cron,
             $"{nameof(VerloopErkenningenOptions)}.{nameof(VerloopErkenningenOptions.Cron)}"
+        );
+
+        return options;
+    }
+
+    public static DubbelImportOptions GetDubbelImportOptions(this IConfiguration configuration)
+    {
+        var options = configuration.GetSection(nameof(DubbelImportOptions)).Get<DubbelImportOptions>();
+
+        if (options is null)
+            throw new ArgumentNullException(nameof(options));
+
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            options.SourceBucket,
+            $"{nameof(DubbelImportOptions)}.{nameof(DubbelImportOptions.SourceBucket)}"
         );
 
         return options;

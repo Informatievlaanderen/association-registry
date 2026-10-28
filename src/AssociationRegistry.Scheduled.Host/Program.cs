@@ -6,6 +6,7 @@ using Bewaartermijnen;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
+using DubbelBeheer;
 using Erkenningen.Activeer;
 using Erkenningen.Verloop;
 using EventStore.ConflictResolution;
@@ -111,6 +112,7 @@ public class Program
         var powerBiExportOptions = builder.Configuration.GetPowerBiExportOptions();
         var activeerErkenningenOptions = builder.Configuration.GetActiveerErkenningenOptions();
         var verloopErkenningenOptions = builder.Configuration.GetVerloopErkenningenOptions();
+        var dubbelImportOptions = builder.Configuration.GetDubbelImportOptions();
 
         builder.ConfigureOpenTelemetry(new ScheduledHostInstrumentation());
         services.AddMarten(postgreSqlOptions).AddWolverine(postgreSqlOptions);
@@ -155,6 +157,14 @@ public class Program
                 );
             });
 
+        services.AddQuartz(q =>
+        {
+            // Wordt enkel via een HTTP-trigger vanuit de Admin.Api gestart, dus zonder cron.
+            q.AddJob<IngestDubbelBeheerJob>(opts =>
+                opts.WithIdentity(new JobKey(IngestDubbelBeheerJob.JobName)).StoreDurably()
+            );
+        });
+
         services.AddQuartzHostedService(options =>
         {
             options.WaitForJobsToComplete = true;
@@ -163,14 +173,28 @@ public class Program
         services
             .AddSingleton(postgreSqlOptions)
             .AddSingleton<NodaTime.IClock>(SystemClock.Instance)
-            .AddSingleton<IAmazonS3, AmazonS3Client>()
+            .AddSingleton<IAmazonS3>(sp =>
+                dubbelImportOptions.UseLocalStack
+                    ? new AmazonS3Client(
+                        new Amazon.Runtime.BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"),
+                        new AmazonS3Config
+                        {
+                            ServiceURL = "http://127.0.0.1:4566",
+                            ForcePathStyle = true,
+                            UseHttp = true,
+                        }
+                    )
+                    : new AmazonS3Client()
+            )
             .AddSingleton(sp => PowerBiExporters.Create(sp, powerBiExportOptions))
             .AddSingleton(sp => PowerBiDubbelDetectieExporters.Create(sp, powerBiExportOptions))
             .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
             .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
             .AddSingleton<EventConflictResolver>()
             .AddSingleton(new SlackWebhook(bewaartermijnOptions.SlackWebhook))
+            .AddSingleton(dubbelImportOptions)
             .AddSingleton<IClock, Clock>()
+            .AddScoped<DubbelImportIngestor>()
             .AddScoped<IEventStore, EventStore>()
             .AddScoped<IAggregateSession, AggregateSession>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()

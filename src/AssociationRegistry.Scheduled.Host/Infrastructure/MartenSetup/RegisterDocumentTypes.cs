@@ -6,6 +6,7 @@ using Admin.Schema.Erkenningen;
 using Admin.Schema.Persoonsgegevens;
 using Admin.Schema.PowerBiExport;
 using DecentraalBeheer.Vereniging;
+using DubbelBeheer.Schema;
 using JasperFx.Events.Projections;
 using Marten;
 
@@ -19,10 +20,11 @@ public static class RegisterDocumentTypes
         opts.RegisterDocumentType<PowerBiExportDubbelDetectieDocument>();
         opts.RegisterDocumentType<PowerBiExportDocument>();
         opts.RegisterDocumentType<ErkenningDocument>();
+        opts.RegisterDocumentType<DubbelImportDocument>();
 
-        opts.Schema.For<ErkenningDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<DubbelImportDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
+
+        opts.Schema.For<ErkenningDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.Schema.For<PowerBiExportDubbelDetectieDocument>()
             .UseNumericRevisions(true)
