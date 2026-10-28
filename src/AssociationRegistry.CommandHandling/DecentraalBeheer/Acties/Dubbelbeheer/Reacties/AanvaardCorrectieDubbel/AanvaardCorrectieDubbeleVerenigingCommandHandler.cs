@@ -11,7 +11,14 @@ public class AanvaardCorrectieDubbeleVerenigingCommandHandler(IAggregateSession 
     public async Task Handle(AanvaardCorrectieDubbeleVerenigingCommand command, CancellationToken cancellationToken)
     {
         var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
-        var vereniging = await aggregateSession.Load<VerenigingOfAnyKind>(command.VCode, metadata);
+
+        // De authentieke vereniging kan intussen zelf als dubbel gemarkeerd zijn (bv. A -> B, daarna B -> C).
+        // Ook dan moet de correctie van A verwerkt worden.
+        var vereniging = await aggregateSession.Load<VerenigingOfAnyKind>(
+            command.VCode,
+            metadata,
+            allowDubbeleVereniging: true
+        );
 
         vereniging.AanvaardCorrectieDubbeleVereniging(command.VCodeDubbeleVereniging);
 

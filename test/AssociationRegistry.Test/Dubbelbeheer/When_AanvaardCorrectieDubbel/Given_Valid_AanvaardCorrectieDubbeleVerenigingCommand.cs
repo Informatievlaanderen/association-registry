@@ -23,7 +23,7 @@ public class Given_Valid_AanvaardCorrectieDubbeleVerenigingCommand
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new VerenigingAanvaarddeDubbeleVerenigingScenario(verenigingstype);
-        var aggregateSession = new AggregateSessionMock(scenario.GetVerenigingState());
+        var aggregateSession = new AggregateSessionMock(scenario.GetVerenigingState(), expectedLoadingDubbel: true);
 
         var command = fixture.Create<AanvaardCorrectieDubbeleVerenigingCommand>() with
         {

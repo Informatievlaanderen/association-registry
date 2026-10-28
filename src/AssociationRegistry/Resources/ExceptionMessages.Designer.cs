@@ -141,15 +141,6 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Een authentieke vereniging kan geen dubbel worden van een andere vereniging..
-        /// </summary>
-        public static string AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden {
-            get {
-                return ResourceManager.GetString("AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Bankrekeningnummer met bankrekeningnummerId &apos;{0}&apos; is niet gekend..
         /// </summary>
         public static string BankrekeningnummerIsNietGekend {
