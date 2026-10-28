@@ -20,9 +20,7 @@ public static class RegisterDocumentTypes
         opts.RegisterDocumentType<PowerBiExportDubbelDetectieDocument>();
         opts.RegisterDocumentType<PowerBiExportDocument>();
         opts.RegisterDocumentType<ErkenningDocument>();
-        opts.RegisterDocumentType<DubbelImportDocument>();
-
-        opts.Schema.For<DubbelImportDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
+        opts.RegisterDubbelImportDocumentTypes();
 
         opts.Schema.For<ErkenningDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
@@ -38,6 +36,20 @@ public static class RegisterDocumentTypes
 
         opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
+
+        return opts;
+    }
+
+    public static StoreOptions RegisterDubbelImportDocumentTypes(this StoreOptions opts)
+    {
+        opts.RegisterDocumentType<DubbelImportDocument>();
+        opts.Schema.For<DubbelImportDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false)
+            .Duplicate(x => x.BatchId);
+
+        opts.RegisterDocumentType<DubbelImportBatchDocument>();
+        opts.Schema.For<DubbelImportBatchDocument>().UseOptimisticConcurrency(true);
 
         return opts;
     }

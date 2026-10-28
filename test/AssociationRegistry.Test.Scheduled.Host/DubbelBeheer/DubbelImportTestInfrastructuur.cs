@@ -3,14 +3,19 @@
 using System.Text;
 using Amazon.S3;
 using Amazon.S3.Model;
+using AssociationRegistry.Scheduled.Host.DubbelBeheer;
+using AssociationRegistry.Scheduled.Host.DubbelBeheer.Schema;
 using Moq;
 
 /// <summary>Eenvoudige in-memory S3 op basis van Moq, enkel de operaties die de import gebruikt.</summary>
 public class InMemoryS3
 {
-    public Dictionary<string, byte[]> Objecten { get; } = new();
+    public Dictionary<string, byte[]> Objects { get; } = new();
 
     public IAmazonS3 Client { get; }
+
+    /// <summary>Wordt uitgevoerd net voor een bestand opgehaald wordt.</summary>
+    public Func<string, Task>? OnGetObject { get; set; }
 
     public InMemoryS3()
     {
@@ -20,21 +25,26 @@ public class InMemoryS3
             .ReturnsAsync(() =>
                 new ListObjectsV2Response
                 {
-                    S3Objects = Objecten.Keys.Select(key => new S3Object { Key = key }).ToList(),
+                    S3Objects = Objects.Keys.Select(key => new S3Object { Key = key }).ToList(),
                 }
             );
 
         mock.Setup(x => x.GetObjectAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(
-                (string _, string key, CancellationToken _) =>
-                    new GetObjectResponse { Key = key, ResponseStream = new MemoryStream(Objecten[key]) }
+            .Returns(
+                async (string _, string key, CancellationToken _) =>
+                {
+                    if (OnGetObject is not null)
+                        await OnGetObject(key);
+
+                    return new GetObjectResponse { Key = key, ResponseStream = new MemoryStream(Objects[key]) };
+                }
             );
 
         mock.Setup(x => x.DeleteObjectAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(
                 (string _, string key, CancellationToken _) =>
                 {
-                    Objecten.Remove(key);
+                    Objects.Remove(key);
 
                     return new DeleteObjectResponse();
                 }
@@ -43,5 +53,41 @@ public class InMemoryS3
         Client = mock.Object;
     }
 
-    public void VoegBestandToe(string key, string inhoud) => Objecten[key] = Encoding.UTF8.GetBytes(inhoud);
+    public void AddFile(string key, string content) => Objects[key] = Encoding.UTF8.GetBytes(content);
+}
+
+public class FixedTimeProvider : TimeProvider
+{
+    public DateTimeOffset Now { get; set; } =
+        new(year: 2026, month: 10, day: 28, hour: 12, minute: 0, second: 0, TimeSpan.Zero);
+
+    public override DateTimeOffset GetUtcNow() => Now;
+}
+
+public class RecordingLineProcessor : IDubbelImportLineProcessor
+{
+    public List<int> LineNumbers { get; } = [];
+
+    /// <summary>Wordt uitgevoerd nadat een rij opgenomen werd.</summary>
+    public Func<DubbelImportDocument, Task>? OnProcess { get; set; }
+
+    public async Task Process(DubbelImportDocument line, CancellationToken cancellationToken)
+    {
+        LineNumbers.Add(line.LineNumber);
+
+        if (OnProcess is not null)
+            await OnProcess(line);
+    }
+}
+
+public class RecordingReportGenerator : IDubbelImportReportGenerator
+{
+    public int Count { get; private set; }
+
+    public Task Generate(DubbelImportBatchDocument batch, CancellationToken cancellationToken)
+    {
+        Count++;
+
+        return Task.CompletedTask;
+    }
 }
