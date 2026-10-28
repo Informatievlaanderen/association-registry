@@ -22,4 +22,7 @@ public class ScheduledHostHttpClient : IDisposable
 
     public async Task TriggerActiveerErkenningen(CancellationToken cancellationToken) =>
         await _httpClient.PostAsync(requestUri: "/v1/trigger/activeer-erkenningen", content: null, cancellationToken);
+
+    public async Task TriggerVerwerkDubbelen(CancellationToken cancellationToken) =>
+        await _httpClient.PostAsync(requestUri: "/v1/trigger/verwerk-dubbelen", content: null, cancellationToken);
 }

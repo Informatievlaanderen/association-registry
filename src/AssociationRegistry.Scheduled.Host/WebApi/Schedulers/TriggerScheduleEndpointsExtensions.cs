@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Scheduled.Host.WebApi.Schedulers;
 
 using Bewaartermijnen;
+using DubbelBeheer;
 using Erkenningen;
 using Erkenningen.Activeer;
 using Erkenningen.Verloop;
@@ -41,6 +42,14 @@ public static class TriggerScheduleControllersExtensions
             handler: async (ISchedulerFactory schedulerFactory) =>
             {
                 await TriggerJob(VerloopErkenningenJob.JobName, schedulerFactory);
+            }
+        );
+
+        app.MapPost(
+            pattern: "v1/trigger/verwerk-dubbelen",
+            handler: async (ISchedulerFactory schedulerFactory) =>
+            {
+                await TriggerJob(IngestDubbelBeheerJob.JobName, schedulerFactory);
             }
         );
     }
