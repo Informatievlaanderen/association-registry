@@ -115,6 +115,11 @@ public static class ConfigurationExtensions
             $"{nameof(DubbelImportOptions)}.{nameof(DubbelImportOptions.SourceBucket)}"
         );
 
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            options.ReportBucket,
+            $"{nameof(DubbelImportOptions)}.{nameof(DubbelImportOptions.ReportBucket)}"
+        );
+
         return options;
     }
 

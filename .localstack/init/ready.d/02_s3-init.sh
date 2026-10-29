@@ -12,3 +12,6 @@ if ! aws --endpoint-url="$ENDPOINT_URL" s3api head-bucket --bucket verenigingsre
   aws --endpoint-url="$ENDPOINT_URL" s3api create-bucket --region "$REGION" --bucket verenigingsregister-dubbelbeheer
 fi
 
+if ! aws --endpoint-url="$ENDPOINT_URL" s3api head-bucket --bucket verenigingsregister-dubbelbeheer-rapporten >/dev/null 2>&1; then
+  aws --endpoint-url="$ENDPOINT_URL" s3api create-bucket --region "$REGION" --bucket verenigingsregister-dubbelbeheer-rapporten
+fi
