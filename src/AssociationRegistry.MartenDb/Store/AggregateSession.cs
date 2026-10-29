@@ -11,7 +11,6 @@ using Transformers;
 using Vereniging;
 
 public class AggregateSession : IAggregateSession
-
 {
     private readonly IEventStore _eventStore;
 
@@ -60,6 +59,23 @@ public class AggregateSession : IAggregateSession
             events: events
         );
     }
+
+    public Task<IReadOnlyList<StreamActionResult>> SaveTransactional(
+        IReadOnlyCollection<VerenigingsBase> verenigingen,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken = default
+    ) =>
+        _eventStore.SaveTransactional(
+            metadata: metadata,
+            cancellationToken: cancellationToken,
+            aggregates: verenigingen
+                .Select(vereniging => new AggregateEvents(
+                    AggregateId: vereniging.VCode,
+                    AggregateVersion: vereniging.Version,
+                    Events: vereniging.UncommittedEvents.ToArray()
+                ))
+                .ToArray()
+        );
 
     public async Task<TVereniging> Load<TVereniging>(
         VCode vCode,

@@ -5,34 +5,39 @@ using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using Framework;
-using Marten;
 using MartenDb.Store;
-using Reacties.AanvaardDubbel;
-using Wolverine.Marten;
 
+/// <summary>
+///     Markeert de dubbele vereniging en laat de authentieke vereniging ze aanvaarden in één transactie,
+///     zodat beide verenigingen altijd samen gewijzigd worden.
+///     Werd één van beide intussen gewijzigd, dan wordt alles opnieuw geprobeerd.
+/// </summary>
 public class MarkeerAlsDubbelVanCommandHandler
 {
     private readonly IAggregateSession _aggregateSession;
     private readonly IVerenigingStateQueryService _queryService;
-    private readonly IMartenOutbox _outbox;
-    private readonly IDocumentSession _session;
 
     public MarkeerAlsDubbelVanCommandHandler(
         IAggregateSession aggregateSession,
-        IVerenigingStateQueryService queryService,
-        IMartenOutbox outbox,
-        IDocumentSession session
+        IVerenigingStateQueryService queryService
     )
     {
         _aggregateSession = aggregateSession;
         _queryService = queryService;
-        _outbox = outbox;
-        _session = session;
     }
 
-    public async Task<CommandResult> Handle(
+    public Task<CommandResult> Handle(
         CommandEnvelope<MarkeerAlsDubbelVanCommand> message,
         CancellationToken cancellationToken = default
+    ) =>
+        DubbelbeheerRetryPolicy.OnUnexpectedAggregateVersion.ExecuteAsync(
+            _ => MarkeerAlsDubbelVan(message, cancellationToken),
+            cancellationToken
+        );
+
+    private async Task<CommandResult> MarkeerAlsDubbelVan(
+        CommandEnvelope<MarkeerAlsDubbelVanCommand> message,
+        CancellationToken cancellationToken
     )
     {
         var vereniging = await _aggregateSession.Load<Vereniging>(
@@ -42,23 +47,25 @@ public class MarkeerAlsDubbelVanCommandHandler
 
         await ThrowIfInvalidAuthentiekeVereniging(message);
 
-        vereniging.MarkeerAlsDubbelVan(message.Command.VCodeAuthentiekeVereniging);
-
-        await _outbox.SendAsync(
-            new AanvaardDubbeleVerenigingMessage(
-                VCode: message.Command.VCodeAuthentiekeVereniging,
-                VCodeDubbeleVereniging: message.Command.VCode
-            )
+        // De verwachte versie hoort bij de dubbele vereniging, niet bij de authentieke.
+        var authentiekeVereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
+            vCode: message.Command.VCodeAuthentiekeVereniging,
+            metadata: message.Metadata with
+            {
+                ExpectedVersion = null,
+            }
         );
 
-        var result = await _aggregateSession.Save(
-            vereniging: vereniging,
-            session: _session,
+        vereniging.MarkeerAlsDubbelVan(message.Command.VCodeAuthentiekeVereniging);
+        authentiekeVereniging.AanvaardDubbeleVereniging(message.Command.VCode);
+
+        var results = await _aggregateSession.SaveTransactional(
+            verenigingen: [vereniging, authentiekeVereniging],
             metadata: message.Metadata,
             cancellationToken: cancellationToken
         );
 
-        return CommandResult.Create(vCode: message.Command.VCode, streamActionResult: result);
+        return CommandResult.Create(vCode: message.Command.VCode, streamActionResult: results[0]);
     }
 
     private async Task ThrowIfInvalidAuthentiekeVereniging(CommandEnvelope<MarkeerAlsDubbelVanCommand> message)

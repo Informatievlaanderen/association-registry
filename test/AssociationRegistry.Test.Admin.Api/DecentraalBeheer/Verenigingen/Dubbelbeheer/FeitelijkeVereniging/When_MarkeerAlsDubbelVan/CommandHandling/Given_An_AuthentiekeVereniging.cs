@@ -1,20 +1,13 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.When_MarkeerAlsDubbelVan.CommandHandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
-using Common.StubsMocksFakes.VerenigingsRepositories;
-using FluentAssertions;
-using Marten;
-using Moq;
-using Wolverine.Marten;
 using Xunit;
 
 /// <summary>
@@ -24,10 +17,9 @@ public class Given_An_Authentieke_Vereniging
 {
     private readonly Fixture _fixture;
     private readonly VerenigingAanvaarddeDubbeleVerenigingScenario _scenario;
-    private readonly AggregateSessionMock _aggregateSessionMock;
+    private readonly MultipleVerenigingAggregateSessionMock _aggregateSessionMock;
     private readonly MarkeerAlsDubbelVanCommandHandler _commandHandler;
     private readonly MarkeerAlsDubbelVanCommand _command;
-    private AanvaardDubbeleVerenigingMessage _outboxMessage = null!;
 
     public Given_An_Authentieke_Vereniging()
     {
@@ -35,24 +27,22 @@ public class Given_An_Authentieke_Vereniging
         _scenario = new VerenigingAanvaarddeDubbeleVerenigingScenario(
             VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype.Feitelijke
         );
-        _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
-        var martenOutbox = new Mock<IMartenOutbox>();
-        martenOutbox.CaptureOutboxSendAsyncMessage<AanvaardDubbeleVerenigingMessage>(message =>
-            _outboxMessage = message
-        );
+        var nieuweAuthentiekeVereniging =
+            _fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
+
+        _aggregateSessionMock = new MultipleVerenigingAggregateSessionMock(_scenario.GetVerenigingState());
+        _aggregateSessionMock.WithVereniging(new VerenigingState().Apply(nieuweAuthentiekeVereniging));
 
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
             _aggregateSessionMock,
-            new VerenigingsStateQueriesMock(),
-            martenOutbox.Object,
-            Mock.Of<IDocumentSession>()
+            new VerenigingsStateQueriesMock()
         );
 
         _command = _fixture.Create<MarkeerAlsDubbelVanCommand>() with
         {
             VCode = _scenario.VCode,
-            VCodeAuthentiekeVereniging = _fixture.Create<VCode>(),
+            VCodeAuthentiekeVereniging = VCode.Create(nieuweAuthentiekeVereniging.VCode),
         };
     }
 
@@ -66,18 +56,20 @@ public class Given_An_Authentieke_Vereniging
     {
         await Handle();
 
-        _aggregateSessionMock.ShouldHaveSavedExact(
+        _aggregateSessionMock.ShouldHaveSaved(
+            _scenario.VCode,
             new VerenigingWerdGemarkeerdAlsDubbelVan(_scenario.VCode, _command.VCodeAuthentiekeVereniging)
         );
     }
 
     [Fact]
-    public async ValueTask Then_It_Asks_The_New_Authentieke_Vereniging_To_Aanvaard_The_Dubbel()
+    public async ValueTask Then_The_New_Authentieke_Vereniging_Aanvaardt_The_Dubbel()
     {
         await Handle();
 
-        _outboxMessage
-            .Should()
-            .BeEquivalentTo(new AanvaardDubbeleVerenigingMessage(_command.VCodeAuthentiekeVereniging, _scenario.VCode));
+        _aggregateSessionMock.ShouldHaveSaved(
+            _command.VCodeAuthentiekeVereniging,
+            new VerenigingAanvaarddeDubbeleVereniging(_command.VCodeAuthentiekeVereniging, _scenario.VCode)
+        );
     }
 }

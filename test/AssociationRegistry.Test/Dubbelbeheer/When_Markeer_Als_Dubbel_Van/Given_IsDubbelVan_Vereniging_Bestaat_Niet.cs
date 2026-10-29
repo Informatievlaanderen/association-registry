@@ -8,12 +8,10 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
-using Marten;
 using MartenDb.Store;
 using Moq;
 using Resources;
 using Vereniging;
-using Wolverine.Marten;
 using Xunit;
 
 public class Given_IsDubbelVan_Vereniging_Bestaat_Niet
@@ -35,9 +33,7 @@ public class Given_IsDubbelVan_Vereniging_Bestaat_Niet
 
         var sut = new MarkeerAlsDubbelVanCommandHandler(
             aggregateSession: aggregateSession.Object,
-            queryService: verenigingsStateQueriesMock.Object,
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>()
+            queryService: verenigingsStateQueriesMock.Object
         );
 
         var exception = await Assert.ThrowsAsync<VerenigingKanGeenDubbelWordenVanEenNietBestaandeVereniging>(async () =>

@@ -20,6 +20,16 @@ public interface IAggregateSession
         CancellationToken cancellationToken
     );
 
+    /// <summary>
+    ///     Bewaart meerdere verenigingen in één transactie: alle verenigingen worden bewaard, of geen enkele.
+    ///     Geeft per vereniging het resultaat terug, in dezelfde volgorde.
+    /// </summary>
+    Task<IReadOnlyList<StreamActionResult>> SaveTransactional(
+        IReadOnlyCollection<VerenigingsBase> verenigingen,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken = default
+    );
+
     Task<TVereniging> Load<TVereniging>(
         VCode vCode,
         CommandMetadata metadata,

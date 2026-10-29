@@ -172,6 +172,61 @@ public class EventStore : IEventStore
         }
     }
 
+    public async Task<IReadOnlyList<StreamActionResult>> SaveTransactional(
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        params AggregateEvents[] aggregates
+    )
+    {
+        SetMetadata(metadata);
+
+        foreach (var aggregate in aggregates.Where(x => x.Events.Length > 0))
+        {
+            var processedEvents = await _persoonsgegevensProcessor.ProcessEvents(
+                aggregateId: aggregate.AggregateId,
+                events: aggregate.Events
+            );
+
+            AppendEvents(
+                aggregateId: aggregate.AggregateId,
+                events: processedEvents,
+                expectedVersion: aggregate.AggregateVersion
+            );
+        }
+
+        try
+        {
+            await _session.SaveChangesAsync(cancellationToken);
+        }
+        catch (EventStreamUnexpectedMaxEventIdException)
+        {
+            // Anders blijven de events in de sessie staan en worden ze bij een nieuwe poging opnieuw bewaard.
+            _session.EjectAllPendingChanges();
+
+            throw new UnexpectedAggregateVersionException();
+        }
+
+        var results = new List<StreamActionResult>();
+
+        foreach (var aggregate in aggregates)
+        {
+            if (aggregate.Events.Length == 0)
+            {
+                results.Add(StreamActionResult.Empty);
+                continue;
+            }
+
+            var events = await _session.Events.FetchStreamAsync(
+                streamKey: aggregate.AggregateId,
+                token: cancellationToken
+            );
+
+            results.Add(new StreamActionResult(events.Max(x => x.Sequence), events.Max(x => x.Version)));
+        }
+
+        return results;
+    }
+
     public void ClaimKboNummer(string vCode, IEvent? registreerEvent)
     {
         if (registreerEvent is VerenigingMetRechtspersoonlijkheidWerdGeregistreerd evnt)
