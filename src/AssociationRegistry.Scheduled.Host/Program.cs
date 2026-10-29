@@ -197,7 +197,7 @@ public class Program
             .AddSingleton<IClock, Clock>()
             .AddSingleton(TimeProvider.System)
             .AddScoped<IDubbelImportLineProcessor, DubbelImportLineProcessor>()
-            .AddScoped<IDubbelImportReportGenerator, LoggingDubbelImportReportGenerator>()
+            .AddScoped<IDubbelImportReportGenerator, S3DubbelImportReportGenerator>()
             .AddScoped<DubbelImportIngestor>()
             .AddScoped<IEventStore, EventStore>()
             .AddScoped<IAggregateSession, AggregateSession>()

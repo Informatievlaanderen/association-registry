@@ -12,6 +12,9 @@ public class InMemoryS3
 {
     public Dictionary<string, byte[]> Objects { get; } = new();
 
+    /// <summary>Weggeschreven bestanden per bucket en key, apart van de bestanden die de import inleest.</summary>
+    public Dictionary<(string Bucket, string Key), (byte[] Content, string ContentType)> Uploads { get; } = new();
+
     public IAmazonS3 Client { get; }
 
     /// <summary>Wordt uitgevoerd net voor een bestand opgehaald wordt.</summary>
@@ -47,6 +50,18 @@ public class InMemoryS3
                     Objects.Remove(key);
 
                     return new DeleteObjectResponse();
+                }
+            );
+
+        mock.Setup(x => x.PutObjectAsync(It.IsAny<PutObjectRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(
+                (PutObjectRequest request, CancellationToken _) =>
+                {
+                    using var content = new MemoryStream();
+                    request.InputStream.CopyTo(content);
+                    Uploads[(request.BucketName, request.Key)] = (content.ToArray(), request.ContentType);
+
+                    return new PutObjectResponse();
                 }
             );
 
