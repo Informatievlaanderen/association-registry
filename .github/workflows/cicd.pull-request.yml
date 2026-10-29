@@ -164,7 +164,7 @@ jobs:
 
       - name: Run ministack container
         shell: bash
-        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E'
+        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E' || matrix.projects == 'test/AssociationRegistry.Test.Scheduled.Host'
         run: |
           docker run -d --name ministack -p 4566:4566 -e MINISTACK_REGION=eu-west-1 -e MINISTACK_ACCOUNT_ID=123456789012 -e MINISTACK_HOST=127.0.0.1 ministackorg/ministack:latest
 
@@ -230,7 +230,7 @@ jobs:
 
       - name: Wait for Ministack
         shell: bash
-        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E'
+        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E' || matrix.projects == 'test/AssociationRegistry.Test.Scheduled.Host'
         run: |
           timeout 120s bash -c 'until curl -fsS http://127.0.0.1:4566/_ministack/health > /dev/null; do
           echo "Waiting for Ministack..."
@@ -239,7 +239,7 @@ jobs:
 
       - name: Init Ministack resources
         shell: bash
-        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E'
+        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E' || matrix.projects == 'test/AssociationRegistry.Test.Scheduled.Host'
         run: |
           docker run --rm --network host \
             -e AWS_ACCESS_KEY_ID=test \

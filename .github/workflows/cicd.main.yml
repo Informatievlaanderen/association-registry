@@ -346,7 +346,7 @@ jobs:
       run-docker-wiremock: false
       run-docker-db: true
       run-docker-elasticsearch: false
-      run-docker-ministack: false
+      run-docker-ministack: true
       run-docker-otelcollector: true
       pre-gen-marten: true
     secrets: inherit
