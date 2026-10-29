@@ -1,3 +1,15 @@
+# [8.345.0](https://github.com/informatievlaanderen/association-registry/compare/v8.344.0...v8.345.0) (2026-10-29)
+
+
+### Features
+
+* or-3594 implement savetransactional for dubbelbeheer ([2c5a447](https://github.com/informatievlaanderen/association-registry/commit/2c5a447ddbaeeeb5ce550c0f868ec7cf46b5bccb))
+* or-3594 read and ingest dubbelbeheer csv from s3 ([1ea5565](https://github.com/informatievlaanderen/association-registry/commit/1ea55656a02ce0c2f736a6a725bd7e10b1bb8325))
+* or-3640 allow chaining dubbels ([9711565](https://github.com/informatievlaanderen/association-registry/commit/971156574f162c7647b738a359050c221440a387))
+* or-3742 add batch with lease to resume dubbelbeheer import ([5cb191d](https://github.com/informatievlaanderen/association-registry/commit/5cb191dce8fd2aee7bbcd35bfe65f65dfaeeab19))
+* or-3742 generate dubbelbeheer rapport ([fbd6767](https://github.com/informatievlaanderen/association-registry/commit/fbd6767dd500508321bb4763887e6c0c2a1dfcc9))
+* or-3742 process lines from dubbel import ([8169cde](https://github.com/informatievlaanderen/association-registry/commit/8169cded62f9c94a33bb36b3c0135c587d1aa651))
+
 # [8.344.0](https://github.com/informatievlaanderen/association-registry/compare/v8.343.2...v8.344.0) (2026-10-27)
 
 
