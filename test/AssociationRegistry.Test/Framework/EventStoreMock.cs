@@ -38,6 +38,20 @@ public class EventStoreMock : IEventStore
             events: events
         );
 
+    public Task<IReadOnlyList<StreamActionResult>> SaveTransactional(
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        params AggregateEvents[] aggregates
+    )
+    {
+        foreach (var aggregate in aggregates)
+            SaveInvocations.Add(new SaveInvocation(aggregate.AggregateId, aggregate.Events));
+
+        return Task.FromResult<IReadOnlyList<StreamActionResult>>(
+            aggregates.Select(_ => StreamActionResult.Empty).ToList()
+        );
+    }
+
     public Task<T> Load<T>(string aggregateId, long? expectedVersion)
         where T : class, IHasVersion, new()
     {

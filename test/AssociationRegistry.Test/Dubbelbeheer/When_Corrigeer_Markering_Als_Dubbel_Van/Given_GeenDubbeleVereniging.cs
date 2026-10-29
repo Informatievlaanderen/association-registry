@@ -12,10 +12,8 @@ using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Exceptions;
 using FluentAssertions;
-using Marten;
 using MartenDb.Store;
 using Moq;
-using Wolverine.Marten;
 using Xunit;
 
 public class Given_GeenDubbeleVereniging
@@ -35,11 +33,7 @@ public class Given_GeenDubbeleVereniging
             fixture.Create<CommandMetadata>()
         );
 
-        var sut = new CorrigeerMarkeringAlsDubbelVanCommandHandler(
-            aggregateSession,
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>()
-        );
+        var sut = new CorrigeerMarkeringAlsDubbelVanCommandHandler(aggregateSession);
 
         var exception = await Assert.ThrowsAsync<VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden>(
             async () =>

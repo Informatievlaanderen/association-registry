@@ -4,31 +4,34 @@ using System.Threading;
 using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
-using Marten;
 using MartenDb.Store;
-using Reacties.AanvaardCorrectieDubbel;
-using Wolverine.Marten;
 
+/// <summary>
+///     Corrigeert de markering van de dubbele vereniging en laat de authentieke vereniging de correctie
+///     aanvaarden in één transactie, zodat beide verenigingen altijd samen gewijzigd worden.
+///     Werd één van beide intussen gewijzigd, dan wordt alles opnieuw geprobeerd.
+/// </summary>
 public class CorrigeerMarkeringAlsDubbelVanCommandHandler
 {
     private readonly IAggregateSession _aggregateSession;
-    private readonly IMartenOutbox _outbox;
-    private readonly IDocumentSession _session;
 
-    public CorrigeerMarkeringAlsDubbelVanCommandHandler(
-        IAggregateSession aggregateSession,
-        IMartenOutbox outbox,
-        IDocumentSession session
-    )
+    public CorrigeerMarkeringAlsDubbelVanCommandHandler(IAggregateSession aggregateSession)
     {
         _aggregateSession = aggregateSession;
-        _outbox = outbox;
-        _session = session;
     }
 
-    public async Task<CommandResult> Handle(
+    public Task<CommandResult> Handle(
         CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand> envelope,
         CancellationToken cancellationToken = default
+    ) =>
+        DubbelbeheerRetryPolicy.OnUnexpectedAggregateVersion.ExecuteAsync(
+            _ => CorrigeerMarkeringAlsDubbelVan(envelope, cancellationToken),
+            cancellationToken
+        );
+
+    private async Task<CommandResult> CorrigeerMarkeringAlsDubbelVan(
+        CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand> envelope,
+        CancellationToken cancellationToken
     )
     {
         var vereniging = await _aggregateSession.Load<Vereniging>(
@@ -39,15 +42,26 @@ public class CorrigeerMarkeringAlsDubbelVanCommandHandler
 
         var vCodeAuthentiekeVereniging = vereniging.CorrigeerMarkeringAlsDubbelVan();
 
-        await _outbox.SendAsync(
-            new AanvaardCorrectieDubbeleVerenigingMessage(
-                VCode.Create(vCodeAuthentiekeVereniging),
-                envelope.Command.VCode
-            )
+        // De authentieke vereniging kan intussen zelf als dubbel gemarkeerd zijn (bv. A -> B, daarna B -> C).
+        // Ook dan moet de correctie van A verwerkt worden.
+        // De verwachte versie hoort bij de dubbele vereniging, niet bij de authentieke.
+        var authentiekeVereniging = await _aggregateSession.Load<VerenigingOfAnyKind>(
+            VCode.Create(vCodeAuthentiekeVereniging),
+            envelope.Metadata with
+            {
+                ExpectedVersion = null,
+            },
+            allowDubbeleVereniging: true
         );
 
-        var result = await _aggregateSession.Save(vereniging, _session, envelope.Metadata, cancellationToken);
+        authentiekeVereniging.AanvaardCorrectieDubbeleVereniging(envelope.Command.VCode);
 
-        return CommandResult.Create(envelope.Command.VCode, result);
+        var results = await _aggregateSession.SaveTransactional(
+            [vereniging, authentiekeVereniging],
+            envelope.Metadata,
+            cancellationToken
+        );
+
+        return CommandResult.Create(envelope.Command.VCode, results[0]);
     }
 }

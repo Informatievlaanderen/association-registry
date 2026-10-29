@@ -11,9 +11,7 @@ using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
-using Marten;
 using Moq;
-using Wolverine.Marten;
 using Xunit;
 
 public class Given_VCode_Equals_IsDubbelVan
@@ -30,12 +28,7 @@ public class Given_VCode_Equals_IsDubbelVan
         _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
-        _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
-            _aggregateSessionMock,
-            verenigingsStateQueriesMock,
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>()
-        );
+        _commandHandler = new MarkeerAlsDubbelVanCommandHandler(_aggregateSessionMock, verenigingsStateQueriesMock);
     }
 
     [Fact]

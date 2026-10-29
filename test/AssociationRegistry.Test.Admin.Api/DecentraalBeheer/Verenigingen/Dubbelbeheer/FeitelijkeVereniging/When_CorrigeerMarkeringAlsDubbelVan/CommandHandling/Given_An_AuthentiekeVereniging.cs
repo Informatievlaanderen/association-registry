@@ -1,20 +1,14 @@
 namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.When_CorrigeerMarkeringAlsDubbelVan.CommandHandling;
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.CorrigeerMarkeringAlsDubbelVan;
-using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Reacties.AanvaardDubbel;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using FluentAssertions;
-using Marten;
-using Moq;
-using Wolverine;
-using Wolverine.Marten;
 using Xunit;
 
 public class Given_An_Authentieke_Vereniging
@@ -31,15 +25,12 @@ public class Given_An_Authentieke_Vereniging
     public async ValueTask Then_It_Throws(VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype verenigingstype)
     {
         var scenario = new VerenigingAanvaarddeDubbeleVerenigingScenario(verenigingstype);
-        var verenigingRepositoryMock = new AggregateSessionMock(scenario.GetVerenigingState());
-
-        var martenOutbox = new Mock<IMartenOutbox>();
-
-        var commandHandler = new CorrigeerMarkeringAlsDubbelVanCommandHandler(
-            verenigingRepositoryMock,
-            martenOutbox.Object,
-            Mock.Of<IDocumentSession>()
+        var aggregateSessionMock = new MultipleVerenigingAggregateSessionMock(
+            scenario.GetVerenigingState(),
+            expectedLoadingDubbel: true
         );
+
+        var commandHandler = new CorrigeerMarkeringAlsDubbelVanCommandHandler(aggregateSessionMock);
 
         var command = _fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with { VCode = scenario.VCode };
 
@@ -57,9 +48,6 @@ public class Given_An_Authentieke_Vereniging
             .Message.Should()
             .Be(ExceptionMessages.VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden);
 
-        martenOutbox.Verify(
-            x => x.SendAsync(It.IsAny<AanvaardDubbeleVerenigingMessage>(), It.IsAny<DeliveryOptions>()),
-            Times.Never
-        );
+        aggregateSessionMock.SavedInvocations.Should().BeEmpty();
     }
 }

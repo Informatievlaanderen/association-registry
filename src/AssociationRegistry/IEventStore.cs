@@ -15,6 +15,17 @@ public interface IEventStore
         params IEvent[] events
     );
 
+    /// <summary>
+    ///     Bewaart de events van meerdere aggregates in één transactie: alle streams worden bewaard, of geen enkele.
+    ///     Conflicten worden niet opgelost: werd een stream intussen gewijzigd, dan wordt niets bewaard.
+    ///     Geeft per aggregate het resultaat terug, in dezelfde volgorde.
+    /// </summary>
+    Task<IReadOnlyList<StreamActionResult>> SaveTransactional(
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        params AggregateEvents[] aggregates
+    );
+
     Task<T> Load<T>(string id, long? expectedVersion)
         where T : class, IHasVersion, new();
 

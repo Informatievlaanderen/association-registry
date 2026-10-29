@@ -25,10 +25,16 @@ public class MultipleVerenigingAggregateSessionMock : IAggregateSession
     // ReSharper disable once NotAccessedPositionalProperty.Local
     // Anders kan er niet gecompared worden.
     private record InvocationLoad(string key, Type Type);
+
     public Dictionary<VCode, SaveInvocation[]> SavedInvocations { get; } = new();
+    public List<VCode[]> TransactionalSaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
-    public MultipleVerenigingAggregateSessionMock(VerenigingState? verenigingToLoad = null, bool expectedLoadingDubbel = false, bool expectedLoadingVerwijderd = false)
+    public MultipleVerenigingAggregateSessionMock(
+        VerenigingState? verenigingToLoad = null,
+        bool expectedLoadingDubbel = false,
+        bool expectedLoadingVerwijderd = false
+    )
     {
         _verenigingenToLoad = new List<VerenigingState>() { verenigingToLoad };
         _expectedLoadingDubbel = expectedLoadingDubbel;
@@ -43,7 +49,8 @@ public class MultipleVerenigingAggregateSessionMock : IAggregateSession
     public async Task<StreamActionResult> Save(
         VerenigingsBase vereniging,
         CommandMetadata metadata,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var verenigingToLoad = _verenigingenToLoad.Single(x => x.VCode == vereniging.VCode);
 
@@ -54,7 +61,8 @@ public class MultipleVerenigingAggregateSessionMock : IAggregateSession
 
         SavedInvocations[vereniging.VCode] = invocations.Append(new SaveInvocation(vereniging)).ToArray();
 
-        if (verenigingToLoad is null) return await Task.FromResult(StreamActionResult.Empty);
+        if (verenigingToLoad is null)
+            return await Task.FromResult(StreamActionResult.Empty);
 
         foreach (var e in vereniging.UncommittedEvents)
         {
@@ -68,10 +76,31 @@ public class MultipleVerenigingAggregateSessionMock : IAggregateSession
         VerenigingsBase vereniging,
         IDocumentSession session,
         CommandMetadata metadata,
-        CancellationToken cancellationToken)
-        => await Save(vereniging, metadata, cancellationToken);
+        CancellationToken cancellationToken
+    ) => await Save(vereniging, metadata, cancellationToken);
 
-    public async Task<TVereniging> Load<TVereniging>(VCode vCode, CommandMetadata metadata, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)
+    public async Task<IReadOnlyList<StreamActionResult>> SaveTransactional(
+        IReadOnlyCollection<VerenigingsBase> verenigingen,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken = default
+    )
+    {
+        TransactionalSaveInvocations.Add(verenigingen.Select(x => x.VCode).ToArray());
+
+        var results = new List<StreamActionResult>();
+
+        foreach (var vereniging in verenigingen)
+            results.Add(await Save(vereniging, metadata, cancellationToken));
+
+        return results;
+    }
+
+    public async Task<TVereniging> Load<TVereniging>(
+        VCode vCode,
+        CommandMetadata metadata,
+        bool allowVerwijderdeVereniging = false,
+        bool allowDubbeleVereniging = false
+    )
         where TVereniging : IHydrate<VerenigingState>, new()
     {
         _actualLoadingDubbel = allowDubbeleVereniging;
@@ -87,7 +116,8 @@ public class MultipleVerenigingAggregateSessionMock : IAggregateSession
     {
         _invocationsLoad.Add(new InvocationLoad(kboNummer, typeof(VerenigingMetRechtspersoonlijkheid)));
 
-        if (_verenigingenToLoad is null) throw new AggregateNotFoundException(kboNummer, typeof(VerenigingMetRechtspersoonlijkheid));
+        if (_verenigingenToLoad is null)
+            throw new AggregateNotFoundException(kboNummer, typeof(VerenigingMetRechtspersoonlijkheid));
 
         var vereniging = new VerenigingMetRechtspersoonlijkheid();
         vereniging.Hydrate(_verenigingenToLoad.Single(x => x.KboNummer == kboNummer));
@@ -95,29 +125,33 @@ public class MultipleVerenigingAggregateSessionMock : IAggregateSession
         return await Task.FromResult(vereniging);
     }
 
-    public Task<bool> IsVerwijderd(VCode vCode)
-        => Task.FromResult(false);
+    public Task<bool> IsVerwijderd(VCode vCode) => Task.FromResult(false);
 
-    public Task<bool> IsDubbel(VCode vCode)
-        => Task.FromResult(false);
+    public Task<bool> IsDubbel(VCode vCode) => Task.FromResult(false);
 
-    public async Task<bool> Exists(VCode vCode)
-        => true;
+    public async Task<bool> Exists(VCode vCode) => true;
 
-    public async Task<bool> Exists(KboNummer kboNummer)
-        => throw new NotImplementedException();
+    public async Task<bool> Exists(KboNummer kboNummer) => throw new NotImplementedException();
 
-    public async Task<StreamActionResult> SaveNew(VerenigingsBase vereniging, IDocumentSession session, CommandMetadata messageMetadata, CancellationToken cancellationToken)
-        => await Save(vereniging, messageMetadata, cancellationToken);
+    public async Task<StreamActionResult> SaveNew(
+        VerenigingsBase vereniging,
+        IDocumentSession session,
+        CommandMetadata messageMetadata,
+        CancellationToken cancellationToken
+    ) => await Save(vereniging, messageMetadata, cancellationToken);
 
-    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(IEnumerable<VCode> vCodes)
-        => throw new NotImplementedException();
+    public async Task<IReadOnlyList<VCode>> FilterVzerOnly(IEnumerable<VCode> vCodes) =>
+        throw new NotImplementedException();
 
-    public void ShouldHaveLoaded<TVereniging>(params string[] keys) where TVereniging : IHydrate<VerenigingState>, new()
+    public void ShouldHaveLoaded<TVereniging>(params string[] keys)
+        where TVereniging : IHydrate<VerenigingState>, new()
     {
-        _invocationsLoad.Should().BeEquivalentTo(
-            keys.Select(key => new InvocationLoad(key, typeof(TVereniging))),
-            config: options => options.WithStrictOrdering());
+        _invocationsLoad
+            .Should()
+            .BeEquivalentTo(
+                keys.Select(key => new InvocationLoad(key, typeof(TVereniging))),
+                config: options => options.WithStrictOrdering()
+            );
     }
 
     public void ShouldHaveSaved(VCode vCode, params IEvent[] events)
@@ -130,6 +164,11 @@ public class MultipleVerenigingAggregateSessionMock : IAggregateSession
         AssertLoadingDubbel();
     }
 
+    public void ShouldHaveSavedTransactional(params VCode[] vCodes)
+    {
+        TransactionalSaveInvocations.Should().ContainSingle().Which.Should().Equal(vCodes);
+    }
+
     public void AssertLoadingDubbel()
     {
         _actualLoadingDubbel.Should().Be(_expectedLoadingDubbel);
@@ -140,7 +179,8 @@ public class MultipleVerenigingAggregateSessionMock : IAggregateSession
         _actualLoadingVerwijderd.Should().Be(_expectedLoadingVerwijderd);
     }
 
-    public void ShouldNotHaveSaved<TEvent>(VCode vCode) where TEvent : IEvent
+    public void ShouldNotHaveSaved<TEvent>(VCode vCode)
+        where TEvent : IEvent
     {
         var savedInvocations = SavedInvocations[vCode].ToList();
         savedInvocations.Should().HaveCount(1);

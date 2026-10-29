@@ -67,6 +67,20 @@ public class AggregateSessionMock : IAggregateSession
         CancellationToken cancellationToken
     ) => await Save(vereniging: vereniging, metadata: metadata, cancellationToken: cancellationToken);
 
+    public async Task<IReadOnlyList<StreamActionResult>> SaveTransactional(
+        IReadOnlyCollection<VerenigingsBase> verenigingen,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var results = new List<StreamActionResult>();
+
+        foreach (var vereniging in verenigingen)
+            results.Add(await Save(vereniging: vereniging, metadata: metadata, cancellationToken: cancellationToken));
+
+        return results;
+    }
+
     public async Task<TVereniging> Load<TVereniging>(
         VCode vCode,
         CommandMetadata metadata,
