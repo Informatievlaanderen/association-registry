@@ -15,6 +15,8 @@ public class DubbelImportDocument
     public string DubbeleVCode { get; set; } = string.Empty;
     public string AuthentiekeVCode { get; set; } = string.Empty;
     public DubbelImportLineStatus Status { get; set; }
+
+    public string ErrorMessage { get; set; } = string.Empty;
     public DateTimeOffset IngestedAt { get; set; }
 
     public static IReadOnlyList<DubbelImportDocument> Create(
@@ -45,4 +47,5 @@ public enum DubbelImportLineStatus
 {
     Open,
     Processed,
+    Failed,
 }

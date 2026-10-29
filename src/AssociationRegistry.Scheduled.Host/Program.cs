@@ -6,6 +6,7 @@ using Bewaartermijnen;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
+using DecentraalBeheer.Vereniging;
 using DubbelBeheer;
 using Erkenningen.Activeer;
 using Erkenningen.Verloop;
@@ -195,11 +196,12 @@ public class Program
             .AddSingleton(dubbelImportOptions)
             .AddSingleton<IClock, Clock>()
             .AddSingleton(TimeProvider.System)
-            .AddScoped<IDubbelImportLineProcessor, LoggingDubbelImportLineProcessor>()
+            .AddScoped<IDubbelImportLineProcessor, DubbelImportLineProcessor>()
             .AddScoped<IDubbelImportReportGenerator, LoggingDubbelImportReportGenerator>()
             .AddScoped<DubbelImportIngestor>()
             .AddScoped<IEventStore, EventStore>()
             .AddScoped<IAggregateSession, AggregateSession>()
+            .AddScoped<IVerenigingStateQueryService, VerenigingStateQueryService>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
             .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()

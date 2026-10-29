@@ -2,6 +2,7 @@ namespace AssociationRegistry.Scheduled.Host.Infrastructure.Extensions;
 
 using Bewaartermijnen;
 using DubbelBeheer;
+using DubbelBeheer.Schema;
 using Erkenningen;
 using Erkenningen.Activeer;
 using Erkenningen.Verloop;
