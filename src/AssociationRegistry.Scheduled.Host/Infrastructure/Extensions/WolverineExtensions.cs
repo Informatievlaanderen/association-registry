@@ -2,6 +2,7 @@
 
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
+using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
 using Hosts.Configuration.ConfigurationBindings;
@@ -25,6 +26,9 @@ public static class WolverineExtensions
                 Log.Logger.Information("Setting up wolverine");
                 options.ApplicationAssembly = typeof(Program).Assembly;
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
+
+                // De dubbel import markeert de dubbele en de authentieke vereniging samen in dit proces.
+                options.Discovery.IncludeType<MarkeerAlsDubbelVanCommandHandler>();
 
                 options.AutoBuildMessageStorageOnStartup = AutoCreate.All;
                 options.UseNewtonsoftForSerialization(settings => settings.ConfigureForVerenigingsregister());

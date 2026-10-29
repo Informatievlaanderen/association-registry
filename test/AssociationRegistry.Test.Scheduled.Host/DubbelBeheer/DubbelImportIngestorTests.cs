@@ -161,6 +161,22 @@ public class DubbelImportIngestorTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task Een_gefaalde_rij_wordt_met_de_reden_bewaard_en_de_volgende_rijen_worden_verwerkt()
+    {
+        _s3.AddFile(Key, Csv);
+        _lineProcessor.Result = line =>
+            line.LineNumber == 1 ? DubbelImportLineResult.Failed("geweigerd") : DubbelImportLineResult.Processed;
+
+        await _ingestor.Ingest(CancellationToken.None);
+
+        (await Lines())
+            .Select(x => (x.LineNumber, x.Status, Reason: x.ErrorMessage))
+            .Should()
+            .Equal((1, DubbelImportLineStatus.Failed, "geweigerd"), (2, DubbelImportLineStatus.Processed, ""));
+        (await Batch())!.State.Should().Be(DubbelImportBatchState.ReportSent);
+    }
+
+    [Fact]
     public async Task Een_batch_met_een_lopende_lease_van_een_andere_run_wordt_niet_verwerkt()
     {
         await StageWithoutProcessing();

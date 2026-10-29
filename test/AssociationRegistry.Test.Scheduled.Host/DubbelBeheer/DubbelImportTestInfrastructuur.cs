@@ -71,12 +71,17 @@ public class RecordingLineProcessor : IDubbelImportLineProcessor
     /// <summary>Wordt uitgevoerd nadat een rij opgenomen werd.</summary>
     public Func<DubbelImportDocument, Task>? OnProcess { get; set; }
 
-    public async Task Process(DubbelImportDocument line, CancellationToken cancellationToken)
+    public Func<DubbelImportDocument, DubbelImportLineResult> Result { get; set; } =
+        _ => DubbelImportLineResult.Processed;
+
+    public async Task<DubbelImportLineResult> Process(DubbelImportDocument line, CancellationToken cancellationToken)
     {
         LineNumbers.Add(line.LineNumber);
 
         if (OnProcess is not null)
             await OnProcess(line);
+
+        return Result(line);
     }
 }
 

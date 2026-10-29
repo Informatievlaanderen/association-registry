@@ -133,8 +133,9 @@ public class DubbelImportIngestor(
 
         foreach (var line in await LoadOpenLines(batch, cancellationToken))
         {
-            await lineProcessor.Process(line, cancellationToken);
-            line.Status = DubbelImportLineStatus.Processed;
+            var result = await lineProcessor.Process(line, cancellationToken);
+            line.Status = result.Status;
+            line.ErrorMessage = result.Reason;
 
             await SaveAndExtendLease(batch, runId, cancellationToken, line);
         }
