@@ -132,6 +132,8 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
 
 public class DuplicateDetectionSetup
 {
+    private const string IndexName = "test-adm-dupdet-playground";
+
     public ElasticsearchClient Client { get; }
     public ZoekDuplicateVerenigingenQuery DuplicateDetectionService { get; }
 
@@ -151,6 +153,10 @@ public class DuplicateDetectionSetup
             .Build();
 
         var elasticSearchOptions = configuration.GetSection("ElasticClientOptions").Get<ElasticSearchOptionsSection>();
+
+        // Eigen index: de index uit appsettings wordt door elke AdminApiFixture verwijderd en gevuld,
+        // wat bij parallelle testklassen deze tests doet falen
+        elasticSearchOptions!.Indices!.DuplicateDetection = IndexName;
 
         Client = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
 
