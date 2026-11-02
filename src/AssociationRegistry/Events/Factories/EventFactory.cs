@@ -94,7 +94,7 @@ public static class EventFactory
         SamenvoegingDubbeleVereniging.OvergenomenBasisgegevens overgenomen,
         SamenvoegingDubbeleVereniging.NietOvergenomenBasisgegevens nietOvergenomen
     ) =>
-        new(
+        DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
             vCode,
             dubbeleVereniging,
             SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
@@ -106,6 +106,19 @@ public static class EventFactory
                 Registratiedata.Bankrekeningnummer
             >.WithOnly(nietOvergenomen)
         );
+
+    public static DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
+        VCode vCode,
+        VCode dubbeleVereniging,
+        SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
+            Registratiedata.Vertegenwoordiger,
+            Registratiedata.Bankrekeningnummer
+        > overgenomen,
+        SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
+            Registratiedata.Vertegenwoordiger,
+            Registratiedata.Bankrekeningnummer
+        > nietOvergenomen
+    ) => new(vCode, dubbeleVereniging, overgenomen, nietOvergenomen);
 #pragma warning restore CS0618
 
     public static VerenigingWerdGestoptInKBO VerenigingWerdGestoptInKBO(Datum einddatum) => new(einddatum.Value);

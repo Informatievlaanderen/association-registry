@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Publiek.ZoekenAuthentiekeVereniging;
 
+using AssociationRegistry.Test.Common.DubbelMerge;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -41,6 +42,20 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
         AuthentiekeVereniging
             .KorteBeschrijving.Should()
             .Be(MarkeerAlsDubbelVanContext.BasisgegevensDubbeleVereniging.KorteBeschrijving);
+
+    [Fact]
+    public void With_The_Own_And_The_New_Hoofdactiviteiten() =>
+        AuthentiekeVereniging
+            .HoofdactiviteitenVerenigingsloket.Select(x => x.Code)
+            .Should()
+            .BeEquivalentTo([TestHoofdactiviteiten.Sport.Code, TestHoofdactiviteiten.Jeugdwerk.Code]);
+
+    [Fact]
+    public void With_The_Werkingsgebieden_Of_The_Dubbele_Vereniging() =>
+        AuthentiekeVereniging
+            .Werkingsgebieden.Select(x => x.Code)
+            .Should()
+            .BeEquivalentTo([TestWerkingsgebieden.VlaamsBrabant.Code]);
 
     [Fact]
     public void With_The_Doelgroep_Of_The_Dubbele_Vereniging()

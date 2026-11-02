@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.HistoriekAuthentiekeVereniging;
 
 using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
+using AssociationRegistry.Test.Common.DubbelMerge;
 using Events;
 using FluentAssertions;
 using Framework.AlbaHost;
@@ -79,6 +80,7 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
 
     /// <summary>
     ///     De authentieke vereniging had enkel een korte naam: die blijft behouden, de rest wordt overgenomen.
+    ///     Jeugdwerk en Vlaams-Brabant worden toegevoegd, Sport had de authentieke vereniging al.
     /// </summary>
     [Fact]
     public void With_The_Samenvoeging_Gebeurtenis()
@@ -89,32 +91,68 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
             x.Gebeurtenis == nameof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging)
         );
 
+        var overgenomen = SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
+            Registratiedata.Vertegenwoordiger,
+            Registratiedata.Bankrekeningnummer
+        >.WithOnly(
+            new SamenvoegingDubbeleVereniging.OvergenomenBasisgegevens(
+                KorteNaam: null,
+                KorteBeschrijving: SamenvoegingDubbeleVereniging.Verrijkt(
+                    SamenvoegingDubbeleVereniging.Velden.KorteBeschrijving,
+                    dubbele.KorteBeschrijving
+                ),
+                Startdatum: SamenvoegingDubbeleVereniging.Verrijkt(
+                    SamenvoegingDubbeleVereniging.Velden.Startdatum,
+                    dubbele.Startdatum!.Value
+                ),
+                Doelgroep: SamenvoegingDubbeleVereniging.Verrijkt(
+                    SamenvoegingDubbeleVereniging.Velden.Doelgroep,
+                    dubbele.Doelgroep
+                )
+            )
+        ) with
+        {
+            Hoofdactiviteiten =
+            [
+                SamenvoegingDubbeleVereniging.Toegevoegd(
+                    "Hoofdactiviteit 'Jeugdwerk'",
+                    TestHoofdactiviteiten.Jeugdwerk
+                ),
+            ],
+            Werkingsgebieden =
+            [
+                SamenvoegingDubbeleVereniging.Toegevoegd(
+                    "Werkingsgebied 'Provincie Vlaams-Brabant'",
+                    TestWerkingsgebieden.VlaamsBrabant
+                ),
+            ],
+        };
+
+        var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
+            Registratiedata.Vertegenwoordiger,
+            Registratiedata.Bankrekeningnummer
+        >.WithOnly(
+            SamenvoegingDubbeleVereniging.NietOvergenomenBasisgegevens.Geen with
+            {
+                KorteNaam = SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    SamenvoegingDubbeleVereniging.Velden.KorteNaam,
+                    dubbele.KorteNaam
+                ),
+            }
+        ) with
+        {
+            Hoofdactiviteiten =
+            [
+                SamenvoegingDubbeleVereniging.Gededupliceerd("Hoofdactiviteit 'Sport'", TestHoofdactiviteiten.Sport),
+            ],
+        };
+
         gebeurtenis.ShouldCompare(
             HistoriekGebeurtenisMapper.DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
                 _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
                 _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
-                new SamenvoegingDubbeleVereniging.OvergenomenBasisgegevens(
-                    KorteNaam: null,
-                    KorteBeschrijving: SamenvoegingDubbeleVereniging.Verrijkt(
-                        SamenvoegingDubbeleVereniging.Velden.KorteBeschrijving,
-                        dubbele.KorteBeschrijving
-                    ),
-                    Startdatum: SamenvoegingDubbeleVereniging.Verrijkt(
-                        SamenvoegingDubbeleVereniging.Velden.Startdatum,
-                        dubbele.Startdatum!.Value
-                    ),
-                    Doelgroep: SamenvoegingDubbeleVereniging.Verrijkt(
-                        SamenvoegingDubbeleVereniging.Velden.Doelgroep,
-                        dubbele.Doelgroep
-                    )
-                ),
-                SamenvoegingDubbeleVereniging.NietOvergenomenBasisgegevens.Geen with
-                {
-                    KorteNaam = SamenvoegingDubbeleVereniging.NietOvergenomen(
-                        SamenvoegingDubbeleVereniging.Velden.KorteNaam,
-                        dubbele.KorteNaam
-                    ),
-                }
+                overgenomen,
+                nietOvergenomen
             ),
             compareConfig: HistoriekComparisonConfig.Instance
         );

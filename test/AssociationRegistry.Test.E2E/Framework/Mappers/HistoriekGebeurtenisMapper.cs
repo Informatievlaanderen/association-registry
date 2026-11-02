@@ -709,8 +709,14 @@ public static class HistoriekGebeurtenisMapper
     public static HistoriekGebeurtenisResponse DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
         string vCode,
         string vCodeDubbeleVereniging,
-        SamenvoegingDubbeleVereniging.OvergenomenBasisgegevens overgenomen,
-        SamenvoegingDubbeleVereniging.NietOvergenomenBasisgegevens nietOvergenomen
+        SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
+            Registratiedata.Vertegenwoordiger,
+            Registratiedata.Bankrekeningnummer
+        > overgenomen,
+        SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
+            Registratiedata.Vertegenwoordiger,
+            Registratiedata.Bankrekeningnummer
+        > nietOvergenomen
     ) =>
         new()
         {

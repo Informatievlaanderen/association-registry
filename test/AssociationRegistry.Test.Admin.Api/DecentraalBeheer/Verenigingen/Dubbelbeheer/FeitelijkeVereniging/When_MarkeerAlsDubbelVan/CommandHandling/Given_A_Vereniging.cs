@@ -16,8 +16,10 @@ using Xunit;
 using static AssociationRegistry.Events.SamenvoegingDubbeleVereniging;
 
 /// <summary>
-///     De dubbele vereniging heeft basisgegevens, de authentieke vereniging niet: alles wordt overgenomen.
-///     De andere regels van de samenvoeging worden getest in <see cref="Given_Basisgegevens" />.
+///     De dubbele vereniging heeft basisgegevens en geen hoofdactiviteiten, de authentieke vereniging heeft geen
+///     basisgegevens: alle basisgegevens worden overgenomen.
+///     De andere regels van de samenvoeging worden getest in <see cref="Given_Basisgegevens" /> en
+///     <see cref="Given_Hoofdactiviteiten_En_Werkingsgebieden" />.
 /// </summary>
 #pragma warning disable CS0618
 public class Given_A_Vereniging
@@ -39,7 +41,9 @@ public class Given_A_Vereniging
 
         _aggregateSessionMock = new MultipleVerenigingAggregateSessionMock(
             new VerenigingState().Apply(
-                _scenario.FeitelijkeVerenigingWerdGeregistreerd.WithBasisgegevens(TestBasisgegevens.Fellowship)
+                _scenario
+                    .FeitelijkeVerenigingWerdGeregistreerd.WithBasisgegevens(TestBasisgegevens.Fellowship)
+                    .WithHoofdactiviteiten()
             )
         );
         _aggregateSessionMock.WithVereniging(new VerenigingState().Apply(authentiekeVereniging));

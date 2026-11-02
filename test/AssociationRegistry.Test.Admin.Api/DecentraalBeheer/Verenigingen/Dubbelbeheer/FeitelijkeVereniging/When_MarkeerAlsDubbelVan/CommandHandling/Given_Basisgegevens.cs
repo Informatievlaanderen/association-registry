@@ -157,7 +157,10 @@ public class Given_Basisgegevens
         VCode Authentieke
     )> MarkeerAlsDubbelVan(TestBasisgegevens dubbele, TestBasisgegevens authentieke)
     {
-        var dubbeleVereniging = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>().WithBasisgegevens(dubbele);
+        var dubbeleVereniging = _fixture
+            .Create<FeitelijkeVerenigingWerdGeregistreerd>()
+            .WithBasisgegevens(dubbele)
+            .WithHoofdactiviteiten();
         var authentiekeVereniging = _fixture
             .Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
             .WithBasisgegevens(authentieke);

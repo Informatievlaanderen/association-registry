@@ -15,43 +15,39 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
     public FeitelijkeVerenigingWerdGeregistreerd AndereFeitelijkeVerenigingWerdGeregistreerd { get; set; }
     private CommandMetadata Metadata;
-    private readonly TestBasisgegevens? _basisgegevens;
-    private readonly TestBasisgegevens? _andereBasisgegevens;
+    private readonly TestVerenigingsgegevens? _gegevens;
+    private readonly TestVerenigingsgegevens? _andereGegevens;
 
-    /// <param name="basisgegevens">Vaste basisgegevens voor FeitelijkeVerenigingWerdGeregistreerd, anders willekeurig.</param>
-    /// <param name="andereBasisgegevens">Vaste basisgegevens voor AndereFeitelijkeVerenigingWerdGeregistreerd, anders willekeurig.</param>
+    /// <param name="gegevens">Vaste gegevens voor FeitelijkeVerenigingWerdGeregistreerd, anders willekeurig.</param>
+    /// <param name="andereGegevens">Vaste gegevens voor AndereFeitelijkeVerenigingWerdGeregistreerd, anders willekeurig.</param>
     public MultipleWerdGeregistreerdScenario(
-        TestBasisgegevens? basisgegevens = null,
-        TestBasisgegevens? andereBasisgegevens = null
+        TestVerenigingsgegevens? gegevens = null,
+        TestVerenigingsgegevens? andereGegevens = null
     )
     {
-        _basisgegevens = basisgegevens;
-        _andereBasisgegevens = andereBasisgegevens;
+        _gegevens = gegevens;
+        _andereGegevens = andereGegevens;
     }
 
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
-        {
-            VCode = await service.GetNext(),
-        };
-        AndereFeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
-        {
-            VCode = await service.GetNext(),
-            Vertegenwoordigers = FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers,
-        };
-
-        if (_basisgegevens is not null)
-            FeitelijkeVerenigingWerdGeregistreerd = FeitelijkeVerenigingWerdGeregistreerd.WithBasisgegevens(
-                _basisgegevens
-            );
-
-        if (_andereBasisgegevens is not null)
-            AndereFeitelijkeVerenigingWerdGeregistreerd = AndereFeitelijkeVerenigingWerdGeregistreerd.WithBasisgegevens(
-                _andereBasisgegevens
-            );
+        FeitelijkeVerenigingWerdGeregistreerd = WithGegevens(
+            fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+            {
+                VCode = await service.GetNext(),
+            },
+            _gegevens
+        );
+        AndereFeitelijkeVerenigingWerdGeregistreerd = WithGegevens(
+            fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+            {
+                VCode = await service.GetNext(),
+                Vertegenwoordigers = FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers,
+            },
+            _andereGegevens
+        );
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
@@ -59,24 +55,34 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
         [
             new(
                 FeitelijkeVerenigingWerdGeregistreerd.VCode,
-                [
-                    FeitelijkeVerenigingWerdGeregistreerd,
-                    new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(
-                        FeitelijkeVerenigingWerdGeregistreerd.VCode
-                    ),
-                ]
+                EventsFor(FeitelijkeVerenigingWerdGeregistreerd, _gegevens)
             ),
             new(
                 AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
-                [
-                    AndereFeitelijkeVerenigingWerdGeregistreerd,
-                    new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(
-                        AndereFeitelijkeVerenigingWerdGeregistreerd.VCode
-                    ),
-                ]
+                EventsFor(AndereFeitelijkeVerenigingWerdGeregistreerd, _andereGegevens)
             ),
         ];
     }
+
+    private static FeitelijkeVerenigingWerdGeregistreerd WithGegevens(
+        FeitelijkeVerenigingWerdGeregistreerd @event,
+        TestVerenigingsgegevens? gegevens
+    ) =>
+        gegevens is null
+            ? @event
+            : @event.WithBasisgegevens(gegevens.Basisgegevens).WithHoofdactiviteiten(gegevens.Hoofdactiviteiten);
+
+    private static IEvent[] EventsFor(
+        FeitelijkeVerenigingWerdGeregistreerd @event,
+        TestVerenigingsgegevens? gegevens
+    ) =>
+        [
+            @event,
+            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(@event.VCode),
+            .. gegevens is { Werkingsgebieden.Length: > 0 }
+                ? [new WerkingsgebiedenWerdenBepaald(@event.VCode, gegevens.Werkingsgebieden)]
+                : Array.Empty<IEvent>(),
+        ];
 
     public StreamActionResult Result { get; set; } = null!;
 
