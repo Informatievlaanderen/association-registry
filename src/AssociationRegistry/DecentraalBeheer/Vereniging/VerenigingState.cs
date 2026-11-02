@@ -787,14 +787,35 @@ public record VerenigingState : IHasVersion
             CorresponderendeVCodes = CorresponderendeVCodes.Append(@event.VCodeDubbeleVereniging).ToArray(),
         };
 
-    /// <summary>Voorlopig worden enkel de basisgegevens samengevoegd; de andere groepen zijn nog leeg.</summary>
+    /// <summary>
+    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten en werkingsgebieden samengevoegd; de andere groepen zijn
+    ///     nog leeg.
+    /// </summary>
 #pragma warning disable CS0618
     public VerenigingState Apply(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging @event)
     {
         var basisgegevens = @event.OvergenomenGegevens.Basisgegevens;
 
+        var addedWerkingsgebieden = @event
+            .OvergenomenGegevens.Werkingsgebieden.Select(x =>
+                Werkingsgebied.Hydrate(x.NieuweWaarde.Code, x.NieuweWaarde.Naam)
+            )
+            .ToArray();
+
         return this with
         {
+            HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
+                HoofdactiviteitenVerenigingsloket
+                    .Concat(
+                        @event.OvergenomenGegevens.Hoofdactiviteiten.Select(x =>
+                            HoofdactiviteitVerenigingsloket.Create(x.NieuweWaarde.Code)
+                        )
+                    )
+                    .ToArray()
+            ),
+            Werkingsgebieden = addedWerkingsgebieden.Contains(Werkingsgebied.NietVanToepassing)
+                ? Werkingsgebieden.NietVanToepassing
+                : Werkingsgebieden.Hydrate(Werkingsgebieden.Concat(addedWerkingsgebieden).ToArray()),
             KorteNaam = basisgegevens.KorteNaam?.NieuweWaarde ?? KorteNaam,
             KorteBeschrijving = basisgegevens.KorteBeschrijving?.NieuweWaarde ?? KorteBeschrijving,
             Startdatum = basisgegevens.Startdatum is null

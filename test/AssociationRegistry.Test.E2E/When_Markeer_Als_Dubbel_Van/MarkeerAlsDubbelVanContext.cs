@@ -35,8 +35,21 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         KorteNaam = TestBasisgegevens.Rivendell.KorteNaam,
     };
 
+    /// <summary>Jeugdwerk en Vlaams-Brabant zijn nieuw voor de authentieke vereniging, Sport had ze al.</summary>
+    public static readonly TestVerenigingsgegevens GegevensDubbeleVereniging = new(
+        BasisgegevensDubbeleVereniging,
+        [TestHoofdactiviteiten.Sport, TestHoofdactiviteiten.Jeugdwerk],
+        [TestWerkingsgebieden.VlaamsBrabant]
+    );
+
+    public static readonly TestVerenigingsgegevens GegevensAuthentiekeVereniging = new(
+        BasisgegevensAuthentiekeVereniging,
+        [TestHoofdactiviteiten.Sport],
+        []
+    );
+
     protected override MultipleWerdGeregistreerdScenario InitializeScenario() =>
-        new(BasisgegevensDubbeleVereniging, BasisgegevensAuthentiekeVereniging);
+        new(GegevensDubbeleVereniging, GegevensAuthentiekeVereniging);
 
     public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup)
         : base(apiSetup) { }

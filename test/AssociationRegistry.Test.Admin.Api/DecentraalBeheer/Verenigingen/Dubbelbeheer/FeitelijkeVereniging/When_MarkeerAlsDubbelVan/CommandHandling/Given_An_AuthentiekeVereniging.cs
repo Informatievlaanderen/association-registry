@@ -13,7 +13,7 @@ using Xunit;
 
 /// <summary>
 ///     Een vereniging die eerder als authentiek fungeerde (A is dubbel van B) mag alsnog dubbel worden (B is dubbel van C).
-///     De dubbele vereniging heeft geen basisgegevens, dus er valt niets samen te voegen.
+///     De dubbele vereniging heeft geen basisgegevens en geen hoofdactiviteiten, dus er valt niets samen te voegen.
 ///     De samenvoeging zelf wordt getest in <see cref="Given_Basisgegevens" />.
 /// </summary>
 public class Given_An_Authentieke_Vereniging
@@ -39,7 +39,8 @@ public class Given_An_Authentieke_Vereniging
             .Apply(new KorteNaamWerdGewijzigd(_scenario.VCode, KorteNaam: ""))
             .Apply(new KorteBeschrijvingWerdGewijzigd(_scenario.VCode, KorteBeschrijving: ""))
             .Apply(new StartdatumWerdGewijzigd(_scenario.VCode, Startdatum: null))
-            .Apply(new DoelgroepWerdGewijzigd(TestBasisgegevens.Empty.Doelgroep));
+            .Apply(new DoelgroepWerdGewijzigd(TestBasisgegevens.Empty.Doelgroep))
+            .Apply(new HoofdactiviteitenVerenigingsloketWerdenGewijzigd([]));
 
         _aggregateSessionMock = new MultipleVerenigingAggregateSessionMock(dubbeleVerenigingZonderBasisgegevens);
         _aggregateSessionMock.WithVereniging(new VerenigingState().Apply(nieuweAuthentiekeVereniging));

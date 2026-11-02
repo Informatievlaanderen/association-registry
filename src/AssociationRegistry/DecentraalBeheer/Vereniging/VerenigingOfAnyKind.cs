@@ -466,12 +466,43 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     /// <summary>
     ///     Neemt de gegevens van de dubbele vereniging over die op deze (authentieke) vereniging nog leeg zijn.
-    ///     Voorlopig enkel de basisgegevens, zie <see cref="BasisgegevensSamenvoeging" />.
+    ///     Voorlopig de basisgegevens, hoofdactiviteiten en werkingsgebieden, zie <see cref="BasisgegevensSamenvoeging" />,
+    ///     <see cref="HoofdactiviteitenSamenvoeging" /> en <see cref="WerkingsgebiedenSamenvoeging" />.
     ///     Er komt geen event als de dubbele vereniging niets heeft om samen te voegen.
     /// </summary>
     public void VoegDubbeleVerenigingSamen(VerenigingsBase dubbeleVereniging)
     {
-        var (overgenomen, nietOvergenomen) = BasisgegevensSamenvoeging.Merge(State, dubbeleVereniging.CurrentState);
+        var dubbeleState = dubbeleVereniging.CurrentState;
+
+        var basisgegevens = BasisgegevensSamenvoeging.Merge(State, dubbeleState);
+        var hoofdactiviteiten = HoofdactiviteitenSamenvoeging.Merge(
+            State.HoofdactiviteitenVerenigingsloket,
+            dubbeleState.HoofdactiviteitenVerenigingsloket
+        );
+        var werkingsgebieden = WerkingsgebiedenSamenvoeging.Merge(
+            State.Werkingsgebieden,
+            dubbeleState.Werkingsgebieden
+        );
+
+#pragma warning disable CS0618
+        var overgenomen = SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
+            Registratiedata.Vertegenwoordiger,
+            Registratiedata.Bankrekeningnummer
+        >.WithOnly(basisgegevens.Overgenomen) with
+        {
+            Hoofdactiviteiten = hoofdactiviteiten.Overgenomen,
+            Werkingsgebieden = werkingsgebieden.Overgenomen,
+        };
+
+        var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
+            Registratiedata.Vertegenwoordiger,
+            Registratiedata.Bankrekeningnummer
+        >.WithOnly(basisgegevens.NietOvergenomen) with
+        {
+            Hoofdactiviteiten = hoofdactiviteiten.NietOvergenomen,
+            Werkingsgebieden = werkingsgebieden.NietOvergenomen,
+        };
+#pragma warning restore CS0618
 
         if (overgenomen.Aantal == 0 && nietOvergenomen.Aantal == 0)
             return;

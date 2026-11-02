@@ -105,6 +105,14 @@ public static class SamenvoegingDubbeleVereniging
             waarde
         );
 
+    /// <summary>Het gegeven bestond nog niet op de authentieke vereniging en werd toegevoegd.</summary>
+    public static OvergenomenGegeven<T> Toegevoegd<T>(string omschrijving, T waarde) =>
+        new(Acties.Toegevoegd, $"{omschrijving} werd toegevoegd vanuit de dubbele vereniging.", waarde, waarde);
+
+    /// <summary>Het gegeven kon niet toegevoegd worden omwille van een regel, zie de reden.</summary>
+    public static NietOvergenomenGegeven<T> NietOvergenomen<T>(string omschrijving, T waarde, string reden) =>
+        new(Acties.NietOvergenomen, reden, $"{omschrijving} werd niet overgenomen van de dubbele vereniging.", waarde);
+
     /// <summary>Het attribuut had op beide verenigingen dezelfde waarde.</summary>
     public static NietOvergenomenGegeven<T> Gededupliceerd<T>(string veld, T waarde) =>
         new(
