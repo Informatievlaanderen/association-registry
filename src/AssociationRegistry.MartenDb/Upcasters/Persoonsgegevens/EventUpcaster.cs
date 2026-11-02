@@ -9,59 +9,101 @@ public static class EventUpcaster
     {
         var vertegenwoordigerWerdToegevoegdUpcaster = new VertegenwoordigerWerdToegevoegdUpcaster(querySessionFunc);
         opts.Events.Upcast<VertegenwoordigerWerdToegevoegdZonderPersoonsgegevens, VertegenwoordigerWerdToegevoegd>(
-            vertegenwoordigerWerdToegevoegdUpcaster.UpcastAsync);
+            vertegenwoordigerWerdToegevoegdUpcaster.UpcastAsync
+        );
 
         var vertegenwoordigerWerdGewijzigdUpcaster = new VertegenwoordigerWerdGewijzigdUpcaster(querySessionFunc);
         opts.Events.Upcast<VertegenwoordigerWerdGewijzigdZonderPersoonsgegevens, VertegenwoordigerWerdGewijzigd>(
-            vertegenwoordigerWerdGewijzigdUpcaster.UpcastAsync);
+            vertegenwoordigerWerdGewijzigdUpcaster.UpcastAsync
+        );
 
         var vertegenwoordigerWerdVerwijderdUpcaster = new VertegenwoordigerWerdVerwijderdUpcaster(querySessionFunc);
         opts.Events.Upcast<VertegenwoordigerWerdVerwijderdZonderPersoonsgegevens, VertegenwoordigerWerdVerwijderd>(
-            vertegenwoordigerWerdVerwijderdUpcaster.UpcastAsync);
+            vertegenwoordigerWerdVerwijderdUpcaster.UpcastAsync
+        );
 
-        var vertegenwoordigerWerdOvergenomenUitKBOUpcaster = new VertegenwoordigerWerdOvergenomenUitKBOUpcaster(querySessionFunc);
-        opts.Events.Upcast<VertegenwoordigerWerdOvergenomenUitKBOZonderPersoonsgegevens, VertegenwoordigerWerdOvergenomenUitKBO>(
-            vertegenwoordigerWerdOvergenomenUitKBOUpcaster.UpcastAsync);
+        var vertegenwoordigerWerdOvergenomenUitKBOUpcaster = new VertegenwoordigerWerdOvergenomenUitKBOUpcaster(
+            querySessionFunc
+        );
+        opts.Events.Upcast<
+            VertegenwoordigerWerdOvergenomenUitKBOZonderPersoonsgegevens,
+            VertegenwoordigerWerdOvergenomenUitKBO
+        >(vertegenwoordigerWerdOvergenomenUitKBOUpcaster.UpcastAsync);
 
-        var vertegenwoordigerWerdGewijzigdInKBOUpcaster = new VertegenwoordigerWerdGewijzigdInKBOUpcaster(querySessionFunc);
-        opts.Events.Upcast<VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens, VertegenwoordigerWerdGewijzigdInKBO>(
-            vertegenwoordigerWerdGewijzigdInKBOUpcaster.UpcastAsync);
+        var vertegenwoordigerWerdGewijzigdInKBOUpcaster = new VertegenwoordigerWerdGewijzigdInKBOUpcaster(
+            querySessionFunc
+        );
+        opts.Events.Upcast<
+            VertegenwoordigerWerdGewijzigdInKBOZonderPersoonsgegevens,
+            VertegenwoordigerWerdGewijzigdInKBO
+        >(vertegenwoordigerWerdGewijzigdInKBOUpcaster.UpcastAsync);
 
-        var vertegenwoordigerWerdToegevoegdVanuitKBOUpcaster = new VertegenwoordigerWerdToegevoegdVanuitKBOUpcaster(querySessionFunc);
-        opts.Events.Upcast<VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens, VertegenwoordigerWerdToegevoegdVanuitKBO>(
-            vertegenwoordigerWerdToegevoegdVanuitKBOUpcaster.UpcastAsync);
+        var vertegenwoordigerWerdToegevoegdVanuitKBOUpcaster = new VertegenwoordigerWerdToegevoegdVanuitKBOUpcaster(
+            querySessionFunc
+        );
+        opts.Events.Upcast<
+            VertegenwoordigerWerdToegevoegdVanuitKBOZonderPersoonsgegevens,
+            VertegenwoordigerWerdToegevoegdVanuitKBO
+        >(vertegenwoordigerWerdToegevoegdVanuitKBOUpcaster.UpcastAsync);
 
-        var vertegenwoordigerWerdVerwijderdUitKboUpcaster = new VertegenwoordigerWerdVerwijderdUitKBOUpcaster(querySessionFunc);
-        opts.Events.Upcast<VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens, VertegenwoordigerWerdVerwijderdUitKBO>(
-            vertegenwoordigerWerdVerwijderdUitKboUpcaster.UpcastAsync);
+        var vertegenwoordigerWerdVerwijderdUitKboUpcaster = new VertegenwoordigerWerdVerwijderdUitKBOUpcaster(
+            querySessionFunc
+        );
+        opts.Events.Upcast<
+            VertegenwoordigerWerdVerwijderdUitKBOZonderPersoonsgegevens,
+            VertegenwoordigerWerdVerwijderdUitKBO
+        >(vertegenwoordigerWerdVerwijderdUitKboUpcaster.UpcastAsync);
 
-        var feitelijkeVerenigingWerdGeregistreerdUpcaster = new FeitelijkeVerenigingWerdGeregistreerdUpcaster(querySessionFunc);
-        opts.Events.Upcast<FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens, FeitelijkeVerenigingWerdGeregistreerd>(
-            feitelijkeVerenigingWerdGeregistreerdUpcaster.UpcastAsync);
+        var feitelijkeVerenigingWerdGeregistreerdUpcaster = new FeitelijkeVerenigingWerdGeregistreerdUpcaster(
+            querySessionFunc
+        );
+        opts.Events.Upcast<
+            FeitelijkeVerenigingWerdGeregistreerdZonderPersoonsgegevens,
+            FeitelijkeVerenigingWerdGeregistreerd
+        >(feitelijkeVerenigingWerdGeregistreerdUpcaster.UpcastAsync);
 
-        var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster(querySessionFunc);
-        opts.Events.Upcast<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>(
-            verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster.UpcastAsync);
+        var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster =
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster(querySessionFunc);
+        opts.Events.Upcast<
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdZonderPersoonsgegevens,
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+        >(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdUpcaster.UpcastAsync);
 
-        var kszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendUpcaster = new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendUpcaster(querySessionFunc);
-        opts.Events.Upcast<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendZonderPersoonsgegevens, KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend>(
-            kszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendUpcaster.UpcastAsync);
+        var kszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendUpcaster =
+            new KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendUpcaster(querySessionFunc);
+        opts.Events.Upcast<
+            KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendZonderPersoonsgegevens,
+            KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend
+        >(kszSyncHeeftVertegenwoordigerAangeduidAlsNietGekendUpcaster.UpcastAsync);
 
-        var kszSyncHeeftVertegenwoordigerAangeduidAlsOverledenUpcaster = new KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenUpcaster(querySessionFunc);
-        opts.Events.Upcast<KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenZonderPersoonsgegevens, KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden>(
-            kszSyncHeeftVertegenwoordigerAangeduidAlsOverledenUpcaster.UpcastAsync);
+        var kszSyncHeeftVertegenwoordigerAangeduidAlsOverledenUpcaster =
+            new KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenUpcaster(querySessionFunc);
+        opts.Events.Upcast<
+            KszSyncHeeftVertegenwoordigerAangeduidAlsOverledenZonderPersoonsgegevens,
+            KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden
+        >(kszSyncHeeftVertegenwoordigerAangeduidAlsOverledenUpcaster.UpcastAsync);
 
         var bankrekeningnummerWerdToegevoegdUpcaster = new BankrekeningnummerWerdToegevoegdUpcaster(querySessionFunc);
         opts.Events.Upcast<BankrekeningnummerWerdToegevoegdZonderPersoonsgegevens, BankrekeningnummerWerdToegevoegd>(
-            bankrekeningnummerWerdToegevoegdUpcaster.UpcastAsync);
+            bankrekeningnummerWerdToegevoegdUpcaster.UpcastAsync
+        );
 
         var bankrekeningnummerWerdVerwijderdUpcaster = new BankrekeningnummerWerdVerwijderdUpcaster(querySessionFunc);
         opts.Events.Upcast<BankrekeningnummerWerdVerwijderdZonderPersoonsgegevens, BankrekeningnummerWerdVerwijderd>(
-            bankrekeningnummerWerdVerwijderdUpcaster.UpcastAsync);
+            bankrekeningnummerWerdVerwijderdUpcaster.UpcastAsync
+        );
 
         var bankrekeningnummerWerdGewijzigd = new BankrekeningnummerWerdGewijzigdUpcaster(querySessionFunc);
         opts.Events.Upcast<BankrekeningnummerWerdGewijzigdZonderPersoonsgegevens, BankrekeningnummerWerdGewijzigd>(
-            bankrekeningnummerWerdGewijzigd.UpcastAsync);
+            bankrekeningnummerWerdGewijzigd.UpcastAsync
+        );
+
+        var dubbeleVerenigingWerdSamengevoegdUpcaster =
+            new DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingUpcaster(querySessionFunc);
+        opts.Events.Upcast<
+            DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingZonderPersoonsgegevens,
+            DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging
+        >(dubbeleVerenigingWerdSamengevoegdUpcaster.UpcastAsync);
 
         return opts;
     }

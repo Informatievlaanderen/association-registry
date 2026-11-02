@@ -23,6 +23,7 @@ public class For_Any_Event
         typeof(BewaartermijnWerdGestartV2), // TODO undo for powerbi
         typeof(ErkenningWerdGecorrigeerd),
         typeof(ErkenningOpvolgersWerdenToegevoegdAlsBeheerder), // TODO check with analist if this needs to be exposed or not
+        typeof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging), // TODO projecties volgen met de merge
         .. new PersoonsgegevensEventTransformers().Select(x => x.PersistedEventType),
     ];
 

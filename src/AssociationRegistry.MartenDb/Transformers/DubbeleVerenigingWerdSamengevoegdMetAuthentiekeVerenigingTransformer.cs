@@ -1,0 +1,123 @@
+namespace AssociationRegistry.MartenDb.Transformers;
+
+using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.Events;
+using AssociationRegistry.Persoonsgegevens;
+using Store;
+
+/// <summary>
+///     Bewaart de persoonsgegevens van vertegenwoordigers en bankrekeningnummers met een nieuwe RefId onder de
+///     authentieke vereniging. Ze verwijzen dus niet naar de persoonsgegevens van de dubbele vereniging, die verdwijnen
+///     wanneer haar bewaartermijn verloopt.
+/// </summary>
+public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingTransformer : IPersoonsgegevensEventTransformer
+{
+    public Type EventType => typeof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging);
+
+    public Type PersistedEventType =>
+        typeof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingZonderPersoonsgegevens);
+
+    public EventTransformationResult Transform(IEvent @event, string vCode)
+    {
+        var originalEvent = (DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging)@event;
+        var splitter = new PersoonsgegevensSplitter(VCode.Hydrate(vCode));
+
+        var overgenomen = originalEvent.OvergenomenGegevens;
+        var nietOvergenomen = originalEvent.NietOvergenomenGegevens;
+
+        var transformedEvent = new DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingZonderPersoonsgegevens(
+            originalEvent.VCode,
+            originalEvent.VCodeDubbeleVereniging,
+            overgenomen.With(
+                overgenomen
+                    .Vertegenwoordigers.Select(
+                        x => new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.VertegenwoordigerZonderPersoonsgegevens>(
+                            x.Actie,
+                            x.Beschrijving,
+                            splitter.Split(x.OrigineleWaarde),
+                            splitter.Split(x.NieuweWaarde)
+                        )
+                    )
+                    .ToArray(),
+                overgenomen
+                    .Bankrekeningnummers.Select(
+                        x => new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.BankrekeningnummerZonderPersoonsgegevens>(
+                            x.Actie,
+                            x.Beschrijving,
+                            splitter.Split(x.OrigineleWaarde),
+                            splitter.Split(x.NieuweWaarde)
+                        )
+                    )
+                    .ToArray()
+            ),
+            nietOvergenomen.With(
+                nietOvergenomen
+                    .Vertegenwoordigers.Select(
+                        x => new SamenvoegingDubbeleVereniging.NietOvergenomenGegeven<Registratiedata.VertegenwoordigerZonderPersoonsgegevens>(
+                            x.Actie,
+                            x.Reden,
+                            x.Beschrijving,
+                            splitter.Split(x.Waarde)
+                        )
+                    )
+                    .ToArray(),
+                nietOvergenomen
+                    .Bankrekeningnummers.Select(
+                        x => new SamenvoegingDubbeleVereniging.NietOvergenomenGegeven<Registratiedata.BankrekeningnummerZonderPersoonsgegevens>(
+                            x.Actie,
+                            x.Reden,
+                            x.Beschrijving,
+                            splitter.Split(x.Waarde)
+                        )
+                    )
+                    .ToArray()
+            )
+        );
+
+        return new EventTransformationResult(transformedEvent, splitter.ExtractedPersoonsgegevens.ToArray());
+    }
+
+    private class PersoonsgegevensSplitter(VCode vCode)
+    {
+        public List<IPersoonsgegevens> ExtractedPersoonsgegevens { get; } = [];
+
+        public Registratiedata.VertegenwoordigerZonderPersoonsgegevens Split(Registratiedata.Vertegenwoordiger v)
+        {
+            var refId = Guid.NewGuid();
+
+            ExtractedPersoonsgegevens.Add(
+                new VertegenwoordigerPersoonsgegevens(
+                    refId,
+                    vCode,
+                    v.VertegenwoordigerId,
+                    Insz.Hydrate(v.Insz),
+                    v.Roepnaam,
+                    v.Rol,
+                    v.Voornaam,
+                    v.Achternaam,
+                    v.Email,
+                    v.Telefoon,
+                    v.Mobiel,
+                    v.SocialMedia
+                )
+            );
+
+            return new Registratiedata.VertegenwoordigerZonderPersoonsgegevens(
+                refId,
+                v.VertegenwoordigerId,
+                v.IsPrimair
+            );
+        }
+
+        public Registratiedata.BankrekeningnummerZonderPersoonsgegevens Split(Registratiedata.Bankrekeningnummer b)
+        {
+            var refId = Guid.NewGuid();
+
+            ExtractedPersoonsgegevens.Add(
+                new BankrekeningnummerPersoonsgegevens(refId, vCode, b.BankrekeningnummerId, b.Iban, b.Titularissen)
+            );
+
+            return new Registratiedata.BankrekeningnummerZonderPersoonsgegevens(refId, b.BankrekeningnummerId, b.Doel);
+        }
+    }
+}
