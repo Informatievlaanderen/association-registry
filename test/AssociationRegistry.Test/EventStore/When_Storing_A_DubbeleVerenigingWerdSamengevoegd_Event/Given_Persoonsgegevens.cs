@@ -1,10 +1,11 @@
 namespace AssociationRegistry.Test.When_Storing_A_DubbeleVerenigingWerdSamengevoegd_Event;
 
 using AssociationRegistry.Events;
+using AssociationRegistry.Test.Common.DubbelMerge;
 using FluentAssertions;
 using Xunit;
-using static TestBankrekeningnummers;
-using static TestVertegenwoordigers;
+using static AssociationRegistry.Test.Common.DubbelMerge.TestBankrekeningnummers;
+using static AssociationRegistry.Test.Common.DubbelMerge.TestVertegenwoordigers;
 
 #pragma warning disable CS0618
 public class Given_Persoonsgegevens

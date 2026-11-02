@@ -1494,6 +1494,132 @@ public class BeheerVerenigingDetailProjector
             .ToArray();
     }
 
+#pragma warning disable CS0618
+    public static void Apply(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        var overgenomen = @event.Data.OvergenomenGegevens;
+        var bron = @event.Data.Bron;
+
+        ApplyBasisgegevens(overgenomen.Basisgegevens, document);
+
+        document.HoofdactiviteitenVerenigingsloket = document
+            .HoofdactiviteitenVerenigingsloket.AddOrReplace(
+                overgenomen.Hoofdactiviteiten.Select(x =>
+                    BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket(x.NieuweWaarde)
+                ),
+                h => h.Code
+            )
+            .ToArray();
+
+        document.Werkingsgebieden = document
+            .Werkingsgebieden.AddOrReplace(
+                overgenomen.Werkingsgebieden.Select(x =>
+                    BeheerVerenigingDetailMapper.MapWerkingsgebied(x.NieuweWaarde)
+                ),
+                w => w.Code
+            )
+            .ToArray();
+
+        document.Contactgegevens = document
+            .Contactgegevens.AddOrReplace(
+                overgenomen.Contactgegevens.Select(x =>
+                    BeheerVerenigingDetailMapper.MapContactgegeven(x.NieuweWaarde, bron, document.VCode)
+                ),
+                c => c.ContactgegevenId
+            )
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
+
+        document.Locaties = document
+            .Locaties.AddOrReplace(
+                overgenomen.Locaties.Select(x =>
+                    BeheerVerenigingDetailMapper.MapLocatie(x.NieuweWaarde, bron, document.VCode)
+                ),
+                l => l.LocatieId
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
+
+        document.Vertegenwoordigers = document
+            .Vertegenwoordigers.AddOrReplace(
+                overgenomen.Vertegenwoordigers.Select(x =>
+                    BeheerVerenigingDetailMapper.MapVertegenwoordiger(x.NieuweWaarde, bron, document.VCode)
+                ),
+                v => v.VertegenwoordigerId
+            )
+            .OrderBy(v => v.VertegenwoordigerId)
+            .ToArray();
+
+        document.Bankrekeningnummers = document
+            .Bankrekeningnummers.AddOrReplace(
+                overgenomen.Bankrekeningnummers.Select(x =>
+                    BeheerVerenigingDetailMapper.MapBankrekeningnummer(x.NieuweWaarde, document.VCode, bron)
+                ),
+                b => b.BankrekeningnummerId
+            )
+            .OrderBy(b => b.BankrekeningnummerId)
+            .ToArray();
+
+        document.Erkenningen = document
+            .Erkenningen.AddOrReplace(
+                overgenomen.Erkenningen.Select(x =>
+                    BeheerVerenigingDetailMapper.MapErkenning(x.NieuweWaarde, document.VCode)
+                ),
+                e => e.ErkenningId
+            )
+            .OrderBy(e => e.ErkenningId)
+            .ToArray();
+
+        document.Lidmaatschappen = document
+            .Lidmaatschappen.AddOrReplace(
+                overgenomen.Lidmaatschappen.Select(x =>
+                    BeheerVerenigingDetailMapper.MapLidmaatschap(x.NieuweWaarde, document.VCode)
+                ),
+                l => l.LidmaatschapId
+            )
+            .OrderBy(l => l.LidmaatschapId)
+            .ToArray();
+
+        if (overgenomen.SubverenigingVan is not null)
+        {
+            var subverenigingVan = overgenomen.SubverenigingVan.NieuweWaarde;
+
+            document.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>();
+            document.SubverenigingVan = new SubverenigingVan
+            {
+                AndereVereniging = subverenigingVan.AndereVereniging,
+                AndereVerenigingNaam = subverenigingVan.AndereVerenigingNaam,
+                Identificatie = subverenigingVan.Identificatie,
+                Beschrijving = subverenigingVan.Beschrijving,
+            };
+        }
+    }
+#pragma warning restore CS0618
+
+    private static void ApplyBasisgegevens(
+        SamenvoegingDubbeleVereniging.OvergenomenBasisgegevens basisgegevens,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        if (basisgegevens.KorteNaam is not null)
+            document.KorteNaam = basisgegevens.KorteNaam.NieuweWaarde;
+
+        if (basisgegevens.KorteBeschrijving is not null)
+            document.KorteBeschrijving = basisgegevens.KorteBeschrijving.NieuweWaarde;
+
+        if (basisgegevens.Startdatum is not null)
+            document.Startdatum = basisgegevens.Startdatum.NieuweWaarde.ToString(WellknownFormats.DateOnly);
+
+        if (basisgegevens.Doelgroep is not null)
+            document.Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(
+                basisgegevens.Doelgroep.NieuweWaarde,
+                document.VCode
+            );
+    }
+
     public static void Apply(
         IEvent<VerenigingWerdInStopzettingGeplaatst> @event,
         BeheerVerenigingDetailDocument document

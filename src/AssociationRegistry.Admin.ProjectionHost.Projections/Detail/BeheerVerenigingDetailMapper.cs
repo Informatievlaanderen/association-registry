@@ -13,7 +13,10 @@ using AdresId = Schema.Detail.AdresId;
 using Bankrekeningnummer = Schema.Detail.Bankrekeningnummer;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
+using Erkenning = Schema.Detail.Erkenning;
+using GegevensInitiator = Schema.Detail.GegevensInitiator;
 using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
+using IpdcProduct = Schema.Detail.IpdcProduct;
 using Lidmaatschap = Schema.Detail.Lidmaatschap;
 using Locatie = Schema.Detail.Locatie;
 using Verenigingstype = Schema.Detail.Verenigingstype;
@@ -169,6 +172,25 @@ public class BeheerVerenigingDetailMapper
             Doel = b.Doel,
             Titularissen = b.Titularissen,
             Bron = bron,
+        };
+
+    public static Erkenning MapErkenning(SamenvoegingDubbeleVereniging.Erkenning erkenning, string vCode) =>
+        new()
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Erkenning, vCode, erkenning.ErkenningId.ToString()),
+            ErkenningId = erkenning.ErkenningId,
+            GeregistreerdDoor = new GegevensInitiator
+            {
+                OvoCode = erkenning.GeregistreerdDoor.OvoCode,
+                Naam = erkenning.GeregistreerdDoor.Naam,
+            },
+            IpdcProduct = new IpdcProduct { Nummer = erkenning.IpdcProduct.Nummer, Naam = erkenning.IpdcProduct.Naam },
+            Startdatum = erkenning.Startdatum?.ToString(WellknownFormats.DateOnly),
+            Einddatum = erkenning.Einddatum?.ToString(WellknownFormats.DateOnly),
+            Hernieuwingsdatum = erkenning.Hernieuwingsdatum?.ToString(WellknownFormats.DateOnly),
+            HernieuwingsUrl = erkenning.HernieuwingsUrl,
+            RedenSchorsing = erkenning.RedenSchorsing,
+            Status = erkenning.Status,
         };
 
     public static Werkingsgebied MapWerkingsgebied(Registratiedata.Werkingsgebied w) =>

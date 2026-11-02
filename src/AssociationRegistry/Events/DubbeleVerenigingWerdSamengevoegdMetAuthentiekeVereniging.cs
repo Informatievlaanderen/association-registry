@@ -83,14 +83,6 @@ public static class SamenvoegingDubbeleVereniging
         public const string NietOvergenomen = "NietOvergenomen";
     }
 
-    public static class Velden
-    {
-        public const string KorteNaam = "korteNaam";
-        public const string KorteBeschrijving = "korteBeschrijving";
-        public const string Startdatum = "startdatum";
-        public const string Doelgroep = "doelgroep";
-    }
-
     /// <summary>
     ///     Een gegeven dat op de authentieke vereniging terechtkwam.
     ///     <see cref="OrigineleWaarde" /> is de waarde op de dubbele vereniging, <see cref="NieuweWaarde" /> de waarde
@@ -107,8 +99,35 @@ public static class SamenvoegingDubbeleVereniging
     /// <param name="Waarde">De waarde op de dubbele vereniging.</param>
     public record NietOvergenomenGegeven<T>(string Actie, string Reden, string Beschrijving, T Waarde);
 
-    /// <summary>Een attribuut uit de basisgegevens, zie <see cref="Velden" />.</summary>
-    public record Basisgegeven(string Veld, string Waarde);
+    /// <summary>De basisgegevens die op de authentieke vereniging werden ingevuld. Null wanneer niet overgenomen.</summary>
+    public record OvergenomenBasisgegevens(
+        OvergenomenGegeven<string>? KorteNaam,
+        OvergenomenGegeven<string>? KorteBeschrijving,
+        OvergenomenGegeven<DateOnly>? Startdatum,
+        OvergenomenGegeven<Registratiedata.Doelgroep>? Doelgroep
+    )
+    {
+        public static readonly OvergenomenBasisgegevens Geen = new(null, null, null, null);
+
+        [IgnoreDataMember]
+        public int Aantal =>
+            new object?[] { KorteNaam, KorteBeschrijving, Startdatum, Doelgroep }.Count(x => x is not null);
+    }
+
+    /// <summary>De basisgegevens van de dubbele vereniging die niet werden overgenomen. Null wanneer er geen was.</summary>
+    public record NietOvergenomenBasisgegevens(
+        NietOvergenomenGegeven<string>? KorteNaam,
+        NietOvergenomenGegeven<string>? KorteBeschrijving,
+        NietOvergenomenGegeven<DateOnly>? Startdatum,
+        NietOvergenomenGegeven<Registratiedata.Doelgroep>? Doelgroep
+    )
+    {
+        public static readonly NietOvergenomenBasisgegevens Geen = new(null, null, null, null);
+
+        [IgnoreDataMember]
+        public int Aantal =>
+            new object?[] { KorteNaam, KorteBeschrijving, Startdatum, Doelgroep }.Count(x => x is not null);
+    }
 
     public record Erkenning(
         int ErkenningId,
@@ -117,11 +136,13 @@ public static class SamenvoegingDubbeleVereniging
         DateOnly? Einddatum,
         DateOnly? Hernieuwingsdatum,
         string HernieuwingsUrl,
+        GegevensInitiator GeregistreerdDoor,
+        string RedenSchorsing,
         string Status
     );
 
     public record OvergenomenGegevensPerGroep<TVertegenwoordiger, TBankrekeningnummer>(
-        OvergenomenGegeven<Basisgegeven>[] Basisgegevens,
+        OvergenomenBasisgegevens Basisgegevens,
         OvergenomenGegeven<Registratiedata.HoofdactiviteitVerenigingsloket>[] Hoofdactiviteiten,
         OvergenomenGegeven<Registratiedata.Werkingsgebied>[] Werkingsgebieden,
         OvergenomenGegeven<Registratiedata.Contactgegeven>[] Contactgegevens,
@@ -129,13 +150,13 @@ public static class SamenvoegingDubbeleVereniging
         OvergenomenGegeven<TVertegenwoordiger>[] Vertegenwoordigers,
         OvergenomenGegeven<TBankrekeningnummer>[] Bankrekeningnummers,
         OvergenomenGegeven<Erkenning>[] Erkenningen,
-        OvergenomenGegeven<Registratiedata.SubverenigingVan>[] Relaties,
+        OvergenomenGegeven<Registratiedata.SubverenigingVan>? SubverenigingVan,
         OvergenomenGegeven<Registratiedata.Lidmaatschap>[] Lidmaatschappen
     )
     {
         [IgnoreDataMember]
         public int Aantal =>
-            Basisgegevens.Length
+            Basisgegevens.Aantal
             + Hoofdactiviteiten.Length
             + Werkingsgebieden.Length
             + Contactgegevens.Length
@@ -143,7 +164,7 @@ public static class SamenvoegingDubbeleVereniging
             + Vertegenwoordigers.Length
             + Bankrekeningnummers.Length
             + Erkenningen.Length
-            + Relaties.Length
+            + (SubverenigingVan is null ? 0 : 1)
             + Lidmaatschappen.Length;
 
         /// <summary>Dezelfde gegevens, met andere vertegenwoordigers en bankrekeningnummers.</summary>
@@ -163,13 +184,13 @@ public static class SamenvoegingDubbeleVereniging
                 vertegenwoordigers,
                 bankrekeningnummers,
                 Erkenningen,
-                Relaties,
+                SubverenigingVan,
                 Lidmaatschappen
             );
     }
 
     public record NietOvergenomenGegevensPerGroep<TVertegenwoordiger, TBankrekeningnummer>(
-        NietOvergenomenGegeven<Basisgegeven>[] Basisgegevens,
+        NietOvergenomenBasisgegevens Basisgegevens,
         NietOvergenomenGegeven<Registratiedata.HoofdactiviteitVerenigingsloket>[] Hoofdactiviteiten,
         NietOvergenomenGegeven<Registratiedata.Werkingsgebied>[] Werkingsgebieden,
         NietOvergenomenGegeven<Registratiedata.Contactgegeven>[] Contactgegevens,
@@ -177,13 +198,13 @@ public static class SamenvoegingDubbeleVereniging
         NietOvergenomenGegeven<TVertegenwoordiger>[] Vertegenwoordigers,
         NietOvergenomenGegeven<TBankrekeningnummer>[] Bankrekeningnummers,
         NietOvergenomenGegeven<Erkenning>[] Erkenningen,
-        NietOvergenomenGegeven<Registratiedata.SubverenigingVan>[] Relaties,
+        NietOvergenomenGegeven<Registratiedata.SubverenigingVan>? SubverenigingVan,
         NietOvergenomenGegeven<Registratiedata.Lidmaatschap>[] Lidmaatschappen
     )
     {
         [IgnoreDataMember]
         public int Aantal =>
-            Basisgegevens.Length
+            Basisgegevens.Aantal
             + Hoofdactiviteiten.Length
             + Werkingsgebieden.Length
             + Contactgegevens.Length
@@ -191,7 +212,7 @@ public static class SamenvoegingDubbeleVereniging
             + Vertegenwoordigers.Length
             + Bankrekeningnummers.Length
             + Erkenningen.Length
-            + Relaties.Length
+            + (SubverenigingVan is null ? 0 : 1)
             + Lidmaatschappen.Length;
 
         /// <summary>Dezelfde gegevens, met andere vertegenwoordigers en bankrekeningnummers.</summary>
@@ -211,7 +232,7 @@ public static class SamenvoegingDubbeleVereniging
                 vertegenwoordigers,
                 bankrekeningnummers,
                 Erkenningen,
-                Relaties,
+                SubverenigingVan,
                 Lidmaatschappen
             );
     }
