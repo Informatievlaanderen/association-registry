@@ -135,7 +135,7 @@ public static class ExpectedBeheerDetail
     }
 
     public static Bankrekeningnummer Bankrekeningnummer(
-        Registratiedata.Bankrekeningnummer bankrekeningnummer,
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer bankrekeningnummer,
         string vCode
     ) =>
         new()
@@ -149,7 +149,9 @@ public static class ExpectedBeheerDetail
             Iban = bankrekeningnummer.Iban,
             Doel = bankrekeningnummer.Doel,
             Titularissen = bankrekeningnummer.Titularissen,
-            BevestigdDoor = [],
+            BevestigdDoor = bankrekeningnummer
+                .BevestigdDoor.Select(x => new GegevensInitiator { OvoCode = x.OvoCode, Naam = x.Naam })
+                .ToArray(),
             Bron = Bron.Initiator,
         };
 

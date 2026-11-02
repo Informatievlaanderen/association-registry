@@ -53,25 +53,28 @@ public static class TestVertegenwoordigers
 
 public static class TestBankrekeningnummers
 {
-    public static readonly Registratiedata.Bankrekeningnummer BankrekeningnummerFrodo = new(
+    public static readonly SamenvoegingDubbeleVereniging.Bankrekeningnummer BankrekeningnummerFrodo = new(
         BankrekeningnummerId: 1,
         Iban: "BE68539007547034",
         Doel: "Werking",
-        Titularissen: ["Frodo Baggins"]
+        Titularissen: ["Frodo Baggins"],
+        BevestigdDoor: [new Registratiedata.GegevensInitiator("OVO000201", "The Shire")]
     );
 
-    public static readonly Registratiedata.Bankrekeningnummer BankrekeningnummerSamwise = new(
+    public static readonly SamenvoegingDubbeleVereniging.Bankrekeningnummer BankrekeningnummerSamwise = new(
         BankrekeningnummerId: 4,
         Iban: "BE71096123456769",
         Doel: "Evenementen",
-        Titularissen: ["Samwise Gamgee", "Aragorn Elessar"]
+        Titularissen: ["Samwise Gamgee", "Aragorn Elessar"],
+        BevestigdDoor: [new Registratiedata.GegevensInitiator("OVO000202", "Gondor")]
     );
 
-    public static readonly Registratiedata.Bankrekeningnummer BankrekeningnummerBilbo = new(
+    public static readonly SamenvoegingDubbeleVereniging.Bankrekeningnummer BankrekeningnummerBilbo = new(
         BankrekeningnummerId: 2,
         Iban: "BE62510007547061",
         Doel: "Lidgelden",
-        Titularissen: ["Bilbo Baggins"]
+        Titularissen: ["Bilbo Baggins"],
+        BevestigdDoor: []
     );
 }
 
@@ -86,4 +89,12 @@ public static class TestVertegenwoordigersExtensions
         this VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event,
         Registratiedata.Vertegenwoordiger[] vertegenwoordigers
     ) => @event with { Vertegenwoordigers = vertegenwoordigers };
+}
+
+public static class TestBankrekeningnummersExtensions
+{
+    public static VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd WithBankrekeningnummers(
+        this VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event,
+        Registratiedata.Bankrekeningnummer[] bankrekeningnummers
+    ) => @event with { Bankrekeningnummers = bankrekeningnummers };
 }

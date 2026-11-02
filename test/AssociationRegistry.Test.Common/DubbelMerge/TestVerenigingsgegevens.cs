@@ -12,5 +12,6 @@ public record TestVerenigingsgegevens(
     Registratiedata.Werkingsgebied[] Werkingsgebieden,
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
-    Registratiedata.Vertegenwoordiger[] Vertegenwoordigers
+    Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
+    SamenvoegingDubbeleVereniging.Bankrekeningnummer[] Bankrekeningnummers
 );

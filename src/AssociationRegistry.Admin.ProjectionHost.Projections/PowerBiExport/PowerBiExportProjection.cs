@@ -1342,7 +1342,12 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                     PowerBiExportMapper.MapBankrekeningnummer(
                         x.NieuweWaarde.BankrekeningnummerId,
                         x.NieuweWaarde.Doel,
-                        [],
+                        x.NieuweWaarde.BevestigdDoor.Select(b => new GegevensInitiator
+                            {
+                                OvoCode = b.OvoCode,
+                                Naam = b.Naam,
+                            })
+                            .ToArray(),
                         bron
                     )
                 ),

@@ -788,7 +788,7 @@ public record VerenigingState : IHasVersion
         };
 
     /// <summary>
-    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens, locaties en vertegenwoordigers samengevoegd; de
+    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens, locaties, vertegenwoordigers en bankrekeningnummers samengevoegd; de
     ///     andere groepen zijn nog leeg.
     /// </summary>
 #pragma warning disable CS0618
@@ -812,6 +812,25 @@ public record VerenigingState : IHasVersion
                         )
                     )
                     .ToArray()
+            ),
+            Bankrekeningnummers = Bankrekeningnummers.Hydrate(
+                Bankrekeningnummers.Concat(
+                    @event.OvergenomenGegevens.Bankrekeningnummers.Select(x =>
+                        Bankrekeningnummer.Hydrate(
+                            x.NieuweWaarde.BankrekeningnummerId,
+                            x.NieuweWaarde.Iban,
+                            x.NieuweWaarde.Doel,
+                            x.NieuweWaarde.Titularissen,
+                            Bron.Initiator,
+                            x.NieuweWaarde.BevestigdDoor.Select(b => new GegevensInitiator
+                                {
+                                    OvoCode = b.OvoCode,
+                                    Naam = b.Naam,
+                                })
+                                .ToArray()
+                        )
+                    )
+                )
             ),
             Vertegenwoordigers = Vertegenwoordigers.Hydrate(
                 Vertegenwoordigers.Concat(

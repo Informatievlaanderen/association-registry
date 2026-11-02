@@ -711,11 +711,11 @@ public static class HistoriekGebeurtenisMapper
         string vCodeDubbeleVereniging,
         SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
             Registratiedata.Vertegenwoordiger,
-            Registratiedata.Bankrekeningnummer
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer
         > overgenomen,
         SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
             Registratiedata.Vertegenwoordiger,
-            Registratiedata.Bankrekeningnummer
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer
         > nietOvergenomen
     ) =>
         new()

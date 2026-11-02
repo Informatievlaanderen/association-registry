@@ -465,11 +465,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     }
 
     /// <summary>
-    ///     Neemt de gegevens van de dubbele vereniging over die op deze (authentieke) vereniging nog leeg zijn.
-    ///     Voorlopig de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens, locaties en vertegenwoordigers, zie
-    ///     <see cref="BasisgegevensSamenvoeging" />, <see cref="HoofdactiviteitenSamenvoeging" />,
-    ///     <see cref="WerkingsgebiedenSamenvoeging" />, <see cref="ContactgegevensSamenvoeging" /> en
-    ///     <see cref="LocatiesSamenvoeging" /> en <see cref="VertegenwoordigersSamenvoeging" />.
+    ///     Voegt de gegevens van de dubbele vereniging samen met deze (authentieke) vereniging, zonder bestaande gegevens
+    ///     te overschrijven. De regels staan per groep in <see cref="BasisgegevensSamenvoeging" />,
+    ///     <see cref="HoofdactiviteitenSamenvoeging" />, <see cref="WerkingsgebiedenSamenvoeging" />,
+    ///     <see cref="ContactgegevensSamenvoeging" />, <see cref="LocatiesSamenvoeging" />,
+    ///     <see cref="VertegenwoordigersSamenvoeging" /> en <see cref="BankrekeningnummersSamenvoeging" />.
+    ///     Erkenningen, lidmaatschappen en subverenigingen worden nog niet samengevoegd.
     ///     Er komt geen event als de dubbele vereniging niets heeft om samen te voegen.
     /// </summary>
     public void VoegDubbeleVerenigingSamen(VerenigingsBase dubbeleVereniging)
@@ -491,11 +492,15 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             State.Vertegenwoordigers,
             dubbeleState.Vertegenwoordigers
         );
+        var bankrekeningnummers = BankrekeningnummersSamenvoeging.Merge(
+            State.Bankrekeningnummers,
+            dubbeleState.Bankrekeningnummers
+        );
 
 #pragma warning disable CS0618
         var overgenomen = SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
             Registratiedata.Vertegenwoordiger,
-            Registratiedata.Bankrekeningnummer
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer
         >.WithOnly(basisgegevens.Overgenomen) with
         {
             Hoofdactiviteiten = hoofdactiviteiten.Overgenomen,
@@ -503,11 +508,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             Contactgegevens = contactgegevens.Overgenomen,
             Locaties = locaties.Overgenomen,
             Vertegenwoordigers = vertegenwoordigers.Overgenomen,
+            Bankrekeningnummers = bankrekeningnummers.Overgenomen,
         };
 
         var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
             Registratiedata.Vertegenwoordiger,
-            Registratiedata.Bankrekeningnummer
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer
         >.WithOnly(basisgegevens.NietOvergenomen) with
         {
             Hoofdactiviteiten = hoofdactiviteiten.NietOvergenomen,
@@ -515,6 +521,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             Contactgegevens = contactgegevens.NietOvergenomen,
             Locaties = locaties.NietOvergenomen,
             Vertegenwoordigers = vertegenwoordigers.NietOvergenomen,
+            Bankrekeningnummers = bankrekeningnummers.NietOvergenomen,
         };
 #pragma warning restore CS0618
 

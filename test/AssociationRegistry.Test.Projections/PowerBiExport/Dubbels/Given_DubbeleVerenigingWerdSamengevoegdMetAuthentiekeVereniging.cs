@@ -15,7 +15,7 @@ public class Given_DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
 {
     private SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
         Registratiedata.Vertegenwoordiger,
-        Registratiedata.Bankrekeningnummer
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > Overgenomen => fixture.Scenario.Samengevoegd.OvergenomenGegevens;
 
     [Fact]
@@ -133,7 +133,9 @@ public class Given_DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
                 new Bankrekeningnummer(
                     bankrekeningnummer.BankrekeningnummerId,
                     bankrekeningnummer.Doel,
-                    [],
+                    bankrekeningnummer
+                        .BevestigdDoor.Select(x => new GegevensInitiator { OvoCode = x.OvoCode, Naam = x.Naam })
+                        .ToArray(),
                     Bron.Initiator
                 )
             );

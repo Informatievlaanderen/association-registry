@@ -20,11 +20,11 @@ public class Given_DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging_Wit
         fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd;
     private SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
         Registratiedata.Vertegenwoordiger,
-        Registratiedata.Bankrekeningnummer
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > Overgenomen => fixture.Scenario.Samengevoegd.OvergenomenGegevens;
     private SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
         Registratiedata.Vertegenwoordiger,
-        Registratiedata.Bankrekeningnummer
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > NietOvergenomen => fixture.Scenario.Samengevoegd.NietOvergenomenGegevens;
 
     [Fact]

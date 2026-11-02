@@ -66,7 +66,10 @@ public class Given_Hoofdactiviteiten_En_Werkingsgebieden
     private VerenigingState Apply(
         Registratiedata.HoofdactiviteitVerenigingsloket[] authentiekeHoofdactiviteiten,
         Registratiedata.Werkingsgebied[] authentiekeWerkingsgebieden,
-        OvergenomenGegevensPerGroep<Registratiedata.Vertegenwoordiger, Registratiedata.Bankrekeningnummer> overgenomen
+        OvergenomenGegevensPerGroep<
+            Registratiedata.Vertegenwoordiger,
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer
+        > overgenomen
     )
     {
         var registratie = _fixture
@@ -85,7 +88,7 @@ public class Given_Hoofdactiviteiten_En_Werkingsgebieden
                 overgenomen,
                 NietOvergenomenGegevensPerGroep<
                     Registratiedata.Vertegenwoordiger,
-                    Registratiedata.Bankrekeningnummer
+                    SamenvoegingDubbeleVereniging.Bankrekeningnummer
                 >.WithOnly(NietOvergenomenBasisgegevens.Geen)
             )
         );
@@ -93,10 +96,11 @@ public class Given_Hoofdactiviteiten_En_Werkingsgebieden
 
     private static OvergenomenGegevensPerGroep<
         Registratiedata.Vertegenwoordiger,
-        Registratiedata.Bankrekeningnummer
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > Overgenomen() =>
-        OvergenomenGegevensPerGroep<Registratiedata.Vertegenwoordiger, Registratiedata.Bankrekeningnummer>.WithOnly(
-            OvergenomenBasisgegevens.Geen
-        );
+        OvergenomenGegevensPerGroep<
+            Registratiedata.Vertegenwoordiger,
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer
+        >.WithOnly(OvergenomenBasisgegevens.Geen);
 }
 #pragma warning restore CS0618

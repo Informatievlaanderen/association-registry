@@ -19,7 +19,7 @@ public class DubbelMergeEventBuilder
     private readonly List<Gegevens.OvergenomenGegeven<Registratiedata.Locatie>> _overgenomenLocaties = [];
     private readonly List<Gegevens.OvergenomenGegeven<Registratiedata.Vertegenwoordiger>> _overgenomenVertegenwoordigers =
     [];
-    private readonly List<Gegevens.OvergenomenGegeven<Registratiedata.Bankrekeningnummer>> _overgenomenBankrekeningnummers =
+    private readonly List<Gegevens.OvergenomenGegeven<SamenvoegingDubbeleVereniging.Bankrekeningnummer>> _overgenomenBankrekeningnummers =
     [];
     private readonly List<Gegevens.OvergenomenGegeven<Gegevens.Erkenning>> _overgenomenErkenningen = [];
     private Gegevens.OvergenomenGegeven<Registratiedata.SubverenigingVan>? _overgenomenSubverenigingVan;
@@ -37,7 +37,7 @@ public class DubbelMergeEventBuilder
     private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.Locatie>> _nietOvergenomenLocaties = [];
     private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.Vertegenwoordiger>> _nietOvergenomenVertegenwoordigers =
     [];
-    private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.Bankrekeningnummer>> _nietOvergenomenBankrekeningnummers =
+    private readonly List<Gegevens.NietOvergenomenGegeven<SamenvoegingDubbeleVereniging.Bankrekeningnummer>> _nietOvergenomenBankrekeningnummers =
     [];
     private readonly List<Gegevens.NietOvergenomenGegeven<Gegevens.Erkenning>> _nietOvergenomenErkenningen = [];
     private Gegevens.NietOvergenomenGegeven<Registratiedata.SubverenigingVan>? _nietOvergenomenSubverenigingVan;
@@ -72,8 +72,8 @@ public class DubbelMergeEventBuilder
     }
 
     public DubbelMergeEventBuilder WithOvergenomenBankrekeningnummer(
-        Registratiedata.Bankrekeningnummer originalValue,
-        Registratiedata.Bankrekeningnummer newValue
+        Gegevens.Bankrekeningnummer originalValue,
+        Gegevens.Bankrekeningnummer newValue
     )
     {
         _overgenomenBankrekeningnummers.Add(
@@ -83,7 +83,7 @@ public class DubbelMergeEventBuilder
         return this;
     }
 
-    public DubbelMergeEventBuilder WithNietOvergenomenBankrekeningnummer(Registratiedata.Bankrekeningnummer value)
+    public DubbelMergeEventBuilder WithNietOvergenomenBankrekeningnummer(Gegevens.Bankrekeningnummer value)
     {
         _nietOvergenomenBankrekeningnummers.Add(
             new(
@@ -229,7 +229,7 @@ public class DubbelMergeEventBuilder
             _vCodeDubbeleVereniging,
             new Gegevens.OvergenomenGegevensPerGroep<
                 Registratiedata.Vertegenwoordiger,
-                Registratiedata.Bankrekeningnummer
+                SamenvoegingDubbeleVereniging.Bankrekeningnummer
             >(
                 _overgenomenBasisgegevens,
                 [.. _overgenomenHoofdactiviteiten],
@@ -244,7 +244,7 @@ public class DubbelMergeEventBuilder
             ),
             new Gegevens.NietOvergenomenGegevensPerGroep<
                 Registratiedata.Vertegenwoordiger,
-                Registratiedata.Bankrekeningnummer
+                SamenvoegingDubbeleVereniging.Bankrekeningnummer
             >(
                 _nietOvergenomenBasisgegevens,
                 [.. _nietOvergenomenHoofdactiviteiten],

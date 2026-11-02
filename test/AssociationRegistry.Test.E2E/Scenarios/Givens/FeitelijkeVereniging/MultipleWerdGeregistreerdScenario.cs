@@ -87,7 +87,19 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
             .. gegevens is { Werkingsgebieden.Length: > 0 }
                 ? [new WerkingsgebiedenWerdenBepaald(@event.VCode, gegevens.Werkingsgebieden)]
                 : Array.Empty<IEvent>(),
+            .. (gegevens?.Bankrekeningnummers ?? []).SelectMany(BankrekeningnummerEvents),
         ];
+
+#pragma warning disable CS0618
+    private static IEnumerable<IEvent> BankrekeningnummerEvents(SamenvoegingDubbeleVereniging.Bankrekeningnummer b) =>
+        [
+            new BankrekeningnummerWerdToegevoegd(b.BankrekeningnummerId, b.Iban, b.Doel, b.Titularissen),
+            .. b.BevestigdDoor.Select(bevestigdDoor => new AanwezigheidBankrekeningnummerValidatieDocumentWerdBevestigd(
+                b.BankrekeningnummerId,
+                bevestigdDoor
+            )),
+        ];
+#pragma warning restore CS0618
 
     public StreamActionResult Result { get; set; } = null!;
 
