@@ -74,7 +74,8 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
                 .WithBasisgegevens(gegevens.Basisgegevens)
                 .WithHoofdactiviteiten(gegevens.Hoofdactiviteiten)
                 .WithContactgegevens(gegevens.Contactgegevens)
-                .WithLocaties(gegevens.Locaties);
+                .WithLocaties(gegevens.Locaties)
+                .WithVertegenwoordigers(gegevens.Vertegenwoordigers);
 
     private static IEvent[] EventsFor(
         FeitelijkeVerenigingWerdGeregistreerd @event,

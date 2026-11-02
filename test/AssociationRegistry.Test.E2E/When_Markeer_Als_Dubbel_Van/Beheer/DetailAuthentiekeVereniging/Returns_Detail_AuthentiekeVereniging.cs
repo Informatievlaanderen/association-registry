@@ -176,6 +176,45 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
             ]);
 
     [Fact]
+    public void With_The_Own_And_The_Overgenomen_Vertegenwoordigers() =>
+        Response
+            .Vereniging.Vertegenwoordigers.Select(x => new
+            {
+                x.VertegenwoordigerId,
+                x.Insz,
+                x.Voornaam,
+                x.Email,
+                x.PrimairContactpersoon,
+            })
+            .Should()
+            .BeEquivalentTo([
+                new
+                {
+                    VertegenwoordigerId = 1,
+                    TestVertegenwoordigers.Frodo.Insz,
+                    TestVertegenwoordigers.Frodo.Voornaam,
+                    TestVertegenwoordigers.Frodo.Email,
+                    PrimairContactpersoon = true,
+                },
+                new
+                {
+                    VertegenwoordigerId = 2,
+                    TestVertegenwoordigers.Aragorn.Insz,
+                    TestVertegenwoordigers.Aragorn.Voornaam,
+                    TestVertegenwoordigers.Aragorn.Email,
+                    PrimairContactpersoon = false,
+                },
+                new
+                {
+                    VertegenwoordigerId = 3,
+                    TestVertegenwoordigers.Samwise.Insz,
+                    TestVertegenwoordigers.Samwise.Voornaam,
+                    TestVertegenwoordigers.Samwise.Email,
+                    PrimairContactpersoon = false,
+                },
+            ]);
+
+    [Fact]
     public void With_The_Doelgroep_Of_The_Dubbele_Vereniging()
     {
         var doelgroep = MarkeerAlsDubbelVanContext.BasisgegevensDubbeleVereniging.Doelgroep;

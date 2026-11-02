@@ -177,7 +177,8 @@ public class Given_Hoofdactiviteiten_En_Werkingsgebieden
             .WithBasisgegevens(TestBasisgegevens.Empty)
             .WithHoofdactiviteiten(dubbeleHoofdactiviteiten ?? [])
             .WithContactgegevens([])
-            .WithLocaties([]);
+            .WithLocaties([])
+            .WithVertegenwoordigers([]);
         var authentiekeVereniging = _fixture
             .Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
             .WithBasisgegevens(TestBasisgegevens.Empty)

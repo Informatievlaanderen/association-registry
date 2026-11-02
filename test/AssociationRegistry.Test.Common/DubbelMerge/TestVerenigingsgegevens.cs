@@ -11,5 +11,6 @@ public record TestVerenigingsgegevens(
     Registratiedata.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten,
     Registratiedata.Werkingsgebied[] Werkingsgebieden,
     Registratiedata.Contactgegeven[] Contactgegevens,
-    Registratiedata.Locatie[] Locaties
+    Registratiedata.Locatie[] Locaties,
+    Registratiedata.Vertegenwoordiger[] Vertegenwoordigers
 );

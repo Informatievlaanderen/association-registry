@@ -40,7 +40,8 @@ public class Given_Contactgegevens
                 OngeldigeTelefoonFellowship,
                 SocialMediaFellowship,
             ])
-            .WithLocaties([]);
+            .WithLocaties([])
+            .WithVertegenwoordigers([]);
 
         var authentiekeVereniging = _fixture
             .Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()

@@ -74,3 +74,16 @@ public static class TestBankrekeningnummers
         Titularissen: ["Bilbo Baggins"]
     );
 }
+
+public static class TestVertegenwoordigersExtensions
+{
+    public static FeitelijkeVerenigingWerdGeregistreerd WithVertegenwoordigers(
+        this FeitelijkeVerenigingWerdGeregistreerd @event,
+        Registratiedata.Vertegenwoordiger[] vertegenwoordigers
+    ) => @event with { Vertegenwoordigers = vertegenwoordigers };
+
+    public static VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd WithVertegenwoordigers(
+        this VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event,
+        Registratiedata.Vertegenwoordiger[] vertegenwoordigers
+    ) => @event with { Vertegenwoordigers = vertegenwoordigers };
+}

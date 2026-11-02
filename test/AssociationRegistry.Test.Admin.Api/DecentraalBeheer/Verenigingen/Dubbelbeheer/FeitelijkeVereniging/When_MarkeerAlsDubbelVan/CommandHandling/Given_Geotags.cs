@@ -37,7 +37,8 @@ public class Given_Geotags
             .WithBasisgegevens(TestBasisgegevens.Empty)
             .WithHoofdactiviteiten([])
             .WithContactgegevens([])
-            .WithLocaties([LokaalFellowship]);
+            .WithLocaties([LokaalFellowship])
+            .WithVertegenwoordigers([]);
 
         var authentiekeVereniging = _fixture
             .Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()

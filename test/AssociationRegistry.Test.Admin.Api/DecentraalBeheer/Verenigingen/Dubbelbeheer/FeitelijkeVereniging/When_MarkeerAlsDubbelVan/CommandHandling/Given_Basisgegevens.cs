@@ -163,7 +163,8 @@ public class Given_Basisgegevens
             .WithBasisgegevens(dubbele)
             .WithHoofdactiviteiten([])
             .WithContactgegevens([])
-            .WithLocaties([]);
+            .WithLocaties([])
+            .WithVertegenwoordigers([]);
         var authentiekeVereniging = _fixture
             .Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
             .WithBasisgegevens(authentieke);

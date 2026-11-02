@@ -35,6 +35,18 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         KorteNaam = TestBasisgegevens.Rivendell.KorteNaam,
     };
 
+    public static readonly Registratiedata.Vertegenwoordiger FrodoBijDeDubbeleVereniging =
+        TestVertegenwoordigers.Frodo with
+        {
+            Email = "frodo@shire.example",
+            Roepnaam = "Mr. Baggins",
+        };
+
+    public static readonly Registratiedata.Vertegenwoordiger AragornAlsPrimair = TestVertegenwoordigers.Aragorn with
+    {
+        IsPrimair = true,
+    };
+
     /// <summary>
     ///     Jeugdwerk en Vlaams-Brabant zijn nieuw voor de authentieke vereniging, Sport had ze al.
     ///     Van de contactgegevens wordt de e-mail niet-primair (de authentieke heeft al een primaire e-mail), blijft de
@@ -43,6 +55,8 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
     ///     Van de locaties wordt Bag End niet-primair (de authentieke heeft al een primaire locatie), wordt The Prancing
     ///     Pony toegevoegd, is Rivendell hetzelfde adres, is het tweede correspondentieadres en de onvolledige locatie
     ///     niet overgenomen.
+    ///     Van de vertegenwoordigers is Frodo dezelfde persoon (zelfde INSZ), wordt Aragorn niet-primair (de authentieke
+    ///     heeft al een primaire vertegenwoordiger) en wordt Samwise toegevoegd.
     /// </summary>
     public static readonly TestVerenigingsgegevens GegevensDubbeleVereniging = new(
         BasisgegevensDubbeleVereniging,
@@ -61,7 +75,8 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
             TestLocaties.PostadresFellowship,
             TestLocaties.OnvolledigeLocatieFellowship,
             TestLocaties.TweedeLokaalFellowship,
-        ]
+        ],
+        [FrodoBijDeDubbeleVereniging, AragornAlsPrimair, TestVertegenwoordigers.Samwise]
     );
 
     public static readonly TestVerenigingsgegevens GegevensAuthentiekeVereniging = new(
@@ -69,7 +84,8 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         [TestHoofdactiviteiten.Sport],
         [],
         [TestContactgegevens.EmailRivendell, TestContactgegevens.TelefoonRivendell],
-        [TestLocaties.LokaalRivendell, TestLocaties.PostadresRivendell]
+        [TestLocaties.LokaalRivendell, TestLocaties.PostadresRivendell],
+        [TestVertegenwoordigers.Frodo]
     );
 
     protected override MultipleWerdGeregistreerdScenario InitializeScenario() =>
