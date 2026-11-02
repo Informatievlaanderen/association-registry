@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.When_Storing_A_DubbeleVerenigingWerdSamengevoegd_Event;
+namespace AssociationRegistry.Test.Common.DubbelMerge;
 
 using AssociationRegistry.DecentraalBeheer.Vereniging.Erkenningen;
 using AssociationRegistry.Events;
@@ -10,7 +10,7 @@ public class DubbelMergeEventBuilder
     private readonly string _vCode;
     private readonly string _vCodeDubbeleVereniging;
 
-    private readonly List<Gegevens.OvergenomenGegeven<Gegevens.Basisgegeven>> _overgenomenBasisgegevens = [];
+    private Gegevens.OvergenomenBasisgegevens _overgenomenBasisgegevens = Gegevens.OvergenomenBasisgegevens.Geen;
     private readonly List<Gegevens.OvergenomenGegeven<Registratiedata.HoofdactiviteitVerenigingsloket>> _overgenomenHoofdactiviteiten =
     [];
     private readonly List<Gegevens.OvergenomenGegeven<Registratiedata.Werkingsgebied>> _overgenomenWerkingsgebieden =
@@ -22,10 +22,11 @@ public class DubbelMergeEventBuilder
     private readonly List<Gegevens.OvergenomenGegeven<Registratiedata.Bankrekeningnummer>> _overgenomenBankrekeningnummers =
     [];
     private readonly List<Gegevens.OvergenomenGegeven<Gegevens.Erkenning>> _overgenomenErkenningen = [];
-    private readonly List<Gegevens.OvergenomenGegeven<Registratiedata.SubverenigingVan>> _overgenomenRelaties = [];
+    private Gegevens.OvergenomenGegeven<Registratiedata.SubverenigingVan>? _overgenomenSubverenigingVan;
     private readonly List<Gegevens.OvergenomenGegeven<Registratiedata.Lidmaatschap>> _overgenomenLidmaatschappen = [];
 
-    private readonly List<Gegevens.NietOvergenomenGegeven<Gegevens.Basisgegeven>> _nietOvergenomenBasisgegevens = [];
+    private Gegevens.NietOvergenomenBasisgegevens _nietOvergenomenBasisgegevens =
+        Gegevens.NietOvergenomenBasisgegevens.Geen;
     private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.HoofdactiviteitVerenigingsloket>> _nietOvergenomenHoofdactiviteiten =
     [];
     private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.Werkingsgebied>> _nietOvergenomenWerkingsgebieden =
@@ -38,8 +39,7 @@ public class DubbelMergeEventBuilder
     private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.Bankrekeningnummer>> _nietOvergenomenBankrekeningnummers =
     [];
     private readonly List<Gegevens.NietOvergenomenGegeven<Gegevens.Erkenning>> _nietOvergenomenErkenningen = [];
-    private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.SubverenigingVan>> _nietOvergenomenRelaties =
-    [];
+    private Gegevens.NietOvergenomenGegeven<Registratiedata.SubverenigingVan>? _nietOvergenomenSubverenigingVan;
     private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.Lidmaatschap>> _nietOvergenomenLidmaatschappen =
     [];
 
@@ -98,20 +98,18 @@ public class DubbelMergeEventBuilder
 
     /// <summary>
     ///     Vult elke groep zonder persoonsgegevens, zowel overgenomen als niet overgenomen, met unieke waarden.
-    ///     Zo valt op wanneer de transformer of upcaster een groep vergeet door te geven.
+    ///     Zo valt op wanneer een groep vergeten of verkeerd gemapt wordt.
     /// </summary>
     public DubbelMergeEventBuilder WithDataInAllOtherGroups()
     {
-        var korteBeschrijving = new Gegevens.Basisgegeven(Gegevens.Velden.KorteBeschrijving, "Een korte beschrijving");
-        var startdatum = new Gegevens.Basisgegeven(Gegevens.Velden.Startdatum, "2020-01-01");
         var hoofdactiviteit = new Registratiedata.HoofdactiviteitVerenigingsloket("SPRT", "Sport");
         var werkingsgebied = new Registratiedata.Werkingsgebied("BE10", "Vlaams Gewest");
 
-        _overgenomenBasisgegevens.Add(
-            new(Gegevens.Acties.Verrijkt, "Korte beschrijving werd ingevuld.", korteBeschrijving, korteBeschrijving)
-        );
-        _overgenomenBasisgegevens.Add(
-            new(Gegevens.Acties.Verrijkt, "Startdatum werd ingevuld.", startdatum, startdatum)
+        _overgenomenBasisgegevens = new Gegevens.OvergenomenBasisgegevens(
+            KorteNaam: Verrijkt("Korte naam werd ingevuld.", "Fellowship"),
+            KorteBeschrijving: Verrijkt("Korte beschrijving werd ingevuld.", "Een korte beschrijving"),
+            Startdatum: Verrijkt("Startdatum werd ingevuld.", new DateOnly(2020, 1, 1)),
+            Doelgroep: Verrijkt("Doelgroep werd ingevuld.", new Registratiedata.Doelgroep(12, 18))
         );
         _overgenomenHoofdactiviteiten.Add(
             new(Gegevens.Acties.Toegevoegd, "Hoofdactiviteit werd toegevoegd.", hoofdactiviteit, hoofdactiviteit)
@@ -137,7 +135,12 @@ public class DubbelMergeEventBuilder
         _overgenomenErkenningen.Add(
             new(Gegevens.Acties.Toegevoegd, "Erkenning werd toegevoegd.", Erkenning, Erkenning with { ErkenningId = 9 })
         );
-        _overgenomenRelaties.Add(new(Gegevens.Acties.Toegevoegd, "Relatie werd toegevoegd.", Relatie, Relatie));
+        _overgenomenSubverenigingVan = new(
+            Gegevens.Acties.Toegevoegd,
+            "Subvereniging van werd toegevoegd.",
+            SubverenigingVan,
+            SubverenigingVan
+        );
         _overgenomenLidmaatschappen.Add(
             new(
                 Gegevens.Acties.Toegevoegd,
@@ -150,21 +153,11 @@ public class DubbelMergeEventBuilder
             )
         );
 
-        _nietOvergenomenBasisgegevens.Add(
-            new(
-                Gegevens.Acties.NietOvergenomen,
-                "Authentieke vereniging had al een korte naam.",
-                "Korte naam werd niet overgenomen.",
-                new Gegevens.Basisgegeven(Gegevens.Velden.KorteNaam, "Voorbeeld")
-            )
-        );
-        _nietOvergenomenBasisgegevens.Add(
-            new(
-                Gegevens.Acties.NietOvergenomen,
-                "Authentieke vereniging had al een doelgroep.",
-                "Doelgroep werd niet overgenomen.",
-                new Gegevens.Basisgegeven(Gegevens.Velden.Doelgroep, "12-18")
-            )
+        _nietOvergenomenBasisgegevens = new Gegevens.NietOvergenomenBasisgegevens(
+            KorteNaam: NietOvergenomen("Authentieke vereniging had al een korte naam.", "Voorbeeld"),
+            KorteBeschrijving: NietOvergenomen("Authentieke vereniging had al een korte beschrijving.", "Andere beschrijving"),
+            Startdatum: NietOvergenomen("Authentieke vereniging had al een startdatum.", new DateOnly(2019, 5, 5)),
+            Doelgroep: NietOvergenomen("Authentieke vereniging had al een doelgroep.", new Registratiedata.Doelgroep(6, 99))
         );
         _nietOvergenomenHoofdactiviteiten.Add(
             new(
@@ -201,17 +194,15 @@ public class DubbelMergeEventBuilder
                 ErkenningWithoutDates
             )
         );
-        _nietOvergenomenRelaties.Add(
-            new(
-                Gegevens.Acties.NietOvergenomen,
-                "Verwees naar de authentieke vereniging.",
-                "Relatie werd niet overgenomen.",
-                Relatie with
-                {
-                    AndereVereniging = _vCode,
-                    AndereVerenigingNaam = "Authentieke vereniging",
-                }
-            )
+        _nietOvergenomenSubverenigingVan = new(
+            Gegevens.Acties.NietOvergenomen,
+            "Verwees naar de authentieke vereniging.",
+            "Subvereniging van werd niet overgenomen.",
+            SubverenigingVan with
+            {
+                AndereVereniging = _vCode,
+                AndereVerenigingNaam = "Authentieke vereniging",
+            }
         );
         _nietOvergenomenLidmaatschappen.Add(
             new(
@@ -233,7 +224,7 @@ public class DubbelMergeEventBuilder
                 Registratiedata.Vertegenwoordiger,
                 Registratiedata.Bankrekeningnummer
             >(
-                [.. _overgenomenBasisgegevens],
+                _overgenomenBasisgegevens,
                 [.. _overgenomenHoofdactiviteiten],
                 [.. _overgenomenWerkingsgebieden],
                 [.. _overgenomenContactgegevens],
@@ -241,14 +232,14 @@ public class DubbelMergeEventBuilder
                 [.. _overgenomenVertegenwoordigers],
                 [.. _overgenomenBankrekeningnummers],
                 [.. _overgenomenErkenningen],
-                [.. _overgenomenRelaties],
+                _overgenomenSubverenigingVan,
                 [.. _overgenomenLidmaatschappen]
             ),
             new Gegevens.NietOvergenomenGegevensPerGroep<
                 Registratiedata.Vertegenwoordiger,
                 Registratiedata.Bankrekeningnummer
             >(
-                [.. _nietOvergenomenBasisgegevens],
+                _nietOvergenomenBasisgegevens,
                 [.. _nietOvergenomenHoofdactiviteiten],
                 [.. _nietOvergenomenWerkingsgebieden],
                 [.. _nietOvergenomenContactgegevens],
@@ -256,10 +247,16 @@ public class DubbelMergeEventBuilder
                 [.. _nietOvergenomenVertegenwoordigers],
                 [.. _nietOvergenomenBankrekeningnummers],
                 [.. _nietOvergenomenErkenningen],
-                [.. _nietOvergenomenRelaties],
+                _nietOvergenomenSubverenigingVan,
                 [.. _nietOvergenomenLidmaatschappen]
             )
         );
+
+    private static Gegevens.OvergenomenGegeven<T> Verrijkt<T>(string description, T value) =>
+        new(Gegevens.Acties.Verrijkt, description, value, value);
+
+    private static Gegevens.NietOvergenomenGegeven<T> NietOvergenomen<T>(string reason, T value) =>
+        new(Gegevens.Acties.NietOvergenomen, reason, "Werd niet overgenomen.", value);
 
     private static readonly Registratiedata.Contactgegeven Website = new(
         ContactgegevenId: 1,
@@ -302,7 +299,9 @@ public class DubbelMergeEventBuilder
         Einddatum: new DateOnly(2028, 12, 31),
         Hernieuwingsdatum: new DateOnly(2028, 6, 30),
         HernieuwingsUrl: "https://example.org/hernieuwing",
-        Status: "Actief"
+        GeregistreerdDoor: new GegevensInitiator { OvoCode = "OVO000101", Naam = "Rivendell" },
+        RedenSchorsing: "Lopend onderzoek",
+        Status: "Geschorst"
     );
 
     private static readonly Gegevens.Erkenning ErkenningWithoutDates = new(
@@ -312,10 +311,12 @@ public class DubbelMergeEventBuilder
         Einddatum: null,
         Hernieuwingsdatum: null,
         HernieuwingsUrl: "",
+        GeregistreerdDoor: new GegevensInitiator { OvoCode = "OVO000102", Naam = "Lothlórien" },
+        RedenSchorsing: "",
         Status: "Ingediend"
     );
 
-    private static readonly Registratiedata.SubverenigingVan Relatie = new(
+    private static readonly Registratiedata.SubverenigingVan SubverenigingVan = new(
         AndereVereniging: "V0006003",
         AndereVerenigingNaam: "Koepelvereniging",
         Identificatie: "KOEPEL-1",
