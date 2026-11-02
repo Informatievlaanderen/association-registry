@@ -177,6 +177,27 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                     }
                 ),
             ],
+            Vertegenwoordigers =
+            [
+                SamenvoegingDubbeleVereniging.ToegevoegdMetAanpassing(
+                    "Vertegenwoordiger met id 2 werd toegevoegd als niet-primair, omdat de authentieke vereniging al een primaire vertegenwoordiger heeft.",
+                    MarkeerAlsDubbelVanContext.AragornAlsPrimair,
+                    TestVertegenwoordigers.Aragorn with
+                    {
+                        VertegenwoordigerId = 2,
+                        IsPrimair = false,
+                    }
+                ),
+                new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.Vertegenwoordiger>(
+                    SamenvoegingDubbeleVereniging.Acties.Toegevoegd,
+                    "Vertegenwoordiger met id 3 werd toegevoegd vanuit de dubbele vereniging.",
+                    TestVertegenwoordigers.Samwise,
+                    TestVertegenwoordigers.Samwise with
+                    {
+                        VertegenwoordigerId = 3,
+                    }
+                ),
+            ],
         };
 
         var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
@@ -233,6 +254,13 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                     "Locatie 'Mordor'",
                     TestLocaties.OnvolledigeLocatieFellowship,
                     AssociationRegistry.DecentraalBeheer.Vereniging.Samenvoeging.LocatiesSamenvoeging.RedenNietValide
+                ),
+            ],
+            Vertegenwoordigers =
+            [
+                SamenvoegingDubbeleVereniging.Gededupliceerd(
+                    "Vertegenwoordiger met id 1",
+                    MarkeerAlsDubbelVanContext.FrodoBijDeDubbeleVereniging
                 ),
             ],
         };

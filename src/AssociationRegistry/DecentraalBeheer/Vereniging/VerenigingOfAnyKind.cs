@@ -466,10 +466,10 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     /// <summary>
     ///     Neemt de gegevens van de dubbele vereniging over die op deze (authentieke) vereniging nog leeg zijn.
-    ///     Voorlopig de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens en locaties, zie
+    ///     Voorlopig de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens, locaties en vertegenwoordigers, zie
     ///     <see cref="BasisgegevensSamenvoeging" />, <see cref="HoofdactiviteitenSamenvoeging" />,
     ///     <see cref="WerkingsgebiedenSamenvoeging" />, <see cref="ContactgegevensSamenvoeging" /> en
-    ///     <see cref="LocatiesSamenvoeging" />.
+    ///     <see cref="LocatiesSamenvoeging" /> en <see cref="VertegenwoordigersSamenvoeging" />.
     ///     Er komt geen event als de dubbele vereniging niets heeft om samen te voegen.
     /// </summary>
     public void VoegDubbeleVerenigingSamen(VerenigingsBase dubbeleVereniging)
@@ -487,6 +487,10 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         );
         var contactgegevens = ContactgegevensSamenvoeging.Merge(State.Contactgegevens, dubbeleState.Contactgegevens);
         var locaties = LocatiesSamenvoeging.Merge(State.Locaties, dubbeleState.Locaties);
+        var vertegenwoordigers = VertegenwoordigersSamenvoeging.Merge(
+            State.Vertegenwoordigers,
+            dubbeleState.Vertegenwoordigers
+        );
 
 #pragma warning disable CS0618
         var overgenomen = SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
@@ -498,6 +502,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             Werkingsgebieden = werkingsgebieden.Overgenomen,
             Contactgegevens = contactgegevens.Overgenomen,
             Locaties = locaties.Overgenomen,
+            Vertegenwoordigers = vertegenwoordigers.Overgenomen,
         };
 
         var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
@@ -509,6 +514,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             Werkingsgebieden = werkingsgebieden.NietOvergenomen,
             Contactgegevens = contactgegevens.NietOvergenomen,
             Locaties = locaties.NietOvergenomen,
+            Vertegenwoordigers = vertegenwoordigers.NietOvergenomen,
         };
 #pragma warning restore CS0618
 

@@ -788,7 +788,7 @@ public record VerenigingState : IHasVersion
         };
 
     /// <summary>
-    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens en locaties samengevoegd; de
+    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens, locaties en vertegenwoordigers samengevoegd; de
     ///     andere groepen zijn nog leeg.
     /// </summary>
 #pragma warning disable CS0618
@@ -812,6 +812,25 @@ public record VerenigingState : IHasVersion
                         )
                     )
                     .ToArray()
+            ),
+            Vertegenwoordigers = Vertegenwoordigers.Hydrate(
+                Vertegenwoordigers.Concat(
+                    @event.OvergenomenGegevens.Vertegenwoordigers.Select(x =>
+                        Vertegenwoordiger.Hydrate(
+                            x.NieuweWaarde.VertegenwoordigerId,
+                            Insz.Hydrate(x.NieuweWaarde.Insz),
+                            x.NieuweWaarde.Rol,
+                            x.NieuweWaarde.Roepnaam,
+                            Voornaam.Hydrate(x.NieuweWaarde.Voornaam),
+                            Achternaam.Hydrate(x.NieuweWaarde.Achternaam),
+                            x.NieuweWaarde.IsPrimair,
+                            Email.Hydrate(x.NieuweWaarde.Email),
+                            TelefoonNummer.Hydrate(x.NieuweWaarde.Telefoon),
+                            TelefoonNummer.Hydrate(x.NieuweWaarde.Mobiel),
+                            SocialMedia.Hydrate(x.NieuweWaarde.SocialMedia)
+                        )
+                    )
+                )
             ),
             Locaties = Locaties.Hydrate(
                 @event.OvergenomenGegevens.Locaties.Aggregate(

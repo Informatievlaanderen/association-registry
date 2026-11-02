@@ -182,7 +182,8 @@ internal static class Given_Locaties_Helper
             .WithBasisgegevens(TestBasisgegevens.Empty)
             .WithHoofdactiviteiten([])
             .WithContactgegevens([])
-            .WithLocaties(dubbele);
+            .WithLocaties(dubbele)
+            .WithVertegenwoordigers([]);
 
         var authentiekeVereniging = fixture
             .Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
