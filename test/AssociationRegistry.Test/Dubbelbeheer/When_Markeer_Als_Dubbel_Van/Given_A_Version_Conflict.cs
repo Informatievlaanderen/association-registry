@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
+using Common.StubsMocksFakes.Faktories;
 using Common.StubsMocksFakes.VerenigingsRepositories;
 using DecentraalBeheer.Vereniging;
 using Events;
@@ -58,7 +59,11 @@ public class Given_A_Version_Conflict
     }
 
     private MarkeerAlsDubbelVanCommandHandler CreateHandler() =>
-        new(_aggregateSession.Object, new VerenigingsStateQueriesMock());
+        new(
+            _aggregateSession.Object,
+            new VerenigingsStateQueriesMock(),
+            GeotagsServiceFactory.ReturnsUnchangedGeotags()
+        );
 
     [Fact]
     public async ValueTask Then_It_Reloads_Both_Verenigingen_And_Saves_Again()

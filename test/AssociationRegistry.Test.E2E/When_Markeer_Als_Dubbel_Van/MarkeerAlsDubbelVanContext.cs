@@ -40,6 +40,9 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
     ///     Van de contactgegevens wordt de e-mail niet-primair (de authentieke heeft al een primaire e-mail), blijft de
     ///     website primair, wordt de social media link toegevoegd, is het telefoonnummer hetzelfde en is het ongeldige
     ///     telefoonnummer niet overgenomen.
+    ///     Van de locaties wordt Bag End niet-primair (de authentieke heeft al een primaire locatie), wordt The Prancing
+    ///     Pony toegevoegd, is Rivendell hetzelfde adres, is het tweede correspondentieadres en de onvolledige locatie
+    ///     niet overgenomen.
     /// </summary>
     public static readonly TestVerenigingsgegevens GegevensDubbeleVereniging = new(
         BasisgegevensDubbeleVereniging,
@@ -51,6 +54,13 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
             TestContactgegevens.TelefoonFellowship,
             TestContactgegevens.OngeldigeTelefoonFellowship,
             TestContactgegevens.SocialMediaFellowship,
+        ],
+        [
+            TestLocaties.LokaalFellowship,
+            TestLocaties.RivendellBijFellowship,
+            TestLocaties.PostadresFellowship,
+            TestLocaties.OnvolledigeLocatieFellowship,
+            TestLocaties.TweedeLokaalFellowship,
         ]
     );
 
@@ -58,7 +68,8 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         BasisgegevensAuthentiekeVereniging,
         [TestHoofdactiviteiten.Sport],
         [],
-        [TestContactgegevens.EmailRivendell, TestContactgegevens.TelefoonRivendell]
+        [TestContactgegevens.EmailRivendell, TestContactgegevens.TelefoonRivendell],
+        [TestLocaties.LokaalRivendell, TestLocaties.PostadresRivendell]
     );
 
     protected override MultipleWerdGeregistreerdScenario InitializeScenario() =>

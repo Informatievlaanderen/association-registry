@@ -788,7 +788,7 @@ public record VerenigingState : IHasVersion
         };
 
     /// <summary>
-    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden en contactgegevens samengevoegd; de
+    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens en locaties samengevoegd; de
     ///     andere groepen zijn nog leeg.
     /// </summary>
 #pragma warning disable CS0618
@@ -812,6 +812,12 @@ public record VerenigingState : IHasVersion
                         )
                     )
                     .ToArray()
+            ),
+            Locaties = Locaties.Hydrate(
+                @event.OvergenomenGegevens.Locaties.Aggregate(
+                    (IEnumerable<Locatie>)Locaties,
+                    (locaties, x) => locaties.AppendFromEventData(x.NieuweWaarde)
+                )
             ),
             Contactgegevens = Contactgegevens.Hydrate(
                 Contactgegevens.Concat(

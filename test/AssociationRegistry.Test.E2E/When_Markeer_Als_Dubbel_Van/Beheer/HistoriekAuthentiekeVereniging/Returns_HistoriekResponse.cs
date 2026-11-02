@@ -156,6 +156,27 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                     }
                 ),
             ],
+            Locaties =
+            [
+                SamenvoegingDubbeleVereniging.ToegevoegdMetAanpassing(
+                    "Locatie 'Bag End' werd toegevoegd als niet-primair, omdat de authentieke vereniging al een primaire locatie heeft.",
+                    TestLocaties.LokaalFellowship,
+                    TestLocaties.LokaalFellowship with
+                    {
+                        LocatieId = 3,
+                        IsPrimair = false,
+                    }
+                ),
+                new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.Locatie>(
+                    SamenvoegingDubbeleVereniging.Acties.Toegevoegd,
+                    "Locatie 'The Prancing Pony' werd toegevoegd vanuit de dubbele vereniging.",
+                    TestLocaties.TweedeLokaalFellowship,
+                    TestLocaties.TweedeLokaalFellowship with
+                    {
+                        LocatieId = 4,
+                    }
+                ),
+            ],
         };
 
         var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
@@ -190,6 +211,28 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                         .Samenvoeging
                         .ContactgegevensSamenvoeging
                         .RedenNietValide
+                ),
+            ],
+            Locaties =
+            [
+                SamenvoegingDubbeleVereniging.Gededupliceerd(
+                    "Locatie 'Rivendell'",
+                    TestLocaties.RivendellBijFellowship
+                ),
+                SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    "Locatie 'Postadres'",
+                    TestLocaties.PostadresFellowship,
+                    AssociationRegistry
+                        .DecentraalBeheer
+                        .Vereniging
+                        .Samenvoeging
+                        .LocatiesSamenvoeging
+                        .RedenCorrespondentie
+                ),
+                SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    "Locatie 'Mordor'",
+                    TestLocaties.OnvolledigeLocatieFellowship,
+                    AssociationRegistry.DecentraalBeheer.Vereniging.Samenvoeging.LocatiesSamenvoeging.RedenNietValide
                 ),
             ],
         };

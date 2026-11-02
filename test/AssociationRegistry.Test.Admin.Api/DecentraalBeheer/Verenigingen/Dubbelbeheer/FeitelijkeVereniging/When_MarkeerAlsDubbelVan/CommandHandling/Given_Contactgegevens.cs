@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.DubbelMerge;
+using AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using FluentAssertions;
@@ -38,7 +39,8 @@ public class Given_Contactgegevens
                 TelefoonFellowship,
                 OngeldigeTelefoonFellowship,
                 SocialMediaFellowship,
-            ]);
+            ])
+            .WithLocaties([]);
 
         var authentiekeVereniging = _fixture
             .Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
@@ -56,9 +58,11 @@ public class Given_Contactgegevens
 
     private async Task<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> Handle()
     {
-        await new MarkeerAlsDubbelVanCommandHandler(_session, new VerenigingsStateQueriesMock()).Handle(
-            new CommandEnvelope<MarkeerAlsDubbelVanCommand>(_command, _fixture.Create<CommandMetadata>())
-        );
+        await new MarkeerAlsDubbelVanCommandHandler(
+            _session,
+            new VerenigingsStateQueriesMock(),
+            GeotagsServiceFactory.ReturnsUnchangedGeotags()
+        ).Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(_command, _fixture.Create<CommandMetadata>()));
 
         return _session
             .SavedInvocations[_command.VCodeAuthentiekeVereniging]

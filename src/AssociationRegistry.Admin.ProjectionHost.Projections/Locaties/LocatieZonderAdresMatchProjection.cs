@@ -55,6 +55,28 @@ public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZ
                 };
             }
         );
+#pragma warning disable CS0618
+        // Overgenomen locaties worden net als toegevoegde locaties nog gematcht met het adressenregister.
+        ProjectEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging>(
+            (doc, @event) =>
+                doc with
+                {
+                    LocatieIds = doc
+                        .LocatieIds.Concat(
+                            @event
+                                .OvergenomenGegevens.Locaties.Select(x => x.NieuweWaarde)
+                                .Where(x =>
+                                    x.Locatietype != Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde
+                                    && x.Adres is not null
+                                )
+                                .Select(x => x.LocatieId)
+                        )
+                        .Distinct()
+                        .ToArray(),
+                }
+        );
+#pragma warning restore CS0618
+
         ProjectEvent<LocatieWerdGewijzigd>(
             (doc, @event) =>
             {

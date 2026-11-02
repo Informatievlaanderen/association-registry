@@ -3,17 +3,19 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Dubbe
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
+using AssociationRegistry.Events.Factories;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.DubbelMerge;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using Xunit;
 
 /// <summary>
 ///     Een vereniging die eerder als authentiek fungeerde (A is dubbel van B) mag alsnog dubbel worden (B is dubbel van C).
-///     De dubbele vereniging heeft geen basisgegevens, hoofdactiviteiten of contactgegevens, dus er valt niets samen te voegen.
+///     De dubbele vereniging heeft geen basisgegevens, hoofdactiviteiten, contactgegevens of locaties, dus er valt niets samen te voegen.
 ///     De samenvoeging zelf wordt getest in <see cref="Given_Basisgegevens" />.
 /// </summary>
 public class Given_An_Authentieke_Vereniging
@@ -42,7 +44,7 @@ public class Given_An_Authentieke_Vereniging
             .Apply(new DoelgroepWerdGewijzigd(TestBasisgegevens.Empty.Doelgroep))
             .Apply(new HoofdactiviteitenVerenigingsloketWerdenGewijzigd([]));
 
-        var dubbeleVerenigingZonderGegevens = dubbeleVereniging.Contactgegevens.Aggregate(
+        var zonderContactgegevens = dubbeleVereniging.Contactgegevens.Aggregate(
             dubbeleVereniging,
             (state, contactgegeven) =>
                 state.Apply(
@@ -56,12 +58,18 @@ public class Given_An_Authentieke_Vereniging
                 )
         );
 
+        var dubbeleVerenigingZonderGegevens = zonderContactgegevens.Locaties.Aggregate(
+            zonderContactgegevens,
+            (state, locatie) => state.Apply(new LocatieWerdVerwijderd(_scenario.VCode, EventFactory.Locatie(locatie)))
+        );
+
         _aggregateSessionMock = new MultipleVerenigingAggregateSessionMock(dubbeleVerenigingZonderGegevens);
         _aggregateSessionMock.WithVereniging(new VerenigingState().Apply(nieuweAuthentiekeVereniging));
 
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
             _aggregateSessionMock,
-            new VerenigingsStateQueriesMock()
+            new VerenigingsStateQueriesMock(),
+            GeotagsServiceFactory.ReturnsUnchangedGeotags()
         );
 
         _command = _fixture.Create<MarkeerAlsDubbelVanCommand>() with

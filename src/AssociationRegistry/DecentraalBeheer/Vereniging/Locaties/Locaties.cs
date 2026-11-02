@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Adressen;
-using Framework;
-using Exceptions;
 using System.Collections.ObjectModel;
+using Adressen;
+using Exceptions;
+using Framework;
 
 public class Locaties : ReadOnlyCollection<Locatie>
 {
@@ -11,11 +11,10 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     private const int InitialId = 1;
     public int NextId { get; }
-    public Locatie? MaatschappelijkeZetel => this.SingleOrDefault(l => l.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+    public Locatie? MaatschappelijkeZetel =>
+        this.SingleOrDefault(l => l.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
-    public static Locaties Empty
-        => new(Array.Empty<Locatie>(), InitialId);
-
+    public static Locaties Empty => new(Array.Empty<Locatie>(), InitialId);
 
     private Locaties(IEnumerable<Locatie> locaties, int nextId)
         : base(locaties.ToArray())
@@ -55,14 +54,26 @@ public class Locaties : ReadOnlyCollection<Locatie>
     {
         ThrowIfCannotAppendOrUpdate(toeTeVoegenLocatie);
 
-        return toeTeVoegenLocatie with { LocatieId = NextId };
+        return toeTeVoegenLocatie with
+        {
+            LocatieId = NextId,
+        };
     }
 
-    public Locatie? Wijzig(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
+    public Locatie? Wijzig(
+        int locatieId,
+        string? naam,
+        Locatietype? locatietype,
+        bool? isPrimair,
+        AdresId? adresId,
+        Adres? adres
+    )
     {
         var locatie = Get(locatieId);
 
-        Throw<MaatschappelijkeZetelKanNietGewijzigdWorden>.If(locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelKanNietGewijzigdWorden>.If(
+            locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo
+        );
 
         var gewijzigdeLocatie = locatie.Wijzig(naam, locatietype, isPrimair, adresId, adres);
 
@@ -88,8 +99,14 @@ public class Locaties : ReadOnlyCollection<Locatie>
         return gewijzigdeLocatie;
     }
 
-    public Locatie? WijzigVanuitKbo(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
-        => throw new NotImplementedException();
+    public Locatie? WijzigVanuitKbo(
+        int locatieId,
+        string? naam,
+        Locatietype? locatietype,
+        bool? isPrimair,
+        AdresId? adresId,
+        Adres? adres
+    ) => throw new NotImplementedException();
 
     public Locatie Get(int locatieId)
     {
@@ -105,8 +122,9 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
         var teVerwijderenLocatie = this[locatieId];
 
-        Throw<MaatschappelijkeZetelKanNietVerwijderdWorden>.If(teVerwijderenLocatie.Locatietype ==
-                                                               Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelKanNietVerwijderdWorden>.If(
+            teVerwijderenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo
+        );
 
         return teVerwijderenLocatie;
     }
@@ -116,16 +134,17 @@ public class Locaties : ReadOnlyCollection<Locatie>
         Throw<LaatsteLocatieKanNietVerwijderdWorden>.If(Count == 1);
     }
 
-    public new Locatie this[int locatieId]
-        => this.Single(l => l.LocatieId == locatieId);
+    public new Locatie this[int locatieId] => this.Single(l => l.LocatieId == locatieId);
 
     private void MustContain(int locatieId)
     {
         Throw<LocatieIsNietGekend>.If(!HasKey(locatieId), locatieId.ToString());
     }
 
-    public bool HasKey(int locatieId)
-        => this.Any(locatie => locatie.LocatieId == locatieId);
+    /// <summary>Zelfde naam, type en adres (genormaliseerd) of adresId als een bestaande locatie.</summary>
+    public bool HasDuplicateOf(Locatie locatie) => _locatieComparer.HasDuplicates(this, locatie);
+
+    public bool HasKey(int locatieId) => this.Any(locatie => locatie.LocatieId == locatieId);
 
     public void ThrowIfCannotAppendOrUpdate(Locatie locatie)
     {
@@ -134,15 +153,15 @@ public class Locaties : ReadOnlyCollection<Locatie>
         MustNotHaveMultipleCorrespondentieLocaties(locatie);
     }
 
-    private void MustNotHaveMultipleCorrespondentieLocaties(Locatie locatie)
-        => Throw<MeerdereCorrespondentieLocatiesZijnNietToegestaan>.If(
-            locatie.Locatietype == Locatietype.Correspondentie &&
-            this.Without(locatie).HasCorrespondentieLocatie());
+    private void MustNotHaveMultipleCorrespondentieLocaties(Locatie locatie) =>
+        Throw<MeerdereCorrespondentieLocatiesZijnNietToegestaan>.If(
+            locatie.Locatietype == Locatietype.Correspondentie && this.Without(locatie).HasCorrespondentieLocatie()
+        );
 
-    private void MustNotHaveMultiplePrimaireLocaties(Locatie locatie)
-        => Throw<MeerderePrimaireLocatiesZijnNietToegestaan>.If(
-            locatie.IsPrimair &&
-            this.Without(locatie).HasPrimaireLocatie());
+    private void MustNotHaveMultiplePrimaireLocaties(Locatie locatie) =>
+        Throw<MeerderePrimaireLocatiesZijnNietToegestaan>.If(
+            locatie.IsPrimair && this.Without(locatie).HasPrimaireLocatie()
+        );
 
     private void MustNotHaveDuplicateOf(Locatie locatie)
     {

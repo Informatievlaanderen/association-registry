@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -33,7 +34,8 @@ public class Given_IsDubbelVan_Vereniging_Bestaat_Niet
 
         var sut = new MarkeerAlsDubbelVanCommandHandler(
             aggregateSession: aggregateSession.Object,
-            queryService: verenigingsStateQueriesMock.Object
+            queryService: verenigingsStateQueriesMock.Object,
+            geotagsService: GeotagsServiceFactory.ReturnsUnchangedGeotags()
         );
 
         var exception = await Assert.ThrowsAsync<VerenigingKanGeenDubbelWordenVanEenNietBestaandeVereniging>(async () =>

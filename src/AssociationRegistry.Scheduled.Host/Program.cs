@@ -7,6 +7,7 @@ using CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Geotags;
 using DubbelBeheer;
 using Erkenningen.Activeer;
 using Erkenningen.Verloop;
@@ -202,6 +203,7 @@ public class Program
             .AddScoped<IEventStore, EventStore>()
             .AddScoped<IAggregateSession, AggregateSession>()
             .AddScoped<IVerenigingStateQueryService, VerenigingStateQueryService>()
+            .AddScoped<IGeotagsService, GeotagsService>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensRepository, VertegenwoordigerPersoonsgegevensRepository>()
             .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
             .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()

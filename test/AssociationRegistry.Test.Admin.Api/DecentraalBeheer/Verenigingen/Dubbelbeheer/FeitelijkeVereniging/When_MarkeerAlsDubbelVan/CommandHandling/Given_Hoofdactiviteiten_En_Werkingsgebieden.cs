@@ -8,6 +8,7 @@ using AssociationRegistry.Events.Factories;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.DubbelMerge;
+using AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using Xunit;
@@ -175,7 +176,8 @@ public class Given_Hoofdactiviteiten_En_Werkingsgebieden
             .Create<FeitelijkeVerenigingWerdGeregistreerd>()
             .WithBasisgegevens(TestBasisgegevens.Empty)
             .WithHoofdactiviteiten(dubbeleHoofdactiviteiten ?? [])
-            .WithContactgegevens([]);
+            .WithContactgegevens([])
+            .WithLocaties([]);
         var authentiekeVereniging = _fixture
             .Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
             .WithBasisgegevens(TestBasisgegevens.Empty)
@@ -193,9 +195,11 @@ public class Given_Hoofdactiviteiten_En_Werkingsgebieden
             VCode.Create(authentiekeVereniging.VCode)
         );
 
-        await new MarkeerAlsDubbelVanCommandHandler(session, new VerenigingsStateQueriesMock()).Handle(
-            new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())
-        );
+        await new MarkeerAlsDubbelVanCommandHandler(
+            session,
+            new VerenigingsStateQueriesMock(),
+            GeotagsServiceFactory.ReturnsUnchangedGeotags()
+        ).Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
 
         return (session, command.VCode, command.VCodeAuthentiekeVereniging);
     }
