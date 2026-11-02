@@ -466,8 +466,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     /// <summary>
     ///     Neemt de gegevens van de dubbele vereniging over die op deze (authentieke) vereniging nog leeg zijn.
-    ///     Voorlopig de basisgegevens, hoofdactiviteiten en werkingsgebieden, zie <see cref="BasisgegevensSamenvoeging" />,
-    ///     <see cref="HoofdactiviteitenSamenvoeging" /> en <see cref="WerkingsgebiedenSamenvoeging" />.
+    ///     Voorlopig de basisgegevens, hoofdactiviteiten, werkingsgebieden en contactgegevens, zie
+    ///     <see cref="BasisgegevensSamenvoeging" />, <see cref="HoofdactiviteitenSamenvoeging" />,
+    ///     <see cref="WerkingsgebiedenSamenvoeging" /> en <see cref="ContactgegevensSamenvoeging" />.
     ///     Er komt geen event als de dubbele vereniging niets heeft om samen te voegen.
     /// </summary>
     public void VoegDubbeleVerenigingSamen(VerenigingsBase dubbeleVereniging)
@@ -483,6 +484,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             State.Werkingsgebieden,
             dubbeleState.Werkingsgebieden
         );
+        var contactgegevens = ContactgegevensSamenvoeging.Merge(State.Contactgegevens, dubbeleState.Contactgegevens);
 
 #pragma warning disable CS0618
         var overgenomen = SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
@@ -492,6 +494,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         {
             Hoofdactiviteiten = hoofdactiviteiten.Overgenomen,
             Werkingsgebieden = werkingsgebieden.Overgenomen,
+            Contactgegevens = contactgegevens.Overgenomen,
         };
 
         var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
@@ -501,6 +504,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         {
             Hoofdactiviteiten = hoofdactiviteiten.NietOvergenomen,
             Werkingsgebieden = werkingsgebieden.NietOvergenomen,
+            Contactgegevens = contactgegevens.NietOvergenomen,
         };
 #pragma warning restore CS0618
 

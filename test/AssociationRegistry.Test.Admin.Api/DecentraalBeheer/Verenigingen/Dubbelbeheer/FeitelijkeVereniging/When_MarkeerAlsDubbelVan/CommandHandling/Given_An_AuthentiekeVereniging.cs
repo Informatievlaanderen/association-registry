@@ -13,7 +13,7 @@ using Xunit;
 
 /// <summary>
 ///     Een vereniging die eerder als authentiek fungeerde (A is dubbel van B) mag alsnog dubbel worden (B is dubbel van C).
-///     De dubbele vereniging heeft geen basisgegevens en geen hoofdactiviteiten, dus er valt niets samen te voegen.
+///     De dubbele vereniging heeft geen basisgegevens, hoofdactiviteiten of contactgegevens, dus er valt niets samen te voegen.
 ///     De samenvoeging zelf wordt getest in <see cref="Given_Basisgegevens" />.
 /// </summary>
 public class Given_An_Authentieke_Vereniging
@@ -34,7 +34,7 @@ public class Given_An_Authentieke_Vereniging
         var nieuweAuthentiekeVereniging =
             _fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
-        var dubbeleVerenigingZonderBasisgegevens = _scenario
+        var dubbeleVereniging = _scenario
             .GetVerenigingState()
             .Apply(new KorteNaamWerdGewijzigd(_scenario.VCode, KorteNaam: ""))
             .Apply(new KorteBeschrijvingWerdGewijzigd(_scenario.VCode, KorteBeschrijving: ""))
@@ -42,7 +42,21 @@ public class Given_An_Authentieke_Vereniging
             .Apply(new DoelgroepWerdGewijzigd(TestBasisgegevens.Empty.Doelgroep))
             .Apply(new HoofdactiviteitenVerenigingsloketWerdenGewijzigd([]));
 
-        _aggregateSessionMock = new MultipleVerenigingAggregateSessionMock(dubbeleVerenigingZonderBasisgegevens);
+        var dubbeleVerenigingZonderGegevens = dubbeleVereniging.Contactgegevens.Aggregate(
+            dubbeleVereniging,
+            (state, contactgegeven) =>
+                state.Apply(
+                    new ContactgegevenWerdVerwijderd(
+                        contactgegeven.ContactgegevenId,
+                        contactgegeven.Contactgegeventype,
+                        contactgegeven.Waarde,
+                        contactgegeven.Beschrijving,
+                        contactgegeven.IsPrimair
+                    )
+                )
+        );
+
+        _aggregateSessionMock = new MultipleVerenigingAggregateSessionMock(dubbeleVerenigingZonderGegevens);
         _aggregateSessionMock.WithVereniging(new VerenigingState().Apply(nieuweAuthentiekeVereniging));
 
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(

@@ -70,7 +70,10 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
     ) =>
         gegevens is null
             ? @event
-            : @event.WithBasisgegevens(gegevens.Basisgegevens).WithHoofdactiviteiten(gegevens.Hoofdactiviteiten);
+            : @event
+                .WithBasisgegevens(gegevens.Basisgegevens)
+                .WithHoofdactiviteiten(gegevens.Hoofdactiviteiten)
+                .WithContactgegevens(gegevens.Contactgegevens);
 
     private static IEvent[] EventsFor(
         FeitelijkeVerenigingWerdGeregistreerd @event,

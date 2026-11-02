@@ -126,6 +126,36 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                     TestWerkingsgebieden.VlaamsBrabant
                 ),
             ],
+            Contactgegevens =
+            [
+                SamenvoegingDubbeleVereniging.ToegevoegdMetAanpassing(
+                    "E-mail 'info@fellowship.example' werd toegevoegd als niet-primair, omdat de authentieke vereniging al een primair contactgegeven van dit type heeft.",
+                    TestContactgegevens.EmailFellowship,
+                    TestContactgegevens.EmailFellowship with
+                    {
+                        ContactgegevenId = 3,
+                        IsPrimair = false,
+                    }
+                ),
+                new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.Contactgegeven>(
+                    SamenvoegingDubbeleVereniging.Acties.Toegevoegd,
+                    "Website 'https://fellowship.example' werd toegevoegd vanuit de dubbele vereniging.",
+                    TestContactgegevens.WebsiteFellowship,
+                    TestContactgegevens.WebsiteFellowship with
+                    {
+                        ContactgegevenId = 4,
+                    }
+                ),
+                new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.Contactgegeven>(
+                    SamenvoegingDubbeleVereniging.Acties.Toegevoegd,
+                    "SocialMedia 'https://social.example/fellowship' werd toegevoegd vanuit de dubbele vereniging.",
+                    TestContactgegevens.SocialMediaFellowship,
+                    TestContactgegevens.SocialMediaFellowship with
+                    {
+                        ContactgegevenId = 5,
+                    }
+                ),
+            ],
         };
 
         var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
@@ -144,6 +174,23 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
             Hoofdactiviteiten =
             [
                 SamenvoegingDubbeleVereniging.Gededupliceerd("Hoofdactiviteit 'Sport'", TestHoofdactiviteiten.Sport),
+            ],
+            Contactgegevens =
+            [
+                SamenvoegingDubbeleVereniging.Gededupliceerd(
+                    "Telefoon '+32 11 22 33 44'",
+                    TestContactgegevens.TelefoonFellowship
+                ),
+                SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    "Telefoon 'geen nummer'",
+                    TestContactgegevens.OngeldigeTelefoonFellowship,
+                    AssociationRegistry
+                        .DecentraalBeheer
+                        .Vereniging
+                        .Samenvoeging
+                        .ContactgegevensSamenvoeging
+                        .RedenNietValide
+                ),
             ],
         };
 

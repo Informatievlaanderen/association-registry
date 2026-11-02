@@ -9,5 +9,6 @@ using AssociationRegistry.Events;
 public record TestVerenigingsgegevens(
     TestBasisgegevens Basisgegevens,
     Registratiedata.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten,
-    Registratiedata.Werkingsgebied[] Werkingsgebieden
+    Registratiedata.Werkingsgebied[] Werkingsgebieden,
+    Registratiedata.Contactgegeven[] Contactgegevens
 );
