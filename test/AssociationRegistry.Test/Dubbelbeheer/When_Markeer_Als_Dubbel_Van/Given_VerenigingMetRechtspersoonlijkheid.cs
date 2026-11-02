@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
@@ -34,7 +35,11 @@ public class Given_VerenigingMetRechtspersoonlijkheid
             fixture.Create<CommandMetadata>()
         );
 
-        var sut = new MarkeerAlsDubbelVanCommandHandler(aggregateSession, verenigingsStateQueriesMock);
+        var sut = new MarkeerAlsDubbelVanCommandHandler(
+            aggregateSession,
+            verenigingsStateQueriesMock,
+            GeotagsServiceFactory.ReturnsUnchangedGeotags()
+        );
 
         var exception = await Assert.ThrowsAsync<ActieIsNietToegestaanVoorVerenigingstype>(async () =>
             await sut.Handle(commandEnvelope, CancellationToken.None)

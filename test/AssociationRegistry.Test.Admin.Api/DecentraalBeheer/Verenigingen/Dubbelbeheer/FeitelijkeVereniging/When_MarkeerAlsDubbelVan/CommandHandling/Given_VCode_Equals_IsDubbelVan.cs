@@ -7,6 +7,7 @@ using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -28,7 +29,11 @@ public class Given_VCode_Equals_IsDubbelVan
         _aggregateSessionMock = new AggregateSessionMock(_scenario.GetVerenigingState());
 
         var verenigingsStateQueriesMock = new VerenigingsStateQueriesMock();
-        _commandHandler = new MarkeerAlsDubbelVanCommandHandler(_aggregateSessionMock, verenigingsStateQueriesMock);
+        _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
+            _aggregateSessionMock,
+            verenigingsStateQueriesMock,
+            GeotagsServiceFactory.ReturnsUnchangedGeotags()
+        );
     }
 
     [Fact]

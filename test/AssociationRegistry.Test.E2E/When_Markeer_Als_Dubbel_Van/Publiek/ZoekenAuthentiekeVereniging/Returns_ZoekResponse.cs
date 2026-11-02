@@ -58,6 +58,43 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
             .BeEquivalentTo([TestWerkingsgebieden.VlaamsBrabant.Code]);
 
     [Fact]
+    public void With_The_Own_And_The_Overgenomen_Locaties() =>
+        AuthentiekeVereniging
+            .Locaties.Select(x => new
+            {
+                x.Naam,
+                x.Locatietype,
+                x.IsPrimair,
+            })
+            .Should()
+            .BeEquivalentTo([
+                new
+                {
+                    TestLocaties.LokaalRivendell.Naam,
+                    TestLocaties.LokaalRivendell.Locatietype,
+                    IsPrimair = true,
+                },
+                new
+                {
+                    TestLocaties.PostadresRivendell.Naam,
+                    TestLocaties.PostadresRivendell.Locatietype,
+                    IsPrimair = false,
+                },
+                new
+                {
+                    TestLocaties.LokaalFellowship.Naam,
+                    TestLocaties.LokaalFellowship.Locatietype,
+                    IsPrimair = false,
+                },
+                new
+                {
+                    TestLocaties.TweedeLokaalFellowship.Naam,
+                    TestLocaties.TweedeLokaalFellowship.Locatietype,
+                    IsPrimair = false,
+                },
+            ]);
+
+    [Fact]
     public void With_The_Doelgroep_Of_The_Dubbele_Vereniging()
     {
         var doelgroep = MarkeerAlsDubbelVanContext.BasisgegevensDubbeleVereniging.Doelgroep;

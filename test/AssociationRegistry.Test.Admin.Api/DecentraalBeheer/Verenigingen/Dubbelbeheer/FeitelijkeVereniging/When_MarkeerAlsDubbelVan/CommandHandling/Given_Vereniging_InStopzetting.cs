@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Dubbe
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
@@ -31,7 +32,8 @@ public class Given_Vereniging_InStopzetting
 
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
             _aggregateSessionMock,
-            new VerenigingsStateQueriesMock()
+            new VerenigingsStateQueriesMock(),
+            GeotagsServiceFactory.ReturnsUnchangedGeotags()
         );
     }
 

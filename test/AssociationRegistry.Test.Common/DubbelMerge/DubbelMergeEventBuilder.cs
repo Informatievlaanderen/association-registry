@@ -25,8 +25,9 @@ public class DubbelMergeEventBuilder
     private Gegevens.OvergenomenGegeven<Registratiedata.SubverenigingVan>? _overgenomenSubverenigingVan;
     private readonly List<Gegevens.OvergenomenGegeven<Registratiedata.Lidmaatschap>> _overgenomenLidmaatschappen = [];
 
-    private Gegevens.NietOvergenomenBasisgegevens _nietOvergenomenBasisgegevens =
-        Gegevens.NietOvergenomenBasisgegevens.Geen;
+    private Gegevens.NietOvergenomenBasisgegevens _nietOvergenomenBasisgegevens = Gegevens
+        .NietOvergenomenBasisgegevens
+        .Geen;
     private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.HoofdactiviteitVerenigingsloket>> _nietOvergenomenHoofdactiviteiten =
     [];
     private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.Werkingsgebied>> _nietOvergenomenWerkingsgebieden =
@@ -124,8 +125,8 @@ public class DubbelMergeEventBuilder
             new(
                 Gegevens.Acties.ToegevoegdMetAanpassing,
                 "Primaire locatie werd toegevoegd als niet-primair.",
-                MaatschappelijkeZetel,
-                MaatschappelijkeZetel with
+                Clubhuis,
+                Clubhuis with
                 {
                     LocatieId = 7,
                     IsPrimair = false,
@@ -155,9 +156,15 @@ public class DubbelMergeEventBuilder
 
         _nietOvergenomenBasisgegevens = new Gegevens.NietOvergenomenBasisgegevens(
             KorteNaam: NietOvergenomen("Authentieke vereniging had al een korte naam.", "Voorbeeld"),
-            KorteBeschrijving: NietOvergenomen("Authentieke vereniging had al een korte beschrijving.", "Andere beschrijving"),
+            KorteBeschrijving: NietOvergenomen(
+                "Authentieke vereniging had al een korte beschrijving.",
+                "Andere beschrijving"
+            ),
             Startdatum: NietOvergenomen("Authentieke vereniging had al een startdatum.", new DateOnly(2019, 5, 5)),
-            Doelgroep: NietOvergenomen("Authentieke vereniging had al een doelgroep.", new Registratiedata.Doelgroep(6, 99))
+            Doelgroep: NietOvergenomen(
+                "Authentieke vereniging had al een doelgroep.",
+                new Registratiedata.Doelgroep(6, 99)
+            )
         );
         _nietOvergenomenHoofdactiviteiten.Add(
             new(
@@ -274,11 +281,11 @@ public class DubbelMergeEventBuilder
         IsPrimair: false
     );
 
-    private static readonly Registratiedata.Locatie MaatschappelijkeZetel = new(
+    private static readonly Registratiedata.Locatie Clubhuis = new(
         LocatieId: 1,
-        Locatietype: "Maatschappelijke zetel volgens KBO",
+        Locatietype: "Activiteiten",
         IsPrimair: true,
-        Naam: "Zetel",
+        Naam: "Clubhuis",
         Adres: new Registratiedata.Adres("Kerkstraat", "1", "A", "9000", "Gent", "België"),
         AdresId: new Registratiedata.AdresId("AR", "https://data.vlaanderen.be/id/adres/1")
     );

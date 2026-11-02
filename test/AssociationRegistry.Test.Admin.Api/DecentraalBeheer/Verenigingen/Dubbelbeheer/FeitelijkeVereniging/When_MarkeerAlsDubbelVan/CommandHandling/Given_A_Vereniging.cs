@@ -8,6 +8,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.DubbelMerge;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using AssociationRegistry.Test.Common.StubsMocksFakes.Faktories;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
 using Common.StubsMocksFakes.VerenigingsRepositories;
@@ -16,10 +17,11 @@ using Xunit;
 using static AssociationRegistry.Events.SamenvoegingDubbeleVereniging;
 
 /// <summary>
-///     De dubbele vereniging heeft basisgegevens en geen hoofdactiviteiten of contactgegevens, de authentieke vereniging heeft geen
+///     De dubbele vereniging heeft basisgegevens en geen hoofdactiviteiten, contactgegevens of locaties, de authentieke vereniging heeft geen
 ///     basisgegevens: alle basisgegevens worden overgenomen.
 ///     De andere regels van de samenvoeging worden getest in <see cref="Given_Basisgegevens" /> en
-///     <see cref="Given_Hoofdactiviteiten_En_Werkingsgebieden" /> en <see cref="Given_Contactgegevens" />.
+///     <see cref="Given_Hoofdactiviteiten_En_Werkingsgebieden" /> , <see cref="Given_Contactgegevens" /> en
+///     <see cref="Given_Locaties" />.
 /// </summary>
 #pragma warning disable CS0618
 public class Given_A_Vereniging
@@ -45,13 +47,15 @@ public class Given_A_Vereniging
                     .FeitelijkeVerenigingWerdGeregistreerd.WithBasisgegevens(TestBasisgegevens.Fellowship)
                     .WithHoofdactiviteiten([])
                     .WithContactgegevens([])
+                    .WithLocaties([])
             )
         );
         _aggregateSessionMock.WithVereniging(new VerenigingState().Apply(authentiekeVereniging));
 
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
             _aggregateSessionMock,
-            new VerenigingsStateQueriesMock()
+            new VerenigingsStateQueriesMock(),
+            GeotagsServiceFactory.ReturnsUnchangedGeotags()
         );
 
         _command = _fixture.Create<MarkeerAlsDubbelVanCommand>() with

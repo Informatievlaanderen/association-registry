@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
 using Framework;
 using MartenDb.Store;
 
@@ -16,14 +17,17 @@ public class MarkeerAlsDubbelVanCommandHandler
 {
     private readonly IAggregateSession _aggregateSession;
     private readonly IVerenigingStateQueryService _queryService;
+    private readonly IGeotagsService _geotagsService;
 
     public MarkeerAlsDubbelVanCommandHandler(
         IAggregateSession aggregateSession,
-        IVerenigingStateQueryService queryService
+        IVerenigingStateQueryService queryService,
+        IGeotagsService geotagsService
     )
     {
         _aggregateSession = aggregateSession;
         _queryService = queryService;
+        _geotagsService = geotagsService;
     }
 
     public Task<CommandResult> Handle(
@@ -59,6 +63,9 @@ public class MarkeerAlsDubbelVanCommandHandler
         vereniging.MarkeerAlsDubbelVan(message.Command.VCodeAuthentiekeVereniging);
         authentiekeVereniging.AanvaardDubbeleVereniging(message.Command.VCode);
         authentiekeVereniging.VoegDubbeleVerenigingSamen(vereniging);
+
+        // De samenvoeging kan locaties en werkingsgebieden toevoegen.
+        await authentiekeVereniging.HerberekenGeotags(_geotagsService);
 
         var results = await _aggregateSession.SaveTransactional(
             verenigingen: [vereniging, authentiekeVereniging],
