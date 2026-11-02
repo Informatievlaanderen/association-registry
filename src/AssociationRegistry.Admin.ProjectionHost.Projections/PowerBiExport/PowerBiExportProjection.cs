@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.PowerBiExport;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using DecentraalBeheer.Vereniging.Mappers;
+using Detail;
 using Events;
 using Formats;
 using Framework;
@@ -1269,6 +1270,149 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
         UpdateHistoriek(document, @event);
     }
+
+#pragma warning disable CS0618
+    /// <summary>
+    ///     Neemt de overgenomen gegevens over op de authentieke vereniging.
+    ///     Van vertegenwoordigers wordt enkel het aantal bijgehouden; bankrekeningnummers zonder persoonsgegevens.
+    /// </summary>
+    public void Apply(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> @event,
+        PowerBiExportDocument document
+    )
+    {
+        var overgenomen = @event.Data.OvergenomenGegevens;
+        var basisgegevens = overgenomen.Basisgegevens;
+        var bron = @event.Data.Bron;
+
+        if (basisgegevens.KorteNaam is not null)
+            document.KorteNaam = basisgegevens.KorteNaam.NieuweWaarde;
+
+        if (basisgegevens.KorteBeschrijving is not null)
+            document.KorteBeschrijving = basisgegevens.KorteBeschrijving.NieuweWaarde;
+
+        if (basisgegevens.Startdatum is not null)
+            document.Startdatum = basisgegevens.Startdatum.NieuweWaarde.ToString(WellknownFormats.DateOnly);
+
+        if (basisgegevens.Doelgroep is not null)
+            document.Doelgroep = PowerBiExportMapper.MapDoelgroep(basisgegevens.Doelgroep.NieuweWaarde, document.VCode);
+
+        document.HoofdactiviteitenVerenigingsloket = document
+            .HoofdactiviteitenVerenigingsloket.AddOrReplace(
+                overgenomen.Hoofdactiviteiten.Select(x =>
+                    PowerBiExportMapper.MapHoofdactiviteitVerenigingsloket(x.NieuweWaarde)
+                ),
+                h => h.Code
+            )
+            .ToArray();
+
+        document.Werkingsgebieden = document
+            .Werkingsgebieden.AddOrReplace(
+                overgenomen.Werkingsgebieden.Select(x => PowerBiExportMapper.MapWerkingsgebied(x.NieuweWaarde)),
+                w => w.Code
+            )
+            .ToArray();
+
+        document.Contactgegevens = document
+            .Contactgegevens.AddOrReplace(
+                overgenomen.Contactgegevens.Select(x =>
+                    PowerBiExportMapper.MapContactgegeven(x.NieuweWaarde, bron, document.VCode)
+                ),
+                c => c.ContactgegevenId
+            )
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
+
+        document.Locaties = document
+            .Locaties.AddOrReplace(
+                overgenomen.Locaties.Select(x => PowerBiExportMapper.MapLocatie(x.NieuweWaarde, bron, document.VCode)),
+                l => l.LocatieId
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
+
+        // Een verrijkte vertegenwoordiger bestond al op de authentieke vereniging en telt dus niet opnieuw mee.
+        document.AantalVertegenwoordigers += overgenomen.Vertegenwoordigers.Count(x =>
+            x.Actie != SamenvoegingDubbeleVereniging.Acties.Verrijkt
+        );
+
+        document.Bankrekeningnummers = document
+            .Bankrekeningnummers.AddOrReplace(
+                overgenomen.Bankrekeningnummers.Select(x =>
+                    PowerBiExportMapper.MapBankrekeningnummer(
+                        x.NieuweWaarde.BankrekeningnummerId,
+                        x.NieuweWaarde.Doel,
+                        [],
+                        bron
+                    )
+                ),
+                b => b.BankrekeningnummerId
+            )
+            .OrderBy(b => b.BankrekeningnummerId)
+            .ToArray();
+
+        document.Erkenningen = document
+            .Erkenningen.AddOrReplace(
+                overgenomen.Erkenningen.Select(x => new Erkenning
+                {
+                    ErkenningId = x.NieuweWaarde.ErkenningId,
+                    Startdatum = x.NieuweWaarde.Startdatum.FormatAsBelgianDate(),
+                    Einddatum = x.NieuweWaarde.Einddatum.FormatAsBelgianDate(),
+                    Hernieuwingsdatum = x.NieuweWaarde.Hernieuwingsdatum.FormatAsBelgianDate(),
+                    HernieuwingsUrl = x.NieuweWaarde.HernieuwingsUrl,
+                    Status = x.NieuweWaarde.Status,
+                    GeregistreerdDoor = new GegevensInitiator
+                    {
+                        Naam = x.NieuweWaarde.GeregistreerdDoor.Naam,
+                        OvoCode = x.NieuweWaarde.GeregistreerdDoor.OvoCode,
+                    },
+                    IpdcProduct = new IpdcProduct
+                    {
+                        Naam = x.NieuweWaarde.IpdcProduct.Naam,
+                        Nummer = x.NieuweWaarde.IpdcProduct.Nummer,
+                    },
+                    RedenSchorsing = x.NieuweWaarde.RedenSchorsing,
+                }),
+                e => e.ErkenningId
+            )
+            .OrderBy(e => e.ErkenningId)
+            .ToArray();
+
+        document.Lidmaatschappen = document
+            .Lidmaatschappen.AddOrReplace(
+                overgenomen.Lidmaatschappen.Select(x => new Lidmaatschap(
+                    x.NieuweWaarde.LidmaatschapId,
+                    x.NieuweWaarde.AndereVereniging,
+                    x.NieuweWaarde.DatumVan.FormatAsBelgianDate(),
+                    x.NieuweWaarde.DatumTot.FormatAsBelgianDate(),
+                    x.NieuweWaarde.Identificatie,
+                    x.NieuweWaarde.Beschrijving
+                )),
+                l => l.LidmaatschapId
+            )
+            .OrderBy(l => l.LidmaatschapId)
+            .ToArray();
+
+        if (overgenomen.SubverenigingVan is not null)
+        {
+            var subverenigingVan = overgenomen.SubverenigingVan.NieuweWaarde;
+
+            document.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>();
+            document.SubverenigingVan = new SubverenigingVan
+            {
+                AndereVereniging = subverenigingVan.AndereVereniging,
+                Identificatie = subverenigingVan.Identificatie,
+                Beschrijving = subverenigingVan.Beschrijving,
+            };
+        }
+
+        document.DatumLaatsteAanpassing = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+#pragma warning restore CS0618
 
     public void Apply(IEvent<VerenigingAanvaarddeDubbeleVereniging> @event, PowerBiExportDocument document)
     {

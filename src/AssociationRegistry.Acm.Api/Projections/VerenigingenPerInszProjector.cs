@@ -5,6 +5,7 @@ using DecentraalBeheer.Vereniging.Mappers;
 using Events;
 using JasperFx.Events;
 using Marten;
+using Persoonsgegevens;
 using Schema.VerenigingenPerInsz;
 using Vereniging;
 using Vereniging = Schema.VerenigingenPerInsz.Vereniging;
@@ -16,7 +17,8 @@ public static class VerenigingenPerInszProjector
 {
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
 
@@ -42,47 +44,54 @@ public static class VerenigingenPerInszProjector
         return docs;
     }
 
-    private static Verenigingstype MapVerenigingstype(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
+    private static Verenigingstype MapVerenigingstype(
+        IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd
+    )
     {
         return werdGeregistreerd switch
         {
-            FeitelijkeVerenigingWerdGeregistreerd =>
-                new(
-                    DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                    DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam),
+            FeitelijkeVerenigingWerdGeregistreerd => new(
+                DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                DecentraalBeheer.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam
+            ),
 
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =>
-                new(
-                    DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
-                    DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam),
-
-            _ => throw new ArgumentOutOfRangeException(nameof(werdGeregistreerd))
-        };
-    }
-
-    private static Verenigingssubtype? MapVerenigingssubtype(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
-    {
-        return werdGeregistreerd switch
-        {
-            FeitelijkeVerenigingWerdGeregistreerd => null,
-
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new(
+                DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
+                DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam
+            ),
 
             _ => throw new ArgumentOutOfRangeException(nameof(werdGeregistreerd)),
         };
     }
 
+    private static Verenigingssubtype? MapVerenigingssubtype(
+        IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd
+    )
+    {
+        return werdGeregistreerd switch
+        {
+            FeitelijkeVerenigingWerdGeregistreerd => null,
 
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =>
+                VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
 
-    public static async Task<List<VerenigingenPerInszDocument>> Apply(NaamWerdGewijzigd naamWerdGewijzigd, IDocumentOperations ops)
+            _ => throw new ArgumentOutOfRangeException(nameof(werdGeregistreerd)),
+        };
+    }
+
+    public static async Task<List<VerenigingenPerInszDocument>> Apply(
+        NaamWerdGewijzigd naamWerdGewijzigd,
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(naamWerdGewijzigd.VCode);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == naamWerdGewijzigd.VCode).Naam =
-                naamWerdGewijzigd.Naam;
+            verenigingenPerInszDocument
+                .Verenigingen.Single(vereniging => vereniging.VCode == naamWerdGewijzigd.VCode)
+                .Naam = naamWerdGewijzigd.Naam;
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -92,15 +101,17 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(naamWerdGewijzigdInKbo.StreamKey!);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == naamWerdGewijzigdInKbo.StreamKey!).Naam =
-                naamWerdGewijzigdInKbo.Data.Naam;
+            verenigingenPerInszDocument
+                .Verenigingen.Single(vereniging => vereniging.VCode == naamWerdGewijzigdInKbo.StreamKey!)
+                .Naam = naamWerdGewijzigdInKbo.Data.Naam;
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -110,7 +121,8 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<VerenigingenPerInszDocument> Apply(
         IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var vCode = vertegenwoordigerWerdToegevoegd.StreamKey!;
         var vereniging = await ops.GetVerenigingDocument(vCode);
@@ -128,14 +140,16 @@ public static class VerenigingenPerInszProjector
                 Verenigingssubtype = vereniging.Verenigingssubtype,
                 IsHoofdvertegenwoordigerVan = true,
                 CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
-            });
+            }
+        );
 
         return document;
     }
 
     public static async Task<VerenigingenPerInszDocument> Apply(
         IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var vCode = vertegenwoordigerWerdVerwijderd.StreamKey!;
         var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdVerwijderd.Data.Insz);
@@ -147,7 +161,8 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<VerenigingenPerInszDocument> Apply(
         IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsNietGekend> vertegenwoordigerWerdVerwijderd,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var vCode = vertegenwoordigerWerdVerwijderd.StreamKey!;
         var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdVerwijderd.Data.Insz);
@@ -159,7 +174,8 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<VerenigingenPerInszDocument> Apply(
         IEvent<KszSyncHeeftVertegenwoordigerAangeduidAlsOverleden> vertegenwoordigerWerdVerwijderd,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var vCode = vertegenwoordigerWerdVerwijderd.StreamKey!;
         var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdVerwijderd.Data.Insz);
@@ -171,7 +187,8 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<VerenigingenPerInszDocument> Apply(
         IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var vCode = vertegenwoordigerWerdOvergenomenUitKbo.StreamKey!;
         var vereniging = await ops.GetVerenigingDocument(vCode);
@@ -188,14 +205,16 @@ public static class VerenigingenPerInszProjector
                 Verenigingstype = vereniging.VerenigingsType,
                 Verenigingssubtype = vereniging.Verenigingssubtype,
                 IsHoofdvertegenwoordigerVan = true,
-            });
+            }
+        );
 
         return document;
     }
 
     public static async Task<VerenigingenPerInszDocument> Apply(
         IEvent<VertegenwoordigerWerdToegevoegdVanuitKBO> @event,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var vCode = @event.StreamKey!;
         var vereniging = await ops.GetVerenigingDocument(vCode);
@@ -212,14 +231,16 @@ public static class VerenigingenPerInszProjector
                 Verenigingstype = vereniging.VerenigingsType,
                 Verenigingssubtype = vereniging.Verenigingssubtype,
                 IsHoofdvertegenwoordigerVan = true,
-            });
+            }
+        );
 
         return document;
     }
 
     public static async Task<VerenigingenPerInszDocument> Apply(
         IEvent<VertegenwoordigerWerdVerwijderdUitKBO> @event,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var vCode = @event.StreamKey!;
         var document = await ops.GetVerenigingenPerInszDocumentOrNew(@event.Data.Insz);
@@ -231,15 +252,17 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<VerenigingWerdGestopt> verenigingWerdGestopt,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(verenigingWerdGestopt.StreamKey!);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == verenigingWerdGestopt.StreamKey!).Status =
-                VerenigingStatus.Gestopt;
+            verenigingenPerInszDocument
+                .Verenigingen.Single(vereniging => vereniging.VCode == verenigingWerdGestopt.StreamKey!)
+                .Status = VerenigingStatus.Gestopt;
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -249,17 +272,17 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<VerenigingWerdVerwijderd> verenigingWerdVerwijderd,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(verenigingWerdVerwijderd.StreamKey!);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            verenigingenPerInszDocument.Verenigingen = verenigingenPerInszDocument.Verenigingen
-                                                                                  .Where(v => v.VCode !=
-                                                                                             verenigingWerdVerwijderd.StreamKey)
-                                                                                  .ToList();
+            verenigingenPerInszDocument.Verenigingen = verenigingenPerInszDocument
+                .Verenigingen.Where(v => v.VCode != verenigingWerdVerwijderd.StreamKey)
+                .ToList();
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -269,16 +292,21 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(rechtsvormWerdGewijzigdInKbo.StreamKey!);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == rechtsvormWerdGewijzigdInKbo.StreamKey!);
+            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging =>
+                vereniging.VCode == rechtsvormWerdGewijzigdInKbo.StreamKey!
+            );
 
-            vereniging.Verenigingstype = MapVereniging(DecentraalBeheer.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
+            vereniging.Verenigingstype = MapVereniging(
+                DecentraalBeheer.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm)
+            );
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -288,21 +316,21 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<VerenigingAanvaarddeDubbeleVereniging> verenigingAanvaarddeDubbeleVereniging,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(verenigingAanvaarddeDubbeleVereniging.Data.VCode);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            var vereniging =
-                verenigingenPerInszDocument.Verenigingen.Single(
-                    vereniging => vereniging.VCode == verenigingAanvaarddeDubbeleVereniging.StreamKey!);
+            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging =>
+                vereniging.VCode == verenigingAanvaarddeDubbeleVereniging.StreamKey!
+            );
 
-            vereniging.CorresponderendeVCodes =
-                vereniging.CorresponderendeVCodes
-                          .Append(verenigingAanvaarddeDubbeleVereniging.Data.VCodeDubbeleVereniging)
-                          .ToArray();
+            vereniging.CorresponderendeVCodes = vereniging
+                .CorresponderendeVCodes.Append(verenigingAanvaarddeDubbeleVereniging.Data.VCodeDubbeleVereniging)
+                .ToArray();
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -312,16 +340,17 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbelVan,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(verenigingWerdGemarkeerdAlsDubbelVan.Data.VCode);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            var vereniging =
-                verenigingenPerInszDocument.Verenigingen.Single(
-                    vereniging => vereniging.VCode == verenigingWerdGemarkeerdAlsDubbelVan.StreamKey!);
+            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging =>
+                vereniging.VCode == verenigingWerdGemarkeerdAlsDubbelVan.StreamKey!
+            );
 
             vereniging.IsDubbel = true;
 
@@ -333,16 +362,19 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
-        var documents = await ops.GetVerenigingenPerInszDocuments(weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.Data.VCode);
+        var documents = await ops.GetVerenigingenPerInszDocuments(
+            weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.Data.VCode
+        );
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            var vereniging =
-                verenigingenPerInszDocument.Verenigingen.Single(
-                    vereniging => vereniging.VCode == weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.StreamKey!);
+            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging =>
+                vereniging.VCode == weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.StreamKey!
+            );
 
             vereniging.IsDubbel = false;
 
@@ -354,21 +386,25 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> verenigingAanvaarddeCorrectieDubbeleVereniging,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
-        var documents = await ops.GetVerenigingenPerInszDocuments(verenigingAanvaarddeCorrectieDubbeleVereniging.Data.VCode);
+        var documents = await ops.GetVerenigingenPerInszDocuments(
+            verenigingAanvaarddeCorrectieDubbeleVereniging.Data.VCode
+        );
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            var vereniging =
-                verenigingenPerInszDocument.Verenigingen.Single(
-                    vereniging => vereniging.VCode == verenigingAanvaarddeCorrectieDubbeleVereniging.StreamKey!);
+            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging =>
+                vereniging.VCode == verenigingAanvaarddeCorrectieDubbeleVereniging.StreamKey!
+            );
 
-            vereniging.CorresponderendeVCodes =
-                vereniging.CorresponderendeVCodes
-                          .Where(w => w != verenigingAanvaarddeCorrectieDubbeleVereniging.Data.VCodeDubbeleVereniging)
-                          .ToArray();
+            vereniging.CorresponderendeVCodes = vereniging
+                .CorresponderendeVCodes.Where(w =>
+                    w != verenigingAanvaarddeCorrectieDubbeleVereniging.Data.VCodeDubbeleVereniging
+                )
+                .ToArray();
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -378,16 +414,17 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> markeringDubbeleVerengingWerdGecorrigeerd,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(markeringDubbeleVerengingWerdGecorrigeerd.Data.VCode);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            var vereniging =
-                verenigingenPerInszDocument.Verenigingen.Single(
-                    vereniging => vereniging.VCode == markeringDubbeleVerengingWerdGecorrigeerd.StreamKey!);
+            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging =>
+                vereniging.VCode == markeringDubbeleVerengingWerdGecorrigeerd.StreamKey!
+            );
 
             vereniging.IsDubbel = false;
 
@@ -399,20 +436,22 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(@event.Data.VCode);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            var vereniging =
-                verenigingenPerInszDocument.Verenigingen.Single(
-                    vereniging => vereniging.VCode == @event.StreamKey!);
+            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging =>
+                vereniging.VCode == @event.StreamKey!
+            );
 
             vereniging.Verenigingstype = new(
                 DecentraalBeheer.Vereniging.Verenigingstype.VZER.Code,
-                DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam);
+                DecentraalBeheer.Vereniging.Verenigingstype.VZER.Naam
+            );
 
             vereniging.Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>();
             docs.Add(verenigingenPerInszDocument);
@@ -423,16 +462,17 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(@event.Data.VCode);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            var vereniging =
-                verenigingenPerInszDocument.Verenigingen.Single(
-                    vereniging => vereniging.VCode == @event.StreamKey!);
+            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging =>
+                vereniging.VCode == @event.StreamKey!
+            );
 
             vereniging.Verenigingssubtype = VerenigingssubtypeCode.FeitelijkeVereniging.Map<Verenigingssubtype>();
 
@@ -444,16 +484,17 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(@event.Data.VCode);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            var vereniging =
-                verenigingenPerInszDocument.Verenigingen.Single(
-                    vereniging => vereniging.VCode == @event.StreamKey!);
+            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging =>
+                vereniging.VCode == @event.StreamKey!
+            );
 
             vereniging.Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>();
 
@@ -465,16 +506,17 @@ public static class VerenigingenPerInszProjector
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
         IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var docs = new List<VerenigingenPerInszDocument>();
         var documents = await ops.GetVerenigingenPerInszDocuments(@event.Data.VCode);
 
         foreach (var verenigingenPerInszDocument in documents)
         {
-            var vereniging =
-                verenigingenPerInszDocument.Verenigingen.Single(
-                    vereniging => vereniging.VCode == @event.StreamKey!);
+            var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging =>
+                vereniging.VCode == @event.StreamKey!
+            );
 
             vereniging.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>();
 
@@ -484,7 +526,61 @@ public static class VerenigingenPerInszProjector
         return docs;
     }
 
-    private static Verenigingstype MapVereniging(DecentraalBeheer.Vereniging.Verenigingstype verenigingstype)
-        => new(verenigingstype.Code, verenigingstype.Naam);
+#pragma warning disable CS0618
+    /// <summary>
+    ///     Elke overgenomen vertegenwoordiger wordt vertegenwoordiger van de authentieke vereniging.
+    ///     Werd de vereniging een subvereniging, dan krijgen ook de bestaande vertegenwoordigers dat subtype.
+    /// </summary>
+    public static async Task<List<VerenigingenPerInszDocument>> Apply(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> @event,
+        VerenigingDocument vereniging,
+        IDocumentOperations ops
+    )
+    {
+        var vCode = @event.StreamKey!;
+        var documentsPerInsz = (await ops.GetVerenigingenPerInszDocuments(vCode)).ToDictionary(x => x.Insz);
 
+        foreach (var document in documentsPerInsz.Values)
+        foreach (var bestaandeVereniging in document.Verenigingen.Where(x => x.VCode == vCode))
+            bestaandeVereniging.Verenigingssubtype = vereniging.Verenigingssubtype;
+
+        var vertegenwoordigers = @event
+            .Data.OvergenomenGegevens.Vertegenwoordigers.Select(x => x.NieuweWaarde)
+            .Where(x => x.Insz != WellKnownAnonymousFields.Geanonimiseerd);
+
+        foreach (var vertegenwoordiger in vertegenwoordigers)
+        {
+            if (!documentsPerInsz.TryGetValue(vertegenwoordiger.Insz, out var document))
+            {
+                document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordiger.Insz);
+                documentsPerInsz[vertegenwoordiger.Insz] = document;
+            }
+
+            document.Verenigingen = document
+                .Verenigingen.Where(x =>
+                    !(x.VCode == vCode && x.VertegenwoordigerId == vertegenwoordiger.VertegenwoordigerId)
+                )
+                .Append(
+                    new Vereniging
+                    {
+                        VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
+                        VCode = vereniging.VCode,
+                        Naam = vereniging.Naam,
+                        Status = vereniging.Status,
+                        KboNummer = vereniging.KboNummer,
+                        Verenigingstype = vereniging.VerenigingsType,
+                        Verenigingssubtype = vereniging.Verenigingssubtype,
+                        IsHoofdvertegenwoordigerVan = true,
+                        CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
+                    }
+                )
+                .ToList();
+        }
+
+        return documentsPerInsz.Values.ToList();
+    }
+#pragma warning restore CS0618
+
+    private static Verenigingstype MapVereniging(DecentraalBeheer.Vereniging.Verenigingstype verenigingstype) =>
+        new(verenigingstype.Code, verenigingstype.Naam);
 }

@@ -15,6 +15,7 @@ using Framework;
 using Geotags;
 using Grar.AdresMatch;
 using Grar.Models;
+using Samenvoeging;
 using SocialMedias;
 using TelefoonNummers;
 using Wegwijs;
@@ -461,6 +462,28 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         Throw<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>.If(dubbeleVereniging.Equals(VCode));
         AddEvent(EventFactory.VerenigingAanvaarddeDubbeleVereniging(VCode, dubbeleVereniging));
+    }
+
+    /// <summary>
+    ///     Neemt de gegevens van de dubbele vereniging over die op deze (authentieke) vereniging nog leeg zijn.
+    ///     Voorlopig enkel de basisgegevens, zie <see cref="BasisgegevensSamenvoeging" />.
+    ///     Er komt geen event als de dubbele vereniging niets heeft om samen te voegen.
+    /// </summary>
+    public void VoegDubbeleVerenigingSamen(VerenigingsBase dubbeleVereniging)
+    {
+        var (overgenomen, nietOvergenomen) = BasisgegevensSamenvoeging.Merge(State, dubbeleVereniging.CurrentState);
+
+        if (overgenomen.Aantal == 0 && nietOvergenomen.Aantal == 0)
+            return;
+
+        AddEvent(
+            EventFactory.DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
+                VCode,
+                dubbeleVereniging.VCode,
+                overgenomen,
+                nietOvergenomen
+            )
+        );
     }
 
     public void AanvaardCorrectieDubbeleVereniging(VCode dubbeleVereniging)

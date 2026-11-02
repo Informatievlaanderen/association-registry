@@ -94,6 +94,9 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(AdresWerdGewijzigdInAdressenregister):
                 case nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch):
                 case nameof(VerenigingWerdGemarkeerdAlsDubbelVan):
+#pragma warning disable CS0618
+                case nameof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging):
+#pragma warning restore CS0618
                 case nameof(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt):
                 case nameof(MarkeringDubbeleVerengingWerdGecorrigeerd):
                 case nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging):

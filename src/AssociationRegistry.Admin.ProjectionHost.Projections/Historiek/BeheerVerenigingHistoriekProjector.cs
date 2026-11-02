@@ -697,6 +697,21 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+#pragma warning disable CS0618
+    public static void Apply(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(
+            @event,
+            DubbeleVerenigingWerdSamengevoegdData.Create(@event.Data),
+            document,
+            $"Gegevens van dubbele vereniging {@event.Data.VCodeDubbeleVereniging} werden samengevoegd."
+        );
+    }
+#pragma warning restore CS0618
+
     public static void Apply(
         IEvent<VerenigingAanvaarddeDubbeleVereniging> @event,
         BeheerVerenigingHistoriekDocument document

@@ -20,6 +20,16 @@ public static class TeAnonimiserenGebeurtenissenConfig
         [nameof(FeitelijkeVerenigingWerdGeregistreerd)] = (g, id) =>
             VertegenwoordigerGebeurtenissenAnonymizer.AnonimiseerMultiple<VerenigingWerdGeregistreerdData>(g, id),
 
+#pragma warning disable CS0618
+        [nameof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging)] = (g, id) =>
+            g.Data is DubbeleVerenigingWerdSamengevoegdData data && data.HasVertegenwoordiger(id)
+                ? g with
+                {
+                    Data = data.MakeAnonymous(id),
+                }
+                : null,
+#pragma warning restore CS0618
+
         [nameof(VertegenwoordigerWerdToegevoegd)] = (g, id) =>
             VertegenwoordigerGebeurtenissenAnonymizer.AnonimiseerSingle<VertegenwoordigerData>(
                 g,

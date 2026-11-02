@@ -787,6 +787,29 @@ public record VerenigingState : IHasVersion
             CorresponderendeVCodes = CorresponderendeVCodes.Append(@event.VCodeDubbeleVereniging).ToArray(),
         };
 
+    /// <summary>Voorlopig worden enkel de basisgegevens samengevoegd; de andere groepen zijn nog leeg.</summary>
+#pragma warning disable CS0618
+    public VerenigingState Apply(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging @event)
+    {
+        var basisgegevens = @event.OvergenomenGegevens.Basisgegevens;
+
+        return this with
+        {
+            KorteNaam = basisgegevens.KorteNaam?.NieuweWaarde ?? KorteNaam,
+            KorteBeschrijving = basisgegevens.KorteBeschrijving?.NieuweWaarde ?? KorteBeschrijving,
+            Startdatum = basisgegevens.Startdatum is null
+                ? Startdatum
+                : Datum.Hydrate(basisgegevens.Startdatum.NieuweWaarde),
+            Doelgroep = basisgegevens.Doelgroep is null
+                ? Doelgroep
+                : Doelgroep.Hydrate(
+                    basisgegevens.Doelgroep.NieuweWaarde.Minimumleeftijd,
+                    basisgegevens.Doelgroep.NieuweWaarde.Maximumleeftijd
+                ),
+        };
+    }
+#pragma warning restore CS0618
+
     public VerenigingState Apply(VerenigingAanvaarddeCorrectieDubbeleVereniging @event) =>
         this with
         {

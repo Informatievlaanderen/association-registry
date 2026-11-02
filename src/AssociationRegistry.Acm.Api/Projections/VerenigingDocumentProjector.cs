@@ -12,8 +12,8 @@ using Verenigingstype = DecentraalBeheer.Vereniging.Verenigingstype;
 
 public static class VerenigingDocumentProjector
 {
-    public static VerenigingDocument Apply(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd)
-        => new()
+    public static VerenigingDocument Apply(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd) =>
+        new()
         {
             VCode = werdGeregistreerd.VCode,
             Naam = werdGeregistreerd.Naam,
@@ -23,8 +23,10 @@ public static class VerenigingDocumentProjector
             KboNummer = string.Empty,
         };
 
-    public static VerenigingDocument Apply(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
-        => new()
+    public static VerenigingDocument Apply(
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd
+    ) =>
+        new()
         {
             VCode = werdGeregistreerd.VCode,
             Naam = werdGeregistreerd.Naam,
@@ -51,14 +53,14 @@ public static class VerenigingDocumentProjector
 
     public static async Task<VerenigingDocument> Apply(
         IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         var verenigingDocument = await ops.GetVerenigingDocument(rechtsvormWerdGewijzigdInKbo.StreamKey);
 
         Verenigingstype verenigingstype = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm);
 
-        verenigingDocument.VerenigingsType =
-            new(verenigingstype.Code, verenigingstype.Naam);
+        verenigingDocument.VerenigingsType = new(verenigingstype.Code, verenigingstype.Naam);
 
         return verenigingDocument;
     }
@@ -71,7 +73,10 @@ public static class VerenigingDocumentProjector
         return verenigingDocument;
     }
 
-    public static async Task<VerenigingDocument> Apply(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, IDocumentOperations ops)
+    public static async Task<VerenigingDocument> Apply(
+        IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo,
+        IDocumentOperations ops
+    )
     {
         var verenigingDocument = await ops.GetVerenigingDocument(naamWerdGewijzigdInKbo.StreamKey!);
         verenigingDocument.Naam = naamWerdGewijzigdInKbo.Data.Naam;
@@ -79,7 +84,10 @@ public static class VerenigingDocumentProjector
         return verenigingDocument;
     }
 
-    public static async Task<VerenigingDocument> Apply(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, IDocumentOperations ops)
+    public static async Task<VerenigingDocument> Apply(
+        IEvent<VerenigingWerdGestopt> verenigingWerdGestopt,
+        IDocumentOperations ops
+    )
     {
         var verenigingDocument = await ops.GetVerenigingDocument(verenigingWerdGestopt.StreamKey!);
         verenigingDocument.Status = VerenigingStatus.Gestopt;
@@ -89,32 +97,48 @@ public static class VerenigingDocumentProjector
 
     public static async Task<VerenigingDocument> Apply(
         IEvent<VerenigingWerdVerwijderd> verenigingWerdVerwijderd,
-        IDocumentOperations ops)
+        IDocumentOperations ops
+    )
     {
         ops.Delete<VerenigingDocument>(verenigingWerdVerwijderd.StreamKey!);
 
         return await ops.GetVerenigingDocument(verenigingWerdVerwijderd.StreamKey!);
     }
 
-    public static async Task<VerenigingDocument> Apply(IEvent<VerenigingAanvaarddeDubbeleVereniging> @event, IDocumentOperations ops)
+    public static async Task<VerenigingDocument> Apply(
+        IEvent<VerenigingAanvaarddeDubbeleVereniging> @event,
+        IDocumentOperations ops
+    )
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
-        verenigingDocument.CorresponderendeVCodes = verenigingDocument.CorresponderendeVCodes.Append(@event.Data.VCodeDubbeleVereniging).ToArray();
+        verenigingDocument.CorresponderendeVCodes = verenigingDocument
+            .CorresponderendeVCodes.Append(@event.Data.VCodeDubbeleVereniging)
+            .ToArray();
 
         return verenigingDocument;
     }
 
-    public static async Task<VerenigingDocument> Apply(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> @event, IDocumentOperations ops)
+    public static async Task<VerenigingDocument> Apply(
+        IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> @event,
+        IDocumentOperations ops
+    )
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
-        verenigingDocument.CorresponderendeVCodes = verenigingDocument.CorresponderendeVCodes.Where(x => !x.Equals(@event.Data.VCodeDubbeleVereniging, StringComparison.InvariantCultureIgnoreCase)).ToArray();
+        verenigingDocument.CorresponderendeVCodes = verenigingDocument
+            .CorresponderendeVCodes.Where(x =>
+                !x.Equals(@event.Data.VCodeDubbeleVereniging, StringComparison.InvariantCultureIgnoreCase)
+            )
+            .ToArray();
 
         return verenigingDocument;
     }
 
-    public static async Task<VerenigingDocument> Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, IDocumentOperations ops)
+    public static async Task<VerenigingDocument> Apply(
+        IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event,
+        IDocumentOperations ops
+    )
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
@@ -125,7 +149,10 @@ public static class VerenigingDocumentProjector
         return verenigingDocument;
     }
 
-    public static async Task<VerenigingDocument> Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, IDocumentOperations ops)
+    public static async Task<VerenigingDocument> Apply(
+        IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event,
+        IDocumentOperations ops
+    )
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
@@ -134,7 +161,10 @@ public static class VerenigingDocumentProjector
         return verenigingDocument;
     }
 
-    public static async Task<VerenigingDocument> Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, IDocumentOperations ops)
+    public static async Task<VerenigingDocument> Apply(
+        IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event,
+        IDocumentOperations ops
+    )
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
@@ -143,7 +173,25 @@ public static class VerenigingDocumentProjector
         return verenigingDocument;
     }
 
-    public static async Task<VerenigingDocument> Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, IDocumentOperations ops)
+#pragma warning disable CS0618
+    public static async Task<VerenigingDocument> Apply(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> @event,
+        IDocumentOperations ops
+    )
+    {
+        var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
+
+        if (@event.Data.OvergenomenGegevens.SubverenigingVan is not null)
+            verenigingDocument.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>();
+
+        return verenigingDocument;
+    }
+#pragma warning restore CS0618
+
+    public static async Task<VerenigingDocument> Apply(
+        IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event,
+        IDocumentOperations ops
+    )
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 

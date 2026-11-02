@@ -110,6 +110,9 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(LidmaatschapWerdGewijzigd):
                 case nameof(LidmaatschapWerdVerwijderd):
                 case nameof(VerenigingWerdGemarkeerdAlsDubbelVan):
+#pragma warning disable CS0618
+                case nameof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging):
+#pragma warning restore CS0618
                 case nameof(VerenigingAanvaarddeDubbeleVereniging):
                 case nameof(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt):
                 case nameof(MarkeringDubbeleVerengingWerdGecorrigeerd):

@@ -8,8 +8,8 @@ using Framework;
 using MartenDb.Store;
 
 /// <summary>
-///     Markeert de dubbele vereniging en laat de authentieke vereniging ze aanvaarden in één transactie,
-///     zodat beide verenigingen altijd samen gewijzigd worden.
+///     Markeert de dubbele vereniging, laat de authentieke vereniging ze aanvaarden en voegt de gegevens van de
+///     dubbele samen met de authentieke, in één transactie, zodat beide verenigingen altijd samen gewijzigd worden.
 ///     Werd één van beide intussen gewijzigd, dan wordt alles opnieuw geprobeerd.
 /// </summary>
 public class MarkeerAlsDubbelVanCommandHandler
@@ -58,6 +58,7 @@ public class MarkeerAlsDubbelVanCommandHandler
 
         vereniging.MarkeerAlsDubbelVan(message.Command.VCodeAuthentiekeVereniging);
         authentiekeVereniging.AanvaardDubbeleVereniging(message.Command.VCode);
+        authentiekeVereniging.VoegDubbeleVerenigingSamen(vereniging);
 
         var results = await _aggregateSession.SaveTransactional(
             verenigingen: [vereniging, authentiekeVereniging],

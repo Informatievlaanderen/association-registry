@@ -6,8 +6,10 @@ public abstract class VerenigingsBase
 {
     protected VerenigingState State = new();
 
-    public VCode VCode
-        => State.VCode;
+    /// <summary>Alleen voor het domein: de authentieke vereniging leest de gegevens van de dubbele om ze samen te voegen.</summary>
+    internal VerenigingState CurrentState => State;
+
+    public VCode VCode => State.VCode;
     public string Naam => State.Naam;
 
     public IEnumerable<IEvent> UncommittedEvents { get; private set; } = new List<IEvent>();

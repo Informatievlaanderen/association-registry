@@ -5,6 +5,7 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.DubbelMerge;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Test.Common.StubsMocksFakes.VerenigingsRepositories;
 using AutoFixture;
@@ -12,6 +13,8 @@ using Xunit;
 
 /// <summary>
 ///     Een vereniging die eerder als authentiek fungeerde (A is dubbel van B) mag alsnog dubbel worden (B is dubbel van C).
+///     De dubbele vereniging heeft geen basisgegevens, dus er valt niets samen te voegen.
+///     De samenvoeging zelf wordt getest in <see cref="Given_Basisgegevens" />.
 /// </summary>
 public class Given_An_Authentieke_Vereniging
 {
@@ -31,7 +34,14 @@ public class Given_An_Authentieke_Vereniging
         var nieuweAuthentiekeVereniging =
             _fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
-        _aggregateSessionMock = new MultipleVerenigingAggregateSessionMock(_scenario.GetVerenigingState());
+        var dubbeleVerenigingZonderBasisgegevens = _scenario
+            .GetVerenigingState()
+            .Apply(new KorteNaamWerdGewijzigd(_scenario.VCode, KorteNaam: ""))
+            .Apply(new KorteBeschrijvingWerdGewijzigd(_scenario.VCode, KorteBeschrijving: ""))
+            .Apply(new StartdatumWerdGewijzigd(_scenario.VCode, Startdatum: null))
+            .Apply(new DoelgroepWerdGewijzigd(TestBasisgegevens.Empty.Doelgroep));
+
+        _aggregateSessionMock = new MultipleVerenigingAggregateSessionMock(dubbeleVerenigingZonderBasisgegevens);
         _aggregateSessionMock.WithVereniging(new VerenigingState().Apply(nieuweAuthentiekeVereniging));
 
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(

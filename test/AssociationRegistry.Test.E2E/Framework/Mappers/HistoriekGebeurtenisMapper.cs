@@ -20,6 +20,7 @@ using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
+using Events.Factories;
 using Persoonsgegevens;
 
 public static class HistoriekGebeurtenisMapper
@@ -703,6 +704,30 @@ public static class HistoriekGebeurtenisMapper
             Initiator = AuthenticationSetup.Initiator,
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+#pragma warning disable CS0618
+    public static HistoriekGebeurtenisResponse DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
+        string vCode,
+        string vCodeDubbeleVereniging,
+        SamenvoegingDubbeleVereniging.OvergenomenBasisgegevens overgenomen,
+        SamenvoegingDubbeleVereniging.NietOvergenomenBasisgegevens nietOvergenomen
+    ) =>
+        new()
+        {
+            Beschrijving = $"Gegevens van dubbele vereniging {vCodeDubbeleVereniging} werden samengevoegd.",
+            Gebeurtenis = nameof(Events.DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging),
+            Data = DubbeleVerenigingWerdSamengevoegdData.Create(
+                EventFactory.DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
+                    DecentraalBeheer.Vereniging.VCode.Create(vCode),
+                    DecentraalBeheer.Vereniging.VCode.Create(vCodeDubbeleVereniging),
+                    overgenomen,
+                    nietOvergenomen
+                )
+            ),
+            Initiator = AuthenticationSetup.Initiator,
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+#pragma warning restore CS0618
 
     public static HistoriekGebeurtenisResponse MarkeringDubbeleVerengingWerdGecorrigeerd(
         VerenigingWerdGemarkeerdAlsDubbelVan verenigingWerdGemarkeerdAlsDubbelVan
