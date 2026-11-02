@@ -28,9 +28,10 @@ public class Given_Vertegenwoordigers
         var samengevoegd = EventFactory.DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
             VCode.Create(registratie.VCode),
             fixture.Create<VCode>(),
-            OvergenomenGegevensPerGroep<Registratiedata.Vertegenwoordiger, Registratiedata.Bankrekeningnummer>.WithOnly(
-                OvergenomenBasisgegevens.Geen
-            ) with
+            OvergenomenGegevensPerGroep<
+                Registratiedata.Vertegenwoordiger,
+                SamenvoegingDubbeleVereniging.Bankrekeningnummer
+            >.WithOnly(OvergenomenBasisgegevens.Geen) with
             {
                 Vertegenwoordigers =
                 [
@@ -50,7 +51,7 @@ public class Given_Vertegenwoordigers
             },
             NietOvergenomenGegevensPerGroep<
                 Registratiedata.Vertegenwoordiger,
-                Registratiedata.Bankrekeningnummer
+                SamenvoegingDubbeleVereniging.Bankrekeningnummer
             >.WithOnly(NietOvergenomenBasisgegevens.Geen)
         );
 

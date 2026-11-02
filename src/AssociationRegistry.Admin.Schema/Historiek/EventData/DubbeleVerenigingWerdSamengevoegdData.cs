@@ -11,10 +11,13 @@ using Gegevens = Events.SamenvoegingDubbeleVereniging;
 public record DubbeleVerenigingWerdSamengevoegdData(
     string VCode,
     string VCodeDubbeleVereniging,
-    Gegevens.OvergenomenGegevensPerGroep<VertegenwoordigerData, Registratiedata.Bankrekeningnummer> OvergenomenGegevens,
+    Gegevens.OvergenomenGegevensPerGroep<
+        VertegenwoordigerData,
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer
+    > OvergenomenGegevens,
     Gegevens.NietOvergenomenGegevensPerGroep<
         VertegenwoordigerData,
-        Registratiedata.Bankrekeningnummer
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > NietOvergenomenGegevens
 )
 {

@@ -215,6 +215,41 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
             ]);
 
     [Fact]
+    public void With_The_Own_And_The_Overgenomen_Bankrekeningnummers() =>
+        Response
+            .Vereniging.Bankrekeningnummers.Select(x => new
+            {
+                x.BankrekeningnummerId,
+                x.Iban,
+                x.Doel,
+                x.Titularissen,
+                BevestigdDoor = x.BevestigdDoor.Select(b => b.OvoCode).ToArray(),
+            })
+            .Should()
+            .BeEquivalentTo([
+                new
+                {
+                    BankrekeningnummerId = 1,
+                    TestBankrekeningnummers.BankrekeningnummerFrodo.Iban,
+                    TestBankrekeningnummers.BankrekeningnummerFrodo.Doel,
+                    TestBankrekeningnummers.BankrekeningnummerFrodo.Titularissen,
+                    BevestigdDoor = TestBankrekeningnummers
+                        .BankrekeningnummerFrodo.BevestigdDoor.Select(b => b.OvoCode)
+                        .ToArray(),
+                },
+                new
+                {
+                    BankrekeningnummerId = 2,
+                    TestBankrekeningnummers.BankrekeningnummerSamwise.Iban,
+                    TestBankrekeningnummers.BankrekeningnummerSamwise.Doel,
+                    TestBankrekeningnummers.BankrekeningnummerSamwise.Titularissen,
+                    BevestigdDoor = TestBankrekeningnummers
+                        .BankrekeningnummerSamwise.BevestigdDoor.Select(b => b.OvoCode)
+                        .ToArray(),
+                },
+            ]);
+
+    [Fact]
     public void With_The_Doelgroep_Of_The_Dubbele_Vereniging()
     {
         var doelgroep = MarkeerAlsDubbelVanContext.BasisgegevensDubbeleVereniging.Doelgroep;

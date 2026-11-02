@@ -42,6 +42,15 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
             Roepnaam = "Mr. Baggins",
         };
 
+    public static readonly SamenvoegingDubbeleVereniging.Bankrekeningnummer ZelfdeIbanBijDeDubbeleVereniging =
+        TestBankrekeningnummers.BankrekeningnummerFrodo with
+        {
+            Iban = "BE68 5390 0754 7034",
+            Doel = "Lidgelden",
+            Titularissen = ["Samwise Gamgee"],
+            BevestigdDoor = [],
+        };
+
     public static readonly Registratiedata.Vertegenwoordiger AragornAlsPrimair = TestVertegenwoordigers.Aragorn with
     {
         IsPrimair = true,
@@ -57,6 +66,8 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
     ///     niet overgenomen.
     ///     Van de vertegenwoordigers is Frodo dezelfde persoon (zelfde INSZ), wordt Aragorn niet-primair (de authentieke
     ///     heeft al een primaire vertegenwoordiger) en wordt Samwise toegevoegd.
+    ///     Van de bankrekeningnummers is dat van Frodo hetzelfde IBAN en wordt dat van Samwise toegevoegd, met zijn
+    ///     bevestiging.
     /// </summary>
     public static readonly TestVerenigingsgegevens GegevensDubbeleVereniging = new(
         BasisgegevensDubbeleVereniging,
@@ -76,7 +87,8 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
             TestLocaties.OnvolledigeLocatieFellowship,
             TestLocaties.TweedeLokaalFellowship,
         ],
-        [FrodoBijDeDubbeleVereniging, AragornAlsPrimair, TestVertegenwoordigers.Samwise]
+        [FrodoBijDeDubbeleVereniging, AragornAlsPrimair, TestVertegenwoordigers.Samwise],
+        [ZelfdeIbanBijDeDubbeleVereniging, TestBankrekeningnummers.BankrekeningnummerSamwise]
     );
 
     public static readonly TestVerenigingsgegevens GegevensAuthentiekeVereniging = new(
@@ -85,7 +97,8 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         [],
         [TestContactgegevens.EmailRivendell, TestContactgegevens.TelefoonRivendell],
         [TestLocaties.LokaalRivendell, TestLocaties.PostadresRivendell],
-        [TestVertegenwoordigers.Frodo]
+        [TestVertegenwoordigers.Frodo],
+        [TestBankrekeningnummers.BankrekeningnummerFrodo]
     );
 
     protected override MultipleWerdGeregistreerdScenario InitializeScenario() =>

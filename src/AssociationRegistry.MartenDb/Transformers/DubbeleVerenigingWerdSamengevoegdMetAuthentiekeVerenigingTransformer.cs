@@ -41,7 +41,7 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingTransforme
                     .ToArray(),
                 overgenomen
                     .Bankrekeningnummers.Select(
-                        x => new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.BankrekeningnummerZonderPersoonsgegevens>(
+                        x => new SamenvoegingDubbeleVereniging.OvergenomenGegeven<SamenvoegingDubbeleVereniging.BankrekeningnummerZonderPersoonsgegevens>(
                             x.Actie,
                             x.Beschrijving,
                             splitter.Split(x.OrigineleWaarde),
@@ -63,7 +63,7 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingTransforme
                     .ToArray(),
                 nietOvergenomen
                     .Bankrekeningnummers.Select(
-                        x => new SamenvoegingDubbeleVereniging.NietOvergenomenGegeven<Registratiedata.BankrekeningnummerZonderPersoonsgegevens>(
+                        x => new SamenvoegingDubbeleVereniging.NietOvergenomenGegeven<SamenvoegingDubbeleVereniging.BankrekeningnummerZonderPersoonsgegevens>(
                             x.Actie,
                             x.Reden,
                             x.Beschrijving,
@@ -109,7 +109,9 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingTransforme
             );
         }
 
-        public Registratiedata.BankrekeningnummerZonderPersoonsgegevens Split(Registratiedata.Bankrekeningnummer b)
+        public SamenvoegingDubbeleVereniging.BankrekeningnummerZonderPersoonsgegevens Split(
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer b
+        )
         {
             var refId = Guid.NewGuid();
 
@@ -117,7 +119,12 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingTransforme
                 new BankrekeningnummerPersoonsgegevens(refId, vCode, b.BankrekeningnummerId, b.Iban, b.Titularissen)
             );
 
-            return new Registratiedata.BankrekeningnummerZonderPersoonsgegevens(refId, b.BankrekeningnummerId, b.Doel);
+            return new SamenvoegingDubbeleVereniging.BankrekeningnummerZonderPersoonsgegevens(
+                refId,
+                b.BankrekeningnummerId,
+                b.Doel,
+                b.BevestigdDoor
+            );
         }
     }
 }

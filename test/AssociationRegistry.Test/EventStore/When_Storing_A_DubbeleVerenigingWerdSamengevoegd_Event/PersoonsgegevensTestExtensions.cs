@@ -20,17 +20,14 @@ public static class PersoonsgegevensTestExtensions
             SocialMedia = WellKnownAnonymousFields.Geanonimiseerd,
         };
 
-    public static Registratiedata.Bankrekeningnummer Anonymized(this Registratiedata.Bankrekeningnummer b) =>
-        b with
-        {
-            Iban = WellKnownAnonymousFields.Geanonimiseerd,
-            Titularissen = [],
-        };
+    public static SamenvoegingDubbeleVereniging.Bankrekeningnummer Anonymized(
+        this SamenvoegingDubbeleVereniging.Bankrekeningnummer b
+    ) => b with { Iban = WellKnownAnonymousFields.Geanonimiseerd, Titularissen = [] };
 
     public static string[] PersoonsgegevensValues(this Registratiedata.Vertegenwoordiger v) =>
         [v.Insz, v.Roepnaam, v.Rol, v.Voornaam, v.Achternaam, v.Email, v.Telefoon, v.Mobiel, v.SocialMedia];
 
-    public static string[] PersoonsgegevensValues(this Registratiedata.Bankrekeningnummer b) =>
+    public static string[] PersoonsgegevensValues(this SamenvoegingDubbeleVereniging.Bankrekeningnummer b) =>
         [b.Iban, .. b.Titularissen];
 
     public static VertegenwoordigerPersoonsgegevensDocument ToDocument(
@@ -53,7 +50,7 @@ public static class PersoonsgegevensTestExtensions
         };
 
     public static BankrekeningnummerPersoonsgegevensDocument ToDocument(
-        this Registratiedata.Bankrekeningnummer b,
+        this SamenvoegingDubbeleVereniging.Bankrekeningnummer b,
         string vCode
     ) =>
         new()

@@ -193,6 +193,28 @@ public class BeheerVerenigingDetailMapper
             Status = erkenning.Status,
         };
 
+    public static Bankrekeningnummer MapBankrekeningnummer(
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer b,
+        string vCode,
+        string bron
+    ) =>
+        new()
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(
+                JsonLdType.Bankrekeningnummer,
+                vCode,
+                b.BankrekeningnummerId.ToString()
+            ),
+            BankrekeningnummerId = b.BankrekeningnummerId,
+            Iban = b.Iban,
+            Doel = b.Doel,
+            Titularissen = b.Titularissen,
+            BevestigdDoor = b
+                .BevestigdDoor.Select(x => new GegevensInitiator { OvoCode = x.OvoCode, Naam = x.Naam })
+                .ToArray(),
+            Bron = bron,
+        };
+
     public static Werkingsgebied MapWerkingsgebied(Registratiedata.Werkingsgebied w) =>
         new()
         {

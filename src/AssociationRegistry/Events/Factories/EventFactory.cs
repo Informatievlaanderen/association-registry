@@ -99,11 +99,11 @@ public static class EventFactory
             dubbeleVereniging,
             SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
                 Registratiedata.Vertegenwoordiger,
-                Registratiedata.Bankrekeningnummer
+                SamenvoegingDubbeleVereniging.Bankrekeningnummer
             >.WithOnly(overgenomen),
             SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
                 Registratiedata.Vertegenwoordiger,
-                Registratiedata.Bankrekeningnummer
+                SamenvoegingDubbeleVereniging.Bankrekeningnummer
             >.WithOnly(nietOvergenomen)
         );
 
@@ -112,11 +112,11 @@ public static class EventFactory
         VCode dubbeleVereniging,
         SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
             Registratiedata.Vertegenwoordiger,
-            Registratiedata.Bankrekeningnummer
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer
         > overgenomen,
         SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
             Registratiedata.Vertegenwoordiger,
-            Registratiedata.Bankrekeningnummer
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer
         > nietOvergenomen
     ) => new(vCode, dubbeleVereniging, overgenomen, nietOvergenomen);
 #pragma warning restore CS0618

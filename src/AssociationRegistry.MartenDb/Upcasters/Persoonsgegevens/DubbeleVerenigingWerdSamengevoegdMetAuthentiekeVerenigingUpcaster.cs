@@ -57,7 +57,7 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingUpcaster
                     .ToArray(),
                 overgenomen
                     .Bankrekeningnummers.Select(
-                        x => new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.Bankrekeningnummer>(
+                        x => new SamenvoegingDubbeleVereniging.OvergenomenGegeven<SamenvoegingDubbeleVereniging.Bankrekeningnummer>(
                             x.Actie,
                             x.Beschrijving,
                             ToBankrekeningnummer(x.OrigineleWaarde, bankrekeningnummers),
@@ -79,7 +79,7 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingUpcaster
                     .ToArray(),
                 nietOvergenomen
                     .Bankrekeningnummers.Select(
-                        x => new SamenvoegingDubbeleVereniging.NietOvergenomenGegeven<Registratiedata.Bankrekeningnummer>(
+                        x => new SamenvoegingDubbeleVereniging.NietOvergenomenGegeven<SamenvoegingDubbeleVereniging.Bankrekeningnummer>(
                             x.Actie,
                             x.Reden,
                             x.Beschrijving,
@@ -147,18 +147,19 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingUpcaster
         );
     }
 
-    private static Registratiedata.Bankrekeningnummer ToBankrekeningnummer(
-        Registratiedata.BankrekeningnummerZonderPersoonsgegevens b,
+    private static SamenvoegingDubbeleVereniging.Bankrekeningnummer ToBankrekeningnummer(
+        SamenvoegingDubbeleVereniging.BankrekeningnummerZonderPersoonsgegevens b,
         Dictionary<Guid, BankrekeningnummerPersoonsgegevensDocument> documents
     )
     {
         documents.TryGetValue(b.RefId, out var doc);
 
-        return new Registratiedata.Bankrekeningnummer(
+        return new SamenvoegingDubbeleVereniging.Bankrekeningnummer(
             b.BankrekeningnummerId,
             doc?.Iban ?? WellKnownAnonymousFields.Geanonimiseerd,
             b.Doel,
-            doc?.Titularissen ?? []
+            doc?.Titularissen ?? [],
+            b.BevestigdDoor
         );
     }
 }

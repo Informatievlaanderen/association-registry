@@ -19,7 +19,7 @@ public class Given_DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging_Wit
     private string VCode => fixture.Scenario.AggregateId;
     private SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
         Registratiedata.Vertegenwoordiger,
-        Registratiedata.Bankrekeningnummer
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > Overgenomen => fixture.Scenario.Samengevoegd.OvergenomenGegevens;
 
     [Fact]

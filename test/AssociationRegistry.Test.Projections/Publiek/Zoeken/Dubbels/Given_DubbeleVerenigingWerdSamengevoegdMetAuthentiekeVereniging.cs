@@ -16,7 +16,7 @@ public class Given_DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
 {
     private SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
         Registratiedata.Vertegenwoordiger,
-        Registratiedata.Bankrekeningnummer
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > Overgenomen => fixture.Scenario.Samengevoegd.OvergenomenGegevens;
 
     [Fact]

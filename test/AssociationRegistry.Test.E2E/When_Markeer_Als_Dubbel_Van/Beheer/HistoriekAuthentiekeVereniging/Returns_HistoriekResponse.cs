@@ -93,7 +93,7 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
 
         var overgenomen = SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
             Registratiedata.Vertegenwoordiger,
-            Registratiedata.Bankrekeningnummer
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer
         >.WithOnly(
             new SamenvoegingDubbeleVereniging.OvergenomenBasisgegevens(
                 KorteNaam: null,
@@ -198,11 +198,23 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                     }
                 ),
             ],
+            Bankrekeningnummers =
+            [
+                new SamenvoegingDubbeleVereniging.OvergenomenGegeven<SamenvoegingDubbeleVereniging.Bankrekeningnummer>(
+                    SamenvoegingDubbeleVereniging.Acties.Toegevoegd,
+                    "Bankrekeningnummer met id 4 werd toegevoegd vanuit de dubbele vereniging.",
+                    TestBankrekeningnummers.BankrekeningnummerSamwise,
+                    TestBankrekeningnummers.BankrekeningnummerSamwise with
+                    {
+                        BankrekeningnummerId = 2,
+                    }
+                ),
+            ],
         };
 
         var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
             Registratiedata.Vertegenwoordiger,
-            Registratiedata.Bankrekeningnummer
+            SamenvoegingDubbeleVereniging.Bankrekeningnummer
         >.WithOnly(
             SamenvoegingDubbeleVereniging.NietOvergenomenBasisgegevens.Geen with
             {
@@ -261,6 +273,13 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                 SamenvoegingDubbeleVereniging.Gededupliceerd(
                     "Vertegenwoordiger met id 1",
                     MarkeerAlsDubbelVanContext.FrodoBijDeDubbeleVereniging
+                ),
+            ],
+            Bankrekeningnummers =
+            [
+                SamenvoegingDubbeleVereniging.Gededupliceerd(
+                    "Bankrekeningnummer met id 1",
+                    MarkeerAlsDubbelVanContext.ZelfdeIbanBijDeDubbeleVereniging
                 ),
             ],
         };

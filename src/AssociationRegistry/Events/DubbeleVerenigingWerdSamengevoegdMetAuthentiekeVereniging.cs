@@ -17,11 +17,11 @@ public record DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingZonderPer
     string VCodeDubbeleVereniging,
     SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
         Registratiedata.VertegenwoordigerZonderPersoonsgegevens,
-        Registratiedata.BankrekeningnummerZonderPersoonsgegevens
+        SamenvoegingDubbeleVereniging.BankrekeningnummerZonderPersoonsgegevens
     > OvergenomenGegevens,
     SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
         Registratiedata.VertegenwoordigerZonderPersoonsgegevens,
-        Registratiedata.BankrekeningnummerZonderPersoonsgegevens
+        SamenvoegingDubbeleVereniging.BankrekeningnummerZonderPersoonsgegevens
     > NietOvergenomenGegevens
 ) : IEvent
 {
@@ -35,11 +35,11 @@ public record DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
     string VCodeDubbeleVereniging,
     SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
         Registratiedata.Vertegenwoordiger,
-        Registratiedata.Bankrekeningnummer
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > OvergenomenGegevens,
     SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
         Registratiedata.Vertegenwoordiger,
-        Registratiedata.Bankrekeningnummer
+        SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > NietOvergenomenGegevens
 ) : IEvent
 {
@@ -174,6 +174,26 @@ public static class SamenvoegingDubbeleVereniging
         public int Aantal =>
             new object?[] { KorteNaam, KorteBeschrijving, Startdatum, Doelgroep }.Count(x => x is not null);
     }
+
+    /// <summary>
+    ///     Een bankrekeningnummer met wie het bevestigde, zodat ook de bevestigingen mee overgenomen worden.
+    ///     IBAN en titularissen zijn persoonsgegevens.
+    /// </summary>
+    public record Bankrekeningnummer(
+        int BankrekeningnummerId,
+        string Iban,
+        string Doel,
+        string[] Titularissen,
+        Registratiedata.GegevensInitiator[] BevestigdDoor
+    );
+
+    /// <summary>Het bankrekeningnummer zoals het bewaard wordt, met een verwijzing naar de persoonsgegevens.</summary>
+    public record BankrekeningnummerZonderPersoonsgegevens(
+        Guid RefId,
+        int BankrekeningnummerId,
+        string Doel,
+        Registratiedata.GegevensInitiator[] BevestigdDoor
+    );
 
     public record Erkenning(
         int ErkenningId,
