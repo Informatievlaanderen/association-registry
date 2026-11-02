@@ -23,6 +23,21 @@ public static class PublicApiEndpoints
     public static async Task<PubliekVerenigingDetailResponse> GetPubliekDetail(this IAlbaHost source, string vCode) =>
         await source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}");
 
+    public static async Task<PubliekVerenigingDetailResponse> GetPubliekDetail(
+        this IAlbaHost source,
+        string vCode,
+        long? expectedSequence
+    )
+    {
+        await WaitForExpectedSequence(
+            source: source,
+            expectedSequence: expectedSequence,
+            publiekverenigingzoekendocumentAll: PubliekVerenigingDetailProjection.ShardName.Identity
+        );
+
+        return await source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}");
+    }
+
     public static async Task<PubliekVerenigingDetailResponse> GetPubliekDetailWithHeader(
         this IAlbaHost source,
         HttpClient authenticatedClient,

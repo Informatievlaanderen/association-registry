@@ -83,6 +83,37 @@ public static class SamenvoegingDubbeleVereniging
         public const string NietOvergenomen = "NietOvergenomen";
     }
 
+    /// <summary>De namen van de basisgegevens, zoals ze in de beschrijvingen voor de historiek staan.</summary>
+    public static class Velden
+    {
+        public const string KorteNaam = "Korte naam";
+        public const string KorteBeschrijving = "Korte beschrijving";
+        public const string Startdatum = "Startdatum";
+        public const string Doelgroep = "Doelgroep";
+    }
+
+    /// <summary>Het attribuut was leeg op de authentieke vereniging en werd ingevuld met de waarde van de dubbele.</summary>
+    public static OvergenomenGegeven<T> Verrijkt<T>(string veld, T waarde) =>
+        new(Acties.Verrijkt, $"{veld} werd overgenomen van de dubbele vereniging.", waarde, waarde);
+
+    /// <summary>Het attribuut was op beide verenigingen gevuld; de authentieke waarde blijft behouden.</summary>
+    public static NietOvergenomenGegeven<T> NietOvergenomen<T>(string veld, T waarde) =>
+        new(
+            Acties.NietOvergenomen,
+            "De authentieke vereniging had al een andere waarde.",
+            $"{veld} werd niet overgenomen van de dubbele vereniging.",
+            waarde
+        );
+
+    /// <summary>Het attribuut had op beide verenigingen dezelfde waarde.</summary>
+    public static NietOvergenomenGegeven<T> Gededupliceerd<T>(string veld, T waarde) =>
+        new(
+            Acties.Gededupliceerd,
+            "De authentieke vereniging had al dezelfde waarde.",
+            $"{veld} werd niet opnieuw overgenomen van de dubbele vereniging.",
+            waarde
+        );
+
     /// <summary>
     ///     Een gegeven dat op de authentieke vereniging terechtkwam.
     ///     <see cref="OrigineleWaarde" /> is de waarde op de dubbele vereniging, <see cref="NieuweWaarde" /> de waarde
@@ -167,6 +198,10 @@ public static class SamenvoegingDubbeleVereniging
             + (SubverenigingVan is null ? 0 : 1)
             + Lidmaatschappen.Length;
 
+        public static OvergenomenGegevensPerGroep<TVertegenwoordiger, TBankrekeningnummer> WithOnly(
+            OvergenomenBasisgegevens basisgegevens
+        ) => new(basisgegevens, [], [], [], [], [], [], [], null, []);
+
         /// <summary>Dezelfde gegevens, met andere vertegenwoordigers en bankrekeningnummers.</summary>
         public OvergenomenGegevensPerGroep<TOtherVertegenwoordiger, TOtherBankrekeningnummer> With<
             TOtherVertegenwoordiger,
@@ -214,6 +249,10 @@ public static class SamenvoegingDubbeleVereniging
             + Erkenningen.Length
             + (SubverenigingVan is null ? 0 : 1)
             + Lidmaatschappen.Length;
+
+        public static NietOvergenomenGegevensPerGroep<TVertegenwoordiger, TBankrekeningnummer> WithOnly(
+            NietOvergenomenBasisgegevens basisgegevens
+        ) => new(basisgegevens, [], [], [], [], [], [], [], null, []);
 
         /// <summary>Dezelfde gegevens, met andere vertegenwoordigers en bankrekeningnummers.</summary>
         public NietOvergenomenGegevensPerGroep<TOtherVertegenwoordiger, TOtherBankrekeningnummer> With<

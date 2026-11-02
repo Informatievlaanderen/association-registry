@@ -3,12 +3,12 @@
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Admin.Schema.Constants;
 using FluentAssertions;
+using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
-
 
 [Collection(nameof(MarkeerAlsDubbelVanCollection))]
 public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
@@ -16,14 +16,21 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
     private readonly MarkeerAlsDubbelVanContext _testContext;
     private readonly ITestOutputHelper _helper;
 
-    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
+    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper)
+        : base(testContext.ApiSetup)
     {
         _testContext = testContext;
         _helper = helper;
     }
 
-    public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence));
+    public override async Task<DetailVerenigingResponse> GetResponse(FullBlownApiSetup setup) =>
+        await setup.AdminApiHost.GetBeheerDetail(
+            setup.AdminHttpClient,
+            _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+            headers: new RequestParameters().WithExpectedSequence(
+                _testContext.DubbeleVerenigingWerdSamengevoegd!.Sequence
+            )
+        );
 
     [Fact]
     public void With_IsDubbelVan_VCode_Of_AndereFeitelijkeVerenigingWerdGeregistreerd()
@@ -50,7 +57,36 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
 
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
-        Response.Vereniging.CorresponderendeVCodes.Should().Contain(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
+        Response
+            .Vereniging.CorresponderendeVCodes.Should()
+            .Contain(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
+    }
+
+    [Fact]
+    public void With_The_Own_KorteNaam_Kept() =>
+        Response
+            .Vereniging.KorteNaam.Should()
+            .Be(MarkeerAlsDubbelVanContext.BasisgegevensAuthentiekeVereniging.KorteNaam);
+
+    [Fact]
+    public void With_The_KorteBeschrijving_Of_The_Dubbele_Vereniging() =>
+        Response
+            .Vereniging.KorteBeschrijving.Should()
+            .Be(MarkeerAlsDubbelVanContext.BasisgegevensDubbeleVereniging.KorteBeschrijving);
+
+    [Fact]
+    public void With_The_Startdatum_Of_The_Dubbele_Vereniging() =>
+        Response
+            .Vereniging.Startdatum.Should()
+            .Be(MarkeerAlsDubbelVanContext.BasisgegevensDubbeleVereniging.Startdatum!.Value.FormatAsBelgianDate());
+
+    [Fact]
+    public void With_The_Doelgroep_Of_The_Dubbele_Vereniging()
+    {
+        var doelgroep = MarkeerAlsDubbelVanContext.BasisgegevensDubbeleVereniging.Doelgroep;
+
+        Response.Vereniging.Doelgroep.Minimumleeftijd.Should().Be(doelgroep.Minimumleeftijd);
+        Response.Vereniging.Doelgroep.Maximumleeftijd.Should().Be(doelgroep.Maximumleeftijd);
     }
 
     [Fact]

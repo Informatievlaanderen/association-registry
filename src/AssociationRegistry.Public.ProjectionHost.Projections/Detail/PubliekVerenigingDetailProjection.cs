@@ -210,6 +210,13 @@ public class PubliekVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<LidmaatschapWerdVerwijderd> @event, IDocumentOperations ops) =>
         await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
+#pragma warning disable CS0618
+    public async Task Project(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> @event,
+        IDocumentOperations ops
+    ) => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+#pragma warning restore CS0618
+
     public async Task Project(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> @event, IDocumentOperations ops) =>
         await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 

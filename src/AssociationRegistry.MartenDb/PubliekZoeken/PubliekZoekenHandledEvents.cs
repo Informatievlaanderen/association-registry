@@ -42,6 +42,9 @@ public class PubliekZoekenHandledEvents
         typeof(LidmaatschapWerdGewijzigd),
         typeof(LidmaatschapWerdVerwijderd),
         typeof(VerenigingWerdGemarkeerdAlsDubbelVan),
+#pragma warning disable CS0618
+        typeof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging),
+#pragma warning restore CS0618
         typeof(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt),
         typeof(MarkeringDubbeleVerengingWerdGecorrigeerd),
         typeof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging),

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.DuplicateDetection;
 
 using DecentraalBeheer.Vereniging;
+using Detail;
 using Events;
 using Formats;
 using Hosts.Configuration.ConfigurationBindings;
@@ -247,6 +248,33 @@ public class DuplicateDetectionProjectionHandler
             .OrderBy(x => x.LocatieId)
             .ToArray();
     }
+
+#pragma warning disable CS0618
+    /// <summary>Neemt de overgenomen gegevens over die meetellen voor de detectie van dubbels.</summary>
+    public void Handle(
+        EventEnvelope<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> message,
+        DuplicateDetectionDocument document
+    )
+    {
+        var overgenomen = message.Data.OvergenomenGegevens;
+
+        if (overgenomen.Basisgegevens.KorteNaam is not null)
+            document.KorteNaam = overgenomen.Basisgegevens.KorteNaam.NieuweWaarde;
+
+        document.HoofdactiviteitVerenigingsloket = document
+            .HoofdactiviteitVerenigingsloket.Concat(overgenomen.Hoofdactiviteiten.Select(x => x.NieuweWaarde.Code))
+            .Distinct()
+            .ToArray();
+
+        document.Locaties = document
+            .Locaties.AddOrReplace(overgenomen.Locaties.Select(x => Map(x.NieuweWaarde)), l => l.LocatieId)
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
+
+        if (overgenomen.SubverenigingVan is not null)
+            document.VerenigingssubtypeCode = VerenigingssubtypeCode.Subvereniging.Code;
+    }
+#pragma warning restore CS0618
 
     public void Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message, DuplicateDetectionDocument document)
     {

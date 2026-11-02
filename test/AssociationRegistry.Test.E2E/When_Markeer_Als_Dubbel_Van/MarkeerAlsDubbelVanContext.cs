@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van;
 
 using Admin.Api.WebApi.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using AssociationRegistry.Test.Common.DubbelMerge;
 using Events;
 using FluentAssertions;
 using Framework.ApiSetup;
@@ -20,16 +21,25 @@ public class MarkeerAlsDubbelVanCollection : ICollectionFixture<MarkeerAlsDubbel
     // to be the place to apply [CollectionDefinition] and all the
     // ICollectionFixture<> interfaces.
 }
+
 public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistreerdScenario, MarkeerAlsDubbelVanRequest>
 {
     public IEvent? VerenigingAanvaarddeDubbeleVereniging { get; private set; }
+    public IEvent? DubbeleVerenigingWerdSamengevoegd { get; private set; }
 
-    protected override MultipleWerdGeregistreerdScenario InitializeScenario()
-        => new MultipleWerdGeregistreerdScenario();
+    /// <summary>De dubbele vereniging heeft alle basisgegevens, de authentieke enkel een korte naam.</summary>
+    public static readonly TestBasisgegevens BasisgegevensDubbeleVereniging = TestBasisgegevens.Fellowship;
 
-    public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup): base(apiSetup)
+    public static readonly TestBasisgegevens BasisgegevensAuthentiekeVereniging = TestBasisgegevens.Empty with
     {
-    }
+        KorteNaam = TestBasisgegevens.Rivendell.KorteNaam,
+    };
+
+    protected override MultipleWerdGeregistreerdScenario InitializeScenario() =>
+        new(BasisgegevensDubbeleVereniging, BasisgegevensAuthentiekeVereniging);
+
+    public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup)
+        : base(apiSetup) { }
 
     protected override async ValueTask ExecuteScenario(MultipleWerdGeregistreerdScenario scenario)
     {
@@ -38,24 +48,33 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         using var scope = ApiSetup.AdminApiHost.Services.CreateScope();
         await using var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
 
-        var stream = await session
-                          .Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+        var stream = await session.Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
         var counter = 0;
 
-        VerenigingAanvaarddeDubbeleVereniging = stream
-           .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging));
+        VerenigingAanvaarddeDubbeleVereniging = stream.SingleOrDefault(x =>
+            x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging)
+        );
 
-        while(VerenigingAanvaarddeDubbeleVereniging is null && counter < 200)
+        while (VerenigingAanvaarddeDubbeleVereniging is null && counter < 200)
         {
             counter++;
             await Task.Delay(500);
 
             stream = await session.Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
 
-            VerenigingAanvaarddeDubbeleVereniging = stream
-               .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging));
+            VerenigingAanvaarddeDubbeleVereniging = stream.SingleOrDefault(x =>
+                x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging)
+            );
         }
 
         VerenigingAanvaarddeDubbeleVereniging.Should().NotBeNull();
+
+#pragma warning disable CS0618
+        DubbeleVerenigingWerdSamengevoegd = stream.SingleOrDefault(x =>
+            x.Data is DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging
+        );
+#pragma warning restore CS0618
+
+        DubbeleVerenigingWerdSamengevoegd.Should().NotBeNull();
     }
 }

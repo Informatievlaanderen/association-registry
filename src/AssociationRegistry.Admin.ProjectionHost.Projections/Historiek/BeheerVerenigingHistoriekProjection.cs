@@ -220,6 +220,13 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+#pragma warning disable CS0618
+    public async Task Project(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> @event,
+        IDocumentOperations ops
+    ) => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+#pragma warning restore CS0618
+
     public async Task Project(IEvent<VerenigingAanvaarddeDubbeleVereniging> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 

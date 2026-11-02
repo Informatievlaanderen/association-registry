@@ -87,6 +87,27 @@ public static class EventFactory
         VCode dubbeleVereniging
     ) => new(vCode, dubbeleVereniging);
 
+#pragma warning disable CS0618
+    public static DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
+        VCode vCode,
+        VCode dubbeleVereniging,
+        SamenvoegingDubbeleVereniging.OvergenomenBasisgegevens overgenomen,
+        SamenvoegingDubbeleVereniging.NietOvergenomenBasisgegevens nietOvergenomen
+    ) =>
+        new(
+            vCode,
+            dubbeleVereniging,
+            SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
+                Registratiedata.Vertegenwoordiger,
+                Registratiedata.Bankrekeningnummer
+            >.WithOnly(overgenomen),
+            SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
+                Registratiedata.Vertegenwoordiger,
+                Registratiedata.Bankrekeningnummer
+            >.WithOnly(nietOvergenomen)
+        );
+#pragma warning restore CS0618
+
     public static VerenigingWerdGestoptInKBO VerenigingWerdGestoptInKBO(Datum einddatum) => new(einddatum.Value);
 
     public static VerenigingWerdGestopt VerenigingWerdGestopt(Datum einddatum) => new(einddatum.Value);

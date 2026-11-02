@@ -368,6 +368,13 @@ public class PubliekVerenigingSequenceProjection : SingleStreamProjection<Publie
         PubliekVerenigingSequenceDocument doc
     ) => UpdateVersion(e, doc);
 
+#pragma warning disable CS0618
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> e,
+        PubliekVerenigingSequenceDocument doc
+    ) => UpdateVersion(e, doc);
+#pragma warning restore CS0618
+
     public PubliekVerenigingSequenceDocument Apply(
         IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> e,
         PubliekVerenigingSequenceDocument doc

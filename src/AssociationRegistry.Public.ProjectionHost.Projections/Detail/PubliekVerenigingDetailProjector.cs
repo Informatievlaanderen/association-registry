@@ -5,6 +5,7 @@ using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Adressen;
 using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
+using Extensions;
 using Formats;
 using Framework;
 using JasperFx.Events;
@@ -982,6 +983,152 @@ public static class PubliekVerenigingDetailProjector
             .OrderBy(l => l.LidmaatschapId)
             .ToArray();
     }
+
+#pragma warning disable CS0618
+    /// <summary>
+    ///     Neemt de overgenomen gegevens over op de authentieke vereniging.
+    ///     Vertegenwoordigers en bankrekeningnummers staan niet in het publieke detail.
+    /// </summary>
+    public static void Apply(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> @event,
+        PubliekVerenigingDetailDocument document
+    )
+    {
+        var overgenomen = @event.Data.OvergenomenGegevens;
+        var basisgegevens = overgenomen.Basisgegevens;
+
+        if (basisgegevens.KorteNaam is not null)
+            document.KorteNaam = basisgegevens.KorteNaam.NieuweWaarde;
+
+        if (basisgegevens.KorteBeschrijving is not null)
+            document.KorteBeschrijving = basisgegevens.KorteBeschrijving.NieuweWaarde;
+
+        if (basisgegevens.Startdatum is not null)
+            document.Startdatum = basisgegevens.Startdatum.NieuweWaarde;
+
+        if (basisgegevens.Doelgroep is not null)
+            document.Doelgroep = new Doelgroep
+            {
+                JsonLdMetadata = new JsonLdMetadata(
+                    JsonLdType.Doelgroep.CreateWithIdValues(document.VCode),
+                    JsonLdType.Doelgroep.Type
+                ),
+                Minimumleeftijd = basisgegevens.Doelgroep.NieuweWaarde.Minimumleeftijd,
+                Maximumleeftijd = basisgegevens.Doelgroep.NieuweWaarde.Maximumleeftijd,
+            };
+
+        document.HoofdactiviteitenVerenigingsloket = document
+            .HoofdactiviteitenVerenigingsloket.AddOrReplace(
+                overgenomen.Hoofdactiviteiten.Select(x => MapHoofdactiviteit(x.NieuweWaarde)),
+                h => h.Code
+            )
+            .ToArray();
+
+        document.Werkingsgebieden = document
+            .Werkingsgebieden.AddOrReplace(
+                overgenomen.Werkingsgebieden.Select(x => MapWerkingsgebied(x.NieuweWaarde)),
+                w => w.Code
+            )
+            .ToArray();
+
+        document.Contactgegevens = document
+            .Contactgegevens.AddOrReplace(
+                overgenomen.Contactgegevens.Select(x => MapContactgegeven(document.VCode, x.NieuweWaarde)),
+                c => c.ContactgegevenId
+            )
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
+
+        document.Locaties = document
+            .Locaties.AddOrReplace(
+                overgenomen.Locaties.Select(x => MapLocatie(document.VCode, x.NieuweWaarde)),
+                l => l.LocatieId
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
+
+        document.Erkenningen = document
+            .Erkenningen.AddOrReplace(
+                overgenomen.Erkenningen.Select(x => MapErkenning(document.VCode, x.NieuweWaarde)),
+                e => e.ErkenningId
+            )
+            .OrderBy(e => e.ErkenningId)
+            .ToArray();
+
+        document.Lidmaatschappen = document
+            .Lidmaatschappen.AddOrReplace(
+                overgenomen.Lidmaatschappen.Select(x => MapLidmaatschap(x.NieuweWaarde, document.VCode)),
+                l => l.LidmaatschapId
+            )
+            .OrderBy(l => l.LidmaatschapId)
+            .ToArray();
+
+        if (overgenomen.SubverenigingVan is not null)
+        {
+            var subverenigingVan = overgenomen.SubverenigingVan.NieuweWaarde;
+
+            document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype
+            {
+                Code = VerenigingssubtypeCode.Subvereniging.Code,
+                Naam = VerenigingssubtypeCode.Subvereniging.Naam,
+            };
+
+            document.SubverenigingVan = new PubliekVerenigingDetailDocument.Types.SubverenigingVan
+            {
+                AndereVereniging = subverenigingVan.AndereVereniging,
+                AndereVerenigingNaam = subverenigingVan.AndereVerenigingNaam,
+                Identificatie = subverenigingVan.Identificatie,
+                Beschrijving = subverenigingVan.Beschrijving,
+            };
+        }
+    }
+#pragma warning restore CS0618
+
+    private static PubliekVerenigingDetailDocument.Types.Contactgegeven MapContactgegeven(
+        string vCode,
+        Registratiedata.Contactgegeven contactgegeven
+    ) =>
+        new()
+        {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.Contactgegeven.CreateWithIdValues(vCode, contactgegeven.ContactgegevenId.ToString()),
+                JsonLdType.Contactgegeven.Type
+            ),
+            ContactgegevenId = contactgegeven.ContactgegevenId,
+            Contactgegeventype = contactgegeven.Contactgegeventype,
+            Waarde = contactgegeven.Waarde,
+            Beschrijving = contactgegeven.Beschrijving,
+            IsPrimair = contactgegeven.IsPrimair,
+        };
+
+    private static PubliekVerenigingDetailDocument.Types.Erkenning MapErkenning(
+        string vCode,
+        SamenvoegingDubbeleVereniging.Erkenning erkenning
+    ) =>
+        new()
+        {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.Erkenning.CreateWithIdValues(vCode, erkenning.ErkenningId.ToString()),
+                JsonLdType.Erkenning.Type
+            ),
+            ErkenningId = erkenning.ErkenningId,
+            GeregistreerdDoor = new PubliekVerenigingDetailDocument.Types.GegevensInitiator
+            {
+                OvoCode = erkenning.GeregistreerdDoor.OvoCode,
+                Naam = erkenning.GeregistreerdDoor.Naam,
+            },
+            IpdcProduct = new PubliekVerenigingDetailDocument.Types.IpdcProduct
+            {
+                Nummer = erkenning.IpdcProduct.Nummer,
+                Naam = erkenning.IpdcProduct.Naam,
+            },
+            Startdatum = erkenning.Startdatum,
+            Einddatum = erkenning.Einddatum,
+            Hernieuwingsdatum = erkenning.Hernieuwingsdatum,
+            HernieuwingsUrl = erkenning.HernieuwingsUrl,
+            RedenSchorsing = erkenning.RedenSchorsing,
+            Status = erkenning.Status,
+        };
 
     public static void Apply(
         IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbel,

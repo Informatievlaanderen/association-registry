@@ -253,6 +253,21 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+#pragma warning disable CS0618
+    public async Task Project(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> @event,
+        IDocumentOperations ops
+    )
+    {
+        var vereniging = await VerenigingDocumentProjector.Apply(@event, ops);
+
+        var docs = new List<object> { vereniging };
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(@event, vereniging, ops));
+
+        ops.StoreObjects(docs);
+    }
+#pragma warning restore CS0618
+
     public async Task Project(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, IDocumentOperations ops)
     {
         var docs = new List<object>();

@@ -2,6 +2,7 @@
 
 using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Events;
+using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
@@ -17,14 +18,21 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
     private readonly MarkeerAlsDubbelVanContext _testContext;
     private readonly ITestOutputHelper _helper;
 
-    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
+    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper)
+        : base(testContext.ApiSetup)
     {
         _testContext = testContext;
         _helper = helper;
     }
 
-    public override async Task<HistoriekResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient ,_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence));
+    public override async Task<HistoriekResponse> GetResponse(FullBlownApiSetup setup) =>
+        await setup.AdminApiHost.GetBeheerHistoriek(
+            setup.AdminHttpClient,
+            _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+            headers: new RequestParameters().WithExpectedSequence(
+                _testContext.DubbeleVerenigingWerdSamengevoegd!.Sequence
+            )
+        );
 
     [Fact]
     public async ValueTask With_VCode()
@@ -55,11 +63,70 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
         Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/beheer/historiek-vereniging-context.json");
     }
 
+#pragma warning disable CS0618
+    [Fact]
+    public void With_The_Samenvoeging_After_The_Aanvaarding()
+    {
+        var gebeurtenissen = Response.Gebeurtenissen.Select(x => x.Gebeurtenis).ToArray();
+
+        gebeurtenissen
+            .Should()
+            .EndWith([
+                nameof(VerenigingAanvaarddeDubbeleVereniging),
+                nameof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging),
+            ]);
+    }
+
+    /// <summary>
+    ///     De authentieke vereniging had enkel een korte naam: die blijft behouden, de rest wordt overgenomen.
+    /// </summary>
+    [Fact]
+    public void With_The_Samenvoeging_Gebeurtenis()
+    {
+        var dubbele = MarkeerAlsDubbelVanContext.BasisgegevensDubbeleVereniging;
+
+        var gebeurtenis = Response.Gebeurtenissen.Single(x =>
+            x.Gebeurtenis == nameof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging)
+        );
+
+        gebeurtenis.ShouldCompare(
+            HistoriekGebeurtenisMapper.DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
+                _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+                _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
+                new SamenvoegingDubbeleVereniging.OvergenomenBasisgegevens(
+                    KorteNaam: null,
+                    KorteBeschrijving: SamenvoegingDubbeleVereniging.Verrijkt(
+                        SamenvoegingDubbeleVereniging.Velden.KorteBeschrijving,
+                        dubbele.KorteBeschrijving
+                    ),
+                    Startdatum: SamenvoegingDubbeleVereniging.Verrijkt(
+                        SamenvoegingDubbeleVereniging.Velden.Startdatum,
+                        dubbele.Startdatum!.Value
+                    ),
+                    Doelgroep: SamenvoegingDubbeleVereniging.Verrijkt(
+                        SamenvoegingDubbeleVereniging.Velden.Doelgroep,
+                        dubbele.Doelgroep
+                    )
+                ),
+                SamenvoegingDubbeleVereniging.NietOvergenomenBasisgegevens.Geen with
+                {
+                    KorteNaam = SamenvoegingDubbeleVereniging.NietOvergenomen(
+                        SamenvoegingDubbeleVereniging.Velden.KorteNaam,
+                        dubbele.KorteNaam
+                    ),
+                }
+            ),
+            compareConfig: HistoriekComparisonConfig.Instance
+        );
+    }
+#pragma warning restore CS0618
+
     [Fact]
     public async ValueTask With_All_Gebeurtenissen()
     {
-        var gebeurtenis =
-            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingAanvaarddeDubbeleVereniging));
+        var gebeurtenis = Response.Gebeurtenissen.SingleOrDefault(x =>
+            x.Gebeurtenis == nameof(VerenigingAanvaarddeDubbeleVereniging)
+        );
 
         var tryCounter = 0;
 
@@ -78,7 +145,12 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
 
-        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingAanvaarddeDubbeleVereniging(_testContext.CommandRequest, _testContext.VCode),
-                                        compareConfig: HistoriekComparisonConfig.Instance);
+        gebeurtenis.ShouldCompare(
+            HistoriekGebeurtenisMapper.VerenigingAanvaarddeDubbeleVereniging(
+                _testContext.CommandRequest,
+                _testContext.VCode
+            ),
+            compareConfig: HistoriekComparisonConfig.Instance
+        );
     }
 }

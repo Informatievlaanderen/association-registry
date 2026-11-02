@@ -3,6 +3,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Contracts.JsonLdContext;
 using DecentraalBeheer.Vereniging;
 using Events;
+using Extensions;
 using Formats;
 using JasperFx.Events.Projections;
 using Schema.Detail;
@@ -538,6 +539,95 @@ public class PubliekZoekProjectionHandler
             .OrderBy(x => x.LidmaatschapId)
             .ToArray();
     }
+
+#pragma warning disable CS0618
+    /// <summary>
+    ///     Neemt de overgenomen gegevens over op de authentieke vereniging.
+    ///     Startdatum, contactgegevens, vertegenwoordigers, bankrekeningnummers en erkenningen staan niet in het zoekdocument.
+    /// </summary>
+    public void Handle(
+        EventEnvelope<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> message,
+        VerenigingZoekDocument document
+    )
+    {
+        var overgenomen = message.Data.OvergenomenGegevens;
+        var basisgegevens = overgenomen.Basisgegevens;
+
+        if (basisgegevens.KorteNaam is not null)
+            document.KorteNaam = basisgegevens.KorteNaam.NieuweWaarde;
+
+        if (basisgegevens.KorteBeschrijving is not null)
+            document.KorteBeschrijving = basisgegevens.KorteBeschrijving.NieuweWaarde;
+
+        if (basisgegevens.Doelgroep is not null)
+            document.Doelgroep = new Doelgroep
+            {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, message.VCode),
+                Minimumleeftijd = basisgegevens.Doelgroep.NieuweWaarde.Minimumleeftijd,
+                Maximumleeftijd = basisgegevens.Doelgroep.NieuweWaarde.Maximumleeftijd,
+            };
+
+        document.HoofdactiviteitenVerenigingsloket = document
+            .HoofdactiviteitenVerenigingsloket.AddOrReplace(
+                overgenomen.Hoofdactiviteiten.Select(
+                    x => new VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket
+                    {
+                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Hoofdactiviteit, x.NieuweWaarde.Code),
+                        Code = x.NieuweWaarde.Code,
+                        Naam = x.NieuweWaarde.Naam,
+                    }
+                ),
+                h => h.Code
+            )
+            .ToArray();
+
+        document.Werkingsgebieden = document
+            .Werkingsgebieden.AddOrReplace(
+                overgenomen.Werkingsgebieden.Select(x => new VerenigingZoekDocument.Types.Werkingsgebied
+                {
+                    JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Werkingsgebied, x.NieuweWaarde.Code),
+                    Code = x.NieuweWaarde.Code,
+                    Naam = x.NieuweWaarde.Naam,
+                }),
+                w => w.Code
+            )
+            .ToArray();
+
+        document.Locaties = document
+            .Locaties.AddOrReplace(
+                overgenomen.Locaties.Select(x => Map(x.NieuweWaarde, message.VCode)),
+                l => l.LocatieId
+            )
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
+
+        document.Lidmaatschappen = document
+            .Lidmaatschappen.AddOrReplace(
+                overgenomen.Lidmaatschappen.Select(x => Map(x.NieuweWaarde, message.VCode)),
+                l => l.LidmaatschapId
+            )
+            .OrderBy(l => l.LidmaatschapId)
+            .ToArray();
+
+        if (overgenomen.SubverenigingVan is not null)
+        {
+            var subverenigingVan = overgenomen.SubverenigingVan.NieuweWaarde;
+
+            document.Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
+            {
+                Code = VerenigingssubtypeCode.Subvereniging.Code,
+                Naam = VerenigingssubtypeCode.Subvereniging.Naam,
+            };
+
+            document.SubverenigingVan = new VerenigingZoekDocument.Types.SubverenigingVan
+            {
+                AndereVereniging = subverenigingVan.AndereVereniging,
+                Identificatie = subverenigingVan.Identificatie,
+                Beschrijving = subverenigingVan.Beschrijving,
+            };
+        }
+    }
+#pragma warning restore CS0618
 
     public void Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message, VerenigingZoekDocument document)
     {
