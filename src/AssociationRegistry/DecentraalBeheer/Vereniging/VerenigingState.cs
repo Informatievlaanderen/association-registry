@@ -788,8 +788,8 @@ public record VerenigingState : IHasVersion
         };
 
     /// <summary>
-    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten en werkingsgebieden samengevoegd; de andere groepen zijn
-    ///     nog leeg.
+    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden en contactgegevens samengevoegd; de
+    ///     andere groepen zijn nog leeg.
     /// </summary>
 #pragma warning disable CS0618
     public VerenigingState Apply(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging @event)
@@ -812,6 +812,20 @@ public record VerenigingState : IHasVersion
                         )
                     )
                     .ToArray()
+            ),
+            Contactgegevens = Contactgegevens.Hydrate(
+                Contactgegevens.Concat(
+                    @event.OvergenomenGegevens.Contactgegevens.Select(x =>
+                        Contactgegeven.Hydrate(
+                            x.NieuweWaarde.ContactgegevenId,
+                            Contactgegeventype.Parse(x.NieuweWaarde.Contactgegeventype),
+                            x.NieuweWaarde.Waarde,
+                            x.NieuweWaarde.Beschrijving,
+                            x.NieuweWaarde.IsPrimair,
+                            Bron.Initiator
+                        )
+                    )
+                )
             ),
             Werkingsgebieden = addedWerkingsgebieden.Contains(Werkingsgebied.NietVanToepassing)
                 ? Werkingsgebieden.NietVanToepassing

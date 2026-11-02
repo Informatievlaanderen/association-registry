@@ -35,17 +35,30 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         KorteNaam = TestBasisgegevens.Rivendell.KorteNaam,
     };
 
-    /// <summary>Jeugdwerk en Vlaams-Brabant zijn nieuw voor de authentieke vereniging, Sport had ze al.</summary>
+    /// <summary>
+    ///     Jeugdwerk en Vlaams-Brabant zijn nieuw voor de authentieke vereniging, Sport had ze al.
+    ///     Van de contactgegevens wordt de e-mail niet-primair (de authentieke heeft al een primaire e-mail), blijft de
+    ///     website primair, wordt de social media link toegevoegd, is het telefoonnummer hetzelfde en is het ongeldige
+    ///     telefoonnummer niet overgenomen.
+    /// </summary>
     public static readonly TestVerenigingsgegevens GegevensDubbeleVereniging = new(
         BasisgegevensDubbeleVereniging,
         [TestHoofdactiviteiten.Sport, TestHoofdactiviteiten.Jeugdwerk],
-        [TestWerkingsgebieden.VlaamsBrabant]
+        [TestWerkingsgebieden.VlaamsBrabant],
+        [
+            TestContactgegevens.EmailFellowship,
+            TestContactgegevens.WebsiteFellowship,
+            TestContactgegevens.TelefoonFellowship,
+            TestContactgegevens.OngeldigeTelefoonFellowship,
+            TestContactgegevens.SocialMediaFellowship,
+        ]
     );
 
     public static readonly TestVerenigingsgegevens GegevensAuthentiekeVereniging = new(
         BasisgegevensAuthentiekeVereniging,
         [TestHoofdactiviteiten.Sport],
-        []
+        [],
+        [TestContactgegevens.EmailRivendell, TestContactgegevens.TelefoonRivendell]
     );
 
     protected override MultipleWerdGeregistreerdScenario InitializeScenario() =>

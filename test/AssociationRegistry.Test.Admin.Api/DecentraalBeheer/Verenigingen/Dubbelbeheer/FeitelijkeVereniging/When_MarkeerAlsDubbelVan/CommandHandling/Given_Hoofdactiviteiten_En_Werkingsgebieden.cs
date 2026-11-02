@@ -174,7 +174,8 @@ public class Given_Hoofdactiviteiten_En_Werkingsgebieden
         var dubbeleVereniging = _fixture
             .Create<FeitelijkeVerenigingWerdGeregistreerd>()
             .WithBasisgegevens(TestBasisgegevens.Empty)
-            .WithHoofdactiviteiten(dubbeleHoofdactiviteiten ?? []);
+            .WithHoofdactiviteiten(dubbeleHoofdactiviteiten ?? [])
+            .WithContactgegevens([]);
         var authentiekeVereniging = _fixture
             .Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
             .WithBasisgegevens(TestBasisgegevens.Empty)

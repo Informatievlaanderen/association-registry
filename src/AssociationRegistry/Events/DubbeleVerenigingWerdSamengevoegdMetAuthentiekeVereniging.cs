@@ -109,6 +109,13 @@ public static class SamenvoegingDubbeleVereniging
     public static OvergenomenGegeven<T> Toegevoegd<T>(string omschrijving, T waarde) =>
         new(Acties.Toegevoegd, $"{omschrijving} werd toegevoegd vanuit de dubbele vereniging.", waarde, waarde);
 
+    /// <summary>Het gegeven werd toegevoegd, maar aangepast om aan de regels te voldoen, bv. wel primair.</summary>
+    public static OvergenomenGegeven<T> ToegevoegdMetAanpassing<T>(
+        string beschrijving,
+        T origineleWaarde,
+        T nieuweWaarde
+    ) => new(Acties.ToegevoegdMetAanpassing, beschrijving, origineleWaarde, nieuweWaarde);
+
     /// <summary>Het gegeven kon niet toegevoegd worden omwille van een regel, zie de reden.</summary>
     public static NietOvergenomenGegeven<T> NietOvergenomen<T>(string omschrijving, T waarde, string reden) =>
         new(Acties.NietOvergenomen, reden, $"{omschrijving} werd niet overgenomen van de dubbele vereniging.", waarde);

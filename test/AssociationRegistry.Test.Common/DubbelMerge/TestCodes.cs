@@ -21,11 +21,11 @@ public static class TestCodesExtensions
 {
     public static FeitelijkeVerenigingWerdGeregistreerd WithHoofdactiviteiten(
         this FeitelijkeVerenigingWerdGeregistreerd @event,
-        params Registratiedata.HoofdactiviteitVerenigingsloket[] hoofdactiviteiten
+        Registratiedata.HoofdactiviteitVerenigingsloket[] hoofdactiviteiten
     ) => @event with { HoofdactiviteitenVerenigingsloket = hoofdactiviteiten };
 
     public static VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd WithHoofdactiviteiten(
         this VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event,
-        params Registratiedata.HoofdactiviteitVerenigingsloket[] hoofdactiviteiten
+        Registratiedata.HoofdactiviteitVerenigingsloket[] hoofdactiviteiten
     ) => @event with { HoofdactiviteitenVerenigingsloket = hoofdactiviteiten };
 }
