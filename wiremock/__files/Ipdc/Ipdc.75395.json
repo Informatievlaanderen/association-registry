@@ -1,0 +1,69 @@
+{
+  "id": "wiremock-ipdc-75395",
+  "aangemaaktDoor": {
+    "id": "http://data.info",
+    "@id": "http://data.info"
+  },
+  "beschrijving": {
+    "nl-BE-x-informal": "<p>Je hebt iets geschreven</p>",
+    "nl": "<p>Je hebt iets geschreven</p>",
+    "nl-BE-x-generated-formal": "<p>U hebt iets geschreven</p>"
+  },
+  "bevoegdBestuursniveaus": [
+    "Vlaams"
+  ],
+  "bevoegdeOverheden": [
+    {
+      "id": "OVO000106",
+      "@id": "OVO000106"
+    }
+  ],
+  "cases": [
+    "rechtenverkenner"
+  ],
+  "creatie": "2026-05-27T13:20:56.802Z",
+  "doelgroepen": [
+    "Organisatie"
+  ],
+  "gearchiveerd": false,
+  "geografischToepassingsgebieden": [
+    "BE24224062"
+  ],
+  "laatstGewijzigd": "2026-05-27T13:30:10.437358413Z",
+  "laatstOntvangen": "2026-05-27T13:30:10.437359316Z",
+  "linkedConcept": "https://ipdc.be/id/concept/1008",
+  "linkedConceptId": "1008",
+  "linkedConceptProductnummer": "75395",
+  "metadata": {
+    "uJeVersie": "46.1.0",
+    "generatedFormeleFields": true,
+    "generatedInformeleFields": false
+  },
+  "naam": {
+    "nl-BE-x-generated-formal": "Lembas bakken",
+    "nl-BE-x-informal": "Lembas bakken",
+    "nl": "Lembas bakken"
+  },
+  "productnummer": "75395",
+  "type": "AdviesBegeleiding",
+  "uitgesloten": false,
+  "uitvoerendBestuursniveaus": [
+    "Vlaams",
+    "Lokaal"
+  ],
+  "uitvoerendeOverheden": [
+    {
+      "id": "OVO002149",
+      "@id": "OVO002149"
+    },
+    {
+      "id": "OVO000106",
+      "@id": "OVO000106"
+    }
+  ],
+  "@context": [
+    "https://ipdc.jsonld"
+  ],
+  "@id": "https://ipdc.be/id/instantie/1008",
+  "@type": "Instantie"
+}
