@@ -471,6 +471,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     ///     <see cref="ContactgegevensSamenvoeging" />, <see cref="LocatiesSamenvoeging" />,
     ///     <see cref="VertegenwoordigersSamenvoeging" />, <see cref="BankrekeningnummersSamenvoeging" /> en
     ///     <see cref="ErkenningenSamenvoeging" />. Lidmaatschappen en subverenigingen worden nog niet samengevoegd.
+    ///     Bij een vereniging met rechtspersoonlijkheid worden de gegevens die enkel via de KBO bijgewerkt worden niet
+    ///     overgenomen, zie <see cref="VerenigingMetRechtspersoonlijkheidSamenvoeging" />.
     ///     Er komt geen event als de dubbele vereniging niets heeft om samen te voegen.
     /// </summary>
     public void VoegDubbeleVerenigingSamen(VerenigingsBase dubbeleVereniging)
@@ -490,7 +492,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var locaties = LocatiesSamenvoeging.Merge(State.Locaties, dubbeleState.Locaties);
         var vertegenwoordigers = VertegenwoordigersSamenvoeging.Merge(
             State.Vertegenwoordigers,
-            dubbeleState.Vertegenwoordigers
+            dubbeleState.Vertegenwoordigers,
+            VerenigingMetRechtspersoonlijkheidSamenvoeging.IsVerenigingMetRechtspersoonlijkheid(State)
         );
         var bankrekeningnummers = BankrekeningnummersSamenvoeging.Merge(
             State.Bankrekeningnummers,

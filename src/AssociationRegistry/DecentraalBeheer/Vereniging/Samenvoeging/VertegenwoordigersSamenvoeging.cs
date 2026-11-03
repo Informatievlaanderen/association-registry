@@ -10,6 +10,8 @@ using Gegevens = Events.SamenvoegingDubbeleVereniging;
 ///     toegevoegd; de gegevens op de authentieke vereniging worden nooit overschreven.
 ///     Heeft de authentieke vereniging al een primaire vertegenwoordiger, dan wordt een primaire vertegenwoordiger van de
 ///     dubbele vereniging overgenomen als niet-primair.
+///     Een vereniging met rechtspersoonlijkheid krijgt haar vertegenwoordigers enkel via de KBO; daar wordt geen enkele
+///     vertegenwoordiger overgenomen (zie <see cref="VerenigingMetRechtspersoonlijkheidSamenvoeging" />).
 /// </summary>
 /// <remarks>De beschrijvingen bevatten geen persoonsgegevens, want ze worden mee bewaard in het event.</remarks>
 public static class VertegenwoordigersSamenvoeging
@@ -17,7 +19,11 @@ public static class VertegenwoordigersSamenvoeging
     public static (
         Gegevens.OvergenomenGegeven<Registratiedata.Vertegenwoordiger>[] Overgenomen,
         Gegevens.NietOvergenomenGegeven<Registratiedata.Vertegenwoordiger>[] NietOvergenomen
-    ) Merge(Vertegenwoordigers authentiekeVereniging, Vertegenwoordigers dubbeleVereniging)
+    ) Merge(
+        Vertegenwoordigers authentiekeVereniging,
+        Vertegenwoordigers dubbeleVereniging,
+        bool authentiekeIsVerenigingMetRechtspersoonlijkheid
+    )
     {
         var vertegenwoordigers = authentiekeVereniging;
 
@@ -32,6 +38,19 @@ public static class VertegenwoordigersSamenvoeging
             if (vertegenwoordigers.Any(x => x.Insz == vertegenwoordiger.Insz))
             {
                 nietOvergenomen.Add(Gegevens.Gededupliceerd(description, original));
+
+                continue;
+            }
+
+            if (authentiekeIsVerenigingMetRechtspersoonlijkheid)
+            {
+                nietOvergenomen.Add(
+                    Gegevens.NietOvergenomen(
+                        description,
+                        original,
+                        VerenigingMetRechtspersoonlijkheidSamenvoeging.RedenBeheerdViaKbo
+                    )
+                );
 
                 continue;
             }
