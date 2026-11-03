@@ -139,6 +139,46 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
             ]);
 
     [Fact]
+    public void With_The_Own_And_The_Overgenomen_Erkenningen() =>
+        Response
+            .Vereniging.Erkenningen.Select(x => new
+            {
+                x.ErkenningId,
+                x.IpdcProduct.Nummer,
+                x.GeregistreerdDoor.OvoCode,
+                x.Startdatum,
+                x.Einddatum,
+                x.Hernieuwingsdatum,
+                x.HernieuwingsUrl,
+                x.Status,
+            })
+            .Should()
+            .BeEquivalentTo([
+                new
+                {
+                    ErkenningId = 1,
+                    TestErkenningen.LembasBakken.Nummer,
+                    TestErkenningen.Rivendell.OvoCode,
+                    Startdatum = (string?)"2020-01-01",
+                    Einddatum = (string?)"2021-12-31",
+                    Hernieuwingsdatum = (string?)null,
+                    HernieuwingsUrl = string.Empty,
+                    TestErkenningen.LembasBakkenRivendell.Status,
+                },
+                new
+                {
+                    ErkenningId = 2,
+                    TestErkenningen.RingdragersBegeleiden.Nummer,
+                    TestErkenningen.Gondor.OvoCode,
+                    Startdatum = (string?)"2024-01-01",
+                    Einddatum = (string?)null,
+                    Hernieuwingsdatum = (string?)"2030-01-01",
+                    TestErkenningen.RingdragersBegeleidenGondor.HernieuwingsUrl,
+                    TestErkenningen.RingdragersBegeleidenGondor.Status,
+                },
+            ]);
+
+    [Fact]
     public void With_The_Doelgroep_Of_The_Dubbele_Vereniging()
     {
         var doelgroep = MarkeerAlsDubbelVanContext.BasisgegevensDubbeleVereniging.Doelgroep;

@@ -29,9 +29,7 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
             setup.AdminHttpClient,
             $"vCode:{_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode}",
             setup.AdminApiHost.DocumentStore(),
-            headers: new RequestParameters().WithExpectedSequence(
-                _testContext.DubbeleVerenigingWerdSamengevoegd!.Sequence
-            ),
+            headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingWerdErkend!.Sequence),
             testOutputHelper: _helper
         );
 
@@ -108,6 +106,10 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
                     IsPrimair = false,
                 },
             ]);
+
+    [Fact]
+    public void With_IsErkend_Through_The_Overgenomen_Actieve_Erkenning() =>
+        AuthentiekeVereniging.IsErkend.Should().BeTrue();
 
     [Fact]
     public void With_The_Doelgroep_Of_The_Dubbele_Vereniging()

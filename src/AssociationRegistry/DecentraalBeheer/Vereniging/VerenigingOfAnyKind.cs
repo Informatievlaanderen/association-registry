@@ -469,8 +469,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     ///     te overschrijven. De regels staan per groep in <see cref="BasisgegevensSamenvoeging" />,
     ///     <see cref="HoofdactiviteitenSamenvoeging" />, <see cref="WerkingsgebiedenSamenvoeging" />,
     ///     <see cref="ContactgegevensSamenvoeging" />, <see cref="LocatiesSamenvoeging" />,
-    ///     <see cref="VertegenwoordigersSamenvoeging" /> en <see cref="BankrekeningnummersSamenvoeging" />.
-    ///     Erkenningen, lidmaatschappen en subverenigingen worden nog niet samengevoegd.
+    ///     <see cref="VertegenwoordigersSamenvoeging" />, <see cref="BankrekeningnummersSamenvoeging" /> en
+    ///     <see cref="ErkenningenSamenvoeging" />. Lidmaatschappen en subverenigingen worden nog niet samengevoegd.
     ///     Er komt geen event als de dubbele vereniging niets heeft om samen te voegen.
     /// </summary>
     public void VoegDubbeleVerenigingSamen(VerenigingsBase dubbeleVereniging)
@@ -496,6 +496,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             State.Bankrekeningnummers,
             dubbeleState.Bankrekeningnummers
         );
+        var erkenningen = ErkenningenSamenvoeging.Merge(State.Erkenningen, dubbeleState.Erkenningen);
 
 #pragma warning disable CS0618
         var overgenomen = SamenvoegingDubbeleVereniging.OvergenomenGegevensPerGroep<
@@ -509,6 +510,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             Locaties = locaties.Overgenomen,
             Vertegenwoordigers = vertegenwoordigers.Overgenomen,
             Bankrekeningnummers = bankrekeningnummers.Overgenomen,
+            Erkenningen = erkenningen.Overgenomen,
         };
 
         var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
@@ -522,6 +524,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             Locaties = locaties.NietOvergenomen,
             Vertegenwoordigers = vertegenwoordigers.NietOvergenomen,
             Bankrekeningnummers = bankrekeningnummers.NietOvergenomen,
+            Erkenningen = erkenningen.NietOvergenomen,
         };
 #pragma warning restore CS0618
 
@@ -536,6 +539,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 nietOvergenomen
             )
         );
+
+        // Een overgenomen actieve erkenning kan de vereniging erkend maken.
+        AddVerenigingWerdErkendOrNietLangerErkendIfStatusChanged();
     }
 
     public void AanvaardCorrectieDubbeleVereniging(VCode dubbeleVereniging)

@@ -210,6 +210,18 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                     }
                 ),
             ],
+            Erkenningen =
+            [
+                new SamenvoegingDubbeleVereniging.OvergenomenGegeven<SamenvoegingDubbeleVereniging.Erkenning>(
+                    SamenvoegingDubbeleVereniging.Acties.Toegevoegd,
+                    "Erkenning 'Ringdragers begeleiden' werd toegevoegd vanuit de dubbele vereniging.",
+                    TestErkenningen.RingdragersBegeleidenGondor.ToSamenvoeging(),
+                    TestErkenningen.RingdragersBegeleidenGondor.ToSamenvoeging() with
+                    {
+                        ErkenningId = 2,
+                    }
+                ),
+            ],
         };
 
         var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
@@ -280,6 +292,18 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                 SamenvoegingDubbeleVereniging.Gededupliceerd(
                     "Bankrekeningnummer met id 1",
                     MarkeerAlsDubbelVanContext.ZelfdeIbanBijDeDubbeleVereniging
+                ),
+            ],
+            Erkenningen =
+            [
+                SamenvoegingDubbeleVereniging.Gededupliceerd(
+                    "Erkenning 'Lembas bakken'",
+                    TestErkenningen.LembasBakkenRivendell.ToSamenvoeging()
+                ),
+                SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    "Erkenning 'Lembas bakken'",
+                    TestErkenningen.OverlappendLembasBakkenRivendell.ToSamenvoeging(),
+                    AssociationRegistry.DecentraalBeheer.Vereniging.Samenvoeging.ErkenningenSamenvoeging.RedenOverlap
                 ),
             ],
         };

@@ -788,7 +788,7 @@ public record VerenigingState : IHasVersion
         };
 
     /// <summary>
-    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens, locaties, vertegenwoordigers en bankrekeningnummers samengevoegd; de
+    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens, locaties, vertegenwoordigers, bankrekeningnummers en erkenningen samengevoegd; de
     ///     andere groepen zijn nog leeg.
     /// </summary>
 #pragma warning disable CS0618
@@ -812,6 +812,23 @@ public record VerenigingState : IHasVersion
                         )
                     )
                     .ToArray()
+            ),
+            Erkenningen = Erkenningen.Hydrate(
+                Erkenningen.Concat(
+                    @event.OvergenomenGegevens.Erkenningen.Select(x =>
+                        Erkenning.Hydrate(
+                            x.NieuweWaarde.ErkenningId,
+                            x.NieuweWaarde.GeregistreerdDoor,
+                            x.NieuweWaarde.IpdcProduct,
+                            x.NieuweWaarde.Startdatum,
+                            x.NieuweWaarde.Einddatum,
+                            x.NieuweWaarde.Hernieuwingsdatum,
+                            x.NieuweWaarde.HernieuwingsUrl,
+                            x.NieuweWaarde.RedenSchorsing,
+                            x.NieuweWaarde.Status
+                        )
+                    )
+                )
             ),
             Bankrekeningnummers = Bankrekeningnummers.Hydrate(
                 Bankrekeningnummers.Concat(
