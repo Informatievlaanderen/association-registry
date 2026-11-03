@@ -5,6 +5,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.DubbelMerge;
 using AutoFixture;
 using DecentraalBeheer.Vereniging;
+using DecentraalBeheer.Vereniging.Erkenningen;
 using Events;
 using EventStore;
 using MartenDb.Store;
@@ -88,6 +89,10 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
                 ? [new WerkingsgebiedenWerdenBepaald(@event.VCode, gegevens.Werkingsgebieden)]
                 : Array.Empty<IEvent>(),
             .. (gegevens?.Bankrekeningnummers ?? []).SelectMany(BankrekeningnummerEvents),
+            .. gegevens?.Erkenningen ?? [],
+            .. gegevens is not null && gegevens.Erkenningen.Any(x => x.Status == ErkenningStatus.Actief.Value)
+                ? [new VerenigingWerdErkend()]
+                : Array.Empty<IEvent>(),
         ];
 
 #pragma warning disable CS0618

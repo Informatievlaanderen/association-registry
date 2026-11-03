@@ -26,6 +26,7 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
 {
     public IEvent? VerenigingAanvaarddeDubbeleVereniging { get; private set; }
     public IEvent? DubbeleVerenigingWerdSamengevoegd { get; private set; }
+    public IEvent? VerenigingWerdErkend { get; private set; }
 
     /// <summary>De dubbele vereniging heeft alle basisgegevens, de authentieke enkel een korte naam.</summary>
     public static readonly TestBasisgegevens BasisgegevensDubbeleVereniging = TestBasisgegevens.Fellowship;
@@ -68,6 +69,9 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
     ///     heeft al een primaire vertegenwoordiger) en wordt Samwise toegevoegd.
     ///     Van de bankrekeningnummers is dat van Frodo hetzelfde IBAN en wordt dat van Samwise toegevoegd, met zijn
     ///     bevestiging.
+    ///     Van de erkenningen is die voor Lembas bakken dezelfde, overlapt de tweede voor Lembas bakken (niet
+    ///     overgenomen) en wordt de actieve erkenning voor Ringdragers begeleiden toegevoegd, waardoor de authentieke
+    ///     vereniging (die enkel een verlopen erkenning had) erkend wordt.
     /// </summary>
     public static readonly TestVerenigingsgegevens GegevensDubbeleVereniging = new(
         BasisgegevensDubbeleVereniging,
@@ -88,7 +92,12 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
             TestLocaties.TweedeLokaalFellowship,
         ],
         [FrodoBijDeDubbeleVereniging, AragornAlsPrimair, TestVertegenwoordigers.Samwise],
-        [ZelfdeIbanBijDeDubbeleVereniging, TestBankrekeningnummers.BankrekeningnummerSamwise]
+        [ZelfdeIbanBijDeDubbeleVereniging, TestBankrekeningnummers.BankrekeningnummerSamwise],
+        [
+            TestErkenningen.LembasBakkenRivendell,
+            TestErkenningen.OverlappendLembasBakkenRivendell,
+            TestErkenningen.RingdragersBegeleidenGondor,
+        ]
     );
 
     public static readonly TestVerenigingsgegevens GegevensAuthentiekeVereniging = new(
@@ -98,7 +107,8 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         [TestContactgegevens.EmailRivendell, TestContactgegevens.TelefoonRivendell],
         [TestLocaties.LokaalRivendell, TestLocaties.PostadresRivendell],
         [TestVertegenwoordigers.Frodo],
-        [TestBankrekeningnummers.BankrekeningnummerFrodo]
+        [TestBankrekeningnummers.BankrekeningnummerFrodo],
+        [TestErkenningen.LembasBakkenRivendell]
     );
 
     protected override MultipleWerdGeregistreerdScenario InitializeScenario() =>
@@ -142,5 +152,9 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
 #pragma warning restore CS0618
 
         DubbeleVerenigingWerdSamengevoegd.Should().NotBeNull();
+
+        VerenigingWerdErkend = stream.SingleOrDefault(x => x.Data is VerenigingWerdErkend);
+
+        VerenigingWerdErkend.Should().NotBeNull();
     }
 }
