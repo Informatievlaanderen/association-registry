@@ -101,7 +101,7 @@
     <PackageVersion Include="xunit.v3.runner.console" Version="2.0.3" />
     <PackageVersion Include="xunit.v3.runner.msbuild" Version="2.0.3" />
     <PackageVersion Include="xunit.v3.runner.utility" Version="2.0.3" />
-    <PackageVersion Include="Scriban" Version="6.2.1" />
+    <PackageVersion Include="Scriban" Version="7.2.2" />
     <PackageVersion Include="AutoBogus" Version="2.13.1" />
   </ItemGroup>
 </Project>
