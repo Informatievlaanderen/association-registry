@@ -6,6 +6,7 @@ using JasperFx;
 using JasperFx.Events;
 using Marten;
 using Marten.Events;
+using Marten.Newtonsoft;
 using Marten.Services;
 using Newtonsoft.Json;
 using Weasel.Core;

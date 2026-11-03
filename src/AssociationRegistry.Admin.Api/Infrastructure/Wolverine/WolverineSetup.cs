@@ -7,6 +7,7 @@ using Events;
 using EventStore;
 using global::Wolverine.ErrorHandling;
 using global::Wolverine.Marten;
+using global::Wolverine.Newtonsoft;
 using Integrations.Magda.Shared.Exceptions;
 using JasperFx;
 using JasperFx.Core;

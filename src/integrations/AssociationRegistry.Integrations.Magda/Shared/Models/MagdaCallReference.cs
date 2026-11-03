@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Integrations.Magda.Shared.Models;
 
+using JasperFx;
 using Marten.Schema;
 
 public class MagdaCallReference
