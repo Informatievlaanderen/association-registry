@@ -22,7 +22,7 @@ public class Given_An_NVT_WerkingsgebiedCode
         await session.SaveChangesAsync();
 
         var sut = new WerkingsgebiedenService(session);
-        var actual = sut.Create(Werkingsgebied.NietVanToepassing.Code);
+        var actual = await sut.Create(Werkingsgebied.NietVanToepassing.Code);
         actual.Should().BeEquivalentTo(Werkingsgebied.NietVanToepassing);
     }
 }

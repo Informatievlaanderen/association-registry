@@ -24,9 +24,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
 
         IWerkingsgebiedenService werkingsgebiedenService = new WerkingsgebiedenServiceMock();
         var actual = request.ToCommand(
-            werkingsgebieden: request
-                .Werkingsgebieden?.Select(selector: s => werkingsgebiedenService.Create(code: s))
-                .ToArray()
+            werkingsgebieden: request.Werkingsgebieden?.Select(selector: WerkingsgebiedenServiceMock.Get).ToArray()
         );
 
         actual.Deconstruct(

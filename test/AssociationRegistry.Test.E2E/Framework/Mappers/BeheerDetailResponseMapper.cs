@@ -262,7 +262,7 @@ public class BeheerDetailResponseMapper
         return werkingsgebieden
             .Select(x =>
             {
-                var werkingsgebied = werkingsgebiedenServiceMock.Create(x);
+                var werkingsgebied = WerkingsgebiedenServiceMock.Get(x);
 
                 return new Werkingsgebied
                 {
