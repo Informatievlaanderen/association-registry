@@ -8,6 +8,8 @@ using Gegevens = Events.SamenvoegingDubbeleVereniging;
 ///     op de authentieke vereniging terechtkomen.
 ///     Een attribuut wordt alleen overgenomen als het op de authentieke vereniging leeg is.
 ///     Een bestaande waarde op de authentieke vereniging wordt nooit overschreven.
+///     Bij een vereniging met rechtspersoonlijkheid worden de korte naam en de startdatum nooit overgenomen, want die
+///     worden enkel via de KBO bijgewerkt (zie <see cref="VerenigingMetRechtspersoonlijkheidSamenvoeging" />).
 /// </summary>
 public static class BasisgegevensSamenvoeging
 {
@@ -16,12 +18,17 @@ public static class BasisgegevensSamenvoeging
         Gegevens.NietOvergenomenBasisgegevens NietOvergenomen
     ) Merge(VerenigingState authentiekeVereniging, VerenigingState dubbeleVereniging)
     {
+        var beheerdViaKbo = VerenigingMetRechtspersoonlijkheidSamenvoeging.IsVerenigingMetRechtspersoonlijkheid(
+            authentiekeVereniging
+        );
+
         var korteNaam = Merge(
             Gegevens.Velden.KorteNaam,
             authentiekIsEmpty: string.IsNullOrWhiteSpace(authentiekeVereniging.KorteNaam),
             authentiek: authentiekeVereniging.KorteNaam ?? string.Empty,
             dubbelIsEmpty: string.IsNullOrWhiteSpace(dubbeleVereniging.KorteNaam),
-            dubbel: dubbeleVereniging.KorteNaam ?? string.Empty
+            dubbel: dubbeleVereniging.KorteNaam ?? string.Empty,
+            beheerdViaKbo
         );
 
         var korteBeschrijving = Merge(
@@ -37,7 +44,8 @@ public static class BasisgegevensSamenvoeging
             authentiekIsEmpty: authentiekeVereniging.Startdatum is null,
             authentiek: authentiekeVereniging.Startdatum?.Value ?? default,
             dubbelIsEmpty: dubbeleVereniging.Startdatum is null,
-            dubbel: dubbeleVereniging.Startdatum?.Value ?? default
+            dubbel: dubbeleVereniging.Startdatum?.Value ?? default,
+            beheerdViaKbo
         );
 
         var doelgroep = Merge(
@@ -64,10 +72,29 @@ public static class BasisgegevensSamenvoeging
         );
     }
 
-    private static Result<T> Merge<T>(string veld, bool authentiekIsEmpty, T authentiek, bool dubbelIsEmpty, T dubbel)
+    private static Result<T> Merge<T>(
+        string veld,
+        bool authentiekIsEmpty,
+        T authentiek,
+        bool dubbelIsEmpty,
+        T dubbel,
+        bool beheerdViaKbo = false
+    )
     {
         if (dubbelIsEmpty)
             return new Result<T>(null, null);
+
+        if (beheerdViaKbo)
+            return Equals(authentiek, dubbel)
+                ? new Result<T>(null, Gegevens.Gededupliceerd(veld, dubbel))
+                : new Result<T>(
+                    null,
+                    Gegevens.NietOvergenomen(
+                        veld,
+                        dubbel,
+                        VerenigingMetRechtspersoonlijkheidSamenvoeging.RedenBeheerdViaKbo
+                    )
+                );
 
         if (authentiekIsEmpty)
             return new Result<T>(Gegevens.Verrijkt(veld, dubbel), null);
