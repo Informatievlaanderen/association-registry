@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Grar.NutsLau;
 
+using JasperFx;
 using Marten.Schema;
 
 public record PostalNutsLauInfo

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Marten" />
+    <PackageReference Include="Marten.Newtonsoft" />
     <PackageReference Include="JasperFx.Events" />
     <PackageReference Include="Polly" />
   </ItemGroup>

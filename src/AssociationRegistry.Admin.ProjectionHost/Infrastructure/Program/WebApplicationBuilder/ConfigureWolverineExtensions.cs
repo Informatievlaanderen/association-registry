@@ -13,6 +13,7 @@ using Projections.EventHandling.Bewaartermijnen;
 using Projections.EventHandling.Geotags;
 using Serilog;
 using Wolverine;
+using Wolverine.Newtonsoft;
 using Wolverine.Postgresql;
 using WebApplicationBuilder = Microsoft.AspNetCore.Builder.WebApplicationBuilder;
 

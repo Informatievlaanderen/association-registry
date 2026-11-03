@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.HostedServices.GrarKafkaConsumer.Kafka;
 
+using JasperFx;
 using Marten.Schema;
 
 public record AddressKafkaConsumerOffset
 {
-    [Identity] public string IdempotenceKey { get; set; }
+    [Identity]
+    public string IdempotenceKey { get; set; }
     public long Timestamp { get; set; }
     public DateTime DateTime { get; set; }
     public string Key { get; init; }

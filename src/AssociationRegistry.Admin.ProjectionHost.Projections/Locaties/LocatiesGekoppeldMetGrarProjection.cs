@@ -27,30 +27,7 @@ public class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieL
         Options.DeleteViewTypeOnTeardown<LocatieLookupDocument>();
 
         Identity<AdresWerdOvergenomenUitAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x => new LocatieLookupDocument
-        {
-            AdresPuri = x.AdresId.Bronwaarde,
-            AdresId = x.AdresId.ToId(),
-            LocatieId = x.LocatieId,
-            VCode = x.VCode,
-        });
-
-        ProjectEvent<AdresWerdOvergenomenUitAdressenregister>(
-            (doc, e) =>
-            {
-                doc.AdresPuri = e.AdresId.Bronwaarde;
-                doc.AdresId = e.AdresId.ToId();
-            }
-        );
-
         Identity<AdresWerdGewijzigdInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        ProjectEvent<AdresWerdGewijzigdInAdressenregister>(
-            (doc, @event) =>
-            {
-                doc.AdresPuri = @event.AdresId.Bronwaarde;
-                doc.AdresId = new Uri(@event.AdresId.Bronwaarde).Segments[^1].TrimEnd('/');
-            }
-        );
 
         Identity<LocatieWerdVerwijderd>(x => $"{x.VCode}-{x.Locatie.LocatieId}");
         DeleteEvent<LocatieWerdVerwijderd>();
@@ -71,6 +48,27 @@ public class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieL
         DeleteEvent<VerenigingWerdVerwijderd>();
         DeleteEvent<Archived>();
     }
+
+    public LocatieLookupDocument Create(AdresWerdOvergenomenUitAdressenregister e) =>
+        new()
+        {
+            AdresPuri = e.AdresId.Bronwaarde,
+            AdresId = e.AdresId.ToId(),
+            LocatieId = e.LocatieId,
+            VCode = e.VCode,
+        };
+
+    public void Apply(AdresWerdOvergenomenUitAdressenregister e, LocatieLookupDocument doc)
+    {
+        doc.AdresPuri = e.AdresId.Bronwaarde;
+        doc.AdresId = e.AdresId.ToId();
+    }
+
+    public void Apply(AdresWerdGewijzigdInAdressenregister @event, LocatieLookupDocument doc)
+    {
+        doc.AdresPuri = @event.AdresId.Bronwaarde;
+        doc.AdresId = new Uri(@event.AdresId.Bronwaarde).Segments[^1].TrimEnd('/');
+    }
 }
 
 public class LocatieLookupGrouper : IAggregateGrouper<string>
@@ -82,7 +80,7 @@ public class LocatieLookupGrouper : IAggregateGrouper<string>
         _logger = logger;
     }
 
-    public async Task Group(IQuerySession session, IEnumerable<IEvent> events, IEventGrouping<string> grouping)
+    public async Task Group(IQuerySession session, IReadOnlyList<IEvent> events, IEventGrouping<string> grouping)
     {
         var eventList = events.ToList();
 

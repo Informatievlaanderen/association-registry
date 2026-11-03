@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Admin.Schema.Detail;
 
+using JasperFx;
+using JasperFx.Metadata;
 using Marten.Metadata;
 using Marten.Schema;
 

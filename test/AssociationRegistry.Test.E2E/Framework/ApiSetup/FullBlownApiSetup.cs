@@ -36,7 +36,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using NodaTime.Text;
 using Npgsql;
-using Oakton;
 using Scenarios.Givens.FeitelijkeVereniging;
 using TestClasses;
 using Vereniging;

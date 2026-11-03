@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.PowerBiExport;
 
+using JasperFx;
 using Marten.Schema;
 
 public record PowerBiExportDubbelDetectieDocument
@@ -29,7 +30,6 @@ public record PowerBiExportDubbelDetectieDocument
 
         public class Adres
         {
-
             public string Straatnaam { get; init; } = null!;
             public string Huisnummer { get; init; } = null!;
             public string? Busnummer { get; init; }
@@ -60,6 +60,7 @@ public record PowerBiExportDubbelDetectieDocument
             public string Code { get; init; } = null!;
             public string Naam { get; init; } = null!;
         }
+
         public record Verenigingstype(string Code, string Naam);
 
         public record Verenigingssubtype(string Code, string Naam);
@@ -70,9 +71,7 @@ public record PowerBiExportDubbelDetectieDocument
             string Adres,
             string? Naam,
             string Postcode,
-            string Gemeente);
+            string Gemeente
+        );
     }
 }
-
-
-

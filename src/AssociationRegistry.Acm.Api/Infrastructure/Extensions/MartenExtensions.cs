@@ -7,6 +7,7 @@ using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using Marten;
+using Marten.Newtonsoft;
 using MartenDb.Logging;
 using MartenDb.Setup;
 using MartenDb.Upcasters.Persoonsgegevens;
