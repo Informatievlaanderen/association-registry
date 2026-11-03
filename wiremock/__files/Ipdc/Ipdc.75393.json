@@ -1,0 +1,69 @@
+{
+  "id": "wiremock-ipdc-75393",
+  "aangemaaktDoor": {
+    "id": "http://data.info",
+    "@id": "http://data.info"
+  },
+  "beschrijving": {
+    "nl-BE-x-informal": "<p>Je hebt iets geschreven</p>",
+    "nl": "<p>Je hebt iets geschreven</p>",
+    "nl-BE-x-generated-formal": "<p>U hebt iets geschreven</p>"
+  },
+  "bevoegdBestuursniveaus": [
+    "Vlaams"
+  ],
+  "bevoegdeOverheden": [
+    {
+      "id": "OVO000106",
+      "@id": "OVO000106"
+    }
+  ],
+  "cases": [
+    "rechtenverkenner"
+  ],
+  "creatie": "2026-05-27T13:20:56.802Z",
+  "doelgroepen": [
+    "Organisatie"
+  ],
+  "gearchiveerd": false,
+  "geografischToepassingsgebieden": [
+    "BE24224062"
+  ],
+  "laatstGewijzigd": "2026-05-27T13:30:10.437358413Z",
+  "laatstOntvangen": "2026-05-27T13:30:10.437359316Z",
+  "linkedConcept": "https://ipdc.be/id/concept/1006",
+  "linkedConceptId": "1006",
+  "linkedConceptProductnummer": "75393",
+  "metadata": {
+    "uJeVersie": "46.1.0",
+    "generatedFormeleFields": true,
+    "generatedInformeleFields": false
+  },
+  "naam": {
+    "nl-BE-x-generated-formal": "Bakens van Gondor onderhouden",
+    "nl-BE-x-informal": "Bakens van Gondor onderhouden",
+    "nl": "Bakens van Gondor onderhouden"
+  },
+  "productnummer": "75393",
+  "type": "AdviesBegeleiding",
+  "uitgesloten": false,
+  "uitvoerendBestuursniveaus": [
+    "Vlaams",
+    "Lokaal"
+  ],
+  "uitvoerendeOverheden": [
+    {
+      "id": "OVO002149",
+      "@id": "OVO002149"
+    },
+    {
+      "id": "OVO000106",
+      "@id": "OVO000106"
+    }
+  ],
+  "@context": [
+    "https://ipdc.jsonld"
+  ],
+  "@id": "https://ipdc.be/id/instantie/1006",
+  "@type": "Instantie"
+}
