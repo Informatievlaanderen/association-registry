@@ -86,6 +86,7 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.Core" />
+    <PackageReference Include="WolverineFx.Newtonsoft" />
     <PackageReference Include="AWSSDK.DynamoDbv2" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.Api" />
     <PackageReference Include="Be.Vlaanderen.Basisregisters.GrAr.Contracts" />

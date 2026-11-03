@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 
 using DecentraalBeheer.Vereniging.DubbelDetectie;
+using JasperFx;
 using Marten;
 using Marten.Schema;
 using Microsoft.Extensions.Caching.Memory;

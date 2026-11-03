@@ -10,6 +10,7 @@ using EventStore.ConflictResolution;
 using FluentAssertions;
 using Framework.Helpers;
 using Hosts.Configuration;
+using JasperFx.CommandLine;
 using Marten;
 using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
@@ -23,7 +24,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Npgsql;
-using Oakton;
 using Xunit;
 using IEvent = Events.IEvent;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
@@ -60,7 +60,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     public PublicApiFixture()
     {
-        OaktonEnvironment.AutoStartHost = true;
+        JasperFxEnvironment.AutoStartHost = true;
 
         WaitFor
             .PostGreSQLToBecomeAvailable(

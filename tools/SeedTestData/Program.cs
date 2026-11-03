@@ -8,6 +8,7 @@ using AssociationRegistry.MartenDb.Serialization;
 using AssociationRegistry.MartenDb.Setup;
 using JasperFx.Events;
 using Marten;
+using Marten.Newtonsoft;
 using Newtonsoft.Json;
 using NodaTime;
 
@@ -195,7 +196,17 @@ session.Events.Append(
 );
 
 // TODO verwijderen
-session.Events.Append(BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers,1),new BewaartermijnWerdGestartV2(BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers,1),"V9000002", PersoonsgegevensType.Vertegenwoordigers.Value, 1, Instant.MinValue, BewaartermijnReden.VertegenwoordigerWerdVerwijderd));
+session.Events.Append(
+    BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers, 1),
+    new BewaartermijnWerdGestartV2(
+        BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers, 1),
+        "V9000002",
+        PersoonsgegevensType.Vertegenwoordigers.Value,
+        1,
+        Instant.MinValue,
+        BewaartermijnReden.VertegenwoordigerWerdVerwijderd
+    )
+);
 
 // Scenario 3: VerenigingMetRechtspersoonlijkheid with KBO vertegenwoordigers
 Console.WriteLine("📝 Creating VerenigingMetRechtspersoonlijkheid with KBO vertegenwoordigers...");

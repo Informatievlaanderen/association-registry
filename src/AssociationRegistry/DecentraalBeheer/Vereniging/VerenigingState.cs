@@ -9,6 +9,7 @@ using Events;
 using Exceptions;
 using Framework;
 using Geotags;
+using JasperFx;
 using Marten.Schema;
 using SocialMedias;
 using Subtypes.Default;

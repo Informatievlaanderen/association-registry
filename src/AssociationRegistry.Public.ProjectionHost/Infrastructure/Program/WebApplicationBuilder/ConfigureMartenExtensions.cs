@@ -12,6 +12,7 @@ using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Json;
 using Marten;
+using Marten.Newtonsoft;
 using MartenDb.Logging;
 using MartenDb.PubliekZoeken;
 using MartenDb.Setup;
