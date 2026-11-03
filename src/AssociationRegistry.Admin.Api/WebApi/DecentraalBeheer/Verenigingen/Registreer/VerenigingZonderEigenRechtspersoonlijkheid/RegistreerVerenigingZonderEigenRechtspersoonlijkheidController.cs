@@ -91,7 +91,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidController : Ap
         await _validator.NullValidateAndThrowAsync(request);
 
         var command = request.ToCommand(
-            request.Werkingsgebieden?.Select(s => werkingsgebiedenService.Create(s)).ToArray()
+            request.Werkingsgebieden is null ? null : await werkingsgebiedenService.CreateMany(request.Werkingsgebieden)
         ) with
         {
             Bevestigingstoken = bevestigingsToken,

@@ -127,7 +127,7 @@ public class With_All_BasisGegevensWerdenGewijzigd
             .BeEquivalentTo(
                 EventFactory.WerkingsgebiedenWerdenGewijzigd(
                     VCode.Create(_vCode),
-                    _request.Werkingsgebieden!.Select(werkingsgebiedenServiceMock.Create).ToArray()
+                    _request.Werkingsgebieden!.Select(WerkingsgebiedenServiceMock.Get).ToArray()
                 )
             );
     }

@@ -26,27 +26,31 @@ public class DubbelControleController : ApiController
         [FromServices] IWerkingsgebiedenService werkingsgebiedenService
     )
     {
-        var command = request.ToCommand(request.Werkingsgebieden?.Select(s => werkingsgebiedenService.Create(s)).ToArray());
+        var command = request.ToCommand(
+            request.Werkingsgebieden is null ? null : await werkingsgebiedenService.CreateMany(request.Werkingsgebieden)
+        );
 
         var result = await duplicateVerenigingDetectionService.ExecuteAsync(
-            command.Naam, command.Locaties,
+            command.Naam,
+            command.Locaties,
             true,
-            minimumScoreOverride.HasValue
-                ? new MinimumScore(minimumScoreOverride.Value)
-                : defaultMinimumScore);
+            minimumScoreOverride.HasValue ? new MinimumScore(minimumScoreOverride.Value) : defaultMinimumScore
+        );
 
-        return Ok(result.Select(x => new DubbelControleResponse(x.VCode,
-                                                                x.Naam,
-                                                                x.Scoring.Explanation,
-                                                                x.Scoring.Score.Value)));
+        return Ok(
+            result.Select(x => new DubbelControleResponse(
+                x.VCode,
+                x.Naam,
+                x.Scoring.Explanation,
+                x.Scoring.Score.Value
+            ))
+        );
     }
 }
+
 public class DubbelControleResponse
 {
-    public DubbelControleResponse()
-    {
-
-    }
+    public DubbelControleResponse() { }
 
     public DubbelControleResponse(string vCode, string naam, string explanation, double score)
     {

@@ -12,7 +12,7 @@ using Xunit;
 public class To_A_WijzigBasisgegevensCommand
 {
     [Fact]
-    public void Then_We_Get_A_WijzigBasisgegevensCommand()
+    public async Task Then_We_Get_A_WijzigBasisgegevensCommand()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var werkingsgebiedenService = new WerkingsgebiedenServiceMock();
@@ -20,22 +20,26 @@ public class To_A_WijzigBasisgegevensCommand
         var request = fixture.Create<WijzigBasisgegevensRequest>();
 
         var actualVCode = fixture.Create<VCode>();
-        var actual = request.ToCommand(actualVCode, werkingsgebiedenService);
+        var actual = await request.ToCommand(actualVCode, werkingsgebiedenService);
 
-        actual.Deconstruct(out var vCode, out var roepnaam, out var korteBeschrijving, out var doelgroep,
-                           out var hoofdactiviteitenVerenigingsloket, out var werkingsgebieden);
+        actual.Deconstruct(
+            out var vCode,
+            out var roepnaam,
+            out var korteBeschrijving,
+            out var doelgroep,
+            out var hoofdactiviteitenVerenigingsloket,
+            out var werkingsgebieden
+        );
 
         vCode.Should().Be(actualVCode);
         roepnaam.Should().Be(request.Roepnaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         doelgroep.Should().BeEquivalentTo(request.Doelgroep);
 
-        hoofdactiviteitenVerenigingsloket.Should()
-                                         .BeEquivalentTo(
-                                              request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+        hoofdactiviteitenVerenigingsloket
+            .Should()
+            .BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
 
-        werkingsgebieden.Should()
-                        .BeEquivalentTo(
-                             request.Werkingsgebieden!.Select(werkingsgebiedenService.Create));
+        werkingsgebieden.Should().BeEquivalentTo(request.Werkingsgebieden!.Select(WerkingsgebiedenServiceMock.Get));
     }
 }

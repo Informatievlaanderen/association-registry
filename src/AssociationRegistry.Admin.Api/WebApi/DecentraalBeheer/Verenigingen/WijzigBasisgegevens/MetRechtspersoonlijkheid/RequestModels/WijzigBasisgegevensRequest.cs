@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 
+using System.Runtime.Serialization;
 using AssociationRegistry.Vereniging;
 using CommandHandling.DecentraalBeheer.Acties.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
 using Common;
 using DecentraalBeheer.Vereniging;
-using System.Runtime.Serialization;
 
 [DataContract]
 public class WijzigBasisgegevensRequest
@@ -37,13 +37,16 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public string? Roepnaam { get; set; }
 
-    public WijzigBasisgegevensCommand ToCommand(string vCode, IWerkingsgebiedenService werkingsgebiedenService)
-        => new(
+    public async Task<WijzigBasisgegevensCommand> ToCommand(
+        string vCode,
+        IWerkingsgebiedenService werkingsgebiedenService
+    ) =>
+        new(
             VCode.Create(vCode),
             Roepnaam,
             KorteBeschrijving,
             Doelgroep is null ? null : DoelgroepRequest.Map(Doelgroep),
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
-            Werkingsgebieden?.Select(werkingsgebiedenService.Create).ToArray()
+            Werkingsgebieden is null ? null : await werkingsgebiedenService.CreateMany(Werkingsgebieden)
         );
 }

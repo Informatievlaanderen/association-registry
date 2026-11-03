@@ -24,7 +24,7 @@ public class Given_An_Existing_WerkingsgebiedCode
         await session.SaveChangesAsync();
 
         var sut = new WerkingsgebiedenService(session);
-        var actual = sut.Create(werkingsgebiedCode);
+        var actual = await sut.Create(werkingsgebiedCode);
         actual.Code.Should().BeEquivalentTo(werkingsgebiedCode);
         actual.Naam.Should().BeEquivalentTo(postalInfo.Gemeentenaam);
     }

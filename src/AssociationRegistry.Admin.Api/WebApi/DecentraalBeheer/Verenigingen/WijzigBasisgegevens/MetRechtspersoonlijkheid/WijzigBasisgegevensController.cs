@@ -86,7 +86,7 @@ public class WijzigBasisgegevensController : ApiController
     {
         await validator.NullValidateAndThrowAsync(request);
 
-        var command = request.ToCommand(vCode, werkingsgebiedenService);
+        var command = await request.ToCommand(vCode, werkingsgebiedenService);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);
