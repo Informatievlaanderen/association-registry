@@ -41,6 +41,33 @@ public class ErkenningProjection : EventProjection
         );
     }
 
+#pragma warning disable CS0618
+    /// <summary>
+    ///     Overgenomen erkenningen worden erkenningen van de authentieke vereniging, met hun nieuwe id, zodat ze ook
+    ///     automatisch geactiveerd en verlopen worden. De erkenningen van de dubbele vereniging blijven bestaan.
+    /// </summary>
+    public void Project(
+        IEvent<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> @event,
+        IDocumentOperations ops
+    )
+    {
+        var vCode = @event.StreamKey!;
+
+        foreach (var erkenning in @event.Data.OvergenomenGegevens.Erkenningen.Select(x => x.NieuweWaarde))
+            ops.Store(
+                new ErkenningDocument
+                {
+                    Id = $"{vCode}-{erkenning.ErkenningId}",
+                    VCode = vCode,
+                    ErkenningId = erkenning.ErkenningId,
+                    Startdatum = erkenning.Startdatum,
+                    Einddatum = erkenning.Einddatum,
+                    Status = erkenning.Status,
+                }
+            );
+    }
+#pragma warning restore CS0618
+
     public async Task Project(IEvent<ErkenningWerdGewijzigd> @event, IDocumentOperations ops)
     {
         var vCode = @event.StreamKey!;
