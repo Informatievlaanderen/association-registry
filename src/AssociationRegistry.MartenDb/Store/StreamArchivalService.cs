@@ -19,6 +19,8 @@ public class StreamArchivalService : IStreamArchivalService
     public async Task ArchiveStream(VCode vCode)
     {
         _session.Events.Append(vCode, new Archived(ArchiveReason));
+        await _session.SaveChangesAsync();
+
         _session.Events.ArchiveStream(vCode);
         await _session.SaveChangesAsync();
     }
