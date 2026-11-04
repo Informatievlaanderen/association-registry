@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Dubbe
 
 using AssociationRegistry.CommandHandling.DecentraalBeheer.Acties.Dubbelbeheer.Commands.MarkeerAlsDubbelVan;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Adressen;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Samenvoeging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
@@ -162,6 +163,70 @@ public class Given_Locaties_Without_Primaire_Locatie_Or_Correspondentieadres
                     PostadresFellowship with
                     {
                         LocatieId = 3,
+                    }
+                ),
+            ]);
+    }
+}
+
+/// <summary>
+///     Een locatie met hetzelfde adresId heeft hetzelfde adres, ook als de adresvelden anders zijn.
+///     Ze is enkel een duplicaat als ook de naam en het locatietype gelijk zijn.
+/// </summary>
+public class Given_Locaties_With_The_Same_AdresId
+{
+    private static readonly Registratiedata.AdresId AdresIdRivendell = new(
+        Adresbron.AR.Code,
+        $"{AdresId.DataVlaanderenAdresPrefix}1234"
+    );
+
+    private static readonly Registratiedata.Locatie RivendellMetAdresId = LokaalRivendell with
+    {
+        IsPrimair = false,
+        AdresId = AdresIdRivendell,
+    };
+
+    [Fact]
+    public async ValueTask Then_A_Locatie_With_Other_Adresvelden_Is_Gededupliceerd()
+    {
+        var rivendellAnderAdres = RivendellMetAdresId with
+        {
+            LocatieId = 1,
+            Adres = new Registratiedata.Adres("Hoogstraat", "99", "", "8000", "Brugge", "België"),
+        };
+
+        var samengevoegd = await Given_Locaties_Helper.MarkeerAlsDubbelVan(
+            dubbele: [rivendellAnderAdres],
+            authentieke: [RivendellMetAdresId]
+        );
+
+        samengevoegd.OvergenomenGegevens.Locaties.Should().BeEmpty();
+        samengevoegd
+            .NietOvergenomenGegevens.Locaties.Should()
+            .BeEquivalentTo([SamenvoegingDubbeleVereniging.Gededupliceerd("Locatie 'Rivendell'", rivendellAnderAdres)]);
+    }
+
+    [Fact]
+    public async ValueTask Then_A_Locatie_With_Another_Naam_Is_Toegevoegd()
+    {
+        var lothlorien = RivendellMetAdresId with { LocatieId = 1, Naam = "Lothlórien" };
+
+        var samengevoegd = await Given_Locaties_Helper.MarkeerAlsDubbelVan(
+            dubbele: [lothlorien],
+            authentieke: [RivendellMetAdresId]
+        );
+
+        samengevoegd.NietOvergenomenGegevens.Locaties.Should().BeEmpty();
+        samengevoegd
+            .OvergenomenGegevens.Locaties.Should()
+            .BeEquivalentTo([
+                new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.Locatie>(
+                    SamenvoegingDubbeleVereniging.Acties.Toegevoegd,
+                    "Locatie 'Lothlórien' werd toegevoegd vanuit de dubbele vereniging.",
+                    lothlorien,
+                    lothlorien with
+                    {
+                        LocatieId = 2,
                     }
                 ),
             ]);
