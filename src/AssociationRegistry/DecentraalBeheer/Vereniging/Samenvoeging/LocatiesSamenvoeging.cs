@@ -26,9 +26,7 @@ public static class LocatiesSamenvoeging
     ) Merge(Locaties authentiekeVereniging, Locaties dubbeleVereniging)
     {
         var locaties = authentiekeVereniging;
-
-        var overgenomen = new List<Gegevens.OvergenomenGegeven<Registratiedata.Locatie>>();
-        var nietOvergenomen = new List<Gegevens.NietOvergenomenGegeven<Registratiedata.Locatie>>();
+        var resultaat = new SamenvoegingResultaat<Registratiedata.Locatie>();
 
         foreach (var locatie in dubbeleVereniging.OrderBy(x => x.LocatieId))
         {
@@ -39,21 +37,21 @@ public static class LocatiesSamenvoeging
 
             if (candidate is null)
             {
-                nietOvergenomen.Add(Gegevens.NietOvergenomen(description, original, RedenNietValide));
+                resultaat.NietOvergenomen(description, original, RedenNietValide);
 
                 continue;
             }
 
             if (locaties.HasDuplicateOf(candidate))
             {
-                nietOvergenomen.Add(Gegevens.Gededupliceerd(description, original));
+                resultaat.Gededupliceerd(description, original);
 
                 continue;
             }
 
             if (candidate.Locatietype == Locatietype.Correspondentie && locaties.HasCorrespondentieLocatie())
             {
-                nietOvergenomen.Add(Gegevens.NietOvergenomen(description, original, RedenCorrespondentie));
+                resultaat.NietOvergenomen(description, original, RedenCorrespondentie);
 
                 continue;
             }
@@ -63,23 +61,18 @@ public static class LocatiesSamenvoeging
             var added = locaties.VoegToe(mustBecomeNietPrimair ? candidate with { IsPrimair = false } : candidate);
             locaties = locaties.Hydrate(locaties.Append(added));
 
-            overgenomen.Add(
-                mustBecomeNietPrimair
-                    ? Gegevens.ToegevoegdMetAanpassing(
-                        $"{description} werd toegevoegd als niet-primair, omdat de authentieke vereniging al een primaire locatie heeft.",
-                        original,
-                        EventFactory.Locatie(added)
-                    )
-                    : new Gegevens.OvergenomenGegeven<Registratiedata.Locatie>(
-                        Gegevens.Acties.Toegevoegd,
-                        $"{description} werd toegevoegd vanuit de dubbele vereniging.",
-                        original,
-                        EventFactory.Locatie(added)
-                    )
-            );
+            if (mustBecomeNietPrimair)
+                resultaat.ToegevoegdAlsNietPrimair(
+                    description,
+                    "een primaire locatie",
+                    original,
+                    EventFactory.Locatie(added)
+                );
+            else
+                resultaat.Toegevoegd(description, original, EventFactory.Locatie(added));
         }
 
-        return ([.. overgenomen], [.. nietOvergenomen]);
+        return resultaat.Build();
     }
 
     private static string Describe(Registratiedata.Locatie locatie)

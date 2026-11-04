@@ -19,9 +19,7 @@ public static class BankrekeningnummersSamenvoeging
     ) Merge(Bankrekeningnummers authentiekeVereniging, Bankrekeningnummers dubbeleVereniging)
     {
         var bankrekeningnummers = authentiekeVereniging;
-
-        var overgenomen = new List<Gegevens.OvergenomenGegeven<Gegevens.Bankrekeningnummer>>();
-        var nietOvergenomen = new List<Gegevens.NietOvergenomenGegeven<Gegevens.Bankrekeningnummer>>();
+        var resultaat = new SamenvoegingResultaat<Gegevens.Bankrekeningnummer>();
 
         foreach (var bankrekeningnummer in dubbeleVereniging.OrderBy(x => x.BankrekeningnummerId))
         {
@@ -30,7 +28,7 @@ public static class BankrekeningnummersSamenvoeging
 
             if (bankrekeningnummers.Any(x => Normalize(x.Iban.Value) == Normalize(bankrekeningnummer.Iban.Value)))
             {
-                nietOvergenomen.Add(Gegevens.Gededupliceerd(description, original));
+                resultaat.Gededupliceerd(description, original);
 
                 continue;
             }
@@ -49,17 +47,10 @@ public static class BankrekeningnummersSamenvoeging
             };
             bankrekeningnummers = bankrekeningnummers.Hydrate(bankrekeningnummers.Append(added));
 
-            overgenomen.Add(
-                new Gegevens.OvergenomenGegeven<Gegevens.Bankrekeningnummer>(
-                    Gegevens.Acties.Toegevoegd,
-                    $"{description} werd toegevoegd vanuit de dubbele vereniging.",
-                    original,
-                    ToEventData(added)
-                )
-            );
+            resultaat.Toegevoegd(description, original, ToEventData(added));
         }
 
-        return ([.. overgenomen], [.. nietOvergenomen]);
+        return resultaat.Build();
     }
 
     private static string Normalize(string iban) =>

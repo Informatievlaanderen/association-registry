@@ -22,9 +22,7 @@ public static class ContactgegevensSamenvoeging
     ) Merge(Contactgegevens authentiekeVereniging, Contactgegevens dubbeleVereniging)
     {
         var contactgegevens = authentiekeVereniging;
-
-        var overgenomen = new List<Gegevens.OvergenomenGegeven<Registratiedata.Contactgegeven>>();
-        var nietOvergenomen = new List<Gegevens.NietOvergenomenGegeven<Registratiedata.Contactgegeven>>();
+        var resultaat = new SamenvoegingResultaat<Registratiedata.Contactgegeven>();
 
         foreach (var contactgegeven in dubbeleVereniging.OrderBy(x => x.ContactgegevenId))
         {
@@ -35,14 +33,14 @@ public static class ContactgegevensSamenvoeging
 
             if (candidate is null)
             {
-                nietOvergenomen.Add(Gegevens.NietOvergenomen(description, original, RedenNietValide));
+                resultaat.NietOvergenomen(description, original, RedenNietValide);
 
                 continue;
             }
 
             if (contactgegevens.ContainsMetZelfdeWaarden(candidate))
             {
-                nietOvergenomen.Add(Gegevens.Gededupliceerd(description, original));
+                resultaat.Gededupliceerd(description, original);
 
                 continue;
             }
@@ -55,23 +53,18 @@ public static class ContactgegevensSamenvoeging
             );
             contactgegevens = contactgegevens.Hydrate(contactgegevens.Append(added));
 
-            overgenomen.Add(
-                mustBecomeNietPrimair
-                    ? Gegevens.ToegevoegdMetAanpassing(
-                        $"{description} werd toegevoegd als niet-primair, omdat de authentieke vereniging al een primair contactgegeven van dit type heeft.",
-                        original,
-                        EventFactory.Contactgegeven(added)
-                    )
-                    : new Gegevens.OvergenomenGegeven<Registratiedata.Contactgegeven>(
-                        Gegevens.Acties.Toegevoegd,
-                        $"{description} werd toegevoegd vanuit de dubbele vereniging.",
-                        original,
-                        EventFactory.Contactgegeven(added)
-                    )
-            );
+            if (mustBecomeNietPrimair)
+                resultaat.ToegevoegdAlsNietPrimair(
+                    description,
+                    "een primair contactgegeven van dit type",
+                    original,
+                    EventFactory.Contactgegeven(added)
+                );
+            else
+                resultaat.Toegevoegd(description, original, EventFactory.Contactgegeven(added));
         }
 
-        return ([.. overgenomen], [.. nietOvergenomen]);
+        return resultaat.Build();
     }
 
     /// <summary>Maakt het contactgegeven opnieuw aan, zodat de bestaande validatie- en vergelijkingsregels gelden.</summary>
