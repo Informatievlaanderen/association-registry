@@ -61,7 +61,8 @@ public class Given_A_Valid_Command
             .OfType<ErkenningWerdGeregistreerd>()
             .Single(e => e.ErkenningId == erkenningId);
 
-        var nieuweStartdatum = origineleErkenning.Hernieuwingsdatum.Value.AddDays(-1);
+        // Eén dag vroeger dan de huidige startdatum: altijd een wijziging en nog steeds voor de hernieuwingsdatum.
+        var nieuweStartdatum = origineleErkenning.Startdatum.Value.AddDays(-1);
 
         await test.WithCommand(cmd =>
                 cmd with
@@ -96,7 +97,8 @@ public class Given_A_Valid_Command
             .OfType<ErkenningWerdGeregistreerd>()
             .Single(e => e.ErkenningId == erkenningId);
 
-        var nieuweEinddatum = origineleErkenning.Hernieuwingsdatum.Value.AddDays(1);
+        // Eén dag later dan de huidige einddatum: altijd een wijziging en nog steeds na de hernieuwingsdatum.
+        var nieuweEinddatum = origineleErkenning.Einddatum.Value.AddDays(1);
 
         await test.WithCommand(cmd =>
                 cmd with
