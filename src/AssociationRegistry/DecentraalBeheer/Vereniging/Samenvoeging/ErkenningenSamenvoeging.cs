@@ -19,9 +19,7 @@ public static class ErkenningenSamenvoeging
     ) Merge(Erkenningen authentiekeVereniging, Erkenningen dubbeleVereniging)
     {
         var erkenningen = authentiekeVereniging;
-
-        var overgenomen = new List<Gegevens.OvergenomenGegeven<Gegevens.Erkenning>>();
-        var nietOvergenomen = new List<Gegevens.NietOvergenomenGegeven<Gegevens.Erkenning>>();
+        var resultaat = new SamenvoegingResultaat<Gegevens.Erkenning>();
 
         foreach (var erkenning in dubbeleVereniging.OrderBy(x => x.ErkenningId))
         {
@@ -32,7 +30,7 @@ public static class ErkenningenSamenvoeging
 
             if (sameCombinatie.Any(x => x.ErkenningsPeriode == erkenning.ErkenningsPeriode))
             {
-                nietOvergenomen.Add(Gegevens.Gededupliceerd(description, original));
+                resultaat.Gededupliceerd(description, original);
 
                 continue;
             }
@@ -41,24 +39,17 @@ public static class ErkenningenSamenvoeging
 
             if (!erkenningen.KanErkenningToevoegenMetCombinatie(candidate))
             {
-                nietOvergenomen.Add(Gegevens.NietOvergenomen(description, original, RedenOverlap));
+                resultaat.NietOvergenomen(description, original, RedenOverlap);
 
                 continue;
             }
 
             erkenningen = erkenningen.Hydrate(erkenningen.Append(candidate));
 
-            overgenomen.Add(
-                new Gegevens.OvergenomenGegeven<Gegevens.Erkenning>(
-                    Gegevens.Acties.Toegevoegd,
-                    $"{description} werd toegevoegd vanuit de dubbele vereniging.",
-                    original,
-                    ToEventData(candidate)
-                )
-            );
+            resultaat.Toegevoegd(description, original, ToEventData(candidate));
         }
 
-        return ([.. overgenomen], [.. nietOvergenomen]);
+        return resultaat.Build();
     }
 
     private static Gegevens.Erkenning ToEventData(Erkenning erkenning) =>

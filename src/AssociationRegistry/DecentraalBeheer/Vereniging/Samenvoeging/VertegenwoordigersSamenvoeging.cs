@@ -26,9 +26,7 @@ public static class VertegenwoordigersSamenvoeging
     )
     {
         var vertegenwoordigers = authentiekeVereniging;
-
-        var overgenomen = new List<Gegevens.OvergenomenGegeven<Registratiedata.Vertegenwoordiger>>();
-        var nietOvergenomen = new List<Gegevens.NietOvergenomenGegeven<Registratiedata.Vertegenwoordiger>>();
+        var resultaat = new SamenvoegingResultaat<Registratiedata.Vertegenwoordiger>();
 
         foreach (var vertegenwoordiger in dubbeleVereniging.OrderBy(x => x.VertegenwoordigerId))
         {
@@ -37,19 +35,17 @@ public static class VertegenwoordigersSamenvoeging
 
             if (vertegenwoordigers.Any(x => x.Insz == vertegenwoordiger.Insz))
             {
-                nietOvergenomen.Add(Gegevens.Gededupliceerd(description, original));
+                resultaat.Gededupliceerd(description, original);
 
                 continue;
             }
 
             if (authentiekeIsVerenigingMetRechtspersoonlijkheid)
             {
-                nietOvergenomen.Add(
-                    Gegevens.NietOvergenomen(
-                        description,
-                        original,
-                        VerenigingMetRechtspersoonlijkheidSamenvoeging.RedenBeheerdViaKbo
-                    )
+                resultaat.NietOvergenomen(
+                    description,
+                    original,
+                    VerenigingMetRechtspersoonlijkheidSamenvoeging.RedenBeheerdViaKbo
                 );
 
                 continue;
@@ -62,22 +58,17 @@ public static class VertegenwoordigersSamenvoeging
             );
             vertegenwoordigers = vertegenwoordigers.Hydrate(vertegenwoordigers.Append(added));
 
-            overgenomen.Add(
-                mustBecomeNietPrimair
-                    ? Gegevens.ToegevoegdMetAanpassing(
-                        $"{description} werd toegevoegd als niet-primair, omdat de authentieke vereniging al een primaire vertegenwoordiger heeft.",
-                        original,
-                        EventFactory.Vertegenwoordiger(added)
-                    )
-                    : new Gegevens.OvergenomenGegeven<Registratiedata.Vertegenwoordiger>(
-                        Gegevens.Acties.Toegevoegd,
-                        $"{description} werd toegevoegd vanuit de dubbele vereniging.",
-                        original,
-                        EventFactory.Vertegenwoordiger(added)
-                    )
-            );
+            if (mustBecomeNietPrimair)
+                resultaat.ToegevoegdAlsNietPrimair(
+                    description,
+                    "een primaire vertegenwoordiger",
+                    original,
+                    EventFactory.Vertegenwoordiger(added)
+                );
+            else
+                resultaat.Toegevoegd(description, original, EventFactory.Vertegenwoordiger(added));
         }
 
-        return ([.. overgenomen], [.. nietOvergenomen]);
+        return resultaat.Build();
     }
 }
