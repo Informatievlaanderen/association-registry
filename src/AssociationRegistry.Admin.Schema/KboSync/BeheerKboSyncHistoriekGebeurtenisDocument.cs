@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Schema.KboSync;
 
+using JasperFx;
 using Marten.Schema;
 
 public record BeheerKboSyncHistoriekGebeurtenisDocument(

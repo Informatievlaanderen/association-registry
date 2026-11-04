@@ -387,7 +387,7 @@ public static class HistoriekGebeurtenisMapper
         var @event = new WerkingsgebiedenWerdenBepaald(
             vCode,
             werkingsgebieden
-                .Select(werkingsgebiedenServiceMock.Create)
+                .Select(WerkingsgebiedenServiceMock.Get)
                 .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
                 .ToArray()
         );
@@ -408,7 +408,7 @@ public static class HistoriekGebeurtenisMapper
         var @event = new WerkingsgebiedenWerdenGewijzigd(
             vCode,
             werkingsgebieden
-                .Select(werkingsgebiedenServiceMock.Create)
+                .Select(WerkingsgebiedenServiceMock.Get)
                 .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
                 .ToArray()
         );
@@ -440,7 +440,7 @@ public static class HistoriekGebeurtenisMapper
         var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
 
         return werkingsgebiedenCodes
-            .Select(code => werkingsgebiedenServiceMock.Create(code))
+            .Select(code => WerkingsgebiedenServiceMock.Get(code))
             .Select(werkingsgebied => new Registratiedata.Werkingsgebied(werkingsgebied.Code, werkingsgebied.Naam))
             .ToArray();
     }

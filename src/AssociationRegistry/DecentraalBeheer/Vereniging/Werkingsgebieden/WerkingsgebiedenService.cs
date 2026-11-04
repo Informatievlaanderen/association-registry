@@ -1,13 +1,14 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Vereniging;
 
-using Grar.NutsLau;
 using Exceptions;
+using Grar.NutsLau;
 using Marten;
 
 public interface IWerkingsgebiedenService
 {
-    Werkingsgebied Create(string code);
-    IReadOnlyList<Werkingsgebied> AllWithNVT();
+    Task<Werkingsgebied> Create(string code, CancellationToken cancellationToken = default);
+    Task<Werkingsgebied[]> CreateMany(IEnumerable<string> codes, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Werkingsgebied>> AllWithNVT(CancellationToken cancellationToken = default);
 }
 
 public class WerkingsgebiedenService : IWerkingsgebiedenService
@@ -19,19 +20,33 @@ public class WerkingsgebiedenService : IWerkingsgebiedenService
         _session = session;
     }
 
-    public IReadOnlyList<Werkingsgebied> AllWithNVT()
+    public async Task<IReadOnlyList<Werkingsgebied>> AllWithNVT(CancellationToken cancellationToken = default)
     {
-        var postalNutsLauInfos = _session.Query<PostalNutsLauInfo>().ToList();
+        var postalNutsLauInfos = await _session.Query<PostalNutsLauInfo>().ToListAsync(cancellationToken);
 
         return MogelijkeWerkingsgebieden.FromPostalNutsLauInfo(postalNutsLauInfos);
     }
 
-    public Werkingsgebied Create(string code)
+    public async Task<Werkingsgebied> Create(string code, CancellationToken cancellationToken = default)
     {
-        var all = AllWithNVT();
+        var all = await AllWithNVT(cancellationToken);
 
-        var match = all.SingleOrDefault(w =>
-                                            string.Equals(w.Code, code, StringComparison.InvariantCultureIgnoreCase));
+        return Match(all, code);
+    }
+
+    public async Task<Werkingsgebied[]> CreateMany(
+        IEnumerable<string> codes,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var all = await AllWithNVT(cancellationToken);
+
+        return codes.Select(code => Match(all, code)).ToArray();
+    }
+
+    private static Werkingsgebied Match(IReadOnlyList<Werkingsgebied> all, string code)
+    {
+        var match = all.SingleOrDefault(w => string.Equals(w.Code, code, StringComparison.InvariantCultureIgnoreCase));
 
         return match ?? throw new WerkingsgebiedCodeIsNietGekend(code);
     }

@@ -2,6 +2,7 @@ namespace AssociationRegistry.Scheduled.Host.DubbelBeheer.Schema;
 
 using System.Security.Cryptography;
 using System.Text;
+using JasperFx.Metadata;
 using Marten.Metadata;
 
 /// <summary>

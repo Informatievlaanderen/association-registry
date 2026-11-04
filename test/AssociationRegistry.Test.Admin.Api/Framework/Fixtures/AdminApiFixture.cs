@@ -19,6 +19,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityModel.Client;
+using JasperFx.CommandLine;
 using Marten;
 using Marten.Events.Daemon.Coordination;
 using MartenDb.BankrekeningnummerPersoonsgegevens;
@@ -32,7 +33,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Npgsql;
-using Oakton;
 using Vereniging;
 using Wolverine;
 using Xunit;
@@ -79,7 +79,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         DropDatabase();
         CreateDatabaseFromTemplate(Configuration);
 
-        OaktonEnvironment.AutoStartHost = true;
+        JasperFxEnvironment.AutoStartHost = true;
 
         _adminApiServer = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
         {

@@ -6,31 +6,32 @@ using Common.AutoFixture;
 using Common.Framework;
 using DecentraalBeheer.Vereniging;
 using FluentAssertions;
+using Marten;
 using Vereniging;
 using Xunit;
 
-public class Given_Werkingsgebieden
+public class Given_Werkingsgebieden : IAsyncLifetime
 {
-    IReadOnlyList<Werkingsgebied> _actual;
-    public Given_Werkingsgebieden()
+    private IDocumentSession _session = null!;
+    private IReadOnlyList<Werkingsgebied> _actual = null!;
+
+    public async ValueTask InitializeAsync()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var documentstore = TestDocumentStoreFactory.CreateAsync(nameof(Given_Werkingsgebieden)).GetAwaiter().GetResult();
-        using var session = documentstore.LightweightSession();
-        var postalInfo = fixture.Create<PostalNutsLauInfo>();
+        var documentstore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_Werkingsgebieden));
+        _session = documentstore.LightweightSession();
 
-        session.Store(postalInfo);
-        session.SaveChangesAsync().GetAwaiter().GetResult();
+        _session.Store(fixture.Create<PostalNutsLauInfo>());
+        await _session.SaveChangesAsync();
 
-        var sut = new WerkingsgebiedenService(session);
-        _actual = sut.AllWithNVT();
+        _actual = await new WerkingsgebiedenService(_session).AllWithNVT();
     }
 
-    [Fact]
-    public async ValueTask Then_Provincies_Are_In_The_List()
-        => _actual.Should().Contain(WellKnownWerkingsgebieden.Provincies);
+    public ValueTask DisposeAsync() => _session.DisposeAsync();
 
     [Fact]
-    public async ValueTask Then_NVT_Is_In_The_List()
-        => _actual.Should().Contain(Werkingsgebied.NietVanToepassing);
+    public void Then_Provincies_Are_In_The_List() => _actual.Should().Contain(WellKnownWerkingsgebieden.Provincies);
+
+    [Fact]
+    public void Then_NVT_Is_In_The_List() => _actual.Should().Contain(Werkingsgebied.NietVanToepassing);
 }

@@ -2,6 +2,7 @@ namespace AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 
 using AssociationRegistry.Vereniging;
 using DecentraalBeheer.Vereniging;
+using JasperFx;
 using Marten.Schema;
 
 public record VerenigingenPerInszDocument
@@ -9,7 +10,8 @@ public record VerenigingenPerInszDocument
     /// <summary>
     /// Het Insz nummer van de aanvraag.
     /// </summary>
-    [Identity] public string Insz { get; set; } = null!;
+    [Identity]
+    public string Insz { get; set; } = null!;
 
     /// <summary>
     /// De lijst van verenigingen die aan het opgegeven insz gekoppeld zijn.
@@ -84,7 +86,6 @@ public class Verenigingstype
 
 public class Verenigingssubtype : IVerenigingssubtypeCode
 {
-
     /// <summary>
     /// De code van het subtype vereniging van de vereniging
     /// </summary>
@@ -95,5 +96,3 @@ public class Verenigingssubtype : IVerenigingssubtypeCode
     /// </summary>
     public string Naam { get; init; } = null!;
 }
-
-

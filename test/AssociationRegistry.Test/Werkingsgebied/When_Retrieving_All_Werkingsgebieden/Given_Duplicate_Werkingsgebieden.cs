@@ -18,17 +18,14 @@ public class Given_Duplicate_Werkingsgebieden
         var documentstore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_Duplicate_Werkingsgebieden));
         await using var session = documentstore.LightweightSession();
         var postalInfo = fixture.Create<PostalNutsLauInfo>();
-        var duplicateWerkingsgebied = fixture.Create<PostalNutsLauInfo>() with
-        {
-            Postcode = fixture.Create<string>(),
-        };
+        var duplicateWerkingsgebied = fixture.Create<PostalNutsLauInfo>() with { Postcode = fixture.Create<string>() };
         var werkingsgebiedCode = $"{postalInfo.Nuts3}{postalInfo.Lau}";
 
         session.Store(postalInfo, duplicateWerkingsgebied);
         await session.SaveChangesAsync();
 
         var sut = new WerkingsgebiedenService(session);
-        var actual = sut.AllWithNVT();
+        var actual = await sut.AllWithNVT();
         actual.Count(x => x.Code == werkingsgebiedCode).Should().Be(1);
     }
 }
