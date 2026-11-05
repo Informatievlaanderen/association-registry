@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api;
 
+using System.Globalization;
 using AssociationRegistry.Admin.Schema.Detail;
 using CsvHelper;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
-using System.Globalization;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
@@ -29,7 +29,7 @@ public class CSVExporter
 
         await using var session = _fixture.DocumentStore.LightweightSession();
 
-        session.Query<BeheerVerenigingDetailDocument>().ToList().Should().NotBeEmpty();
+        (await session.Query<BeheerVerenigingDetailDocument>().ToListAsync()).Should().NotBeEmpty();
 
         var documents = session.Query<BeheerVerenigingDetailDocument>().ToAsyncEnumerable();
 
@@ -37,9 +37,13 @@ public class CSVExporter
         {
             foreach (var hoofdactiviteitVerenigingsloket in vereniging.HoofdactiviteitenVerenigingsloket)
             {
-                csv.WriteRecord(new HoofdactiviteitenRecord(
-                                    hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Naam,
-                                    vereniging.VCode));
+                csv.WriteRecord(
+                    new HoofdactiviteitenRecord(
+                        hoofdactiviteitVerenigingsloket.Code,
+                        hoofdactiviteitVerenigingsloket.Naam,
+                        vereniging.VCode
+                    )
+                );
 
                 await csv.NextRecordAsync();
             }

@@ -83,21 +83,21 @@ public class With_All_BasisGegevensWerdenGewijzigd
     {
         await using var session = _documentStore.LightweightSession();
 
-        var naamWerdGewijzigd = session
+        var naamWerdGewijzigd = await session
             .Events.QueryRawEventDataOnly<NaamWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+            .SingleAsync(@event => @event.VCode == _vCode);
 
-        var korteNaamWerdGewijzigd = session
+        var korteNaamWerdGewijzigd = await session
             .Events.QueryRawEventDataOnly<KorteNaamWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+            .SingleAsync(@event => @event.VCode == _vCode);
 
-        var korteBeschrijvingWerdGewijzigd = session
+        var korteBeschrijvingWerdGewijzigd = await session
             .Events.QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+            .SingleAsync(@event => @event.VCode == _vCode);
 
-        var startdatumWerdGewijzigd = session
+        var startdatumWerdGewijzigd = await session
             .Events.QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+            .SingleAsync(@event => @event.VCode == _vCode);
 
         var hoofactiviteitenVerenigingloketWerdenGewijzigd = (await session.Events.FetchStreamAsync(_vCode)).Single(
             @event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd)
