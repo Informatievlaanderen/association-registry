@@ -24,15 +24,13 @@ public class LocatieLookupController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        var response = new LocatiesMetAdresIdVolgensVCode
-        {
-            VCode = vCode,
-            Data = session
-                .Query<LocatieLookupDocument>()
-                .Where(w => w.VCode == vCode)
-                .Select(s => new LocatiesMetAdresIdVolgensVCode.LocatieLookup(s.LocatieId, s.AdresId))
-                .ToArray(),
-        };
+        var data = await session
+            .Query<LocatieLookupDocument>()
+            .Where(w => w.VCode == vCode)
+            .Select(s => new LocatiesMetAdresIdVolgensVCode.LocatieLookup(s.LocatieId, s.AdresId))
+            .ToListAsync(cancellationToken);
+
+        var response = new LocatiesMetAdresIdVolgensVCode { VCode = vCode, Data = data.ToArray() };
 
         return Ok(response);
     }
@@ -46,15 +44,13 @@ public class LocatieLookupController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        var response = new LocatiesMetAdresIdVolgensAdresId
-        {
-            AdresId = adresId,
-            Data = session
-                .Query<LocatieLookupDocument>()
-                .Where(w => w.AdresId == adresId)
-                .Select(s => new LocatiesMetAdresIdVolgensAdresId.LocatieLookup(s.LocatieId, s.VCode))
-                .ToArray(),
-        };
+        var data = await session
+            .Query<LocatieLookupDocument>()
+            .Where(w => w.AdresId == adresId)
+            .Select(s => new LocatiesMetAdresIdVolgensAdresId.LocatieLookup(s.LocatieId, s.VCode))
+            .ToListAsync(cancellationToken);
+
+        var response = new LocatiesMetAdresIdVolgensAdresId { AdresId = adresId, Data = data.ToArray() };
 
         return Ok(response);
     }
