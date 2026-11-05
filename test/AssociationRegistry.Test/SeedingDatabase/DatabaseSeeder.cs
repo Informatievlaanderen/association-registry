@@ -13,6 +13,7 @@ using Marten;
 using Marten.Exceptions;
 using Marten.Newtonsoft;
 using Marten.Services;
+using MartenDb.Setup;
 using Newtonsoft.Json;
 using NodaTime.Text;
 using Xunit;
@@ -101,6 +102,8 @@ public class DatabaseSeeder
             options.AutoCreateSchemaObjects = AutoCreate.All;
             options.Events.MetadataConfig.EnableAll();
             options.Serializer(CreateCustomMartenSerializer());
+            options.KeepV8Defaults();
+
             options.UseNewtonsoftForSerialization(configure: settings =>
             {
                 settings.DateParseHandling = DateParseHandling.None;

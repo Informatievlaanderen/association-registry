@@ -81,6 +81,18 @@ public static class SetupExtensions
         return opts;
     }
 
+    /// <summary>
+    ///     Marten 9 flipped a number of StoreOptions defaults (append mode, advanced async tracking,
+    ///     identity map for aggregates, bigint events, Npgsql logging). We keep the Marten 8 behaviour
+    ///     for now and adopt the new defaults one at a time, each with its own schema migration.
+    /// </summary>
+    public static StoreOptions KeepV8Defaults(this StoreOptions opts)
+    {
+        opts.RestoreV8Defaults();
+
+        return opts;
+    }
+
     public static StoreOptions ConfigureSerialization(this StoreOptions opts)
     {
         opts.UseNewtonsoftForSerialization(configure: settings => settings.ConfigureForVerenigingsregister());

@@ -139,6 +139,8 @@ public static class ConfigureMartenExtensions
             PubliekZoekProjectionHandler.ShardName.Name
         );
 
+        opts.KeepV8Defaults();
+
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {
             settings.DateParseHandling = DateParseHandling.None;
