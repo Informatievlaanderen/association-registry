@@ -16,21 +16,21 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
 {
     private readonly ElasticsearchClient _client;
     private readonly ElasticSearchOptionsSection _elasticSearchOptionsSection;
-    private readonly MinimumScore _defaultMinimumScore;
+    private readonly IMinimumScoreDuplicateDetectionConfig _minimumScoreConfig;
     private readonly ILogger<ZoekDuplicateVerenigingenQuery> _logger;
     private readonly IPostcodesInSameGemeenteService _postcodesInSameGemeenteService;
 
     public ZoekDuplicateVerenigingenQuery(
         ElasticsearchClient client,
         ElasticSearchOptionsSection elasticSearchOptionsSection,
-        MinimumScore defaultMinimumScore,
+        IMinimumScoreDuplicateDetectionConfig minimumScoreConfig,
         IPostcodesInSameGemeenteService postcodesInSameGemeenteService,
         ILogger<ZoekDuplicateVerenigingenQuery> logger = null
     )
     {
         _client = client;
         _elasticSearchOptionsSection = elasticSearchOptionsSection;
-        _defaultMinimumScore = defaultMinimumScore;
+        _minimumScoreConfig = minimumScoreConfig;
         _logger = logger ?? NullLogger<ZoekDuplicateVerenigingenQuery>.Instance;
         _postcodesInSameGemeenteService = postcodesInSameGemeenteService;
     }
@@ -57,7 +57,7 @@ public class ZoekDuplicateVerenigingenQuery : IDuplicateVerenigingDetectionServi
         MinimumScore? minimumScoreOverride = null
     )
     {
-        minimumScoreOverride ??= _defaultMinimumScore;
+        minimumScoreOverride ??= await _minimumScoreConfig.GetMinimumScoreDuplicateDetection();
 
         var naamZonderGemeentes = RemoveGemeentenaamFromVerenigingsNaam.Remove(naam, locaties.VerrijkteGemeentes);
 

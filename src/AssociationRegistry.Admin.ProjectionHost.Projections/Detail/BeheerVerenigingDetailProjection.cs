@@ -44,9 +44,9 @@ public partial class BeheerVerenigingDetailProjection : EventProjection
         var updateDocs = Enumerable.Empty<BeheerVerenigingDetailDocument>().ToList();
         var vereniging = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey!))!;
 
-        var gerelateerdeVerenigingen = ops.Query<BeheerVerenigingDetailDocument>()
+        var gerelateerdeVerenigingen = await ops.Query<BeheerVerenigingDetailDocument>()
             .Where(d => d.Relaties.Any(r => r.AndereVereniging.VCode == vereniging.VCode))
-            .ToList();
+            .ToListAsync();
 
         foreach (var gerelateerdeVereniging in gerelateerdeVerenigingen)
         {

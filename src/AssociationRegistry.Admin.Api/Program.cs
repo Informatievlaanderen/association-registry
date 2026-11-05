@@ -491,9 +491,9 @@ public class Program
                 sp.GetRequiredService<IDocumentSession>(),
                 sp.GetRequiredService<IMemoryCache>()
             ))
-            .AddScoped(sp => new MinimumScore(
-                sp.GetRequiredService<ElasticSearchOptionsService>().MinimumScoreDuplicateDetection
-            ))
+            .AddScoped<IMinimumScoreDuplicateDetectionConfig>(sp =>
+                sp.GetRequiredService<ElasticSearchOptionsService>()
+            )
             .AddScoped<InitiatorProvider>()
             .AddScoped<IMagdaRegistreerInschrijvingCatchupService, MagdaRegistreerInschrijvingCatchupService>()
             .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()

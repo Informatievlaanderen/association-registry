@@ -48,9 +48,9 @@ public partial class PubliekVerenigingDetailProjection : EventProjection
         var updateDocs = Enumerable.Empty<PubliekVerenigingDetailDocument>().ToList();
         var vereniging = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(@event.StreamKey!))!;
 
-        var gerelateerdeVerenigingen = ops.Query<PubliekVerenigingDetailDocument>()
+        var gerelateerdeVerenigingen = await ops.Query<PubliekVerenigingDetailDocument>()
             .Where(d => d.Relaties.Any(r => r.AndereVereniging.VCode == vereniging.VCode))
-            .ToList();
+            .ToListAsync();
 
         foreach (var gerelateerdeVereniging in gerelateerdeVerenigingen)
         {
