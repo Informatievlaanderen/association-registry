@@ -1745,6 +1745,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<VerenigingWerdErkend> @event, PowerBiExportDocument document)
     {
+        document.IsErkend = true;
+
         document.DatumLaatsteAanpassing = @event
             .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
             .ConvertAndFormatToBelgianDate();
@@ -1754,6 +1756,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<VerenigingWerdNietLangerErkend> @event, PowerBiExportDocument document)
     {
+        document.IsErkend = false;
+
         document.DatumLaatsteAanpassing = @event
             .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
             .ConvertAndFormatToBelgianDate();
