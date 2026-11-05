@@ -181,7 +181,7 @@ public class DuplicateDetectionSetup
         DuplicateDetectionService = new ZoekDuplicateVerenigingenQuery(
             Client,
             elasticSearchOptions,
-            MinimumScore.Default,
+            new ElasticSearchOptionsSection { MinimumScoreDuplicateDetection = MinimumScore.Default.Value },
             new Framework.Fakes.FakePostcodesInSameGemeenteService()
         );
 

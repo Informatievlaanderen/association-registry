@@ -44,7 +44,10 @@ public class Given_Verwijderde_Verenigingen
         _query = new ZoekDuplicateVerenigingenQuery(
             fixture.ElasticClient,
             fixture.ElasticSearchOptions,
-            new MinimumScore(0),
+            new AssociationRegistry.Hosts.Configuration.ConfigurationBindings.ElasticSearchOptionsSection
+            {
+                MinimumScoreDuplicateDetection = 0,
+            },
             new AssociationRegistry.Test.Admin.Api.Framework.Fakes.FakePostcodesInSameGemeenteService(),
             NullLogger<ZoekDuplicateVerenigingenQuery>.Instance
         );

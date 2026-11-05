@@ -132,7 +132,7 @@ public class DuplicateDetectionTest
         DuplicateVerenigingenQuery = new ZoekDuplicateVerenigingenQuery(
             _elastic,
             _elasticSearchOptionsSection,
-            MinimumScore.Default,
+            new ElasticSearchOptionsSection { MinimumScoreDuplicateDetection = MinimumScore.Default.Value },
             new AssociationRegistry.Test.Admin.Api.Framework.Fakes.FakePostcodesInSameGemeenteService(),
             NullLogger<ZoekDuplicateVerenigingenQuery>.Instance
         );

@@ -21,7 +21,6 @@ public class DubbelControleController : ApiController
     public async Task<IActionResult> ControleerOpDubbels(
         [FromBody] RegistreerFeitelijkeVerenigingRequest? request,
         [FromQuery] double? minimumScoreOverride,
-        [FromServices] MinimumScore defaultMinimumScore,
         [FromServices] IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService,
         [FromServices] IWerkingsgebiedenService werkingsgebiedenService
     )
@@ -34,7 +33,7 @@ public class DubbelControleController : ApiController
             command.Naam,
             command.Locaties,
             true,
-            minimumScoreOverride.HasValue ? new MinimumScore(minimumScoreOverride.Value) : defaultMinimumScore
+            minimumScoreOverride.HasValue ? new MinimumScore(minimumScoreOverride.Value) : null
         );
 
         return Ok(

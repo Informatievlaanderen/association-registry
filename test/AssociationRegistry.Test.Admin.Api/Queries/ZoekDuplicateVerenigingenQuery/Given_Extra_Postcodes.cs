@@ -199,7 +199,10 @@ public class Given_Extra_Postcodes : IClassFixture<Given_Extra_PostcodesFixture>
         var query = new ZoekDuplicateVerenigingenQuery(
             _fixture.ElasticClient,
             _fixture.ElasticSearchOptions,
-            new MinimumScore(0),
+            new AssociationRegistry.Hosts.Configuration.ConfigurationBindings.ElasticSearchOptionsSection
+            {
+                MinimumScoreDuplicateDetection = 0,
+            },
             new FakePostcodesInSameGemeenteService(extraPostcodes ?? []),
             NullLogger<ZoekDuplicateVerenigingenQuery>.Instance
         );
