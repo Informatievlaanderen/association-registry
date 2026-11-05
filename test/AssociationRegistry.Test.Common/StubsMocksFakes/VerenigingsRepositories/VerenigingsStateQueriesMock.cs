@@ -18,13 +18,22 @@ public class VerenigingsStateQueriesMock : IVerenigingStateQueryService
     private record InvocationLoad(string key, Type Type);
 
     private readonly List<InvocationLoad> _invocationsLoad = new();
+    private readonly VCode[] _verwijderdeVerenigingen;
+    private readonly VCode[] _dubbeleVerenigingen;
+    private readonly VCode[] _gestopteVerenigingen;
 
     public VerenigingsStateQueriesMock(
         VerenigingState? verenigingToLoad = null,
         bool expectedLoadingDubbel = false,
-        bool expectedLoadingVerwijderd = false
+        bool expectedLoadingVerwijderd = false,
+        VCode[]? verwijderdeVerenigingen = null,
+        VCode[]? dubbeleVerenigingen = null,
+        VCode[]? gestopteVerenigingen = null
     )
     {
+        _verwijderdeVerenigingen = verwijderdeVerenigingen ?? [];
+        _dubbeleVerenigingen = dubbeleVerenigingen ?? [];
+        _gestopteVerenigingen = gestopteVerenigingen ?? [];
         _verenigingToLoad = verenigingToLoad;
         _expectedLoadingDubbel = expectedLoadingDubbel;
         _expectedLoadingVerwijderd = expectedLoadingVerwijderd;
@@ -60,9 +69,11 @@ public class VerenigingsStateQueriesMock : IVerenigingStateQueryService
         return await Task.FromResult(vereniging);
     }
 
-    public Task<bool> IsVerwijderd(VCode vCode) => Task.FromResult(false);
+    public Task<bool> IsVerwijderd(VCode vCode) => Task.FromResult(_verwijderdeVerenigingen.Contains(vCode));
 
-    public Task<bool> IsDubbel(VCode vCode) => Task.FromResult(false);
+    public Task<bool> IsDubbel(VCode vCode) => Task.FromResult(_dubbeleVerenigingen.Contains(vCode));
+
+    public Task<bool> IsGestopt(VCode vCode) => Task.FromResult(_gestopteVerenigingen.Contains(vCode));
 
     public async Task<bool> Exists(VCode vCode) => true;
 

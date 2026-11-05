@@ -44,6 +44,10 @@ public record VerenigingState : IHasVersion
     public Locaties Locaties { get; init; } = Locaties.Empty;
     public Lidmaatschappen Lidmaatschappen { get; init; } = Lidmaatschappen.Empty;
 
+    /// <summary>De verenigingen waarbij deze vereniging een lidmaatschap heeft.</summary>
+    public VCode[] VerenigingenVanLidmaatschappen =>
+        Lidmaatschappen.Select(x => x.AndereVereniging).Distinct().ToArray();
+
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } =
         HoofdactiviteitenVerenigingsloket.Empty;
 
@@ -788,8 +792,9 @@ public record VerenigingState : IHasVersion
         };
 
     /// <summary>
-    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens, locaties, vertegenwoordigers, bankrekeningnummers en erkenningen samengevoegd; de
-    ///     andere groepen zijn nog leeg.
+    ///     Voorlopig worden de basisgegevens, hoofdactiviteiten, werkingsgebieden, contactgegevens, locaties, vertegenwoordigers, bankrekeningnummers, erkenningen en lidmaatschappen samengevoegd; de
+    ///     subvereniging is nog leeg.
+    ///     Een samengevoegd lidmaatschap vervangt het bestaande met hetzelfde id.
     /// </summary>
 #pragma warning disable CS0618
     public VerenigingState Apply(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging @event)
@@ -872,6 +877,13 @@ public record VerenigingState : IHasVersion
                 @event.OvergenomenGegevens.Locaties.Aggregate(
                     (IEnumerable<Locatie>)Locaties,
                     (locaties, x) => locaties.AppendFromEventData(x.NieuweWaarde)
+                )
+            ),
+            Lidmaatschappen = Lidmaatschappen.Hydrate(
+                @event.OvergenomenGegevens.Lidmaatschappen.Aggregate(
+                    (IEnumerable<Lidmaatschap>)Lidmaatschappen,
+                    (lidmaatschappen, x) =>
+                        lidmaatschappen.Without(x.NieuweWaarde.LidmaatschapId).AppendFromEventData(x.NieuweWaarde)
                 )
             ),
             Contactgegevens = Contactgegevens.Hydrate(

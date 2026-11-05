@@ -30,7 +30,7 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
         _andereGegevens = andereGegevens;
     }
 
-    public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
+    public virtual async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 

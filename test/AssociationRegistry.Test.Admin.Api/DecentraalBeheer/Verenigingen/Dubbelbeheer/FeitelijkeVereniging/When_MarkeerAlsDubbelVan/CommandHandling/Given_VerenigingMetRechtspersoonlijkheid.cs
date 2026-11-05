@@ -21,6 +21,8 @@ using Velden = AssociationRegistry.Events.SamenvoegingDubbeleVereniging.Velden;
 ///     vereniging zelf mag beheren, worden wel samengevoegd.
 ///     De authentieke vereniging heeft geen korte naam, startdatum, korte beschrijving of doelgroep. De dubbele vereniging
 ///     heeft alle basisgegevens, Frodo en Samwise als vertegenwoordigers en een website.
+///     Lidmaatschappen worden niet via de KBO beheerd en dus samengevoegd: de authentieke vereniging is lid bij Gondor
+///     vanaf 2024, de dubbele bij Gondor van 2022 tot 2025 en bij Rohan.
 /// </summary>
 #pragma warning disable CS0618
 public class Given_VerenigingMetRechtspersoonlijkheid
@@ -118,6 +120,43 @@ public class Given_VerenigingMetRechtspersoonlijkheid
     }
 
     [Fact]
+    public async ValueTask Then_The_Lidmaatschappen_Are_Still_Samengevoegd()
+    {
+        var samengevoegd = await Given_VerenigingMetRechtspersoonlijkheid_Helper.MarkeerAlsDubbelVan(
+            korteNaamAuthentiek: ""
+        );
+
+        var gondor = Given_VerenigingMetRechtspersoonlijkheid_Helper.Gondor;
+        var rohan = Given_VerenigingMetRechtspersoonlijkheid_Helper.Rohan;
+
+        samengevoegd
+            .OvergenomenGegevens.Lidmaatschappen.Should()
+            .BeEquivalentTo(
+                [
+                    SamenvoegingDubbeleVereniging.Samengevoegd(
+                        $"Lidmaatschap bij 'Gondor' ({gondor}) werd samengevoegd met lidmaatschap met id 1; de geldigheidsperiode werd verruimd.",
+                        Given_VerenigingMetRechtspersoonlijkheid_Helper.DubbelBijGondor,
+                        Given_VerenigingMetRechtspersoonlijkheid_Helper.AuthentiekBijGondor with
+                        {
+                            DatumVan = new DateOnly(2022, 1, 1),
+                        }
+                    ),
+                    new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.Lidmaatschap>(
+                        SamenvoegingDubbeleVereniging.Acties.Toegevoegd,
+                        $"Lidmaatschap bij 'Rohan' ({rohan}) werd toegevoegd vanuit de dubbele vereniging.",
+                        Given_VerenigingMetRechtspersoonlijkheid_Helper.DubbelBijRohan,
+                        Given_VerenigingMetRechtspersoonlijkheid_Helper.DubbelBijRohan with
+                        {
+                            LidmaatschapId = 2,
+                        }
+                    ),
+                ],
+                options => options.WithStrictOrdering()
+            );
+        samengevoegd.NietOvergenomenGegevens.Lidmaatschappen.Should().BeEmpty();
+    }
+
+    [Fact]
     public async ValueTask Then_The_Contactgegevens_Are_Still_Overgenomen()
     {
         var samengevoegd = await Given_VerenigingMetRechtspersoonlijkheid_Helper.MarkeerAlsDubbelVan(
@@ -133,6 +172,35 @@ public class Given_VerenigingMetRechtspersoonlijkheid
 
 internal static class Given_VerenigingMetRechtspersoonlijkheid_Helper
 {
+    private static readonly Fixture Fixture = new Fixture().CustomizeDomain();
+
+    public static readonly VCode Gondor = Fixture.Create<VCode>();
+    public static readonly VCode Rohan = Fixture.Create<VCode>();
+
+    public static readonly Registratiedata.Lidmaatschap AuthentiekBijGondor = Given_Lidmaatschappen.Lid(
+        1,
+        Gondor,
+        "Gondor",
+        new DateOnly(2024, 1, 1),
+        null
+    );
+
+    public static readonly Registratiedata.Lidmaatschap DubbelBijGondor = Given_Lidmaatschappen.Lid(
+        1,
+        Gondor,
+        "Gondor",
+        new DateOnly(2022, 1, 1),
+        new DateOnly(2025, 12, 31)
+    );
+
+    public static readonly Registratiedata.Lidmaatschap DubbelBijRohan = Given_Lidmaatschappen.Lid(
+        2,
+        Rohan,
+        "Rohan",
+        new DateOnly(2020, 1, 1),
+        null
+    );
+
     public static async Task<DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging> MarkeerAlsDubbelVan(
         string korteNaamAuthentiek
     )
@@ -153,8 +221,17 @@ internal static class Given_VerenigingMetRechtspersoonlijkheid_Helper
             Startdatum = null,
         };
 
-        var session = new MultipleVerenigingAggregateSessionMock(new VerenigingState().Apply(dubbeleVereniging));
-        session.WithVereniging(new VerenigingState().Apply(authentiekeVereniging));
+        var session = new MultipleVerenigingAggregateSessionMock(
+            new VerenigingState()
+                .Apply(dubbeleVereniging)
+                .Apply(new LidmaatschapWerdToegevoegd(dubbeleVereniging.VCode, DubbelBijGondor))
+                .Apply(new LidmaatschapWerdToegevoegd(dubbeleVereniging.VCode, DubbelBijRohan))
+        );
+        session.WithVereniging(
+            new VerenigingState()
+                .Apply(authentiekeVereniging)
+                .Apply(new LidmaatschapWerdToegevoegd(authentiekeVereniging.VCode, AuthentiekBijGondor))
+        );
 
         var command = new MarkeerAlsDubbelVanCommand(
             VCode.Create(dubbeleVereniging.VCode),

@@ -60,8 +60,8 @@ public class Returns_Vereniging_For_An_Overgenomen_Vertegenwoordiger : End2EndTe
                         ),
                         Verenigingssubtype = new VerenigingenPerInszResponse.Verenigingssubtype
                         {
-                            Code = VerenigingssubtypeCode.Default.Code,
-                            Naam = VerenigingssubtypeCode.Default.Naam,
+                            Code = VerenigingssubtypeCode.Subvereniging.Code,
+                            Naam = VerenigingssubtypeCode.Subvereniging.Naam,
                         },
                         IsHoofdvertegenwoordigerVan = true,
                     },
