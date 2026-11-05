@@ -713,10 +713,7 @@ public static class HistoriekGebeurtenisMapper
             Registratiedata.Vertegenwoordiger,
             SamenvoegingDubbeleVereniging.Bankrekeningnummer
         > overgenomen,
-        SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
-            Registratiedata.Vertegenwoordiger,
-            SamenvoegingDubbeleVereniging.Bankrekeningnummer
-        > nietOvergenomen
+        SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep nietOvergenomen
     ) =>
         new()
         {

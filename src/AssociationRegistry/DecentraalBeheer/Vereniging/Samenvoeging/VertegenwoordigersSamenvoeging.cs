@@ -13,12 +13,15 @@ using Gegevens = Events.SamenvoegingDubbeleVereniging;
 ///     Een vereniging met rechtspersoonlijkheid krijgt haar vertegenwoordigers enkel via de KBO; daar wordt geen enkele
 ///     vertegenwoordiger overgenomen (zie <see cref="VerenigingMetRechtspersoonlijkheidSamenvoeging" />).
 /// </summary>
-/// <remarks>De beschrijvingen bevatten geen persoonsgegevens, want ze worden mee bewaard in het event.</remarks>
+/// <remarks>
+///     De beschrijvingen bevatten geen persoonsgegevens, want ze worden mee bewaard in het event.
+///     Van een niet-overgenomen of gededupliceerde vertegenwoordiger wordt enkel het id bewaard.
+/// </remarks>
 public static class VertegenwoordigersSamenvoeging
 {
     public static (
         Gegevens.OvergenomenGegeven<Registratiedata.Vertegenwoordiger>[] Overgenomen,
-        Gegevens.NietOvergenomenGegeven<Registratiedata.Vertegenwoordiger>[] NietOvergenomen
+        Gegevens.NietOvergenomenGegeven<Gegevens.NietOvergenomenVertegenwoordiger>[] NietOvergenomen
     ) Merge(
         Vertegenwoordigers authentiekeVereniging,
         Vertegenwoordigers dubbeleVereniging,
@@ -26,16 +29,18 @@ public static class VertegenwoordigersSamenvoeging
     )
     {
         var vertegenwoordigers = authentiekeVereniging;
-        var resultaat = new SamenvoegingResultaat<Registratiedata.Vertegenwoordiger>();
+        var resultaat =
+            new SamenvoegingResultaat<Registratiedata.Vertegenwoordiger, Gegevens.NietOvergenomenVertegenwoordiger>();
 
         foreach (var vertegenwoordiger in dubbeleVereniging.OrderBy(x => x.VertegenwoordigerId))
         {
             var description = $"Vertegenwoordiger met id {vertegenwoordiger.VertegenwoordigerId}";
             var original = EventFactory.Vertegenwoordiger(vertegenwoordiger);
+            var nietOvergenomen = new Gegevens.NietOvergenomenVertegenwoordiger(vertegenwoordiger.VertegenwoordigerId);
 
             if (vertegenwoordigers.Any(x => x.Insz == vertegenwoordiger.Insz))
             {
-                resultaat.Gededupliceerd(description, original);
+                resultaat.Gededupliceerd(description, nietOvergenomen);
 
                 continue;
             }
@@ -44,7 +49,7 @@ public static class VertegenwoordigersSamenvoeging
             {
                 resultaat.NietOvergenomen(
                     description,
-                    original,
+                    nietOvergenomen,
                     VerenigingMetRechtspersoonlijkheidSamenvoeging.RedenBeheerdViaKbo
                 );
 

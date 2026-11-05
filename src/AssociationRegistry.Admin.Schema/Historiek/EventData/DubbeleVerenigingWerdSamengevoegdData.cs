@@ -6,6 +6,7 @@ using Gegevens = Events.SamenvoegingDubbeleVereniging;
 /// <summary>
 ///     De samenvoeging zoals ze in de historiek staat. Vertegenwoordigers staan erin zoals bij andere gebeurtenissen,
 ///     zonder INSZ, zodat ze geanonimiseerd kunnen worden wanneer hun bewaartermijn verloopt.
+///     Niet-overgenomen vertegenwoordigers bevatten enkel hun id en moeten dus niet geanonimiseerd worden.
 /// </summary>
 #pragma warning disable CS0618
 public record DubbeleVerenigingWerdSamengevoegdData(
@@ -15,10 +16,7 @@ public record DubbeleVerenigingWerdSamengevoegdData(
         VertegenwoordigerData,
         SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > OvergenomenGegevens,
-    Gegevens.NietOvergenomenGegevensPerGroep<
-        VertegenwoordigerData,
-        SamenvoegingDubbeleVereniging.Bankrekeningnummer
-    > NietOvergenomenGegevens
+    Gegevens.NietOvergenomenGegevensPerGroep NietOvergenomenGegevens
 )
 {
     public static DubbeleVerenigingWerdSamengevoegdData Create(
@@ -39,18 +37,7 @@ public record DubbeleVerenigingWerdSamengevoegdData(
                     .ToArray(),
                 e.OvergenomenGegevens.Bankrekeningnummers
             ),
-            e.NietOvergenomenGegevens.With(
-                e.NietOvergenomenGegevens.Vertegenwoordigers.Select(
-                        x => new Gegevens.NietOvergenomenGegeven<VertegenwoordigerData>(
-                            x.Actie,
-                            x.Reden,
-                            x.Beschrijving,
-                            VertegenwoordigerData.Create(x.Waarde)
-                        )
-                    )
-                    .ToArray(),
-                e.NietOvergenomenGegevens.Bankrekeningnummers
-            )
+            e.NietOvergenomenGegevens
         );
 
     /// <summary>
@@ -61,7 +48,7 @@ public record DubbeleVerenigingWerdSamengevoegdData(
         OvergenomenGegevens.Vertegenwoordigers.Any(x =>
             x.OrigineleWaarde.VertegenwoordigerId == vertegenwoordigerId
             || x.NieuweWaarde.VertegenwoordigerId == vertegenwoordigerId
-        ) || NietOvergenomenGegevens.Vertegenwoordigers.Any(x => x.Waarde.VertegenwoordigerId == vertegenwoordigerId);
+        );
 
     public DubbeleVerenigingWerdSamengevoegdData MakeAnonymous(int vertegenwoordigerId) =>
         this with
@@ -77,12 +64,6 @@ public record DubbeleVerenigingWerdSamengevoegdData(
                     )
                     .ToArray(),
                 OvergenomenGegevens.Bankrekeningnummers
-            ),
-            NietOvergenomenGegevens = NietOvergenomenGegevens.With(
-                NietOvergenomenGegevens
-                    .Vertegenwoordigers.Select(x => x with { Waarde = MakeAnonymous(x.Waarde, vertegenwoordigerId) })
-                    .ToArray(),
-                NietOvergenomenGegevens.Bankrekeningnummers
             ),
         };
 

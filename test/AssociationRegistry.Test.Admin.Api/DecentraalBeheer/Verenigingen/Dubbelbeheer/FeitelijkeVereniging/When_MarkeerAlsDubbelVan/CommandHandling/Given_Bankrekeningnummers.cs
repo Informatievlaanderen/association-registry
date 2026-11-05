@@ -134,12 +134,8 @@ public class Given_Bankrekeningnummers
             .BeEquivalentTo([
                 SamenvoegingDubbeleVereniging.Gededupliceerd(
                     "Bankrekeningnummer met id 1",
-                    new SamenvoegingDubbeleVereniging.Bankrekeningnummer(
-                        ZelfdeIbanBijDeDubbeleVereniging.BankrekeningnummerId,
-                        ZelfdeIbanBijDeDubbeleVereniging.Iban,
-                        ZelfdeIbanBijDeDubbeleVereniging.Doel,
-                        ZelfdeIbanBijDeDubbeleVereniging.Titularissen,
-                        []
+                    new SamenvoegingDubbeleVereniging.NietOvergenomenBankrekeningnummer(
+                        ZelfdeIbanBijDeDubbeleVereniging.BankrekeningnummerId
                     )
                 ),
             ]);

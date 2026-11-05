@@ -516,10 +516,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             Erkenningen = erkenningen.Overgenomen,
         };
 
-        var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
-            Registratiedata.Vertegenwoordiger,
-            SamenvoegingDubbeleVereniging.Bankrekeningnummer
-        >.WithOnly(basisgegevens.NietOvergenomen) with
+        var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep.WithOnly(
+            basisgegevens.NietOvergenomen
+        ) with
         {
             Hoofdactiviteiten = hoofdactiviteiten.NietOvergenomen,
             Werkingsgebieden = werkingsgebieden.NietOvergenomen,

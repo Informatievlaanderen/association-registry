@@ -9,8 +9,10 @@ using Vereniging.Bronnen;
 ///     Staat op de stream van de authentieke vereniging (<see cref="VCode" />).
 ///     Dit is een andere actie dan het markeren als dubbel (<see cref="VerenigingWerdGemarkeerdAlsDubbelVan" />).
 ///     Het tijdstip en de initiator van de samenvoeging zitten, zoals bij elk event, in de metadata.
-///     De persoonsgegevens van vertegenwoordigers en bankrekeningnummers worden apart bewaard onder de authentieke
-///     vereniging, zodat ze niet verdwijnen wanneer de bewaartermijn van de dubbele vereniging verloopt.
+///     De persoonsgegevens van overgenomen vertegenwoordigers en bankrekeningnummers worden apart bewaard onder de
+///     authentieke vereniging, zodat ze niet verdwijnen wanneer de bewaartermijn van de dubbele vereniging verloopt.
+///     Van niet-overgenomen of gededupliceerde vertegenwoordigers en bankrekeningnummers wordt enkel het id bewaard:
+///     hun persoonsgegevens zouden nergens meer verwijderd kunnen worden.
 /// </summary>
 public record DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingZonderPersoonsgegevens(
     string VCode,
@@ -19,10 +21,7 @@ public record DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingZonderPer
         Registratiedata.VertegenwoordigerZonderPersoonsgegevens,
         SamenvoegingDubbeleVereniging.BankrekeningnummerZonderPersoonsgegevens
     > OvergenomenGegevens,
-    SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
-        Registratiedata.VertegenwoordigerZonderPersoonsgegevens,
-        SamenvoegingDubbeleVereniging.BankrekeningnummerZonderPersoonsgegevens
-    > NietOvergenomenGegevens
+    SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep NietOvergenomenGegevens
 ) : IEvent
 {
     [IgnoreDataMember]
@@ -37,10 +36,7 @@ public record DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
         Registratiedata.Vertegenwoordiger,
         SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > OvergenomenGegevens,
-    SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
-        Registratiedata.Vertegenwoordiger,
-        SamenvoegingDubbeleVereniging.Bankrekeningnummer
-    > NietOvergenomenGegevens
+    SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep NietOvergenomenGegevens
 ) : IEvent
 {
     [IgnoreDataMember]
@@ -60,8 +56,9 @@ public record DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
 /// <summary>
 ///     De inhoud van <see cref="DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging" />.
 ///     De gegevens zijn gegroepeerd per historiekcategorie; de groep van een gegeven volgt uit waar het staat.
-///     Vertegenwoordigers en bankrekeningnummers zijn generiek, zodat het bewaarde event enkel een verwijzing naar de
-///     persoonsgegevens bevat en het geüpcaste event de persoonsgegevens zelf.
+///     Overgenomen vertegenwoordigers en bankrekeningnummers zijn generiek, zodat het bewaarde event enkel een verwijzing
+///     naar de persoonsgegevens bevat en het geüpcaste event de persoonsgegevens zelf.
+///     Niet-overgenomen vertegenwoordigers en bankrekeningnummers bevatten enkel hun id, zonder persoonsgegevens.
 /// </summary>
 public static class SamenvoegingDubbeleVereniging
 {
@@ -195,6 +192,18 @@ public static class SamenvoegingDubbeleVereniging
         Registratiedata.GegevensInitiator[] BevestigdDoor
     );
 
+    /// <summary>
+    ///     Een vertegenwoordiger die niet werd overgenomen of gededupliceerd werd. Enkel het id, zonder persoonsgegevens,
+    ///     want die zouden na het verlopen van de bewaartermijn niet verwijderd kunnen worden.
+    /// </summary>
+    public record NietOvergenomenVertegenwoordiger(int VertegenwoordigerId);
+
+    /// <summary>
+    ///     Een bankrekeningnummer dat niet werd overgenomen of gededupliceerd werd. Enkel het id, zonder IBAN of
+    ///     titularissen, want die zouden na het verlopen van de bewaartermijn niet verwijderd kunnen worden.
+    /// </summary>
+    public record NietOvergenomenBankrekeningnummer(int BankrekeningnummerId);
+
     public record Erkenning(
         int ErkenningId,
         IpdcProduct IpdcProduct,
@@ -259,14 +268,14 @@ public static class SamenvoegingDubbeleVereniging
             );
     }
 
-    public record NietOvergenomenGegevensPerGroep<TVertegenwoordiger, TBankrekeningnummer>(
+    public record NietOvergenomenGegevensPerGroep(
         NietOvergenomenBasisgegevens Basisgegevens,
         NietOvergenomenGegeven<Registratiedata.HoofdactiviteitVerenigingsloket>[] Hoofdactiviteiten,
         NietOvergenomenGegeven<Registratiedata.Werkingsgebied>[] Werkingsgebieden,
         NietOvergenomenGegeven<Registratiedata.Contactgegeven>[] Contactgegevens,
         NietOvergenomenGegeven<Registratiedata.Locatie>[] Locaties,
-        NietOvergenomenGegeven<TVertegenwoordiger>[] Vertegenwoordigers,
-        NietOvergenomenGegeven<TBankrekeningnummer>[] Bankrekeningnummers,
+        NietOvergenomenGegeven<NietOvergenomenVertegenwoordiger>[] Vertegenwoordigers,
+        NietOvergenomenGegeven<NietOvergenomenBankrekeningnummer>[] Bankrekeningnummers,
         NietOvergenomenGegeven<Erkenning>[] Erkenningen,
         NietOvergenomenGegeven<Registratiedata.SubverenigingVan>? SubverenigingVan,
         NietOvergenomenGegeven<Registratiedata.Lidmaatschap>[] Lidmaatschappen
@@ -285,29 +294,7 @@ public static class SamenvoegingDubbeleVereniging
             + (SubverenigingVan is null ? 0 : 1)
             + Lidmaatschappen.Length;
 
-        public static NietOvergenomenGegevensPerGroep<TVertegenwoordiger, TBankrekeningnummer> WithOnly(
-            NietOvergenomenBasisgegevens basisgegevens
-        ) => new(basisgegevens, [], [], [], [], [], [], [], null, []);
-
-        /// <summary>Dezelfde gegevens, met andere vertegenwoordigers en bankrekeningnummers.</summary>
-        public NietOvergenomenGegevensPerGroep<TOtherVertegenwoordiger, TOtherBankrekeningnummer> With<
-            TOtherVertegenwoordiger,
-            TOtherBankrekeningnummer
-        >(
-            NietOvergenomenGegeven<TOtherVertegenwoordiger>[] vertegenwoordigers,
-            NietOvergenomenGegeven<TOtherBankrekeningnummer>[] bankrekeningnummers
-        ) =>
-            new(
-                Basisgegevens,
-                Hoofdactiviteiten,
-                Werkingsgebieden,
-                Contactgegevens,
-                Locaties,
-                vertegenwoordigers,
-                bankrekeningnummers,
-                Erkenningen,
-                SubverenigingVan,
-                Lidmaatschappen
-            );
+        public static NietOvergenomenGegevensPerGroep WithOnly(NietOvergenomenBasisgegevens basisgegevens) =>
+            new(basisgegevens, [], [], [], [], [], [], [], null, []);
     }
 }

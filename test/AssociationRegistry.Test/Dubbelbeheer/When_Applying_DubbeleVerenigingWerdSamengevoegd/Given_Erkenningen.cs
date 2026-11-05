@@ -70,9 +70,7 @@ public class Given_Erkenningen
                     ),
                 ],
             },
-            NietOvergenomenGegevensPerGroep<Registratiedata.Vertegenwoordiger, Bankrekeningnummer>.WithOnly(
-                NietOvergenomenBasisgegevens.Geen
-            )
+            NietOvergenomenGegevensPerGroep.WithOnly(NietOvergenomenBasisgegevens.Geen)
         );
 
         _state = new VerenigingState().Apply(registratie).Apply(_bestaand).Apply(samengevoegd);

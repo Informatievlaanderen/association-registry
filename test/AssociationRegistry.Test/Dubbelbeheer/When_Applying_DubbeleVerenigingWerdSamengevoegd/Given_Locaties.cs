@@ -46,10 +46,7 @@ public class Given_Locaties
                     ),
                 ],
             },
-            NietOvergenomenGegevensPerGroep<
-                Registratiedata.Vertegenwoordiger,
-                SamenvoegingDubbeleVereniging.Bankrekeningnummer
-            >.WithOnly(NietOvergenomenBasisgegevens.Geen)
+            NietOvergenomenGegevensPerGroep.WithOnly(NietOvergenomenBasisgegevens.Geen)
         );
 
         _state = new VerenigingState().Apply(registratie).Apply(samengevoegd);

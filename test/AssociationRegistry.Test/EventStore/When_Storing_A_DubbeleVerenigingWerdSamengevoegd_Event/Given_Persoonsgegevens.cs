@@ -15,13 +15,14 @@ public class Given_Persoonsgegevens
 
     // OrigineleWaarde en NieuweWaarde krijgen elk een eigen RefId. Ze hebben hier bewust andere persoonsgegevens
     // (Frodo/Samwise), zodat de test faalt als de upcaster de verkeerde RefId gebruikt.
+    // Van de niet-overgenomen Aragorn en Bilbo wordt enkel het id bewaard, zonder persoonsgegevens.
     private static DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging MergedEvent() =>
         new DubbelMergeEventBuilder(AuthentiekeVCode, DubbeleVCode)
             .WithDataInAllOtherGroups()
             .WithOvergenomenVertegenwoordiger(Frodo, Samwise)
-            .WithNietOvergenomenVertegenwoordiger(Aragorn)
+            .WithNietOvergenomenVertegenwoordiger(Aragorn.VertegenwoordigerId)
             .WithOvergenomenBankrekeningnummer(BankrekeningnummerFrodo, BankrekeningnummerSamwise)
-            .WithNietOvergenomenBankrekeningnummer(BankrekeningnummerBilbo)
+            .WithNietOvergenomenBankrekeningnummer(BankrekeningnummerBilbo.BankrekeningnummerId)
             .Build();
 
     [Fact]
@@ -45,7 +46,7 @@ public class Given_Persoonsgegevens
     }
 
     [Fact]
-    public async ValueTask Then_The_Persoonsgegevens_Of_The_Vertegenwoordigers_Are_Stored_Under_The_Authentieke_Vereniging()
+    public async ValueTask Then_Only_The_Persoonsgegevens_Of_The_Overgenomen_Vertegenwoordigers_Are_Stored_Under_The_Authentieke_Vereniging()
     {
         var store = await InsertMergedEventInStore();
 
@@ -54,19 +55,14 @@ public class Given_Persoonsgegevens
         documents
             .Should()
             .BeEquivalentTo(
-                new[]
-                {
-                    Frodo.ToDocument(AuthentiekeVCode),
-                    Samwise.ToDocument(AuthentiekeVCode),
-                    Aragorn.ToDocument(AuthentiekeVCode),
-                },
+                new[] { Frodo.ToDocument(AuthentiekeVCode), Samwise.ToDocument(AuthentiekeVCode) },
                 options => options.Excluding(x => x.RefId)
             );
         documents.Select(x => x.RefId).Should().OnlyHaveUniqueItems();
     }
 
     [Fact]
-    public async ValueTask Then_The_Persoonsgegevens_Of_The_Bankrekeningnummers_Are_Stored_Under_The_Authentieke_Vereniging()
+    public async ValueTask Then_Only_The_Persoonsgegevens_Of_The_Overgenomen_Bankrekeningnummers_Are_Stored_Under_The_Authentieke_Vereniging()
     {
         var store = await InsertMergedEventInStore();
 
@@ -79,7 +75,6 @@ public class Given_Persoonsgegevens
                 {
                     BankrekeningnummerFrodo.ToDocument(AuthentiekeVCode),
                     BankrekeningnummerSamwise.ToDocument(AuthentiekeVCode),
-                    BankrekeningnummerBilbo.ToDocument(AuthentiekeVCode),
                 },
                 options => options.Excluding(x => x.RefId)
             );
@@ -111,12 +106,12 @@ public class Given_Persoonsgegevens
         var expected = new DubbelMergeEventBuilder(AuthentiekeVCode, DubbeleVCode)
             .WithDataInAllOtherGroups()
             .WithOvergenomenVertegenwoordiger(Frodo.Anonymized(), Samwise.Anonymized())
-            .WithNietOvergenomenVertegenwoordiger(Aragorn.Anonymized())
+            .WithNietOvergenomenVertegenwoordiger(Aragorn.VertegenwoordigerId)
             .WithOvergenomenBankrekeningnummer(
                 BankrekeningnummerFrodo.Anonymized(),
                 BankrekeningnummerSamwise.Anonymized()
             )
-            .WithNietOvergenomenBankrekeningnummer(BankrekeningnummerBilbo.Anonymized())
+            .WithNietOvergenomenBankrekeningnummer(BankrekeningnummerBilbo.BankrekeningnummerId)
             .Build();
 
         @event.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());

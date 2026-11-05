@@ -10,25 +10,30 @@ using Gegevens = Events.SamenvoegingDubbeleVereniging;
 ///     authentieke vereniging. Bestaande bankrekeningnummers worden niet overschreven; titularissen, doel en
 ///     bevestigingen worden enkel overgenomen bij een nieuw toegevoegd bankrekeningnummer.
 /// </summary>
-/// <remarks>De beschrijvingen bevatten geen IBAN, want ze worden mee bewaard in het event.</remarks>
+/// <remarks>
+///     De beschrijvingen bevatten geen IBAN, want ze worden mee bewaard in het event.
+///     Van een gededupliceerd bankrekeningnummer wordt enkel het id bewaard.
+/// </remarks>
 public static class BankrekeningnummersSamenvoeging
 {
     public static (
         Gegevens.OvergenomenGegeven<Gegevens.Bankrekeningnummer>[] Overgenomen,
-        Gegevens.NietOvergenomenGegeven<Gegevens.Bankrekeningnummer>[] NietOvergenomen
+        Gegevens.NietOvergenomenGegeven<Gegevens.NietOvergenomenBankrekeningnummer>[] NietOvergenomen
     ) Merge(Bankrekeningnummers authentiekeVereniging, Bankrekeningnummers dubbeleVereniging)
     {
         var bankrekeningnummers = authentiekeVereniging;
-        var resultaat = new SamenvoegingResultaat<Gegevens.Bankrekeningnummer>();
+        var resultaat =
+            new SamenvoegingResultaat<Gegevens.Bankrekeningnummer, Gegevens.NietOvergenomenBankrekeningnummer>();
 
         foreach (var bankrekeningnummer in dubbeleVereniging.OrderBy(x => x.BankrekeningnummerId))
         {
             var description = $"Bankrekeningnummer met id {bankrekeningnummer.BankrekeningnummerId}";
-            var original = ToEventData(bankrekeningnummer);
-
             if (bankrekeningnummers.Any(x => Normalize(x.Iban.Value) == Normalize(bankrekeningnummer.Iban.Value)))
             {
-                resultaat.Gededupliceerd(description, original);
+                resultaat.Gededupliceerd(
+                    description,
+                    new Gegevens.NietOvergenomenBankrekeningnummer(bankrekeningnummer.BankrekeningnummerId)
+                );
 
                 continue;
             }
@@ -47,7 +52,7 @@ public static class BankrekeningnummersSamenvoeging
             };
             bankrekeningnummers = bankrekeningnummers.Hydrate(bankrekeningnummers.Append(added));
 
-            resultaat.Toegevoegd(description, original, ToEventData(added));
+            resultaat.Toegevoegd(description, ToEventData(bankrekeningnummer), ToEventData(added));
         }
 
         return resultaat.Build();

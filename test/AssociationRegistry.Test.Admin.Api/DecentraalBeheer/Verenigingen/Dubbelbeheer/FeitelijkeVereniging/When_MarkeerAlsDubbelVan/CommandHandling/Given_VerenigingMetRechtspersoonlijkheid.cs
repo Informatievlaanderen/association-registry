@@ -106,12 +106,12 @@ public class Given_VerenigingMetRechtspersoonlijkheid
             .BeEquivalentTo([
                 SamenvoegingDubbeleVereniging.NietOvergenomen(
                     $"Vertegenwoordiger met id {Frodo.VertegenwoordigerId}",
-                    Frodo,
+                    new SamenvoegingDubbeleVereniging.NietOvergenomenVertegenwoordiger(Frodo.VertegenwoordigerId),
                     Reden
                 ),
                 SamenvoegingDubbeleVereniging.NietOvergenomen(
                     $"Vertegenwoordiger met id {Samwise.VertegenwoordigerId}",
-                    Samwise,
+                    new SamenvoegingDubbeleVereniging.NietOvergenomenVertegenwoordiger(Samwise.VertegenwoordigerId),
                     Reden
                 ),
             ]);

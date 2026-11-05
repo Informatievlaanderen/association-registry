@@ -22,10 +22,8 @@ public class Given_DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging_Wit
         Registratiedata.Vertegenwoordiger,
         SamenvoegingDubbeleVereniging.Bankrekeningnummer
     > Overgenomen => fixture.Scenario.Samengevoegd.OvergenomenGegevens;
-    private SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
-        Registratiedata.Vertegenwoordiger,
-        SamenvoegingDubbeleVereniging.Bankrekeningnummer
-    > NietOvergenomen => fixture.Scenario.Samengevoegd.NietOvergenomenGegevens;
+    private SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep NietOvergenomen =>
+        fixture.Scenario.Samengevoegd.NietOvergenomenGegevens;
 
     [Fact]
     public void Metadata_Is_Updated() => fixture.Result.Metadata.Version.Should().Be(2);

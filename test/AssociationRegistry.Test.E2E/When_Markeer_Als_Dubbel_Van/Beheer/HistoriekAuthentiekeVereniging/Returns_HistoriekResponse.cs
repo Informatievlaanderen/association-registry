@@ -224,10 +224,7 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
             ],
         };
 
-        var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
-            Registratiedata.Vertegenwoordiger,
-            SamenvoegingDubbeleVereniging.Bankrekeningnummer
-        >.WithOnly(
+        var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep.WithOnly(
             SamenvoegingDubbeleVereniging.NietOvergenomenBasisgegevens.Geen with
             {
                 KorteNaam = SamenvoegingDubbeleVereniging.NietOvergenomen(
@@ -284,14 +281,18 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
             [
                 SamenvoegingDubbeleVereniging.Gededupliceerd(
                     "Vertegenwoordiger met id 1",
-                    MarkeerAlsDubbelVanContext.FrodoBijDeDubbeleVereniging
+                    new SamenvoegingDubbeleVereniging.NietOvergenomenVertegenwoordiger(
+                        MarkeerAlsDubbelVanContext.FrodoBijDeDubbeleVereniging.VertegenwoordigerId
+                    )
                 ),
             ],
             Bankrekeningnummers =
             [
                 SamenvoegingDubbeleVereniging.Gededupliceerd(
                     "Bankrekeningnummer met id 1",
-                    MarkeerAlsDubbelVanContext.ZelfdeIbanBijDeDubbeleVereniging
+                    new SamenvoegingDubbeleVereniging.NietOvergenomenBankrekeningnummer(
+                        MarkeerAlsDubbelVanContext.ZelfdeIbanBijDeDubbeleVereniging.BankrekeningnummerId
+                    )
                 ),
             ],
             Erkenningen =

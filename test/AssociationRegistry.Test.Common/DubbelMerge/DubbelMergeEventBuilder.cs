@@ -35,9 +35,9 @@ public class DubbelMergeEventBuilder
     private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.Contactgegeven>> _nietOvergenomenContactgegevens =
     [];
     private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.Locatie>> _nietOvergenomenLocaties = [];
-    private readonly List<Gegevens.NietOvergenomenGegeven<Registratiedata.Vertegenwoordiger>> _nietOvergenomenVertegenwoordigers =
+    private readonly List<Gegevens.NietOvergenomenGegeven<Gegevens.NietOvergenomenVertegenwoordiger>> _nietOvergenomenVertegenwoordigers =
     [];
-    private readonly List<Gegevens.NietOvergenomenGegeven<SamenvoegingDubbeleVereniging.Bankrekeningnummer>> _nietOvergenomenBankrekeningnummers =
+    private readonly List<Gegevens.NietOvergenomenGegeven<Gegevens.NietOvergenomenBankrekeningnummer>> _nietOvergenomenBankrekeningnummers =
     [];
     private readonly List<Gegevens.NietOvergenomenGegeven<Gegevens.Erkenning>> _nietOvergenomenErkenningen = [];
     private Gegevens.NietOvergenomenGegeven<Registratiedata.SubverenigingVan>? _nietOvergenomenSubverenigingVan;
@@ -62,10 +62,15 @@ public class DubbelMergeEventBuilder
         return this;
     }
 
-    public DubbelMergeEventBuilder WithNietOvergenomenVertegenwoordiger(Registratiedata.Vertegenwoordiger value)
+    public DubbelMergeEventBuilder WithNietOvergenomenVertegenwoordiger(int vertegenwoordigerId)
     {
         _nietOvergenomenVertegenwoordigers.Add(
-            new(Gegevens.Acties.Gededupliceerd, "Bestond al.", "Vertegenwoordiger werd niet opnieuw toegevoegd.", value)
+            new(
+                Gegevens.Acties.Gededupliceerd,
+                "Bestond al.",
+                "Vertegenwoordiger werd niet opnieuw toegevoegd.",
+                new Gegevens.NietOvergenomenVertegenwoordiger(vertegenwoordigerId)
+            )
         );
 
         return this;
@@ -83,14 +88,14 @@ public class DubbelMergeEventBuilder
         return this;
     }
 
-    public DubbelMergeEventBuilder WithNietOvergenomenBankrekeningnummer(Gegevens.Bankrekeningnummer value)
+    public DubbelMergeEventBuilder WithNietOvergenomenBankrekeningnummer(int bankrekeningnummerId)
     {
         _nietOvergenomenBankrekeningnummers.Add(
             new(
                 Gegevens.Acties.Gededupliceerd,
                 "Bestond al.",
                 "Bankrekeningnummer werd niet opnieuw toegevoegd.",
-                value
+                new Gegevens.NietOvergenomenBankrekeningnummer(bankrekeningnummerId)
             )
         );
 
@@ -242,10 +247,7 @@ public class DubbelMergeEventBuilder
                 _overgenomenSubverenigingVan,
                 [.. _overgenomenLidmaatschappen]
             ),
-            new Gegevens.NietOvergenomenGegevensPerGroep<
-                Registratiedata.Vertegenwoordiger,
-                SamenvoegingDubbeleVereniging.Bankrekeningnummer
-            >(
+            new Gegevens.NietOvergenomenGegevensPerGroep(
                 _nietOvergenomenBasisgegevens,
                 [.. _nietOvergenomenHoofdactiviteiten],
                 [.. _nietOvergenomenWerkingsgebieden],

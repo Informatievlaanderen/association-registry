@@ -43,7 +43,12 @@ public class Given_Vertegenwoordigers
         samengevoegd
             .NietOvergenomenGegevens.Vertegenwoordigers.Should()
             .BeEquivalentTo([
-                SamenvoegingDubbeleVereniging.Gededupliceerd("Vertegenwoordiger met id 1", FrodoBijDeDubbeleVereniging),
+                SamenvoegingDubbeleVereniging.Gededupliceerd(
+                    "Vertegenwoordiger met id 1",
+                    new SamenvoegingDubbeleVereniging.NietOvergenomenVertegenwoordiger(
+                        FrodoBijDeDubbeleVereniging.VertegenwoordigerId
+                    )
+                ),
             ]);
     }
 
