@@ -20,6 +20,7 @@ public partial class BeheerVerenigingDetailProjection : EventProjection
         // Query yet when we handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
 
+        Options.BatchSize = 1;
         Options.EnableDocumentTrackingByIdentity = true;
         Options.DeleteViewTypeOnTeardown<BeheerVerenigingDetailDocument>();
     }
