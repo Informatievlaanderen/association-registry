@@ -19,6 +19,7 @@ public partial class BeheerVerenigingHistoriekProjection : EventProjection
         // the newly persisted document from xxxWerdGeregistreerd is not in the
         // Query yet when we. handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
+        Options.BatchSize = 1;
         Options.EnableDocumentTrackingByIdentity = true;
         Options.DeleteViewTypeOnTeardown<BeheerVerenigingHistoriekDocument>();
     }

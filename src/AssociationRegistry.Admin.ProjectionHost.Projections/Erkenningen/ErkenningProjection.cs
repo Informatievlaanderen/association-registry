@@ -15,6 +15,7 @@ public partial class ErkenningProjection : EventProjection
     public ErkenningProjection()
     {
         Name = ShardName.Name;
+        Options.BatchSize = 1;
         Options.EnableDocumentTrackingByIdentity = true;
         Options.DeleteViewTypeOnTeardown<ErkenningDocument>();
     }
