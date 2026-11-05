@@ -86,10 +86,7 @@ public class Given_Hoofdactiviteiten_En_Werkingsgebieden
                 VCode.Create(registratie.VCode),
                 _fixture.Create<VCode>(),
                 overgenomen,
-                NietOvergenomenGegevensPerGroep<
-                    Registratiedata.Vertegenwoordiger,
-                    SamenvoegingDubbeleVereniging.Bankrekeningnummer
-                >.WithOnly(NietOvergenomenBasisgegevens.Geen)
+                NietOvergenomenGegevensPerGroep.WithOnly(NietOvergenomenBasisgegevens.Geen)
             )
         );
     }

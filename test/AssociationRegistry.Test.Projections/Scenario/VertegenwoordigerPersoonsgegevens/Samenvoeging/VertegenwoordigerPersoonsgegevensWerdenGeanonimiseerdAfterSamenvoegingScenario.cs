@@ -8,7 +8,7 @@ using static AssociationRegistry.Test.Common.DubbelMerge.TestVertegenwoordigers;
 /// <summary>
 ///     Na de samenvoeging verloopt de bewaartermijn van een vertegenwoordiger-id op de authentieke vereniging.
 ///     In de samenvoeging is Frodo (id 1) de originele waarde, Samwise (id 3) de nieuwe waarde en Aragorn (id 2)
-///     niet overgenomen.
+///     niet overgenomen. Van Aragorn staat enkel het id in de samenvoeging, dus er valt niets te anonimiseren.
 /// </summary>
 #pragma warning disable CS0618
 public abstract class VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdAfterSamenvoegingScenario : ScenarioBase
@@ -49,9 +49,6 @@ public class VertegenwoordigerPersoonsgegevensVanDeNieuweWaardeWerdenGeanonimise
 
 public class VertegenwoordigerPersoonsgegevensVanDeOrigineleWaardeWerdenGeanonimiseerdScenario()
     : VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdAfterSamenvoegingScenario(Frodo.VertegenwoordigerId);
-
-public class VertegenwoordigerPersoonsgegevensVanEenNietOvergenomenVertegenwoordigerWerdenGeanonimiseerdScenario()
-    : VertegenwoordigerPersoonsgegevensWerdenGeanonimiseerdAfterSamenvoegingScenario(Aragorn.VertegenwoordigerId);
 
 /// <summary>Een id dat niet in de samenvoeging voorkomt.</summary>
 public class VertegenwoordigerPersoonsgegevensBuitenDeSamenvoegingWerdenGeanonimiseerdScenario()

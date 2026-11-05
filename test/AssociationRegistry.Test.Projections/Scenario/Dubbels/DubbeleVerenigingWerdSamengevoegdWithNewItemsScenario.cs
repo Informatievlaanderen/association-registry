@@ -49,9 +49,9 @@ public class DubbeleVerenigingWerdSamengevoegdWithNewItemsScenario : ScenarioBas
         )
             .WithDataInAllOtherGroups()
             .WithOvergenomenVertegenwoordiger(Frodo, Samwise)
-            .WithNietOvergenomenVertegenwoordiger(Aragorn)
+            .WithNietOvergenomenVertegenwoordiger(Aragorn.VertegenwoordigerId)
             .WithOvergenomenBankrekeningnummer(BankrekeningnummerFrodo, BankrekeningnummerSamwise)
-            .WithNietOvergenomenBankrekeningnummer(BankrekeningnummerBilbo)
+            .WithNietOvergenomenBankrekeningnummer(BankrekeningnummerBilbo.BankrekeningnummerId)
             .Build();
     }
 

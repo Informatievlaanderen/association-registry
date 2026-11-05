@@ -101,10 +101,7 @@ public static class EventFactory
                 Registratiedata.Vertegenwoordiger,
                 SamenvoegingDubbeleVereniging.Bankrekeningnummer
             >.WithOnly(overgenomen),
-            SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
-                Registratiedata.Vertegenwoordiger,
-                SamenvoegingDubbeleVereniging.Bankrekeningnummer
-            >.WithOnly(nietOvergenomen)
+            SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep.WithOnly(nietOvergenomen)
         );
 
     public static DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
@@ -114,10 +111,7 @@ public static class EventFactory
             Registratiedata.Vertegenwoordiger,
             SamenvoegingDubbeleVereniging.Bankrekeningnummer
         > overgenomen,
-        SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep<
-            Registratiedata.Vertegenwoordiger,
-            SamenvoegingDubbeleVereniging.Bankrekeningnummer
-        > nietOvergenomen
+        SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep nietOvergenomen
     ) => new(vCode, dubbeleVereniging, overgenomen, nietOvergenomen);
 #pragma warning restore CS0618
 

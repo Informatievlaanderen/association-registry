@@ -9,6 +9,7 @@ using Store;
 ///     Bewaart de persoonsgegevens van vertegenwoordigers en bankrekeningnummers met een nieuwe RefId onder de
 ///     authentieke vereniging. Ze verwijzen dus niet naar de persoonsgegevens van de dubbele vereniging, die verdwijnen
 ///     wanneer haar bewaartermijn verloopt.
+///     Niet-overgenomen vertegenwoordigers en bankrekeningnummers bevatten enkel hun id en worden ongewijzigd bewaard.
 /// </summary>
 public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingTransformer : IPersoonsgegevensEventTransformer
 {
@@ -23,7 +24,6 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingTransforme
         var splitter = new PersoonsgegevensSplitter(VCode.Hydrate(vCode));
 
         var overgenomen = originalEvent.OvergenomenGegevens;
-        var nietOvergenomen = originalEvent.NietOvergenomenGegevens;
 
         var transformedEvent = new DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingZonderPersoonsgegevens(
             originalEvent.VCode,
@@ -50,28 +50,7 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingTransforme
                     )
                     .ToArray()
             ),
-            nietOvergenomen.With(
-                nietOvergenomen
-                    .Vertegenwoordigers.Select(
-                        x => new SamenvoegingDubbeleVereniging.NietOvergenomenGegeven<Registratiedata.VertegenwoordigerZonderPersoonsgegevens>(
-                            x.Actie,
-                            x.Reden,
-                            x.Beschrijving,
-                            splitter.Split(x.Waarde)
-                        )
-                    )
-                    .ToArray(),
-                nietOvergenomen
-                    .Bankrekeningnummers.Select(
-                        x => new SamenvoegingDubbeleVereniging.NietOvergenomenGegeven<SamenvoegingDubbeleVereniging.BankrekeningnummerZonderPersoonsgegevens>(
-                            x.Actie,
-                            x.Reden,
-                            x.Beschrijving,
-                            splitter.Split(x.Waarde)
-                        )
-                    )
-                    .ToArray()
-            )
+            originalEvent.NietOvergenomenGegevens
         );
 
         return new EventTransformationResult(transformedEvent, splitter.ExtractedPersoonsgegevens.ToArray());

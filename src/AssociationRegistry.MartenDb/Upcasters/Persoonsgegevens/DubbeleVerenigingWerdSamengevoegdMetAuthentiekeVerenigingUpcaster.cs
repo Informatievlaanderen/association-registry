@@ -6,7 +6,7 @@ using AssociationRegistry.Persoonsgegevens;
 using Marten;
 
 /// <summary>
-///     Vult de persoonsgegevens aan vanuit de documenten onder de authentieke vereniging.
+///     Vult de persoonsgegevens van de overgenomen gegevens aan vanuit de documenten onder de authentieke vereniging.
 ///     Werden ze intussen verwijderd, dan worden ze als geanonimiseerd getoond.
 /// </summary>
 public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingUpcaster
@@ -24,16 +24,13 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingUpcaster
     )
     {
         var overgenomen = @event.OvergenomenGegevens;
-        var nietOvergenomen = @event.NietOvergenomenGegevens;
 
         var vertegenwoordigerRefIds = overgenomen
             .Vertegenwoordigers.SelectMany(x => new[] { x.OrigineleWaarde.RefId, x.NieuweWaarde.RefId })
-            .Concat(nietOvergenomen.Vertegenwoordigers.Select(x => x.Waarde.RefId))
             .ToList();
 
         var bankrekeningnummerRefIds = overgenomen
             .Bankrekeningnummers.SelectMany(x => new[] { x.OrigineleWaarde.RefId, x.NieuweWaarde.RefId })
-            .Concat(nietOvergenomen.Bankrekeningnummers.Select(x => x.Waarde.RefId))
             .ToList();
 
         await using var session = _querySessionFunc();
@@ -66,28 +63,7 @@ public class DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVerenigingUpcaster
                     )
                     .ToArray()
             ),
-            nietOvergenomen.With(
-                nietOvergenomen
-                    .Vertegenwoordigers.Select(
-                        x => new SamenvoegingDubbeleVereniging.NietOvergenomenGegeven<Registratiedata.Vertegenwoordiger>(
-                            x.Actie,
-                            x.Reden,
-                            x.Beschrijving,
-                            ToVertegenwoordiger(x.Waarde, vertegenwoordigers)
-                        )
-                    )
-                    .ToArray(),
-                nietOvergenomen
-                    .Bankrekeningnummers.Select(
-                        x => new SamenvoegingDubbeleVereniging.NietOvergenomenGegeven<SamenvoegingDubbeleVereniging.Bankrekeningnummer>(
-                            x.Actie,
-                            x.Reden,
-                            x.Beschrijving,
-                            ToBankrekeningnummer(x.Waarde, bankrekeningnummers)
-                        )
-                    )
-                    .ToArray()
-            )
+            @event.NietOvergenomenGegevens
         );
     }
 

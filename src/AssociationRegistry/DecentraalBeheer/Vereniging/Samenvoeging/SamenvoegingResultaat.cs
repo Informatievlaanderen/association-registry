@@ -5,10 +5,17 @@ using Gegevens = Events.SamenvoegingDubbeleVereniging;
 /// <summary>
 ///     Verzamelt per gegeven van de dubbele vereniging wat ermee gebeurde, met de beschrijvingen voor de historiek.
 /// </summary>
-internal sealed class SamenvoegingResultaat<T>
+internal sealed class SamenvoegingResultaat<T> : SamenvoegingResultaat<T, T>;
+
+/// <summary>
+///     Verzamelt per gegeven van de dubbele vereniging wat ermee gebeurde, met de beschrijvingen voor de historiek.
+///     Niet-overgenomen gegevens kunnen een ander type hebben, bv. enkel het id van een vertegenwoordiger, zodat er geen
+///     persoonsgegevens bewaard worden die niet meer verwijderd kunnen worden.
+/// </summary>
+internal class SamenvoegingResultaat<T, TNietOvergenomen>
 {
     private readonly List<Gegevens.OvergenomenGegeven<T>> _overgenomen = [];
-    private readonly List<Gegevens.NietOvergenomenGegeven<T>> _nietOvergenomen = [];
+    private readonly List<Gegevens.NietOvergenomenGegeven<TNietOvergenomen>> _nietOvergenomen = [];
 
     public void Toegevoegd(string omschrijving, T origineleWaarde, T nieuweWaarde) =>
         _overgenomen.Add(
@@ -35,14 +42,14 @@ internal sealed class SamenvoegingResultaat<T>
             )
         );
 
-    public void Gededupliceerd(string omschrijving, T waarde) =>
+    public void Gededupliceerd(string omschrijving, TNietOvergenomen waarde) =>
         _nietOvergenomen.Add(Gegevens.Gededupliceerd(omschrijving, waarde));
 
-    public void NietOvergenomen(string omschrijving, T waarde, string reden) =>
+    public void NietOvergenomen(string omschrijving, TNietOvergenomen waarde, string reden) =>
         _nietOvergenomen.Add(Gegevens.NietOvergenomen(omschrijving, waarde, reden));
 
     public (
         Gegevens.OvergenomenGegeven<T>[] Overgenomen,
-        Gegevens.NietOvergenomenGegeven<T>[] NietOvergenomen
+        Gegevens.NietOvergenomenGegeven<TNietOvergenomen>[] NietOvergenomen
     ) Build() => ([.. _overgenomen], [.. _nietOvergenomen]);
 }

@@ -227,14 +227,8 @@ public class Given_Hoofdactiviteiten_En_Werkingsgebieden
             SamenvoegingDubbeleVereniging.Bankrekeningnummer
         >.WithOnly(OvergenomenBasisgegevens.Geen);
 
-    private static NietOvergenomenGegevensPerGroep<
-        Registratiedata.Vertegenwoordiger,
-        SamenvoegingDubbeleVereniging.Bankrekeningnummer
-    > NietOvergenomen() =>
-        NietOvergenomenGegevensPerGroep<
-            Registratiedata.Vertegenwoordiger,
-            SamenvoegingDubbeleVereniging.Bankrekeningnummer
-        >.WithOnly(NietOvergenomenBasisgegevens.Geen);
+    private static NietOvergenomenGegevensPerGroep NietOvergenomen() =>
+        NietOvergenomenGegevensPerGroep.WithOnly(NietOvergenomenBasisgegevens.Geen);
 
     private static DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging Samengevoegd(
         VCode authentieke,
@@ -243,10 +237,7 @@ public class Given_Hoofdactiviteiten_En_Werkingsgebieden
             Registratiedata.Vertegenwoordiger,
             SamenvoegingDubbeleVereniging.Bankrekeningnummer
         > overgenomen,
-        NietOvergenomenGegevensPerGroep<
-            Registratiedata.Vertegenwoordiger,
-            SamenvoegingDubbeleVereniging.Bankrekeningnummer
-        > nietOvergenomen
+        NietOvergenomenGegevensPerGroep nietOvergenomen
     ) =>
         EventFactory.DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging(
             authentieke,
